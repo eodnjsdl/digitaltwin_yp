@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="inBusinessEstaInfo">
+
+	<!-- 관내업소정보 목록 -->
+	<select id="selectInBusinessEstaInfoList" parameterType="inBusinessEstaInfoVO" resultType="inBusinessEstaInfo">
+		/* SQL_ID: 전영후_InBusinessEstaInfo_SQL_postgres.xml.selectInBusinessEstaInfoList 관내업소정보 리스트*/
+		SELECT   NO, PNU, OPNN_SVC_NM, OPNN_SVC_ID, OPNN_GM_GRP_CD, MNG_NO, AUPM_DE, AUPM_CANL_DE, BSN_STAE_SE_CD, BSN_STAE_NM, DEAL_BSN_STAE_CD, 
+				 DEAL_BSN_STAE_NM, CBIZ_DE, SOBS_DE, SOBS_END_DE, RELC_DE, LC_TLP, LC_AR, LC_ZIP, LC_ALL_ADR, RDN_ALL_ADR, RDN_ZIP, BPLC_NM, 
+				 LAST_UPDT_PNTTM, DATA_UPDT_SE, DATA_UPDT_DE, BIZC_SE_NM, ST_X (ST_POINTONSURFACE(GEOM)) AS LON_LON,  ST_Y (ST_POINTONSURFACE(GEOM)) AS LAT_LAT
+				 <!-- 공간 검색 -->
+			 	 <if test="@egovframework.com.cmm.util.EgovMybaitsUtil@isNotEmpty(spitalSearch)">
+				 , ST_ASTEXT( ST_BUFFER(ST_GEOMFROMTEXT(#{spitalSearch}, 4326), (#{bufferCnt} * 0.00001) , 'join=round') ) bufferArea /* bufferArea */
+				 </if>
+		FROM 	 YP_BSSH_INFO
+		WHERE    1=1
+		<if test="@egovframework.com.cmm.util.EgovMybaitsUtil@isNotEmpty(emdKorNm)">
+			AND  (RDN_ALL_ADR LIKE '%' || #{emdKorNm} || '%'
+			OR	 LC_ALL_ADR LIKE '%' || #{emdKorNm} || '%')
+		</if>
+		<if test="@egovframework.com.cmm.util.EgovMybaitsUtil@isNotEmpty(opnnSvcNmSearch)">
+			AND	 OPNN_SVC_NM LIKE '%' || #{opnnSvcNmSearch} || '%'
+		</if>
+		<if test="@egovframework.com.cmm.util.EgovMybaitsUtil@isNotEmpty(bplcNmSearch)">
+			AND	 BPLC_NM LIKE '%' || #{bplcNmSearch} || '%'
+		</if>
+		<if test="@egovframework.com.cmm.util.EgovMybaitsUtil@isNotEmpty(spitalSearch)">
+			AND ST_INTERSECTS(ST_BUFFER(ST_GEOMFROMTEXT(#{spitalSearch}, 4326), (#{bufferCnt} * 0.00001)), ST_TRANSFORM(GEOM, 4326)) = true
+		</if>
+		ORDER BY NO ASC
+		LIMIT #{recordCountPerPage} OFFSET #{firstIndex}
+	</select>
+	
+	<!-- 관내업소정보 갯수 -->
+	<select id="selectInBusinessEstaInfoListCnt" parameterType="inBusinessEstaInfoVO" resultType="java.lang.Integer">
+		/* SQL_ID: 전영후_InBusinessEstaInfo_SQL_postgres.xml.selectInBusinessEstaInfoListCnt 관내업소정보 갯수*/
+		SELECT 	 COUNT(*)
+		FROM 	 YP_BSSH_INFO
+		WHERE    1=1
+		<if test="@egovframework.com.cmm.util.EgovMybaitsUtil@isNotEmpty(emdKorNm)">
+			AND  (RDN_ALL_ADR LIKE '%' || #{emdKorNm} || '%'
+			OR	 LC_ALL_ADR LIKE '%' || #{emdKorNm} || '%')
+		</if>
+		<if test="@egovframework.com.cmm.util.EgovMybaitsUtil@isNotEmpty(opnnSvcNmSearch)">
+			AND	 OPNN_SVC_NM LIKE '%' || #{opnnSvcNmSearch} || '%'
+		</if>
+		<if test="@egovframework.com.cmm.util.EgovMybaitsUtil@isNotEmpty(bplcNmSearch)">
+			AND	 BPLC_NM LIKE '%' || #{bplcNmSearch} || '%'
+		</if>
+		<if test="@egovframework.com.cmm.util.EgovMybaitsUtil@isNotEmpty(spitalSearch)">
+			AND ST_INTERSECTS(ST_BUFFER(ST_GEOMFROMTEXT(#{spitalSearch}, 4326), (#{bufferCnt} * 0.00001)), ST_TRANSFORM(GEOM, 4326)) = true
+		</if>
+	</select>
+	
+	<!-- 관내업소정보 상세보기 -->
+	<select id="selectInBusinessEstaInfo" parameterType="inBusinessEstaInfoVO" resultType="inBusinessEstaInfo">
+		/* SQL_ID: 전영후_InBusinessEstaInfo_SQL_postgres.xml.selectInBusinessEstaInfo 관내업소정보 상세조회 */
+		SELECT 	 NO, PNU, OPNN_SVC_NM, OPNN_SVC_ID, OPNN_GM_GRP_CD, MNG_NO, AUPM_DE, AUPM_CANL_DE, BSN_STAE_SE_CD, BSN_STAE_NM, DEAL_BSN_STAE_CD, 
+				 DEAL_BSN_STAE_NM, CBIZ_DE, SOBS_DE, SOBS_END_DE, RELC_DE, LC_TLP, LC_AR, LC_ZIP, LC_ALL_ADR, RDN_ALL_ADR, RDN_ZIP, BPLC_NM, 
+				 LAST_UPDT_PNTTM, DATA_UPDT_SE, DATA_UPDT_DE, BIZC_SE_NM, ST_X (ST_POINTONSURFACE(GEOM)) AS LON_LON,  ST_Y (ST_POINTONSURFACE(GEOM)) AS LAT_LAT
+		FROM 	 YP_BSSH_INFO
+		WHERE    1=1
+			AND  NO = #{no}
+	</select>
+	
+	<!-- 관내업소정보 엑셀용 목록 -->
+	<select id="selectInBusinessEstaInfoExcelList" parameterType="inBusinessEstaInfoVO" resultType="inBusinessEstaInfo">
+		/* SQL_ID: 전영후_InBusinessEstaInfo_SQL_postgres.xml.selectInBusinessEstaInfoExcelList 관내업소정보 엑셀 다운로드용 리스트*/
+		SELECT   NO, PNU, OPNN_SVC_NM, OPNN_SVC_ID, OPNN_GM_GRP_CD, MNG_NO, AUPM_DE, AUPM_CANL_DE, BSN_STAE_SE_CD, BSN_STAE_NM, DEAL_BSN_STAE_CD, 
+				 DEAL_BSN_STAE_NM, CBIZ_DE, SOBS_DE, SOBS_END_DE, RELC_DE, LC_TLP, LC_AR, LC_ZIP, LC_ALL_ADR, RDN_ALL_ADR, RDN_ZIP, BPLC_NM, 
+				 LAST_UPDT_PNTTM, DATA_UPDT_SE, DATA_UPDT_DE, BIZC_SE_NM, ST_X (ST_POINTONSURFACE(GEOM)) AS LON_LON,  ST_Y (ST_POINTONSURFACE(GEOM)) AS LAT_LAT
+		FROM 	 YP_BSSH_INFO
+		WHERE    1=1
+		<if test="@egovframework.com.cmm.util.EgovMybaitsUtil@isNotEmpty(emdKorNm)">
+			AND  (RDN_ALL_ADR LIKE '%' || #{emdKorNm} || '%'
+			OR	 LC_ALL_ADR LIKE '%' || #{emdKorNm} || '%')
+		</if>
+		<if test="@egovframework.com.cmm.util.EgovMybaitsUtil@isNotEmpty(opnnSvcNmSearch)">
+			AND	 OPNN_SVC_NM LIKE '%' || #{opnnSvcNmSearch} || '%'
+		</if>
+		<if test="@egovframework.com.cmm.util.EgovMybaitsUtil@isNotEmpty(bplcNmSearch)">
+			AND	 BPLC_NM LIKE '%' || #{bplcNmSearch} || '%'
+		</if>
+		<if test="@egovframework.com.cmm.util.EgovMybaitsUtil@isNotEmpty(spitalSearch)">
+			AND ST_INTERSECTS(ST_BUFFER(ST_GEOMFROMTEXT(#{spitalSearch}, 4326), (#{bufferCnt} * 0.00001)), ST_TRANSFORM(GEOM, 4326)) = true
+		</if>
+	</select>
+	
+	<!-- 관내업소정보 속성검색 - 사업구분 목록 -->
+	<select id="selectInBusinessEstaInfoOpnnSvcNmList" parameterType="inBusinessEstaInfoVO" resultType="inBusinessEstaInfoVO">
+		/* SQL_ID: 전영후_InBusinessEstaInfo_SQL_postgres.xml.selectInBusinessEstaInfoOpnnSvcNmList 관내업소정보 속성검색 - 개방서비스명 리스트*/
+		SELECT 	 DISTINCT OPNN_SVC_NM
+		FROM 	 YP_BSSH_INFO
+		WHERE	 OPNN_SVC_NM NOTNULL
+	</select>
+	
+</mapper>

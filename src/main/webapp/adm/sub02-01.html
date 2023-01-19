@@ -1,0 +1,178 @@
+<!doctype html>
+<html lang="ko">
+	<head>
+		<meta charset="UTF-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+		<title>관리자</title>
+
+		<script src="/adm/js/plugin/jquery/jquery-3.4.1.min.js"></script>
+		
+		<!-- jquery-ui -->
+		<script src="/adm/js/plugin/jquery-ui/jquery-ui.js"></script>
+		<link rel="stylesheet" href="/adm/js/plugin/jquery-ui/jquery-ui.css">
+
+		<!-- mCustomScrollbar -->
+		<script src="/adm/js/plugin/mCustomScrollbar/jquery.mCustomScrollbar.concat.min.js"></script>
+		<link rel="stylesheet" href="/adm/js/plugin/mCustomScrollbar/jquery.mCustomScrollbar.css">
+
+		<script src="/adm/js/adm-ui.js"></script>
+		
+		<link rel="stylesheet" href="/adm/css/common/common.css">
+		<!-- adm -->
+		<link rel="stylesheet" href="/adm/css/common.css">
+	</head>
+	<body>
+
+		<!-- wrap -->
+		<div id="wrap">
+
+			<!-- header -->
+			<header id="header">
+				<div><h1 class="logo"><a href="javascript:void(0);">스마트시티 <strong>IN 양평</strong></a></h1></div>
+				<div><a href="javascript:void(0);" class="admin">관리자페이지</a></div>
+			</header>
+			<!-- //header -->
+
+			<!-- container -->
+			<div id="container">
+				<!-- side -->
+				<section id="side">
+					<h2 class="hide">주메뉴</h2>
+					<ul id="gnb" class="gnb-dep1">
+						<li><a href="javascript:void(0);" class="gnb-dep1-tit">사용자 관리</a>
+							<ul class="gnb-dep2">
+								<li><a href="/adm/sub01-01.html">그룹관리</a></li>
+								<li><a href="/adm/sub01-02.html">사용자정보</a></li>
+								<li><a href="javascript:void(0);">조직정보</a></li>
+							</ul>
+						</li>
+						<li><a href="javascript:void(0);" class="gnb-dep1-tit">권한관리</a>
+							<ul class="gnb-dep2">
+								<li><a href="/adm/sub02-01.html">롤정보</a></li>
+								<li><a href="">권한정보</a></li>
+								<li><a href="javascript:void(0);">사용자권한</a></li>
+							</ul>
+						</li>
+						<li><a href="javascript:void(0);" class="gnb-dep1-tit">이력관리</a>
+							<ul class="gnb-dep2">
+								<li><a href="/adm/sub03-01.html">접속이력</a></li>
+								<li><a href="">사용이력</a></li>
+							</ul>
+						</li>
+						<li><a href="javascript:void(0);" class="gnb-dep1-tit">정보관리</a>
+							<ul class="gnb-dep2">
+								<li><a href="">공통분류코드</a></li>
+								<li><a href="">공통코드</a></li>
+								<li><a href="">기능</a></li>
+								<li><a href="">지도</a></li>
+								<li><a href="">레이어</a></li>
+								<li><a href="">공지사항</a></li>
+								<li><a href="">게시판</a></li>
+								<li><a href="">사이트링크</a></li>
+							</ul>
+						</li>
+						<li><a href="javascript:void(0);" class="gnb-dep1-tit">서버관리</a>
+							<ul class="gnb-dep2">
+								<li><a href="/adm/sub05-01.html">지도서비스</a></li>
+								<li><a href="/adm/sub05-02.html">클라우드서비스</a></li>
+							</ul>
+						</li>
+						<li><a href="guide.html" class="gnb-dep1-tit">가이드</a></li>
+					</ul>
+				</section>
+				<!-- //side -->
+				<!-- content -->
+				<section id="content">
+
+					<div class="row">
+						<div class="col-12 page-tit-wrap">
+							<h3 class="page-tit">롤정보</h3><!-- left gnb 1차 메뉴 텍스트와 일치해야 해당 메뉴에 active 추가 됨 -->
+							<p class="page-txt">롤정보를 관리하는 페이지입니다.</p>
+						</div>
+					</div>
+
+					<div class="row">
+						<div class="col-12">
+							<div class="bbs-top">
+								<div class="bbs-list-num">사용자수 : <strong>22</strong></div>
+								<div class="d-flex">
+									<div class="term">롤명</div>
+									<div class="desc">
+										<input type="text" name="searchKeyword" class="form-control" title="검색어 입력" value="">
+										<button type="submit" class="btn type05 bi-srch">조회</button>
+									</div>
+								</div>
+							</div>
+
+							<div class="bbs-default">
+								<table class="bbs-list">
+									<colgroup>
+										<col style="width: 5%;">
+										<col style="width: 15%;">
+										<col style="width: 10%;">
+										<col style="width: 10%;">
+										<col style="width: 10%;">
+										<col style="width: auto;">
+										<col style="width: 10%;">
+									</colgroup>
+									<thead>
+										<tr>
+											<th scope="col">
+												<span class="form-checkbox"><span><input type="checkbox" name="" id="chk1-1" checked=""><label for="chk1-1"></label></span></span>
+											</th>
+											<th scope="col">롤ID</th>
+											<th scope="col">롤 명</th>
+											<th scope="col">롤 타입</th>
+											<th scope="col">롤 Sort</th>
+											<th scope="col">롤 설명</th>
+											<th scope="col">등록일</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr>
+											<td><span class="form-checkbox"><span><input type="checkbox" name="" id="chk1-1" checked=""><label for="chk1-1"></label></span></span></td>
+											<td>Web-000001</td>
+											<td>로그인롤</td>
+											<td>url</td>
+											<td>1</td>
+											<td>로그인이미지관리에 대한 접근 제한 롤</td>
+											<td>2021-12-20</td>
+										</tr>																	
+									</tbody>
+								</table>
+							</div>
+
+							<div class="pagination">
+								<a href="javascript:void(0);" class="first" title="처음"></a>
+								<a href="javascript:void(0);" class="prev" title="이전"></a>
+								<strong class="current">1</strong>
+								<a href="javascript:void(0);">2</a>
+								<a href="javascript:void(0);">3</a>
+								<a href="javascript:void(0);">4</a>
+								<a href="javascript:void(0);">5</a>
+								<a href="javascript:void(0);" class="next" title="다음"></a>
+								<a href="javascript:void(0);" class="last" title="마지막"></a>
+							</div>
+
+							<div class="btn-wrap justify-content-between">
+								<div><button type="button" class="btn basic">삭제</button></div>
+								<div><button type="button" class="btn type01">등록</button></div>
+							</div>
+
+						</div>
+					</div>
+
+					
+
+				</section>
+				<!-- //content -->
+			</div>
+			<!-- //container -->
+
+
+		</div>
+		<!-- //wrap -->
+	
+	</body>
+</html>

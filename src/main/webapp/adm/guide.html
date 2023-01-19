@@ -1,0 +1,933 @@
+<!doctype html>
+<html lang="ko">
+	<head>
+		<meta charset="UTF-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+		<title>관리자</title>
+
+		<script src="/adm/js/plugin/jquery/jquery-3.4.1.min.js"></script>
+		
+		<!-- jquery-ui -->
+		<script src="/adm/js/plugin/jquery-ui/jquery-ui.js"></script>
+		<link rel="stylesheet" href="/adm/js/plugin/jquery-ui/jquery-ui.css">
+
+        <!-- mCustomScrollbar -->
+		<script src="/adm/js/plugin/mCustomScrollbar/jquery.mCustomScrollbar.concat.min.js"></script>
+		<link rel="stylesheet" href="/adm/js/plugin/mCustomScrollbar/jquery.mCustomScrollbar.css">
+
+		<script src="/adm/js/adm-ui.js"></script>
+		
+		<link rel="stylesheet" href="/adm/css/common/common.css">
+		<!-- adm -->
+		<link rel="stylesheet" href="/adm/css/common.css">
+
+		<!-- guide 전용 css -->
+		<style>
+			.cont-tit {font-family: 'S-CoreDream';font-size: 20px;}
+			.cont-tit:before {content: '';display: inline-block;margin: -3px 3px 0 0;width: 11px;height: 11px;border: 3px solid #3A7FCF;background-color: #fff;border-radius: 50%;vertical-align: middle;}
+			.row > .col, .row > [class^="col-"] {padding-top: 20px;padding-bottom: 20px;}
+			.box {padding: 5px;background-color: rgba(86,61,124,0.15);border: 1px solid rgba(86,61,124,0.15);}
+			.ex-box {margin: 10px 0;background-color: #eee;}
+			.guide-basic {width: 100%;border-collapse: collapse;table-layout: fixed;}
+			.guide-basic th, .guide-basic td {padding: 10px;border: 1px solid #B3BED3;text-align: center;}
+			.guide-basic th {background-color: #F2F4F8;}
+			.guide-basic tbody th {font-weight: bold;letter-spacing: 0;}
+			.line {margin: 15px 0;border-top: 1px dashed #ddd;}
+			.guide-box {padding: 15px 20px;border: 1px solid #DCDCDC;border-radius: 15px;}
+			.guide-box a {display: inline-block;font-family: 'S-CoreDream';font-size: 16px;}
+			.guide-box a:hover {text-decoration: underline;}
+			.guide-box a + a {margin-left: 15px;}
+			.guide-box a:before {content: '#';display: inline-block;color: rgba(13,110,253);}
+		</style>
+	</head>
+	<body>
+
+		<!-- wrap -->
+		<div id="wrap">
+
+			<!-- header -->
+			<header id="header">
+				<div><h1 class="logo"><a href="javascript:void(0);">스마트시티 <strong>IN 양평</strong></a></h1></div>
+				<div><a href="javascript:void(0);" class="admin">관리자페이지</a></div>
+			</header>
+			<!-- //header -->
+
+			<!-- container -->
+			<div id="container">
+				<!-- side -->
+				<section id="side">
+					<h2 class="hide">주메뉴</h2>
+					<ul id="gnb" class="gnb-dep1">
+						<li><a href="javascript:void(0);" class="gnb-dep1-tit">사용자 관리</a>
+							<ul class="gnb-dep2">
+								<li><a href="/adm/sub01-01.html">그룹관리</a></li>
+								<li><a href="/adm/sub01-02.html">사용자정보</a></li>
+								<li><a href="javascript:void(0);">조직정보</a></li>
+							</ul>
+						</li>
+						<li><a href="javascript:void(0);" class="gnb-dep1-tit">권한관리</a>
+							<ul class="gnb-dep2">
+								<li><a href="/adm/sub02-01.html">롤정보</a></li>
+								<li><a href="">권한정보</a></li>
+								<li><a href="javascript:void(0);">사용자권한</a></li>
+							</ul>
+						</li>
+						<li><a href="javascript:void(0);" class="gnb-dep1-tit">이력관리</a>
+							<ul class="gnb-dep2">
+								<li><a href="/adm/sub03-01.html">접속이력</a></li>
+								<li><a href="">사용이력</a></li>
+							</ul>
+						</li>
+						<li><a href="javascript:void(0);" class="gnb-dep1-tit">정보관리</a>
+							<ul class="gnb-dep2">
+								<li><a href="">공통분류코드</a></li>
+								<li><a href="">공통코드</a></li>
+								<li><a href="">기능</a></li>
+								<li><a href="">지도</a></li>
+								<li><a href="">레이어</a></li>
+								<li><a href="">공지사항</a></li>
+								<li><a href="">게시판</a></li>
+								<li><a href="">사이트링크</a></li>
+							</ul>
+						</li>
+						<li><a href="javascript:void(0);" class="gnb-dep1-tit">서버관리</a>
+							<ul class="gnb-dep2">
+								<li><a href="/adm/sub05-01.html">지도서비스</a></li>
+								<li><a href="/adm/sub05-02.html">클라우드서비스</a></li>
+							</ul>
+						</li>
+
+						<li><a href="/adm/etc1.html">접속로그</a></li>
+						<li><a href="/adm/etc2.html">로그관리</a></li>
+						<li><a href="guide.html" class="gnb-dep1-tit">가이드</a></li>
+					</ul>
+				</section>
+				<!-- //side -->
+				<!-- content -->
+				<section id="content">
+
+					<div class="row">
+						<div class="col-12 page-tit-wrap">
+							<h3 class="page-tit">가이드</h3><!-- left gnb 1차 메뉴 텍스트와 일치해야 해당 메뉴에 active 추가 됨 -->
+							<p class="page-txt">↑ <strong class="essential">페이지 타이틀 텍스트</strong>와 <br>← gnb <strong class="essential">1차 메뉴 텍스트가 일치</strong>해야 해당 메뉴에 active 됨. (페이지 설명 텍스트 영역입니다.)</p>
+						</div>
+					</div>
+
+					<div class="row">
+						<div class="col">
+							<div class="ex-box pad10" style="letter-spacing: 0;">
+								<p>/adm/css/<strong class="essential">com/ *.css</strong></p>
+								<p>/user/css/<strong class="essential">com/ *.css</strong></p>
+								/com/ <strong class="essential">font, common.css, reset.css 공통</strong>
+							</div>
+						</div>
+					</div>
+
+					<div class="row" id="layout">
+						<div class="col-12">
+							<h4 class="cont-tit">Layout</h4>
+							<ul class="list-type1">
+								<li>기본 소스 (<strong class="essential">row, col 필수</strong>)
+									<div class="colorscripter-code" style="margin: 5px 0;color:#010101;font-family:Consolas, 'Liberation Mono', Menlo, Courier, monospace !important; position:relative !important;overflow:auto"><table class="colorscripter-code-table" style="margin:0;padding:0;border:none;background-color:#fafafa;border-radius:4px;" cellspacing="0" cellpadding="0"><tbody><tr><td style="padding:6px;border-right:2px solid #e5e5e5"><div style="margin:0;padding:0;word-break:normal;text-align:right;color:#666;font-family:Consolas, 'Liberation Mono', Menlo, Courier, monospace !important;line-height:130%"><div style="line-height:130%">1</div><div style="line-height:130%">2</div><div style="line-height:130%">3</div></div></td><td style="padding:6px 0;text-align:left"><div style="margin:0;padding:0;color:#010101;font-family:Consolas, 'Liberation Mono', Menlo, Courier, monospace !important;line-height:130%"><div style="padding:0 6px; white-space:pre; line-height:130%"><span style="color:#010101">&lt;</span><span style="color:#066de2">div</span>&nbsp;<span style="color:#0a9989">class</span>=<span style="color:#df5000">"row"</span><span style="color:#0a9989"></span><span style="color:#010101">&gt;</span></div><div style="padding:0 6px; white-space:pre; line-height:130%">&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#010101">&lt;</span><span style="color:#066de2">div</span>&nbsp;<span style="color:#0a9989">class</span>=<span style="color:#df5000">"col"</span><span style="color:#0a9989"></span><span style="color:#010101">&gt;</span><span style="color:#010101">&lt;</span><span style="color:#010101">/</span><span style="color:#066de2">div</span><span style="color:#010101">&gt;</span></div><div style="padding:0 6px; white-space:pre; line-height:130%"><span style="color:#010101">&lt;</span><span style="color:#010101">/</span><span style="color:#066de2">div</span><span style="color:#010101">&gt;</span></div></div></td><td style="vertical-align:bottom;padding:0 2px 4px 0"><a href="http://colorscripter.com/info#e" target="_blank" style="text-decoration:none;color:white"><span style="font-size:9px;word-break:normal;background-color:#e5e5e5;color:white;border-radius:10px;padding:1px">cs</span></a></td></tr></tbody></table></div>
+								</li>
+								<li>너비 지정 시 class="col-1 ~ col-12" <strong class="essential">'col-num'의 num 합이 12 넘지 않도록.</strong></li>
+							</ul>
+						</div>
+
+						<div class="row">
+							<div class="col-12">
+								<div class="box">Column</div>
+							</div>
+						</div>
+	
+						<div class="row">
+							<div class="col-6">
+								<div class="box">Column</div>
+							</div>
+							<div class="col-6">
+								<div class="box">Column</div>
+							</div>
+						</div>
+	
+						<div class="row">
+							<div class="col-3">
+								<div class="box">Column</div>
+							</div>
+							<div class="col">
+								<div class="box">Column</div>
+							</div>
+							<div class="col-3">
+								<div class="box">Column</div>
+							</div>
+						</div>
+					</div>					
+
+					<div class="row" id="button">
+						<div class="col-12">
+							<h4 class="cont-tit">Button</h4>
+							<p><strong class="essential">&lt;a&gt;</strong>, <strong class="essential">&lt;button&gt;</strong> 둘 다 가능</p> <br>
+							<div class="guide-default">
+								<table class="guide-basic">
+									<colgroup>
+										<col style="width: 10%;">
+										<col style="width: 10%;">
+										<col style="width: 30%;">
+										<col style="width: 25%;">
+										<col style="width: 25%;">
+									</colgroup>
+									<thead>
+										<tr>
+											<th colspan="2"></th>
+											<th scope="col">기본</th>
+											<th scope="col">마우스오버</th>
+											<th scope="col">활성</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr>
+											<th scope="row" rowspan="8">Color</th>
+											<th scope="row">basic</th>
+											<td><button type="button" class="btn basic">삭제</button></td>
+											<td>X</td>
+											<td>X</td>
+										</tr>																				
+										<tr>
+											<th scope="row">type01</th>
+											<td><button type="button" class="btn type01">등록</button></td>
+											<td>X</td>
+											<td>X</td>
+										</tr>
+										<tr>
+											<th scope="row">type02</th>
+											<td><button type="button" class="btn type02">수정</button></td>
+											<td>X</td>
+											<td>X</td>
+										</tr>
+										<tr>
+											<th scope="row">type03</th>
+											<td><button type="button" class="btn type03">저장</button></td>
+											<td>X</td>
+											<td>X</td>
+										</tr>
+										<tr>
+											<th scope="row">type04</th>
+											<td><button type="button" class="btn type04">초기화</button></td>
+											<td>X</td>
+											<td>X</td>
+										</tr>
+										<tr>
+											<th scope="row">type05</th>
+											<td><button type="button" class="btn type05">버튼</button></td>
+											<td>X</td>
+											<td>X</td>
+										</tr>
+										<tr>
+											<th scope="row">type06</th>
+											<td><button type="button" class="btn type06">아이디 중복 확인</button></td>
+											<td>X</td>
+											<td>X</td>
+										</tr>	
+										<tr>
+											<th scope="row">type07</th>
+											<td><button type="button" class="btn type07">취소</button></td>
+											<td>X</td>
+											<td>X</td>
+										</tr>						
+										<tr>
+											<th scope="row" rowspan="3">Icon + text</th>
+											<th scope="row">bi-srch</th>
+											<td><button type="button" class="btn type05 bi-srch">검색</button></td>
+											<td>X</td>
+											<td>X</td>
+										</tr>
+										<tr>
+											<th scope="row">bi-excel</th>
+											<td><button type="button" class="btn type08 bi-excel">엑셀자료 다운로드</button></td>
+											<td>X</td>
+											<td>X</td>
+										</tr>
+										<tr>
+											<th scope="row">bi-location</th>
+											<td><button type="button" class="btn type08 bi-location">지도 바로가기</button></td>
+											<td>X</td>
+											<td>X</td>
+										</tr>							
+									</tbody>
+								</table>
+							</div>
+						</div>
+
+						<div class="col-6">
+							<h4 class="cont-tit">Button 정렬</h4>
+							<div class="btn-wrap">
+								<div><button type="button" class="btn basic">목록</button></div>
+							</div>
+
+							<div class="line"></div>
+
+							<div class="btn-wrap justify-content-center">
+								<div><button type="button" class="btn type01">등록</button> <button type="button" class="btn type07">취소</button></div>
+							</div>
+
+							<div class="line"></div>
+
+							<div class="btn-wrap justify-content-end">
+								<div><button type="button" class="btn type03">저장</button> <button type="button" class="btn basic">삭제</button></div>
+							</div>
+
+							<div class="line"></div>
+
+							<div class="btn-wrap justify-content-between">
+								<button type="button" class="btn basic">목록</button> <button type="button" class="btn type01">등록</button>
+							</div>
+
+							<div class="line"></div>
+
+							<div class="btn-wrap justify-content-between">
+								<button type="button" class="btn basic">목록</button>
+								<div><button type="button" class="btn type02">수정</button> <button type="button" class="btn basic">삭제</button></div>
+							</div>
+						</div>
+					</div>
+
+					<div class="row" id="align">
+						<div class="col-6">
+							<h4 class="cont-tit">Text 정렬</h4>
+							<div class="align-left"><p>Left 정렬</p></div>
+							<div class="line"></div>
+							<div class="align-center"><p>Center 정렬</p></div>
+							<div class="line"></div>
+							<div class="align-right"><p>Right 정렬</p></div>
+						</div>
+
+						<div class="row">
+							<div class="col-6">
+								<h4 class="cont-tit">Table 일괄 정렬</h4>
+								<p>일괄(th, td) 정렬시 <strong class="essential">table class=""에 정렬 클래스 추가</strong></p> <br>
+								<div class="tbl-default">
+									<table class="guide-basic tbl-all-left">
+										<colgroup>
+											<col style="width: 30%;">
+											<col style="width: auto;">
+										</colgroup>
+										<tbody>
+											<tr>
+												<th scope="row">class="tbl-all-left"</th>
+												<td>왼쪽 정렬</td>
+											</tr>						
+										</tbody>
+									</table>
+									<div class="line"></div>
+	
+									<table class="guide-basic tbl-all-center">
+										<colgroup>
+											<col style="width: 30%;">
+											<col style="width: auto;">
+										</colgroup>
+										<tbody>
+											<tr>
+												<th scope="row">class="tbl-all-center"</th>
+												<td>가운데 정렬</td>
+											</tr>						
+										</tbody>
+									</table>
+									<div class="line"></div>
+	
+									<table class="guide-basic tbl-all-right">
+										<colgroup>
+											<col style="width: 30%;">
+											<col style="width: auto;">
+										</colgroup>
+										<tbody>
+											<tr>
+												<th scope="row">class="tbl-all-right"</th>
+												<td>오른쪽 정렬</td>
+											</tr>						
+										</tbody>
+									</table>
+								</div>
+							</div>
+	
+							<div class="col-6">
+								<h4 class="cont-tit">Table 부분 정렬</h4>
+								<p>부분 정렬시 <strong class="essential">정렬하고자 하는 th 또는 td에 정렬 클래스 추가</strong></p> <br>
+								<div class="tbl-default">
+									<table class="guide-basic">
+										<colgroup>
+											<col style="width: 30%;">
+											<col style="width: auto;">
+										</colgroup>
+										<tbody>
+											<tr>
+												<th scope="row">class="align-left"</th>
+												<td class="align-left">왼쪽 정렬</td>
+											</tr>
+											<tr>
+												<th scope="row">class="align-center"</th>
+												<td class="align-center">가운데 정렬</td>
+											</tr>
+											<tr>
+												<th scope="row">class="align-right"</th>
+												<td class="align-right">오른쪽 정렬</td>
+											</tr>					
+										</tbody>
+									</table>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<div class="row" id="form">
+						<div class="col-12">
+							<h4 class="cont-tit">Form</h4>
+							<div class="tbl-default">
+								<table class="guide-basic">
+									<colgroup>
+										<col style="width: 10%;">
+										<col style="width: 10%;">
+										<col style="width: auto;">
+										<col style="width: auto;">
+										<col style="width: auto;">
+									</colgroup>
+									<thead>
+										<tr>
+											<th colspan="2"></th>
+											<th>활성</th>									
+											<th>마우스오버</th>									
+											<th>비활성</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr>
+											<th colspan="2">Input</th>
+											<td class="align-left"><input type="text" class="form-control"></td>
+											<td>X</td>
+											<td><input type="text" class="form-control" disabled></td>
+										</tr>
+										<tr>
+											<th rowspan="2">Datepicker</th>
+											<th>Only</th>
+											<td class="align-left">
+                                                <div class="datapicker-group"><input type="text" class="datepicker" title="검색일 YYYY-MM-DD 형식으로 날짜를 입력해주세요"></div>
+                                            </td>
+											<td>X</td>
+											<td class="align-left"></td>
+										</tr>
+										<tr>
+											<th>From To</th>
+											<td class="align-left">
+												<div class="datapicker-group"><input type="text" class="datepickerFrom" name="from" title="검색시작일 YYYY-MM-DD 형식으로 날짜를 입력해주세요" autocomplete="off"> <span class="form-dash">-</span> <input type="text" class="datepickerTo" name="to" title="검색종료일 YYYY-MM-DD 형식으로 날짜를 입력해주세요" autocomplete="off"></div>
+											</td>
+											<td>X</td>
+											<td></td>
+										</tr>
+										<tr>
+											<th colspan="2">Select</th>
+											<td class="align-left">
+												<select class="form-select">
+													<option value="">시스템명</option>
+													<option value="">시스템명1</option>
+												</select>
+											</td>
+											<td>X</td>
+											<td>
+												<select class="form-select" disabled>
+													<option value="">시스템명</option>
+													<option value="">시스템명1</option>
+												</select>
+											</td>
+										</tr>
+										<tr>
+											<th rowspan="2">Checkbox</th>
+											<th>Only</th>
+											<td class="align-left">
+												<span class="form-checkbox">
+													<span><input type="checkbox" name="" id="chk1-1" checked=""><label for="chk1-1">체크박스</label></span>
+												</span>
+											</td>
+											<td>X</td>
+											<td>
+												<span class="form-checkbox">
+													<span><input type="checkbox" name="" id="chk1-2" disabled><label for="chk1-2">체크박스</label></span>
+												</span>
+											</td>
+										</tr>
+										<tr>
+											<th>Checkbox Group</th>
+											<td class="align-left">
+												<span class="form-checkbox group">
+													<span><input type="checkbox" name="" id="chk2-1" checked=""><label for="chk2-1">체크</label></span>
+													<span><input type="checkbox" name="" id="chk2-2"><label for="chk2-2">체크박스박스</label></span>
+													<span><input type="checkbox" name="" id="chk2-3"><label for="chk2-3">체크박스</label></span>
+													<span><input type="checkbox" name="" id="chk2-2"><label for="chk2-4">박스1</label></span>
+													<span><input type="checkbox" name="" id="chk2-3"><label for="chk2-5">체크박스22</label></span>
+												</span>
+											</td>
+											<td>X</td>
+											<td></td>
+										</tr>
+										<tr>
+											<th rowspan="2">Radio</th>
+											<th>Only</th>
+											<td class="align-left">
+												<span class="form-radio">
+													<span><input type="radio" name="" id="chk2-1" checked=""><label for="chk2-1">라디오 버튼</label></span>
+												</span>
+											</td>
+											<td>X</td>
+											<td>
+												<span class="form-radio">
+													<span><input type="radio" name="" id="chk2-2" disabled><label for="chk2-2">라디오 버튼</label></span>
+												</span>
+											</td>
+										</tr>
+										<tr>
+											<th>Radio Group</th>
+											<td class="align-left">
+												<span class="form-radio group">
+													<span><input type="radio" name="aa" id="chk3-1" checked=""><label for="chk3-1">라디오 버튼</label></span>
+													<span><input type="radio" name="aa" id="chk3-2"><label for="chk3-2">라디오 버튼</label></span>
+													<span><input type="radio" name="aa" id="chk3-3"><label for="chk3-3">라디오 버튼</label></span>
+												</span>
+											</td>
+											<td>X</td>
+											<td></td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+
+					<div class="row" id="Dialog">
+						<div class="col-12">
+							<h4 class="cont-tit">Dialog</h4>
+							<button type="button" class="btn type06" onclick="popup_open('popup-emplyrId');">중복아이디 검색</button>
+
+							<!-- popup-emplyrId -->
+							<div class="popup-panel popup-emplyrId" title="아이디 중복 확인">
+								<div class="bbs-write-default">
+									<table class="bbs-write">
+										<colgroup>
+											<col style="width: 35%;">
+											<col style="width: auto;">
+										</colgroup>
+										<tbody>
+											<tr>
+												<th scope="row">사용할아이디</th>
+												<td><input type="text" class="form-control"></td>
+											</tr>
+											<tr>
+												<td colspan="2" class="align-center">
+													<p>중복확인을 실행하십시오.</p>
+													<p>[test]는 <strong class="text-color2">사용 가능한 아이디</strong>입니다.</p>
+													<p>[webmaster]는 <strong class="text-color1">사용할 수 없는 아이디</strong>입니다.</p>
+												</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+
+								<div class="btn-wrap justify-content-center">
+									<div><button type="button" class="btn type03">저장</button> <button type="button" class="btn type07">취소</button></div>
+								</div>
+
+							</div>
+							<!-- //popup-emplyrId -->
+						</div>
+					</div>
+
+					<div class="row" id="tab">
+						<div class="col-12">
+							<h4 class="cont-tit">Tab</h4>
+
+							<div class="ex-box pad10">
+								<ul class="list-type1">
+									<li>&lt;li <strong class="essential">data-tab</strong>="tab01"> <br>
+										&lt;div class="tab-cont <strong class="essential">tab01</strong>">
+										<strong class="essential">data-tab, class는 일치해야 함.</strong>
+									</li>
+									<!-- <li>data-tab, class 임의로 넣은것으로, <strong class="essential">직접 변경</strong>해야 함.</li> -->
+								</ul>
+							</div>
+
+							<div class="tabBoxDepth1-wrap">
+								<div class="tabBoxDepth1">
+									<ul>
+										<li data-tab="tab01" class="on"><button type="button" class="inner-tab">이력조회</button></li>
+										<li data-tab="tab02"><button type="button" class="inner-tab">시간대별 통계</button></li>
+										<li data-tab="tab03"><button type="button" class="inner-tab">일별 통계</button></li>
+										<li data-tab="tab04"><button type="button" class="inner-tab">월별 통계</button></li>
+									</ul>
+								</div>
+								<div class="tab-cont tab01 on">
+									이력조회
+								</div>
+								<div class="tab-cont tab02">
+									시간대별 통계
+								</div>
+								<div class="tab-cont tab03">
+									일별 통계
+								</div>
+								<div class="tab-cont tab04">
+									월별 통계
+								</div>
+							</div>
+
+						</div>
+					</div>
+
+					<div class="row" id="bbsTop">
+						<div class="col-12">
+							<h4 class="cont-tit">BBS Top</h4>
+							<div class="bbs-top">
+								<div class="tbl-basic-num">전체 : <strong>100건</strong></div>
+								<div class="d-flex">
+                                    <div class="desc">
+                                        <div class="datapicker-group"><input type="text" class="datepickerFrom" name="from" title="검색시작일 YYYY-MM-DD 형식으로 날짜를 입력해주세요" autocomplete="off"> <span class="form-dash">-</span> <input type="text" class="datepickerTo" name="to" title="검색종료일 YYYY-MM-DD 형식으로 날짜를 입력해주세요" autocomplete="off"></div>
+                                    </div>
+									<div class="desc">
+                                        <select name="" id="" title="" class="form-select">
+                                            <option value="" selected="">제목</option>
+                                            <option value=""></option>
+                                        </select>
+                                        <input type="text" id="" class="form-control"><button type="submit" class="btn type05 bi-srch">검색</button>
+                                    </div>
+								</div>
+							</div>
+							
+							<div class="line"></div>
+
+							<div class="bbs-top">
+								<div class="tbl-basic-num">전체 : <strong>100건</strong></div>
+								<div class="d-flex">                                   
+									<div class="term">유형</div>
+									<div class="desc">
+										<select name="" id="" title="" class="form-select">
+											<option value="" selected="">제목</option>
+											<option value=""></option>
+										</select>
+									</div>
+									<div class="term">검색어</div>
+									<div class="desc">
+										<input type="text" id="" class="form-control"><button type="submit" class="btn type05 bi-srch">검색</button>
+									</div>
+								</div>
+							</div>
+
+						</div>
+					</div>
+
+					<div class="row" id="bbs">
+						<div class="col-12">
+							<h4 class="cont-tit">BBS - List</h4>
+							
+							<div class="bbs-default">
+								<table class="bbs-list">
+									<colgroup>
+										<col style="width: 5%;">
+										<col style="width: auto;">
+										<col style="width: 15%;">
+										<col style="width: 20%;">
+										<col style="width: 15%;">
+										<col style="width: 15%;">
+										<col style="width: 15%;">
+									</colgroup>
+									<thead>
+										<tr>
+											<th scope="col">
+												<span class="form-checkbox"><span><input type="checkbox" name="" id="chk1-1" checked=""><label for="chk1-1"></label></span></span>
+											</th>
+											<th scope="col">아이디</th>
+											<th scope="col">사용자 이름</th>
+											<th scope="col">사용자 이메일</th>
+											<th scope="col">휴대전화</th>
+											<th scope="col">등록일</th>
+											<th scope="col">가입상태</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr>
+											<td><span class="form-checkbox"><span><input type="checkbox" name="" id="chk1-1" checked=""><label for="chk1-1"></label></span></span></td>
+											<td><a href="">webmaster</a></td>
+											<td>웹마스터</td>
+											<td>egovframesupport@gmail.com</td>
+											<td>02)1566-2059</td>
+											<td>2020-12-01</td>
+											<td>회원 가입 승인 상태</td>
+										</tr>
+										<tr>
+											<td><span class="form-checkbox"><span><input type="checkbox" name="" id="chk1-1" checked=""><label for="chk1-1"></label></span></span></td>
+											<td><a href="">webmaster</a></td>
+											<td>웹마스터</td>
+											<td>egovframesupport@gmail.com</td>
+											<td>02)1566-2059</td>
+											<td>2020-12-01</td>
+											<td>회원 가입 승인 상태</td>
+										</tr>																	
+										<tr>
+											<td><span class="form-checkbox"><span><input type="checkbox" name="" id="chk1-1" checked=""><label for="chk1-1"></label></span></span></td>
+											<td><a href="">webmaster</a></td>
+											<td>웹마스터</td>
+											<td>egovframesupport@gmail.com</td>
+											<td>02)1566-2059</td>
+											<td>2020-12-01</td>
+											<td>회원 가입 승인 상태</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+
+						</div>
+
+						<div class="col-12">
+							<h4 class="cont-tit">BBS - Detail</h4>							
+							<div class="bbs-detail-default">
+								<table class="bbs-detail">
+									<colgroup>
+										<col style="width: 15%;">
+										<col style="width: auto;">
+									</colgroup>
+									<tbody>
+										<tr>
+											<th scope="row">회원아이디</th>
+											<td>webmaster</td>
+										</tr>
+										<tr>
+											<th scope="row">회원이름</th>
+											<td>웹마스터</td>
+										</tr>
+										<tr>
+											<th scope="row">조직아이디</th>
+											<td>기본조직</td>
+										</tr>
+										<tr>
+											<th scope="row">핸드폰번호 <span class="essential">*</span></th>
+											<td>010-1234-5678</td>
+										</tr>
+										<tr>
+											<th scope="row">이메일주소 <span class="essential">*</span></th>
+											<td>egovframesupport@gmail.com</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+
+						<div class="col-12">
+							<h4 class="cont-tit">BBS - Write</h4>							
+							<div class="bbs-write-default">
+								<table class="bbs-write">
+									<colgroup>
+										<col style="width: 15%;">
+										<col style="width: auto;">
+									</colgroup>
+									<tbody>
+										<tr>
+											<th scope="row">회원아이디 <span class="essential">*</span></th>
+											<td><input type="text" class="form-control"><button type="button" class="btn type06" onclick="popup_open('popup-emplyrId');">중복아이디 검색</button></td>
+										</tr>
+										<tr>
+											<th scope="row">회원이름 <span class="essential">*</span></th>
+											<td><input type="text" class="form-control"></td>
+										</tr>
+										<tr>
+											<th scope="row">비밀번호 <span class="essential">*</span></th>
+											<td><input type="text" class="form-control"></td>
+										</tr>
+										<tr>
+											<th scope="row">비밀번호 확인 <span class="essential">*</span></th>
+											<td><input type="text" class="form-control"></td>
+										</tr>
+										<tr>
+											<th scope="row">조직아이디</th>
+											<td>
+												<select class="form-select" id="orgnztId" name="orgnztId" title="조직아이디 선택하세요">
+													<option value="" selected="selected">선택하세요</option>
+													<option value="ORGNZT_0000000000000">기본조직</option>
+												 </select>
+											</td>
+										</tr>
+										<tr>
+											<th scope="row">핸드폰번호 <span class="essential">*</span></th>
+											<td><input type="text" class="form-control"></td>
+										</tr>
+										<tr>
+											<th scope="row">이메일주소 <span class="essential">*</span></th>
+											<td><input type="text" class="form-control"></td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+
+					<div class="row" id="pagination">
+						<div class="col-12">
+							<h4 class="cont-tit">Pagination</h4>
+							<div class="pagination">
+								<a href="javascript:void(0);" class="first" title="처음"></a>
+								<a href="javascript:void(0);" class="prev" title="이전"></a>
+								<strong class="current">1</strong>
+								<a href="javascript:void(0);">2</a>
+								<a href="javascript:void(0);">3</a>
+								<a href="javascript:void(0);">4</a>
+								<a href="javascript:void(0);">5</a>
+								<a href="javascript:void(0);" class="next" title="다음"></a>
+								<a href="javascript:void(0);" class="last" title="마지막"></a>
+							</div>
+						</div>
+					</div>
+
+
+					<div class="row" id="width">
+						<div class="col-6">
+							<h4 class="cont-tit">Width</h4>
+							<div class="guide-default">
+								<table class="guide-basic tbl-all-left">
+									<colgroup>
+										<col style="width: 150px;">
+										<col style="width: auto;">
+									</colgroup>
+									<tbody>
+										<tr>
+											<th scope="row">width (px)</th>
+											<td>class= w-10 ~ w-200 (10단위) <br>class= w-200 ~ w-400 (50단위)</td>
+										</tr>							
+										<tr>
+											<th scope="row">width (%)</th>
+											<td>class= w-40p ~ w-100p (5단위)</td>
+										</tr>
+										<tr>
+											<th scope="row" rowspan="3">ex</th>
+											<td><div class="ex-box w-100">width 100px</td>
+										</tr>
+										<tr>
+											<td><div class="ex-box w-230">width 230px</td>
+										</tr>
+										<tr>
+											<td><div class="ex-box w-80p">width 80%</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+
+						<div class="col-6">
+							<h4 class="cont-tit">Height</h4>
+							<div class="guide-default">
+								<table class="guide-basic tbl-all-left">
+									<colgroup>
+										<col style="width: 150px;">
+										<col style="width: auto;">
+									</colgroup>
+									<tbody>
+										<tr>
+											<th scope="row">Height (px)</th>
+											<td>class= h-100 ~ h-200 (10단위) <br>class= h-200 ~ h-500 (50단위)</td>
+										</tr>							
+										<tr>
+											<th scope="row">Height (%)</th>
+											<td>class= h-100p</td>
+										</tr>
+										<tr>
+											<th scope="row">ex</th>
+											<td><div class="ex-box h-100">height 100px</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+
+					<div class="row" id="margin">
+						<div class="col-6">
+							<h4 class="cont-tit">Margin</h4>
+							<div class="guide-default">
+								<table class="guide-basic tbl-all-left">
+									<colgroup>
+										<col style="width: 150px;">
+										<col style="width: auto;">
+									</colgroup>
+									<tbody>
+										<tr>
+											<th scope="row">margin</th>
+											<td>class= mar0 ~ mar60 (5단위)</td>
+										</tr>
+										<tr>
+											<th scope="row">margin-top</th>
+											<td>class= marT0 ~ marT60 (5단위)</td>
+										</tr>
+										<tr>
+											<th scope="row">margin-left</th>
+											<td>class= marL0 ~ marL60 (5단위)</td>
+										</tr>
+										<tr>
+											<th scope="row">margin-right</th>
+											<td>class= marR0 ~ marR60 (5단위)</td>
+										</tr>
+										<tr>
+											<th scope="row">margin-bottom</th>
+											<td>class= marB0 ~ marB60 (5단위)</td>
+										</tr>
+										<tr>
+											<th scope="row">ex</th>
+											<td><div class="ex-box marB30">box</div><div class="ex-box marB30">box</div></td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+
+						<div class="col-6">
+							<h4 class="cont-tit">Padding</h4>
+							<div class="guide-default">
+								<table class="guide-basic tbl-all-left">
+									<colgroup>
+										<col style="width: 150px;">
+										<col style="width: auto;">
+									</colgroup>
+									<tbody>
+										<tr>
+											<th scope="row">padding</th>
+											<td>class= pad0 ~ pad60 (5단위)</td>
+										</tr>
+										<tr>
+											<th scope="row">padding-top</th>
+											<td>class= padT0 ~ padT60 (5단위)</td>
+										</tr>
+										<tr>
+											<th scope="row">padding-left</th>
+											<td>class= padL0 ~ padL60 (5단위)</td>
+										</tr>
+										<tr>
+											<th scope="row">padding-right</th>
+											<td>class= padR0 ~ padR60 (5단위)</td>
+										</tr>
+										<tr>
+											<th scope="row">padding-bottom</th>
+											<td>class= padB0 ~ padB60 (5단위)</td>
+										</tr>
+										<tr>
+											<th scope="row">ex</th>
+											<td><div class="ex-box pad30">box</div></td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+
+
+				</section>
+				<!-- //content -->
+			</div>
+			<!-- //container -->
+
+
+		</div>
+		<!-- //wrap -->
+	
+	</body>
+</html>

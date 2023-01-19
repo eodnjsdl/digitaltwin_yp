@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ConectStatsDAO">
+	
+	<!-- 접속통계 조회 -->
+	<select id="selectConectStats" parameterType="egovframework.com.sts.com.StatsVO" resultType="egovframework.com.sts.com.StatsVO">
+		WITH CONECT_SUM_RESULT AS (
+			SELECT COUNT(CONECT_ID) AS CNT, CONECT_ID
+			FROM COMTNLOGINLOG
+			WHERE 1=1
+			<if test='pdKind == "M"'> 
+				AND TO_CHAR(CREAT_DT, 'YYYY') = #{fromDate}
+			</if>
+			<if test='pdKind == "D"'> 
+				AND TO_CHAR(CREAT_DT, 'YYYYmm') = #{fromDate}
+			</if>
+			<if test='pdKind == "T"'> 
+				AND TO_CHAR(CREAT_DT, 'YYYYmmdd') = #{fromDate}
+			</if>				   
+			GROUP BY CONECT_ID 
+		)
+				
+		<!-- 서비스별 통계 -->
+		<if test='statsKind == "SERVICE"'>
+			SELECT METHOD_NM AS conectMethod
+			     , COALESCE(SUM(CREAT_CO),0) AS creatCo
+			     , COALESCE(SUM(UPDT_CO),0) AS updtCo
+			     , COALESCE(SUM(RDCNT),0) AS inqireCo
+			     , COALESCE(SUM(DELETE_CO),0) AS deleteCo
+			     , COALESCE(SUM(OUTPT_CO),0) AS outptCo
+			     , COALESCE(SUM(ERROR_CO),0) AS errorCo
+			     <!-- 기간검색(년) -->
+				 <if test='pdKind == "Y"'>
+			     , SUBSTR(OCCRRNC_DE, 1, 4) AS statsDate
+			     </if>
+			     <!-- 기간검색(월) -->
+			     <if test='pdKind == "M"'>
+			     , CONCAT(CONCAT(SUBSTR(OCCRRNC_DE, 1, 4), '-'), SUBSTR(OCCRRNC_DE, 5, 2)) AS statsDate
+			     </if>
+			     <!-- 기간검색(일) -->
+			     <if test='pdKind == "D"'>
+			     , CONCAT(CONCAT(CONCAT(CONCAT(SUBSTR(OCCRRNC_DE, 1, 4), '-'), SUBSTR(OCCRRNC_DE, 5, 2)), '-'), SUBSTR(OCCRRNC_DE, 7, 2)) AS statsDate
+			     </if>
+			     , 0 AS statsCo
+			  FROM COMTSSYSLOGSUMMARY
+		 	 WHERE OCCRRNC_DE BETWEEN #{fromDate} AND #{toDate}  
+		 	 <if test='detailStatsKind != null and detailStatsKind != ""'>
+		 	   AND SVC_NM LIKE CONCAT(CONCAT('%',#{detailStatsKind}),'%')
+		 	   </if>
+		 	 GROUP BY conectMethod, statsDate, statsCo
+		 	 ORDER BY statsDate
+		</if>
+		
+		<!-- 개인별 통계 -->
+		<if test='statsKind == "PRSONAL"'>
+			SELECT COUNT(CLL.CONECT_ID) AS statsCo
+				<!--  기간검색(월) -->
+			     <if test='pdKind == "M"'>
+			     , TO_CHAR(CLL.CREAT_DT, 'MM') AS statsDate
+			     </if>
+				<!--  기간검색(일) -->
+			     <if test='pdKind == "D"'>
+				 , TO_CHAR(CLL.CREAT_DT, 'dd') AS statsDate
+			     </if>
+			     <!--  기간검색(시) -->
+			     <if test='pdKind == "T"'>
+				 , TO_CHAR(CLL.CREAT_DT, 'HH24') AS statsDate
+			     </if>
+			     , CUM.ESNTL_ID
+			     , CGI.GROUP_NM
+			     , COI.ORGNZT_NM
+			     , CUM.USER_NM
+			     , CSR.CNT
+			 FROM COMTNLOGINLOG CLL
+			 LEFT OUTER JOIN COMVNUSERMASTER CUM
+				ON CLL.CONECT_ID = CUM.ESNTL_ID
+			 LEFT OUTER JOIN COMTNAUTHORGROUPINFO CGI
+			 	ON CUM.GROUP_ID = CGI.GROUP_ID
+			 LEFT OUTER JOIN COMTNORGNZTINFO COI
+			 	ON CUM.ORGNZT_ID = COI.ORGNZT_ID 			
+			 LEFT OUTER JOIN CONECT_SUM_RESULT CSR
+			 	ON CLL.CONECT_ID = CSR.CONECT_ID
+		 	 WHERE 1=1
+			   <!-- 기간검색(월) -->
+			  <if test='pdKind == "M"'> 
+			   AND TO_CHAR(CLL.CREAT_DT, 'YYYY') = #{fromDate}
+			  </if>
+			   <!-- 기간검색(일) -->
+			  <if test='pdKind == "D"'> 
+			   AND TO_CHAR(CLL.CREAT_DT, 'YYYYmm') = #{fromDate}
+			  </if>
+			  <!-- 기간검색(시) -->
+			  <if test='pdKind == "T"'> 
+			   AND TO_CHAR(CLL.CREAT_DT, 'YYYYmmdd') = #{fromDate}
+			  </if>
+			  <choose>
+			  	<when test="searchCnd == 'USER_NM' and searchWrd != ''">
+					<![CDATA[ AND
+					CUM.${searchCnd} LIKE CONCAT ('%', #{searchWrd},'%') ]]>
+				</when>
+				<when test="searchCnd == 'GROUP_NM' and searchWrd != ''">
+					<![CDATA[ AND
+						CGI.${searchCnd} LIKE CONCAT ('%', #{searchWrd},'%') ]]>
+				</when>
+				<when test="searchCnd == 'ORGNZT_NM' and searchWrd != ''">
+					<![CDATA[ AND
+						COI.${searchCnd} LIKE CONCAT ('%', #{searchWrd},'%') ]]>
+				</when>
+			 </choose>
+			 GROUP BY CLL.CONECT_ID, statsDate, CUM.ESNTL_ID, COI.ORGNZT_NM, CGI.GROUP_NM, CUM.USER_NM, CSR.CNT
+			 ORDER BY CSR.CNT DESC
+		</if>
+	</select>
+	
+</mapper>

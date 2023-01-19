@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="gis">
+
+    <!-- 주소 검색 -->
+    <select id="selectAddress" parameterType="String" resultType="reverseGeocodingResultVO">
+        SELECT
+               pnu,
+            (select emd_kor_nm from tgd_scco_emd where emd_cd = substring(pnu, 1, 8)) as emd_kor_nm,
+            (select li_kor_nm from tgd_scco_li where li_cd = substring(pnu, 1, 10)) as li_kor_nm,
+            substring(pnu, 11, 1) as mntn_yn,
+            substring(pnu, 12, 4) as lnbr_mnnm,
+            substring(pnu, 16, 4) as lnbr_slno,
+            st_astext(geom) as lnbr_wkt
+        FROM LSMD_CONT_LDREG_41830
+        WHERE st_intersects(geom, ST_SetSRID(ST_GeomFromText(#{wkt}), 5179)) = TRUE
+        LIMIT 1
+    </select>
+    
+    <!-- 도로명 주소 검색 -->
+    <select id="selectRoadAddress" parameterType="String" resultType="reverseGeocodingResultVO">
+        SELECT
+            (select rn from tgd_sprd_rn where rn_cd = tsb.rn_cd) as rn,
+            buld_mnnm,
+            buld_slno,
+            st_astext(geom) as buld_wkt
+        FROM TGD_SPBD_BULD tsb
+        WHERE st_intersects(geom, ST_SetSRID(ST_GeomFromText(#{wkt}), 5179)) = TRUE
+        LIMIT 1
+    </select>
+
+    <!-- 주소 검색 (5174)-->
+    <select id="selectAddress5174" parameterType="reverseGeocodingVO" resultType="reverseGeocodingResultVO">
+        SELECT
+            pnu,
+            (select emd_kor_nm from tgd_scco_emd where emd_cd = substring(pnu, 1, 8)) as emd_kor_nm,
+            (select li_kor_nm from tgd_scco_li where li_cd = substring(pnu, 1, 10)) as li_kor_nm,
+            substring(pnu, 11, 1) as mntn_yn,
+            substring(pnu, 12, 4) as lnbr_mnnm,
+            substring(pnu, 16, 4) as lnbr_slno,
+            st_astext(geom) as lnbr_wkt
+        FROM LSMD_CONT_LDREG_41830
+        WHERE st_intersects(geom, ST_SetSRID(ST_GeomFromText(#{wkt5174}), 5174)) = TRUE
+            LIMIT 1
+    </select>
+
+</mapper>

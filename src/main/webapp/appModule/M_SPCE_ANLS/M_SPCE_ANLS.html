@@ -1,0 +1,75 @@
+<!-- 분석 > 공간분석 -->
+<div class="small-popup small-left spatial-analysis opened" style="width: 400px;">
+    <div class="popup-header">공간분석</div>
+    <div class="popup-body">
+
+        <div class="tbl-default">
+            <table class="tbl-type1">
+                <colgroup>
+                    <col style="width: 30%;">
+                    <col style="width: auto;">
+                </colgroup>
+                <tbody>
+                    <tr>
+                        <th scope="row">대상지역</th>
+                        <td>
+                            <select name="analysis-target" class="form-select">
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th scope="row">분석시설</th>
+                        <td>
+                            <select name="analysis-facility" class="form-select">
+                            </select>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="btn-wrap">
+            <div><button type="button" class="btn basic bi-loading btn-analysis">분석</button></div>
+            <div class="position-absolute right"><button type="button" class="btn basic bi-reset btn-reset">초기화</button></div>
+        </div>
+
+        <div class="spatialAnalysis-wrap" style="display: ;">
+            <div class="data-default" style="height: 348px;">
+                <table class="table-title data-list">
+                    <colgroup>
+                        <col style="width: 33.33%;">
+                        <col style="width: 33.33%;">
+                        <col style="width: 33.33%;">
+                    </colgroup>
+                    <thead>
+                        <tr>
+                            <th scope="col">지역</th>
+                            <th scope="col">통계치</th>
+                            <th scope="col" class="th_value">면적</th>
+                        </tr>                                           
+                    </thead>
+                </table>
+                <div class="scroll-y">
+                    <table class="data-list tbl-all-center">
+                        <colgroup>
+                            <col style="width: 33.33%;">
+                            <col style="width: 33.33%;">
+                            <col style="width: 33.33%;">
+                        </colgroup>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="graph-box">
+            </div>
+            <div class="btn-wrap justify-content-end">
+                <div><button type="button" class="btn basic bi-download btn-download">다운로드</button></div>
+            </div>
+        </div>
+
+    </div>
+    <button type="button" class="manualBtn" title="도움말" onclick="manualTab('공간분석')"></button>
+    <button type="button" class="popup-toggle" title="접기"></button>
+</div>
+<!-- //분석 > 공간분석 -->

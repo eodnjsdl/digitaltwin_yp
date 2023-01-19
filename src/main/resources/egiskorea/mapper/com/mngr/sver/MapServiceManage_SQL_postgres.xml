@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--
+  @Description : 지도서비스관리 Mapper xml 파일
+  @author 플랫폼개발부문 DT솔루션 이준호
+  @since 2022.02.16
+  @version 1.0
+  @see
+
+	수정일        수정자               수정내용
+  =========     =======    =================================================
+  2022.02.16     이준호               최초생성
+-->
+
+<mapper namespace="mapServiceManage">
+    <!-- 검색 -->
+    <sql id="searchSQL">
+        <where>
+            <if test="searchCondition == 1">
+                AND A.SERVICE_NM LIKE CONCAT ('%', #{searchKeyword},'%')
+            </if>
+        </where>
+    </sql>
+
+    <select id="selectMapServiceManageList" parameterType="MapServiceVO" resultType="MapServiceVO">
+        SELECT
+            A.MAPSERVICE_ID, A.SERVICE_ID, A.SERVICE_NM, A.SERVICE_DC, A.USE_AT, A.FRST_REGIST_DT, A.LAST_MODF_DT, A.FRST_REGISTER_ID, A.LAST_UPDUSR_ID, A.ORIGINAL_FILE_NM, A.STRE_FILE_NM, A.SERVICE_URL, A.SERVICE_URL_LX, A.BM_CODE, B.CODE_NM AS BM_CODE_NM, A.BASIC_AT
+        FROM TBD_MAPSERVICE AS A
+        LEFT OUTER JOIN COMTCCMMNDETAILCODE AS B
+        ON A.BM_CODE = B.CODE AND B.CODE_ID ='MSC01'
+        <include refid="searchSQL"/>
+        ORDER BY A.FRST_REGIST_DT DESC
+        LIMIT #{recordCountPerPage} OFFSET #{firstIndex}
+    </select>
+
+    <select id="selectMapServiceManageListCnt" parameterType="MapServiceVO" resultType="java.lang.Integer">
+        SELECT COUNT(*) FROM TBD_MAPSERVICE AS A
+        <include refid="searchSQL"/>
+    </select>
+
+    <insert id="insertMapServiceManage" parameterType="MapServiceVO">
+        <selectKey keyProperty="mapserviceId" resultType="java.lang.String" order="BEFORE">
+            SELECT COALESCE(MAX(CAST(MAPSERVICE_ID AS INTEGER)), 0) + 1 FROM TBD_MAPSERVICE
+        </selectKey>
+
+        INSERT INTO TBD_MAPSERVICE
+            (MAPSERVICE_ID, SERVICE_ID, SERVICE_NM, SERVICE_DC, USE_AT, FRST_REGIST_DT, LAST_MODF_DT, FRST_REGISTER_ID, LAST_UPDUSR_ID, ORIGINAL_FILE_NM, STRE_FILE_NM, BM_CODE, SERVICE_URL, SERVICE_URL_LX)
+        VALUES
+            (#{mapserviceId}, #{serviceId}, #{serviceNm}, #{serviceDc}, #{useAt}, #{frstRegistDt}, #{lastModfDt}, #{frstRegisterId}, #{lastUpdusrId}, #{originalFileNm}, #{streFileNm}, #{bmCode}, #{serviceUrl}, #{serviceUrlLx})
+    </insert>
+
+    <select id="selectMapServiceManage" parameterType="MapServiceVO" resultType="MapServiceVO">
+        SELECT
+            A.MAPSERVICE_ID, A.SERVICE_ID, A.SERVICE_NM, A.SERVICE_DC, A.USE_AT, A.FRST_REGIST_DT, A.LAST_MODF_DT, A.FRST_REGISTER_ID, A.LAST_UPDUSR_ID, A.ORIGINAL_FILE_NM, A.STRE_FILE_NM, A.SERVICE_URL, A.SERVICE_URL_LX, A.BM_CODE, B.CODE_NM AS BM_CODE_NM, A.BASIC_AT
+        FROM TBD_MAPSERVICE AS A
+        LEFT OUTER JOIN COMTCCMMNDETAILCODE AS B
+        ON A.BM_CODE = B.CODE AND B.CODE_ID ='MSC01'
+        WHERE A.MAPSERVICE_ID = #{mapserviceId}
+    </select>
+
+    <update id="updateMapServiceManage" parameterType="MapServiceVO">
+        UPDATE TBD_MAPSERVICE
+        SET
+            SERVICE_ID = #{serviceId},
+            SERVICE_NM = #{serviceNm},
+            SERVICE_DC = #{serviceDc},
+            USE_AT = #{useAt},
+            LAST_MODF_DT = #{lastModfDt},
+            LAST_UPDUSR_ID = #{lastUpdusrId},
+            ORIGINAL_FILE_NM = #{originalFileNm},
+            STRE_FILE_NM = #{streFileNm},
+            BM_CODE = #{bmCode},
+            SERVICE_URL = #{serviceUrl},
+            SERVICE_URL_LX = #{serviceUrlLx},
+            BASIC_AT = #{basicAt}
+        WHERE
+            MAPSERVICE_ID = #{mapserviceId}
+    </update>
+
+    <delete id="deleteMapServiceManage" parameterType="MapServiceVO">
+        DELETE FROM TBD_MAPSERVICE WHERE MAPSERVICE_ID = #{mapserviceId}
+    </delete>
+
+    <update id="updateMapServiceManageFileDelete" parameterType="MapServiceVO">
+        UPDATE TBD_MAPSERVICE
+        SET
+            ORIGINAL_FILE_NM = '',
+            STRE_FILE_NM = ''
+        WHERE MAPSERVICE_ID = #{mapserviceId}
+    </update>
+
+    <update id="updateMapServiceBasicAt" parameterType="MapServiceVO">
+        UPDATE TBD_MAPSERVICE
+        SET
+            BASIC_AT = #{basicAt}
+        WHERE
+            MAPSERVICE_ID != #{mapserviceId}
+    </update>
+
+</mapper>

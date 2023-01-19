@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="authorGroupDAO">
+
+    <resultMap id="authorGroup" type="egovframework.com.sec.rgm.service.AuthorGroupVO">
+        <result property="userId" column="USER_ID"/>
+        <result property="userNm" column="USER_NM"/>
+        <result property="groupId" column="GROUP_ID"/>
+        <result property="mberTyCode" column="MBER_TY_CODE"/>
+        <result property="mberTyNm" column="MBER_TY_NM"/>
+        <result property="authorCode" column="AUTHOR_CODE"/>
+        <result property="regYn" column="REG_YN"/>
+        <result property="uniqId" column="ESNTL_ID"/>
+    </resultMap>
+
+    <select id="selectAuthorGroupList" parameterType="egovframework.com.sec.rgm.service.AuthorGroupVO" resultMap="authorGroup">
+   			SELECT A.USER_ID, 
+                   A.USER_NM, 
+                   (SELECT GROUP_NM FROM COMTNAUTHORGROUPINFO AGI WHERE A.GROUP_ID = AGI.GROUP_ID ) GROUP_NM,
+				   (SELECT ORGNZT_NM FROM COMTNORGNZTINFO OGI WHERE A.ORGNZT_ID = OGI.ORGNZT_ID ) ORGNZT_NM,
+                   A.MBER_TY_CODE,
+                   B.AUTHOR_CODE, 
+                   (CASE WHEN B.SCRTY_DTRMN_TRGET_ID IS NULL THEN 'N'
+                         ELSE 'Y' 
+                     END) AS REG_YN,
+                    ESNTL_ID
+			FROM (SELECT EMPLYR_ID USER_ID, USER_NM, GROUP_ID, ORGNZT_ID, 'USR03' MBER_TY_CODE, ESNTL_ID, SBSCRB_DE
+                      FROM COMTNEMPLYRINFO ) A LEFT OUTER JOIN COMTNEMPLYRSCRTYESTBS B
+                ON A.ESNTL_ID = B.SCRTY_DTRMN_TRGET_ID
+			WHERE 1 = 1    
+            <if test="searchKeyword != null and searchKeyword != ''">
+                <if test="searchCondition == 1">AND
+                       A.USER_NM LIKE CONCAT('%' , #{searchKeyword}, '%')
+                </if>
+	            <if test="searchCondition == 2">AND
+	                	(SELECT GROUP_NM FROM COMTNAUTHORGROUPINFO AGI WHERE A.GROUP_ID = AGI.GROUP_ID ) LIKE CONCAT('%' , #{searchKeyword}, '%')
+	            </if>
+	            <if test="searchCondition == 3">AND
+	                   (SELECT ORGNZT_NM FROM COMTNORGNZTINFO OGI WHERE A.ORGNZT_ID = OGI.ORGNZT_ID )  LIKE CONCAT('%' , #{searchKeyword}, '%')
+	            </if>
+            </if>
+            ORDER BY A.SBSCRB_DE DESC
+			LIMIT #{recordCountPerPage} OFFSET #{firstIndex}
+    </select>
+
+	<insert id="insertAuthorGroup" parameterType="egovframework.com.sec.rgm.service.AuthorGroup">
+		
+			INSERT INTO COMTNEMPLYRSCRTYESTBS 
+				  ( SCRTY_DTRMN_TRGET_ID
+                  , MBER_TY_CODE
+				  , AUTHOR_CODE)
+		   VALUES ( #{uniqId}
+                  , #{mberTyCode}
+                  , #{authorCode})
+		
+	</insert>
+
+	<update id="updateAuthorGroup" parameterType="egovframework.com.sec.rgm.service.AuthorGroup">
+		
+			UPDATE COMTNEMPLYRSCRTYESTBS 
+			   SET MBER_TY_CODE=#{mberTyCode}
+                 , AUTHOR_CODE=#{authorCode}
+		  	 WHERE SCRTY_DTRMN_TRGET_ID=#{uniqId}
+		
+	</update>
+
+	<delete id="deleteAuthorGroup">
+		
+			DELETE FROM COMTNEMPLYRSCRTYESTBS 
+			 WHERE SCRTY_DTRMN_TRGET_ID=#{uniqId}
+		
+	</delete>
+
+	<select id="selectAuthorGroupListTotCnt" parameterType="egovframework.com.sec.rgm.service.AuthorGroupVO" resultType="int">
+
+            SELECT COUNT(*) AS totcnt
+              FROM (SELECT EMPLYR_ID USER_ID, USER_NM USER_NM, GROUP_ID, ORGNZT_ID, 'USR03' MBER_TY_CODE 
+                      FROM COMTNEMPLYRINFO ) A LEFT OUTER JOIN COMTNEMPLYRSCRTYESTBS B
+                ON A.USER_ID = B.SCRTY_DTRMN_TRGET_ID
+             WHERE 1 = 1   
+             
+            <if test="searchKeyword != null and searchKeyword != ''">
+                <if test="searchCondition == 1">AND
+                       A.USER_NM LIKE CONCAT('%' , #{searchKeyword}, '%')
+                </if>
+	            <if test="searchCondition == 2">AND
+	                	(SELECT GROUP_NM FROM COMTNAUTHORGROUPINFO AGI WHERE A.GROUP_ID = AGI.GROUP_ID ) LIKE CONCAT('%' , #{searchKeyword}, '%')
+	            </if>
+	            <if test="searchCondition == 3">AND
+	                   (SELECT ORGNZT_NM FROM COMTNORGNZTINFO OGI WHERE A.ORGNZT_ID = OGI.ORGNZT_ID )  LIKE CONCAT('%' , #{searchKeyword}, '%')
+	            </if>
+            </if>
+	</select>
+
+</mapper>

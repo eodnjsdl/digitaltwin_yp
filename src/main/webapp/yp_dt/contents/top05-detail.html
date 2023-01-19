@@ -1,0 +1,560 @@
+<!doctype html>
+<html lang="ko">
+	<head>
+		<meta charset="UTF-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+		<title>스마트시티 IN 양평 플랫폼</title>
+
+		<script src="/yp_dt/js/com/jquery/jquery-3.4.1.min.js"></script>
+		
+		<!-- jquery-ui -->
+		<script src="/yp_dt/js/com/jquery-ui/jquery-ui.js"></script>
+		<link rel="stylesheet" href="/yp_dt/js/com/jquery-ui/jquery-ui.css">
+
+		<!-- mCustomScrollbar -->
+		<script src="/yp_dt/js/plugin/mCustomScrollbar/jquery.mCustomScrollbar.concat.min.js"></script>
+		<link rel="stylesheet" href="/yp_dt/js/plugin/mCustomScrollbar/jquery.mCustomScrollbar.css">
+
+		<!-- rangeslider -->
+		<script src="/yp_dt/js/plugin/rangeslider/rangeslider.js"></script>
+		<link rel="stylesheet" href="/yp_dt/js/plugin/rangeslider/rangeslider.css">
+
+		<!-- swiper -->
+		<script src="/yp_dt/js/plugin/swiper/swiper.min.js"></script>
+		<link rel="stylesheet" href="/yp_dt/js/plugin/swiper/swiper.min.css">
+
+		<script src="/yp_dt/js/map-ui.js"></script>
+		
+		<link rel="stylesheet" href="/yp_dt/css/com/common.css">
+		<link rel="stylesheet" href="/yp_dt/css/map.css">
+
+	</head>
+	<body>
+
+		<div id="wrap">
+
+			<!-- header -->
+			<header id="header">
+				<h1 class="logo"><a href="/yp_dt/index.html">스마트 IN 양평</a></h1>
+				<div class="util-box">
+					<div class="user">웹마스터님</div> <button type="button" class="logout-btn">LOGOUT</button>
+				</div>
+			</header>
+			<!-- //header -->
+
+			<!-- container -->
+			<div id="container">
+
+				<!-- 지도영역 : style 임의로 적용. 작업 시 삭제하시면 됩니다. -->
+				<div id="map" style="background:url(/yp_dt/images/map.jpg);"></div>
+				
+				<!-- map-aside -->
+				<div id="map-aside">
+					<div class="map-tool">
+						<ul class="map-tool-list">
+							<li><button type="button" class="tool-btn icon01 dataPopup" data-popup="top-popup01" title="통합행정정보"></button></li>
+							<li><button type="button" class="tool-btn icon02 dataPopup" data-popup="top-popup02" title="지적/건물"></button></li>
+							<li><button type="button" class="tool-btn icon03 dataPopup" data-popup="top-popup03" title="내보내기"></button></li>
+							<li><button type="button" class="tool-btn icon04 dataPopup" data-popup="top-popup04" title="메모정보"></button></li>
+							<li class="active"><button type="button" class="tool-btn icon05 dataPopup" data-popup="top-popup05" title="사진정보"></button></li>
+							<li><button type="button" class="tool-btn icon06 dataPopup" data-popup="top-popup06" title="즐겨찾기"></button></li>
+							<li><button type="button" class="tool-btn icon07 dataPopup" data-popup="top-popup07" title="지도저장"></button></li>
+							<li><button type="button" class="tool-btn icon08 dataPopup" data-popup="top-popup08" title="그리기도구"></button></li>
+							<li><button type="button" class="tool-btn icon09 dataPopup" data-popup="top-popup09" title="배경지도"></button></li>
+							<li><button type="button" class="tool-btn icon10 dataPopup" data-popup="top-popup10" title="드론영상"></button></li>
+						</ul>
+					</div>
+
+					<div class="map-board">
+						<button type="button" class="bbs-btn notice-btn" data-popup="board-notice" title="공지사항"></button>
+						<button type="button" class="bbs-btn qna-btn" data-popup="board-qna" title="게시판"></button>
+					</div>
+
+					<div class="map-control">
+						<ul>
+							<li><button type="button" class="ctrl-btn compass" title="나침반"><span style="transform: rotate(0deg);"></span></button></li>
+							<li><button type="button" class="ctrl-btn reset" title="초기화"></button></li>
+							<li><button type="button" class="ctrl-btn globe" title="위치 초기화"></button></li>
+							<li class="ctrl-group">
+								<button type="button" class="ctrl-btn location" title="위치"></button>
+								<button type="button" class="ctrl-btn distance" title="거리"></button>
+								<button type="button" class="ctrl-btn measure" title="면적"></button>
+								<button type="button" class="ctrl-btn radius" title="반경"></button>
+							</li>
+							<li><button type="button" class="ctrl-btn scaleUp" onclick="mapZoomControlPlusRe()" title="확대"></button>
+								<button type="button" class="ctrl-btn scaleDown" onclick="mapZoomControlMinusRe()" title="축소"></button>
+							</li>
+						</ul>
+
+						<div class="map-type">
+							<span class="knobs">
+								<span><input type="radio" name="mapType" id="mapType2D" checked=""><label for="mapType2D">2D</label></span>
+								<span><input type="radio" name="mapType" id="mapType3D"><label for="mapType3D">3D</label></span>
+							</span>
+						</div>
+					</div>
+
+					<div class="map-util">
+						<div class="addrSelect">
+							<form action="">
+								<select name="" id="" class="form-select2">
+									<option value="">지번</option>
+									<option value="">도로명</option>
+								</select>
+								<select name="" id="" class="form-select2">
+									<option value="">행정동</option>
+									<option value="">강산면</option>
+								</select>
+								<select name="" id="" class="form-select2">
+									<option value="">법정리</option>
+									<option value="">경강로</option>
+								</select>
+								<input type="text" class="form-control" placeholder="지번 입력"> <button type="button" class="search-btn" title="검색"></button>
+							</form>					
+						</div>
+
+						<!-- 좌표, 축적 -->
+						<div class="coordinates">
+							<div class="coordi-header">
+								<div>
+									<span class="x">127.47609649416934</span>
+									<span class="y">37.49284379468381</span>
+								</div>
+								<button type="button" class="btn btn-sm type04">이동</button>
+							</div>
+							<div class="coordi-body">								
+								<div class="items">
+									<h2>위도,경도 (DMS)</h2>
+									<div class="row">
+										<div class="c-col">
+											<div class="dms-row">
+												<span><input type="text" class="form-control"><span class="form-text">도</span></span>
+												<span><input type="text" class="form-control"><span class="form-text">분</span></span>
+												<span><input type="text" class="form-control"><span class="form-text">초</span></span>
+												<span class="form-dash">,</span>		
+											</div>
+										</div>			
+										<div class="c-col">											
+											<div class="dms-row">
+												<span><input type="text" class="form-control"><span class="form-text">도</span></span>
+												<span><input type="text" class="form-control"><span class="form-text">분</span></span>
+												<span><input type="text" class="form-control"><span class="form-text">초</span></span>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="items">
+									<h2>위도,경도 (Degree)</h2>
+									<div class="row">
+										<div class="c-col"><input type="text" class="form-control"></div>
+										<div class="c-col"><input type="text" class="form-control"></div>
+									</div>
+								</div>
+								<div class="items">
+									<h2>사용자정의</h2>
+									<div class="row">
+										<div class="c-col">
+											<select class="form-select3" name="" id="">
+												<option value="">EPSG : 5179</option>
+												<option value="">EPSG : 5179</option>
+												<option value="">EPSG : 5179</option>
+											</select>
+										</div>
+									</div>
+									<div class="row">										
+										<div class="c-col"><input type="text" class="form-control"></div>
+										<div class="c-col"><input type="text" class="form-control"></div>
+										<div><button type="button" class="btn btn-sm type03">적용</button></div>
+									</div>
+								</div>
+							</div>
+							<script>
+								$( function() {		
+									$(".coordi-header > div").click(function(){
+										$(".coordinates").toggleClass("active");
+									});										
+								});
+							</script>
+						</div>
+						<!-- //좌표, 축적 -->
+					</div>
+				</div>
+				<!-- //map-aside -->
+
+				<!-- side -->
+				<div id="side">
+					<div id="lnb">
+						<ul>
+							<li data-menu="lnb-search"><button type="button" class="lnb-btn" title="검색"></button></li>
+							<li data-menu="lnb-layer"><button type="button" class="lnb-btn" title="레이어"></button></li>
+							<li data-menu="lnb-theme"><button type="button" class="lnb-btn" title="주제도"></button></li>
+							<li data-menu="lnb-work"><button type="button" class="lnb-btn" title="업무"></button></li>
+							<li data-menu="lnb-territory"><button type="button" class="lnb-btn" title="국토정보관리"></button></li>
+						</ul>
+					</div>
+
+					<div id="lnb-search" class="lnb-cont">
+						<div class="lnb-header"><h2 class="tit">검색</h2></div>
+						<div class="lnb-body"></div>
+					</div>
+					<div id="lnb-layer" class="lnb-cont">
+						<div class="lnb-header"><h2 class="tit">레이어</h2></div>
+						<div class="lnb-body">
+							<ul class="lnb-list">
+								<li><p class="lnb-dep1">양평지하시설물</p>
+									<ul class="lnb-dep2">
+										<li><span class="form-checkbox text"><span><input type="checkbox" name="" id="chk1" checked=""><label for="chk1">상수관로</label></span></span></li>
+										<li><span class="form-checkbox text"><span><input type="checkbox" name="" id="chk1-1"><label for="chk1-1">하수관로</label></span></span></li>
+									</ul>
+								</li>
+								<li><p class="lnb-dep1">LOD 2.5</p>
+									<ul class="lnb-dep2">
+										<li><span class="form-checkbox text"><span><input type="checkbox" name="" id="chk2" checked=""><label for="chk2">LOD 2.5</label></span></span></li>
+									</ul>
+								</li>
+								<li><p class="lnb-dep1">건물객체</p>
+									<ul class="lnb-dep2">
+										<li><span class="form-checkbox text"><span><input type="checkbox" name="" id="chk3"><label for="chk3">건물객체</label></span></span></li>
+									</ul>
+								</li>
+								<li><p class="lnb-dep1">영상</p>
+									<ul class="lnb-dep2">
+										<li><span class="form-checkbox text"><span><input type="checkbox" name="" id="chk4-1" checked=""><label for="chk4-1">정사영상</label></span></span></li>
+										<li><span class="form-checkbox text"><span><input type="checkbox" name="" id="chk4-2" checked=""><label for="chk4-2">드론영상</label></span></span></li>
+									</ul>
+								</li>
+							</ul>
+
+							<p class="lnb-dep1">지형 투명도</p>
+							<div class="slider-box">
+								<div id="" class="slider"><div id="custom-handle" class="ui-slider-handle"></div></div>
+								<script>
+									$( function() {
+										var handle = $("#custom-handle" );
+										$(".slider-box .slider").slider({
+											value: 20,
+											min: 0,
+											max: 100,
+											step: 10,
+											range: "min",
+											create: function() {
+												handle.text( $( this ).slider("value"));
+											},
+											slide: function(event, ui) {
+												handle.text( ui.value );
+											},
+											change: function(){
+												
+											}
+										});
+									});
+								</script>
+							</div>
+						</div>
+					</div>
+					<div id="lnb-theme" class="lnb-cont">
+						<div class="lnb-header"><h2 class="tit">주제도</h2></div>
+						<div class="lnb-body"></div>
+					</div>
+					<div id="lnb-work" class="lnb-cont">
+						<div class="lnb-header"><h2 class="tit">업무</h2></div>
+						<div class="lnb-body">
+							<div class="scroll-y">
+								<ul class="lnb-list">
+									<li><p class="lnb-dep1">공간정보활용</p>
+										<ul class="lnb-dep2">
+											<li><button type="button" id="s01-01">사업공유관리</button></li>
+											<li><button type="button">지하수관리</button></li>
+											<li><button type="button">신재생에너지</button></li>
+											<li><button type="button">CCTV관리</button></li>
+											<li><button type="button">가로등관리</button></li>
+											<li><button type="button">이벤트관리</button></li>
+											<li><button type="button">대기오염</button></li>
+										</ul>
+									</li>
+									<li><p class="lnb-dep1">시설관리</p>
+										<ul class="lnb-dep2">
+											<li><button type="button">상수도시설</button></li>
+											<li><button type="button">하수도시설</button></li>
+											<li><button type="button">교통시설</button></li>
+											<li><button type="button" id="s01-02">체육시설</button></li>
+											<li><button type="button">복지시설</button></li>
+											<li><button type="button">시설예약관리</button></li>
+											<li><button type="button">건물편집(3D)</button></li>
+										</ul>
+									</li>
+									<li><p class="lnb-dep1">분석</p>
+										<ul class="lnb-dep2">
+											<li><button type="button">조망권분석</button></li>
+											<li><button type="button">일조권분석</button></li>
+											<li><button type="button">가시권분석</button></li>
+											<li><button type="button">경사분석</button></li>
+											<li><button type="button">국공유지AI분석</button></li>
+											<li><button type="button">지형단면도</button></li>
+											<li><button type="button">지하시설단면</button></li>
+											<li><button type="button">공간분석</button></li>
+										</ul>
+									</li>
+								</ul>
+							</div>
+						</div>
+					</div>
+					<div id="lnb-territory" class="lnb-cont">
+						<div class="lnb-header"><h2 class="tit">국토정보관리</h2></div>
+						<div class="lnb-body"></div>
+					</div>
+
+					<div class="side-util">
+						<ul>
+							<li><button type="button" class="side-btn setting" title="설정"></button></li>
+							<li><button type="button" class="side-btn help" title="도움말"></button></li>
+						</ul>
+					</div>
+
+				</div>
+				<!-- //side -->
+
+
+				<!-- top > 사진정보 > 상세 -->
+				<div class="popup-panel popup-right top-popup05 opened" style="width: 480px;height: 810px;">
+					<div class="popup-header">사진정보</div>
+					<div class="popup-body">
+
+						<div class="tool-popup-body top-images-dtBody">						
+							<div class="bbs-detail-default">
+								<table class="bbs-detail">
+									<colgroup>
+										<col style="width: 20%;">
+										<col style="width: auto;">
+									</colgroup>
+									<tbody>
+										<tr>
+											<th scope="row">제목</th>
+											<td>사진테스트 1 입니다.</td>
+										</tr>
+										<tr>
+											<th scope="row">작성자</th>
+											<td>홍길동</td>
+										</tr>
+										<tr>
+											<th scope="row">등록일</th>
+											<td>2021.10.15</td>
+										</tr>
+										<tr>
+											<th scope="row">공유</th>
+											<td>공유안함</td>
+										</tr>
+										<tr>
+											<th scope="row">위치</th>
+											<td>경기도 양평군 양근리 448-9</td>
+										</tr>
+										<tr>
+											<td colspan="2">
+												<div class="cont cont-download imagesSwiper-cont" style="height: 391px;">
+													
+													<!-- Swiper -->
+													<div class="swiper-container imagesSwiper">
+														<div class="swiper-wrapper">
+															<div class="swiper-slide">
+																<div class="thumb"><img src="/yp_dt/images/thumb01.jpg" alt=""></div>
+																<p class="swiper-txt">양평군청 항공뷰1 입니다.</p>
+															</div>
+															<div class="swiper-slide">
+																<div class="thumb"><img src="/yp_dt/images/thumb01.jpg" alt=""></div>
+																<p class="swiper-txt">양평군청 항공뷰2 입니다.</p>
+															</div>
+														</div>
+														<!-- Add Arrows -->
+														<div class="swiper-button-next"></div>
+														<div class="swiper-button-prev"></div>
+													</div>
+	
+													<div class="position-bottom btn-wrap justify-content-end">
+														<div><button type="button" class="btn basic bi-download">다운로드</button></div>
+													</div>
+	
+												</div>
+											</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+	
+							<div class="position-bottom btn-wrap">
+								<div><button type="button" class="btn basic bi-list">목록</button></div>
+								<div class="position-absolute right"><button type="button" class="btn basic bi-edit" data-popup="top-popup05-update">수정</button> <button type="button" class="btn basic bi-delete">삭제</button></div>
+							</div>
+	
+							<div class="bbs-detail-util">
+								<div class="items">
+									<div class="term">이전</div>
+									<div class="desc"><a href="javascript:void(0);">사진테스트1 입니다.</a></div>
+								</div>
+								<div class="items">
+									<div class="term">다음</div>
+									<div class="desc"><a href="javascript:void(0);">사진테스트 12345564234 입니다.</a></div>
+								</div>
+							</div>
+						</div>
+
+					</div>
+					<button type="button" class="popup-close" title="닫기"></button>
+
+					<script>
+						$( function() {
+							var swiper = new Swiper(".imagesSwiper", {
+								slidesPerView: 1,
+								//spaceBetween: 30,
+								navigation: {
+								nextEl: ".swiper-button-next",
+								prevEl: ".swiper-button-prev",
+								},
+							});
+
+						});
+					</script>
+				</div>
+				<!-- //top > 사진정보 > 상세 -->
+
+				<!-- top > 사진정보 > 수정 -->
+				<div class="popup-panel popup-right top-popup05-update" style="width: 480px;height: 810px;">
+					<div class="popup-header">사진정보</div>
+					<div class="popup-body">
+
+						<div class="tool-popup-body">						
+							<h3 class="cont-tit">사진등록 수정하기</h3>
+							<div class="bbs-write-default">
+								<table class="bbs-write">
+									<colgroup>
+										<col style="width: 20%;">
+										<col style="width: 30%;">
+										<col style="width: 20%;">
+										<col style="width: 30%;">
+									</colgroup>
+									<tbody>
+										<tr>
+											<th scope="row">제목</th>
+											<td colspan="3"><input type="text" class="form-control"></td>
+										</tr>
+										<tr>
+											<th scope="row">작성자</th>
+											<td colspan="3">홍길동</td>
+										</tr>
+										<tr>
+											<th scope="row">등록일</th>
+											<td>2021.10.15</td>
+											<th scope="row">수정일</th>
+											<td>2021.20.15</td>
+										</tr>
+										<tr>
+											<th scope="row">공유</th>
+											<td colspan="3">
+												<span class="form-radio text group">
+													<span><input type="radio" name="share" id="share1-1" checked=""><label for="share1-1">공유함</label></span>
+													<span><input type="radio" name="share" id="share1-2"><label for="share1-2">공유안함</label></span>
+												</span>
+											</td>
+										</tr>
+										<tr>
+											<th scope="row">위치</th>
+											<td colspan="3"><input type="text" class="form-control" style="width: 215px;"> <button type="button" class="btn type01 bi-location">지도에서 선택</button></td>
+										</tr>	
+										<tr>
+											<th scope="row">사진등록</th>
+											<td colspan="3">
+												<div class="form-file"> 													
+													<input type="file" id="file"><input class="upload-name" value="파일선택">
+													<label for="file">파일찾기</label> 
+												</div>
+												<script>
+													$(document).ready(function(){ 
+														var fileTarget = $('#file'); 
+														fileTarget.on('change', function(){ // 값이 변경되면
+															var cur=$(".form-file input[type='file']").val();
+														$(".upload-name").val(cur);
+														}); 
+													}); 
+												</script>
+											</td>
+										</tr>							
+									</tbody>
+								</table>
+							</div>
+
+							<h3 class="cont-tit">사진 목록</h3>
+							<div class="data-default" style="height: 397px;">
+								<table class="data-list">
+									<colgroup>
+										<col style="width: 10%;">
+										<col style="width: 40%;">
+										<col style="width: auto;">
+									</colgroup>
+									<thead>
+										<tr>
+											<th scope="col">
+												<span class="form-checkbox"><span><input type="checkbox" name="" id="chk1"><label for="chk1"></label></span></span>
+											</th>
+											<th scope="col">파일</th>
+											<th scope="col">설명</th>
+										</tr>
+									</thead>										
+								</table>
+								<div class="scroll-y">
+									<table class="data-list">
+										<colgroup>
+											<col style="width: 10%;">
+											<col style="width: 40%;">
+											<col style="width: auto;">
+										</colgroup>
+										<tbody>
+											<tr>
+												<td class="align-center"><span class="form-checkbox"><span><input type="checkbox" name="" id="chk1"><label for="chk1"></label></span></span></td>
+												<td class="text-overflow">yp_img_1.png</td>
+												<td><input type="text" class="form-control"></td>
+											</tr>
+											<tr>
+												<td class="align-center"><span class="form-checkbox"><span><input type="checkbox" name="" id="chk1"><label for="chk1"></label></span></span></td>
+												<td class="text-overflow">yp_img_topView1.png</td>
+												<td><input type="text" class="form-control"></td>
+											</tr>
+											<tr>
+												<td class="align-center"><span class="form-checkbox"><span><input type="checkbox" name="" id="chk1"><label for="chk1"></label></span></span></td>
+												<td class="text-overflow">yp_img_1.png</td>
+												<td><input type="text" class="form-control"></td>
+											</tr>
+											<tr>
+												<td class="align-center"><span class="form-checkbox"><span><input type="checkbox" name="" id="chk1"><label for="chk1"></label></span></span></td>
+												<td class="text-overflow">yp_img_1.png</td>
+												<td><input type="text" class="form-control"></td>
+											</tr>
+											<tr>
+												<td class="align-center"><span class="form-checkbox"><span><input type="checkbox" name="" id="chk1"><label for="chk1"></label></span></span></td>
+												<td class="text-overflow">yp_img_1.png</td>
+												<td><input type="text" class="form-control"></td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+							</div>
+
+							<div class="position-bottom btn-wrap">
+								<div class="position-absolute left"><button type="button" class="btn basic bi-delete2">선택삭제</button></div>
+								<div><button type="button" class="btn basic bi-edit">수정</button> <button type="button" class="btn basic bi-cancel">취소</button></div>
+							</div>
+						</div>
+
+					</div>
+					<button type="button" class="popup-close" title="닫기"></button>
+				</div>
+				<!-- //top > 사진정보 > 수정 -->
+
+			</div>
+			<!-- //container -->
+
+
+		</div>
+		<!-- //wrap -->
+
+	</body>
+</html>

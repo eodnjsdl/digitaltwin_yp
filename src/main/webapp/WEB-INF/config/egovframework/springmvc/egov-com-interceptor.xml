@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	   xmlns:mvc="http://www.springframework.org/schema/mvc"
+	   xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd http://www.springframework.org/schema/mvc https://www.springframework.org/schema/mvc/spring-mvc.xsd">
+<!--
+  @Description : 인터셉터 설정 xml
+  @author 플랫폼개발부문 DT솔루션 이준호
+  @since 2022.03.02
+  @version 1.0
+  @see
+
+	수정일        수정자               수정내용
+  =========     =======    =================================================
+  2022.03.02     이준호               최초생성
+-->
+
+<!--
+	mapping path : 인터셉터 매핑되는 주소
+	exclude-mapping : 인터셉터 예외 주소
+	class="": 실제로 동작되는 인터셉터 클래스(패키지명 포함)
+-->
+	<!--<mvc:interceptors>
+		<mvc:interceptor>
+			<mvc:mapping path="/**"/>
+			<mvc:exclude-mapping path="/uat/uia/loginUsr.do"/>
+			<mvc:exclude-mapping path="/uat/uia/loginAction.do"/>
+			<bean class="egiskorea.com.cmm.interceptor.CmmInterceptor"/>
+		</mvc:interceptor>
+	</mvc:interceptors>-->
+
+</beans>

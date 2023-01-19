@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="spatialAnlsDAO">
+
+	<select id="selectSpAnlsList" resultType="egovMap" parameterType="egovMap">
+	
+		SELECT ST_AsText(st_transform(a.geom , 'EPSG:5179', 'EPSG:4326')) as geom
+		FROM ${tabName} a 
+		WHERE ST_DWithin(a.geom, (select b.geom from tgd_scco_emd b where emd_cd= #{emdCd}), 0.1);
+	
+	</select>
+	
+	<select id="selectSpAnlsList2" resultType="egovMap" parameterType="egovMap">
+	
+		select ST_AsText(st_transform(ST_Intersection( b.geom , a.geom),'EPSG:5179','EPSG:4326')) as geom			    
+		FROM tgd_scco_emd b, ${tabName} a
+		where ST_Within(a.geom, b.geom)	
+	
+	</select>
+	
+	<select id="selectCenterPoint" resultType="egovMap" parameterType="egovMap">
+	select st_astext(st_transform(ST_CENTROID(geom),'EPSG:5179', 'EPSG:4326')) as centerPoint
+	from tgd_scco_emd  
+	where emd_cd = #{emdCd}
+	</select>
+	
+	<select id="create3DBuffer" resultType="egovMap" parameterType="egovMap">
+	select ST_ASTEXT( ST_BUFFER(ST_GEOMFROMTEXT(#{geom}, 4326), ${radius} * 0.00001 , 'join=round') ) geom
+	</select>
+</mapper>

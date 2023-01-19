@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="Map">
+
+    <!-- 사용자 설정 검색 -->
+    <select id="selectUserSetup" parameterType="MapVO" resultType="MapVO">
+        SELECT	USER_ID, VERTCL_PYN_COLOR_R, VERTCL_PYN_COLOR_G, VERTCL_PYN_COLOR_B, VERTCL_PYN_THICK,
+        		VERTCL_PYN_HEIGHT, TPGRPH_TRNSPRC, VIDO_QLITY_LEVEL
+        FROM TBD_USRT_SETUP
+        WHERE USER_ID = #{userId}
+        LIMIT 1
+    </select>
+    
+    <!-- 사용자 설정 수정 -->
+    <update id="updateUserSetup" parameterType="MapVO" >
+    	UPDATE	TBD_USRT_SETUP
+    	SET		VERTCL_PYN_COLOR_R = #{vertclPynColorR}
+    	,		VERTCL_PYN_COLOR_G = #{vertclPynColorG}
+    	,		VERTCL_PYN_COLOR_B = #{vertclPynColorB}
+    	,		VERTCL_PYN_THICK = #{vertclPynThick}
+    	,		VERTCL_PYN_HEIGHT = #{vertclPynHeight}
+        ,		TPGRPH_TRNSPRC = #{tpgrphTrnsprc}
+        ,		VIDO_QLITY_LEVEL = #{vidoQlityLevel}
+        ,		LAST_MODF_DT = NOW()
+        ,		LAST_UPDUSR_ID = #{userId}
+        WHERE 	USER_ID = #{userId}
+    </update>
+	
+	<insert id="insertUserSetup" parameterType="MapVO">
+		INSERT INTO TBD_USRT_SETUP (
+					USER_ID, VERTCL_PYN_COLOR_R, VERTCL_PYN_COLOR_G, VERTCL_PYN_COLOR_B, VERTCL_PYN_THICK,
+        			VERTCL_PYN_HEIGHT, TPGRPH_TRNSPRC, VIDO_QLITY_LEVEL, FRST_REGIST_DT, FRST_REGISTER_ID, 
+        			LAST_MODF_DT, LAST_UPDUSR_ID) 
+		VALUES ( #{userId}, #{vertclPynColorR}, #{vertclPynColorG}, #{vertclPynColorB}, #{vertclPynThick},
+				#{vertclPynHeight}, #{tpgrphTrnsprc}, #{vidoQlityLevel}, NOW(), #{userId}, NOW(), #{userId}) 
+	</insert>
+	
+</mapper>

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--
+  @Description : 주제도 Mapper xml 파일
+  @author 플랫폼개발부문 DT솔루션 이준호
+  @since 2022.03.10
+  @version 1.0
+  @see
+
+	수정일        수정자               수정내용
+  =========     =======    =================================================
+  2022.03.10     이준호               최초생성
+-->
+
+<mapper namespace="thematicMap">
+
+    <select id="selectTMapList" parameterType="ThemaMapVO" resultType="ThemaMapVO">
+        SELECT
+            A.THEMAMAP_CL_CODE, B.CODE_NM AS THEMAMAP_CL, A.THEMAMAP_NM, A.LAYER_NM, A.THEMAMAP_DECI, A.USE_AT
+        FROM
+            TBD_THEMAMAP AS A
+        LEFT JOIN
+            COMTCCMMNDETAILCODE AS B
+        ON
+            A.THEMAMAP_CL_CODE = B.CODE AND B.CODE_ID = 'TMC'
+        WHERE
+            A.USE_AT = 'Y'
+        <if test="@egovframework.com.cmm.util.EgovMybaitsUtil@isNotEmpty(searchKeyword)">
+            AND B.CODE_NM LIKE CONCAT ('%', #{searchKeyword},'%') OR A.THEMAMAP_NM LIKE CONCAT ('%', #{searchKeyword},'%')
+        </if>
+        ORDER BY
+            A.THEMAMAP_CL_CODE ASC, A.THEMAMAP_NM ASC
+    </select>
+
+    <select id="selectTMapAllList" resultType="ThemaMapVO">
+        SELECT THEMAMAP_NM FROM TBD_THEMAMAP
+        WHERE USE_AT = 'Y'
+        ORDER BY THEMAMAP_CL_CODE ASC, THEMAMAP_NM ASC
+    </select>
+
+</mapper>

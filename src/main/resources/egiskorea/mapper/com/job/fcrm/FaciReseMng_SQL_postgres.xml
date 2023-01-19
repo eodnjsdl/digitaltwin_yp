@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="faciReseMng">
+
+	<!-- 시설예약관리 목록 -->
+	<select id="selectFaciReseMngList" parameterType="faciReseMngVO" resultType="faciReseMng">
+		/* SQL_ID: 전영후_FaciReseMng_SQL_postgres.xml.selectFaciReseMngList 시설예약관리 리스트*/
+		SELECT A.GID, A.ASSTN_FCLTY_SN, A.RSRV_SN, A.RSRV_DE, A.RSRV_STRT_TM, A.RSRV_END_TM, A.RSVCTM_NM, A.RSVCTM_CTTPC, A.USE_CT, A.RM,
+			   B.ASSTN_FCLTY_SN, B.ASSTN_FCLTY_NM, B.OPER_STRT_TIME, B.OPER_END_TIME, B.RSRV_AT, B.HO_CNT, B.FCLTY_DC, B.GEOM, A.FRST_REGIST_DT, 
+			   A.LAST_MODF_DT, ST_X (ST_POINTONSURFACE(B.GEOM)) AS LON, ST_Y (ST_POINTONSURFACE(B.GEOM)) AS LAT
+		FROM   TBD_FCLTY_RSRV_MANAGE A 
+			LEFT OUTER JOIN TGD_PHSTRN_FCLTY_ASSTN B 
+				ON  A.ASSTN_FCLTY_SN = B.ASSTN_FCLTY_SN
+				ANd A.GID = B.GID  
+		WHERE 1=1
+		<if test="@egovframework.com.cmm.util.EgovMybaitsUtil@isNotEmpty(srchYM)">
+			<![CDATA[
+			AND	 SUBSTRING(A.RSRV_DE,0,8) = #{srchYM}
+			]]>
+		</if>
+		ORDER BY A.RSRV_DE DESC, A.LAST_MODF_DT DESC, A.RSRV_STRT_TM, A.FRST_REGIST_DT
+		LIMIT #{recordCountPerPage} OFFSET #{firstIndex}
+	</select>
+	
+	<!-- 시설예약관리 갯수 -->
+	<select id="selectFaciReseMngListCnt" parameterType="faciReseMngVO" resultType="java.lang.Integer">
+		/* SQL_ID: 전영후_FaciReseMng_SQL_postgres.xml.selectFaciReseMngListCnt 시설예약관리 갯수*/
+		SELECT	 COUNT(*)
+		FROM   TBD_FCLTY_RSRV_MANAGE A 
+			LEFT OUTER JOIN TGD_PHSTRN_FCLTY_ASSTN B 
+				ON  A.ASSTN_FCLTY_SN = B.ASSTN_FCLTY_SN
+				ANd A.GID = B.GID  
+		WHERE	 1=1
+		<if test="@egovframework.com.cmm.util.EgovMybaitsUtil@isNotEmpty(srchYM)">
+			<![CDATA[
+			AND	 SUBSTRING(A.RSRV_DE,0,8) = #{srchYM}
+			]]>
+		</if>
+	</select>
+	
+	<!-- 시설예약관리 상세조회 -->
+	<select id="selectFaciReseMng" parameterType="faciReseMngVO" resultType="faciReseMng">
+		/* SQL_ID: 전영후_FaciReseMng_SQL_postgres.xml.selectFaciReseMng 시설예약관리 상세조회*/
+		SELECT A.GID, A.ASSTN_FCLTY_SN, A.RSRV_SN, A.RSRV_DE, A.RSRV_STRT_TM, A.RSRV_END_TM, A.RSVCTM_NM, A.RSVCTM_CTTPC, A.USE_CT, A.RM,
+			   B.ASSTN_FCLTY_SN, B.ASSTN_FCLTY_NM, B.OPER_STRT_TIME, B.OPER_END_TIME, B.RSRV_AT, B.HO_CNT, B.FCLTY_DC, B.GEOM, A.FRST_REGIST_DT, A.LAST_MODF_DT
+			   , ST_X (ST_POINTONSURFACE(B.GEOM)) AS LON, ST_Y (ST_POINTONSURFACE(B.GEOM)) AS LAT
+		FROM   TBD_FCLTY_RSRV_MANAGE A 
+			LEFT OUTER JOIN TGD_PHSTRN_FCLTY_ASSTN B 
+				ON  A.ASSTN_FCLTY_SN = B.ASSTN_FCLTY_SN
+				ANd A.GID = B.GID   
+		WHERE 1=1
+			AND	 A.RSRV_SN = #{rsrvSn}
+			AND	 A.GID = #{gid}
+	</select>
+	
+	<!-- 시설예약관리 삭제 -->
+	<delete id="deleteFaciReseMng" parameterType="faciReseMng">
+		/* SQL_ID: 전영후_FaciReseMng_SQL_postgres.xml.deleteFaciReseMng 시설예약관리 삭제*/
+		DELETE FROM TBD_FCLTY_RSRV_MANAGE
+		WHERE GID = #{gid}
+			AND
+			  RSRV_SN = #{rsrvSn}
+	</delete>
+	
+	<!-- 시설예약관리 수정 -->
+	<update id="updateFaciReseMng" parameterType="faciReseMng">
+		/* SQL_ID: 전영후_FaciReseMng_SQL_postgres.xml.updateFaciReseMng 시설예약관리 수정*/
+		UPDATE  TBD_FCLTY_RSRV_MANAGE
+		SET	    GID = #{gid},
+				ASSTN_FCLTY_SN = #{asstnFcltySn},
+				RSRV_DE = #{rsrvDe},
+				RSRV_STRT_TM = #{rsrvStrtTm},
+				RSRV_END_TM = #{rsrvEndTm},
+				RSVCTM_NM = #{rsvctmNm},
+				RSVCTM_CTTPC = #{rsvctmCttpc},
+				USE_CT = #{useCt},
+				RM = #{rm},
+				LAST_MODF_DT = NOW()
+		WHERE	GID = #{gid}
+			AND
+			  	RSRV_SN = #{rsrvSn}
+	</update>
+	
+	<!-- 시설예약관리 등록 -->
+	<insert id="insertFaciReseMng" parameterType="faciReseMng">
+		/* SQL_ID: 전영후_FaciReseMng_SQL_postgres.xml.insertFaciReseMng 시설예약관리 등록*/
+		INSERT INTO TBD_FCLTY_RSRV_MANAGE
+		(
+			GID,
+			ASSTN_FCLTY_SN, 
+			RSRV_SN, 
+			RSRV_DE, 
+			RSRV_STRT_TM, 
+			RSRV_END_TM, 
+			RSVCTM_NM,
+			RSVCTM_CTTPC,
+			USE_CT,
+			RM,
+			FRST_REGIST_DT,
+			LAST_MODF_DT		
+		)VALUES(
+			#{gid},
+			#{asstnFcltySn},
+			(COALESCE((SELECT MAX(RSRV_SN) FROM TBD_FCLTY_RSRV_MANAGE),0)+1),
+			#{rsrvDe},
+			#{rsrvStrtTm},
+			#{rsrvEndTm},
+			#{rsvctmNm},
+			#{rsvctmCttpc},
+			#{useCt},
+			#{rm},
+			NOW(),
+			NOW()
+		)
+	</insert>
+	
+	<!-- 시설예약관리 예약할 시설조회 -->
+	<select id="selectFacilPhstrnList" parameterType="faciReseMngVO" resultType="faciReseMngVO">
+		/* SQL_ID: 전영후_FaciReseMng_SQL_postgres.xml.selectFacilPhstrnList 시설예약관리 시설조회*/
+		SELECT DISTINCT FCLTY_DC, GID
+		FROM   TGD_PHSTRN_FCLTY_ASSTN
+		ORDER BY FCLTY_DC ASC
+	</select>
+	
+	<!-- 시설예약관리 예약할 시설보조명조회 -->
+	<select id="selectFacilAsstnList" parameterType="faciReseMngVO" resultType="egovMap">
+		/* SQL_ID: 전영후_FaciReseMng_SQL_postgres.xml.selectFacilAsstnList 시설예약관리 시설보조명조회*/
+		SELECT DISTINCT ASSTN_FCLTY_NM, ASSTN_FCLTY_SN
+		FROM   TGD_PHSTRN_FCLTY_ASSTN
+		WHERE  GID = #{gid}
+		ORDER BY ASSTN_FCLTY_SN
+	</select>
+	 
+	<!-- 시설예약관리 예약할 시설상세정보조회 -->
+	<select id="selectFacilAsstnDtlList" parameterType="faciReseMngVO" resultType="egovMap">
+		/* SQL_ID: 전영후_FaciReseMng_SQL_postgres.xml.selectFacilAsstnList 시설예약관리 시설보조명조회*/
+		SELECT  OPER_STRT_TIME, OPER_END_TIME, RSRV_AT, HO_CNT, FCLTY_DC
+		FROM	TGD_PHSTRN_FCLTY_ASSTN
+		WHERE	ASSTN_FCLTY_SN = #{asstnFcltySn}
+			AND GID = #{gid}
+	</select>
+	
+	<!-- 시설예약관리 등록용 중복체크 -->
+	<select id="dubCheckFaciReseMngRegist" parameterType="faciReseMngVO" resultType="java.lang.Integer">
+		/* SQL_ID: 전영후_FaciReseMng_SQL_postgres.xml.dubCheckFaciReseMngRegist 시설예약관리 등록용 중복체크*/
+		SELECT COUNT(*) 
+		FROM TBD_FCLTY_RSRV_MANAGE 
+		WHERE RSRV_DE = #{rsrvDe}
+			AND (RSRV_STRT_TM BETWEEN #{rsrvStrtTm} AND #{rsrvEndTm} OR RSRV_END_TM BETWEEN #{rsrvStrtTm} AND #{rsrvEndTm})
+			AND ASSTN_FCLTY_SN = #{asstnFcltySn}
+			AND GID = #{gid}
+	</select>
+	
+	<!-- 시설예약관리 수정용 중복체크 -->
+	<select id="dubCheckFaciReseMngUpdate" parameterType="faciReseMngVO" resultType="java.lang.Integer">
+		/* SQL_ID: 전영후_FaciReseMng_SQL_postgres.xml.dubCheckFaciReseMngUpdate 시설예약관리 수정용 중복체크*/
+		SELECT COUNT(*) 
+		FROM TBD_FCLTY_RSRV_MANAGE 
+		WHERE RSRV_STRT_TM NOT IN (select rsrv_strt_tm from tbd_fclty_rsrv_manage where rsrv_de = #{rsrvDe} and rsrv_strt_tm = #{rsrvStrtTm2} and rsrv_end_tm = #{rsrvEndTm2})
+			AND RSRV_END_TM NOT IN (select rsrv_strt_tm from tbd_fclty_rsrv_manage where rsrv_de = #{rsrvDe} and rsrv_strt_tm = #{rsrvStrtTm2} and rsrv_end_tm = #{rsrvEndTm2})
+			AND (RSRV_STRT_TM BETWEEN #{rsrvStrtTm} AND #{rsrvEndTm} OR RSRV_END_TM BETWEEN #{rsrvStrtTm} AND #{rsrvEndTm})
+			AND ASSTN_FCLTY_SN = #{asstnFcltySn}
+			AND GID = #{gid}
+			AND RSRV_DE = #{rsrvDe}
+		
+	</select>
+	
+</mapper>

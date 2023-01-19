@@ -1,0 +1,631 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="underWaterMng">
+
+<!-- ################################################# 농업용공공관정 ################################################# -->
+	
+	<!-- 지하수관리 > 농업용공공관정 목록 -->
+	<select id="selectUnderWaterAgriList" parameterType="underWaterAgriVO" resultType="underWaterAgri">
+		/* SQL_ID: 전영후_UnderWaterMng_SQL_postgres.xml.selectUnderWaterAgriList 농업용공공관정 리스트*/
+		SELECT 	 MANAGE_SE, ADRES, FCLTY_NM, DEVLOP_YEAR, MANAGE_INSTT_NM, PRPOS_SE, DETAIL_PRPOS_SE, ST_X (ST_POINTONSURFACE(GEOM)) AS LON, ST_Y (ST_POINTONSURFACE(GEOM)) AS LAT,
+				 CALBR, DPH, WP_ABLTY, DSCRGPP_CALBR, PUMP_STLE_SE, PUMP_HRSPW, FCLTS_STTUS, FCLTS_CHCK_DE, GID, GEOM
+				 <!-- 공간 검색 -->
+		 	     <if test="@egovframework.com.cmm.util.EgovMybaitsUtil@isNotEmpty(spitalSearch)">
+			     , ST_ASTEXT( ST_BUFFER(ST_GEOMFROMTEXT(#{spitalSearch}, 4326), (#{bufferCnt} * 0.00001) , 'join=round') ) bufferArea /* bufferArea */
+			     </if>
+		FROM 	 TGD_AGR_PUBLIC_TBWLL
+		WHERE    1=1
+		<if test="@egovframework.com.cmm.util.EgovMybaitsUtil@isNotEmpty(emdKorNm)">
+			AND  ADRES LIKE '%' || #{emdKorNm} || '%'
+		</if>
+		<if test="@egovframework.com.cmm.util.EgovMybaitsUtil@isNotEmpty(manageSeSearch)">
+			AND  MANAGE_SE LIKE '%' || #{manageSeSearch} || '%'
+		</if>
+		<if test="@egovframework.com.cmm.util.EgovMybaitsUtil@isNotEmpty(detailPrposSeSearch)">
+			AND  DETAIL_PRPOS_SE LIKE '%' || #{detailPrposSeSearch} || '%'
+		</if>
+		<if test="@egovframework.com.cmm.util.EgovMybaitsUtil@isNotEmpty(fcltsSttusSearch)">
+			AND  FCLTS_STTUS LIKE '%' || #{fcltsSttusSearch} || '%'
+		</if>
+		<if test="@egovframework.com.cmm.util.EgovMybaitsUtil@isNotEmpty(spitalSearch)">
+			AND ST_INTERSECTS(ST_BUFFER(ST_GEOMFROMTEXT(#{spitalSearch}, 4326), (#{bufferCnt} * 0.00001)), ST_TRANSFORM(GEOM, 4326)) = true
+		</if>
+		ORDER BY GID DESC
+		LIMIT #{recordCountPerPage} OFFSET #{firstIndex}
+	</select>
+	
+	<!-- 지하수관리 > 농업용공공관정 갯수 -->
+	<select id="selectUnderWaterAgriListCnt" parameterType="underWaterAgriVO" resultType="java.lang.Integer">
+		/* SQL_ID: 전영후_UnderWaterMng_SQL_postgres.xml.selectUnderWaterAgriListCnt 농업용공공관정 갯수*/
+		SELECT	 COUNT(*)
+		FROM	 TGD_AGR_PUBLIC_TBWLL
+		WHERE	 1=1
+		<if test="@egovframework.com.cmm.util.EgovMybaitsUtil@isNotEmpty(emdKorNm)">
+			AND  ADRES LIKE '%' || #{emdKorNm} || '%'
+		</if>
+		<if test="@egovframework.com.cmm.util.EgovMybaitsUtil@isNotEmpty(manageSeSearch)">
+			AND  MANAGE_SE LIKE '%' || #{manageSeSearch} || '%'
+		</if>
+		<if test="@egovframework.com.cmm.util.EgovMybaitsUtil@isNotEmpty(detailPrposSeSearch)">
+			AND  DETAIL_PRPOS_SE LIKE '%' || #{detailPrposSeSearch} || '%'
+		</if>
+		<if test="@egovframework.com.cmm.util.EgovMybaitsUtil@isNotEmpty(fcltsSttusSearch)">
+			AND  FCLTS_STTUS LIKE '%' || #{fcltsSttusSearch} || '%'
+		</if>
+		<if test="@egovframework.com.cmm.util.EgovMybaitsUtil@isNotEmpty(spitalSearch)">
+			AND ST_INTERSECTS(ST_BUFFER(ST_GEOMFROMTEXT(#{spitalSearch}, 4326), (#{bufferCnt} * 0.00001)), ST_TRANSFORM(GEOM, 4326)) = true
+		</if>
+	</select>
+	
+	<!-- 지하수관리 > 농업용공공관정 등록 -->
+	<insert id="insertUnderWaterAgri" parameterType="underWaterAgri">
+		/* SQL_ID: 전영후_UnderWaterMng_SQL_postgres.xml.insertUnderWaterAgri 농업용공공관정 등록 */
+		INSERT INTO TGD_AGR_PUBLIC_TBWLL
+		(
+			MANAGE_SE, 
+			ADRES, 
+			FCLTY_NM, 
+			DEVLOP_YEAR, 
+			MANAGE_INSTT_NM, 
+			PRPOS_SE, 
+			DETAIL_PRPOS_SE, 
+			CALBR, 
+			DPH, 
+			WP_ABLTY, 
+			DSCRGPP_CALBR, 
+			PUMP_STLE_SE, 
+			PUMP_HRSPW, 
+			FCLTS_STTUS, 
+			FCLTS_CHCK_DE, 
+			GEOM
+		)VALUES(
+			#{manageSe},
+			#{adres},
+			#{fcltyNm},
+			#{devlopYear},
+			#{manageInsttNm},
+			#{prposSe},
+			#{detailPrposSe},
+			#{calbr},
+			#{dph},
+			#{wpAblty},
+			#{dscrgppCalbr},
+			#{pumpStleSe},
+			#{pumpHrspw},
+			#{fcltsSttus},
+			#{fcltsChckDe},
+			ST_SETSRID(ST_GEOMFROMTEXT(#{geom}), 5179)
+		)
+	</insert>
+	
+	<!-- 지하수관리 > 농업용공공관정 상세보기 -->
+	<select id="selectUnderWaterAgri" parameterType="underWaterAgriVO" resultType="underWaterAgri">
+		/* SQL_ID: 전영후_UnderWaterMng_SQL_postgres.xml.selectUnderWaterAgri 농업용공공관정 상세보기*/
+		SELECT 	 MANAGE_SE, ADRES, FCLTY_NM, DEVLOP_YEAR, MANAGE_INSTT_NM, PRPOS_SE, DETAIL_PRPOS_SE, 
+				 CALBR, DPH, WP_ABLTY, DSCRGPP_CALBR, PUMP_STLE_SE, PUMP_HRSPW, FCLTS_STTUS, FCLTS_CHCK_DE, GID
+		FROM 	 TGD_AGR_PUBLIC_TBWLL
+		WHERE    1=1
+			AND	 GID = #{gid}
+	</select>
+	
+	<!-- 지하수관리 > 농업용공공관정 수정 -->
+	<update id="updateUnderWaterAgri" parameterType="underWaterAgri">
+		/* SQL_ID: 전영후_UnderWaterMng_SQL_postgres.xml.updateUnderWaterAgri 농업용공공관정 수정*/
+		UPDATE	 TGD_AGR_PUBLIC_TBWLL
+		SET		 MANAGE_SE = #{manageSe},
+				 ADRES = #{adres},
+				 FCLTY_NM = #{fcltyNm},
+				 DEVLOP_YEAR = #{devlopYear}, 
+				 MANAGE_INSTT_NM = #{manageInsttNm},
+				 PRPOS_SE = #{prposSe}, 
+				 DETAIL_PRPOS_SE = #{detailPrposSe}, 
+				 CALBR = #{calbr},
+				 DPH = #{dph}, 
+				 WP_ABLTY = #{wpAblty}, 
+				 DSCRGPP_CALBR = #{dscrgppCalbr}, 
+				 PUMP_STLE_SE = #{pumpStleSe},
+				 PUMP_HRSPW = #{pumpHrspw}, 
+				 FCLTS_STTUS = #{fcltsSttus},
+				 FCLTS_CHCK_DE = #{fcltsChckDe}
+				 <if test="geom != null and geom !=''">
+					,GEOM = ST_SETSRID(ST_GEOMFROMTEXT(#{geom}), 5179)	
+				 </if>
+		WHERE    GID = #{gid}
+	
+	</update>
+	
+	<!-- 지하수관리 > 농업용공공관정 단일삭제 -->
+	<delete id="deleteUnderWaterAgri"  parameterType="underWaterAgri" >
+		/* SQL_ID: 전영후_UnderWaterMng_SQL_postgres.xml.deleteUnderWaterAgri 농업용공공관정 단일삭제*/
+		DELETE FROM  TGD_AGR_PUBLIC_TBWLL
+		WHERE GID = #{gid}
+	</delete>
+	
+	<!-- 지하수관리 > 농업용공공관정 엑셀용 목록 -->
+	<select id="selectUnderWaterAgriExcelList" parameterType="underWaterAgriVO" resultType="underWaterAgri">
+		/* SQL_ID: 전영후_UnderWaterMng_SQL_postgres.xml.selectUnderWaterAgriExcelList 농업용공공관정 엑셀용 리스트*/
+		SELECT 	 MANAGE_SE, ADRES, FCLTY_NM, DEVLOP_YEAR, MANAGE_INSTT_NM, PRPOS_SE, DETAIL_PRPOS_SE, 
+				 CALBR, DPH, WP_ABLTY, DSCRGPP_CALBR, PUMP_STLE_SE, PUMP_HRSPW, FCLTS_STTUS, FCLTS_CHCK_DE, GID, GEOM
+		FROM 	 TGD_AGR_PUBLIC_TBWLL
+		WHERE    1=1
+		<if test="@egovframework.com.cmm.util.EgovMybaitsUtil@isNotEmpty(emdKorNm)">
+			AND  ADRES LIKE '%' || #{emdKorNm} || '%'
+		</if>
+		<if test="@egovframework.com.cmm.util.EgovMybaitsUtil@isNotEmpty(manageSeSearch)">
+			AND  MANAGE_SE LIKE '%' || #{manageSeSearch} || '%'
+		</if>
+		<if test="@egovframework.com.cmm.util.EgovMybaitsUtil@isNotEmpty(detailPrposSeSearch)">
+			AND  DETAIL_PRPOS_SE LIKE '%' || #{detailPrposSeSearch} || '%'
+		</if>
+		<if test="@egovframework.com.cmm.util.EgovMybaitsUtil@isNotEmpty(fcltsSttusSearch)">
+			AND  FCLTS_STTUS LIKE '%' || #{fcltsSttusSearch} || '%'
+		</if>
+		<if test="@egovframework.com.cmm.util.EgovMybaitsUtil@isNotEmpty(spitalSearch)">
+			AND ST_INTERSECTS(ST_BUFFER(ST_GEOMFROMTEXT(#{spitalSearch}, 4326), (#{bufferCnt} * 0.00001)), ST_TRANSFORM(GEOM, 4326)) = true
+		</if>
+	</select>
+	
+	<!-- 지하수관리 > 농업용공공관정 속성검색 - 관리구분 목록 -->
+	<select id="selectUnderWaterAgriManageSeList" parameterType="underWaterAgriVO" resultType="underWaterAgri">
+		/* SQL_ID: 전영후_UnderWaterMng_SQL_postgres.xml.selectUnderWaterAgriManageSeList 농업용공공관정  속성검색 - 관리구분 */
+		SELECT 	 DISTINCT MANAGE_SE
+		FROM 	 TGD_AGR_PUBLIC_TBWLL
+		WHERE  	 MANAGE_SE NOTNULL
+	</select>
+	
+	<!-- 지하수관리 > 농업용공공관정 속성검색 - 세부용도 목록 -->
+	<select id="selectUnderWaterAgriDetailPrposSeList" parameterType="underWaterAgriVO" resultType="underWaterAgri">
+		/* SQL_ID: 전영후_UnderWaterMng_SQL_postgres.xml.selectUnderWaterAgriDetailPrposSeList 농업용공공관정  속성검색 - 세부용도 */
+		SELECT 	 DISTINCT DETAIL_PRPOS_SE
+		FROM 	 TGD_AGR_PUBLIC_TBWLL
+		WHERE  	 DETAIL_PRPOS_SE NOTNULL
+	</select>
+	
+	<!-- 지하수관리 > 농업용공공관정 속성검색 - 시설상태 목록 -->
+	<select id="selectUnderWaterAgriFcltsSttusList" parameterType="underWaterAgriVO" resultType="underWaterAgri">
+		/* SQL_ID: 전영후_UnderWaterMng_SQL_postgres.xml.selectUnderWaterAgriFcltsSttusList 농업용공공관정  속성검색 - 시설상태 */
+		SELECT 	 DISTINCT FCLTS_STTUS
+		FROM 	 TGD_AGR_PUBLIC_TBWLL
+		WHERE	 FCLTS_STTUS NOTNULL
+	</select>
+	
+	<!-- 지하수관리 > 농업용공공관정 crud용 - 용도 목록 -->
+	<select id="selectUnderWaterAgriPrposSeList" parameterType="underWaterAgriVO" resultType="underWaterAgri">
+		/* SQL_ID: 전영후_UnderWaterMng_SQL_postgres.xml.selectUnderWaterAgriPrposSeList 농업용공공관정 crud용 - 용도 목록 */
+		SELECT 	 DISTINCT PRPOS_SE
+		FROM 	 TGD_AGR_PUBLIC_TBWLL
+		WHERE	 PRPOS_SE NOTNULL
+	</select>
+	
+	<!-- 지하수관리 > 농업용공공관정 crud용 - 펌프형태 목록 -->
+	<select id="selectUnderWaterAgriPumpStleSeList" parameterType="underWaterAgriVO" resultType="underWaterAgri">
+		/* SQL_ID: 전영후_UnderWaterMng_SQL_postgres.xml.selectUnderWaterAgriPumpStleSeList 농업용공공관정 crud용 - 펌프형태 목록 */
+		SELECT 	 DISTINCT PUMP_STLE_SE
+		FROM 	 TGD_AGR_PUBLIC_TBWLL
+		WHERE  	 PUMP_STLE_SE NOTNULL
+	</select>
+	
+	<!-- 지하수관리 > 농업용공공관정 crud용 - 관리기관 목록 -->
+	<select id="selectUnderWaterAgriManageInsttNmList" parameterType="underWaterAgriVO" resultType="underWaterAgri">
+		/* SQL_ID: 전영후_UnderWaterMng_SQL_postgres.xml.selectUnderWaterAgriManageInsttNmList 농업용공공관정 crud용 - 관리기관 목록 */
+		SELECT 	 DISTINCT MANAGE_INSTT_NM
+		FROM 	 TGD_AGR_PUBLIC_TBWLL
+		WHERE	 MANAGE_INSTT_NM NOTNULL
+	</select>
+	
+<!-- ################################################# 지하수개발 ################################################# -->
+	
+	<!-- 지하수관리 > 지하수개발 목록 -->
+	<select id="selectUnderWaterDevelopList" parameterType="underWaterDevelopVO" resultType="underWaterDevelop">
+		/* SQL_ID: 전영후_UnderWaterMng_SQL_postgres.xml.selectUnderWaterDevelopList 지하수개발 리스트*/
+		SELECT 	 GID, MANAGE_SE, ADRES, AL, DEVLOP_YEAR, ALLVL_BSRCK_SE, PRMISN_STTEMNT_SE, PRMISN_STTEMNT_NO, ST_X (ST_POINTONSURFACE(GEOM)) AS LON, ST_Y (ST_POINTONSURFACE(GEOM)) AS LAT,
+				 PRPOS_SE, DETAIL_PRPOS_SE, CALBR, DPH, WP_QTY, YR_USE_QTY, DSCRGPP_CALBR, PUMP_HRSPW, GEOM
+				 <!-- 공간 검색 -->
+		 	     <if test="@egovframework.com.cmm.util.EgovMybaitsUtil@isNotEmpty(spitalSearch)">
+			     , ST_ASTEXT( ST_BUFFER(ST_GEOMFROMTEXT(#{spitalSearch}, 4326), (#{bufferCnt} * 0.00001) , 'join=round') ) bufferArea /* bufferArea */
+			     </if>
+		FROM 	 TGD_UGRWTR_DEVLOP
+		WHERE    1=1
+		<if test="@egovframework.com.cmm.util.EgovMybaitsUtil@isNotEmpty(emdKorNm)">
+			AND  ADRES LIKE '%' || #{emdKorNm} || '%'
+		</if>
+		<if test="@egovframework.com.cmm.util.EgovMybaitsUtil@isNotEmpty(allvlBsrckSeSearch)">
+			AND  ALLVL_BSRCK_SE LIKE '%' || #{allvlBsrckSeSearch} || '%'
+		</if>
+		<if test="@egovframework.com.cmm.util.EgovMybaitsUtil@isNotEmpty(prposSeSearch)">
+			AND  PRPOS_SE LIKE '%' || #{prposSeSearch} || '%'
+		</if>
+		<if test="@egovframework.com.cmm.util.EgovMybaitsUtil@isNotEmpty(detailPrposSeSearch)">
+			AND  DETAIL_PRPOS_SE LIKE '%' || #{detailPrposSeSearch} || '%'
+		</if>
+		<if test="@egovframework.com.cmm.util.EgovMybaitsUtil@isNotEmpty(spitalSearch)">
+			AND ST_INTERSECTS(ST_BUFFER(ST_GEOMFROMTEXT(#{spitalSearch}, 4326), (#{bufferCnt} * 0.00001)), ST_TRANSFORM(GEOM, 4326)) = true
+		</if>
+		ORDER BY GID DESC
+		LIMIT #{recordCountPerPage} OFFSET #{firstIndex}
+	</select>
+	
+	<!-- 지하수관리 > 지하수개발 갯수 -->
+	<select id="selectUnderWaterDevelopListCnt" parameterType="underWaterDevelopVO" resultType="java.lang.Integer">
+		/* SQL_ID: 전영후_UnderWaterMng_SQL_postgres.xml.selectUnderWaterDevelopListCnt 지하수개발 갯수*/
+		SELECT	 COUNT(*)
+		FROM	 TGD_UGRWTR_DEVLOP
+		WHERE	 1=1
+		<if test="@egovframework.com.cmm.util.EgovMybaitsUtil@isNotEmpty(emdKorNm)">
+			AND  ADRES LIKE '%' || #{emdKorNm} || '%'
+		</if>
+		<if test="@egovframework.com.cmm.util.EgovMybaitsUtil@isNotEmpty(allvlBsrckSeSearch)">
+			AND  ALLVL_BSRCK_SE LIKE '%' || #{allvlBsrckSeSearch} || '%'
+		</if>
+		<if test="@egovframework.com.cmm.util.EgovMybaitsUtil@isNotEmpty(prposSeSearch)">
+			AND  PRPOS_SE LIKE '%' || #{prposSeSearch} || '%'
+		</if>
+		<if test="@egovframework.com.cmm.util.EgovMybaitsUtil@isNotEmpty(detailPrposSeSearch)">
+			AND  DETAIL_PRPOS_SE LIKE '%' || #{detailPrposSeSearch} || '%'
+		</if>
+		<if test="@egovframework.com.cmm.util.EgovMybaitsUtil@isNotEmpty(spitalSearch)">
+			AND ST_INTERSECTS(ST_BUFFER(ST_GEOMFROMTEXT(#{spitalSearch}, 4326), (#{bufferCnt} * 0.00001)), ST_TRANSFORM(GEOM, 4326)) = true
+		</if>
+	</select>
+	
+	<!-- 지하수관리 > 지하수개발 등록 -->
+	<insert id="insertUnderWaterDevelop" parameterType="underWaterDevelop">
+		/* SQL_ID: 전영후_UnderWaterMng_SQL_postgres.xml.insertUnderWaterDevelop 지하수개발 등록 */
+		INSERT INTO TGD_UGRWTR_DEVLOP
+		(
+			MANAGE_SE, 
+			ADRES, 
+			AL, 
+			DEVLOP_YEAR, 
+			ALLVL_BSRCK_SE, 
+			PRMISN_STTEMNT_SE, 
+			PRMISN_STTEMNT_NO, 
+			PRPOS_SE, 
+			DETAIL_PRPOS_SE, 
+			CALBR, 
+			DPH, 
+			WP_QTY, 
+			YR_USE_QTY, 
+			DSCRGPP_CALBR, 
+			PUMP_HRSPW, 
+			GEOM
+		)VALUES(
+			#{manageSe},
+			#{adres},
+			#{al},
+			#{devlopYear},
+			#{allvlBsrckSe},
+			#{prmisnSttemntSe},
+			#{prmisnSttemntNo},
+			#{prposSe},
+			#{detailPrposSe},
+			#{calbr},
+			#{dph},
+			#{wpQty},
+			#{yrUseQty},
+			#{dscrgppCalbr},
+			#{pumpHrspw},
+			ST_SETSRID(ST_GEOMFROMTEXT(#{geom}), 5179)
+		)
+	</insert>
+	
+	<!-- 지하수관리 > 지하수개발 상세보기 -->
+	<select id="selectUnderWaterDevelop" parameterType="underWaterDevelopVO" resultType="underWaterDevelop">
+		/* SQL_ID: 전영후_UnderWaterMng_SQL_postgres.xml.selectUnderWaterDevelop 지하수개발 상세보기*/
+		SELECT 	 GID, MANAGE_SE, ADRES, AL, DEVLOP_YEAR, ALLVL_BSRCK_SE, PRMISN_STTEMNT_SE, PRMISN_STTEMNT_NO, 
+				 PRPOS_SE, DETAIL_PRPOS_SE, CALBR, DPH, WP_QTY, YR_USE_QTY, DSCRGPP_CALBR, PUMP_HRSPW
+		FROM 	 TGD_UGRWTR_DEVLOP
+		WHERE    1=1
+			AND	 GID = #{gid}
+	</select>
+	
+	<!-- 지하수관리 > 지하수개발 수정 -->
+	<update id="updateUnderWaterDevelop" parameterType="underWaterDevelop">
+		/* SQL_ID: 전영후_UnderWaterMng_SQL_postgres.xml.updateUnderWaterDevelop 지하수개발 수정*/
+		UPDATE	 TGD_UGRWTR_DEVLOP
+		SET		 MANAGE_SE = #{manageSe},
+				 ADRES = #{adres},
+				 AL = #{al},
+				 DEVLOP_YEAR = #{devlopYear}, 
+				 ALLVL_BSRCK_SE = #{allvlBsrckSe},
+				 PRMISN_STTEMNT_SE = #{prmisnSttemntSe}, 
+				 PRMISN_STTEMNT_NO = #{prmisnSttemntNo}, 
+				 PRPOS_SE = #{prposSe},
+				 DETAIL_PRPOS_SE = #{detailPrposSe}, 
+				 CALBR = #{calbr}, 
+				 DPH = #{dph}, 
+				 WP_QTY = #{wpQty}, 
+				 YR_USE_QTY = #{yrUseQty},
+				 DSCRGPP_CALBR = #{dscrgppCalbr}, 
+				 PUMP_HRSPW = #{pumpHrspw}
+				 <if test="geom != null and geom !=''">
+					,GEOM = ST_SETSRID(ST_GEOMFROMTEXT(#{geom}), 5179)	
+				 </if>
+		WHERE    GID = #{gid}
+	
+	</update>
+	
+	<!-- 지하수관리 > 지하수개발 단일삭제 -->
+	<delete id="deleteUnderWaterDevelop"  parameterType="underWaterDevelop" >
+		/* SQL_ID: 전영후_UnderWaterMng_SQL_postgres.xml.deleteUnderWaterDevelop 지하수개발 단일삭제*/
+		DELETE FROM  TGD_UGRWTR_DEVLOP
+		WHERE GID = #{gid}
+	</delete>
+	
+	<!-- 지하수관리 > 지하수개발 엑셀용 목록 -->
+	<select id="selectUnderWaterDevelopExcelList" parameterType="underWaterDevelopVO" resultType="underWaterDevelop">
+		/* SQL_ID: 전영후_UnderWaterMng_SQL_postgres.xml.selectUnderWaterDevelopExcelList 지하수개발 엑셀용 리스트*/
+		SELECT 	 GID, MANAGE_SE, ADRES, AL, DEVLOP_YEAR, ALLVL_BSRCK_SE, PRMISN_STTEMNT_SE, PRMISN_STTEMNT_NO, 
+				 PRPOS_SE, DETAIL_PRPOS_SE, CALBR, DPH, WP_QTY, YR_USE_QTY, DSCRGPP_CALBR, PUMP_HRSPW, GEOM
+		FROM 	 TGD_UGRWTR_DEVLOP
+		WHERE    1=1
+		<if test="@egovframework.com.cmm.util.EgovMybaitsUtil@isNotEmpty(emdKorNm)">
+			AND  ADRES LIKE '%' || #{emdKorNm} || '%'
+		</if>
+		<if test="@egovframework.com.cmm.util.EgovMybaitsUtil@isNotEmpty(allvlBsrckSeSearch)">
+			AND  ALLVL_BSRCK_SE LIKE '%' || #{allvlBsrckSeSearch} || '%'
+		</if>
+		<if test="@egovframework.com.cmm.util.EgovMybaitsUtil@isNotEmpty(prposSeSearch)">
+			AND  PRPOS_SE LIKE '%' || #{prposSeSearch} || '%'
+		</if>
+		<if test="@egovframework.com.cmm.util.EgovMybaitsUtil@isNotEmpty(detailPrposSeSearch)">
+			AND  DETAIL_PRPOS_SE LIKE '%' || #{detailPrposSeSearch} || '%'
+		</if>
+		<if test="@egovframework.com.cmm.util.EgovMybaitsUtil@isNotEmpty(spitalSearch)">
+			AND ST_INTERSECTS(ST_BUFFER(ST_GEOMFROMTEXT(#{spitalSearch}, 4326), (#{bufferCnt} * 0.00001)), ST_TRANSFORM(GEOM, 4326)) = true
+		</if>
+	</select>
+	
+	<!-- 지하수관리 > 지하수개발 속성검색 - 암반구분 목록 -->
+	<select id="selectUnderWaterDevelopAllvlBsrckSeList" parameterType="underWaterDevelopVO" resultType="underWaterDevelop">
+		/* SQL_ID: 전영후_UnderWaterMng_SQL_postgres.xml.selectUnderWaterDevelopAllvlBsrckSeList 지하수개발 속성검색 - 암반구분*/
+		SELECT 	 DISTINCT ALLVL_BSRCK_SE
+		FROM 	 TGD_UGRWTR_DEVLOP
+		WHERE	 ALLVL_BSRCK_SE NOTNULL
+	</select>
+	
+	<!-- 지하수관리 > 지하수개발 속성검색 - 용도구분 목록 -->
+	<select id="selectUnderWaterDevelopPrposSeList" parameterType="underWaterDevelopVO" resultType="underWaterDevelop">
+		/* SQL_ID: 전영후_UnderWaterMng_SQL_postgres.xml.selectUnderWaterDevelopPrposSeList 지하수개발 속성검색 - 용도구분*/
+		SELECT 	 DISTINCT PRPOS_SE
+		FROM 	 TGD_UGRWTR_DEVLOP
+		WHERE	 PRPOS_SE NOTNULL
+	</select>
+	
+	<!-- 지하수관리 > 지하수개발 속성검색 - 세부용도 목록 -->
+	<select id="selectUnderWaterDevelopDetailPrposSeList" parameterType="underWaterDevelopVO" resultType="underWaterDevelop">
+		/* SQL_ID: 전영후_UnderWaterMng_SQL_postgres.xml.selectUnderWaterDevelopDetailPrposSeList 지하수개발 속성검색 - 세부용도*/
+		SELECT 	 DISTINCT DETAIL_PRPOS_SE
+		FROM 	 TGD_UGRWTR_DEVLOP
+		WHERE	 DETAIL_PRPOS_SE NOTNULL
+	</select>
+	
+	<!-- 지하수관리 > 지하수개발 crud용 - 관리구분 목록 -->
+	<select id="selectUnderWaterDevelopManageSeList" parameterType="underWaterDevelopVO" resultType="underWaterDevelop">
+		/* SQL_ID: 전영후_UnderWaterMng_SQL_postgres.xml.selectUnderWaterDevelopManageSeList 지하수개발 crud용 - 관리구분 목록*/
+		SELECT 	 DISTINCT MANAGE_SE
+		FROM 	 TGD_UGRWTR_DEVLOP
+		WHERE	 MANAGE_SE NOTNULL
+	</select>
+	
+	<!-- 지하수관리 > 지하수개발 crud용 - 허가/신고 목록 -->
+	<select id="selectUnderWaterDevelopPrmisnSttemntSeList" parameterType="underWaterDevelopVO" resultType="underWaterDevelop">
+		/* SQL_ID: 전영후_UnderWaterMng_SQL_postgres.xml.selectUnderWaterDevelopPrmisnSttemntSeList 지하수개발 crud용 - 허가/신고 목록 */
+		SELECT 	 DISTINCT PRMISN_STTEMNT_SE
+		FROM 	 TGD_UGRWTR_DEVLOP
+		WHERE	 PRMISN_STTEMNT_SE NOTNULL
+	</select>
+	
+<!-- ################################################# 지하수이용시설 ################################################# -->	
+	
+	<!-- 지하수관리 > 지하수이용시설 목록 -->
+	<select id="selectUnderWaterUseFacilList" parameterType="underWaterUseFacilVO" resultType="underWaterUseFacil">
+		/* SQL_ID: 전영후_UnderWaterMng_SQL_postgres.xml.selectUnderWaterUseFacilList 지하수이용시설 리스트*/
+		SELECT 	 GID, MANAGE_SE, ADRES, AL, DEVLOP_YEAR, ALLVL_BSRCK_SE, PUBLIC_PVTESBL_SE, PRMISN_STTEMNT_SE, PRMISN_STTEMNT_NO, PRPOS_SE, 
+				 DETAIL_PRPOS_SE, CALBR, DPH, WP_QTY, YR_USE_QTY, DSCRGPP_CALBR, PUMP_HRSPW, GEOM, ST_X (ST_POINTONSURFACE(GEOM)) AS LON, ST_Y (ST_POINTONSURFACE(GEOM)) AS LAT
+				 <!-- 공간 검색 -->
+		 	     <if test="@egovframework.com.cmm.util.EgovMybaitsUtil@isNotEmpty(spitalSearch)">
+			     , ST_ASTEXT( ST_BUFFER(ST_GEOMFROMTEXT(#{spitalSearch}, 4326), (#{bufferCnt} * 0.00001) , 'join=round') ) bufferArea /* bufferArea */
+			     </if>
+		FROM 	 TGD_UGRWTR_UTLZTN_FCLTY
+		WHERE    1=1
+		<if test="@egovframework.com.cmm.util.EgovMybaitsUtil@isNotEmpty(emdKorNm)">
+			AND  ADRES LIKE '%' || #{emdKorNm} || '%'
+		</if>
+		<if test="@egovframework.com.cmm.util.EgovMybaitsUtil@isNotEmpty(allvlBsrckSeSearch)">
+			AND  ALLVL_BSRCK_SE LIKE '%' || #{allvlBsrckSeSearch} || '%'
+		</if>
+		<if test="@egovframework.com.cmm.util.EgovMybaitsUtil@isNotEmpty(prposSeSearch)">
+			AND  PRPOS_SE LIKE '%' || #{prposSeSearch} || '%'
+		</if>
+		<if test="@egovframework.com.cmm.util.EgovMybaitsUtil@isNotEmpty(detailPrposSeSearch)">
+			AND  DETAIL_PRPOS_SE LIKE '%' || #{detailPrposSeSearch} || '%'
+		</if>
+		<if test="@egovframework.com.cmm.util.EgovMybaitsUtil@isNotEmpty(spitalSearch)">
+			AND ST_INTERSECTS(ST_BUFFER(ST_GEOMFROMTEXT(#{spitalSearch}, 4326), (#{bufferCnt} * 0.00001)), ST_TRANSFORM(GEOM, 4326)) = true
+		</if>
+		ORDER BY GID DESC
+		LIMIT #{recordCountPerPage} OFFSET #{firstIndex}
+	</select>
+	
+	<!-- 지하수관리 > 지하수이용시설 갯수 -->
+	<select id="selectUnderWaterUseFacilListCnt" parameterType="underWaterUseFacilVO" resultType="java.lang.Integer">
+		/* SQL_ID: 전영후_UnderWaterMng_SQL_postgres.xml.selectUnderWaterUseFacilListCnt 지하수이용시설 갯수*/
+		SELECT	 COUNT(*)
+		FROM	 TGD_UGRWTR_UTLZTN_FCLTY
+		WHERE	 1=1
+		<if test="@egovframework.com.cmm.util.EgovMybaitsUtil@isNotEmpty(emdKorNm)">
+			AND  ADRES LIKE '%' || #{emdKorNm} || '%'
+		</if>
+		<if test="@egovframework.com.cmm.util.EgovMybaitsUtil@isNotEmpty(allvlBsrckSeSearch)">
+			AND  ALLVL_BSRCK_SE LIKE '%' || #{allvlBsrckSeSearch} || '%'
+		</if>
+		<if test="@egovframework.com.cmm.util.EgovMybaitsUtil@isNotEmpty(prposSeSearch)">
+			AND  PRPOS_SE LIKE '%' || #{prposSeSearch} || '%'
+		</if>
+		<if test="@egovframework.com.cmm.util.EgovMybaitsUtil@isNotEmpty(detailPrposSeSearch)">
+			AND  DETAIL_PRPOS_SE LIKE '%' || #{detailPrposSeSearch} || '%'
+		</if>
+		<if test="@egovframework.com.cmm.util.EgovMybaitsUtil@isNotEmpty(spitalSearch)">
+			AND ST_INTERSECTS(ST_BUFFER(ST_GEOMFROMTEXT(#{spitalSearch}, 4326), (#{bufferCnt} * 0.00001)), ST_TRANSFORM(GEOM, 4326)) = true
+		</if>
+	</select>
+	
+	<!-- 지하수관리 > 지하수이용시설 등록 -->
+	<insert id="insertUnderWaterUseFacil" parameterType="underWaterUseFacil">
+		/* SQL_ID: 전영후_UnderWaterMng_SQL_postgres.xml.insertUnderWaterUseFacil 지하수이용시설 등록 */
+		INSERT INTO TGD_UGRWTR_UTLZTN_FCLTY
+		(
+			MANAGE_SE, 
+			ADRES, 
+			AL, 
+			DEVLOP_YEAR, 
+			ALLVL_BSRCK_SE, 
+			PUBLIC_PVTESBL_SE, 
+			PRMISN_STTEMNT_SE, 
+			PRMISN_STTEMNT_NO, 
+			PRPOS_SE, 
+			DETAIL_PRPOS_SE, 
+			CALBR, DPH,
+			WP_QTY, 
+			YR_USE_QTY, 
+			DSCRGPP_CALBR, 
+			PUMP_HRSPW, 
+			GEOM
+		)VALUES(
+			#{manageSe},
+			#{adres},
+			#{al},
+			#{devlopYear},
+			#{allvlBsrckSe},
+			#{publicPvtesblSe},
+			#{prmisnSttemntSe},
+			#{prmisnSttemntNo},
+			#{prposSe},
+			#{detailPrposSe},
+			#{calbr},
+			#{dph},
+			#{wpQty},
+			#{yrUseQty},
+			#{dscrgppCalbr},
+			#{pumpHrspw},
+			ST_SETSRID(ST_GEOMFROMTEXT(#{geom}), 5179)
+		)
+	</insert>
+	
+	<!-- 지하수관리 > 지하수이용시설 상세보기 -->
+	<select id="selectUnderWaterUseFacil" parameterType="underWaterUseFacilVO" resultType="underWaterUseFacil">
+		/* SQL_ID: 전영후_UnderWaterMng_SQL_postgres.xml.selectUnderWaterUseFacil 지하수이용시설 상세보기*/
+		SELECT 	 GID, MANAGE_SE, ADRES, AL, DEVLOP_YEAR, ALLVL_BSRCK_SE, PUBLIC_PVTESBL_SE, PRMISN_STTEMNT_SE, PRMISN_STTEMNT_NO, PRPOS_SE, 
+				 DETAIL_PRPOS_SE, CALBR, DPH, WP_QTY, YR_USE_QTY, DSCRGPP_CALBR, PUMP_HRSPW
+		FROM 	 TGD_UGRWTR_UTLZTN_FCLTY
+		WHERE    1=1
+			AND	 GID = #{gid}
+	</select>
+	
+	<!-- 지하수관리 > 지하수이용시설 수정 -->
+	<update id="updateUnderWaterUseFacil" parameterType="underWaterUseFacil">
+		/* SQL_ID: 전영후_UnderWaterMng_SQL_postgres.xml.updateUnderWaterUseFacil 지하수이용시설 수정*/
+		UPDATE	 TGD_UGRWTR_UTLZTN_FCLTY
+		SET		 MANAGE_SE = #{manageSe},
+				 ADRES = #{adres},
+				 AL = #{al},
+				 DEVLOP_YEAR = #{devlopYear}, 
+				 ALLVL_BSRCK_SE = #{allvlBsrckSe},
+				 PUBLIC_PVTESBL_SE = #{publicPvtesblSe},
+				 PRMISN_STTEMNT_SE = #{prmisnSttemntSe}, 
+				 PRMISN_STTEMNT_NO = #{prmisnSttemntNo}, 
+				 PRPOS_SE = #{prposSe},
+				 DETAIL_PRPOS_SE = #{detailPrposSe}, 
+				 CALBR = #{calbr}, 
+				 DPH = #{dph}, 
+				 WP_QTY = #{wpQty}, 
+				 YR_USE_QTY = #{yrUseQty},
+				 DSCRGPP_CALBR = #{dscrgppCalbr}, 
+				 PUMP_HRSPW = #{pumpHrspw}
+				 <if test="geom != null and geom !=''">
+					,GEOM = ST_SETSRID(ST_GEOMFROMTEXT(#{geom}), 5179)	
+				 </if>
+		WHERE    GID = #{gid}
+	
+	</update>
+	
+	<!-- 지하수관리 > 지하수이용시설 단일삭제 -->
+	<delete id="deleteUnderWaterUseFacil"  parameterType="underWaterUseFacil" >
+		/* SQL_ID: 전영후_UnderWaterMng_SQL_postgres.xml.deleteUnderWaterUseFacil 지하수이용시설 단일삭제*/
+		DELETE FROM  TGD_UGRWTR_UTLZTN_FCLTY
+		WHERE GID = #{gid}
+	</delete>
+	
+	<!-- 지하수관리 > 지하수이용시설 엑셀용 목록 -->
+	<select id="selectUnderWaterUseFacilExcelList" parameterType="underWaterUseFacilVO" resultType="underWaterUseFacil">
+		/* SQL_ID: 전영후_UnderWaterMng_SQL_postgres.xml.selectUnderWaterUseFacilExcelList 지하수이용시설 엑셀용 리스트*/
+		SELECT 	 GID, MANAGE_SE, ADRES, AL, DEVLOP_YEAR, ALLVL_BSRCK_SE, PUBLIC_PVTESBL_SE, PRMISN_STTEMNT_SE, PRMISN_STTEMNT_NO, PRPOS_SE, 
+				 DETAIL_PRPOS_SE, CALBR, DPH, WP_QTY, YR_USE_QTY, DSCRGPP_CALBR, PUMP_HRSPW, GEOM
+		FROM 	 TGD_UGRWTR_UTLZTN_FCLTY
+		WHERE    1=1
+		<if test="@egovframework.com.cmm.util.EgovMybaitsUtil@isNotEmpty(emdKorNm)">
+			AND  ADRES LIKE '%' || #{emdKorNm} || '%'
+		</if>
+		<if test="@egovframework.com.cmm.util.EgovMybaitsUtil@isNotEmpty(allvlBsrckSeSearch)">
+			AND  ALLVL_BSRCK_SE LIKE '%' || #{allvlBsrckSeSearch} || '%'
+		</if>
+		<if test="@egovframework.com.cmm.util.EgovMybaitsUtil@isNotEmpty(prposSeSearch)">
+			AND  PRPOS_SE LIKE '%' || #{prposSeSearch} || '%'
+		</if>
+		<if test="@egovframework.com.cmm.util.EgovMybaitsUtil@isNotEmpty(detailPrposSeSearch)">
+			AND  DETAIL_PRPOS_SE LIKE '%' || #{detailPrposSeSearch} || '%'
+		</if>
+		<if test="@egovframework.com.cmm.util.EgovMybaitsUtil@isNotEmpty(spitalSearch)">
+			AND ST_INTERSECTS(ST_BUFFER(ST_GEOMFROMTEXT(#{spitalSearch}, 4326), (#{bufferCnt} * 0.00001)), ST_TRANSFORM(GEOM, 4326)) = true
+		</if>
+	</select>
+	
+	<!-- 지하수관리 > 지하수이용시설 속성검색 - 암반구분 목록 -->
+	<select id="selectUnderWaterUseFacilAllvlBsrckSeList" parameterType="underWaterUseFacilVO" resultType="underWaterUseFacil">
+		/* SQL_ID: 전영후_UnderWaterMng_SQL_postgres.xml.selectUnderWaterUseFacilAllvlBsrckSeList 지하수이용시설 속성검색 - 암반구분 */
+		SELECT 	 DISTINCT ALLVL_BSRCK_SE
+		FROM 	 TGD_UGRWTR_UTLZTN_FCLTY
+		WHERE  	 ALLVL_BSRCK_SE NOTNULL
+	</select>
+	
+	<!-- 지하수관리 > 지하수이용시설 속성검색 - 용도구분 목록 -->
+	<select id="selectUnderWaterUseFacilPrposSeList" parameterType="underWaterUseFacilVO" resultType="underWaterUseFacil">
+		/* SQL_ID: 전영후_UnderWaterMng_SQL_postgres.xml.selectUnderWaterUseFacilPrposSeList 지하수이용시설 속성검색 - 용도구분 */
+		SELECT 	 DISTINCT PRPOS_SE
+		FROM 	 TGD_UGRWTR_UTLZTN_FCLTY
+		WHERE  	 PRPOS_SE NOTNULL
+	</select>
+	
+	<!-- 지하수관리 > 지하수이용시설 속성검색 - 세부용도 목록 -->
+	<select id="selectUnderWaterUseFacilDetailPrposSeList" parameterType="underWaterUseFacilVO" resultType="underWaterUseFacil">
+		/* SQL_ID: 전영후_UnderWaterMng_SQL_postgres.xml.selectUnderWaterUseFacilDetailPrposSeList 지하수이용시설 속성검색 - 세부용도 */
+		SELECT 	 DISTINCT DETAIL_PRPOS_SE
+		FROM 	 TGD_UGRWTR_UTLZTN_FCLTY
+		WHERE  	 DETAIL_PRPOS_SE NOTNULL
+	</select>
+	
+	<!-- 지하수관리 > 지하수이용시설 crud용 - 관리구분 목록 -->
+	<select id="selectUnderWaterUseFacilManageSeList" parameterType="underWaterUseFacilVO" resultType="underWaterUseFacil">
+		/* SQL_ID: 전영후_UnderWaterMng_SQL_postgres.xml.selectUnderWaterUseFacilManageSeList 지하수이용시설 crud용 - 관리구분 */
+		SELECT 	 DISTINCT MANAGE_SE
+		FROM 	 TGD_UGRWTR_UTLZTN_FCLTY
+		WHERE  	 MANAGE_SE NOTNULL
+	</select>
+	
+	<!-- 지하수관리 > 지하수이용시설 crud용 - 허가/신고 목록 -->
+	<select id="selectUnderWaterUseFacilPrmisnSttemntSeList" parameterType="underWaterUseFacilVO" resultType="underWaterUseFacil">
+		/* SQL_ID: 전영후_UnderWaterMng_SQL_postgres.xml.selectUnderWaterUseFacilPrmisnSttemntSeList 지하수이용시설  crud용 - 허가/신고 */
+		SELECT 	 DISTINCT PRMISN_STTEMNT_SE
+		FROM 	 TGD_UGRWTR_UTLZTN_FCLTY
+		WHERE  	 PRMISN_STTEMNT_SE NOTNULL
+	</select>
+	
+	<!-- 지하수관리 > 지하수이용시설 crud용 - 공공/사설 목록 -->
+	<select id="selectUnderWaterUseFacilPublicPvtesblSeList" parameterType="underWaterUseFacilVO" resultType="underWaterUseFacil">
+		/* SQL_ID: 전영후_UnderWaterMng_SQL_postgres.xml.selectUnderWaterUseFacilPublicPvtesblSeList 지하수이용시설 crud용 - 공공/사설 */
+		SELECT 	 DISTINCT PUBLIC_PVTESBL_SE
+		FROM 	 TGD_UGRWTR_UTLZTN_FCLTY
+		WHERE  	 PUBLIC_PVTESBL_SE NOTNULL
+	</select>
+</mapper>

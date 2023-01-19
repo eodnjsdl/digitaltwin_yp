@@ -1,0 +1,1253 @@
+<!doctype html>
+<html lang="ko">
+	<head>
+		<meta charset="UTF-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+		<title>스마트시티 IN 양평 플랫폼</title>
+
+		<script src="/yp_dt/js/com/jquery/jquery-3.4.1.min.js"></script>
+		
+		<!-- jquery-ui -->
+		<script src="/yp_dt/js/com/jquery-ui/jquery-ui.js"></script>
+		<link rel="stylesheet" href="/yp_dt/js/com/jquery-ui/jquery-ui.css">
+
+		<!-- mCustomScrollbar -->
+		<script src="/yp_dt/js/plugin/mCustomScrollbar/jquery.mCustomScrollbar.concat.min.js"></script>
+		<link rel="stylesheet" href="/yp_dt/js/plugin/mCustomScrollbar/jquery.mCustomScrollbar.min.css">
+
+		<!-- rangeslider -->
+		<script src="/yp_dt/js/plugin/rangeslider/rangeslider.js"></script>
+		<link rel="stylesheet" href="/yp_dt/js/plugin/rangeslider/rangeslider.css">
+
+		<script src="/yp_dt/js/map-ui.js"></script>
+		
+		<link rel="stylesheet" href="/yp_dt/css/com/common.css">
+		<link rel="stylesheet" href="/yp_dt/css/map.css">
+
+		<!-- guide 전용 css -->
+		<style>
+			html, body {overflow: auto !important;}
+			html, body,th,td,input,select,textarea,button {font-family:'Malgun Gothic', '맑은 고딕', sans-serif;}
+			#container {padding: 50px 0;height: auto !important;background-color: #ebebeb;}
+			#content {margin: 0 auto;padding: 20px 30px;width: 1000px;height: auto;border: 1px solid #bbb;background-color: #fff;border-radius: 5px;}
+			.cont-tit {margin-bottom: 5px;font-family: 'Noto Sans KR', 'Malgun Gothic' !important;font-size: 20px !important;}
+			.cont-tit:before {content: '';display: inline-block;margin: -3px 3px 0 0;width: 11px;height: 11px;border: 3px solid #3A7FCF;background-color: #fff;border-radius: 50%;vertical-align: middle;}
+			.guide-list {width: 100%;border-collapse: collapse;table-layout: fixed;}
+			.guide-list th, .guide-list td {padding: 10px;font-size: 14px;border: 1px solid #D0D0D0;text-align: center;}
+			.guide-list th {font-family:' Malgun Gothic', '맑은 고딕', sans-serif;color: #000;font-size: 14px;font-weight: bold;background-color: #F0F0F0;}
+			.list-type1 {margin: 5px 0;}
+			.list-type1 > li {position: relative;margin: 5px 0;padding-left: 10px;font-size: 14px; letter-spacing: -0.03em;}
+			.list-type1 > li:before {content: '';display: block;position: absolute;top: 10px;left: 0;width: 5px;height:1px;background-color: #555;}
+
+			.row > .col, .row > [class^="col-"] {padding-top: 20px;padding-bottom: 20px;}
+			.srch-box .row > * {padding: 2px;}
+			.ex-box {background-color: #eee;}
+			.essential {color: #ff0000 !important;}
+			.line {margin: 25px 0;border-top: 1px dashed #ccc;}
+			.ex-text {margin-bottom: 10px;padding: 5px;color: #0D3D9B;background-color: #f5f5f5;}
+			.link, .link:hover {color: #1C77FF;font-weight: bold;text-decoration: underline;}
+		</style>
+	</head>
+	<body>
+
+		<!-- wrap -->
+		<div id="wrap">
+
+			<!-- header -->
+			<header id="header">
+				<h1 class="logo"><a href="/yp_dt/index.html">스마트 IN 양평</a></h1>
+				<div class="util-box">
+					<div class="user">관리자님</div> <button type="button" class="logout-btn">LOGOUT</button>
+				</div>
+			</header>
+			<!-- //header -->
+
+			<!-- container -->
+			<div id="container">
+				<div id="content">
+
+					<div class="row" id="button">
+						<div class="col-12">
+							<h2 class="cont-tit">Button</h2>
+							<p class="ex-text"><strong class="essential">&lt;a&gt;</strong>, <strong class="essential">&lt;button&gt;</strong>, <strong class="essential">&lt;input&gt;</strong> 모두 가능</p>
+							<div class="bbs-default">
+								<table class="guide-list">
+									<colgroup>
+										<col style="width: 15%;">
+										<col style="width: 15%;">
+										<col style="width: auto;">
+										<col style="width: 15%;">
+										<col style="width: 15%;">
+									</colgroup>
+									<thead>
+										<tr>
+											<th colspan="2"></th>
+											<th scope="col">활성</th>
+											<th scope="col">마우스오버</th>
+											<th scope="col">비활성</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr>
+											<th scope="row" rowspan="4">Color</th>
+											<th scope="row">type01</th>
+											<td><button type="button" class="btn type01 search">조회</button></td>
+											<td>O</td>
+											<td>X</td>
+										</tr>
+										<tr>
+											<th scope="row">type02</th>
+											<td><button type="button" class="btn type02">회색버튼</button></td>
+											<td>O</td>
+											<td>X</td>
+										</tr>
+										<tr>
+											<th scope="row">type03</th>
+											<td><button type="button" class="btn btn-sm type03">적용</button></td>
+											<td>O</td>
+											<td>X</td>
+										</tr>
+										<tr>
+											<th scope="row">type04</th>
+											<td><button type="button" class="btn btn-sm type04">이동</button></td>
+											<td>O</td>
+											<td>X</td>
+										</tr>
+										<tr>
+											<th scope="row" rowspan="23">Icon + Button</th>
+											<th scope="row">bi-write</th>
+											<td><button type="button" class="btn bi-write">등록</button>
+												<p class="essential">폰트깨짐으로 등록 버튼만 통이미지로 제작</p>
+											</td>
+											<td>O</td>
+											<td>X</td>
+										</tr>
+										<tr>
+											<th scope="row">bi-delete</th>
+											<td><button type="button" class="btn type02 bi-delete">선택삭제</button></td>
+											<td>O</td>
+											<td>X</td>
+										</tr>
+										<tr>
+											<th scope="row">bi-print</th>
+											<td><button type="button" class="btn basic bi-print">인쇄</button></td>
+											<td>O</td>
+											<td>X</td>
+										</tr>
+										<tr>
+											<th scope="row">bi-list</th>
+											<td><button type="button" class="btn basic bi-list">목록</button></td>
+											<td>O</td>
+											<td>X</td>
+										</tr>
+										<tr>
+											<th scope="row">bi-write2</th>
+											<td><button type="button" class="btn basic bi-write2">등록</button></td>
+											<td>O</td>
+											<td>X</td>
+										</tr>
+										<tr>
+											<th scope="row">bi-save</th>
+											<td><button type="button" class="btn basic bi-save">저장</button></td>
+											<td>O</td>
+											<td>X</td>
+										</tr>
+										<tr>
+											<th scope="row">bi-check</th>
+											<td><button type="button" class="btn basic bi-check">적용</button></td>
+											<td>O</td>
+											<td>X</td>
+										</tr>
+										<tr>
+											<th scope="row">bi-edit</th>
+											<td><button type="button" class="btn basic bi-edit">수정</button></td>
+											<td>O</td>
+											<td>X</td>
+										</tr>
+										<tr>
+											<th scope="row">bi-delete2</th>
+											<td><button type="button" class="btn basic bi-delete2">삭제</button></td>
+											<td>O</td>
+											<td>X</td>
+										</tr>
+										<tr>
+											<th scope="row">bi-cancel</th>
+											<td><button type="button" class="btn basic bi-cancel">취소</button></td>
+											<td>O</td>
+											<td>X</td>
+										</tr>
+										<tr>
+											<th scope="row">bi-reset</th>
+											<td><button type="button" class="btn basic bi-reset">초기화</button></td>
+											<td>O</td>
+											<td>X</td>
+										</tr>
+										<tr>
+											<th scope="row">bi-download</th>
+											<td><button type="button" class="btn basic bi-download">다운로드</button></td>
+											<td>O</td>
+											<td>X</td>
+										</tr>
+										<tr>
+											<th scope="row">bi-excel</th>
+											<td><button type="button" class="btn basic bi-excel">엑셀저장</button></td>
+											<td>O</td>
+											<td>X</td>
+										</tr>
+										<tr>
+											<th scope="row">bi-location2</th>
+											<td><button type="button" class="btn basic bi-location2">위치이동</button></td>
+											<td>O</td>
+											<td>X</td>
+										</tr>
+										<tr>
+											<th scope="row">bi-setting</th>
+											<td><button type="button" class="btn basic bi-setting">레이어관리</button></td>
+											<td>O</td>
+											<td>X</td>
+										</tr>
+										<tr>
+											<th scope="row">bi-all</th>
+											<td><button type="button" class="btn basic bi-all">전체 보기</button></td>
+											<td>O</td>
+											<td>X</td>
+										</tr>
+										<tr>
+											<th scope="row">bi-comments</th>
+											<td><button type="button" class="btn basic bi-comments">댓글등록</button></td>
+											<td>O</td>
+											<td>X</td>
+										</tr>
+										<tr>
+											<th scope="row">bi-out2</th>
+											<td><button type="button" class="btn basic bi-out2">내보내기</button></td>
+											<td>O</td>
+											<td>X</td>
+										</tr>
+										<tr>
+											<th scope="row">bi-out</th>
+											<td><button type="button" class="btn type05 bi-out">내보내기</button></td>
+											<td>O</td>
+											<td>X</td>
+										</tr>
+										<tr>
+											<th scope="row">bi-cursor</th>
+											<td><button type="button" class="btn basic bi-cursor">선택</button></td>
+											<td>O</td>
+											<td>X</td>
+										</tr>
+										<tr>
+											<th scope="row">bi-location</th>
+											<td><button type="button" class="btn type01 bi-location">지도에서 선택</button></td>
+											<td>O</td>
+											<td>X</td>
+										</tr>
+										<tr>
+											<th scope="row">bi-loading</th>
+											<td><button type="button" class="btn basic bi-loading">분석</button></td>
+											<td>O</td>
+											<td>X</td>
+										</tr>
+										<tr>
+											<th scope="row">경사도 분석</th>
+											<td><button type="button" class="btn bi-analysis">영역선택</button></td>
+											<td>O</td>
+											<td><button type="button" class="btn bi-analysis complete">선택완료</button></td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+
+						<div class="col-12">
+							<h2 class="cont-tit">only Icon Button</h2>
+							<p class="ex-text"><strong class="essential">&lt;a&gt;</strong>, <strong class="essential">&lt;button&gt;</strong>, <strong class="essential">&lt;input&gt;</strong> 모두 가능</p>
+							<div class="bbs-default">
+								<table class="guide-list">
+									<colgroup>
+										<col style="width: 15%;">
+										<col style="width: 15%;">
+										<col style="width: auto;">
+										<col style="width: 15%;">
+										<col style="width: 15%;">
+									</colgroup>
+									<thead>
+										<tr>
+											<th colspan="2"></th>
+											<th scope="col">활성</th>
+											<th scope="col">마우스오버</th>
+											<th scope="col">비활성</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr>
+											<th scope="row" rowspan="10">Type</th>
+											<th scope="row">location</th>
+											<td><a href="" class="icon-btn location"></a></td>
+											<td>O</td>
+											<td>X</td>
+										</tr>
+										<tr>
+											<th scope="row">edit</th>
+											<td><a href="" class="icon-btn edit"></a></td>
+											<td>O</td>
+											<td>X</td>
+										</tr>	
+										<tr>
+											<th scope="row">plus</th>
+											<td><a href="" class="icon-btn plus"></a></td>
+											<td>O</td>
+											<td>X</td>
+										</tr>
+										<tr>
+											<th scope="row">minus</th>
+											<td><a href="" class="icon-btn minus"></a></td>
+											<td>O</td>
+											<td>X</td>
+										</tr>
+										<tr>
+											<th scope="row">minus</th>
+											<td><a href="" class="icon-btn minus"></a></td>
+											<td>O</td>
+											<td>X</td>
+										</tr>
+										<tr>
+											<th scope="row">detail</th>
+											<td><a href="" class="icon-btn detail"></a></td>
+											<td>O</td>
+											<td>X</td>
+										</tr>
+										<tr>
+											<th scope="row">stats</th>
+											<td><a href="" class="icon-btn stats"></a></td>
+											<td>O</td>
+											<td>X</td>
+										</tr>
+										<tr>
+											<th scope="row">reset</th>
+											<td><a href="" class="icon-btn reset"></a></td>
+											<td>O</td>
+											<td>X</td>
+										</tr>	
+										<tr>
+											<th scope="row">excel</th>
+											<td><button type="button" class="icon-btn excel" title=""></button></td>
+											<td>O</td>
+											<td>X</td>
+										</tr>
+										<tr>
+											<th scope="row">detail2</th>
+											<td><button type="button" class="icon-btn detail2"></button></td>
+											<td>O</td>
+											<td>X</td>
+										</tr>																
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+
+					<div class="row" id="buttonAlign">
+						<div class="col-6">
+							<h2 class="cont-tit">Button 정렬</h2>
+
+							<div class="btn-wrap justify-content-start">
+								<div><button type="button" class="btn basic bi-list">목록</button></div>
+							</div>
+
+							<div class="line"></div>
+
+							<div class="btn-wrap">
+								<div><button type="button" class="btn basic bi-write2">등록</button> <button type="button" class="btn basic bi-cancel">취소</button></div>
+							</div>
+
+							<div class="line"></div>
+
+							<div class="btn-wrap justify-content-end">
+								<div><button type="button" class="btn basic bi-list">목록</button></div>
+							</div>
+
+							<div class="line"></div>
+
+							<div class="btn-wrap">
+								<div class="position-absolute left"><button type="button" class="btn basic bi-list">목록</button></div>
+								<div><button type="button" class="btn basic bi-write2">등록</button> <button type="button" class="btn basic bi-cancel">취소</button></div>
+							</div>
+
+							<div class="line"></div>
+
+							<div class="btn-wrap">								
+								<div><button type="button" class="btn basic bi-list">목록</button></div>
+								<div class="position-absolute right"><button type="button" class="btn basic bi-edit">수정</button> <button type="button" class="btn basic bi-delete">삭제</button></div>
+							</div>
+
+							<div class="line"></div>
+
+							<div class="btn-wrap justify-content-between">
+								<div><button type="button" class="btn type02 bi-delete">선택삭제</button></div>
+								<div><button type="button" class="btn basic bi-edit">수정</button> <button type="button" class="btn basic bi-delete">삭제</button></div>					
+							</div>
+
+							<div class="line"></div>
+
+							<div class="btn-wrap justify-content-between">
+								<div><button type="button" class="btn basic bi-list">목록</button></div>
+								<div><button type="button" class="btn basic bi-write2">등록</button></div>
+								<div><button type="button" class="btn basic bi-delete">삭제</button></div>					
+							</div>
+							
+						</div>
+
+					</div>
+
+					<div class="row" id="form">
+						<div class="col-12">
+							<h4 class="cont-tit">Form</h4>
+							<div class="bbs-default">
+								<table class="guide-list">
+									<colgroup>
+										<col style="width: 12%;">
+										<col style="width: 15%;">
+										<col style="width: auto;">
+										<col style="width: 10%;">
+										<col style="width: 25%;">
+									</colgroup>
+									<thead>
+										<tr>
+											<th colspan="2"></th>
+											<th>활성</th>									
+											<th>마우스오버</th>									
+											<th>비활성</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr>
+											<th colspan="2">Input</th>
+											<td class="align-left"><input type="text" class="form-control" placeholder="공사명을 입력해주세요."></td>
+											<td>X</td>
+											<td><input type="text" class="form-control" disabled></td>
+										</tr>
+										<tr>
+											<th colspan="2" rowspan="">Calendar</th>
+											<td class="align-left">
+												<div class="datapicker-group"><input type="text" class="datepicker"></div>
+											</td>
+											<td>X</td>
+											<td>X</td>
+										</tr>
+										<!-- <tr>
+											<td class="align-left">
+												<div class="datapicker-group">
+													<div><input type="text" id="from" name="from" autocomplete="off"></div> <div class="form-dash">~</div> <div><input type="text" id="to" name="to"  autocomplete="off"></div>
+												</div>
+											</td>
+											<td>X</td>
+											<td>X</td>
+										</tr> -->
+										<tr>
+											<th rowspan="3">Select</th>
+											<th>Type01</th>
+											<td class="align-left">
+												<select class="form-select">
+													<option value="">시스템명</option>
+													<option value="">시스템명1</option>
+													<option value="">시스템명1</option>
+													<option value="">시스템명1</option>
+													<option value="">시스템명1</option>
+												</select>
+											</td>
+											<td>O</td>
+											<td>
+												<select class="form-select" disabled>
+													<option value="">시스템명</option>
+													<option value="">시스템명1</option>
+												</select>
+											</td>
+										</tr>
+										<tr>
+											<th>Type02</th>
+											<td class="align-left">
+												<select class="form-select2">
+													<option value="">시스템명</option>
+													<option value="">시스템명1</option>
+													<option value="">시스템명1</option>
+													<option value="">시스템명1</option>
+													<option value="">시스템명1</option>
+												</select>
+											</td>
+											<td>O</td>
+											<td>
+												<select class="form-select2" disabled>
+													<option value="">시스템명</option>
+													<option value="">시스템명1</option>
+												</select>
+											</td>
+										</tr>
+										<tr>
+											<th>Type03</th>
+											<td class="align-left">
+												<select class="form-select3">
+													<option value="">시스템명</option>
+													<option value="">시스템명1</option>
+													<option value="">시스템명1</option>
+													<option value="">시스템명1</option>
+													<option value="">시스템명1</option>
+												</select>
+											</td>
+											<td>O</td>
+											<td>
+												<select class="form-select3" disabled>
+													<option value="">시스템명</option>
+													<option value="">시스템명1</option>
+												</select>
+											</td>
+										</tr>
+										<tr>
+											<th colspan="2">File</th>
+											<td class="align-left">
+												<div class="form-file"> 													
+													<input type="file" id="file"><input class="upload-name" value="파일선택">
+													<label for="file">파일찾기</label> 
+												</div>
+												<script>
+													$(document).ready(function(){ 
+														var fileTarget = $('#file'); 
+														fileTarget.on('change', function(){ // 값이 변경되면
+															var cur=$(".form-file input[type='file']").val();
+														$(".upload-name").val(cur);
+														}); 
+													}); 
+												</script>
+											</td>
+											<td>X</td>
+											<td></td>
+										</tr>
+										<tr>
+											<th rowspan="3">CheckBox</th>
+											<th>Only</th>
+											<td class="align-left">
+												<span class="form-checkbox">
+													<span><input type="checkbox" name="" id="chk1" checked=""><label for="chk1"></label></span>
+												</span>
+											</td>
+											<td>X</td>
+											<td>
+												<span class="form-checkbox">
+													<span><input type="checkbox" name="" id="chk1" disabled><label for="chk1"></label></span>
+												</span>
+											</td>
+										</tr>
+										<tr>
+											<th>check + text</th>
+											<td class="align-left">
+												<span class="form-checkbox text">
+													<span><input type="checkbox" name="" id="chk2" checked=""><label for="chk2">체크</label></span>
+												</span>
+											</td>
+											<td>X</td>
+											<td>
+												<span class="form-checkbox text">
+													<span><input type="checkbox" name="" id="chk2" checked="" disabled><label for="chk2">체크</label></span>
+												</span>
+											</td>
+										</tr>
+										<tr>
+											<th>Checkbox Group</th>
+											<td class="align-left">
+												<span class="form-checkbox text group">
+													<span><input type="checkbox" name="" id="chk2-1" checked=""><label for="chk2-1">체크</label></span>
+													<span><input type="checkbox" name="" id="chk2-2"><label for="chk2-2">체크박</label></span>
+													<span><input type="checkbox" name="" id="chk2-3"><label for="chk2-3">체크박스</label></span>
+													<span><input type="checkbox" name="" id="chk2-4" checked=""><label for="chk2-4">체크박스1</label></span>
+													<span><input type="checkbox" name="" id="chk2-5"><label for="chk2-5">체크박스22</label></span>
+													<span><input type="checkbox" name="" id="chk2-6"><label for="chk2-6">체크박스333</label></span>
+												</span>
+											</td>
+											<td>X</td>
+											<td></td>
+										</tr>
+										<tr>
+											<th rowspan="3">Radio</th>
+											<th>Only</th>
+											<td class="align-left">
+												<span class="form-radio">
+													<span><input type="radio" name="" id="rChk1" checked="checked"><label for="rChk1"></label></span>
+												</span>
+											</td>
+											<td>X</td>
+											<td>
+												<span class="form-radio">
+													<span><input type="radio" name="" id="rChk1" disabled><label for="rChk1"></label></span>
+												</span>
+											</td>
+										</tr>
+										<tr>
+											<th>check + text</th>
+											<td class="align-left">
+												<span class="form-radio text">
+													<span><input type="radio" name="" id="rChk2" checked="checked"><label for="rChk2">라디오버튼</label></span>
+												</span>
+											</td>
+											<td>X</td>
+											<td>
+												<span class="form-radio text">
+													<span><input type="radio" name="" id="rChk2" disabled><label for="rChk2">라디오버튼</label></span>
+												</span>
+											</td>
+										</tr>
+										<tr>
+											<th>Radio Group</th>
+											<td class="align-left">
+												<span class="form-radio text group">
+													<span><input type="radio" name="test" id="rChk3-1" checked=""><label for="rChk3-1">라디</label></span>
+													<span><input type="radio" name="test" id="rChk3-2"><label for="rChk3-2">라디오</label></span>
+													<span><input type="radio" name="test" id="rChk3-3"><label for="rChk3-3">라디오 버</label></span>
+													<span><input type="radio" name="test" id="rChk3-4"><label for="rChk3-4">라디오 버튼</label></span>
+													<span><input type="radio" name="test" id="rChk3-5"><label for="rChk3-5">라디오 버튼1</label></span>
+												</span>
+											</td>
+											<td>X</td>
+											<td></td>
+										</tr>
+										<tr>
+											<th colspan="2">Switch</th>
+											<td class="align-left">
+												<span class="switch"><input type="checkbox" class="checkbox" id="switch"><label for="switch"><span class="knobs"></span></label></span>
+											</td>
+											<td>X</td>
+											<td></td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+
+						<div class="col-12">
+							<h4 class="cont-tit">input 활용</h4>
+							<div class="bbs-default">
+								<table class="guide-list">
+									<colgroup>
+										<col style="width: 15%;">
+										<col style="width: auto;">
+										<col style="width: 35%;">
+									</colgroup>
+									<tbody>
+										<tr>
+											<th rowspan="2">Input</th>
+											<td class="align-left"><input type="text" class="form-control"></td>
+											<td class="align-left">기본 사이즈 width: 100%;</td>
+										</tr>
+										<tr>
+											<td class="align-left"><input type="text" class="form-control w-auto"></td>
+											<td class="align-left">class에 <strong class="essential">w-auto</strong>를 추가 시 width: auto; <br>
+												또는 class="w-100" 사이즈 클래스명 지정 <br> <a href="#width" class="link">참조 ▶ width</a>
+											</td>
+										</tr>
+										<tr>
+											<th rowspan="2">Select</th>
+											<td class="align-left">
+												<select name="" id="" class="form-select">
+													<option value="">1차</option>
+												</select>
+											</td>
+											<td class="align-left">기본 사이즈 width: 100%;</td>
+										</tr>
+										<tr>
+											<td class="align-left">
+												<select name="" id="" class="form-select w-auto">
+													<option value="">1차</option>
+												</select>
+											</td>
+											<td class="align-left">class에 <strong class="essential">w-auto</strong>를 추가 시 width: auto; <br>
+												또는 class="w-100" 사이즈 클래스명 지정 <br> <a href="#width" class="link">참조 ▶ width</a>
+											</td>
+										</tr>
+										<tr>
+											<th rowspan="4">form-row</th>
+											<td class="align-left">
+												<div class="form-row">
+													<div class="col"><input type="text" class="form-control"></div>
+													<div class="col-auto">-</div>
+													<div class="col"><input type="text" class="form-control"></div>
+												</div>
+											</td>
+											<td rowspan="4" class="align-left">여러 cell, 균등 배분 <strong class="essential">※ 소스 참고</strong></td>
+										</tr>
+										<tr>
+											<td class="align-left">
+												<div class="form-row">
+													<div class="col"><div class="datapicker-group"><input type="text" class="datepicker"></div></div>
+													<div class="col-auto">~</div>
+													<div class="col"><div class="datapicker-group"><input type="text" class="datepicker"></div></div>
+												</div>
+											</td>
+										</tr>
+										<tr>
+											<td class="align-left">
+												<div class="form-row">
+													<div class="col">
+														<select name="" id="" class="form-select">
+															<option value="">건설과</option>
+														</select>
+													</div>
+													<div class="col"><input type="text" class="form-control" placeholder="이름"></div>
+													<div class="col"><input type="text" class="form-control" placeholder="전화번호"></div>
+												</div>
+											</td>
+										</tr>
+										<tr>
+											<td class="align-left">
+												<div class="form-row">
+													<div class="col"><input type="text" class="form-control" value="경기도 양평군 양근리 448-9"></div> 
+													<div class="col-auto"><button type="button" class="btn type01 bi-location">지도에서 선택</button></div>
+												</div>
+											</td>
+										</tr>
+										<tr>
+											<th rowspan="">form-row</th>
+											<td class="align-left">
+												<div class="form-row">
+													<div class="col-3"><input type="text" class="form-control"></div>
+													<div class="col-9"><input type="text" class="form-control"></div>
+												</div>
+											</td>
+											<td rowspan="" class="align-left">여러 cell, 불균등 배분 <strong class="essential">※ 소스 참고</strong>
+												<p>&lt;div class="col-<strong class="essential">3</strong>"&gt;  &lt;div class="col-<strong class="essential">9</strong>"&gt; </p>
+												<p>숫자 <strong class="essential">합이 12</strong>가 넘지 않도록</p>
+											</td>
+										</tr>									
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+
+					<div class="row" id="drawing">
+						<div class="col-12">
+							<h4 class="cont-tit">그리기 객체</h4>							
+							<span class="drawing-obj">
+								<span><input type="radio" name="drawing" id="dChk1" checked="checked"><label for="dChk1" class="obj-01"></label></span>
+								<span><input type="radio" name="drawing" id="dChk2"><label for="dChk2" class="obj-02"></label></span>
+								<span><input type="radio" name="drawing" id="dChk3"><label for="dChk3" class="obj-03"></label></span>
+								<span><input type="radio" name="drawing" id="dChk4"><label for="dChk4" class="obj-04"></label></span>
+								<span><input type="radio" name="drawing" id="dChk5"><label for="dChk5" class="obj-05"></label></span>
+								<span><input type="radio" name="drawing" id="dChk6"><label for="dChk6" class="obj-06"></label></span>
+								<span><input type="radio" name="drawing" id="dChk7"><label for="dChk7" class="obj-07"></label></span>
+								<span><input type="radio" name="drawing" id="dChk8"><label for="dChk8" class="obj-08"></label></span>
+								<span><input type="radio" name="drawing" id="dChk9"><label for="dChk9" class="obj-09"></label></span>
+							</span>
+						</div>
+
+						<div class="col-12">
+							<h4 class="cont-tit">그리기 객체</h4>							
+							<span class="drawing-obj small">
+								<span><input type="radio" name="areaDrawing" id="aChk1" checked="checked"><label for="aChk1" class="obj-sm01"></label></span>
+								<span><input type="radio" name="areaDrawing" id="aChk2"><label for="aChk2" class="obj-sm02"></label></span>
+								<span><input type="radio" name="areaDrawing" id="aChk3"><label for="aChk3" class="obj-sm03"></label></span>
+								<span><input type="radio" name="areaDrawing" id="aChk4"><label for="aChk4" class="obj-sm04"></label></span>
+							</span>
+						</div>
+
+						<div class="col-12">
+							<div class="drawing-slider-box drawingOpacity">
+								<div class="drawing-slider"><div id="" class="slider"></div></div>													
+								<div class="spinner-group">
+									<input id="vertical-spinner" class="ui-spinner-input" min="0" max="100" step="10" value="20%">
+								</div>
+								<script>
+									$( function() {
+										$( ".spinner-group" ).controlgroup({
+											"direction": "vertical",
+										});
+
+										var handle = $("#drawingOpacity-handle" );
+										$(".drawingOpacity .slider").slider({
+											value: 20,
+											min: 0,
+											max: 100,
+											step: 10,
+											range: "min",
+											create: function() {
+												handle.text( $( this ).slider("value"));
+											},
+											slide: function(event, ui) {
+												handle.text( ui.value );
+											},
+											change: function(){
+												
+											}
+										});
+									});
+								</script>
+							</div>
+
+							<div class="line"></div>
+
+							<div class="drawing-slider-box drawingThickness">
+								<div class="drawing-slider"><div id="drawingThicknessSlider"></div></div>
+								<input type="text" class="value-num" readonly>													
+
+								<script>
+									$( function() {
+										$( "#drawingThicknessSlider" ).slider({
+										range: "min",
+										min: 0,
+										max: 100,
+										value: 20,
+										step: 10,
+										slide: function( event, ui ) {
+											$( ".drawingThickness .value-num" ).val( ui.value );
+										}
+										});
+										$( ".drawingThickness .value-num" ).val( $( "#drawingThicknessSlider" ).slider( "value" ) );
+									});
+								</script>
+							</div>
+						</div>
+
+						<div class="col-12">
+							<div class="tbl-list">
+								<div class="term">모양</div>
+								<div class="desc flex-grow-1">
+									<div class="text-decoration-group">
+										<span><input type="checkbox" id="fontBold"><label for="fontBold" class="fontBold"></label></span>
+										<span><input type="checkbox" id="fontItalic"><label for="fontItalic" class="fontItalic"></label></span>
+										<span><input type="checkbox" id="fontUnder"><label for="fontUnder" class="fontUnder"></label></span>
+									</div>
+								</div>
+							</div>
+							<div class="line"></div>
+							<div class="tbl-list">
+								<div class="term">정렬</div>
+								<div class="desc flex-grow-1">
+									<div class="text-align-group">
+										<span><input type="radio" name="textAlign" id="alignLeft"><label for="alignLeft" class="alignLeft"></label></span>
+										<span><input type="radio" name="textAlign" id="alignCenter"><label for="alignCenter" class="alignCenter"></label></span>
+										<span><input type="radio" name="textAlign" id="alignRight"><label for="alignRight" class="alignRight"></label></span>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+
+
+					<div class="row" id="searchList">
+						<div class="col-12">
+							<h2 class="cont-tit">검색 결과 리스트</h2>
+							
+							<div class="searchResult-wrap">
+								<ul class="search-list">
+									<li><a href="javascript:void(0);">
+											<p class="name">양평영업소</p>
+											<p class="addr road"><span class="cate">도로명</span>경강로 1401</p>
+											<p class="addr jibun"><span class="cate">지번</span>아산리 569</p>
+										</a>
+									</li>
+									<li><a href="javascript:void(0);">
+										<p class="name">양평영업소</p>
+										<p class="addr road"><span class="cate">도로명</span>경강로 1401</p>
+										<p class="addr jibun"><span class="cate">지번</span>아산리 569</p>
+									</a>
+								</li>
+								</ul>
+							</div>
+
+							<div class="searchResult-wrap">
+								<ul class="search-list type01">
+									<li><a href="javascript:void(0);">
+											<p class="addr road"><span class="cate">도로명</span>경기도 양평군 양평읍 양근강변길 7</p>
+											<p class="addr jibun"><span class="cate">지번</span>경기도 양평군 양평읍 양근리 658 양평읍사무소</p>
+										</a>
+									</li>
+									<li><a href="javascript:void(0);">
+											<p class="addr road"><span class="cate">도로명</span>경기도 양평군 양평읍 양근강변길 7</p>
+											<p class="addr jibun"><span class="cate">지번</span>경기도 양평군 양평읍 양근리 658 양평읍사무소</p>
+										</a>
+									</li>
+								</ul>
+							</div>
+
+						</div>
+					</div>
+
+					<!-- <div class="row" id="tbl-list">
+						<div class="col-12">
+							<h2 class="cont-tit">텍스트 정의</h2>
+							<p class="ex-text">테이블처럼 보이는 텍스트 정의</p>
+							
+							<div class="tbl-list">
+								<div class="term">제목</div>
+								<div class="desc">내용입니다.</div>
+								<div class="term">제목</div>
+								<div class="desc">내용입니다.</div>
+							</div>
+
+							<div class="line"></div>
+							
+							<div class="tbl-list">
+								<div class="items">
+									<div class="term">제목</div>
+									<div class="desc">내용입니다.</div>
+								</div>
+								<div class="items">
+									<div class="term">제목</div>
+									<div class="desc">내용입니다.</div>
+								</div>
+								<div class="items">
+									<div class="term">제목</div>
+									<div class="desc">내용입니다.</div>
+								</div>
+							</div>
+
+							<div class="line"></div>
+							
+							<div class="tbl-list vertical-tbl">
+								<div class="items">
+									<div class="term">제목</div>
+									<div class="desc">내용입니다.</div>
+								</div>
+								<div class="items">
+									<div class="term">제목</div>
+									<div class="desc">내용입니다.</div>
+								</div>
+								<div class="items">
+									<div class="term">제목</div>
+									<div class="desc">내용입니다.</div>
+								</div>
+							</div>
+
+							<div class="line"></div>
+							
+							<div class="tbl-list all-vertical-tbl">
+								<div class="items">
+									<div class="term">제목</div>
+									<div class="desc">내용입니다.</div>
+								</div>
+								<div class="items">
+									<div class="term">제목</div>
+									<div class="desc">내용입니다.</div>
+								</div>
+								<div class="items">
+									<div class="term">제목</div>
+									<div class="desc">내용입니다.</div>
+								</div>
+							</div>
+
+						</div>
+					</div> -->
+
+					<div class="row" id="tab">
+						<div class="col-12">
+							<h2 class="cont-tit">Tab</h2>
+							<div class="ex-text">
+								<ul class="list-type1">
+									<li>&lt;li <strong class="essential">data-tab</strong>="tab01"> <br>
+										&lt;div class="tab-cont <strong class="essential">tab01</strong>">
+										<strong class="essential">data-tab, class는 일치해야 함.</strong>
+									</li>
+									<!-- <li>data-tab, class 임의로 넣은것으로, <strong class="essential">직접 변경</strong>해야 함.</li> -->
+								</ul>
+							</div>
+							
+							<div class="tabBoxDepth1-wrap">
+								<div class="tabBoxDepth1">
+									<ul>
+										<li data-tab="tab01" class="on"><button type="button" class="inner-tab">공사계획정보</button></li>
+										<li data-tab="tab02"><button type="button" class="inner-tab">공사예정정보</button></li>
+										<li data-tab="tab03"><button type="button" class="inner-tab">공사정보 조회</button></li>
+									</ul>
+								</div>
+								<div class="tab-cont tab01 on">
+									공사계획정보
+								</div>
+								<div class="tab-cont tab02">
+									공사예정정보
+								</div>
+								<div class="tab-cont tab03">
+									공사정보 조회
+								</div>
+							</div>
+
+							<div class="line"></div>
+							
+							<div class="tabBoxDepth2-wrap">
+								<div class="tabBoxDepth2">
+									<ul>
+										<li data-tab="subTab01" class="on"><button type="button" class="inner-tab">점</button></li>
+										<li data-tab="subTab02"><button type="button" class="inner-tab">선</button></li>
+										<li data-tab="subTab03"><button type="button" class="inner-tab">면</button></li>
+										<li data-tab="subTab04"><button type="button" class="inner-tab">문자</button></li>
+									</ul>
+								</div>
+								<div class="tab-cont subTab01 on">
+									점점
+								</div>
+								<div class="tab-cont subTab02">
+									선선
+								</div>
+								<div class="tab-cont subTab03">
+									면면
+								</div>
+								<div class="tab-cont subTab04">
+									문자 문자
+								</div>
+							</div>
+
+							<div class="line"></div>
+							
+							<div class="tabBoxDepth3-wrap">
+								<div class="tabBoxDepth3">
+									<ul>
+										<li data-tab="subTab201" class="on"><button type="button" class="inner-tab">사용자 정보 조회</button></li>
+										<li data-tab="subTab202"><button type="button" class="inner-tab">비밀번호 변경</button></li>
+									</ul>
+								</div>
+								<div class="tab-cont subTab201 on">
+									사용자 정보 조회
+								</div>
+								<div class="tab-cont subTab202">
+									비밀번호 변경
+								</div>
+							</div>
+
+						</div>
+					</div>
+
+
+					<div class="row" id="align">
+						<div class="col-6">
+							<h4 class="cont-tit">Text 정렬</h4>
+							<div class="align-left"><p>Left 정렬</p></div>
+							<div class="line"></div>
+							<div class="align-center"><p>Center 정렬</p></div>
+							<div class="line"></div>
+							<div class="align-right"><p>Right 정렬</p></div>
+						</div>
+
+						<div class="row">
+							<div class="col-6">
+								<h4 class="cont-tit">Table 일괄 정렬</h4>
+								<p>일괄(th, td) 정렬시 <strong class="essential">table class=""에 정렬 클래스 추가</strong></p> <br>
+								<div class="bbs-default">
+									<table class="guide-list tbl-all-left">
+										<colgroup>
+											<col style="width: 40%;">
+											<col style="width: auto;">
+										</colgroup>
+										<tbody>
+											<tr>
+												<th scope="row">class="tbl-all-left"</th>
+												<td>왼쪽 정렬</td>
+											</tr>						
+										</tbody>
+									</table>
+									<div class="line"></div>
+	
+									<table class="guide-list tbl-all-center">
+										<colgroup>
+											<col style="width: 40%;">
+											<col style="width: auto;">
+										</colgroup>
+										<tbody>
+											<tr>
+												<th scope="row">class="tbl-all-center"</th>
+												<td>가운데 정렬</td>
+											</tr>						
+										</tbody>
+									</table>
+									<div class="line"></div>
+	
+									<table class="guide-list tbl-all-right">
+										<colgroup>
+											<col style="width: 40%;">
+											<col style="width: auto;">
+										</colgroup>
+										<tbody>
+											<tr>
+												<th scope="row">class="tbl-all-right"</th>
+												<td>오른쪽 정렬</td>
+											</tr>						
+										</tbody>
+									</table>
+								</div>
+							</div>
+	
+							<div class="col-6">
+								<h4 class="cont-tit">Table 부분 정렬</h4>
+								<p>부분 정렬시 <strong class="essential">정렬하고자 하는 th 또는 td에 정렬 클래스 추가</strong></p> <br>
+								<div class="bbs-default">
+									<table class="guide-list">
+										<colgroup>
+											<col style="width: 40%;">
+											<col style="width: auto;">
+										</colgroup>
+										<tbody>
+											<tr>
+												<th scope="row">class="align-left"</th>
+												<td class="align-left">왼쪽 정렬</td>
+											</tr>
+											<tr>
+												<th scope="row">class="align-center"</th>
+												<td class="align-center">가운데 정렬</td>
+											</tr>
+											<tr>
+												<th scope="row">class="align-right"</th>
+												<td class="align-right">오른쪽 정렬</td>
+											</tr>					
+										</tbody>
+									</table>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<div class="row" id="width">
+						<div class="col-6">
+							<h4 class="cont-tit">Width</h4>
+							<div class="bbs-default">
+								<table class="guide-list tbl-all-left">
+									<colgroup>
+										<col style="width: 150px;">
+										<col style="width: auto;">
+									</colgroup>
+									<tbody>
+										<tr>
+											<th scope="row">width (px)</th>
+											<td>class= w-10 ~ w-200 (10단위) <br>class= w-200 ~ w-400 (50단위)</td>
+										</tr>							
+										<tr>
+											<th scope="row">width (%)</th>
+											<td>class= w-40p ~ w-100p (5단위)</td>
+										</tr>
+										<tr>
+											<th scope="row" rowspan="3">ex</th>
+											<td><div class="ex-box w-100">width 100px</td>
+										</tr>
+										<tr>
+											<td><div class="ex-box w-150">width 150px</td>
+										</tr>
+										<tr>
+											<td><div class="ex-box w-80p">width 80%</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+
+						<div class="col-6">
+							<h4 class="cont-tit">Height</h4>
+							<div class="bbs-default">
+								<table class="guide-list tbl-all-left">
+									<colgroup>
+										<col style="width: 150px;">
+										<col style="width: auto;">
+									</colgroup>
+									<tbody>
+										<tr>
+											<th scope="row">Height (px)</th>
+											<td>class= h-100 ~ h-200 (10단위) <br>class= h-200 ~ h-500 (50단위)</td>
+										</tr>							
+										<tr>
+											<th scope="row">Height (%)</th>
+											<td>class= h-100p</td>
+										</tr>
+										<tr>
+											<th scope="row">ex</th>
+											<td><div class="ex-box h-100">height 100px</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+
+					<div class="row" id="margin">
+						<div class="col-6">
+							<h4 class="cont-tit">Margin</h4>
+							<div class="bbs-default">
+								<table class="guide-list tbl-all-left">
+									<colgroup>
+										<col style="width: 150px;">
+										<col style="width: auto;">
+									</colgroup>
+									<tbody>
+										<tr>
+											<th scope="row">margin</th>
+											<td>class= mar0 ~ mar60 (5단위)</td>
+										</tr>
+										<tr>
+											<th scope="row">margin-top</th>
+											<td>class= marT0 ~ marT60 (5단위)</td>
+										</tr>
+										<tr>
+											<th scope="row">margin-left</th>
+											<td>class= marL0 ~ marL60 (5단위)</td>
+										</tr>
+										<tr>
+											<th scope="row">margin-right</th>
+											<td>class= marR0 ~ marR60 (5단위)</td>
+										</tr>
+										<tr>
+											<th scope="row">margin-bottom</th>
+											<td>class= marB0 ~ marB60 (5단위)</td>
+										</tr>
+										<tr>
+											<th scope="row">ex</th>
+											<td><div class="ex-box marB30">box</div><div class="ex-box marB30">box</div></td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+
+						<div class="col-6">
+							<h4 class="cont-tit">Padding</h4>
+							<div class="bbs-default">
+								<table class="guide-list tbl-all-left">
+									<colgroup>
+										<col style="width: 150px;">
+										<col style="width: auto;">
+									</colgroup>
+									<tbody>
+										<tr>
+											<th scope="row">padding</th>
+											<td>class= pad0 ~ pad60 (5단위)</td>
+										</tr>
+										<tr>
+											<th scope="row">padding-top</th>
+											<td>class= padT0 ~ padT60 (5단위)</td>
+										</tr>
+										<tr>
+											<th scope="row">padding-left</th>
+											<td>class= padL0 ~ padL60 (5단위)</td>
+										</tr>
+										<tr>
+											<th scope="row">padding-right</th>
+											<td>class= padR0 ~ padR60 (5단위)</td>
+										</tr>
+										<tr>
+											<th scope="row">padding-bottom</th>
+											<td>class= padB0 ~ padB60 (5단위)</td>
+										</tr>
+										<tr>
+											<th scope="row">ex</th>
+											<td><div class="ex-box pad30">box</div></td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+
+
+				</div>
+			</div>
+			<!-- //container -->
+
+
+		</div>
+		<!-- //wrap -->
+	
+	</body>
+</html>

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+  @Description : jsp에서 사용하는 커스텀 태그 라이브러리
+  @author 플랫폼개발부문 DT솔루션 이준호
+  @since 2022.02.24
+  @version 1.0
+  @see
+
+	수정일        수정자               수정내용
+  =========     =======    =================================================
+  2022.02.24     이준호               최초생성
+-->
+<taglib xmlns="http://java.sun.com/xml/ns/j2ee"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-jsptaglibrary_2_0.xsd"
+    version="2.0">
+
+    <description>이지스(egis) 커스텀 태그 라이브러리</description>
+    <display-name>Egis JSTL core</display-name>
+    <tlib-version>1.0</tlib-version>
+    <short-name>egis</short-name>
+    <uri>http://www.egiskorea.com/jsp/egis</uri>
+
+    <function>
+        <description>개행문자를 br태그로 치환해서 반환해주는 메소드</description>
+        <name>nl2br</name>
+        <function-class>egiskorea.com.cmm.service.CmmUtils</function-class>
+        <function-signature>java.lang.String nl2br(java.lang.String)</function-signature>
+        <example>
+            ${egis:nl2br(str)}
+        </example>
+    </function>
+
+    <function>
+        <description>파일이 존재 하는지 확인 해주는 메소드</description>
+        <name>isFile</name>
+        <function-class>egiskorea.com.cmm.service.CmmUtils</function-class>
+        <function-signature>boolean isFile(java.lang.String)</function-signature>
+        <example>
+            ${egis:isFile(filename)}
+        </example>
+    </function>
+
+    <function>
+        <description>문자열 암호화 해주는 메소드</description>
+        <name>encrypt</name>
+        <function-class>egiskorea.com.cmm.service.CmmUtils</function-class>
+        <function-signature>java.lang.String encrypt(java.lang.String)</function-signature>
+        <example>
+            ${egis:encrypt(str)}
+        </example>
+    </function>
+</taglib>

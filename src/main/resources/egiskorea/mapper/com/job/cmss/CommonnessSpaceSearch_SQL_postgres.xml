@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="commonnessSpaceSearch">
+	<!-- 읍명동 리스트 조회 -->
+	<select id="selectTgdSccoEmdList" parameterType="tgdSccoEmdVO" resultType="tgdSccoEmdVO">
+		/* SQL_ID: 정재환_CommonnessSpaceSearch_SQL_postgres.xml.selectTgdSccoEmdList 읍명동 리스트*/
+		SELECT EMD_CD, EMD_KOR_NM, EMD_ENG_NM, GID, GEOM
+		FROM TGD_SCCO_EMD 
+		ORDER BY EMD_KOR_NM ASC
+	</select>
+	
+	<!-- 공통분류 코드 리스트 조회 -->
+	<select id="selectComtccmmnclCodeList" parameterType="comtccmmnclCode" resultType="comtccmmnclCode">
+		/* SQL_ID: 정재환_CommonnessSpaceSearch_SQL_postgres.xml.selectComtccmmnclCodeList 공통분류코드 리스트*/
+		SELECT CODE_ID, CODE_ID_NM, CODE_ID_DC, USE_AT, CL_CODE, FRST_REGIST_PNTTM, FRST_REGISTER_ID, LAST_UPDT_PNTTM, LAST_UPDUSR_ID
+		FROM COMTCCMMNCODE 
+		WHERE USE_AT = 'Y'
+		<if test="clCode != null and clCode !=''">
+		AND
+			CL_CODE = #{clCode}
+		</if>
+		ORDER BY CODE_ID_NM ASC
+	</select>
+	
+		<select id="selectComtccmmndetailcodeList" parameterType="comtccmmndetailcode" resultType="comtccmmndetailcode">
+		/* SQL_ID: 정재환_CommonnessSpaceSearch_SQL_postgres.xml.selectComtccmmndetailcodeList 공통분류 상세 코드 리스트*/
+		SELECT CODE_ID, CODE, CODE_NM, CODE_DC, USE_AT, FRST_REGIST_PNTTM, FRST_REGISTER_ID, LAST_UPDT_PNTTM, LAST_UPDUSR_ID 
+		FROM COMTCCMMNDETAILCODE
+		WHERE USE_AT = 'Y'
+		<if test="codeId != null and codeId !=''">
+		AND
+			CODE_ID = #{codeId}
+		</if>
+		ORDER BY CODE_NM ASC
+	</select>
+	
+</mapper>

@@ -1,0 +1,83 @@
+<!-- 분석 > 국공유지AI분석 -->
+<div class="small-popup small-left opened" style="width: 440px;height: 807px;">
+	
+	<div class="popup-header">AI영상분석</div>
+	<div class="popup-body ai-analysis-body">
+		<div class="">
+			<span class="form-checkbox sm group" style="margin-bottom: 6px;">
+				<span><input type="radio" name="AI_radio" value="3" checked="checked">시설물</span>
+				<span><input type="radio" name="AI_radio" value="2">자동차</span>
+				<span><input type="radio" name="AI_radio" value="4">건물</span>
+			</span>
+		</div>
+		<div class="ai-video-box" id="AIVideoBox">
+			<span class="form-checkbox sm group">
+				<span><input type="checkbox" name="AI_check" id="class_0" checked="checked"><label for="class_0">건물(지붕형)(0)</label></span>
+				<span><input type="checkbox" name="AI_check" id="class_1" checked="checked"><label for="class_1">건물(옥상형)(0)</label></span>
+				<span><input type="checkbox" name="AI_check" id="class_12" checked="checked"><label for="class_12">대(0)</label></span>
+				<span><input type="checkbox" name="AI_check" id="class_15" checked="checked"><label for="class_15">창고용지(0)</label></span>
+				<span><input type="checkbox" name="AI_check" id="class_11" checked="checked"><label for="class_11">임야(0)</label></span>
+				<span><input type="checkbox" name="AI_check" id="class_5" checked="checked"><label for="class_5">전,답(0)</label></span>
+				<span><input type="checkbox" name="AI_check" id="class_14" checked="checked"><label for="class_14">과수원(0)</label></span>
+				<span><input type="checkbox" name="AI_check" id="class_2" checked="checked"><label for="class_2">비닐하우스(백)(0)</label></span>
+				<span><input type="checkbox" name="AI_check" id="class_3" checked="checked"><label for="class_3">비닐하우스(흑)(0)</label></span>
+				<span><input type="checkbox" name="AI_check" id="class_4" checked="checked"><label for="class_4">도로(0)</label></span><!--(<strong>34</strong>)  -->
+				<span><input type="checkbox" name="AI_check" id="class_10" checked="checked"><label for="class_10">주차장(0)</label></span>
+				<span><input type="checkbox" name="AI_check" id="class_13" checked="checked"><label for="class_13">철도용지(0)</label></span>
+				<span><input type="checkbox" name="AI_check" id="class_6" checked="checked"><label for="class_6">하천(0)</label></span>
+				<span><input type="checkbox" name="AI_check" id="class_7" checked="checked"><label for="class_7">유지(0)</label></span>
+				<span><input type="checkbox" name="AI_check" id="class_8" checked="checked"><label for="class_8">제방(0)</label></span>
+				<span><input type="checkbox" name="AI_check" id="class_16" checked="checked"><label for="class_16">염전(0)</label></span>
+				<span><input type="checkbox" name="AI_check" id="class_9" checked="checked"><label for="class_9">묘지(0)</label></span>
+				<span><input type="checkbox" name="AI_check" id="class_others" checked="checked"><label for="class_others">기타(0)</label></span>
+			</span>
+			
+		</div>
+		<div class="btn-wrap"><div><button type="button" class="btn basic bi-loading" id="startAianalysBtn">분석</button></div></div>
+		<div class="data-default scroll-y" style="height: 535px;" id="aiImageReslt">
+			<table class="data-list">
+				<colgroup>
+					<col style="width: 15%;">
+					<col style="width: 20%;">
+					<col style="width: 25%;">
+					<col style="width: 15%;">
+					<col style="width: 32px;">
+				</colgroup>
+				<thead>
+					<tr>
+						<th scope="col">No</th>
+						<th scope="col">판독유형</th>
+						<th scope="col">분류</th>
+						<th scope="col">정확도</th>
+						<th scope="col">이동</th>
+					</tr>
+				</thead>										
+			</table>
+			<div id="classifiedBodyTbl">
+				<table class="data-list tbl-all-center">
+					<colgroup>
+						<col style="width: 15%;">
+						<col style="width: 20%;">
+						<col style="width: 25%;">
+						<col style="width: 15%;">
+						<col style="width: 32px;">
+					</colgroup>
+					<tbody id="classifiedBody">
+						<!-- <tr>
+							<td>1</td>
+							<td>비닐하우스(백)</td>
+							<td>건물(지붕형)</td>
+							<td>0.41</td>
+							<td><button type="button" class="icon-btn location sm" title="위치 이동"></button></td>
+						</tr>
+						 -->
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+	<button type="button" class="manualBtn" title="도움말" onclick="manualTab('AI영상분석(3D)')"></button>
+	<button type="button" class="popup-toggle" title="접기"></button>
+
+</div>
+<!-- //분석 > 국공유지AI분석 -->

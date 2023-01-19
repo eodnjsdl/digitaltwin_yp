@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cctvDAO">
+	
+	<!-- CCTV 목록 -->
+	<select id="selectCctvList" parameterType="safetyFacilCctvMngVO" resultType="safetyFacilCctvMng">
+		SELECT GID, LABEL, DEVICEID, LGSR_ADR, GBN, ST_X(ST_TRANSFORM(GEOM, 4326)) AS lon, ST_Y(ST_TRANSFORM(GEOM, 4326)) AS lat 
+		<if test="spitalSearch != ''">
+			, ST_ASTEXT( ST_BUFFER(ST_GEOMFROMTEXT(#{spitalSearch}, 4326), #{cctvBuffer} , 'join=round') ) AS bufferArea 
+		</if> 
+		FROM TGD_CCTV_STATUS_NEW
+		WHERE LABEL LIKE '%'||#{searchLabel}||'%'
+		AND DEVICEID LIKE '%'||#{searchDeviceid}||'%'
+		AND GBN LIKE '%'||#{searchGbn}||'%'
+		<if test="spitalSearch != ''">
+			AND ST_INTERSECTS(ST_BUFFER(ST_GEOMFROMTEXT(#{spitalSearch}, 4326), #{cctvBuffer}), ST_TRANSFORM(GEOM, 4326)) = true
+		</if>
+		ORDER BY GID ASC
+		LIMIT #{recordCountPerPage} OFFSET #{firstIndex}
+	</select>
+	
+	<!-- CCTV 갯수 -->
+	<select id="selectCctvListCnt" parameterType="safetyFacilCctvMngVO" resultType="java.lang.Integer">
+		SELECT COUNT(*) FROM TGD_CCTV_STATUS_NEW
+		WHERE LABEL LIKE '%'||#{searchLabel}||'%'
+		AND DEVICEID LIKE '%'||#{searchDeviceid}||'%'
+		AND GBN LIKE '%'||#{searchGbn}||'%'
+		<if test="spitalSearch != ''">
+			AND ST_INTERSECTS(ST_BUFFER(ST_GEOMFROMTEXT(#{spitalSearch}, 4326), #{cctvBuffer}), ST_TRANSFORM(GEOM, 4326)) = true
+		</if>
+	</select>
+	
+	<!-- 안전시설물관리 > CCTV 상세보기 -->
+	<select id="selectSafetyFacilCctvMng" parameterType="safetyFacilCctvMngVO" resultType="safetyFacilCctvMng">
+		SELECT 	 GID, LABEL, DEVICEID, LGSR_ADR, GBN, ST_X(ST_TRANSFORM(GEOM, 4326)) AS lon, ST_Y(ST_TRANSFORM(GEOM, 4326)) AS lat, GEOM
+		FROM 	 TGD_CCTV_STATUS_NEW
+		WHERE    1=1
+		AND  GID = #{gid}
+	</select>
+	
+	<!-- 안전시설물관리 > CCTV관리 삭제 -->
+	<delete id="deleteCctv" parameterType="safetyFacilCctvMng">
+		DELETE FROM TGD_CCTV_STATUS_NEW WHERE GID = #{gid}
+	</delete>
+	
+	<!-- 안전시설물관리 > CCTV관리 등록 -->
+	<insert id="insertCctv" parameterType="safetyFacilCctvMng">
+		INSERT INTO TGD_CCTV_STATUS_NEW
+		(
+			GID, 
+			LABEL, 
+			DEVICEID, 
+			GBN,
+			LGSR_ADR, 
+			GEOM
+		)
+		VALUES
+		(
+			default,
+		    #{label}, 
+			#{deviceid}, 
+			#{gbn}, 
+			#{lgsrAdr}, 
+			ST_TRANSFORM(ST_GEOMFROMTEXT('POINT ('||#{lon}||' '||#{lat}||')', 4326), 5179)
+		)
+	</insert>
+
+	<update id="updateCctv" parameterType="safetyFacilCctvMng">
+		UPDATE TGD_CCTV_STATUS_NEW SET 
+			LABEL = #{label}, 
+			DEVICEID = #{deviceid}, 
+			GBN = #{gbn}, 
+			LGSR_ADR = #{lgsrAdr}, 
+			GEOM = ST_TRANSFORM(ST_GEOMFROMTEXT('POINT ('||#{lon}||' '||#{lat}||')', 4326), 5179)
+		WHERE GID = #{gid} 
+	</update>
+	
+	<select id="cctvExcelDown" parameterType="safetyFacilCctvMngVO" resultType="HashMap">
+		SELECT *, ST_X(ST_TRANSFORM(GEOM, 4326)) AS lon, ST_Y(ST_TRANSFORM(GEOM, 4326)) AS lat 
+		FROM TGD_CCTV_STATUS_NEW
+		WHERE LABEL LIKE '%'||#{searchLabel}||'%'
+		AND DEVICEID LIKE '%'||#{searchDeviceid}||'%'
+		AND GBN LIKE '%'||#{searchGbn}||'%'
+		<if test="spitalSearch != ''">
+			AND ST_INTERSECTS(ST_BUFFER(ST_GEOMFROMTEXT(#{spitalSearch}, 4326), #{cctvBuffer}), ST_TRANSFORM(GEOM, 4326)) = true
+		</if>
+		ORDER BY GID ASC
+	</select>
+	
+	<select id="selectCctvPOIList" parameterType="safetyFacilCctvMng" resultType="safetyFacilCctvMng">
+		SELECT *, ST_X(ST_TRANSFORM(GEOM, 4326)) AS lon, ST_Y(ST_TRANSFORM(GEOM, 4326)) AS lat 
+		<if test="spitalSearch != ''">
+			, ST_ASTEXT( ST_BUFFER(ST_GEOMFROMTEXT(#{spitalSearch}, 4326), #{cctvBuffer} , 'join=round') ) AS bufferArea 
+		</if> 
+		FROM TGD_CCTV_STATUS_NEW
+		WHERE LABEL LIKE '%'||#{searchLabel}||'%'
+		AND DEVICEID LIKE '%'||#{searchDeviceid}||'%'
+		AND GBN LIKE '%'||#{searchGbn}||'%'
+		<if test="spitalSearch != ''">
+			AND ST_INTERSECTS(ST_BUFFER(ST_GEOMFROMTEXT(#{spitalSearch}, 4326), #{cctvBuffer}), ST_TRANSFORM(GEOM, 4326)) = true
+		</if>
+		ORDER BY GID ASC
+		LIMIT #{recordCountPerPage} OFFSET #{firstIndex}
+	</select>
+</mapper>

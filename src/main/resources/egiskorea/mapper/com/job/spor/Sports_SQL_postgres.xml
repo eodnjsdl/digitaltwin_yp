@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="sportsDAO">
+
+	<!-- 체육시설 목록 조회 -->
+	<select id="selectSportsList" resultType="egovMap">
+		SELECT GID, FCLTY_NM, ADRES, CHARGER_NM, CTTPC_TELNO, FOND_DE, LAST_MODF_DT, ST_X(ST_TRANSFORM(GEOM,4326)) AS LON_LON,ST_Y(ST_TRANSFORM(GEOM,4326))AS LAT_LAT 
+			<if test="sporSpitalSearch != ''">
+				,ST_ASTEXT(ST_BUFFER(ST_GEOMFROMTEXT(#{sporSpitalSearch}, 4326), #{sportsBuffer} , 'join=round')) bufferArea /* bufferArea */
+			</if>
+		FROM TGD_PHSTRN_FCLTY WHERE 1=1
+			<if test = "sports_oper_mthd_cd !='' and  sports_oper_mthd_cd !=null" >
+				AND OPER_MTHD LIKE '%' || #{sports_oper_mthd_cd} || '%'
+			</if>
+			  AND ADRES LIKE '%' || #{sporSearchAdres} || '%' AND FCLTY_NM LIKE '%' || #{sporSearchAlsfc_nm} || '%' 
+			<if test="sporSpitalSearch !=''">
+				AND ST_INTERSECTS(ST_BUFFER(ST_GEOMFROMTEXT(#{sporSpitalSearch}, 4326), #{sportsBuffer}), ST_TRANSFORM(GEOM, 4326)) = true
+			</if>
+		ORDER BY GID DESC LIMIT #{recordCountPerPage} OFFSET #{firstIndex}
+	</select>
+	
+	<!-- 체육시설 목록 조회 cnt -->
+	<select id="selectSportsListCnt" parameterType="sportsVO" resultType="int">
+		SELECT COUNT(*) FROM TGD_PHSTRN_FCLTY WHERE 1=1
+			<if test = "sports_oper_mthd_cd !='' and  sports_oper_mthd_cd != null" >
+				AND OPER_MTHD LIKE '%' || #{sports_oper_mthd_cd} || '%'
+			</if>
+			  AND ADRES LIKE '%' || #{sporSearchAdres} || '%' AND fclty_nm LIKE '%' || #{sporSearchAlsfc_nm} || '%' 
+		<if test="sporSpitalSearch != ''">
+			AND ST_INTERSECTS(ST_BUFFER(ST_GEOMFROMTEXT(#{sporSpitalSearch}, 4326), #{sportsBuffer}), ST_TRANSFORM(GEOM, 4326)) = true
+		</if>
+	</select>
+	
+	<!-- 체육시설 목록 삭제 -->
+	<delete id="deleteSports">
+		DELETE FROM TGD_PHSTRN_FCLTY WHERE GID = #{gid}
+	</delete>
+	
+	<!-- 체육시설 목록 등록 -->
+	<insert id="insertSports" parameterType="sportsVO">
+		INSERT INTO TGD_PHSTRN_FCLTY ( GID,FCLTY_NM,FCLTY_TY,OPER_MTHD,FOND_DE,BULD_SIZE,LAD_SIZE,STDM_STNDRD,MANAGE_NMPR,FYER_UTLZTN_NMPR,ERC_CT,ADRES,CHRG_DEPT_NM,CHARGER_NM,CTTPC_TELNO,FCLTY_SUMRY,GEOM,FRST_REGIST_DT,FRST_REGISTER_ID,LAST_MODF_DT,LAST_UPDUSR_ID)
+		VALUES ( NEXTVAL('TGD_PHSTRN_FCLTY_GID_SEQ'), #{fcltyNm}, #{fcltyTy}, #{operMthd}, #{fondDe}, #{buldSize},#{ladSize},#{stdmStndrd},#{manageNmpr},#{fyerUtlztnNmpr},#{ercCt},#{adres},#{chrgDeptNm},#{chargerNm},#{cttpcTelno},#{fcltySumry}, ST_GEOMFROMTEXT(#{geom}, 5179),now(),#{frstRegisterId},now(),#{lastUpdusrId} 
+		)
+	</insert>
+	
+	<!-- 체육시설 상세 조회 -->
+	<select id="selectSportsDetail" parameterType="SportsVO" resultType="SportsVO">
+		SELECT GID, FCLTY_NM, FCLTY_TY, ADRES, OPER_MTHD, ERC_CT, BULD_SIZE, LAD_SIZE,FCLTY_SUMRY, MANAGE_NMPR, FYER_UTLZTN_NMPR, CHRG_DEPT_NM ,CHARGER_NM, CTTPC_TELNO, FOND_DE, LAST_MODF_DT, ST_SETSRID(ST_GEOMFROMTEXT(#{geom}), 5179), ST_X(ST_TRANSFORM(GEOM,4326)) AS LON, ST_Y(ST_TRANSFORM(GEOM,4326))AS LAT FROM TGD_PHSTRN_FCLTY WHERE 1=1 AND GID=#{gid}
+	</select>
+	
+	<!-- 체육시설 수정 -->
+	<update id="updateSports" parameterType="sportsVO" >
+		UPDATE TGD_PHSTRN_FCLTY SET FCLTY_NM = #{fcltyNm},ADRES=#{adres},FCLTY_TY= #{fcltyTy},OPER_MTHD=#{operMthd},ERC_CT=#{ercCt},FOND_DE=#{fondDe}, BULD_SIZE=#{buldSize}, LAD_SIZE=#{ladSize}, MANAGE_NMPR=#{manageNmpr},FYER_UTLZTN_NMPR= #{fyerUtlztnNmpr}, CHRG_DEPT_NM=#{chrgDeptNm}, CHARGER_NM=#{chargerNm}, CTTPC_TELNO=#{cttpcTelno}, FCLTY_SUMRY=#{fcltySumry},  LAST_MODF_DT = now(), LAST_UPDUSR_ID =#{lastUpdusrId}
+		<if test="geom != null and geom !=''">
+			,GEOM = ST_SETSRID(ST_GEOMFROMTEXT(#{geom}), 5179)	
+		</if>
+		WHERE GID = #{gid}
+	</update>
+	
+	<!-- 체육시설 다운로드 -->	
+	<select id="getAllSportsExcel" parameterType="sportsVO" resultType="HashMap">
+		SELECT GID, FCLTY_NM, ADRES, CHARGER_NM, CTTPC_TELNO, FOND_DE, LAST_MODF_DT, ST_X(ST_TRANSFORM(GEOM,4326)) AS LON_LON,ST_Y(ST_TRANSFORM(GEOM,4326))AS LAT_LAT 
+			<if test="sporSpitalSearch != ''">
+				,ST_ASTEXT(ST_BUFFER(ST_GEOMFROMTEXT(#{sporSpitalSearch}, 4326), #{sportsBuffer} , 'join=round')) bufferArea /* bufferArea */
+			</if>
+		FROM TGD_PHSTRN_FCLTY WHERE 1=1
+			<if test = "sports_oper_mthd_cd !='' and sports_oper_mthd_cd != null" >
+				AND OPER_MTHD LIKE '%' || #{sports_oper_mthd_cd} || '%'
+			</if>
+			  AND ADRES LIKE '%' || #{sporSearchAdres} || '%' AND FCLTY_NM LIKE '%' || #{sporSearchAlsfc_nm} || '%' 
+			<if test="sporSpitalSearch !=''">
+				AND ST_INTERSECTS(ST_BUFFER(ST_GEOMFROMTEXT(#{sporSpitalSearch}, 4326), #{sportsBuffer}), ST_TRANSFORM(GEOM, 4326)) = true
+			</if>
+	</select>
+	
+	<!-- 체육시설 POI 표출 -->
+	<select id ="poi_selectSportsList" resultType="egovMap">
+		SELECT GID, FCLTY_NM, ADRES, CHARGER_NM, CTTPC_TELNO, FOND_DE, LAST_MODF_DT, ST_X(ST_TRANSFORM(GEOM,4326)) AS LON_LON,ST_Y(ST_TRANSFORM(GEOM,4326))AS LAT_LAT 
+			<if test="sporSpitalSearch != ''">
+				,ST_ASTEXT(ST_BUFFER(ST_GEOMFROMTEXT(#{sporSpitalSearch}, 4326), #{sportsBuffer} , 'join=round')) bufferArea /* bufferArea */
+			</if>
+		FROM TGD_PHSTRN_FCLTY WHERE 1=1
+		<if test = "sports_oper_mthd_cd !='' and  sports_oper_mthd_cd !=null" >
+				AND OPER_MTHD LIKE '%' || #{sports_oper_mthd_cd} || '%'
+			</if>
+			  AND ADRES LIKE '%' || #{sporSearchAdres} || '%' AND FCLTY_NM LIKE '%' || #{sporSearchAlsfc_nm} || '%' 
+			<if test="sporSpitalSearch !=''">
+				AND ST_INTERSECTS(ST_BUFFER(ST_GEOMFROMTEXT(#{sporSpitalSearch}, 4326), #{sportsBuffer}), ST_TRANSFORM(GEOM, 4326)) = true
+			</if>
+		ORDER BY GID DESC LIMIT #{recordCountPerPage} OFFSET #{firstIndex}
+	</select>
+	
+	<!-- 체육시설 운영정보 목록 조회 -->
+	<select id="selectSportsMngList" resultType="egovMap" parameterType="sportsVO">
+		SELECT OPER_YEAR, DPRC_AM, DPRC_ACMTL_AM, BK_AMOUNT, OPER_CT, OPER_ERN FROM TGD_PHSTRN_FCLTY_OPER_MANAGE
+		WHERE GID = #{gid}
+		ORDER BY OPER_YEAR
+		DESC LIMIT #{recordCountPerPage} OFFSET #{firstIndex}
+	</select>
+	
+	<!-- 체육시설 운영정보 목록 조회 cnt -->
+	<select id="selectSportsMngListCnt" parameterType="sportsVO" resultType="int">
+		SELECT COUNT(*) FROM TGD_PHSTRN_FCLTY_OPER_MANAGE
+		WHERE GID = #{gid}
+	</select>
+	
+	<select id="checkSportsOperYear" parameterType="sportsVO" resultType="int">
+		SELECT COUNT(*) FROM TGD_PHSTRN_FCLTY_OPER_MANAGE
+		WHERE GID = #{gid}
+		AND OPER_YEAR = #{oper_year}
+	</select>
+	
+	<!-- 운영정보 신규 등록 -->
+	<insert id="insertSportsMngInfo" parameterType="sportsVO">
+		INSERT INTO TGD_PHSTRN_FCLTY_OPER_MANAGE ( GID, OPER_YEAR, DPRC_AM, DPRC_ACMTL_AM, BK_AMOUNT, OPER_CT, OPER_ERN, FRST_REGIST_DT, FRST_REGISTER_ID, LAST_MODF_DT, LAST_UPDUSR_ID) VALUES (#{gid}, #{oper_year}, #{dprc_am}, #{dprc_acmtl_am}, #{bk_amount}, #{oper_ct}, #{oper_ern}, current_timestamp, #{frst_register_id}, current_timestamp, #{last_updusr_id})
+	</insert>
+	<!-- 운영정보 수정 -->
+	<update id="updateSportsMngInfo" parameterType="sportsVO">
+		UPDATE TGD_PHSTRN_FCLTY_OPER_MANAGE SET ACQS_AMOUNT = #{acqs_amount}, DPRC_AM=#{dprc_am}, DPRC_ACMTL_AM= #{dprc_acmtl_am}, BK_AMOUNT=#{bk_amount}, CONTENTS_YYCNT=#{contents_yycnt}, OPER_CT=#{oper_ct}, OPER_ERN=#{oper_ern}, LAST_MODF_DT=current_timestamp, LAST_UPDUSR_ID=#{last_updusr_id} WHERE GID = #{gid} AND OPER_YEAR = #{oper_year}
+	</update>
+	<!-- 운영정보, 시설정보 삭제 -->
+	<delete id="deleteSportsMng" parameterType="sportsVO">
+		DELETE FROM TGD_PHSTRN_FCLTY_OPER_MANAGE
+		WHERE 1=1
+		<choose>
+			<when test="oper_year != null and oper_year != ''">
+				<![CDATA[ AND (GID = #{gid} AND OPER_YEAR IN (${oper_year})) ]]>
+			</when>
+			<otherwise>
+				<![CDATA[ AND GID = #{gid}]]>
+			</otherwise>
+		</choose>
+	</delete>
+
+	<!-- 체육시설 시설정보 목록 조회 -->
+	<select id="selectSportsFacMngList" resultType="egovMap" parameterType="sportsVO">
+		SELECT ASSTN_FCLTY_SN, ASSTN_FCLTY_NM, OPER_STRT_TIME, OPER_END_TIME, RSRV_AT, HO_CNT, FCLTY_DC, ST_X(ST_Transform(GEOM,4326)) AS LON,ST_Y(ST_Transform(GEOM,4326))AS LAT FROM TGD_PHSTRN_FCLTY_ASSTN
+		WHERE GID = #{gid}
+		ORDER BY ASSTN_FCLTY_SN
+		DESC LIMIT #{recordCountPerPage} OFFSET #{firstIndex}
+	</select>
+	
+	<!-- 체육시설 시설정보 목록 조회 cnt -->
+	<select id="selectSportsFacMngListCnt" parameterType="sportsVO" resultType="int">
+		SELECT COUNT(*) FROM TGD_PHSTRN_FCLTY_ASSTN
+		WHERE GID = #{gid}
+	</select>
+	
+	<!-- 체육시설 시설정보 신규 등록 -->
+	<insert id="insertSportsFacMngInfo" parameterType="sportsVO">
+		INSERT INTO TGD_PHSTRN_FCLTY_ASSTN ( GID, ASSTN_FCLTY_SN, ASSTN_FCLTY_NM, OPER_STRT_TIME, OPER_END_TIME, RSRV_AT, HO_CNT, FCLTY_DC, GEOM, FRST_REGIST_DT, FRST_REGISTER_ID, LAST_MODF_DT, LAST_UPDUSR_ID)
+		VALUES ( #{gid}, (SELECT COALESCE(MAX(ASSTN_FCLTY_SN), 0)+1 AS ASSTN_FCLTY_SN FROM TGD_PHSTRN_FCLTY_ASSTN WHERE GID = #{gid} ), #{asstn_fclty_nm}, #{oper_strt_time}, #{oper_end_time}, #{rsrv_at}, #{ho_cnt}, #{fclty_dc}, ST_GEOMFROMTEXT(#{geom}, 5179), current_timestamp, #{frst_register_id}, current_timestamp, #{last_updusr_id}) 
+	</insert>
+	
+	<!-- 체육시설 시설정보 선택삭제 -->
+	<delete id="deleteFacSportsMng" parameterType="sportsVO">
+		DELETE FROM TGD_PHSTRN_FCLTY_ASSTN
+		WHERE 1=1
+		<choose>
+			<when test="facList != null and facList != ''">
+				<![CDATA[ AND (GID = #{gid} AND ASSTN_FCLTY_SN IN (${facList})) ]]>
+			</when>
+			<otherwise>
+				<![CDATA[ AND GID = #{gid}]]>
+			</otherwise>
+		</choose>
+	</delete>
+</mapper>

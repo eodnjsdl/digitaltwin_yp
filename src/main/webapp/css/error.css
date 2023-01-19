@@ -1,0 +1,66 @@
+@charset "UTF-8";
+
+html, body {
+	height: 100%;
+}
+
+#errorPage {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	min-width: 700px;
+	height: 100%;
+}
+
+#errorPage .error-box {
+	text-align: center;
+}
+
+#errorPage .obj::before {
+	content: '';
+	display: block;
+	margin: 0 auto 20px;
+	width: 195px;
+	height: 160px;
+	background: url(/images/error/error-img.svg) no-repeat 50% 50%;
+}
+
+#errorPage .txt1 {
+	color: #44516A;
+	font-size: 25px;
+	font-weight: 700;
+}
+
+#errorPage .txt2 {
+	color: #44516A;
+	font-size: 16px;
+}
+
+#errorPage .box {
+	display: inline-block;
+	margin-top: 25px;
+	padding: 30px;
+	min-width: 360px;
+	border: 1px solid #8895AD;
+	background-color: #F3F4F5;
+	border-radius: 10px;
+}
+
+#errorPage .btn-wrap {
+	margin-top: 15px;
+}
+
+#errorPage .btn {
+	padding: 2px 6px;
+	color: #fff;
+	border: 1px solid #060C17;	
+	background-color: #1B283E;
+	border-radius: 4px;
+	-webkit-transition: background .2s;
+	transition: background .2s;
+}
+
+#errorPage .btn:hover {
+	border-color: #1C77FF;
+	background-color: #1C77FF;
+}

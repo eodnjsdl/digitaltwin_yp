@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="dronInfo">
+    <select id="selectDronInfoList" resultType="egovMap">
+        SELECT PI.*,TO_CHAR(PI.potogrf_de,'YYYY-MM-DD') AS grf_de, TO_CHAR(PI.FRST_REGIST_DT, 'YYYY-MM-DD') AS REG_DT, TO_CHAR(PI.LAST_MODF_DT , 'YYYY-MM-DD') AS MODF_DT,
+        CEI.USER_NM
+        FROM TBD_DRONE_PIC_INFO PI
+        LEFT OUTER JOIN COMTNEMPLYRINFO CEI
+        ON PI.EMPLYR_ID = CEI.EMPLYR_ID
+        WHERE 1 = 1
+        AND PI.EMPLYR_ID = #{emplyrId}
+        <choose>
+            <when test="@egovframework.com.cmm.util.EgovMybaitsUtil@isEquals(searchCnd,0)">
+                AND PI.SJ LIKE '%' || #{searchWrd} || '%'
+            </when>
+            <when test="@egovframework.com.cmm.util.EgovMybaitsUtil@isEquals(searchCnd,1)">
+                AND CEI.USER_NM  LIKE '%' || #{searchWrd} || '%'
+            </when>
+        </choose>
+        <trim prefix="ORDER BY">
+            <if test="@egovframework.com.cmm.util.EgovMybaitsUtil@isEquals(sortKind,0)">  SJ </if>
+            <if test="@egovframework.com.cmm.util.EgovMybaitsUtil@isEquals(sortKind,1)">  LAST_MODF_DT DESC </if>
+        </trim>
+        LIMIT #{recordCountPerPage} OFFSET #{firstIndex}
+    </select>
+    <select id="selectDronInfoCnt" resultType="java.lang.Integer">
+        SELECT
+        COUNT(*)
+        FROM TBD_DRONE_PIC_INFO PI
+        LEFT OUTER JOIN COMTNEMPLYRINFO CEI
+        ON PI.EMPLYR_ID = CEI.EMPLYR_ID
+        WHERE 1 = 1
+        <choose>
+            <when test="@egovframework.com.cmm.util.EgovMybaitsUtil@isEquals(searchCnd,0)">
+                AND PI.SJ LIKE '%' || #{searchWrd} || '%'
+            </when>
+            <when test="@egovframework.com.cmm.util.EgovMybaitsUtil@isEquals(searchCnd,1)">
+                AND CEI.USER_NM  LIKE '%' || #{searchWrd} || '%'
+            </when>
+        </choose>
+    </select>
+
+
+    <select id="selectDronInfoView" resultType="egovMap">
+	<if test="@egovframework.com.cmm.util.EgovMybaitsUtil@isEquals(sortKind,0)">
+		SELECT PI.*,TO_CHAR(PI.potogrf_de,'YYYY-MM-DD') AS grf_de, TO_CHAR(PI.FRST_REGIST_DT, 'YYYY-MM-DD') AS REG_DT, TO_CHAR(PI.LAST_MODF_DT , 'YYYY-MM-DD') AS MODF_DT, CEI.USER_NM,
+			(SELECT DRONE_PIC_ID FROM TBD_DRONE_PIC_INFO WHERE 1=1 AND SJ IN ( SELECT MAX(SJ) FROM TBD_DRONE_PIC_INFO A WHERE 1=1 AND A.EMPLYR_ID =#{emplyrId} AND <![CDATA[ A.SJ < #{sj} ]]>	
+				<if test="@egovframework.com.cmm.util.EgovMybaitsUtil@isEquals(searchCnd,0)">
+					AND A.SJ LIKE '%' || #{searchWrd} || '%'
+				</if>
+				<if test="@egovframework.com.cmm.util.EgovMybaitsUtil@isEquals(searchCnd,1)">
+					AND CEI.USER_NM  LIKE '%' || #{searchWrd} || '%'
+				</if>
+				)
+			) AS PREV_DRON_ID,
+			
+			(SELECT SJ FROM TBD_DRONE_PIC_INFO WHERE 1=1 AND SJ IN ( SELECT MAX(SJ) FROM TBD_DRONE_PIC_INFO A WHERE 1=1 AND A.EMPLYR_ID =#{emplyrId} AND  <![CDATA[ A.SJ < #{sj} ]]>
+				<if test="@egovframework.com.cmm.util.EgovMybaitsUtil@isEquals(searchCnd,0)">
+					AND A.SJ LIKE '%' || #{searchWrd} || '%'
+				</if>
+				<if test="@egovframework.com.cmm.util.EgovMybaitsUtil@isEquals(searchCnd,1)">
+					AND CEI.USER_NM  LIKE '%' || #{searchWrd} || '%'
+				</if>
+			
+			)) AS PREV_SJ,
+			
+			(SELECT DRONE_PIC_ID FROM TBD_DRONE_PIC_INFO WHERE 1=1 AND SJ IN ( SELECT MIN(SJ) FROM TBD_DRONE_PIC_INFO A WHERE 1=1 AND A.EMPLYR_ID =#{emplyrId} AND  <![CDATA[ A.SJ > #{sj} ]]>
+				<if test="@egovframework.com.cmm.util.EgovMybaitsUtil@isEquals(searchCnd,0)">
+					AND A.SJ LIKE '%' || #{searchWrd} || '%'
+				</if>
+				<if test="@egovframework.com.cmm.util.EgovMybaitsUtil@isEquals(searchCnd,1)">
+					AND CEI.USER_NM  LIKE '%' || #{searchWrd} || '%'
+				</if>
+			 
+			 )) AS NEXT_DRON_ID,
+			(SELECT SJ FROM TBD_DRONE_PIC_INFO WHERE 1=1 AND SJ IN ( SELECT MIN(SJ) FROM TBD_DRONE_PIC_INFO A WHERE 1=1 AND A.EMPLYR_ID =#{emplyrId} AND  <![CDATA[ A.SJ > #{sj} ]]>
+			 	<if test="@egovframework.com.cmm.util.EgovMybaitsUtil@isEquals(searchCnd,0)">
+					AND A.SJ LIKE '%' || #{searchWrd} || '%'
+				</if>
+				<if test="@egovframework.com.cmm.util.EgovMybaitsUtil@isEquals(searchCnd,1)">
+					AND CEI.USER_NM  LIKE '%' || #{searchWrd} || '%'
+				</if>
+			 )) AS NEXT_SJ
+		FROM TBD_DRONE_PIC_INFO PI
+			LEFT OUTER JOIN COMTNEMPLYRINFO CEI	
+				ON PI.EMPLYR_ID = CEI.EMPLYR_ID  
+		WHERE PI.DRONE_PIC_ID = #{dronPicId}
+	</if>
+	
+	<if test="@egovframework.com.cmm.util.EgovMybaitsUtil@isEquals(sortKind,1)"> 
+		SELECT PI.*,TO_CHAR(PI.potogrf_de,'YYYY-MM-DD') AS grf_de, TO_CHAR(PI.FRST_REGIST_DT, 'YYYY-MM-DD') AS REG_DT, TO_CHAR(PI.LAST_MODF_DT , 'YYYY-MM-DD') AS MODF_DT, CEI.USER_NM,
+			<![CDATA[
+			(SELECT DRONE_PIC_ID FROM TBD_DRONE_PIC_INFO WHERE 1=1 AND LAST_MODF_DT IN ( SELECT MIN(LAST_MODF_DT) FROM TBD_DRONE_PIC_INFO A WHERE 1=1 AND A.EMPLYR_ID =#{emplyrId} AND A.LAST_MODF_DT  > #{lastModfDt}::TIMESTAMP
+			]]>
+			<if test="@egovframework.com.cmm.util.EgovMybaitsUtil@isEquals(searchCnd,0)">
+				AND A.SJ LIKE '%' || #{searchWrd} || '%'
+			</if>
+			<if test="@egovframework.com.cmm.util.EgovMybaitsUtil@isEquals(searchCnd,1)">
+				AND CEI.USER_NM  LIKE '%' || #{searchWrd} || '%'
+			</if>
+			
+			)) AS PREV_DRON_ID,
+			<![CDATA[
+			(SELECT SJ FROM TBD_DRONE_PIC_INFO WHERE 1=1 AND LAST_MODF_DT IN ( SELECT MIN(LAST_MODF_DT) FROM TBD_DRONE_PIC_INFO A WHERE 1=1 AND A.EMPLYR_ID =#{emplyrId} AND A.LAST_MODF_DT  > #{lastModfDt}::TIMESTAMP
+			]]>
+			<if test="@egovframework.com.cmm.util.EgovMybaitsUtil@isEquals(searchCnd,0)">
+				AND A.SJ LIKE '%' || #{searchWrd} || '%'
+			</if>
+			<if test="@egovframework.com.cmm.util.EgovMybaitsUtil@isEquals(searchCnd,1)">
+				AND CEI.USER_NM  LIKE '%' || #{searchWrd} || '%'
+			</if>
+			
+			)) AS PREV_SJ,
+			<![CDATA[
+			(SELECT DRONE_PIC_ID FROM TBD_DRONE_PIC_INFO WHERE 1=1 AND LAST_MODF_DT IN ( SELECT MAX(LAST_MODF_DT) FROM TBD_DRONE_PIC_INFO A WHERE 1=1 AND A.EMPLYR_ID =#{emplyrId} AND A.LAST_MODF_DT  < #{lastModfDt}::TIMESTAMP
+			]]>
+			<if test="@egovframework.com.cmm.util.EgovMybaitsUtil@isEquals(searchCnd,0)">
+				AND A.SJ LIKE '%' || #{searchWrd} || '%'
+			</if>
+			<if test="@egovframework.com.cmm.util.EgovMybaitsUtil@isEquals(searchCnd,1)">
+				AND CEI.USER_NM  LIKE '%' || #{searchWrd} || '%'
+			</if>
+						
+			)) AS NEXT_DRON_ID,
+			<![CDATA[
+			(SELECT SJ FROM TBD_DRONE_PIC_INFO WHERE 1=1 AND LAST_MODF_DT IN ( SELECT MAX(LAST_MODF_DT) FROM TBD_DRONE_PIC_INFO A WHERE 1=1 AND A.EMPLYR_ID =#{emplyrId} AND A.LAST_MODF_DT  < #{lastModfDt}::TIMESTAMP
+			]]>
+			<if test="@egovframework.com.cmm.util.EgovMybaitsUtil@isEquals(searchCnd,0)">
+				AND A.SJ LIKE '%' || #{searchWrd} || '%'
+			</if>
+			<if test="@egovframework.com.cmm.util.EgovMybaitsUtil@isEquals(searchCnd,1)">
+				AND CEI.USER_NM  LIKE '%' || #{searchWrd} || '%'
+			</if>	
+					
+			)) AS NEXT_SJ	
+		FROM TBD_DRONE_PIC_INFO PI
+			LEFT OUTER JOIN COMTNEMPLYRINFO CEI	
+				ON PI.EMPLYR_ID = CEI.EMPLYR_ID  
+		WHERE PI.DRONE_PIC_ID = #{dronPicId}
+	</if>	
+    </select>
+
+    <insert id="insertDronInfo">
+        <selectKey keyProperty="dronPicId" resultType="string" order="BEFORE">
+            SELECT COALESCE(MAX(CAST(drone_pic_id AS INTEGER)), 0) + 1 FROM TBD_DRONE_PIC_INFO
+        </selectKey>
+        insert into TBD_DRONE_PIC_INFO
+        (
+        drone_pic_id,
+        emplyr_id,
+        sj,
+         cn,
+        potogrf_de,
+        atchmnfl_id,
+        frst_regist_dt,
+        last_modf_dt
+        )
+        values
+        (
+        #{dronPicId},
+        #{emplyrId},
+        #{sj},
+        #{cn},
+        #{potogrfDe}::timestamp,
+        #{atchmnflId},
+        CURRENT_TIMESTAMP,
+        CURRENT_TIMESTAMP
+        )
+    </insert>
+
+    <update id="updateDronInfo">
+        UPDATE TBD_DRONE_PIC_INFO
+        SET SJ = #{sj},
+            cn=#{cn},
+            LAST_MODF_DT = CURRENT_TIMESTAMP,
+            potogrf_de = #{potogrfDe}::timestamp,
+            ATCHMNFL_ID = #{atchmnflId}
+        WHERE drone_pic_id = #{dronPicId}
+    </update>
+
+    <delete id="deleteDronInfo">
+        DELETE FROM TBD_DRONE_PIC_INFO
+        WHERE drone_pic_id = #{dronPicId}
+    </delete>
+
+    <update id="updateFileDetail">
+        UPDATE COMTNFILEDETAIL
+        SET FILE_CN = #{fileCn}
+        WHERE
+            ATCH_FILE_ID = #{atchFileId} AND FILE_SN = CAST(#{fileSn} AS NUMERIC)
+    </update>
+
+	<select id="selectLastModfDt" resultType="string">
+		SELECT LAST_MODF_DT
+		FROM TBD_DRONE_PIC_INFO
+		WHERE DRONE_PIC_ID = #{dronPicId}
+	</select>
+	
+	<select id="selectSubject" resultType="string">
+		SELECT SJ
+		FROM TBD_DRONE_PIC_INFO
+		WHERE DRONE_PIC_ID = #{dronPicId}
+	</select>
+	
+</mapper>

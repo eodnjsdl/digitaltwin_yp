@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="safetyFacilitiesMng">
+	
+	<!-- 안전시설물관리 목록 -->
+	<select id="selectSafetyFacilLampMngList" parameterType="safetyFacilLampMngVO" resultType="safetyFacilLampMng">
+		SELECT *
+		<if test="spitalSearch != ''">
+			, ST_ASTEXT( ST_BUFFER(ST_GEOMFROMTEXT(#{spitalSearch}, 4326), #{sffmBuffer} , 'join=round') ) AS bufferArea 
+		</if>
+		 FROM TGD_STRTLGT_STATUS
+		WHERE INSTL_DE LIKE '%'||#{searchInstlDe}||'%'
+		AND ADRES LIKE '%'||#{searchAdres}||'%'
+		AND MANAGE_NO LIKE '%'||#{searchManageNo}||'%'
+		<if test="spitalSearch != ''">
+			AND ST_INTERSECTS(ST_BUFFER(ST_GEOMFROMTEXT(#{spitalSearch}, 4326), #{sffmBuffer}), ST_TRANSFORM(GEOM, 4326)) = true
+		</if>
+		ORDER BY GID ASC
+		LIMIT #{recordCountPerPage} OFFSET #{firstIndex}
+	</select>
+	
+	<!-- 안전시설물관리 갯수 -->
+	<select id="selectSafetyFacilLampMngListCnt" parameterType="safetyFacilLampMngVO" resultType="java.lang.Integer">
+		SELECT	 COUNT(*)
+		FROM	 TGD_STRTLGT_STATUS
+		WHERE INSTL_DE LIKE '%'||#{searchInstlDe}||'%'
+		AND ADRES LIKE '%'||#{searchAdres}||'%'
+		AND MANAGE_NO LIKE '%'||#{searchManageNo}||'%'
+		<if test="spitalSearch != ''">
+			AND ST_INTERSECTS(ST_BUFFER(ST_GEOMFROMTEXT(#{spitalSearch}, 4326), #{sffmBuffer}), ST_TRANSFORM(GEOM, 4326)) = true
+		</if>
+	</select>
+	
+	<!-- 안전시설물관리 > 가로등 상세보기 -->
+	<select id="selectSafetyFacilLampMng" parameterType="safetyFacilLampMngVO" resultType="safetyFacilLampMng">
+		SELECT 	 GID, MANAGE_NO, ADRES, INSTL_DE, STRTLGT_CNT, LAT, LON, STDDE, GEOM, ALTTD
+		FROM 	 TGD_STRTLGT_STATUS
+		WHERE    1=1
+		AND  GID = #{gid}
+	</select>
+	
+	<!-- 안전시설물관리 > 가로등관리 삭제 -->
+	<delete id="deleteSffm" parameterType="safetyFacilLampMng">
+		DELETE FROM TGD_STRTLGT_STATUS WHERE GID = #{gid}
+	</delete>
+	
+	<!-- 안전시설물관리 > 가로등관리 등록 -->
+	<insert id="insertSffm" parameterType="safetyFacilLampMng">
+		INSERT INTO TGD_STRTLGT_STATUS
+		(
+			GID, 
+			MANAGE_NO, 
+			ADRES, 
+			INSTL_DE, 
+			STRTLGT_CNT, 
+			LAT, 
+			LON, 
+			STDDE, 
+			GEOM,
+			ALTTD
+		)
+		VALUES
+		(
+			default,
+		    #{manageNo},
+		    #{adres},
+		    #{instlDe},
+		    #{strtlgtCnt},
+		    #{lat},
+		    #{lon},
+		    #{stdde},
+			st_geomfromtext('POINT ('||#{lon}||' '||#{lat}||')', 4326),
+			#{alttd}
+		)
+	</insert>
+
+	<update id="updateSffm" parameterType="safetyFacilLampMng">
+		UPDATE TGD_STRTLGT_STATUS SET 
+		MANAGE_NO = #{manageNo}, 
+		ADRES = #{adres}, 
+		INSTL_DE = #{instlDe}, 
+		STRTLGT_CNT = #{strtlgtCnt}, 
+		LAT = #{lat}, 
+		LON = #{lon}, 
+		STDDE = #{stdde}, 
+		GEOM = st_geomfromtext('POINT ('||#{lon}||' '||#{lat}||')', 4326),
+		ALTTD = #{alttd}
+		WHERE GID = #{gid} 
+	</update>
+	
+	<select id="sffmExcelDown" parameterType="safetyFacilLampMngVO" resultType="HashMap">
+		SELECT * FROM TGD_STRTLGT_STATUS
+		WHERE INSTL_DE LIKE '%'||#{searchInstlDe}||'%'
+		AND ADRES LIKE '%'||#{searchAdres}||'%'
+		AND MANAGE_NO LIKE '%'||#{searchManageNo}||'%'
+		<if test="spitalSearch != ''">
+			AND ST_INTERSECTS(ST_BUFFER(ST_GEOMFROMTEXT(#{spitalSearch}, 4326), #{sffmBuffer}), ST_TRANSFORM(GEOM, 4326)) = true
+		</if>
+		ORDER BY GID ASC
+	</select>
+	
+	<select id="selectSffmPOIList" parameterType="SafetyFacilLampMngVO" resultType="safetyFacilLampMng">
+		SELECT *
+		<if test="spitalSearch != ''">
+			, ST_ASTEXT( ST_BUFFER(ST_GEOMFROMTEXT(#{spitalSearch}, 4326), #{sffmBuffer} , 'join=round') ) AS bufferArea 
+		</if> 
+		FROM TGD_STRTLGT_STATUS
+		WHERE INSTL_DE LIKE '%'||#{searchInstlDe}||'%'
+		AND ADRES LIKE '%'||#{searchAdres}||'%'
+		AND MANAGE_NO LIKE '%'||#{searchManageNo}||'%'
+		<if test="spitalSearch != ''">
+			AND ST_INTERSECTS(ST_BUFFER(ST_GeomFromText(#{spitalSearch}, 4326), #{sffmBuffer}), ST_TRANSFORM(GEOM, 4326)) = true
+		</if>
+		ORDER BY GID ASC
+		LIMIT #{recordCountPerPage} OFFSET #{firstIndex}
+	</select>
+</mapper>

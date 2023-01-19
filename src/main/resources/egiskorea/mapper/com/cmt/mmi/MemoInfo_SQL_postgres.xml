@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="memoInfo">
+
+	<select id="selectMemoInfoList" resultType="egovMap">
+		SELECT MI.*, TO_CHAR(MI.FRST_REGIST_DT, 'YYYY-MM-DD') AS REG_DT, TO_CHAR(MI.LAST_MODF_DT , 'YYYY-MM-DD') AS MODF_DT, 
+			CEI.USER_NM,
+			st_astext(st_transform(geom, 'EPSG:5179')) as wkt,
+			${pageIndex} AS PAGE_INDEX,
+			${pageUnit} AS PAGE_UNIT,
+			${pageSize} AS PAGE_SIZE
+		FROM TBD_USRT_MEMO_INFO MI
+			LEFT OUTER JOIN COMTNEMPLYRINFO CEI	
+				ON MI.EMPLYR_ID = CEI.EMPLYR_ID  
+		WHERE 1 = 1
+			AND MI.EMPLYR_ID = #{emplyrId}
+		<choose>
+			<when test="@egovframework.com.cmm.util.EgovMybaitsUtil@isEquals(searchCnd,0)">
+				AND MI.SJ LIKE '%' || #{searchWrd} || '%'
+			</when>
+			<when test="@egovframework.com.cmm.util.EgovMybaitsUtil@isEquals(searchCnd,1)">
+				AND CEI.USER_NM  LIKE '%' || #{searchWrd} || '%'
+			</when>
+		</choose>
+		<trim prefix="ORDER BY"> 
+	        <if test="@egovframework.com.cmm.util.EgovMybaitsUtil@isEquals(sortKind,0)">  SJ </if>
+	        <if test="@egovframework.com.cmm.util.EgovMybaitsUtil@isEquals(sortKind,1)">  LAST_MODF_DT DESC </if>
+		</trim> 
+		LIMIT #{recordCountPerPage} OFFSET #{firstIndex}
+	</select>
+	
+	<select id="selectMemoInfoListCnt" resultType="java.lang.Integer">
+		SELECT 
+			COUNT(*)
+		FROM TBD_USRT_MEMO_INFO MI
+			LEFT OUTER JOIN COMTNEMPLYRINFO CEI	
+				ON MI.EMPLYR_ID = CEI.EMPLYR_ID  
+		WHERE 1 = 1
+		<choose>
+			<when test="@egovframework.com.cmm.util.EgovMybaitsUtil@isEquals(searchCnd,0)">
+				AND MI.SJ LIKE '%' || #{searchWrd} || '%'
+			</when>
+			<when test="@egovframework.com.cmm.util.EgovMybaitsUtil@isEquals(searchCnd,1)">
+				AND CEI.USER_NM  LIKE '%' || #{searchWrd} || '%'
+			</when>
+		</choose>
+	</select>
+	
+	<select id="selectMemoInfoView" resultType="egovMap">
+	
+	<if test="@egovframework.com.cmm.util.EgovMybaitsUtil@isEquals(sortKind,0)">  
+		SELECT MI.*,st_astext(st_transform(geom, 'EPSG:5179')) as wkt, TO_CHAR(MI.FRST_REGIST_DT, 'YYYY-MM-DD') AS REG_DT, TO_CHAR(MI.LAST_MODF_DT , 'YYYY-MM-DD') AS MODF_DT, CEI.USER_NM,
+			(SELECT MEMO_ID FROM TBD_USRT_MEMO_INFO WHERE 1=1 AND SJ IN ( SELECT MAX(SJ) FROM TBD_USRT_MEMO_INFO A WHERE 1=1 AND A.EMPLYR_ID =#{emplyrId} AND <![CDATA[ A.SJ < #{sj} ]]>	
+				<if test="@egovframework.com.cmm.util.EgovMybaitsUtil@isEquals(searchCnd,0)">
+					AND A.SJ LIKE '%' || #{searchWrd} || '%'
+				</if>
+				<if test="@egovframework.com.cmm.util.EgovMybaitsUtil@isEquals(searchCnd,1)">
+					AND CEI.USER_NM  LIKE '%' || #{searchWrd} || '%'
+				</if>
+				)
+			) AS PREV_MEMO_ID,
+			
+			(SELECT SJ FROM TBD_USRT_MEMO_INFO WHERE 1=1 AND SJ IN ( SELECT MAX(SJ) FROM TBD_USRT_MEMO_INFO A WHERE 1=1 AND A.EMPLYR_ID =#{emplyrId} AND  <![CDATA[ A.SJ < #{sj} ]]>
+				<if test="@egovframework.com.cmm.util.EgovMybaitsUtil@isEquals(searchCnd,0)">
+					AND A.SJ LIKE '%' || #{searchWrd} || '%'
+				</if>
+				<if test="@egovframework.com.cmm.util.EgovMybaitsUtil@isEquals(searchCnd,1)">
+					AND CEI.USER_NM  LIKE '%' || #{searchWrd} || '%'
+				</if>
+			
+			)) AS PREV_SJ,
+			
+			(SELECT MEMO_ID FROM TBD_USRT_MEMO_INFO WHERE 1=1 AND SJ IN ( SELECT MIN(SJ) FROM TBD_USRT_MEMO_INFO A WHERE 1=1 AND A.EMPLYR_ID =#{emplyrId} AND  <![CDATA[ A.SJ > #{sj} ]]>
+				<if test="@egovframework.com.cmm.util.EgovMybaitsUtil@isEquals(searchCnd,0)">
+					AND A.SJ LIKE '%' || #{searchWrd} || '%'
+				</if>
+				<if test="@egovframework.com.cmm.util.EgovMybaitsUtil@isEquals(searchCnd,1)">
+					AND CEI.USER_NM  LIKE '%' || #{searchWrd} || '%'
+				</if>
+			 
+			 )) AS NEXT_MEMO_ID,
+			(SELECT SJ FROM TBD_USRT_MEMO_INFO WHERE 1=1 AND SJ IN ( SELECT MIN(SJ) FROM TBD_USRT_MEMO_INFO A WHERE 1=1 AND A.EMPLYR_ID =#{emplyrId} AND  <![CDATA[ A.SJ > #{sj} ]]>
+			 	<if test="@egovframework.com.cmm.util.EgovMybaitsUtil@isEquals(searchCnd,0)">
+					AND A.SJ LIKE '%' || #{searchWrd} || '%'
+				</if>
+				<if test="@egovframework.com.cmm.util.EgovMybaitsUtil@isEquals(searchCnd,1)">
+					AND CEI.USER_NM  LIKE '%' || #{searchWrd} || '%'
+				</if>
+			 )) AS NEXT_SJ
+		FROM TBD_USRT_MEMO_INFO MI
+			LEFT OUTER JOIN COMTNEMPLYRINFO CEI	
+				ON MI.EMPLYR_ID = CEI.EMPLYR_ID  
+		WHERE MI.MEMO_ID = #{memoId}
+	 </if>
+	
+	<if test="@egovframework.com.cmm.util.EgovMybaitsUtil@isEquals(sortKind,1)"> 
+		SELECT MI.*,st_astext(st_transform(geom, 'EPSG:5179')) as wkt, TO_CHAR(MI.FRST_REGIST_DT, 'YYYY-MM-DD') AS REG_DT, TO_CHAR(MI.LAST_MODF_DT , 'YYYY-MM-DD') AS MODF_DT, CEI.USER_NM,
+			<![CDATA[
+			(SELECT MEMO_ID FROM TBD_USRT_MEMO_INFO WHERE 1=1 AND LAST_MODF_DT IN ( SELECT MIN(LAST_MODF_DT) FROM TBD_USRT_MEMO_INFO A WHERE 1=1 AND A.EMPLYR_ID =#{emplyrId} AND A.LAST_MODF_DT  > #{lastModfDt}::TIMESTAMP
+			]]>
+			<if test="@egovframework.com.cmm.util.EgovMybaitsUtil@isEquals(searchCnd,0)">
+				AND A.SJ LIKE '%' || #{searchWrd} || '%'
+			</if>
+			<if test="@egovframework.com.cmm.util.EgovMybaitsUtil@isEquals(searchCnd,1)">
+				AND CEI.USER_NM  LIKE '%' || #{searchWrd} || '%'
+			</if>
+			
+			)) AS PREV_MEMO_ID,
+			<![CDATA[
+			(SELECT SJ FROM TBD_USRT_MEMO_INFO WHERE 1=1 AND LAST_MODF_DT IN ( SELECT MIN(LAST_MODF_DT) FROM TBD_USRT_MEMO_INFO A WHERE 1=1 AND A.EMPLYR_ID =#{emplyrId} AND A.LAST_MODF_DT  > #{lastModfDt}::TIMESTAMP
+			]]>
+			<if test="@egovframework.com.cmm.util.EgovMybaitsUtil@isEquals(searchCnd,0)">
+				AND A.SJ LIKE '%' || #{searchWrd} || '%'
+			</if>
+			<if test="@egovframework.com.cmm.util.EgovMybaitsUtil@isEquals(searchCnd,1)">
+				AND CEI.USER_NM  LIKE '%' || #{searchWrd} || '%'
+			</if>
+			
+			)) AS PREV_SJ,
+			<![CDATA[
+			(SELECT MEMO_ID FROM TBD_USRT_MEMO_INFO WHERE 1=1 AND LAST_MODF_DT IN ( SELECT MAX(LAST_MODF_DT) FROM TBD_USRT_MEMO_INFO A WHERE 1=1 AND A.EMPLYR_ID =#{emplyrId} AND A.LAST_MODF_DT  < #{lastModfDt}::TIMESTAMP
+			]]>
+			<if test="@egovframework.com.cmm.util.EgovMybaitsUtil@isEquals(searchCnd,0)">
+				AND A.SJ LIKE '%' || #{searchWrd} || '%'
+			</if>
+			<if test="@egovframework.com.cmm.util.EgovMybaitsUtil@isEquals(searchCnd,1)">
+				AND CEI.USER_NM  LIKE '%' || #{searchWrd} || '%'
+			</if>
+						
+			)) AS NEXT_MEMO_ID,
+			<![CDATA[
+			(SELECT SJ FROM TBD_USRT_MEMO_INFO WHERE 1=1 AND LAST_MODF_DT IN ( SELECT MAX(LAST_MODF_DT) FROM TBD_USRT_MEMO_INFO A WHERE 1=1 AND A.EMPLYR_ID =#{emplyrId} AND A.LAST_MODF_DT  < #{lastModfDt}::TIMESTAMP
+			]]>
+			<if test="@egovframework.com.cmm.util.EgovMybaitsUtil@isEquals(searchCnd,0)">
+				AND A.SJ LIKE '%' || #{searchWrd} || '%'
+			</if>
+			<if test="@egovframework.com.cmm.util.EgovMybaitsUtil@isEquals(searchCnd,1)">
+				AND CEI.USER_NM  LIKE '%' || #{searchWrd} || '%'
+			</if>	
+					
+			)) AS NEXT_SJ
+		FROM TBD_USRT_MEMO_INFO MI
+			LEFT OUTER JOIN COMTNEMPLYRINFO CEI	
+				ON MI.EMPLYR_ID = CEI.EMPLYR_ID  
+		WHERE MI.MEMO_ID = #{memoId}
+	
+	</if>
+	</select>
+	
+	<insert id="insertMemoInfo">
+		<selectKey keyProperty="memoId" resultType="string" order="BEFORE">
+	       SELECT COALESCE(MAX(CAST(MEMO_ID AS INTEGER)), 0) + 1 FROM TBD_USRT_MEMO_INFO;
+	    </selectKey>
+	    
+	 	INSERT INTO TBD_USRT_MEMO_INFO
+		(
+			MEMO_ID, 
+			EMPLYR_ID, 
+			SJ, 
+			PNRS_AT, 
+			LNM_ADRES, 
+			MEMO_CN, 
+			FRST_REGIST_DT, 
+			LAST_MODF_DT,
+			geom
+		)
+		VALUES
+		(
+			#{memoId},
+			#{emplyrId},
+			#{sj},
+			#{pnrsAt},
+			#{lnmAdres},
+			#{memoCn},
+			CURRENT_TIMESTAMP, 
+			CURRENT_TIMESTAMP,
+			ST_SETSRID(ST_GEOMFROMTEXT(#{wkt}), 5179)
+		)
+	</insert>
+	
+	<update id="updateMemoInfo">
+		UPDATE TBD_USRT_MEMO_INFO
+		SET SJ = #{sj},
+			LAST_MODF_DT = CURRENT_TIMESTAMP,
+			PNRS_AT = #{pnrsAt},
+			MEMO_CN = #{memoCn},
+			geom = ST_SETSRID(ST_GEOMFROMTEXT(#{wkt}), 5179)
+		WHERE MEMO_ID = #{memoId}
+	</update>
+	
+	<delete id="deleteMemoInfo">
+		DELETE FROM TBD_USRT_MEMO_INFO
+		WHERE MEMO_ID = #{memoId}
+	</delete>
+	
+	
+	<select id="selectLastModfDt" resultType="string">
+		SELECT LAST_MODF_DT
+		FROM TBD_USRT_MEMO_INFO
+		WHERE MEMO_ID = #{memoId}
+	</select>
+	
+	<select id="selectSubject" resultType="string">
+		SELECT SJ
+		FROM TBD_USRT_MEMO_INFO
+		WHERE MEMO_ID = #{memoId}
+	</select>	
+</mapper>

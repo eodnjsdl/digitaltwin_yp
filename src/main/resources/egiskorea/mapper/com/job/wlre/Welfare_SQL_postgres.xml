@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="welfareDAO">
+	
+	<select id="selectWelfareList" parameterType="welfareVO" resultType="welfareVO">
+		SELECT * 
+		<if test="spitalSearch != ''">
+			, ST_ASTEXT( ST_BUFFER(ST_GEOMFROMTEXT(#{spitalSearch}, 4326), #{wlreBuffer} , 'join=round') ) AS bufferArea 
+		</if>
+		FROM TGD_SCLWLFR_FCLTY_STATUS
+		WHERE FCLTY_NM LIKE '%'||#{searchFcltyNm}||'%'
+		AND RN_ADRES LIKE '%'||#{searchRnAdres}||'%'
+<!-- 		<if test="searchFcltySe != '전체'"> -->
+			AND FCLTY_SE LIKE '%'||#{searchFcltySe}||'%'
+<!-- 		</if> -->
+		<if test="spitalSearch != ''">
+			AND ST_INTERSECTS(ST_BUFFER(ST_GEOMFROMTEXT(#{spitalSearch}, 4326), #{wlreBuffer}), ST_TRANSFORM(GEOM, 4326)) = true
+		</if>
+		ORDER BY GID ASC
+		LIMIT #{recordCountPerPage} OFFSET #{firstIndex}
+	</select>
+	
+	<select id="selectWelfareListCnt" parameterType="welfareVO" resultType="java.lang.Integer">
+		SELECT COUNT(*) FROM TGD_SCLWLFR_FCLTY_STATUS
+		WHERE FCLTY_SE LIKE '%'||#{searchFcltySe}||'%'
+		AND FCLTY_NM LIKE '%'||#{searchFcltyNm}||'%'
+		AND RN_ADRES LIKE '%'||#{searchRnAdres}||'%'
+		<if test="spitalSearch != ''">
+			AND ST_INTERSECTS(ST_BUFFER(ST_GEOMFROMTEXT(#{spitalSearch}, 4326), #{wlreBuffer}), ST_TRANSFORM(GEOM, 4326)) = true
+		</if>
+	</select>
+	
+	<delete id="deleteWelfare" parameterType="welfareVO">
+		DELETE FROM TGD_SCLWLFR_FCLTY_STATUS WHERE GID = #{gid}
+	</delete>
+	
+	<insert id="insertWelfare" parameterType="welfareVO">
+		INSERT INTO TGD_SCLWLFR_FCLTY_STATUS
+		(
+			GID,
+		    FCLTY_NM,
+		    RN_ADRES,
+		    LNM_ADRES,
+		    ZIP,
+		    LAT,
+		    LON,
+		    FCLTY_SE,
+		    CTTPC_TELNO,
+		    DATA_STDDE,
+			GEOM
+		)
+		VALUES
+		(
+			default,
+		    #{fcltyNm},
+		    #{rnAdres},
+		    #{lnmAdres},
+		    #{zip},
+		    #{lat},
+		    #{lon},
+		    #{fcltySe},
+		    #{cttpcTelno},
+		    #{dataStdde},
+			ST_TRANSFORM(ST_GEOMFROMTEXT('POINT(${lon} ${lat})', 4326), 5179)
+		)
+	</insert>
+	
+	<select id="selectWelfare" parameterType="welfareVO" resultType="welfareVO">
+		SELECT * FROM TGD_SCLWLFR_FCLTY_STATUS WHERE GID = #{gid}
+	</select>
+	
+	<update id="updateWelfare" parameterType="welfareVO">
+		UPDATE TGD_SCLWLFR_FCLTY_STATUS SET 
+		FCLTY_NM = #{fcltyNm}, 
+		RN_ADRES = #{rnAdres}, 
+		LNM_ADRES = #{lnmAdres}, 
+		ZIP = #{zip}, 
+		LAT = #{lat}, 
+		LON = #{lon}, 
+		FCLTY_SE = #{fcltySe}, 
+		CTTPC_TELNO = #{cttpcTelno}, 
+		DATA_STDDE = #{dataStdde}, 
+		GEOM = ST_TRANSFORM(ST_GEOMFROMTEXT('POINT(${lon} ${lat})', 4326), 5179)
+		WHERE GID = #{gid} 
+	</update>
+	
+	<select id="wlreExcelDown" parameterType="welfareVO" resultType="HashMap">
+		SELECT * FROM TGD_SCLWLFR_FCLTY_STATUS
+		WHERE FCLTY_NM LIKE '%'||#{searchFcltyNm}||'%'
+		AND RN_ADRES LIKE '%'||#{searchRnAdres}||'%'
+<!-- 		<if test="searchFcltySe != '전체'"> -->
+			AND FCLTY_SE LIKE '%'||#{searchFcltySe}||'%'
+<!-- 		</if> -->
+		<if test="spitalSearch != ''">
+			AND ST_INTERSECTS(ST_BUFFER(ST_GEOMFROMTEXT(#{spitalSearch}, 4326), #{wlreBuffer}), ST_TRANSFORM(GEOM, 4326)) = true
+		</if>
+		ORDER BY GID ASC
+	</select>
+	
+	<select id="selectWlrePOIList" parameterType="welfareVO" resultType="welfareVO">
+		SELECT *
+		<if test="spitalSearch != ''">
+			, ST_ASTEXT( ST_BUFFER(ST_GEOMFROMTEXT(#{spitalSearch}, 4326), #{wlreBuffer} , 'join=round') ) AS bufferArea 
+		</if> 
+		FROM TGD_SCLWLFR_FCLTY_STATUS
+		WHERE FCLTY_SE LIKE '%'||#{searchFcltySe}||'%'
+		AND FCLTY_NM LIKE '%'||#{searchFcltyNm}||'%'
+		AND RN_ADRES LIKE '%'||#{searchRnAdres}||'%'
+		<if test="spitalSearch != ''">
+			AND ST_INTERSECTS(ST_BUFFER(ST_GeomFromText(#{spitalSearch}, 4326), #{wlreBuffer}), ST_TRANSFORM(GEOM, 4326)) = true
+		</if>
+		ORDER BY GID ASC
+		LIMIT #{recordCountPerPage} OFFSET #{firstIndex}
+	</select>
+	
+	<!-- 코드정보 조회 -->
+	<select id="welfareCode" resultType="egovMap">
+		SELECT * FROM COMTCCMMNDETAILCODE C WHERE CODE_ID = 'FCLTCD';
+	</select>
+</mapper>

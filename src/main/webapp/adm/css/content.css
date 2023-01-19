@@ -1,0 +1,482 @@
+@charset "UTF-8";
+
+/* ------------------------------------------------------------------------------------------------------------------------
+Title
+------------------------------------------------------------------------------------------------------------------------ */
+.page-tit-wrap {
+	margin-bottom: 15px;
+}
+
+.page-tit {
+	margin-bottom: 10px;
+	color: #333;
+	font-size: 20px;
+	font-weight: bold;	
+}
+
+.page-txt {
+	color: #777;
+	font-size: 14px;
+	line-height: 19px;
+}
+
+.cont-tit {
+	margin-bottom: 5px;
+	color: #000;
+	font-size: 16px;
+}
+
+.chart-box {
+	margin: 50px 0 20px;
+	height: 350px;
+}
+
+/* ------------------------------------------------------------------------------------------------------------------------
+list
+------------------------------------------------------------------------------------------------------------------------ */
+.list-type1 > li {
+	position: relative;
+	margin-top: 5px;
+	padding-left: 10px;
+}
+
+.list-type1 > li:first-child {
+	margin-top: 0;
+}
+
+.list-type1 > li::before {
+	content: '';
+	display: block;
+	position: absolute;
+	top: 9px;
+	left: 0;
+	width: 4px;
+	height: 1px;
+	background-color: #777;
+}
+
+/*------------------------------------------------------------------------------
+ * tabBox > depth1
+ *----------------------------------------------------------------------------*/
+ .tabBoxDepth1 {
+	margin-bottom: 30px;
+}
+
+.tabBoxDepth1 > ul {
+	display: flex;
+	border-bottom: 1px solid #333;
+}
+
+.tabBoxDepth1 > ul > li {
+	position: relative;
+}
+
+.tabBoxDepth1 > ul > li + li {
+	margin-left: 4px;
+}
+
+.tabBoxDepth1 > ul > li .inner-tab {
+	position: relative;
+	display: block;
+	padding: 0 20px;
+	height: 35px;
+	font-family: 'Noto Sans KR';
+	color: #828282;
+	font-size: 15px;
+	font-weight: 500;
+	border: 1px solid #ddd;
+	border-bottom: 0;
+	background-color: #fff;
+}
+
+.tabBoxDepth1 > ul > li.on::after {
+	content: '';
+	position: absolute;
+	left: 1px;
+	right: 1px;
+	bottom: -1px;
+	height: 1px;
+	background-color: #F3F3F3;
+}
+
+.tabBoxDepth1 > ul > li.on .inner-tab {
+	color: #333;
+	font-weight: 700;
+	border-color: #333;
+	background-color: #F3F3F3;
+}
+
+.tabBoxDepth1-wrap .tab-cont {
+	display: none;
+	position: relative;
+}
+ 
+.tabBoxDepth1-wrap .tab-cont.on {
+	display:block;
+}
+
+.tab-cont > .cont-tit:first-child {
+	margin-top: 0;
+}
+
+
+/* ------------------------------------------------------------------------------------------------------------------------
+가로 스크롤
+------------------------------------------------------------------------------------------------------------------------ */
+.scroll-xGroup {
+	display: flex;
+}
+
+.scroll-xGroup .scroll-fixed {
+	flex-shrink: 0;
+	width: 600px;
+}
+
+.scroll-xGroup .scroll-x {
+	width: calc(100% - 600px);
+}
+
+.scroll-xGroup .scroll-x table {
+	width: 1400px;
+}
+
+
+/* ------------------------------------------------------------------------------------------------------------------------
+text
+------------------------------------------------------------------------------------------------------------------------ */
+.essential, .text-color1 {
+	color: #ff0000 !important;
+}
+
+.text-color2 {
+	color: #1964BB !important;
+}
+
+/* ------------------------------------------------------------------------------------------------------------------------
+btn
+------------------------------------------------------------------------------------------------------------------------ */
+.btn-wrap {
+	margin: 5px 0;
+	display: flex;
+	flex-wrap: wrap;
+}
+
+.bbs-write-default ~ .btn-wrap, .bbs-detail-default ~ .btn-wrap {
+	margin-top: 40px;
+}
+
+.btn {
+	display: inline-block;
+	padding: 4px 12px;
+	min-width: 50px;
+	color: #fff;
+	font-size: 12px;
+	font-weight: bold;	
+	border: 1px solid transparent;
+	background-color: #555;
+	border-radius: 3px;
+	text-align: center;
+	cursor: pointer;
+	-webkit-transition: left .2s;
+    transition: all .2s;
+	vertical-align: middle;
+}
+
+.btn:hover {
+	box-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+}
+
+.btn.basic {
+	color: #555;
+	border-color: #555;
+	background-color: #fff;
+}
+
+.btn.type01 {
+	color: #fff;
+	border-color: #1964BB;
+	background-color: #3A7FCF;
+}
+
+.btn.type02 {
+	border-color: #DB7C24;
+	background-color: #F39946;
+}
+
+.btn.type03 {
+	border-color: #0CA56E;
+	background-color: #2DC58E;
+}
+
+.btn.type04 {
+	border-color: #9F52A0;
+	background-color: #A577A6;
+}
+
+.btn.type05 {
+	color: #fff;
+	border-color: #333;
+	background-color: #555;
+}
+
+.btn.type06 {
+	color: #fff;
+	border-color: #598F9B;
+	background-color: #598F9B;
+}
+
+.btn.type07 {
+	color: #747474;
+	border-color: #D8D8D8;
+	background-color: #E8E8E8;
+}
+
+.btn.type08 {
+	color: #fff;
+	border-color: #057A03;
+	background-color: #149B11;
+}
+
+a[class^="bi-"], a[class*="bi-"],
+button[class^="bi-"], button[class*="bi-"] { 
+	padding-left: 5px;
+	padding-right: 5px;
+}
+
+a[class^="bi-"]::before, a[class*="bi-"]::before,
+button[class^="bi-"]::before, button[class*="bi-"]::before { 
+	display: inline-block;
+	content: "";
+	margin: -4px 2px 0 0;
+	width: 16px;
+	height: 16px;
+	background-position: 50% 50%;	
+	background-repeat: no-repeat;
+	vertical-align: middle;
+}
+
+.bi-srch::before {background-image: url(/adm/images/icon/bi-search.svg);}
+.bi-excel::before {margin-right: 5px !important;background-image: url(/adm/images/icon/bi-excel.png);}
+.bi-location::before {background-image: url(/adm/images/icon/bi-location.png);}
+
+.form-control + .btn {
+	margin-left: 5px;
+}
+
+/* ------------------------------------------------------------------------------------------------------------------------
+서버관리 > 클라우드서비스
+------------------------------------------------------------------------------------------------------------------------ */
+.cloud-group .cloud-items + .cloud-items {
+	margin-top: 40px;
+}
+
+.cloud-group .cloud-header {
+	padding: 0 10px;
+	height: 40px;
+	line-height: 38px;
+	border: 1px solid transparent;
+	background-color: transparent;
+}
+
+.cloud-group .cloud-header p {
+	color: #fff;
+	font-weight: bold;
+}
+
+.cloud-group .type01 .cloud-header {
+	border-color: #A70028;
+	background-color: #D31643;
+}
+
+.cloud-group .type02 .cloud-header {
+	border-color: #0790DD;
+	background-color: #41B5F7;
+}
+
+.cloud-group .type03 .cloud-header {
+	border-color: #085D8D;
+	background-color: #2D8EC5;
+}
+
+.cloud-group .type04 .cloud-header {
+	border-color: #008857;
+	background-color: #15A370;
+}
+
+.cloud-group .tbl-default {
+	border-bottom: 1px solid #333;
+}
+
+.cloud-group .mCustomScrollbar {
+	max-height: 205px;
+}
+
+/* ------------------------------------------------------------------------------------------------------------------------
+popup-panel
+------------------------------------------------------------------------------------------------------------------------ */
+.ui-widget-overlay {
+    background: #000;
+    opacity: .5;
+    filter: Alpha(Opacity=50);
+}
+
+.ui-dialog.ui-widget-content {
+	padding: 0;
+	min-width: 400px;
+	border: 0;
+	background: #FFF;
+	border-radius: 0;
+}
+
+.ui-dialog .ui-dialog-titlebar {
+    padding: 8px 10px;
+	border: 0;
+	background: #fff;
+}
+
+.ui-dialog .ui-dialog-title {
+	margin: 0 auto;
+	width: 100%;
+	font-family: 'Malgun Gothic', '맑은 고딕';
+	color: #000;
+	font-size: 18px;
+	font-weight: bold;
+	text-transform: uppercase;
+	text-align: center;
+}
+
+.ui-dialog .ui-dialog-titlebar-close {
+	right: 10px;
+	margin: -8px 0 ;
+	padding: 0;
+	width: 16px;
+	height: 16px;
+}
+
+.ui-button-icon-only .ui-icon {
+    position: absolute;
+    top: 0;
+    left: 0;
+    margin-top: 0;
+    margin-left: 0;
+}
+
+.ui-button.ui-dialog-titlebar-close, .ui-button.ui-dialog-titlebar-close:hover {
+	border: 0;
+	background: #fff;
+}
+
+.ui-dialog-titlebar .ui-icon {
+    width: 100%;
+    height: 100%;
+	background-image: url(/adm/images/icon/popup-close.png);
+	background-position: 50% 50%;
+}
+
+.ui-dialog-titlebar .ui-icon:hover,
+.ui-dialog-titlebar .ui-icon, .ui-dialog-titlebar .ui-button:hover .ui-icon, .ui-dialog-titlebar .ui-button:focus .ui-icon {
+	background-image: url(/adm/images/icon/popup-close.png);
+}
+
+.ui-dialog .ui-dialog-content {
+	padding: 22px 30px 40px;
+	color: #000;
+}
+
+.ui-dialog .ui-dialog-content::before {
+	content: '';
+	position: absolute;
+	top: 0;
+	left: 10px;
+	right: 10px;
+	height: 2px;
+	background-color: #000;
+}
+
+.ui-corner-all, .ui-corner-bottom, .ui-corner-right, .ui-corner-br {
+    border-bottom-right-radius: 0;
+}
+.ui-corner-all, .ui-corner-bottom, .ui-corner-left, .ui-corner-bl {
+    border-bottom-left-radius: 0;
+}
+.ui-corner-all, .ui-corner-top, .ui-corner-right, .ui-corner-tr {
+    border-top-right-radius: 0;
+}
+.ui-corner-all, .ui-corner-top, .ui-corner-left, .ui-corner-tl {
+    border-top-left-radius: 0;
+}
+
+/* ------------------------------------------------------------------------------------------------------------------------
+mCustomScrollbar
+------------------------------------------------------------------------------------------------------------------------ */
+.mCSB_inside > .mCSB_container {
+	margin-right: 0;
+}
+
+.mCSB_outside + .mCSB_scrollTools {
+	right: -5px;
+}
+
+.mCustomScrollbar table td {
+	box-sizing: initial;
+}
+
+.mCSB_scrollTools .mCSB_dragger .mCSB_dragger_bar,
+.mCSB_scrollTools .mCSB_dragger:hover .mCSB_dragger_bar,
+.mCSB_scrollTools .mCSB_dragger:active .mCSB_dragger_bar,
+.mCSB_scrollTools .mCSB_dragger.mCSB_dragger_onDrag .mCSB_dragger_bar {
+	background-color: #000; background-color: rgba(0,0,0,0.85);
+	filter: "alpha(opacity=85)"; -ms-filter: "alpha(opacity=85)"; 
+}
+
+.mCSB_scrollTools .mCSB_draggerRail {
+	width: 4px;
+}
+
+.mCSB_scrollTools .mCSB_draggerRail {
+	background-color: #000; background-color: rgba(0,0,0,0.15);
+	filter: "alpha(opacity=15)"; -ms-filter: "alpha(opacity=15)"; 
+}
+
+/* ------------------------------------------------------------------------------------------------------------------------
+scroll x
+------------------------------------------------------------------------------------------------------------------------ */
+.mCSB_horizontal.mCSB_inside > .mCSB_container {
+	margin-bottom: 9px;
+}
+
+.mCSB_scrollTools.mCSB_scrollTools_horizontal .mCSB_dragger .mCSB_dragger_bar {
+	height: 3px;
+}
+
+/* ------------------------------------------------------------------------------------------------------------------------
+scroll YX
+------------------------------------------------------------------------------------------------------------------------ */
+.mCSB_scrollTools {
+	width: 4px;
+}
+
+.mCustomScrollBox + .mCSB_scrollTools.mCSB_scrollTools_horizontal,
+.mCustomScrollBox + .mCSB_scrollTools + .mCSB_scrollTools.mCSB_scrollTools_horizontal {
+	bottom: -15px;
+}
+
+.scroll-yx .bbs-yx {
+	width: 1800px;
+}
+/*------------------------------------------------------------------------------
+ * badge
+ *----------------------------------------------------------------------------*/
+.badge {
+	display: inline-block;
+	padding: 0 5px;
+	height: 20px;
+	line-height: 20px;
+	color: #fff;
+	font-size: 10px;
+	font-weight: 900;
+	background-color: #44516A;
+	border-radius: 4px;
+	box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.25);
+	text-align: center;
+}

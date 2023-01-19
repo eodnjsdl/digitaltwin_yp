@@ -1,0 +1,270 @@
+<html lang="ko"><link type="text/css" rel="stylesheet" id="dark-mode-custom-link"><link type="text/css" rel="stylesheet" id="dark-mode-general-link"><style lang="en" type="text/css" id="dark-mode-custom-style"></style><style lang="en" type="text/css" id="dark-mode-native-style"></style><head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<title>스마트시티 IN 양평 플랫폼</title>
+
+	<script src="/yp_dt/js/com/jquery/jquery-3.4.1.min.js"></script>
+		
+	<!-- jquery-ui -->
+	<script src="/yp_dt/js/com/jquery-ui/jquery-ui.js"></script>
+	<link rel="stylesheet" href="/yp_dt/js/com/jquery-ui/jquery-ui.css">
+	
+	<link rel="stylesheet" href="/yp_dt/css/com/common.css">
+	<link rel="stylesheet" href="/yp_dt/css/login.css">
+
+</head>
+<body>
+
+	<div id="wrap">
+
+		<!-- login -->
+		<div id="login">
+			<h1 class="logo">스마트 IN 양평</h1>
+			<p class="txt1">도시문제 분석모델과 행정업무를 지원하는<br><strong>도농복합형 디지털트윈 서비스</strong></p>
+			<div class="login-group">
+				<form action="">
+					<div class="items"><label for="" class="form-label">ID</label><input type="text" id="" class="form-control"></div>
+					<div class="items"><label for="" class="form-label">PASSWORD</label><input type="password" id="" class="form-control"></div>
+					
+					<div class="align-right"><span class="form-checkbox"><input type="checkbox" name="" id="idSave"><label for="idSave">아이디저장</label></span></div>
+					<div><button type="button" class="btn login-btn" onclick="location.href='/yp_dt/contents/index.html';">로그인</button></div>
+					<div class="util"><button type="button" id="findId">아이디찾기</button> <button type="button" id="findPw">비밀번호찾기</button></div>
+				</form>
+			</div>
+		</div>
+		<!-- //login -->
+
+		<!-- 아이디 찾기 -->
+		<div class="popup-panel" id="dialog-findId" title="아이디 찾기">
+			<p class="cont-txt">등록된 사용자 정보를 입력해 주세요</p>
+			<div class="login-default">
+				<table>
+					<colgroup>
+						<col style="width: 15%;">
+						<col style="width: auto;">
+					</colgroup>
+					<tbody>
+						<tr>
+							<th scope="row">이름</th>
+							<td>
+								<div class="form-row">
+									<div class="col-4"><input type="text" class="form-control"></div>
+								</div>
+							</td>
+						</tr>
+						<tr>
+							<th scope="row">이메일</th>
+							<td>
+								<div class="form-row">
+									<div class="col-4"><input type="text" class="form-control"></div>
+									<div class="col-auto">@</div>
+									<div class="col"><input type="text" class="form-control"></div>
+									<div class="col-auto">
+										<select name="" id="" class="form-select">
+											<option value="">naver.com</option>
+										</select>
+									</div>
+								</div>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<div class="btn-wrap"><div><button type="button" class="btn type01 find">찾기</button></div></div>
+
+			<div class="find-result-box">
+				<p class="tit">찾기 결과</p>
+				<p class="result-txt id-result"><span>ad*****in</span></p>
+				<!-- <p class="result-txt essential">검색하신 정보와 매칭되는 사용자가 없습니다!</p> -->
+			</div>
+			<div class="btn-wrap">
+				<div><button type="button" class="btn basic bi-cancel">취소</button> <button type="button" class="btn basic bi-check">확인</button></div>
+			</div>
+
+			<script>
+				$( function() {
+					$( "#dialog-findId" ).dialog({
+						autoOpen: false, //자동 open
+						draggable: false, //draggable 
+						modal: true, //overlay 배경
+						classes: {
+							"ui-dialog": "login-dialog"
+						},
+						width: 500,
+						show: {
+							effect: "fadeIn",
+							duration: 100
+						},
+						hide: {
+							effect: "fadeOut",
+							duration: 100
+						},
+					});
+
+					$( "#findId" ).on( "click", function() {
+						$( "#dialog-findId" ).dialog( "open" );
+					});
+
+				});
+			</script>
+		</div>
+		<!-- //아이디 찾기 -->
+
+		<!-- 비밀번호 초기화 -->
+		<div class="popup-panel" id="dialog-findPw" title="비밀번호 초기화">
+			<p class="cont-txt">등록된 사용자 정보를 입력해 주세요</p>
+			<div class="login-default">
+				<table>
+					<colgroup>
+						<col style="width: 15%;">
+						<col style="width: auto;">
+					</colgroup>
+					<tbody>
+						<tr>
+							<th scope="row">아이디</th>
+							<td>
+								<div class="form-row">
+									<div class="col-4"><input type="text" class="form-control"></div>
+								</div>
+							</td>
+						</tr>
+						<tr>
+							<th scope="row">이름</th>
+							<td>
+								<div class="form-row">
+									<div class="col-4"><input type="text" class="form-control"></div>
+								</div>
+							</td>
+						</tr>
+						<tr>
+							<th scope="row">이메일</th>
+							<td>
+								<div class="form-row">
+									<div class="col-4"><input type="text" class="form-control"></div>
+									<div class="col-auto">@</div>
+									<div class="col"><input type="text" class="form-control"></div>
+									<div class="col-auto">
+										<select name="" id="" class="form-select">
+											<option value="">naver.com</option>
+										</select>
+									</div>
+								</div>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<div class="btn-wrap"><div><button type="button" class="btn type01 find">찾기</button></div></div>
+
+			<div class="find-result-box">
+				<p class="tit">비밀번호 생성하기</p>
+				<div class="pw-group">
+					<div>임시 비밀번호</div><div><input type="password" class="form-control"></div><div><button type="button" class="btn basic">생성</button></div>
+				</div>
+			</div>
+			<div class="btn-wrap">
+				<div><button type="button" class="btn basic bi-check">초기화</button></div>
+			</div>
+			
+			<!-- 찾기결과
+			<div class="find-result-box">
+				<p class="tit">찾기 결과</p>
+				<p class="result-txt essential">검색하신 정보와 매칭되는 사용자가 없습니다!</p>
+			</div>
+			<div class="btn-wrap">
+				<div><button type="button" class="btn basic bi-check">확인</button></div>
+			</div> -->
+
+			<script>
+				$( function() {
+					$( "#dialog-findPw" ).dialog({
+						autoOpen: false, //자동 open
+						draggable: false, //draggable 
+						modal: true, //overlay 배경
+						classes: {
+							"ui-dialog": "login-dialog"
+						},
+						width: 500,
+						show: {
+							effect: "fadeIn",
+							duration: 100
+						},
+						hide: {
+							effect: "fadeOut",
+							duration: 100
+						},
+					});
+
+					$( "#findPw" ).on( "click", function() {
+						$( "#dialog-findPw" ).dialog( "open" );
+					});
+
+				});
+			</script>
+		</div>
+		<!-- //비밀번호 초기화 -->
+		
+		<!-- 시스템 이용 안내 -->
+		<div class="system-popup">
+			<div class="system-header"><p class="tit">시스템 이용 안내</p></div>
+			<div class="system-body">
+				<div class="cont">
+					<div>
+						<p>- 회원가입 시 먼저 [아이디 찾기]에서 계정 유무를 확인해주시기 바랍니다.<br>이미 계정이 있으신 경우 반려 처리됩니다.</p>
+					</div>
+					<div>
+						<p>- 신규 회원가입<br>
+							1) 자가격리자 관련 기능을 사용하실 경우 : 총괄공무원에게 계정 발급을 요청해주시기 바랍니다.<br>
+							2) 그 외 기능만 사용하실 경우 : 회원가입 페이지에서 신청해주시면 됩니다.
+						</p>
+					</div>
+					<div>
+						<p>- 전담공무원 등록 :<br>
+							총괄공무원이 "신규 자가격리 관리" 상황판의  "정보관리 > 전담공무원관리"에서 등록
+						</p>
+					</div>
+					<div>
+						<p>- 총괄공무원 권한 신청 : <br>
+							총괄공무원이 "신규 자가격리 관리" 상황판의  "정보관리 > 전담공무원관리"에서 <br>
+							해당 아이디의 권한 수정
+						</p>
+					</div>
+					<div>
+						<p>문의사항은 헬프데스크(070-5008-6632)로 연락해주시기 바랍니다.</p>
+					</div>
+	
+					<div class="btn-wrap"><button type="button" class="btn basic bi-check">확인</button></div>
+	
+				</div>
+			</div>
+			<button type="button" class="system-close" title="닫기"></button>
+		</div>
+		<!-- //시스템 이용 안내 -->
+
+		<script>
+			$(document).ready(function(){
+				$('.system-popup').draggable({
+					containment: "#wrap",
+					scroll: false,
+					start: function() {
+						$(this).css({transform: "none", top: $(this).offset().top+"px", left:$(this).offset().left+"px"});
+					}
+				});
+				$(".system-popup .system-close, .system-popup .bi-check").click(function(){
+					$(".system-popup").hide();
+				});
+			});
+		</script>
+
+		<!-- footer -->
+		<footer id="footer">
+			<p class="copyright">COPYRIGHT ⓒ 2021 YANGPYEONG GUN. All Rights Reserved.</p>
+		</footer>
+		<!-- //footer -->
+
+	</div>
+	<!-- //wrap -->
+
+
+</body></html>

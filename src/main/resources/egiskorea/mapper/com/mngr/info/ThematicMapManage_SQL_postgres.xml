@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--
+  @Description : 주제도 관리 Mapper xml 파일
+  @author 플랫폼개발부문 DT솔루션 이준호
+  @since 2022.02.08
+  @version 1.0
+  @see
+
+	수정일        수정자               수정내용
+  =========     =======    =================================================
+  2022.02.08     이준호               최초생성
+-->
+
+<mapper namespace="thematicMapManage">
+    <!-- 검색 -->
+    <sql id="searchSQL">
+        <where>
+            <if test="searchCondition == 1">
+                AND A.THEMAMAP_NM LIKE CONCAT ('%', #{searchKeyword},'%')
+            </if>
+            <if test="searchCondition == 2">
+                AND B.CODE_NM LIKE CONCAT ('%', #{searchKeyword},'%')
+            </if>
+        </where>
+    </sql>
+
+    <select id="selectTMapManageList" parameterType="ThemaMapVO" resultType="ThemaMapVO">
+        SELECT
+            A.THEMAMAP_ID, A.THEMAMAP_NM, A.LAYER_NM, A.REGISTER_ID, A.FRST_REGIST_DT, A.LAST_MODF_DT, A.THEMAMAP_DECI, A.THEMAMAP_CL_CODE, B.CODE_NM AS THEMAMAP_CL, A.LAST_UPDUSR_ID, A.USE_AT
+        FROM TBD_THEMAMAP AS A
+        LEFT JOIN COMTCCMMNDETAILCODE AS B
+        ON A.THEMAMAP_CL_CODE = B.CODE AND B.CODE_ID = 'TMC'
+        <include refid="searchSQL"/>
+        ORDER BY A.FRST_REGIST_DT DESC
+        LIMIT #{recordCountPerPage} OFFSET #{firstIndex}
+    </select>
+
+    <select id="selectTMapManageListCnt" parameterType="ThemaMapVO" resultType="java.lang.Integer">
+        SELECT COUNT(*) FROM TBD_THEMAMAP AS A
+        LEFT JOIN COMTCCMMNDETAILCODE AS B
+        ON A.THEMAMAP_CL_CODE = B.CODE AND B.CODE_ID = 'TMC'
+        <include refid="searchSQL"/>
+    </select>
+
+    <insert id="insertTMapManage" parameterType="ThemaMapVO">
+        <selectKey keyProperty="themamapId" resultType="java.lang.String" order="BEFORE">
+            SELECT COALESCE(MAX(CAST(THEMAMAP_ID AS INTEGER)), 0) + 1 FROM TBD_THEMAMAP
+        </selectKey>
+
+        INSERT INTO TBD_THEMAMAP
+            (THEMAMAP_ID, THEMAMAP_NM, LAYER_NM, REGISTER_ID, FRST_REGIST_DT, LAST_MODF_DT, THEMAMAP_DECI, THEMAMAP_CL_CODE, LAST_UPDUSR_ID, USE_AT)
+        VALUES
+            (#{themamapId}, #{themamapNm}, #{layerNm}, #{registerId}, #{frstRegistDt}, #{lastModfDt}, #{themamapDeci}, #{themamapClCode}, #{lastUpdusrId}, #{useAt});
+    </insert>
+
+    <select id="selectTMapManage" parameterType="ThemaMapVO" resultType="ThemaMapVO">
+        SELECT
+            A.THEMAMAP_ID, A.THEMAMAP_NM, A.LAYER_NM, A.REGISTER_ID, A.FRST_REGIST_DT, A.LAST_MODF_DT, A.THEMAMAP_DECI, A.THEMAMAP_CL_CODE, B.CODE_NM AS THEMAMAP_CL, A.LAST_UPDUSR_ID, A.USE_AT
+        FROM
+            TBD_THEMAMAP AS A
+        LEFT JOIN
+            COMTCCMMNDETAILCODE AS B
+        ON
+            A.THEMAMAP_CL_CODE = B.CODE AND B.CODE_ID = 'TMC'
+        WHERE
+            A.THEMAMAP_ID = #{themamapId}
+    </select>
+
+    <update id="updateTMapManage" parameterType="ThemaMapVO">
+        UPDATE TBD_THEMAMAP
+        SET
+            THEMAMAP_CL_CODE = #{themamapClCode},
+            THEMAMAP_NM = #{themamapNm},
+            LAYER_NM = #{layerNm},
+            THEMAMAP_DECI = #{themamapDeci},
+            USE_AT = #{useAt},
+            LAST_MODF_DT = #{lastModfDt},
+            LAST_UPDUSR_ID = #{lastUpdusrId}
+        WHERE THEMAMAP_ID = #{themamapId}
+    </update>
+
+    <delete id="deleteTMapManage" parameterType="ThemaMapVO">
+        DELETE FROM TBD_THEMAMAP WHERE THEMAMAP_ID = #{themamapId}
+    </delete>
+</mapper>

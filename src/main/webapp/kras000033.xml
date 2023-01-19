@@ -1,0 +1,46 @@
+<RESPONSE>
+    <HEADER>
+    <CODE>0000</CODE>
+<MESSAGE>SUCCESS</MESSAGE>
+</HEADER>
+    <BODY>
+        <HOUSE_INFO_SET>
+            <HOUSE_INFO_LIST>
+	            <BASE_YEAR>2015</BASE_YEAR>
+	            <INDI_HOUSE_PRC>83,400,000</INDI_HOUSE_PRC>
+	            <BLDG_NO>10718</BLDG_NO>
+	            <LAND_AREA>104</LAND_AREA>
+	            <LAND_CALC_AREA>69.72</LAND_CALC_AREA>
+	            <BLDG_AREA>243.98</BLDG_AREA>
+	            <BLDG_CALC_AREA>163.57</BLDG_CALC_AREA>
+	        </HOUSE_INFO_LIST>
+	        <HOUSE_INFO_LIST>
+	            <BASE_YEAR>2014</BASE_YEAR>
+	            <INDI_HOUSE_PRC>83,000,000</INDI_HOUSE_PRC>
+	            <BLDG_NO>10718</BLDG_NO>
+	            <LAND_AREA>104</LAND_AREA>
+	            <LAND_CALC_AREA>69.72</LAND_CALC_AREA>
+	            <BLDG_AREA>243.98</BLDG_AREA>
+	            <BLDG_CALC_AREA>163.57</BLDG_CALC_AREA>
+            </HOUSE_INFO_LIST>
+            <HOUSE_INFO_LIST>
+	            <BASE_YEAR>2013</BASE_YEAR>
+	            <INDI_HOUSE_PRC>83,400,000</INDI_HOUSE_PRC>
+	            <BLDG_NO>10718</BLDG_NO>
+	            <LAND_AREA>104</LAND_AREA>
+	            <LAND_CALC_AREA>69.72</LAND_CALC_AREA>
+	            <BLDG_AREA>243.98</BLDG_AREA>
+	            <BLDG_CALC_AREA>163.57</BLDG_CALC_AREA>
+            </HOUSE_INFO_LIST>
+            <HOUSE_INFO_LIST>
+	            <BASE_YEAR>2012</BASE_YEAR>
+	            <INDI_HOUSE_PRC>83,000,000</INDI_HOUSE_PRC>
+	            <BLDG_NO>10718</BLDG_NO>
+	            <LAND_AREA>104</LAND_AREA>
+	            <LAND_CALC_AREA>69.72</LAND_CALC_AREA>
+	            <BLDG_AREA>243.98</BLDG_AREA>
+	            <BLDG_CALC_AREA>163.57</BLDG_CALC_AREA>
+            </HOUSE_INFO_LIST>
+        </HOUSE_INFO_SET>
+    </BODY>
+</RESPONSE>

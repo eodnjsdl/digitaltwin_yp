@@ -1,0 +1,613 @@
+@charset "UTF-8";
+
+@import "btn.css";
+
+html, body {
+	height: 100%;
+}
+
+#wrap {
+	position: relative;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	height: 100%;
+	min-height: 700px;
+	background: url(/images/login/login-bg.jpg) no-repeat 50% 50%;
+	background-size: cover;
+}
+
+#login {
+	min-width: 770px;
+	border: 1px solid rgba(255, 255, 255, 0.5);	
+	border-radius: 20px;
+	background-color: rgba(255, 255, 255, 0.6);
+	box-shadow: 0px 20px 30px rgba(0, 0, 0, 0.5);
+	text-align: center;
+	-webkit-backdrop-filter: blur(40px);
+	backdrop-filter: blur(40px);	
+}
+
+#login * {
+	font-family: 'YangPyeong';
+}
+
+#login .logo {
+	margin: -1px auto 0;
+	width: 432px;
+	height: 102px;
+	background: url(/images/login/logo.png) no-repeat 50% -7px;
+	text-indent: -9999px;
+}
+
+#login .txt1 {
+	margin: 10px auto 30px;
+	color: #44516A;
+	font-size: 28px;
+	font-weight: 300;
+	line-height: 1.3;
+}
+
+#login .login-group {
+	margin: 0 auto;
+	width: 450px;
+	text-align: left;
+}
+
+#login .login-group .items {
+	display: flex;
+	align-items: center;
+	margin-bottom: 10px;	
+	height: 50px;
+	border: 1px solid #44516A;
+	background-color: #fff;
+	border-radius: 10px;
+	overflow: hidden;
+}
+
+#login .login-group .form-label {
+	flex-shrink: 0;
+	width: 190px;	
+}
+
+#login .login-group .form-control {
+	width: 100%;
+	height: 46px;
+	border: 0;
+	background-color: transparent;
+	border-radius: inherit;
+}
+
+#login .login-group .form-label, #login .login-group .form-control {
+	padding: 0 30px;
+	color: #44516A;
+	font-size: 23px;
+	font-weight: 700;
+}
+
+.form-checkbox {
+	position: relative;
+	display: inline-block;
+	padding-left: 30px;
+	vertical-align: middle;
+}
+
+.form-checkbox input[type=checkbox] {
+	position: absolute;	
+	margin: -1px;
+	padding: 0;
+	width: 1px;
+	height: 1px;
+	clip: rect(0,0,0,0);
+	overflow: hidden;
+}
+
+.form-checkbox input[type="checkbox"] + label {
+	display: inline-block;
+	color: #44516A;
+	font-size: 15px;
+	font-weight: 500;
+	cursor: pointer;
+	vertical-align: top;
+}
+
+.form-checkbox input[type="checkbox"] + label::before {
+	content: '';
+	display: inline-block;
+	position: absolute;
+	top: 50%;
+	left: 0;	
+	margin-top: -10px;
+	width: 20px;
+	height: 20px;
+	background-repeat: no-repeat;
+	background-position: 50%;
+	cursor: pointer;
+	vertical-align: middle;
+}
+
+.form-checkbox input[type="checkbox"] + label::before {
+	background-image: url(/images/login/form-checkbox.svg);
+}
+
+.form-checkbox input[type="checkbox"]:checked + label::before {
+	background-image: url(/images/login/form-checkbox-on.svg);
+}
+
+.login-btn {
+	display: block;
+	margin: 20px auto 50px;
+	width: 273px;
+	height: 65px;
+	line-height: 65px;
+	color: #fff;
+	font-size: 30px;
+	text-shadow: 0px 0px 4px rgba(0, 0, 0, 0.6);
+	border: 1px solid rgba(255, 255, 255, 0.5);
+	background-color: #4CAAEE;
+	background-image: linear-gradient(155deg, #FF7B7B -31.07%, #4CAAEE 116.42%);
+	box-shadow: 0px 20px 20px -5px rgba(0, 0, 0, 0.25);
+	border-radius: 10px;
+	text-align: center;
+	-webkit-transition: background .2s;
+	transition: background .2s;
+}
+
+.login-btn:hover {
+	background-color: #1C77FF;
+	background-image: inherit;
+}
+
+#login .util {
+	margin-bottom: 30px;
+	text-align: center;
+}
+
+#login .util a, #login .util button {
+	font-size: 15px;
+	font-weight: 500;
+	border-bottom: 1px solid #44516A;
+}
+
+#login .util a + a, #login .util button + button {
+	margin-left: 40px;
+}
+
+/*------------------------------------------------------------------------------
+ * popup
+ *----------------------------------------------------------------------------*/
+.ui-widget-overlay {
+	background: #000;
+    opacity: .5;
+}
+
+.login-dialog input, .login-dialog select, .login-dialog textarea, .login-dialog button {
+	font-family: 'Noto Sans KR';
+	font-size: 13px;
+}
+
+.login-dialog.ui-widget-content {
+	padding: 0;
+	font-family: 'Noto Sans KR';
+	color: #44516A;
+	font-size: 13px;
+	border: 0;
+	border-radius: 10px;
+}
+
+.login-dialog .ui-dialog-titlebar {
+	padding: 0 40px 0 20px;
+	height: 40px;
+	line-height: 40px;
+	color: #44516A;
+	font-size: 15px;
+	font-weight: 700;
+	border: 0;
+	border-bottom: 1px solid #44516A;
+	background-color: #fff;
+	border-radius: 10px 10px 0 0;
+}
+
+.login-dialog .ui-dialog-title {
+	margin: 0;
+}
+
+.login-dialog .ui-dialog-titlebar-close {
+	top: 0;
+	right: 0;
+	margin: 0;
+	padding: 0;
+	width: 40px;
+	height: 39px;
+	border: 0;
+	border-left: 1px solid #44516A;
+	background-color: #fff;
+	border-radius: 0 10px 0 0;
+}
+
+.login-dialog .ui-widget-header .ui-icon {
+	background-image: url(/images/icon/popup-close2.svg);
+	background-position: 50% 50%;
+}
+
+.login-dialog .ui-dialog-content {
+	padding: 30px;
+	color: #44516A;
+}
+
+.login-dialog .cont-txt {
+	margin-bottom: 15px;
+	font-weight: 700;
+	text-align: center;
+}
+
+.login-dialog .cont-txt {
+	margin-bottom: 15px;
+	font-weight: 700;
+	text-align: center;
+}
+
+.find-result-box {
+	margin: 30px auto 20px;
+	padding: 12px 15px 20px;
+	width: 340px;
+	min-height: 85px;
+	border: 1px solid #8895AD;
+	background-color: #F3F4F5;
+	border-radius: 10px;
+}
+
+.find-result-box .tit {
+	margin-bottom: 7px;
+	font-weight: 700;
+}
+
+.find-result-box .result-txt {
+	text-align: center;
+}
+
+.find-result-box .result-txt span {
+	position: relative;
+	display: block;
+	padding: 0 7px;
+}
+
+.find-result-box .result-txt.id-result span {
+	display: inline-block;
+	padding: 0 15px;
+}
+
+.find-result-box .result-txt span::before,
+.find-result-box .result-txt span::after {
+	position: absolute;
+	top: 0;
+}
+
+.find-result-box .result-txt span::before {
+	content: '[';
+	left: 0;
+}
+
+.find-result-box .result-txt span::after {
+	content: ']';
+	right: 0;
+}
+
+.pw-group {
+	display: flex;
+	align-items: center;
+	margin: 0 30px;
+}
+
+.pw-group + .pw-group {
+	margin-top: 10px;
+}
+
+.pw-group > div {
+	padding: 0 2px;
+}
+
+.pw-group > div:nth-child(1) {
+	flex-shrink: 0;
+	width: 80px;
+}
+
+.essential {
+	color: #C2092A;
+}
+
+/*------------------------------------------------------------------------------
+ * login - btn
+ *----------------------------------------------------------------------------*/
+.login-dialog .btn-wrap {
+	margin-top: 5px;
+}
+
+.login-dialog .btn-wrap + .btn-wrap {
+	margin-top: 40px;
+}
+
+.login-dialog .btn.find {
+	font-family: 'YangPyeong';
+	font-weight: normal;
+	font-size: 15px;
+}
+
+/*------------------------------------------------------------------------------
+ * login - table
+ *----------------------------------------------------------------------------*/
+.login-default table {
+	width: 100%;
+	table-layout: fixed;
+}
+
+.login-default caption {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 1px;
+	height: 1px;
+	z-index: -10;
+	overflow: hidden;
+}
+
+.login-default th, .login-default td {
+	padding: 5px;
+	text-align: left;
+}
+
+.login-default th {
+	font-weight: 500;
+}
+
+/*------------------------------------------------------------------------------
+ * login - form
+ *----------------------------------------------------------------------------*/
+.form-row {
+	display: flex;
+	flex-wrap: wrap;
+	margin-left: -2px;
+	margin-right: -2px;
+}
+
+.form-row > * {
+	padding-left: 2px;
+	padding-right: 2px;
+	flex-shrink: 0;
+	max-width: 100%;
+}
+
+.login-dialog .form-control {
+	padding: 0 10px;
+	width: 100%;
+	max-width: 100%;
+	height: 26px;
+	color: #44516A;
+	border: 1px solid #44516A;
+	border-radius: 5px;
+	text-align: left;
+}
+
+/* IE 10, 11의 네이티브 화살표 숨기기 */
+select::-ms-expand {
+	display: none;
+}
+
+.login-dialog .form-select {
+	padding: 0 35px 0 10px;
+	min-width: 60px;
+	width: 100%;
+	max-width: 100%;
+	height: 26px;
+	font-weight: 500;
+	border: 1px solid #44516A;
+	border-radius: 5px;
+	background-image: url(/images/icon/form-select-arrow-lg.jpg);
+	background-repeat: no-repeat;
+	background-position: right 0 top 50%;
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	appearance: none;
+}
+
+
+/*------------------------------------------------------------------------------
+ * footer
+ *----------------------------------------------------------------------------*/
+#footer {
+	position: absolute;
+	left: 0;
+	right: 0;
+	bottom: 50px;
+}
+
+#footer .copyright {
+	color: #fff;
+	font-weight: 500;
+	text-shadow: 0 0 4px #000000;
+	text-align: center;
+	letter-spacing: 1px;
+}
+
+/*------------------------------------------------------------------------------
+ * system-popup
+ *----------------------------------------------------------------------------*/
+.system-popup {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	width: 650px;
+	height: auto;
+	background-color: #FFFFFF;
+	box-shadow: 0px 20px 30px rgba(0, 0, 0, 0.5);
+	border-radius: 20px;
+	z-index: 50;
+}
+
+.system-popup .system-header {
+	position: relative;
+	padding: 35px 0 0;
+	text-align: center;
+}
+
+.system-popup .system-header .tit {
+	color: #44516A;	
+	font-size: 30px;
+	font-weight: 700;
+	padding: 0 50px 0 50px;
+}
+
+.system-popup .system-header::before {
+	content: '';
+	position: absolute;
+	top: 0;
+	left: 50%;
+	margin-left: -250px;
+	width: 500px;
+	height: 13px;
+	background: linear-gradient(90.01deg, #FFDC62 0.01%, #FFA3A3 34.79%, #7EBAFF 59.56%, #C2EA90 101.19%);
+	border-radius: 0px 0px 6.5px 6.5px;
+}
+
+.system-popup .system-close {
+	position: absolute;
+	top: 20px;
+	right: 20px;
+	width: 28px;
+	height: 28px;
+	background: url(/images/login/system-close.png) no-repeat 50% 50%;
+}
+
+.system-popup .system-body {
+	padding: 50px 30px 0;
+}
+
+.system-popup .cont > div {
+	margin-bottom: 18px;
+}
+
+.system-popup .cont p {
+	color: #44516A;
+	font-size: 15px;
+}
+
+.system-popup .btn-wrap {
+	margin-top: 60px;
+}
+
+/*------------------------------------------------------------------------------
+ * HaNam
+ *----------------------------------------------------------------------------*/
+#wrap.hanam {
+	background: url(/images/hanam/login/login-bg.jpg) no-repeat 50% 50%;
+}
+
+#wrap.hanam #login {
+	min-width: 770px;
+	border: 1px solid rgba(255, 255, 255, 0.5);	
+	border-radius: 20px;
+	background-color: rgba(255, 255, 255, 0.6);
+	box-shadow: 0px 20px 30px rgba(0, 0, 0, 0.5);
+	text-align: center;
+	-webkit-backdrop-filter: blur(40px);
+	backdrop-filter: blur(40px);	
+}
+
+#wrap.hanam #login * {
+	font-family: 'HaNamDaum';
+}
+
+#wrap.hanam #login .logo {
+	background: url(/images/hanam/login/logo.png) no-repeat 50% -7px;
+}
+
+#wrap.hanam #login .login-group .form-label, #wrap.hanam #login .login-group .form-control {
+	font-size: 21px;
+}
+
+#wrap.hanam #login .login-group .form-label {
+    width: 210px;
+}
+
+#wrap.hanam .login-btn {
+	line-height: 1.5;
+}
+
+/*------------------------------------------------------------------------------
+ * Gimpo
+ *----------------------------------------------------------------------------*/
+#wrap.gimpo {
+	background: url(/images/gimpo/login/login-bg.png) no-repeat 50% 50%;
+}
+
+#wrap.gimpo #login {
+	min-width: 770px;
+	border: 1px solid rgba(255, 255, 255, 0.5);	
+	border-radius: 20px;
+	background-color: rgba(255, 255, 255, 0.6);
+	box-shadow: 0px 20px 30px rgba(0, 0, 0, 0.5);
+	text-align: center;
+	-webkit-backdrop-filter: blur(40px);
+	backdrop-filter: blur(40px);	
+}
+
+#wrap.gimpo #login * {
+	font-family: 'HaNamDaum';
+}
+
+#wrap.gimpo #login .logo {
+	background: url(/images/gimpo/login/logo.png) no-repeat 50% -7px;
+	width: 100%;
+}
+
+#wrap.gimpo #login .login-group .form-label, #wrap.gimpo #login .login-group .form-control {
+	font-size: 21px;
+}
+
+#wrap.gimpo #login .login-group .form-label {
+    width: 210px;
+}
+
+#wrap.gimpo .login-btn {
+	line-height: 1.5;
+}
+
+/*------------------------------------------------------------------------------
+ * Uijeongbu
+ *----------------------------------------------------------------------------*/
+#wrap.uijeongbu {
+	background: url(/images/uijeongbu/login/login-bg.png) no-repeat 50% 50%;
+}
+
+#wrap.uijeongbu #login {
+	min-width: 770px;
+	border: 1px solid rgba(255, 255, 255, 0.5);	
+	border-radius: 20px;
+	background-color: rgba(255, 255, 255, 0.6);
+	box-shadow: 0px 20px 30px rgba(0, 0, 0, 0.5);
+	text-align: center;
+	-webkit-backdrop-filter: blur(40px);
+	backdrop-filter: blur(40px);	
+}
+
+#wrap.uijeongbu #login * {
+	font-family: 'HaNamDaum';
+}
+
+#wrap.uijeongbu #login .logo {
+	background: url(/images/uijeongbu/login/logo.png) no-repeat 50% -7px;
+	width: 100%;
+}
+
+#wrap.uijeongbu #login .login-group .form-label, #wrap.uijeongbu #login .login-group .form-control {
+	font-size: 21px;
+}
+
+#wrap.uijeongbu #login .login-group .form-label {
+    width: 210px;
+}
+
+#wrap.uijeongbu .login-btn {
+	line-height: 1.5;
+}}

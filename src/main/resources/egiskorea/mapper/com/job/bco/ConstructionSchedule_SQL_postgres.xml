@@ -1,0 +1,348 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="constructionSchedule">
+	<!-- 사업공유관리 > 공사예정 정보  목록 -->
+	<select id="selectConstructionScheduleList" parameterType="constructionScheduleVO" resultType="constructionSchedule">
+		/* SQL_ID: 정재환_ConstructionSchedule_SQL_postgres.xml.selectConstructionScheduleList 공사예정 정보 리스트*/
+		WITH TBD_CNTRK_PRRNG_INFORMATION AS (
+			SELECT 'POINT' AS TYPE_CODE, ST_X(GEOM::GEOMETRY) AS LON, ST_Y(GEOM::GEOMETRY) AS LAT, TBD_CNTRK_PRRNG_INFO.* FROM TBD_CNTRK_PRRNG_INFO WHERE ST_GeometryType(GEOM::GEOMETRY) = 'ST_Point'
+			UNION
+			SELECT 'LINE' AS TYPE_CODE, ST_X(ST_StartPoint(GEOM::GEOMETRY)) as LON, ST_Y(ST_StartPoint(GEOM::GEOMETRY)) as LAT, TBD_CNTRK_PRRNG_INFO.* FROM TBD_CNTRK_PRRNG_INFO 
+			WHERE ST_GeometryType(GEOM::GEOMETRY) = 'ST_LineString'
+		)
+		SELECT * FROM TBD_CNTRK_PRRNG_INFORMATION
+		WHERE    1=1
+		AND DELETE_AT = 'N' 
+		<if test="cntrkTy != null and cntrkTy !=''">
+		AND
+			CNTRK_TY = #{cntrkTy}
+		</if>
+		<if test="chpsnPsitn != null and chpsnPsitn !=''">
+		AND
+			CHPSN_PSITN = #{chpsnPsitn}
+		</if>
+		<if test="cntrkLcAdres != null and cntrkLcAdres !=''">
+		AND
+			CNTRK_LC_ADRES like '%'||#{cntrkLcAdres}||'%'
+		</if>
+		<if test="chpsnNm != null and chpsnNm !=''">
+		AND
+			CHPSN_NM like '%'||#{chpsnNm}||'%'
+		</if>
+		<if test="cntrkNm != null and cntrkNm !=''">
+		AND
+			CNTRK_NM like '%'||#{cntrkNm}||'%'
+		</if>
+		<if test="plnYear != null and plnYear !=''">
+		AND
+			PLN_YEAR = #{plnYear}
+		</if>
+		<if test="plnQu != null and plnQu !=''">
+		AND
+			PLN_QU = #{plnQu}
+		</if>		
+		ORDER BY CNTRK_PRRNG_ID DESC
+		LIMIT #{recordCountPerPage} OFFSET #{firstIndex}
+	</select>
+	
+	<!-- 사업공유관리 > 공사예정 정보 리스트 갯수 -->
+	<select id="selectConstructionScheduleListCnt" parameterType="constructionScheduleVO" resultType="java.lang.Integer">
+		/* SQL_ID: 정재환_ConstructionSchedule_SQL_postgres.xml.selectConstructionScheduleListCnt 공사예정 갯수*/
+		WITH TBD_CNTRK_PRRNG_INFORMATION AS (
+			SELECT ST_X(GEOM::GEOMETRY) AS LON, ST_Y(GEOM::GEOMETRY) AS LAT, TBD_CNTRK_PRRNG_INFO.* FROM TBD_CNTRK_PRRNG_INFO WHERE ST_GeometryType(GEOM::GEOMETRY) = 'ST_Point'
+			UNION
+			SELECT ST_X(ST_StartPoint(GEOM::GEOMETRY)) as LON, ST_Y(ST_StartPoint(GEOM::GEOMETRY)) as LAT, TBD_CNTRK_PRRNG_INFO.* FROM TBD_CNTRK_PRRNG_INFO 
+			WHERE ST_GeometryType(GEOM::GEOMETRY) = 'ST_LineString'
+		)
+		SELECT COUNT(*) 
+		FROM TBD_CNTRK_PRRNG_INFORMATION
+		WHERE	 1=1
+		AND DELETE_AT = 'N'
+		<if test="cntrkTy != null and cntrkTy !=''">
+		AND
+			CNTRK_TY = #{cntrkTy}
+		</if>
+		<if test="chpsnPsitn != null and chpsnPsitn !=''">
+		AND
+			CHPSN_PSITN = #{chpsnPsitn}
+		</if>
+		<if test="cntrkLcAdres != null and cntrkLcAdres !=''">
+		AND
+			CNTRK_LC_ADRES like '%'||#{cntrkLcAdres}||'%'
+		</if>
+		<if test="chpsnNm != null and chpsnNm !=''">
+			AND
+			CHPSN_NM like '%'||#{chpsnNm}||'%'
+		</if>
+		<if test="cntrkNm != null and cntrkNm !=''">
+		AND
+			CNTRK_NM like '%'||#{cntrkNm}||'%'
+		</if>
+		<if test="plnYear != null and plnYear !=''">
+		AND
+			PLN_YEAR = #{plnYear}
+		</if>
+		<if test="plnQu != null and plnQu !=''">
+		AND
+			PLN_QU = #{plnQu}
+		</if>	
+	</select>
+	
+	
+	
+	
+	<!-- 사업공유관리 > 공사예정 상세정보  목록 -->
+	<select id="selectConstructionScheduleNomal" parameterType="constructionScheduleVO" resultType="constructionSchedule">
+		/* SQL_ID: 정재환_ConstructionSchedule_SQL_postgres.xml.selectConstructionScheduleNomal 공사예정정보 상세 리스트*/
+		SELECT  CNTRK_PRRNG_ID, CNTRK_TY, PNRS_AT, CNTRK_NM, PLN_YEAR, PLN_QU, CNTRK_ODR, CHPSN_NM, CHPSN_PSITN, 
+				CHPSN_CTTPC, CNTRK_LC_ADRES, CNTRK_OTL, DELETE_AT, FRST_REGIST_DT, FRST_REGISTER_ID, ST_ASTEXT(GEOM) AS GEOM			 	
+		FROM TBD_CNTRK_PRRNG_INFO
+		WHERE    1=1
+		AND CNTRK_PRRNG_ID = #{cntrkPrrngId}
+	</select>
+	
+	<!-- 사업공유관리 > 공사예정 상세정보  차수별 공사 정보  -->
+	<select id="selectConstructionScheduleOrder" parameterType="constructionScheduleOrder" resultType="constructionScheduleOrder">
+		/* SQL_ID: 정재환_ConstructionSchedule_SQL_postgres.xml.selectConstructionScheduleOrder 공사예정정보 차수별 상세 리스트*/
+		
+		WITH TBD_CNTRK_PRRNG_ODR_INFORMATION AS (
+			SELECT ST_X(GEOM::GEOMETRY) AS LON, ST_Y(GEOM::GEOMETRY) AS LAT, CNTRK_PRRNG_ID, CNTRK_ODR, CNTRK_SCTN_TY, CNTRK_DTLS, CNTRK_LC_ADRES, TO_CHAR(CNTRK_BEGIN_DE, 'YYYY-MM-DD') AS CNTRK_BEGIN_DE, 
+				TO_CHAR(CNTRK_END_DE, 'YYYY-MM-DD')AS CNTRK_END_DE, ST_ASTEXT(GEOM) AS GEOM
+			FROM TBD_CNTRK_PRRNG_ODR_INFO WHERE ST_GeometryType(GEOM::GEOMETRY) = 'ST_Point'
+			UNION
+			SELECT ST_X(ST_StartPoint(GEOM::GEOMETRY)) as LON, ST_Y(ST_StartPoint(GEOM::GEOMETRY)) as LAT, CNTRK_PRRNG_ID, CNTRK_ODR, CNTRK_SCTN_TY, CNTRK_DTLS, CNTRK_LC_ADRES, 
+				TO_CHAR(CNTRK_BEGIN_DE, 'YYYY-MM-DD') AS CNTRK_BEGIN_DE, TO_CHAR(CNTRK_END_DE, 'YYYY-MM-DD')AS CNTRK_END_DE, ST_ASTEXT(GEOM) AS GEOM
+			FROM TBD_CNTRK_PRRNG_ODR_INFO 
+			WHERE ST_GeometryType(GEOM::GEOMETRY) = 'ST_LineString'
+		)
+		SELECT * 
+		FROM TBD_CNTRK_PRRNG_ODR_INFORMATION
+		WHERE 1=1 
+		AND CNTRK_PRRNG_ID = #{cntrkPrrngId}
+		<if test="cntrkOdr != null and cntrkOdr !=''">
+		AND
+			CNTRK_ODR = #{cntrkOdr}
+		</if>
+		ORDER BY CNTRK_ODR ASC
+		
+	</select>
+	
+	<!-- 사업공유관리 > 공사예정 정보 기본정보 등록 -->
+	<insert id="insertConstructionScheduleNomal" parameterType="underWaterAgri">
+		/* SQL_ID:  정재환_ConstructionSchedule_SQL_postgres.xml.insertConstructionScheduleNomal */
+		INSERT INTO	TBD_CNTRK_PRRNG_INFO
+		(
+			CNTRK_TY,
+			PNRS_AT,
+			CNTRK_NM,
+			PLN_YEAR,
+			PLN_QU,
+			CNTRK_ODR,
+			CHPSN_NM,
+			CHPSN_PSITN,
+			CHPSN_CTTPC,
+			CNTRK_LC_ADRES,
+			CNTRK_OTL,
+			DELETE_AT,
+			FRST_REGISTER_ID,
+			FRST_REGIST_DT,
+			GEOM
+		)
+		VALUES
+		(
+			#{cntrkTy},
+			#{pnrsAt},
+			#{cntrkNm},
+			#{plnYear},
+			#{plnQu},
+			#{cntrkOdr},
+			#{chpsnNm},
+			#{chpsnPsitn},
+			#{chpsnCttpc},
+			#{cntrkLcAdres},
+			#{cntrkOtl},
+			'N',
+			#{frstRegisterId},
+			now(),
+			ST_SetSRID(st_geomfromtext(#{geom}), 5179)	
+		)
+	</insert>
+	
+	<!-- 사업공유관리 > 공사계획 정보 리스트 갯수 -->
+	<select id="selectConstructionScheduleLastId" parameterType="constructionSchedule" resultType="java.lang.Integer">
+		/* SQL_ID: 정재환_ConstructionSchedule_SQL_postgres.xml.selectConstructionScheduleLastId 공사예정 정보 기본정보 MAXID조회*/
+		SELECT MAX(CNTRK_PRRNG_ID) AS CNTRK_PRRNG_ID FROM TBD_CNTRK_PRRNG_INFO	
+	</select>
+	
+	<!-- 공사예정 정보 > 공사예정 정보등록 > 기본정보 등록 -->
+	<insert id="insertConstructionScheduleOdr" parameterType="underWaterAgri">
+		/* SQL_ID:  정재환_ConstructionSchedule_SQL_postgres.xml.insertConstructionScheduleOdr */
+		INSERT INTO	TBD_CNTRK_PRRNG_ODR_INFO
+		(
+			CNTRK_PRRNG_ID,
+			CNTRK_ODR,
+			CNTRK_SCTN_TY,
+			CNTRK_LC_ADRES,
+			CNTRK_DTLS,
+			CNTRK_BEGIN_DE,
+			CNTRK_END_DE,
+			GEOM
+		)
+		VALUES
+		(
+			#{cntrkPrrngId},
+			#{cntrkOdr},
+			#{cntrkSctnTy},
+			#{cntrkLcAdres},
+			#{cntrkDtls},
+			TO_TIMESTAMP(CONCAT(#{cntrkBeginDe},' 00:00:00'), 'YYYY-mm-dd HH24:MI:SS'),
+			TO_TIMESTAMP(CONCAT(#{cntrkEndDe},' 23:59:59'), 'YYYY-mm-dd HH24:MI:SS'),
+			ST_SetSRID(st_geomfromtext(#{geom}), 5179)	
+		)	
+	</insert>
+	
+	<!-- 공사예정 정보 > 공사예정 정보 상세 > 차수정보 삭제 -->
+	<delete id="deleteConstructionSchedule" parameterType="constructionScheduleVO">
+		/* SQL_ID:  정재환_ConstructionSchedule_SQL_postgres.xml.deleteConstructionSchedule */
+		DELETE FROM TBD_CNTRK_PRRNG_INFO 
+		WHERE CNTRK_PRRNG_ID = #{cntrkPrrngId} 
+	</delete>
+	
+	<!-- 공사예정 정보 > 공사예정 정보 상세 > 차수정보 삭제 -->
+	<delete id="deleteConstructionScheduleOdr" parameterType="constructionScheduleOrder">
+		/* SQL_ID:  정재환_ConstructionSchedule_SQL_postgres.xml.deleteConstructionScheduleOdr */
+		DELETE FROM TBD_CNTRK_PRRNG_ODR_INFO 
+		WHERE CNTRK_PRRNG_ID = #{cntrkPrrngId} 
+		<if test="cntrkOdr != null and cntrkOdr !=''">
+		AND 
+			CNTRK_ODR = #{cntrkOdr}
+		</if>
+	</delete>
+	
+	<!-- 공사예정 정보 > 공사예정 정보 수정 > 기본정보 수정 -->
+	<update id="updateConstructionScheduleNomal" parameterType="constructionScheduleVO">
+		/* SQL_ID: _ConstructionSchedule_SQL_postgres.xml.updateConstructionScheduleNomal 공사예정 정보 수정(기본정보 수정처리)*/
+		UPDATE 	TBD_CNTRK_PRRNG_INFO
+		SET		CNTRK_TY = #{cntrkTy},
+				PNRS_AT = #{pnrsAt},
+				CNTRK_NM = #{cntrkNm},
+				PLN_YEAR = #{plnYear},
+				PLN_QU = #{plnQu},
+				CNTRK_ODR = #{cntrkOdr},
+				CHPSN_NM = #{chpsnNm},
+				CHPSN_PSITN = #{chpsnPsitn},
+				CHPSN_CTTPC = #{chpsnCttpc},
+				CNTRK_LC_ADRES = #{cntrkLcAdres},
+				CNTRK_OTL = #{cntrkOtl},
+				LAST_MODF_DT = NOW(),
+				LAST_UPDUSR_ID = 'webmaster'
+				<if test="geom != null and geom !=''">
+					,GEOM = ST_SETSRID(ST_GEOMFROMTEXT(#{geom}), 5179)	
+				</if>	
+		WHERE
+		CNTRK_PRRNG_ID = #{cntrkPrrngId}
+	</update>
+	
+	<!-- 공사예정 정보 > 공사예정 정보 수정 > 차수정보 수정 -->
+	<update id="updateConstructionScheduleOdr" parameterType="constructionScheduleOrder">
+		/* SQL_ID: _ConstructionSchedule_SQL_postgres.xml.updateConstructionScheduleOdr 공사예정 정보 수정(차수정보 수정처리)*/
+		UPDATE 	TBD_CNTRK_PRRNG_ODR_INFO
+		SET		CNTRK_SCTN_TY = #{cntrkSctnTy},
+				CNTRK_LC_ADRES = #{cntrkLcAdres},
+				CNTRK_DTLS = #{cntrkDtls},
+				CNTRK_BEGIN_DE = TO_TIMESTAMP(CONCAT(#{cntrkBeginDe},' 00:00:00'), 'YYYY-mm-dd HH24:MI:SS'),
+				CNTRK_END_DE = TO_TIMESTAMP(CONCAT(#{cntrkEndDe},' 23:59:59'), 'YYYY-mm-dd HH24:MI:SS')
+				<if test="geom != null and geom !=''">
+					,GEOM = ST_SETSRID(ST_GEOMFROMTEXT(#{geom}), 5179)	
+				</if>	
+		WHERE CNTRK_PRRNG_ID = #{cntrkPrrngId}
+		AND
+			CNTRK_ODR = #{cntrkOdr}
+	</update>
+	
+	
+	<!-- 사업공유관리 > 공사정보 조회  목록 -->
+	<select id="selectConstructionInquirySpaceList" parameterType="constructionScheduleVO" resultType="constructionSchedule">
+		/* SQL_ID: 정재환_ConstructionSchedule_SQL_postgres.xml.selectConstructionInquirySpaceList 공사예정 정보 리스트*/
+		SELECT  CNTRK_PRRNG_ID, CNTRK_TY, PNRS_AT, CNTRK_NM, CHPSN_PSITN,
+		PLN_YEAR, PLN_QU,ST_X(GEOM::GEOMETRY) AS LON, ST_Y(GEOM::GEOMETRY) AS LAT, ST_ASTEXT(GEOM) AS GEOM
+		FROM TBD_CNTRK_PRRNG_INFO 
+		WHERE    1=1
+		AND DELETE_AT = 'N' 
+		<if test="plnYearSp != null and plnYearSp !=''">
+		AND
+			PLN_YEAR = #{plnYearSp}
+		</if>
+		<if test="plnQuSp != null and plnQuSp !=''">
+		AND
+			PLN_QU = #{plnQuSp}
+		</if>
+		<if test="geomSp != null and geomSp !=''">
+		AND
+			 ST_INTERSECTS(ST_BUFFER(ST_GEOMFROMTEXT(#{geomSp}, 5179), #{radius}), ST_TRANSFORM(GEOM, 5179)) = true
+		</if>		
+		ORDER BY CNTRK_PRRNG_ID DESC
+		LIMIT #{recordCountPerPage} OFFSET #{firstIndex}
+	</select>
+	
+	<!-- 사업공유관리 > 공사정보 조회 리스트 갯수 -->
+	<select id="selectConstructionInquirySpaceListCnt" parameterType="constructionScheduleVO" resultType="java.lang.Integer">
+		/* SQL_ID: 정재환_ConstructionSchedule_SQL_postgres.xml.selectConstructionInquirySpaceListCnt 공사정보 조회 갯수*/
+		SELECT COUNT(*) 
+		FROM TBD_CNTRK_PRRNG_INFO 
+		WHERE	 1=1
+		AND DELETE_AT = 'N'
+		<if test="plnYearSp != null and plnYearSp !=''">
+		AND
+			PLN_YEAR = #{plnYearSp}
+		</if>
+		<if test="plnQuSp != null and plnQuSp !=''">
+		AND
+			PLN_QU = #{plnQuSp}
+		</if>
+		<if test="geomSp != null and geomSp !=''">
+		AND
+			 ST_INTERSECTS(ST_BUFFER(ST_GEOMFROMTEXT(#{geomSp}, 5179), #{radius}), ST_TRANSFORM(GEOM, 5179)) = true
+		</if>		
+	</select>
+	
+	<!-- 공사예정 정보 > 공사예정 정보등록 > 공사내역 상세 정보 등록 -->
+	<insert id="insertConstructionDtlsInfo" parameterType="underWaterAgri">
+		/* SQL_ID:  정재환_ConstructionSchedule_SQL_postgres.xml.insertConstructionDtlsInfo */
+		INSERT INTO	TBD_CNTRK_PRRNG_DTLS_INFO
+		(
+			CNTRK_PRRNG_ID,
+			CNTRK_ODR,
+			CNTRK_DTLS,
+			CNTRK_DPH
+		)
+		VALUES
+		(
+			#{cntrkPrrngId},
+			#{cntrkOdr},
+			#{cntrkDtls},
+			#{cntrkDph}
+		)	
+	</insert>
+	<!-- 공사예정 정보 > 공사예정 정보등록 > 공사내역 상세 정보 삭제 -->
+	<delete id="deleteConstructionDtlsInfo" parameterType="constructionDtlsInfo">
+		/* SQL_ID:  정재환_ConstructionSchedule_SQL_postgres.xml.deleteConstructionDtlsInfo */
+		DELETE FROM TBD_CNTRK_PRRNG_DTLS_INFO 
+		WHERE CNTRK_PRRNG_ID = #{cntrkPrrngId} 
+		<if test="cntrkOdr != null and cntrkOdr !=''">
+		AND
+			CNTRK_ODR = #{cntrkOdr} 
+		</if>
+	</delete>
+	
+	<!-- 공사예정 정보 > 공사예정 정보등록 > 공사내역 상세 정보 조회 -->
+	<select id="selectConstructionDtlsInfo" parameterType="constructionDtlsInfo" resultType="constructionDtlsInfo">
+		/* SQL_ID:  정재환_ConstructionSchedule_SQL_postgres.xml.selectConstructionDtlsInfo */
+		SELECT CNTRK_PRRNG_ID, CNTRK_ODR, CNTRK_DTLS, CNTRK_DPH 
+		FROM TBD_CNTRK_PRRNG_DTLS_INFO 
+		WHERE CNTRK_PRRNG_ID = #{cntrkPrrngId} 
+	</select>
+	
+	
+	
+</mapper>

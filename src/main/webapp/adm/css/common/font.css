@@ -1,0 +1,58 @@
+@charset "UTF-8";
+
+/* ------------------------------------------------------------------------------------------------------------------------
+S-CoreDream
+------------------------------------------------------------------------------------------------------------------------ */
+@font-face {
+    font-family: 'S-CoreDream';
+	font-style: normal;
+	font-weight: 300;
+    src: url(./font/S-CoreDream/S-CoreDream-3Light.eot); /*IE9 호환성 보기*/
+    src: url(./font/S-CoreDream/S-CoreDream-3Light.eot?#iefix) format('embedded-opentype'), /*IE 6-8*/
+         url(./font/S-CoreDream/S-CoreDream-3Light.woff) format('woff'); /*표준 브라우저*/
+}
+
+@font-face {
+    font-family: 'S-CoreDream';
+	font-style: normal;
+	font-weight: 400;
+    src: url(./font/S-CoreDream/S-CoreDream-4Regular.eot); /*IE9 호환성 보기*/
+    src: url(./font/S-CoreDream/S-CoreDream-4Regular.eot?#iefix) format('embedded-opentype'), /*IE 6-8*/
+         url(./font/S-CoreDream/S-CoreDream-4Regular.woff) format('woff'); /*표준 브라우저*/
+}
+
+@font-face {
+    font-family: 'S-CoreDream';
+	font-style: normal;
+	font-weight: 500;
+    src: url(./font/S-CoreDream/S-CoreDream-5Medium.eot); /*IE9 호환성 보기*/
+    src: url(./font/S-CoreDream/S-CoreDream-5Medium.eot?#iefix) format('embedded-opentype'), /*IE 6-8*/
+         url(./font/S-CoreDream/S-CoreDream-5Medium.woff) format('woff'); /*표준 브라우저*/
+}
+
+@font-face {
+    font-family: 'S-CoreDream';
+	font-style: normal;
+	font-weight: 600;
+    src: url(./font/S-CoreDream/S-CoreDream-6Bold.eot); /*IE9 호환성 보기*/
+    src: url(./font/S-CoreDream/S-CoreDream-6Bold.eot?#iefix) format('embedded-opentype'), /*IE 6-8*/
+         url(./font/S-CoreDream/S-CoreDream-6Bold.woff) format('woff'); /*표준 브라우저*/
+}
+
+@font-face {
+    font-family: 'S-CoreDream';
+	font-style: normal;
+	font-weight: 700;
+    src: url(./font/S-CoreDream/S-CoreDream-7ExtraBold.eot); /*IE9 호환성 보기*/
+    src: url(./font/S-CoreDream/S-CoreDream-7ExtraBold.eot?#iefix) format('embedded-opentype'), /*IE 6-8*/
+         url(./font/S-CoreDream/S-CoreDream-7ExtraBold.woff) format('woff'); /*표준 브라우저*/
+}
+
+@font-face {
+    font-family: 'S-CoreDream';
+	font-style: normal;
+	font-weight: 800;
+    src: url(./font/S-CoreDream/S-CoreDream-8Heavy.eot); /*IE9 호환성 보기*/
+    src: url(./font/S-CoreDream/S-CoreDream-8Heavy.eot?#iefix) format('embedded-opentype'), /*IE 6-8*/
+         url(./font/S-CoreDream/S-CoreDream-8Heavy.woff) format('woff'); /*표준 브라우저*/
+}

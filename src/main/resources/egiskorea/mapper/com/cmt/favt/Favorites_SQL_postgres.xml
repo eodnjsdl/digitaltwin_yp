@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="favorites">
+ 
+	<select id="selectFavoritesList" resultType="egovMap">
+		SELECT BK.*, TO_CHAR(BK.FRST_REGIST_DT, 'YYYY-MM-DD') AS REG_DT, TO_CHAR(BK.LAST_MODF_DT , 'YYYY-MM-DD') AS MODF_DT, 
+			CEI.USER_NM 
+		FROM TBD_USRT_BKMK BK
+			LEFT OUTER JOIN COMTNEMPLYRINFO CEI	
+				ON BK.EMPLYR_ID = CEI.EMPLYR_ID  
+		WHERE 1 = 1
+			AND BK.EMPLYR_ID = #{emplyrId}
+			AND BK.BKMK_NM LIKE '%' || #{searchWrd} || '%'
+			AND DELETE_AT = '0'
+		<trim prefix="ORDER BY"> 
+	        <if test="@egovframework.com.cmm.util.EgovMybaitsUtil@isEquals(sortKind,0)">  BKMK_NM </if>
+	        <if test="@egovframework.com.cmm.util.EgovMybaitsUtil@isEquals(sortKind,1)">  LAST_MODF_DT DESC </if>
+		</trim> 
+		LIMIT #{recordCountPerPage} OFFSET #{firstIndex}
+	</select>
+	
+	<select id="selectFavoritesListCnt" resultType="java.lang.Integer">
+		SELECT 
+			COUNT(*)
+		FROM TBD_USRT_BKMK BK
+			LEFT OUTER JOIN COMTNEMPLYRINFO CEI	
+				ON BK.EMPLYR_ID = CEI.EMPLYR_ID  
+		WHERE 1 = 1
+		AND BK.EMPLYR_ID = #{emplyrId}
+		AND BK.BKMK_NM LIKE '%' || #{searchWrd} || '%'
+		AND DELETE_AT = '0'
+
+	</select>
+
+	<select id="selectFavoritesView" resultType="egovMap">
+	<![CDATA[
+		SELECT BK.*, TO_CHAR(BK.FRST_REGIST_DT, 'YYYY-MM-DD') AS REG_DT, TO_CHAR(BK.LAST_MODF_DT , 'YYYY-MM-DD') AS MODF_DT, CEI.USER_NM
+		FROM TBD_USRT_BKMK BK
+		]]>
+			LEFT OUTER JOIN COMTNEMPLYRINFO CEI	
+				ON BK.EMPLYR_ID = CEI.EMPLYR_ID  
+		WHERE BK.BKMK_ID = #{bkmkId}
+		AND DELETE_AT = '0'
+	</select>
+	
+	<insert id="insertFavorites">
+		<selectKey keyProperty="bkmkId" resultType="string" order="BEFORE">
+	       SELECT COALESCE(MAX(CAST(BKMK_ID AS INTEGER)), 0) + 1 FROM TBD_USRT_BKMK;
+	    </selectKey>
+	    
+	 	INSERT INTO TBD_USRT_BKMK
+		(
+			BKMK_ID, 
+			EMPLYR_ID, 
+			BKMK_NM, 
+			DELETE_AT, 
+			IMAGE_FILE_NM, 
+			IMAGE_FLPTH_NM,
+			XCORD,
+			YCORD,
+			CCH_LEVEL,
+			CNTM_KND_NM, 
+			FRST_REGIST_DT, 
+			LAST_MODF_DT,
+		 	bass
+		)
+		VALUES
+		(
+			#{bkmkId},
+			#{emplyrId},
+			#{bkmkNm},
+			'0',
+			#{imageFileNm},
+			#{imageFlpthNm},
+			#{xcord},
+			#{ycord},
+			#{cchLevel},
+			#{cntmKndNm},
+			CURRENT_TIMESTAMP, 
+			CURRENT_TIMESTAMP,
+			#{bass}
+		)
+	</insert>
+	
+	<update id="updateFavorites">
+		UPDATE TBD_USRT_BKMK
+		SET EMPLYR_ID = #{emplyrId},
+			BKMK_NM = #{bkmkNm},
+			IMAGE_FILE_NM = #{imageFileNm}, 
+			IMAGE_FLPTH_NM = #{imageFlpthNm},
+			XCORD = #{xcord},
+			YCORD = #{ycord},
+			CCH_LEVEL = #{cchLevel},
+			CNTM_KND_NM = #{cntmKndNm},
+			LAST_MODF_DT = CURRENT_TIMESTAMP,
+		    bass = #{bass}
+			
+		WHERE BKMK_ID = #{bkmkId}
+	</update>
+
+
+
+	<update id="deleteFavorites">
+		UPDATE TBD_USRT_BKMK
+		SET DELETE_AT = '1'
+		WHERE BKMK_ID = #{bkmkId}
+	</update>
+
+	<update id="updateBass">
+		update TBD_USRT_BKMK set bass='n'
+		where emplyr_id=#{emplyrId}
+	</update>
+
+	<select id="selectBaseFavorites"  resultType="egovMap">
+		SELECT BK.*, TO_CHAR(BK.FRST_REGIST_DT, 'YYYY-MM-DD') AS REG_DT,
+			   TO_CHAR(BK.LAST_MODF_DT , 'YYYY-MM-DD') AS MODF_DT, CEI.USER_NM
+		FROM TBD_USRT_BKMK BK
+				 LEFT OUTER JOIN COMTNEMPLYRINFO CEI
+								 ON BK.EMPLYR_ID = CEI.EMPLYR_ID
+		where BK.emplyr_id=#{emplyrId}
+		  and bass='y'
+	</select>
+</mapper>

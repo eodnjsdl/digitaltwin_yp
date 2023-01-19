@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="potoInfo">
+
+	<select id="selectPotoInfoList" resultType="egovMap">
+		SELECT PI.*, TO_CHAR(PI.FRST_REGIST_DT, 'YYYY-MM-DD') AS REG_DT, TO_CHAR(PI.LAST_MODF_DT , 'YYYY-MM-DD') AS MODF_DT, 
+			CEI.USER_NM,
+			st_astext(st_transform(geom, 'EPSG:5179')) as wkt,
+			${pageIndex} AS PAGE_INDEX,
+			${pageUnit} AS PAGE_UNIT,
+			${pageSize} AS PAGE_SIZE
+		FROM TBD_USRT_PHTO_INFO PI
+			LEFT OUTER JOIN COMTNEMPLYRINFO CEI	
+				ON PI.EMPLYR_ID = CEI.EMPLYR_ID  
+		WHERE 1 = 1
+			AND PI.EMPLYR_ID = #{emplyrId}
+		<choose>
+			<when test="@egovframework.com.cmm.util.EgovMybaitsUtil@isEquals(searchCnd,0)">
+				AND PI.SJ LIKE '%' || #{searchWrd} || '%'
+			</when>
+			<when test="@egovframework.com.cmm.util.EgovMybaitsUtil@isEquals(searchCnd,1)">
+				AND CEI.USER_NM  LIKE '%' || #{searchWrd} || '%'
+			</when>
+		</choose>
+		<trim prefix="ORDER BY"> 
+	        <if test="@egovframework.com.cmm.util.EgovMybaitsUtil@isEquals(sortKind,0)">  SJ </if>
+	        <if test="@egovframework.com.cmm.util.EgovMybaitsUtil@isEquals(sortKind,1)">  LAST_MODF_DT DESC </if>
+		</trim> 
+		LIMIT #{recordCountPerPage} OFFSET #{firstIndex}
+	</select>
+	
+	<select id="selectPotoInfoListCnt" resultType="java.lang.Integer">
+		SELECT 
+			COUNT(*)
+		FROM TBD_USRT_PHTO_INFO PI
+			LEFT OUTER JOIN COMTNEMPLYRINFO CEI	
+				ON PI.EMPLYR_ID = CEI.EMPLYR_ID  
+		WHERE 1 = 1
+		<choose>
+			<when test="@egovframework.com.cmm.util.EgovMybaitsUtil@isEquals(searchCnd,0)">
+				AND PI.SJ LIKE '%' || #{searchWrd} || '%'
+			</when>
+			<when test="@egovframework.com.cmm.util.EgovMybaitsUtil@isEquals(searchCnd,1)">
+				AND CEI.USER_NM  LIKE '%' || #{searchWrd} || '%'
+			</when>
+		</choose>
+	</select>
+	
+	<select id="selectPotoInfoView" resultType="egovMap">
+	<if test="@egovframework.com.cmm.util.EgovMybaitsUtil@isEquals(sortKind,0)">
+		SELECT PI.*,st_astext(st_transform(geom, 'EPSG:5179')) as wkt, TO_CHAR(PI.FRST_REGIST_DT, 'YYYY-MM-DD') AS REG_DT, TO_CHAR(PI.LAST_MODF_DT , 'YYYY-MM-DD') AS MODF_DT, CEI.USER_NM,
+			(SELECT PHTO_ID FROM TBD_USRT_PHTO_INFO WHERE 1=1 AND SJ IN ( SELECT MAX(SJ) FROM TBD_USRT_PHTO_INFO A WHERE 1=1 AND A.EMPLYR_ID =#{emplyrId} AND <![CDATA[ A.SJ < #{sj} ]]>	
+				<if test="@egovframework.com.cmm.util.EgovMybaitsUtil@isEquals(searchCnd,0)">
+					AND A.SJ LIKE '%' || #{searchWrd} || '%'
+				</if>
+				<if test="@egovframework.com.cmm.util.EgovMybaitsUtil@isEquals(searchCnd,1)">
+					AND CEI.USER_NM  LIKE '%' || #{searchWrd} || '%'
+				</if>
+				)
+			) AS PREV_POTO_ID,
+			
+			(SELECT SJ FROM TBD_USRT_PHTO_INFO WHERE 1=1 AND SJ IN ( SELECT MAX(SJ) FROM TBD_USRT_PHTO_INFO A WHERE 1=1 AND A.EMPLYR_ID =#{emplyrId} AND  <![CDATA[ A.SJ < #{sj} ]]>
+				<if test="@egovframework.com.cmm.util.EgovMybaitsUtil@isEquals(searchCnd,0)">
+					AND A.SJ LIKE '%' || #{searchWrd} || '%'
+				</if>
+				<if test="@egovframework.com.cmm.util.EgovMybaitsUtil@isEquals(searchCnd,1)">
+					AND CEI.USER_NM  LIKE '%' || #{searchWrd} || '%'
+				</if>
+			
+			)) AS PREV_SJ,
+			
+			(SELECT PHTO_ID FROM TBD_USRT_PHTO_INFO WHERE 1=1 AND SJ IN ( SELECT MIN(SJ) FROM TBD_USRT_PHTO_INFO A WHERE 1=1 AND A.EMPLYR_ID =#{emplyrId} AND  <![CDATA[ A.SJ > #{sj} ]]>
+				<if test="@egovframework.com.cmm.util.EgovMybaitsUtil@isEquals(searchCnd,0)">
+					AND A.SJ LIKE '%' || #{searchWrd} || '%'
+				</if>
+				<if test="@egovframework.com.cmm.util.EgovMybaitsUtil@isEquals(searchCnd,1)">
+					AND CEI.USER_NM  LIKE '%' || #{searchWrd} || '%'
+				</if>
+			 
+			 )) AS NEXT_POTO_ID,
+			(SELECT SJ FROM TBD_USRT_PHTO_INFO WHERE 1=1 AND SJ IN ( SELECT MIN(SJ) FROM TBD_USRT_PHTO_INFO A WHERE 1=1 AND A.EMPLYR_ID =#{emplyrId} AND  <![CDATA[ A.SJ > #{sj} ]]>
+			 	<if test="@egovframework.com.cmm.util.EgovMybaitsUtil@isEquals(searchCnd,0)">
+					AND A.SJ LIKE '%' || #{searchWrd} || '%'
+				</if>
+				<if test="@egovframework.com.cmm.util.EgovMybaitsUtil@isEquals(searchCnd,1)">
+					AND CEI.USER_NM  LIKE '%' || #{searchWrd} || '%'
+				</if>
+			 )) AS NEXT_SJ
+		FROM TBD_USRT_PHTO_INFO PI
+			LEFT OUTER JOIN COMTNEMPLYRINFO CEI	
+				ON PI.EMPLYR_ID = CEI.EMPLYR_ID  
+		WHERE PI.PHTO_ID = #{phtoId}
+	</if>
+	
+	<if test="@egovframework.com.cmm.util.EgovMybaitsUtil@isEquals(sortKind,1)"> 
+		SELECT PI.*,st_astext(st_transform(geom, 'EPSG:5179')) as wkt, TO_CHAR(PI.FRST_REGIST_DT, 'YYYY-MM-DD') AS REG_DT, TO_CHAR(PI.LAST_MODF_DT , 'YYYY-MM-DD') AS MODF_DT, CEI.USER_NM,
+			<![CDATA[
+			(SELECT PHTO_ID FROM TBD_USRT_PHTO_INFO WHERE 1=1 AND LAST_MODF_DT IN ( SELECT MIN(LAST_MODF_DT) FROM TBD_USRT_PHTO_INFO A WHERE 1=1 AND A.EMPLYR_ID =#{emplyrId} AND A.LAST_MODF_DT  > #{lastModfDt}::TIMESTAMP
+			]]>
+			<if test="@egovframework.com.cmm.util.EgovMybaitsUtil@isEquals(searchCnd,0)">
+				AND A.SJ LIKE '%' || #{searchWrd} || '%'
+			</if>
+			<if test="@egovframework.com.cmm.util.EgovMybaitsUtil@isEquals(searchCnd,1)">
+				AND CEI.USER_NM  LIKE '%' || #{searchWrd} || '%'
+			</if>
+			
+			)) AS PREV_POTO_ID,
+			<![CDATA[
+			(SELECT SJ FROM TBD_USRT_PHTO_INFO WHERE 1=1 AND LAST_MODF_DT IN ( SELECT MIN(LAST_MODF_DT) FROM TBD_USRT_PHTO_INFO A WHERE 1=1 AND A.EMPLYR_ID =#{emplyrId} AND A.LAST_MODF_DT  > #{lastModfDt}::TIMESTAMP
+			]]>
+			<if test="@egovframework.com.cmm.util.EgovMybaitsUtil@isEquals(searchCnd,0)">
+				AND A.SJ LIKE '%' || #{searchWrd} || '%'
+			</if>
+			<if test="@egovframework.com.cmm.util.EgovMybaitsUtil@isEquals(searchCnd,1)">
+				AND CEI.USER_NM  LIKE '%' || #{searchWrd} || '%'
+			</if>
+			
+			)) AS PREV_SJ,
+			<![CDATA[
+			(SELECT PHTO_ID FROM TBD_USRT_PHTO_INFO WHERE 1=1 AND LAST_MODF_DT IN ( SELECT MAX(LAST_MODF_DT) FROM TBD_USRT_PHTO_INFO A WHERE 1=1 AND A.EMPLYR_ID =#{emplyrId} AND A.LAST_MODF_DT  < #{lastModfDt}::TIMESTAMP
+			]]>
+			<if test="@egovframework.com.cmm.util.EgovMybaitsUtil@isEquals(searchCnd,0)">
+				AND A.SJ LIKE '%' || #{searchWrd} || '%'
+			</if>
+			<if test="@egovframework.com.cmm.util.EgovMybaitsUtil@isEquals(searchCnd,1)">
+				AND CEI.USER_NM  LIKE '%' || #{searchWrd} || '%'
+			</if>
+						
+			)) AS NEXT_POTO_ID,
+			<![CDATA[
+			(SELECT SJ FROM TBD_USRT_PHTO_INFO WHERE 1=1 AND LAST_MODF_DT IN ( SELECT MAX(LAST_MODF_DT) FROM TBD_USRT_PHTO_INFO A WHERE 1=1 AND A.EMPLYR_ID =#{emplyrId} AND A.LAST_MODF_DT  < #{lastModfDt}::TIMESTAMP
+			]]>
+			<if test="@egovframework.com.cmm.util.EgovMybaitsUtil@isEquals(searchCnd,0)">
+				AND A.SJ LIKE '%' || #{searchWrd} || '%'
+			</if>
+			<if test="@egovframework.com.cmm.util.EgovMybaitsUtil@isEquals(searchCnd,1)">
+				AND CEI.USER_NM  LIKE '%' || #{searchWrd} || '%'
+			</if>	
+					
+			)) AS NEXT_SJ	
+		FROM TBD_USRT_PHTO_INFO PI
+			LEFT OUTER JOIN COMTNEMPLYRINFO CEI	
+				ON PI.EMPLYR_ID = CEI.EMPLYR_ID  
+		WHERE PI.PHTO_ID = #{phtoId}
+	</if>
+	</select>
+	
+	<insert id="insertPotoInfo">
+		<selectKey keyProperty="phtoId" resultType="string" order="BEFORE">
+	       SELECT COALESCE(MAX(CAST(PHTO_ID AS INTEGER)), 0) + 1 FROM TBD_USRT_PHTO_INFO;
+	    </selectKey>
+	    
+	 	INSERT INTO TBD_USRT_PHTO_INFO
+		(
+			PHTO_ID, 
+			EMPLYR_ID, 
+			SJ, 
+			PNRS_AT, 
+			LNM_ADRES, 
+			ATCHMNFL_ID, 
+			FRST_REGIST_DT, 
+			LAST_MODF_DT,
+			geom
+		)
+		VALUES
+		(
+			#{phtoId},
+			#{emplyrId},
+			#{sj},
+			#{pnrsAt},
+			#{lnmAdres},
+			#{atchmnflId},
+			CURRENT_TIMESTAMP, 
+			CURRENT_TIMESTAMP,
+			ST_SETSRID(ST_GEOMFROMTEXT(#{wkt}), 5179)
+		)
+	</insert>
+	
+	<update id="updatePotoInfo">
+		UPDATE TBD_USRT_PHTO_INFO
+		SET SJ = #{sj},
+			LAST_MODF_DT = CURRENT_TIMESTAMP,
+			PNRS_AT = #{pnrsAt},
+			ATCHMNFL_ID = #{atchmnflId}
+		WHERE PHTO_ID = #{phtoId}
+	</update>
+	
+	<delete id="deletePotoInfo">
+		DELETE FROM TBD_USRT_PHTO_INFO
+		WHERE PHTO_ID = #{phtoId}
+	</delete>
+	
+	<update id="updateFileDetail">
+			UPDATE COMTNFILEDETAIL
+			SET FILE_CN = #{fileCn}
+			WHERE 
+				ATCH_FILE_ID = #{atchFileId} AND FILE_SN = CAST(#{fileSn} AS NUMERIC)	
+	</update>
+	
+	<select id="selectLastModfDt" resultType="string">
+		SELECT LAST_MODF_DT
+		FROM TBD_USRT_PHTO_INFO
+		WHERE PHTO_ID = #{phtoId}
+	</select>
+	
+	<select id="selectSubject" resultType="string">
+		SELECT SJ
+		FROM TBD_USRT_PHTO_INFO
+		WHERE PHTO_ID = #{phtoId}
+	</select>
+	
+</mapper>

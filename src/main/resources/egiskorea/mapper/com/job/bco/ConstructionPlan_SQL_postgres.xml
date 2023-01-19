@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="constructionPlan">
+	<!-- 사업공유관리 > 공사계획 정보  목록 -->
+	<select id="selectConstructionPlanList" parameterType="constructionPlanVO" resultType="constructionPlan">
+		/* SQL_ID: 정재환_ConstructionPlan_SQL_postgres.xml.selectConstructionPlanList 공사계획 정보 리스트*/
+		SELECT 	CNTRK_PLN_ID, CNTRK_TY, CNTRK_NM, PLN_YEAR, PLN_QU, CNTRK_PRRNG_PRCUSE_AT, CHPSN_NM, CHPSN_PSITN, CHPSN_CTTPC,
+				CNTRK_LC_ADRES, CNTRK_OTL, DELETE_AT, FRST_REGIST_DT, FRST_REGISTER_ID, LAST_MODF_DT, LAST_UPDUSR_ID, 
+				ST_X (ST_PointOnSurface(geom)) AS lon, ST_Y (ST_PointOnSurface(geom)) AS lat
+		FROM TBD_CNTRK_PLN_INFO
+		WHERE    1=1
+		AND DELETE_AT = 'N'
+		<if test="cntrkTy != null and cntrkTy !=''">
+		AND
+			CNTRK_TY = #{cntrkTy}
+		</if>
+		<if test="chpsnPsitn != null and chpsnPsitn !=''">
+		AND
+			CHPSN_PSITN = #{chpsnPsitn}
+		</if>
+		<if test="cntrkLcAdres != null and cntrkLcAdres !=''">
+		AND
+			CNTRK_LC_ADRES like '%'||#{cntrkLcAdres}||'%'
+		</if>
+		<if test="cntrkNm != null and cntrkNm !=''">
+		AND
+			CNTRK_NM like '%'||#{cntrkNm}||'%'
+		</if>
+		<if test="plnYear != null and plnYear !=''">
+		AND
+			PLN_YEAR = #{plnYear}
+		</if>		
+		<if test="plnQu != null and plnQu !=''">
+		AND
+			PLN_QU = #{plnQu}
+		</if>
+		<if test="cntrkPrrngPrcuseAt != null and cntrkPrrngPrcuseAt !=''">
+		AND
+			CNTRK_PRRNG_PRCUSE_AT = #{cntrkPrrngPrcuseAt}
+		</if>		
+		ORDER BY CNTRK_PLN_ID DESC
+		LIMIT #{recordCountPerPage} OFFSET #{firstIndex}
+	</select>
+	
+	<!-- 사업공유관리 > 공사계획 정보 리스트 갯수 -->
+	<select id="selectConstructionPlanListCnt" parameterType="constructionPlanVO" resultType="java.lang.Integer">
+		/* SQL_ID: 정재환_ConstructionPlan_SQL_postgres.xml.selectConstructionPlanListCnt 공사계획정보 갯수*/
+		SELECT	 COUNT(*)
+		FROM	 TBD_CNTRK_PLN_INFO
+		WHERE	 1=1
+		AND DELETE_AT = 'N'
+		<if test="cntrkTy != null and cntrkTy !=''">
+		AND
+			CNTRK_TY = #{cntrkTy}
+		</if>
+		<if test="chpsnPsitn != null and chpsnPsitn !=''">
+		AND
+			CHPSN_PSITN = #{chpsnPsitn}
+		</if>
+		<if test="cntrkLcAdres != null and cntrkLcAdres !=''">
+		AND
+			CNTRK_LC_ADRES like '%'||#{cntrkLcAdres}||'%'
+		</if>
+		<if test="cntrkNm != null and cntrkNm !=''">
+		AND
+			CNTRK_NM like '%'||#{cntrkNm}||'%'
+		</if>
+		<if test="plnYear != null and plnYear !=''">
+		AND
+			PLN_YEAR = #{plnYear}
+		</if>
+		<if test="plnQu != null and plnQu !=''">
+		AND
+			PLN_QU = #{plnQu}
+		</if>
+		<if test="cntrkPrrngPrcuseAt != null and cntrkPrrngPrcuseAt !=''">
+		AND
+			CNTRK_PRRNG_PRCUSE_AT = #{cntrkPrrngPrcuseAt}
+		</if>	
+	</select>
+	
+	<!-- 사업공유관리 > 공사계획 상세정보  목록 -->
+	<select id="selectConstructionPlan" parameterType="constructionPlanVO" resultType="constructionPlan">
+		/* SQL_ID: 정재환_ConstructionPlan_SQL_postgres.xml.selectConstructionPlan 공사계획정보 상세 리스트*/
+		SELECT 	CNTRK_PLN_ID, CNTRK_TY, CNTRK_NM, PLN_YEAR, PLN_QU, CNTRK_PRRNG_PRCUSE_AT, CHPSN_NM, CHPSN_PSITN, CHPSN_CTTPC,
+				CNTRK_LC_ADRES, CNTRK_OTL, DELETE_AT, FRST_REGIST_DT, FRST_REGISTER_ID, LAST_MODF_DT, LAST_UPDUSR_ID
+		FROM TBD_CNTRK_PLN_INFO
+		WHERE    1=1
+		AND CNTRK_PLN_ID = #{cntrkPlnId}
+	</select>
+	
+	<!-- 사업공유관리 > 공사계획 삭제 처리 -->
+	<update id="deleteConstructionPlan" parameterType="egovMap" >
+		/* SQL_ID:  정재환_ConstructionPlan_SQL_postgres.xml.deleteConstructionPlan */
+		UPDATE TBD_CNTRK_PLN_INFO SET DELETE_AT = 'Y' 
+		WHERE CNTRK_PLN_ID = #{cntrkPlnId} 
+	</update>
+	
+	<!-- 사업공유관리 > 공사계획 수정 처리 -->
+	<update id="updateConstructionPlan" parameterType="egovMap" >
+		/* SQL_ID:  정재환_ConstructionPlan_SQL_postgres.xml.updateConstructionPlan */
+		UPDATE TBD_CNTRK_PLN_INFO SET CNTRK_TY = #{cntrkTy}, 
+		CNTRK_NM = #{cntrkNm}, 
+		PLN_YEAR = #{plnYear}, 
+		PLN_QU = #{plnQu}, 
+		CNTRK_PRRNG_PRCUSE_AT = #{cntrkPrrngPrcuseAt}, 
+		CHPSN_NM = #{chpsnNm}, 
+		CHPSN_PSITN = #{chpsnPsitn}, 
+		CHPSN_CTTPC = #{chpsnCttpc},  
+		CNTRK_LC_ADRES = #{cntrkLcAdres},
+		CNTRK_OTL = #{cntrkOtl},
+		LAST_MODF_DT = now()
+		<if test="geom != null and geom !=''">
+			,GEOM = ST_SetSRID(st_geomfromtext(#{geom}), 5179)	
+		</if>	
+		WHERE CNTRK_PLN_ID = #{cntrkPlnId} 
+	</update>
+	
+	
+	<!-- 사업공유관리 > 공사계획 정보 등록 -->
+	<insert id="insertConstructionPlan" parameterType="underWaterAgri">
+		/* SQL_ID:  정재환_ConstructionPlan_SQL_postgres.xml.insertConstructionPlan */
+		INSERT INTO TBD_CNTRK_PLN_INFO
+		(
+			CNTRK_TY,
+			CNTRK_NM,
+			PLN_YEAR,
+			PLN_QU,
+			CNTRK_PRRNG_PRCUSE_AT,
+			CHPSN_NM,
+			CHPSN_PSITN,
+			CHPSN_CTTPC,
+			CNTRK_LC_ADRES,
+			CNTRK_OTL,
+			DELETE_AT,
+			FRST_REGISTER_ID,
+			FRST_REGIST_DT,
+			GEOM
+		)VALUES(
+			#{cntrkTy}, 
+			#{cntrkNm}, 
+			#{plnYear}, 
+			#{plnQu}, 
+			#{cntrkPrrngPrcuseAt}, 
+			#{chpsnNm}, 
+			#{chpsnPsitn}, 
+			#{chpsnCttpc}, 
+			#{cntrkLcAdres}, 
+			#{cntrkOtl}, 
+			'N',
+			'hgd',
+			now(),
+			ST_SetSRID(st_geomfromtext(#{geom}), 5179)	
+		)
+	</insert>
+	
+	
+</mapper>

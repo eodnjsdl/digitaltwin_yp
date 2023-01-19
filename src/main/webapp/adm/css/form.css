@@ -1,0 +1,281 @@
+@charset "UTF-8";
+
+/* ------------------------------------------------------------------------------------------------------------------------
+form
+------------------------------------------------------------------------------------------------------------------------ */
+.form-control {
+	padding: 3px 10px;
+	max-width: 100%;
+	height: 26px;
+	color: #555;
+	font-size: 14px;
+	border: 1px solid #333;
+	border-radius: 0;
+	text-align: left;
+}
+
+.error {
+	color: red;
+}
+
+.bbs-write .form-control, .bbs-detail .form-control,
+.bbs-write .form-select, .bbs-detail .form-select {
+	border-color: #DCDCDC;
+}
+
+textarea.form-control {
+	width: 100%;
+	height: 100px;
+}
+
+input[readonly="readonly"], input[disabled="disabled"],
+.form-control:disabled, .form-select:disabled {
+	color: #555;
+	border-color: #DCDCDC !important;
+	background-color: #E2E2E2;
+}
+
+/* ------------------------------------------------------------------------------------------------------------------------
+Select
+------------------------------------------------------------------------------------------------------------------------ */
+.form-select {
+	padding: 0 20px 0 10px;
+	min-width: 60px;
+	height: 26px;
+	font-size: 12px;
+	border: 1px solid #333;
+	background: url(/adm/images/form/form-select-arrow.svg) no-repeat 95% 50%;
+	-webkit-appearance: none; /* 네이티브 외형 감추기 */
+	-moz-appearance: none; 
+	appearance: none;
+}
+
+select::-ms-expand { 
+	display: none;
+}
+
+/* ------------------------------------------------------------------------------------------------------------------------
+form - check & radio
+------------------------------------------------------------------------------------------------------------------------ */
+.form-checkbox, .form-radio {
+	display: inline-block;
+	vertical-align: middle;
+}
+
+.form-checkbox > span, .form-radio > span {
+	position: relative;
+	margin: 5px 0;
+}
+
+.form-checkbox.group, .form-radio.group {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+}
+
+.form-checkbox.group > span, .form-radio.group > span {
+	margin-right: 20px;
+}
+
+.form-checkbox input[type="checkbox"], 
+.form-radio input[type="radio"] {
+	position: absolute;	
+	margin: -1px;
+	padding: 0;
+	width: 1px;
+	height: 1px;
+	clip: rect(0,0,0,0);
+	overflow: hidden;
+}
+
+.form-checkbox input[type="checkbox"] + label,
+.form-radio input[type="radio"] + label {
+	display: inline-block;
+	position: relative;
+	padding-left: 18px;
+	color: #555;
+	cursor: pointer;
+	vertical-align: top;
+}
+
+.form-checkbox input[type="checkbox"] + label:before, .form-radio input[type="radio"] + label:before {
+	content: '';
+	display: block;
+	position: absolute;
+	top: 2px;
+	left: 0;
+	width: 13px;
+	height: 13px;
+	background-repeat: no-repeat;
+	background-position: 50% 50%;
+	cursor: pointer;
+}
+
+.form-checkbox input[type="checkbox"] + label:before {
+	background-image: url(/adm/images/form/form-checkbox.svg);
+}
+
+.form-checkbox input[type="checkbox"]:checked + label:before {
+	background-image: url(/adm/images/form/form-checkbox-on.svg);
+}
+
+.form-radio input[type="radio"] + label:before {
+	background-image: url(/adm/images/form/form-radio.png);
+}
+
+.form-radio input[type="radio"]:checked + label:before {
+	background-image: url(/adm/images/form/form-radio-on.png);
+}
+
+.form-checkbox input[type="checkbox"]:disabled + label, .form-radio input[type="radio"]:disabled + label {
+    color: #999;
+}
+
+.form-checkbox input[type="checkbox"]:disabled + label:before, .form-radio input[type="radio"]:disabled + label:before {
+    opacity: 0.5;
+}
+
+.checkbox-group, .radio-group {
+	display: flex;
+	flex-wrap: wrap;
+}
+
+.checkbox-group .form-checkbox, .radio-group .form-radio {
+	margin-right: 30px;
+}
+
+/* ------------------------------------------------------------------------------------------------------------------------
+Datepicker
+------------------------------------------------------------------------------------------------------------------------ */
+.hasDatepicker {
+	padding: 0 10px;
+	width: 120px;
+	height: 26px;
+	color: #555;
+	font-size: 14px;
+	border: 1px solid #333;
+	border-right: 0;
+	border-radius: 0;
+	text-align: left;
+}
+
+.hasDatepicker[readonly="readonly"], .hasDatepicker:disabled {
+	color: #555;
+	border-color: #DCDCDC !important;
+	background-color: #E2E2E2;
+}
+
+button.ui-datepicker-trigger {
+	display: inline-block;
+	position: relative;
+	width: 26px;
+	height: 26px;
+	border-left: 1px solid #333;
+	background: #555 url(/adm/images/form/form-calendar.png) no-repeat 50% 50%;
+	text-indent: -9999px;
+}
+
+.hasDatepicker:disabled + .ui-datepicker-trigger {
+	border-color: #DCDCDC;
+	background-color: #E2E2E2;
+}
+
+.hasDatepicker:disabled + .ui-datepicker-trigger::after {
+	opacity: 0.5;
+}
+
+img.ui-datepicker-trigger {
+	border: 1px solid #DCDCDC;
+	border-left: 0;
+}
+
+.ui-datepicker {
+	z-index: 100 !important;
+}
+
+.ui-datepicker th, .ui-datepicker td {
+	font-size: 11px;
+}
+
+.ui-datepicker td {
+	width: 14%;
+}
+
+.ui-datepicker .ui-datepicker-prev-hover,
+.ui-datepicker .ui-datepicker-next-hover {
+	top: 2px;
+}
+
+.ui-datepicker .ui-datepicker-prev-hover {
+	left: 2px;
+}
+.ui-datepicker .ui-datepicker-next-hover {
+	right: 2px;
+}
+
+.ui-datepicker .ui-datepicker-buttonpane button {
+	font-size: 11px;
+}
+
+.srch-calendar {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+}
+
+/* ------------------------------------------------------------------------------------------------------------------------
+첨부파일
+------------------------------------------------------------------------------------------------------------------------ */
+.attach-file {
+	position: relative;
+	width: 360px;
+	height: 170px;
+	border: 1px solid #DCDCDC;
+	text-align: left;
+	overflow: hidden;
+}
+
+.attach-file img {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	height: 100%;
+	transform: translate(-50%, -50%);
+	-ms-transform: translate(-50%, -50%);
+	-webkit-transform: translate(-50%, -50%);
+	-moz-transform: translate(-50%, -50%);
+}
+
+.attach-file-name {
+	margin-top: 10px;
+	color: #555;
+}
+
+.attached-file {
+	margin-top: 5px;
+}
+
+.attached-file .attached-file-name {
+	display: inline-block
+}
+.attached-file .attached-file-name:hover {
+	cursor: default;
+}
+
+.attached-file .attached-file-preview {
+	display: block;
+	position: absolute;
+	padding: 4px;
+	border: 1px solid #cdcdcd;
+	max-width: 356px;
+}
+
+.attached-file .attached-file-delete-btn {
+	color: #f14c4c;
+	font-size: 13px;
+	padding-bottom: 3px;
+}
+
+.attached-file .attached-file-delete-btn:hover {
+	color: #d10303;
+}

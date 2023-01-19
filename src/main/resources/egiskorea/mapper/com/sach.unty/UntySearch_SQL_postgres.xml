@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="untySearch">
+    <!-- 페이징 -->
+    <sql id="limit">
+        LIMIT #{pageUnit} OFFSET (#{pageIndex} - 1) * #{pageUnit}
+    </sql>
+
+    <sql id="from_unty">
+        from
+        (select distinct on(nm) nm ,geom from VGD_UNITY_SEARCH_BASIC
+        where nm like  '%'||#{nm}||'%') vgd
+
+    </sql>
+
+<!--    통합목록-->
+    <select id="selectUntyList" parameterType="unitySearchVO" resultType="unitySearchVO">
+
+        select
+        st_astext(st_centroid(vgd.geom)) as wkt,
+        vgd.nm
+        <include refid="from_unty" />
+        <include refid="limit" />
+    </select>
+
+    
+    <!-- 통합 목록 건 수 -->
+    <select id="selectUntyCnt" parameterType="unitySearchVO" resultType="int">
+        SELECT COUNT(*)
+        <include refid="from_unty" />
+    </select>
+
+
+    <select id="selectUntyExcelList" parameterType="unitySearchVO" resultType="egovMap">
+        select distinct nm from VGD_UNITY_SEARCH_BASIC
+        where nm like  '%'||#{nm}||'%'
+    </select>
+</mapper>

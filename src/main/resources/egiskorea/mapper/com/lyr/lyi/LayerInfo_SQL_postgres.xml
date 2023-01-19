@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="layerInfo">
+	
+	<select id="selectLayerSetInfo" parameterType="layerInfoVO" resultType="layerSet">
+		SELECT *
+		FROM TBD_LYR_SET
+		WHERE LYR_ID = ${lyrId}
+	</select>
+	
+	<select id="selectLayerInfo" parameterType="layerInfoVO" resultType="layerSet">
+		SELECT MMD.DATAID AS LYR_ID, LRI.LYR_CL AS LYR_CL, MMD.DATA_NAME AS LYR_NM, MMD.SHP_TABLE_NAME AS TBL_NM, 
+			MMD.DATA_TYPE AS LYR_KND, MMD.SHP_DATA_TYPE AS LYR_DTL_KND, MMD.MID AS FRST_REGISTER_ID, 
+			TO_CHAR(MMD.FRST_REGIST_PNTTM, 'YYYY-mm-dd HH24:MI:SS') AS FRST_REGIST_DT
+		FROM MEMBER_MAPS_DATA MMD
+			LEFT JOIN LAYER_REGISTER_INFO LRI
+			ON MMD.DATAID = LRI.DATAID
+		WHERE MMD.DATAID = ${lyrId}
+	</select>
+	
+	<insert id="insertLayerSetInfo" parameterType="layerSet">
+		INSERT INTO TBD_LYR_SET (
+			LYR_ID,	LYR_CL,	LYR_NM,	LYR_NCM, TBL_NM, LYR_KND, LYR_DTL_KND, RNWL_CYCLE, RNWL_UNIT,
+			RNWL_STLE, CNRS_STLE, USE_AT, STYLE_INFO, FRST_REGIST_DT, FRST_REGISTER_ID, LAST_MODF_DT, LAST_UPDUSR_ID
+		) VALUES (
+			${lyrId},
+			#{lyrCl},
+			#{lyrNm},
+			#{lyrNcm},
+			#{tblNm},
+			#{lyrKnd},
+			#{lyrDtlKnd},
+			'1',
+			'Y',
+			'1',
+			'0',
+			'Y',
+			#{styleInfo},
+			TO_TIMESTAMP(#{frstRegistDt}, 'YYYY-mm-dd HH24:MI:SS'),
+			#{frstRegisterId},
+			TO_TIMESTAMP(#{frstRegistDt}, 'YYYY-mm-dd HH24:MI:SS'),
+			#{frstRegisterId}
+		)
+	</insert>
+	
+	<select id="selectLayerAttributeList" parameterType="layerInfoVO" resultType="layerAttribute">
+		SELECT *
+		FROM TBD_LYR_ATRB
+		WHERE LYR_ID = ${lyrId}
+		ORDER BY SORT_ORDR 
+	</select>
+	
+	<select id="selectLayerExpressionAttribute" parameterType="layerInfoVO" resultType="layerAttribute">
+		SELECT ATRB_ID
+		FROM TBD_LYR_ATRB
+		WHERE LYR_ID = ${lyrId}
+			AND EPRSS_AT = 'Y'
+		LIMIT 1
+	</select>
+	
+	<select id="selectLayerInfoList" parameterType="layerInfoVO" resultType="egovMap">
+		SELECT 
+		<if test="@egovframework.com.cmm.util.EgovMybaitsUtil@isEquals(lyrDtlKnd,'P')">
+			ST_X(ST_TRANSFORM(GEOM, 4326)) AS LON,
+			ST_Y(ST_TRANSFORM(GEOM, 4326)) AS LAT,
+		</if>
+		<choose>
+			<when test="@egovframework.com.cmm.util.EgovMybaitsUtil@isEquals(tblNm, 'tgd_spsb_entrc')">
+				ENTRC_NO AS TEXT
+			</when>
+			<when test="@egovframework.com.cmm.util.EgovMybaitsUtil@isNotEmpty(atrbId)">
+				${atrbId} AS TEXT
+			</when>
+			<otherwise>
+				'' AS TEXT
+			</otherwise>
+		</choose>
+		FROM ${tblNm}
+	</select>
+	
+	<select id="selectLayerAttributeInfo" parameterType="layerInfoVO" resultType="layerAttribute">
+		 SELECT IC.COLUMN_NAME AS ATRB_ID, IC.UDT_NAME AS ATRB_TYPE, IC.ORDINAL_POSITION AS SORT_ORDR, 
+		 	COALESCE(IC.CHARACTER_MAXIMUM_LENGTH, IC.NUMERIC_PRECISION) AS ATRB_LT,
+		 	COALESCE(PD.DESCRIPTION, IC.COLUMN_NAME) AS ATRB_NM
+		 FROM INFORMATION_SCHEMA.COLUMNS IC
+		 	INNER JOIN PG_STAT_ALL_TABLES PS
+		 		ON IC.TABLE_NAME = PS.RELNAME
+		 	LEFT JOIN PG_DESCRIPTION PD
+		 		ON PS.RELID = PD.OBJOID
+		 			AND IC.ORDINAL_POSITION = PD.OBJSUBID
+		 WHERE TABLE_NAME = #{tblNm}
+		 ORDER BY SORT_ORDR
+	</select>
+	
+	<insert id="insertLayerAttributeInfo" parameterType="layerAttribute">
+		INSERT INTO TBD_LYR_ATRB (
+			LYR_ID, ATRB_ID, ATRB_NM, ATRB_TYPE, ATRB_LT, EPRSS_AT, USE_AT, SORT_ORDR,  
+			FRST_REGIST_DT, FRST_REGISTER_ID, LAST_MODF_DT, LAST_UPDUSR_ID
+		) VALUES (
+			${lyrId},
+			#{atrbId},
+			#{atrbNm},
+			#{atrbType},
+			${atrbLt},
+		<choose>
+			<when test="@egovframework.com.cmm.util.EgovMybaitsUtil@isEquals(sortOrdr, 1)">
+				'Y',
+			</when>
+			<otherwise>
+				'N',
+			</otherwise>
+		</choose>
+			'Y',
+			${sortOrdr},
+			TO_TIMESTAMP(#{frstRegistDt}, 'YYYY-mm-dd HH24:MI:SS'),
+			#{frstRegisterId},
+			TO_TIMESTAMP(#{frstRegistDt}, 'YYYY-mm-dd HH24:MI:SS'),
+			#{frstRegisterId}
+		)
+	</insert>
+	
+	<update id="updateLayerSetInfo" parameterType="layerSet">
+		UPDATE TBD_LYR_SET
+		SET LYR_NM = #{lyrNm},
+			RNWL_STLE = #{rnwlStle},
+			RNWL_CYCLE = #{rnwlCycle},
+			RNWL_UNIT = #{rnwlUnit},
+			CNRS_STLE = #{cnrsStle},
+			STYLE_INFO = #{styleInfo},
+			LAST_MODF_DT = NOW(),
+			LAST_UPDUSR_ID = #{lastUpdusrId}
+		WHERE LYR_ID = ${lyrId};
+		
+		UPDATE MEMBER_MAPS_DATA
+		SET DATA_NAME = #{lyrNm}
+		WHERE DATAID = ${lyrId};
+	</update>
+	
+	<update id="updateLayerAttributeInfo" parameterType="layerAttribute">
+		UPDATE TBD_LYR_ATRB
+		SET ATRB_NM = #{atrbNm},
+			EPRSS_AT = #{eprssAt}
+		WHERE LYR_ID = ${lyrId}
+			AND ATRB_ID = #{atrbId};
+	</update>
+	
+	<select id="selectCsvLayerInfo" parameterType="mapsData" resultType="mapsData">
+		SELECT POI_TYPE, POI_INDEX, POI_COLOR, MINX, MINY, MAXX, MAXY, META_OUT_URL
+		FROM MEMBER_MAPS_DATA
+		WHERE DATAID = ${dataid} 
+	</select>
+</mapper>

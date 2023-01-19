@@ -1,0 +1,84 @@
+<div class="small-popup small-bottom opened" >
+	<div class="popup-header">일조권분석</div>
+	<div class="popup-body">
+		<div class="sunlight-slider-wrap">
+			<div class="sunlight-slider">
+				<div class="ui-slider-handle" id="custom-handle"><span class="amount"></span></div>
+			</div>
+			<div class="sunlight-time">
+				<span class="time start" id="shadowStartTime" ></span>
+				<span class="time end" id="shadowEndTime" ></span>
+			</div>
+		</div>
+
+		<div class="sunlight-option-group">
+			<div class="items" >
+				<span class="tit">날짜선정</span>
+				<div class="datapicker-group"><input type="text" class="datepicker" id="sunDatepicker"></div>
+			</div>
+			<div class="items">
+				<span class="tit">시작시간</span>
+				<select class="form-select" name="selectTimeSet" id="startHourList" >
+
+				</select>
+				<select class="form-select" name="selectTimeSet" id="startMinuteList"  >
+
+				</select>
+			</div>
+			<div class="items">
+				<span class="tit">종료시간</span>
+				<select class="form-select" name="selectTimeSet" id="endHourList"  >
+
+				</select>
+				<select class="form-select" name="selectTimeSet" id="endMinuteList"  >
+
+				</select>
+			</div>
+			<div class="items" id="timeInterval">
+				<span class="tit">속도간격</span>
+				<select class="form-select" id="timeIntervalList">
+					<option value="1">1분</option>
+					<option value="3">3분</option>
+					<option value="5">5분</option>
+					<option value="10">10분</option>
+					<option value="30">30분</option>
+					<option value="60">1시간</option>
+				</select>
+			</div>
+			<div class="items playCtrl-group">
+				<span><input type="radio" name="play" id="play" title="재생" ><label for="play" class="play"></label></span>
+				<span><input type="radio" name="play" id="pause" title="일시정지" ><label for="pause" class="pause" ></label></span>
+				<span><input type="radio" name="play" id="stop" title="정지" ><label for="stop" class="stop" ></label></span>
+			</div>
+			<div class="items">
+				<button type="button" class="icon-btn reset" id="sunReset"></button>
+			</div>
+		</div>
+
+		<script>
+		//슬라이더 생성
+			var sunlightAmount = $(".amount" );
+			$( function() {
+			  $( ".sunlight-slider" ).slider({
+				range: "min",
+				value: 0,
+				min: 0,
+				max: 100 ,
+				create: function() {
+					sunlightAmount.text( $( this ).slider("value"));
+				},
+				slide: function( event, ui ) {
+					M_SUHN_ANLS.changeProgressingTime();
+				},
+				change: function(){
+					
+				}
+			  });
+			});
+			
+		</script>
+	</div>
+	<button type="button" class="manualBtn" title="도움말" onclick="manualTab('일조권분석(3D)')"></button>
+	<button type="button" class="popup-toggle" title="접기"></button>
+</div>
+<!-- //분석 > 일조권분석 -->

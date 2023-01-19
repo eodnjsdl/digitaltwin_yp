@@ -1,0 +1,4 @@
+[
+  { "name": "tgd_scco_emd", "kor": "읍면동", "field": "emd_kor_nm" },
+  { "name": "wtl_pipe_lm", "kor": "상수관로", "field": "pip_lbl" }
+]

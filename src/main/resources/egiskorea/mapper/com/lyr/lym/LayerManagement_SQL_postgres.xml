@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="layerManagement">
+	
+	<select id="selectLayerManagementList" resultType="layerManagementVO">
+		SELECT MMD.DATAID, MMD.DATA_NAME, MMD.DATA_TYPE, MMD.SHP_DATA_TYPE, MMD.MID, LRI.SHARE_YN
+		FROM MEMBER_MAPS_DATA MMD
+			LEFT JOIN LAYER_REGISTER_INFO LRI
+				ON MMD.DATAID = LRI.DATAID
+			LEFT JOIN (
+					SELECT CODE, USE_AT
+					FROM COMTCCMMNDETAILCODE
+					WHERE CODE_ID = 'LRCL'
+				) CDC
+				ON LRI.LYR_CL = CDC.CODE
+		WHERE MMD.STATE = 10
+			AND CDC.USE_AT = 'Y'
+			AND LRI.USE_YN = 'Y'
+		<if test="@egovframework.com.cmm.util.EgovMybaitsUtil@isNotEmpty(mid)">
+			AND ((MMD.MID = #{mid}) 
+				OR (LRI.GROUP_ID = #{groupId} AND LRI.ORGNZT_ID = #{orgnztId})
+				OR LRI.SHARE_YN = 'Y'
+				)  
+		</if>
+		<if test="@egovframework.com.cmm.util.EgovMybaitsUtil@isNotEmpty(searchKeyword)">
+			AND MMD.DATA_NAME LIKE CONCAT ('%', #{searchKeyword}, '%') 	
+		</if>
+		<if test="@egovframework.com.cmm.util.EgovMybaitsUtil@isNotEmpty(searchCondition)">
+			AND LRI.LYR_CL LIKE CONCAT ('%', #{searchCondition}, '%') 	
+		</if>
+		ORDER BY MMD.DATA_NAME
+	</select>
+	
+	<update id="deleteLayerManagementInfo" parameterType="layerManagementVO">
+		UPDATE LAYER_REGISTER_INFO
+		SET USE_YN = 'N'
+		WHERE DATAID = ${dataid}
+	</update>
+	
+	<insert id="insertLayerListInfo" parameterType="layerManagementVO">
+	 	INSERT INTO TBD_USRT_SPCE_DTST (
+	 		EMPLYR_ID,
+	 		LYR_ID
+	 	) VALUES (
+	 		#{mid},
+	 		${dataid}
+	 	)
+	</insert>
+	
+	<select id="selectLayerList" parameterType="layerManagementVO" resultType="layerManagementVO">
+		SELECT 
+			MMD.DATAID, MMD.DATA_NAME, MMD.DATA_TYPE, MMD.SHP_DATA_STORE_NAME, MMD.SHP_TABLE_NAME, MMD.DATA_DESC,
+			MMD.SHP_DATA_TYPE, CDC.CODE_NM AS lyrClNm, CDC.CODE AS lyrCl, TUSD.EMPLYR_ID
+		FROM TBD_USRT_SPCE_DTST TUSD
+			LEFT JOIN COMTNEMPLYRINFO CEI
+				ON TUSD.EMPLYR_ID = CEI.EMPLYR_ID
+			LEFT JOIN MEMBER_MAPS_DATA MMD
+				ON TUSD.LYR_ID = MMD.DATAID
+			LEFT JOIN LAYER_REGISTER_INFO LRI
+				ON TUSD.LYR_ID = LRI.DATAID
+			LEFT JOIN (
+					SELECT CODE, CODE_NM, USE_AT
+					FROM COMTCCMMNDETAILCODE
+					WHERE CODE_ID = 'LRCL'
+				) CDC
+				ON LRI.LYR_CL = CDC.CODE
+		WHERE LRI.USE_YN = 'Y'
+			AND CDC.USE_AT = 'Y'
+			AND TUSD.EMPLYR_ID = #{mid}
+		<if test="dataid != 0">
+			AND LYR_ID = ${dataid}
+		</if>
+		<if test="@egovframework.com.cmm.util.EgovMybaitsUtil@isNotEmpty(searchKeyword)">
+			AND (
+					MMD.DATA_NAME LIKE CONCAT ('%', #{searchKeyword}, '%')
+					OR 
+					CDC.CODE_NM LIKE CONCAT ('%', #{searchKeyword}, '%')
+				) 	
+		</if>
+		<if test="mode == 'left'">
+			and MMD.DATA_TYPE not in ('I','D','L','G','F')
+		</if>
+		<if test="mode == 'top'">
+			and MMD.DATA_TYPE in ('I','D','L','G','F')
+		</if>
+		ORDER BY CDC.CODE, MMD.DATA_NAME		
+	</select>
+	
+	<delete id="deleteLayerListInfo" parameterType="layerManagementVO">
+		DELETE FROM TBD_USRT_SPCE_DTST  
+		WHERE EMPLYR_ID = #{mid}
+			AND LYR_ID = ${dataid}
+	</delete>
+	
+	<insert id="insertLayerRegisterInfo" parameterType="layerRegisterInfo">
+		INSERT INTO LAYER_REGISTER_INFO (
+			DATAID, LYR_CL, SHARE_YN, GROUP_ID, ORGNZT_ID, USE_YN
+		) VALUES (
+			${dataid}, #{lyrCl}, #{shareYn}, #{groupId}, #{orgnztId}, 'Y'
+		)		
+	</insert>
+</mapper>

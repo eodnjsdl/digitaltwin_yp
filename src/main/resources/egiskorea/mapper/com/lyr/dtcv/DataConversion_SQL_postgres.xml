@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="dataConversion">
+	<insert id="insertDataConversion" parameterType="mapsData">
+		<selectKey keyProperty="dataid" resultType="int" order="BEFORE">
+		SELECT CASE WHEN MAX(DATAID)+1 IS NULL THEN 1
+		       ELSE MAX(DATAID)+1 END AS DATAID 
+			  FROM  MEMBER_MAPS_DATA
+	    </selectKey>
+	    INSERT INTO MEMBER_MAPS_DATA(
+	    	DATAID, MID, DGID, CWID, WCID, ATCH_FILE_ID, DATA_NAME, DATA_DESC, DATA_ENV, DATA_TYPE, IS_CONVERTED, HDFS_URL, HDFS_PATH, PROGRESS_URL, PROGRESS_PATH, SPLIT_PROGRESS_PATH, DATADIR_URL, 
+	    	SPLIT_OUT_PATH, SLIT_OUT_TXT_PATH, META_OUT_PATH, META_OUT_URL, META_OUT_WORK_URL, SHP_URL, SHP_PATH, COORD_TYPE, CONVERT_TYPE, THUMBNAIL_URL, THUMBNAIL_PATH, DOWNLOAD_URL, 
+	    	MOVE_LON, MOVE_LAT, SHP_LAYER_FULLNAME, SHP_DATA_STORE_NAME, SHP_TABLE_NAME, SHP_INFO_URL, SHP_DATA_TYPE, IS_SHAPE_HEIGHT, DATA_ENCODE, WIDTH, HEIGHT, 
+			RESOLUTION, BANDS, CSV_LAYER_NAME, CSV_DB_NAME, COL_X, COL_Y, COL_LABEL, COL_ADDRESS, ADDRESS_TYPE, AREA_TYPE, POI_TYPE, POI_INDEX, POI_COLOR, MLID, MLTX, STATE, DATA_ENCODING, 
+	    	GEOMETRY_TYPE, RECT_INFO_PATH, ERROR_MESSAGE, COORD_EPSG, SHAPE_TYPE, POINT_COLOR, POINT_ALT, POINT_SIZE, POINT_COUNT, POINT_INTENSE, TRK_COLOR, RTE_COLOR, REG_DATE,
+	    	<if test="@egovframework.com.cmm.util.EgovMybaitsUtil@isNotEmpty(moveAlt)">MOVE_ALT,</if>
+	    	<if test="@egovframework.com.cmm.util.EgovMybaitsUtil@isNotEmpty(minx)">MINX,</if>
+			<if test="@egovframework.com.cmm.util.EgovMybaitsUtil@isNotEmpty(miny)">MINY,</if>
+			<if test="@egovframework.com.cmm.util.EgovMybaitsUtil@isNotEmpty(minz)">MINZ,</if>
+			<if test="@egovframework.com.cmm.util.EgovMybaitsUtil@isNotEmpty(maxx)">MAXX,</if>
+			<if test="@egovframework.com.cmm.util.EgovMybaitsUtil@isNotEmpty(maxy)">MAXY,</if>
+			<if test="@egovframework.com.cmm.util.EgovMybaitsUtil@isNotEmpty(maxz)">MAXZ,</if>	    	 
+	    	<if test="@egovframework.com.cmm.util.EgovMybaitsUtil@isNotEmpty(centerX)">CENTER_X,</if>
+	    	<if test="@egovframework.com.cmm.util.EgovMybaitsUtil@isNotEmpty(centerY)">CENTER_Y,</if>
+	    	FRST_REGIST_PNTTM, FRST_REGISTER_ID
+	    ) VALUES (
+	    	${dataid},
+			#{mid},
+			${dgid},
+			${cwid},
+			${wcid},
+			#{atchFileId},
+			#{dataName},
+			#{dataDesc},
+			#{dataEnv},
+			#{dataType},
+			#{isConverted},
+			#{hdfsUrl},
+			#{hdfsPath},
+			#{progressUrl},
+			#{progressPath},
+			#{splitProgressPath},
+			#{datadirUrl},
+			#{splitOutPath},
+			#{slitOutTxtPath},
+			#{metaOutPath}||${dataid},
+			#{metaOutUrl}||${dataid},
+			#{metaOutWorkUrl},
+			#{shpUrl},
+			#{shpPath},
+			#{coordType},
+			#{convertType},
+			#{thumbnailUrl},
+			#{thumbnailPath},
+			#{downloadUrl},
+			${moveLon},
+			${moveLat},
+			#{shpLayerFullname},
+			#{shpDataStoreName},
+			#{shpTableName},
+			#{shpInfoUrl},
+			${shpDataType},
+			#{isShapeHeight},
+			#{dataEncode},				    	
+			${width},
+			${height},
+			${resolution},
+			${bands},
+			#{csvLayerName},
+			#{csvDbName},
+			${colX},
+			${colY},
+			${colLabel},
+			${colAddress},
+			#{addressType},
+			#{areaType},
+			${poiType},
+			${poiIndex},
+			#{poiColor},
+			#{mlid},
+			#{mltx},
+			${state},
+			#{dataEncoding},
+			#{geometryType},
+			#{rectInfoPath},
+			#{errorMessage},
+			#{coordEpsg},
+			#{shapeType},
+			#{pointColor},
+			#{pointAlt},
+			#{pointSize},
+			${pointCount},
+			${pointIntense},
+			#{trkColor},
+			#{rteColor},
+			now(),
+			<if test="@egovframework.com.cmm.util.EgovMybaitsUtil@isNotEmpty(moveAlt)">${moveAlt},</if>
+			<if test="@egovframework.com.cmm.util.EgovMybaitsUtil@isNotEmpty(minx)">#{minx},</if>
+			<if test="@egovframework.com.cmm.util.EgovMybaitsUtil@isNotEmpty(miny)">#{miny},</if>
+			<if test="@egovframework.com.cmm.util.EgovMybaitsUtil@isNotEmpty(minz)">#{minz},</if>
+			<if test="@egovframework.com.cmm.util.EgovMybaitsUtil@isNotEmpty(maxx)">#{maxx},</if>
+			<if test="@egovframework.com.cmm.util.EgovMybaitsUtil@isNotEmpty(maxy)">#{maxy},</if>
+			<if test="@egovframework.com.cmm.util.EgovMybaitsUtil@isNotEmpty(maxz)">#{maxz},</if>
+			<if test="@egovframework.com.cmm.util.EgovMybaitsUtil@isNotEmpty(centerX)">${centerX},</if>
+			<if test="@egovframework.com.cmm.util.EgovMybaitsUtil@isNotEmpty(centerY)">${centerY},</if>
+			now(),
+			#{frstRegisterId}
+	    )
+	</insert>
+	
+	<insert id="insertConvertProgress" parameterType="mapsData">
+		<selectKey keyProperty="pid" resultType="int" order="BEFORE">
+		SELECT CASE WHEN MAX(PID)+1 IS NULL THEN 1
+		       ELSE MAX(PID)+1 END AS PID 
+			  FROM  CONVERT_PROGRESS
+	    </selectKey>
+		INSERT INTO  CONVERT_PROGRESS( 
+			PID, DATAID, APPID, WCID, JOB_ID, PROGRESS, STATUS, ERROR_MSG, REG_DATE, LON, LAT
+		) VALUES (
+			${pid},
+			${dataid},
+			${appid},
+			${wcid},
+			#{jobId},
+			#{progress},
+			#{status},
+			#{errorMsg},
+			now(),
+			#{lon},
+			#{lat}
+		)
+	</insert>
+	
+	<insert id="insertWorkerCsvItem" parameterType="workerCsvItem">
+		<selectKey keyProperty="wcid" resultType="int" order="BEFORE">
+		SELECT CASE WHEN MAX(WCID)+1 IS NULL THEN 1
+		       ELSE MAX(WCID)+1 END AS WCID 
+			  FROM  WORKER_CSV_ITEM
+	    </selectKey>
+		INSERT INTO WORKER_CSV_ITEM(
+			WCID, MID, DATAID, ATCH_FILE_ID, DB_NAME, TBL_NAME, CSV_PATH, SHP_PATH, OUTPUT_PATH, IS_TWO_COLUMN, PROGRESS_PATH, PROGRESS_URL, ADDRESS_INDEX, TITLE_INDEX, LON_INDEX, LAT_INDEX, ADDR_TYPE, 
+			POI_TYPE, POI_INDEX, POI_COLOR, SHP_TYPE, SRS_CODE, AREA_TYPE, ENCODING, PID, STATUS, ERROR_MESSAGE, REG_DATE,
+			<if test="@egovframework.com.cmm.util.EgovMybaitsUtil@isNotEmpty(startDate)"> 
+			START_DATE, 
+			</if>
+			<if test="@egovframework.com.cmm.util.EgovMybaitsUtil@isNotEmpty(completeDate)">
+			COMPLETE_DATE,
+			</if>
+			<if test="@egovframework.com.cmm.util.EgovMybaitsUtil@isNotEmpty(errorDate)">
+			ERROR_DATE, 
+			</if>
+			FRST_REGIST_PNTTM, FRST_REGISTER_ID
+		) VALUES (
+			${wcid},
+			#{mid},
+			${dataid},
+			#{atchFileId},
+			#{dbName},
+			#{tblName},
+			#{csvPath},
+			#{shpPath},
+			#{outputPath},
+			#{isTwoColumn},
+			#{progressPath},
+			#{progressUrl},
+			${addressIndex},
+			${titleIndex},
+			${lonIndex},
+			${latIndex},
+			#{addrType},
+			#{poiType},
+			#{poiIndex},
+			#{poiColor},
+			#{shpType},
+			${srsCode},
+			#{areaType},
+			#{encoding},
+			${pid},
+			#{status},
+			#{errorMessage},
+			now(),
+			<if test="@egovframework.com.cmm.util.EgovMybaitsUtil@isNotEmpty(startDate)">
+			#{startDate},
+			</if>
+			<if test="@egovframework.com.cmm.util.EgovMybaitsUtil@isNotEmpty(completeDate)">
+			#{completeDate},
+			</if>
+			<if test="@egovframework.com.cmm.util.EgovMybaitsUtil@isNotEmpty(errorDate)">
+			#{errorDate},
+			</if>
+			now(),
+			#{frstRegisterId}
+		)
+	</insert>
+	
+	<select id="selectProgress" parameterType="mapsData" resultType="convertProgress">
+		SELECT PROGRESS FROM CONVERT_PROGRESS WHERE DATAID = #{dataid}	
+	</select>
+	
+	<update id="updateDataConversion" parameterType="mapsData">
+		UPDATE MEMBER_MAPS_DATA SET STATE = ${state} WHERE DATAID = #{dataid}
+	</update>
+</mapper>

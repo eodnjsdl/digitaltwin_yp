@@ -1,0 +1,170 @@
+<!doctype html>
+<html lang="ko">
+	<head>
+		<meta charset="UTF-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+		<title>관리자</title>
+
+		<script src="/adm/js/plugin/jquery/jquery-3.4.1.min.js"></script>
+		
+        <!-- jquery-ui -->
+		<script src="/adm/js/plugin/jquery-ui/jquery-ui.js"></script>
+		<link rel="stylesheet" href="/adm/js/plugin/jquery-ui/jquery-ui.css">
+
+        <!-- mCustomScrollbar -->
+		<script src="/adm/js/plugin/mCustomScrollbar/jquery.mCustomScrollbar.concat.min.js"></script>
+		<link rel="stylesheet" href="/adm/js/plugin/mCustomScrollbar/jquery.mCustomScrollbar.css">
+
+		<script src="/adm/js/adm-ui.js"></script>
+		
+		<link rel="stylesheet" href="/adm/css/common/common.css">
+		<!-- adm -->
+		<link rel="stylesheet" href="/adm/css/common.css">
+	</head>
+	<body>
+
+		<!-- wrap -->
+		<div id="wrap">
+
+			<!-- header -->
+			<header id="header">
+				<div><h1 class="logo"><a href="javascript:void(0);">스마트시티 <strong>IN 양평</strong></a></h1></div>
+				<div><a href="javascript:void(0);" class="admin">관리자페이지</a></div>
+			</header>
+			<!-- //header -->
+
+			<!-- container -->
+			<div id="container">
+				<!-- side -->
+				<section id="side">
+					<h2 class="hide">주메뉴</h2>
+					<ul id="gnb" class="gnb-dep1">
+						<li><a href="javascript:void(0);" class="gnb-dep1-tit">사용자 관리</a>
+							<ul class="gnb-dep2">
+								<li><a href="/adm/sub01-01.html">그룹관리</a></li>
+								<li><a href="/adm/sub01-02.html">사용자정보</a></li>
+								<li><a href="javascript:void(0);">조직정보</a></li>
+							</ul>
+						</li>
+						<li><a href="javascript:void(0);" class="gnb-dep1-tit">권한관리</a>
+							<ul class="gnb-dep2">
+								<li><a href="/adm/sub02-01.html">롤정보</a></li>
+								<li><a href="">권한정보</a></li>
+								<li><a href="javascript:void(0);">사용자권한</a></li>
+							</ul>
+						</li>
+						<li><a href="javascript:void(0);" class="gnb-dep1-tit">이력관리</a>
+							<ul class="gnb-dep2">
+								<li><a href="/adm/sub03-01.html">접속이력</a></li>
+								<li><a href="">사용이력</a></li>
+							</ul>
+						</li>
+						<li><a href="javascript:void(0);" class="gnb-dep1-tit">정보관리</a>
+							<ul class="gnb-dep2">
+								<li><a href="">공통분류코드</a></li>
+								<li><a href="">공통코드</a></li>
+								<li><a href="">기능</a></li>
+								<li><a href="">지도</a></li>
+								<li><a href="">레이어</a></li>
+								<li><a href="">공지사항</a></li>
+								<li><a href="">게시판</a></li>
+								<li><a href="">사이트링크</a></li>
+							</ul>
+						</li>
+						<li><a href="javascript:void(0);" class="gnb-dep1-tit">서버관리</a>
+							<ul class="gnb-dep2">
+								<li><a href="/adm/sub05-01.html">지도서비스</a></li>
+								<li><a href="/adm/sub05-02.html">클라우드서비스</a></li>
+							</ul>
+						</li>
+						<li><a href="guide.html" class="gnb-dep1-tit">가이드</a></li>
+					</ul>
+				</section>
+				<!-- //side -->
+				<!-- content -->
+				<section id="content">
+
+					<div class="row">
+						<div class="col-12 page-tit-wrap">
+							<h3 class="page-tit">지도서비스</h3><!-- left gnb 1차 메뉴 텍스트와 일치해야 해당 메뉴에 active 추가 됨 -->
+							<p class="page-txt">지도서비스 목록을 입력 관리 할 수 있는 페이지 입니다.</p>
+						</div>
+					</div>
+
+					<div class="row">
+						<div class="col-12">
+
+							<div class="bbs-write-default">
+								<table class="bbs-write">
+									<colgroup>
+										<col style="width: 10%;">
+										<col style="width: 40%;">
+										<col style="width: 10%;">
+										<col style="width: 40%;">
+									</colgroup>
+									<tbody>
+										<tr>
+											<th scope="col">서비스ID</th>
+											<td colspan="3"><input type="text" class="form-control" style="width: 70%;"></td>
+										</tr>
+										<tr>
+											<th scope="col">서비스명</th>
+											<td colspan="3"><input type="text" class="form-control" style="width: 70%;"></td>
+										</tr>
+										<tr>
+											<th scope="col">서비스 설명</th>
+											<td>
+												<textarea name="" id="" class="form-control" style="height: 200px;"></textarea>
+											</td>
+											<th scope="col">이미지 파일</th>
+											<td>
+												<div class="attach-file">
+													
+												</div>
+												<div class="attach-file-name"><input type="file"></div>
+											</td>
+										</tr>
+										<tr>
+											<th scope="col">사용여부</th>
+											<td colspan="3">
+												<span class="form-radio group">
+													<span><input type="radio" name="" id="" checked=""><label for="">사용</label></span>
+													<span><input type="radio" name="" id=""><label for="">미사용</label></span>
+												</span>
+											</td>
+										</tr>
+										<tr>
+											<th scope="col">생성일</th>
+											<td><div class="datapicker-group"><input type="text" class="datepicker" title="검색일 YYYY-MM-DD 형식으로 날짜를 입력해주세요"></div></td>
+											<th scope="col">생성자</th>
+											<td>관리자</td>
+										</tr>
+										<tr>
+											<th scope="col">수정일</th>
+											<td><div class="datapicker-group"><input type="text" class="datepicker" title="검색일 YYYY-MM-DD 형식으로 날짜를 입력해주세요"></div></td>
+											<th scope="col">수정자</th>
+											<td>관리자</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+
+							<div class="btn-wrap justify-content-between">
+								<div><button type="button" class="btn basic" onclick="location.href='/adm/sub05-01.html';">목록</button></div>
+								<div><button type="button" class="btn type03">저장</button></div>
+							</div>
+							
+						</div>
+					</div>
+				</section>
+				<!-- //content -->
+			</div>
+			<!-- //container -->
+
+
+		</div>
+		<!-- //wrap -->
+	
+	</body>
+</html>

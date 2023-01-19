@@ -1,0 +1,910 @@
+<!doctype html>
+<html lang="ko">
+	<head>
+		<meta charset="UTF-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+		<title>스마트시티 IN 양평 플랫폼</title>
+
+		<script src="/yp_dt/js/com/jquery/jquery-3.4.1.min.js"></script>
+		
+		<!-- jquery-ui -->
+		<script src="/yp_dt/js/com/jquery-ui/jquery-ui.js"></script>
+		<link rel="stylesheet" href="/yp_dt/js/com/jquery-ui/jquery-ui.css">
+
+		<!-- mCustomScrollbar -->
+		<script src="/yp_dt/js/plugin/mCustomScrollbar/jquery.mCustomScrollbar.concat.min.js"></script>
+		<link rel="stylesheet" href="/yp_dt/js/plugin/mCustomScrollbar/jquery.mCustomScrollbar.css">
+
+		<!-- rangeslider -->
+		<script src="/yp_dt/js/plugin/rangeslider/rangeslider.js"></script>
+		<link rel="stylesheet" href="/yp_dt/js/plugin/rangeslider/rangeslider.css">
+
+		<!-- colorPicker -->
+		<script src="/yp_dt/js/plugin/colorPicker/jquery.minicolors.min.js"></script>
+		<link rel="stylesheet" href="/yp_dt/js/plugin/colorPicker/jquery.minicolors.css">
+
+		<script src="/yp_dt/js/map-ui.js"></script>
+		
+		<link rel="stylesheet" href="/yp_dt/css/com/common.css">
+		<link rel="stylesheet" href="/yp_dt/css/map.css">
+
+	</head>
+	<body>
+
+		<div id="wrap">
+
+			<!-- header -->
+			<header id="header">
+				<h1 class="logo"><a href="/yp_dt/index.html">스마트 IN 양평</a></h1>
+				<div class="util-box">
+					<div class="user">웹마스터님</div> <button type="button" class="logout-btn">LOGOUT</button>
+				</div>
+			</header>
+			<!-- //header -->
+
+			<!-- container -->
+			<div id="container">
+
+				<!-- 지도영역 : style 임의로 적용. 작업 시 삭제하시면 됩니다. -->
+				<div id="map" style="background:url(/yp_dt/images/map.jpg);"></div>
+				
+				<!-- map-aside -->
+				<div id="map-aside">
+					<div class="map-tool">
+						<ul class="map-tool-list">
+							<li><button type="button" class="tool-btn icon01 dataPopup" data-popup="top-popup01" title="통합행정정보"></button></li>
+							<li><button type="button" class="tool-btn icon02 dataPopup" data-popup="top-popup02" title="지적/건물"></button></li>
+							<li><button type="button" class="tool-btn icon03 dataPopup" data-popup="top-popup03" title="내보내기"></button></li>
+							<li><button type="button" class="tool-btn icon04 dataPopup" data-popup="top-popup04" title="메모정보"></button></li>
+							<li><button type="button" class="tool-btn icon05 dataPopup" data-popup="top-popup05" title="사진정보"></button></li>
+							<li><button type="button" class="tool-btn icon06 dataPopup" data-popup="top-popup06" title="즐겨찾기"></button></li>
+							<li><button type="button" class="tool-btn icon07 dataPopup" data-popup="top-popup07" title="지도저장"></button></li>
+							<li class="active"><button type="button" class="tool-btn icon08 dataPopup" data-popup="top-popup08" title="그리기도구"></button></li>
+							<li><button type="button" class="tool-btn icon09 dataPopup" data-popup="top-popup09" title="배경지도"></button></li>
+							<li><button type="button" class="tool-btn icon10 dataPopup" data-popup="top-popup10" title="드론영상"></button></li>
+						</ul>
+					</div>
+
+					<div class="map-board">
+						<button type="button" class="bbs-btn notice-btn" data-popup="board-notice" title="공지사항"></button>
+						<button type="button" class="bbs-btn qna-btn" data-popup="board-qna" title="게시판"></button>
+					</div>
+
+					<div class="map-control">
+						<ul>
+							<li><button type="button" class="ctrl-btn compass" title="나침반"><span style="transform: rotate(0deg);"></span></button></li>
+							<li><button type="button" class="ctrl-btn reset" title="초기화"></button></li>
+							<li><button type="button" class="ctrl-btn globe" title="위치 초기화"></button></li>
+							<li class="ctrl-group">
+								<button type="button" class="ctrl-btn location" title="위치"></button>
+								<button type="button" class="ctrl-btn distance" title="거리"></button>
+								<button type="button" class="ctrl-btn measure" title="면적"></button>
+								<button type="button" class="ctrl-btn radius" title="반경"></button>
+							</li>
+							<li><button type="button" class="ctrl-btn scaleUp" onclick="mapZoomControlPlusRe()" title="확대"></button>
+								<button type="button" class="ctrl-btn scaleDown" onclick="mapZoomControlMinusRe()" title="축소"></button>
+							</li>
+						</ul>
+
+						<div class="map-type">
+							<span class="knobs">
+								<span><input type="radio" name="mapType" id="mapType2D" checked=""><label for="mapType2D">2D</label></span>
+								<span><input type="radio" name="mapType" id="mapType3D"><label for="mapType3D">3D</label></span>
+							</span>
+						</div>
+					</div>
+
+					<div class="map-util">
+						<div class="addrSelect">
+							<form action="">
+								<select name="" id="" class="form-select2">
+									<option value="">지번</option>
+									<option value="">도로명</option>
+								</select>
+								<select name="" id="" class="form-select2">
+									<option value="">행정동</option>
+									<option value="">강산면</option>
+								</select>
+								<select name="" id="" class="form-select2">
+									<option value="">법정리</option>
+									<option value="">경강로</option>
+								</select>
+								<input type="text" class="form-control" placeholder="지번 입력"> <button type="button" class="search-btn" title="검색"></button>
+							</form>					
+						</div>
+
+						<!-- 좌표, 축적 -->
+						<div class="coordinates">
+							<div class="coordi-header">
+								<div>
+									<span class="x">127.47609649416934</span>
+									<span class="y">37.49284379468381</span>
+								</div>
+								<button type="button" class="btn btn-sm type04">이동</button>
+							</div>
+							<div class="coordi-body">								
+								<div class="items">
+									<h2>위도,경도 (DMS)</h2>
+									<div class="row">
+										<div class="c-col">
+											<div class="dms-row">
+												<span><input type="text" class="form-control"><span class="form-text">도</span></span>
+												<span><input type="text" class="form-control"><span class="form-text">분</span></span>
+												<span><input type="text" class="form-control"><span class="form-text">초</span></span>
+												<span class="form-dash">,</span>		
+											</div>
+										</div>			
+										<div class="c-col">											
+											<div class="dms-row">
+												<span><input type="text" class="form-control"><span class="form-text">도</span></span>
+												<span><input type="text" class="form-control"><span class="form-text">분</span></span>
+												<span><input type="text" class="form-control"><span class="form-text">초</span></span>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="items">
+									<h2>위도,경도 (Degree)</h2>
+									<div class="row">
+										<div class="c-col"><input type="text" class="form-control"></div>
+										<div class="c-col"><input type="text" class="form-control"></div>
+									</div>
+								</div>
+								<div class="items">
+									<h2>사용자정의</h2>
+									<div class="row">
+										<div class="c-col">
+											<select class="form-select3" name="" id="">
+												<option value="">EPSG : 5179</option>
+												<option value="">EPSG : 5179</option>
+												<option value="">EPSG : 5179</option>
+											</select>
+										</div>
+									</div>
+									<div class="row">										
+										<div class="c-col"><input type="text" class="form-control"></div>
+										<div class="c-col"><input type="text" class="form-control"></div>
+										<div><button type="button" class="btn btn-sm type03">적용</button></div>
+									</div>
+								</div>
+							</div>
+							<script>
+								$( function() {		
+									$(".coordi-header > div").click(function(){
+										$(".coordinates").toggleClass("active");
+									});										
+								});
+							</script>
+						</div>
+						<!-- //좌표, 축적 -->
+					</div>
+				</div>
+				<!-- //map-aside -->
+
+				<!-- side -->
+				<div id="side">
+					<div id="lnb">
+						<ul>
+							<li data-menu="lnb-search"><button type="button" class="lnb-btn" title="검색"></button></li>
+							<li data-menu="lnb-layer"><button type="button" class="lnb-btn" title="레이어"></button></li>
+							<li data-menu="lnb-theme"><button type="button" class="lnb-btn" title="주제도"></button></li>
+							<li data-menu="lnb-work"><button type="button" class="lnb-btn" title="업무"></button></li>
+							<li data-menu="lnb-territory"><button type="button" class="lnb-btn" title="국토정보관리"></button></li>
+						</ul>
+					</div>
+
+					<div id="lnb-search" class="lnb-cont">
+						<div class="lnb-header"><h2 class="tit">검색</h2></div>
+						<div class="lnb-body"></div>
+					</div>
+					<div id="lnb-layer" class="lnb-cont">
+						<div class="lnb-header"><h2 class="tit">레이어</h2></div>
+						<div class="lnb-body">
+							<ul class="lnb-list">
+								<li><p class="lnb-dep1">양평지하시설물</p>
+									<ul class="lnb-dep2">
+										<li><span class="form-checkbox text"><span><input type="checkbox" name="" id="chk1" checked=""><label for="chk1">상수관로</label></span></span></li>
+										<li><span class="form-checkbox text"><span><input type="checkbox" name="" id="chk1-1"><label for="chk1-1">하수관로</label></span></span></li>
+									</ul>
+								</li>
+								<li><p class="lnb-dep1">LOD 2.5</p>
+									<ul class="lnb-dep2">
+										<li><span class="form-checkbox text"><span><input type="checkbox" name="" id="chk2" checked=""><label for="chk2">LOD 2.5</label></span></span></li>
+									</ul>
+								</li>
+								<li><p class="lnb-dep1">건물객체</p>
+									<ul class="lnb-dep2">
+										<li><span class="form-checkbox text"><span><input type="checkbox" name="" id="chk3"><label for="chk3">건물객체</label></span></span></li>
+									</ul>
+								</li>
+								<li><p class="lnb-dep1">영상</p>
+									<ul class="lnb-dep2">
+										<li><span class="form-checkbox text"><span><input type="checkbox" name="" id="chk4-1" checked=""><label for="chk4-1">정사영상</label></span></span></li>
+										<li><span class="form-checkbox text"><span><input type="checkbox" name="" id="chk4-2" checked=""><label for="chk4-2">드론영상</label></span></span></li>
+									</ul>
+								</li>
+							</ul>
+
+							<p class="lnb-dep1">지형 투명도</p>
+							<div class="slider-box">
+								<div id="" class="slider"><div id="custom-handle" class="ui-slider-handle"></div></div>
+								<script>
+									$( function() {
+										var handle = $("#custom-handle" );
+										$(".slider-box .slider").slider({
+											value: 20,
+											min: 0,
+											max: 100,
+											step: 10,
+											range: "min",
+											create: function() {
+												handle.text( $( this ).slider("value"));
+											},
+											slide: function(event, ui) {
+												handle.text( ui.value );
+											},
+											change: function(){
+												
+											}
+										});
+									});
+								</script>
+							</div>
+						</div>
+					</div>
+					<div id="lnb-theme" class="lnb-cont">
+						<div class="lnb-header"><h2 class="tit">주제도</h2></div>
+						<div class="lnb-body"></div>
+					</div>
+					<div id="lnb-work" class="lnb-cont">
+						<div class="lnb-header"><h2 class="tit">업무</h2></div>
+						<div class="lnb-body">
+							<div class="scroll-y">
+								<ul class="lnb-list">
+									<li><p class="lnb-dep1">공간정보활용</p>
+										<ul class="lnb-dep2">
+											<li><button type="button" id="s01-01">사업공유관리</button></li>
+											<li><button type="button">지하수관리</button></li>
+											<li><button type="button">신재생에너지</button></li>
+											<li><button type="button">CCTV관리</button></li>
+											<li><button type="button">가로등관리</button></li>
+											<li><button type="button">이벤트관리</button></li>
+											<li><button type="button">대기오염</button></li>
+										</ul>
+									</li>
+									<li><p class="lnb-dep1">시설관리</p>
+										<ul class="lnb-dep2">
+											<li><button type="button">상수도시설</button></li>
+											<li><button type="button">하수도시설</button></li>
+											<li><button type="button">교통시설</button></li>
+											<li><button type="button" id="s01-02">체육시설</button></li>
+											<li><button type="button">복지시설</button></li>
+											<li><button type="button">시설예약관리</button></li>
+											<li><button type="button">건물편집(3D)</button></li>
+										</ul>
+									</li>
+									<li><p class="lnb-dep1">분석</p>
+										<ul class="lnb-dep2">
+											<li><button type="button">조망권분석</button></li>
+											<li><button type="button">일조권분석</button></li>
+											<li><button type="button">가시권분석</button></li>
+											<li><button type="button">경사분석</button></li>
+											<li><button type="button">국공유지AI분석</button></li>
+											<li><button type="button">지형단면도</button></li>
+											<li><button type="button">지하시설단면</button></li>
+											<li><button type="button">공간분석</button></li>
+										</ul>
+									</li>
+								</ul>
+							</div>
+						</div>
+					</div>
+					<div id="lnb-territory" class="lnb-cont">
+						<div class="lnb-header"><h2 class="tit">국토정보관리</h2></div>
+						<div class="lnb-body"></div>
+					</div>
+
+					<div class="side-util">
+						<ul>
+							<li><button type="button" class="side-btn setting" title="설정"></button></li>
+							<li><button type="button" class="side-btn help" title="도움말"></button></li>
+						</ul>
+					</div>
+
+				</div>
+				<!-- //side -->
+
+
+				<!-- top > 그리기 도구 -->
+				<div class="popup-panel popup-right top-popup08 opened" style="width: 480px;height: 810px;">
+					<div class="popup-header">그리기 도구</div>
+					<div class="popup-body">
+
+						<div class="tool-popup-body top-drawing-body">						
+							<h3 class="cont-tit">그리기 등록하기</h3>
+							<div class="bbs-write-default">
+								<table class="bbs-write">
+									<colgroup>
+										<col style="width: 18%;">
+										<col style="width: auto;">
+									</colgroup>
+									<tbody>
+										<tr>
+											<th scope="row">분류</th>
+											<td>
+												<select name="" id="" class="form-select w-auto">
+													<option value="">시설물 공사</option>
+												</select>
+											</td>
+										</tr>
+										<tr>
+											<th scope="row">제목</th>
+											<td><input type="text" class="form-control"></td>
+										</tr>
+										<tr>
+											<th scope="row">그리기<br>객체</th>
+											<td>
+												<span class="drawing-obj">
+													<span><input type="radio" name="drawing" id="dChk1"><label for="dChk1" class="obj-01"></label></span>
+													<span><input type="radio" name="drawing" id="dChk2"><label for="dChk2" class="obj-02"></label></span>
+													<span><input type="radio" name="drawing" id="dChk3"><label for="dChk3" class="obj-03"></label></span>
+													<span><input type="radio" name="drawing" id="dChk4"><label for="dChk4" class="obj-04"></label></span>
+													<span><input type="radio" name="drawing" id="dChk5"><label for="dChk5" class="obj-05"></label></span>
+													<span><input type="radio" name="drawing" id="dChk6"><label for="dChk6" class="obj-06"></label></span>
+													<span><input type="radio" name="drawing" id="dChk7" checked="checked"><label for="dChk7" class="obj-07"></label></span>
+													<span><input type="radio" name="drawing" id="dChk8"><label for="dChk8" class="obj-08"></label></span>
+													<span><input type="radio" name="drawing" id="dChk9"><label for="dChk9" class="obj-09"></label></span>
+												</span>
+											</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+							
+							<div class="tabBoxDepth2-wrap marT20">
+								<div class="tabBoxDepth2">
+									<ul>
+										<li data-tab="drawingTab01" class="on"><button type="button" class="inner-tab">점</button></li>
+										<li data-tab="drawingTab02"><button type="button" class="inner-tab">선</button></li>
+										<li data-tab="drawingTab03"><button type="button" class="inner-tab">면</button></li>
+										<li data-tab="drawingTab04"><button type="button" class="inner-tab">문자</button></li>
+									</ul>
+								</div>
+								<!-- 점 -->
+								<div class="tab-cont drawingTab01 on">
+
+									<div class="row">
+										<span class="form-radio text marB5"><span><input type="radio" name="drawingType" id="drawing1" checked="checked"><label for="drawing1">일반스타일</label></span></span>
+										<div class="col-6">
+											<div class="tbl-list">
+												<div class="term">색상</div>
+												<div class="desc w-150">
+													<input type="text" id="colorPicker">
+													<script>
+														$('#colorPicker').minicolors({
+															control:'hue',
+															defaultValue:'rgba(255, 0, 0)',
+															format:'rgb',
+															theme: 'default',
+															opacity: false,
+															swatches: []
+														});
+													</script>
+												</div>
+											</div>
+										</div>
+										<div class="col-6">
+											<div class="tbl-list vertical-tbl">
+												<div class="items">
+													<div class="term">모양</div>
+													<div class="desc flex-grow-1">
+														<select name="" id="" class="form-select">
+															<option value="">-</option>
+														</select>
+													</div>
+												</div>
+												<div class="items">
+													<div class="term">크기</div>
+													<div class="desc flex-grow-1">
+														<select name="" id="" class="form-select">
+															<option value="">-</option>
+														</select>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+
+									<div class="row symbol-group-row marT30">
+										<div class="col-left">
+											<span class="form-radio text"><span><input type="radio" name="drawingType" id="drawing2"><label for="drawing2">기본제공 심볼</label></span></span>
+											<div class="symbol-group">
+												<button type="button"><img src="/yp_dt/images/symbol/1_s.png" alt=""></button>
+												<button type="button"><img src="/yp_dt/images/symbol/2_s.png" alt=""></button>
+												<button type="button"><img src="/yp_dt/images/symbol/3_s.png" alt=""></button>
+												<button type="button"><img src="/yp_dt/images/symbol/4_s.png" alt=""></button>
+												<button type="button"><img src="/yp_dt/images/symbol/5_s.png" alt=""></button>
+												<button type="button"><img src="/yp_dt/images/symbol/6_s.png" alt=""></button>
+												<button type="button"><img src="/yp_dt/images/symbol/7_s.png" alt=""></button>
+												<button type="button"><img src="/yp_dt/images/symbol/8_s.png" alt=""></button>
+												<button type="button"><img src="/yp_dt/images/symbol/9_s.png" alt=""></button>
+												<button type="button"><img src="/yp_dt/images/symbol/10_s.png" alt=""></button>
+												<button type="button"><img src="/yp_dt/images/symbol/11_s.png" alt=""></button>
+												<button type="button"><img src="/yp_dt/images/symbol/12_s.png" alt=""></button>
+												<button type="button"><img src="/yp_dt/images/symbol/13_s.png" alt=""></button>
+												<button type="button"><img src="/yp_dt/images/symbol/14_s.png" alt=""></button>
+												<button type="button"><img src="/yp_dt/images/symbol/15_s.png" alt=""></button>
+												<button type="button"><img src="/yp_dt/images/symbol/16_s.png" alt=""></button>
+												<button type="button"><img src="/yp_dt/images/symbol/17_s.png" alt=""></button>
+												<button type="button"><img src="/yp_dt/images/symbol/18_s.png" alt=""></button>
+												<button type="button"><img src="/yp_dt/images/symbol/19_s.png" alt=""></button>
+												<button type="button"><img src="/yp_dt/images/symbol/20_s.png" alt=""></button>
+												<button type="button"><img src="/yp_dt/images/symbol/21_s.png" alt=""></button>
+												<button type="button"><img src="/yp_dt/images/symbol/22_s.png" alt=""></button>
+												<button type="button"><img src="/yp_dt/images/symbol/23_s.png" alt=""></button>
+												<button type="button"><img src="/yp_dt/images/symbol/24_s.png" alt=""></button>
+												<button type="button"><img src="/yp_dt/images/symbol/25_s.png" alt=""></button>
+												<button type="button"><img src="/yp_dt/images/symbol/26_s.png" alt=""></button>
+												<button type="button"><img src="/yp_dt/images/symbol/27_s.png" alt=""></button>
+												<button type="button"><img src="/yp_dt/images/symbol/28_s.png" alt=""></button>
+												<button type="button"><img src="/yp_dt/images/symbol/29_s.png" alt=""></button>
+												<button type="button"><img src="/yp_dt/images/symbol/30_s.png" alt=""></button>
+												<button type="button"><img src="/yp_dt/images/symbol/31_s.png" alt=""></button>
+												<button type="button"><img src="/yp_dt/images/symbol/32_s.png" alt=""></button>
+												<button type="button"><img src="/yp_dt/images/symbol/33_s.png" alt=""></button>
+												<button type="button"><img src="/yp_dt/images/symbol/34_s.png" alt=""></button>
+												<button type="button"><img src="/yp_dt/images/symbol/35_s.png" alt=""></button>
+											</div>
+											<div class="d-flex align-items-center justify-content-end">
+												<span class="form-label padR5">크기</span>
+												<select name="" id="" class="form-select w-auto">
+													<option value="">1</option>
+													<option value="">2</option>
+												</select>
+											</div>
+										</div>
+										<div class="col-right">
+											<span class="form-radio text"><span><input type="radio" name="drawingType" id="drawing3"><label for="drawing3">심볼 직접 등록</label></span></span>
+											<div class="symbol-register">
+												<div class="scroll-y">
+													<ul class="form-radio sm text">
+														<li><span><input type="radio" name="test" id="test1"><label for="test1"><img src="/yp_dt/images/symbol/19_s.png" alt=""> icon_img19.png</label></span>
+															<button type="button" class="symbol-delete"></button>
+														</li>
+														<li><span><input type="radio" name="test" id="test2"><label for="test2"><img src="/yp_dt/images/symbol/15_s.png" alt=""> icon_img15.png</label></span>
+															<button type="button" class="symbol-delete"></button>
+														</li>
+														<li><span><input type="radio" name="test" id="test3"><label for="test3"><img src="/yp_dt/images/symbol/8_s.png" alt=""> icon_img8.png</label></span>
+															<button type="button" class="symbol-delete"></button>
+														</li>
+														<li><span><input type="radio" name="test" id="test1"><label for="test1"><img src="/yp_dt/images/symbol/19_s.png" alt=""> icon_img19.png</label></span>
+															<button type="button" class="symbol-delete"></button>
+														</li>
+														<li><span><input type="radio" name="test" id="test2"><label for="test2"><img src="/yp_dt/images/symbol/15_s.png" alt=""> icon_img15.png</label></span>
+															<button type="button" class="symbol-delete"></button>
+														</li>
+														<li><span><input type="radio" name="test" id="test3"><label for="test3"><img src="/yp_dt/images/symbol/8_s.png" alt=""> icon_img8.png</label></span>
+															<button type="button" class="symbol-delete"></button>
+														</li>
+														<li><span><input type="radio" name="test" id="test1"><label for="test1"><img src="/yp_dt/images/symbol/19_s.png" alt=""> icon_img19.png</label></span>
+															<button type="button" class="symbol-delete"></button>
+														</li>
+														<li><span><input type="radio" name="test" id="test2"><label for="test2"><img src="/yp_dt/images/symbol/15_s.png" alt=""> icon_img15.png</label></span>
+															<button type="button" class="symbol-delete"></button>
+														</li>
+														<li><span><input type="radio" name="test" id="test3"><label for="test3"><img src="/yp_dt/images/symbol/8_s.png" alt=""> icon_img8.png</label></span>
+															<button type="button" class="symbol-delete"></button>
+														</li>
+													</ul>												
+												</div>
+												<div class="form-file"> 													
+													<input type="file" id="file"><input class="upload-name" value="파일선택">
+													<label for="file">파일찾기</label> 
+												</div>
+												<script>
+													$(document).ready(function(){ 
+														var fileTarget = $('#file'); 
+														fileTarget.on('change', function(){ // 값이 변경되면
+															var cur=$(".form-file input[type='file']").val();
+														$(".upload-name").val(cur);
+														}); 
+													}); 
+												</script>
+											</div>
+											<div class="d-flex align-items-center justify-content-end">
+												<span class="form-label padR5">크기</span>
+												<select name="" id="" class="form-select w-auto">
+													<option value="">1</option>
+													<option value="">2</option>
+												</select>
+											</div>
+										</div>
+									</div>
+									
+								</div>
+								<!-- //점 -->
+
+								<!-- 선 -->
+								<div class="tab-cont drawingTab02">
+									<div class="row">
+										<div class="col-6">
+											<div class="tbl-list">
+												<div class="term">색상</div>
+												<div class="desc w-150">
+													<input type="text" id="colorPicker1">
+													<script>
+														$('#colorPicker1').minicolors({
+															control:'hue',
+															defaultValue:'rgba(255, 0, 0)',
+															format:'rgb',
+															theme: 'default',
+															opacity: false,
+															swatches: []
+														});
+													</script>
+												</div>
+											</div>
+										</div>
+										<div class="col-6">
+											<div class="tbl-list">
+												<div class="term">모양</div>
+												<div class="desc flex-grow-1">
+													<select name="" id="" class="form-select">
+														<option value="">-</option>
+													</select>
+												</div>
+											</div>
+										</div>
+										<div class="col-12 marT10">
+											<div class="tbl-list all-vertical-tbl">
+												<div class="items">
+													<div class="term">투명도</div>
+													<div class="desc">													
+														<div class="drawing-slider-box drawingOpacity">
+															<div class="drawing-slider"><div id="" class="slider"></div></div>													
+															<div class="spinner-group">
+																<input id="vertical-spinner" class="ui-spinner-input" min="0" max="100" step="10" value="20%">
+															</div>
+															<script>
+																$( function() {
+																	$( ".spinner-group" ).controlgroup({
+																		"direction": "vertical",
+																	});
+
+																	var handle = $("#drawingOpacity-handle" );
+																	$(".drawingOpacity .slider").slider({
+																		value: 20,
+																		min: 0,
+																		max: 100,
+																		step: 10,
+																		range: "min",
+																		create: function() {
+																			handle.text( $( this ).slider("value"));
+																		},
+																		slide: function(event, ui) {
+																			handle.text( ui.value );
+																		},
+																		change: function(){
+																			
+																		}
+																	});
+																});
+															</script>
+														</div>
+													</div>
+												</div>
+												<div class="items marT10">
+													<div class="term">두께</div>
+													<div class="desc">
+														<div class="drawing-slider-box drawingThickness">
+															<div class="drawing-slider"><div id="" class="drawingThicknessSlider"></div></div>
+															<input type="text" class="value-num" readonly>													
+
+															<script>
+																$( function() {
+																	$( ".drawingThicknessSlider" ).slider({
+																	range: "min",
+																	min: 0,
+																	max: 100,
+																	value: 20,
+																	step: 10,
+																	slide: function( event, ui ) {
+																		$( ".drawingThickness .value-num" ).val( ui.value );
+																	}
+																	});
+																	$( ".drawingThickness .value-num" ).val( $( ".drawingThicknessSlider" ).slider( "value" ) );
+																});
+															</script>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>									
+										<div class="col-12 marT20">
+											<div class="tbl-list">
+												<div class="term">시작화살표</div>
+												<div class="desc">
+													<span class="switch"><input type="checkbox" class="checkbox" id="switch1"><label for="switch1"><span class="knobs"></span></label></span>
+												</div>
+												<div class="term marL30">끝화살표</div>
+												<div class="desc">
+													<span class="switch"><input type="checkbox" class="checkbox" id="switch2"><label for="switch2"><span class="knobs"></span></label></span>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+								<!-- //선 -->
+
+								<!-- 면 -->
+								<div class="tab-cont drawingTab03">
+									<div class="face-group">
+										<div class="title-items"><p>색상</p><p>투명도</p><p>두께</p><p>모양</p></div>
+										<div class="line-items">
+											<div class="box-group">
+												<p class="tit">선</p>
+												<div>
+													<input type="text" id="colorPicker3">
+													<script>
+														$('#colorPicker3').minicolors({
+															control:'hue',
+															defaultValue:'rgba(255, 0, 0)',
+															format:'rgb',
+															theme: 'default',
+															opacity: false,
+															swatches: []
+														});
+													</script>
+												</div>
+												<div>
+													<div class="drawing-slider-box drawingOpacity">
+														<div class="drawing-slider"><div id="" class="slider"></div></div>													
+														<div class="spinner-group">
+															<input id="vertical-spinner" class="ui-spinner-input" min="0" max="100" step="10" value="20%">
+														</div>
+														<script>
+															$( function() {
+																$( ".spinner-group" ).controlgroup({
+																	"direction": "vertical",
+																});
+						
+																var handle = $("#vertical-spinner" );
+																$(".drawingOpacity .slider").slider({
+																	value: 20,
+																	min: 0,
+																	max: 100,
+																	step: 10,
+																	range: "min",
+																	create: function() {
+																		handle.text( $( this ).slider("value"));
+																	},
+																	slide: function(event, ui) {
+																		handle.text( ui.value );
+																	},
+																	change: function(){
+																		
+																	}
+																});
+															});
+														</script>
+													</div>
+												</div>
+												<div>
+													<div class="drawing-slider-box drawingThickness">
+														<div class="drawing-slider"><div id="" class="drawingThicknessSlider"></div></div>
+														<input type="text" class="value-num" readonly>													
+						
+														<script>
+															$( function() {
+																$( ".drawingThicknessSlider" ).slider({
+																range: "min",
+																min: 0,
+																max: 100,
+																value: 20,
+																step: 10,
+																slide: function( event, ui ) {
+																	$( ".drawingThickness .value-num" ).val( ui.value );
+																}
+																});
+																$( ".drawingThickness .value-num" ).val( $( ".drawingThicknessSlider" ).slider( "value" ) );
+															});
+														</script>
+													</div>
+												</div>
+												<div>
+													<select name="" id="" class="form-select">
+														<option value="">-</option>
+													</select>
+												</div>
+											</div>
+										</div>
+										<div class="face-items">
+											<div class="box-group">
+												<p class="tit">면</p>
+												<div>
+													<input type="text" id="colorPicker4">
+													<script>
+														$('#colorPicker4').minicolors({
+															control:'hue',
+															defaultValue:'rgba(0, 255, 209)',
+															format:'rgb',
+															theme: 'default',
+															opacity: false,
+															swatches: []
+														});
+													</script>
+												</div>
+												<div>
+													<div class="drawing-slider-box drawingOpacity">
+														<div class="drawing-slider"><div id="" class="slider"></div></div>													
+														<div class="spinner-group">
+															<input id="vertical-spinner" class="ui-spinner-input" min="0" max="100" step="10" value="20%">
+														</div>
+														<script>
+															$( function() {
+																$( ".spinner-group" ).controlgroup({
+																	"direction": "vertical",
+																});
+						
+																var handle = $("#vertical-spinner" );
+																$(".drawingOpacity .slider").slider({
+																	value: 20,
+																	min: 0,
+																	max: 100,
+																	step: 10,
+																	range: "min",
+																	create: function() {
+																		handle.text( $( this ).slider("value"));
+																	},
+																	slide: function(event, ui) {
+																		handle.text( ui.value );
+																	},
+																	change: function(){
+																		
+																	}
+																});
+															});
+														</script>
+													</div>
+												</div>											
+											</div>
+										</div>
+									</div>
+								</div>
+								<!-- //면 -->
+
+								<!-- 문자 -->
+								<div class="tab-cont drawingTab04">
+									<div class="row">
+										<div class="col-6">
+											<div class="tbl-list">
+												<div class="term">글씨</div>
+												<div class="desc w-150">
+													<input type="text" id="colorPicker5">
+													<script>
+														$('#colorPicker5').minicolors({
+															control:'hue',
+															defaultValue:'rgba(255, 0, 0)',
+															format:'rgb',
+															theme: 'default',
+															opacity: false,
+															swatches: []
+														});
+													</script>
+												</div>
+											</div>
+										</div>
+										<div class="col-6">
+											<div class="tbl-list">
+												<div class="term">배경</div>
+												<div class="desc w-150">
+													<input type="text" id="colorPicker6">
+													<script>
+														$('#colorPicker6').minicolors({
+															control:'hue',
+															defaultValue:'rgba(255, 0, 0)',
+															format:'rgb',
+															theme: 'default',
+															opacity: false,
+															swatches: []
+														});
+													</script>
+												</div>
+											</div>
+										</div>
+										<div class="col-6 marT10">
+											<div class="tbl-list">
+												<div class="term">폰트</div>
+												<div class="desc flex-grow-1">
+													<select name="" id="" class="form-select">
+														<option value="">돋움체</option>
+														<option value="">맑은고딕</option>
+													</select>
+												</div>
+											</div>
+										</div>
+										<div class="col-6 marT10">
+											<div class="tbl-list">
+												<div class="term">크기</div>
+												<div class="desc flex-grow-1">
+													<div class="spinner-group">
+														<input id="vertical-spinner" class="ui-spinner-input" min="0" max="" value="26px">
+													</div>
+													<script>
+														$( function() {
+															$( ".spinner-group" ).controlgroup({
+																"direction": "vertical",
+															});
+														});
+													</script>
+												</div>
+											</div>
+										</div>
+										<div class="col-6 marT10">
+											<div class="tbl-list">
+												<div class="term">모양</div>
+												<div class="desc flex-grow-1">
+													<div class="text-decoration-group">
+														<span><input type="checkbox" id="fontBold"><label for="fontBold" class="fontBold"></label></span>
+														<span><input type="checkbox" id="fontItalic"><label for="fontItalic" class="fontItalic"></label></span>
+														<span><input type="checkbox" id="fontUnder"><label for="fontUnder" class="fontUnder"></label></span>
+													</div>
+												</div>
+											</div>
+										</div>
+										<div class="col-6 marT10">
+											<div class="tbl-list">
+												<div class="term">정렬</div>
+												<div class="desc flex-grow-1">
+													<div class="text-align-group">
+														<span><input type="radio" name="textAlign" id="alignLeft"><label for="alignLeft" class="alignLeft"></label></span>
+														<span><input type="radio" name="textAlign" id="alignCenter"><label for="alignCenter" class="alignCenter"></label></span>
+														<span><input type="radio" name="textAlign" id="alignRight"><label for="alignRight" class="alignRight"></label></span>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+								<!-- //문자 -->
+							</div>
+
+							<div class="position-bottom btn-wrap">
+								<div><button type="button" class="btn basic bi-write2">등록</button> <button type="button" class="btn basic bi-cancel">취소</button></div>
+								<div class="position-absolute right"><button type="button" class="btn basic bi-delete">삭제</button></div>
+							</div>
+						</div>
+
+					</div>
+					<button type="button" class="popup-close" title="닫기"></button>
+
+					<script>
+						$( function() {
+							//symbol 클릭 시 active
+							$( ".symbol-group button" ).on( "click", function() {
+								$(this).addClass("active").siblings().removeClass('active');
+							});	
+
+							//symbol 직접 등록 클릭 시 active
+							$(".symbol-register input[type='radio']").click(function(){
+								var radioChk = $(this).is(":checked");
+								if(radioChk){
+									$(this).closest("li").addClass('active').siblings().removeClass('active');
+								}
+							});
+						});
+					</script>
+				</div>
+				<!-- //top > 그리기 도구 -->
+
+
+			</div>
+			<!-- //container -->
+
+
+		</div>
+		<!-- //wrap -->
+
+	</body>
+</html>

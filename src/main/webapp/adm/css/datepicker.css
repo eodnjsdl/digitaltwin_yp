@@ -1,0 +1,8 @@
+.monthpicker table.ui-datepicker-calendar{display: none;}
+.monthpicker .ui-datepicker-current{display: none;}
+
+.yearpicker table.ui-datepicker-calendar{display: none;}
+.yearpicker .ui-datepicker-current{display: none;}
+.yearpicker .ui-datepicker-month{display: none;}
+.yearpicker .ui-datepicker-header a{display: none;}
+.yearpicker .ui-datepicker-year{width: 60% !important; margin: 1px 3px !important; text-align: center;}

@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="renewableEnergy">
+
+	<!-- 신재생에너지 > 태양광발전소 목록 -->
+	<select id="selectRenewableEnergyList" parameterType="renewableEnergyVO" resultType="renewableEnergy">
+		/* SQL_ID: 전영후_RenewableEnergy_SQL_postgres.xml.selectRenewableEnergyList 태양광발전소 리스트*/
+		SELECT 	 GID, ELCPWSTN_NM, EQP_LC, ELTGNR_SE, PRMISN_VOLM, BSNS_SE, GEOM, ST_X (ST_POINTONSURFACE(GEOM)) AS LON, ST_Y (ST_POINTONSURFACE(GEOM)) AS LAT
+				<!-- 공간 검색 -->
+		 	    <if test="@egovframework.com.cmm.util.EgovMybaitsUtil@isNotEmpty(spitalSearch)">
+			    , ST_ASTEXT( ST_BUFFER(ST_GEOMFROMTEXT(#{spitalSearch}, 4326), (#{bufferCnt} * 0.00001) , 'join=round') ) bufferArea /* bufferArea */
+			    </if>
+		FROM 	 TGD_ELCTY_BSNS_PRMISN
+		WHERE    1=1
+		<if test="@egovframework.com.cmm.util.EgovMybaitsUtil@isNotEmpty(emdKorNm)">
+			AND  EQP_LC LIKE '%' || #{emdKorNm} || '%'
+		</if>
+		<if test="@egovframework.com.cmm.util.EgovMybaitsUtil@isNotEmpty(bsnsSeSearch)">
+			AND	 BSNS_SE LIKE '%' || #{bsnsSeSearch} || '%'
+		</if>
+		<if test="@egovframework.com.cmm.util.EgovMybaitsUtil@isNotEmpty(elcpwstnNmSearch)">
+			AND	 ELCPWSTN_NM LIKE '%' || #{elcpwstnNmSearch} || '%'
+		</if>
+		<if test="@egovframework.com.cmm.util.EgovMybaitsUtil@isNotEmpty(prmisnVolmASearch)">
+			<![CDATA[
+			AND	 CAST(PRMISN_VOLM AS DOUBLE PRECISION) >= CAST(#{prmisnVolmASearch} AS DOUBLE PRECISION) 
+			]]>
+		</if>
+		<if test="@egovframework.com.cmm.util.EgovMybaitsUtil@isNotEmpty(prmisnVolmBSearch)">
+			<![CDATA[
+			AND	 CAST(PRMISN_VOLM AS DOUBLE PRECISION) <= CAST(#{prmisnVolmBSearch} AS DOUBLE PRECISION) 
+			]]>
+		</if>
+		<if test="@egovframework.com.cmm.util.EgovMybaitsUtil@isNotEmpty(spitalSearch)">
+			AND ST_INTERSECTS(ST_BUFFER(ST_GEOMFROMTEXT(#{spitalSearch}, 4326), (#{bufferCnt} * 0.00001)), ST_TRANSFORM(GEOM, 4326)) = true
+		</if>
+		ORDER BY GID DESC
+		LIMIT #{recordCountPerPage} OFFSET #{firstIndex}
+	</select>
+	
+	<!-- 신재생에너지 > 태양광발전소 갯수 -->
+	<select id="selectRenewableEnergyListCnt" parameterType="renewableEnergyVO" resultType="java.lang.Integer">
+		/* SQL_ID: 전영후_RenewableEnergy_SQL_postgres.xml.selectRenewableEnergyListCnt 태양광발전소 갯수*/
+		SELECT 	 COUNT(*)
+		FROM 	 TGD_ELCTY_BSNS_PRMISN
+		WHERE    1=1
+		<if test="@egovframework.com.cmm.util.EgovMybaitsUtil@isNotEmpty(emdKorNm)">
+			AND  EQP_LC LIKE '%' || #{emdKorNm} || '%'
+		</if>
+		<if test="@egovframework.com.cmm.util.EgovMybaitsUtil@isNotEmpty(bsnsSeSearch)">
+			AND	 BSNS_SE LIKE '%' || #{bsnsSeSearch} || '%'
+		</if>
+		<if test="@egovframework.com.cmm.util.EgovMybaitsUtil@isNotEmpty(elcpwstnNmSearch)">
+			AND	 ELCPWSTN_NM LIKE '%' || #{elcpwstnNmSearch} || '%'
+		</if>
+		<if test="@egovframework.com.cmm.util.EgovMybaitsUtil@isNotEmpty(prmisnVolmASearch)">
+			<![CDATA[
+			AND	 CAST(PRMISN_VOLM AS DOUBLE PRECISION) >= CAST(#{prmisnVolmASearch} AS DOUBLE PRECISION) 
+			]]>
+		</if>
+		<if test="@egovframework.com.cmm.util.EgovMybaitsUtil@isNotEmpty(prmisnVolmBSearch)">
+			<![CDATA[
+			AND	 CAST(PRMISN_VOLM AS DOUBLE PRECISION) <= CAST(#{prmisnVolmBSearch} AS DOUBLE PRECISION) 
+			]]>
+		</if>
+		<if test="@egovframework.com.cmm.util.EgovMybaitsUtil@isNotEmpty(spitalSearch)">
+			AND ST_INTERSECTS(ST_BUFFER(ST_GEOMFROMTEXT(#{spitalSearch}, 4326), (#{bufferCnt} * 0.00001)), ST_TRANSFORM(GEOM, 4326)) = true
+		</if>
+	</select>
+	
+	<!-- 신재생에너지 > 태양광발전소 등록 -->
+	<insert id="insertRenewableEnergy" parameterType="renewableEnergy">
+		/* SQL_ID: 전영후_RenewableEnergy_SQL_postgres.xml.insertRenewableEnergy 태양광발전소 등록*/
+		INSERT INTO TGD_ELCTY_BSNS_PRMISN
+		(
+			ELCPWSTN_NM, 
+			EQP_LC, 
+			ELTGNR_SE, 
+			PRMISN_VOLM, 
+			BSNS_SE, 
+			GEOM
+		)VALUES(
+			#{elcpwstnNm},
+			#{eqpLc},
+			#{eltgnrSe},
+			#{prmisnVolm},
+			#{bsnsSe},
+			ST_SETSRID(ST_GEOMFROMTEXT(#{geom}), 5179)
+		)
+	</insert>
+	
+	<!-- 신재생에너지 > 태양광발전소 상세보기 -->
+	<select id="selectRenewableEnergy" parameterType="renewableEnergyVO" resultType="renewableEnergy">
+		/* SQL_ID: 전영후_RenewableEnergy_SQL_postgres.xml.selectRenewableEnergy 태양광발전소 상세조회 */
+		SELECT 	 GID, ELCPWSTN_NM, EQP_LC, ELTGNR_SE, PRMISN_VOLM, BSNS_SE
+		FROM 	 TGD_ELCTY_BSNS_PRMISN
+		WHERE    1=1
+			AND  GID = #{gid}
+	</select>
+	
+	<!-- 신재생에너지 > 태양광발전소 수정 -->
+	<update id="updateRenewableEnergy" parameterType="renewableEnergy">
+		/* SQL_ID: 전영후_RenewableEnergy_SQL_postgres.xml.updateRenewableEnergy 태양광발전소 수정*/
+		UPDATE	 TGD_ELCTY_BSNS_PRMISN
+		SET		 ELCPWSTN_NM = #{elcpwstnNm},
+				 EQP_LC = #{eqpLc},
+				 ELTGNR_SE = #{eltgnrSe},
+				 PRMISN_VOLM = #{prmisnVolm}, 
+				 BSNS_SE = #{bsnsSe}
+				 <if test="geom != null and geom !=''">
+					,GEOM = ST_SETSRID(ST_GEOMFROMTEXT(#{geom}), 5179)	
+				 </if>	
+		WHERE    GID = #{gid}
+	
+	</update>
+	
+	<!-- 신재생에너지 > 태양광발전소 단일삭제 -->
+	<delete id="deleteRenewableEnergy"  parameterType="renewableEnergy" >
+		/* SQL_ID: 전영후_RenewableEnergy_SQL_postgres.xml.deleteRenewableEnergy 태양광발전소 단일삭제*/
+		DELETE FROM  TGD_ELCTY_BSNS_PRMISN
+		WHERE GID = #{gid}
+	</delete>
+	
+	<!-- 신재생에너지 > 태양광발전소 엑셀용 목록 -->
+	<select id="selectRenewableEnergyExcelList" parameterType="renewableEnergyVO" resultType="renewableEnergy">
+		/* SQL_ID: 전영후_RenewableEnergy_SQL_postgres.xml.selectRenewableEnergyExcelList 태양광발전소 엑셀 다운로드용 리스트*/
+		SELECT 	 GID, ELCPWSTN_NM, EQP_LC, ELTGNR_SE, PRMISN_VOLM, BSNS_SE, GEOM, ST_X (ST_POINTONSURFACE(GEOM)) AS LON, ST_Y (ST_POINTONSURFACE(GEOM)) AS LAT
+		FROM 	 TGD_ELCTY_BSNS_PRMISN
+		WHERE    1=1
+		<if test="@egovframework.com.cmm.util.EgovMybaitsUtil@isNotEmpty(emdKorNm)">
+			AND  EQP_LC LIKE '%' || #{emdKorNm} || '%'
+		</if>
+		<if test="@egovframework.com.cmm.util.EgovMybaitsUtil@isNotEmpty(bsnsSeSearch)">
+			AND	 BSNS_SE LIKE '%' || #{bsnsSeSearch} || '%'
+		</if>
+		<if test="@egovframework.com.cmm.util.EgovMybaitsUtil@isNotEmpty(elcpwstnNmSearch)">
+			AND	 ELCPWSTN_NM LIKE '%' || #{elcpwstnNmSearch} || '%'
+		</if>
+		<if test="@egovframework.com.cmm.util.EgovMybaitsUtil@isNotEmpty(prmisnVolmASearch)">
+			<![CDATA[
+			AND	 CAST(PRMISN_VOLM AS DOUBLE PRECISION) >= CAST(#{prmisnVolmASearch} AS DOUBLE PRECISION) 
+			]]>
+		</if>
+		<if test="@egovframework.com.cmm.util.EgovMybaitsUtil@isNotEmpty(prmisnVolmBSearch)">
+			<![CDATA[
+			AND	 CAST(PRMISN_VOLM AS DOUBLE PRECISION) <= CAST(#{prmisnVolmBSearch} AS DOUBLE PRECISION) 
+			]]>
+		</if>
+		<if test="@egovframework.com.cmm.util.EgovMybaitsUtil@isNotEmpty(spitalSearch)">
+			AND ST_INTERSECTS(ST_BUFFER(ST_GEOMFROMTEXT(#{spitalSearch}, 4326), (#{bufferCnt} * 0.00001)), ST_TRANSFORM(GEOM, 4326)) = true
+		</if>
+	</select>
+	
+	<!-- 신재생에너지 > 태양광발전소 속성검색 - 사업구분 목록 -->
+	<select id="selectRenewalbeEnergyBsnsSeList" parameterType="renewableEnergyVO" resultType="renewableEnergyVO">
+		/* SQL_ID: 전영후_RenewableEnergy_SQL_postgres.xml.selectRenewalbeEnergyBsnsSeList 태양광발전소 속성검색 - 사업구분 리스트*/
+		SELECT 	 DISTINCT BSNS_SE
+		FROM 	 TGD_ELCTY_BSNS_PRMISN
+	</select>
+	
+</mapper>

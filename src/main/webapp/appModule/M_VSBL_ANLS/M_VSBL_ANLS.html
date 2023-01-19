@@ -1,0 +1,16 @@
+<div class="small-popup small-bottom opened" style="height: 236px;; width:200px;">
+    <div class="popup-header">가시권분석</div>
+    <div class="popup-body sectional-popup-body">
+        <div class="sectional-box" >
+  		<p><span>pan조절</span><input type="range" name="slider" min="0" max="360" value="0" step="5" onchange="setViewShadeSetupPan(this)"></p>
+  		<p><span>Tilt조절</span><input type="range" name="slider" min="-88" max="88" value="0" step="5" onchange="setViewShadeSetupTilt(this)"></p>
+  		<p><span>Fov X조절</span><input type="range" name="slider" min="30" max="130" value="45" step="5" onchange="setViewShadeSetupFovX(this)"></p>
+  		<p><span>Fov Y조절</span><input type="range" name="slider" min="30" max="130" value="45" step="5" onchange="setViewShadeSetupFovY(this)"><p>
+       	
+       </div>
+       
+       
+    </div>
+    <button type="button" class="manualBtn" title="도움말" onclick="manualTab('가시권분석(3D)')"></button>
+    <button type="button" class="popup-toggle" title="접기"></button>
+</div>

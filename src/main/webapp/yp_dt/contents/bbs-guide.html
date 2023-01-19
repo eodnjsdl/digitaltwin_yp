@@ -1,0 +1,564 @@
+<!doctype html>
+<html lang="ko">
+	<head>
+		<meta charset="UTF-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+		<title>스마트시티 IN 양평 플랫폼</title>
+
+		<script src="/yp_dt/js/com/jquery/jquery-3.4.1.min.js"></script>
+		
+		<!-- jquery-ui -->
+		<script src="/yp_dt/js/com/jquery-ui/jquery-ui.js"></script>
+		<link rel="stylesheet" href="/yp_dt/js/com/jquery-ui/jquery-ui.css">
+
+		<!-- mCustomScrollbar -->
+		<script src="/yp_dt/js/plugin/mCustomScrollbar/jquery.mCustomScrollbar.concat.min.js"></script>
+		<link rel="stylesheet" href="/yp_dt/js/plugin/mCustomScrollbar/jquery.mCustomScrollbar.min.css">
+
+		<!-- rangeslider -->
+		<script src="/yp_dt/js/plugin/rangeslider/rangeslider.js"></script>
+		<link rel="stylesheet" href="/yp_dt/js/plugin/rangeslider/rangeslider.css">
+
+		<script src="/yp_dt/js/map-ui.js"></script>
+		
+		<link rel="stylesheet" href="/yp_dt/css/com/common.css">
+		<link rel="stylesheet" href="/yp_dt/css/map.css">
+
+		<!-- guide 전용 css -->
+		<style>
+			html, body {overflow: auto !important;}
+			html, body,th,td,input,select,textarea,button {font-family:'Malgun Gothic', '맑은 고딕', sans-serif;}
+			#container {padding: 50px 0;height: auto !important;background-color: #ebebeb;}
+			#content {margin: 0 auto;padding: 20px 30px;width: 1000px;height: auto;border: 1px solid #bbb;background-color: #fff;border-radius: 5px;}
+			.cont-tit {margin-bottom: 5px;font-family: 'Noto Sans KR', 'Malgun Gothic' !important;font-size: 20px !important;}
+			.cont-tit:before {content: '';display: inline-block;margin: -3px 3px 0 0;width: 11px;height: 11px;border: 3px solid #3A7FCF;background-color: #fff;border-radius: 50%;vertical-align: middle;}
+			.guide-list {width: 100%;border-collapse: collapse;table-layout: fixed;}
+			.guide-list th, .guide-list td {padding: 10px;font-size: 14px;border: 1px solid #D0D0D0;text-align: center;}
+			.guide-list th {font-family:' Malgun Gothic', '맑은 고딕', sans-serif;color: #000;font-size: 14px;font-weight: bold;background-color: #F0F0F0;}
+			.list-type1 {margin: 5px 0;}
+			.list-type1 > li {position: relative;margin: 5px 0;padding-left: 10px;font-size: 14px; letter-spacing: -0.03em;}
+			.list-type1 > li:before {content: '';display: block;position: absolute;top: 10px;left: 0;width: 5px;height:1px;background-color: #555;}
+
+			.row > .col, .row > [class^="col-"] {padding-top: 20px;padding-bottom: 20px;}
+			.srch-box .row > * {padding: 2px;}
+			.ex-box {background-color: #eee;}
+			.essential {color: #ff0000 !important;}
+			.line {margin: 25px 0;border-top: 1px dashed #ccc;}
+			.ex-text {margin-bottom: 10px;padding: 5px;color: #0D3D9B;background-color: #f5f5f5;}
+		</style>
+	</head>
+	<body>
+
+		<!-- wrap -->
+		<div id="wrap">
+
+			<!-- header -->
+			<header id="header">
+				<h1 class="logo"><a href="/yp_dt/index.html">스마트 IN 양평</a></h1>
+				<div class="util-box">
+					<div class="user">관리자님</div> <button type="button" class="logout-btn">LOGOUT</button>
+				</div>
+			</header>
+			<!-- //header -->
+
+			<!-- container -->
+			<div id="container">
+				<div id="content">
+
+					<div class="row" id="search">
+						<div class="col-7">
+							<h2 class="cont-tit">조건검색</h2>
+							<!-- srch-box -->
+							<div class="srch-box">
+								<form action="">
+									<div class="form-row">
+										<div class="col"><input type="text" class="form-control"></div>
+										<div class="col-auto"><button type="button" class="btn type01 search">조회</button></div>
+									</div>
+								</form>
+							</div>
+							<!-- //srch-box -->
+
+							<div class="line"></div>
+
+							<!-- srch-box -->
+							<div class="srch-box">
+								<form action="">
+									<div class="form-row">
+										<div class="col-auto">
+											<select class="form-select">
+												<option value="">제목</option>
+												<option value="">작성자</option>
+											</select>
+										</div>
+										<div class="col"><input type="text" class="form-control"></div>
+										<div class="col-auto"><button type="button" class="btn type01 search">조회</button></div>
+									</div>
+								</form>
+							</div>
+							<!-- //srch-box -->
+
+							<div class="line"></div>
+
+							<!-- srch-box -->
+							<div class="srch-box">
+								<form action="">
+									<div class="form-row">
+										<div class="col-auto">
+											<select class="form-select">
+												<option value="">분류</option>
+											</select>
+										</div>
+										<div class="col-auto">
+											<select class="form-select">
+												<option value="">제목</option>
+												<option value="">작성자</option>
+											</select>
+										</div>
+										<div class="col"><input type="text" class="form-control"></div>
+										<div class="col-auto"><button type="button" class="btn type01 search">조회</button></div>
+									</div>
+								</form>
+							</div>
+							<!-- //srch-box -->
+
+							<div class="line"></div>
+
+							<!-- srch-box -->
+							<div class="srch-box">
+								<form action="">
+									<div class="srch-default">
+										<table class="srch-tbl">
+											<colgroup>
+												<col style="width: 15%;">
+												<col style="width: auto;">
+											</colgroup>
+											<tbody>
+												<tr>
+													<th scope="row">기준일시</th>
+													<td>
+														<div class="form-row">
+															<div class="col"><div class="datapicker-group"><input type="text" id="" name="" class="datepicker" autocomplete="off"></div></div>
+															<div class="col">
+																<select name="" id="" class="form-select">
+																	<option value="">15시</option>
+																	<option value="">16시</option>
+																</select>
+															</div>
+															<div class="col-auto"><button type="button" class="btn type01 search">조회</button></div>
+														</div>
+													</td>
+												</tr>												
+											</tbody>
+										</table>
+									</div>
+								</form>
+							</div>
+							<!-- //srch-box -->
+
+							<div class="line"></div>
+
+							<!-- srch-box -->
+							<div class="srch-box">
+								<form action="">
+									<div class="srch-default">
+										<table class="srch-tbl">
+											<colgroup>
+												<col style="width: 15%;">
+												<col style="width: auto;">
+											</colgroup>
+											<tbody>
+												<tr>
+													<th scope="row">시기</th>
+													<td>
+														<div class="form-row">
+															<div class="col"><div class="datapicker-group"><input type="text" id="" name="" class="from"></div></div>
+															<div class="col-auto form-dash">~</div>
+															<div class="col"><div class="datapicker-group"><input type="text" id="" name="" class="to" autocomplete="off"></div></div>
+														</div>
+													</td>
+												</tr>
+												<tr>
+													<th scope="row" class="align-top">유형</th>
+													<td>
+														<div class="form-row">
+															<div class="col">
+																<select class="form-select">
+																	<option value="">전체</option>
+																	<option value="">전체</option>
+																</select>
+															</div>
+															<div class="col">
+																<select class="form-select">
+																	<option value="">집행부서</option>
+																	<option value="">집행부서</option>
+																</select>
+															</div>
+															<div class="col">
+																<select class="form-select">
+																	<option value="">읍면동</option>
+																	<option value="">읍면동</option>
+																</select>
+															</div>
+														</div>
+														<div class="form-row">
+															<div class="col-4"><input type="text" class="form-control" placeholder="담당자명"></div>
+															<div class="col-8"><input type="text" class="form-control" placeholder="공사명"></div>
+														</div>
+													</td>
+												</tr>
+												<tr>
+													<th scope="row">공사명</th>
+													<td><input type="text" class="form-control"></td>
+												</tr>
+											</tbody>
+										</table>
+									</div>
+									<div class="btn-wrap">
+										<div><button type="button" class="btn type01 search">조회</button></div>
+									</div>
+								</form>
+							</div>
+							<!-- //srch-box -->	
+
+							<div class="line"></div>
+
+						</div>
+					</div>
+
+					<div class="row" id="bbs">
+						<div class="col-12">
+							<h2 class="cont-tit">BBS - List</h2>
+							<div class="bbs-list-wrap" style="height: 300px;"><!-- pagination 하단 고정을 위해 반드시 필요 -->
+								<div class="bbs-default">
+									<div class="bbs-list-head">
+										<table class="bbs-list">
+											<colgroup>
+												<col style="width: 10%;">
+												<col style="width: 20%;">
+												<col style="width: 20%;">
+												<col style="width: 20%;">
+												<col style="width: auto;">
+											</colgroup>
+											<thead>
+												<tr>
+													<th scope="col">
+														<span class="form-checkbox"><span><input type="checkbox" name="" id="chk-all"><label for="chk-all"></label></span></span>
+													</th>
+													<th scope="col">공사유형</th>
+													<th scope="col">집행부서</th>
+													<th scope="col">집행시기</th>
+													<th scope="col">공사명</th>
+												</tr>
+											</thead>
+										</table>
+									</div>
+									<div class="scroll-y">
+										<table class="bbs-list">
+											<colgroup>
+												<col style="width: 10%;">
+												<col style="width: 20%;">
+												<col style="width: 20%;">
+												<col style="width: 20%;">
+												<col style="width: auto;">								
+											</colgroup>
+											<tbody>
+												<tr>
+													<td><span class="form-checkbox"><span><input type="checkbox" name="" id="chk1" checked=""><label for="chk1"></label></span></span></td>
+													<td>도로정비</td>
+													<td>건설과</td>
+													<td>2022년 2분기</td>
+													<td>양평 유치원 인근 4개소 CCTV 설치</td>
+												</tr>
+												<tr>
+													<td><span class="form-checkbox"><span><input type="checkbox" name="" id="chk1" checked=""><label for="chk1"></label></span></span></td>
+													<td>도로정비</td>
+													<td>건설과</td>
+													<td>2022년 2분기</td>
+													<td>양평 유치원 인근 4개소 CCTV 설치</td>
+												</tr>
+												<tr>
+													<td><span class="form-checkbox"><span><input type="checkbox" name="" id="chk1"><label for="chk1"></label></span></span></td>
+													<td>도로정비</td>
+													<td>건설과</td>
+													<td>2022년 2분기</td>
+													<td>양평 유치원 인근 4개소 CCTV 설치</td>
+												</tr>
+												<tr>
+													<td><span class="form-checkbox"><span><input type="checkbox" name="" id="chk1"><label for="chk1"></label></span></span></td>
+													<td>도로정비</td>
+													<td>건설과</td>
+													<td>2022년 2분기</td>
+													<td>양평 유치원 인근 4개소 CCTV 설치</td>
+												</tr>
+												<tr>
+													<td><span class="form-checkbox"><span><input type="checkbox" name="" id="chk1"><label for="chk1"></label></span></span></td>
+													<td>도로정비</td>
+													<td>건설과</td>
+													<td>2022년 2분기</td>
+													<td>양평 유치원 인근 4개소 CCTV 설치</td>
+												</tr>
+												<tr>
+													<td><span class="form-checkbox"><span><input type="checkbox" name="" id="chk1"><label for="chk1"></label></span></span></td>
+													<td>도로정비</td>
+													<td>건설과</td>
+													<td>2022년 2분기</td>
+													<td>양평 유치원 인근 4개소 CCTV 설치</td>
+												</tr>
+												<tr>
+													<td><span class="form-checkbox"><span><input type="checkbox" name="" id="chk1"><label for="chk1"></label></span></span></td>
+													<td>도로정비</td>
+													<td>건설과</td>
+													<td>2022년 2분기</td>
+													<td>양평 유치원 인근 4개소 CCTV 설치</td>
+												</tr>
+												<tr>
+													<td><span class="form-checkbox"><span><input type="checkbox" name="" id="chk1"><label for="chk1"></label></span></span></td>
+													<td>도로정비</td>
+													<td>건설과</td>
+													<td>2022년 2분기</td>
+													<td>양평 유치원 인근 4개소 CCTV 설치</td>
+												</tr>
+											</tbody>
+										</table>
+									</div>
+								</div>
+
+								<div class="pagination">
+									<a href="javascript:void(0);" class="first" title="처음"></a>
+									<a href="javascript:void(0);" class="prev" title="이전"></a>
+									<strong class="current">1</strong>
+									<a href="javascript:void(0);">2</a>
+									<a href="javascript:void(0);">3</a>
+									<a href="javascript:void(0);">4</a>
+									<a href="javascript:void(0);">5</a>
+									<a href="javascript:void(0);" class="next" title="다음"></a>
+									<a href="javascript:void(0);" class="last" title="마지막"></a>
+								</div>
+							</div>						
+						</div>
+
+						<div class="col-12">
+							<h2 class="cont-tit">BBS - Detail</h2>
+							<div class="bbs-detail-default">
+								<table class="bbs-detail">
+									<colgroup>
+										<col style="width: 15%;">
+										<col style="width: auto;">
+									</colgroup>
+									<tbody>
+										<tr>
+											<th scope="row">제목</th>
+											<td>메모1_입니다.</td>
+										</tr>
+										<tr>
+											<th scope="row">작성자</th>
+											<td>홍길동</td>
+										</tr>
+										<tr>
+											<th scope="row">등록일</th>
+											<td>2021.10.15</td>
+										</tr>
+										<tr>
+											<th scope="row">공유</th>
+											<td>공유안함</td>
+										</tr>
+										<tr>
+											<th scope="row">위치</th>
+											<td>경기도 양평군 양근리 448-9</td>
+										</tr>
+										<tr>
+											<td colspan="2">
+												<div class="cont">
+													메모테스트 중입니다. <br>메모테스트 중입니다. <br>메모테스트 중입니다. <br>메모테스트 중입니다. <br>메모테스트 중입니다.
+												</div>
+											</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+							<div class="bbs-detail-util">
+								<div class="items">
+									<div class="term">이전</div>
+									<div class="desc"><a href="javascript:void(0);">메모1_1_test.ver 중입니다.</a></div>
+								</div>
+								<div class="items">
+									<div class="term">다음</div>
+									<div class="desc"><a href="javascript:void(0);">메모1_1_test_6-00000001112232.ver 중입니다.</a></div>
+								</div>
+							</div>										
+						</div>
+
+						<div class="col-12">
+							<h2 class="cont-tit">BBS - Write</h2>
+							<div class="bbs-write-default">
+								<table class="bbs-write">
+									<colgroup>
+										<col style="width: 15%;">
+										<col style="width: auto;">
+									</colgroup>
+									<tbody>
+										<tr>
+											<th scope="row">제목</th>
+											<td><input type="text" class="form-control"></td>
+										</tr>
+										<tr>
+											<th scope="row">공유</th>
+											<td>
+												<span class="form-radio text group">
+													<span><input type="radio" name="share" id="share1-1" checked=""><label for="share1-1">공유함</label></span>
+													<span><input type="radio" name="share" id="share1-2"><label for="share1-2">공유안함</label></span>
+												</span>
+											</td>
+										</tr>
+										<tr>
+											<th scope="row">위치</th>
+											<td><input type="text" class="form-control w-70p"> <button type="button" class="btn type01 bi-location">지도에서 선택</button></td>
+										</tr>										
+										<tr>
+											<td colspan="2">
+												<textarea name="" id="" class="form-control"></textarea>
+											</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>											
+						</div>
+					</div>
+
+					<div class="row" id="paging">
+						<div class="col-12">
+							<h2 class="cont-tit">Pagination</h2>
+							<div class="pagination">
+								<a href="javascript:void(0);" class="first" title="처음"></a>
+								<a href="javascript:void(0);" class="prev" title="이전"></a>
+								<strong class="current">1</strong>
+								<a href="javascript:void(0);">2</a>
+								<a href="javascript:void(0);">3</a>
+								<a href="javascript:void(0);">4</a>
+								<a href="javascript:void(0);">5</a>
+								<a href="javascript:void(0);" class="next" title="다음"></a>
+								<a href="javascript:void(0);" class="last" title="마지막"></a>
+							</div>
+						</div>
+					</div>
+
+					<div class="row" id="data-bbs">
+						<div class="col-12">
+							<h2 class="cont-tit">DATA Table - List & Detail</h2>
+							<div class="data-default" style="height: 250px;">
+								<table class="data-list">
+									<colgroup>
+										<col style="width: 10%;">
+										<col style="width: auto;">
+									</colgroup>
+									<thead>
+										<tr>
+											<th scope="col">
+												<span class="form-checkbox"><span><input type="checkbox" name="" id="chk1"><label for="chk1"></label></span></span>
+											</th>
+											<th scope="col">데이터명</th>
+										</tr>
+									</thead>										
+								</table>
+								<div class="scroll-y">
+									<table class="data-list">
+										<colgroup>
+											<col style="width: 10%;">
+											<col style="width: auto;">
+										</colgroup>
+										<tbody>
+											<tr>
+												<td class="align-center"><span class="form-checkbox"><span><input type="checkbox" name="" id="chk1" checked=""><label for="chk1"></label></span></span></td>
+												<td>건물</td>
+											</tr>
+											<tr>
+												<td class="align-center"><span class="form-checkbox"><span><input type="checkbox" name="" id="chk1"><label for="chk1"></label></span></span></td>
+												<td>지적</td>
+											</tr>
+											<tr>
+												<td class="align-center"><span class="form-checkbox"><span><input type="checkbox" name="" id="chk1"><label for="chk1"></label></span></span></td>
+												<td>가로등</td>
+											</tr>
+											<tr>
+												<td class="align-center"><span class="form-checkbox"><span><input type="checkbox" name="" id="chk1" checked=""><label for="chk1"></label></span></span></td>
+												<td>도로</td>
+											</tr>
+											<tr>
+												<td class="align-center"><span class="form-checkbox"><span><input type="checkbox" name="" id="chk1"><label for="chk1"></label></span></span></td>
+												<td>가로등</td>
+											</tr>
+											<tr>
+												<td class="align-center"><span class="form-checkbox"><span><input type="checkbox" name="" id="chk1" checked=""><label for="chk1"></label></span></span></td>
+												<td>도로</td>
+											</tr>
+											<tr>
+												<td class="align-center"><span class="form-checkbox"><span><input type="checkbox" name="" id="chk1"><label for="chk1"></label></span></span></td>
+												<td>가로등</td>
+											</tr>
+											<tr>
+												<td class="align-center"><span class="form-checkbox"><span><input type="checkbox" name="" id="chk1" checked=""><label for="chk1"></label></span></span></td>
+												<td>도로</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+							</div>	
+						</div>
+
+						<div class="col-12">
+							<h2 class="cont-tit">DATA Table - Write</h2>
+							<div class="data-default">
+								<table class="data-write">
+									<colgroup>
+										<col style="width: 30%;">
+										<col style="width: auto;">
+									</colgroup>
+									<tbody>
+										<tr>
+											<th scope="row">분류</th>
+											<td>
+												<select name="" id="" class="form-select">
+													<option value="">레이어 분류</option>
+												</select>
+											</td>
+										</tr>
+										<tr>
+											<th scope="row">데이터공유</th>
+											<td></td>
+										</tr>
+										<tr>
+											<th scope="row">데이터명</th>
+											<td><input type="text" class="form-control"></td>
+										</tr>
+										<tr>
+											<th scope="row">좌표계</th>
+											<td></td>
+										</tr>
+										<tr>
+											<th scope="row">데이터업로드</th>
+											<td></td>
+										</tr>
+										<tr>
+											<th scope="row">진행율</th>
+											<td></td>
+										</tr>
+									</tbody>
+								</table>
+							</div>	
+						</div>
+					</div>
+
+
+
+				</div>
+			</div>
+			<!-- //container -->
+
+
+		</div>
+		<!-- //wrap -->
+	
+	</body>
+</html>

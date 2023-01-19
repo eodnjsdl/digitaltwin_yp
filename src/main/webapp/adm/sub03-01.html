@@ -1,0 +1,1283 @@
+<!doctype html>
+<html lang="ko">
+	<head>
+		<meta charset="UTF-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+		<title>관리자</title>
+
+		<script src="/adm/js/plugin/jquery/jquery-3.4.1.min.js"></script>
+		
+		<!-- jquery-ui -->
+		<script src="/adm/js/plugin/jquery-ui/jquery-ui.js"></script>
+		<link rel="stylesheet" href="/adm/js/plugin/jquery-ui/jquery-ui.css">
+
+        <!-- mCustomScrollbar -->
+		<script src="/adm/js/plugin/mCustomScrollbar/jquery.mCustomScrollbar.concat.min.js"></script>
+		<link rel="stylesheet" href="/adm/js/plugin/mCustomScrollbar/jquery.mCustomScrollbar.css">
+
+		<script src="/adm/js/adm-ui.js"></script>
+		
+		<link rel="stylesheet" href="/adm/css/common/common.css">
+		<!-- adm -->
+		<link rel="stylesheet" href="/adm/css/common.css">
+	</head>
+	<body>
+
+		<!-- wrap -->
+		<div id="wrap">
+
+			<!-- header -->
+			<header id="header">
+				<div><h1 class="logo"><a href="javascript:void(0);">스마트시티 <strong>IN 양평</strong></a></h1></div>
+				<div><a href="javascript:void(0);" class="admin">관리자페이지</a></div>
+			</header>
+			<!-- //header -->
+
+			<!-- container -->
+			<div id="container">
+				<!-- side -->
+				<section id="side">
+					<h2 class="hide">주메뉴</h2>
+					<ul id="gnb" class="gnb-dep1">
+						<li><a href="javascript:void(0);" class="gnb-dep1-tit">사용자 관리</a>
+							<ul class="gnb-dep2">
+								<li><a href="/adm/sub01-01.html">그룹관리</a></li>
+								<li><a href="/adm/sub01-02.html">사용자정보</a></li>
+								<li><a href="javascript:void(0);">조직정보</a></li>
+							</ul>
+						</li>
+						<li><a href="javascript:void(0);" class="gnb-dep1-tit">권한관리</a>
+							<ul class="gnb-dep2">
+								<li><a href="/adm/sub02-01.html">롤정보</a></li>
+								<li><a href="">권한정보</a></li>
+								<li><a href="javascript:void(0);">사용자권한</a></li>
+							</ul>
+						</li>
+						<li><a href="javascript:void(0);" class="gnb-dep1-tit">이력관리</a>
+							<ul class="gnb-dep2">
+								<li><a href="/adm/sub03-01.html">접속이력</a></li>
+								<li><a href="">사용이력</a></li>
+							</ul>
+						</li>
+						<li><a href="javascript:void(0);" class="gnb-dep1-tit">정보관리</a>
+							<ul class="gnb-dep2">
+								<li><a href="">공통분류코드</a></li>
+								<li><a href="">공통코드</a></li>
+								<li><a href="">기능</a></li>
+								<li><a href="">지도</a></li>
+								<li><a href="">레이어</a></li>
+								<li><a href="">공지사항</a></li>
+								<li><a href="">게시판</a></li>
+								<li><a href="">사이트링크</a></li>
+							</ul>
+						</li>
+						<li><a href="javascript:void(0);" class="gnb-dep1-tit">서버관리</a>
+							<ul class="gnb-dep2">
+								<li><a href="/adm/sub05-01.html">지도서비스</a></li>
+								<li><a href="/adm/sub05-02.html">클라우드서비스</a></li>
+							</ul>
+						</li>
+						<li><a href="guide.html" class="gnb-dep1-tit">가이드</a></li>
+					</ul>
+				</section>
+				<!-- //side -->
+				<!-- content -->
+				<section id="content">
+
+					<div class="row">
+						<div class="col-12 page-tit-wrap">
+							<h3 class="page-tit">접속이력</h3><!-- left gnb 1차 메뉴 텍스트와 일치해야 해당 메뉴에 active 추가 됨 -->
+							<p class="page-txt">접속이력을 관리하는 페이지 입니다.</p>
+						</div>
+					</div>
+
+					<div class="row">
+						<div class="col-12">
+
+                            <div class="tabBoxDepth1-wrap">
+								<div class="tabBoxDepth1">
+									<ul>
+										<li data-tab="tab01" class="on"><button type="button" class="inner-tab">이력조회</button></li>
+										<li data-tab="tab02"><button type="button" class="inner-tab">시간대별 통계</button></li>
+										<li data-tab="tab03"><button type="button" class="inner-tab">일별 통계</button></li>
+										<li data-tab="tab04"><button type="button" class="inner-tab">월별 통계</button></li>
+									</ul>
+								</div>
+                                <!-- 이력조회 -->
+								<div class="tab-cont tab01 on">
+									<div class="bbs-top">
+                                        <div class="tbl-basic-num">전체 : <strong>100건</strong></div>
+                                        <div class="d-flex">
+                                            <div class="desc">
+                                                <div class="datapicker-group"><input type="text" class="datepickerFrom" name="from" title="검색시작일 YYYY-MM-DD 형식으로 날짜를 입력해주세요" autocomplete="off"> <span class="form-dash">-</span> <input type="text" class="datepickerTo" name="to" title="검색종료일 YYYY-MM-DD 형식으로 날짜를 입력해주세요" autocomplete="off"></div>
+                                            </div>
+                                            <div class="desc">
+                                                <select name="" id="" title="" class="form-select">
+                                                    <option value="" selected="">제목</option>
+                                                    <option value=""></option>
+                                                </select>
+                                                <input type="text" id="" class="form-control"><button type="submit" class="btn type05 bi-srch">검색</button>
+                                            </div>
+                                        </div>
+                                    </div>
+        
+                                    <div class="bbs-default">
+                                        <table class="bbs-list">
+                                            <colgroup>
+                                                <col style="width: 15%;">
+                                                <col style="width: 15%;">
+                                                <col style="width: 10%;">
+                                                <col style="width: auto;">
+                                                <col style="width: 15%;">
+                                                <col style="width: 15%;">
+                                                <col style="width: 15%;">
+                                            </colgroup>
+                                            <thead>
+                                                <tr>
+                                                    <th scope="col">그룹</th>
+                                                    <th scope="col">조직</th>
+                                                    <th scope="col">사용자명</th>
+                                                    <th scope="col">사용자ID</th>
+                                                    <th scope="col">로그인 일시</th>
+                                                    <th scope="col">로그아웃 일시</th>
+                                                    <th scope="col">접속IP</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>한국국토정보공사</td>
+                                                    <td>경기본부</td>
+                                                    <td>김길동</td>
+                                                    <td>kdisiq0101</td>
+                                                    <td>2021.12.20 13:30:09</td>
+                                                    <td></td>
+                                                    <td></td>
+                                                </tr>																	
+                                            </tbody>
+                                        </table>
+                                    </div>
+        
+                                    <div class="pagination">
+                                        <a href="javascript:void(0);" class="first" title="처음"></a>
+                                        <a href="javascript:void(0);" class="prev" title="이전"></a>
+                                        <strong class="current">1</strong>
+                                        <a href="javascript:void(0);">2</a>
+                                        <a href="javascript:void(0);">3</a>
+                                        <a href="javascript:void(0);">4</a>
+                                        <a href="javascript:void(0);">5</a>
+                                        <a href="javascript:void(0);" class="next" title="다음"></a>
+                                        <a href="javascript:void(0);" class="last" title="마지막"></a>
+                                    </div>
+
+                                    <div class="btn-wrap justify-content-end">
+                                        <div><button type="button" class="btn type08 bi-excel">엑셀자료 다운로드</button></div>
+                                    </div>
+								</div>
+                                <!-- //이력조회 -->
+
+                                <!-- 시간대별 통계 -->
+								<div class="tab-cont tab02">
+									<div class="bbs-top">
+                                        <div class="tbl-basic-num">전체 : <strong>100건</strong></div>
+                                        <div class="d-flex">
+                                            <div class="desc">
+                                                <div class="datapicker-group"><input type="text" class="datepicker"autocomplete="off"></div>
+                                            </div>
+                                            <div class="desc">
+                                                <select name="" id="" title="" class="form-select">
+                                                    <option value="" selected="">제목</option>
+                                                    <option value=""></option>
+                                                </select>
+                                                <input type="text" id="" class="form-control"><button type="submit" class="btn type05 bi-srch">검색</button>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="scroll-y" style="width: 100%;height: 350px;">
+                                        <div class="bbs-default">
+                                            <table class="bbs-list">
+                                                <colgroup>
+                                                    <col style="width: 4%;">
+                                                    <col style="width: 10%;">
+                                                    <col style="width: 8%;">
+                                                    <col style="width: 6%;">
+                                                    <col style="width: 6%;">                                                    
+                                                    <col style="width: auto;">
+                                                    <col style="width: auto;">
+                                                    <col style="width: auto;">
+                                                    <col style="width: auto;">
+                                                    <col style="width: auto;">
+                                                    <col style="width: auto;">
+                                                    <col style="width: auto;">
+                                                    <col style="width: auto;">
+                                                    <col style="width: auto;">
+                                                    <col style="width: auto;">
+                                                    <col style="width: auto;">
+                                                    <col style="width: auto;">
+                                                    <col style="width: auto;">
+                                                    <col style="width: auto;">
+                                                    <col style="width: auto;">
+                                                    <col style="width: auto;">
+                                                    <col style="width: auto;">
+                                                    <col style="width: auto;">
+                                                    <col style="width: auto;">
+                                                    <col style="width: auto;">
+                                                    <col style="width: auto;">
+                                                    <col style="width: auto;">
+                                                    <col style="width: auto;">
+                                                    <col style="width: auto;">
+                                                </colgroup>
+                                                <thead>
+                                                    <tr>
+                                                        <th scope="col">순위</th>
+                                                        <th scope="col">그룹</th>
+                                                        <th scope="col">조직</th>
+                                                        <th scope="col">사용자</th>
+                                                        <th scope="col">계</th>
+                                                        <th scope="col">00</th>
+                                                        <th scope="col">01</th>
+                                                        <th scope="col">02</th>
+                                                        <th scope="col">03</th>
+                                                        <th scope="col">04</th>
+                                                        <th scope="col">05</th>
+                                                        <th scope="col">06</th>
+                                                        <th scope="col">07</th>
+                                                        <th scope="col">08</th>
+                                                        <th scope="col">09</th>
+                                                        <th scope="col">10</th>
+                                                        <th scope="col">11</th>
+                                                        <th scope="col">12</th>
+                                                        <th scope="col">13</th>
+                                                        <th scope="col">14</th>
+                                                        <th scope="col">15</th>
+                                                        <th scope="col">16</th>
+                                                        <th scope="col">17</th>
+                                                        <th scope="col">18</th>
+                                                        <th scope="col">19</th>
+                                                        <th scope="col">20</th>
+                                                        <th scope="col">21</th>
+                                                        <th scope="col">22</th>
+                                                        <th scope="col">23</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td>1</td>
+                                                        <td>한국국토정보공사</td>
+                                                        <td>경기본부</td>
+                                                        <td>김길동</td>
+                                                        <td><strong>137</strong></td>
+                                                        <td>0</td>
+                                                        <td>1</td>
+                                                        <td>2</td>
+                                                        <td>3</td>
+                                                        <td>4</td>
+                                                        <td>5</td>
+                                                        <td>6</td>
+                                                        <td>7</td>
+                                                        <td>8</td>
+                                                        <td>9</td>
+                                                        <td>0</td>
+                                                        <td>1</td>
+                                                        <td>2</td>
+                                                        <td>3</td>
+                                                        <td>41</td>
+                                                        <td>52</td>
+                                                        <td>64</td>
+                                                        <td>67</td>
+                                                        <td>8</td>
+                                                        <td>9</td>
+                                                        <td>0</td>
+                                                        <td>1</td>
+                                                        <td>2</td>
+                                                        <td>23</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>1</td>
+                                                        <td>한국국토정보공사</td>
+                                                        <td>경기본부</td>
+                                                        <td>김길동</td>
+                                                        <td><strong>137</strong></td>
+                                                        <td>0</td>
+                                                        <td>1</td>
+                                                        <td>2</td>
+                                                        <td>3</td>
+                                                        <td>4</td>
+                                                        <td>5</td>
+                                                        <td>6</td>
+                                                        <td>7</td>
+                                                        <td>8</td>
+                                                        <td>9</td>
+                                                        <td>0</td>
+                                                        <td>1</td>
+                                                        <td>2</td>
+                                                        <td>3</td>
+                                                        <td>41</td>
+                                                        <td>52</td>
+                                                        <td>64</td>
+                                                        <td>67</td>
+                                                        <td>8</td>
+                                                        <td>9</td>
+                                                        <td>0</td>
+                                                        <td>1</td>
+                                                        <td>2</td>
+                                                        <td>23</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>1</td>
+                                                        <td>한국국토정보공사</td>
+                                                        <td>경기본부</td>
+                                                        <td>김길동</td>
+                                                        <td><strong>137</strong></td>
+                                                        <td>0</td>
+                                                        <td>1</td>
+                                                        <td>2</td>
+                                                        <td>3</td>
+                                                        <td>4</td>
+                                                        <td>5</td>
+                                                        <td>6</td>
+                                                        <td>7</td>
+                                                        <td>8</td>
+                                                        <td>9</td>
+                                                        <td>0</td>
+                                                        <td>1</td>
+                                                        <td>2</td>
+                                                        <td>3</td>
+                                                        <td>41</td>
+                                                        <td>52</td>
+                                                        <td>64</td>
+                                                        <td>67</td>
+                                                        <td>8</td>
+                                                        <td>9</td>
+                                                        <td>0</td>
+                                                        <td>1</td>
+                                                        <td>2</td>
+                                                        <td>23</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>1</td>
+                                                        <td>한국국토정보공사</td>
+                                                        <td>경기본부</td>
+                                                        <td>김길동</td>
+                                                        <td><strong>137</strong></td>
+                                                        <td>0</td>
+                                                        <td>1</td>
+                                                        <td>2</td>
+                                                        <td>3</td>
+                                                        <td>4</td>
+                                                        <td>5</td>
+                                                        <td>6</td>
+                                                        <td>7</td>
+                                                        <td>8</td>
+                                                        <td>9</td>
+                                                        <td>0</td>
+                                                        <td>1</td>
+                                                        <td>2</td>
+                                                        <td>3</td>
+                                                        <td>41</td>
+                                                        <td>52</td>
+                                                        <td>64</td>
+                                                        <td>67</td>
+                                                        <td>8</td>
+                                                        <td>9</td>
+                                                        <td>0</td>
+                                                        <td>1</td>
+                                                        <td>2</td>
+                                                        <td>23</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>1</td>
+                                                        <td>한국국토정보공사</td>
+                                                        <td>경기본부</td>
+                                                        <td>김길동</td>
+                                                        <td><strong>137</strong></td>
+                                                        <td>0</td>
+                                                        <td>1</td>
+                                                        <td>2</td>
+                                                        <td>3</td>
+                                                        <td>4</td>
+                                                        <td>5</td>
+                                                        <td>6</td>
+                                                        <td>7</td>
+                                                        <td>8</td>
+                                                        <td>9</td>
+                                                        <td>0</td>
+                                                        <td>1</td>
+                                                        <td>2</td>
+                                                        <td>3</td>
+                                                        <td>41</td>
+                                                        <td>52</td>
+                                                        <td>64</td>
+                                                        <td>67</td>
+                                                        <td>8</td>
+                                                        <td>9</td>
+                                                        <td>0</td>
+                                                        <td>1</td>
+                                                        <td>2</td>
+                                                        <td>23</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>1</td>
+                                                        <td>한국국토정보공사</td>
+                                                        <td>경기본부</td>
+                                                        <td>김길동</td>
+                                                        <td><strong>137</strong></td>
+                                                        <td>0</td>
+                                                        <td>1</td>
+                                                        <td>2</td>
+                                                        <td>3</td>
+                                                        <td>4</td>
+                                                        <td>5</td>
+                                                        <td>6</td>
+                                                        <td>7</td>
+                                                        <td>8</td>
+                                                        <td>9</td>
+                                                        <td>0</td>
+                                                        <td>1</td>
+                                                        <td>2</td>
+                                                        <td>3</td>
+                                                        <td>41</td>
+                                                        <td>52</td>
+                                                        <td>64</td>
+                                                        <td>67</td>
+                                                        <td>8</td>
+                                                        <td>9</td>
+                                                        <td>0</td>
+                                                        <td>1</td>
+                                                        <td>2</td>
+                                                        <td>23</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>1</td>
+                                                        <td>한국국토정보공사</td>
+                                                        <td>경기본부</td>
+                                                        <td>김길동</td>
+                                                        <td><strong>137</strong></td>
+                                                        <td>0</td>
+                                                        <td>1</td>
+                                                        <td>2</td>
+                                                        <td>3</td>
+                                                        <td>4</td>
+                                                        <td>5</td>
+                                                        <td>6</td>
+                                                        <td>7</td>
+                                                        <td>8</td>
+                                                        <td>9</td>
+                                                        <td>0</td>
+                                                        <td>1</td>
+                                                        <td>2</td>
+                                                        <td>3</td>
+                                                        <td>41</td>
+                                                        <td>52</td>
+                                                        <td>64</td>
+                                                        <td>67</td>
+                                                        <td>8</td>
+                                                        <td>9</td>
+                                                        <td>0</td>
+                                                        <td>1</td>
+                                                        <td>2</td>
+                                                        <td>23</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>1</td>
+                                                        <td>한국국토정보공사</td>
+                                                        <td>경기본부</td>
+                                                        <td>김길동</td>
+                                                        <td><strong>137</strong></td>
+                                                        <td>0</td>
+                                                        <td>1</td>
+                                                        <td>2</td>
+                                                        <td>3</td>
+                                                        <td>4</td>
+                                                        <td>5</td>
+                                                        <td>6</td>
+                                                        <td>7</td>
+                                                        <td>8</td>
+                                                        <td>9</td>
+                                                        <td>0</td>
+                                                        <td>1</td>
+                                                        <td>2</td>
+                                                        <td>3</td>
+                                                        <td>41</td>
+                                                        <td>52</td>
+                                                        <td>64</td>
+                                                        <td>67</td>
+                                                        <td>8</td>
+                                                        <td>9</td>
+                                                        <td>0</td>
+                                                        <td>1</td>
+                                                        <td>2</td>
+                                                        <td>23</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>1</td>
+                                                        <td>한국국토정보공사</td>
+                                                        <td>경기본부</td>
+                                                        <td>김길동</td>
+                                                        <td><strong>137</strong></td>
+                                                        <td>0</td>
+                                                        <td>1</td>
+                                                        <td>2</td>
+                                                        <td>3</td>
+                                                        <td>4</td>
+                                                        <td>5</td>
+                                                        <td>6</td>
+                                                        <td>7</td>
+                                                        <td>8</td>
+                                                        <td>9</td>
+                                                        <td>0</td>
+                                                        <td>1</td>
+                                                        <td>2</td>
+                                                        <td>3</td>
+                                                        <td>41</td>
+                                                        <td>52</td>
+                                                        <td>64</td>
+                                                        <td>67</td>
+                                                        <td>8</td>
+                                                        <td>9</td>
+                                                        <td>0</td>
+                                                        <td>1</td>
+                                                        <td>2</td>
+                                                        <td>23</td>
+                                                    </tr>															
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+
+                                    <div class="chart-box">
+                                        그래프 영역
+                                    </div>
+								</div>
+                                <!-- //시간대별 통계 -->
+
+                                <!-- 일별 통계 -->
+								<div class="tab-cont tab03">
+									<div class="bbs-top">
+                                        <div class="tbl-basic-num">전체 : <strong>50건</strong></div>
+                                        <div class="d-flex">
+                                            <div class="desc">
+                                                <div class="datapicker-group"><input type="text" class="datepicker"autocomplete="off"></div>
+                                            </div>
+                                            <div class="desc">
+                                                <select name="" id="" title="" class="form-select">
+                                                    <option value="" selected="">제목</option>
+                                                    <option value=""></option>
+                                                </select>
+                                                <input type="text" id="" class="form-control"><button type="submit" class="btn type05 bi-srch">검색</button>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="scroll-yx" style="width: 100%;height: 350px;">
+                                        <div class="bbs-default bbs-yx">
+                                            <table class="bbs-list">
+                                                <colgroup>
+                                                    <col style="width: 4%;">
+                                                    <col style="width: 10%;">
+                                                    <col style="width: 8%;">
+                                                    <col style="width: 6%;">
+                                                    <col style="width: 6%;">                                                    
+                                                    <col style="width: auto;">
+                                                    <col style="width: auto;">
+                                                    <col style="width: auto;">
+                                                    <col style="width: auto;">
+                                                    <col style="width: auto;">
+                                                    <col style="width: auto;">
+                                                    <col style="width: auto;">
+                                                    <col style="width: auto;">
+                                                    <col style="width: auto;">
+                                                    <col style="width: auto;">
+                                                    <col style="width: auto;">
+                                                    <col style="width: auto;">
+                                                    <col style="width: auto;">
+                                                    <col style="width: auto;">
+                                                    <col style="width: auto;">
+                                                    <col style="width: auto;">
+                                                    <col style="width: auto;">
+                                                    <col style="width: auto;">
+                                                    <col style="width: auto;">
+                                                    <col style="width: auto;">
+                                                    <col style="width: auto;">
+                                                    <col style="width: auto;">
+                                                    <col style="width: auto;">
+                                                    <col style="width: auto;">
+                                                    <col style="width: auto;">
+                                                    <col style="width: auto;">
+                                                    <col style="width: auto;">
+                                                    <col style="width: auto;">
+                                                    <col style="width: auto;">
+                                                    <col style="width: auto;">
+                                                </colgroup>
+                                                <thead>
+                                                    <tr>
+                                                        <th scope="col">순위</th>
+                                                        <th scope="col">그룹</th>
+                                                        <th scope="col">조직</th>
+                                                        <th scope="col">사용자</th>
+                                                        <th scope="col">00</th>
+                                                        <th scope="col">01</th>
+                                                        <th scope="col">02</th>
+                                                        <th scope="col">03</th>
+                                                        <th scope="col">04</th>
+                                                        <th scope="col">05</th>
+                                                        <th scope="col">06</th>
+                                                        <th scope="col">07</th>
+                                                        <th scope="col">08</th>
+                                                        <th scope="col">09</th>
+                                                        <th scope="col">10</th>
+                                                        <th scope="col">11</th>
+                                                        <th scope="col">12</th>
+                                                        <th scope="col">13</th>
+                                                        <th scope="col">14</th>
+                                                        <th scope="col">15</th>
+                                                        <th scope="col">16</th>
+                                                        <th scope="col">17</th>
+                                                        <th scope="col">18</th>
+                                                        <th scope="col">19</th>
+                                                        <th scope="col">20</th>
+                                                        <th scope="col">21</th>
+                                                        <th scope="col">22</th>
+                                                        <th scope="col">23</th>
+                                                        <th scope="col">24</th>
+                                                        <th scope="col">25</th>
+                                                        <th scope="col">26</th>
+                                                        <th scope="col">27</th>
+                                                        <th scope="col">28</th>
+                                                        <th scope="col">29</th>
+                                                        <th scope="col">30</th>
+                                                        <th scope="col">31</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td>1</td>
+                                                        <td>한국국토정보공사</td>
+                                                        <td>경기본부</td>
+                                                        <td>김길동</td>
+                                                        <td><strong>137</strong></td>
+                                                        <td>0</td>
+                                                        <td>1</td>
+                                                        <td>2</td>
+                                                        <td>3</td>
+                                                        <td>4</td>
+                                                        <td>5</td>
+                                                        <td>6</td>
+                                                        <td>7</td>
+                                                        <td>8</td>
+                                                        <td>9</td>
+                                                        <td>0</td>
+                                                        <td>1</td>
+                                                        <td>2</td>
+                                                        <td>3</td>
+                                                        <td>41</td>
+                                                        <td>52</td>
+                                                        <td>64</td>
+                                                        <td>67</td>
+                                                        <td>8</td>
+                                                        <td>9</td>
+                                                        <td>0</td>
+                                                        <td>1</td>
+                                                        <td>2</td>
+                                                        <td>23</td>
+                                                        <td>52</td>
+                                                        <td>52</td>
+                                                        <td>1</td>
+                                                        <td>2</td>
+                                                        <td>3</td>
+                                                        <td>67</td>
+                                                        <td>8</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>1</td>
+                                                        <td>한국국토정보공사</td>
+                                                        <td>경기본부</td>
+                                                        <td>김길동</td>
+                                                        <td><strong>137</strong></td>
+                                                        <td>0</td>
+                                                        <td>1</td>
+                                                        <td>2</td>
+                                                        <td>3</td>
+                                                        <td>4</td>
+                                                        <td>5</td>
+                                                        <td>6</td>
+                                                        <td>7</td>
+                                                        <td>8</td>
+                                                        <td>9</td>
+                                                        <td>0</td>
+                                                        <td>1</td>
+                                                        <td>2</td>
+                                                        <td>3</td>
+                                                        <td>41</td>
+                                                        <td>52</td>
+                                                        <td>64</td>
+                                                        <td>67</td>
+                                                        <td>8</td>
+                                                        <td>9</td>
+                                                        <td>0</td>
+                                                        <td>1</td>
+                                                        <td>2</td>
+                                                        <td>23</td>
+                                                        <td>52</td>
+                                                        <td>52</td>
+                                                        <td>1</td>
+                                                        <td>2</td>
+                                                        <td>3</td>
+                                                        <td>67</td>
+                                                        <td>8</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>1</td>
+                                                        <td>한국국토정보공사</td>
+                                                        <td>경기본부</td>
+                                                        <td>김길동</td>
+                                                        <td><strong>137</strong></td>
+                                                        <td>0</td>
+                                                        <td>1</td>
+                                                        <td>2</td>
+                                                        <td>3</td>
+                                                        <td>4</td>
+                                                        <td>5</td>
+                                                        <td>6</td>
+                                                        <td>7</td>
+                                                        <td>8</td>
+                                                        <td>9</td>
+                                                        <td>0</td>
+                                                        <td>1</td>
+                                                        <td>2</td>
+                                                        <td>3</td>
+                                                        <td>41</td>
+                                                        <td>52</td>
+                                                        <td>64</td>
+                                                        <td>67</td>
+                                                        <td>8</td>
+                                                        <td>9</td>
+                                                        <td>0</td>
+                                                        <td>1</td>
+                                                        <td>2</td>
+                                                        <td>23</td>
+                                                        <td>52</td>
+                                                        <td>52</td>
+                                                        <td>1</td>
+                                                        <td>2</td>
+                                                        <td>3</td>
+                                                        <td>67</td>
+                                                        <td>8</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>1</td>
+                                                        <td>한국국토정보공사</td>
+                                                        <td>경기본부</td>
+                                                        <td>김길동</td>
+                                                        <td><strong>137</strong></td>
+                                                        <td>0</td>
+                                                        <td>1</td>
+                                                        <td>2</td>
+                                                        <td>3</td>
+                                                        <td>4</td>
+                                                        <td>5</td>
+                                                        <td>6</td>
+                                                        <td>7</td>
+                                                        <td>8</td>
+                                                        <td>9</td>
+                                                        <td>0</td>
+                                                        <td>1</td>
+                                                        <td>2</td>
+                                                        <td>3</td>
+                                                        <td>41</td>
+                                                        <td>52</td>
+                                                        <td>64</td>
+                                                        <td>67</td>
+                                                        <td>8</td>
+                                                        <td>9</td>
+                                                        <td>0</td>
+                                                        <td>1</td>
+                                                        <td>2</td>
+                                                        <td>23</td>
+                                                        <td>52</td>
+                                                        <td>52</td>
+                                                        <td>1</td>
+                                                        <td>2</td>
+                                                        <td>3</td>
+                                                        <td>67</td>
+                                                        <td>8</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>1</td>
+                                                        <td>한국국토정보공사</td>
+                                                        <td>경기본부</td>
+                                                        <td>김길동</td>
+                                                        <td><strong>137</strong></td>
+                                                        <td>0</td>
+                                                        <td>1</td>
+                                                        <td>2</td>
+                                                        <td>3</td>
+                                                        <td>4</td>
+                                                        <td>5</td>
+                                                        <td>6</td>
+                                                        <td>7</td>
+                                                        <td>8</td>
+                                                        <td>9</td>
+                                                        <td>0</td>
+                                                        <td>1</td>
+                                                        <td>2</td>
+                                                        <td>3</td>
+                                                        <td>41</td>
+                                                        <td>52</td>
+                                                        <td>64</td>
+                                                        <td>67</td>
+                                                        <td>8</td>
+                                                        <td>9</td>
+                                                        <td>0</td>
+                                                        <td>1</td>
+                                                        <td>2</td>
+                                                        <td>23</td>
+                                                        <td>52</td>
+                                                        <td>52</td>
+                                                        <td>1</td>
+                                                        <td>2</td>
+                                                        <td>3</td>
+                                                        <td>67</td>
+                                                        <td>8</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>1</td>
+                                                        <td>한국국토정보공사</td>
+                                                        <td>경기본부</td>
+                                                        <td>김길동</td>
+                                                        <td><strong>137</strong></td>
+                                                        <td>0</td>
+                                                        <td>1</td>
+                                                        <td>2</td>
+                                                        <td>3</td>
+                                                        <td>4</td>
+                                                        <td>5</td>
+                                                        <td>6</td>
+                                                        <td>7</td>
+                                                        <td>8</td>
+                                                        <td>9</td>
+                                                        <td>0</td>
+                                                        <td>1</td>
+                                                        <td>2</td>
+                                                        <td>3</td>
+                                                        <td>41</td>
+                                                        <td>52</td>
+                                                        <td>64</td>
+                                                        <td>67</td>
+                                                        <td>8</td>
+                                                        <td>9</td>
+                                                        <td>0</td>
+                                                        <td>1</td>
+                                                        <td>2</td>
+                                                        <td>23</td>
+                                                        <td>52</td>
+                                                        <td>52</td>
+                                                        <td>1</td>
+                                                        <td>2</td>
+                                                        <td>3</td>
+                                                        <td>67</td>
+                                                        <td>8</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>1</td>
+                                                        <td>한국국토정보공사</td>
+                                                        <td>경기본부</td>
+                                                        <td>김길동</td>
+                                                        <td><strong>137</strong></td>
+                                                        <td>0</td>
+                                                        <td>1</td>
+                                                        <td>2</td>
+                                                        <td>3</td>
+                                                        <td>4</td>
+                                                        <td>5</td>
+                                                        <td>6</td>
+                                                        <td>7</td>
+                                                        <td>8</td>
+                                                        <td>9</td>
+                                                        <td>0</td>
+                                                        <td>1</td>
+                                                        <td>2</td>
+                                                        <td>3</td>
+                                                        <td>41</td>
+                                                        <td>52</td>
+                                                        <td>64</td>
+                                                        <td>67</td>
+                                                        <td>8</td>
+                                                        <td>9</td>
+                                                        <td>0</td>
+                                                        <td>1</td>
+                                                        <td>2</td>
+                                                        <td>23</td>
+                                                        <td>52</td>
+                                                        <td>52</td>
+                                                        <td>1</td>
+                                                        <td>2</td>
+                                                        <td>3</td>
+                                                        <td>67</td>
+                                                        <td>8</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>1</td>
+                                                        <td>한국국토정보공사</td>
+                                                        <td>경기본부</td>
+                                                        <td>김길동</td>
+                                                        <td><strong>137</strong></td>
+                                                        <td>0</td>
+                                                        <td>1</td>
+                                                        <td>2</td>
+                                                        <td>3</td>
+                                                        <td>4</td>
+                                                        <td>5</td>
+                                                        <td>6</td>
+                                                        <td>7</td>
+                                                        <td>8</td>
+                                                        <td>9</td>
+                                                        <td>0</td>
+                                                        <td>1</td>
+                                                        <td>2</td>
+                                                        <td>3</td>
+                                                        <td>41</td>
+                                                        <td>52</td>
+                                                        <td>64</td>
+                                                        <td>67</td>
+                                                        <td>8</td>
+                                                        <td>9</td>
+                                                        <td>0</td>
+                                                        <td>1</td>
+                                                        <td>2</td>
+                                                        <td>23</td>
+                                                        <td>52</td>
+                                                        <td>52</td>
+                                                        <td>1</td>
+                                                        <td>2</td>
+                                                        <td>3</td>
+                                                        <td>67</td>
+                                                        <td>8</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>1</td>
+                                                        <td>한국국토정보공사</td>
+                                                        <td>경기본부</td>
+                                                        <td>김길동</td>
+                                                        <td><strong>137</strong></td>
+                                                        <td>0</td>
+                                                        <td>1</td>
+                                                        <td>2</td>
+                                                        <td>3</td>
+                                                        <td>4</td>
+                                                        <td>5</td>
+                                                        <td>6</td>
+                                                        <td>7</td>
+                                                        <td>8</td>
+                                                        <td>9</td>
+                                                        <td>0</td>
+                                                        <td>1</td>
+                                                        <td>2</td>
+                                                        <td>3</td>
+                                                        <td>41</td>
+                                                        <td>52</td>
+                                                        <td>64</td>
+                                                        <td>67</td>
+                                                        <td>8</td>
+                                                        <td>9</td>
+                                                        <td>0</td>
+                                                        <td>1</td>
+                                                        <td>2</td>
+                                                        <td>23</td>
+                                                        <td>52</td>
+                                                        <td>52</td>
+                                                        <td>1</td>
+                                                        <td>2</td>
+                                                        <td>3</td>
+                                                        <td>67</td>
+                                                        <td>8</td>
+                                                    </tr>                                                    															
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="chart-box">
+                                        그래프 영역
+                                    </div>
+								</div>
+                                <!-- //일별 통계 -->
+
+                                <!-- 월별 통계 -->
+								<div class="tab-cont tab04">
+									<div class="bbs-top">
+                                        <div class="tbl-basic-num">전체 : <strong>50건</strong></div>
+                                        <div class="d-flex">
+                                            <div class="desc">
+                                                <div class="datapicker-group"><input type="text" class="datepicker"autocomplete="off"></div>
+                                            </div>
+                                            <div class="desc">
+                                                <select name="" id="" title="" class="form-select">
+                                                    <option value="" selected="">제목</option>
+                                                    <option value=""></option>
+                                                </select>
+                                                <input type="text" id="" class="form-control"><button type="submit" class="btn type05 bi-srch">검색</button>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="scroll-y" style="height: 350px;">
+                                        <div class="bbs-default">
+                                            <table class="bbs-list">
+                                                <colgroup>
+                                                    <col style="width: 5%;">
+                                                    <col style="width: auto;">
+                                                    <col style="width: 10%;">
+                                                    <col style="width: 7%;">
+                                                    <col style="width: 7%;">
+                                                    <col style="width: 5%;">
+                                                    <col style="width: 5%;">
+                                                    <col style="width: 5%;">
+                                                    <col style="width: 5%;">
+                                                    <col style="width: 5%;">
+                                                    <col style="width: 5%;">
+                                                    <col style="width: 5%;">
+                                                    <col style="width: 5%;">
+                                                    <col style="width: 5%;">
+                                                    <col style="width: 5%;">
+                                                    <col style="width: 5%;">
+                                                    <col style="width: 5%;">                                                 
+                                                </colgroup>
+                                                <thead>
+                                                    <tr>
+                                                        <th scope="col">순위</th>
+                                                        <th scope="col">그룹</th>
+                                                        <th scope="col">조직</th>
+                                                        <th scope="col">사용자</th>
+                                                        <th scope="col">계</th>
+                                                        <th scope="col">1</th>
+                                                        <th scope="col">2</th>
+                                                        <th scope="col">3</th>
+                                                        <th scope="col">4</th>
+                                                        <th scope="col">5</th>
+                                                        <th scope="col">6</th>
+                                                        <th scope="col">7</th>
+                                                        <th scope="col">8</th>
+                                                        <th scope="col">9</th>
+                                                        <th scope="col">10</th>
+                                                        <th scope="col">11</th>
+                                                        <th scope="col">12</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td>1</td>
+                                                        <td>한국국토정보공사</td>
+                                                        <td>경기본부</td>
+                                                        <td>김길동</td>
+                                                        <td><strong>137</strong></td>
+                                                        <td>0</td>
+                                                        <td>0</td>
+                                                        <td>0</td>
+                                                        <td>0</td>
+                                                        <td>0</td>
+                                                        <td>0</td>
+                                                        <td>0</td>
+                                                        <td>0</td>
+                                                        <td>0</td>
+                                                        <td>0</td>
+                                                        <td>0</td>
+                                                        <td>0</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>1</td>
+                                                        <td>한국국토정보공사</td>
+                                                        <td>경기본부</td>
+                                                        <td>김길동</td>
+                                                        <td><strong>137</strong></td>
+                                                        <td>0</td>
+                                                        <td>0</td>
+                                                        <td>0</td>
+                                                        <td>0</td>
+                                                        <td>0</td>
+                                                        <td>0</td>
+                                                        <td>0</td>
+                                                        <td>0</td>
+                                                        <td>0</td>
+                                                        <td>0</td>
+                                                        <td>0</td>
+                                                        <td>0</td>
+                                                    </tr>														
+                                                    <tr>
+                                                        <td>1</td>
+                                                        <td>한국국토정보공사</td>
+                                                        <td>경기본부</td>
+                                                        <td>김길동</td>
+                                                        <td><strong>137</strong></td>
+                                                        <td>0</td>
+                                                        <td>0</td>
+                                                        <td>0</td>
+                                                        <td>0</td>
+                                                        <td>0</td>
+                                                        <td>0</td>
+                                                        <td>0</td>
+                                                        <td>0</td>
+                                                        <td>0</td>
+                                                        <td>0</td>
+                                                        <td>0</td>
+                                                        <td>0</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>1</td>
+                                                        <td>한국국토정보공사</td>
+                                                        <td>경기본부</td>
+                                                        <td>김길동</td>
+                                                        <td><strong>137</strong></td>
+                                                        <td>0</td>
+                                                        <td>0</td>
+                                                        <td>0</td>
+                                                        <td>0</td>
+                                                        <td>0</td>
+                                                        <td>0</td>
+                                                        <td>0</td>
+                                                        <td>0</td>
+                                                        <td>0</td>
+                                                        <td>0</td>
+                                                        <td>0</td>
+                                                        <td>0</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>1</td>
+                                                        <td>한국국토정보공사</td>
+                                                        <td>경기본부</td>
+                                                        <td>김길동</td>
+                                                        <td><strong>137</strong></td>
+                                                        <td>0</td>
+                                                        <td>0</td>
+                                                        <td>0</td>
+                                                        <td>0</td>
+                                                        <td>0</td>
+                                                        <td>0</td>
+                                                        <td>0</td>
+                                                        <td>0</td>
+                                                        <td>0</td>
+                                                        <td>0</td>
+                                                        <td>0</td>
+                                                        <td>0</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>1</td>
+                                                        <td>한국국토정보공사</td>
+                                                        <td>경기본부</td>
+                                                        <td>김길동</td>
+                                                        <td><strong>137</strong></td>
+                                                        <td>0</td>
+                                                        <td>0</td>
+                                                        <td>0</td>
+                                                        <td>0</td>
+                                                        <td>0</td>
+                                                        <td>0</td>
+                                                        <td>0</td>
+                                                        <td>0</td>
+                                                        <td>0</td>
+                                                        <td>0</td>
+                                                        <td>0</td>
+                                                        <td>0</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>1</td>
+                                                        <td>한국국토정보공사</td>
+                                                        <td>경기본부</td>
+                                                        <td>김길동</td>
+                                                        <td><strong>137</strong></td>
+                                                        <td>0</td>
+                                                        <td>0</td>
+                                                        <td>0</td>
+                                                        <td>0</td>
+                                                        <td>0</td>
+                                                        <td>0</td>
+                                                        <td>0</td>
+                                                        <td>0</td>
+                                                        <td>0</td>
+                                                        <td>0</td>
+                                                        <td>0</td>
+                                                        <td>0</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>1</td>
+                                                        <td>한국국토정보공사</td>
+                                                        <td>경기본부</td>
+                                                        <td>김길동</td>
+                                                        <td><strong>137</strong></td>
+                                                        <td>0</td>
+                                                        <td>0</td>
+                                                        <td>0</td>
+                                                        <td>0</td>
+                                                        <td>0</td>
+                                                        <td>0</td>
+                                                        <td>0</td>
+                                                        <td>0</td>
+                                                        <td>0</td>
+                                                        <td>0</td>
+                                                        <td>0</td>
+                                                        <td>0</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>1</td>
+                                                        <td>한국국토정보공사</td>
+                                                        <td>경기본부</td>
+                                                        <td>김길동</td>
+                                                        <td><strong>137</strong></td>
+                                                        <td>0</td>
+                                                        <td>0</td>
+                                                        <td>0</td>
+                                                        <td>0</td>
+                                                        <td>0</td>
+                                                        <td>0</td>
+                                                        <td>0</td>
+                                                        <td>0</td>
+                                                        <td>0</td>
+                                                        <td>0</td>
+                                                        <td>0</td>
+                                                        <td>0</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>1</td>
+                                                        <td>한국국토정보공사</td>
+                                                        <td>경기본부</td>
+                                                        <td>김길동</td>
+                                                        <td><strong>137</strong></td>
+                                                        <td>0</td>
+                                                        <td>0</td>
+                                                        <td>0</td>
+                                                        <td>0</td>
+                                                        <td>0</td>
+                                                        <td>0</td>
+                                                        <td>0</td>
+                                                        <td>0</td>
+                                                        <td>0</td>
+                                                        <td>0</td>
+                                                        <td>0</td>
+                                                        <td>0</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+
+                                    <div class="chart-box">
+                                        그래프 영역
+                                    </div>
+								</div>
+                                <!-- //월별 통계 -->
+							</div>
+
+						</div>
+					</div>
+				</section>
+				<!-- //content -->
+			</div>
+			<!-- //container -->
+
+
+		</div>
+		<!-- //wrap -->
+	
+	</body>
+</html>

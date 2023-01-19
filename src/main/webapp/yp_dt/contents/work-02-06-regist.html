@@ -1,0 +1,380 @@
+<!doctype html>
+<html lang="ko">
+	<head>
+		<meta charset="UTF-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+		<title>스마트시티 IN 양평 플랫폼</title>
+
+		<script src="/yp_dt/js/com/jquery/jquery-3.4.1.min.js"></script>
+		
+		<!-- jquery-ui -->
+		<script src="/yp_dt/js/com/jquery-ui/jquery-ui.js"></script>
+		<link rel="stylesheet" href="/yp_dt/js/com/jquery-ui/jquery-ui.css">
+
+		<!-- mCustomScrollbar -->
+		<script src="/yp_dt/js/plugin/mCustomScrollbar/jquery.mCustomScrollbar.concat.min.js"></script>
+		<link rel="stylesheet" href="/yp_dt/js/plugin/mCustomScrollbar/jquery.mCustomScrollbar.css">
+
+		<!-- rangeslider -->
+		<script src="/yp_dt/js/plugin/rangeslider/rangeslider.js"></script>
+		<link rel="stylesheet" href="/yp_dt/js/plugin/rangeslider/rangeslider.css">
+
+		<!-- colorPicker -->
+		<script src="/yp_dt/js/plugin/colorPicker/jquery.minicolors.min.js"></script>
+		<link rel="stylesheet" href="/yp_dt/js/plugin/colorPicker/jquery.minicolors.css">
+
+		<script src="/yp_dt/js/map-ui.js"></script>
+		
+		<link rel="stylesheet" href="/yp_dt/css/com/common.css">
+		<link rel="stylesheet" href="/yp_dt/css/map.css">
+
+	</head>
+	<body>
+
+		<div id="wrap">
+
+			<!-- header -->
+			<header id="header">
+				<h1 class="logo"><a href="/yp_dt/index.html">스마트 IN 양평</a></h1>
+				<div class="util-box">
+					<div class="user">웹마스터님 <button type="button" class="user-btn" id="userModify" ></button></div> <button type="button" class="logout-btn">LOGOUT</button>
+				</div>
+			</header>
+			<!-- //header -->
+
+			<!-- container -->
+			<div id="container">
+
+				<!-- 지도영역 : style 임의로 적용. 작업 시 삭제하시면 됩니다. -->
+				<div id="map" style="background:url(/yp_dt/images/map.jpg);"></div>
+				
+				<!-- map-aside -->
+				<div id="map-aside">
+					<div class="map-tool">
+						<ul class="map-tool-list">
+							<li><button type="button" class="tool-btn icon01" data-popup="top-popup01" title="통합행정정보"></button></li>
+							<li><button type="button" class="tool-btn icon02" data-popup="top-popup02" title="지적/건물"></button></li>
+							<li><button type="button" class="tool-btn icon03" data-popup="top-popup03" title="내보내기"></button></li>
+							<li><button type="button" class="tool-btn icon04" data-popup="top-popup04" title="메모정보"></button></li>
+							<li><button type="button" class="tool-btn icon05" data-popup="top-popup05" title="사진정보"></button></li>
+							<li><button type="button" class="tool-btn icon06" data-popup="top-popup06" title="즐겨찾기"></button></li>
+							<li><button type="button" class="tool-btn icon07" data-popup="top-popup07" title="지도저장"></button></li>
+							<li><button type="button" class="tool-btn icon08" data-popup="top-popup08" title="그리기도구"></button></li>
+							<li><button type="button" class="tool-btn icon09" data-popup="top-popup09" title="배경지도"></button></li>
+							<li><button type="button" class="tool-btn icon10" data-popup="top-popup10" title="드론영상"></button></li>
+						</ul>
+					</div>
+
+					<div class="map-board">
+						<button type="button" class="bbs-btn notice-btn" title="공지사항"></button>
+						<button type="button" class="bbs-btn qna-btn" title="게시판"></button>
+					</div>
+
+					<div class="map-control">
+						<ul>
+							<li><button type="button" class="ctrl-btn compass" title="나침반"></button></li></li>
+							<li><button type="button" class="ctrl-btn reset" title="초기화"></button></li></li>
+							<li><button type="button" class="ctrl-btn globe" title="위치 초기화"></button></li></li>
+							<li class="ctrl-group">
+								<button type="button" class="ctrl-btn location" title="위치"></button>
+								<button type="button" class="ctrl-btn distance" title="거리"></button>
+								<button type="button" class="ctrl-btn measure" title="면적"></button>
+								<button type="button" class="ctrl-btn radius" title="반경"></button>
+							</li>
+							<li><button type="button" class="ctrl-btn scaleUp" onclick="mapZoomControlPlusRe()" title="확대"></button>
+								<button type="button" class="ctrl-btn scaleDown" onclick="mapZoomControlMinusRe()" title="축소"></button>
+							</li>
+						</ul>
+
+						<div class="map-type">
+							<span class="knobs">
+								<span><input type="radio" name="mapType" id="mapType2D" checked=""><label for="mapType2D">2D</label></span>
+								<span><input type="radio" name="mapType" id="mapType3D"><label for="mapType3D">3D</label></span>
+							</span>
+						</div>
+					</div>
+
+					<div class="map-util">
+						<div class="addrSelect">
+							<form action="">
+								<select name="" id="" class="form-select2">
+									<option value="">지번</option>
+									<option value="">도로명</option>
+								</select>
+								<select name="" id="" class="form-select2">
+									<option value="">행정동</option>
+									<option value="">강산면</option>
+								</select>
+								<select name="" id="" class="form-select2">
+									<option value="">법정리</option>
+									<option value="">경강로</option>
+								</select>
+								<input type="text" class="form-control" placeholder="지번 입력"> <button type="button" class="search-btn" title="검색"></button>
+							</form>					
+						</div>
+
+						<!-- 좌표, 축적 -->
+						<div class="coordinates">
+							<div class="coordi-header">
+								<div>
+									<span class="x">127.47609649416934</span>
+									<span class="y">37.49284379468381</span>
+								</div>
+								<button type="button" class="btn btn-sm type04">이동</button>
+							</div>
+							<div class="coordi-body">								
+								<div class="items">
+									<h2>위도,경도 (DMS)</h2>
+									<div class="row">
+										<div class="c-col">
+											<div class="dms-row">
+												<span><input type="text" class="form-control"><span class="form-text">도</span></span>
+												<span><input type="text" class="form-control"><span class="form-text">분</span></span>
+												<span><input type="text" class="form-control"><span class="form-text">초</span></span>
+												<span class="form-dash">,</span>		
+											</div>
+										</div>			
+										<div class="c-col">											
+											<div class="dms-row">
+												<span><input type="text" class="form-control"><span class="form-text">도</span></span>
+												<span><input type="text" class="form-control"><span class="form-text">분</span></span>
+												<span><input type="text" class="form-control"><span class="form-text">초</span></span>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="items">
+									<h2>위도,경도 (Degree)</h2>
+									<div class="row">
+										<div class="c-col"><input type="text" class="form-control"></div>
+										<div class="c-col"><input type="text" class="form-control"></div>
+									</div>
+								</div>
+								<div class="items">
+									<h2>사용자정의</h2>
+									<div class="row">
+										<div class="c-col">
+											<select class="form-select3" name="" id="">
+												<option value="">EPSG : 5179</option>
+												<option value="">EPSG : 5179</option>
+												<option value="">EPSG : 5179</option>
+											</select>
+										</div>
+									</div>
+									<div class="row">										
+										<div class="c-col"><input type="text" class="form-control"></div>
+										<div class="c-col"><input type="text" class="form-control"></div>
+										<div><button type="button" class="btn btn-sm type03">적용</button></div>
+									</div>
+								</div>
+							</div>
+							<script>
+								$( function() {		
+									$(".coordi-header > div").click(function(){
+										$(".coordinates").toggleClass("active");
+									});										
+								});
+							</script>
+						</div>
+						<!-- //좌표, 축적 -->
+					</div>
+				</div>
+				<!-- //map-aside -->
+
+				<!-- side -->
+				<div id="side">
+					<div id="lnb">
+						<ul>
+							<li data-menu="lnb-search"><button type="button" class="lnb-btn" title="검색"></button></li>
+							<li data-menu="lnb-layer"><button type="button" class="lnb-btn" title="레이어"></button></li>
+							<li data-menu="lnb-theme"><button type="button" class="lnb-btn" title="주제도"></button></li>
+							<li data-menu="lnb-work" class="on"><button type="button" class="lnb-btn" title="업무"></button></li>
+						</ul>
+					</div>
+
+					<!-- 업무 -->
+					<div id="lnb-work" class="lnb-cont" style="display: block;">
+						<div class="lnb-header"><h2 class="tit">업무</h2></div>
+						<div class="lnb-body">
+							<div class="scroll-y">
+								<ul class="lnb-list">
+									<li><p class="lnb-dep1">공간정보활용</p>
+										<ul class="lnb-dep2">
+											<li><button type="button" class="workCate1" data-popup="work-01-01">사업공유관리</button></li>
+											<li><button type="button" class="workCate1" data-popup="work-01-02">지하수관리</button></li>
+											<li><button type="button" class="workCate1" data-popup="work-01-03">신재생에너지</button></li>
+											<li><button type="button" class="workCate1" data-popup="work-01-04">안전시설물관리</button></li>
+											<li><button type="button" class="workCate1">이벤트관리</button></li>
+											<li><button type="button" class="workCate1" data-popup="work-01-06">대기오염</button></li>
+										</ul>
+									</li>
+									<li><p class="lnb-dep1">시설관리</p>
+										<ul class="lnb-dep2">
+											<li><button type="button" id="w-area02-01">상수도시설</button></li>
+											<li><button type="button">하수도시설</button></li>
+											<li><button type="button">교통시설</button></li>
+											<li><button type="button">체육시설</button></li>
+											<li><button type="button">복지시설</button></li>
+											<li class="on"><button type="button">시설예약관리</button></li>
+											<li><button type="button">건물편집(3D)</button></li>
+										</ul>
+									</li>
+								</ul>
+							</div>
+						</div>
+					</div>
+					<!-- //업무 -->
+
+					<div class="side-util">
+						<ul>
+							<li><button type="button" class="side-btn territory" title="국토정보관리"></button></li>
+							<li><button type="button" class="side-btn manager" title="관리자"></button></li>
+							<li><button type="button" class="side-btn setting" title="설정"></button></li>
+							<li><button type="button" class="side-btn help" title="도움말"></button></li>
+						</ul>
+					</div>
+
+				</div>
+				<!-- //side -->
+
+				<!-- 업무 > 시설관리 > 시설예약관리 -->
+				<div class="popup-panel popup-left work-02-06 opened" style="left: 320px;width: 346px;height: 807px;">
+					<div class="popup-header">시설예약관리</div>
+					<div class="popup-body">
+						<div class="left-popup-body facility-rsve-mng-body">
+                            
+                            <div class="data-write-wrap">
+                                <div class="scroll-y">
+                                    <p class="cont-tit">예약시설 정보</p>
+                                    <div class="data-default">
+                                        <table class="data-write">
+                                            <colgroup>
+                                                <col style="width: 32%;">
+                                                <col style="width: auto;">
+                                            </colgroup>
+                                            <tbody>
+                                                <tr>
+                                                    <th scope="row">시설명</th>
+                                                    <td>
+                                                        <select name="" id="" class="form-select">
+                                                            <option value="">물맑은 양평종합운동장</option>
+                                                        </select>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <th scope="row">예약시설</th>
+                                                    <td>
+                                                        <select name="" id="" class="form-select">
+                                                            <option value="">주경기장</option>
+                                                        </select>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <th scope="row">운영시간</th>
+                                                    <td>
+                                                        <div class="form-row">
+                                                            <div class="col">
+                                                                <select name="" id="" class="form-select">
+                                                                    <option value="">05시</option>
+                                                                </select>
+                                                            </div>
+                                                            <div class="col-auto form-dash">~</div>
+                                                            <div class="col">
+                                                                <select name="" id="" class="form-select">
+                                                                    <option value="">22시</option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <th scope="row">예약가능여부</th>
+                                                    <td>가능</td>
+                                                </tr>
+                                                <tr>
+                                                    <th scope="row">층(호)수</th>
+                                                    <td>1층</td>
+                                                </tr>
+                                                <tr>
+                                                    <th scope="row">시설설명</th>
+                                                    <td>천연잔디, 육상트랙, 관람석(5608석)
+                                                        트랙 내 애완견, 구동(인라인, 킥보드,자전거 등), 동력차량 출입금지
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+
+                                    <p class="cont-tit">예약 정보</p>
+                                    <div class="data-default">
+                                        <table class="data-write">
+                                            <colgroup>
+                                                <col style="width: 32%;">
+                                                <col style="width: auto;">
+                                            </colgroup>
+                                            <tbody>
+                                                <tr>
+                                                    <th scope="row">예약일</th>
+                                                    <td><div class="datapicker-group"><input type="text" class="datepicker"></div></td>
+                                                </tr>
+                                                <tr>
+                                                    <th scope="row">예약시간</th>
+                                                    <td>
+                                                        <div class="form-row">
+                                                            <div class="col">
+                                                                <select name="" id="" class="form-select">
+                                                                    <option value="">05시</option>
+                                                                </select>
+                                                            </div>
+                                                            <div class="col-auto form-dash">~</div>
+                                                            <div class="col">
+                                                                <select name="" id="" class="form-select">
+                                                                    <option value="">22시</option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <th scope="row">예약자</th>
+                                                    <td><input type="text" class="form-control"></td>
+                                                </tr>
+                                                <tr>
+                                                    <th scope="row">연락처</th>
+                                                    <td><input type="text" class="form-control"></td>
+                                                </tr>
+                                                <tr>
+                                                    <th scope="row">비용</th>
+                                                    <td><input type="text" class="form-control"></td>
+                                                </tr>
+                                                <tr>
+                                                    <th scope="row">비고</th>
+                                                    <td><textarea name="" id="" class="form-control" style="height: 135px;"></textarea></td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+
+                                <div class="position-bottom btn-wrap">
+                                    <div><button type="button" class="btn basic bi-write2">등록</button> <button type="button" class="btn basic bi-cancel">취소</button></div>
+                                </div>
+                            </div>
+
+						</div>
+					</div>
+					<button type="button" class="popup-close" title="닫기"></button>
+					<button type="button" class="popup-reset" class="초기화"></button>
+					<button type="button" class="popup-bottom-toggle" title="접기"></button>				
+				</div>
+				<!-- //업무 > 시설관리 > 시설예약관리 -->
+
+			</div>
+			<!-- //container -->
+
+		</div>
+		<!-- //wrap -->
+
+	</body>
+</html>

@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="graphicInfo">
+    
+    <!-- 그래픽 분류 목록 -->
+    <select id="selectGraphicClassificationList" resultType="graphicClassificationVO">
+        SELECT
+            CL_ID,
+            CL_NM
+        FROM TBD_GRPHC_CL
+    </select>
+
+	<!-- From -->
+	<sql id="from">
+		FROM TBD_GRPHC_INFO TGI
+			INNER JOIN TBD_GRPHC_CL TGC ON TGI.CL_ID = TGC.CL_ID
+			INNER JOIN COMTNEMPLYRINFO CEI ON TGI.REGISTER_ID = CEI.EMPLYR_ID	
+	</sql>
+	
+	<!-- 조건절 -->
+	<sql id="where">
+		WHERE
+			(TGI.REGISTER_ID = #{registerId} OR PNRS_AT = 'Y')
+			AND DELETE_AT != 'Y'
+			<if test="@egovframework.com.cmm.util.EgovMybaitsUtil@isEquals(searchCnd,'subject')">
+				AND TGI.SJ LIKE '%' || #{searchWrd} || '%'
+			</if>
+			<if test="@egovframework.com.cmm.util.EgovMybaitsUtil@isEquals(searchCnd,'writer')">
+				AND CEI.USER_NM LIKE '%' || #{searchWrd} || '%'
+			</if>
+	</sql>
+
+	<!-- 그래픽 정보  검색 건 수 -->
+	<select id="selectGraphicInfoListCnt" parameterType="graphicInfoSearchVO" resultType="int">	
+		SELECT
+			COUNT(*)
+		<include refid="from" />
+		<include refid="where" />
+	</select>
+
+	<!-- 그래픽 정보 목록 -->
+	<select id="selectGraphicInfoList" parameterType="graphicInfoSearchVO" resultType="graphicInfoResultVO">
+		SELECT
+			TGI.GRPHC_ID,												/* 그래픽 아이디 */
+			TGI.SJ,														/* 제목 */
+			CEI.USER_NM AS REGISTER,									/* 작성자 */
+			TO_CHAR(TGI.LAST_MODF_DT, 'YYYY-MM-DD') AS LAST_MODF_DT,	/* 갱신 */
+			PNRS_AT														/* 공유 */
+		<include refid="from" />
+		<include refid="where" />
+		<trim prefix="ORDER BY">
+            <if test="@egovframework.com.cmm.util.EgovMybaitsUtil@isEquals(sortKind,'subject')"> SJ </if>
+            <if test="@egovframework.com.cmm.util.EgovMybaitsUtil@isEquals(sortKind,'newest')"> TGI.LAST_MODF_DT DESC </if>
+        </trim>
+		LIMIT #{pageUnit} OFFSET (#{pageIndex} - 1) * #{pageUnit}
+	</select>
+	
+	<!-- 그래픽 정보 상세 조회 -->
+	<select id="selectGraphicInfo" parameterType="String" resultType="graphicInfoVO">
+		SELECT GRPHC_ID, CL_ID, SJ, GEOJSON, PNRS_AT, DELETE_AT, REGISTER_ID, FRST_REGIST_DT, LAST_MODF_DT
+		FROM TBD_GRPHC_INFO
+		WHERE GRPHC_ID = #{grphcId}
+	</select>
+	
+	<!-- 그래픽 정보 등록 -->
+	<insert id="insertGraphicInfo" parameterType="graphicInfoVO">
+		INSERT INTO TBD_GRPHC_INFO (GRPHC_ID, CL_ID, SJ, GEOJSON, PNRS_AT, DELETE_AT, REGISTER_ID, FRST_REGIST_DT, LAST_MODF_DT)
+		VALUES (#{grphcId}, #{clId}, #{sj}, #{geojson}, #{pnrsAt}, 'N', #{registerId}, now(), now())
+	</insert>
+	
+	<!-- 그래픽 정보 수정 -->
+	<update id="updateGraphicInfo" parameterType="graphicInfoVO">
+		UPDATE TBD_GRPHC_INFO
+		SET
+			CL_ID = #{clId},
+			SJ = #{sj},
+			GEOJSON = #{geojson},
+			PNRS_AT = #{pnrsAt},
+			LAST_MODF_DT = now()
+		WHERE GRPHC_ID = #{grphcId}
+	</update>
+	
+	<!-- 그래픽 정보 삭제 -->
+	<delete id="deleteGraphicInfo" parameterType="String">
+		UPDATE TBD_GRPHC_INFO
+		SET DELETE_AT = 'Y'
+		WHERE GRPHC_ID = #{grphcId}
+	</delete>
+	
+	<!-- 이미지 마커 목록 -->
+	<select id="selectImageMarkerList" parameterType="imageMarkerVO" resultType="imageMarkerVO">
+		SELECT MKR_ID, MKR_NM, IMG, REGISTER_ID, FRST_REGIST_DT
+		FROM TBD_IMAGE_MKR
+		WHERE REGISTER_ID = #{registerId}
+	</select>
+	
+	<!-- 이미지 마커 등록 -->
+	<insert id="insertImageMarker" parameterType="imageMarkerVO">
+		INSERT INTO TBD_IMAGE_MKR (MKR_ID, MKR_NM, IMG, REGISTER_ID, FRST_REGIST_DT)
+		VALUES (#{mkrId}, #{mkrNm}, #{img}, #{registerId}, now())
+	</insert>
+	
+	<!-- 이미지 마커 삭제 -->
+	<delete id="deleteImageMarker" parameterType="String">
+		DELETE FROM TBD_IMAGE_MKR
+		WHERE MKR_ID = #{mkrId}
+	</delete>
+
+</mapper>

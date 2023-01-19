@@ -1,0 +1,1063 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="transportationFacility">
+	
+<!-- ################################################# 도로구간 ################################################# -->
+
+	<!-- 도로구간 목록 조회 -->
+	<select id="selectRoadSectionList" parameterType="roadSectionVO" resultType="roadSection">
+		SELECT TSM.SIG_CD,												/* 시군구코드 */
+			   TSM.RDS_MAN_NO,											/* 도로구간일련번호 */
+			   TSM.RN,													/* 도로명 */
+			   TSM.ENG_RN,												/* 영문도로명 */
+			   TSM.RN_CD,												/* 도로명코드 */
+			   TSM.NTFC_DE,												/* 고시일자 */
+			   TSM.WDR_RD_CD,											/* 광역도로구분코드 */
+			   TSM.RBP_CN,												/* 기점 */
+			   TSM.REP_CN,												/* 종점 */
+			   TSM.ROAD_BT,												/* 도로폭 */
+			   TSM.ROAD_LT,												/* 도로길이 */
+			   TSM.GID,													/* GID */
+			   ST_X (ST_POINTONSURFACE(TSM.GEOM)) AS LON,				/* LON */
+			   ST_Y (ST_POINTONSURFACE(TSM.GEOM)) AS LAT,				/* LAT */
+			   ST_ASTEXT( ST_INTERSECTION( ST_Transform(TSM.GEOM,4326), ST_Transform(SCCO.GEOM,4326) ) ) GEOM	/* GEOM */
+			   <!-- 공간 검색 -->
+		 	   <if test="@egovframework.com.cmm.util.EgovMybaitsUtil@isNotEmpty(spatialSearch)">
+			   , ST_ASTEXT( ST_BUFFER(ST_GEOMFROMTEXT(#{spatialSearch}, 4326), (#{bufferCnt} * 0.00001) , 'join=round') ) bufferArea /* bufferArea */
+			   </if>
+		  FROM TGD_SPRD_MANAGE TSM, (SELECT GID,				
+										    SIG_CD		AREA_CD,			 
+										    SIG_ENG_NM	AREA_ENG_NM, 		
+										    SIG_KOR_NM	AREA_KOR_NM, 		
+										    GEOM				
+									   FROM TGD_SCCO_SIG
+									  UNION ALL
+									 SELECT GID, 			
+										    EMD_CD		AREA_CD, 			
+										    EMD_ENG_NM	AREA_ENG_NM, 		
+										    EMD_KOR_NM	AREA_KOR_NM, 		
+										    GEOM				
+									   FROM TGD_SCCO_EMD) SCCO 
+		 WHERE 1=1
+		   AND TSM.SIG_CD = '41830'		/* 양평군으로 조회하는 조건 */
+		   AND WDR_RD_CD = '3'
+		   AND SCCO.AREA_CD = #{emdKorNm}
+		   AND ST_INTERSECTS(TSM.GEOM, SCCO.GEOM)
+		 <!-- 도로폭 조건 -->
+		 <if test="roadBt > 0">
+		   AND TSM.ROAD_BT = #{roadBt}
+		 </if>
+		 <!-- 도로명 조건 -->
+		 <if test="@egovframework.com.cmm.util.EgovMybaitsUtil@isNotEmpty(rn)">
+		   AND TSM.RN LIKE '%' || #{rn} || '%'
+		 </if>
+		 <!-- 공간 검색 -->
+		 <if test="@egovframework.com.cmm.util.EgovMybaitsUtil@isNotEmpty(spatialSearch)">
+			AND ST_INTERSECTS(ST_BUFFER(ST_GEOMFROMTEXT(#{spatialSearch}, 4326), (#{bufferCnt} * 0.00001)), ST_TRANSFORM(TSM.GEOM, 4326)) = true
+		 </if>
+		 ORDER BY TSM.GID
+		 LIMIT #{recordCountPerPage} OFFSET #{firstIndex}
+		 
+	</select>
+	
+	<!-- 도로구간 목록 조회 cnt -->
+	<select id="selectRoadSectionListCnt" parameterType="roadSectionVO" resultType="int">
+		SELECT COUNT(*)
+		  FROM TGD_SPRD_MANAGE TSM, (SELECT GID,				
+										    SIG_CD		AREA_CD,			 
+										    SIG_ENG_NM	AREA_ENG_NM, 		
+										    SIG_KOR_NM	AREA_KOR_NM, 		
+										    GEOM				
+									   FROM TGD_SCCO_SIG
+									  UNION ALL
+									 SELECT GID, 			
+										    EMD_CD		AREA_CD, 			
+										    EMD_ENG_NM	AREA_ENG_NM, 		
+										    EMD_KOR_NM	AREA_KOR_NM, 		
+										    GEOM				
+									   FROM TGD_SCCO_EMD) SCCO
+		 WHERE 1=1
+		   AND TSM.SIG_CD = '41830'		/* 양평군으로 조회하는 조건 */
+		   AND WDR_RD_CD = '3'
+		   AND SCCO.AREA_CD = #{emdKorNm}
+		   AND ST_INTERSECTS(TSM.GEOM, SCCO.GEOM)
+		 <!-- 도로폭 조건 -->
+		 <if test="roadBt > 0">
+		   AND TSM.ROAD_BT = #{roadBt}
+		 </if>
+		 <!-- 도로명 조건 -->
+		 <if test="@egovframework.com.cmm.util.EgovMybaitsUtil@isNotEmpty(rn)">
+		   AND TSM.RN LIKE '%' || #{rn} || '%'
+		 </if>
+		 <!-- 공간 검색 -->
+		 <if test="@egovframework.com.cmm.util.EgovMybaitsUtil@isNotEmpty(spatialSearch)">
+			AND ST_INTERSECTS(ST_BUFFER(ST_GEOMFROMTEXT(#{spatialSearch}, 4326), (#{bufferCnt} * 0.00001)), ST_TRANSFORM(TSM.GEOM, 4326)) = true
+		</if>
+		 
+	</select>
+	
+	<!-- 도로구간 상세 조회 -->
+	<select id="selectRoadSection" parameterType="roadSectionVO" resultType="roadSection">
+		SELECT SIG_CD,				/* 시군구코드 */
+			   RDS_MAN_NO::varchar,	/* 도로구간일련번호 */
+			   RN,					/* 도로명 */
+			   ENG_RN,				/* 영문도로명 */
+			   RN_CD,				/* 도로명코드 */
+			   NTFC_DE,				/* 고시일자 */
+			   WDR_RD_CD,			/* 광역도로구분코드 */
+			   RBP_CN,				/* 기점 */
+			   REP_CN,				/* 종점 */
+			   ROAD_BT,				/* 도로폭 */ /* ::varchar */
+			   ROAD_LT,				/* 도로길이 */
+			   GID,					/* GID */
+			   ROA_CLS_SE,			/* 도로위계기능구분 */
+			   RDS_DPN_SE,			/* 도로구간종속구분 */
+			   BSI_INT,				/* 기초간격 */
+			   ALWNC_RESN,			/* 부여사유 */
+			   ALWNC_DE,			/* 부여일자 */
+			   MVM_RES_CD,			/* 이동사유코드 */
+			   MVMN_RESN,			/* 이동사유 */
+			   MVMN_DE,				/* 이동일자 */
+			   OPERT_DE				/* 작업일시 */
+		  FROM TGD_SPRD_MANAGE
+		 WHERE 1=1
+		   AND GID = #{gid}
+		   AND SIG_CD = '41830'		/* 양평군으로 조회하는 조건 */
+		   AND WDR_RD_CD = '3'
+	</select>
+	
+	<!-- 도로구간 엑셀 다운로드 -->
+	<select id="selectRoadSectionExcelList" parameterType="roadSectionVO" resultType="roadSection">
+		SELECT TSM.RDS_MAN_NO,											/* 도로구간일련번호 */
+			   TSM.RN,													/* 도로명 */
+			   TSM.ENG_RN,												/* 영문도로명 */
+			   TSM.RN_CD,												/* 도로명코드 */
+			   TSM.NTFC_DE,												/* 고시일자 */
+			   TSM.WDR_RD_CD,											/* 광역도로구분코드 */
+			   TSM.RBP_CN,												/* 기점 */
+			   TSM.REP_CN,												/* 종점 */
+			   TSM.ROAD_BT,												/* 도로폭 */
+			   TSM.ROAD_LT,												/* 도로길이 */
+			   TSM.ROA_CLS_SE,											/* 도로위계기능구분 */
+			   TSM.RDS_DPN_SE,											/* 도로구간종속구분 */
+			   TSM.BSI_INT,												/* 기초간격 */
+			   TSM.ALWNC_RESN,											/* 부여사유 */
+			   TSM.ALWNC_DE,											/* 부여일자 */
+			   TSM.MVM_RES_CD,											/* 이동사유코드 */
+			   TSM.MVMN_RESN,											/* 이동사유 */
+			   TSM.MVMN_DE,												/* 이동일자 */
+			   TSM.OPERT_DE												/* 작업일시 */
+		  FROM TGD_SPRD_MANAGE TSM, (SELECT GID,				
+										    SIG_CD		AREA_CD,			 
+										    SIG_ENG_NM	AREA_ENG_NM, 		
+										    SIG_KOR_NM	AREA_KOR_NM, 		
+										    GEOM				
+									   FROM TGD_SCCO_SIG
+									  UNION ALL
+									 SELECT GID, 			
+										    EMD_CD		AREA_CD, 			
+										    EMD_ENG_NM	AREA_ENG_NM, 		
+										    EMD_KOR_NM	AREA_KOR_NM, 		
+										    GEOM				
+									   FROM TGD_SCCO_EMD) SCCO 
+		 WHERE 1=1
+		   AND TSM.SIG_CD = '41830'		/* 양평군으로 조회하는 조건 */
+		   AND WDR_RD_CD = '3'
+		   AND SCCO.AREA_CD = #{emdKorNm}
+		   AND ST_INTERSECTS(TSM.GEOM, SCCO.GEOM)
+		 <!-- 도로폭 조건 -->
+		 <if test="roadBt > 0">
+		   AND TSM.ROAD_BT = #{roadBt}
+		 </if>
+		 <!-- 도로명 조건 -->
+		 <if test="@egovframework.com.cmm.util.EgovMybaitsUtil@isNotEmpty(rn)">
+		   AND TSM.RN LIKE '%' || #{rn} || '%'
+		 </if>
+		 <!-- 공간 검색 -->
+		 <if test="@egovframework.com.cmm.util.EgovMybaitsUtil@isNotEmpty(spatialSearch)">
+			AND ST_INTERSECTS(ST_BUFFER(ST_GEOMFROMTEXT(#{spatialSearch}, 4326), (#{bufferCnt} * 0.00001)), ST_TRANSFORM(TSM.GEOM, 4326)) = true
+		</if>
+		 
+	</select>
+	
+	
+	
+<!-- ################################################# 도로구간 ################################################# -->
+
+
+<!-- ################################################# 철도선로 ################################################# -->
+
+	<!-- 철도선로 목록 조회 -->
+	<select id="selectRailroadTrackList" parameterType="railroadTrackVO" resultType="railroadTrack">
+		 
+		SELECT TSR.SIG_CD,												/* 시군구코드 */
+			   TSR.KOR_RLR_NM,											/* 철도노선명_한글 */
+			   TSR.RLR_RLW_SN,											/* 철도선로일련번호 */
+			   TSR.OPERT_DE,											/* 작업일시 */
+			   TSR.GID,													/* GID */
+			   ST_X (ST_POINTONSURFACE(TSR.GEOM)) AS LON,				/* LON */
+			   ST_Y (ST_POINTONSURFACE(TSR.GEOM)) AS LAT,				/* LAT */
+			   ST_ASTEXT( ST_INTERSECTION( ST_Transform(TSR.GEOM,4326), ST_Transform(SCCO.GEOM,4326) ) ) GEOM 	/* GEOM */
+			   <!-- 공간 검색 -->
+		 	   <if test="@egovframework.com.cmm.util.EgovMybaitsUtil@isNotEmpty(spatialSearch)">
+			   , ST_ASTEXT( ST_BUFFER(ST_GEOMFROMTEXT(#{spatialSearch}, 4326), (#{bufferCnt} * 0.00001) , 'join=round') ) bufferArea /* bufferArea */
+			   </if>
+		  FROM TGD_SPRL_RLWAY TSR,  (SELECT GID,				
+										    SIG_CD		AREA_CD,			 
+										    SIG_ENG_NM	AREA_ENG_NM, 		
+										    SIG_KOR_NM	AREA_KOR_NM, 		
+										    GEOM				
+									   FROM TGD_SCCO_SIG
+									  UNION ALL
+									 SELECT GID, 			
+										    EMD_CD		AREA_CD, 			
+										    EMD_ENG_NM	AREA_ENG_NM, 		
+										    EMD_KOR_NM	AREA_KOR_NM, 		
+										    GEOM				
+									   FROM TGD_SCCO_EMD) SCCO
+		 WHERE 1=1
+		   AND TSR.SIG_CD = '41830'
+		   AND SCCO.AREA_CD = #{emdKorNm}
+		   AND ST_INTERSECTS(TSR.GEOM, SCCO.GEOM)
+		 <!-- 철도노선명_한글 조건 -->
+		 <if test="@egovframework.com.cmm.util.EgovMybaitsUtil@isNotEmpty(korRlrNm)">
+		   AND TSR.KOR_RLR_NM LIKE '%' || #{korRlrNm} || '%'
+		 </if>
+ 		 <!-- 공간 검색 -->
+		 <if test="@egovframework.com.cmm.util.EgovMybaitsUtil@isNotEmpty(spatialSearch)">
+			AND ST_INTERSECTS(ST_BUFFER(ST_GEOMFROMTEXT(#{spatialSearch}, 4326), (#{bufferCnt} * 0.00001)), ST_TRANSFORM(TSR.GEOM, 4326)) = true
+		</if>
+		 ORDER BY TSR.GID
+		 LIMIT #{recordCountPerPage} OFFSET #{firstIndex}
+	</select>
+	
+	<!-- 철도선로 목록 조회 cnt -->
+	<select id="selectRailroadTrackListCnt" parameterType="railroadTrackVO" resultType="int">
+		SELECT COUNT(*)
+		  FROM TGD_SPRL_RLWAY TSR,  (SELECT GID,				
+										    SIG_CD		AREA_CD,			 
+										    SIG_ENG_NM	AREA_ENG_NM, 		
+										    SIG_KOR_NM	AREA_KOR_NM, 		
+										    GEOM				
+									   FROM TGD_SCCO_SIG
+									  UNION ALL
+									 SELECT GID, 			
+										    EMD_CD		AREA_CD, 			
+										    EMD_ENG_NM	AREA_ENG_NM, 		
+										    EMD_KOR_NM	AREA_KOR_NM, 		
+										    GEOM				
+									   FROM TGD_SCCO_EMD) SCCO
+		 WHERE 1=1
+		   AND SIG_CD = '41830'
+		   AND SCCO.AREA_CD = #{emdKorNm}
+		   AND ST_INTERSECTS(TSR.GEOM, SCCO.GEOM)
+		 <!-- 철도노선명_한글 조건 -->
+		 <if test="@egovframework.com.cmm.util.EgovMybaitsUtil@isNotEmpty(korRlrNm)">
+		   AND TSR.KOR_RLR_NM LIKE '%' || #{korRlrNm} || '%'
+		 </if>
+  		 <!-- 공간 검색 -->
+		 <if test="@egovframework.com.cmm.util.EgovMybaitsUtil@isNotEmpty(spatialSearch)">
+			AND ST_INTERSECTS(ST_BUFFER(ST_GEOMFROMTEXT(#{spatialSearch}, 4326), (#{bufferCnt} * 0.00001)), ST_TRANSFORM(TSR.GEOM, 4326)) = true
+		</if>
+	</select>
+	
+	<!-- 철도선로 상세 조회 -->
+	<select id="selectRailroadTrack" parameterType="railroadTrackVO" resultType="railroadTrack">
+		SELECT SIG_CD,				/* 시군구코드 */
+			   KOR_RLR_NM,			/* 철도노선명_한글 */
+			   RLR_RLW_SN,			/* 철도선로일련번호 */
+			   OPERT_DE,			/* 작업일시 */
+			   GID					/* GID */
+		  FROM TGD_SPRL_RLWAY
+		 WHERE 1=1
+		   AND GID = #{gid}
+		   AND SIG_CD = '41830'
+	</select>
+	
+	<!-- 철도선로 엑셀다운로드 -->
+	<select id="selectRailroadTrackExcelList" parameterType="railroadTrackVO" resultType="railroadTrack">
+		 
+		SELECT TSR.SIG_CD,												/* 시군구코드 */
+			   TSR.KOR_RLR_NM,											/* 철도노선명_한글 */
+			   TSR.RLR_RLW_SN,											/* 철도선로일련번호 */
+			   TSR.OPERT_DE												/* 작업일시 */
+		  FROM TGD_SPRL_RLWAY TSR,  (SELECT GID,				
+										    SIG_CD		AREA_CD,			 
+										    SIG_ENG_NM	AREA_ENG_NM, 		
+										    SIG_KOR_NM	AREA_KOR_NM, 		
+										    GEOM				
+									   FROM TGD_SCCO_SIG
+									  UNION ALL
+									 SELECT GID, 			
+										    EMD_CD		AREA_CD, 			
+										    EMD_ENG_NM	AREA_ENG_NM, 		
+										    EMD_KOR_NM	AREA_KOR_NM, 		
+										    GEOM				
+									   FROM TGD_SCCO_EMD) SCCO
+		 WHERE 1=1
+		   AND TSR.SIG_CD = '41830'
+		   AND SCCO.AREA_CD = #{emdKorNm}
+		   AND ST_INTERSECTS(TSR.GEOM, SCCO.GEOM)
+		 <!-- 철도노선명_한글 조건 -->
+		 <if test="@egovframework.com.cmm.util.EgovMybaitsUtil@isNotEmpty(korRlrNm)">
+		   AND TSR.KOR_RLR_NM LIKE '%' || #{korRlrNm} || '%'
+		 </if>
+ 		 <!-- 공간 검색 -->
+		 <if test="@egovframework.com.cmm.util.EgovMybaitsUtil@isNotEmpty(spatialSearch)">
+			AND ST_INTERSECTS(ST_BUFFER(ST_GEOMFROMTEXT(#{spatialSearch}, 4326), (#{bufferCnt} * 0.00001)), ST_TRANSFORM(TSR.GEOM, 4326)) = true
+		</if>
+	</select>
+	
+<!-- ################################################# 철도선로 ################################################# -->
+
+
+<!-- ################################################# 철도역사 ################################################# -->
+	
+	<!-- 철도역사 목록 조회 -->
+	<select id="selectRailroadStationList" parameterType="railroadStationVO" resultType="railroadStation">
+		SELECT TSS.SIG_CD,												/* 시군구코드 */
+			   TSS.KOR_STA_NM,											/* 철도역사명_한글 */
+			   TSS.RLR_STA_SN,											/* 철도역사일련번호 */
+			   TSS.OPERT_DE,											/* 작업일시 */
+			   TSS.GID,													/* GID */
+			   ST_X (ST_POINTONSURFACE(TSS.GEOM)) AS LON,				/* LON */
+			   ST_Y (ST_POINTONSURFACE(TSS.GEOM)) AS LAT,				/* LAT */
+			   ST_ASTEXT( ST_INTERSECTION( ST_Transform(TSS.GEOM,4326), ST_Transform(SCCO.GEOM,4326) ) ) GEOM 	/* GEOM */
+			   <!-- 공간 검색 -->
+		 	   <if test="@egovframework.com.cmm.util.EgovMybaitsUtil@isNotEmpty(spatialSearch)">
+			   , ST_ASTEXT( ST_BUFFER(ST_GEOMFROMTEXT(#{spatialSearch}, 4326), (#{bufferCnt} * 0.00001) , 'join=round') ) bufferArea /* bufferArea */
+			   </if>
+		  FROM TGD_SPRL_STATN TSS,  (SELECT GID,
+										    SIG_CD		AREA_CD,			 
+										    SIG_ENG_NM	AREA_ENG_NM, 		
+										    SIG_KOR_NM	AREA_KOR_NM, 		
+										    GEOM				
+									   FROM TGD_SCCO_SIG
+									  UNION ALL
+									 SELECT GID, 			
+										    EMD_CD		AREA_CD, 			
+										    EMD_ENG_NM	AREA_ENG_NM, 		
+										    EMD_KOR_NM	AREA_KOR_NM, 		
+										    GEOM				
+									   FROM TGD_SCCO_EMD) SCCO
+		 WHERE 1=1
+		   AND TSS.SIG_CD = '41830'
+		   AND SCCO.AREA_CD = #{emdKorNm}
+		   AND ST_INTERSECTS(TSS.GEOM, SCCO.GEOM)
+		 <!-- 철도역사명_한글 조건 -->
+		 <if test="@egovframework.com.cmm.util.EgovMybaitsUtil@isNotEmpty(korStaNm)">
+		   AND TSS.KOR_STA_NM LIKE '%' || #{korStaNm} || '%'
+		 </if>
+  		 <!-- 공간 검색 -->
+		 <if test="@egovframework.com.cmm.util.EgovMybaitsUtil@isNotEmpty(spatialSearch)">
+			AND ST_INTERSECTS(ST_BUFFER(ST_GEOMFROMTEXT(#{spatialSearch}, 4326), (#{bufferCnt} * 0.00001)), ST_TRANSFORM(TSS.GEOM, 4326)) = true
+		</if>
+		 ORDER BY TSS.GID
+		 LIMIT #{recordCountPerPage} OFFSET #{firstIndex}
+	</select>
+	
+	<!-- 철도역사 목록 조회 cnt -->
+	<select id="selectRailroadStationListCnt" parameterType="railroadStationVO" resultType="int">
+		SELECT COUNT(*)
+		  FROM TGD_SPRL_STATN TSS,  (SELECT GID,				
+										    SIG_CD		AREA_CD,			 
+										    SIG_ENG_NM	AREA_ENG_NM, 		
+										    SIG_KOR_NM	AREA_KOR_NM, 		
+										    GEOM				
+									   FROM TGD_SCCO_SIG
+									  UNION ALL
+									 SELECT GID, 			
+										    EMD_CD		AREA_CD, 			
+										    EMD_ENG_NM	AREA_ENG_NM, 		
+										    EMD_KOR_NM	AREA_KOR_NM, 		
+										    GEOM				
+									   FROM TGD_SCCO_EMD) SCCO
+		 WHERE 1=1
+		   AND SIG_CD = '41830'
+		   AND SCCO.AREA_CD = #{emdKorNm}
+		   AND ST_INTERSECTS(TSS.GEOM, SCCO.GEOM)
+		 <!-- 철도역사명_한글 조건 -->
+		 <if test="@egovframework.com.cmm.util.EgovMybaitsUtil@isNotEmpty(korStaNm)">
+		   AND TSS.KOR_STA_NM LIKE '%' || #{korStaNm} || '%'
+		 </if>
+   		 <!-- 공간 검색 -->
+		 <if test="@egovframework.com.cmm.util.EgovMybaitsUtil@isNotEmpty(spatialSearch)">
+			AND ST_INTERSECTS(ST_BUFFER(ST_GEOMFROMTEXT(#{spatialSearch}, 4326), (#{bufferCnt} * 0.00001)), ST_TRANSFORM(TSS.GEOM, 4326)) = true
+		</if>
+	</select>
+	
+	<!-- 철도역사 상세 조회 -->
+	<select id="selectRailroadStation" parameterType="railroadStationVO" resultType="railroadStation">
+		SELECT SIG_CD,				/* 시군구코드 */
+			   KOR_STA_NM,			/* 철도역사명_한글 */
+			   RLR_STA_SN,			/* 철도역사일련번호 */
+			   OPERT_DE,			/* 작업일시 */
+			   GID					/* GID */
+		  FROM TGD_SPRL_STATN
+		 WHERE 1=1
+		   AND GID = #{gid}
+		   AND SIG_CD = '41830'
+	</select>
+	
+	<!-- 철도역사 엑셀다운로드 -->
+	<select id="selectRailroadStationExcelList" parameterType="railroadStationVO" resultType="railroadStation">
+		SELECT TSS.SIG_CD,												/* 시군구코드 */
+			   TSS.KOR_STA_NM,											/* 철도역사명_한글 */
+			   TSS.RLR_STA_SN,											/* 철도역사일련번호 */
+			   TSS.OPERT_DE												/* 작업일시 */
+		  FROM TGD_SPRL_STATN TSS,  (SELECT GID,
+										    SIG_CD		AREA_CD,			 
+										    SIG_ENG_NM	AREA_ENG_NM, 		
+										    SIG_KOR_NM	AREA_KOR_NM, 		
+										    GEOM				
+									   FROM TGD_SCCO_SIG
+									  UNION ALL
+									 SELECT GID, 			
+										    EMD_CD		AREA_CD, 			
+										    EMD_ENG_NM	AREA_ENG_NM, 		
+										    EMD_KOR_NM	AREA_KOR_NM, 		
+										    GEOM				
+									   FROM TGD_SCCO_EMD) SCCO
+		 WHERE 1=1
+		   AND TSS.SIG_CD = '41830'
+		   AND SCCO.AREA_CD = #{emdKorNm}
+		   AND ST_INTERSECTS(TSS.GEOM, SCCO.GEOM)
+		 <!-- 철도역사명_한글 조건 -->
+		 <if test="@egovframework.com.cmm.util.EgovMybaitsUtil@isNotEmpty(korStaNm)">
+		   AND TSS.KOR_STA_NM LIKE '%' || #{korStaNm} || '%'
+		 </if>
+  		 <!-- 공간 검색 -->
+		 <if test="@egovframework.com.cmm.util.EgovMybaitsUtil@isNotEmpty(spatialSearch)">
+			AND ST_INTERSECTS(ST_BUFFER(ST_GEOMFROMTEXT(#{spatialSearch}, 4326), (#{bufferCnt} * 0.00001)), ST_TRANSFORM(TSS.GEOM, 4326)) = true
+		</if>
+	</select>
+	
+<!-- ################################################# 철도역사 ################################################# -->
+
+
+<!-- ################################################# 지하철선로 ################################################# -->
+	
+	<!-- 지하철선로 목록 조회 -->
+	<select id="selectSubwayTrackList" parameterType="subwayTrackVO" resultType="subwayTrack">
+		SELECT TSR.SIG_CD,												/* 시군구코드 */
+			   TSR.KOR_SBR_NM,											/* 지하철노선명_한글 */
+			   TSR.SUB_RLW_SN,											/* 지하철선로일련번호 */
+			   TSR.OPERT_DE,											/* 작업일시 */
+			   TSR.GID,													/* GID */
+			   ST_X (ST_POINTONSURFACE(TSR.GEOM)) AS LON,				/* LON */
+			   ST_Y (ST_POINTONSURFACE(TSR.GEOM)) AS LAT,				/* LAT */
+			   ST_ASTEXT( ST_INTERSECTION( ST_Transform(TSR.GEOM,4326), ST_Transform(SCCO.GEOM,4326) ) ) GEOM	/* GEOM */
+			   <!-- 공간 검색 -->
+		 	   <if test="@egovframework.com.cmm.util.EgovMybaitsUtil@isNotEmpty(spatialSearch)">
+			   , ST_ASTEXT( ST_BUFFER(ST_GEOMFROMTEXT(#{spatialSearch}, 4326), (#{bufferCnt} * 0.00001) , 'join=round') ) bufferArea /* bufferArea */
+			   </if>
+		  FROM TGD_SPSB_RLWAY TSR,  (SELECT GID,
+										    SIG_CD		AREA_CD,			 
+										    SIG_ENG_NM	AREA_ENG_NM, 		
+										    SIG_KOR_NM	AREA_KOR_NM, 		
+										    GEOM				
+									   FROM TGD_SCCO_SIG
+									  UNION ALL
+									 SELECT GID, 			
+										    EMD_CD		AREA_CD, 			
+										    EMD_ENG_NM	AREA_ENG_NM, 		
+										    EMD_KOR_NM	AREA_KOR_NM, 		
+										    GEOM				
+									   FROM TGD_SCCO_EMD) SCCO
+		 WHERE 1=1
+		   AND TSR.SIG_CD = '41830'
+		   AND SCCO.AREA_CD = #{emdKorNm}
+		   AND ST_INTERSECTS(TSR.GEOM, SCCO.GEOM)
+		 <!-- 지하철노선명_한글 조건 -->
+		 <if test="@egovframework.com.cmm.util.EgovMybaitsUtil@isNotEmpty(korSbrNm)">
+		   AND TSR.KOR_SBR_NM LIKE '%' || #{korSbrNm} || '%'
+		 </if>
+   		 <!-- 공간 검색 -->
+		 <if test="@egovframework.com.cmm.util.EgovMybaitsUtil@isNotEmpty(spatialSearch)">
+			AND ST_INTERSECTS(ST_BUFFER(ST_GEOMFROMTEXT(#{spatialSearch}, 4326), (#{bufferCnt} * 0.00001)), ST_TRANSFORM(TSR.GEOM, 4326)) = true
+		</if>
+		 ORDER BY TSR.GID
+		 LIMIT #{recordCountPerPage} OFFSET #{firstIndex}
+	</select>
+	
+	<!-- 지하철선로 목록 조회 cnt -->
+	<select id="selectSubwayTrackListCnt" parameterType="subwayTrackVO" resultType="int">
+		SELECT COUNT(*)
+		  FROM TGD_SPSB_RLWAY TSR,  (SELECT GID,
+										    SIG_CD		AREA_CD,			 
+										    SIG_ENG_NM	AREA_ENG_NM, 		
+										    SIG_KOR_NM	AREA_KOR_NM, 		
+										    GEOM				
+									   FROM TGD_SCCO_SIG
+									  UNION ALL
+									 SELECT GID, 			
+										    EMD_CD		AREA_CD, 			
+										    EMD_ENG_NM	AREA_ENG_NM, 		
+										    EMD_KOR_NM	AREA_KOR_NM, 		
+										    GEOM				
+									   FROM TGD_SCCO_EMD) SCCO
+		 WHERE 1=1
+		   AND TSR.SIG_CD = '41830'
+		   AND SCCO.AREA_CD = #{emdKorNm}
+		   AND ST_INTERSECTS(TSR.GEOM, SCCO.GEOM)
+		 <!-- 지하철노선명_한글 조건 -->
+		 <if test="@egovframework.com.cmm.util.EgovMybaitsUtil@isNotEmpty(korSbrNm)">
+		   AND TSR.KOR_SBR_NM LIKE '%' || #{korSbrNm} || '%'
+		 </if>
+   		 <!-- 공간 검색 -->
+		 <if test="@egovframework.com.cmm.util.EgovMybaitsUtil@isNotEmpty(spatialSearch)">
+			AND ST_INTERSECTS(ST_BUFFER(ST_GEOMFROMTEXT(#{spatialSearch}, 4326), (#{bufferCnt} * 0.00001)), ST_TRANSFORM(TSR.GEOM, 4326)) = true
+		</if>
+	</select>
+	
+	<!-- 지하철선로 상세 조회 -->
+	<select id="selectSubwayTrack" parameterType="subwayTrackVO" resultType="subwayTrack">
+		SELECT SIG_CD,				/* 시군구코드 */
+			   KOR_SBR_NM,			/* 지하철노선명_한글 */
+			   SUB_RLW_SN,			/* 지하철선로일련번호 */
+			   OPERT_DE,			/* 작업일시 */
+			   GID					/* GID */
+		  FROM TGD_SPSB_RLWAY
+		 WHERE 1=1
+		   AND GID = #{gid}
+		   AND SIG_CD = '41830'
+	</select>
+	
+	<!-- 지하철선로 엑셀다운로드 -->
+	<select id="selectSubwayTrackExcelList" parameterType="subwayTrackVO" resultType="subwayTrack">
+		SELECT TSR.SIG_CD,												/* 시군구코드 */
+			   TSR.KOR_SBR_NM,											/* 지하철노선명_한글 */
+			   TSR.SUB_RLW_SN,											/* 지하철선로일련번호 */
+			   TSR.OPERT_DE												/* 작업일시 */
+		  FROM TGD_SPSB_RLWAY TSR,  (SELECT GID,
+										    SIG_CD		AREA_CD,			 
+										    SIG_ENG_NM	AREA_ENG_NM, 		
+										    SIG_KOR_NM	AREA_KOR_NM, 		
+										    GEOM				
+									   FROM TGD_SCCO_SIG
+									  UNION ALL
+									 SELECT GID, 			
+										    EMD_CD		AREA_CD, 			
+										    EMD_ENG_NM	AREA_ENG_NM, 		
+										    EMD_KOR_NM	AREA_KOR_NM, 		
+										    GEOM				
+									   FROM TGD_SCCO_EMD) SCCO
+		 WHERE 1=1
+		   AND TSR.SIG_CD = '41830'
+		   AND SCCO.AREA_CD = #{emdKorNm}
+		   AND ST_INTERSECTS(TSR.GEOM, SCCO.GEOM)
+		 <!-- 지하철노선명_한글 조건 -->
+		 <if test="@egovframework.com.cmm.util.EgovMybaitsUtil@isNotEmpty(korSbrNm)">
+		   AND TSR.KOR_SBR_NM LIKE '%' || #{korSbrNm} || '%'
+		 </if>
+   		 <!-- 공간 검색 -->
+		 <if test="@egovframework.com.cmm.util.EgovMybaitsUtil@isNotEmpty(spatialSearch)">
+			AND ST_INTERSECTS(ST_BUFFER(ST_GEOMFROMTEXT(#{spatialSearch}, 4326), (#{bufferCnt} * 0.00001)), ST_TRANSFORM(TSR.GEOM, 4326)) = true
+		</if>
+	</select>
+	
+	
+<!-- ################################################# 지하철선로 ################################################# -->	
+
+
+<!-- ################################################# 지하철역사 ################################################# -->
+
+	<!-- 지하철역사 목록 조회 -->
+	<select id="selectSubwayStationList" parameterType="subwayStationVO" resultType="subwayStation">
+		SELECT TSS.SIG_CD,												/* 시군구코드 */
+			   TSS.KOR_SUB_NM,											/* 지하철역사명_한글 */
+			   TSS.SUB_STA_SN,											/* 지하철역사일련번호 */
+			   TSS.OPERT_DE,											/* 작업일시 */
+			   TSS.GID,													/* GID */
+			   ST_X (ST_POINTONSURFACE(TSS.GEOM)) AS LON,				/* LON */
+			   ST_Y (ST_POINTONSURFACE(TSS.GEOM)) AS LAT,				/* LAT */
+			   ST_ASTEXT( ST_INTERSECTION( ST_Transform(TSS.GEOM,4326), ST_Transform(SCCO.GEOM,4326) ) ) GEOM 	/* GEOM */
+			   <!-- 공간 검색 -->
+		 	   <if test="@egovframework.com.cmm.util.EgovMybaitsUtil@isNotEmpty(spatialSearch)">
+			   , ST_ASTEXT( ST_BUFFER(ST_GEOMFROMTEXT(#{spatialSearch}, 4326), (#{bufferCnt} * 0.00001) , 'join=round') ) bufferArea /* bufferArea */
+			   </if>
+		  FROM TGD_SPSB_STATN TSS,  (SELECT GID,				
+										    SIG_CD		AREA_CD,			 
+										    SIG_ENG_NM	AREA_ENG_NM, 		
+										    SIG_KOR_NM	AREA_KOR_NM, 		
+										    GEOM				
+									   FROM TGD_SCCO_SIG
+									  UNION ALL
+									 SELECT GID, 			
+										    EMD_CD		AREA_CD, 			
+										    EMD_ENG_NM	AREA_ENG_NM, 		
+										    EMD_KOR_NM	AREA_KOR_NM, 		
+										    GEOM				
+									   FROM TGD_SCCO_EMD) SCCO
+		 WHERE 1=1
+		   AND TSS.SIG_CD = '41830'
+		   AND SCCO.AREA_CD = #{emdKorNm}
+		   AND ST_INTERSECTS(TSS.GEOM, SCCO.GEOM)
+		 <!-- 지하철역사명_한글 조건 -->
+		 <if test="@egovframework.com.cmm.util.EgovMybaitsUtil@isNotEmpty(korSubNm)">
+		   AND TSS.KOR_SUB_NM LIKE '%' || #{korSubNm} || '%'
+		 </if>
+		 <!-- 공간 검색 -->
+		 <if test="@egovframework.com.cmm.util.EgovMybaitsUtil@isNotEmpty(spatialSearch)">
+			AND ST_INTERSECTS(ST_BUFFER(ST_GEOMFROMTEXT(#{spatialSearch}, 4326), (#{bufferCnt} * 0.00001)), ST_TRANSFORM(TSS.GEOM, 4326)) = true
+		</if>
+		 ORDER BY TSS.GID
+		 LIMIT #{recordCountPerPage} OFFSET #{firstIndex}
+	</select>
+	
+	<!-- 지하철역사 목록 조회 cnt -->
+	<select id="selectSubwayStationListCnt" parameterType="subwayStationVO" resultType="int">
+		SELECT COUNT(*)
+		  FROM TGD_SPSB_STATN TSS,  (SELECT GID,				
+										    SIG_CD		AREA_CD,			 
+										    SIG_ENG_NM	AREA_ENG_NM, 		
+										    SIG_KOR_NM	AREA_KOR_NM, 		
+										    GEOM				
+									   FROM TGD_SCCO_SIG
+									  UNION ALL
+									 SELECT GID, 			
+										    EMD_CD		AREA_CD, 			
+										    EMD_ENG_NM	AREA_ENG_NM, 		
+										    EMD_KOR_NM	AREA_KOR_NM, 		
+										    GEOM				
+									   FROM TGD_SCCO_EMD) SCCO
+		 WHERE 1=1
+		   AND TSS.SIG_CD = '41830'
+		   AND SCCO.AREA_CD = #{emdKorNm}
+		   AND ST_INTERSECTS(TSS.GEOM, SCCO.GEOM)
+		 <!-- 지하철역사명_한글 조건 -->
+		 <if test="@egovframework.com.cmm.util.EgovMybaitsUtil@isNotEmpty(korSubNm)">
+		   AND TSS.KOR_SUB_NM LIKE '%' || #{korSubNm} || '%'
+		 </if>
+		 <!-- 공간 검색 -->
+		 <if test="@egovframework.com.cmm.util.EgovMybaitsUtil@isNotEmpty(spatialSearch)">
+			AND ST_INTERSECTS(ST_BUFFER(ST_GEOMFROMTEXT(#{spatialSearch}, 4326), (#{bufferCnt} * 0.00001)), ST_TRANSFORM(TSS.GEOM, 4326)) = true
+		</if>
+	</select>
+	
+	<!-- 지하철역사 상세 조회 -->
+	<select id="selectSubwayStation" parameterType="subwayStationVO" resultType="subwayStation">
+		SELECT SIG_CD,				/* 시군구코드 */
+			   KOR_SUB_NM,			/* 지하철역사명_한글 */
+			   SUB_STA_SN,			/* 지하철역사일련번호 */
+			   OPERT_DE,			/* 작업일시 */
+			   GID					/* GID */
+		  FROM TGD_SPSB_STATN
+		 WHERE 1=1
+		   AND GID = #{gid}
+		   AND SIG_CD = '41830'
+	</select>
+	
+	<!-- 지하철역사 엑셀다운로드 -->
+	<select id="selectSubwayStationExcelList" parameterType="subwayStationVO" resultType="subwayStation">
+		SELECT TSS.SIG_CD,												/* 시군구코드 */
+			   TSS.KOR_SUB_NM,											/* 지하철역사명_한글 */
+			   TSS.SUB_STA_SN,											/* 지하철역사일련번호 */
+			   TSS.OPERT_DE												/* 작업일시 */
+		  FROM TGD_SPSB_STATN TSS,  (SELECT GID,				
+										    SIG_CD		AREA_CD,			 
+										    SIG_ENG_NM	AREA_ENG_NM, 		
+										    SIG_KOR_NM	AREA_KOR_NM, 		
+										    GEOM				
+									   FROM TGD_SCCO_SIG
+									  UNION ALL
+									 SELECT GID, 			
+										    EMD_CD		AREA_CD, 			
+										    EMD_ENG_NM	AREA_ENG_NM, 		
+										    EMD_KOR_NM	AREA_KOR_NM, 		
+										    GEOM				
+									   FROM TGD_SCCO_EMD) SCCO
+		 WHERE 1=1
+		   AND TSS.SIG_CD = '41830'
+		   AND SCCO.AREA_CD = #{emdKorNm}
+		   AND ST_INTERSECTS(TSS.GEOM, SCCO.GEOM)
+		 <!-- 지하철역사명_한글 조건 -->
+		 <if test="@egovframework.com.cmm.util.EgovMybaitsUtil@isNotEmpty(korSubNm)">
+		   AND TSS.KOR_SUB_NM LIKE '%' || #{korSubNm} || '%'
+		 </if>
+		 <!-- 공간 검색 -->
+		 <if test="@egovframework.com.cmm.util.EgovMybaitsUtil@isNotEmpty(spatialSearch)">
+			AND ST_INTERSECTS(ST_BUFFER(ST_GEOMFROMTEXT(#{spatialSearch}, 4326), (#{bufferCnt} * 0.00001)), ST_TRANSFORM(TSS.GEOM, 4326)) = true
+		</if>
+	</select>
+	
+<!-- ################################################# 지하철역사 ################################################# -->
+
+
+<!-- ################################################# 교량 ################################################# -->
+
+	<!-- 교량 목록 조회 -->
+	<select id="selectBridgeList" parameterType="bridgeVO" resultType="bridge">
+		SELECT TSB.SIG_CD,												/* 시군구코드 */
+			   TSB.KOR_BRI_NM,											/* 교량명_한글 */
+			   TSB.BRIDGE_SN,											/* 교량일련번호 */
+			   TSB.OPERT_DE,											/* 작업일시 */
+			   TSB.GID,													/* GID */
+			   ST_X (ST_POINTONSURFACE(TSB.GEOM)) AS LON,				/* LON */
+			   ST_Y (ST_POINTONSURFACE(TSB.GEOM)) AS LAT,				/* LAT */
+			   ST_ASTEXT( ST_INTERSECTION( ST_Transform(TSB.GEOM,4326), ST_Transform(SCCO.GEOM,4326) ) ) GEOM 	/* GEOM */
+			   <!-- 공간 검색 -->
+		 	   <if test="@egovframework.com.cmm.util.EgovMybaitsUtil@isNotEmpty(spatialSearch)">
+			   , ST_ASTEXT( ST_BUFFER(ST_GEOMFROMTEXT(#{spatialSearch}, 4326), (#{bufferCnt} * 0.00001) , 'join=round') ) bufferArea /* bufferArea */
+			   </if>
+		  FROM TGD_SPOT_BRIDGE TSB, (SELECT GID,				
+										    SIG_CD		AREA_CD,			 
+										    SIG_ENG_NM	AREA_ENG_NM, 		
+										    SIG_KOR_NM	AREA_KOR_NM, 		
+										    GEOM				
+									   FROM TGD_SCCO_SIG
+									  UNION ALL
+									 SELECT GID, 			
+										    EMD_CD		AREA_CD, 			
+										    EMD_ENG_NM	AREA_ENG_NM, 		
+										    EMD_KOR_NM	AREA_KOR_NM, 		
+										    GEOM				
+									   FROM TGD_SCCO_EMD) SCCO
+		 WHERE 1=1
+		   AND TSB.SIG_CD = '41830'
+		   AND SCCO.AREA_CD = #{emdKorNm}
+		   AND ST_INTERSECTS(TSB.GEOM, SCCO.GEOM)
+		 <!-- 교량명_한글 조건 -->
+		 <if test="@egovframework.com.cmm.util.EgovMybaitsUtil@isNotEmpty(korBriNm)">
+		   AND TSB.KOR_BRI_NM LIKE '%' || #{korBriNm} || '%'
+		 </if>
+		 <!-- 공간 검색 -->
+		 <if test="@egovframework.com.cmm.util.EgovMybaitsUtil@isNotEmpty(spatialSearch)">
+			AND ST_INTERSECTS(ST_BUFFER(ST_GEOMFROMTEXT(#{spatialSearch}, 4326), (#{bufferCnt} * 0.00001)), ST_TRANSFORM(TSB.GEOM, 4326)) = true
+		</if>
+		 ORDER BY TSB.GID
+		 LIMIT #{recordCountPerPage} OFFSET #{firstIndex}
+	</select>
+	
+	<!-- 교량 목록 조회 cnt -->
+	<select id="selectBridgeListCnt" parameterType="bridgeVO" resultType="int">
+		SELECT COUNT(*)
+		  FROM TGD_SPOT_BRIDGE TSB, (SELECT GID,				
+										    SIG_CD		AREA_CD,			 
+										    SIG_ENG_NM	AREA_ENG_NM, 		
+										    SIG_KOR_NM	AREA_KOR_NM, 		
+										    GEOM				
+									   FROM TGD_SCCO_SIG
+									  UNION ALL
+									 SELECT GID, 			
+										    EMD_CD		AREA_CD, 			
+										    EMD_ENG_NM	AREA_ENG_NM, 		
+										    EMD_KOR_NM	AREA_KOR_NM, 		
+										    GEOM				
+									   FROM TGD_SCCO_EMD) SCCO
+		 WHERE 1=1
+		   AND TSB.SIG_CD = '41830'
+		   AND SCCO.AREA_CD = #{emdKorNm}
+		   AND ST_INTERSECTS(TSB.GEOM, SCCO.GEOM)
+		   <!-- 교량명_한글 조건 -->
+		 <if test="@egovframework.com.cmm.util.EgovMybaitsUtil@isNotEmpty(korBriNm)">
+		   AND TSB.KOR_BRI_NM LIKE '%' || #{korBriNm} || '%'
+		 </if>
+		 <!-- 공간 검색 -->
+		 <if test="@egovframework.com.cmm.util.EgovMybaitsUtil@isNotEmpty(spatialSearch)">
+			AND ST_INTERSECTS(ST_BUFFER(ST_GEOMFROMTEXT(#{spatialSearch}, 4326), (#{bufferCnt} * 0.00001)), ST_TRANSFORM(TSB.GEOM, 4326)) = true
+		</if>
+	</select>
+	
+	<!-- 교량 상세 조회 -->
+	<select id="selectBridge" parameterType="bridgeVO" resultType="bridge">
+		SELECT SIG_CD,				/* 시군구코드 */
+			   KOR_BRI_NM,			/* 교량명_한글 */
+			   BRIDGE_SN,			/* 교량일련번호 */
+			   OPERT_DE,			/* 작업일시 */
+			   GID					/* GID */
+		  FROM TGD_SPOT_BRIDGE
+		 WHERE 1=1
+		   AND GID = #{gid}
+		   AND SIG_CD = '41830'
+	</select>
+	
+	<!-- 교량 엑셀다운로드 -->
+	<select id="selectBridgeExcelList" parameterType="bridgeVO" resultType="bridge">
+		SELECT TSB.SIG_CD,												/* 시군구코드 */
+			   TSB.KOR_BRI_NM,											/* 교량명_한글 */
+			   TSB.BRIDGE_SN,											/* 교량일련번호 */
+			   TSB.OPERT_DE												/* 작업일시 */
+		  FROM TGD_SPOT_BRIDGE TSB, (SELECT GID,				
+										    SIG_CD		AREA_CD,			 
+										    SIG_ENG_NM	AREA_ENG_NM, 		
+										    SIG_KOR_NM	AREA_KOR_NM, 		
+										    GEOM				
+									   FROM TGD_SCCO_SIG
+									  UNION ALL
+									 SELECT GID, 			
+										    EMD_CD		AREA_CD, 			
+										    EMD_ENG_NM	AREA_ENG_NM, 		
+										    EMD_KOR_NM	AREA_KOR_NM, 		
+										    GEOM				
+									   FROM TGD_SCCO_EMD) SCCO
+		 WHERE 1=1
+		   AND TSB.SIG_CD = '41830'
+		   AND SCCO.AREA_CD = #{emdKorNm}
+		   AND ST_INTERSECTS(TSB.GEOM, SCCO.GEOM)
+		 <!-- 교량명_한글 조건 -->
+		 <if test="@egovframework.com.cmm.util.EgovMybaitsUtil@isNotEmpty(korBriNm)">
+		   AND TSB.KOR_BRI_NM LIKE '%' || #{korBriNm} || '%'
+		 </if>
+		 <!-- 공간 검색 -->
+		 <if test="@egovframework.com.cmm.util.EgovMybaitsUtil@isNotEmpty(spatialSearch)">
+			AND ST_INTERSECTS(ST_BUFFER(ST_GEOMFROMTEXT(#{spatialSearch}, 4326), (#{bufferCnt} * 0.00001)), ST_TRANSFORM(TSB.GEOM, 4326)) = true
+		</if>
+	</select>
+	
+<!-- ################################################# 교량 ################################################# -->
+
+
+<!-- ################################################# 고가도로 ################################################# -->
+	
+	<!-- 고가도로 목록 조회 -->
+	<select id="selectOverpassList" parameterType="overpassVO" resultType="overpass">
+		SELECT TSO.SIG_CD,												/* 시군구코드 */
+			   TSO.KOR_OVE_NM,											/* 고가도로명_한글 */
+			   TSO.OVE_SN,												/* 고가도로일련번호 */
+			   TSO.OPERT_DE,											/* 작업일시 */
+			   TSO.GID,													/* GID */
+			   ST_X (ST_POINTONSURFACE(TSO.GEOM)) AS LON,				/* LON */
+			   ST_Y (ST_POINTONSURFACE(TSO.GEOM)) AS LAT,				/* LAT */
+			   ST_ASTEXT( ST_INTERSECTION( ST_Transform(TSO.GEOM,4326), ST_Transform(SCCO.GEOM,4326) ) ) GEOM	/* GEOM */
+			   <!-- 공간 검색 -->
+		 	   <if test="@egovframework.com.cmm.util.EgovMybaitsUtil@isNotEmpty(spatialSearch)">
+			   , ST_ASTEXT( ST_BUFFER(ST_GEOMFROMTEXT(#{spatialSearch}, 4326), (#{bufferCnt} * 0.00001) , 'join=round') ) bufferArea /* bufferArea */
+			   </if>
+		  FROM TGD_SPOT_OVERPASS TSO, (SELECT GID,				
+										      SIG_CD		AREA_CD,			 
+										      SIG_ENG_NM	AREA_ENG_NM, 		
+										      SIG_KOR_NM	AREA_KOR_NM, 		
+										      GEOM				
+									     FROM TGD_SCCO_SIG
+									    UNION ALL
+									   SELECT GID, 			
+										      EMD_CD		AREA_CD, 			
+										      EMD_ENG_NM	AREA_ENG_NM, 		
+										      EMD_KOR_NM	AREA_KOR_NM, 		
+										      GEOM				
+									     FROM TGD_SCCO_EMD) SCCO
+		 WHERE 1=1
+		   AND TSO.SIG_CD = '41830'
+		   AND SCCO.AREA_CD = #{emdKorNm}
+		   AND ST_INTERSECTS(TSO.GEOM, SCCO.GEOM)
+		 <!-- 고가도로명_한글 조건 -->
+		 <if test="@egovframework.com.cmm.util.EgovMybaitsUtil@isNotEmpty(korOveNm)">
+		   AND TSO.KOR_OVE_NM LIKE '%' || #{korOveNm} || '%'
+		 </if>
+		 <!-- 공간 검색 -->
+		 <if test="@egovframework.com.cmm.util.EgovMybaitsUtil@isNotEmpty(spatialSearch)">
+			AND ST_INTERSECTS(ST_BUFFER(ST_GEOMFROMTEXT(#{spatialSearch}, 4326), (#{bufferCnt} * 0.00001)), ST_TRANSFORM(TSO.GEOM, 4326)) = true
+		</if>
+		 ORDER BY TSO.GID
+		 LIMIT #{recordCountPerPage} OFFSET #{firstIndex}
+	</select>
+	
+	<!-- 고가도로 목록 조회 cnt -->
+	<select id="selectOverpassListCnt" parameterType="overpassVO" resultType="int">
+		SELECT COUNT(*)
+		  FROM TGD_SPOT_OVERPASS TSO, (SELECT GID,				
+										      SIG_CD		AREA_CD,			 
+										      SIG_ENG_NM	AREA_ENG_NM, 		
+										      SIG_KOR_NM	AREA_KOR_NM, 		
+										      GEOM				
+									     FROM TGD_SCCO_SIG
+									    UNION ALL
+									   SELECT GID, 			
+										      EMD_CD		AREA_CD, 			
+										      EMD_ENG_NM	AREA_ENG_NM, 		
+										      EMD_KOR_NM	AREA_KOR_NM, 		
+										      GEOM				
+									     FROM TGD_SCCO_EMD) SCCO
+		 WHERE 1=1
+		   AND TSO.SIG_CD = '41830'
+		   AND SCCO.AREA_CD = #{emdKorNm}
+		   AND ST_INTERSECTS(TSO.GEOM, SCCO.GEOM)
+		 <!-- 고가도로명_한글 조건 -->
+		 <if test="@egovframework.com.cmm.util.EgovMybaitsUtil@isNotEmpty(korOveNm)">
+		   AND TSO.KOR_OVE_NM LIKE '%' || #{korOveNm} || '%'
+		 </if>
+		 <!-- 공간 검색 -->
+		 <if test="@egovframework.com.cmm.util.EgovMybaitsUtil@isNotEmpty(spatialSearch)">
+			AND ST_INTERSECTS(ST_BUFFER(ST_GEOMFROMTEXT(#{spatialSearch}, 4326), (#{bufferCnt} * 0.00001)), ST_TRANSFORM(TSO.GEOM, 4326)) = true
+		</if>
+	</select>
+	
+	<!-- 고가도로 목록 조회 -->
+	<select id="selectOverpass" parameterType="overpassVO" resultType="overpass">
+		SELECT SIG_CD,				/* 시군구코드 */
+			   KOR_OVE_NM,			/* 고가도로명_한글 */
+			   OVE_SN,				/* 고가도로일련번호 */
+			   OPERT_DE,			/* 작업일시 */
+			   GID					/* GID */
+		  FROM TGD_SPOT_OVERPASS
+		 WHERE 1=1
+		   AND GID = #{gid}
+		   AND SIG_CD = '41830'
+	</select>
+	
+	<!-- 고가도로 엑셀다운로드 -->
+	<select id="selectOverpassExcelList" parameterType="overpassVO" resultType="overpass">
+		SELECT TSO.SIG_CD,												/* 시군구코드 */
+			   TSO.KOR_OVE_NM,											/* 고가도로명_한글 */
+			   TSO.OVE_SN,												/* 고가도로일련번호 */
+			   TSO.OPERT_DE												/* 작업일시 */
+		  FROM TGD_SPOT_OVERPASS TSO, (SELECT GID,				
+										      SIG_CD		AREA_CD,			 
+										      SIG_ENG_NM	AREA_ENG_NM, 		
+										      SIG_KOR_NM	AREA_KOR_NM, 		
+										      GEOM				
+									     FROM TGD_SCCO_SIG
+									    UNION ALL
+									   SELECT GID, 			
+										      EMD_CD		AREA_CD, 			
+										      EMD_ENG_NM	AREA_ENG_NM, 		
+										      EMD_KOR_NM	AREA_KOR_NM, 		
+										      GEOM				
+									     FROM TGD_SCCO_EMD) SCCO
+		 WHERE 1=1
+		   AND TSO.SIG_CD = '41830'
+		   AND SCCO.AREA_CD = #{emdKorNm}
+		   AND ST_INTERSECTS(TSO.GEOM, SCCO.GEOM)
+		 <!-- 고가도로명_한글 조건 -->
+		 <if test="@egovframework.com.cmm.util.EgovMybaitsUtil@isNotEmpty(korOveNm)">
+		   AND TSO.KOR_OVE_NM LIKE '%' || #{korOveNm} || '%'
+		 </if>
+		 <!-- 공간 검색 -->
+		 <if test="@egovframework.com.cmm.util.EgovMybaitsUtil@isNotEmpty(spatialSearch)">
+			AND ST_INTERSECTS(ST_BUFFER(ST_GEOMFROMTEXT(#{spatialSearch}, 4326), (#{bufferCnt} * 0.00001)), ST_TRANSFORM(TSO.GEOM, 4326)) = true
+		</if>
+	</select>
+	
+	
+<!-- ################################################# 고가도로 ################################################# -->
+	
+	
+<!-- ################################################# 터널 ################################################# -->
+	
+	<!-- 터널 목록 조회 -->
+	<select id="selectTunnelList" parameterType="tunnelVO" resultType="tunnel">
+		SELECT TST.SIG_CD,												/* 시군구코드 */
+			   TST.TUN_KOR_NM,											/* 터널명_한글 */
+			   TST.TUNNEL_SN,											/* 터널일련번호 */
+			   TST.OPERT_DE,											/* 작업일시 */
+			   TST.GID,													/* GID */
+			   ST_X (ST_POINTONSURFACE(TST.GEOM)) AS LON,				/* LON */
+			   ST_Y (ST_POINTONSURFACE(TST.GEOM)) AS LAT,				/* LAT */
+			   ST_ASTEXT( ST_INTERSECTION( ST_Transform(TST.GEOM,4326), ST_Transform(SCCO.GEOM,4326) ) ) GEOM	/* GEOM */
+			   <!-- 공간 검색 -->
+		 	   <if test="@egovframework.com.cmm.util.EgovMybaitsUtil@isNotEmpty(spatialSearch)">
+			   , ST_ASTEXT( ST_BUFFER(ST_GEOMFROMTEXT(#{spatialSearch}, 4326), (#{bufferCnt} * 0.00001) , 'join=round') ) bufferArea /* bufferArea */
+			   </if>
+		  FROM TGD_SPOT_TUNNEL TST,   (SELECT GID,				
+										      SIG_CD		AREA_CD,			 
+										      SIG_ENG_NM	AREA_ENG_NM, 		
+										      SIG_KOR_NM	AREA_KOR_NM, 		
+										      GEOM				
+									     FROM TGD_SCCO_SIG
+									    UNION ALL
+									   SELECT GID, 			
+										      EMD_CD		AREA_CD, 			
+										      EMD_ENG_NM	AREA_ENG_NM, 		
+										      EMD_KOR_NM	AREA_KOR_NM, 		
+										      GEOM				
+									     FROM TGD_SCCO_EMD) SCCO
+		 WHERE 1=1
+		   AND TST.SIG_CD = '41830'
+		   AND SCCO.AREA_CD = #{emdKorNm}
+		   AND ST_INTERSECTS(TST.GEOM, SCCO.GEOM)
+		 <!-- 터널명_한글 조건 -->
+		 <if test="@egovframework.com.cmm.util.EgovMybaitsUtil@isNotEmpty(tunKorNm)">
+		   AND TST.TUN_KOR_NM LIKE '%' || #{tunKorNm} || '%'
+		 </if>
+		 <!-- 공간 검색 -->
+		 <if test="@egovframework.com.cmm.util.EgovMybaitsUtil@isNotEmpty(spatialSearch)">
+			AND ST_INTERSECTS(ST_BUFFER(ST_GEOMFROMTEXT(#{spatialSearch}, 4326), (#{bufferCnt} * 0.00001)), ST_TRANSFORM(TST.GEOM, 4326)) = true
+		</if>
+		 ORDER BY TST.GID
+		 LIMIT #{recordCountPerPage} OFFSET #{firstIndex}
+	</select>
+	
+	<!-- 터널 목록 조회 cnt -->
+	<select id="selectTunnelListCnt" parameterType="tunnelVO" resultType="int">
+		SELECT COUNT(*)
+		  FROM TGD_SPOT_TUNNEL TST,   (SELECT GID,				
+										      SIG_CD		AREA_CD,			 
+										      SIG_ENG_NM	AREA_ENG_NM, 		
+										      SIG_KOR_NM	AREA_KOR_NM, 		
+										      GEOM				
+									     FROM TGD_SCCO_SIG
+									    UNION ALL
+									   SELECT GID, 			
+										      EMD_CD		AREA_CD, 			
+										      EMD_ENG_NM	AREA_ENG_NM, 		
+										      EMD_KOR_NM	AREA_KOR_NM, 		
+										      GEOM				
+									     FROM TGD_SCCO_EMD) SCCO
+		 WHERE 1=1
+		   AND TST.SIG_CD = '41830'
+		   AND SCCO.AREA_CD = #{emdKorNm}
+		   AND ST_INTERSECTS(TST.GEOM, SCCO.GEOM)
+		 <!-- 터널명_한글 조건 -->
+		 <if test="@egovframework.com.cmm.util.EgovMybaitsUtil@isNotEmpty(tunKorNm)">
+		   AND TST.TUN_KOR_NM LIKE '%' || #{tunKorNm} || '%'
+		 </if>
+		 <!-- 공간 검색 -->
+		 <if test="@egovframework.com.cmm.util.EgovMybaitsUtil@isNotEmpty(spatialSearch)">
+			AND ST_INTERSECTS(ST_BUFFER(ST_GEOMFROMTEXT(#{spatialSearch}, 4326), (#{bufferCnt} * 0.00001)), ST_TRANSFORM(TST.GEOM, 4326)) = true
+		</if>
+	</select>
+	
+	<!-- 터널 목록 조회 -->
+	<select id="selectTunnel" parameterType="tunnelVO" resultType="tunnel">
+		SELECT SIG_CD,				/* 시군구코드 */
+			   TUN_KOR_NM,			/* 터널명_한글 */
+			   TUNNEL_SN,			/* 터널일련번호 */
+			   OPERT_DE,			/* 작업일시 */
+			   GID					/* GID */
+		  FROM TGD_SPOT_TUNNEL
+		 WHERE 1=1
+		   AND GID = #{gid}
+		   AND SIG_CD = '41830'
+	</select>
+	
+	<!-- 터널 엑셀다운로드 -->
+	<select id="selectTunnelExcelList" parameterType="tunnelVO" resultType="tunnel">
+		SELECT TST.SIG_CD,												/* 시군구코드 */
+			   TST.TUN_KOR_NM,											/* 터널명_한글 */
+			   TST.TUNNEL_SN,											/* 터널일련번호 */
+			   TST.OPERT_DE												/* 작업일시 */
+		  FROM TGD_SPOT_TUNNEL TST,   (SELECT GID,				
+										      SIG_CD		AREA_CD,			 
+										      SIG_ENG_NM	AREA_ENG_NM, 		
+										      SIG_KOR_NM	AREA_KOR_NM, 		
+										      GEOM				
+									     FROM TGD_SCCO_SIG
+									    UNION ALL
+									   SELECT GID, 			
+										      EMD_CD		AREA_CD, 			
+										      EMD_ENG_NM	AREA_ENG_NM, 		
+										      EMD_KOR_NM	AREA_KOR_NM, 		
+										      GEOM				
+									     FROM TGD_SCCO_EMD) SCCO
+		 WHERE 1=1
+		   AND TST.SIG_CD = '41830'
+		   AND SCCO.AREA_CD = #{emdKorNm}
+		   AND ST_INTERSECTS(TST.GEOM, SCCO.GEOM)
+		 <!-- 터널명_한글 조건 -->
+		 <if test="@egovframework.com.cmm.util.EgovMybaitsUtil@isNotEmpty(tunKorNm)">
+		   AND TST.TUN_KOR_NM LIKE '%' || #{tunKorNm} || '%'
+		 </if>
+		 <!-- 공간 검색 -->
+		 <if test="@egovframework.com.cmm.util.EgovMybaitsUtil@isNotEmpty(spatialSearch)">
+			AND ST_INTERSECTS(ST_BUFFER(ST_GEOMFROMTEXT(#{spatialSearch}, 4326), (#{bufferCnt} * 0.00001)), ST_TRANSFORM(TST.GEOM, 4326)) = true
+		</if>
+	</select>
+	
+	
+<!-- ################################################# 터널 ################################################# -->
+	
+	
+	
+</mapper>

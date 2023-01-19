@@ -1,0 +1,30 @@
+<div class="small-popup small-left opened">
+	<div class="popup-header">조망권분석</div>
+	<div class="popup-body">
+
+		<div class="analysis-view-basic ">
+			<p class="cont-txt">조망점을 등록해주세요</p>
+			<div class="btn-wrap"><button type="button" id="jomangRgstr" class="btn basic bi-cursor">등록</button></div>
+		</div>
+
+		<div class="analysis-view-list" style="display: none;">
+			<div class="scroll-y">
+				<ul id="jomangList" >
+
+
+				</ul>
+			</div>
+			<div class="btn-wrap">
+				<div>
+					<button type="button" class="btn basic bi-check" id="jomangFinished" onclick="resiCompJomang();">등록완료</button> 
+					<button type="button" class="btn basic bi-cancel" id="jomangFinished" onclick="changeJomangMouseKeyboardState(false);">해제</button>				
+					<button type="button" class="btn basic bi-delete" id="jomangAllDel" onclick="removeJomangAllPoint();">모두삭제</button>
+				</div>
+			</div>
+		</div>
+
+	</div>
+	<button type="button" class="manualBtn" title="도움말" onclick="manualTab('조망권분석(3D)')"></button>
+	<button type="button" class="popup-toggle" title="접기"></button>
+</div>
+<!-- //분석 > 조망권분석 -->

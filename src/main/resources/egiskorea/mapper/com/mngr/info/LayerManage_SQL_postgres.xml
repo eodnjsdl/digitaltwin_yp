@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="layerManage">
+
+    <!-- 레이어 전체 검색 -->
+    <select id="selectAllLayerManageList" resultType="LayerSet">
+        SELECT LYR_ID, TBL_NM, LYR_NM, LYR_DTL_KND, STYLE_INFO, LBL_FIELD, LBL_EPRSS_AT
+        FROM TBD_LYR_SET
+        WHERE USE_AT = 'Y'
+    </select>
+	
+	<select id="selectLayerManageList" parameterType="layerSet" resultType="LayerSet">
+		SELECT 	LYR_ID
+			 <!-- , 	COALESCE(LYR_KND, '-') lyrKnd -->
+			 ,  CASE WHEN LYR_KND = 'S' THEN (SELECT CCM.CODE_NM FROM COMTCCMMNDETAILCODE CCM WHERE CCM.code = LYR_DTL_KND AND ccm.CODE_ID = 'LRKD')
+			 		 WHEN LYR_KND = 'C' THEN (SELECT CCM.CODE_NM FROM COMTCCMMNDETAILCODE CCM WHERE CCM.code = LYR_DTL_KND AND ccm.CODE_ID = 'LRKD')
+					 ELSE (SELECT CCM.CODE_NM FROM COMTCCMMNDETAILCODE CCM WHERE CCM.code = LYR_KND AND ccm.CODE_ID = 'LRKD')
+				END LYR_KND
+			 <!-- , 	LYR_CL -->
+			 , 	LYR_NM
+			 , 	UPPER(TBL_NM) tblNm
+			 , 	FRST_REGISTER_ID
+			 , 	TO_CHAR(LAST_MODF_DT, 'YYYY-MM-DD') lastModfDt
+			 ,	(SELECT USER_NM FROM COMTNEMPLYRINFO EMP WHERE EMP.EMPLYR_ID = FRST_REGISTER_ID) frstRegisterNm 
+             ,	(SELECT USER_NM FROM COMTNEMPLYRINFO EMP WHERE EMP.EMPLYR_ID = LAST_UPDUSR_ID) lastUpdusrNm
+			 , 	CASE WHEN USE_AT = 'Y' THEN '사용' ELSE '미사용' END useAt
+			 ,  (SELECT CCM.CODE_NM FROM COMTCCMMNDETAILCODE CCM WHERE CCM.code = LYR_CL AND ccm.CODE_ID = 'LRCL') LYR_CL
+			 ,  (SELECT CCM.CODE_NM FROM COMTCCMMNDETAILCODE CCM WHERE CCM.code = LYR_KND AND ccm.CODE_ID = 'LRKD') LYR_KND
+		FROM TBD_LYR_SET
+		<where>
+			<if test="searchCondition == 1">
+				AND CASE WHEN LYR_KND = 'S' THEN (SELECT CCM.CODE_NM FROM COMTCCMMNDETAILCODE CCM WHERE CCM.code = LYR_DTL_KND AND ccm.CODE_ID = 'LRKD')
+			 		 	 WHEN LYR_KND = 'C' THEN (SELECT CCM.CODE_NM FROM COMTCCMMNDETAILCODE CCM WHERE CCM.code = LYR_DTL_KND AND ccm.CODE_ID = 'LRKD')
+					 	 ELSE (SELECT CCM.CODE_NM FROM COMTCCMMNDETAILCODE CCM WHERE CCM.code = LYR_KND AND ccm.CODE_ID = 'LRKD')
+					END LIKE CONCAT ('%', #{searchKeyword},'%')
+			</if>
+			<if test="searchCondition == 2">
+				AND (SELECT CCM.CODE_NM FROM COMTCCMMNDETAILCODE CCM WHERE CCM.CODE = LYR_CL AND CCM.CODE_ID = 'LRCL') LIKE CONCAT ('%', #{searchKeyword},'%')
+			</if>
+			<if test="searchCondition == 3">
+				AND LYR_NM LIKE CONCAT ('%', #{searchKeyword},'%')
+			</if>
+		</where>
+		 LIMIT #{recordCountPerPage} OFFSET #{firstIndex}
+	</select>
+	
+	<select id="selectLayerManageListTot" parameterType="layerSet" resultType="java.lang.Integer">
+		SELECT 	COUNT(*)
+		FROM 	TBD_LYR_SET
+		<where>
+			<if test="searchCondition == 1">
+				AND CASE WHEN LYR_KND = 'S' THEN (SELECT CCM.CODE_NM FROM COMTCCMMNDETAILCODE CCM WHERE CCM.code = LYR_DTL_KND AND ccm.CODE_ID = 'LRKD')
+			 		 	 WHEN LYR_KND = 'C' THEN (SELECT CCM.CODE_NM FROM COMTCCMMNDETAILCODE CCM WHERE CCM.code = LYR_DTL_KND AND ccm.CODE_ID = 'LRKD')
+					 	 ELSE (SELECT CCM.CODE_NM FROM COMTCCMMNDETAILCODE CCM WHERE CCM.code = LYR_KND AND ccm.CODE_ID = 'LRKD')
+					END LIKE CONCAT ('%', #{searchKeyword},'%')
+			</if>
+			<if test="searchCondition == 2">
+				AND (SELECT CCM.CODE_NM FROM COMTCCMMNDETAILCODE CCM WHERE CCM.CODE = LYR_CL AND CCM.CODE_ID = 'LRCL') LIKE CONCAT ('%', #{searchKeyword},'%')
+			</if>
+			<if test="searchCondition == 3">
+				AND LYR_NM LIKE CONCAT ('%', #{searchKeyword},'%')
+			</if>
+		</where>
+	</select>
+	
+	<select id="selectLayerSet" parameterType="layerSet" resultType="LayerSet">
+		SELECT 	(SELECT CCM.CODE_NM FROM COMTCCMMNDETAILCODE CCM WHERE CCM.code = LYR_CL AND ccm.CODE_ID = 'LRCL') LYR_CL
+			 , 	LYR_NM
+			 , 	UPPER(TBL_NM) tblNm
+			 ,  CASE WHEN LYR_KND = 'S' THEN (SELECT CCM.CODE_NM FROM COMTCCMMNDETAILCODE CCM WHERE CCM.code = LYR_DTL_KND AND ccm.CODE_ID = 'LRKD')
+			 		 WHEN LYR_KND = 'C' THEN (SELECT CCM.CODE_NM FROM COMTCCMMNDETAILCODE CCM WHERE CCM.code = LYR_DTL_KND AND ccm.CODE_ID = 'LRKD')
+					 ELSE (SELECT CCM.CODE_NM FROM COMTCCMMNDETAILCODE CCM WHERE CCM.code = LYR_KND AND ccm.CODE_ID = 'LRKD')
+				END LYR_KND
+			 , 	FRST_REGISTER_ID
+			 ,	(SELECT USER_NM FROM COMTNEMPLYRINFO EMP WHERE EMP.EMPLYR_ID = FRST_REGISTER_ID) frstRegisterNm 
+			 , 	TO_CHAR(FRST_REGIST_DT, 'YYYY-MM-DD') frstRegistDt
+			 , 	CASE WHEN RNWL_STLE = '0' THEN '자동' 
+			 		 WHEN RNWL_STLE = '1' THEN '수동'
+			 		 ELSE '-'									
+			  	END rnwlStle
+			 ,	CASE WHEN RNWL_UNIT = 's' THEN RNWL_CYCLE || '초' 
+					 WHEN RNWL_UNIT = 'm' THEN RNWL_CYCLE || '분'
+					 WHEN RNWL_UNIT = 'h' THEN RNWL_CYCLE || '시간'
+					 WHEN RNWL_UNIT = 'D' THEN RNWL_CYCLE || '일'
+					 WHEN RNWL_UNIT = 'W' THEN RNWL_CYCLE || '주'
+					 WHEN RNWL_UNIT = 'M' THEN RNWL_CYCLE || '월'
+					 WHEN RNWL_UNIT = 'Y' THEN RNWL_CYCLE || '년'
+					 WHEN RNWL_UNIT = 'A' THEN '상시'
+				END RNWL_CYCLE 
+			 , 	TO_CHAR(LAST_MODF_DT, 'YYYY-MM-DD') lastModfDt
+			 ,	CASE WHEN CNRS_STLE = '0' THEN '등록자만 사용'
+					 WHEN CNRS_STLE = '1' THEN '모든사용자'
+					 ELSE '-'
+			 	END cnrsStle
+		FROM 	TBD_LYR_SET
+		WHERE 	LYR_ID = CAST(#{lyrId} AS INTEGER)
+	</select>
+	
+	<select id="selectLayerAttributeList" parameterType="LayerAttribute" resultType="LayerAttribute">
+		SELECT	ATRB_ID
+			 ,  LYR_ID
+			 ,	ATRB_NM
+			 ,	ATRB_TYPE
+			 ,	ATRB_LT
+			 ,	EPRSS_AT
+		FROM TBD_LYR_ATRB
+		WHERE LYR_ID = CAST(#{lyrId} AS INTEGER)
+	</select>
+	
+	<select id="selectLayerAttributeListTot" parameterType="layerSet" resultType="java.lang.Integer">
+		SELECT COUNT(*)
+		FROM   ${tblNm} 
+	</select>
+</mapper>

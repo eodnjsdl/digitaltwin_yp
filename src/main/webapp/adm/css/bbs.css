@@ -1,0 +1,220 @@
+@charset "UTF-8";
+
+/* ------------------------------------------------------------------------------------------------------------------------
+bbs-top
+------------------------------------------------------------------------------------------------------------------------ */
+.bbs-top {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-between;
+	align-items: center;
+	margin-bottom: 10px;
+}
+
+.bbs-list-num {
+	font-size: 12px;
+}
+
+.bbs-top .d-flex {
+	align-items: center;
+}
+
+.bbs-top .term {
+	margin-right: 5px;
+	font-size: 12px;
+}
+
+.bbs-top .desc + .term, .bbs-top .desc + .desc {
+	margin-left: 20px;
+}
+
+.bbs-top .form-control, .bbs-top .form-select {
+	border-color: #333;
+}
+
+/* ------------------------------------------------------------------------------------------------------------------------
+bbs - list
+------------------------------------------------------------------------------------------------------------------------ */
+.bbs-default table, .bbs-write-default table, .bbs-detail-default table {
+	width:100%;
+	border-collapse:collapse;
+	table-layout:fixed;
+	border-top: 1px solid #333;
+}
+
+.bbs-default caption, .bbs-write-default caption, .bbs-detail-default caption {
+	display: none;
+}
+
+.bbs-list th {
+	color: #555;
+	font-weight: normal;
+	background-color: #F3F3F3;
+}
+
+.bbs-list th, .bbs-list td {
+	padding: 10px;
+	border-bottom: 1px solid #DCDCDC;
+	text-align: center;
+}
+
+.bbs-list td {
+	color: #000;
+}
+
+.bbs-list thead th {
+	border-bottom-color: #333;
+}
+
+.bbs-list .subject {
+	text-align: left;
+}
+
+.bbs-list .subject a {
+	display: inline-block;
+	max-width: 100%;
+	vertical-align: top;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+
+/* ------------------------------------------------------------------------------------------------------------------------
+bbs - write
+------------------------------------------------------------------------------------------------------------------------ */
+.bbs-write th, .bbs-write td {
+	padding: 8px 10px;
+	color: #555;
+	border-bottom: 1px solid #333;
+	text-align: left;
+}
+
+.bbs-write th {
+	padding: 8px 15px;
+	color: #555;
+	font-weight: normal;
+	background-color: #F3F3F3;
+}
+
+
+/* ------------------------------------------------------------------------------------------------------------------------
+bbs - detail
+------------------------------------------------------------------------------------------------------------------------ */
+.bbs-detail th, .bbs-detail td {
+	padding: 10px;
+	color: #555;
+	border-bottom: 1px solid #333;
+	text-align: left;
+}
+
+.bbs-detail th {
+	padding: 10px 15px;	
+	font-weight: normal;
+	background-color: #F3F3F3;
+}
+
+.bbs-detail .subject {
+	color: #000;
+}
+
+.bbs-detail .attach-file {
+	display: inline-block;	
+	max-width: 100%;
+	text-decoration: underline;
+	vertical-align: top;
+    /* white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden; */
+}
+
+.bbs-detail .cont {
+	padding: 13px 15px 20px;	
+}
+
+
+/* table th,td 전체 정렬 */
+.tbl-all-left th, .tbl-all-left td {text-align: left !important;}
+.tbl-all-center th, .tbl-all-center td {text-align: center !important;}
+.tbl-all-right th, .tbl-all-right td {text-align: right !important;}
+
+/* table th,td 개별 정렬 */
+th.text-left, td.text-left {text-align: left !important;}
+th.text-center, td.text-center {text-align: center !important;}
+th.text-right, td.text-right {text-align: right !important;}
+
+
+/* ------------------------------------------------------------------------------------------------------------------------
+pagination
+-------------------------------------------------------------------------------------------------------------------------*/
+.pagination {
+	position: relative;
+	display: flex;
+	margin: 5px auto 0;
+	width: 300px;
+	padding: 0 62px;
+	justify-content: center;
+}
+
+.bbs-default + .pagination,
+.scroll-xGroup + .pagination {
+	margin-top: 30px;
+}
+
+.pagination a, .pagination strong {
+	display: inline-block;
+	margin: 0 3px;
+	width: 29px;
+	height: 29px;
+	line-height: 27px;
+	color: #777;
+	border: 1px solid transparent;
+	text-align: center;
+	vertical-align: middle;
+}
+
+.pagination .current {
+	color: #000;
+	font-weight: bold;
+	border-color: #000;
+}
+
+.pagination .first, .pagination .prev, .pagination .next, .pagination .last {
+	position: absolute;
+	top: 0;
+	margin: 0;
+	background-repeat: no-repeat;
+	background-position: 50% 50%;
+}
+
+.pagination .first {left: 0;background-image: url(/adm/images/form/pagination-first.svg);}
+.pagination .prev {left: 30px;background-image: url(/adm/images/form/pagination-prev.svg);}
+.pagination .next {right: 30px;background-image: url(/adm/images/form/pagination-next.svg);}
+.pagination .last {right: 0;background-image: url(/adm/images/form/pagination-last.svg);}
+
+
+/* ------------------------------------------------------------------------------------------------------------------------
+table
+-------------------------------------------------------------------------------------------------------------------------*/
+.tbl-default table {
+	width:100%;
+	border-collapse:collapse;
+	table-layout:fixed;
+}
+
+.tbl-default caption {
+	display: none;
+}
+
+.tbl-basic thead th {
+	border-bottom: 1px solid #333;
+}
+
+.tbl-basic th, .tbl-basic td {	
+	height: 40px;
+	border-top: 1px solid #DCDCDC;
+	text-align: center;
+}
+
+.tbl-basic tr:first-child th, .tbl-basic tr:first-child td {	
+	border-top: 0;
+}

@@ -1,0 +1,183 @@
+<!doctype html>
+<html lang="ko">
+	<head>
+		<meta charset="UTF-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+		<title>관리자</title>
+
+		<script src="/adm/js/plugin/jquery/jquery-3.4.1.min.js"></script>
+		
+		<!-- jquery-ui -->
+		<script src="/adm/js/plugin/jquery-ui/jquery-ui.js"></script>
+		<link rel="stylesheet" href="/adm/js/plugin/jquery-ui/jquery-ui.css">
+
+		<!-- mCustomScrollbar -->
+		<script src="/adm/js/plugin/mCustomScrollbar/jquery.mCustomScrollbar.concat.min.js"></script>
+		<link rel="stylesheet" href="/adm/js/plugin/mCustomScrollbar/jquery.mCustomScrollbar.css">
+
+		<script src="/adm/js/adm-ui.js"></script>
+		
+		<link rel="stylesheet" href="/adm/css/common/common.css">
+		<!-- adm -->
+		<link rel="stylesheet" href="/adm/css/common.css">
+	</head>
+	<body>
+
+		<!-- wrap -->
+		<div id="wrap">
+
+			<!-- header -->
+			<header id="header">
+				<div><h1 class="logo"><a href="javascript:void(0);">스마트시티 <strong>IN 양평</strong></a></h1></div>
+				<div><a href="javascript:void(0);" class="admin">관리자페이지</a></div>
+			</header>
+			<!-- //header -->
+
+			<!-- container -->
+			<div id="container">
+				<!-- side -->
+				<section id="side">
+					<h2 class="hide">주메뉴</h2>
+					<ul id="gnb" class="gnb-dep1">
+						<li><a href="javascript:void(0);" class="gnb-dep1-tit">사용자 관리</a>
+							<ul class="gnb-dep2">
+								<li><a href="/adm/sub01-01.html">그룹관리</a></li>
+								<li><a href="/adm/sub01-02.html">사용자정보</a></li>
+								<li><a href="javascript:void(0);">조직정보</a></li>
+							</ul>
+						</li>
+						<li><a href="javascript:void(0);" class="gnb-dep1-tit">권한관리</a>
+							<ul class="gnb-dep2">
+								<li><a href="/adm/sub02-01.html">롤정보</a></li>
+								<li><a href="">권한정보</a></li>
+								<li><a href="javascript:void(0);">사용자권한</a></li>
+							</ul>
+						</li>
+						<li><a href="javascript:void(0);" class="gnb-dep1-tit">이력관리</a>
+							<ul class="gnb-dep2">
+								<li><a href="/adm/sub03-01.html">접속이력</a></li>
+								<li><a href="">사용이력</a></li>
+							</ul>
+						</li>
+						<li><a href="javascript:void(0);" class="gnb-dep1-tit">정보관리</a>
+							<ul class="gnb-dep2">
+								<li><a href="">공통분류코드</a></li>
+								<li><a href="">공통코드</a></li>
+								<li><a href="">기능</a></li>
+								<li><a href="">지도</a></li>
+								<li><a href="">레이어</a></li>
+								<li><a href="">공지사항</a></li>
+								<li><a href="">게시판</a></li>
+								<li><a href="">사이트링크</a></li>
+							</ul>
+						</li>
+						<li><a href="javascript:void(0);" class="gnb-dep1-tit">서버관리</a>
+							<ul class="gnb-dep2">
+								<li><a href="/adm/sub05-01.html">지도서비스</a></li>
+								<li><a href="/adm/sub05-02.html">클라우드서비스</a></li>
+							</ul>
+						</li>
+						<li><a href="guide.html" class="gnb-dep1-tit">가이드</a></li>
+					</ul>
+				</section>
+				<!-- //side -->
+				<!-- content -->
+				<section id="content">
+
+					<div class="row">
+						<div class="col-12 page-tit-wrap">
+							<h3 class="page-tit">사용자정보</h3><!-- left gnb 1차 메뉴 텍스트와 일치해야 해당 메뉴에 active 추가 됨 -->
+							<p class="page-txt">사용자정보를 관리하는 페이지입니다.</p>
+						</div>
+					</div>
+
+					<div class="row">
+						<div class="col-12">
+							<div class="bbs-top">
+								<div class="bbs-list-num">사용자수 : <strong>22</strong></div>
+								<div class="d-flex">
+									<div class="desc">
+										<select class="form-select" name="sbscrbSttus" id="sbscrbSttus" title="가입상태조건 선택">
+											<option value="0" selected="selected">상태(전체)</option>
+											<option value="A">가입신청</option>
+											<option value="D">삭제</option>
+											<option value="P">승인</option>
+										</select>
+										<select class="form-select" name="searchCondition" id="searchCondition" title="조회조건 선택">
+											<option value="0">ID</option>
+											<option value="1" selected="selected">이름</option>
+										</select>
+										<input type="text" id="" class="form-control"><button type="submit" class="btn type05 bi-srch">조회</button>
+										<button type="button" class="btn basic">삭제</button>
+										<a href="/adm/sub01-02-write.html" class="btn type01">등록</a>
+									</div>
+								</div>
+							</div>
+
+							<div class="bbs-default">
+								<table class="bbs-list">
+									<colgroup>
+										<col style="width: 5%;">
+										<col style="width: auto;">
+										<col style="width: 15%;">
+										<col style="width: 20%;">
+										<col style="width: 15%;">
+										<col style="width: 15%;">
+										<col style="width: 15%;">
+									</colgroup>
+									<thead>
+										<tr>
+											<th scope="col">
+												<span class="form-checkbox"><span><input type="checkbox" name="" id="chk1-1" checked=""><label for="chk1-1"></label></span></span>
+											</th>
+											<th scope="col">아이디</th>
+											<th scope="col">사용자 이름</th>
+											<th scope="col">사용자 이메일</th>
+											<th scope="col">휴대전화</th>
+											<th scope="col">등록일</th>
+											<th scope="col">가입상태</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr>
+											<td><span class="form-checkbox"><span><input type="checkbox" name="" id="chk1-1" checked=""><label for="chk1-1"></label></span></span></td>
+											<td><a href="/adm/sub01-02-view.html">webmaster</a></td>
+											<td>웹마스터</td>
+											<td>egovframesupport@gmail.com</td>
+											<td>02)1566-2059</td>
+											<td>2020-12-01</td>
+											<td>회원 가입 승인 상태</td>
+										</tr>																	
+									</tbody>
+								</table>
+							</div>
+
+							<div class="pagination">
+								<a href="javascript:void(0);" class="first" title="처음"></a>
+								<a href="javascript:void(0);" class="prev" title="이전"></a>
+								<strong class="current">1</strong>
+								<a href="javascript:void(0);">2</a>
+								<a href="javascript:void(0);">3</a>
+								<a href="javascript:void(0);">4</a>
+								<a href="javascript:void(0);">5</a>
+								<a href="javascript:void(0);" class="next" title="다음"></a>
+								<a href="javascript:void(0);" class="last" title="마지막"></a>
+							</div>
+
+						</div>
+					</div>
+
+					
+
+				</section>
+				<!-- //content -->
+			</div>
+			<!-- //container -->
+
+
+		</div>
+		<!-- //wrap -->
+	
+	</body>
+</html>

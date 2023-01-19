@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE form-validation PUBLIC 
+    "-//Apache Software Foundation//DTD Commons Validator Rules Configuration 1.1//EN" 
+    "http://jakarta.apache.org/commons/dtds/validator_1_1.dtd">
+
+<!--
+  @Description : 주제도관리 서버단 유효성 검증 파일
+  @author 플랫폼개발부문 DT솔루션 이준호
+  @since 2022.02.14
+  @version 1.0
+  @see
+
+	수정일        수정자               수정내용
+  =========     =======    =================================================
+  2022.02.14     이준호               최초생성
+-->
+
+<form-validation>
+    <formset>
+		<form name="themaMapVO">
+			<!--분류-->
+			<field property="themamapClCode" depends="required">
+        		<arg0 key="comMngrInfo.TmapVO.themamapClCode" />
+			</field>
+			<!--주제도 명-->
+			<field property="themamapNm" depends="required">
+				<arg0 key="comMngrInfo.TmapVO.themamapNm" />
+			</field>
+			<!--레이어명-->
+			<field property="layerNm" depends="required">
+				<arg0 key="comMngrInfo.TmapVO.layerNm" />
+			</field>
+			<!--주제도 설명-->
+			<field property="themamapDeci" depends="required">
+				<arg0 key="comMngrInfo.TmapVO.themamapDeci" />
+			</field>
+		</form>
+    </formset>
+
+</form-validation>

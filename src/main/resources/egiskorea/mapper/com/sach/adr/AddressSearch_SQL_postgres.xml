@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="addressSearch">
+
+    <!-- Select -->
+    <sql id="select">
+        select 
+		    (select emd_kor_nm from tgd_scco_emd where emd_cd = substring(lcl.pnu, 1, 8)) as emd_kor_nm,
+		    (select li_kor_nm from tgd_scco_li where li_cd = substring(lcl.pnu, 1, 10)) as li_kor_nm,
+		    substring(lcl.pnu, 11, 1) as mntn_yn,
+		    substring(lcl.pnu, 12, 4) as lnbr_mnnm,
+		    substring(lcl.pnu, 16, 4) as lnbr_slno,
+		    (select rn from tgd_sprd_rn where rn_cd = tsb.rn_cd) as rn,
+		    tsb.buld_mnnm,
+		    tsb.buld_slno,
+    </sql>
+
+    <!-- From 주소 -->
+    <sql id="from_address">
+        from 
+		    lsmd_cont_ldreg_41830 lcl
+		    left outer join (
+		        select t.*
+		        from (select 
+		            row_number() over (partition by rds_sig_cd || emd_cd || li_cd || mntn_yn || lnbr_mnnm || lnbr_slno order by rn_cd) as r,
+		            rds_sig_cd, emd_cd, li_cd, mntn_yn, lnbr_mnnm, lnbr_slno, rn_cd, buld_mnnm, buld_slno
+		        from tgd_spbd_buld) t
+		        where t.r = 1
+		    ) tsb on lcl.pnu = tsb.rds_sig_cd || tsb.emd_cd || li_cd || case when mntn_yn = '0' then '1' when mntn_yn = '1' then '2' else mntn_yn end || lpad(cast(lnbr_mnnm as varchar), 4, '0') || lpad(cast(lnbr_slno as varchar), 4, '0')
+    </sql>
+    
+    <!-- Where 주소 -->
+    <sql id="where_address">
+        <where>
+            <if test="@egovframework.com.cmm.util.EgovMybaitsUtil@isNotEmpty(pnu)">
+                AND lcl.pnu like #{pnu}
+            </if>
+        </where>
+        
+    </sql>
+
+    <!-- From 도로명 주소 -->
+    <sql id="from_road">
+	    from 
+		    tgd_spbd_buld tsb
+		    left outer join lsmd_cont_ldreg_41830 lcl on lcl.pnu = tsb.rds_sig_cd || tsb.emd_cd || li_cd || case when mntn_yn = '0' then '1' when mntn_yn = '1' then '2' else mntn_yn end || lpad(cast(lnbr_mnnm as varchar), 4, '0') || lpad(cast(lnbr_slno as varchar), 4, '0')
+    </sql>
+    
+    <!-- 페이징 -->
+    <sql id="limit">
+        LIMIT #{pageUnit} OFFSET (#{pageIndex} - 1) * #{pageUnit}
+    </sql>
+    
+    <!-- Where 도로명 주소 -->
+    <sql id="where_road">
+        <where>
+            <if test="@egovframework.com.cmm.util.EgovMybaitsUtil@isNotEmpty(rnCd)">
+	            AND tsb.RN_CD = #{rnCd}
+	        </if>
+            <if test="@egovframework.com.cmm.util.EgovMybaitsUtil@isNotEmpty(emdCd)">
+                AND tsb.EMD_CD = #{emdCd}
+            </if>
+            <if test="@egovframework.com.cmm.util.EgovMybaitsUtil@isNotEmpty(mnnm)">
+                AND tsb.BULD_MNNM = #{mnnm}
+            </if>
+            <if test="@egovframework.com.cmm.util.EgovMybaitsUtil@isNotEmpty(slno)">
+                AND tsb.BULD_SLNO = #{slno}
+            </if>
+        </where>
+    </sql>
+
+    <!-- 주소 목록 -->
+    <select id="selectAddressList" parameterType="addressSearchVO" resultType="addressResultVO">
+        <include refid="select" /> st_astext(ST_Transform(lcl.geom, 5179)) as wkt
+        <include refid="from_address" />
+        <include refid="where_address" />
+        ORDER BY PNU
+        <include refid="limit" />
+    </select>
+    
+    <!-- 주소 목록 건 수 -->
+    <select id="selectAddressListCnt" parameterType="addressSearchVO" resultType="int">
+        SELECT COUNT(*)
+        <include refid="from_address" />
+        <include refid="where_address" />
+    </select>
+
+    <!-- 도로명 주소 목록 -->
+    <select id="selectRoadAddressList" parameterType="addressSearchVO" resultType="addressResultVO">
+        <include refid="select" /> st_astext(tsb.geom) as wkt
+        <include refid="from_road" />
+        <include refid="where_road" />
+        ORDER BY RN, BULD_MNNM, BULD_SLNO
+        <include refid="limit" />
+    </select>
+    
+    <!-- 도로명 주소 건 수 -->
+    <select id="selectRoadAddressListCnt" parameterType="addressSearchVO" resultType="int">
+        SELECT COUNT(*)
+        <include refid="from_road" />
+        <include refid="where_road" />
+    </select>
+
+</mapper>

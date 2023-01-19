@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+
+	<!--Mybatis 설정 -->
+	<settings>
+		<!-- 전통적인 데이터베이스 컬럼명 형태인 A_COLUMN을 CamelCase형태의 자바 프로퍼티명 형태인 aColumn으로 자동으로 매핑하도록 함 -->
+		<setting name="mapUnderscoreToCamelCase" value="true"></setting>
+		<!--  파라미터에 Null 값이 있을 경우 에러 처리 -->
+		<setting name="jdbcTypeForNull" value="VARCHAR"></setting>
+	</settings>
+	
+	<!-- Type Aliases 설정-->
+	<typeAliases>
+		<typeAlias alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap" />
+	
+		<!-- 로그인 -->
+		<typeAlias alias="loginVO" type="egovframework.com.cmm.LoginVO" />
+		
+		<!-- GIS 공통 -->
+		<typeAlias alias="reverseGeocodingResultVO" type="egiskorea.com.geo.com.service.ReverseGeocodingResultVO" />
+		<typeAlias alias="reverseGeocodingVO" type="egiskorea.com.geo.com.service.ReverseGeocodingVO" />
+			
+		<!-- 지적 -->
+		<typeAlias alias="landRegisterVO" type="egiskorea.com.geo.lgsr.service.LandRegisterVO" />
+		
+		<!-- 조사정보 -->
+		<typeAlias alias="administrationZone" type="egiskorea.com.geo.emi.service.AdministrationZone" />
+		<typeAlias alias="examinationInfoVO" type="egiskorea.com.geo.emi.service.ExaminationInfoVO" />
+		<typeAlias alias="examinationInfo" type="egiskorea.com.geo.emi.service.ExaminationInfo" />
+		<typeAlias alias="landCategoryInfo" type="egiskorea.com.geo.emi.service.LandCategoryInfo" />
+		
+		<!-- 업소정보 -->
+		<typeAlias alias="businessInfoVO" type="egiskorea.com.geo.bsi.service.BusinessInfoVO" />
+		<typeAlias alias="businessInfo" type="egiskorea.com.geo.bsi.service.BusinessInfo" />
+		
+		<!-- 그리기 도구 -->
+		<typeAlias alias="graphicClassificationVO" type="egiskorea.com.cmt.grph.service.GraphicClassificationVO" />
+		<typeAlias alias="graphicInfoVO" type="egiskorea.com.cmt.grph.service.GraphicInfoVO" />
+		<typeAlias alias="imageMarkerVO" type="egiskorea.com.cmt.grph.service.ImageMarkerVO" />		
+		<typeAlias alias="graphicInfoSearchVO" type="egiskorea.com.cmt.grph.service.GraphicInfoSearchVO" />
+		<typeAlias alias="graphicInfoResultVO" type="egiskorea.com.cmt.grph.service.GraphicInfoResultVO" />
+		
+		<!-- 데이터 변환 -->
+		<typeAlias alias="dataConversionVO" type="egiskorea.com.lyr.dtcv.service.DataConversionVO" />
+		<typeAlias alias="mapsData" type="egiskorea.com.lyr.dtcv.service.MapsData" />
+		<typeAlias alias="convertProgress" type="egiskorea.com.lyr.dtcv.service.ConvertProgress" />
+		<typeAlias alias="workerCsvItem" type="egiskorea.com.lyr.dtcv.service.WorkerCsvItem" />
+	
+	    <!-- 검색 -->
+		<typeAlias alias="unitySearchVO" type="egiskorea.com.sach.unty.servcie.UntySearchVO" />
+	    <typeAlias alias="addressSearchVO" type="egiskorea.com.sach.adr.service.AddressSearchVO" />
+	    <typeAlias alias="addressResultVO" type="egiskorea.com.sach.adr.service.AddressResultVO" />
+
+		<!-- 레이어 관련 -->
+		<typeAlias alias="layerManagementVO" type="egiskorea.com.lyr.lym.service.LayerManagementVO" />
+		<typeAlias alias="layerRegisterInfo" type="egiskorea.com.lyr.lym.service.LayerRegisterInfo" />
+		<typeAlias alias="layerInfoVO" type="egiskorea.com.lyr.lyi.service.LayerInfoVO" />
+		<typeAlias alias="layerSet" type="egiskorea.com.lyr.lyi.service.LayerSet" />
+		<typeAlias alias="LayerAttribute" type="egiskorea.com.lyr.lyi.service.LayerAttribute" />
+		
+		<!-- 통합행정정보 -->
+		<typeAlias alias="unityAdministrationInfoVO" type="egiskorea.com.cmt.uai.service.UnityAdministrationInfoVO" />
+		<typeAlias alias="unityAdministrationInfo" type="egiskorea.com.cmt.uai.service.UnityAdministrationInfo" />
+		
+		
+		<!-- ### 업무 ### -->
+		<!-- 공간정보활용 > 지하수관리 > 농업용공공관정 -->
+		<typeAlias alias="underWaterAgriVO" type="egiskorea.com.job.ugtm.service.UnderWaterAgriVO" />
+		<typeAlias alias="underWaterAgri" type="egiskorea.com.job.ugtm.service.UnderWaterAgri" />
+		
+		<!-- 공간정보활용 > 지하수관리 > 지하수개발 -->
+		<typeAlias alias="underWaterDevelopVO" type="egiskorea.com.job.ugtm.service.UnderWaterDevelopVO" />
+		<typeAlias alias="underWaterDevelop" type="egiskorea.com.job.ugtm.service.UnderWaterDevelop" />
+		
+		<!-- 공간정보활용 > 지하수관리 > 지하수이용시설 -->
+		<typeAlias alias="underWaterUseFacilVO" type="egiskorea.com.job.ugtm.service.UnderWaterUseFacilVO" />
+		<typeAlias alias="underWaterUseFacil" type="egiskorea.com.job.ugtm.service.UnderWaterUseFacil" />
+		
+		<!-- 공간정보활용 > 신재생에너지 > 태양광발전소 -->
+		<typeAlias alias="renewableEnergyVO" type="egiskorea.com.job.rnen.service.RenewableEnergyVO" />
+		<typeAlias alias="renewableEnergy" type="egiskorea.com.job.rnen.service.RenewableEnergy" />
+		
+		<!-- 공간정보활용 > 안전시설물관리 > 가로등관리 -->
+		<typeAlias alias="safetyFacilLampMngVO" type="egiskorea.com.job.sffm.service.SafetyFacilLampMngVO" />
+		<typeAlias alias="safetyFacilLampMng" type="egiskorea.com.job.sffm.service.SafetyFacilLampMng" />
+		
+		<!-- 공간정보활용 > 안전시설물관리 > CCTV관리 -->
+		<typeAlias alias="safetyFacilCctvMngVO" type="egiskorea.com.job.cctv.service.SafetyFacilCctvMngVO" />
+		<typeAlias alias="safetyFacilCctvMng" type="egiskorea.com.job.cctv.service.SafetyFacilCctvMng" />
+		
+		<!-- 시설관리 > 교통시설 > 도로구간 -->
+		<typeAlias alias="roadSectionVO" type="egiskorea.com.job.trfc.service.RoadSectionVO" />
+		<typeAlias alias="roadSection" type="egiskorea.com.job.trfc.service.RoadSection" />
+		
+		<!-- 시설관리 > 교통시설 > 철도선로 -->
+		<typeAlias alias="railroadTrackVO" type="egiskorea.com.job.trfc.service.RailroadTrackVO" />
+		<typeAlias alias="railroadTrack" type="egiskorea.com.job.trfc.service.RailroadTrack" />
+		
+		<!-- 시설관리 > 교통시설 > 철도역사 -->
+		<typeAlias alias="railroadStationVO" type="egiskorea.com.job.trfc.service.RailroadStationVO" />
+		<typeAlias alias="railroadStation" type="egiskorea.com.job.trfc.service.RailroadStation" />
+		
+		<!-- 시설관리 > 교통시설 > 지하철선로 -->
+		<typeAlias alias="subwayTrackVO" type="egiskorea.com.job.trfc.service.SubwayTrackVO" />
+		<typeAlias alias="subwayTrack" type="egiskorea.com.job.trfc.service.SubwayTrack" />
+		
+		<!-- 시설관리 > 교통시설 > 지하철역사 -->
+		<typeAlias alias="subwayStationVO" type="egiskorea.com.job.trfc.service.SubwayStationVO" />
+		<typeAlias alias="subwayStation" type="egiskorea.com.job.trfc.service.SubwayStation" />
+		
+		<!-- 시설관리 > 교통시설 > 교량 -->
+		<typeAlias alias="bridgeVO" type="egiskorea.com.job.trfc.service.BridgeVO" />
+		<typeAlias alias="bridge" type="egiskorea.com.job.trfc.service.Bridge" />
+		
+		<!-- 시설관리 > 교통시설 > 고가도로 -->
+		<typeAlias alias="overpassVO" type="egiskorea.com.job.trfc.service.OverpassVO" />
+		<typeAlias alias="overpass" type="egiskorea.com.job.trfc.service.Overpass" />
+		
+		<!-- 시설관리 > 교통시설 > 터널 -->
+		<typeAlias alias="tunnelVO" type="egiskorea.com.job.trfc.service.TunnelVO" />
+		<typeAlias alias="tunnel" type="egiskorea.com.job.trfc.service.Tunnel" />
+		
+		<!-- 사업 공유관리 > 공사계획정보  -->
+		<typeAlias alias="constructionPlanVO" type="egiskorea.com.job.bco.service.ConstructionPlanVO" />
+		<typeAlias alias="constructionPlan" type="egiskorea.com.job.bco.service.ConstructionPlan" />
+		
+		<!-- 사업 공유관리 > 공사예정정보  -->
+		<typeAlias alias="constructionScheduleVO" type="egiskorea.com.job.bco.service.ConstructionScheduleVO" />
+		<typeAlias alias="constructionSchedule" type="egiskorea.com.job.bco.service.ConstructionSchedule" />
+		<typeAlias alias="constructionScheduleOrder" type="egiskorea.com.job.bco.service.ConstructionScheduleOrder" />
+		<typeAlias alias="constructionDtlsInfo" type="egiskorea.com.job.bco.service.ConstructionDtlsInfo" />
+				
+		<!-- 시설관리 > 체육시설 -->
+		<typeAlias alias="sportsVO" type="egiskorea.com.job.spor.service.SportsVO" />
+		
+		<!-- 시설관리 > 복지시설 -->
+		<typeAlias alias="welfareVO" type="egiskorea.com.job.wlre.service.WelfareVO" />
+		
+		<!-- 업무 > 읍명동  -->
+		<typeAlias alias="tgdSccoEmdVO" type="egiskorea.com.job.cmss.service.TgdSccoEmdVO" />
+
+		<!-- 주제도 관리 -->
+		<typeAlias alias="ThemaMapVO" type="egiskorea.com.mngr.info.service.ThemaMapVO" />
+
+		<!-- 업무 > 공통 분류 코드  -->
+		<typeAlias alias="comtccmmnclCode" type="egiskorea.com.job.cmss.service.ComtccmmnclCode" />
+		<typeAlias alias="comtccmmndetailcode" type="egiskorea.com.job.cmss.service.Comtccmmndetailcode" />
+		
+		<!-- 지도 서비스 관리-->
+		<typeAlias alias="MapServiceVO" type="egiskorea.com.mngr.sver.service.MapServiceVO" />
+		
+		<!-- 업무 > 시설예약관리 -->
+		<typeAlias alias="faciReseMngVO" type="egiskorea.com.job.fcrm.service.FaciReseMngVO" />
+		<typeAlias alias="faciReseMng" type="egiskorea.com.job.fcrm.service.FaciReseMng" />
+		
+		<!-- 업무 > 관내업소정보 -->
+		<typeAlias alias="inBusinessEstaInfoVO" type="egiskorea.com.job.ibbi.service.InBusinessEstaInfoVO" />
+		<typeAlias alias="inBusinessEstaInfo" type="egiskorea.com.job.ibbi.service.InBusinessEstaInfo" />
+		
+		<!-- 설정 -->
+		<typeAlias alias="MapVO" type="egiskorea.com.geo.map.service.MapVO" />
+		
+		<!-- ### 업무 ### -->
+		
+	</typeAliases>
+    
+</configuration>
