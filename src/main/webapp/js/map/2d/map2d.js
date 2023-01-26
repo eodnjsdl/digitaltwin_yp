@@ -31,6 +31,7 @@ dtmap.map2d = (function () {
         minZoom: 6,
         maxZoom: 19
     }
+    let isInit_ = false, container_, canvas_;
     let map, view
 
     /**
@@ -43,9 +44,12 @@ dtmap.map2d = (function () {
      * @param {number} options.minZoom
      * @param {number} options.maxZoom
      */
-    function init(options) {
-        options = Object.assign({}, DEFAULT, options) || {};
-
+    function init() {
+        if (isInit_) {
+            return;
+        }
+        let options = Object.assign({}, DEFAULT, dtmap.config.map2d) || {};
+        container_ = document.getElementById(options.target)
         view = new ol.View({
             projection: options.projection,
             center: options.center,
@@ -55,7 +59,7 @@ dtmap.map2d = (function () {
             constrainResolution: true,
         });
         map = new ol.Map({
-            target: document.getElementById(options.target),
+            target: container_,
             layers: [
                 // new ol.layer.Tile({
                 //     source : new ol.source.OSM()
@@ -65,6 +69,17 @@ dtmap.map2d = (function () {
             controls: [],
             view: view,
         });
+        initModules();
+        isInit_ = true;
+    }
+
+    function initModules() {
+        let modules = dtmap.map2d.modules;
+        for (let key in modules) {
+            if (modules[key].init && typeof modules[key].init === 'function') {
+                modules[key].init();
+            }
+        }
     }
 
     /**
@@ -88,6 +103,7 @@ dtmap.map2d = (function () {
     }
 
     function getCenter() {
+        console.log('2d getCenter');
     }
 
     function setCenter() {
@@ -106,8 +122,24 @@ dtmap.map2d = (function () {
     function dispose() {
     }
 
+    function show() {
+        if (!isInit_) {
+            init();
+        }
+        container_.style.display = 'block';
+    }
+
+    function hide() {
+        if (!isInit_) {
+            return;
+        }
+        container_.style.display = 'none';
+    }
+
     const module = {
         init: init,
+        show: show,
+        hide, hide,
         getZoom: getZoom,
         setZoom: setZoom,
         getCenter: getCenter,
@@ -137,6 +169,16 @@ dtmap.map2d = (function () {
         'crs': {
             get: function () {
                 return view.getProjection().getCode();
+            }
+        },
+        'container': {
+            get: function () {
+                return container_;
+            }
+        },
+        'isInit': {
+            get: function () {
+                return isInit_;
             }
         }
     });

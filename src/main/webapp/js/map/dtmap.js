@@ -3,12 +3,9 @@ window.dtmap = (function () {
 
     let cur_mode = '2d';
 
-
-    function init(options) {
+    function init() {
         dtmap.map2d.init();
-        dtmap.map2d.baseLayer.init();
     }
-
 
 
     function call(fName, params) {
@@ -36,12 +33,20 @@ window.dtmap = (function () {
     }
 
     function switchMap() {
+
+        let {map2d, map3d} = dtmap;
+
         if (cur_mode === '2d') {
             cur_mode = '3d';
             //TODO 2d->3d 동기화
+            map2d.hide();
+            map3d.show();
+
         } else {
             cur_mode = '2d'
             //TODO 3d->2d 동기화
+            map2d.show();
+            map3d.hide();
         }
     }
 
