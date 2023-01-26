@@ -9,7 +9,7 @@ dtmap.config = dtmap.config || {};
  * @type {{}}
  */
 dtmap.config.url = (function () {
-    var url = 'http://10.165.2.30';
+    var url = 'http://10.20.30.81';
 
     return {
         BASE: url,
