@@ -5,7 +5,6 @@ dtmap.map2d.divide = (function () {
     let map2, map3, map4;
     let divideCnt = 0;
 
-    let module = {}
 
     function init() {
 
@@ -19,6 +18,9 @@ dtmap.map2d.divide = (function () {
 
     }
 
+    let module = {
+        init: init
+    }
     return module;
 
 
