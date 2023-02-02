@@ -28,7 +28,7 @@ dtmap.map2d.modules.baseLayer = (function () {
             base: {
                 visible: false,
                 source: {
-                    url: dtmap.config.urls.emapBase + '?apikey=' + dtmap.config.EMAP_KEY,
+                    url: dtmap.urls.emapBase + '?apikey=' + dtmap.urls.EMAP_KEY,
                     crossOrigin: "*",
                     projection: "EPSG:5179",
                     wrapX: true,
@@ -65,7 +65,7 @@ dtmap.map2d.modules.baseLayer = (function () {
             air: {
                 visible: true,
                 source: {
-                    url: dtmap.config.urls.emapAir,
+                    url: dtmap.urls.emapAir,
                     crossOrigin: "*",
                     projection: "EPSG:5179",
                     wrapX: true,
@@ -96,7 +96,7 @@ dtmap.map2d.modules.baseLayer = (function () {
                         origin: [-200000, 4000000],
                     }),
                     tileLoadFunction: function (imageTile, src) {
-                        imageTile.getImage().src = dtmap.config.urls.emapAirProxy + '?apikey=' + dtmap.config.EMAP_KEY + "&URL=" + encodeURIComponent(src);
+                        imageTile.getImage().src = dtmap.urls.emapAirProxy + '?apikey=' + dtmap.urls.EMAP_KEY + "&URL=" + encodeURIComponent(src);
                     }
                 }
             }

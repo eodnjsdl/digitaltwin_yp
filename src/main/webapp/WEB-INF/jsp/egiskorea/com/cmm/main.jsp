@@ -49,14 +49,17 @@
     <script src="/js/map/dtmap.js"></script>
     <script src="/js/map/dtmap-config.js"></script>
     <script src="/js/map/dtmap-urls.js"></script>
+    <script src="/js/map/dtmap-util.js"></script>
 
     <!-- 2D Map js -->
     <script src="/js/map/2d/map2d.js"></script>
+    <script src="/js/map/2d/config.js"></script>
     <script src="/js/map/2d/map2d-baselayer.js"></script>
 
     <!-- 3D Map js -->
     <script src="/js/map/3d/map3d.js"></script>
-    <script src="/js/map/3d/map3d-baselayer.js"></script>
+    <script src="/js/map/3d/config.js"></script>
+    <script src="/js/map/3d/layer/map3d-layer.js"></script>
 
 
 </head>
@@ -2474,8 +2477,16 @@
 
 <!-- //wrap -->
 <script type="text/javascript">
-    dtmap.config.EMAP_KEY = `<spring:message code="Gis.baro2map.key"/>`
+    dtmap.urls.set({
+        EMAP_KEY: `<spring:message code="Gis.baro2map.key"/>`
+    })
     dtmap.init();
+
+    //2D / 3D 버튼
+    $('.map-control input[name="mapType"]').on('click', function (e) {
+        dtmap.switchMap(e.target.value)
+    })
+
 </script>
 
 </body>

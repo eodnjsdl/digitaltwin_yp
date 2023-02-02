@@ -23,15 +23,7 @@ dtmap.map2d = (function () {
         code: "urn:x-ogc:def:crs:EPSG:5179", units: "m", axisOrientation: "neu",
     }));
 
-    const DEFAULT = {
-        target: 'map2D',
-        projection: 'EPSG:5179',
-        center: [999028.8152684278, 1943589.1358372485],
-        zoom: 17,
-        minZoom: 6,
-        maxZoom: 19
-    }
-    let isInit_ = false, container_, canvas_;
+    let isInit_ = false, container_;
     let map, view
 
     /**
@@ -48,23 +40,19 @@ dtmap.map2d = (function () {
         if (isInit_) {
             return;
         }
-        let options = Object.assign({}, DEFAULT, dtmap.config.map2d) || {};
-        container_ = document.getElementById(options.target)
+        let config = dtmap.config.map2d
+        container_ = document.getElementById(config.target)
         view = new ol.View({
-            projection: options.projection,
-            center: options.center,
-            zoom: options.zoom,
-            minZoom: options.minZoom,
-            maxZoom: options.maxZoom,
+            projection: config.projection,
+            center: config.center,
+            zoom: config.zoom,
+            minZoom: config.minZoom,
+            maxZoom: config.maxZoom,
             constrainResolution: true,
         });
         map = new ol.Map({
             target: container_,
-            layers: [
-                // new ol.layer.Tile({
-                //     source : new ol.source.OSM()
-                // })
-            ],
+            layers: [],
             interactions: defaultInteractions(),
             controls: [],
             view: view,
@@ -78,8 +66,11 @@ dtmap.map2d = (function () {
         for (let key in modules) {
             if (modules[key].init && typeof modules[key].init === 'function') {
                 modules[key].init();
+                dtmap.map2d[key] = modules[key];
             }
         }
+        dtmap.map2d.modules = undefined;
+        delete dtmap.map2d.modules;
     }
 
     /**
@@ -103,17 +94,22 @@ dtmap.map2d = (function () {
     }
 
     function getCenter() {
-        console.log('2d getCenter');
+        return view.getCenter();
     }
 
-    function setCenter() {
-        console.log('2d setCenter');
+    function setCenter(center, zoom) {
+        view.setCenter(center);
+        if (zoom) {
+            view.setZoom(zoom);
+        }
     }
 
     function getExtent() {
+        return view.calculateExtent()
     }
 
-    function setExtent() {
+    function setExtent(extent) {
+        view.fit(extent);
     }
 
     function reset() {
@@ -139,7 +135,7 @@ dtmap.map2d = (function () {
     const module = {
         init: init,
         show: show,
-        hide, hide,
+        hide: hide,
         getZoom: getZoom,
         setZoom: setZoom,
         getCenter: getCenter,
