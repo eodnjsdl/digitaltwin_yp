@@ -155,19 +155,19 @@ $(document).ready(function(){
 				case "lnb-layer" : $(".lnb-layer input[name='searchKeyword']").val(""); aj_selectLayerList("left"); break;
 				case "lnb-theme" : aj_selectThematicMapList(); break; //주제도
 				case "lnb-work" : 
-					if(!is3dInit){
-						loadingShowHide('show')
-						call3D(false);				
-						
-						is3dInit = true;
-					}; break; //주제도
+					// if(!is3dInit){
+					// 	loadingShowHide('show')
+					// 	call3D(false);
+					//
+					// 	is3dInit = true;
+					// }; break; //주제도
 				case "lnb-analysis" : 
-					if(!is3dInit){
-						loadingShowHide('show')
-						call3D(false);				
-						
-						is3dInit = true;
-					}; break; //주제도
+					// if(!is3dInit){
+					// 	loadingShowHide('show')
+					// 	call3D(false);
+					//
+					// 	is3dInit = true;
+					// }; break; //주제도
 			}
 		} else {			
 			$("#side .lnb-cont").stop().fadeOut(100);			
@@ -181,14 +181,14 @@ $(document).ready(function(){
 		});
 		
 		// 생성된어 있는 POI, Line, Polygon 레이어가 있을때 지워주기(업무에서 표출중인 레이어 닫기)
-		if(!app2D) {
-			removeLayer();
-			cmmUtil.resetMap();
-			if(GLOBAL.layerBox != null){
-				delWfSLayer(GLOBAL.layerBox)
-				GLOBAL.layerBox = null
-			}
-		}
+		// if(!app2D) {
+		// 	removeLayer();
+		// 	cmmUtil.resetMap();
+		// 	if(GLOBAL.layerBox != null){
+		// 		delWfSLayer(GLOBAL.layerBox)
+		// 		GLOBAL.layerBox = null
+		// 	}
+		// }
 		
 		// 상단 메뉴 비활성화
 		$('#map-aside .map-tool-list li').removeClass('active');

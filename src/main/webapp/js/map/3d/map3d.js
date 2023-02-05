@@ -73,8 +73,11 @@ dtmap.map3d = (function () {
         for (let key in modules) {
             if (modules[key].init && typeof modules[key].init === 'function') {
                 modules[key].init();
+                dtmap.map3d[key] = modules[key];
             }
         }
+        dtmap.map3d.modules = undefined;
+        delete dtmap.map3d.modules;
     }
 
     //window resize Event
@@ -177,6 +180,16 @@ dtmap.map3d = (function () {
         container_.style.display = 'none';
     }
 
+    function showLayer(options) {
+        let {id, visible} = options;
+        let layer = dtmap.map3d.layer.getById(id);
+        if (!layer) {
+            dtmap.map3d.layer.addLayer(options);
+        }
+        dtmap.map3d.layer.setVisible(id, visible);
+
+
+    }
 
     const module = {
         init: init,
@@ -184,6 +197,7 @@ dtmap.map3d = (function () {
         hide: hide,
         setCenter: setCenter,
         getCenter: getCenter,
+        showLayer: showLayer
     }
 
     Object.defineProperties(module, {

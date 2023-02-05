@@ -24,7 +24,8 @@ dtmap.map2d = (function () {
     }));
 
     let isInit_ = false, container_;
-    let map, view
+    let map, view;
+    let layerList = [];
 
     /**
      * 2D 지도 초기화
@@ -112,6 +113,22 @@ dtmap.map2d = (function () {
         view.fit(extent);
     }
 
+    function getLayerById(id) {
+        let result;
+        return result;
+    }
+
+    function showLayer(options) {
+        let {id, visible} = options;
+        let layer = getLayerById(id);
+        if (!layer) {
+            //TODO create Layer
+        }
+
+        //TODO 주석해제
+        // layer.setVisible(visible);
+    }
+
     function reset() {
     }
 
@@ -142,6 +159,7 @@ dtmap.map2d = (function () {
         setCenter: setCenter,
         getExtent: getExtent,
         setExtent: setExtent,
+        showLayer: showLayer,
         reset: reset,
         dispose: dispose,
     }

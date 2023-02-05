@@ -3,17 +3,19 @@ dtmap.map3d = dtmap.map3d || {};
 dtmap.map3d.modules = dtmap.map3d.modules || {}
 dtmap.map3d.modules.layer = (function () {
 
-    const TYPE = [
-        "I", // image
-        "D", // 3ds
-        "G", // graph
-        "L", //
-        "F", // facility
-        "C", // csv
-        "POI", // poi
-    ];
+    const TYPE = {
+        "S": 'shp', //shape
+        "I": 'wms', // image
+        "D": '3ds', // 3ds
+        "G": 'graph', // graph
+        "L": 'wms', //
+        "F": 'fac', // facility
+        "C": 'csv', // csv
+        "POI": 'poi', // poi
+    }
+
     let userList, serviceList;
-    let layerIdTypeMap = {};
+    let layerTypeMap = {};
     let createFunctions = {};
     let map3d = dtmap.map3d;
 
@@ -23,37 +25,43 @@ dtmap.map3d.modules.layer = (function () {
     }
 
     function addLayer(options) {
-        let type = options.type;
+        let {id, type} = options;
+        if (getById(id)) {
+            throw new Error(id + " 레이어가 이미 존재합니다.");
+        }
+
         if (!type) {
+            throw new Error("레이어 종류가 지정되지 않았습니다.");
+        }
+
+        layerTypeMap[id] = createFunctions[TYPE[type]](options);
+    }
+
+    function removeLayer(id) {
+        let layer = getById(id)
+        if (!layer) {
             return;
         }
-        let id = options.id;
-        layerIdTypeMap[id] = createFunctions[type](options);
+        //TODO 레이어 삭제 로직
+
+
+        delete layerTypeMap[id];
     }
 
-    function removeLayer(options) {
-
-    }
-
-    function show(id) {
+    function setVisible(id, visible) {
         let list = getList(id);
         if (!list) {
             return;
         }
-        list.setVisible(id, true);
-        Module.setVisibleRange(layerNm, map3d.config.vidoQlityLevel, map3d.config.maxDistance);
-    }
-
-    function hide(id) {
-        let list = getList(id);
-        if (!list) {
-            return;
+        list.setVisible(id, visible);
+        if (visible) {
+            Module.setVisibleRange(id, map3d.config.vidoQlityLevel, map3d.config.maxDistance);
         }
-        list.setVisible(id, false);
+        Module.XDRenderData();
     }
 
     function getList(id) {
-        let type = layerIdTypeMap[id];
+        let type = layerTypeMap[id];
         if (!type) {
             return;
         }
@@ -65,7 +73,11 @@ dtmap.map3d.modules.layer = (function () {
     }
 
     function getById(id) {
-
+        let list = getList(id);
+        if (!list) {
+            return;
+        }
+        return list.nameAtLayer(id);
     }
 
     /**
@@ -82,9 +94,10 @@ dtmap.map3d.modules.layer = (function () {
     }
 
     function createWMS(options) {
+        let {id, store, table} = options;
         let opt = Object.assign({}, {
-            url: dtmap.config.urls.xdGeoUrl + "/wms?",
-            layer: options.layerNm,
+            url: dtmap.urls.xdGeoUrl + "/wms?",
+            layer: store + ':' + table,
             minimumlevel: options.minimumlevel,
             maximumlevel: options.maximumlevel,
             tileSize: options.tileSize,
@@ -92,7 +105,7 @@ dtmap.map3d.modules.layer = (function () {
             parameters: options.parameters,
         }, WMS_OPT)
 
-        let layer = serviceList.createWMSLayer(options.id);
+        let layer = serviceList.createWMSLayer(id);
         layer.setWMSProvider(opt);
         layer.setBBoxOrder(true);
         return 'service';
@@ -145,35 +158,25 @@ dtmap.map3d.modules.layer = (function () {
         return 'service';
     }
 
-    function loadIcon(_iconName, _url, _callback) {
-
-        var icon = Module.getSymbol().getIcon(_iconName);
+    function loadIcon(name, url, callback) {
+        var icon = Module.getSymbol().getIcon(name);
         if (icon != null) {
-            _callback(icon);
+            if (callback && typeof callback === 'function') {
+                callback(icon);
+            }
         } else {
             // 이미지 관리 심볼 반환
             var symbol = Module.getSymbol();
-
             // 이미지 로드
-            var img = new Image();
-            img.onload = function () {
-
-                // canvas를 통해 이미지 데이터 생성
-                var canvas = document.createElement('canvas');
-                canvas.width = img.width;
-                canvas.height = img.height;
-
-                var ctx = canvas.getContext('2d');
-                ctx.drawImage(img, 0, 0);
-
-                var imageData = ctx.getImageData(0, 0, canvas.width, canvas.height).data;
-
+            loadImage(url, function (img) {
                 // 생성된 아이콘 이미지 콜백 반환
-                if (symbol.insertIcon(_iconName, imageData, canvas.width, canvas.height)) {
-                    _callback(symbol.getIcon(_iconName));
+                if (symbol.insertIcon(name, img.data, img.width, img.height)) {
+                    if (callback && typeof callback === 'function') {
+                        callback(symbol.getIcon(name));
+                    }
                 }
-            };
-            img.src = _url;
+            })
+
         }
     }
 
@@ -183,19 +186,20 @@ dtmap.map3d.modules.layer = (function () {
      */
     //layerNm, layerId, tblNm
     function createPOI(options) {
-        let id = options.id;
+        let {id, table, layerNm} = options;
+        let layer = userList.createLayer(id, Module.ELT_3DPOINT);
         $.ajax({
             type: "POST",
             url: "/lyr/lyi/selectLayerInfoList.do",
             data: {
                 "lyrId": id,
-                "tblNm": options.tblNm
+                "tblNm": table
             },
             dataType: "json",
             async: false,
-            success: function (returnData, status) {
-                let layer = userList.createLayer(options.layerNm, Module.ELT_3DPOINT);
-                let list = returnData.layerInfoList;
+            success: function (data, status) {
+
+                let list = data.layerInfoList;
 
                 if (list != null) {
                     for (let i = 0; i < list.length; i++) {
@@ -208,10 +212,10 @@ dtmap.map3d.modules.layer = (function () {
                             lon: list[i].lon,
                             lat: list[i].lat,
                             text: list[i].text,
-                            markerImage: "./images/poi/" + returnData.poiImg,
+                            markerImage: "./images/poi/" + data.poiImg,
                             lineColor: new Module.JSColor(255, 255, 255),
-                            type: returnData.poiType,
-                            poiColor: returnData.poiColor,
+                            type: data.poiType,
+                            poiColor: data.poiColor,
 
                         });
                     }
@@ -221,26 +225,157 @@ dtmap.map3d.modules.layer = (function () {
         return 'user';
     }
 
+    function createLinePoi2(options) {
+        // 라인 흰색 고정
+        options.lineColor = new Module.JSColor(255, 255, 255);
+
+        // 이미지 형태
+        if (options.type !== "C") {
+            // POI 이미지 로드
+            var img = new Image();
+            img.onload = function () {
+                // 이미지 로드 후 캔버스에 그리기
+                var canvas = document.createElement('canvas');
+                var ctx = canvas.getContext('2d');
+
+                ctx.width = img.width;
+                ctx.height = img.height;
+                ctx.drawImage(img, 0, 0);
+
+                // z값 구해서 넣기
+                var alt = Module.getMap().getTerrHeightFast(Number(options.lon), Number(options.lat));
+                var point;
+                var pointNm = "";
+
+                // 이미지 POI 생성 및 Key값 지정
+                if (options.layerKey !== undefined && options.layer2Key === undefined) {
+                    pointNm = options.layerKey.toString();
+                } else if (options.layer2Key !== undefined) {
+                    pointNm = options.layerKey.toString() + "_" + options.layer2Key.toString();
+                } else {
+                    pointNm = "POI_" + options.layer.getObjectCount();
+                }
+
+                point = Module.createPoint(pointNm);
+
+                var imageData = ctx.getImageData(0, 0, this.width, this.height).data;
+
+                point.setPosition(new Module.JSVector3D(options.lon, options.lat, alt));
+
+                // POI 수직 라인 설정
+                if (options.alt !== undefined) {
+                    point.setPositionLine(5.0 + alt, options.lineColor);
+                } else {
+                    point.setPositionLine(30.0 + alt, options.lineColor);
+                }
+
+                // 텍스트 설정
+                //point.setTextMargin(0, -5);
+
+                // 하이라이트 POI 등록
+                if (options.highlight !== undefined) {
+                    if (options.highlight) {
+                        var bResult = Module.getSymbol().insertIcon(pointNm, imageData, ctx.width, ctx.height);
+
+                        if (bResult) {
+                            options.layer.keyAtObject(pointNm.replaceAll("_on", "")).setHighlightIcon(Module.getSymbol().getIcon(pointNm));
+                        }
+                    }
+                } else {
+                    var imgUrl = options.markerImage;
+
+                    imgUrl = imgUrl.split(".")[0] + imgUrl.split(".")[1] + "_on." + imgUrl.split(".")[2];
+
+                    options.markerImage = imgUrl;
+                    options.highlight = true;
+                    options.layerKey = pointNm + "_on";
+
+                    createLinePoi2(options);
+
+                    point.setText(String(options.text));
+                    point.setImage(imageData, this.width, this.height);
+                }
+
+                point.setHighlight(false);
+
+                options.layer.setMaxDistance(dtmap.map3d.config.maxDistance);
+                options.layer.addObject(point, 0);
+            };
+            img.src = options.markerImage;
+        } else { // 원형
+            // 이미지 로드 후 캔버스에 그리기
+            var canvas = document.createElement('canvas');
+            var ctx = canvas.getContext('2d');
+
+            ctx.width = 30;
+            ctx.height = 30;
+            ctx.clearRect(0, 0, ctx.width, ctx.height);
+
+            var x = ctx.width / 2;
+            var y = ctx.height / 2;
+
+            if (options.poiColor.indexOf("#") >= 0) {
+                var hex = options.poiColor;
+                var red = parseInt(hex[1] + hex[2], 16);
+                var green = parseInt(hex[3] + hex[4], 16);
+                var blue = parseInt(hex[5] + hex[6], 16);
+
+                options.poiColor = "rgba(" + red + "," + green + "," + blue + ", 255)";
+            }
+
+            // 동그라미 마커 이미지 그리기
+            ctx.beginPath();
+            ctx.arc(x, y, 4, 0, 2 * Math.PI, false);
+            ctx.fillStyle = options.poiColor;
+            ctx.fill();
+            ctx.lineWidth = 2;
+            ctx.strokeStyle = 'white';
+            ctx.stroke();
+
+            // z값 구해서 넣기
+            var alt = Module.getMap().getTerrHeightFast(Number(options.lon), Number(options.lat));
+            var point = '';
+
+            // 이미지 POI 생성 및 Key값 지정
+            if (options.layerKey) {
+                point = Module.createPoint(options.layerKey.toString());
+            } else {
+                point = Module.createPoint("POI_" + options.layer.getObjectCount());
+            }
+
+            point.setPosition(new Module.JSVector3D(options.lon, options.lat, alt));
+            point.setImage(ctx.getImageData(0, 0, ctx.width, ctx.height).data, ctx.width, ctx.height);
+
+            // POI 수직 라인 설정
+            point.setPositionLine(30.0 + alt, options.lineColor);
+
+            // 텍스트 설정
+            point.setText(String(options.text));
+            //point.setTextMargin(0, -5);
+            options.layer.setMaxDistance(dtmap.map3d.config.maxDistance);
+            options.layer.addObject(point, 0);
+        }
+
+    }
+
 
     /**
      * CSV 레이어
      */
 
-    function createCSV(layerNm, layerId) {
-        var poiType, poiIndex, poiColor;
-        var dataid = layerId;
-
+    function createCSV(options) {
+        let {id, layerNm} = options;
         $.ajax({
             type: "POST",
             url: "/lyr/lyi/selectCsvLayerInfo.do",
             data: {
-                "dataid": layerId
+                "dataid": id
             },
             dataType: "json",
             async: false,
             success: function (returnData, status) {
                 var result = returnData.mapsData;
-
+                let {serverUrl} = dtmap.urls;
                 if (result.poiType === 0) { // 원형
                     loadCSV_colData(layerNm, serverUrl + result.metaOutUrl, result.poiColor, 0, 13);
                 } else if (result.poiType === 1) {  // 이미지
@@ -252,27 +387,26 @@ dtmap.map3d.modules.layer = (function () {
     }
 
     //CSV 데이터(원형) 호출
-    function loadCSV_colData(layerId, geoUrl, rgbaVal, min, max) {
+    function loadCSV_colData(layerId, url, rgbaVal, min, max) {
         // CSV 데이터 POI 이미지 로드
-        GLOBAL.POI_image = createPoiCircle(rgbaVal);
+        let poiImage = createPoiCircle(rgbaVal);
 
         // 4번째 파라미터 : POI 선택여부
-        Module.XDEMapCreateLayer(layerId, geoUrl, 0, true, true, true, 22, min, max);
+        Module.XDEMapCreateLayer(layerId, url, 0, true, true, true, 22, min, max);
 
         // csv 타일 로드 콜백 함수 설정
         var layer = serviceList.nameAtLayer(layerId);
 
         layer.setUserTileLoadCallback(function (_layerName, _tile, _data) {
             var data = decodeURI(_data);
-
-            insertTileObjects(_tile, data, GLOBAL.POI_image, layerId);
+            addPoiToTile(_tile, data, poiImage, layerId);
         });
     }
 
     // CSV 데이터(이미지) 호출
     function loadCSV_imgData(layerId, geoUrl, imgIndex, min, max) {
         // CSV 데이터 POI 이미지 로드
-        loadImage(layerId, "./images/symbol/" + String(imgIndex) + "_s.png", function (_image) {
+        loadImage("./images/symbol/" + String(imgIndex) + "_s.png", function (img) {
 
             // csv 타일 레이어 로드
             // 4번째 파라미터 : POI 선택여부
@@ -284,8 +418,7 @@ dtmap.map3d.modules.layer = (function () {
 
             layer.setUserTileLoadCallback(function (_layerName, _tile, _data) {
                 var data = decodeURI(_data);
-
-                insertTileObjects(_tile, data, _image, layerId);
+                addPoiToTile(_tile, data, img, layerId);
             });
         });
     }
@@ -350,15 +483,67 @@ dtmap.map3d.modules.layer = (function () {
         img.src = src;
     }
 
+    /* poi 이미지 생성 후 타일에 추가 */
+    function addPoiToTile(_tile, _csvData, _poiImageData, _layerId) {
+        var items = _csvData.split(",");
+        var id = "", text = "", lon = "", lat = "", alt;
+
+        for (var i = 0; i < items.length; i++) {
+            var item = items[i].split(":");
+            var key = item[0];
+            var value = item[1];
+
+            switch (key) {
+                case "id"    :
+                    id = value;
+                    break;
+                case "lon"    :
+                    lon = value;
+                    break;
+                case "lat"    :
+                    lat = value;
+                    break;
+                case "name" :
+                    text = value;
+                    break;
+            }
+
+            if (id !== "") {
+                alt = Module.Map.getTerrHeightFast(Number(lon), Number(lat));
+            }
+
+            // POI 생성 후 타일에 추가
+            var point = Module.createPoint(id.toString());
+            point.setPosition(new Module.JSVector3D(Number(lon), Number(lat), Number(alt)));
+            point.setImage(_poiImageData.data, _poiImageData.width, _poiImageData.height);//
+            point.setPositionLine(30.0, new Module.JSColor(255, 255, 255));
+            point.setText(text);
+
+            _tile.addObject(point);
+        }
+    }
+
+    function createSHP(options) {
+        let {shpType} = options;
+        if (shpType === 3 || shpType === 4) {
+            return createPOI(options);
+        } else {
+            return createWMS(options);
+        }
+
+    }
+
     createFunctions['wms'] = createWMS;
     createFunctions['wfs'] = createWFS;
     createFunctions['poi'] = createPOI;
     createFunctions['csv'] = createCSV;
+    createFunctions['shp'] = createSHP;
     let module = {
         init: init,
-        show: show,
-        hide: hide,
-        addLayer: addLayer
+        addLayer: addLayer,
+        removeLayer: removeLayer,
+        setVisible: setVisible,
+        getById: getById
     }
     return module;
 })();

@@ -3,20 +3,21 @@ window.dtmap = (function () {
 
     let cur_mode = '2D';
 
+    //TODO 2d 3d 레이어 목록 따로 관리
+
     function init() {
         dtmap.map2d.init();
     }
 
-
     function call(fName, params) {
         let fnc = getModule()[fName]
         if (fnc && typeof fnc === 'function') {
-            fnc.call(params)
+            fnc.call(dtmap, params);
         }
     }
 
     function getModule() {
-        if (cur_mode === '2d') {
+        if (cur_mode === '2D') {
             return dtmap.map2d
         } else {
             return dtmap.map3d
@@ -62,10 +63,35 @@ window.dtmap = (function () {
         }
     }
 
+
+    function showLayer(options) {
+        let {id, visible, table, store, shpType, layerNm} = options;
+        let type = id.split('_')[1];
+        let layerId = id.split('_')[2];
+        let only3d = id.split('_')[3];
+
+
+        if (cur_mode === '2D' && only3d) {
+            throw new Error('3D에서만 사용가능한 레이어입니다.');
+        }
+
+        call('showLayer', {
+            type: type,
+            id: layerId,
+            visible: visible,
+            table: table,
+            store: store,
+            shpType: shpType,
+            layerNm: layerNm
+        });
+    }
+
+
     const module = {
         init: init,
         switchMap: switchMap,
-        setCenter: setCenter
+        setCenter: setCenter,
+        showLayer: showLayer
     }
 
     Object.defineProperties(module, {

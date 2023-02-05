@@ -34,7 +34,8 @@
     <!-- chart.js -->
     <script src="/js/plugin/chart/chart.js"></script>
     <script src="/js/html2canvas.min.js" type="text/javascript"></script>
-    <script src="/js/map-ui.js"></script>
+    <script src="/js/ui/ui.js"></script>
+    <script src="/js/ui/ui-toc.js"></script>
 
 
     <link rel="stylesheet" href="/css/com/common.css">
@@ -59,7 +60,7 @@
     <!-- 3D Map js -->
     <script src="/js/map/3d/map3d.js"></script>
     <script src="/js/map/3d/config.js"></script>
-    <script src="/js/map/3d/layer/map3d-layer.js"></script>
+    <script src="/js/map/3d/map3d-layer.js"></script>
 
 
 </head>
@@ -2482,10 +2483,7 @@
     })
     dtmap.init();
 
-    //2D / 3D 버튼
-    $('.map-control input[name="mapType"]').on('click', function (e) {
-        dtmap.switchMap(e.target.value)
-    })
+
 
 </script>
 
