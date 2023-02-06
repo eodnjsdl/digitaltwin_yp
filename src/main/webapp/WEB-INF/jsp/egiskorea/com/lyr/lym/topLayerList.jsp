@@ -79,6 +79,42 @@
 		myeonList();
 		
 	});
+	function myeonList() {
+		let cnt = $('#ctgr_025 > ul.layer-list-dep2 > li').length;
+		let idx = "";
+		let myeon = "";
+		let myeonText = "";
+		let liTag = "";
+		let myeonId = "";
+		let myeonNm = "";
+		let liVal = "";
+		let len = "";
+		if (cnt > 0) {
+			myeon = $('#ctgr_025 > ul.layer-list-dep2 > li');
+			for(let i = 0; i < cnt; i++) {
+				myeonText = myeon[i].innerText;
+				idx = ypMyeon.indexOf(myeonText.trim());
+				myeonId = myeon[i].children[0].id;
+				myeonNm = myeon[i].children[0].name;
+				len = ypLiLod[idx].length;
+				if (myeonText == '강상면') {
+					$('#ctgr_025 > ul.layer-list-dep2 > li[title="'+myeonText+'"]').append('<ul class="riCheckBox" title="'+myeonText+'"></ul>');
+				} else {
+					$('#ctgr_025 > ul.layer-list-dep2 > li[title="'+myeonText+'"]').append('<ul class="riCheckBox" title="'+myeonText+'" style="display: none;"></ul>');
+				}
+				for(let j = 0; j < len; j++) {
+					liVal = ypLiLod[idx][j];
+					liValTxt = ypLiLodNm[idx][j];
+					liTag = "";
+					liTag += '<li title="'+myeonText+' '+liValTxt+'" class="liData">';
+					liTag += '<span class="form-checkbox">';
+					liTag += '<input type="checkbox" id="'+myeonId+'_'+j+'" name="'+myeonNm+'" class="only3d" value="'+liVal+'">';
+					liTag += '<label for="'+myeonId+'_'+j+'" data-title="'+liValTxt+'">'+liValTxt+'</label></span></li>';
+					$('#ctgr_025 > ul.layer-list-dep2 > li[title="'+myeonText+'"] > ul').append(liTag);
+				}
+			}
+		}
+	}
 </script>
 
 <div class="popup-header">3D 레이어</div>

@@ -3,9 +3,9 @@ dtmap.map3d = dtmap.map3d || {};
 dtmap.map3d.modules = dtmap.map3d.modules || {}
 dtmap.map3d.modules.layer = (function () {
 
-    const TYPE = {
+    const LAYER_TYPE = {
         "S": 'shp', //shape
-        "I": 'wms', // image
+        "I": 'img', // image
         "D": '3ds', // 3ds
         "G": 'graph', // graph
         "L": 'wms', //
@@ -13,17 +13,41 @@ dtmap.map3d.modules.layer = (function () {
         "C": 'csv', // csv
         "POI": 'poi', // poi
     }
-
+    const JS_LAYER_TYPE = {
+        ELT_POLYHEDRON: 0, //다면체
+        ELT_PLANE: 1, //평면
+        ELT_PIPE: 2, //관(실린더)
+        ELT_BILLBOARD: 3, //빌보드
+        ELT_3DLINE: 4,// 3차원 선
+        ELT_3DPOINT: 5, // 심볼 텍스트
+        ELT_3DS_SYMBOL: 6, // 3차원 심볼
+        ELT_GHOST_3DSYMBOL: 7, //유령 심볼
+        ELT_TERRAIN: 8, //지형
+        ELT_MULTILPE: 9, //다용도
+        ELT_KML_GROUND: 10, //KML
+        ELT_TERRAIN_IMAGE: 11, //지형 영상
+        ELT_PICTOMETRY: 12, //픽토 메트리
+        ELT_WATER: 13, //Water 가시화
+        ELT_SKY_LINE: 102, //RTT 미적용 3차원 선
+        ELT_TYPOON: 112, //태풍 가시화
+        ELT_GRAPH: 113, //차트 가시화
+    }
+    const TIME_OUT = 100 * 60 * 10; //레이어 삭제에 쓰이는 타임아웃
     let userList, serviceList;
-    let layerTypeMap = {};
+    let layerMap = new Map();
     let createFunctions = {};
     let map3d = dtmap.map3d;
+    let timeOutMap = new Map();
 
     function init() {
         userList = new Module.JSLayerList(true);
         serviceList = new Module.JSLayerList(false);
     }
 
+    /**
+     * 레이어 추가
+     * @param options
+     */
     function addLayer(options) {
         let {id, type} = options;
         if (getById(id)) {
@@ -33,51 +57,61 @@ dtmap.map3d.modules.layer = (function () {
         if (!type) {
             throw new Error("레이어 종류가 지정되지 않았습니다.");
         }
-
-        layerTypeMap[id] = createFunctions[TYPE[type]](options);
+        createFunctions[LAYER_TYPE[type]](options);
     }
 
+    /**
+     * 레이어 삭제
+     * @param id
+     */
     function removeLayer(id) {
         let layer = getById(id)
         if (!layer) {
             return;
         }
-        //TODO 레이어 삭제 로직
+        let list;
+        if (layer['type_'] === 'user') {
+            list = userList;
+        } else {
+            list = serviceList;
+        }
+        list.delLayerAtName(layer.getName());
+        layerMap.delete(id);
 
-
-        delete layerTypeMap[id];
+        console.log('removeLayer', id, timeOutMap)
     }
 
     function setVisible(id, visible) {
-        let list = getList(id);
-        if (!list) {
-            return;
-        }
-        list.setVisible(id, visible);
+        let layer = getById(id);
         if (visible) {
+            let timeout = timeOutMap.get(id);
+            if (timeout) {
+                clearTimeout(timeout);
+            }
             Module.setVisibleRange(id, map3d.config.vidoQlityLevel, map3d.config.maxDistance);
+        } else {
+            removeByTimeOut(id, layer);
         }
+        layer.setVisible(visible);
         Module.XDRenderData();
     }
 
-    function getList(id) {
-        let type = layerTypeMap[id];
-        if (!type) {
-            return;
-        }
-        if (type === 'service') {
-            return serviceList;
-        } else {
-            return userList;
-        }
+    //레이어 가시화 OFF 10분후 삭제
+    function removeByTimeOut(id, layer) {
+        let timeout = setTimeout(function () {
+            if (layer.getVisible()) {
+                removeByTimeOut(id, layer)
+            } else {
+                removeLayer(id);
+            }
+            timeOutMap.delete(id);
+
+        }, TIME_OUT);
+        timeOutMap.set(id, timeout);
     }
 
     function getById(id) {
-        let list = getList(id);
-        if (!list) {
-            return;
-        }
-        return list.nameAtLayer(id);
+        return layerMap.get(id);
     }
 
     /**
@@ -93,6 +127,10 @@ dtmap.map3d.modules.layer = (function () {
         }
     }
 
+    /**
+     *
+     * @param options
+     */
     function createWMS(options) {
         let {id, store, table} = options;
         let opt = Object.assign({}, {
@@ -108,7 +146,8 @@ dtmap.map3d.modules.layer = (function () {
         let layer = serviceList.createWMSLayer(id);
         layer.setWMSProvider(opt);
         layer.setBBoxOrder(true);
-        return 'service';
+        layer['type_'] = 'service';
+        layerMap.set(id, layer)
     }
 
     /**
@@ -122,6 +161,11 @@ dtmap.map3d.modules.layer = (function () {
         bboxOrder: true
     }
 
+    /**
+     *
+     * @param options
+     * @returns {string}
+     */
     function createWFS(options) {
         let id = options.id
         let layerNm = options.layerNm
@@ -155,6 +199,11 @@ dtmap.map3d.modules.layer = (function () {
 
         // 레이어 가시범위 지정
         Module.setVisibleRange(layerNm, map3d.config.vidoQlityLevel, map3d.config.maxDistance);
+
+
+        layer['type_'] = 'service';
+        layerMap.set(id, layer);
+
         return 'service';
     }
 
@@ -182,10 +231,10 @@ dtmap.map3d.modules.layer = (function () {
 
 
     /**
-     * POI 레이어
+     * User POI 레이어
      */
     //layerNm, layerId, tblNm
-    function createPOI(options) {
+    function createUserPOI(options) {
         let {id, table, layerNm} = options;
         let layer = userList.createLayer(id, Module.ELT_3DPOINT);
         $.ajax({
@@ -222,7 +271,8 @@ dtmap.map3d.modules.layer = (function () {
                 }
             }
         });
-        return 'user';
+        layer['type_'] = 'user';
+        layerMap.set(id, layer);
     }
 
     function createLinePoi2(options) {
@@ -358,6 +408,20 @@ dtmap.map3d.modules.layer = (function () {
 
     }
 
+    /**
+     * Service POI 레이어
+     */
+    function createServicePOI(options) {
+        let {id, layerNm} = options;
+        //Module.ELT_3DPOINT = 5
+        Module.XDEMapCreateLayer(layerNm, dtmap.urls.xdServer, 0, true, true, false, JS_LAYER_TYPE.ELT_3DPOINT, 0, 15);
+        //poi icon 표출
+        let layer = serviceList.nameAtLayer(layerNm);
+        layer.tile_load_ratio = 1000;
+        layer['type_'] = 'service';
+        layerMap.set(id, layer)
+    }
+
 
     /**
      * CSV 레이어
@@ -377,9 +441,9 @@ dtmap.map3d.modules.layer = (function () {
                 var result = returnData.mapsData;
                 let {serverUrl} = dtmap.urls;
                 if (result.poiType === 0) { // 원형
-                    loadCSV_colData(layerNm, serverUrl + result.metaOutUrl, result.poiColor, 0, 13);
+                    loadCSV_colData(id, layerNm, serverUrl + result.metaOutUrl, result.poiColor, 0, 13);
                 } else if (result.poiType === 1) {  // 이미지
-                    loadCSV_imgData(layerNm, serverUrl + result.metaOutUrl, result.poiIndex, 0, 13);
+                    loadCSV_imgData(id, layerNm, serverUrl + result.metaOutUrl, result.poiIndex, 0, 13);
                 }
             }
         });
@@ -387,7 +451,7 @@ dtmap.map3d.modules.layer = (function () {
     }
 
     //CSV 데이터(원형) 호출
-    function loadCSV_colData(layerId, url, rgbaVal, min, max) {
+    function loadCSV_colData(id, layerId, url, rgbaVal, min, max) {
         // CSV 데이터 POI 이미지 로드
         let poiImage = createPoiCircle(rgbaVal);
 
@@ -401,10 +465,12 @@ dtmap.map3d.modules.layer = (function () {
             var data = decodeURI(_data);
             addPoiToTile(_tile, data, poiImage, layerId);
         });
+        layer['type_'] = 'service';
+        layerMap.set(id, layer)
     }
 
     // CSV 데이터(이미지) 호출
-    function loadCSV_imgData(layerId, geoUrl, imgIndex, min, max) {
+    function loadCSV_imgData(id, layerId, geoUrl, imgIndex, min, max) {
         // CSV 데이터 POI 이미지 로드
         loadImage("./images/symbol/" + String(imgIndex) + "_s.png", function (img) {
 
@@ -413,13 +479,15 @@ dtmap.map3d.modules.layer = (function () {
             Module.XDEMapCreateLayer(layerId, geoUrl, 0, true, true, true, 22, min, max);
 
             // csv 타일 로드 콜백 함수 설정
-            var layerList = new Module.JSLayerList(false);
-            var layer = layerList.nameAtLayer(layerId);
+            var layer = serviceList.nameAtLayer(layerId);
 
             layer.setUserTileLoadCallback(function (_layerName, _tile, _data) {
                 var data = decodeURI(_data);
                 addPoiToTile(_tile, data, img, layerId);
             });
+
+            layer['type_'] = 'service';
+            layerMap.set(id, layer);
         });
     }
 
@@ -526,18 +594,43 @@ dtmap.map3d.modules.layer = (function () {
     function createSHP(options) {
         let {shpType} = options;
         if (shpType === 3 || shpType === 4) {
-            return createPOI(options);
+            return createUserPOI(options);
         } else {
             return createWMS(options);
         }
 
     }
 
+    function createImg(options) {
+        let {id, layerNm, visible} = options;
+
+        Module.XDEMapCreateLayer(layerNm, dtmap.urls.xdServer, 0, false, visible, false, JS_LAYER_TYPE.ELT_KML_GROUND, 1, 15);
+        Module.setVisibleRange(layerNm, map3d.config.vidoQlityLevel, map3d.config.maxDistance);
+
+        let layer = serviceList.nameAtLayer(layerNm);
+        layer['type_'] = 'service';
+        layerMap.set(id, layer)
+
+    }
+
+    function create3DS(options) {
+        let {id, layerNm, visible} = options;
+
+        Module.XDEMapCreateLayer(layerNm, dtmap.urls.xdServer, 0, false, visible, false, JS_LAYER_TYPE.ELT_MULTILPE, 0, 13);
+        Module.setVisibleRange(layerNm, map3d.config.vidoQlityLevel, map3d.config.maxDistance);
+
+        let layer = serviceList.nameAtLayer(layerNm);
+        layer['type_'] = 'service';
+        layerMap.set(id, layer)
+    }
+
     createFunctions['wms'] = createWMS;
     createFunctions['wfs'] = createWFS;
-    createFunctions['poi'] = createPOI;
+    createFunctions['poi'] = createServicePOI;
     createFunctions['csv'] = createCSV;
     createFunctions['shp'] = createSHP;
+    createFunctions['img'] = createImg;
+    createFunctions['3ds'] = create3DS;
     let module = {
         init: init,
         addLayer: addLayer,

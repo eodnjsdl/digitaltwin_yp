@@ -47,6 +47,7 @@
     <script src="/engine/plugin/v6.7.0/proj4.js"></script>
     <script src="/engine/plugin/v6.7.0/ol.js"></script>
 
+    <script src="/engine/dt_info.js"></script>
     <script src="/js/map/dtmap.js"></script>
     <script src="/js/map/dtmap-config.js"></script>
     <script src="/js/map/dtmap-urls.js"></script>

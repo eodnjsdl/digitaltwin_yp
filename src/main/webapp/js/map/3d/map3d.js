@@ -188,7 +188,6 @@ dtmap.map3d = (function () {
         }
         dtmap.map3d.layer.setVisible(id, visible);
 
-
     }
 
     const module = {

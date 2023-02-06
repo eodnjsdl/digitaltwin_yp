@@ -100,9 +100,16 @@ $(document).ready(function () {
         }
     }
 
+    //임시
+    $(document).on('click', '#layerList', function () {
+        aj_selectLayerList("top");
+        $("#rightPopup").addClass("opened");
+        $("#rightPopup").css("width", 250).css("height", 807);
+    });
 
 });
 
 //임시
 function layerChecked() {
 }
+
