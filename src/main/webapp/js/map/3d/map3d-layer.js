@@ -1,26 +1,6 @@
 window.map3d = window.map3d || {};
 map3d.modules = map3d.modules || {}
 map3d.modules.layer = (function () {
-
-    const JS_LAYER_TYPE = {
-        ELT_POLYHEDRON: 0, //다면체
-        ELT_PLANE: 1, //평면
-        ELT_PIPE: 2, //관(실린더)
-        ELT_BILLBOARD: 3, //빌보드
-        ELT_3DLINE: 4,// 3차원 선
-        ELT_3DPOINT: 5, // 심볼 텍스트
-        ELT_3DS_SYMBOL: 6, // 3차원 심볼
-        ELT_GHOST_3DSYMBOL: 7, //유령 심볼
-        ELT_TERRAIN: 8, //지형
-        ELT_MULTILPE: 9, //다용도
-        ELT_KML_GROUND: 10, //KML
-        ELT_TERRAIN_IMAGE: 11, //지형 영상
-        ELT_PICTOMETRY: 12, //픽토 메트리
-        ELT_WATER: 13, //Water 가시화
-        ELT_SKY_LINE: 102, //RTT 미적용 3차원 선
-        ELT_TYPOON: 112, //태풍 가시화
-        ELT_GRAPH: 113, //차트 가시화
-    }
     const TIME_OUT = 100 * 60 * 10; //레이어 삭제에 쓰이는 타임아웃
     let userList, serviceList;
     let layerMap = new Map();
@@ -44,7 +24,7 @@ map3d.modules.layer = (function () {
         if (!type) {
             throw new Error("레이어 종류가 지정되지 않았습니다.");
         }
-        let layer = map3d.layer[type](options);
+        let layer = new this[type](options);
         layerMap.set(id, layer);
     }
 
@@ -58,7 +38,7 @@ map3d.modules.layer = (function () {
             return;
         }
         let list;
-        if (layer['type_'] === 'user') {
+        if (layer.serviceType === 'user') {
             list = userList;
         } else {
             list = serviceList;
@@ -107,5 +87,18 @@ map3d.modules.layer = (function () {
         setVisible: setVisible,
         getById: getById
     }
+
+    Object.defineProperties(module, {
+        'userLayers': {
+            get: function () {
+                return userList;
+            }
+        },
+        'serviceLayers': {
+            get: function () {
+                return serviceList;
+            }
+        }
+    })
     return module;
 })();

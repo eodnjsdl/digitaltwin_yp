@@ -18,8 +18,14 @@ map3d.layer.WFS = (function () {
      * @returns {string}
      */
     function WFS(options) {
-        let {id, layerNm} = options;
-        let layer = serviceList.createWFSLayer(layerNm, 0);
+        map3d.layer.Layer.call(this, options);
+    }
+
+    ol.inherits(WFS, map3d.layer.Layer);
+
+    WFS.prototype.createInstance = function (options) {
+        let {layerNm} = options;
+        let layer = map3d.layer.serviceLayers.createWFSLayer(layerNm, 0);
         let opt = Object.assign({}, {
             proxy: options.proxy,
             level: options.level,
@@ -49,11 +55,9 @@ map3d.layer.WFS = (function () {
 
         // 레이어 가시범위 지정
         Module.setVisibleRange(layerNm, map3d.config.vidoQlityLevel, map3d.config.maxDistance);
+        this.instance = layer;
+        this.serviceType = 'service';
 
-
-        layer['type_'] = 'service';
-        // layerMap.set(id, layer);
-        return layer;
     }
 
     function loadIcon(name, url, callback) {
@@ -76,6 +80,35 @@ map3d.layer.WFS = (function () {
             })
 
         }
+    }
+
+    /* POI 이미지 생성 */
+    function loadImage(src, callback) {
+        var img = new Image();
+        img.onload = function () {
+
+            // 3. canvas를 통해 베이스 이미지 바탕 생성
+            var canvas = document.createElement('canvas');
+            var ctx = canvas.getContext('2d');
+
+            canvas.width = img.width;
+            canvas.height = img.height;
+            ctx.drawImage(img, 0, 0);
+
+            var imageData = ctx.getImageData(0, 0, canvas.width, canvas.height).data;
+
+            // 이미지 데이터 반환
+            if (callback && typeof callback === 'function') {
+                callback({
+                    data: imageData,
+                    width: canvas.width,
+                    height: canvas.height
+                })
+            }
+
+        };
+
+        img.src = src;
     }
 
     return WFS;

@@ -4,7 +4,7 @@
 
 const LAYER_TYPE = {
     "S": 'SHP', //shape
-    "I": 'IMG', // image
+    "I": 'Image', // image
     "D": 'TDS', // 3ds
     "G": 'Graph', // graph
     "L": 'WMS', //

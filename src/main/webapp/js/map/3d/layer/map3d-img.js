@@ -9,15 +9,18 @@ map3d.layer.Image = (function () {
      * @constructor
      */
     function Image(options) {
-        let {id, layerNm, visible} = options;
+        map3d.layer.Layer.call(this, options);
+        this.serviceType = 'service';
+    }
 
-        Module.XDEMapCreateLayer(layerNm, dtmap.urls.xdServer, 0, false, visible, false, JS_LAYER_TYPE.ELT_KML_GROUND, 1, 15);
-        Module.setVisibleRange(layerNm, map3d.config.vidoQlityLevel, map3d.config.maxDistance);
+    ol.inherits(Image, map3d.layer.Layer);
 
-        let layer = serviceList.nameAtLayer(layerNm);
-        layer['type_'] = 'service';
-        // layerMap.set(id, layer)
-        return layer;
+
+    Image.prototype.createInstance = function (options) {
+        Module.XDEMapCreateLayer(this.layerNm, dtmap.urls.xdServer, 0, false, visible, false, Module.ELT_KML_GROUND, 1, 15);
+        Module.setVisibleRange(this.layerNm, map3d.config.vidoQlityLevel, map3d.config.maxDistance);
+
+        this.instance = map3d.layer.serviceLayers.nameAtLayer(this.layerNm);
     }
 
     return Image;

@@ -72,7 +72,7 @@ window.map3d = (function () {
         for (let key in modules) {
             if (modules[key].init && typeof modules[key].init === 'function') {
                 modules[key].init();
-                map3d[key] = Object.assign(map3d[key], modules[key]);
+                map3d[key] = Object.assign(modules[key],map3d[key]);
             }
         }
         map3d.modules = undefined;
@@ -216,6 +216,16 @@ window.map3d = (function () {
         'crs': {
             get: function () {
                 return 'EPSG:4326'
+            }
+        },
+        'userLayers': {
+            get: function () {
+                return this.layer.userLayers;
+            }
+        },
+        'serviceLayers': {
+            get: function () {
+                return this.layer.serviceLayers;
             }
         }
     });

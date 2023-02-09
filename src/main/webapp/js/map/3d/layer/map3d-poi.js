@@ -3,14 +3,21 @@ map3d.layer = map3d.layer || {};
 map3d.layer.POI = (function () {
 
     function POI(options) {
-        let {table, layerNm} = options;
+        map3d.layer.Layer.call(this, options)
 
-        if (table && !layerNm) {
-            return createUserPOI(options);
+        let {table} = options;
+        this.table = table;
+
+    }
+
+    ol.inherits(POI, map3d.layer.Layer);
+
+    POI.prototype.createInstance = function (options) {
+        if (this.table && !this.layerNm) {
+            return createUserPOI.call(this, options);
         } else {
-            return createServicePOI(options);
+            return createServicePOI.call(this, options);
         }
-
     }
 
     /**
@@ -19,7 +26,7 @@ map3d.layer.POI = (function () {
     //layerNm, layerId, tblNm
     function createUserPOI(options) {
         let {id, table} = options;
-        let layer = userList.createLayer(id, Module.ELT_3DPOINT);
+        let layer = map3d.userLayers.createLayer(id, Module.ELT_3DPOINT);
         $.ajax({
             type: "POST",
             url: "/lyr/lyi/selectLayerInfoList.do",
@@ -54,9 +61,8 @@ map3d.layer.POI = (function () {
                 }
             }
         });
-        layer['type_'] = 'user';
-        // layerMap.set(id, layer);
-        return layer;
+        this.instance = layer;
+        this.serviceType = 'user';
     }
 
 
@@ -197,15 +203,14 @@ map3d.layer.POI = (function () {
      * Service POI 레이어
      */
     function createServicePOI(options) {
-        let {id, layerNm} = options;
+        let {layerNm} = options;
         //Module.ELT_3DPOINT = 5
-        Module.XDEMapCreateLayer(layerNm, dtmap.urls.xdServer, 0, true, true, false, JS_LAYER_TYPE.ELT_3DPOINT, 0, 15);
+        Module.XDEMapCreateLayer(layerNm, dtmap.urls.xdServer, 0, true, true, false, Module.ELT_3DPOINT, 0, 15);
         //poi icon 표출
-        let layer = serviceList.nameAtLayer(layerNm);
+        let layer = map3d.serviceLayers.nameAtLayer(layerNm);
         layer.tile_load_ratio = 1000;
-        layer['type_'] = 'service';
-        // layerMap.set(id, layer)
-        return layer;
+        this.instance = layer;
+        this.serviceType = 'service';
     }
 
     return POI;

@@ -13,21 +13,24 @@ map3d.layer.CSV = (function () {
      * @returns {Promise<*>}
      * @constructor
      */
-    async function CSV(options) {
-        let {id, layerNm} = options;
+    function CSV(options) {
+        map3d.layer.Layer.call(this, options);
+    }
 
-        let resp = await getLayerInfo(id);
+    ol.inherits(CSV, map3d.layer.Layer);
+
+
+    CSV.prototype.createInstance = async function (options) {
+        let resp = await getLayerInfo(this.id);
         let {mapsData} = resp;
         let {serverUrl} = dtmap.urls;
-        let layer;
         if (mapsData.poiType === 0) { // 원형
-            layer = loadCSV_colData(id, layerNm, serverUrl + mapsData.metaOutUrl, mapsData.poiColor, 0, 13);
+            this.instance = loadCSV_colData(this.id, this.layerNm, serverUrl + mapsData.metaOutUrl, mapsData.poiColor, 0, 13);
         } else if (mapsData.poiType === 1) {  // 이미지
-            layer = loadCSV_imgData(id, layerNm, serverUrl + mapsData.metaOutUrl, mapsData.poiIndex, 0, 13);
+            this.instance = loadCSV_imgData(this.id, this.layerNm, serverUrl + mapsData.metaOutUrl, mapsData.poiIndex, 0, 13);
         }
-
-        return layer;
     }
+
 
     function getLayerInfo(id) {
         return $.ajax({
@@ -49,14 +52,12 @@ map3d.layer.CSV = (function () {
         Module.XDEMapCreateLayer(layerId, url, 0, true, true, true, 22, min, max);
 
         // csv 타일 로드 콜백 함수 설정
-        var layer = serviceList.nameAtLayer(layerId);
+        var layer = map3d.serviceLayers.nameAtLayer(layerId);
 
         layer.setUserTileLoadCallback(function (_layerName, _tile, _data) {
             var data = decodeURI(_data);
             addPoiToTile(_tile, data, poiImage, layerId);
         });
-        layer['type_'] = 'service';
-        // layerMap.set(id, layer)
         return layer;
     }
 
@@ -68,7 +69,7 @@ map3d.layer.CSV = (function () {
         Module.XDEMapCreateLayer(layerId, geoUrl, 0, true, true, true, 22, min, max);
 
         // csv 타일 로드 콜백 함수 설정
-        var layer = serviceList.nameAtLayer(layerId);
+        var layer = map3d.serviceLayers.nameAtLayer(layerId);
 
         // CSV 데이터 POI 이미지 로드
         loadImage("./images/symbol/" + String(imgIndex) + "_s.png", function (img) {
@@ -78,8 +79,6 @@ map3d.layer.CSV = (function () {
             });
         });
 
-        layer['type_'] = 'service';
-        // layerMap.set(id, layer);
         return layer;
     }
 

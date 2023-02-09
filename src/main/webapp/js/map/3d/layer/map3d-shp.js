@@ -11,13 +11,21 @@ map3d.layer.SHP = (function () {
      * @constructor
      */
     function SHP(options) {
+        map3d.layer.Layer.call(this, options);
         let {shpType} = options;
-        if (shpType === 3 || shpType === 4) {
-            return map3d.layer.POI(options);
-        } else {
-            return map3d.layer.WMS(options);
-        }
-
+        this.shpType = shpType;
     }
+
+    ol.inherits(SHP, map3d.layer.Layer);
+
+    SHP.prototype.createInstance = function (options) {
+        if (this.shpType === 3 || this.shpType === 4) {
+            map3d.layer.POI.prototype.createInstance.call(this, options);
+        } else {
+            map3d.layer.WMS.prototype.createInstance.call(this, options);
+        }
+    }
+
+
     return SHP;
 })()

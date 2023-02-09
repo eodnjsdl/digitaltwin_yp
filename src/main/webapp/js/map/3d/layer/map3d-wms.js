@@ -19,7 +19,13 @@ map3d.layer.WMS = (function () {
      * @param options
      */
     function WMS(options) {
-        let {id, store, table} = options;
+        map3d.layer.Layer.call(this, options);
+    }
+
+    ol.inherits(WMS, map3d.layer.Layer);
+
+    WMS.prototype.createInstance = function (options) {
+        let {store, table} = options;
         let opt = Object.assign({}, {
             url: dtmap.urls.xdGeoUrl + "/wms?",
             layer: store + ':' + table,
@@ -30,12 +36,11 @@ map3d.layer.WMS = (function () {
             parameters: options.parameters,
         }, WMS_OPT)
 
-        let layer = serviceList.createWMSLayer(id);
+        let layer = map3d.serviceLayers.createWMSLayer(this.id);
         layer.setWMSProvider(opt);
         layer.setBBoxOrder(true);
-        layer['type_'] = 'service';
-        // layerMap.set(id, layer)
-        return layer;
+        this.instance = layer;
+        this.serviceType = 'service';
     }
 
     return WMS;
