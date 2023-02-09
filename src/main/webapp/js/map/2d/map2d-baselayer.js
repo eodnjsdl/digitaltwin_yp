@@ -1,7 +1,6 @@
-window.dtmap = window.dtmap || {};
-dtmap.map2d = dtmap.map2d || {};
-dtmap.map2d.modules = dtmap.map2d.modules || {}
-dtmap.map2d.modules.baseLayer = (function () {
+window.map2d = window.map2d || {};
+map2d.modules = map2d.modules || {}
+map2d.modules.baseLayer = (function () {
     let layerGroup;
     let layers = [];
     let LAYER_OPT;
@@ -20,7 +19,7 @@ dtmap.map2d.modules.baseLayer = (function () {
             zIndex: 0,
             layers: layers
         });
-        dtmap.map2d.map.addLayer(layerGroup)
+        map2d.map.addLayer(layerGroup)
     }
 
     function initConfig() {

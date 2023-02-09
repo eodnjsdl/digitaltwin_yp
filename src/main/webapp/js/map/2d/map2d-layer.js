@@ -1,6 +1,5 @@
-window.dtmap = window.dtmap || {}
-dtmap.map2d = dtmap.map2d || {}
-dtmap.map2d.layer = (function () {
+window.map2d = window.map2d || {}
+map2d.layer = (function () {
 
     let list = [];
 

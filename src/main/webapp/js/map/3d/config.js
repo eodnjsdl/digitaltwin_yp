@@ -1,6 +1,5 @@
-window.dtmap = window.dtmap || {};
-dtmap.map3d = dtmap.map3d || {};
-dtmap.map3d.config = (function () {
+window.map3d = window.map3d || {};
+map3d.config = (function () {
     let config = {
         target: 'map3D',
         center: [127.48846105923461, 37.49131546088355, 1720.3767651356757, 90, 0], // 초기 위치

@@ -1,5 +1,4 @@
-window.dtmap = window.dtmap || {}
-dtmap.map2d = (function () {
+window.map2d = (function () {
     /**
      * UTM-K
      */
@@ -41,7 +40,7 @@ dtmap.map2d = (function () {
         if (isInit_) {
             return;
         }
-        let config = dtmap.config.map2d
+        let config = map2d.config;
         container_ = document.getElementById(config.target)
         view = new ol.View({
             projection: config.projection,
@@ -63,15 +62,15 @@ dtmap.map2d = (function () {
     }
 
     function initModules() {
-        let modules = dtmap.map2d.modules;
+        let modules = map2d.modules;
         for (let key in modules) {
             if (modules[key].init && typeof modules[key].init === 'function') {
                 modules[key].init();
-                dtmap.map2d[key] = modules[key];
+                map2d[key] = modules[key];
             }
         }
-        dtmap.map2d.modules = undefined;
-        delete dtmap.map2d.modules;
+        map2d.modules = undefined;
+        delete map2d.modules;
     }
 
     /**

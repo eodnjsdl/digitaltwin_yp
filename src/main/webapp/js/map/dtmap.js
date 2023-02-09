@@ -6,7 +6,7 @@ window.dtmap = (function () {
     //TODO 2d 3d 레이어 목록 따로 관리
 
     function init() {
-        dtmap.map2d.init();
+        map2d.init();
     }
 
     function call(fName, params) {
@@ -18,9 +18,9 @@ window.dtmap = (function () {
 
     function getModule() {
         if (cur_mode === '2D') {
-            return dtmap.map2d
+            return map2d
         } else {
-            return dtmap.map3d
+            return map3d
         }
     }
 
@@ -37,7 +37,6 @@ window.dtmap = (function () {
         if (cur_mode === mod) {
             return;
         }
-        let {map2d, map3d} = dtmap;
 
         if (cur_mode === '2D') {
             cur_mode = '3D';
@@ -76,7 +75,7 @@ window.dtmap = (function () {
         }
 
         call('showLayer', {
-            type: type,
+            type: LAYER_TYPE[type],
             id: layerId,
             visible: visible,
             table: table,

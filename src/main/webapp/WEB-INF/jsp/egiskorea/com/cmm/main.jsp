@@ -62,6 +62,17 @@
     <script src="/js/map/3d/map3d.js"></script>
     <script src="/js/map/3d/config.js"></script>
     <script src="/js/map/3d/map3d-layer.js"></script>
+    <script src="/js/map/3d/layer/map3d-wms.js"></script>
+    <script src="/js/map/3d/layer/map3d-wfs.js"></script>
+    <script src="/js/map/3d/layer/map3d-poi.js"></script>
+    <script src="/js/map/3d/layer/map3d-csv.js"></script>
+    <script src="/js/map/3d/layer/map3d-3ds.js"></script>
+    <script src="/js/map/3d/layer/map3d-img.js"></script>
+    <script src="/js/map/3d/layer/map3d-shp.js"></script>
+
+    <!-- 양평 레이어 상수 -->
+    <script src="/js/map/yp-layer.js"></script>
+
 
 
 </head>

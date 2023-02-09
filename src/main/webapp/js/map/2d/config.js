@@ -1,6 +1,5 @@
-window.dtmap = window.dtmap || {};
-dtmap.map2d = dtmap.map2d || {};
-dtmap.map2d.config = (function () {
+window.map2d = window.map2d || {};
+map2d.config = (function () {
     let config = {
         target: 'map2D', //element Id
         projection: 'EPSG:5179', //좌표계

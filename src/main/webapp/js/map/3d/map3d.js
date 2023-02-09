@@ -1,6 +1,5 @@
-window.Module = window.Module || {}; //xd 객체 선언
-window.dtmap = window.dtmap || {}
-dtmap.map3d = (function () {
+window.Module = window.Module || {};
+window.map3d = (function () {
     let isInit_ = false, isLoaded_ = $.Deferred(), container_, canvas_;
     let camera;
 
@@ -8,13 +7,13 @@ dtmap.map3d = (function () {
         if (isInit_) {
             return isLoaded_;
         }
-        let {config} = dtmap.map3d;
-        container_ = document.getElementById(config.target);
+
+        container_ = document.getElementById(map3d.config.target);
         window.addEventListener('resize', resize);
 
         $.when.apply($, [loadScript(), getMapSetting()]).then(function () {
             //XDWorld Option 설정
-            Module.TOTAL_MEMORY = config.totalMemory;
+            Module.TOTAL_MEMORY = map3d.config.totalMemory;
             Module.getNavigation().setNaviVisible(Module.JS_VISIBLE_OFF);
             //Module.Start 이전에 호출해야함.
             Module.SetResourceServerAddr("/images/poi/");
@@ -30,7 +29,7 @@ dtmap.map3d = (function () {
 
             //초기 카메라설정
             camera = Module.getViewCamera();
-            let {center, limitRect, limitAlt, limitCamera} = config;
+            let {center, limitRect, limitAlt, limitCamera} = map3d.config;
             let centerVec = new Module.JSVector3D(center[0], center[1], center[2]);
             camera.setLimitRectAlt(limitRect[0], limitRect[1], limitRect[2], limitRect[3], limitRect[4]);
             camera.setLimitAltitude(limitAlt);
@@ -57,7 +56,7 @@ dtmap.map3d = (function () {
             async: false,
             success: function (data, status) {
                 if (status == "success") {
-                    dtmap.map3d.config.set(data.result);
+                    map3d.config.set(data.result);
                 } else {
                     alert("ERROR!");
                     return;
@@ -69,15 +68,15 @@ dtmap.map3d = (function () {
 
     //확장 모듈 초기화
     function initModules() {
-        let modules = dtmap.map3d.modules;
+        let modules = map3d.modules;
         for (let key in modules) {
             if (modules[key].init && typeof modules[key].init === 'function') {
                 modules[key].init();
-                dtmap.map3d[key] = modules[key];
+                map3d[key] = Object.assign(map3d[key], modules[key]);
             }
         }
-        dtmap.map3d.modules = undefined;
-        delete dtmap.map3d.modules;
+        map3d.modules = undefined;
+        delete map3d.modules;
     }
 
     //window resize Event
@@ -182,12 +181,11 @@ dtmap.map3d = (function () {
 
     function showLayer(options) {
         let {id, visible} = options;
-        let layer = dtmap.map3d.layer.getById(id);
+        let layer = map3d.layer.getById(id);
         if (!layer) {
-            dtmap.map3d.layer.addLayer(options);
+            map3d.layer.addLayer(options);
         }
-        dtmap.map3d.layer.setVisible(id, visible);
-
+        map3d.layer.setVisible(id, visible);
     }
 
     const module = {
