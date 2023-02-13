@@ -145,7 +145,7 @@ map3d.layer.POI = (function () {
 
                 point.setHighlight(false);
 
-                options.layer.setMaxDistance(dtmap.map3d.config.maxDistance);
+                options.layer.setMaxDistance(map3d.config.maxDistance);
                 options.layer.addObject(point, 0);
             };
             img.src = options.markerImage;
@@ -199,7 +199,7 @@ map3d.layer.POI = (function () {
             // 텍스트 설정
             point.setText(String(options.text));
             //point.setTextMargin(0, -5);
-            options.layer.setMaxDistance(dtmap.map3d.config.maxDistance);
+            options.layer.setMaxDistance(map3d.config.maxDistance);
             options.layer.addObject(point, 0);
         }
 

@@ -15,7 +15,8 @@ map3d.layer.CSV = (function () {
      */
     function CSV(options) {
         map3d.layer.Layer.call(this, options);
-        this.serviceType = 'service'
+        this.ready = $.Deferred();
+        this.serviceType = 'service';
     }
 
     map3d.inherits(CSV, map3d.layer.Layer);
@@ -26,17 +27,29 @@ map3d.layer.CSV = (function () {
      * @param options
      * @returns {XDWorld.JSLayer}
      */
-    CSV.prototype.createInstance = async function (options) {
-        let resp = await getLayerInfo(this.id);
-        let {mapsData} = resp;
-        let {serverUrl} = dtmap.urls;
-        if (mapsData.poiType === 0) { // 원형
-            return loadCSV_colData(this.id, this.layerNm, serverUrl + mapsData.metaOutUrl, mapsData.poiColor, 0, 13);
-        } else if (mapsData.poiType === 1) {  // 이미지
-            return loadCSV_imgData(this.id, this.layerNm, serverUrl + mapsData.metaOutUrl, mapsData.poiIndex, 0, 13);
-        }
+    CSV.prototype.createInstance = function (options) {
+
+        let that = this;
+        getLayerInfo(this.id).then(function (resp) {
+
+            let {mapsData} = resp;
+            let layer;
+            if (mapsData.poiType === 0) { // 원형
+                layer = loadCSV_colData(that.id, dtmap.urls.BASE + mapsData.metaOutUrl, mapsData.poiColor, 0, 13);
+            } else if (mapsData.poiType === 1) {  // 이미지
+                layer = loadCSV_imgData(that.id, dtmap.urls.BASE + mapsData.metaOutUrl, mapsData.poiIndex, 0, 13);
+            }
+            that.ready.resolve(true);
+            that.instance = layer;
+        });
     }
 
+    CSV.prototype.setVisible = function (visible) {
+        let that = this;
+        this.ready.then(function () {
+            map3d.layer.Layer.prototype.setVisible.call(that, visible);
+        });
+    }
 
     function getLayerInfo(id) {
         return $.ajax({
@@ -50,38 +63,38 @@ map3d.layer.CSV = (function () {
     }
 
     //CSV 데이터(원형) 호출
-    function loadCSV_colData(id, layerId, url, rgbaVal, min, max) {
+    function loadCSV_colData(id, url, rgbaVal, min, max) {
         // CSV 데이터 POI 이미지 로드
         let poiImage = createPoiCircle(rgbaVal);
 
         // 4번째 파라미터 : POI 선택여부
-        Module.XDEMapCreateLayer(layerId, url, 0, true, true, true, 22, min, max);
+        Module.XDEMapCreateLayer(id, url, 0, true, true, true, 22, min, max);
 
         // csv 타일 로드 콜백 함수 설정
-        var layer = map3d.serviceLayers.nameAtLayer(layerId);
+        var layer = map3d.serviceLayers.nameAtLayer(id);
 
         layer.setUserTileLoadCallback(function (_layerName, _tile, _data) {
             var data = decodeURI(_data);
-            addPoiToTile(_tile, data, poiImage, layerId);
+            addPoiToTile(_tile, data, poiImage, id);
         });
         return layer;
     }
 
     // CSV 데이터(이미지) 호출
-    function loadCSV_imgData(id, layerId, geoUrl, imgIndex, min, max) {
+    function loadCSV_imgData(id, geoUrl, imgIndex, min, max) {
 
         // csv 타일 레이어 로드
         // 4번째 파라미터 : POI 선택여부
-        Module.XDEMapCreateLayer(layerId, geoUrl, 0, true, true, true, 22, min, max);
+        Module.XDEMapCreateLayer(id, geoUrl, 0, true, true, true, 22, min, max);
 
         // csv 타일 로드 콜백 함수 설정
-        var layer = map3d.serviceLayers.nameAtLayer(layerId);
+        var layer = map3d.serviceLayers.nameAtLayer(id);
 
         // CSV 데이터 POI 이미지 로드
         loadImage("./images/symbol/" + String(imgIndex) + "_s.png", function (img) {
             layer.setUserTileLoadCallback(function (_layerName, _tile, _data) {
                 var data = decodeURI(_data);
-                addPoiToTile(_tile, data, img, layerId);
+                addPoiToTile(_tile, data, img, id);
             });
         });
 
@@ -151,41 +164,27 @@ map3d.layer.CSV = (function () {
     /* poi 이미지 생성 후 타일에 추가 */
     function addPoiToTile(_tile, _csvData, _poiImageData, _layerId) {
         var items = _csvData.split(",");
-        var id = "", text = "", lon = "", lat = "", alt;
-
+        let params = {
+            id: '',
+            text: ''
+        };
         for (var i = 0; i < items.length; i++) {
             var item = items[i].split(":");
-            var key = item[0];
-            var value = item[1];
-
-            switch (key) {
-                case "id"    :
-                    id = value;
-                    break;
-                case "lon"    :
-                    lon = value;
-                    break;
-                case "lat"    :
-                    lat = value;
-                    break;
-                case "name" :
-                    text = value;
-                    break;
-            }
-
-            if (id !== "") {
-                alt = Module.Map.getTerrHeightFast(Number(lon), Number(lat));
-            }
-
-            // POI 생성 후 타일에 추가
-            var point = Module.createPoint(id.toString());
-            point.setPosition(new Module.JSVector3D(Number(lon), Number(lat), Number(alt)));
-            point.setImage(_poiImageData.data, _poiImageData.width, _poiImageData.height);//
-            point.setPositionLine(30.0, new Module.JSColor(255, 255, 255));
-            point.setText(text);
-
-            _tile.addObject(point);
+            params[item[0]] = item[1].trim();
         }
+        let {id, alt, lon, lat, text} = params;
+        if (id !== "") {
+            alt = Module.getMap().getTerrHeightFast(Number(lon), Number(lat));
+        }
+
+        // POI 생성 후 타일에 추가
+        var point = Module.createPoint(id.toString());
+        point.setPosition(new Module.JSVector3D(Number(lon), Number(lat), Number(alt)));
+        point.setImage(_poiImageData.data, _poiImageData.width, _poiImageData.height);//
+        point.setPositionLine(30.0, new Module.JSColor(255, 255, 255));
+        point.setText(text);
+
+        _tile.addObject(point);
     }
 
     return CSV;

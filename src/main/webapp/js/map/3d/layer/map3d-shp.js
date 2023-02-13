@@ -11,9 +11,9 @@ map3d.layer.SHP = (function () {
      * @constructor
      */
     function SHP(options) {
-        map3d.layer.Layer.call(this, options);
         let {shpType} = options;
         this.shpType = shpType;
+        map3d.layer.Layer.call(this, options);
     }
 
     map3d.inherits(SHP, map3d.layer.Layer);

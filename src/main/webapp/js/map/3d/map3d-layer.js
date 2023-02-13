@@ -12,8 +12,9 @@ map3d.modules.layer = (function () {
     }
 
     /**
-     * 레이어 추가
+     *
      * @param options
+     * @returns {*}
      */
     function addLayer(options) {
         let {id, type} = options;
@@ -26,6 +27,7 @@ map3d.modules.layer = (function () {
         }
         let layer = new this[type](options);
         layerMap.set(id, layer);
+        return layer;
     }
 
     /**
@@ -65,7 +67,7 @@ map3d.modules.layer = (function () {
     //레이어 가시화 OFF 10분후 삭제
     function removeByTimeOut(id, layer) {
         let timeout = setTimeout(function () {
-            if (layer.getVisible()) {
+            if (layer.visible) {
                 removeByTimeOut(id, layer)
             } else {
                 removeLayer(id);
