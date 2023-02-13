@@ -20,10 +20,17 @@ map3d.layer.WMS = (function () {
      */
     function WMS(options) {
         map3d.layer.Layer.call(this, options);
+        this.serviceType = 'service';
     }
 
-    ol.inherits(WMS, map3d.layer.Layer);
+    map3d.inherits(WMS, map3d.layer.Layer);
 
+    /**
+     * @override map3d.layer.Layer
+     *
+     * @param options
+     * @returns {XDWorld.JSLayer}
+     */
     WMS.prototype.createInstance = function (options) {
         let {store, table} = options;
         let opt = Object.assign({}, {
@@ -39,8 +46,8 @@ map3d.layer.WMS = (function () {
         let layer = map3d.serviceLayers.createWMSLayer(this.id);
         layer.setWMSProvider(opt);
         layer.setBBoxOrder(true);
-        this.instance = layer;
-        this.serviceType = 'service';
+        return layer;
+
     }
 
     return WMS;

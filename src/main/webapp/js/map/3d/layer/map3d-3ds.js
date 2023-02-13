@@ -13,13 +13,18 @@ map3d.layer.TDS = (function () {
         this.serviceType = 'service';
     }
 
-    ol.inherits(TDS, map3d.layer.Layer);
-
+    map3d.inherits(TDS, map3d.layer.Layer);
+    /**
+     * @override map3d.layer.Layer
+     *
+     * @param options
+     * @returns {XDWorld.JSLayer}
+     */
     TDS.prototype.createInstance = function (options) {
         Module.XDEMapCreateLayer(this.layerNm, dtmap.urls.xdServer, 0, false, this.visible, false, Module.ELT_MULTILPE, 0, 13);
         Module.setVisibleRange(this.layerNm, map3d.config.vidoQlityLevel, map3d.config.maxDistance);
 
-        this.instance = map3d.serviceLayers.nameAtLayer(this.layerNm);
+        return map3d.serviceLayers.nameAtLayer(this.layerNm);
     }
 
     return TDS;

@@ -13,14 +13,20 @@ map3d.layer.Image = (function () {
         this.serviceType = 'service';
     }
 
-    ol.inherits(Image, map3d.layer.Layer);
+    map3d.inherits(Image, map3d.layer.Layer);
 
 
+    /**
+     * @override map3d.layer.Layer
+     *
+     * @param options
+     * @returns {XDWorld.JSLayer}
+     */
     Image.prototype.createInstance = function (options) {
-        Module.XDEMapCreateLayer(this.layerNm, dtmap.urls.xdServer, 0, false, visible, false, Module.ELT_KML_GROUND, 1, 15);
+        Module.XDEMapCreateLayer(this.layerNm, dtmap.urls.xdServer, 0, false, this.visible, false, Module.ELT_KML_GROUND, 1, 15);
         Module.setVisibleRange(this.layerNm, map3d.config.vidoQlityLevel, map3d.config.maxDistance);
 
-        this.instance = map3d.layer.serviceLayers.nameAtLayer(this.layerNm);
+        return map3d.layer.serviceLayers.nameAtLayer(this.layerNm);
     }
 
     return Image;

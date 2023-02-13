@@ -16,13 +16,19 @@ map3d.layer.SHP = (function () {
         this.shpType = shpType;
     }
 
-    ol.inherits(SHP, map3d.layer.Layer);
+    map3d.inherits(SHP, map3d.layer.Layer);
 
+    /**
+     * @override map3d.layer.Layer
+     *
+     * @param options
+     * @returns {XDWorld.JSLayer}
+     */
     SHP.prototype.createInstance = function (options) {
         if (this.shpType === 3 || this.shpType === 4) {
-            map3d.layer.POI.prototype.createInstance.call(this, options);
+            return map3d.layer.POI.prototype.createInstance.call(this, options);
         } else {
-            map3d.layer.WMS.prototype.createInstance.call(this, options);
+            return map3d.layer.WMS.prototype.createInstance.call(this, options);
         }
     }
 

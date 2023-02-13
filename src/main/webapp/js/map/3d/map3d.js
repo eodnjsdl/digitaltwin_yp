@@ -232,4 +232,8 @@ window.map3d = (function () {
 
     return module;
 }())
+map3d.inherits = function(child,parent) {
+    child.prototype = Object.create(parent.prototype);
+    child.prototype.constructor = child;
+};
 

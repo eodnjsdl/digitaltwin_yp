@@ -15,19 +15,25 @@ map3d.layer.CSV = (function () {
      */
     function CSV(options) {
         map3d.layer.Layer.call(this, options);
+        this.serviceType = 'service'
     }
 
-    ol.inherits(CSV, map3d.layer.Layer);
+    map3d.inherits(CSV, map3d.layer.Layer);
 
-
+    /**
+     * @override map3d.layer.Layer
+     *
+     * @param options
+     * @returns {XDWorld.JSLayer}
+     */
     CSV.prototype.createInstance = async function (options) {
         let resp = await getLayerInfo(this.id);
         let {mapsData} = resp;
         let {serverUrl} = dtmap.urls;
         if (mapsData.poiType === 0) { // 원형
-            this.instance = loadCSV_colData(this.id, this.layerNm, serverUrl + mapsData.metaOutUrl, mapsData.poiColor, 0, 13);
+            return loadCSV_colData(this.id, this.layerNm, serverUrl + mapsData.metaOutUrl, mapsData.poiColor, 0, 13);
         } else if (mapsData.poiType === 1) {  // 이미지
-            this.instance = loadCSV_imgData(this.id, this.layerNm, serverUrl + mapsData.metaOutUrl, mapsData.poiIndex, 0, 13);
+            return loadCSV_imgData(this.id, this.layerNm, serverUrl + mapsData.metaOutUrl, mapsData.poiIndex, 0, 13);
         }
     }
 

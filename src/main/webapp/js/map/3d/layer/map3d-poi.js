@@ -10,8 +10,14 @@ map3d.layer.POI = (function () {
 
     }
 
-    ol.inherits(POI, map3d.layer.Layer);
+    map3d.inherits(POI, map3d.layer.Layer);
 
+    /**
+     * @override map3d.layer.Layer
+     *
+     * @param options
+     * @returns {XDWorld.JSLayer}
+     */
     POI.prototype.createInstance = function (options) {
         if (this.table && !this.layerNm) {
             return createUserPOI.call(this, options);
@@ -61,8 +67,8 @@ map3d.layer.POI = (function () {
                 }
             }
         });
-        this.instance = layer;
         this.serviceType = 'user';
+        return layer;
     }
 
 
@@ -209,8 +215,8 @@ map3d.layer.POI = (function () {
         //poi icon 표출
         let layer = map3d.serviceLayers.nameAtLayer(layerNm);
         layer.tile_load_ratio = 1000;
-        this.instance = layer;
         this.serviceType = 'service';
+        return layer;
     }
 
     return POI;

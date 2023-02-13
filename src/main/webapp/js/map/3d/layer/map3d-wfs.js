@@ -19,10 +19,17 @@ map3d.layer.WFS = (function () {
      */
     function WFS(options) {
         map3d.layer.Layer.call(this, options);
+        this.serviceType = 'service';
     }
 
-    ol.inherits(WFS, map3d.layer.Layer);
+    map3d.inherits(WFS, map3d.layer.Layer);
 
+    /**
+     * @override map3d.layer.Layer
+     *
+     * @param options
+     * @returns {XDWorld.JSLayer}
+     */
     WFS.prototype.createInstance = function (options) {
         let {layerNm} = options;
         let layer = map3d.layer.serviceLayers.createWFSLayer(layerNm, 0);
@@ -55,8 +62,8 @@ map3d.layer.WFS = (function () {
 
         // 레이어 가시범위 지정
         Module.setVisibleRange(layerNm, map3d.config.vidoQlityLevel, map3d.config.maxDistance);
-        this.instance = layer;
-        this.serviceType = 'service';
+
+        return layer;
 
     }
 
