@@ -56,9 +56,9 @@
     <!-- 2D Map js -->
     <script src="/js/map/2d/map2d.js"></script>
     <script src="/js/map/2d/config.js"></script>
-    <script src="/js/map/2d/map2d-baselayer.js"></script>
-    <script src="/js/map/2d/map2d-layer.js"></script>
-    <script src="/js/map/2d/map2d-control.js"></script>
+    <script src="/js/map/2d/modules/map2d-baselayer.js"></script>
+    <script src="/js/map/2d/modules/map2d-layer.js"></script>
+    <script src="/js/map/2d/modules/map2d-control.js"></script>
 
     <!-- 3D Map js -->
     <script src="/js/map/3d/map3d.js"></script>
@@ -68,7 +68,7 @@
     <script src="/js/map/3d/modules/map3d-measure.js"></script>
     <script src="/js/map/3d/modules/map3d-overlay.js"></script>
     <script src="/js/map/3d/modules/map3d-location.js"></script>
-    <script src="/js/map/3d/layer/map3d-layer.js"></script>
+    <script src="/js/map/3d/layer/map3d-base.js"></script>
     <script src="/js/map/3d/layer/map3d-group.js"></script>
     <script src="/js/map/3d/layer/map3d-wms.js"></script>
     <script src="/js/map/3d/layer/map3d-wfs.js"></script>

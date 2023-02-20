@@ -89,8 +89,18 @@ window.dtmap = (function () {
         call('setInteraction', mod);
     }
 
+    function clear() {
+        call('clear');
+    }
+
+    function goHome() {
+        call('goHome');
+    }
+
     const module = {
         init: init,
+        clear: clear,
+        goHome: goHome,
         zoomIn: zoomIn,
         zoomOut: zoomOut,
         switchMap: switchMap,

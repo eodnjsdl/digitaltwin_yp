@@ -1,6 +1,5 @@
 window.map3d = window.map3d || {}
-map3d.modules = map3d.modules || {}
-map3d.modules.overlay = (function () {
+map3d.overlay = (function () {
     let layer_;
     let map = new Map();
 

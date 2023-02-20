@@ -62,15 +62,7 @@ window.map2d = (function () {
     }
 
     function initModules() {
-        let modules = map2d.modules;
-        for (let key in modules) {
-            if (modules[key].init && typeof modules[key].init === 'function') {
-                modules[key].init();
-                map2d[key] = modules[key];
-            }
-        }
-        map2d.modules = undefined;
-        delete map2d.modules;
+        map2d.baseLayer.init();
     }
 
     /**
@@ -122,7 +114,6 @@ window.map2d = (function () {
     }
 
 
-
     function clear() {
     }
 
@@ -140,6 +131,16 @@ window.map2d = (function () {
         container_.style.display = 'none';
     }
 
+    /**
+     * 초기영역으로 이동
+     */
+    function goHome() {
+        let {center, zoom} = map2d.config;
+        view.setCenter(center);
+        view.setZoom(zoom);
+
+    }
+
     const module = {
         init: init,
         show: show,
@@ -152,6 +153,7 @@ window.map2d = (function () {
         setExtent: setExtent,
         showLayer: showLayer,
         clear: clear,
+        goHome: goHome
     }
     Object.defineProperties(module, {
         'map': {

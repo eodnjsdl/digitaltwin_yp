@@ -1,6 +1,5 @@
 window.map3d = window.map3d || {}
-map3d.modules = map3d.modules || {}
-map3d.modules.compass = (function () {
+map3d.compass = (function () {
 
     let $element;
 

@@ -28,6 +28,18 @@ window.map3d = (function () {
                 container: container_
             });
 
+            // 이전버전 초기화 소스
+            // var canvas = document.createElement("canvas");
+            // canvas.id = "canvas"; // id가 canvas가 아닐경우 에러발생
+            // canvas.width = container_.clientWidth;
+            // canvas.height = container_.clientHeight;
+            // container_.append(canvas);
+            // Module.canvas = canvas
+            // canvas.addEventListener('contextmenu', function (e) {
+            //     e.preventDefault();
+            // })
+            // Module.Start(container_.clientWidth, container_.clientHeight)
+
             //초기 카메라설정
             camera_ = Module.getViewCamera();
             let {center, limitRect, limitAlt, limitCamera} = map3d.config;
@@ -69,15 +81,11 @@ window.map3d = (function () {
 
     //확장 모듈 초기화
     function initModules() {
-        let modules = map3d.modules;
-        for (let key in modules) {
-            if (modules[key].init && typeof modules[key].init === 'function') {
-                modules[key].init();
-                map3d[key] = Object.assign(modules[key], map3d[key]);
-            }
-        }
-        map3d.modules = undefined;
-        delete map3d.modules;
+        map3d.layer.init();
+        map3d.compass.init();
+        map3d.overlay.init();
+        map3d.location.init();
+        map3d.measure.init();
     }
 
     //window resize Event
@@ -255,6 +263,16 @@ window.map3d = (function () {
         }
     }
 
+    /**
+     * 초기영역으로 이동
+     */
+    function goHome() {
+        let {center} = map3d.config;
+        let centerVec = new Module.JSVector3D(center[0], center[1], center[2]);
+        camera_.setLocation(centerVec)
+        camera_.moveLookAt(centerVec, 90, 0, 800);
+    }
+
     const module = {
         init: init,
         show: show,
@@ -265,7 +283,8 @@ window.map3d = (function () {
         getCenter: getCenter,
         showLayer: showLayer,
         setInteraction: setInteraction,
-        clear: clear
+        clear: clear,
+        goHome: goHome
     }
 
     Object.defineProperties(module, {

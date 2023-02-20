@@ -1,6 +1,5 @@
 window.map3d = window.map3d || {}
-map3d.modules = map3d.modules || {}
-map3d.modules.location = (function () {
+map3d.location = (function () {
     let element_;
     let isActive_ = false;
     const OVERLAY_ID = 'LOCA_OVERLAY'

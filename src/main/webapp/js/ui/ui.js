@@ -87,6 +87,15 @@ $(document).ready(function () {
         map3d.compass.reset();
     });
 
+    //새로고침
+    $mapControl.on('click', '.reset', function (e) {
+        dtmap.clear();
+    });
+
+    //위치 초기화
+    $mapControl.on('click', '.globe', function (e) {
+        dtmap.goHome();
+    });
 
     // 2D/3D 버튼
     $mapControl.on('click', 'input[name="mapType"]', function (e) {

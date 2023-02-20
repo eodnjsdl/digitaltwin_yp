@@ -1,6 +1,5 @@
 window.map3d = window.map3d || {};
-map3d.modules = map3d.modules || {}
-map3d.modules.layer = (function () {
+map3d.layer = (function () {
     const TIME_OUT = 100 * 60 * 10; //레이어 삭제에 쓰이는 타임아웃
     let userList, serviceList;
     let layerMap = new Map();

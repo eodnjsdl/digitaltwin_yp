@@ -1,6 +1,5 @@
 window.map3d = window.map3d || {}
-map3d.modules = map3d.modules || {}
-map3d.modules.measure = (function () {
+map3d.measure = (function () {
     let distance_, area_, radius_;
 
     function init() {
@@ -188,7 +187,8 @@ map3d.modules.measure = (function () {
     function Radius(canvas) {
         Measure.call(this, canvas, 'radius');
         this.wallLayer = undefined;
-        this.addRadius = addRadius.bind(this)
+        this.addRadius = addRadius.bind(this);
+        this.canvas.addEventListener('Fire_EventAddRadius', this.addRadius);
     }
 
     map3d.inherits(Radius, Measure);
@@ -210,12 +210,10 @@ map3d.modules.measure = (function () {
         this.layers.push(this.wallLayer);
     }
     Radius.prototype.addEventListener = function (e) {
-        this.canvas.addEventListener('Fire_EventAddRadius', this.addRadius);
+        // this.canvas.addEventListener('Fire_EventAddRadius', this.addRadius);
     }
-
-
     Radius.prototype.removeEventListener = function (e) {
-        this.canvas.removeEventListener('Fire_EventAddRadius', this.addRadius);
+        // this.canvas.removeEventListener('Fire_EventAddRadius', this.addRadius);
 
     }
     Radius.prototype.clear = function () {

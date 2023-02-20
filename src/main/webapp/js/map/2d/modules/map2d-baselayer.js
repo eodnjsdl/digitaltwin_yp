@@ -1,6 +1,5 @@
 window.map2d = window.map2d || {};
-map2d.modules = map2d.modules || {}
-map2d.modules.baseLayer = (function () {
+map2d.baseLayer = (function () {
     let layerGroup;
     let layers = [];
     let LAYER_OPT;

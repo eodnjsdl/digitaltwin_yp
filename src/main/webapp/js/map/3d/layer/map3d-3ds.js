@@ -9,7 +9,7 @@ map3d.layer.TDS = (function () {
      * @constructor
      */
     function TDS(options) {
-        map3d.layer.Layer.call(this);
+        map3d.layer.Layer.call(this,options);
         this.serviceType = 'service';
     }
 
