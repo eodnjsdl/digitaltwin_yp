@@ -63,7 +63,9 @@
     <!-- 3D Map js -->
     <script src="/js/map/3d/map3d.js"></script>
     <script src="/js/map/3d/config.js"></script>
-    <script src="/js/map/3d/map3d-layer.js"></script>
+    <script src="/js/map/3d/modules/map3d-layer.js"></script>
+    <script src="/js/map/3d/modules/map3d-compass.js"></script>
+    <script src="/js/map/3d/modules/map3d-measure.js"></script>
     <script src="/js/map/3d/layer/map3d-layer.js"></script>
     <script src="/js/map/3d/layer/map3d-group.js"></script>
     <script src="/js/map/3d/layer/map3d-wms.js"></script>

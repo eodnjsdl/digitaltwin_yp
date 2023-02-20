@@ -52,7 +52,7 @@ map3d.layer.POI = (function () {
                             continue;
                         }
 
-                        createLinePoi2({
+                        drawPoi({
                             layer: layer,
                             lon: list[i].lon,
                             lat: list[i].lat,
@@ -72,7 +72,7 @@ map3d.layer.POI = (function () {
     }
 
 
-    function createLinePoi2(options) {
+    function drawPoi(options) {
         // 라인 흰색 고정
         options.lineColor = new Module.JSColor(255, 255, 255);
 
@@ -137,7 +137,7 @@ map3d.layer.POI = (function () {
                     options.highlight = true;
                     options.layerKey = pointNm + "_on";
 
-                    createLinePoi2(options);
+                    drawPoi(options);
 
                     point.setText(String(options.text));
                     point.setImage(imageData, this.width, this.height);

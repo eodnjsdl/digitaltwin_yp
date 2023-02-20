@@ -85,12 +85,16 @@ window.dtmap = (function () {
         });
     }
 
+    function setInteraction(mod) {
+        call('setInteraction', mod);
+    }
 
     const module = {
         init: init,
         switchMap: switchMap,
         setCenter: setCenter,
-        showLayer: showLayer
+        showLayer: showLayer,
+        setInteraction: setInteraction
     }
 
     Object.defineProperties(module, {
