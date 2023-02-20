@@ -216,6 +216,14 @@ $(document).ready(function () {
     });
 
     /**
+     * 공통
+     */
+    //팝업 닫기 버튼
+    $(document).on('click', '.popup-panel .popup-close', function () {
+        $(this).closest('.popup-panel').removeClass('opened');
+    })
+
+    /**
      * loading bar
      */
     function loadingBar(type) {
@@ -225,15 +233,6 @@ $(document).ready(function () {
             $('.loadingWrapper').remove();
         }
     }
-
-
-    /**
-     * 공통
-     */
-    //팝업 닫기 버튼
-    $(document).on('click', '.popup-panel .popup-close', function () {
-        $(this).closest('.popup-panel').removeClass('opened');
-    })
 
 });
 
