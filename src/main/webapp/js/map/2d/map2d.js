@@ -87,10 +87,12 @@ window.map2d = (function () {
     /**
      * export function
      */
-    function getZoom() {
+    function zoomIn() {
+        view.setZoom(view.getZoom() + 1);
     }
 
-    function setZoom() {
+    function zoomOut() {
+        view.setZoom(view.getZoom() - 1);
     }
 
     function getCenter() {
@@ -112,43 +114,16 @@ window.map2d = (function () {
         view.fit(extent);
     }
 
-    function getLayerById(id) {
-        let result;
-        return result;
-    }
-
     function showLayer(options) {
-        let {id, visible, table} = options;
-        let layer = map2d.layer.getById(table);
-        if (!layer) createLayer(options);
-        map2d.layer.setVisible(table, visible);
+        let {id, visible} = options;
+        let layer = map2d.layer.getById(id);
+        if (!layer) map2d.layer.addLayer(options);
+        map2d.layer.setVisible(id, visible);
     }
 
-    function createLayer(layerInfo) {
-        var wmsParams = {
-            'VERSION': '1.1.0',
-            'LAYERS': layerInfo.store + ':' + layerInfo.table
-        }
-        var layer = new ol.layer.Image({
-            id: layerInfo.table,
-            title: layerInfo.table,
-            // extent: ol.proj.transformExtent(extent, bbox.crs.$, gis.map.Instance.getView().getProjection()),
-            source: new ol.source.ImageWMS({
-                url: '/gis/wms',
-                params: wmsParams,
-                // projection: ol.proj.get(e.srs),
-                ratio: 1,
-                crossOrigin: 'anonymous',
-                serverType: 'geoserver',
-            }),
-        });
-        map2d.map.addLayer(layer);
-    }
 
-    function reset() {
-    }
 
-    function dispose() {
+    function clear() {
     }
 
     function show() {
@@ -169,15 +144,14 @@ window.map2d = (function () {
         init: init,
         show: show,
         hide: hide,
-        getZoom: getZoom,
-        setZoom: setZoom,
+        zoomIn: zoomIn,
+        zoomOut: zoomOut,
         getCenter: getCenter,
         setCenter: setCenter,
         getExtent: getExtent,
         setExtent: setExtent,
         showLayer: showLayer,
-        reset: reset,
-        dispose: dispose,
+        clear: clear,
     }
     Object.defineProperties(module, {
         'map': {

@@ -66,6 +66,8 @@
     <script src="/js/map/3d/modules/map3d-layer.js"></script>
     <script src="/js/map/3d/modules/map3d-compass.js"></script>
     <script src="/js/map/3d/modules/map3d-measure.js"></script>
+    <script src="/js/map/3d/modules/map3d-overlay.js"></script>
+    <script src="/js/map/3d/modules/map3d-location.js"></script>
     <script src="/js/map/3d/layer/map3d-layer.js"></script>
     <script src="/js/map/3d/layer/map3d-group.js"></script>
     <script src="/js/map/3d/layer/map3d-wms.js"></script>
@@ -78,7 +80,6 @@
 
     <!-- 양평 레이어 상수 -->
     <script src="/js/map/yp-layer.js"></script>
-
 
 
 </head>
@@ -189,10 +190,8 @@
                         <button type="button" class="ctrl-btn radius" title="반경"></button>
                     </li>
                     <li>
-                        <button type="button" class="ctrl-btn scaleUp" onclick="mapZoomControlPlusRe()"
-                                title="확대"></button>
-                        <button type="button" class="ctrl-btn scaleDown" onclick="mapZoomControlMinusRe()"
-                                title="축소"></button>
+                        <button type="button" class="ctrl-btn scaleUp" title="확대"></button>
+                        <button type="button" class="ctrl-btn scaleDown" title="축소"></button>
                     </li>
                 </ul>
 
@@ -2500,7 +2499,6 @@
         EMAP_KEY: `<spring:message code="Gis.baro2map.key"/>`
     })
     dtmap.init();
-
 
 
 </script>

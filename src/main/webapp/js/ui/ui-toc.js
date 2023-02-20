@@ -10,8 +10,17 @@ $(document).ready(function () {
             let shpType = $this.data('shptype');
             let desc = $this.data('desc');
 
+            let type = dtmap.mod === '3D' ? LAYER_TYPE[id.split('_')[1]] : 'WMS';
+            let layerId = id.split('_')[2];
+            let only3d = id.split('_')[3];
+
+            if (only3d && dtmap.mod !== '3D') {
+                console.warn('3D지도에서만 사용 가능합니다.');
+            }
+
             dtmap.showLayer({
-                id: id,
+                id: layerId,
+                type: type,
                 visible: visible,
                 table: table,
                 store: store,

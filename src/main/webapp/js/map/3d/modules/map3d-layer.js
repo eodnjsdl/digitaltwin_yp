@@ -25,9 +25,34 @@ map3d.modules.layer = (function () {
         if (!type) {
             throw new Error("레이어 종류가 지정되지 않았습니다.");
         }
-        let layer = new this[type](options);
+        let layer = createLayer(options);
         layerMap.set(id, layer);
         return layer;
+    }
+
+    function createLayer(options) {
+        let {type} = options;
+
+        if (type === 'Image') {
+            return new map3d.layer.Image(options);
+        } else if (type === 'SHP') {
+            return new map3d.layer.SHP(options);
+        } else if (type === 'TDS') {
+            return new map3d.layer.TDS(options);
+        } else if (type === 'WMS') {
+            return new map3d.layer.WMS(options);
+        } else if (type === 'CSV') {
+            return new map3d.layer.CSV(options);
+        } else if (type === 'POI') {
+            return new map3d.layer.POI(options);
+        } else if (type === 'Facility') {
+            return new map3d.layer.Facility(options);
+        } else if (type === 'Graph') {
+            let layer = new map3d.layer.Graph(options);
+            layer.setData(GRAPH_DATA[options.layerNm]);
+            return layer;
+        }
+
     }
 
     /**

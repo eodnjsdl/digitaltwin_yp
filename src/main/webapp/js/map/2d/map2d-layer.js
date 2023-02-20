@@ -12,7 +12,8 @@ map2d.layer = (function () {
         if (!type) {
             throw new Error("레이어 종류가 지정되지 않았습니다.");
         }
-        let layer = new this[type](options);
+        let layer = createLayer(options);
+        map2d.map.addLayer(layer);
         return layer;
     }
 
@@ -54,9 +55,46 @@ map2d.layer = (function () {
         var layers = map2d.map.getLayers().getArray().slice();
         var layer;
         for (var i = 0; i < layers.length; i++) {
-            if(layers[i].get("id") === id) layer = layers[i];
+            if (layers[i].get("id") === id) layer = layers[i];
         }
         return layer != undefined ? layer : undefined;
+    }
+
+
+    function createLayer(options) {
+        let {type} = options;
+        if (type === 'WMS') {
+            return createWMS(options);
+        } else if (type === 'WFS') {
+            return createWFS(options);
+        }
+
+    }
+
+    function createWMS(options) {
+        let {id, store, table} = options;
+        var wmsParams = {
+            'VERSION': '1.1.0',
+            'LAYERS': store + ':' + table
+        }
+        var layer = new ol.layer.Image({
+            id: id,
+            title: table,
+            // extent: ol.proj.transformExtent(extent, bbox.crs.$, gis.map.Instance.getView().getProjection()),
+            source: new ol.source.ImageWMS({
+                url: '/gis/wms',
+                params: wmsParams,
+                // projection: ol.proj.get(e.srs),
+                ratio: 1,
+                crossOrigin: 'anonymous',
+                serverType: 'geoserver',
+            }),
+        });
+        return layer;
+    }
+
+    function createWFS(options) {
+
     }
 
     let module = {

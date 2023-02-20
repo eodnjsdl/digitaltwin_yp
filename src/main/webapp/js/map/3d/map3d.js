@@ -1,6 +1,6 @@
 window.Module = window.Module || {};
 window.map3d = (function () {
-    let isInit_ = false, isLoaded_ = $.Deferred(), container_, canvas_;
+    let isInit_ = false, isLoaded_ = $.Deferred(), container_;
     let camera_;
     let curInteraction;
 
@@ -139,6 +139,24 @@ window.map3d = (function () {
      */
 
     /**
+     * 확대
+     */
+    function zoomIn() {
+        if (camera_) {
+            camera_.ZoomIn();
+        }
+    }
+
+    /**
+     * 축소
+     */
+    function zoomOut() {
+        if (camera_) {
+            camera_.ZoomOut();
+        }
+    }
+
+    /**
      * 중심 좌표 반환 (높이는 카메라의 높이)
      * @returns {(number|*)[x,y,z]}
      */
@@ -180,6 +198,10 @@ window.map3d = (function () {
         container_.style.display = 'none';
     }
 
+    /**
+     * 레이어 가시화
+     * @param options
+     */
     function showLayer(options) {
         let {id, visible} = options;
         let layer = map3d.layer.getById(id);
@@ -189,11 +211,12 @@ window.map3d = (function () {
         map3d.layer.setVisible(id, visible);
     }
 
+    /**
+     * 상호작용 설정
+     * @param mod
+     */
     function setInteraction(mod) {
-        if (curInteraction) {
-            curInteraction.dispose();
-            curInteraction = undefined;
-        }
+        clearInteraction();
         switch (mod) {
             case 'distance':
                 curInteraction = map3d.measure.distance;
@@ -203,6 +226,9 @@ window.map3d = (function () {
                 break;
             case 'radius':
                 curInteraction = map3d.measure.radius;
+                break;
+            case 'location':
+                curInteraction = map3d.location;
                 break;
             default :
                 curInteraction = undefined;
@@ -215,14 +241,31 @@ window.map3d = (function () {
 
     }
 
+    /**
+     * 지도 데이터 초기화
+     */
+    function clear() {
+        clearInteraction();
+    }
+
+    function clearInteraction() {
+        if (curInteraction) {
+            curInteraction.dispose();
+            curInteraction = undefined;
+        }
+    }
+
     const module = {
         init: init,
         show: show,
         hide: hide,
+        zoomIn: zoomIn,
+        zoomOut: zoomOut,
         setCenter: setCenter,
         getCenter: getCenter,
         showLayer: showLayer,
-        setInteraction: setInteraction
+        setInteraction: setInteraction,
+        clear: clear
     }
 
     Object.defineProperties(module, {
@@ -233,7 +276,7 @@ window.map3d = (function () {
         },
         'canvas': {
             get: function () {
-                return container_.getElementsByTagName('canvas');
+                return container_.getElementsByTagName('canvas').canvas;
             }
         },
         'camera': {

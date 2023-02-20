@@ -97,7 +97,11 @@ $(document).ready(function () {
                 loadingBar('hide');
             })
         }
-        dtmap.switchMap(e.target.value)
+        //측정기능 OFF
+        $mapControl.find('.location, .distance, .measure, .radius').removeClass('active');
+        dtmap.setInteraction('move');
+
+        dtmap.switchMap(e.target.value);
     });
 
     //위치
@@ -106,9 +110,9 @@ $(document).ready(function () {
         $this.siblings().removeClass('active');
         $this.toggleClass('active');
         if ($this.hasClass('active')) {
-
+            dtmap.setInteraction('location');
         } else {
-
+            dtmap.setInteraction('move');
         }
 
 
@@ -152,8 +156,16 @@ $(document).ready(function () {
         } else {
             dtmap.setInteraction('move');
         }
+    })
 
+    //확대
+    $mapControl.on('click', '.ctrl-btn.scaleUp', function (e) {
+        dtmap.zoomIn();
+    })
 
+    //축소
+    $mapControl.on('click', '.ctrl-btn.scaleDown', function (e) {
+        dtmap.zoomOut();
     })
 
     /**

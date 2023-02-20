@@ -24,13 +24,12 @@ window.dtmap = (function () {
         }
     }
 
+    function zoomIn() {
+        call('zoomIn');
+    }
 
-    /**
-     * export function
-     * @param center
-     */
-    function setCenter(center) {
-        call('setCenter', center);
+    function zoomOut() {
+        call('zoomOut');
     }
 
     async function switchMap(mod) {
@@ -62,21 +61,22 @@ window.dtmap = (function () {
         }
     }
 
+    /**
+     * export function
+     * @param center
+     */
+    function setCenter(center) {
+        call('setCenter', center);
+    }
+
 
     function showLayer(options) {
-        let {id, visible, table, store, shpType, layerNm} = options;
-        let type = id.split('_')[1];
-        let layerId = id.split('_')[2];
-        let only3d = id.split('_')[3];
+        let {id, type, visible, table, store, shpType, layerNm} = options;
 
-
-        if (cur_mode === '2D' && only3d) {
-            throw new Error('3D에서만 사용가능한 레이어입니다.');
-        }
 
         call('showLayer', {
-            type: LAYER_TYPE[type],
-            id: layerId,
+            type: type,
+            id: id,
             visible: visible,
             table: table,
             store: store,
@@ -91,6 +91,8 @@ window.dtmap = (function () {
 
     const module = {
         init: init,
+        zoomIn: zoomIn,
+        zoomOut: zoomOut,
         switchMap: switchMap,
         setCenter: setCenter,
         showLayer: showLayer,

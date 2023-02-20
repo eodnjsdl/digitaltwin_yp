@@ -21,9 +21,9 @@ map3d.layer.Facility = (function () {
      * @returns {XDWorld.JSLayer}
      */
     Facility.prototype.createInstance = function (options) {
-        // Module.XDEMapCreateLayer(this.layerNm, dtmap.urls.xdServer, 0, false, this.visible, false, Module.ELT_MULTILPE, 0, 13);
-        // Module.setVisibleRange(this.layerNm, map3d.config.vidoQlityLevel, map3d.config.maxDistance);
-
+        Module.XDEMapCreateLayer(this.layerNm, dtmap.urls.xdServer, 0, false, this.visible, false, Module.ELT_MULTILPE, 0, 13);
+        Module.setVisibleRange(this.layerNm, map3d.config.vidoQlityLevel, map3d.config.maxDistance);
+        // Module.ELT_MULTILPE
         // return map3d.serviceLayers.nameAtLayer(this.layerNm);
     }
 
