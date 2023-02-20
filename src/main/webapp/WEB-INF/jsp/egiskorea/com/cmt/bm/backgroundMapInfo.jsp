@@ -1,23 +1,23 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="egis" uri="http://www.egiskorea.com/jsp/egis" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%
-/**
- * @file Name : backgroundMapInfo.jsp
- * @Description : 배경지도 팝업 페이지
- * @Modification Information
- * @
- * @  수정일                         수정자                  수정내용
- * @ -------        --------    ---------------------------
- * @ 2022.03.07      이준호                  최초생성
- *
- * @author 플랫폼개발부문 DT솔루션 이준호
- * @since 2022.03.07
- * @version 1.0
- *
- */
+    /**
+     * @file Name : backgroundMapInfo.jsp
+     * @Description : 배경지도 팝업 페이지
+     * @Modification Information
+     * @
+     * @  수정일                         수정자                  수정내용
+     * @ -------        --------    ---------------------------
+     * @ 2022.03.07      이준호                  최초생성
+     *
+     * @author 플랫폼개발부문 DT솔루션 이준호
+     * @since 2022.03.07
+     * @version 1.0
+     *
+     */
 %>
 
 <div class="popup-header">배경지도</div>
@@ -34,26 +34,33 @@
                     <c:choose>
                         <c:when test="${fn:length(mapServiceList) > 0}">
                             <ul class="mapBgType-list">
-                                <%--@elvariable id="mapServiceVO" type="egiskorea.com.mngr.sver.service.MapServiceVO"--%>
+                                    <%--@elvariable id="mapServiceVO" type="egiskorea.com.mngr.sver.service.MapServiceVO"--%>
                                 <c:forEach items="${mapServiceList}" var="mapServiceVO" varStatus="mapStatus">
-                                    <fmt:formatNumber var="count" minIntegerDigits="2" value="${bgCount}" type="number"/>
+                                    <fmt:formatNumber var="count" minIntegerDigits="2" value="${bgCount}"
+                                                      type="number"/>
                                     <li>
-                                        <input type="radio" name="mapBgType" class="mapBgType" id="mapBgType${count}" value="<c:out value='${mapServiceVO.serviceId}'/>" data-service_url="<c:out value='${mapServiceVO.serviceUrl}'/>" data-bm_code="<c:out value='${mapServiceVO.bmCode}'/>">
+                                        <input type="radio" name="mapBgType" class="mapBgType" id="mapBgType${count}"
+                                               value="<c:out value='${mapServiceVO.serviceId}'/>"
+                                               data-service_url="<c:out value='${mapServiceVO.serviceUrl}'/>"
+                                               data-bm_code="<c:out value='${mapServiceVO.bmCode}'/>">
                                         <label for="mapBgType${count}">
                                             <div class="img">
                                                 <c:choose>
                                                     <c:when test="${not empty mapServiceVO.streFileNm && not empty mapServiceVO.originalFileNm}"><%--디비에 파일이름이 존재할 경우--%>
                                                         <c:choose>
                                                             <c:when test="${egis:isFile(mapServiceVO.streFileNm)}"><%--실제로 파일이 존재할 경우--%>
-                                                                <img src="<c:url value='/com/cmm/image.do'/>?attach=<c:out value='${egis:encrypt(mapServiceVO.streFileNm)}'/>" alt="${mapServiceVO.originalFileNm}">
+                                                                <img src="<c:url value='/com/cmm/image.do'/>?attach=<c:out value='${egis:encrypt(mapServiceVO.streFileNm)}'/>"
+                                                                     alt="${mapServiceVO.originalFileNm}">
                                                             </c:when>
                                                             <c:otherwise><%--이미지가 없을 경우 기본이미지 출력--%>
-                                                                <img src="<c:url value='/images/common/img_noimg.png'/>" alt="기본 이미지"/>
+                                                                <img src="<c:url value='/images/common/img_noimg.png'/>"
+                                                                     alt="기본 이미지"/>
                                                             </c:otherwise>
                                                         </c:choose>
                                                     </c:when>
                                                     <c:otherwise><%--이미지가 등록되지 않았을 경우 기본이미지 출력--%>
-                                                        <img src="<c:url value='/images/common/img_noimg.png'/>" alt="기본 이미지"/>
+                                                        <img src="<c:url value='/images/common/img_noimg.png'/>"
+                                                             alt="기본 이미지"/>
                                                     </c:otherwise>
                                                 </c:choose>
                                             </div>
@@ -91,7 +98,9 @@
             --%>
         </div>
         <div class="position-bottom btn-wrap">
-            <div><button type="button" class="btn basic bi-check" id="bg-apply">적용</button></div>
+            <div>
+                <button type="button" class="btn basic bi-check" id="bg-apply">적용</button>
+            </div>
         </div>
     </div>
 </div>
@@ -99,24 +108,30 @@
 <button type="button" id="bg-popup-close" class="popup-close" title="닫기"></button>
 
 <script>
-/**
- * @description 배경지도 현재 배경지도 타입에 선택되게 해주는 함수.
- * @Author 플랫폼개발부문 DT솔루션 이준호
- * @Date 2022.03.14
- */
-function mapBgTypeCheckedInit() {
-    var $mapBgType = $('.mapBgType');
-    $mapBgType.each(function(index, item) {
-        var value = item.value;
-        if (value.includes(m_bgType)) {
-            item.checked = true;
-        } else {
-            item.checked = false;
+
+    $(document).ready(function () {
+
+        /**
+         * @description 배경지도 현재 배경지도 타입에 선택되게 해주는 함수.
+         * @Author 플랫폼개발부문 DT솔루션 이준호
+         * @Date 2022.03.14
+         */
+        function mapBgTypeCheckedInit() {
+            var $mapBgType = $('.mapBgType');
+            $mapBgType.each(function (index, item) {
+                var value = item.value;
+                if (value.includes(m_bgType)) {
+                    item.checked = true;
+                } else {
+                    item.checked = false;
+                }
+            });
         }
-    });
-}
-$(function(){
-    //Module.SetPlanetImageryType(0); //배경지도 초기화
-    mapBgTypeCheckedInit();
-});
+
+        $(document).on('change', 'input[name="mapBgType"]:radio', function () {
+            var value = $(this).val(); //서비스ID
+            dtmap.setBaseLayer(value);
+        });
+        // mapBgTypeCheckedInit();
+    })
 </script>

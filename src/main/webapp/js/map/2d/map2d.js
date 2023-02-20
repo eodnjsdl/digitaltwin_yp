@@ -141,6 +141,10 @@ window.map2d = (function () {
 
     }
 
+    function setBaseLayer(name) {
+        map2d.baseLayer.setLayer(name);
+    }
+
     const module = {
         init: init,
         show: show,
@@ -153,7 +157,8 @@ window.map2d = (function () {
         setExtent: setExtent,
         showLayer: showLayer,
         clear: clear,
-        goHome: goHome
+        goHome: goHome,
+        setBaseLayer: setBaseLayer
     }
     Object.defineProperties(module, {
         'map': {

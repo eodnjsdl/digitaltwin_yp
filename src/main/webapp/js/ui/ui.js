@@ -196,6 +196,8 @@ $(document).ready(function () {
             success: function (returnData, status) {
                 if (status === "success") {
                     $("#rightPopup").html(returnData);
+                    $("#rightPopup").addClass('opened');
+                    $("#rightPopup").css("width", "325").css("height", "430");
                 } else {
                     alert("ERROR!");
                 }
@@ -224,6 +226,14 @@ $(document).ready(function () {
         }
     }
 
+
+    /**
+     * 공통
+     */
+    //팝업 닫기 버튼
+    $(document).on('click', '.popup-panel .popup-close', function () {
+        $(this).closest('.popup-panel').removeClass('opened');
+    })
 
 });
 

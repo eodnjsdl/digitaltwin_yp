@@ -273,6 +273,36 @@ window.map3d = (function () {
         camera_.moveLookAt(centerVec, 90, 0, 800);
     }
 
+    function setBaseLayer(name) {
+        let url;
+        if (name === 'emap') {
+            url = dtmap.urls.emapBase + '?apikey=' + dtmap.urls.EMAP_KEY + '&layer=korean_map&style=korean&tilematrixset=EPSG%3A5179&Service=WMTS&Request=GetTile&Version=1.0.0&Format=image%2Fpng&TileMatrix=L{02z}&TileCol={x}&TileRow={y}'
+        } else if (name === 'air') {
+            // url = dtmap.urls.emapAirProxy + '?URL=' + dtmap.urls.emapAir + '%3Fapikey=' + dtmap.urls.EMAP_KEY + '%26layer=AIRPHOTO%26style=_null%26tilematrixset=NGIS_AIR%26Service=WMTS%26Request=GetTile%26Version=1.0.0%26Format=image%252Fjpg%26TileMatrix={z}%26TileCol={x}%26TileRow={y}'
+            return Module.WMTS().clear();
+        }
+
+        let wmts = Module.WMTS();
+        wmts.provider = {
+            url: url,
+            tileExtent: {
+                min: new Module.JSVector2D(-200000.98, -28086425.6),
+                max: new Module.JSVector2D(31886425.6, 4000000.0)
+            },
+            projection: "EPSG:5179",
+            tileSize: 256,
+            resolutions: [2088.96, 1044.48, 522.24, 261.12, 130.56, 65.28, 32.64, 16.32, 8.16, 4.08, 2.04, 1.02, 0.51, 0.255],		// 레벨별 해상도
+            matrixIds: [5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18],	// 타일 레벨 정의 (resolutions과 매칭)
+            serviceLevel: {
+                min: 3,
+                max: 20
+            }
+        }
+        wmts.quality = "middle";	// wmts 이미지 품질
+        wmts.zeroLevel = 2;			// wmts 이미지 LOD
+
+    }
+
     const module = {
         init: init,
         show: show,
@@ -284,7 +314,8 @@ window.map3d = (function () {
         showLayer: showLayer,
         setInteraction: setInteraction,
         clear: clear,
-        goHome: goHome
+        goHome: goHome,
+        setBaseLayer: setBaseLayer
     }
 
     Object.defineProperties(module, {

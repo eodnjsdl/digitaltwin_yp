@@ -97,6 +97,10 @@ window.dtmap = (function () {
         call('goHome');
     }
 
+    function setBaseLayer(name) {
+        call('setBaseLayer', name)
+    }
+
     const module = {
         init: init,
         clear: clear,
@@ -106,7 +110,8 @@ window.dtmap = (function () {
         switchMap: switchMap,
         setCenter: setCenter,
         showLayer: showLayer,
-        setInteraction: setInteraction
+        setInteraction: setInteraction,
+        setBaseLayer: setBaseLayer
     }
 
     Object.defineProperties(module, {
