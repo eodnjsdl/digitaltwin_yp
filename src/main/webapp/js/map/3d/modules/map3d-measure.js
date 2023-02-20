@@ -1,12 +1,12 @@
 window.map3d = window.map3d || {}
 map3d.measure = (function () {
-    let distance_, area_, radius_;
+    let _distance, _area, _radius;
 
     function init() {
         let canvas = map3d.container.getElementsByTagName('canvas')[0];
-        distance_ = new Distance(canvas);
-        area_ = new Area(canvas);
-        radius_ = new Radius(canvas);
+        _distance = new Distance(canvas);
+        _area = new Area(canvas);
+        _radius = new Radius(canvas);
     }
 
     function dummy() {
@@ -376,17 +376,17 @@ map3d.measure = (function () {
     Object.defineProperties(module, {
         'distance': {
             get: function () {
-                return distance_;
+                return _distance;
             }
         },
         'area': {
             get: function () {
-                return area_;
+                return _area;
             }
         },
         'radius': {
             get: function () {
-                return radius_;
+                return _radius;
             }
         }
     })

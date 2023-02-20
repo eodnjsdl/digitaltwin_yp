@@ -1,15 +1,17 @@
 window.Module = window.Module || {};
 window.map3d = (function () {
-    let isInit_ = false, isLoaded_ = $.Deferred(), container_;
-    let camera_;
+    let _isInit = false;
+    let _isLoaded = $.Deferred();
+    let _container;
+    let _camera;
     let curInteraction;
 
     function init() {
-        if (isInit_) {
-            return isLoaded_;
+        if (_isInit) {
+            return _isLoaded;
         }
 
-        container_ = document.getElementById(map3d.config.target);
+        _container = document.getElementById(map3d.config.target);
         window.addEventListener('resize', resize);
 
         $.when.apply($, [loadScript(), getMapSetting()]).then(function () {
@@ -25,7 +27,7 @@ window.map3d = (function () {
 
             //XDWorld 시작
             Module.initialize({
-                container: container_
+                container: _container
             });
 
             // 이전버전 초기화 소스
@@ -41,23 +43,23 @@ window.map3d = (function () {
             // Module.Start(container_.clientWidth, container_.clientHeight)
 
             //초기 카메라설정
-            camera_ = Module.getViewCamera();
+            _camera = Module.getViewCamera();
             let {center, limitRect, limitAlt, limitCamera} = map3d.config;
             let centerVec = new Module.JSVector3D(center[0], center[1], center[2]);
-            camera_.setLimitRectAlt(limitRect[0], limitRect[1], limitRect[2], limitRect[3], limitRect[4]);
-            camera_.setLimitAltitude(limitAlt);
-            camera_.setLimitCamera(limitCamera);
-            camera_.setLocation(centerVec)
-            camera_.moveLookAt(centerVec, 90, 0, 800);
+            _camera.setLimitRectAlt(limitRect[0], limitRect[1], limitRect[2], limitRect[3], limitRect[4]);
+            _camera.setLimitAltitude(limitAlt);
+            _camera.setLimitCamera(limitCamera);
+            _camera.setLocation(centerVec)
+            _camera.moveLookAt(centerVec, 90, 0, 800);
 
 
             //3D 확장 모듈 초기화
             initModules();
-            isInit_ = true;
-            isLoaded_.resolve(true);
+            _isInit = true;
+            _isLoaded.resolve(true);
         })
 
-        return isLoaded_;
+        return _isLoaded;
     }
 
     // 지도 세팅 정보 불러오기
@@ -68,7 +70,7 @@ window.map3d = (function () {
             dataType: "json",
             async: false,
             success: function (data, status) {
-                if (status == "success") {
+                if (status === "success") {
                     map3d.config.set(data.result);
                 } else {
                     alert("ERROR!");
@@ -90,10 +92,10 @@ window.map3d = (function () {
 
     //window resize Event
     function resize() {
-        if (!isInit_) {
+        if (!_isInit) {
             return;
         }
-        Module.Resize(container_.clientWidth, container_.clientHeight)
+        Module.Resize(_container.clientWidth, _container.clientHeight)
     }
 
 
@@ -150,8 +152,8 @@ window.map3d = (function () {
      * 확대
      */
     function zoomIn() {
-        if (camera_) {
-            camera_.ZoomIn();
+        if (_camera) {
+            _camera.ZoomIn();
         }
     }
 
@@ -159,8 +161,8 @@ window.map3d = (function () {
      * 축소
      */
     function zoomOut() {
-        if (camera_) {
-            camera_.ZoomOut();
+        if (_camera) {
+            _camera.ZoomOut();
         }
     }
 
@@ -169,8 +171,8 @@ window.map3d = (function () {
      * @returns {(number|*)[x,y,z]}
      */
     function getCenter() {
-        let center = camera_.getCenterPoint();
-        return [center.Longitude, center.Latitude, camera_.getAltitude()];
+        let center = _camera.getCenterPoint();
+        return [center.Longitude, center.Latitude, _camera.getAltitude()];
     }
 
     /**
@@ -181,7 +183,7 @@ window.map3d = (function () {
     function setCenter(center, altitude) {
         var alt = Module.getMap().getTerrHeightFast(center[0], center[1]);
         let centerVec = new Module.JSVector3D(center[0], center[1], alt);
-        camera_.moveLookAt(centerVec, 30, 0, altitude * 1.6);
+        _camera.moveLookAt(centerVec, 30, 0, altitude * 1.6);
     }
 
     /**
@@ -189,21 +191,21 @@ window.map3d = (function () {
      * @returns {*}
      */
     function show() {
-        if (!isInit_) {
+        if (!_isInit) {
             init();
         }
-        container_.style.display = 'block';
-        return isLoaded_
+        _container.style.display = 'block';
+        return _isLoaded
     }
 
     /**
      * 3D맵 DIV 숨기기
      */
     function hide() {
-        if (!isInit_) {
+        if (!_isInit) {
             return;
         }
-        container_.style.display = 'none';
+        _container.style.display = 'none';
     }
 
     /**
@@ -269,8 +271,8 @@ window.map3d = (function () {
     function goHome() {
         let {center} = map3d.config;
         let centerVec = new Module.JSVector3D(center[0], center[1], center[2]);
-        camera_.setLocation(centerVec)
-        camera_.moveLookAt(centerVec, 90, 0, 800);
+        _camera.setLocation(centerVec)
+        _camera.moveLookAt(centerVec, 90, 0, 800);
     }
 
     function setBaseLayer(name) {
@@ -321,27 +323,27 @@ window.map3d = (function () {
     Object.defineProperties(module, {
         'container': {
             get: function () {
-                return container_;
+                return _container;
             }
         },
         'canvas': {
             get: function () {
-                return container_.getElementsByTagName('canvas').canvas;
+                return _container.getElementsByTagName('canvas').canvas;
             }
         },
         'camera': {
             get: function () {
-                return camera_;
+                return _camera;
             }
         },
         'isInit': {
             get: function () {
-                return isInit_;
+                return _isInit;
             }
         },
         'isLoaded': {
             get: function () {
-                return isLoaded_;
+                return _isLoaded;
             }
         },
         'crs': {

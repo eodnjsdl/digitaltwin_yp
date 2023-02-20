@@ -127,4 +127,4 @@ map3d.layer = (function () {
         }
     })
     return module;
-})();
+}());

@@ -47,4 +47,4 @@ map3d.compass = (function () {
     })
 
     return module;
-})();
+}());

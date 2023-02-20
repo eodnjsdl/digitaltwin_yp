@@ -1,11 +1,11 @@
 window.map3d = window.map3d || {}
 map3d.overlay = (function () {
-    let layer_;
+    let _layer;
     let map = new Map();
 
     function init() {
-        layer_ = map3d.userLayers.createLayer("HTML_OBJEC_LAYER", Module.ELT_POLYHEDRON);//일반
-        layer_.setMaxDistance(10000);
+        _layer = map3d.userLayers.createLayer("HTML_OBJEC_LAYER", Module.ELT_POLYHEDRON);//일반
+        _layer.setMaxDistance(10000);
     }
 
     function add(options) {
@@ -22,7 +22,7 @@ map3d.overlay = (function () {
         });
 
         if (complet.result === 1) {
-            layer_.addObject(object, 0);
+            _layer.addObject(object, 0);
             map.set(id, object);
         }
 
@@ -35,13 +35,13 @@ map3d.overlay = (function () {
     function removeById(id) {
         let object = map.get(id);
         if (object) {
-            layer_.removeAtObject(object);
+            _layer.removeAtObject(object);
         }
         map.delete(id);
     }
 
     function clear() {
-        layer_.removeAll();
+        _layer.removeAll();
     }
 
 

@@ -1,28 +1,28 @@
 window.map3d = window.map3d || {}
 map3d.location = (function () {
-    let element_;
-    let isActive_ = false;
+    let _element;
+    let _isActive = false;
     const OVERLAY_ID = 'LOCA_OVERLAY'
 
     function init() {
-        element_ = document.createElement('div');
-        element_.classList.add('ol-popup3d');
-        $(element_).on('click', '.ol-popup-closer', onCloserClick);
+        _element = document.createElement('div');
+        _element.classList.add('ol-popup3d');
+        $(_element).on('click', '.ol-popup-closer', onCloserClick);
     }
 
     function active() {
-        if (!isActive_) {
+        if (!_isActive) {
             map3d.canvas.addEventListener('click', onMouseDown);
-            isActive_ = true;
+            _isActive = true;
         }
     }
 
     function dispose() {
-        if (isActive_) {
+        if (_isActive) {
             map3d.canvas.removeEventListener('click', onMouseDown);
             map3d.overlay.removeById(OVERLAY_ID);
-            element_.innerHTML='';
-            isActive_ = false;
+            _element.innerHTML='';
+            _isActive = false;
         }
     }
 
@@ -37,12 +37,12 @@ map3d.location = (function () {
         let overlayObj = map3d.overlay.getById(OVERLAY_ID);
         if (overlayObj) {
             map3d.overlay.removeById(OVERLAY_ID);
-            element_.innerHTML = ''; //html 초기화
+            _element.innerHTML = ''; //html 초기화
         }
 
         map3d.overlay.add({
             id: OVERLAY_ID,
-            element: element_,
+            element: _element,
             position: position,
             verticalAlign : 'bottom',
             horizontalAlign : 'center'
@@ -61,7 +61,7 @@ map3d.location = (function () {
             }
             경위도 : ${x.toFixed(4)},${y.toFixed(4)}
             `
-            element_.innerHTML = html;
+            _element.innerHTML = html;
         });
     }
 

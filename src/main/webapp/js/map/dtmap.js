@@ -103,7 +103,6 @@ window.dtmap = (function () {
 
     const module = {
         init: init,
-        clear: clear,
         goHome: goHome,
         zoomIn: zoomIn,
         zoomOut: zoomOut,
@@ -111,7 +110,8 @@ window.dtmap = (function () {
         setCenter: setCenter,
         showLayer: showLayer,
         setInteraction: setInteraction,
-        setBaseLayer: setBaseLayer
+        setBaseLayer: setBaseLayer,
+        clear: clear,
     }
 
     Object.defineProperties(module, {
