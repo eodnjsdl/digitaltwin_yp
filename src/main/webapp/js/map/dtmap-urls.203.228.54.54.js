@@ -18,6 +18,18 @@ dtmap.config.url = (function () {
         xdGeoUrl: url + '/geoUrl',
         emapBase: url + '/intEmap/extEmap/openapi/Gettile.do',
         emapAirProxy: url + '/intEmap/extEmap/openapi/proxy/proxyTile.jsp',
-        emapAir: 'http://210.117.198.120:8081/o2map/services'
+        emapAir: 'http://210.117.198.120:8081/o2map/services',
+        EMAP_KEY: undefined,
+        set: set
     }
+
+    function set(options) {
+        for (let key in options) {
+            if (key === 'set') continue;
+            if (urls.hasOwnProperty(key)) {
+                urls[key] = options[key];
+            }
+        }
+    }
+
 })()

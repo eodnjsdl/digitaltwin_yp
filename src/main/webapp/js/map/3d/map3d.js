@@ -1,7 +1,8 @@
 window.Module = window.Module || {};
 window.map3d = (function () {
     let isInit_ = false, isLoaded_ = $.Deferred(), container_, canvas_;
-    let camera;
+    let camera_;
+    let curInteraction;
 
     function init() {
         if (isInit_) {
@@ -16,7 +17,7 @@ window.map3d = (function () {
             Module.TOTAL_MEMORY = map3d.config.totalMemory;
             Module.getNavigation().setNaviVisible(Module.JS_VISIBLE_OFF);
             //Module.Start 이전에 호출해야함.
-            Module.SetResourceServerAddr("/images/poi/");
+            Module.SetResourceServerAddr(dtmap.urls.xdServer + "/images/poi/");
             //배경 지도, DEM 설정부
             Module.XDESetDemUrlLayerName(dtmap.urls.xdServer, "dem_yp_5m");
             Module.XDESetSatUrlLayerName(dtmap.urls.xdServer, "tile_yp_25cm");
@@ -28,14 +29,14 @@ window.map3d = (function () {
             });
 
             //초기 카메라설정
-            camera = Module.getViewCamera();
+            camera_ = Module.getViewCamera();
             let {center, limitRect, limitAlt, limitCamera} = map3d.config;
             let centerVec = new Module.JSVector3D(center[0], center[1], center[2]);
-            camera.setLimitRectAlt(limitRect[0], limitRect[1], limitRect[2], limitRect[3], limitRect[4]);
-            camera.setLimitAltitude(limitAlt);
-            camera.setLimitCamera(limitCamera);
-            camera.setLocation(centerVec)
-            camera.moveLookAt(centerVec, 90, 0, 800);
+            camera_.setLimitRectAlt(limitRect[0], limitRect[1], limitRect[2], limitRect[3], limitRect[4]);
+            camera_.setLimitAltitude(limitAlt);
+            camera_.setLimitCamera(limitCamera);
+            camera_.setLocation(centerVec)
+            camera_.moveLookAt(centerVec, 90, 0, 800);
 
 
             //3D 확장 모듈 초기화
@@ -72,7 +73,7 @@ window.map3d = (function () {
         for (let key in modules) {
             if (modules[key].init && typeof modules[key].init === 'function') {
                 modules[key].init();
-                map3d[key] = Object.assign(modules[key],map3d[key]);
+                map3d[key] = Object.assign(modules[key], map3d[key]);
             }
         }
         map3d.modules = undefined;
@@ -142,8 +143,8 @@ window.map3d = (function () {
      * @returns {(number|*)[x,y,z]}
      */
     function getCenter() {
-        let center = camera.getCenterPoint();
-        return [center.Longitude, center.Latitude, camera.getAltitude()];
+        let center = camera_.getCenterPoint();
+        return [center.Longitude, center.Latitude, camera_.getAltitude()];
     }
 
     /**
@@ -154,7 +155,7 @@ window.map3d = (function () {
     function setCenter(center, altitude) {
         var alt = Module.getMap().getTerrHeightFast(center[0], center[1]);
         let centerVec = new Module.JSVector3D(center[0], center[1], alt);
-        camera.moveLookAt(centerVec, 30, 0, altitude * 1.6);
+        camera_.moveLookAt(centerVec, 30, 0, altitude * 1.6);
     }
 
     /**
@@ -188,13 +189,40 @@ window.map3d = (function () {
         map3d.layer.setVisible(id, visible);
     }
 
+    function setInteraction(mod) {
+        if (curInteraction) {
+            curInteraction.dispose();
+            curInteraction = undefined;
+        }
+        switch (mod) {
+            case 'distance':
+                curInteraction = map3d.measure.distance;
+                break;
+            case 'area' :
+                curInteraction = map3d.measure.area;
+                break;
+            case 'radius':
+                curInteraction = map3d.measure.radius;
+                break;
+            default :
+                curInteraction = undefined;
+                break;
+        }
+
+        if (curInteraction) {
+            curInteraction.active();
+        }
+
+    }
+
     const module = {
         init: init,
         show: show,
         hide: hide,
         setCenter: setCenter,
         getCenter: getCenter,
-        showLayer: showLayer
+        showLayer: showLayer,
+        setInteraction: setInteraction
     }
 
     Object.defineProperties(module, {
@@ -208,9 +236,19 @@ window.map3d = (function () {
                 return container_.getElementsByTagName('canvas');
             }
         },
+        'camera': {
+            get: function () {
+                return camera_;
+            }
+        },
         'isInit': {
             get: function () {
                 return isInit_;
+            }
+        },
+        'isLoaded': {
+            get: function () {
+                return isLoaded_;
             }
         },
         'crs': {
@@ -232,7 +270,7 @@ window.map3d = (function () {
 
     return module;
 }())
-map3d.inherits = function(child,parent) {
+map3d.inherits = function (child, parent) {
     child.prototype = Object.create(parent.prototype);
     child.prototype.constructor = child;
 };
