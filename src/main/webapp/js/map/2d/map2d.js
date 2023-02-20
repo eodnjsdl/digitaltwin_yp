@@ -118,14 +118,31 @@ window.map2d = (function () {
     }
 
     function showLayer(options) {
-        let {id, visible} = options;
-        let layer = getLayerById(id);
-        if (!layer) {
-            //TODO create Layer
-        }
+        let {id, visible, table} = options;
+        let layer = map2d.layer.getById(table);
+        if (!layer) createLayer(options);
+        map2d.layer.setVisible(table, visible);
+    }
 
-        //TODO 주석해제
-        // layer.setVisible(visible);
+    function createLayer(layerInfo) {
+        var wmsParams = {
+            'VERSION': '1.1.0',
+            'LAYERS': layerInfo.store + ':' + layerInfo.table
+        }
+        var layer = new ol.layer.Image({
+            id: layerInfo.table,
+            title: layerInfo.table,
+            // extent: ol.proj.transformExtent(extent, bbox.crs.$, gis.map.Instance.getView().getProjection()),
+            source: new ol.source.ImageWMS({
+                url: '/gis/wms',
+                params: wmsParams,
+                // projection: ol.proj.get(e.srs),
+                ratio: 1,
+                crossOrigin: 'anonymous',
+                serverType: 'geoserver',
+            }),
+        });
+        map2d.map.addLayer(layer);
     }
 
     function reset() {
