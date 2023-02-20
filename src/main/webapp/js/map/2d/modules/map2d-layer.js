@@ -104,4 +104,4 @@ map2d.layer = (function () {
         getById: getById
     }
     return module;
-})()
+}());

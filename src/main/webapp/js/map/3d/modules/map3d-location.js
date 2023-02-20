@@ -121,4 +121,4 @@ map3d.location = (function () {
     };
     return module;
 
-})();
+}());

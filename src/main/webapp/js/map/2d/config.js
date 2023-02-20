@@ -21,4 +21,4 @@ map2d.config = (function () {
     }
 
     return config;
-}())
+}());

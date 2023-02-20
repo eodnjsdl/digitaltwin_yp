@@ -392,4 +392,4 @@ map3d.measure = (function () {
     })
 
     return module;
-})();
+}());

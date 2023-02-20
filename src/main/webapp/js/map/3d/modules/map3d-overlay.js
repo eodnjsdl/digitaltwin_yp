@@ -54,4 +54,4 @@ map3d.overlay = (function () {
 
     };
     return module;
-})()
+}());

@@ -22,9 +22,9 @@ window.map2d = (function () {
         code: "urn:x-ogc:def:crs:EPSG:5179", units: "m", axisOrientation: "neu",
     }));
 
-    let isInit_ = false, container_;
+    let _isInit = false;
+    let _container;
     let map, view;
-    let layerList = [];
 
     /**
      * 2D 지도 초기화
@@ -37,11 +37,11 @@ window.map2d = (function () {
      * @param {number} options.maxZoom
      */
     function init() {
-        if (isInit_) {
+        if (_isInit) {
             return;
         }
         let config = map2d.config;
-        container_ = document.getElementById(config.target)
+        _container = document.getElementById(config.target)
         view = new ol.View({
             projection: config.projection,
             center: config.center,
@@ -51,14 +51,14 @@ window.map2d = (function () {
             constrainResolution: true,
         });
         map = new ol.Map({
-            target: container_,
+            target: _container,
             layers: [],
             interactions: defaultInteractions(),
             controls: [],
             view: view,
         });
         initModules();
-        isInit_ = true;
+        _isInit = true;
     }
 
     function initModules() {
@@ -119,17 +119,17 @@ window.map2d = (function () {
     }
 
     function show() {
-        if (!isInit_) {
+        if (!_isInit) {
             init();
         }
-        container_.style.display = 'block';
+        _container.style.display = 'block';
     }
 
     function hide() {
-        if (!isInit_) {
+        if (!_isInit) {
             return;
         }
-        container_.style.display = 'none';
+        _container.style.display = 'none';
     }
 
     function setInteraction(mod) {
@@ -203,15 +203,15 @@ window.map2d = (function () {
         },
         'container': {
             get: function () {
-                return container_;
+                return _container;
             }
         },
         'isInit': {
             get: function () {
-                return isInit_;
+                return _isInit;
             }
         }
     });
     return module;
-}())
+}());
 
