@@ -183,7 +183,7 @@ map2d.measure = (function () {
      * 레이어 추가
      */
     function _addLayer() {
-        const getStyles = _getStyles.bind(this);
+        const getStyles = _getStyles.bind();
         const layer = new ol.layer.Vector({
             source: source,
             style: getStyles,
@@ -207,7 +207,7 @@ map2d.measure = (function () {
      */
     function addInteraction(type) {
         reset();
-        const getStyles = _getStyles.bind(this);
+        const getStyles = _getStyles.bind();
         const interaction = new ol.interaction.Draw({
             source: source,
             type: type,
@@ -253,6 +253,7 @@ map2d.measure = (function () {
      * 상호작용 초기화
      */
     function clearInteraction() {
+        reset();
         interactions.forEach((interaction) => {
             map2d.map.removeInteraction(interaction);
         });
