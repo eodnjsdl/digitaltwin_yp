@@ -158,7 +158,8 @@ window.map2d = (function () {
         showLayer: showLayer,
         clear: clear,
         goHome: goHome,
-        setBaseLayer: setBaseLayer
+        setBaseLayer: setBaseLayer,
+        setInteraction: setInteraction,
     }
     Object.defineProperties(module, {
         'map': {
