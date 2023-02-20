@@ -253,6 +253,7 @@ map2d.measure = (function () {
      * 상호작용 초기화
      */
     function clearInteraction() {
+        reset();
         interactions.forEach((interaction) => {
             map2d.map.removeInteraction(interaction);
         });
