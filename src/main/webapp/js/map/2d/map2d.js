@@ -63,6 +63,7 @@ window.map2d = (function () {
 
     function initModules() {
         map2d.baseLayer.init();
+        map2d.measure.init();
     }
 
     /**
@@ -129,6 +130,23 @@ window.map2d = (function () {
             return;
         }
         container_.style.display = 'none';
+    }
+
+    function setInteraction(mod) {
+        switch (mod) {
+            case 'distance':
+                map2d.measure.addInteraction('LineString');
+                break;
+            case 'area' :
+                map2d.measure.addInteraction('Polygon');
+                break;
+            case 'radius':
+                map2d.measure.addInteraction('Circle');
+                break;
+            default :
+                map2d.measure.clearInteraction();
+                break;
+        }
     }
 
     /**
