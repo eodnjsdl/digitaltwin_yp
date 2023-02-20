@@ -178,6 +178,42 @@ $(document).ready(function () {
     })
 
     /**
+     * Top Menu
+     */
+
+    let $topMenu = $('.map-tool');
+
+    //배경지도
+    $topMenu.on('click', '#backgroundMapInfo', function () {
+        $.ajax({
+            type: "POST",
+            url: "/cmt/bm/selectBackgroundMapInfoList.do",
+            dataType: "html",
+            async: false,
+            beforeSend: function (jqXHR, settings) {
+                loadingBar("show");
+            },
+            success: function (returnData, status) {
+                if (status === "success") {
+                    $("#rightPopup").html(returnData);
+                } else {
+                    alert("ERROR!");
+                }
+            },
+            complete: function () {
+                loadingBar("hide");
+            }
+        });
+    });
+
+    //3D레이어
+    $topMenu.on('click', '#layerList', function () {
+        aj_selectLayerList("top");
+        $("#rightPopup").addClass("opened");
+        $("#rightPopup").css("width", 250).css("height", 807);
+    });
+
+    /**
      * loading bar
      */
     function loadingBar(type) {
@@ -188,12 +224,6 @@ $(document).ready(function () {
         }
     }
 
-    //임시
-    $(document).on('click', '#layerList', function () {
-        aj_selectLayerList("top");
-        $("#rightPopup").addClass("opened");
-        $("#rightPopup").css("width", 250).css("height", 807);
-    });
 
 });
 

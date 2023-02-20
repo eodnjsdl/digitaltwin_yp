@@ -3,6 +3,7 @@ map2d.baseLayer = (function () {
     let layerGroup;
     let layers = [];
     let LAYER_OPT;
+    let current_ = 'air';
 
     function init() {
         if (layerGroup) {
@@ -10,7 +11,7 @@ map2d.baseLayer = (function () {
         }
         initConfig();
         layers = [
-            createLayer('base'),
+            createLayer('emap'),
             createLayer('air')
         ]
         layerGroup = new ol.layer.Group({
@@ -23,7 +24,7 @@ map2d.baseLayer = (function () {
 
     function initConfig() {
         LAYER_OPT = {
-            base: {
+            emap: {
                 visible: false,
                 source: {
                     url: dtmap.urls.emapBase + '?apikey=' + dtmap.urls.EMAP_KEY,
@@ -107,17 +108,29 @@ map2d.baseLayer = (function () {
         return new ol.layer.Tile({
             name: name,
             visible: opt.visible,
-
+            extent: map2d.config.extent,
             source: new ol.source.WMTS(opt.source),
         });
     }
 
     function setLayer(name) {
         layers.map((v) => {
-            v.setVisible(v.get('name') === name);
+            if (v.get('name') === name) {
+                current_ = name;
+                v.setVisible(true);
+            } else {
+                v.setVisible(false);
+            }
         });
     }
 
     const module = {init: init, setLayer: setLayer}
+    Object.defineProperties(module, {
+        'current': {
+            get: function () {
+                return current_;
+            }
+        }
+    })
     return module;
 }());
