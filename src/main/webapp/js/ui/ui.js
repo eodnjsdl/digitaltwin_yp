@@ -84,7 +84,7 @@ $(document).ready(function () {
     let $mapControl = $('.map-control');
     //나침반
     $mapControl.on('click', '.ctrl-btn.compass', function (e) {
-        map3d.compass.reset();
+        if (dtmap.mod === '3D') map3d.compass.reset();
     });
 
     //새로고침
