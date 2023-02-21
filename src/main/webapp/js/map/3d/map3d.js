@@ -256,6 +256,7 @@ window.map3d = (function () {
      */
     function clear() {
         clearInteraction();
+        $('.ctrl-group>button').removeClass('active');
     }
 
     function clearInteraction() {

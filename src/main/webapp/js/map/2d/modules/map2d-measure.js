@@ -196,7 +196,7 @@ map2d.measure = (function () {
     /**
      * 초기화
      */
-    function reset() {
+    function _reset() {
         source.clear();
     }
 
@@ -206,7 +206,7 @@ map2d.measure = (function () {
      * @param {String} type 타입 `LineString:거리, Polygon:면적, Circle:반경`
      */
     function addInteraction(type) {
-        reset();
+        _reset();
         const getStyles = _getStyles.bind();
         const interaction = new ol.interaction.Draw({
             source: source,
@@ -253,7 +253,7 @@ map2d.measure = (function () {
      * 상호작용 초기화
      */
     function clearInteraction() {
-        reset();
+        _reset();
         interactions.forEach((interaction) => {
             map2d.map.removeInteraction(interaction);
         });

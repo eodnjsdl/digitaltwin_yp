@@ -116,6 +116,8 @@ window.map2d = (function () {
 
 
     function clear() {
+        map2d.measure.clearInteraction();
+        $('.ctrl-group>button').removeClass('active');
     }
 
     function show() {
