@@ -194,11 +194,12 @@ map2d.measure = (function () {
 
 
     /**
-     * 초기화
+     * 초기화 source
      */
-    function _reset() {
+    function _resetSource() {
         source.clear();
     }
+
 
 
     /**
@@ -206,18 +207,19 @@ map2d.measure = (function () {
      * @param {String} type 타입 `LineString:거리, Polygon:면적, Circle:반경`
      */
     function addInteraction(type) {
-        _reset();
+        clearInteraction();
         const getStyles = _getStyles.bind();
         const interaction = new ol.interaction.Draw({
             source: source,
             type: type,
             style: getStyles,
         });
-        _setInteractions([interaction]);
+        setInteractions([interaction]);
         interaction.on("drawstart", (e) => {
             e.feature.set("type", type);
         });
     }
+
 
     /**
      * 길이 포맷
@@ -253,7 +255,7 @@ map2d.measure = (function () {
      * 상호작용 초기화
      */
     function clearInteraction() {
-        _reset();
+        _resetSource();
         interactions.forEach((interaction) => {
             map2d.map.removeInteraction(interaction);
         });
@@ -264,8 +266,7 @@ map2d.measure = (function () {
      * 상호 작용 목록 설정
      * @param {Array.<ol.interaction.Interaction>} interactions 상호작용 목록
      */
-    function _setInteractions(_interactions) {
-        clearInteraction();
+    function setInteractions(_interactions) {
         _interactions.forEach((interaction) => {
             map2d.map.addInteraction(interaction);
         });
@@ -277,6 +278,7 @@ map2d.measure = (function () {
         init: init
         , addInteraction: addInteraction
         , clearInteraction: clearInteraction
+        , setInteractions: setInteractions
     }
     return module;
 

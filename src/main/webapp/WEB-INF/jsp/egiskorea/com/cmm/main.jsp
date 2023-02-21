@@ -59,6 +59,7 @@
     <script src="/js/map/2d/modules/map2d-baselayer.js"></script>
     <script src="/js/map/2d/modules/map2d-layer.js"></script>
     <script src="/js/map/2d/modules/map2d-measure.js"></script>
+    <script src="/js/map/2d/modules/map2d-location.js"></script>
 
     <!-- 3D Map js -->
     <script src="/js/map/3d/map3d.js"></script>

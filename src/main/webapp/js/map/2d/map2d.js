@@ -117,6 +117,7 @@ window.map2d = (function () {
 
     function clear() {
         map2d.measure.clearInteraction();
+        map2d.location.resetOverlay();
         $('.ctrl-group>button').removeClass('active');
     }
 
@@ -144,6 +145,9 @@ window.map2d = (function () {
                 break;
             case 'radius':
                 map2d.measure.addInteraction('Circle');
+                break;
+            case 'location':
+                map2d.location.run();
                 break;
             default :
                 map2d.measure.clearInteraction();
