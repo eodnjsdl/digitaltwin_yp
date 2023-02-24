@@ -16,6 +16,7 @@ $(document).ready(function () {
 
             if (only3d && dtmap.mod !== '3D') {
                 console.warn('3D지도에서만 사용 가능합니다.');
+                toastr.warning("3D지도에서만 사용 가능합니다.");
             }
 
 
