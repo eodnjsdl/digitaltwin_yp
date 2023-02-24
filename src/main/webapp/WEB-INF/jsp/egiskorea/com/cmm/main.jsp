@@ -403,14 +403,29 @@
                 <div class="lnb-header"><h2 class="tit">분석</h2></div>
                 <div class="lnb-body">
                     <ul class="lnb-dep2" id="moduleList">
-                        <!-- 								<li><button type="button" class="dataPopup" data-popup="analysis-01-01">조망권분석</button></li> -->
-                        <!-- 								<li><button type="button" class="dataPopup" data-popup="analysis-01-02">일조권분석</button></li> -->
-                        <!-- 								<li><button type="button" class="dataPopup" >가시권분석</button></li> -->
-                        <!-- 								<li><button type="button" class="dataPopup" data-popup="analysis-01-04">경사분석</button></li> -->
-                        <!-- 								<li><button type="button" class="dataPopup" data-popup="analysis-01-05">AI영상분석</button></li> -->
-                        <!-- 								<li><button type="button" class="dataPopup" data-popup="analysis-01-06">지형단면도</button></li> -->
-                        <!-- 								<li><button type="button" class="dataPopup" data-popup="analysis-01-07">지하시설단면</button></li> -->
-                        <!-- 								<li><button type="button" class="dataPopup" >공간분석</button></li> -->
+                        <li>
+                            <button type="button" class="dataPopup" data-popup="analysis-01-05">AI영상분석(3D)</button>
+                        </li>
+                        <li>
+                            <button type="button" class="dataPopup" data-popup="analysis-01-01">조망권분석(3D)</button>
+                        </li>
+                        <li>
+                            <button type="button" class="dataPopup" data-popup="analysis-01-04">경사분석(3D)</button>
+                        </li>
+                        <li><button type="button" class="dataPopup" >공간분석</button></li>
+                        <li>
+                            <button type="button" class="dataPopup" data-popup="analysis-01-02">일조권분석(3D)</button>
+                        </li>
+                        <li>
+                            <button type="button" class="dataPopup" data-popup="analysis-01-06">지형단면도(3D)</button>
+                        </li>
+                        <li>
+                            <button type="button" class="dataPopup" data-popup="analysis-01-07">지하시설단면</button>
+                        </li>
+                        <li>
+                            <button type="button" class="dataPopup">가시권분석(3D)</button>
+                        </li>
+
                     </ul>
                 </div>
                 <div class="lnb-util">

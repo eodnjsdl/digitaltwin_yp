@@ -11,19 +11,23 @@ $(document).ready(function () {
         $this.toggleClass("on").siblings().removeClass("on");
         $leftSide.find(".lnb-list").removeClass("on");
         if ($this.hasClass('on')) {
+            $leftSide.find('.lnb-cont').stop().fadeOut(100);
+            $leftSide.find('.' + menu).stop().fadeIn(100);
             switch (menu) {
                 case "lnb-search" :
-                    aj_search();
+                    //TODO 검색 메뉴
+                    // aj_search();
                     break;
                 case "lnb-layer" :
                     $leftSide.find(".lnb-layer input[name='searchKeyword']").val("");
                     aj_selectLayerList("left");
                     break;
                 case "lnb-theme" :
-                    aj_selectThematicMapList();
+                    //TODO 주제도 메뉴
+                    // aj_selectThematicMapList();
                     break; //주제도
                 case "lnb-work" :
-
+                    //TODO 업무 메뉴
                     break;
                 case "lnb-analysis" :
 
