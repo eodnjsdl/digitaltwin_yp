@@ -76,6 +76,8 @@ map3d.layer.CSV = (function () {
         layer.setUserTileLoadCallback(function (_layerName, _tile, _data) {
             var data = decodeURI(_data);
             addPoiToTile(_tile, data, poiImage, id);
+
+            //TODO 축척별 가시화 스타일 변경로직 추가 (점, 그래프 등...)
         });
         return layer;
     }

@@ -10,6 +10,9 @@ map3d.layer.Layer = (function () {
         this.table = table;
         this.store = store;
         this.visible = visible;
+        this.minLevel = 0;
+        this.maxLevel = 15;
+
         this.instance = this.createInstance(options);
     }
 

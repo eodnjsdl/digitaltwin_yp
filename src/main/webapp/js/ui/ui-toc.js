@@ -18,6 +18,15 @@ $(document).ready(function () {
                 console.warn('3D지도에서만 사용 가능합니다.');
             }
 
+
+            //TODO 임시 DB화 후 삭제
+            if(id==='layer_F_89_2'){
+                desc = 'building_object';
+            }else if(id==='layer_F_118_2'){
+                desc = 'landmark';
+            }
+
+
             dtmap.showLayer({
                 id: layerId,
                 type: type,

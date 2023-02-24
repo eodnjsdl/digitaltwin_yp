@@ -114,6 +114,10 @@ $(document).ready(function () {
         $mapControl.find('.location, .distance, .measure, .radius').removeClass('active');
         dtmap.setInteraction('move');
 
+        //패널 close
+        $leftSide.removeClass('on');
+        $rightPopup.removeClass('opened');
+
         dtmap.switchMap(e.target.value);
     });
 
@@ -186,6 +190,7 @@ $(document).ready(function () {
      */
 
     let $topMenu = $('.map-tool');
+    let $rightPopup = $("#rightPopup");
 
     //배경지도
     $topMenu.on('click', '#backgroundMapInfo', function () {
@@ -199,9 +204,9 @@ $(document).ready(function () {
             },
             success: function (returnData, status) {
                 if (status === "success") {
-                    $("#rightPopup").html(returnData);
-                    $("#rightPopup").addClass('opened');
-                    $("#rightPopup").css("width", "325").css("height", "430");
+                    $rightPopup.html(returnData);
+                    $rightPopup.addClass('opened');
+                    $rightPopup.css("width", "325").css("height", "430");
                 } else {
                     alert("ERROR!");
                 }
@@ -215,8 +220,32 @@ $(document).ready(function () {
     //3D레이어
     $topMenu.on('click', '#layerList', function () {
         aj_selectLayerList("top");
-        $("#rightPopup").addClass("opened");
-        $("#rightPopup").css("width", 250).css("height", 807);
+        $rightPopup.addClass("opened");
+        $rightPopup.css("width", 250).css("height", 807);
+    });
+
+    //그리기
+    $topMenu.on('click', '#graphicInfo', function () {
+        $.ajax({
+            type: "POST",
+            url: "/cmt/grph/selectGraphicInfoList.do",
+            // data: data,
+            // dataType: "html",
+            // async: false,
+            success: (returnData, status) => {
+                if (status === "success") {
+                    $rightPopup.html(returnData);
+                    $rightPopup.css("width", 480).css("height", 807);
+                    $rightPopup.addClass('opened');
+                    //이벤트 등록부
+                    // this.bindEvents();
+                } else {
+                    alert("ERROR!");
+                }
+            },
+            complete: function () {
+            },
+        });
     });
 
     /**

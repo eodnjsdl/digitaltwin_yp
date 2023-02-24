@@ -17,20 +17,10 @@ window.dtmap = (function () {
     }
 
     function getModule() {
-        if (cur_mode === '2D') {
-            return map2d
-        } else {
-            return map3d
-        }
+        return cur_mode === '2D' ? map2d : map3d;
     }
 
-    function zoomIn() {
-        call('zoomIn');
-    }
 
-    function zoomOut() {
-        call('zoomOut');
-    }
 
     async function switchMap(mod) {
         if (cur_mode === mod) {
@@ -65,14 +55,21 @@ window.dtmap = (function () {
      * export function
      * @param center
      */
+
+    function zoomIn() {
+        call('zoomIn');
+    }
+
+    function zoomOut() {
+        call('zoomOut');
+    }
+
     function setCenter(center) {
         call('setCenter', center);
     }
 
-
     function showLayer(options) {
         let {id, type, visible, table, store, shpType, layerNm} = options;
-
 
         call('showLayer', {
             type: type,

@@ -78,6 +78,7 @@
     <script src="/js/map/3d/layer/map3d-3ds.js"></script>
     <script src="/js/map/3d/layer/map3d-img.js"></script>
     <script src="/js/map/3d/layer/map3d-shp.js"></script>
+    <script src="/js/map/3d/layer/map3d-facility.js"></script>
 
     <!-- 양평 레이어 상수 -->
     <script src="/js/map/yp-layer.js"></script>

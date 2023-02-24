@@ -9,7 +9,7 @@ map3d.layer.Facility = (function () {
      * @constructor
      */
     function Facility(options) {
-        map3d.layer.Layer.call(this);
+        map3d.layer.Layer.call(this, options);
         this.serviceType = 'service';
     }
 
@@ -21,11 +21,11 @@ map3d.layer.Facility = (function () {
      * @returns {XDWorld.JSLayer}
      */
     Facility.prototype.createInstance = function (options) {
-        Module.XDEMapCreateLayer(this.layerNm, dtmap.urls.xdServer, 0, false, this.visible, false, Module.ELT_MULTILPE, 0, 13);
+        Module.XDEMapCreateLayer(this.layerNm, dtmap.urls.xdServer, 0, false, this.visible, false, Module.ELT_MULTILPE, 0, 14);
         Module.setVisibleRange(this.layerNm, map3d.config.vidoQlityLevel, map3d.config.maxDistance);
         // Module.ELT_MULTILPE
-        // return map3d.serviceLayers.nameAtLayer(this.layerNm);
+        return map3d.serviceLayers.nameAtLayer(this.layerNm);
     }
 
-    return TDS;
+    return Facility;
 })()
