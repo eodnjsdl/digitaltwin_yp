@@ -4,7 +4,7 @@ window.map3d = (function () {
     let _isLoaded = $.Deferred();
     let _container;
     let _camera;
-    let curInteraction;
+    let _curInteraction;
 
     function init() {
         if (_isInit) {
@@ -188,7 +188,7 @@ window.map3d = (function () {
 
     /**
      * 3D맵 DIV 보이기
-     * @returns {*}
+     * @returns {Promise}
      */
     function show() {
         if (!_isInit) {
@@ -229,24 +229,24 @@ window.map3d = (function () {
         clearInteraction();
         switch (mod) {
             case 'distance':
-                curInteraction = map3d.measure.distance;
+                _curInteraction = map3d.measure.distance;
                 break;
             case 'area' :
-                curInteraction = map3d.measure.area;
+                _curInteraction = map3d.measure.area;
                 break;
             case 'radius':
-                curInteraction = map3d.measure.radius;
+                _curInteraction = map3d.measure.radius;
                 break;
             case 'location':
-                curInteraction = map3d.location;
+                _curInteraction = map3d.location;
                 break;
             default :
-                curInteraction = undefined;
+                _curInteraction = undefined;
                 break;
         }
 
-        if (curInteraction) {
-            curInteraction.active();
+        if (_curInteraction) {
+            _curInteraction.active();
         }
 
     }
@@ -260,9 +260,9 @@ window.map3d = (function () {
     }
 
     function clearInteraction() {
-        if (curInteraction) {
-            curInteraction.dispose();
-            curInteraction = undefined;
+        if (_curInteraction) {
+            _curInteraction.dispose();
+            _curInteraction = undefined;
         }
     }
 
@@ -276,6 +276,10 @@ window.map3d = (function () {
         _camera.moveLookAt(centerVec, 90, 0, 800);
     }
 
+    /**
+     * 배경지도 설정
+     * @param name
+     */
     function setBaseLayer(name) {
         let url;
         if (name === 'emap') {

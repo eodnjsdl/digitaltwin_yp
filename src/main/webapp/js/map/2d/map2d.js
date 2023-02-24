@@ -24,17 +24,12 @@ window.map2d = (function () {
 
     let _isInit = false;
     let _container;
-    let map, view;
+    let _map;
+    let _view;
+    let _curInteraction;
 
     /**
      * 2D 지도 초기화
-     * @param options
-     * @param {String} options.target
-     * @param {String} options.projection
-     * @param {Array.<number>} options.center
-     * @param {number} options.zoom
-     * @param {number} options.minZoom
-     * @param {number} options.maxZoom
      */
     function init() {
         if (_isInit) {
@@ -42,7 +37,7 @@ window.map2d = (function () {
         }
         let config = map2d.config;
         _container = document.getElementById(config.target)
-        view = new ol.View({
+        _view = new ol.View({
             projection: config.projection,
             center: config.center,
             zoom: config.zoom,
@@ -50,12 +45,12 @@ window.map2d = (function () {
             maxZoom: config.maxZoom,
             constrainResolution: true,
         });
-        map = new ol.Map({
+        _map = new ol.Map({
             target: _container,
             layers: [],
             interactions: defaultInteractions(),
             controls: [],
-            view: view,
+            view: _view,
         });
         initModules();
         _isInit = true;
@@ -64,6 +59,7 @@ window.map2d = (function () {
     function initModules() {
         map2d.baseLayer.init();
         map2d.measure.init();
+        map2d.draw.init();
     }
 
     /**
@@ -81,30 +77,30 @@ window.map2d = (function () {
      * export function
      */
     function zoomIn() {
-        view.setZoom(view.getZoom() + 1);
+        _view.setZoom(_view.getZoom() + 1);
     }
 
     function zoomOut() {
-        view.setZoom(view.getZoom() - 1);
+        _view.setZoom(_view.getZoom() - 1);
     }
 
     function getCenter() {
-        return view.getCenter();
+        return _view.getCenter();
     }
 
     function setCenter(center, zoom) {
-        view.setCenter(center);
+        _view.setCenter(center);
         if (zoom) {
-            view.setZoom(zoom);
+            _view.setZoom(zoom);
         }
     }
 
     function getExtent() {
-        return view.calculateExtent()
+        return _view.calculateExtent()
     }
 
     function setExtent(extent) {
-        view.fit(extent);
+        _view.fit(extent);
     }
 
     function showLayer(options) {
@@ -116,8 +112,7 @@ window.map2d = (function () {
 
 
     function clear() {
-        map2d.measure.clearInteraction();
-        map2d.location.resetOverlay();
+        clearInteraction();
         $('.ctrl-group>button').removeClass('active');
     }
 
@@ -135,23 +130,34 @@ window.map2d = (function () {
         _container.style.display = 'none';
     }
 
+    function clearInteraction() {
+        if (_curInteraction) {
+            _curInteraction.dispose();
+            _curInteraction = undefined;
+        }
+    }
+
     function setInteraction(mod) {
+        clearInteraction();
         switch (mod) {
             case 'distance':
-                map2d.measure.addInteraction('LineString');
-                break;
             case 'area' :
-                map2d.measure.addInteraction('Polygon');
-                break;
             case 'radius':
-                map2d.measure.addInteraction('Circle');
+                _curInteraction = map2d.measure;
                 break;
             case 'location':
-                map2d.location.run();
+                _curInteraction = map2d.location;
+                break;
+            case 'draw':
+                _curInteraction = ma2d.draw;
                 break;
             default :
-                map2d.measure.clearInteraction();
+                _curInteraction = undefined;
                 break;
+        }
+
+        if (_curInteraction) {
+            _curInteraction.active(mod);
         }
     }
 
@@ -160,11 +166,15 @@ window.map2d = (function () {
      */
     function goHome() {
         let {center, zoom} = map2d.config;
-        view.setCenter(center);
-        view.setZoom(zoom);
+        _view.setCenter(center);
+        _view.setZoom(zoom);
 
     }
 
+    /**
+     * 배경지도 설정
+     * @param name
+     */
     function setBaseLayer(name) {
         map2d.baseLayer.setLayer(name);
     }
@@ -188,23 +198,23 @@ window.map2d = (function () {
     Object.defineProperties(module, {
         'map': {
             get: function () {
-                return map;
+                return _map;
             }
 
         },
         'view': {
             get: function () {
-                return view;
+                return _view;
             }
         },
         'extent': {
             get: function () {
-                return view.calculateExtent();
+                return _view.calculateExtent();
             }
         },
         'crs': {
             get: function () {
-                return view.getProjection().getCode();
+                return _view.getProjection().getCode();
             }
         },
         'container': {

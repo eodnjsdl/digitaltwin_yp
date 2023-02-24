@@ -1,22 +1,27 @@
 window.map2d = window.map2d || {}
 map2d.measure = (function () {
-
+    const TYPE = {
+        'distance': 'LineString',
+        'area': 'Polygon',
+        'radius': 'Circle'
+    }
     let style;
     let startStyle;
     let labelStyle;
     let segmentStyle;
-    let source = new ol.source.Vector();
-    let interactions = [];
+    let interaction;
+    let _layer;
+    let _source;
 
     function init() {
-        _createStyles();
-        _addLayer();
+        createStyles();
+        createLayer();
     }
 
     /**
      * 스타일 목록 생성
      */
-    function _createStyles() {
+    function createStyles() {
         // 기본 스타일
         style = new ol.style.Style({
             fill: new ol.style.Fill({
@@ -106,36 +111,36 @@ map2d.measure = (function () {
      * @param {ol.Feature} feature 공간 객체
      * @returns 스타일 목록
      */
-    function _getStyles(feature) {
+    function styleFunction(feature) {
+        const isMeasure = feature.get("measure");
+        if (!isMeasure) {
+            return [];
+        }
+
         const styles = [style];
         const geometry = feature.getGeometry();
         const type = feature.get("type");
 
         if (type === "LineString" && geometry instanceof ol.geom.LineString) {
-            const _labelStyle = labelStyle;
-            const formatLength = _formatLength.bind(this);
-            const _segmentStyle = segmentStyle;
 
             let sum = 0;
             geometry.forEachSegment(function (a, b) {
                 const segment = new ol.geom.LineString([a, b]);
-
-                //const length = ol.sphere.getLength(segment);
                 const length = segment.getLength();
                 const segmentLabel = formatLength(length);
                 const segmentPoint = new ol.geom.Point(segment.getCoordinateAt(0.5));
-                const cloneSegmentStyle = _segmentStyle.clone();
-                cloneSegmentStyle.setGeometry(segmentPoint);
-                cloneSegmentStyle.getText().setText(segmentLabel);
-                styles.push(cloneSegmentStyle);
+                const _segmentStyle = segmentStyle.clone();
+                _segmentStyle.setGeometry(segmentPoint);
+                _segmentStyle.getText().setText(segmentLabel);
+                styles.push(_segmentStyle);
 
                 sum += length;
                 const label = formatLength(sum);
                 const point = new ol.geom.Point(segment.getLastCoordinate());
-                const cloneLabelStyle = _labelStyle.clone();
-                cloneLabelStyle.setGeometry(point);
-                cloneLabelStyle.getText().setText(label);
-                styles.push(cloneLabelStyle);
+                const _labelStyle = labelStyle.clone();
+                _labelStyle.setGeometry(point);
+                _labelStyle.getText().setText(label);
+                styles.push(_labelStyle);
             });
 
             const _startStyle = startStyle.clone();
@@ -146,12 +151,12 @@ map2d.measure = (function () {
             //const area = ol.sphere.getArea(geometry);
             const area = geometry.getArea();
             if (area > 0) {
-                const label = _formatArea(area);
+                const label = formatArea(area);
                 const point = geometry.getInteriorPoint();
-                const style = startStyle.clone();
-                style.setGeometry(point);
-                style.getText().setText(label);
-                styles.push(style);
+                const _startStyle = startStyle.clone();
+                _startStyle.setGeometry(point);
+                _startStyle.getText().setText(label);
+                styles.push(_startStyle);
             }
         } else if (type === "Circle") {
             const first = geometry.getFirstCoordinate();
@@ -160,7 +165,7 @@ map2d.measure = (function () {
 
             //const length = ol.sphere.getLength(lineString);
             const length = lineString.getLength();
-            const label = _formatLength(length);
+            const label = formatLength(length);
             const _startStyle = startStyle.clone();
             _startStyle.setGeometry(new ol.geom.Point(last));
             _startStyle.getText().setText(label);
@@ -182,42 +187,15 @@ map2d.measure = (function () {
     /**
      * 레이어 추가
      */
-    function _addLayer() {
-        const getStyles = _getStyles.bind();
-        const layer = new ol.layer.Vector({
-            source: source,
-            style: getStyles,
+    function createLayer() {
+        _source = new ol.source.Vector();
+        _layer = new ol.layer.Vector({
+            source: _source,
+            name: 'measureLayer',
+            style: styleFunction,
             zIndex: 3,
         });
-        map2d.map.addLayer(layer);
-    }
-
-
-    /**
-     * 초기화 source
-     */
-    function _resetSource() {
-        source.clear();
-    }
-
-
-
-    /**
-     * 상호작용 추가
-     * @param {String} type 타입 `LineString:거리, Polygon:면적, Circle:반경`
-     */
-    function addInteraction(type) {
-        clearInteraction();
-        const getStyles = _getStyles.bind();
-        const interaction = new ol.interaction.Draw({
-            source: source,
-            type: type,
-            style: getStyles,
-        });
-        setInteractions([interaction]);
-        interaction.on("drawstart", (e) => {
-            e.feature.set("type", type);
-        });
+        map2d.map.addLayer(_layer);
     }
 
 
@@ -226,7 +204,7 @@ map2d.measure = (function () {
      * @param {number} length 길이
      * @returns 포맷 적용된 길이
      */
-    function _formatLength(length) {
+    function formatLength(length) {
         let output;
         if (length > 1000) {
             output = Math.round((length / 1000) * 100) / 100 + " km";
@@ -241,7 +219,7 @@ map2d.measure = (function () {
      * @param {number} area 면적
      * @returns 포맷 적용된 면적
      */
-    function _formatArea(area) {
+    function formatArea(area) {
         let output;
         if (area > 100000) {
             output = Math.round((area / 1000000) * 100) / 100 + " km\xB2";
@@ -251,36 +229,70 @@ map2d.measure = (function () {
         return output;
     }
 
+
+    /**
+     * 상호작용 추가
+     * @param {String} type 타입 `distance:거리, area:면적, radius:반경`
+     */
+    function active(type) {
+        const drawType = TYPE[type];
+        clearInteraction();
+        interaction = new ol.interaction.Draw({
+            source: _source,
+            type: drawType,
+            style: styleFunction,
+        });
+
+        map2d.map.addInteraction(interaction);
+
+        interaction.on("drawstart", (e) => {
+            e.feature.set("measure", true);
+            e.feature.set("type", drawType);
+        });
+    }
+
+    /**
+     * 초기화 source
+     */
+    function clear() {
+        _source.clear();
+    }
+
+
     /**
      * 상호작용 초기화
      */
     function clearInteraction() {
-        _resetSource();
-        interactions.forEach((interaction) => {
+        if (interaction) {
             map2d.map.removeInteraction(interaction);
-        });
-        interactions = [];
+            interaction = undefined;
+        }
     }
 
-    /**
-     * 상호 작용 목록 설정
-     * @param {Array.<ol.interaction.Interaction>} interactions 상호작용 목록
-     */
-    function setInteractions(_interactions) {
-        _interactions.forEach((interaction) => {
-            map2d.map.addInteraction(interaction);
-        });
-        interactions = _interactions;
+    function dispose() {
+        clear();
+        clearInteraction();
     }
-
 
     let module = {
-        init: init
-        , addInteraction: addInteraction
-        , clearInteraction: clearInteraction
-        , setInteractions: setInteractions
+        init: init,
+        active: active,
+        clear: clear,
+        dispose: dispose,
     }
+
+    Object.defineProperties(module, {
+        'source': {
+            get: function () {
+                return _source;
+            }
+        },
+        'layer': {
+            get: function () {
+                return _layer;
+            }
+        }
+    })
+
     return module;
-
-
 }());

@@ -3,8 +3,6 @@ window.dtmap = (function () {
 
     let cur_mode = '2D';
 
-    //TODO 2d 3d 레이어 목록 따로 관리
-
     function init() {
         map2d.init();
     }
@@ -13,6 +11,8 @@ window.dtmap = (function () {
         let fnc = getModule()[fName]
         if (fnc && typeof fnc === 'function') {
             fnc.call(dtmap, params);
+        } else {
+            throw new Error(cur_mode + '지도에서 지원하지 않는 기능입니다.');
         }
     }
 
@@ -20,7 +20,9 @@ window.dtmap = (function () {
         return cur_mode === '2D' ? map2d : map3d;
     }
 
-
+    /**
+     * export function
+     */
 
     async function switchMap(mod) {
         if (cur_mode === mod) {
@@ -50,11 +52,6 @@ window.dtmap = (function () {
 
         }
     }
-
-    /**
-     * export function
-     * @param center
-     */
 
     function zoomIn() {
         call('zoomIn');
@@ -109,6 +106,7 @@ window.dtmap = (function () {
         setInteraction: setInteraction,
         setBaseLayer: setBaseLayer,
         clear: clear,
+        test: call
     }
 
     Object.defineProperties(module, {
@@ -118,5 +116,6 @@ window.dtmap = (function () {
             }
         }
     })
+
     return module
 }());

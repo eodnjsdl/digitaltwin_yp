@@ -1,26 +1,21 @@
 window.map2d = window.map2d || {}
 map2d.location = (function () {
 
-    let source = new ol.source.Vector();
-
+    let _map = new Map();
 
     /**
-     * 위치 정보
+     * 지도 클릭 이벤트
+     * @param e
      */
-    function run() {
-        once("Point", "drawend", true).done((event) => {
-            const feature = event.feature;
-            const coordinate = feature.getGeometry().getCoordinates();
-            const lonlat = ol.proj.toLonLat(coordinate, "EPSG:5179");
-            reverseGeocoding(coordinate[0], coordinate[1]).done((result) => {
-                let tag = createTag(lonlat, result);
-                addOverlay(feature, tag);
-            });
-        });
-
+    function onMapClick(e) {
+        const lonlat = ol.proj.transform(e.coordinate, map2d.crs, 'EPSG:4326');
+        reverseGeocoding(e.coordinate).done((result) => {
+            let html = printHTML(lonlat, result);
+            addOverlay(e.coordinate, html);
+        })
     }
 
-    function createTag(lonlat, result) {
+    function printHTML(lonlat, result) {
         let tag = ``;
         tag += `<div class="ol-popup">`;
         tag += `  <a href="#" class="ol-popup-closer"></a>`;
@@ -36,91 +31,43 @@ map2d.location = (function () {
         return tag;
     }
 
-    function addOverlay(feature, tag) {
-        const node = $(tag);
-        const element = node[0];
-        const popup = new ol.Overlay({
-            position: feature.getGeometry().getCoordinates(),
-            element: element,
+    function addOverlay(coord, html) {
+        let $element = $(html);
+        let id = ol.util.getUid({});
+        const overlay = new ol.Overlay({
+            id: id,
+            position: coord,
+            element: $element[0],
         });
-        map2d.map.addOverlay(popup);
-        onCloserClick(element, popup);
-    }
 
-    function onCloserClick(element, popup) {
-        $(".ol-popup-closer", element).on("click", () => {
-            map2d.map.removeOverlay(popup);
+        //Closer Event
+        $element.on('click', '.ol-popup-closer', function () {
+            removeOverlay(id);
         });
-        $(".location").removeClass('active');
+
+        map2d.map.addOverlay(overlay);
+        _map.set(id, overlay);
     }
 
-    /**
-     * 상호작용 추가
-     * @param {String} type 타입
-     * @param {Object} opts 옵션
-     */
-    function addInteraction(type, opts) {
-        const options = $.extend({
-            source: source,
-            type: type
-        }, opts);
-        const interaction = new ol.interaction.Draw(options);
-        map2d.measure.clearInteraction();
-        map2d.measure.setInteractions([interaction]);
-        return interaction;
-    }
-
-
-    /**
-     * 초기화 overlay
-     */
-    function resetOverlay() {
-        const overlays = map2d.map.getOverlays();
-        for (let i = overlays.getLength() - 1; i >= 0; i--) {
-            const overlay = overlays.item(i);
+    function removeOverlay(id) {
+        let overlay = _map.get(id);
+        if (overlay) {
             map2d.map.removeOverlay(overlay);
+            _map.delete(id);
         }
     }
 
-    /**
-     * 한번 실행 - 위치
-     * @param {string} type 타입
-     * @param {string} eventType 이벤트 타입
-     * @param {boolean} isRemove 삭제 여부
-     * @param {Object} options 옵션
-     * @returns
-     */
-    function once(type, eventType, isRemove, options) {
-        const deferred = $.Deferred();
-        const interaction = addInteraction(type, options);
-        if (eventType) {
-            interaction.once(eventType, (event) => {
-                deferred.resolve(event);
-                map2d.measure.clearInteraction();
-                if (isRemove) {
-                    setTimeout(() => {
-                        source.clear();
-                    }, 100);
-                }
-            });
-        }
-        return deferred;
-    }
-
-
-    function reverseGeocoding(x, y) {
+    function reverseGeocoding(coordinate) {
         const deferred = $.Deferred();
         const format = new ol.format.WKT();
-
-        var position_5174 = proj4("EPSG:5179", "EPSG:5174", [x, y]); //5179좌표에서 5174로 변경
-
-        const point_5174 = new ol.geom.Point([position_5174[0], position_5174[1]]);
-        const wkt_5174 = format.writeGeometry(point_5174);
-
-        const point_5179 = new ol.geom.Point([x, y]);
+        const coord_5179 = map2d.crs === 'EPSG:5179' ? coordinate : ol.proj.transform(coordinate, map2d.crs, 'EPSG:5179');
+        const point_5179 = new ol.geom.Point(coord_5179);
         const wkt_5179 = format.writeGeometry(point_5179);
 
-        //$.post("/gis/reverseGeocoding.do", { wkt: wkt }
+        const coord_5174 = ol.proj.transform(coordinate, map2d.crs, 'EPSG:5174');
+        const point_5174 = new ol.geom.Point(coord_5174);
+        const wkt_5174 = format.writeGeometry(point_5174);
+
         $.post("/gis/reverseGeocoding5174.do", {wkt5174: wkt_5174, wkt5179: wkt_5179})
             .done((response) => {
                 const result = JSON.parse(response)["result"];
@@ -152,10 +99,35 @@ map2d.location = (function () {
         return deferred;
     }
 
+    /**
+     * 위치 정보 활성화
+     */
+    function active() {
+        map2d.map.on('click', onMapClick);
+    }
+
+    /**
+     * 위치정보 삭제
+     */
+    function clear() {
+        _map.forEach(function (v, k) {
+            map2d.map.removeOverlay(v);
+        })
+        _map.clear();
+    }
+
+    /**
+     * 위치정보 비활성화
+     */
+    function dispose() {
+        clear();
+        map2d.map.un('click', onMapClick);
+    }
+
     let module = {
-        run: run
-        , addInteraction: addInteraction
-        , resetOverlay: resetOverlay
+        active: active,
+        clear: clear,
+        dispose: dispose,
     };
     return module;
 
