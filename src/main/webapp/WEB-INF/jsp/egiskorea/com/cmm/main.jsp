@@ -37,9 +37,16 @@
     <script src="/js/ui/ui.js"></script>
     <script src="/js/ui/ui-toc.js"></script>
 
+    <!-- toastr 2.1.4 -->
+    <script type="text/javascript" src="/js/plugin/toastr-2.1.4/toastr.js"></script>
+    <script type="text/javascript" src="/js/util/toast-confirm.js"></script>
+
 
     <link rel="stylesheet" href="/css/com/common.css">
     <link rel="stylesheet" href="/css/map.css">
+
+    <!-- toastr 2.1.4 stylesheet -->
+    <link rel="stylesheet" type="text/css" href="/js/plugin/toastr-2.1.4/toastr.css">
 
     <!-- 2d -->
     <link rel="stylesheet" href="/css/map2d.css">
