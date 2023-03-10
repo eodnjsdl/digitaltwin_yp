@@ -14,72 +14,62 @@ function leftEvent(){
         var leftName = $(this).data("popup");
         var classList = $(this).attr('class').split(/\s+/);
         var area = classList[1];
+        openPopup(area);
         switch(leftName){
 
             // 업무 > 공간정보활용 > 사업공유관리
             case "constructionPlan" :
-                openPopup(area);
                 //공사계획정보 (first tab)
                 aj_selectConstructionPlanList($("#tmpForm")[0]);
                 break;
 
             // 업무 > 공간정보활용 > 지하수관리
             case "undergroundWaterManagement" :
-                openPopup(area);
                 aj_selectUnderWaterMngList($("#tmpForm")[0]);
                 break;
 
             // 업무 > 공간정보활용 > 신재생에너지
             case "renewableEnergy" :
-                openPopup(area);
                 aj_selectRenewableEnergyList($("#tmpForm")[0]);
                 break;
 
             // 업무 > 공간정보활용 > 안전시설물관리
             case "safetyFacilitiesManagement" :
-                openPopup(area);
                 aj_selectSafetyFacilitiesMngList($("#tmpForm")[0]);
                 break;
 
             // 업무 > 공간정보활용 > 관내업소정보조회
             case "inBusinessEstaInfo" :
-                openPopup(area);
                 aj_selectInBusinessEstaInfoList($("#tmpForm")[0]);
                 break;
 
             // 업무 > 공간정보활용 > 대기오염
             case "atmospherePollution" :
-                openPopup(area);
                 aj_selectAtmospherePollutionList($("#tmpForm")[0]);
                 break;
 
             // 업무 > 시설관리 > 상수도시설
             case "waterSupplyFacility" :
-                openPopup(area);
                 aj_facility("WaterSupplyFacility");
                 break;
 
             // 업무 > 시설관리 > 하수도시설
             case "sewerSupplyFacility" :
-                openPopup(area);
                 aj_facility("SewerSupplyFacility");
                 break;
 
             // 업무 > 시설관리 > 교통시설
             case "transportationFacility" :
-                openPopup(area);
                 aj_selectTransportationFacilityList($("#tmpForm")[0]);
                 break;
 
             // 업무 > 시설관리 > 체육시설
             case "physicalEducationFacility" :
-                openPopup(area);
                 aj_selectPhysicalEducationFacilityList($("#tmpForm")[0]);
                 break;
 
             // 업무 > 시설관리 > 복지시설
             case "welfareFacility" :
-                openPopup(area);
                 //TODO ↓↓↓↓↓↓↓↓↓↓↓
                 WLREspitalYN = '';
                 aj_selectWelfareFacilityList($("#tmpForm")[0]);
@@ -87,7 +77,6 @@ function leftEvent(){
 
             // 업무 > 시설관리 > 시설예약관리
             case "faciReseMng" :
-                openPopup(area);
                 aj_selectFaciReseMngList($("#tmpForm")[0]);
                 break;
         }
