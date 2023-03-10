@@ -66,7 +66,8 @@ var years = "<c:out value="${result.devlopYear}" />";
 
 // 지하수개발 수정페이지 취소버튼
 $("#returnBack").unbind('click').bind('click',function(){
-	rightSubPopupOpen("selectUnderWaterDevelop", $(this).data('gid'), "right");
+	openPopup("rightSubPopup");
+	aj_selectUnderWaterDevelop($("#tmpForm")[0], $(this).data('gid'), "right");
 });
 </script>
 

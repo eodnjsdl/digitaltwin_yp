@@ -34,8 +34,12 @@
     <!-- chart.js -->
     <script src="/js/plugin/chart/chart.js"></script>
     <script src="/js/html2canvas.min.js" type="text/javascript"></script>
+
+    <!-- ui (main) -->
     <script src="/js/ui/ui.js"></script>
     <script src="/js/ui/ui-toc.js"></script>
+    <!-- ui (work-업무) -->
+    <script src="/js/ui/ui-work.js"></script>
 
     <!-- toastr 2.1.4 -->
     <script type="text/javascript" src="/js/plugin/toastr-2.1.4/toastr.js"></script>
@@ -90,6 +94,17 @@
 
     <!-- 양평 레이어 상수 -->
     <script src="/js/map/yp-layer.js"></script>
+
+
+
+
+
+    <!-- 업무 관련 -->
+    <script src="/js/egiskorea/com/job/job.js"></script>
+    <script src="/js/egiskorea/com/job/spaceSearch.js"></script>
+    <script src="/js/egiskorea/com/job/cmt/cmt.js"></script>
+    <script src="/js/egiskorea/com/job/wrpp/wrpp.js"></script>
+    <script src="/js/egiskorea/com/job/swg/swg.js"></script>
 
 
 </head>

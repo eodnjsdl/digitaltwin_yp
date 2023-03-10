@@ -6,7 +6,7 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <script src="/js/egiskorea/com/job/ugtm/ugtm.js"></script>
 <script src="/js/egiskorea/com/job/ugtm/ugdv/ugdv.js"></script>
-<script src="/js/egiskorea/com/cmm/cmmUtil.js"></script>
+<%--<script src="/js/egiskorea/com/cmm/cmmUtil.js"></script>--%>
 <script>
 //3d poi
 var poiList = ${poiList};

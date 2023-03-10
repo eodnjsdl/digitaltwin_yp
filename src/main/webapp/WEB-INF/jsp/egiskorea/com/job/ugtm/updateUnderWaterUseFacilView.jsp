@@ -29,7 +29,7 @@ $("#useFacilUpdate").on("click", function(){
 	}
 	
 	if(confirm("<spring:message code="common.update.msg" />")){	//수정하시겠습니까?
-       	loadingShowHide("show");
+       	loadingBar("show");
        	$.ajax({
        		type : "POST",
        		url	 : "/job/ugtm/updateUnderWaterUseFacil.do",
@@ -39,7 +39,7 @@ $("#useFacilUpdate").on("click", function(){
 			dataType: "json",
 			success :  function(returnData, status){
 				if(returnData.result == "success") {
-					alert("<spring:message code="success.common.update" />");
+					<%--alert("<spring:message code="success.common.update" />");--%>
 					if(lastSpitalSearch != ''){
 						aj_selectUnderWaterUseFacilList($("#searchForm")[0],'spital');
 					} else {
@@ -47,7 +47,7 @@ $("#useFacilUpdate").on("click", function(){
 					}
 					rightSubPopupOpen("selectUnderWaterUseFacil", $("#gid").val(), "right");
 				} else {
-					alert("<spring:message code="fail.common.update" />");
+					toastr.error("관리자에게 문의 바랍니다.", "정보를 불러오지 못했습니다.");
 					return;
 				}
 			}, complete : function(){
@@ -55,7 +55,7 @@ $("#useFacilUpdate").on("click", function(){
 					GLOBAL.StartPoint = false;
 					removePoint(GLOBAL.NomalIcon);
 				}
-				loadingShowHide("hide"); 
+				loadingBar("hide"); 
 			}, 
        	});
 	}
@@ -66,7 +66,8 @@ var years = "<c:out value="${result.devlopYear}" />";
 
 // 지하수이용시설 수정페이지 취소버튼
 $("#returnBack").unbind('click').bind('click',function(){
-	rightSubPopupOpen("selectUnderWaterUseFacil", $(this).data('gid'), "right");
+	openPopup("rightSubPopup");
+	aj_selectUnderWaterUseFacil($("#tmpForm")[0], $(this).data('gid'), "right");
 });
 </script>
 

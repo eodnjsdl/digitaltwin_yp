@@ -1,7 +1,7 @@
 $(document).ready(function(){
 	callDatePicker();
 	if(poiList != ""){
-		setPointLayer();
+		// setPointLayer();
 	}
 });
 
@@ -10,7 +10,7 @@ $("#changeBox").change(function(){
 	// 열려있던 우측서브팝업창 닫기
 	$("#rightSubPopup").removeClass("opened").html("");
 	var thisValue = $(this).val();
-	cmmUtil.drawClear();
+	// cmmUtil.drawClear();
 	// 농업용공공관정
 	if(thisValue == 'underWaterAgri') {
 		aj_selectUnderWaterMngList($("#tmpForm")[0]);
@@ -22,18 +22,18 @@ $("#changeBox").change(function(){
 		aj_selectUnderWaterUseFacilList($("#tmpForm")[0]);
 	} 
 	
-	var LayerList = new Module.JSLayerList(true);
-	
-	if(LayerList.nameAtLayer("Line_Arr_Option")) {
-		LayerList.nameAtLayer("Line_Arr_Option").removeAll();
-	}
+	// var LayerList = new Module.JSLayerList(true);
+	//
+	// if(LayerList.nameAtLayer("Line_Arr_Option")) {
+	// 	LayerList.nameAtLayer("Line_Arr_Option").removeAll();
+	// }
 
 })
 
 // 지하수관리 > 지하수이용시설 목록 호출
 function aj_selectUnderWaterUseFacilList(form, searchType){
 	
-	loadingShowHide("show");
+	loadingBar("show");
 	
 	if(form == $("#tmpForm")[0]){
 		ugagFlag = '';
@@ -81,11 +81,11 @@ function aj_selectUnderWaterUseFacilList(form, searchType){
 					$("#bufferCnt").val(lastBufferCnt);
 				}
 			}else{ 
-				alert("ERROR!");
+				toastr.error("관리자에게 문의 바랍니다.", "정보를 불러오지 못했습니다.");
 				return;
 			} 
 		}, complete : function(){
-			loadingShowHide("hide"); 
+			loadingBar("hide"); 
 		}
 	});
 }
@@ -93,7 +93,7 @@ function aj_selectUnderWaterUseFacilList(form, searchType){
 //지하수관리 > 지하수개발 목록 호출
 function aj_selectUnderWaterDevelopList(form, searchType){
 	
-	loadingShowHide("show");
+	loadingBar("show");
 	
 	if(form == $("#tmpForm")[0]){
 		ugagFlag = '';
@@ -141,11 +141,11 @@ function aj_selectUnderWaterDevelopList(form, searchType){
 					$("#bufferCnt").val(lastBufferCnt);
 				}
 			}else{ 
-				alert("ERROR!");
+				toastr.error("관리자에게 문의 바랍니다.", "정보를 불러오지 못했습니다.");
 				return;
 			} 
 		}, complete : function(){
-			loadingShowHide("hide"); 
+			loadingBar("hide"); 
 		}
 	});
 	
@@ -171,9 +171,9 @@ var setYear = function(){
 }
 
 // '지도에서 선택' 버튼
-$("#mapSelectBtn").unbind('click').bind('click',function(){
-	cmmUtil.getPositionGeom(positionCallback);
-});
+// $("#mapSelectBtn").unbind('click').bind('click',function(){
+// 	cmmUtil.getPositionGeom(positionCallback);
+// });
 
 // geom 값 넣기
 function positionCallback(pointGeom, address){

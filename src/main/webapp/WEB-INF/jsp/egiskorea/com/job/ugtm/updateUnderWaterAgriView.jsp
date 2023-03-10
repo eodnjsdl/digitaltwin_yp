@@ -68,9 +68,10 @@ $("#agriUpdate").on("click", function(){
 
 var years = "<c:out value="${result.devlopYear}" />";
 
-// 지하수개발 수정페이지 취소버튼
+// 지하수개발(농업용공공관정) 수정페이지 취소버튼
 $("#returnBack").unbind('click').bind('click',function(){
-	rightSubPopupOpen("selectUnderWaterAgri", $(this).data('gid'), "right");
+	openPopup("rightSubPopup");
+	aj_selectUnderWaterAgri($("#tmpForm")[0], $(this).data('gid'), "right");
 });
 </script>
 

@@ -1,7 +1,7 @@
 // popup-sub 취소버튼
 $(document).on("click", ".closeSub", function(){		
 	$(".popup-sub").removeClass("opened");
-	removePoint(GLOBAL.NomalIcon);
+	// removePoint(GLOBAL.NomalIcon);
 });
 
 //생성된어 있는 POI, Line, Polygon 레이어가 있을때 지워주기
@@ -36,11 +36,11 @@ var ugdvUi = '';
 var ugufUi = '';
 function aj_selectUnderWaterMngList(form, searchType){
 	
-	loadingShowHide("show");
-	
+	loadingBar("show");
+
 	var spitalSearch = '';
 	var	formData = new FormData(form);
-	
+
 	if(form == $("#tmpForm")[0]){
 		ugagFlag = '';
 		ugdvFlag = '';
@@ -49,15 +49,15 @@ function aj_selectUnderWaterMngList(form, searchType){
 		ugdvUi = '';
 		ugufUi = '';
 	}
-	
+
 	// 공간검색
 	if(searchType == 'spital' && ugagFlag == 'true') {
-		spitalSearch = cmmUtil.spitalSearch('underWaterAgri');
+		// spitalSearch = cmmUtil.spitalSearch('underWaterAgri');
 	} else if (searchType == 'spital' && ugagFlag == 'false') {
 		spitalSearch = lastSpitalSearch;
 	}
 	formData.set("spitalSearch", spitalSearch);
-	
+
 	$.ajax({
 		type : "POST",
 		url : "/job/ugtm/selectUnderWaterAgriList.do",
@@ -67,28 +67,28 @@ function aj_selectUnderWaterMngList(form, searchType){
 		contentType : false,
 		async: false,
 		success : function(returnData, status){
-			if(status == "success") {		
+			if(status == "success") {
 				$("#bottomPopup").html(returnData);
-				
+
 				$(".scroll-y").mCustomScrollbar({
 					scrollbarPosition:"outside"
 				});
 				if(ugagUi == 'true'){
 					$(".groundwaterProperty").removeClass("on");
 					$(".groundwaterSpace").addClass("on");
-					$("input[name=underWaterAgriSelect]:eq("+(lastSelect-1)+")").attr("checked", true); 
+					$("input[name=underWaterAgriSelect]:eq("+(lastSelect-1)+")").attr("checked", true);
 					if(lastSelect == 2){
 						$(".spaceArea").show();
 						$("input[name=underWaterAgriAreaDrawing]:eq("+(lastDraw-1)+")").attr("checked", true);
 					}
 					$("#bufferCnt").val(lastBufferCnt);
 				}
-			}else{ 
-				alert("ERROR!");
+			}else{
+				toastr.error("관리자에게 문의 바랍니다.", "정보를 불러오지 못했습니다.");
 				return;
-			} 
+			}
 		}, complete : function(){
-			loadingShowHide("hide"); 
+			loadingBar("hide");
 		}
 	});
 }
@@ -97,24 +97,24 @@ function aj_selectUnderWaterMngList(form, searchType){
 var rnenFlag = '';
 var rnenUi = '';
 function aj_selectRenewableEnergyList(form, searchType){
-	loadingShowHide("show");
-	
+	loadingBar("show");
+
 	if(form == $("#tmpForm")[0]){
 		rnenFlag = '';
 		rnenUi = '';
 	}
-	
+
 	var spitalSearch = '';
 	var	formData = new FormData(form);
-	
+
 	// 공간검색
 	if(searchType == 'spital' && rnenFlag == 'true') {
-		spitalSearch = cmmUtil.spitalSearch('renewableEnergy');
+		// spitalSearch = cmmUtil.spitalSearch('renewableEnergy');
 	} else if (searchType == 'spital' && rnenFlag == 'false') {
 		spitalSearch = lastSpitalSearch;
 	}
 	formData.set("spitalSearch", spitalSearch);
-	
+
 	$.ajax({
 		type : "POST",
 		url : "/job/rnen/selectRenewableEnergyList.do",
@@ -124,28 +124,28 @@ function aj_selectRenewableEnergyList(form, searchType){
 		contentType : false,
 		async: false,
 		success : function(returnData, status){
-			if(status == "success") {		
+			if(status == "success") {
 				$("#bottomPopup").html(returnData);
-				
+
 				$(".scroll-y").mCustomScrollbar({
 					scrollbarPosition:"outside"
 				});
 				if(rnenUi == 'true'){
 					$(".energyProperty").removeClass("on");
 					$(".energySpace").addClass("on");
-					$("input[name=renewableEnergySelect]:eq("+(lastSelect-1)+")").attr("checked", true); 
+					$("input[name=renewableEnergySelect]:eq("+(lastSelect-1)+")").attr("checked", true);
 					if(lastSelect == 2){
 						$(".spaceArea").show();
 						$("input[name=renewableEnergyAreaDrawing]:eq("+(lastDraw-1)+")").attr("checked", true);
 					}
 					$("#bufferCnt").val(lastBufferCnt);
 				}
-			}else{ 
-				alert("ERROR!");
+			}else{
+				toastr.error("관리자에게 문의 바랍니다.", "정보를 불러오지 못했습니다.");
 				return;
-			} 
+			}
 		}, complete : function(){
-			loadingShowHide("hide"); 
+			loadingBar("hide");
 		}
 	});
 }
@@ -153,8 +153,8 @@ function aj_selectRenewableEnergyList(form, searchType){
 // 안전시설물관리 > 가로등관리(기본) 목록 호출
 var SFFMspitalYN = '';
 function aj_selectSafetyFacilitiesMngList(form, searchType){
-	loadingShowHide("show");
-	
+	loadingBar("show");
+
 	var searchInstlDe = $('#sffm-search-instl-de').val();
 	var searchAdres = $('#sffm-search-adres').val();
 	var searchManageNo = $('#sffm-search-manage-no').val();
@@ -164,7 +164,7 @@ function aj_selectSafetyFacilitiesMngList(form, searchType){
 	var checkedSpital2 = $('input[name=sffmAreaDrawing]:checked').val();
 	var spitalSearch = '';
 	var sffmBuffer = '0';
-	
+
 	if(searchInstlDe == null) {
 		searchInstlDe = '';
 	}
@@ -178,44 +178,44 @@ function aj_selectSafetyFacilitiesMngList(form, searchType){
 		sffmBuffer2 = 0;
 	} else if(isNaN(sffmBuffer2)) {
 		alert("반경을 숫자로 입력하여 주세요.");
-		loadingShowHide("hide"); 
+		loadingBar("hide");
 		return
 	}
-	
+
 	var	formData = new FormData(form);
 	// 공간검색
 	if(searchType == 'spital' || SFFMspitalYN == 'spital') {
 		searchInstlDe = '';
 		searchAdres = '';
 		searchManageNo = '';
-		
-		if(formData.get("pageIndex") == 1 && SFFM.spitalSearch == '') {	
+
+		if(formData.get("pageIndex") == 1 && SFFM.spitalSearch == '') {
 			sffmBuffer = $('#sffmBuffer').val();
-			spitalSearch = cmmUtil.spitalSearch('sffm');
+			// spitalSearch = cmmUtil.spitalSearch('sffm');
 		} else if(searchType == 'spital') {
 			sffmBuffer = $('#sffmBuffer').val();
-			spitalSearch = cmmUtil.spitalSearch('sffm');
+			// spitalSearch = cmmUtil.spitalSearch('sffm');
 		} else {
 			spitalSearch = SFFM.spitalSearch;
 			sffmBuffer = SFFM.sffmBuffer;
 		}
 	}
-	
+
 	// 버퍼값 예외처리
 	if(Number.isInteger(parseInt(sffmBuffer))) {
 	} else {
-		loadingShowHide("hide"); 
+		loadingBar("hide");
 		alert("공간검색 범위를 숫자로 입력하여주세요.")
 		return;
 	}
-	
+
 	if(spitalSearch != null) {
 		formData.append("searchInstlDe", searchInstlDe);
 		formData.append("searchAdres", searchAdres);
 		formData.append("searchManageNo", searchManageNo);
 		formData.append("spitalSearch", spitalSearch);
 		formData.append("sffmBuffer", sffmBuffer);
-		
+
 		$.ajax({
 			type : "POST",
 			url : "/job/sffm/selectSafetyFacilLampMngList.do",
@@ -225,37 +225,37 @@ function aj_selectSafetyFacilitiesMngList(form, searchType){
 			contentType : false,
 			async: false,
 			success : function(returnData, status){
-				if(status == "success") {	
+				if(status == "success") {
 					$("#bottomPopup").html(returnData);
-					
+
 					$(".scroll-y").mCustomScrollbar({
 						scrollbarPosition:"outside"
 					});
-					
+
 					$('#sffm-search-instl-de').val(searchInstlDe);
 					$('#sffm-search-adres').val(searchAdres);
 					$('#sffm-search-manage-no').val(searchManageNo);
 					$('#sffmBuffer2').val(sffmBuffer2);
-					
+
 					if(checked) {
 						$("input:checkbox[id='sffmCrimianlChkBox']").prop("checked", true);
 					}
-					
+
 					if(searchType == 'spital' || SFFMspitalYN == 'spital') {
 						$("#sffm-prop").removeClass("on");
 						$("#sffm-space").addClass("on");
 						$(".safetyFacilityProperty").removeClass("on");
 						$(".safetyFacilitySpace").addClass("on");
-						
+
 						if(checkedSpital) {
 							$('#rChk1-1_sffm').prop("checked", false);
 							$('#rChk1-2_sffm').prop("checked", true);
-							
+
 							setTimeout(function(){
 								$("input[name=sffmAreaDrawing]").attr('disabled', false);
 								$("#sffmBuffer").prop('readonly', false);
 							}, 300);
-							
+
 							if(checkedSpital2 == '1') {
 								$('#aChk1_sffm').prop("checked", true);
 							} else if(checkedSpital2 == '2') {
@@ -265,26 +265,26 @@ function aj_selectSafetyFacilitiesMngList(form, searchType){
 							} else if(checkedSpital2 == '4') {
 								$('#aChk4_sffm').prop("checked", true);
 							}
-							
+
 							$('#sffmBuffer').val(sffmBuffer);
 						}
 					}
-					
+
 					// POI 호출
 					SFFM.selectSffmPOIList(searchInstlDe, searchAdres, searchManageNo, spitalSearch, sffmBuffer);
 					// 공간검색 영역 저장
 					SFFM.spitalSearch = spitalSearch;
-					SFFM.sffmBuffer = sffmBuffer;				
-				}else{ 
-					alert("ERROR!");
+					SFFM.sffmBuffer = sffmBuffer;
+				}else{
+					toastr.error("관리자에게 문의 바랍니다.", "정보를 불러오지 못했습니다.");
 					return;
-				} 
+				}
 			}, complete : function(){
-				loadingShowHide("hide"); 
+				loadingBar("hide");
 			}
 		});
 	} else {
-		loadingShowHide("hide"); 
+		loadingBar("hide");
 	}
 }
 
@@ -292,8 +292,8 @@ function aj_selectSafetyFacilitiesMngList(form, searchType){
 var CCTVspitalYN = '';
 function aj_selectCctvList(form, searchType){
 	var searchGbn = $("#cctv-search-selbox option:selected").text();
-	loadingShowHide("show");
-	
+	loadingBar("show");
+
 	var searchDeviceid = $('#cctv-search-deviceid').val();
 	var searchLabel = $('#cctv-search-label').val();
 	var cctvBuffer2 = $('#cctvBuffer2').val();
@@ -302,7 +302,7 @@ function aj_selectCctvList(form, searchType){
 	var checkedSpital2 = $('input[name=cctvAreaDrawing]:checked').val();
 	var spitalSearch = '';
 	var cctvBuffer = '0';
-	
+
 	if(searchDeviceid == null) {
 		searchDeviceid = '';
 	}
@@ -316,44 +316,44 @@ function aj_selectCctvList(form, searchType){
 		cctvBuffer2 = 0;
 	} else if(isNaN(cctvBuffer2)) {
 		alert("반경을 숫자로 입력하여 주세요.");
-		loadingShowHide("hide"); 
+		loadingBar("hide");
 		return
 	}
-	
+
 	var	formData = new FormData(form);
 	// 공간검색
 	if(searchType == 'spital' || CCTVspitalYN == 'spital') {
 		searchDeviceid = '';
 		searchGbn = '';
 		searchLabel = '';
-		
-		if(formData.get("pageIndex") == 1 && CCTV.spitalSearch == '') {	
+
+		if(formData.get("pageIndex") == 1 && CCTV.spitalSearch == '') {
 			cctvBuffer = $('#cctvBuffer').val();
-			spitalSearch = cmmUtil.spitalSearch('cctv');
+			// spitalSearch = cmmUtil.spitalSearch('cctv');
 		} else if(searchType == 'spital') {
 			cctvBuffer = $('#cctvBuffer').val();
-			spitalSearch = cmmUtil.spitalSearch('cctv');
+			// spitalSearch = cmmUtil.spitalSearch('cctv');
 		} else {
 			spitalSearch = CCTV.spitalSearch;
 			cctvBuffer = CCTV.cctvBuffer;
 		}
 	}
-	
+
 	// 버퍼값 예외처리
 	if(Number.isInteger(parseInt(cctvBuffer))) {
 	} else {
-		loadingShowHide("hide"); 
+		loadingBar("hide");
 		alert("공간검색 범위를 숫자로 입력하여주세요.")
 		return;
 	}
-	
+
 	if(spitalSearch != null) {
 		formData.append("searchDeviceid", searchDeviceid);
 		formData.append("searchGbn", searchGbn);
 		formData.append("searchLabel", searchLabel);
 		formData.append("spitalSearch", spitalSearch);
 		formData.append("cctvBuffer", cctvBuffer);
-		
+
 		$.ajax({
 			type : "POST",
 			url : "/job/cctv/selectCctvList.do",
@@ -365,36 +365,36 @@ function aj_selectCctvList(form, searchType){
 			success : function(returnData, status){
 				if(status == "success") {
 					$("#bottomPopup").html(returnData);
-					
+
 					$(".scroll-y").mCustomScrollbar({
 						scrollbarPosition:"outside"
 					});
-					
+
 					$("#cctv-search-selbox").val(searchGbn).prop("selected", true);
 					$('#cctv-search-deviceid').val(searchDeviceid);
 					$('#cctv-search-gbn').val(searchGbn);
 					$('#cctv-search-label').val(searchLabel);
 					$('#cctvBuffer2').val(cctvBuffer2);
-					
+
 					if(checked) {
 						$("input:checkbox[id='cctvCrimianlChkBox']").prop("checked", true);
 					}
-					
+
 					if(searchType == 'spital' || CCTVspitalYN == 'spital') {
 						$("#cctv-prop").removeClass("on");
 						$("#cctv-space").addClass("on");
 						$(".safetyFacilityProperty").removeClass("on");
 						$(".safetyFacilitySpace").addClass("on");
-						
+
 						if(checkedSpital) {
 							$('#rChk1-1_cctv').prop("checked", false);
 							$('#rChk1-2_cctv').prop("checked", true);
-							
+
 							setTimeout(function(){
 								$("input[name=cctvAreaDrawing]").attr('disabled', false);
 								$("#cctvBuffer").prop('readonly', false);
 							}, 300);
-							
+
 							if(checkedSpital2 == '1') {
 								$('#aChk1_cctv').prop("checked", true);
 							} else if(checkedSpital2 == '2') {
@@ -404,7 +404,7 @@ function aj_selectCctvList(form, searchType){
 							} else if(checkedSpital2 == '4') {
 								$('#aChk4_cctv').prop("checked", true);
 							}
-							
+
 							$('#cctvBuffer').val(cctvBuffer);
 						}
 					}
@@ -413,46 +413,46 @@ function aj_selectCctvList(form, searchType){
 					CCTV.selectCctvPOIList(searchDeviceid, searchGbn, searchLabel, spitalSearch, cctvBuffer);
 					// 공간검색 영역 저장
 					CCTV.spitalSearch = spitalSearch;
-					CCTV.cctvBuffer = cctvBuffer;		
-				}else{ 
-					alert("ERROR!");
+					CCTV.cctvBuffer = cctvBuffer;
+				}else{
+					toastr.error("관리자에게 문의 바랍니다.", "정보를 불러오지 못했습니다.");
 					return;
-				} 
+				}
 			}, complete : function(){
-				loadingShowHide("hide"); 
+				loadingBar("hide");
 			}
 		});
 	} else {
-		loadingShowHide("hide"); 
+		loadingBar("hide");
 	}
 }
 
 //교통시설 목록 호출 > 기본적으로 도로구간 호출
 function aj_selectTransportationFacilityList(form, searchType){
 	//cmmUtil.drawClear();
-	loadingShowHide("show");
-	
-	var spatialSearch = ''; 
+	loadingBar("show");
+
+	var spatialSearch = '';
 	var bufferCnt = '0';
-	
+
 //	debugger;
 	// 공간검색
 	if(searchType == 'spatial') {
-		spatialSearch = cmmUtil.spitalSearch('trfc');
+		// spatialSearch = cmmUtil.spitalSearch('trfc');
 		bufferCnt = $('#bufferCnt').val();
 	}
-	
+
 	var	formData = new FormData(form);
 	formData.set("spatialSearch", spatialSearch);
-	
+
 	// 버퍼값 예외처리
 	if(Number.isInteger(parseInt(bufferCnt))) {
 	} else {
-		loadingShowHide("hide"); 
+		loadingBar("hide");
 		alert("공간검색 범위를 숫자로 입력하여주세요.")
 		return;
 	}
-	
+
 	$.ajax({
 		type : "POST",
 		url : "/job/trfc/selectTransportationFacilityList.do",
@@ -462,43 +462,43 @@ function aj_selectTransportationFacilityList(form, searchType){
 		contentType : false,
 		async: false,
 		success : function(returnData, status){
-			if(status == "success") {		
+			if(status == "success") {
 				$("#bottomPopup").html(returnData);
-				
+
 				$(".scroll-y").mCustomScrollbar({
 					scrollbarPosition:"outside"
 				});
-				
-			}else{ 
-				alert("ERROR!");
+
+			}else{
+				toastr.error("관리자에게 문의 바랍니다.", "정보를 불러오지 못했습니다.");
 				return;
-			} 
+			}
 		}, complete : function(){
-			loadingShowHide("hide"); 
+			loadingBar("hide");
 		}
 	});
-	
+
 }
 
 var WLREspitalYN = '';
 // 복지시설 목록 호출
 function aj_selectWelfareFacilityList(form, searchType){
-	loadingShowHide("show");
-	
+	loadingBar("show");
+
 	var searchFcltySe = $("#wlre-search-fclty-se option:selected").text();
-	
+
 	if(searchFcltySe == '전체')
 		searchFcltySe = '';
 	var code = $("#wlre-search-fclty-se option:selected").val();
-	
+
 	var searchFcltyNm = $('#wlre-search-fclty-nm').val();
 	var searchRnAdres = $('#wlre-search-rn-adres').val();
 	var spitalSearch = '';
 	var wlreBuffer = '0';
-	
+
 	var chk = $("input[name=wlreSelect]:checked").val(); //현재화면영역 or 사용자 정의
 	var chk2 = $("input[name=wlreAreaDrawing]:checked").val(); //obj 타입
-	
+
 	// 속성검색
 	if(searchFcltySe == null) {
 		searchFcltySe = '';
@@ -516,35 +516,35 @@ function aj_selectWelfareFacilityList(form, searchType){
 		searchFcltySe = '';
 		searchFcltyNm = '';
 		searchRnAdres = '';
-		
-		if(formData.get("pageIndex") == 1 && WLRE.spitalSearch == '') {	
+
+		if(formData.get("pageIndex") == 1 && WLRE.spitalSearch == '') {
 			wlreBuffer = $('#wlreBuffer').val();
-			spitalSearch = cmmUtil.spitalSearch('wlre');
+			// spitalSearch = cmmUtil.spitalSearch('wlre');
 		} else if(searchType == 'spital') {
 			wlreBuffer = $('#wlreBuffer').val();
-			spitalSearch = cmmUtil.spitalSearch('wlre');
+			// spitalSearch = cmmUtil.spitalSearch('wlre');
 		} else {
 			spitalSearch = WLRE.spitalSearch;
 			wlreBuffer = WLRE.wlreBuffer;
 		}
 	}
-	
+
 	// 버퍼값 예외처리
 	if(Number.isInteger(parseInt(wlreBuffer))) {
-		
+
 	} else {
-		loadingShowHide("hide"); 
+		loadingBar("hide");
 		alert("공간검색 범위를 숫자로 입력하여주세요.")
 		return;
 	}
-	
+
 	if(spitalSearch != null) {
 		formData.append("searchFcltySe", searchFcltySe);
 		formData.append("searchFcltyNm", searchFcltyNm);
 		formData.append("searchRnAdres", searchRnAdres);
 		formData.append("spitalSearch", spitalSearch);
 		formData.append("wlreBuffer", wlreBuffer);
-		
+
 		$.ajax({
 			type : "POST",
 			url : "/job/wlre/selectWelfareList.do",
@@ -554,21 +554,21 @@ function aj_selectWelfareFacilityList(form, searchType){
 			contentType : false,
 			async: false,
 			success : function(returnData, status){
-				if(status == "success") {		
+				if(status == "success") {
 					//console.log(returnData);
 					$("#bottomPopup").html(returnData);
-					
+
 					$(".scroll-y").mCustomScrollbar({
 						scrollbarPosition:"outside"
 					});
-					
+
 //					$('#wlre-search-fclty-se').val(searchFcltySe);
-					
+
 					$("#wlre-search-fclty-se").val(searchFcltySe).prop("selected", true);
 					$('#searchName option[value=userID]').prop('selected', 'selected').change();
 					$('#wlre-search-fclty-nm').val(searchFcltyNm);
 					$('#wlre-search-rn-adres').val(searchRnAdres);
-					
+
 					//시설구분코드 불러오기
 					WLRE.getCode(searchFcltySe, 'search');
 					// POI 호출
@@ -576,29 +576,29 @@ function aj_selectWelfareFacilityList(form, searchType){
 					// 공간검색 영역 저장
 					WLRE.spitalSearch = spitalSearch;
 					WLRE.wlreBuffer = wlreBuffer;
-				}else{ 
-					alert("ERROR!");
+				}else{
+					toastr.error("관리자에게 문의 바랍니다.", "정보를 불러오지 못했습니다.");
 					return;
-				} 
+				}
 			}, complete : function(){
-				loadingShowHide("hide"); 
+				loadingBar("hide");
 			}
 		});
 	} else {
-		loadingShowHide("hide"); 
+		loadingBar("hide");
 	}
-	
-	
+
+
 	//공간검색 유지
 	if(spitalSearch != ''){
 		$(".waterProperty").removeClass("on");
 		$(".waterSpace").addClass("on");
 		$("li[data-tab='waterProperty']").removeClass("on");
 		$("li[data-tab='waterSpace']").addClass("on");
-		
+
 		$("input[id=rChk1-"+chk+"]").prop("checked", true); // 현재화면영역 or 사용자 정의
 		$("input[id=aChk"+chk2+"]").prop("checked", true); // obj 타입
-		
+
 		$("#wlreBuffer").val(wlreBuffer); // 경계로부터 - m단위로 재 변환
 	}
 //	$("#wlre-search-fclty-se").val(searchFcltySe).prop("selected", true);
@@ -609,32 +609,32 @@ var SPOR_BUFFER = '';
 
 // 체육시설 목록 호출
 function aj_selectPhysicalEducationFacilityList(form,type){
-	
+
 	if(!$('#mapType3D').prop("checked")) {
 		const yMap = app2D.getYMap();
-		
+
 		if($('#rChk1-2').is(":checked") && yMap.getModule("highlight").getFeatures("sky").length != 1 && $('.waterSpace').hasClass("on")) {
 			 alert("영역을 선택해주세요.");
 			 return;
 		}
 	}
-	
+
 	//공간검색여부확인
 	if(type == null || type == undefined){
 		SPOR_SPITAL_YN = '';
 	}
-	
-	loadingShowHide("show");
-	
+
+	loadingBar("show");
+
 	var	formData = new FormData(form);
-	
+
 	//읍면동
 	var sporSearchAdres = $('input[name=sporSearchAdres]').val();
 	//시설명
 	var sporSearchAlsfc_nm = $('input[name=sporSearchAlsfc_nm]').val();
 	var sports_fcty_tp_cd = $("#sports_fcty_tp_cd option:selected").val();
 	var sports_oper_mthd_cd = $("#sports_oper_mthd_cd option:selected").val();
-	
+
 	if(sports_fcty_tp_cd == undefined || sports_fcty_tp_cd == 'all'){
 		sports_fcty_tp_cd = "";
 	}
@@ -644,32 +644,32 @@ function aj_selectPhysicalEducationFacilityList(form,type){
 	// 경계로 부터 ~범위
 	var sportsBuffer = '0';
 	var sporSpitalSearch = '';
-	
+
 	if(sporSearchAdres == undefined && sporSearchAlsfc_nm == undefined){
 		sporSearchAdres = ""
 		sporSearchAlsfc_nm = ""
 	}
-	
+
 	//공간검색일때
 	if(type == 'spital' && type != null && type != undefined || SPOR_SPITAL_YN != '') {
 		$("#sporSearchAdres").val('');
 		$("#sporSearchAlsfc_nm").val('');
-		
+
 		var chk = $("input[name=sportsSelect]:checked").val(); //현재화면영역 or 사용자 정의
 		var chk2 = $("input[name=sportsAreaDrawing]:checked").val(); //obj 타입
 
 		sportsBuffer = $('#sportsBuffer').val();
-		
-		
+
+
 //		if(formData.get("pageIndex") == 1 && SPOR_SPITAL_YN == '') {
 		if(SPOR_SPITAL_YN == '' || type == 'spital') {
-			sporSpitalSearch = cmmUtil.spitalSearch('sports');
-			
+			// sporSpitalSearch = cmmUtil.spitalSearch('sports');
+
 			var buffer = $("#sportsBuffer").val();
 			if(buffer && buffer > 0) {
-				const wkt = cmmUtil.getSelectFeatureWKT();
+				// const wkt = cmmUtil.getSelectFeatureWKT();
 				if(wkt) {
-					cmmUtil.showBufferGeometry(wkt, buffer);
+					// cmmUtil.showBufferGeometry(wkt, buffer);
 				}
 			}
 			$(".areaSrchTool").show();
@@ -679,14 +679,14 @@ function aj_selectPhysicalEducationFacilityList(form,type){
 			sportsBuffer = SPOR_BUFFER;
 		}
 	}
-	
+
 	formData.append('sports_fcty_tp_cd', sports_fcty_tp_cd);
 	formData.append('sports_oper_mthd_cd',sports_oper_mthd_cd);
 	formData.append("sporSearchAdres", sporSearchAdres);
 	formData.append("sporSearchAlsfc_nm", sporSearchAlsfc_nm);
 	formData.append("sporSpitalSearch", sporSpitalSearch.toString());
 	formData.append("sportsBuffer", sportsBuffer);
-	
+
 	$.ajax({
 		type: "POST",
 		url : "/job/spor/selectSportsList.do",
@@ -700,34 +700,34 @@ function aj_selectPhysicalEducationFacilityList(form,type){
 			if(status == "success") {
 				$("#bottomPopup").html("");
 				$("#bottomPopup").html(returnData);
-				
+
 				$(".scroll-y").mCustomScrollbar({
 					scrollbarPosition:"outside"
 				});
-				
-			}else{ 
-				alert("ERROR!");
+
+			}else{
+				toastr.error("관리자에게 문의 바랍니다.", "정보를 불러오지 못했습니다.");
 				return;
-			} 		
-			
+			}
+
 			$('#sporSearchAdres').val(sporSearchAdres);
 			$('#sporSearchAlsfc_nm').val(sporSearchAlsfc_nm);
 			$("#sports_oper_mthd_cd").val(sports_oper_mthd_cd).prop("selected", true);
-			
+
 			// POI 가시화
 			sportsPOIList(sporSearchAdres, sporSearchAlsfc_nm, sporSpitalSearch, sportsBuffer,sports_fcty_tp_cd,sports_oper_mthd_cd);
-			
+
 		},error: function(request,status,error){
 			console.log("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
 		},
 		complete : function(){
-			loadingShowHide("hide"); 
+			loadingBar("hide");
 		}
 	});
-	
+
 	SPOR_SPITAL_YN = sporSpitalSearch; //공간정보
 	SPOR_BUFFER = sportsBuffer; //버퍼
-	
+
 	//공간검색 유지
 	if(SPOR_SPITAL_YN != ''){
 		$(".waterProperty").removeClass("on");
@@ -737,65 +737,65 @@ function aj_selectPhysicalEducationFacilityList(form,type){
 
 		$("input[id=rChk1-"+chk+"]").prop("checked", true); // 현재화면영역 or 사용자 정의
 		$("input[id=aChk"+chk2+"]").prop("checked", true); // obj 타입
-		
+
 		if(chk == '2'){
-			$(".areaSrchTool").show();			
+			$(".areaSrchTool").show();
 		}else{
-			$(".areaSrchTool").hide();						
+			$(".areaSrchTool").hide();
 		}
-		
+
 		$("#sportsBuffer").val(parseInt(SPOR_BUFFER)); // 경계로부터 - m단위로 재 변환
 	}
 }
 
 //bottomPopup 호출
 function aj_selectBottomPopup(popupUrl){
-	loadingShowHide("show");
+	loadingBar("show");
 	$.ajax({
 		type : "POST",
 		url : popupUrl,
 		dataType : "html",
 		async: false,
 		success : function(returnData, status){
-			if(status == "success") {	
+			if(status == "success") {
 				$("#bottomPopup").html(returnData);
-			}else{ 
-				alert("ERROR!");
+			}else{
+				toastr.error("관리자에게 문의 바랍니다.", "정보를 불러오지 못했습니다.");
 				return;
-			} 
+			}
 		}, complete : function(){
-			loadingShowHide("hide"); 
+			loadingBar("hide");
 		}
 	});
 }
 
 // leftPopup 호출
 function aj_selectLeftPopup(popupUrl){
-	loadingShowHide("show");
+	loadingBar("show");
 	$.ajax({
 		type : "POST",
 		url : "/job/bco/cwp/selectConstructionWorkPlanList.do",
 		dataType : "html",
 		async: false,
 		success : function(returnData, status){
-			if(status == "success") {		
+			if(status == "success") {
 				$("#leftPopup").html(returnData);
-			}else{ 
-				alert("ERROR!");
+			}else{
+				toastr.error("관리자에게 문의 바랍니다.", "정보를 불러오지 못했습니다.");
 				return;
-			} 
+			}
 		}, complete : function(){
-			loadingShowHide("hide"); 
+			loadingBar("hide");
 		}
 	});
 }
 
 //공사계획정보 호출
 function aj_selectConstructionPlanList(form){
-	
-	loadingShowHide("show");	
+
+	loadingBar("show");
 	var	formData = new FormData(form);
-	
+
 	$.ajax({
 		type : "POST",
 		url : "/job/bco/cwp/selectConstructionPlanList.do",
@@ -805,29 +805,28 @@ function aj_selectConstructionPlanList(form){
 		contentType : false,
 		async: false,
 		success : function(returnData, status){
-			if(status == "success") {		
+			if(status == "success") {
 				$("#leftPopup").html(returnData);
 				$(".scroll-y").mCustomScrollbar({
 					scrollbarPosition:"outside"
 				});
-			}else{ 
-				alert("ERROR!");
+			}else{
+				toastr.error("관리자에게 문의 바랍니다.", "정보를 불러오지 못했습니다.");
 				return;
-			} 
+			}
 		}, complete : function(){
-			loadingShowHide("hide"); 
+			loadingBar("hide");
 		}
 	});
 }
 
-
 // 대기오염 목록 호출
 function aj_selectAtmospherePollutionList(form){
-	
-	loadingShowHide("show");
-	
+
+	loadingBar("show");
+
 	var	formData = new FormData(form);
-	
+
 	$.ajax({
 		type : "POST",
 		url : "/job/appt/selectAtmospherePollutionList.do",
@@ -837,9 +836,9 @@ function aj_selectAtmospherePollutionList(form){
 		contentType : false,
 		async: false,
 		success : function(returnData, status){
-			if(status == "success") {		
+			if(status == "success") {
 				$("#leftPopup").html(returnData);
-				
+
 				/**
 				 * 대기오염 api
 				 * stationName : 현재 양평군에는 양평읍/용문명만 존재.
@@ -854,41 +853,41 @@ function aj_selectAtmospherePollutionList(form){
 				// 개발서버
 				var yangPyeongEup = "http://apis.data.go.kr/B552584/ArpltnInforInqireSvc/getMsrstnAcctoRltmMesureDnsty?stationName=%EC%9A%A9%EB%AC%B8%EB%A9%B4&dataTerm=month&pageNo=1&numOfRows=2200&returnType=json&serviceKey=%2FtZiNcupfrj0b6%2FXcT2dYskTc8VVSHBB14BWjuq9FmrCMSfJHr4AdJwGBHGCYzG4O5hrjl1Alvd1Hu%2FbqqKDIA%3D%3D&ver=1.3";
 				var yongMunMyeon = "http://apis.data.go.kr/B552584/ArpltnInforInqireSvc/getMsrstnAcctoRltmMesureDnsty?stationName=%EC%96%91%ED%8F%89%EC%9D%8D&dataTerm=month&pageNo=1&numOfRows=2200&returnType=json&serviceKey=%2FtZiNcupfrj0b6%2FXcT2dYskTc8VVSHBB14BWjuq9FmrCMSfJHr4AdJwGBHGCYzG4O5hrjl1Alvd1Hu%2FbqqKDIA%3D%3D&ver=1.3";
-				
+
 				// 실서버
 				// 행정망
 				//var yangPyeongEup = "http://10.165.2.30/intApi/extApi/B552584/ArpltnInforInqireSvc/getMsrstnAcctoRltmMesureDnsty?stationName=%EC%9A%A9%EB%AC%B8%EB%A9%B4&dataTerm=month&pageNo=1&numOfRows=2200&returnType=json&serviceKey=%2FtZiNcupfrj0b6%2FXcT2dYskTc8VVSHBB14BWjuq9FmrCMSfJHr4AdJwGBHGCYzG4O5hrjl1Alvd1Hu%2FbqqKDIA%3D%3D&ver=1.3";
 				//var yongMunMyeon = "http://10.165.2.30/intApi/extApi/B552584/ArpltnInforInqireSvc/getMsrstnAcctoRltmMesureDnsty?stationName=%EC%96%91%ED%8F%89%EC%9D%8D&dataTerm=month&pageNo=1&numOfRows=2200&returnType=json&serviceKey=%2FtZiNcupfrj0b6%2FXcT2dYskTc8VVSHBB14BWjuq9FmrCMSfJHr4AdJwGBHGCYzG4O5hrjl1Alvd1Hu%2FbqqKDIA%3D%3D&ver=1.3";
-				
+
 				// LX망
 				//var yangPyeongEup = "http://10.20.30.81/extApi/B552584/ArpltnInforInqireSvc/getMsrstnAcctoRltmMesureDnsty?stationName=%EC%9A%A9%EB%AC%B8%EB%A9%B4&dataTerm=month&pageNo=1&numOfRows=2200&returnType=json&serviceKey=%2FtZiNcupfrj0b6%2FXcT2dYskTc8VVSHBB14BWjuq9FmrCMSfJHr4AdJwGBHGCYzG4O5hrjl1Alvd1Hu%2FbqqKDIA%3D%3D&ver=1.3";
 				//var yongMunMyeon = "http://10.20.30.81/extApi/B552584/ArpltnInforInqireSvc/getMsrstnAcctoRltmMesureDnsty?stationName=%EC%96%91%ED%8F%89%EC%9D%8D&dataTerm=month&pageNo=1&numOfRows=2200&returnType=json&serviceKey=%2FtZiNcupfrj0b6%2FXcT2dYskTc8VVSHBB14BWjuq9FmrCMSfJHr4AdJwGBHGCYzG4O5hrjl1Alvd1Hu%2FbqqKDIA%3D%3D&ver=1.3";
-						
+
 				// 대기오염 리스트 가져오기
 				apptList(yangPyeongEup, yongMunMyeon);
-				
+
 				$(".scroll-y").mCustomScrollbar({
 					scrollbarPosition:"outside"
 				});
-				
-			}else{ 
-				alert("ERROR!");
+
+			}else{
+				toastr.error("관리자에게 문의 바랍니다.", "정보를 불러오지 못했습니다.");
 				return;
-			} 
+			}
 		}, complete : function(){
-			loadingShowHide("hide"); 
+			loadingBar("hide");
 		}
 	});
-	
+
 }
 
 // 시설예약관리
 var highChk = '';
 function aj_selectFaciReseMngList(form){
-	
-	loadingShowHide("show");	
+
+	loadingBar("show");
 	var	formData = new FormData(form);
-	
+
 	if(form == $("#tmpForm")[0]){
 		highChk = 'yes';
 		var today = new Date();
@@ -898,7 +897,7 @@ function aj_selectFaciReseMngList(form){
 		var srchYM = nowYear+"-"+nowMonth
 		formData.append('srchYM', srchYM);
 	}
-	
+
 	$.ajax({
 		type : "POST",
 		url : "/job/fcrm/selectFaciReseMngList.do",
@@ -908,17 +907,17 @@ function aj_selectFaciReseMngList(form){
 		contentType : false,
 		async: false,
 		success : function(returnData, status){
-			if(status == "success") {		
+			if(status == "success") {
 				$("#leftPopup").html(returnData);
 				$(".scroll-y").mCustomScrollbar({
 					scrollbarPosition:"outside"
 				});
-			}else{ 
-				alert("ERROR!");
+			}else{
+				toastr.error("관리자에게 문의 바랍니다.", "정보를 불러오지 못했습니다.");
 				return;
-			} 
+			}
 		}, complete : function(){
-			loadingShowHide("hide"); 
+			loadingBar("hide");
 		}
 	});
 }
@@ -927,24 +926,24 @@ function aj_selectFaciReseMngList(form){
 var ibbiFlag = '';
 var ibbiUi = '';
 function aj_selectInBusinessEstaInfoList(form, searchType){
-	loadingShowHide("show");	
-	
+	loadingBar("show");
+
 	if(form == $("#tmpForm")[0]){
 		ibbiFlag = '';
 		ibbiUi = '';
 	}
-	
+
 	var spitalSearch = '';
 	var	formData = new FormData(form);
-	
+
 	// 공간검색
 	if(searchType == 'spital' && ibbiFlag == 'true') {
-		spitalSearch = cmmUtil.spitalSearch('inBusinessEstaInfo');
+		// spitalSearch = cmmUtil.spitalSearch('inBusinessEstaInfo');
 	} else if (searchType == 'spital' && ibbiFlag == 'false') {
 		spitalSearch = lastSpitalSearch;
 	}
 	formData.set("spitalSearch", spitalSearch);
-	
+
 	$.ajax({
 		type : "POST",
 		url : "/job/ibbi/selectInBusinessEstaInfoList.do",
@@ -954,28 +953,28 @@ function aj_selectInBusinessEstaInfoList(form, searchType){
 		contentType : false,
 		async: false,
 		success : function(returnData, status){
-			if(status == "success") {		
+			if(status == "success") {
 				$("#bottomPopup").html(returnData);
-				
+
 				$(".scroll-y").mCustomScrollbar({
 					scrollbarPosition:"outside"
 				});
 				if(ibbiUi == 'true'){
 					$(".busiProperty").removeClass("on");
 					$(".busiSpace").addClass("on");
-					$("input[name=inBusinessEstaInfoSelect]:eq("+(lastSelect-1)+")").attr("checked", true); 
+					$("input[name=inBusinessEstaInfoSelect]:eq("+(lastSelect-1)+")").attr("checked", true);
 					if(lastSelect == 2){
 						$(".spaceArea").show();
 						$("input[name=inBusinessEstaInfoAreaDrawing]:eq("+(lastDraw-1)+")").attr("checked", true);
 					}
 					$("#bufferCnt").val(lastBufferCnt);
 				}
-			}else{ 
-				alert("ERROR!");
+			}else{
+				toastr.error("관리자에게 문의 바랍니다.", "정보를 불러오지 못했습니다.");
 				return;
-			} 
+			}
 		}, complete : function(){
-			loadingShowHide("hide"); 
+			loadingBar("hide");
 		}
 	});
 }

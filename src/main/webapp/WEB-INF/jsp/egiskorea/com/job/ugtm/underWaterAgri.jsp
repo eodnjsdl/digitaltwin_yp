@@ -36,7 +36,8 @@ function fn_deleteUnderWaterAgri(gid){
 
 // 농업용공공관정 수정페이지 열기
 function fn_select_update(gid){
-	rightSubPopupOpen("updateUnderWaterAgriView", gid, "right");
+	openPopup("rightSubPopup");
+	aj_updateUnderWaterAgriView($("#tmpForm")[0], gid, "right");
 }
 </script>
 

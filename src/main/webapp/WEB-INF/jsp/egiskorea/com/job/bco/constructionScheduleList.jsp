@@ -12,7 +12,7 @@
 <!-- 공사정보 조회 -->
 <script src="/js/egiskorea/com/job/bco/cwi.js"></script>
 
-<script src="/js/egiskorea/com/cmm/cmmUtil.js"></script>
+<%--<script src="/js/egiskorea/com/cmm/cmmUtil.js"></script>--%>
 
 <script type="text/javascript">
 	
@@ -54,9 +54,9 @@
 			<div class="tabBoxDepth1-wrap">
 				<div class="tabBoxDepth1">
 					<ul>
-						<li data-tab="constructionPlan"><button id="constructionPlan" type="button" class="inner-tab leftPopup" data-popup="left-layer-mng">공사계획정보</button></li>
-						<li data-tab="constructionSchedule" class="on"><button id="constructionSchedule" type="button" class="inner-tab leftPopup" data-popup="left-layer-mng">공사예정정보</button></li>
-						<li data-tab="constructionInquiry"><button id="constructionInquiry" type="button" class="inner-tab leftPopup" data-popup="left-layer-mng">공사정보 조회</button></li>
+						<li data-tab="constructionPlan"><button id="constructionPlan" type="button" class="inner-tab leftPopup" data-tab="constructionPlan">공사계획정보</button></li>
+						<li data-tab="constructionSchedule" class="on"><button id="constructionSchedule" type="button" class="inner-tab leftPopup" data-tab="constructionSchedule">공사예정정보</button></li>
+						<li data-tab="constructionInquiry"><button id="constructionInquiry" type="button" class="inner-tab leftPopup" data-tab="constructionInquiry">공사정보 조회</button></li>
 					</ul>
 				</div>
 				<!-- 공사예정정보 -->

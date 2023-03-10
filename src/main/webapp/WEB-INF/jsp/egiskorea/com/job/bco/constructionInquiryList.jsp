@@ -12,11 +12,11 @@
 <!-- 공사정보 조회 -->
 <script src="/js/egiskorea/com/job/bco/cwi.js"></script>
 
-<script src="/js/egiskorea/com/cmm/cmmUtil.js"></script>
+<%--<script src="/js/egiskorea/com/cmm/cmmUtil.js"></script>--%>
 
 <script type="text/javascript">
 	
-   	callDatePicker();
+   	// callDatePicker();
 	
    	var rePlnYear = "<c:out value='${searchVO.plnYear}'></c:out>";
 	// 시기 - 분기
@@ -68,9 +68,9 @@
 			<div class="tabBoxDepth1-wrap">
 				<div class="tabBoxDepth1">
 					<ul>
-						<li data-tab="constructionPlan"><button id="constructionPlan" type="button" class="inner-tab leftPopup" data-popup="left-layer-mng">공사계획정보</button></li>
-						<li data-tab="constructionSchedule"><button id="constructionSchedule" type="button" class="inner-tab leftPopup" data-popup="left-layer-mng">공사예정정보</button></li>
-						<li data-tab="constructionInquiry" class="on"><button id="constructionInquiry" type="button" class="inner-tab leftPopup" data-popup="left-layer-mng">공사정보 조회</button></li>
+						<li data-tab="constructionPlan"><button id="constructionPlan" type="button" class="inner-tab leftPopup" data-tab="constructionPlan">공사계획정보</button></li>
+						<li data-tab="constructionSchedule"><button id="constructionSchedule" type="button" class="inner-tab leftPopup" data-tab="constructionSchedule">공사예정정보</button></li>
+						<li data-tab="constructionInquiry" class="on"><button id="constructionInquiry" type="button" class="inner-tab leftPopup" data-tab="constructionInquiry">공사정보 조회</button></li>
 					</ul>
 				</div>
 				<!-- 공사정보 조회 -->
@@ -79,8 +79,8 @@
 					<div class="tabBoxDepth2-wrap marB20">
 						<div class="tabBoxDepth2">
 							<ul>
-								<li data-tab="constructionInfo01" name="constructionInquiry01"><button type="button" class="inner-tab" onclick="setType('type01');">속성조회</button></li>
-								<li data-tab="constructionInfo02" name="constructionInquiry02"><button type="button" class="inner-tab" onclick="setType('type02');">공간조회</button></li>
+								<li data-tab="constructionInfo01" name="constructionInquiry01"><button type="button" class="inner-tab" data-tab="constructionInfo01" onclick="setType('type01');">속성조회</button></li>
+								<li data-tab="constructionInfo02" name="constructionInquiry02"><button type="button" class="inner-tab" data-tab="constructionInfo02" onclick="setType('type02');">공간조회</button></li>
 							</ul>
 						</div>
 						<div class="tab-cont constructionInfo01">

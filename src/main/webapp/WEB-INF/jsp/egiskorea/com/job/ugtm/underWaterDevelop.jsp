@@ -36,7 +36,8 @@ function fn_deleteUnderWaterDevelop(gid){
 
 // 지하수개발 수정페이지 열기
 function fn_select_update(gid){
-	rightSubPopupOpen("updateUnderWaterDevelopView", gid, "right");
+	openPopup("rightSubPopup");
+	aj_updateUnderWaterDevelopView($("#tmpForm")[0], gid, "right");
 }
 
 </script>

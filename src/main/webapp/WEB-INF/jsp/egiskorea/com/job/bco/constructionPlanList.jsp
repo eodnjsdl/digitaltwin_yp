@@ -12,12 +12,12 @@
 <!-- 공사정보 조회 -->
 <script src="/js/egiskorea/com/job/bco/cwi.js"></script>
 
-<script src="/js/egiskorea/com/cmm/cmmUtil.js"></script>
+<%--<script src="/js/egiskorea/com/cmm/cmmUtil.js"></script>--%>
 
 <script type="text/javascript">
 
 	/* $( function() {
-		
+
 		var dateFormat = "yy-mm-dd",
 				// 시작 갤린더
 				from = $("#srchStrtDate").datepicker({
@@ -35,14 +35,14 @@
 				}).on( "change", function() {
 					from.datepicker( "option", "maxDate", getDate( this ) );
 				});
-		
+
 		if("<c:out value="${standardYear.qltyImntBegDe}"/>" != ""){
 			to.datepicker('option','minDate', new Date("<c:out value="${standardYear.qltyImntBegDe}"/>"));
 		}
 		if("<c:out value="${standardYear.qltyImntEndDe}"/>" != ""){
 			from.datepicker('option','maxDate', new Date("<c:out value="${standardYear.qltyImntEndDe}"/>"));
 		}
-		
+
 		function getDate( element ) {
 			var date;
 			try {
@@ -50,10 +50,10 @@
 			} catch( error ) {
 				date = null;
 			}
-	
+
 			return date;
 		}
-		
+
 	}); */
 	var rePageChk = true;
 	// 시기 - 년도
@@ -66,14 +66,14 @@
 	var reChpsnPsitn = "<c:out value='${searchVO.chpsnPsitn}'></c:out>";
 	// 유형 - 읍명동(전체)
 	var reCntrkLcAdres = "<c:out value='${searchVO.cntrkLcAdres}'></c:out>";
-	
+
 	// 유형 - 공사명
 	var reCntrkNm = "<c:out value='${searchVO.cntrkNm}'></c:out>";
-	
+
 	var poiListPlan = ${poiList};
-	
+
 	var codeList = ${clCodeList};
-	
+
 	var html ="";
 	for(var i = 0; i < codeList.resultList.length; i++){
 		html += "<option value='"+codeList.resultList[i].codeId+"'>"+codeList.resultList[i].codeIdNm +"</option>"
@@ -81,20 +81,20 @@
 	$("#cntrkTy").append(html);
 
 	callSelectOptions();
-	
+
 
 </script>
 <!-- 업무 > 공간정보활용 > 사업공유관리 -->
 <!-- <div class="popup-panel popup-left work-01-01" style="left: 320px;width: 515px;height: 807px;"> -->
 	<div class="popup-header" id="headerConstructionPlan">사업공유관리</div>
 	<div class="popup-body">
-		<div class="left-popup-body">						
+		<div class="left-popup-body">
 			<div class="tabBoxDepth1-wrap">
 				<div class="tabBoxDepth1">
 					<ul>
-						<li data-tab="constructionPlan" class="on"><button id="constructionPlan" type="button" class="inner-tab leftPopup" data-popup="left-layer-mng">공사계획정보</button></li>
-						<li data-tab="constructionSchedule"><button id="constructionSchedule" type="button" class="inner-tab leftPopup" data-popup="left-layer-mng">공사예정정보</button></li>
-						<li data-tab="constructionInquiry"><button id="constructionInquiry" type="button" class="inner-tab leftPopup" data-popup="left-layer-mng">공사정보 조회</button></li>
+						<li data-tab="constructionPlan" class="on"><button id="constructionPlan" type="button" class="inner-tab leftPopup" data-tab="constructionPlan">공사계획정보</button></li>
+						<li data-tab="constructionSchedule"><button id="constructionSchedule" type="button" class="inner-tab leftPopup" data-tab="constructionSchedule">공사예정정보</button></li>
+						<li data-tab="constructionInquiry"><button id="constructionInquiry" type="button" class="inner-tab leftPopup" data-tab="constructionInquiry">공사정보 조회</button></li>
 					</ul>
 				</div>
 				<!-- 공사계획정보 -->
@@ -121,7 +121,7 @@
 											<td>
 												<select name="plnYear" id="plnYear" class="form-select w-auto" style="width: 49.5%;">
 													<option value="">전체</option>
-												</select> 
+												</select>
 												<select name="plnQu" id="plnQu" class="form-select w-auto" style="width: 49.5%;">
 													<option value="">전체</option>
 												</select>
@@ -147,8 +147,8 @@
 														<select class="form-select" id="cntrkLcAdres" name="cntrkLcAdres">
 															<option value="">전체</option>
 															<c:forEach items="${sccoEndList}" var="emdList" varStatus="status">
-																<option value="<c:out value='${emdList.emdKorNm}'></c:out>"><c:out value="${emdList.emdKorNm}"></c:out></option>																
-															</c:forEach>								
+																<option value="<c:out value='${emdList.emdKorNm}'></c:out>"><c:out value="${emdList.emdKorNm}"></c:out></option>
+															</c:forEach>
 														</select>
 													</div>
 												</div>
@@ -201,7 +201,7 @@
 										<col style="width: 20%;">
 										<col style="width: 20%;">
 										<col style="width: 20%;">
-										<col style="width: auto;">								
+										<col style="width: auto;">
 									</colgroup>
 									<tbody>
 										<c:forEach items="${resultList}" var="cpList" varStatus="status">
@@ -228,7 +228,7 @@
 											<tr>
 												<td colspan="4">데이터가 없습니다.</td>
 											</tr>
-										</c:if>	 
+										</c:if>
 									</tbody>
 								</table>
 							</div>
@@ -258,6 +258,6 @@
 	<button type="button" class="manualBtn" title="도움말" onclick="manualTab('사업공유관리')"></button>
 	<button type="button" class="popup-close" title="닫기" onclick="removeLayer(); destroy();"></button>
 	<button type="button" class="popup-reset" class="초기화" onclick="leftPopupOpen('constructionPlan')"></button>
-	<button type="button" class="popup-left-toggle" title="접기"></button>					
+	<button type="button" class="popup-left-toggle" title="접기"></button>
 <!-- </div> -->
-<!-- //업무 > 공간정보활용 > 사업공유관리 -->		
+<!-- //업무 > 공간정보활용 > 사업공유관리 -->

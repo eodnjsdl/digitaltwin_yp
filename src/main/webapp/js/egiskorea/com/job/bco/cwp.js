@@ -10,28 +10,28 @@ var cwp = {
 			layerId : "TBD_CNTRK_PLN_INFO",
 			layerTextKey : "cntrkNm",
 			imgUrl : "./images/poi/constructionPlan_poi.png"
-				
+
 }
 
-$(document).ready(function(){ // 실행할 기능을 정의해주세요. 
+$(document).ready(function(){ // 실행할 기능을 정의해주세요.
 	/*loadScript('/js/egiskorea/com/cmm/cmmUtil.js');*/
 	// 달력
 	//callDatePicker();
 	//callSelectOptions();
-	
+
 	// 공사 계획정보 등록 화면 이동 이벤트 처리
 	$("#cwpRegist").unbind('click').bind('click',function(){
 		 aj_insertConstructionPlanView();
 	});
-	
+
 	// 지도 클릭위치 좌표값 획득 이벤트 처리
 	$("#getPositionLocation").unbind('click').bind('click',function(){
-		cmmUtil.getPositionGeom(positionCallback);
+		// cmmUtil.getPositionGeom(positionCallback);
 	});
-	
+
 	// 공사계획 상세페이지 에서 취소버튼 이벤트 처리
 	$("#btnCpCancel").unbind('click').bind('click',function(){
-		
+
 		document.searchPlanForm.pageIndex.value = rePageIndexDtl;			// 선택한 페이지 번호
 		document.searchPlanForm.plnYear.value = rePlnYearDtl;			// 검색된(초기 null) 년도;
 		document.searchPlanForm.plnQu.value = rePlnQuDtl;				// 검색된(초기 null) 분기;
@@ -39,43 +39,43 @@ $(document).ready(function(){ // 실행할 기능을 정의해주세요.
 		document.searchPlanForm.chpsnPsitn.value = reChpsnPsitnDtl;	// 검색된(초기 null) 집행부서;
 		document.searchPlanForm.cntrkLcAdres.value = reCntrkLcAdresDtl;// 검색된(초기 null) 읍명동;
 		document.searchPlanForm.cntrkNm.value = reCntrkNmDtl;			// 검색된(초기 null) 공사명;
-		
+
 		aj_selectConstructionPlanList($("#searchPlanForm")[0]);
 	});
-	
+
 	// 공사계획 수정페이지 에서 취소버튼 이벤트 처리
 	$("#btnCpReCancel").unbind('click').bind('click',function(){
 		aj_selectConstructionPlan($(this).data('cpi'));
-		destroy();
-	});	
-	
-	
+		//destroy();
+	});
+
+
 	// 공사계획 등록페이지 에서 취소버튼 이벤트 처리
 	$("#btnCpInsertCancel").unbind('click').bind('click',function(){
 		aj_selectConstructionPlanList($("#searchPlanForm")[0]);
-		destroy();
-	});	
+		//destroy();
+	});
 	// 공사계획정보 > 상세페이지  수정 페이지로 이동 이벤트 처리
 	$("#btnCpUpdate").unbind('click').bind('click',function(){
 		aj_updateConstructionPlanView($(this).data('cwpid'));
 	});
-	
+
 	// 등록하기 이벤트 처리
 	/*$("#btnCpInsert").unbind('click').bind('click',function(){
 		aj_insertConstructionPlan($("#insertForm")[0]);
 	});*/
-	
-		
+
+
 	// 조회버튼 이벤트 처리
 	$("button[name='cplSearch']").unbind('click').bind('click',function(){
 		document.searchPlanForm.pageIndex.value = "1";			// 선택한 페이지 번호
 		aj_selectConstructionPlanList($("#searchPlanForm")[0]);
 	});
-	
+
 	// 상세 페이지 조회 이벤트 처리
 	$("tr[name='tdCwpDtl']").unbind('click').bind('click',function(){
-		cmmUtil.setCameraMove($(this).data('lon'), $(this).data('lat')); //lon Lat 값에 따라 화면 이동
-		cmmUtil.setPoiHighlight(cwp.layerId, $(this).data('cpi'));
+		// cmmUtil.setCameraMove($(this).data('lon'), $(this).data('lat')); //lon Lat 값에 따라 화면 이동
+		// cmmUtil.setPoiHighlight(cwp.layerId, $(this).data('cpi'));
 		aj_selectConstructionPlan($(this).data('cpi'));
 	});
 
@@ -84,69 +84,71 @@ $(document).ready(function(){ // 실행할 기능을 정의해주세요.
 		//cmmUtil.setPointLayer(poiListPlan.resultList, cwp.layerTextKey, cwp.layerId, cwp.imgUrl);
 		if(poiListPlan != ''){
 			//setPlanPointLayer();
-			cmmUtil.setPointLayer(poiListPlan.resultList, cwp.layerId, "cntrkPlnId", "cntrkNm", cwp.imgUrl, (feature) => {
-				console.log('POI 아이콘 클릭!!');
+			// cmmUtil.setPointLayer(poiListPlan.resultList, cwp.layerId, "cntrkPlnId", "cntrkNm", cwp.imgUrl, (feature) => {
+			// 	console.log('POI 아이콘 클릭!!');
 				//$(`tr[name='tdCwpDtl'][data-cpi='${feature.getId()}']`).trigger('click');
-				aj_selectConstructionPlan(`${feature.getId()}`);
-			});
+				// aj_selectConstructionPlan(`${feature.getId()}`);
+			// });
 		}
 	}
 });
+
+//TODO GIS
 //POILsyrt를 추가해준다.
-function setPlanPointLayer(){
-	var mapType = $('input:radio[name="mapType"]:checked').val();
-	if(mapType == "2D"){
-		//alert("2D환경 POI마커는 개발중입니다!");			
-	}else{
-		// POI 오브젝트를 추가 할 레이어 생성
-		var layerList = new Module.JSLayerList(true);
-		
-		// 생성된어 있는 POI 레이어가 있을때 지워주기
-		if(GLOBAL.LayerId.PoiLayerId != null){
-			var layer = layerList.nameAtLayer(GLOBAL.LayerId.PoiLayerId);
-			if(layer != null){
-				layerList.delLayerAtName(GLOBAL.LayerId.PoiLayerId);
-				GLOBAL.LayerId.PoiLayerId = null;
-			}
-	
-			Module.XDRenderData();
-		}
-		
-		// POI 레이어 이름은 각 해당 테이블명
-		GLOBAL.LayerId.PoiLayerId = cwp.layerId;
-		GLOBAL.PoiLayer = layerList.createLayer(GLOBAL.LayerId.PoiLayerId, Module.ELT_3DPOINT);
-		
-		// POI 설정
-		for(var i = 0; i < poiListPlan.resultList.length; i++){
-			var pointX = Number(poiListPlan.resultList[i].lon); //x 좌표
-			var pointY = Number(poiListPlan.resultList[i].lat); //y 좌표
-			var position = TransformCoordinate(pointX, pointY, 26, 13);
-			var options = {
-					layer : GLOBAL.PoiLayer,
-					layerKey : poiListPlan.resultList[i].cntrkPlnId,
-					lon : position.x,
-					lat : position.y,
-					text : poiListPlan.resultList[i].cntrkNm,
-					markerImage : cwp.imgUrl, // 해당 마커 이미지 Url 
-					lineColor : new Module.JSColor(0, 0, 255)
-			}
-			createLinePoi2(options);
-		}
-		// 마우스 상태 설정
-		Module.XDSetMouseState(Module.MML_SELECT_POINT);
-	}
-}
+// function setPlanPointLayer(){
+// 	var mapType = $('input:radio[name="mapType"]:checked').val();
+// 	if(mapType == "2D"){
+// 		//alert("2D환경 POI마커는 개발중입니다!");
+// 	}else{
+// 		// POI 오브젝트를 추가 할 레이어 생성
+// 		var layerList = new Module.JSLayerList(true);
+//
+// 		// 생성된어 있는 POI 레이어가 있을때 지워주기
+// 		if(GLOBAL.LayerId.PoiLayerId != null){
+// 			var layer = layerList.nameAtLayer(GLOBAL.LayerId.PoiLayerId);
+// 			if(layer != null){
+// 				layerList.delLayerAtName(GLOBAL.LayerId.PoiLayerId);
+// 				GLOBAL.LayerId.PoiLayerId = null;
+// 			}
+//
+// 			Module.XDRenderData();
+// 		}
+//
+// 		// POI 레이어 이름은 각 해당 테이블명
+// 		GLOBAL.LayerId.PoiLayerId = cwp.layerId;
+// 		GLOBAL.PoiLayer = layerList.createLayer(GLOBAL.LayerId.PoiLayerId, Module.ELT_3DPOINT);
+//
+// 		// POI 설정
+// 		for(var i = 0; i < poiListPlan.resultList.length; i++){
+// 			var pointX = Number(poiListPlan.resultList[i].lon); //x 좌표
+// 			var pointY = Number(poiListPlan.resultList[i].lat); //y 좌표
+// 			var position = TransformCoordinate(pointX, pointY, 26, 13);
+// 			var options = {
+// 					layer : GLOBAL.PoiLayer,
+// 					layerKey : poiListPlan.resultList[i].cntrkPlnId,
+// 					lon : position.x,
+// 					lat : position.y,
+// 					text : poiListPlan.resultList[i].cntrkNm,
+// 					markerImage : cwp.imgUrl, // 해당 마커 이미지 Url
+// 					lineColor : new Module.JSColor(0, 0, 255)
+// 			}
+// 			createLinePoi2(options);
+// 		}
+// 		// 마우스 상태 설정
+// 		Module.XDSetMouseState(Module.MML_SELECT_POINT);
+// 	}
+// }
 
 // 공사계획정보 시기 Option 정보 생성및 조회값이 있을때 처리
 function callSelectOptions(){
 	// 시기 년도 최초 시작년도 세팅값
 	var startYear = 2010;
-	// 현재 년도  
+	// 현재 년도
 	var date = new Date();
 	var year = date.getFullYear();
 	var count = (year - startYear) + 2;	// 기준년도 부터 + 1Y
-	
-	// 최초 시작년도 부터 현재로부터 + 1Y 
+
+	// 최초 시작년도 부터 현재로부터 + 1Y
 	for(var i = 0; i < count; i++ ){
 		var years = startYear + i;
 		$("#plnYear").append('<option value="'+years+'">'+years+'</option>');
@@ -156,7 +158,7 @@ function callSelectOptions(){
 		var plnQuValue = i + "분기";
 		$("#plnQu").append('<option value="'+plnQuValue+'">'+plnQuValue+'</option>');
 	}
-	
+
 	// 검색/수정시 셀렉트박스 값 유지를위한 처리 내용
 	// 시기 - 년도
 
@@ -185,7 +187,7 @@ function callSelectOptions(){
 // 공사 계획정보 상세정보 조회하기
 function aj_selectConstructionPlan(keyId){
 	poiListPlan = '';
-	loadingShowHide("show");
+	loadingBar("show");
 
 	var form = $("#searchPlanForm")[0];
 	var formData = new FormData(form);
@@ -218,24 +220,24 @@ function aj_selectConstructionPlan(keyId){
 		contentType : false,
 		async: false,
 		success : function(returnData, status){
-			if(status == "success") {		
+			if(status == "success") {
 				$("#divConstructionPlan").html(returnData);
 				$(".scroll-y").mCustomScrollbar({
 					scrollbarPosition:"outside"
 				});
-			}else{ 
-				alert("ERROR!");
+			}else{
+				toastr.error("관리자에게 문의 바랍니다.", "정보를 불러오지 못했습니다.");
 				return;
-			} 
+			}
 		}, complete : function(){
-			loadingShowHide("hide"); 
+			loadingBar("hide");
 		}
 	});
 }
 
 //공사 계획정보 수정 페이지 호출 처리
 function aj_updateConstructionPlanView(keyId){
-	loadingShowHide("show");
+	loadingBar("show");
 
 	var formData = new FormData();
 	formData.append('cntrkPlnId', keyId);
@@ -246,8 +248,8 @@ function aj_updateConstructionPlanView(keyId){
 	formData.append('reCntrkLcAdres', reCntrkLcAdresDtl);
 	formData.append('reCntrkNm', reCntrkNmDtl);
 	formData.append('rePageIndex', rePageIndexDtl);
-	
-	
+
+
 	$.ajax({
 		type : "POST",
 		url : "/job/bco/cwp/updateConstructionPlanView.do",
@@ -257,17 +259,17 @@ function aj_updateConstructionPlanView(keyId){
 		contentType : false,
 		async: false,
 		success : function(returnData, status){
-			if(status == "success") {		
+			if(status == "success") {
 				$("#divConstructionPlan").html(returnData);
 				$(".scroll-y").mCustomScrollbar({
 					scrollbarPosition:"outside"
 				});
-			}else{ 
+			}else{
 				alert("ERROR!");
 				return;
-			} 
+			}
 		}, complete : function(){
-			loadingShowHide("hide"); 
+			loadingBar("hide");
 		}
 	});
 }
@@ -275,7 +277,7 @@ function aj_updateConstructionPlanView(keyId){
 //공사 계획정보 수정 처리
 function aj_updateConstructionPlan(form){
 	var keyId = '';
-	loadingShowHide("show");
+	loadingBar("show");
 	var formData = new FormData(form);
 	if($("#rChk1_1").is(":checked")){
 		keyId = "Y";
@@ -283,7 +285,7 @@ function aj_updateConstructionPlan(form){
 		keyId = "N";
 	}
 	formData.append('cntrkPrrngPrcuseAt', keyId);
-	
+
 	$.ajax({
 		type : "POST",
 		url : "/job/bco/cwp/updateConstructionPlan.do",
@@ -293,18 +295,18 @@ function aj_updateConstructionPlan(form){
 		contentType : false,
 		async: false,
 		success : function(returnData, status){
-			if(status == "success") {	
+			if(status == "success") {
 				$("#leftPopup").html(returnData);
 				$(".scroll-y").mCustomScrollbar({
 					scrollbarPosition:"outside"
 				});
-				destroy();
-			}else{ 
+				//destroy();
+			}else{
 				alert("ERROR!");
 				return;
-			} 
+			}
 		}, complete : function(){
-			loadingShowHide("hide"); 
+			loadingBar("hide");
 		}
 	});
 }
@@ -312,10 +314,10 @@ function aj_updateConstructionPlan(form){
 //공사 계획정보 삭제 처리
 function aj_deleteConstructionPlan(form, param){
 
-	loadingShowHide("show");
+	loadingBar("show");
 	var formData = new FormData(form);
 	formData.append('cntrkPlnId', param);
-	
+
 	formData.append('plnYear', rePlnYearDtl);
 	formData.append('plnQu', rePlnQuDtl);
 	formData.append('cntrkTy', reCntrkTyDtl);
@@ -323,7 +325,7 @@ function aj_deleteConstructionPlan(form, param){
 	formData.append('cntrkLcAdres', reCntrkLcAdresDtl);
 	formData.append('cntrkNm', reCntrkNmDtl);
 	formData.append('pageIndex', rePageIndexDtl);
-	
+
 	$.ajax({
 		type : "POST",
 		url : "/job/bco/cwp/deleteConstructionPlan.do",
@@ -333,17 +335,17 @@ function aj_deleteConstructionPlan(form, param){
 		contentType : false,
 		async: false,
 		success : function(returnData, status){
-			if(status == "success") {	
+			if(status == "success") {
 				$("#leftPopup").html(returnData);
 				$(".scroll-y").mCustomScrollbar({
 					scrollbarPosition:"outside"
 				});
-			}else{ 
+			}else{
 				alert("ERROR!");
 				return;
-			} 
+			}
 		}, complete : function(){
-			loadingShowHide("hide"); 
+			loadingBar("hide");
 		}
 	});
 }
@@ -351,9 +353,9 @@ function aj_deleteConstructionPlan(form, param){
 
 // 공사 계획정보 등록하기 화면으로 이동
 function aj_insertConstructionPlanView(){
-	loadingShowHide("show");
+	loadingBar("show");
 	var formData = new FormData();
-	
+
 	formData.append('plnYear', rePlnYear);
 	formData.append('plnQu', rePlnQu);
 	formData.append('cntrkTy', reCntrkTy);
@@ -371,18 +373,18 @@ function aj_insertConstructionPlanView(){
 		contentType : false,
 		async: false,
 		success : function(returnData, status){
-			if(status == "success") {		
+			if(status == "success") {
 				$("#divConstructionPlan").html(returnData);
 				$(".scroll-y").mCustomScrollbar({
 					scrollbarPosition:"outside"
 				});
-				destroy();
-			}else{ 
+				// destroy();
+			}else{
 				alert("ERROR!");
 				return;
-			} 
+			}
 		}, complete : function(){
-			loadingShowHide("hide"); 
+			loadingBar("hide");
 		}
 	});
 }
@@ -390,7 +392,7 @@ function aj_insertConstructionPlanView(){
 // 공사 계획정보 등록 처리
 function aj_insertConstructionPlan(form){
 
-	loadingShowHide("show");
+	loadingBar("show");
 	var formData = new FormData(form);
 	if($("#rChk1_1").is(":checked")){
 		keyId = "Y";
@@ -398,7 +400,7 @@ function aj_insertConstructionPlan(form){
 		keyId = "N";
 	}
 	formData.append('cntrkPrrngPrcuseAt', keyId);
-	
+
 	$.ajax({
 		type : "POST",
 		url : "/job/bco/cwp/insertConstructionPlan.do",
@@ -408,24 +410,24 @@ function aj_insertConstructionPlan(form){
 		contentType : false,
 		async: false,
 		success : function(returnData, status){
-			if(status == "success") {		
+			if(status == "success") {
 				$("#leftPopup").html(returnData);
 				$(".scroll-y").mCustomScrollbar({
 					scrollbarPosition:"outside"
 				});
-			}else{ 
+			}else{
 				alert("ERROR!");
 				return;
-			} 
+			}
 		}, complete : function(){
-			loadingShowHide("hide"); 
+			loadingBar("hide");
 		}
 	});
 }
 
 function positionCallback(pointGeom, address){
 	$("#cntrkLcAdres").val(address);
-	$("#geom").val(pointGeom); 
+	$("#geom").val(pointGeom);
 }
 
 // 검색 처리
@@ -438,7 +440,7 @@ function fn_select_list(){
 
 
 // 페이징 처리
-function fn_selectPlan_linkPage(pageNo){ 
+function fn_selectPlan_linkPage(pageNo){
 	// 조회영역에 있는 값들 가져오기
 /*	cwp.inPlnYear = $("#plnYear").val();
 	cwp.inPlnQu = $("#plnQu").val();
@@ -470,7 +472,7 @@ function fn_selectPlan_linkPage(pageNo){
 		});
 		if(features.length > 0) {
 			const geojson = format.writeFeatures(features)
-			cmmUtil.highlightFeatures(geojson, "./images/poi/constructionPlan_poi.png", { notMove: true });	
+			cmmUtil.highlightFeatures(geojson, "./images/poi/constructionPlan_poi.png", { notMove: true });
 		} else {
 			cmmUtil.clearHighlight();
 		}
@@ -494,7 +496,7 @@ function fn_selectPlan_linkPage(pageNo){
 					lon : position.x,
 					lat : position.y,
 					text : poiList.resultList[i].cntrkNm,
-					markerImage : "./images/poi/constructionPlan_poi.png", // 해당 마커 이미지 Url 
+					markerImage : "./images/poi/constructionPlan_poi.png", // 해당 마커 이미지 Url
 					lineColor : new Module.JSColor(0, 0, 255)
 			}
 			createLinePoi2(options);
@@ -505,7 +507,7 @@ function fn_selectPlan_linkPage(pageNo){
 
 //공사계획정보 호출
 function aj_selectConstructionPlanListPage(form){
-	loadingShowHide("show");	
+	loadingBar("show");
 	var	formData = new FormData(form);
 
 	$.ajax({
@@ -517,10 +519,10 @@ function aj_selectConstructionPlanListPage(form){
 		contentType : false,
 		async: false,
 		success : function(returnData, status){
-			if(status == "success") {	
-				var inPlnYear = cwp.inPlnYear, inPlnQu = cwp.inPlnQu, inCntrkTy = cwp.inCntrkTy, inChpsnPsitn = cwp.inChpsnPsitn, 
+			if(status == "success") {
+				var inPlnYear = cwp.inPlnYear, inPlnQu = cwp.inPlnQu, inCntrkTy = cwp.inCntrkTy, inChpsnPsitn = cwp.inChpsnPsitn,
 								inCntrkLcAdres = cwp.inCntrkLcAdres, inCntrkNm = cwp.inCntrkNm;
-				
+
 				$("#leftPopup").html(returnData);
 				$(".scroll-y").mCustomScrollbar({
 					scrollbarPosition:"outside"
@@ -531,45 +533,45 @@ function aj_selectConstructionPlanListPage(form){
 				$("#cntrkTy").val(inCntrkTy);
 				$("#chpsnPsitn").val(inChpsnPsitn);
 				$("#cntrkLcAdres").val(inCntrkLcAdres);
-				$("#cntrkNm").val(inCntrkNm);			
-			}else{ 
+				$("#cntrkNm").val(inCntrkNm);
+			}else{
 				alert("ERROR!");
 				return;
-			} 
+			}
 		}, complete : function(){
-			loadingShowHide("hide"); 
+			loadingBar("hide");
 		}
 	});
 }
 
-
+//TODO GIS
 // 설정되어 있는 정보값들을 초기화 한다.
-function destroy(){
-	var mapType = $('input:radio[name="mapType"]:checked').val();
-    if (mapType == "2D") {
-    	
-    }else{
-        // POI 오브젝트를 추가 할 레이어 생성
-        var layerList = new Module.JSLayerList(true);
-        debugger;
-        // 생성된어 있는 POI 레이어가 있을때 지워주기
-        if (GLOBAL.LayerId.PoiLayerId != null) {
-          var layer = layerList.nameAtLayer(GLOBAL.LayerId.PoiLayerId);
-          if (layer != null) {
-          	//layerList.delLayerAtName(GLOBAL.LayerId.PoiLayerId);
-          	layerList.nameAtLayer(GLOBAL.LayerId.PoiLayerId).removeAll();
-          	GLOBAL.LayerId.PoiLayerId = null;
-          }
-
-          Module.XDRenderData();
-        }
-    	if(GLOBAL.StartPoint){
-    		GLOBAL.StartPoint = false;
-    		removePoint(GLOBAL.NomalIcon);
-    	}
-    	// 생성된어 있는 POI, Line, Polygon 레이어가 있을때 지워주기
-    	//removeLayer3D();
-    }
-	
-}
+// function destroy(){
+// 	var mapType = $('input:radio[name="mapType"]:checked').val();
+//     if (mapType == "2D") {
+//
+//     }else{
+//         // POI 오브젝트를 추가 할 레이어 생성
+//         var layerList = new Module.JSLayerList(true);
+//         debugger;
+//         // 생성된어 있는 POI 레이어가 있을때 지워주기
+//         if (GLOBAL.LayerId.PoiLayerId != null) {
+//           var layer = layerList.nameAtLayer(GLOBAL.LayerId.PoiLayerId);
+//           if (layer != null) {
+//           	//layerList.delLayerAtName(GLOBAL.LayerId.PoiLayerId);
+//           	layerList.nameAtLayer(GLOBAL.LayerId.PoiLayerId).removeAll();
+//           	GLOBAL.LayerId.PoiLayerId = null;
+//           }
+//
+//           Module.XDRenderData();
+//         }
+//     	if(GLOBAL.StartPoint){
+//     		GLOBAL.StartPoint = false;
+//     		removePoint(GLOBAL.NomalIcon);
+//     	}
+//     	// 생성된어 있는 POI, Line, Polygon 레이어가 있을때 지워주기
+//     	//removeLayer3D();
+//     }
+//
+// }
 
