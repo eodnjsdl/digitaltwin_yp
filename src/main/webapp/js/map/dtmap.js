@@ -16,12 +16,12 @@ window.dtmap = (function () {
             }
         }
 
-        getModule().show();
-        getModule(true).hide();
+        getMap().show();
+        getMap(true).hide();
     }
 
     function call(fName, ...params) {
-        let fnc = getModule()[fName]
+        let fnc = getMap()[fName]
         if (fnc && typeof fnc === 'function') {
             fnc.call(dtmap, ...params);
         } else {
@@ -29,7 +29,7 @@ window.dtmap = (function () {
         }
     }
 
-    function getModule(reverse) {
+    function getMap(reverse) {
         if (reverse) {
             return cur_mode === '2D' ? map3d : map2d;
         } else {
@@ -97,9 +97,6 @@ window.dtmap = (function () {
         });
     }
 
-    function setInteraction(mod, options) {
-        call('setInteraction', mod, options);
-    }
 
     function clear() {
         call('clear');
@@ -121,7 +118,6 @@ window.dtmap = (function () {
         switchMap: switchMap,
         setCenter: setCenter,
         showLayer: showLayer,
-        setInteraction: setInteraction,
         setBaseLayer: setBaseLayer,
         clear: clear,
         test: call
@@ -135,17 +131,17 @@ window.dtmap = (function () {
         },
         'draw': {
             get: function () {
-                return getModule().draw;
+                return getMap().draw;
             }
         },
         'measure': {
             get: function () {
-                return getModule().measure;
+                return getMap().measure;
             }
         },
         'location': {
             get: function () {
-                return getModule().location;
+                return getMap().location;
             }
         }
     })
