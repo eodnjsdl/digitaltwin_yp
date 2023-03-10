@@ -43,15 +43,30 @@ window.map3d = (function () {
             // Module.Start(container_.clientWidth, container_.clientHeight)
 
             //초기 카메라설정
-            _camera = Module.getViewCamera();
             let {center, limitRect, limitAlt, limitCamera} = map3d.config;
-            let centerVec = new Module.JSVector3D(center[0], center[1], center[2]);
-            _camera.setLimitRectAlt(limitRect[0], limitRect[1], limitRect[2], limitRect[3], limitRect[4]);
-            _camera.setLimitAltitude(limitAlt);
-            _camera.setLimitCamera(limitCamera);
-            _camera.setLocation(centerVec)
-            _camera.moveLookAt(centerVec, 90, 0, 800);
-
+            _camera = Module.getViewCamera();
+            _camera.limit = {
+                altitude: {
+                    enable: true,
+                    min: 150,
+                    max: limitAlt
+                },
+                bound: {
+                    enable: true,
+                    min: {
+                        lon: limitRect[0],
+                        lat: limitRect[1]
+                    },
+                    max: {
+                        lon: limitRect[2],
+                        lat: limitRect[3]
+                    }
+                }
+            }
+            // let centerVec = new Module.JSVector3D(center[0], center[1], center[2]);
+            // _camera.setLocation(centerVec);
+            _camera.moveLonLatAlt(center[0], center[1], center[2],false)
+            // goHome();
 
             //3D 확장 모듈 초기화
             initModules();
@@ -272,8 +287,7 @@ window.map3d = (function () {
     function goHome() {
         let {center} = map3d.config;
         let centerVec = new Module.JSVector3D(center[0], center[1], center[2]);
-        _camera.setLocation(centerVec)
-        _camera.moveLookAt(centerVec, 90, 0, 800);
+        _camera.move(centerVec, 80, 0, 800);
     }
 
     /**

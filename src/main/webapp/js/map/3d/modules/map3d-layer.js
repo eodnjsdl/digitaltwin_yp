@@ -1,13 +1,13 @@
 window.map3d = window.map3d || {};
 map3d.layer = (function () {
     const TIME_OUT = 100 * 60 * 10; //레이어 삭제에 쓰이는 타임아웃
-    let userList, serviceList;
+    let objectLayerList, tileLayerList;
     let layerMap = new Map();
     let timeOutMap = new Map();
 
     function init() {
-        userList = new Module.JSLayerList(true);
-        serviceList = new Module.JSLayerList(false);
+        objectLayerList = Module.getObjectLayerList();
+        tileLayerList = Module.getTileLayerList();
     }
 
     /**
@@ -65,9 +65,9 @@ map3d.layer = (function () {
         }
         let list;
         if (layer.serviceType === 'user') {
-            list = userList;
+            list = objectLayerList;
         } else {
-            list = serviceList;
+            list = tileLayerList;
         }
         list.delLayerAtName(layer.getName());
         layerMap.delete(id);
@@ -117,12 +117,12 @@ map3d.layer = (function () {
     Object.defineProperties(module, {
         'userLayers': {
             get: function () {
-                return userList;
+                return objectLayerList;
             }
         },
         'serviceLayers': {
             get: function () {
-                return serviceList;
+                return tileLayerList;
             }
         }
     })

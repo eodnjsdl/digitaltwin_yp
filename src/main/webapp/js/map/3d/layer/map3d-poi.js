@@ -20,9 +20,9 @@ map3d.layer.POI = (function () {
      */
     POI.prototype.createInstance = function (options) {
         if (this.table && !this.layerNm) {
-            return createUserPOI.call(this, options);
+            return createObjectPOI.call(this, options);
         } else {
-            return createServicePOI.call(this, options);
+            return createTilePOI.call(this, options);
         }
     }
 
@@ -30,9 +30,9 @@ map3d.layer.POI = (function () {
      * User POI 레이어
      */
     //layerNm, layerId, tblNm
-    function createUserPOI(options) {
+    function createObjectPOI(options) {
         let {id, table} = options;
-        let layer = map3d.userLayers.createLayer(id, Module.ELT_3DPOINT);
+        let layer = map3d.userLayers.createObjectLayer({name: id, type: Module.ELT_3DPOINT});
         $.ajax({
             type: "POST",
             url: "/lyr/lyi/selectLayerInfoList.do",
@@ -208,10 +208,14 @@ map3d.layer.POI = (function () {
     /**
      * Service POI 레이어
      */
-    function createServicePOI(options) {
+    function createTilePOI(options) {
         let {layerNm} = options;
         //Module.ELT_3DPOINT = 5
-        Module.XDEMapCreateLayer(layerNm, dtmap.urls.xdServer, 0, true, true, false, Module.ELT_3DPOINT, 0, 15);
+        map3d.serviceLayers.createXDServerLayer({
+            name: layerNm,
+            url: dtmap.urls.xdServer,
+            type: Module.ELT_3DPOINT
+        });
         //poi icon 표출
         let layer = map3d.serviceLayers.nameAtLayer(layerNm);
         layer.tile_load_ratio = 1000;

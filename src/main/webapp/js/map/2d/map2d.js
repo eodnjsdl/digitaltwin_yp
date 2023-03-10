@@ -37,6 +37,7 @@ window.map2d = (function () {
         }
         let config = map2d.config;
         _container = document.getElementById(config.target)
+        _container.style.display = 'block'; //초기화 할때 display none 일경우 오류발생
         _view = new ol.View({
             projection: config.projection,
             center: config.center,
@@ -132,33 +133,45 @@ window.map2d = (function () {
 
     function clearInteraction() {
         if (_curInteraction) {
+            if (_curInteraction.clear) {
+                _curInteraction.clear();
+            }
             _curInteraction.dispose();
             _curInteraction = undefined;
         }
     }
 
-    function setInteraction(mod) {
-        clearInteraction();
+    function setInteraction(mod, options) {
+        let interaction = getInteraction(mod);
+        if (interaction !== _curInteraction) {
+            clearInteraction();
+        }
+
+        if (interaction) {
+            interaction.active(options);
+            _curInteraction = interaction;
+        }
+    }
+
+    function getInteraction(mod) {
+        let interaction
         switch (mod) {
             case 'distance':
             case 'area' :
             case 'radius':
-                _curInteraction = map2d.measure;
+                interaction = map2d.measure;
                 break;
             case 'location':
-                _curInteraction = map2d.location;
+                interaction = map2d.location;
                 break;
             case 'draw':
-                _curInteraction = ma2d.draw;
+                interaction = map2d.draw;
                 break;
             default :
-                _curInteraction = undefined;
+                interaction = undefined;
                 break;
         }
-
-        if (_curInteraction) {
-            _curInteraction.active(mod);
-        }
+        return interaction;
     }
 
     /**
@@ -194,6 +207,7 @@ window.map2d = (function () {
         goHome: goHome,
         setBaseLayer: setBaseLayer,
         setInteraction: setInteraction,
+        clearInteraction: clearInteraction
     }
     Object.defineProperties(module, {
         'map': {

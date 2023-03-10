@@ -52,12 +52,12 @@ map2d.layer = (function () {
     }
 
     function getById(id) {
-        var layers = map2d.map.getLayers().getArray().slice();
-        var layer;
-        for (var i = 0; i < layers.length; i++) {
+        let layers = map2d.map.getLayers().getArray().slice();
+        let layer;
+        for (let i = 0; i < layers.length; i++) {
             if (layers[i].get("id") === id) layer = layers[i];
         }
-        return layer != undefined ? layer : undefined;
+        return layer;
     }
 
 

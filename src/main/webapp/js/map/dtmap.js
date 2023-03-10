@@ -3,21 +3,39 @@ window.dtmap = (function () {
 
     let cur_mode = '2D';
 
-    function init() {
-        map2d.init();
+    /**
+     * 지도 초기화 함수
+     * @param {string} [mode='2D'] '2D', '3D' 지도 종류
+     */
+    function init(mode) {
+        if (mode !== undefined) {
+            if (['2D', '3D'].includes(mode.toUpperCase())) {
+                cur_mode = mode.toUpperCase();
+            } else {
+                throw new Error('입력값을 확인해주세요, "2D", "3D" 지도만 지원합니다.');
+            }
+        }
+
+        getModule().show();
+        getModule(true).hide();
     }
 
-    function call(fName, params) {
+    function call(fName, ...params) {
         let fnc = getModule()[fName]
         if (fnc && typeof fnc === 'function') {
-            fnc.call(dtmap, params);
+            fnc.call(dtmap, ...params);
         } else {
             throw new Error(cur_mode + '지도에서 지원하지 않는 기능입니다.');
         }
     }
 
-    function getModule() {
-        return cur_mode === '2D' ? map2d : map3d;
+    function getModule(reverse) {
+        if (reverse) {
+            return cur_mode === '2D' ? map3d : map2d;
+        } else {
+
+            return cur_mode === '2D' ? map2d : map3d;
+        }
     }
 
     /**
@@ -79,8 +97,8 @@ window.dtmap = (function () {
         });
     }
 
-    function setInteraction(mod) {
-        call('setInteraction', mod);
+    function setInteraction(mod, options) {
+        call('setInteraction', mod, options);
     }
 
     function clear() {
@@ -113,6 +131,11 @@ window.dtmap = (function () {
         'mod': {
             get: function () {
                 return cur_mode;
+            }
+        },
+        'draw': {
+            get: function () {
+                return getModule().draw;
             }
         }
     })

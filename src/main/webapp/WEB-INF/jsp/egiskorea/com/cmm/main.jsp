@@ -81,6 +81,7 @@
     <script src="/js/map/3d/modules/map3d-measure.js"></script>
     <script src="/js/map/3d/modules/map3d-overlay.js"></script>
     <script src="/js/map/3d/modules/map3d-location.js"></script>
+    <script src="/js/map/3d/modules/map3d-draw.js"></script>
     <script src="/js/map/3d/layer/map3d-base.js"></script>
     <script src="/js/map/3d/layer/map3d-group.js"></script>
     <script src="/js/map/3d/layer/map3d-wms.js"></script>
@@ -132,8 +133,8 @@
 
 
         <!-- 지도영역 -->
-        <div id="map2D" style="width: 100%; height:100%;"></div>
-        <div id="map3D" style="width: 100%; height:100%; display:none;"></div>
+        <div id="map2D" style="width: 100%; height:100%; display:none;"></div>
+        <div id="map3D" style="width: 100%; height:100%; display:none; user-select:none"></div>
 
         <!-- map-aside -->
         <div id="map-aside">
@@ -436,7 +437,9 @@
                         <li>
                             <button type="button" class="dataPopup" data-popup="analysis-01-04">경사분석(3D)</button>
                         </li>
-                        <li><button type="button" class="dataPopup" >공간분석</button></li>
+                        <li>
+                            <button type="button" class="dataPopup">공간분석</button>
+                        </li>
                         <li>
                             <button type="button" class="dataPopup" data-popup="analysis-01-02">일조권분석(3D)</button>
                         </li>
@@ -2538,7 +2541,12 @@
     dtmap.urls.set({
         EMAP_KEY: `<spring:message code="Gis.baro2map.key"/>`
     })
-    dtmap.init();
+    /**
+     * 초기 지도 선택 가능
+     * dtmap.init('2D');
+     * dtmap.init('3D');
+     */
+    dtmap.init('3D');
 
 
 </script>
