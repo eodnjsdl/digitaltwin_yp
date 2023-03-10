@@ -36,7 +36,10 @@ function fn_deleteRenewableEnergy(gid){
 
 // 태양광발전소 수정페이지 열기
 function fn_select_update(gid){
-	rightSubPopupOpen("updateRenewableEnergyView", gid, "right");
+	// rightSubPopupOpen("updateRenewableEnergyView", gid, "right");
+
+	openPopup("rightSubPopup");
+	aj_updateRenewableEnergyView($("#tmpForm")[0], gid, "right");
 }
 </script>
 

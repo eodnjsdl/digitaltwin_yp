@@ -1001,7 +1001,7 @@ function aj_facility(className) {
 
 // 업무 > 상세조회 닫기버튼 (마우스모드 6으로 초기화)
 function cancelMode(){
-	setTimeout(function(){
-		Module.XDSetMouseState(6);	
-	}, 100);
+	// setTimeout(function(){
+	// 	Module.XDSetMouseState(6);
+	// }, 100);
 }

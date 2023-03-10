@@ -1,7 +1,7 @@
 $(document).ready(function(){
 	callDatePicker();
 	if(poiList != ""){
-		setPointLayer();
+		// setPointLayer();
 	}
 });
 
@@ -12,7 +12,8 @@ function fn_select_list(searchType){
 		const yMap = app2D.getYMap();
 		
 		if($('#rChk1-2').is(":checked") && yMap.getModule("highlight").getFeatures("sky").length != 1 && $('.energySpace').hasClass("on")) {
-			 alert("영역을 선택해주세요.");
+			 // alert("영역을 선택해주세요.");
+			toastr.warning("영역을 선택해주세요.");
 			 return;
 		}
 	}
@@ -20,7 +21,7 @@ function fn_select_list(searchType){
 	$("#rightSubPopup").removeClass("opened").html("");
 	document.getElementById("searchForm").pageIndex.value = 1;
 	if(searchType == 'attr'){
-		cmmUtil.drawClear();
+		// cmmUtil.drawClear();
 		rnenFlag = 'true';
 		rnenUi = 'false';
 		$("#spitalSearch").val('');
@@ -34,9 +35,9 @@ function fn_select_list(searchType){
 		
 		var buffer = $("#bufferCnt").val();
 		if(buffer && buffer > 0) {
-			const wkt = cmmUtil.getSelectFeatureWKT();
+			// const wkt = cmmUtil.getSelectFeatureWKT();
 			if(wkt) {
-				cmmUtil.showBufferGeometry(wkt, buffer);
+				// cmmUtil.showBufferGeometry(wkt, buffer);
 			}
 		}
 	}
@@ -58,16 +59,21 @@ function fn_select_linkPage(pageNo){
 
 // 태양광발전소 등록페이지 열기 버튼 
 function fn_select_regist(){
-	rightSubPopupOpen("insertRenewableEnergyView", "", "right");
+	openPopup("rightSubPopup");
+	aj_insertRenewableEnergyView($("#tmpForm")[0], "", "right");
 }
 
 // 태양광발전소 상세페이지 열기
 $("tr[name='energyDtl']").unbind('click').bind('click',function(){
 	var gid = $(this).data('gid');
 	//cmmUtil.setCameraMove($(this).data('lon'), $(this).data('lat'));
-	cmmUtil.setPoiHighlightRemove(); //기존 활성화 되어 있는 아이콘 모두 비활성화 해주기.
-	cmmUtil.setPoiHighlight('TGD_ELCTY_BSNS_PRMISN', gid);
-	rightSubPopupOpen("selectRenewableEnergy", gid, "right");
+	// cmmUtil.setPoiHighlightRemove(); //기존 활성화 되어 있는 아이콘 모두 비활성화 해주기.
+	// cmmUtil.setPoiHighlight('TGD_ELCTY_BSNS_PRMISN', gid);
+	// rightSubPopupOpen("selectRenewableEnergy", gid, "right");
+
+	openPopup("rightSubPopup");
+	aj_selectRenewableEnergy($("#tmpForm")[0], gid, "right");
+
 });
 
 // 하이라이트
@@ -112,7 +118,7 @@ $("#rnenExcelDownload").on("click", function(){
 
 // '지도에서 선택' 버튼
 $("#mapSelectBtn").unbind('click').bind('click',function(){
-	cmmUtil.getPositionGeom(positionCallback);
+	// cmmUtil.getPositionGeom(positionCallback);
 });
 
 //geom 값 넣기
@@ -124,7 +130,7 @@ function positionCallback(pointGeom, address){
 // 공간검색 radio버튼 change 이벤트1
 $("input[name=renewableEnergyAreaDrawing]").on('change',function(){
 	var chk2 = $("input[name=renewableEnergyAreaDrawing]:checked").val();
-	cmmUtil.spitalDraw(chk2);
+	// cmmUtil.spitalDraw(chk2);
 });
 
 // 공간검색 radio버튼 change 이벤트2
@@ -134,11 +140,11 @@ $("input[name=renewableEnergySelect]").on('change',function(){
 	if(chk != '1'){
 		//$("input[name=renewableEnergyAreaDrawing]").attr('disabled', false);
 		$(".spaceArea").show();
-		cmmUtil.spitalDraw(chk2); 
+		// cmmUtil.spitalDraw(chk2);
 	} else {
 		//$("input[name=renewableEnergyAreaDrawing]").attr('disabled', true);
 		$(".spaceArea").hide();
-		cmmUtil.drawClear();
+		// cmmUtil.drawClear();
 	}
 });
 
@@ -274,7 +280,7 @@ function setPointLayer(){
 
 // 태양광발전소 등록하기 페이지 호출
 function aj_insertRenewableEnergyView(form, param1, param2){
-	loadingShowHide("show");
+	loadingBar("show");
 	
 	var formData = new FormData(form);
 	
@@ -288,27 +294,27 @@ function aj_insertRenewableEnergyView(form, param1, param2){
 		success : function(returnData, status){
 			if(status == "success") {		
 				$("#" + param2 + "SubPopup").append(returnData);
-			}else{ 
-				alert("ERROR!");
+			}else{
+				toastr.error("관리자에게 문의 바랍니다.", "정보를 불러오지 못했습니다.");
 				return;
 			} 
 		}, complete : function(){
-			loadingShowHide("hide"); 
+			loadingBar("hide"); 
 		}
 	});
 }
 
 // 태양광발전소 상세보기 페이지 호출
 function aj_selectRenewableEnergy(form, gid, param2){
-	loadingShowHide("show");
+	loadingBar("show");
 	
 	$('.bbs-list tbody tr').removeClass('active');
 	$('#'+gid).addClass('active');
-	cmmUtil.setCameraMove($('#'+gid).data('lon'), $('#'+gid).data('lat'));
+	// cmmUtil.setCameraMove($('#'+gid).data('lon'), $('#'+gid).data('lat'));
 	
-	if(!app2D){
-		rnen_sethigh(gid);
-	}
+	// if(!app2D){
+	// 	rnen_sethigh(gid);
+	// }
 	
 	var formData = new FormData(form);
 	if(gid != ''){
@@ -326,19 +332,19 @@ function aj_selectRenewableEnergy(form, gid, param2){
 		success : function(returnData, status){
 			if(status == "success") {		
 				$("#" + param2 + "SubPopup").append(returnData);
-			}else{ 
-				alert("ERROR!");
+			}else{
+				toastr.error("관리자에게 문의 바랍니다.", "정보를 불러오지 못했습니다.");
 				return;
 			} 
 		}, complete : function(){
-			loadingShowHide("hide"); 
+			loadingBar("hide"); 
 		}
 	});
 } 
 
 //태양광발전소 상세 > 수정페이지 열기
 function aj_updateRenewableEnergyView(form, param1, param2){
-	loadingShowHide("show");
+	loadingBar("show");
 	
 	var formData = new FormData(form);
 	if(param1 != ''){
@@ -356,19 +362,23 @@ function aj_updateRenewableEnergyView(form, param1, param2){
 		success : function(returnData, status){
 			if(status == "success") {		
 				$("#" + param2 + "SubPopup").append(returnData);
-			}else{ 
-				alert("ERROR!");
+			}else{
+				toastr.error("관리자에게 문의 바랍니다.", "정보를 불러오지 못했습니다.");
 				return;
 			} 
 		}, complete : function(){
-			loadingShowHide("hide"); 
+			loadingBar("hide"); 
 		}
 	});
 }
 
 // 태양광발전소 수정페이지 취소버튼
 $("#returnBack").unbind('click').bind('click',function(){
-	rightSubPopupOpen("selectRenewableEnergy", $(this).data('gid'), "right");
+	// rightSubPopupOpen("selectRenewableEnergy", $(this).data('gid'), "right");
+
+	openPopup("rightSubPopup");
+	aj_selectRenewableEnergy($("#tmpForm")[0], $(this).data('gid'), "right");
+
 });
 
 function rnenInputKeyup() {

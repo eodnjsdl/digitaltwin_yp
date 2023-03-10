@@ -205,7 +205,8 @@
  *----------------------------------------------------------------------------*/
 .popup-panel.popup-bottom {
 	top: auto;
-	bottom: 50px;
+	/*bottom: 50px;*/
+	bottom: 10px;
 	padding-top: 40px;
 	background-color: transparent;
 	box-shadow: none;

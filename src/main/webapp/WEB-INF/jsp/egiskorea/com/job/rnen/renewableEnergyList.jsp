@@ -6,7 +6,7 @@
 <%@ taglib prefix="ui" uri="http://egovframework.gov/ctl/ui"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <script src="/js/egiskorea/com/job/rnen/rnen.js"></script>
-<script src="/js/egiskorea/com/cmm/cmmUtil.js"></script>
+<%--<script src="/js/egiskorea/com/cmm/cmmUtil.js"></script>--%>
 <script type="text/javascript">
 // 3d poi
 var poiList = ${poiList};
@@ -24,7 +24,7 @@ var lastDraw = "<c:out value='${searchVO.renewableEnergyAreaDrawing}' />";
 
 $(".popup-reset").unbind('click').bind('click',function(){
 	rnenUi = '';
-	cmmUtil.drawClear();
+	// cmmUtil.drawClear();
 	bottomPopupOpen('renewableEnergy');
 });
 
