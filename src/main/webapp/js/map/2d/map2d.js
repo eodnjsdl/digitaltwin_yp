@@ -141,38 +141,12 @@ window.map2d = (function () {
         }
     }
 
-    function setInteraction(mod, options) {
-        let interaction = getInteraction(mod);
-        if (interaction !== _curInteraction) {
-            clearInteraction();
-        }
-
-        if (interaction) {
-            interaction.active(options);
-            _curInteraction = interaction;
-        }
+    function setInteraction(interaction) {
+        clearInteraction();
+        _curInteraction = interaction;
     }
 
-    function getInteraction(mod) {
-        let interaction
-        switch (mod) {
-            case 'distance':
-            case 'area' :
-            case 'radius':
-                interaction = map2d.measure;
-                break;
-            case 'location':
-                interaction = map2d.location;
-                break;
-            case 'draw':
-                interaction = map2d.draw;
-                break;
-            default :
-                interaction = undefined;
-                break;
-        }
-        return interaction;
-    }
+
 
     /**
      * 초기영역으로 이동

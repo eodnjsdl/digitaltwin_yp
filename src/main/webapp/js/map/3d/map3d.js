@@ -65,7 +65,7 @@ window.map3d = (function () {
             }
             // let centerVec = new Module.JSVector3D(center[0], center[1], center[2]);
             // _camera.setLocation(centerVec);
-            _camera.moveLonLatAlt(center[0], center[1], center[2],false)
+            _camera.moveLonLatAlt(center[0], center[1], center[2], false)
             // goHome();
 
             //3D 확장 모듈 초기화
@@ -236,35 +236,21 @@ window.map3d = (function () {
         map3d.layer.setVisible(id, visible);
     }
 
-    /**
-     * 상호작용 설정
-     * @param mod
-     */
-    function setInteraction(mod) {
-        clearInteraction();
-        switch (mod) {
-            case 'distance':
-                _curInteraction = map3d.measure.distance;
-                break;
-            case 'area' :
-                _curInteraction = map3d.measure.area;
-                break;
-            case 'radius':
-                _curInteraction = map3d.measure.radius;
-                break;
-            case 'location':
-                _curInteraction = map3d.location;
-                break;
-            default :
-                _curInteraction = undefined;
-                break;
-        }
-
+    function clearInteraction() {
         if (_curInteraction) {
-            _curInteraction.active();
+            if (_curInteraction.clear) {
+                _curInteraction.clear();
+            }
+            _curInteraction.dispose();
+            _curInteraction = undefined;
         }
-
     }
+
+    function setInteraction(interaction) {
+        clearInteraction();
+        _curInteraction = interaction;
+    }
+
 
     /**
      * 지도 데이터 초기화

@@ -235,8 +235,10 @@ map2d.measure = (function () {
      * @param {String} type 타입 `distance:거리, area:면적, radius:반경`
      */
     function active(type) {
+        map2d.setInteraction(this);
+
         const drawType = TYPE[type];
-        clearInteraction();
+        // clearInteraction();
         interaction = new ol.interaction.Draw({
             source: _source,
             type: drawType,
@@ -249,6 +251,7 @@ map2d.measure = (function () {
             e.feature.set("measure", true);
             e.feature.set("type", drawType);
         });
+
     }
 
     /**

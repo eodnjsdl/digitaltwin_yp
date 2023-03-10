@@ -149,7 +149,7 @@ $(document).ready(function () {
         }
         //측정기능 OFF
         $mapControl.find('.location, .distance, .measure, .radius').removeClass('active');
-        dtmap.setInteraction('move');
+        dtmap.clearInteraction();
 
         //패널 close
         $leftSide.removeClass('on');
@@ -164,9 +164,9 @@ $(document).ready(function () {
         $this.siblings().removeClass('active');
         $this.toggleClass('active');
         if ($this.hasClass('active')) {
-            dtmap.setInteraction('location');
+            dtmap.location.active();
         } else {
-            dtmap.setInteraction('move');
+            dtmap.clearInteraction();
         }
 
 
@@ -178,9 +178,9 @@ $(document).ready(function () {
         $this.siblings().removeClass('active');
         $this.toggleClass('active');
         if ($this.hasClass('active')) {
-            dtmap.setInteraction('distance');
+            dtmap.measure.active('distance');
         } else {
-            dtmap.setInteraction('move');
+            dtmap.clearInteraction();
         }
 
 
@@ -192,9 +192,9 @@ $(document).ready(function () {
         $this.siblings().removeClass('active');
         $this.toggleClass('active');
         if ($this.hasClass('active')) {
-            dtmap.setInteraction('area');
+            dtmap.measure.active('area');
         } else {
-            dtmap.setInteraction('move');
+            dtmap.clearInteraction();
         }
 
 
@@ -206,9 +206,9 @@ $(document).ready(function () {
         $this.siblings().removeClass('active');
         $this.toggleClass('active');
         if ($this.hasClass('active')) {
-            dtmap.setInteraction('radius');
+            dtmap.measure.active('radius');
         } else {
-            dtmap.setInteraction('move');
+            dtmap.clearInteraction();
         }
     })
 

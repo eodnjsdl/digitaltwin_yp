@@ -7,6 +7,7 @@ map3d.draw = (function () {
     }
 
     function active(options) {
+        map3d.setInteraction(this);
         let {type} = options;
 
         _type = type.toUpperCase();

@@ -33,6 +33,7 @@ map3d.measure = (function () {
         }
     }
     Measure.prototype.active = function () {
+        map3d.setInteraction(this);
         this.isActive = true;
         this.createLayer();
         this.addEventListener();
@@ -369,8 +370,24 @@ map3d.measure = (function () {
         return _text;
     }
 
+    /**
+     * 측정 활성화
+     * @param {String} type 타입 `distance:거리, area:면적, radius:반경`
+     */
+    function active(type) {
+        if (type === 'distance') {
+            _distance.active();
+        } else if (type === 'area') {
+            _area.active();
+        } else if (type === 'radius') {
+            _radius.active();
+        }
+
+    }
+
     let module = {
-        init: init
+        init: init,
+        active: active
     };
 
     Object.defineProperties(module, {

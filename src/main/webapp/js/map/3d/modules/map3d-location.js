@@ -12,6 +12,7 @@ map3d.location = (function () {
 
     function active() {
         if (!_isActive) {
+            map3d.setInteraction(this);
             map3d.canvas.addEventListener('click', onMouseDown);
             _isActive = true;
         }
@@ -21,7 +22,7 @@ map3d.location = (function () {
         if (_isActive) {
             map3d.canvas.removeEventListener('click', onMouseDown);
             map3d.overlay.removeById(OVERLAY_ID);
-            _element.innerHTML='';
+            _element.innerHTML = '';
             _isActive = false;
         }
     }
@@ -44,8 +45,8 @@ map3d.location = (function () {
             id: OVERLAY_ID,
             element: _element,
             position: position,
-            verticalAlign : 'bottom',
-            horizontalAlign : 'center'
+            verticalAlign: 'bottom',
+            horizontalAlign: 'center'
         });
 
 

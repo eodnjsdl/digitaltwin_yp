@@ -103,6 +103,7 @@ map2d.location = (function () {
      * 위치 정보 활성화
      */
     function active() {
+        map2d.setInteraction(this);
         map2d.map.on('click', onMapClick);
     }
 

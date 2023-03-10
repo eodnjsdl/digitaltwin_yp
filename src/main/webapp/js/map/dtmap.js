@@ -137,6 +137,16 @@ window.dtmap = (function () {
             get: function () {
                 return getModule().draw;
             }
+        },
+        'measure': {
+            get: function () {
+                return getModule().measure;
+            }
+        },
+        'location': {
+            get: function () {
+                return getModule().location;
+            }
         }
     })
 
