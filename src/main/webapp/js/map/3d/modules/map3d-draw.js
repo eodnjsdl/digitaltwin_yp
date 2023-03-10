@@ -1,21 +1,23 @@
 window.map3d = window.map3d || {}
 map3d.draw = (function () {
-    let _mode;
+    let _type;
 
     function init() {
 
     }
 
-    function active(mode) {
-        _mode = mode.toUpperCase();
+    function active(options) {
+        let {type} = options;
+
+        _type = type.toUpperCase();
         let state;
-        if (_mode === 'POINT') {
+        if (_type === 'POINT') {
             state = Module.MML_INPUT_POINT
-        } else if (_mode === 'LINE') {
+        } else if (_type === 'LINESTRING') {
             state = Module.MML_INPUT_LINE
-        } else if (_mode === 'BOX') {
+        } else if (_type === 'BOX') {
             state = Module.MML_INPUT_RECT
-        } else if (_mode === 'RADIUS') {
+        } else if (_type === 'CIRCLE') {
             state = Module.MML_INPUT_CIRCLE
         } else {
             state = Module.MML_MOVE_GRAB
@@ -31,30 +33,6 @@ map3d.draw = (function () {
         Module.getMap().clearInputPoint();
     }
 
-    function writeGeoJson() {
-        let coords = getCoordinates();
-        let geom;
-        if (_mode === 'POINT') {
-            //point
-            geom = new ol.geom.Point(coords[0])
-        } else if (_mode === 'LINE') {
-            //line
-            geom = new ol.geom.LineString(coords);
-        } else if (_mode === 'BOX' || _mode === 'RADIUS') {
-            //polygon
-            geom = new ol.geom.Polygon([coords]);
-        }
-
-        let feature = new ol.Feature({
-            geometry: geom
-        });
-        let format = new ol.format.GeoJSON();
-
-        return format.writeFeatures([feature]);
-
-
-    }
-
     function getCoordinates() {
         let coords = [];
         let list = Module.getMap().getInputPointList();
@@ -63,6 +41,17 @@ map3d.draw = (function () {
             coords.push([vec.Longitude, vec.Latitude, vec.Altitude]);
         }
         return coords;
+    }
+
+    function writeGeoJson() {
+        let feature = new ol.Feature({
+            geometry: getGeometry()
+        });
+        let format = new ol.format.GeoJSON();
+
+        return format.writeFeatures([feature]);
+
+
     }
 
     function readGeoJson(json) {
@@ -79,7 +68,28 @@ map3d.draw = (function () {
             }
 
         }
+    }
 
+    function writeWKT() {
+        const geom = getGeometry();
+        const format = new ol.format.WKT();
+        return format.writeGeometry(geom);
+    }
+
+    function getGeometry() {
+        let coords = getCoordinates();
+        let geom;
+        if (_type === 'POINT') {
+            //point
+            geom = new ol.geom.Point(coords[0])
+        } else if (_type === 'LINESTRING') {
+            //line
+            geom = new ol.geom.LineString(coords);
+        } else if (_type === 'BOX' || _type === 'CIRCLE') {
+            //polygon
+            geom = new ol.geom.Polygon([coords]);
+        }
+        return geom;
     }
 
 
@@ -89,6 +99,7 @@ map3d.draw = (function () {
         dispose: dispose,
         writeGeoJson: writeGeoJson,
         readGeoJson: readGeoJson,
+        writeWKT: writeWKT,
         clear: clear
     };
     return module;

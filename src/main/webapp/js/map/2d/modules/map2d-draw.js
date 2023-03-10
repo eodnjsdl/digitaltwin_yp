@@ -94,6 +94,7 @@ map2d.draw = (function () {
      * @param {StrokeOption} [options.stroke] 선색
      * @param {MarkerOption} [options.marker] 마커 (type="Marker" 일 경우에만 사용)
      * @param {TextOption} [options.text] 텍스트 (type="Text" 일 경우에만 사용)
+     * @param {boolean} [options.once] 한번만 그리기 (도형 그릴때 기존 도형 삭제)
      */
     function active(options) {
         dispose();
@@ -114,7 +115,7 @@ map2d.draw = (function () {
                 drawType = 'Point';
             } else {
                 geomFunction = undefined;
-                drawType = _drawOptions.type;
+                drawType = type;
             }
 
             _draw = new ol.interaction.Draw({
@@ -404,8 +405,29 @@ map2d.draw = (function () {
     }
 
     function onDrawStart(e) {
+        if (_drawOptions.once) {
+            _source.clear();
+        }
         e.feature.setProperties({style: _drawOptions});
         // console.log('set', e.feature.ol_uid, _drawOptions);
+    }
+
+    function writeWKT(index) {
+        const format = new ol.format.WKT();
+        const features = _source.getFeatures();
+        if (index !== undefined) {
+            const feature = features[index];
+            if (!feature) {
+                return;
+            }
+            return format.writeFeature(feature);
+
+
+        } else {
+            return format.writeFeatures(features);
+        }
+
+
     }
 
 
@@ -415,6 +437,7 @@ map2d.draw = (function () {
         dispose: dispose,
         writeGeoJson: writeGeoJson,
         readGeoJson: readGeoJson,
+        writeWKT: writeWKT,
         clear: clear
     }
 
