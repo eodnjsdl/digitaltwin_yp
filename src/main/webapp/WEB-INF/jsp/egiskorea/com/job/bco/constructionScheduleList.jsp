@@ -57,6 +57,7 @@
 			img : './images/poi/constructionSchedule_poi.png'
 		})
 	}
+	dtmap.poi.fit();
 </script>
 
 

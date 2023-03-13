@@ -57,6 +57,20 @@ map3d.layer.POI = (function () {
 
     }
 
+    POI.prototype.getExtent = function () {
+        let extent = [180, 90, -180, -90];
+        let list = this.instance.getObjects();
+        for (let i = 0; i < list.length; i++) {
+            let position = list[i].object.position;
+
+            extent[0] = extent[0] > position.Longitude ? position.Longitude : extent[0];
+            extent[1] = extent[1] > position.Latitude ? position.Latitude : extent[1];
+            extent[2] = extent[2] < position.Longitude ? position.Longitude : extent[2];
+            extent[3] = extent[3] < position.Latitude ? position.Latitude : extent[3];
+        }
+        return extent;
+    }
+
     /**
      * User POI 레이어
      */

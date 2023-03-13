@@ -276,7 +276,6 @@ function aj_insertUnderWaterAgriView(form, param1, param2){
 // 농업용공공관정 상세페이지 열기
 function aj_selectUnderWaterAgri(form, gid, param2){
 	loadingBar("show");
-
 	$('.bbs-list tbody tr').removeClass('active');
 	$('#'+gid).addClass('active');
 	// cmmUtil.setCameraMove($('#'+gid).data('lon'), $('#'+gid).data('lat'));
@@ -288,6 +287,7 @@ function aj_selectUnderWaterAgri(form, gid, param2){
 	var formData = new FormData(form);
 	if(gid != ''){
 		formData.append('gid', gid);
+		dtmap.poi.select(gid);
 	}
 
 	$.ajax({
@@ -318,6 +318,7 @@ function aj_updateUnderWaterAgriView(form, param1, param2){
 	var formData = new FormData(form);
 	if(param1 != ''){
 		formData.append('gid', param1);
+
 	}
 
 	$.ajax({

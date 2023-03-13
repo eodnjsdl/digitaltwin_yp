@@ -289,6 +289,7 @@ function aj_selectUnderWaterDevelop(form, gid, param2){
 	var formData = new FormData(form);
 	if(gid != ''){
 		formData.append('gid', gid);
+		dtmap.poi.select(gid);
 	}
 	
 	$.ajax({

@@ -4,7 +4,7 @@
 <%@ taglib prefix="ui" uri="http://egovframework.gov/ctl/ui" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
-<script src="/js/egiskorea/com/job/ugtm/ugtm.js"></script> 
+<script src="/js/egiskorea/com/job/ugtm/ugtm.js"></script>
 <script src="/js/egiskorea/com/job/ugtm/ugag/ugag.js"></script>
 <%--<script src="/js/egiskorea/com/cmm/cmmUtil.js"></script>--%>
 <script>
@@ -16,7 +16,7 @@ var lastManageSeSearch = "<c:out value='${searchVO.manageSeSearch}' />";
 var lastDetailPrposSeSearch = "<c:out value='${searchVO.detailPrposSeSearch}' />";
 var lastFcltsSttusSearch = "<c:out value='${searchVO.fcltsSttusSearch}' />";
 var lastSpitalSearch = "<c:out value='${searchVO.spitalSearch}' />";
-var lastBufferCnt = "<c:out value='${searchVO.bufferCnt}' />";	
+var lastBufferCnt = "<c:out value='${searchVO.bufferCnt}' />";
 
 var lastSelect = "<c:out value='${searchVO.underWaterAgriSelect}' />";
 var lastDraw = "<c:out value='${searchVO.underWaterAgriAreaDrawing}' />";
@@ -40,6 +40,7 @@ for (let i = 0; i < poiList.resultList.length; i++) {
 		img : './images/poi/underWaterAgri_poi.png'
 	})
 }
+dtmap.poi.fit();
 </script>
 <form:form name="selectUnderWaterAgriExcelList" id="searchForm" method="post" onsubmit="fn_select_list(); return false;">
 <input type="hidden" name="pageIndex" id="pageIndex" value="<c:out value='${searchVO.pageIndex}' />">
@@ -74,11 +75,11 @@ for (let i = 0; i < poiList.resultList.length; i++) {
 									<th scope="row">읍면동</th>
 									<td>
 										<select class="form-select ugtmSrch" id="emdKorNm" name="emdKorNm">
-											<option value="">전체</option> 
+											<option value="">전체</option>
 											<c:forEach items="${sccoEndList}" var="emdList" varStatus="status">
 												<option value="<c:out value='${emdList.emdKorNm}' />" <c:if test="${searchVO.emdKorNm == emdList.emdKorNm}">selected</c:if>>
 													<c:out value="${emdList.emdKorNm}" />
-												</option>																
+												</option>
 											</c:forEach>
 										</select>
 									</td>
@@ -91,7 +92,7 @@ for (let i = 0; i < poiList.resultList.length; i++) {
 											<c:forEach items="${manageSeList}" var="manageSeList" varStatus="status">
 												<option value="<c:out value='${manageSeList.manageSe}' />" <c:if test="${searchVO.manageSeSearch == manageSeList.manageSe}">selected</c:if>>
 													<c:out value="${manageSeList.manageSe}" />
-												</option>																
+												</option>
 											</c:forEach>
 										</select>
 									</td>
@@ -104,7 +105,7 @@ for (let i = 0; i < poiList.resultList.length; i++) {
 											<c:forEach items="${detailPrposSeList}" var="detailPrposSeList" varStatus="status">
 												<option value="<c:out value='${detailPrposSeList.detailPrposSe}' />" <c:if test="${searchVO.detailPrposSeSearch == detailPrposSeList.detailPrposSe}">selected</c:if>>
 													<c:out value="${detailPrposSeList.detailPrposSe}" />
-												</option>																
+												</option>
 											</c:forEach>
 										</select>
 									</td>
@@ -117,7 +118,7 @@ for (let i = 0; i < poiList.resultList.length; i++) {
 											<c:forEach items="${fcltsSttusList}" var="fcltsSttusList" varStatus="status">
 												<option value="<c:out value='${fcltsSttusList.fcltsSttus}' />" <c:if test="${searchVO.fcltsSttusSearch == fcltsSttusList.fcltsSttus}">selected</c:if>>
 													<c:out value="${fcltsSttusList.fcltsSttus}" />
-												</option>																
+												</option>
 											</c:forEach>
 										</select>
 									</td>
@@ -152,7 +153,7 @@ for (let i = 0; i < poiList.resultList.length; i++) {
 					</div>
 					<div class="btn-wrap">
 						<div><button type="button" class="btn type01 search" onClick="fn_select_list('spital');">조회</button></div>
-					</div>									
+					</div>
 				</div>
 			</div>
 		</div>
@@ -161,8 +162,8 @@ for (let i = 0; i < poiList.resultList.length; i++) {
 			<div class="bbs-top">
 				<div class="bbs-list-num">조회결과 : <strong><c:out value="${resultCnt}" /></strong>건</div>
 				<div>
-					<button type="button" class="btn basic bi-write" onClick="fn_select_regist();">등록</button> 
-					<button type="button" class="btn basic bi-excel" id="ugagExcelDownload" data-form-name="selectUnderWaterAgriExcelList">엑셀저장</button> 
+					<button type="button" class="btn basic bi-write" onClick="fn_select_regist();">등록</button>
+					<button type="button" class="btn basic bi-excel" id="ugagExcelDownload" data-form-name="selectUnderWaterAgriExcelList">엑셀저장</button>
 				</div>
 			</div>
 			<div class="bbs-list-wrap" style="height: 267px;"><!-- pagination 하단 고정을 위해 반드시 필요 -->
@@ -251,7 +252,7 @@ for (let i = 0; i < poiList.resultList.length; i++) {
 						</table>
 					</div>
 				</div>
-				
+
 				<div class="pagination">
 					<ui:pagination paginationInfo="${paginationInfo}" type="pagination" jsFunction="fn_select_linkPage"/>
 				</div>
@@ -263,5 +264,5 @@ for (let i = 0; i < poiList.resultList.length; i++) {
 <button type="button" class="manualBtn" title="도움말" onclick="manualTab('지하수관리')"></button>
 <button type="button" class="popup-close" title="닫기" onClick="removeLayer(); cmmUtil.drawClear();"></button>
 <button type="button" class="popup-reset" class="초기화"></button>
-<button type="button" class="popup-bottom-toggle" onclick="toggleFold(this);" title="접기"></button>					
+<button type="button" class="popup-bottom-toggle" onclick="toggleFold(this);" title="접기"></button>
 <!-- //업무 > 공간정보활용 > 지하수관리 -->

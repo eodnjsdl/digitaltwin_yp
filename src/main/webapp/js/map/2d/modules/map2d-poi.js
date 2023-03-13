@@ -111,13 +111,20 @@ map2d.poi = (function () {
         })
     }
 
+    function fit() {
+        if (_source && _source.getFeatures().length > 0) {
+            map2d.view.fit(_source.getExtent());
+        }
+    }
+
     let module = {
         init: init,
         addPoi: addPoi,
         removePoi: removePoi,
         select: select,
         clear: clear,
-        dispose: dispose
+        dispose: dispose,
+        fit: fit
     }
 
     Object.defineProperties(module, {

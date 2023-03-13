@@ -261,12 +261,6 @@ window.map3d = (function () {
         $('.ctrl-group>button').removeClass('active');
     }
 
-    function clearInteraction() {
-        if (_curInteraction) {
-            _curInteraction.dispose();
-            _curInteraction = undefined;
-        }
-    }
 
     /**
      * 초기영역으로 이동
@@ -321,6 +315,7 @@ window.map3d = (function () {
         getCenter: getCenter,
         showLayer: showLayer,
         setInteraction: setInteraction,
+        clearInteraction: clearInteraction,
         clear: clear,
         goHome: goHome,
         setBaseLayer: setBaseLayer

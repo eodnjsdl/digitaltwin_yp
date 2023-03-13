@@ -27,6 +27,20 @@ $(".popup-reset").unbind('click').bind('click',function(){
 	bottomPopupOpen('undergroundWaterDevelop');
 });
 
+//Poi 추가
+dtmap.poi.clear();
+for (let i = 0; i < poiList.resultList.length; i++) {
+	let poi = poiList.resultList[i];
+	dtmap.poi.addPoi({
+		id : poi.gid,
+		coordinate : [Number(poi.lon),Number(poi.lat)],
+		crs : 'EPSG:5179',
+		text : poi.adres,
+		properties : poi,
+		img : './images/poi/underWaterDevelop_poi.png'
+	})
+}
+dtmap.poi.fit();
 </script>
 <form:form name="selectUnderWaterDevelopExcelList" id="searchForm" method="post" onsubmit="fn_select_list(); return false;">
 <input type="hidden" name="pageIndex" id="pageIndex" value="<c:out value='${searchVO.pageIndex}' />">

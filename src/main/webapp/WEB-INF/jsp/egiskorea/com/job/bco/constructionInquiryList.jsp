@@ -72,6 +72,7 @@
 			img :'./images/poi/constructionSchedule_poi.png'
 		})
 	}
+	dtmpa.poi.fit();
 </script>
 
 <!-- 업무 > 공간정보활용 > 사업공유관리 -->

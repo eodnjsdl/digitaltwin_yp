@@ -95,6 +95,7 @@
 			img : './images/poi/constructionPlan_poi.png'
 		})
 	}
+	dtmap.poi.fit();
 
 </script>
 <!-- 업무 > 공간정보활용 > 사업공유관리 -->

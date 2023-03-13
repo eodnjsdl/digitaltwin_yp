@@ -40,7 +40,7 @@ map3d.poi = (function () {
         }
         //TODO 하이라이트 기능 개발
 
-        
+
         // const icon = poi.getIcon();
         // const {width, height} = icon.getNormalSize();
         //
@@ -82,6 +82,13 @@ map3d.poi = (function () {
         console.log(_layer);
     }
 
+    function fit() {
+        let extent = _layer.getExtent();
+        let min = new Module.JSVector2D(extent[0], extent[1]);
+        let max = new Module.JSVector2D(extent[2], extent[3])
+        Module.getViewCamera().moveLonLatBoundary(min, max);
+    }
+
 
     let module = {
         init: init,
@@ -89,7 +96,8 @@ map3d.poi = (function () {
         removePoi: removePoi,
         select: select,
         clear: clear,
-        dispose: dispose
+        dispose: dispose,
+        fit: fit
     }
 
     Object.defineProperties(module, {
