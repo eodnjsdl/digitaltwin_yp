@@ -1728,3 +1728,7 @@
 	border-radius: 50%;
 	background-color: #44516A;
 }
+
+.popup-draggable {
+	z-index: 401;
+}

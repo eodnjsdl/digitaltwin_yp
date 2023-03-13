@@ -58,7 +58,7 @@
 						</div>
 
 						<div class="chart-box">
-							<div id="apptChart" class="chart-txt"><p>보고싶은 차트를 선택해 주세요</p></div>
+							<div id="apptChart" class="chart-txt"><p>차트를 선택해 주세요.</p></div>
 						</div>
 					</div>
 				</div>

@@ -82,13 +82,13 @@
 											<col style="width: 50px;">
 										</colgroup>
 										<tbody>
-											<tr>
-												<td>양평읍</td>
-												<td>11㎍/㎥</td>
-												<td>7㎍/㎥</td>
-												<td>50</td>
-												<td><button type="button" class="icon-btn stats dataPopup leftSubPopup" id="atmospherePollution" data-popup="atmospherePollution" title="대기관측소"></button></td>
-											</tr>
+<%--											<tr>--%>
+<%--												<td>양평읍</td>--%>
+<%--												<td>11㎍/㎥</td>--%>
+<%--												<td>7㎍/㎥</td>--%>
+<%--												<td>50</td>--%>
+<%--												<td><button type="button" class="icon-btn stats dataPopup leftSubPopup" id="atmospherePollution" data-popup="atmospherePollution" title="대기관측소"></button></td>--%>
+<%--											</tr>--%>
 										</tbody>
 									</table>
 								</div>

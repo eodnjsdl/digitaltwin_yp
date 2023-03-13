@@ -1079,7 +1079,7 @@
 							</div>
 	
 							<div class="chart-box">
-								<div class="chart-txt" style=""><p>보고싶은 차트를 선택해 주세요</p></div>
+								<div class="chart-txt" style=""><p>차트를 선택해 주세요.</p></div>
 							</div>
 						</div>
 					</div>

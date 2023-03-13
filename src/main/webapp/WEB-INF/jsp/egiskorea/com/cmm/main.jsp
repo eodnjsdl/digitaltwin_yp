@@ -505,12 +505,12 @@
         <!-- //left-sub popup-panel -->
 
         <!-- right popup-panel -->
-        <div id="rightPopup" class="popup-panel popup-right">
+        <div id="rightPopup" class="popup-panel popup-right popup-draggable">
         </div>
         <!-- //right popup-panel -->
 
         <!-- right-sub popup-panel -->
-        <div id="rightSubPopup" class="popup-panel popup-sub">
+        <div id="rightSubPopup" class="popup-panel popup-sub popup-draggable">
         </div>
         <!-- //right-sub popup-panel -->
 
@@ -1231,7 +1231,7 @@
                     </div>
 
                     <div class="chart-box">
-                        <div class="chart-txt" style=""><p>보고싶은 차트를 선택해 주세요</p></div>
+                        <div class="chart-txt" style=""><p>차트를 선택해 주세요.</p></div>
                     </div>
                 </div>
             </div>

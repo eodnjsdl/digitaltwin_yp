@@ -252,13 +252,13 @@ function setPointLayer(){
 function aj_selectInBusinessEstaInfo(form, no, param2){
 	loadingBar("show");
 	
-	$('.bbs-list tbody tr').removeClass('active');
-	$('#'+no).addClass('active');
-	cmmUtil.setCameraMove($('#'+no).data('lon'), $('#'+no).data('lat'));
+	// $('.bbs-list tbody tr').removeClass('active');
+	// $('#'+no).addClass('active');
+	// cmmUtil.setCameraMove($('#'+no).data('lon'), $('#'+no).data('lat'));
 	
-	if(!app2D){
-		ibbi_sethigh(no);
-	}
+	// if(!app2D){
+	// 	ibbi_sethigh(no);
+	// }
 	
 	var formData = new FormData(form);
 	if(no != ''){

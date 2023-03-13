@@ -1,4 +1,13 @@
 $(document).ready(function () {
+
+    /**
+     *  popup draggable
+     */
+    $(".popup-draggable").draggable({
+        containment: "#container",
+        cancel: ""
+    });
+
     /**
      *  Left Menu
      */

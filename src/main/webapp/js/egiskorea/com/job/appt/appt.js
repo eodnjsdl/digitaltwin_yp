@@ -29,18 +29,18 @@ function aj_selectAtmospherePollution(ms) {
 	
 	
 	var poi = './images/poi/nomal_poi.png'
-	var layerList = new Module.JSLayerList(true);
+	// var layerList = new Module.JSLayerList(true);
 //	var poiLayer = layerList.createLayer("Appt_Poi", Module.ELT_3DPOINT);
 	
 	// 생성되어 있는 POI 레이어가 있을때 지워주기
-    if(GLOBAL.LayerId.PoiLayerId != null){
-		  layerList.nameAtLayer(GLOBAL.LayerId.PoiLayerId).removeAll();
-		  GLOBAL.LayerId.PoiLayerId = null;
-		  Module.XDRenderData();
-	  }
+    // if(GLOBAL.LayerId.PoiLayerId != null){
+	// 	  layerList.nameAtLayer(GLOBAL.LayerId.PoiLayerId).removeAll();
+	// 	  GLOBAL.LayerId.PoiLayerId = null;
+	// 	  Module.XDRenderData();
+	//   }
     
-    GLOBAL.LayerId.PoiLayerId = "Appt_Poi";
-    GLOBAL.PoiLayer = layerList.createLayer(GLOBAL.LayerId.PoiLayerId, Module.ELT_3DPOINT);
+    // GLOBAL.LayerId.PoiLayerId = "Appt_Poi";
+    // GLOBAL.PoiLayer = layerList.createLayer(GLOBAL.LayerId.PoiLayerId, Module.ELT_3DPOINT);
 //    apptPopupCloseEvent()
     
     
@@ -60,19 +60,19 @@ function aj_selectAtmospherePollution(ms) {
 		var pointY = pointArray[1]
 					
 					
-		var position = TransformCoordinate(pointX, pointY, 26, 13);
-		var options = {
-				layer : GLOBAL.PoiLayer,
-				lon : position.x,
-				lat : position.y,
-				text : '양평읍', // 객체별 네이밍 체크 
-				markerImage : poi, // 해당 마커 이미지 Url -- "./images/poi/cctv_water_level.png"
-				lineColor : new Module.JSColor(0, 0, 255)
-		}
-		createLinePoi2(options);
+		// var position = TransformCoordinate(pointX, pointY, 26, 13);
+		// var options = {
+		// 		layer : GLOBAL.PoiLayer,
+		// 		lon : position.x,
+		// 		lat : position.y,
+		// 		text : '양평읍', // 객체별 네이밍 체크
+		// 		markerImage : poi, // 해당 마커 이미지 Url -- "./images/poi/cctv_water_level.png"
+		// 		lineColor : new Module.JSColor(0, 0, 255)
+		// }
+		// createLinePoi2(options);
 //		GLOBAL.Camera.setTilt(88.0);
 //		GLOBAL.Camera.setLocation(new Module.JSVector3D(pointX , pointY , 1000));
-		cmmUtil.setCameraMove(pointX, pointY);
+// 		cmmUtil.setCameraMove(pointX, pointY);
 	}
 	
 	if( ms == 'yongMunMyeon' ) {
@@ -84,20 +84,20 @@ function aj_selectAtmospherePollution(ms) {
 		var pointArray = ol.proj.transform([x,y],'EPSG:4326','EPSG:5179')
 		var pointX = pointArray[0]
 		var pointY = pointArray[1]
-				
-		var position = TransformCoordinate(pointX, pointY, 26, 13);
-		var options = {
-				layer : GLOBAL.PoiLayer,
-				lon : position.x,
-				lat : position.y,
-				text : '용문면', // 객체별 네이밍 체크 
-				markerImage : poi, // 해당 마커 이미지 Url -- "./images/poi/cctv_water_level.png"
-				lineColor : new Module.JSColor(0, 0, 255)
-		}
-		createLinePoi2(options);
+
+		// var position = TransformCoordinate(pointX, pointY, 26, 13);
+		// var options = {
+		// 		layer : GLOBAL.PoiLayer,
+		// 		lon : position.x,
+		// 		lat : position.y,
+		// 		text : '용문면', // 객체별 네이밍 체크
+		// 		markerImage : poi, // 해당 마커 이미지 Url -- "./images/poi/cctv_water_level.png"
+		// 		lineColor : new Module.JSColor(0, 0, 255)
+		// }
+		// createLinePoi2(options);
 //		GLOBAL.Camera.setTilt(88.0);
 //		GLOBAL.Camera.setLocation(new Module.JSVector3D(pointX , pointY , 1000));
-		cmmUtil.setCameraMove(pointX, pointY);
+// 		cmmUtil.setCameraMove(pointX, pointY);
 	}
 	
 	/*
@@ -124,7 +124,7 @@ function aj_selectAtmospherePollution(ms) {
 var openYangPyeongEup = function(){
 	
 //		debugger;
-	loadingShowHide("show");
+	loadingBar("show");
 	$(".popup-sub").removeClass("opened").html("");
 	
 	var formData = new FormData();
@@ -186,11 +186,11 @@ var openYangPyeongEup = function(){
 				
 				
 			}else{ 
-				alert("ERROR!");
+				toastr.error("관리자에게 문의 바랍니다.", "정보를 불러오지 못했습니다.");
 				return;
 			} 
 		}, complete : function(){
-			loadingShowHide("hide"); 
+			loadingBar("hide"); 
 		}
 	});
 		
@@ -201,7 +201,7 @@ var openYangPyeongEup = function(){
 var openYongMunMyeon = function(){
 	
 //	debugger;
-	loadingShowHide("show");
+	loadingBar("show");
 	$(".popup-sub").removeClass("opened").html("");
 	
 	var formData = new FormData();
@@ -246,11 +246,11 @@ var openYongMunMyeon = function(){
 				chartInit()
 				
 			}else{ 
-				alert("ERROR!");
+				toastr.error("관리자에게 문의 바랍니다.", "정보를 불러오지 못했습니다.");
 				return;
 			} 
 		}, complete : function(){
-			loadingShowHide("hide"); 
+			loadingBar("hide"); 
 		}
 	});
 	
@@ -263,7 +263,7 @@ var openYongMunMyeon = function(){
 
 // 최초 init시
 function apptList(ypeUrl, ymmUrl) {
-	
+
 	// datetimepicker
 	jQuery.datetimepicker.setLocale('kr')
 	jQuery(function(){
@@ -291,11 +291,12 @@ function apptList(ypeUrl, ymmUrl) {
 	// 기준일시 표기
 	$("#standardDateTime").append(dateString + ' ' + currentHour + ':00')
 	
-	loadingShowHide("show"); 
+	loadingBar("show"); 
 	
-	// 조회시 테이블 리스트 삭제
-	$(".appt-table.bbs-list tbody").empty();
-	
+	// // 조회시 테이블 리스트 삭제
+	// $(".appt-table.bbs-list tbody").empty();
+
+	var dataList = "";
 	// 양평읍
 	$.ajax({
 		type : "get",
@@ -305,49 +306,54 @@ function apptList(ypeUrl, ymmUrl) {
 //			console.log('Air pollution 양평읍')
 //			console.log(data)
 			yangPyeongEupData = data.response.body.items;
-			var dataList = '<tr>'
-						 +  	'<td>양평읍</td>'
-//						 +  	'<td>' + yangPyeongEupData[0]. + '</td>'
-						 +  	'<td>' + yangPyeongEupData[0].pm10Value + '㎍/㎥</td>'
-						 +  	'<td>' + yangPyeongEupData[0].pm25Value + '㎍/㎥</td>'
-						 +  	'<td>' + yangPyeongEupData[0].khaiGrade + '  </td>'
-						 +  	'<td>'
-						 +			'<button type="button" class="icon-btn stats appt yangPyeongEup" onclick="aj_selectAtmospherePollution(\'yangPyeongEup\')" title="대기관측소"></button>'
-						 +		'</td>'
-						 + '</tr>'
+			dataList += '<tr>'
+			 dataList += '<td>양평읍</td>'
+//			 dataList += '<td>' + yangPyeongEupData[0]. + '</td>'
+			 dataList += '<td>' + yangPyeongEupData[0].pm10Value + '㎍/㎥</td>'
+			 dataList += '<td>' + yangPyeongEupData[0].pm25Value + '㎍/㎥</td>'
+			 dataList += '<td>' + yangPyeongEupData[0].khaiGrade + '  </td>'
+			 dataList += '<td>'
+			 dataList += '<button type="button" class="icon-btn stats appt yangPyeongEup" onclick="aj_selectAtmospherePollution(\'yangPyeongEup\')" title="대기관측소"></button>'
+			 dataList += '</td>'
+			 dataList += '</tr>'
 					 
-			$(".appt-table.bbs-list tbody").append(dataList);
+			// $(".appt-table.bbs-list tbody").append(dataList);
 			
 		}, complete : function(){
-			loadingShowHide("hide"); 
-		}
-	});
-	
-	
-	// 용문면
-	$.ajax({
-		type : "get",
-		url : "/proxy.do?url=" + encodeURIComponent(ymmUrl),
-	    dataType : 'json',
-		success : function(data, status){
+			// loadingBar("hide");
+
+			// 용문면
+			$.ajax({
+				type : "get",
+				url : "/proxy.do?url=" + encodeURIComponent(ymmUrl),
+				dataType : 'json',
+				success : function(data, status){
+					// 조회시 테이블 리스트 삭제
+					$(".appt-table.bbs-list tbody").empty();
 //			console.log('Air pollution 용문면')
 //			console.log(data)
-			yongMunMyeonData = data.response.body.items;
-			
-			var dataList = '<tr>'
-						 +  	'<td>용문면</td>'
-						 +  	'<td>' + yongMunMyeonData[0].pm10Value + '㎍/㎥</td>'
-						 +  	'<td>' + yongMunMyeonData[0].pm25Value + '㎍/㎥</td>'
-						 +  	'<td>' + yongMunMyeonData[0].khaiGrade + '  </td>'
-						 +  	'<td><button type="button" class="icon-btn stats appt yongMunMyeon" onclick="aj_selectAtmospherePollution(\'yongMunMyeon\')" title="대기관측소"></button></td>'
-						 + '</tr>'
-				 
-			$(".appt-table.bbs-list tbody").append(dataList);
-			
-		}, complete : function(){
-			loadingShowHide("hide"); 
+					yongMunMyeonData = data.response.body.items;
+
+					dataList += '<tr>'
+					dataList +=  '<td>용문면</td>'
+					dataList +=  '<td>' + yongMunMyeonData[0].pm10Value + '㎍/㎥</td>'
+					dataList +=  '<td>' + yongMunMyeonData[0].pm25Value + '㎍/㎥</td>'
+					dataList +=  '<td>' + yongMunMyeonData[0].khaiGrade + '  </td>'
+					dataList +=  '<td><button type="button" class="icon-btn stats appt yongMunMyeon" onclick="aj_selectAtmospherePollution(\'yongMunMyeon\')" title="대기관측소"></button></td>'
+					dataList += '</tr>'
+
+					$(".appt-table.bbs-list tbody").append(dataList);
+
+				}, complete : function(){
+					loadingBar("hide");
+				}
+			});
+
 		}
 	});
+	
+	
+
 	
 	
 	// 측정소 api
@@ -373,7 +379,7 @@ function apptList(ypeUrl, ymmUrl) {
 		success : function(data, status){
 			yPEMeasuringStation = data.response.body.items;
 		}, complete : function(){
-			loadingShowHide("hide"); 
+			loadingBar("hide");
 		}
 	});
 	
@@ -386,7 +392,7 @@ function apptList(ypeUrl, ymmUrl) {
 		success : function(data, status){
 			yMMMeasuringStation = data.response.body.items;
 		}, complete : function(){
-			loadingShowHide("hide"); 
+			loadingBar("hide");
 		}
 	});
 	

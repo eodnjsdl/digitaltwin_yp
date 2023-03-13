@@ -934,10 +934,6 @@ function aj_selectInBusinessEstaInfoList(form, searchType){
 	}
 
 	var spitalSearch = '';
-	var	formData = new FormData(form);
-
-	// 공간검색
-	// if(searchType == 'spital' && ibbiFlag == 'true') {
 	// 	// spitalSearch = cmmUtil.spitalSearch('inBusinessEstaInfo');
 	// } else if (searchType == 'spital' && ibbiFlag == 'false') {
 	// 	spitalSearch = lastSpitalSearch;

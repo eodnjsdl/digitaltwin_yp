@@ -157,7 +157,7 @@ function openPopup(area, name, direction, param2) {
             _area.right = "80";
             _area.left = "unset";
             _area.width = "550";
-            _area.heigth = "460";
+            _area.heigth = "480";
             break;
     }
 
