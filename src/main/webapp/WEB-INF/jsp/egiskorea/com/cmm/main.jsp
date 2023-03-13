@@ -84,16 +84,16 @@
     <script src="/js/map/3d/modules/map3d-location.js"></script>
     <script src="/js/map/3d/modules/map3d-draw.js"></script>
     <script src="/js/map/3d/modules/map3d-poi.js"></script>
-    <script src="/js/map/3d/layer/map3d-base.js"></script>
-    <script src="/js/map/3d/layer/map3d-group.js"></script>
-    <script src="/js/map/3d/layer/map3d-wms.js"></script>
-    <script src="/js/map/3d/layer/map3d-wfs.js"></script>
-    <script src="/js/map/3d/layer/map3d-poi.js"></script>
-    <script src="/js/map/3d/layer/map3d-csv.js"></script>
-    <script src="/js/map/3d/layer/map3d-3ds.js"></script>
-    <script src="/js/map/3d/layer/map3d-img.js"></script>
-    <script src="/js/map/3d/layer/map3d-shp.js"></script>
-    <script src="/js/map/3d/layer/map3d-facility.js"></script>
+    <script src="/js/map/3d/layer/map3d-layer-base.js"></script>
+    <script src="/js/map/3d/layer/map3d-layer-group.js"></script>
+    <script src="/js/map/3d/layer/map3d-layer-wms.js"></script>
+    <script src="/js/map/3d/layer/map3d-layer-wfs.js"></script>
+    <script src="/js/map/3d/layer/map3d-layer-poi.js"></script>
+    <script src="/js/map/3d/layer/map3d-layer-csv.js"></script>
+    <script src="/js/map/3d/layer/map3d-layer-3ds.js"></script>
+    <script src="/js/map/3d/layer/map3d-layer-img.js"></script>
+    <script src="/js/map/3d/layer/map3d-layer-shp.js"></script>
+    <script src="/js/map/3d/layer/map3d-layer-facility.js"></script>
 
     <!-- 양평 레이어 상수 -->
     <script src="/js/map/yp-layer.js"></script>
