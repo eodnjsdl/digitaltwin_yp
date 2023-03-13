@@ -103,6 +103,7 @@ window.map3d = (function () {
         map3d.overlay.init();
         map3d.location.init();
         map3d.measure.init();
+        map3d.poi.init();
     }
 
     //window resize Event

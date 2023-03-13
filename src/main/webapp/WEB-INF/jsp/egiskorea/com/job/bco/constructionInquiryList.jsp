@@ -66,6 +66,7 @@
 		dtmap.poi.addPoi({
 			id : poi.cntrkPrrngId,
 			coordinate : [Number(poi.lon),Number(poi.lat)],
+			crs : 'EPSG:5179',
 			text : poi.cntrkNm,
 			properties : poi,
 			img :'./images/poi/constructionSchedule_poi.png'

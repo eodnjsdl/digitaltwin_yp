@@ -32,15 +32,29 @@ map3d.layer.POI = (function () {
      */
     POI.prototype.addPoi = function (options) {
         drawPoi.call(this, {
+            id: options.id,
             lon: options.coordinate[0],
             lat: options.coordinate[1],
             text: options.text,
-            markerImage: options.image,
+            img: options.img,
             lineColor: new Module.JSColor(255, 255, 255),
-            type: data.poiType,
+            // type: data.poiType,
             poiColor: options.poiColor,
 
         });
+    }
+
+    POI.prototype.getPoi = function (id) {
+        let list = this.instance.getObjects();
+        let poi;
+        for (let i = 0; i < list.length; i++) {
+            if (list[i].key === id || list[i].key === this.id + '_' + id) {
+                poi = list[i].object
+                break;
+            }
+        }
+        return poi;
+
     }
 
     /**
@@ -82,7 +96,7 @@ map3d.layer.POI = (function () {
                             lon: list[i].lon,
                             lat: list[i].lat,
                             text: list[i].text,
-                            markerImage: "./images/poi/" + data.poiImg,
+                            img: "./images/poi/" + data.poiImg,
                             lineColor: new Module.JSColor(255, 255, 255),
                             type: data.poiType,
                             poiColor: data.poiColor,
@@ -96,8 +110,14 @@ map3d.layer.POI = (function () {
 
 
     function drawPoi(options) {
-        let poiId = this.id + "_" + this.instance.getObjectCount();
-        let point = Module.createPoint(poiId);
+        let id;
+        if (options.id === undefined) {
+            id = this.id + "_" + this.instance.getObjectCount();
+        } else {
+            id = this.id + '_' + options.id;
+        }
+
+        let point = Module.createPoint(id);
         // z값 구해서 넣기
         let alt = Module.getMap().getTerrHeightFast(Number(options.lon), Number(options.lat));
         point.setPosition(new Module.JSVector3D(options.lon, options.lat, alt));
@@ -107,49 +127,21 @@ map3d.layer.POI = (function () {
         point.setText(String(options.text));
 
         // 이미지 형태
-        if (options.type !== "C") {
+        if (options.img) {
             // POI 이미지 로드
             var img = new Image();
             img.onload = function () {
                 // 이미지 로드 후 캔버스에 그리기
                 var canvas = document.createElement('canvas');
                 var ctx = canvas.getContext('2d');
-
                 ctx.width = img.width;
                 ctx.height = img.height;
                 ctx.drawImage(img, 0, 0);
 
                 let imageData = ctx.getImageData(0, 0, this.width, this.height).data;
-
-                // 하이라이트 POI 등록
-                if (options.highlight !== undefined) {
-                    if (options.highlight) {
-                        let bResult = Module.getSymbol().insertIcon(poiId, imageData, ctx.width, ctx.height);
-
-                        if (bResult) {
-                            this.instance.keyAtObject(poiId.replaceAll("_on", "")).setHighlightIcon(Module.getSymbol().getIcon(poiId));
-                        }
-                    }
-                } else {
-                    let imgUrl = options.markerImage;
-
-                    imgUrl = imgUrl.split(".")[0] + imgUrl.split(".")[1] + "_on." + imgUrl.split(".")[2];
-
-                    options.markerImage = imgUrl;
-                    options.highlight = true;
-                    options.layerKey = poiId + "_on";
-
-                    drawPoi(options);
-
-                    point.setText(String(options.text));
-                    point.setImage(imageData, this.width, this.height);
-                }
-
-                point.setHighlight(false);
-
-
+                point.setImage(imageData, this.width, this.height);
             };
-            img.src = options.markerImage;
+            img.src = options.img;
         } else { // 원형
             // 이미지 로드 후 캔버스에 그리기
             let canvas = document.createElement('canvas');

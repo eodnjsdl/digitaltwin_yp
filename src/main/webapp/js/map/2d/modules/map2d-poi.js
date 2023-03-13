@@ -20,11 +20,18 @@ map2d.poi = (function () {
      * @param options
      * @param {number} [options.id]
      * @param {number[]} options.coordinate
+     * @param {string} options.crs
      * @param {string} options.text
      * @param {string} options.img
      * @param {object} [options.properties]
      */
     function addPoi(options) {
+        if (options.crs) {
+            if (options.crs !== map2d.crs) {
+                options.coordinate = ol.proj.transform(options.coordinate, options.crs, map2d.crs);
+            }
+        }
+
         const geom = new ol.geom.Point(options.coordinate);
         const feature = new ol.Feature({
             geometry: geom
