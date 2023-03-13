@@ -72,6 +72,7 @@
     <script src="/js/map/2d/modules/map2d-measure.js"></script>
     <script src="/js/map/2d/modules/map2d-location.js"></script>
     <script src="/js/map/2d/modules/map2d-draw.js"></script>
+    <script src="/js/map/2d/modules/map2d-poi.js"></script>
 
     <!-- 3D Map js -->
     <script src="/js/map/3d/map3d.js"></script>
@@ -82,6 +83,7 @@
     <script src="/js/map/3d/modules/map3d-overlay.js"></script>
     <script src="/js/map/3d/modules/map3d-location.js"></script>
     <script src="/js/map/3d/modules/map3d-draw.js"></script>
+    <script src="/js/map/3d/modules/map3d-poi.js"></script>
     <script src="/js/map/3d/layer/map3d-base.js"></script>
     <script src="/js/map/3d/layer/map3d-group.js"></script>
     <script src="/js/map/3d/layer/map3d-wms.js"></script>
@@ -95,9 +97,6 @@
 
     <!-- 양평 레이어 상수 -->
     <script src="/js/map/yp-layer.js"></script>
-
-
-
 
 
     <!-- 업무 관련 -->

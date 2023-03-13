@@ -42,7 +42,20 @@
 	
 	// 년도 분기 값 세팅
 	callSelectOptions();
-	
+
+
+	//Poi 추가
+	dtmap.poi.clear();
+	for (let i = 0; i < poiListSchedule.resultList.length; i++) {
+		let poi = poiListSchedule.resultList[i];
+		dtmap.poi.addPoi({
+			id : poi.cntrkPrrngId,
+			coordinate : [Number(poi.lon),Number(poi.lat)],
+			text : poi.cntrkNm,
+			properties : poi,
+			img : './images/poi/constructionSchedule_poi.png'
+		})
+	}
 </script>
 
 

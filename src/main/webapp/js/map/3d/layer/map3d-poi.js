@@ -33,6 +33,14 @@ map3d.layer.POI = (function () {
     function createObjectPOI(options) {
         let {id, table} = options;
         let layer = map3d.userLayers.createObjectLayer({name: id, type: Module.ELT_3DPOINT});
+        if (table) {
+            getObjectList(id, table);
+        }
+        this.serviceType = 'user';
+        return layer;
+    }
+
+    function getObjectList(id, table) {
         $.ajax({
             type: "POST",
             url: "/lyr/lyi/selectLayerInfoList.do",
@@ -67,8 +75,6 @@ map3d.layer.POI = (function () {
                 }
             }
         });
-        this.serviceType = 'user';
-        return layer;
     }
 
 

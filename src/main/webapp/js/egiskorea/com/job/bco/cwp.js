@@ -81,6 +81,7 @@ $(document).ready(function(){ // 실행할 기능을 정의해주세요.
 
 	// poi 표출 리스트 확인후 값이 있을때 poi생성
 	if(Number(poiListPlan.resultCnt) != 0){
+
 		//cmmUtil.setPointLayer(poiListPlan.resultList, cwp.layerTextKey, cwp.layerId, cwp.imgUrl);
 		if(poiListPlan != ''){
 			//setPlanPointLayer();
@@ -188,7 +189,7 @@ function callSelectOptions(){
 function aj_selectConstructionPlan(keyId){
 	poiListPlan = '';
 	loadingBar("show");
-
+	dtmap.poi.select(keyId);
 	var form = $("#searchPlanForm")[0];
 	var formData = new FormData(form);
 

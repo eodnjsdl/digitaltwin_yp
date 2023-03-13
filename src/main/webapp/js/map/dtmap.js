@@ -143,6 +143,11 @@ window.dtmap = (function () {
             get: function () {
                 return getMap().location;
             }
+        },
+        'poi': {
+            get: function () {
+                return getMap().poi;
+            }
         }
     })
 

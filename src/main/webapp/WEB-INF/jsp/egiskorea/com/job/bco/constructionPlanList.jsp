@@ -82,6 +82,18 @@
 
 	callSelectOptions();
 
+	//Poi 추가
+	dtmap.poi.clear();
+	for (let i = 0; i < poiListPlan.resultList.length; i++) {
+		let poi = poiListPlan.resultList[i];
+		dtmap.poi.addPoi({
+			id : poi.cntrkPlnId,
+			coordinate : [Number(poi.lon),Number(poi.lat)],
+			text : poi.cntrkNm,
+			properties : poi,
+			img : './images/poi/constructionPlan_poi.png'
+		})
+	}
 
 </script>
 <!-- 업무 > 공간정보활용 > 사업공유관리 -->

@@ -15,9 +15,9 @@
 <%--<script src="/js/egiskorea/com/cmm/cmmUtil.js"></script>--%>
 
 <script type="text/javascript">
-	
+
    	// callDatePicker();
-	
+
    	var rePlnYear = "<c:out value='${searchVO.plnYear}'></c:out>";
 	// 시기 - 분기
 	var rePlnQu = "<c:out value='${searchVO.plnQu}'></c:out>";
@@ -31,32 +31,45 @@
 	var reCntrkNm = "<c:out value='${searchVO.cntrkNm}'></c:out>";
 	// 유형 - 담당자
 	var reChpsnNm = "<c:out value='${searchVO.chpsnNm}'></c:out>";
-	
+
 	// 공간조회 - 년도
 	var rePlnYearSp = "<c:out value='${searchVO.plnYearSp}'></c:out>";
 	// 공간조회 - 분기
 	var rePlnQuSp = "<c:out value='${searchVO.plnQuSp}'></c:out>";
 	// 공간조회 - 위치
 	var reCntrkLcAdresSp = "<c:out value='${searchVO.cntrkLcAdresSp}'></c:out>";
-	
+
 	// 공간조회 - 반경
 	var reRadius = "<c:out value='${searchVO.radius}'></c:out>";
-	
+
 	var geomSp = "<c:out value='${searchVO.geomSp}'></c:out>";
-	
+
 	// 페이징 번호
 	var rePageIndex = "<c:out value='${searchVO.pageIndex}'></c:out>";
-	
+
 	var rePageType = "<c:out value='${searchVO.pageType}'></c:out>";
-   	// 마커표출 리스트 
+   	// 마커표출 리스트
    	var poiListInquiry = ${poiList};
-   	
+
 	// 년도 분기 값 세팅
 	constructionInquiryOptions();
-	
+
 	function setType(type){
 		rePageType = type;
 		cwi.uiType = type;
+	}
+
+	//Poi 추가
+	dtmap.poi.clear();
+	for (let i = 0; i < poiListInquiry.resultList.length; i++) {
+		let poi = poiListInquiry.resultList[i];
+		dtmap.poi.addPoi({
+			id : poi.cntrkPrrngId,
+			coordinate : [Number(poi.lon),Number(poi.lat)],
+			text : poi.cntrkNm,
+			properties : poi,
+			img :'./images/poi/constructionSchedule_poi.png'
+		})
 	}
 </script>
 
@@ -64,7 +77,7 @@
 <!-- <div class="popup-panel popup-left work-01-01" style="left: 320px;width: 515px;height: 807px;"> -->
 	<div class="popup-header">사업공유관리</div>
 	<div class="popup-body">
-		<div class="left-popup-body">						
+		<div class="left-popup-body">
 			<div class="tabBoxDepth1-wrap">
 				<div class="tabBoxDepth1">
 					<ul>
@@ -75,7 +88,7 @@
 				</div>
 				<!-- 공사정보 조회 -->
 				<div class="tab-cont constructionInquiry on" id="divConstructionInquiry">
-					
+
 					<div class="tabBoxDepth2-wrap marB20">
 						<div class="tabBoxDepth2">
 							<ul>
@@ -98,7 +111,7 @@
 												<td>
 													<select name="plnYear" id="plnYear" class="form-select w-auto" style="width: 49.5%;">
 														<option value="">전체</option>
-													</select> 
+													</select>
 													<select name="plnQu" id="plnQu" class="form-select w-auto" style="width: 49.5%;">
 														<option value="">전체</option>
 													</select>
@@ -130,8 +143,8 @@
 															<select class="form-select" id="cntrkLcAdres" name="cntrkLcAdres">
 																<option value="">전체</option>
 																<c:forEach items="${sccoEndList}" var="emdList" varStatus="status">
-																	<option value="<c:out value='${emdList.emdKorNm}'></c:out>"><c:out value="${emdList.emdKorNm}"></c:out></option>																
-																</c:forEach>								
+																	<option value="<c:out value='${emdList.emdKorNm}'></c:out>"><c:out value="${emdList.emdKorNm}"></c:out></option>
+																</c:forEach>
 															</select>
 														</div>
 													</div>
@@ -149,7 +162,7 @@
 								</div>
 							</form:form>
 						</div>
-						
+
 						<div class="tab-cont constructionInfo02">
 							<form:form name="searchInquiryForm2" id="searchInquiryForm2" method="post" onsubmit="fn_selectInquiry_linkPage(1); return false;">
 								<input type="hidden" name="pageIndex" id="pageIndex2" value="<c:out value='${searchVO.pageIndex}' />">
@@ -172,7 +185,7 @@
 												<td>
 													<select name="plnYearSp" id="plnYearSp" class="form-select w-auto" style="width: 49.5%;">
 														<option value="">전체</option>
-													</select> 
+													</select>
 													<select name="plnQuSp" id="plnQuSp" class="form-select w-auto" style="width: 49.5%;">
 														<option value="">전체</option>
 													</select>
@@ -182,7 +195,7 @@
 												<th scope="row" class="align-top">위치</th>
 												<td>
 													<div class="form-row">
-														<div class="col"><input type="text" class="form-control" name="cntrkLcAdresSp" id="cntrkLcAdresSp" readonly></div> 
+														<div class="col"><input type="text" class="form-control" name="cntrkLcAdresSp" id="cntrkLcAdresSp" readonly></div>
 														<div class="col-auto"><button type="button" class="btn type01 bi-location" id="getInquiryPosition" name="getInquiryPosition">지도에서 선택</button></div>
 													</div>
 												</td>
@@ -199,10 +212,10 @@
 								</div>
 								<input type="hidden" name="pageType" id="pageType" value="<c:out value='${searchVO.pageType}' />">
 								<input type="hidden" name="geomSp" id="geomSp" value="">
-							</form:form>	
+							</form:form>
 						</div>
 					</div>
-					
+
 
 					<div class="bbs-top">
 						<div class="bbs-list-num">조회결과 : <strong><c:out value="${resultCnt}"></c:out></strong>건</div>
@@ -252,7 +265,7 @@
 											<tr>
 												<td colspan="4">데이터가 없습니다.</td>
 											</tr>
-										</c:if>	 
+										</c:if>
 									</tbody>
 								</table>
 							</div>
@@ -269,6 +282,6 @@
 	<button type="button" class="manualBtn" title="도움말" onclick="manualTab('사업공유관리')"></button>
 	<button type="button" class="popup-close" title="닫기" onclick="removeLayer(); destroy();"></button>
 	<button type="button" class="popup-reset" class="초기화" onclick="removeInquiryPage()"></button>
-	<button type="button" class="popup-left-toggle" title="접기"></button>					
+	<button type="button" class="popup-left-toggle" title="접기"></button>
 <!-- </div> -->
 <!-- //업무 > 공간정보활용 > 사업공유관리 -->		

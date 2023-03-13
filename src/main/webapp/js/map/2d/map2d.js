@@ -61,6 +61,7 @@ window.map2d = (function () {
         map2d.baseLayer.init();
         map2d.measure.init();
         map2d.draw.init();
+        map2d.poi.init();
     }
 
     /**
