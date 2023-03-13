@@ -9,7 +9,7 @@
 
 </script>
 
-<div class="popup-panel popup-sub opened" style="bottom: 398px;right: 70px;width: 550px;height: 445px;" id="selectSafetyFacilCctvMng">
+<%--<div class="popup-panel popup-sub opened" style="bottom: 398px;right: 70px;width: 550px;height: 445px;" id="selectSafetyFacilCctvMng">--%>
 	<div class="popup-header">CCTV관리 상세보기</div>
 	<div class="popup-body">
 		<div class="sub-popup-body">
@@ -64,6 +64,7 @@
 					<div>
 						<button type="button" class="btn basic bi-edit" onclick="CCTV.updateCctv('<c:out value="${result.gid}"/>', '<c:out value="${result.deviceid}"/>', '<c:out value="${result.gbn}"/>', '<c:out value="${result.label}"/>', '<c:out value="${result.lat}"/>', '<c:out value="${result.lon}"/>', '<c:out value="${result.lgsrAdr}"/>');">수정</button> 
 						<button type="button" class="btn basic bi-delete2" onclick="CCTV.deleteCctv('<c:out value="${result.gid}"/>');">삭제</button>
+						<button type="button" class="btn basic bi-cancel closeSub">취소</button>
 					</div>
 				</div>
 			</div>							

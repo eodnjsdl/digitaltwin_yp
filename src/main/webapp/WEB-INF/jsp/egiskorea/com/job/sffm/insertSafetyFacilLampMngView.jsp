@@ -9,7 +9,7 @@
 callDatePicker();
 </script>
 
-<div class="popup-panel popup-sub opened" style="bottom: 398px;right: 70px;width: 550px;height: 445px;" id="insertSafetyFacilLampMngView">
+<%--<div class="popup-panel popup-sub opened" style="bottom: 398px;right: 70px;width: 550px;height: 445px;" id="insertSafetyFacilLampMngView">--%>
 	<div class="popup-header" id="sffm-title-div">가로등관리 등록하기</div>
 	<div class="popup-body">
 		<div class="sub-popup-body">
@@ -50,11 +50,16 @@ callDatePicker();
 					</div>
 				</div>
 				<div class="position-bottom btn-wrap" id="sffm-btn-div">
-					<div><button type="button" class="btn basic bi-write2" onclick="SFFM.insertSffm();">등록</button> <button type="button" class="btn basic bi-cancel closeSub" onclick="SFFM.cancelModal();WLRE.removeCmmPOI();">취소</button></div>
+					<div>
+						<button type="button" class="btn basic bi-write2" onclick="SFFM.insertSffm();">등록</button>
+						<button type="button" class="btn basic bi-cancel closeSub"
+								onclick="SFFM.cancelModal();SFFM.removeCmmPOI();">취소
+						</button>
+					</div>
 				</div>
 			</div>							
 		</div>
 	</div>
-	<button type="button" class="popup-close" title="닫기" onclick="SFFM.cancelModal();WLRE.removeCmmPOI();"></button>				
+	<button type="button" class="popup-close" title="닫기" onclick="SFFM.cancelModal();SFFM.removeCmmPOI();"></button>
 </div>
 <!-- //업무 > 공간정보활용 > 안전시설물관리 > 가로등관리 등록하기 -->

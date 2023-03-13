@@ -8,7 +8,7 @@
 <script>
 </script>
 
-<div class="popup-panel popup-sub opened" style="bottom: 398px;right: 70px;width: 550px;height: 445px;" id="insertSafetyFacilCctvMngView">
+<%--<div class="popup-panel popup-sub opened" style="bottom: 398px;right: 70px;width: 550px;height: 445px;" id="insertSafetyFacilCctvMngView">--%>
 	<div class="popup-header" id="cctv-title-div">CCTV관리 등록하기</div>
 	<div class="popup-body">
 		<div class="sub-popup-body">
@@ -58,7 +58,11 @@
 					</div>
 				</div>
 				<div class="position-bottom btn-wrap" id="cctv-btn-div">
-					<div><button type="button" class="btn basic bi-write2" onclick="CCTV.insertCctv();">등록</button> <button type="button" class="btn basic bi-cancel closeSub" onclick="CCTV.removeCmmPOI();">취소</button></div>
+					<div>
+						<button type="button" class="btn basic bi-write2" onclick="CCTV.insertCctv();">등록</button>
+						<button type="button" class="btn basic bi-cancel closeSub" onclick="CCTV.removeCmmPOI();">취소
+						</button>
+					</div>
 				</div>
 			</div>							
 		</div>

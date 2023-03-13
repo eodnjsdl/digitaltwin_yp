@@ -5,7 +5,7 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <script src="/js/egiskorea/com/job/cctv/cctv.js"></script>
-<script src="/js/egiskorea/com/cmm/cmmUtil.js"></script>
+<%--<script src="/js/egiskorea/com/cmm/cmmUtil.js"></script>--%>
 <script>
 	$(document).ready(function() {
 		CCTV.init();
@@ -13,12 +13,14 @@
 
 	// 가로등관리 등록페이지 열기 버튼
 	$("#insertSafetyFacilCctvMngView").on("click", function() {
-		CCTV.aj_insertSafetyFacilCctvMngView();
+		openPopup("rightSubPopup");
+		CCTV.aj_insertSafetyFacilCctvMngView($("#tmpForm")[0], "", "right");
 	});
 
 	// 가로등관리 상세페이지 열기
 	function fn_select_cctv_detail(gid, lon, lat) {
-		CCTV.aj_selectSafetyFacilCctvMng(gid, lon, lat);
+		openPopup("rightSubPopup");
+		CCTV.aj_selectSafetyFacilCctvMng($("#tmpForm")[0], gid, "right");
 	}
 </script>
 <!-- 업무 > 공간정보활용 > 안전시설물관리 -->

@@ -1,7 +1,7 @@
 $(document).ready(function(){
 	callDatePicker();
 	if(poiList != ""){
-		setPointLayer();
+		// setPointLayer();
 	}
 });
 
@@ -56,9 +56,13 @@ function fn_select_linkPage(pageNo){
 // 관내업소정보 상세페이지 열기
 $("tr[name='inBusiDtl']").unbind('click').bind('click',function(){
 	//cmmUtil.setCameraMove($(this).data('lon'), $(this).data('lat'));
-	cmmUtil.setPoiHighlightRemove(); //기존 활성화 되어 있는 아이콘 모두 비활성화 해주기.
-	cmmUtil.setPoiHighlight('YP_BSSH_INFO', $(this).data('no'));
-	rightSubPopupOpen("selectInBusinessEstaInfo", $(this).data('no'), "right");
+	// cmmUtil.setPoiHighlightRemove(); //기존 활성화 되어 있는 아이콘 모두 비활성화 해주기.
+	// cmmUtil.setPoiHighlight('YP_BSSH_INFO', $(this).data('no'));
+	// rightSubPopupOpen("selectInBusinessEstaInfo", $(this).data('no'), "right");
+
+	openPopup("rightSubPopup");
+	aj_selectInBusinessEstaInfo($("#tmpForm")[0], $(this).data('no'), "right");
+
 })
 
 // 하이라이트
@@ -246,7 +250,7 @@ function setPointLayer(){
 
 // 관내업소정보 상세페이지 호출 ajax
 function aj_selectInBusinessEstaInfo(form, no, param2){
-	loadingShowHide("show");
+	loadingBar("show");
 	
 	$('.bbs-list tbody tr').removeClass('active');
 	$('#'+no).addClass('active');
@@ -276,11 +280,11 @@ function aj_selectInBusinessEstaInfo(form, no, param2){
 					scrollbarPosition:"outside"
 				});
 			}else{ 
-				alert("ERROR!");
+				toastr.error("관리자에게 문의 바랍니다.", "정보를 불러오지 못했습니다.");
 				return;
 			} 
 		}, complete : function(){
-			loadingShowHide("hide"); 
+			loadingBar("hide");
 		}
 	});
 }

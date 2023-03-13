@@ -271,10 +271,10 @@ function aj_selectSafetyFacilitiesMngList(form, searchType){
 					}
 
 					// POI 호출
-					SFFM.selectSffmPOIList(searchInstlDe, searchAdres, searchManageNo, spitalSearch, sffmBuffer);
+					// SFFM.selectSffmPOIList(searchInstlDe, searchAdres, searchManageNo, spitalSearch, sffmBuffer);
 					// 공간검색 영역 저장
-					SFFM.spitalSearch = spitalSearch;
-					SFFM.sffmBuffer = sffmBuffer;
+					// SFFM.spitalSearch = spitalSearch;
+					// SFFM.sffmBuffer = sffmBuffer;
 				}else{
 					toastr.error("관리자에게 문의 바랍니다.", "정보를 불러오지 못했습니다.");
 					return;
@@ -937,11 +937,11 @@ function aj_selectInBusinessEstaInfoList(form, searchType){
 	var	formData = new FormData(form);
 
 	// 공간검색
-	if(searchType == 'spital' && ibbiFlag == 'true') {
-		// spitalSearch = cmmUtil.spitalSearch('inBusinessEstaInfo');
-	} else if (searchType == 'spital' && ibbiFlag == 'false') {
-		spitalSearch = lastSpitalSearch;
-	}
+	// if(searchType == 'spital' && ibbiFlag == 'true') {
+	// 	// spitalSearch = cmmUtil.spitalSearch('inBusinessEstaInfo');
+	// } else if (searchType == 'spital' && ibbiFlag == 'false') {
+	// 	spitalSearch = lastSpitalSearch;
+	// }
 	formData.set("spitalSearch", spitalSearch);
 
 	$.ajax({

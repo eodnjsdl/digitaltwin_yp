@@ -2,55 +2,55 @@
  * 안전시설물관리 js
  */
 var CCTV = {
-	LOCAL_URL : "http://localhost",
-	GEO_URL : geoServer,
-	spitalSearch : '',
-	cctvBuffer : '0',
-	Layer : null,
+	// LOCAL_URL : "http://localhost",
+	// GEO_URL : geoServer,
+	// spitalSearch : '',
+	// cctvBuffer : '0',
+	// Layer : null,
 	// CCTV관리 초기 실행함수
 	init : function() {
 		// 레이어 지우기
 		//cleanMap();
 		
-		Module.XDSetMouseState(6);
-		Module.canvas.addEventListener('Fire_EventSelectedObject', CCTV.PoiSelect);
-		
-		CCTV.spitalSearch == '';
-		$("input[name=cctvAreaDrawing]").attr('disabled', true);
-		$("#cctvBuffer").prop('readonly', true);
-		CCTV.removeCmmPOI();
-		
-		var spitalChk = $("input[name=cctvSelect]:checked").val();
-		if(spitalChk == '1') {
-			$(".areaSrchTool").hide();
-		} else {
-			$(".areaSrchTool").show();
-		}
-		
-		// CCTV관리 공간검색
-		$("input[name=cctvAreaDrawing]").on('click', function() {
-			var chk2 = $("input[name=cctvAreaDrawing]:checked").val();
-			cmmUtil.spitalDraw(chk2);
-		});
-		
-		$("input[name=cctvSelect]").on('change', function() {
-			var chk = $("input[name=cctvSelect]:checked").val();
-			var chk2 = $("input[name=cctvAreaDrawing]:checked").val();
-				
-			if(chk == '1') {
-				$("input[name=cctvAreaDrawing]").prop("checked", false);
-				$(".areaSrchTool").hide();
-				$("input[name=cctvAreaDrawing]").attr('disabled', true);
-				$("#cctvBuffer").prop('readonly', true);
-				$("#cctvBuffer").val('0');
-				cmmUtil.drawClear();
-			} else {
-				$("input[name=cctvAreaDrawing]").attr('disabled', false);
-				$(".areaSrchTool").show();
-				$("#cctvBuffer").prop('readonly', false);
-				cmmUtil.spitalDraw(chk2);
-			}
-		}); 
+		// Module.XDSetMouseState(6);
+		// Module.canvas.addEventListener('Fire_EventSelectedObject', CCTV.PoiSelect);
+		//
+		// CCTV.spitalSearch == '';
+		// $("input[name=cctvAreaDrawing]").attr('disabled', true);
+		// $("#cctvBuffer").prop('readonly', true);
+		// CCTV.removeCmmPOI();
+		//
+		// var spitalChk = $("input[name=cctvSelect]:checked").val();
+		// if(spitalChk == '1') {
+		// 	$(".areaSrchTool").hide();
+		// } else {
+		// 	$(".areaSrchTool").show();
+		// }
+		//
+		// // CCTV관리 공간검색
+		// $("input[name=cctvAreaDrawing]").on('click', function() {
+		// 	var chk2 = $("input[name=cctvAreaDrawing]:checked").val();
+		// 	cmmUtil.spitalDraw(chk2);
+		// });
+		//
+		// $("input[name=cctvSelect]").on('change', function() {
+		// 	var chk = $("input[name=cctvSelect]:checked").val();
+		// 	var chk2 = $("input[name=cctvAreaDrawing]:checked").val();
+		//
+		// 	if(chk == '1') {
+		// 		$("input[name=cctvAreaDrawing]").prop("checked", false);
+		// 		$(".areaSrchTool").hide();
+		// 		$("input[name=cctvAreaDrawing]").attr('disabled', true);
+		// 		$("#cctvBuffer").prop('readonly', true);
+		// 		$("#cctvBuffer").val('0');
+		// 		cmmUtil.drawClear();
+		// 	} else {
+		// 		$("input[name=cctvAreaDrawing]").attr('disabled', false);
+		// 		$(".areaSrchTool").show();
+		// 		$("#cctvBuffer").prop('readonly', false);
+		// 		cmmUtil.spitalDraw(chk2);
+		// 	}
+		// });
 		
 		/*$(".popup-panel .popup-bottom-toggle").each(function() {
 			$(this).click(function(){
@@ -68,10 +68,10 @@ var CCTV = {
 			$(".popup-sub").removeClass("opened");
 			
 			// WMS 레이어 삭제
-			if(GLOBAL.layerWMS != null){
-				delWMSLayer(GLOBAL.layerWMS)
-				GLOBAL.layerWMS = null
-			}
+			// if(GLOBAL.layerWMS != null){
+			// 	delWMSLayer(GLOBAL.layerWMS)
+			// 	GLOBAL.layerWMS = null
+			// }
 			if(this.value == "lamp") {
 				document.searchForm.pageIndex.value = 1;
 				SFFMspitalYN = '';
@@ -119,35 +119,49 @@ var CCTV = {
 		aj_selectCctvList($("#searchForm")[0]);
 	},
 	// CCTV관리 등록하기 페이지 호출
-	aj_insertSafetyFacilCctvMngView : function() {
-		loadingShowHide("show");
-		$(".popup-sub").removeClass("opened").html("");
-		
+	aj_insertSafetyFacilCctvMngView : function(form, param1, param2) {
+		loadingBar("show");
+		// $(".popup-sub").removeClass("opened").html("");
+
+		var formData = new FormData(form);
+
 		$.ajax({
 			type : "POST",
 			url : "/job/cctv/insertSafetyFacilCctvMngView.do",
 			dataType : "html",
 			async: false,
 			success : function(returnData, status){
-				if(status == "success") {		
-					$("#container").append(returnData);
-				}else{ 
-					alert("ERROR!");
+				// if(status == "success") {
+				// 	$("#container").append(returnData);
+				// }else{
+				// 	toastr.error("관리자에게 문의 바랍니다.", "정보를 불러오지 못했습니다.");
+				// 	return;
+				// }
+				if(status == "success") {
+					$("#" + param2 + "SubPopup").append(returnData);
+				}else{
+					toastr.error("관리자에게 문의 바랍니다.", "정보를 불러오지 못했습니다.");
 					return;
-				} 
+				}
 			}, complete : function(){
-				loadingShowHide("hide"); 
+				loadingBar("hide"); 
 			}
 		});
 	},
 	// CCTV 상세보기 페이지 호출
-	aj_selectSafetyFacilCctvMng : function(gid, lon, lat) {
-		loadingShowHide("show");
-		$(".popup-sub").removeClass("opened").html("");
-		cmmUtil.setCameraMove(parseFloat(lon), parseFloat(lat), true);
+	aj_selectSafetyFacilCctvMng : function(form, param1, param2) {
+		loadingBar("show");
+		// $(".popup-sub").removeClass("opened").html("");
+		// cmmUtil.setCameraMove(parseFloat(lon), parseFloat(lat), true);
 		
-		var formData = new FormData();
-		formData.append('gid', gid);
+		// var formData = new FormData();
+		// formData.append('gid', gid);
+
+		var formData = new FormData(form);
+		if(param1 != ''){
+			formData.append('gid', param1);
+		}
+
 		
 		$.ajax({
 			type : "POST",
@@ -158,39 +172,47 @@ var CCTV = {
 			contentType : false,
 			async: false,
 			success : function(returnData, status){
-				if(status == "success") {		
-					$("#container").append(returnData);
-				}else{ 
-					alert("ERROR!");
-					return;
-				} 
+				// if(status == "success") {
+				// 	$("#container").append(returnData);
+				// }else{
+				// 	toastr.error("관리자에게 문의 바랍니다.", "정보를 불러오지 못했습니다.");
+				// 	return;
+				// }
 				
-				if(!app2D) {
-					Module.getMap().clearSelectObj();
-					Module.XDRenderData()
-					var layerList = new Module.JSLayerList(true);
-					var layer = layerList.nameAtLayer('CCTV_POI');
-					
-					for(var i = 0; i < layer.getObjectCount(); i++) {
-						var point = layer.indexAtObject(i);
-						var strArr = point.getId().split('_');
-						var poi_gid = strArr[0];
-						
-						if(poi_gid == gid){
-							point.setHighlight(true);
-						} else {
-							point.setHighlight(false);
-						}
-					}
-					
-					$('.bbs-list tbody tr').removeClass('active');
-					$("#cctv_"+gid).addClass("active");
-				} else {
-					cmmUtil.setPoiHighlightRemove(); //기존 활성화 되어 있는 아이콘 모두 비활성화 해주기.
-					cmmUtil.setPoiHighlight('CCTV_POI', gid);
+				// if(!app2D) {
+				// 	Module.getMap().clearSelectObj();
+				// 	Module.XDRenderData()
+				// 	var layerList = new Module.JSLayerList(true);
+				// 	var layer = layerList.nameAtLayer('CCTV_POI');
+				//
+				// 	for(var i = 0; i < layer.getObjectCount(); i++) {
+				// 		var point = layer.indexAtObject(i);
+				// 		var strArr = point.getId().split('_');
+				// 		var poi_gid = strArr[0];
+				//
+				// 		if(poi_gid == gid){
+				// 			point.setHighlight(true);
+				// 		} else {
+				// 			point.setHighlight(false);
+				// 		}
+				// 	}
+				//
+				// 	$('.bbs-list tbody tr').removeClass('active');
+				// 	$("#cctv_"+gid).addClass("active");
+				// } else {
+				// 	cmmUtil.setPoiHighlightRemove(); //기존 활성화 되어 있는 아이콘 모두 비활성화 해주기.
+				// 	cmmUtil.setPoiHighlight('CCTV_POI', gid);
+				// }
+
+				if(status == "success") {
+					$("#" + param2 + "SubPopup").append(returnData);
+				}else{
+					toastr.error("관리자에게 문의 바랍니다.", "정보를 불러오지 못했습니다.");
+					return;
 				}
+
 			}, complete : function(){
-				loadingShowHide("hide"); 
+				loadingBar("hide"); 
 			}
 		});
 	},
@@ -200,17 +222,19 @@ var CCTV = {
 				gid: gid
 		}
 		if(confirm("삭제하시겠습니까?") == true){
-			loadingShowHide("show");
+			loadingBar("show");
 			$.ajax({
 				url:"/job/cctv/deleteCctv.do",
 				type: "POST",
 				data: jsonData,
 				dataType: 'json',
 				success:function(result) {
-				    alert("정상적으로 삭제되었습니다.");
-					bottomPopupOpen("safetyFacilitiesCctv");
+					toastr.success("정상적으로 삭제되었습니다.");
+					// bottomPopupOpen("safetyFacilitiesCctv");
+					openPopup("bottomPopup");
+					aj_selectCctvList($("#tmpForm")[0]);
 				}, complete : function(){
-					loadingShowHide("hide"); 
+					loadingBar("hide"); 
 				}
 			});
 	    } else {
@@ -221,18 +245,18 @@ var CCTV = {
 	setLocation : function() {
 		cmmUtil.getPositionGeom(CCTV.positionCallback);
 		
-		var lat = 0;
-		var lon = 0;
-		
-		canvas.onmouseup = function (e) {
-			var vPosition = Module.getMap().ScreenToMapPointEX(new Module.JSVector2D(e.x, e.y));
-			lat = vPosition.Latitude;
-			lon = vPosition.Longitude;
-			
-			$('#cctv-location').val(lat.toFixed(5) + "," + lon.toFixed(5));
-			
-			canvas.onmouseup = '';
-		}
+		// var lat = 0;
+		// var lon = 0;
+		//
+		// canvas.onmouseup = function (e) {
+		// 	var vPosition = Module.getMap().ScreenToMapPointEX(new Module.JSVector2D(e.x, e.y));
+		// 	lat = vPosition.Latitude;
+		// 	lon = vPosition.Longitude;
+		//
+		// 	$('#cctv-location').val(lat.toFixed(5) + "," + lon.toFixed(5));
+		//
+		// 	canvas.onmouseup = '';
+		// }
 	},
 	positionCallback : function(pointGeom, address) {
 		$("#cctv-adres").val("경기도 " + address);
@@ -279,7 +303,7 @@ var CCTV = {
 		}
 		
 		if(confirm("등록하시겠습니까?") == true){
-			loadingShowHide("show");
+			loadingBar("show");
 			$.ajax({
 				url:"/job/cctv/insertCctv.do",
 				type: "POST",
@@ -287,9 +311,11 @@ var CCTV = {
 				dataType: 'json',
 				success:function(result) {
 				    alert("정상적으로 등록되었습니다.");
-					bottomPopupOpen("safetyFacilitiesCctv");
+					// bottomPopupOpen("safetyFacilitiesCctv");
+					openPopup("bottomPopup");
+					aj_selectCctvList($("#tmpForm")[0]);
 				}, complete : function(){
-					loadingShowHide("hide"); 
+					loadingBar("hide"); 
 					CCTV.removeCmmPOI();
 				}
 			});
@@ -300,7 +326,9 @@ var CCTV = {
 	// CCTV관리 수정
 	updateCctv : function(gid, deviceid, gbn, label, lat, lon, adres) {
 		CCTV.getCode(gbn, 'update');
-		CCTV.aj_insertSafetyFacilCctvMngView();
+		// CCTV.aj_insertSafetyFacilCctvMngView();
+		openPopup("rightSubPopup");
+		CCTV.aj_insertSafetyFacilCctvMngView($("#tmpForm")[0], "", "right");
 		
 		var btnHtml = '<div><button type="button" class="btn basic bi-save" id="cctv-update-ok" onclick="CCTV.updateOkCctv('+gid+');fn_select_cctv_detail('+gid+', '+lon+', '+lat+');">저장</button> <button type="button" class="btn basic bi-cancel" onclick="fn_select_cctv_detail('+gid+', '+lon+', '+lat+');CCTV.removeCmmPOI();">취소</button></div>'
 		$("#cctv-title-div").html("CCTV관리 수정하기");		
@@ -351,7 +379,7 @@ var CCTV = {
 				adres: adres
 		}
 		if(confirm("수정하시겠습니까?") == true){
-			loadingShowHide("show");
+			loadingBar("show");
 			$.ajax({
 				url:"/job/cctv/updateCctv.do",
 				type: "POST",
@@ -359,9 +387,11 @@ var CCTV = {
 				dataType: 'json',
 				success:function(result) {
 				    alert("정상적으로 수정되었습니다.");
-				    bottomPopupOpen("safetyFacilitiesCctv");
+				    // bottomPopupOpen("safetyFacilitiesCctv");
+					openPopup("bottomPopup");
+					aj_selectCctvList($("#tmpForm")[0]);
 				}, complete : function(){
-					loadingShowHide("hide"); 
+					loadingBar("hide"); 
 					CCTV.removeCmmPOI();
 				}
 			});
@@ -388,118 +418,118 @@ var CCTV = {
 	        processData: false,
 			success:function(result) {
 			    var data = result.resultList;
-			    if(app2D) {
-			    	const format = new ol.format.GeoJSON();
-					const features = [];
-					data.forEach((item) => {
-						const geometry = new ol.geom.Point([parseFloat(item["lon"]), parseFloat(item["lat"])]);
-						const feature = new ol.Feature(geometry.transform("EPSG:4326", store.getPrj()));
-						feature.setId(item["gid"]);
-						features.push(feature);
-					});
-					if(features.length > 0) {
-						const geojson = format.writeFeatures(features)
-						cmmUtil.highlightFeatures(geojson, "./images/poi/cctv_poi.png", { notMove: true, onClick: function(feature) {
-							$(`.bbs-list tr[data-gid='${feature.getId()}']`).trigger('click');
-						}});
-					} else {
-						cmmUtil.clearHighlight();
-					}		
-			    }
-			    else {
-			    	var layerList = new Module.JSLayerList(true);
-				    
-				    // POI 레이어 삭제
-					if(GLOBAL.LayerId.PoiLayerId != null){
-						layerList.nameAtLayer(GLOBAL.LayerId.PoiLayerId).removeAll();
-						GLOBAL.LayerId.PoiLayerId = null;
-						Module.XDRenderData();
-					}
-					// Polygon 레이어 삭제
-					if(GLOBAL.LayerId.PolygonLayerId != null){
-						layerList.nameAtLayer(GLOBAL.LayerId.PolygonLayerId).removeAll();
-						GLOBAL.LayerId.PolygonLayerId = null;
-						Module.XDRenderData();
-					}
-					if(layerList.nameAtLayer("CCTV_COLOR_POLYGONS") != null) {
-						layerList.nameAtLayer("CCTV_COLOR_POLYGONS").removeAll();
-					}
-			    	
-					// POI 레이어 이름은 각 해당 테이블명
-					GLOBAL.LayerId.PoiLayerId = "CCTV_POI";
-					
-					GLOBAL.PoiLayer = layerList.createLayer("CCTV_POI", Module.ELT_3DPOINT);
-				    
-				    /*if(layerList.nameAtLayer("CCTV_POI") != null) {
-						layerList.nameAtLayer("CCTV_POI").removeAll();
-					}*/
-				    
-				    for(i=0; i<data.length; i++) {
-				    	var alt = Module.getMap().getTerrHeightFast(data[i].lon, data[i].lat);
-				    	// 첫번째 row로 이동
-				    	if(i==0) {
-				    		cmmUtil.setCameraMove(parseFloat(data[i].lon), parseFloat(data[i].lat), true);
-				    	}
-				    	
-				    	CCTV.createCirclePolygon(data[i].lon, data[i].lat, alt);
-				    	var options = {
-				    			layer : GLOBAL.PoiLayer,
-				    			layerKey : data[i].gid,
-								lon : data[i].lon,
-								lat : data[i].lat,
-								text : data[i].deviceid.toString(),
-								markerImage : "./images/poi/cctv_poi.png", // 해당 마커 이미지 Url 
-								lineColor : new Module.JSColor(255, 255, 255),
-								gid : data[i].gid
-						}
-				    	CCTV.createLinePoi2(options);
-				    }
-				  //버퍼 Polygon
-					if(cctvBuffer != '0'){
-						var layerList = new Module.JSLayerList(true);
-						var color1 = new Module.JSColor(80, 51, 153, 204);
-					    var color2 = new Module.JSColor(100, 51, 153, 204);
-						
-						// 1번
-						GLOBAL.LayerId.PolygonLayerId = "Cctv_Polygon"
-						var bufferPolygonLayerCheck = layerList.nameAtLayer(GLOBAL.LayerId.PolygonLayerId);
-						if(bufferPolygonLayerCheck != null) {
-							layerList.nameAtLayer(GLOBAL.LayerId.PolygonLayerId).removeAll();
-							Module.XDRenderData(); 
-						}
-						
-						bufferPolygonLayer = layerList.createLayer(GLOBAL.LayerId.PolygonLayerId, Module.ELT_PLANE);
-						bufferPolygonLayer.setSelectable(false)
-						
-						var buffurAreaAsText = data[0].bufferArea.split("(")[2];
-						bExtractionArray = buffurAreaAsText.split("))");
-						bSecondExtArray = bExtractionArray[0].split(",");
-						var polygonVertex = new Module.JSVec3Array();
-						var arrayCnt = (bSecondExtArray.length-1);
-						
-						for(var j=0;j<arrayCnt;j++) {
-							polygonVertex.push( new Module.JSVector3D(parseFloat(bSecondExtArray[j].split(" ")[0]), parseFloat(bSecondExtArray[j].split(" ")[1]), 15.0) );
-						}
-						let bufferPolygon = Module.createPolygon("POLYGON_"+i);
-						
-						// 폴리곤 색상 설정
-						var bufferPolygonStyle = new Module.JSPolygonStyle();
-						bufferPolygonStyle.setFill(true);
-						bufferPolygonStyle.setFillColor(color1);
-						bufferPolygonStyle.setOutLine(true);
-						bufferPolygonStyle.setOutLineWidth(2.0);
-						bufferPolygonStyle.setOutLineColor(color2);
-						bufferPolygon.setStyle(bufferPolygonStyle);
-						
-						var part = new Module.Collection();
-						part.add(arrayCnt)
-						
-						bufferPolygon.setPartCoordinates(polygonVertex, part);
-
-						bufferPolygonLayer.addObject(bufferPolygon, 0);
-						bufferPolygonLayer.setMaxDistance(GLOBAL.MaxDistance);
-					}
-			    }
+			    // if(app2D) {
+			    // 	const format = new ol.format.GeoJSON();
+				// 	const features = [];
+				// 	data.forEach((item) => {
+				// 		const geometry = new ol.geom.Point([parseFloat(item["lon"]), parseFloat(item["lat"])]);
+				// 		const feature = new ol.Feature(geometry.transform("EPSG:4326", store.getPrj()));
+				// 		feature.setId(item["gid"]);
+				// 		features.push(feature);
+				// 	});
+				// 	if(features.length > 0) {
+				// 		const geojson = format.writeFeatures(features)
+				// 		cmmUtil.highlightFeatures(geojson, "./images/poi/cctv_poi.png", { notMove: true, onClick: function(feature) {
+				// 			$(`.bbs-list tr[data-gid='${feature.getId()}']`).trigger('click');
+				// 		}});
+				// 	} else {
+				// 		cmmUtil.clearHighlight();
+				// 	}
+			    // }
+			    // else {
+			    // 	var layerList = new Module.JSLayerList(true);
+				//
+				//     // POI 레이어 삭제
+				// 	if(GLOBAL.LayerId.PoiLayerId != null){
+				// 		layerList.nameAtLayer(GLOBAL.LayerId.PoiLayerId).removeAll();
+				// 		GLOBAL.LayerId.PoiLayerId = null;
+				// 		Module.XDRenderData();
+				// 	}
+				// 	// Polygon 레이어 삭제
+				// 	if(GLOBAL.LayerId.PolygonLayerId != null){
+				// 		layerList.nameAtLayer(GLOBAL.LayerId.PolygonLayerId).removeAll();
+				// 		GLOBAL.LayerId.PolygonLayerId = null;
+				// 		Module.XDRenderData();
+				// 	}
+				// 	if(layerList.nameAtLayer("CCTV_COLOR_POLYGONS") != null) {
+				// 		layerList.nameAtLayer("CCTV_COLOR_POLYGONS").removeAll();
+				// 	}
+			    //
+				// 	// POI 레이어 이름은 각 해당 테이블명
+				// 	GLOBAL.LayerId.PoiLayerId = "CCTV_POI";
+				//
+				// 	GLOBAL.PoiLayer = layerList.createLayer("CCTV_POI", Module.ELT_3DPOINT);
+				//
+				//     /*if(layerList.nameAtLayer("CCTV_POI") != null) {
+				// 		layerList.nameAtLayer("CCTV_POI").removeAll();
+				// 	}*/
+				//
+				//     for(i=0; i<data.length; i++) {
+				//     	var alt = Module.getMap().getTerrHeightFast(data[i].lon, data[i].lat);
+				//     	// 첫번째 row로 이동
+				//     	if(i==0) {
+				//     		cmmUtil.setCameraMove(parseFloat(data[i].lon), parseFloat(data[i].lat), true);
+				//     	}
+				//
+				//     	CCTV.createCirclePolygon(data[i].lon, data[i].lat, alt);
+				//     	var options = {
+				//     			layer : GLOBAL.PoiLayer,
+				//     			layerKey : data[i].gid,
+				// 				lon : data[i].lon,
+				// 				lat : data[i].lat,
+				// 				text : data[i].deviceid.toString(),
+				// 				markerImage : "./images/poi/cctv_poi.png", // 해당 마커 이미지 Url
+				// 				lineColor : new Module.JSColor(255, 255, 255),
+				// 				gid : data[i].gid
+				// 		}
+				//     	CCTV.createLinePoi2(options);
+				//     }
+				//   //버퍼 Polygon
+				// 	if(cctvBuffer != '0'){
+				// 		var layerList = new Module.JSLayerList(true);
+				// 		var color1 = new Module.JSColor(80, 51, 153, 204);
+				// 	    var color2 = new Module.JSColor(100, 51, 153, 204);
+				//
+				// 		// 1번
+				// 		GLOBAL.LayerId.PolygonLayerId = "Cctv_Polygon"
+				// 		var bufferPolygonLayerCheck = layerList.nameAtLayer(GLOBAL.LayerId.PolygonLayerId);
+				// 		if(bufferPolygonLayerCheck != null) {
+				// 			layerList.nameAtLayer(GLOBAL.LayerId.PolygonLayerId).removeAll();
+				// 			Module.XDRenderData();
+				// 		}
+				//
+				// 		bufferPolygonLayer = layerList.createLayer(GLOBAL.LayerId.PolygonLayerId, Module.ELT_PLANE);
+				// 		bufferPolygonLayer.setSelectable(false)
+				//
+				// 		var buffurAreaAsText = data[0].bufferArea.split("(")[2];
+				// 		bExtractionArray = buffurAreaAsText.split("))");
+				// 		bSecondExtArray = bExtractionArray[0].split(",");
+				// 		var polygonVertex = new Module.JSVec3Array();
+				// 		var arrayCnt = (bSecondExtArray.length-1);
+				//
+				// 		for(var j=0;j<arrayCnt;j++) {
+				// 			polygonVertex.push( new Module.JSVector3D(parseFloat(bSecondExtArray[j].split(" ")[0]), parseFloat(bSecondExtArray[j].split(" ")[1]), 15.0) );
+				// 		}
+				// 		let bufferPolygon = Module.createPolygon("POLYGON_"+i);
+				//
+				// 		// 폴리곤 색상 설정
+				// 		var bufferPolygonStyle = new Module.JSPolygonStyle();
+				// 		bufferPolygonStyle.setFill(true);
+				// 		bufferPolygonStyle.setFillColor(color1);
+				// 		bufferPolygonStyle.setOutLine(true);
+				// 		bufferPolygonStyle.setOutLineWidth(2.0);
+				// 		bufferPolygonStyle.setOutLineColor(color2);
+				// 		bufferPolygon.setStyle(bufferPolygonStyle);
+				//
+				// 		var part = new Module.Collection();
+				// 		part.add(arrayCnt)
+				//
+				// 		bufferPolygon.setPartCoordinates(polygonVertex, part);
+				//
+				// 		bufferPolygonLayer.addObject(bufferPolygon, 0);
+				// 		bufferPolygonLayer.setMaxDistance(GLOBAL.MaxDistance);
+				// 	}
+			    // }
 			}
 		});
 	},
@@ -735,16 +765,16 @@ var CCTV = {
 		});
 	},
 	removeCmmPOI : function() {
-		if(GLOBAL.StartPoint){
-			GLOBAL.StartPoint = false;
-			removePoint(GLOBAL.NomalIcon);
-		}
-		var layerList = new Module.JSLayerList(true);
-		if(GLOBAL.LayerId.PolygonLayerId != null) {
-			layerList.nameAtLayer(GLOBAL.LayerId.PolygonLayerId).removeAll();
-			GLOBAL.LayerId.PolygonLayerId = null;
-			Module.XDRenderData(); 
-		}
+		// if(GLOBAL.StartPoint){
+		// 	GLOBAL.StartPoint = false;
+		// 	removePoint(GLOBAL.NomalIcon);
+		// }
+		// var layerList = new Module.JSLayerList(true);
+		// if(GLOBAL.LayerId.PolygonLayerId != null) {
+		// 	layerList.nameAtLayer(GLOBAL.LayerId.PolygonLayerId).removeAll();
+		// 	GLOBAL.LayerId.PolygonLayerId = null;
+		// 	Module.XDRenderData();
+		// }
 	}
 }
 

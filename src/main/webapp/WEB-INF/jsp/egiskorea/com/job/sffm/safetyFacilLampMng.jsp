@@ -9,7 +9,7 @@
 
 </script>
 
-<div class="popup-panel popup-sub opened" style="bottom: 398px;right: 70px;width: 550px;height: 445px;" id="selectSafetyFacilLampMng">
+<%--<div class="popup-panel popup-sub opened" style="bottom: 398px;right: 70px;width: 550px;height: 445px;" id="selectSafetyFacilLampMng">--%>
 	<div class="popup-header">가로등관리 상세보기</div>
 	<div class="popup-body">
 		<div class="sub-popup-body">
@@ -80,6 +80,7 @@
 					<div>
 						<button type="button" class="btn basic bi-edit" onclick="SFFM.updateSffm('<c:out value="${result.gid}"/>', '<c:out value="${result.manageNo}"/>', '<c:out value="${result.adres}"/>', '<c:out value="${result.instlDe}"/>', '<c:out value="${result.strtlgtCnt}"/>', '<c:out value="${result.lat}"/>', '<c:out value="${result.lon}"/>', '<c:out value="${result.alttd}"/>');">수정</button> 
 						<button type="button" class="btn basic bi-delete2" onclick="SFFM.deleteSffm('<c:out value="${result.gid}"/>');">삭제</button>
+						<button type="button" class="btn basic bi-cancel closeSub">취소</button>
 					</div>
 				</div>
 			</div>							

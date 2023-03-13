@@ -125,7 +125,7 @@ var WLRE = {
 				data: jsonData,
 				dataType: 'json',
 				success:function(result) {
-				    alert("정상적으로 삭제되었습니다.");
+					toastr.success("정상적으로 삭제되었습니다.");
 					bottomPopupOpen("welfareFacility");
 				}, complete : function(){
 					loadingShowHide("hide"); 
@@ -699,15 +699,15 @@ var WLRE = {
 		});
 	},
 	removeCmmPOI : function() {
-		if(GLOBAL.StartPoint){
-			GLOBAL.StartPoint = false;
-			removePoint(GLOBAL.NomalIcon);
-		}
-		var layerList = new Module.JSLayerList(true);
-		if(GLOBAL.LayerId.PolygonLayerId != null) {
-			layerList.nameAtLayer(GLOBAL.LayerId.PolygonLayerId).removeAll();
-			GLOBAL.LayerId.PolygonLayerId = null;
-			Module.XDRenderData(); 
-		}
+		// if(GLOBAL.StartPoint){
+		// 	GLOBAL.StartPoint = false;
+		// 	removePoint(GLOBAL.NomalIcon);
+		// }
+		// var layerList = new Module.JSLayerList(true);
+		// if(GLOBAL.LayerId.PolygonLayerId != null) {
+		// 	layerList.nameAtLayer(GLOBAL.LayerId.PolygonLayerId).removeAll();
+		// 	GLOBAL.LayerId.PolygonLayerId = null;
+		// 	Module.XDRenderData();
+		// }
 	}
 }

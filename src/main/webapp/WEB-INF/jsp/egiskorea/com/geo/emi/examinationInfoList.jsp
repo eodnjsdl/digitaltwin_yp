@@ -139,7 +139,7 @@ function fn_select_delete_list() {
 				success : function(returnData, status){
 					if(status == "success") {
 						if(removeLine(returnData) == "ok"){
-							alert("정상적으로 삭제되었습니다.");
+							toastr.success("정상적으로 삭제되었습니다.");
 							aj_selectExaminationInfoList($("#searchFormLeft")[0], "");
 						}else{
 							alert("삭제에 실패했습니다.");

@@ -5,7 +5,7 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <script src="/js/egiskorea/com/job/sffm/sffm.js"></script>
-<script src="/js/egiskorea/com/cmm/cmmUtil.js"></script>
+<%--<script src="/js/egiskorea/com/cmm/cmmUtil.js"></script>--%>
 <script>
 $(document).ready(function() {
 	callDatePicker();
@@ -14,12 +14,17 @@ $(document).ready(function() {
 
 // 가로등관리 등록페이지 열기 버튼
 $("#insertSafetyFacilLampMngView").on("click", function(){
-	SFFM.aj_insertSafetyFacilLampMngView();
+	openPopup("rightSubPopup");
+	SFFM.aj_insertSafetyFacilLampMngView($("#tmpForm")[0], "", "right");
 });
 
 // 가로등관리 상세페이지 열기
 function fn_select_detail(gid, lon, lat){
-	SFFM.aj_selectSafetyFacilLampMng(gid, lon, lat);
+	openPopup("rightSubPopup");
+	// SFFM.aj_selectSafetyFacilLampMng(gid, lon, lat);
+
+	SFFM.aj_selectSafetyFacilLampMng($("#tmpForm")[0], gid, "right");
+
 }
 </script>
 <!-- 업무 > 공간정보활용 > 안전시설물관리 -->

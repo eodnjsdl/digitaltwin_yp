@@ -2,11 +2,11 @@
  * 안전시설물관리 js
  */
 var SFFM = {
-	LOCAL_URL : "http://localhost",
-	GEO_URL : geoServer,
-	spitalSearch : '',
-	sffmBuffer : '0',
-	Layer : null,
+	// LOCAL_URL : "http://localhost",
+	// GEO_URL : geoServer,
+	// spitalSearch : '',
+	// sffmBuffer : '0',
+	// Layer : null,
 	// 가로등관리 초기 실행함수
 	init : function() {
 		// 레이어 지우기
@@ -18,46 +18,46 @@ var SFFM = {
 		    yearRange: 'c-30:c'
 		});
 		
-		Module.XDSetMouseState(6);
-		Module.canvas.addEventListener('Fire_EventSelectedObject', SFFM.PoiSelect);
-		
-		SFFM.spitalSearch == '';
-		SFFM.removeCmmPOI();
-		
-		$("input[name=sffmAreaDrawing]").attr('disabled', true);
-		$("#sffmBuffer").prop('readonly', true);
-		
-		var spitalChk = $("input[name=sffmSelect]:checked").val();
-		if(spitalChk == '1') {
-			$(".areaSrchTool").hide();
-		} else {
-			$(".areaSrchTool").show();
-		}	
-		
-		// 가로등관리 공간검색
-		$("input[name=sffmAreaDrawing]").on('click', function() {
-			var chk2 = $("input[name=sffmAreaDrawing]:checked").val();
-			cmmUtil.spitalDraw(chk2);
-		});
-		
-		$("input[name=sffmSelect]").on('change', function() {
-			var chk = $("input[name=sffmSelect]:checked").val();
-			var chk2 = $("input[name=sffmAreaDrawing]:checked").val();
-				
-			if(chk == '1') {
-				$("input[name=sffmAreaDrawing]").prop("checked", false);
-				$(".areaSrchTool").hide();
-				$("input[name=sffmAreaDrawing]").attr('disabled', true);
-				$("#sffmBuffer").prop('readonly', true);
-				$("#sffmBuffer").val('0');
-				cmmUtil.drawClear();
-			} else {
-				$("input[name=sffmAreaDrawing]").attr('disabled', false);
-				$(".areaSrchTool").show();
-				$("#sffmBuffer").prop('readonly', false);
-				cmmUtil.spitalDraw(chk2);
-			}
-		}); 
+		// Module.XDSetMouseState(6);
+		// Module.canvas.addEventListener('Fire_EventSelectedObject', SFFM.PoiSelect);
+		//
+		// SFFM.spitalSearch == '';
+		// SFFM.removeCmmPOI();
+		//
+		// $("input[name=sffmAreaDrawing]").attr('disabled', true);
+		// $("#sffmBuffer").prop('readonly', true);
+		//
+		// var spitalChk = $("input[name=sffmSelect]:checked").val();
+		// if(spitalChk == '1') {
+		// 	$(".areaSrchTool").hide();
+		// } else {
+		// 	$(".areaSrchTool").show();
+		// }
+		//
+		// // 가로등관리 공간검색
+		// $("input[name=sffmAreaDrawing]").on('click', function() {
+		// 	var chk2 = $("input[name=sffmAreaDrawing]:checked").val();
+		// 	cmmUtil.spitalDraw(chk2);
+		// });
+		//
+		// $("input[name=sffmSelect]").on('change', function() {
+		// 	var chk = $("input[name=sffmSelect]:checked").val();
+		// 	var chk2 = $("input[name=sffmAreaDrawing]:checked").val();
+		//
+		// 	if(chk == '1') {
+		// 		$("input[name=sffmAreaDrawing]").prop("checked", false);
+		// 		$(".areaSrchTool").hide();
+		// 		$("input[name=sffmAreaDrawing]").attr('disabled', true);
+		// 		$("#sffmBuffer").prop('readonly', true);
+		// 		$("#sffmBuffer").val('0');
+		// 		cmmUtil.drawClear();
+		// 	} else {
+		// 		$("input[name=sffmAreaDrawing]").attr('disabled', false);
+		// 		$(".areaSrchTool").show();
+		// 		$("#sffmBuffer").prop('readonly', false);
+		// 		cmmUtil.spitalDraw(chk2);
+		// 	}
+		// });
 		
 		/*$(".popup-panel .popup-bottom-toggle").each(function() {
 			$(this).click(function(){
@@ -75,10 +75,11 @@ var SFFM = {
 			$(".popup-sub").removeClass("opened");
 			
 			// WMS 레이어 삭제
-			if(GLOBAL.layerWMS != null){
-				delWMSLayer(GLOBAL.layerWMS)
-				GLOBAL.layerWMS = null
-			}
+			// if(GLOBAL.layerWMS != null){
+			// 	delWMSLayer(GLOBAL.layerWMS)
+			// 	GLOBAL.layerWMS = null
+			// }
+
 			if(this.value == "lamp") {
 				document.searchForm.pageIndex.value = 1;
 				SFFMspitalYN = '';
@@ -90,7 +91,7 @@ var SFFM = {
 			}
 		});
 		
-		SFFM.ghostSymbolMap = Module.getGhostSymbolMap();
+		// SFFM.ghostSymbolMap = Module.getGhostSymbolMap();
 	},
 	// 페이징
 	fn_select_sffm_list : function(searchType) {
@@ -102,7 +103,7 @@ var SFFM = {
 			const yMap = app2D.getYMap();
 			
 			if($('#rChk1-2_sffm').is(":checked") && yMap.getModule("highlight").getFeatures("sky").length != 1 && $('.safetyFacilitySpace').hasClass("on")) {
-				 alert("영역을 선택해주세요.");
+				toastr.warning("영역을 선택해주세요.");
 				 return;
 			}
 		}
@@ -131,53 +132,71 @@ var SFFM = {
 		aj_selectSafetyFacilitiesMngList($("#searchForm")[0]);
 	},
 	// 가로등관리 등록하기 페이지 호출
-	aj_insertSafetyFacilLampMngView : function() {
-		loadingShowHide("show");
-		$(".popup-sub").removeClass("opened").html("");
-		
+	// aj_insertSafetyFacilLampMngView : function() {
+	aj_insertSafetyFacilLampMngView: function(form, param1, param2){
+		loadingBar("show");
+		// $(".popup-sub").removeClass("opened").html("");
+
+		var formData = new FormData(form);
+
 		$.ajax({
 			type : "POST",
 			url : "/job/sffm/insertSafetyFacilLampMngView.do",
 			dataType : "html",
+			processData : false,
+			contentType : false,
 			async: false,
 			success : function(returnData, status){
-				if(status == "success") {		
-					$("#container").append(returnData);
-				}else{ 
-					alert("ERROR!");
+				// if(status == "success") {
+				// 	$("#container").append(returnData);
+				// }else{
+				// 	toastr.error("관리자에게 문의 바랍니다.", "정보를 불러오지 못했습니다.");
+				// 	return;
+				// }
+				if(status == "success") {
+					$("#" + param2 + "SubPopup").append(returnData);
+				}else{
+					toastr.error("관리자에게 문의 바랍니다.", "정보를 불러오지 못했습니다.");
 					return;
-				} 
+				}
 			}, complete : function(){
-				loadingShowHide("hide"); 
+				loadingBar("hide"); 
 			}
 		});
 	},
 	// 가로등관리 상세보기 페이지 호출
-	aj_selectSafetyFacilLampMng : function(gid, lon, lat) {
-		loadingShowHide("show");
-		$(".popup-sub").removeClass("opened").html("");
-		if(app2D) {
-			cmmUtil.setPoiHighlightRemove(); //기존 활성화 되어 있는 아이콘 모두 비활성화 해주기.
-			cmmUtil.setPoiHighlight('Sffm_Polygon', gid);
-			cmmUtil.setCameraMove(parseFloat(lon), parseFloat(lat), true);		
-		} else {
-			//cmmUtil.setCameraMove(parseFloat(lon), parseFloat(lat));
-			var alt = Module.getMap().getTerrHeightFast(parseFloat(lon), parseFloat(lat));
-			//Module.getViewCamera().setViewAt(parseFloat(lon), parseFloat(lat), parseFloat(alt)+100, 90, 5);
-			
-			var point = new Module.JSVector3D(parseFloat(lon), parseFloat(lat), alt);
-			//GLOBAL.Camera.moveLookAt(point, 45, GLOBAL.Camera.getDirect(), alt * 5);
-			GLOBAL.Camera.moveLookAt(point, Module.getViewCamera().getTilt(), GLOBAL.Camera.getDirect(), alt * 5);
-
-			let layerList = new Module.JSLayerList(true);
-			let layer = layerList.nameAtLayer('SFFM_POI');
-			var objId = gid + '_' + lon + '_' + lat;
-			let sffmObject = layer.keyAtObject(objId);
-			Module.getMap().setSelectObject(sffmObject); //3D 객체 선택된 상태로 만들어주기
-		}
+	// aj_selectSafetyFacilLampMng : function(gid, lon, lat) {
+	aj_selectSafetyFacilLampMng: function(form, param1, param2){
+		loadingBar("show");
+		// $(".popup-sub").removeClass("opened").html("");
+		// if(app2D) {
+		// 	cmmUtil.setPoiHighlightRemove(); //기존 활성화 되어 있는 아이콘 모두 비활성화 해주기.
+		// 	cmmUtil.setPoiHighlight('Sffm_Polygon', gid);
+		// 	cmmUtil.setCameraMove(parseFloat(lon), parseFloat(lat), true);
+		// } else {
+		// 	//cmmUtil.setCameraMove(parseFloat(lon), parseFloat(lat));
+		// 	var alt = Module.getMap().getTerrHeightFast(parseFloat(lon), parseFloat(lat));
+		// 	//Module.getViewCamera().setViewAt(parseFloat(lon), parseFloat(lat), parseFloat(alt)+100, 90, 5);
+		//
+		// 	var point = new Module.JSVector3D(parseFloat(lon), parseFloat(lat), alt);
+		// 	//GLOBAL.Camera.moveLookAt(point, 45, GLOBAL.Camera.getDirect(), alt * 5);
+		// 	GLOBAL.Camera.moveLookAt(point, Module.getViewCamera().getTilt(), GLOBAL.Camera.getDirect(), alt * 5);
+		//
+		// 	let layerList = new Module.JSLayerList(true);
+		// 	let layer = layerList.nameAtLayer('SFFM_POI');
+		// 	var objId = gid + '_' + lon + '_' + lat;
+		// 	let sffmObject = layer.keyAtObject(objId);
+		// 	Module.getMap().setSelectObject(sffmObject); //3D 객체 선택된 상태로 만들어주기
+		// }
 		
-		var formData = new FormData();
-		formData.append('gid', gid);
+		// var formData = new FormData(form);
+		// formData.append('gid', gid);
+
+		var formData = new FormData(form);
+		if(param1 != ''){
+			formData.append('gid', param1);
+		}
+
 		
 		$.ajax({
 			type : "POST",
@@ -188,17 +207,24 @@ var SFFM = {
 			contentType : false,
 			async: false,
 			success : function(returnData, status){
-				if(status == "success") {		
-					$("#container").append(returnData);
-				}else{ 
-					alert("ERROR!");
+				// if(status == "success") {
+				// 	$("#container").append(returnData);
+				// }else{
+				// 	toastr.error("관리자에게 문의 바랍니다.", "정보를 불러오지 못했습니다.");
+				// 	return;
+				// }
+				//
+				// $('.bbs-list tbody tr').removeClass("active");
+				// $("#sffm_"+gid).addClass("active");
+				if(status == "success") {
+					$("#" + param2 + "SubPopup").append(returnData);
+				}else{
+					toastr.error("관리자에게 문의 바랍니다.", "정보를 불러오지 못했습니다.");
 					return;
-				} 
-				
-				$('.bbs-list tbody tr').removeClass("active");
-				$("#sffm_"+gid).addClass("active");
+				}
+
 			}, complete : function(){
-				loadingShowHide("hide"); 
+				loadingBar("hide"); 
 			}
 		});
 	},
@@ -208,17 +234,19 @@ var SFFM = {
 				gid: gid
 		}
 		if(confirm("삭제하시겠습니까?") == true){
-			loadingShowHide("show");
+			loadingBar("show");
 			$.ajax({
 				url:"/job/sffm/deleteSffm.do",
 				type: "POST",
 				data: jsonData,
 				dataType: 'json',
 				success:function(result) {
-				    alert("정상적으로 삭제되었습니다.");
-					bottomPopupOpen("safetyFacilitiesManagement");
+					toastr.success("정상적으로 삭제되었습니다.");
+					// bottomPopupOpen("safetyFacilitiesManagement");
+					openPopup("bottomPopup");
+					aj_selectSafetyFacilitiesMngList($("#tmpForm")[0]);
 				}, complete : function(){
-					loadingShowHide("hide"); 
+					loadingBar("hide"); 
 				}
 			});
 	    } else {
@@ -278,26 +306,26 @@ var SFFM = {
 		var stdde = SFFM.getDate();
 		
 		if(manageNo == '') {
-			alert("관리번호를 입력해주세요");
+			toastr.warning("관리번호를 입력해주세요");
 			return
 		}
 		if(instlDe == '') {
-			alert("설치일자를 입력해주세요");
+			toastr.warning("설치일자를 입력해주세요");
 			return
 		}
 		if(adres == '') {
-			alert("주소를 입력해주세요");
+			toastr.warning("주소를 입력해주세요");
 			return
 		}
 		if(strtlgtCnt == '') {
-			alert("가로등수를 입력해주세요");
+			toastr.warning("가로등수를 입력해주세요");
 			return
 		} else if (Number.isInteger(Number(strtlgtCnt)) == false) {
-			alert("가로등수를 숫자로 입력해주세요");
+			toastr.warning("가로등수를 숫자로 입력해주세요");
 			return
 		}
 		if(location == '') {
-			alert("위치를 입력해주세요");
+			toastr.warning("위치를 입력해주세요");
 			return
 		}
 		
@@ -313,17 +341,19 @@ var SFFM = {
 		}
 		
 		if(confirm("등록하시겠습니까?") == true){
-			loadingShowHide("show");
+			loadingBar("show");
 			$.ajax({
 				url:"/job/sffm/insertSffm.do",
 				type: "POST",
 				data: jsonData,
 				dataType: 'json',
 				success:function(result) {
-				    alert("정상적으로 등록되었습니다.");
-					bottomPopupOpen("safetyFacilitiesManagement");
+				    toastr.success("정상적으로 등록되었습니다.");
+					// bottomPopupOpen("safetyFacilitiesManagement");
+					openPopup("bottomPopup");
+					aj_selectSafetyFacilitiesMngList($("#tmpForm")[0]);
 				}, complete : function(){
-					loadingShowHide("hide"); 
+					loadingBar("hide"); 
 					SFFM.removeCmmPOI();
 				}
 			});
@@ -334,7 +364,9 @@ var SFFM = {
 	// 가로등관리 수정
 	updateSffm : function(gid, manageNo, adres, instlDe, strtlgtCnt, lat, lon, alt) {
 		
-		SFFM.aj_insertSafetyFacilLampMngView();
+		// SFFM.aj_insertSafetyFacilLampMngView();
+		openPopup("rightSubPopup");
+		SFFM.aj_insertSafetyFacilLampMngView($("#tmpForm")[0], "", "right");
 		
 		var btnHtml = '<div><button type="button" class="btn basic bi-save" onclick="SFFM.updateOkSffm('+gid+');fn_select_detail('+gid+', '+lon+', '+lat+')" id="sffm-update-ok">저장</button> <button type="button" class="btn basic bi-cancel" onclick="fn_select_detail('+gid+', '+lon+', '+lat+');SFFM.removeCmmPOI();">취소</button></div>'
 		$("#sffm-title-div").html("가로등관리 수정하기");		
@@ -364,26 +396,26 @@ var SFFM = {
 		var stdde = SFFM.getDate();
 		
 		if(manageNo == '') {
-			alert("관리번호를 입력해주세요");
+			toastr.warning("관리번호를 입력해주세요");
 			return
 		}
 		if(instlDe == '') {
-			alert("설치일자를 입력해주세요");
+			toastr.warning("설치일자를 입력해주세요");
 			return
 		}
 		if(adres == '') {
-			alert("주소를 입력해주세요");
+			toastr.warning("주소를 입력해주세요");
 			return
 		}
 		if(strtlgtCnt == '') {
-			alert("가로등수를 입력해주세요");
+			toastr.warning("가로등수를 입력해주세요");
 			return
 		} else if (Number.isInteger(Number(strtlgtCnt)) == false) {
-			alert("가로등수를 숫자로 입력해주세요");
+			toastr.warning("가로등수를 숫자로 입력해주세요");
 			return
 		}
 		if(location == '') {
-			alert("위치를 입력해주세요");
+			toastr.warning("위치를 입력해주세요");
 			return
 		}
 		
@@ -399,17 +431,19 @@ var SFFM = {
 				stdde: stdde
 		}
 		if(confirm("수정하시겠습니까?") == true){
-			loadingShowHide("show");
+			loadingBar("show");
 			$.ajax({
 				url:"/job/sffm/updateSffm.do",
 				type: "POST",
 				data: jsonData,
 				dataType: 'json',
 				success:function(result) {
-				    alert("정상적으로 수정되었습니다.");
-				    bottomPopupOpen("safetyFacilitiesManagement");
+				    toastr.success("정상적으로 수정되었습니다.");
+				    // bottomPopupOpen("safetyFacilitiesManagement");
+					openPopup("bottomPopup");
+					aj_selectSafetyFacilitiesMngList($("#tmpForm")[0]);
 				}, complete : function(){
-					loadingShowHide("hide"); 
+					loadingBar("hide"); 
 					SFFM.removeCmmPOI();
 				}
 			});
@@ -637,9 +671,9 @@ var SFFM = {
 		} 
 	},
 	cancelModal : function() {
-		setTimeout(function(){
-			Module.XDSetMouseState(6);	
-		}, 500);
+		// setTimeout(function(){
+		// 	Module.XDSetMouseState(6);
+		// }, 500);
 	},
 	getCriminalWMS : function() {
 		var layerNm = 'criminal_zone_5179';
@@ -650,7 +684,7 @@ var SFFM = {
 		var checked = $('#sffmCrimianlChkBox').is(':checked');
 		
 		if(app2D) {
-			alert("3D에서만 동작하는 기능입니다.");
+			toastr.warning("3D에서만 동작하는 기능입니다.");
 		} else {
 			if(checked){
 				if (layer == null){
@@ -690,7 +724,7 @@ var SFFM = {
 		var checked = $('#sffmCrimianlChkBox').is(':checked');
 		
 		if(isNaN(radius)) {
-			alert("값을 숫자로 입력하여주세요.");
+			toastr.warning("값을 숫자로 입력하여주세요.");
 		} else {
 			// 폴리곤 객체 생성
 			var polygon = Module.createPolygon("POLYGON_0");
@@ -719,16 +753,16 @@ var SFFM = {
 		GLOBAL.LayerId.PolygonLayerId = 'SFFM_COLOR_POLYGONS';
 	},
 	removeCmmPOI : function() {
-		if(GLOBAL.StartPoint){
-			GLOBAL.StartPoint = false;
-			removePoint(GLOBAL.NomalIcon);
-		}
-		var layerList = new Module.JSLayerList(true);
-		if(GLOBAL.LayerId.PolygonLayerId != null) {
-			layerList.nameAtLayer(GLOBAL.LayerId.PolygonLayerId).removeAll();
-			GLOBAL.LayerId.PolygonLayerId = null;
-			Module.XDRenderData(); 
-		}
+		// if(GLOBAL.StartPoint){
+		// 	GLOBAL.StartPoint = false;
+		// 	removePoint(GLOBAL.NomalIcon);
+		// }
+		// var layerList = new Module.JSLayerList(true);
+		// if(GLOBAL.LayerId.PolygonLayerId != null) {
+		// 	layerList.nameAtLayer(GLOBAL.LayerId.PolygonLayerId).removeAll();
+		// 	GLOBAL.LayerId.PolygonLayerId = null;
+		// 	Module.XDRenderData();
+		// }
 	}
 	
 }
