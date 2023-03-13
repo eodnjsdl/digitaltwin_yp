@@ -2545,7 +2545,7 @@
      * dtmap.init('2D');
      * dtmap.init('3D');
      */
-    dtmap.init('3D');
+    dtmap.init('2D');
 
 
 </script>

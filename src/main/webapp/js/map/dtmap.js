@@ -97,6 +97,9 @@ window.dtmap = (function () {
         });
     }
 
+    function clearInteraction() {
+        call('clearInteraction');
+    }
 
     function clear() {
         call('clear');
@@ -119,6 +122,7 @@ window.dtmap = (function () {
         setCenter: setCenter,
         showLayer: showLayer,
         setBaseLayer: setBaseLayer,
+        clearInteraction: clearInteraction,
         clear: clear,
         test: call
     }
