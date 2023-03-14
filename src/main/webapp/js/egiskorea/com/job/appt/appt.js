@@ -290,9 +290,9 @@ function apptList(ypeUrl, ymmUrl) {
 	
 	// 기준일시 표기
 	$("#standardDateTime").append(dateString + ' ' + currentHour + ':00')
-	
-	loadingBar("show"); 
-	
+
+	loadingBar("show", $(".popup-left"));
+
 	// // 조회시 테이블 리스트 삭제
 	// $(".appt-table.bbs-list tbody").empty();
 
@@ -379,7 +379,7 @@ function apptList(ypeUrl, ymmUrl) {
 		success : function(data, status){
 			yPEMeasuringStation = data.response.body.items;
 		}, complete : function(){
-			loadingBar("hide");
+			// loadingBar("hide");
 		}
 	});
 	
@@ -392,7 +392,7 @@ function apptList(ypeUrl, ymmUrl) {
 		success : function(data, status){
 			yMMMeasuringStation = data.response.body.items;
 		}, complete : function(){
-			loadingBar("hide");
+			// loadingBar("hide");
 		}
 	});
 	

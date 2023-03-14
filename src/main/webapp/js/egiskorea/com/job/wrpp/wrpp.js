@@ -14,14 +14,14 @@ class WaterSupplyFacility extends FacilityCommon {
         value: "WtlFirePs",
         title: "소방시설",
       },
-      { value: "WtlPipeLm", title: "상수관로" },
-      { value: "WtlFlowPs", title: "유량계" },
-      { value: "WtlManhPs", title: "상수맨홀" },
-      { value: "WtlPipePs", title: "상수관로심도" },
-      { value: "WtlPrgaPs", title: "수압계" },
-      { value: "WtlServPs", title: "배수지" },
-      { value: "wtlSplyLs", title: "급수관로" },
-      { value: "wtlValvPs", title: "변류시설" },
+      {value: "WtlPipeLm", title: "상수관로"},
+      {value: "WtlFlowPs", title: "유량계"},
+      {value: "WtlManhPs", title: "상수맨홀"},
+      {value: "WtlPipePs", title: "상수관로심도"},
+      {value: "WtlPrgaPs", title: "수압계"},
+      {value: "WtlServPs", title: "배수지"},
+      {value: "wtlSplyLs", title: "급수관로"},
+      {value: "wtlValvPs", title: "변류시설"},
     ];
     this.data = null;
     this.initUi();
@@ -40,22 +40,22 @@ class WaterSupplyFacility extends FacilityCommon {
       facility = new WtlFirePs();
     } else if (className == "WtlPipeLm") {
       facility = new WtlPipeLm();
-      if(!app2D){alert("지하시설물은 지형투명도를 낮게 설정해야 식별이 용이합니다.");}
+      // if(!app2D){alert("지하시설물은 지형투명도를 낮게 설정해야 식별이 용이합니다.");}
     } else if (className == "WtlFlowPs") {
       facility = new WtlFlowPs();
-      if(!app2D){alert("지하시설물은 지형투명도를 낮게 설정해야 식별이 용이합니다.");}
+      // if(!app2D){alert("지하시설물은 지형투명도를 낮게 설정해야 식별이 용이합니다.");}
     } else if (className == "WtlManhPs") {
       facility = new WtlManhPs();
     } else if (className == "WtlPipePs") {
       facility = new WtlPipePs();
-      if(!app2D){alert("지하시설물은 지형투명도를 낮게 설정해야 식별이 용이합니다.");}
+      // if(!app2D){alert("지하시설물은 지형투명도를 낮게 설정해야 식별이 용이합니다.");}
     } else if (className == "WtlPrgaPs") {
       facility = new WtlPrgaPs();
     } else if (className == "WtlServPs") {
       facility = new WtlServPs();
     } else if (className == "wtlSplyLs") {
       facility = new WtlSplyLs();
-      if(!app2D){alert("지하시설물은 지형투명도를 낮게 설정해야 식별이 용이합니다.");}
+      // if(!app2D){alert("지하시설물은 지형투명도를 낮게 설정해야 식별이 용이합니다.");}
     } else if (className == "wtlValvPs") {
       facility = new WtlValvPs();
     }

@@ -823,8 +823,6 @@ function aj_selectConstructionPlanList(form){
 // 대기오염 목록 호출
 function aj_selectAtmospherePollutionList(form){
 
-	loadingBar("show");
-
 	var	formData = new FormData(form);
 
 	$.ajax({
@@ -875,7 +873,7 @@ function aj_selectAtmospherePollutionList(form){
 				return;
 			}
 		}, complete : function(){
-			loadingBar("hide");
+			// loadingBar("hide");
 		}
 	});
 
@@ -938,7 +936,10 @@ function aj_selectInBusinessEstaInfoList(form, searchType){
 	// } else if (searchType == 'spital' && ibbiFlag == 'false') {
 	// 	spitalSearch = lastSpitalSearch;
 	// }
-	formData.set("spitalSearch", spitalSearch);
+	// formData.set("spitalSearch", spitalSearch);
+
+	var formData = new FormData(form);
+
 
 	$.ajax({
 		type : "POST",

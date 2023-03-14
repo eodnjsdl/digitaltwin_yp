@@ -1,8 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" %>
+
 <script>
-if(!app2D){
-	$(".btn_add").hide();
-}
+// if(!app2D){
+// 	$(".btn_add").hide();
+// }
 </script>
 <!-- 업무 > 시설물 공통 -->
 <div class="popup-header"></div>
