@@ -3136,7 +3136,8 @@ class EditingTool {
   addGeometry(geometry) {
     const format = new ol.format.WKT();
     const wkt = format.writeGeometry(geometry);
-    cmmUtil.addEditGeometry(wkt);
+    // cmmUtil.addEditGeometry(wkt);
+    toastr.warning("cmmUtil.addEditGeometry(wkt);", "객체 추가");
   }
 
   /**
@@ -3222,7 +3223,7 @@ class EditingTool {
           point.transform("EPSG:4326", store.getPrj())
         );
         // cmmUtil.addEditGeometry(wkt);
-        toastr.warning("cmmUtil.addEditGeometry(wkt);", "좌표 추가");
+        toastr.warning("cmmUtil.addEditGeometry(wkt);", "객체 추가");
       } else {
         if (!xNode.val()) {
           xNode.focus();

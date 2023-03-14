@@ -96,7 +96,7 @@
 	</div>
 </div>
 <button type="button" class="manualBtn" title="도움말" onclick="manualTab('상수도시설')"></button>
-<button type="button" class="popup-close" onClick="removeLayer(); cmmUtil.drawClear();" title="닫기"></button>
+<button type="button" class="popup-close" onClick="toastr.warning('removeLayer(); cmmUtil.drawClear();', 'onclick 이벤트');" title="닫기"></button>
 <button type="button" class="popup-reset" class="초기화"></button>
 <button type="button" class="popup-bottom-toggle" title="접기"></button>					
 <!-- //업무 > 시설물 공통 -->

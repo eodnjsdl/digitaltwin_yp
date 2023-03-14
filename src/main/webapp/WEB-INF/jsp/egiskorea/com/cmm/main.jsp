@@ -35,11 +35,18 @@
     <script src="/js/plugin/chart/chart.js"></script>
     <script src="/js/html2canvas.min.js" type="text/javascript"></script>
 
-    <!-- ui (main) -->
-    <script src="/js/ui/ui.js"></script>
+    <!-- ui (좌측메뉴) -->
+    <script src="/js/ui/ui-left.js"></script>
+    <!-- ui (레이어TOC) -->
     <script src="/js/ui/ui-toc.js"></script>
-    <!-- ui (work-업무) -->
+    <!-- ui (별도메뉴) -->
+    <script src="/js/ui/ui-aside.js"></script>
+    <!-- ui (지도제어툴바) -->
+    <script src="/js/ui/ui-toolbar.js"></script>
+    <!-- ui (좌측메뉴-업무영역) -->
     <script src="/js/ui/ui-work.js"></script>
+    <!-- ui (공통) -->
+    <script src="/js/ui/ui.js"></script>
 
     <!-- toastr 2.1.4 -->
     <script type="text/javascript" src="/js/plugin/toastr-2.1.4/toastr.js"></script>

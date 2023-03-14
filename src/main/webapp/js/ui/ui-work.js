@@ -1,11 +1,6 @@
 $(document).ready(function () {
-
-
     leftEvent();
-
     tabEvent();
-
-
 });
 
 //업무영역 >> 좌측 메뉴 선택
