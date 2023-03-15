@@ -101,7 +101,6 @@
 
     <!-- 업무 관련 -->
     <script src="/js/egiskorea/com/job/job.js"></script>
-    <script src="/js/egiskorea/com/job/spaceSearch.js"></script>
     <script src="/js/egiskorea/com/job/cmt/cmt.js"></script>
     <script src="/js/egiskorea/com/job/wrpp/wrpp.js"></script>
     <script src="/js/egiskorea/com/job/swg/swg.js"></script>
