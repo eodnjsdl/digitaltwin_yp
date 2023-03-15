@@ -38,18 +38,8 @@
     <script src="/js/plugin/chart/chart.js"></script>
     <script src="/js/html2canvas.min.js" type="text/javascript"></script>
 
-    <!-- ui (공통) -->
+    <!-- ui -->
     <script src="/js/ui/ui.js"></script>
-    <!-- ui (좌측메뉴) -->
-    <script src="/js/ui/ui-left.js"></script>
-    <!-- ui (레이어TOC) -->
-    <script src="/js/ui/ui-toc.js"></script>
-    <!-- ui (별도메뉴) -->
-    <script src="/js/ui/ui-aside.js"></script>
-    <!-- ui (지도제어툴바) -->
-    <script src="/js/ui/ui-toolbar.js"></script>
-    <!-- ui (좌측메뉴-업무영역) -->
-    <script src="/js/ui/ui-work.js"></script>
 
     <!-- toastr 2.1.4 -->
     <script type="text/javascript" src="/js/plugin/toastr-2.1.4/toastr.js"></script>
@@ -183,15 +173,15 @@
                     </li>
                     <li>
                         <button type="button" id="dronInfo" class="tool-btn icon10 rightPopup"
-                                data-popup="top-popup10" data-maptype="ALL" title="드론영상"></button>
+                                data-popup="top-popup09" data-maptype="ALL" title="드론영상"></button>
                     </li>
                     <li>
                         <button type="button" id="layerList" class="tool-btn icon11 rightPopup"
-                                data-popup="top-popup11" data-maptype="3D" title="3D 레이어"></button>
+                                data-popup="top-popup10" data-maptype="3D" title="3D 레이어"></button>
                     </li>
                     <li>
                         <button type="button" id="backgroundMapInfo" class="tool-btn icon09 rightPopup"
-                                data-popup="top-popup09" data-maptype="ALL" title="배경지도"></button>
+                                data-popup="top-popup11" data-maptype="ALL" title="배경지도"></button>
                     </li>
                 </ul>
             </div>

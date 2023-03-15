@@ -166,14 +166,12 @@ window.ui = (function () {
                     toastr.warning("3D지도에서만 사용 가능합니다.");
                 }
 
-
                 //TODO 임시 DB화 후 삭제
                 if(id==='layer_F_89_2'){
                     desc = 'building_object';
                 }else if(id==='layer_F_118_2'){
                     desc = 'landmark';
                 }
-
 
                 dtmap.showLayer({
                     id: layerId,
@@ -303,11 +301,11 @@ window.ui = (function () {
         var arrAllPopupTy = ["leftPopup","leftSubPopup","rightSubPopup","rightPopup","bottomPopup"];
         var arrPopupTy = [];
         if(area.includes("left")) {
-            arrPopupTy = ["rightPopup","bottomPopup","rightSubPopup"];
+            arrPopupTy = ["bottomPopup","rightSubPopup","rightPopup"];
         } else if(area.includes("right")) {
-            arrPopupTy = ["leftPopup","leftSubPopup","rightSubPopup"];
+            arrPopupTy = ["leftPopup","leftSubPopup","rightSubPopup","rightPopup"];
         } else if(area.includes("bottom")) {
-            arrPopupTy = ["leftPopup","leftSubPopup","rightSubPopup"];
+            arrPopupTy = ["leftPopup","leftSubPopup","rightSubPopup","rightPopup"];
         }
         $.each(arrPopupTy, function( key, value ) {
             $("#"+value).removeClass("opened").html("");
@@ -559,6 +557,7 @@ window.ui = (function () {
                 // aside menu > 그리기도구
                 case "top-popup08" :
                     toastr.success("그리기도구")
+                    aj_selectGraphicInfoList();
                     break;
 
                 // aside menu > 드론영상
@@ -567,12 +566,13 @@ window.ui = (function () {
                     break;
 
                 // aside menu > 3D레이어
-                case "top-popup09" :
+                case "top-popup10" :
                     toastr.success("3D레이어")
+                    aj_selectLayerList("top")
                     break;
 
                 // aside menu > 배경지도
-                case "top-popup10" :
+                case "top-popup11" :
                     toastr.success("배경지도")
                     aj_selectBackgroundMapInfoList();
                     break;
@@ -720,7 +720,27 @@ function aj_selectBackgroundMapInfoList() {
 
 
 
-
+//그리기도구
+function aj_selectGraphicInfoList() {
+    $.ajax({
+        type: "POST",
+        url: "/cmt/grph/selectGraphicInfoList.do",
+        // data: data,
+        // dataType: "html",
+        // async: false,
+        success: (returnData, status) => {
+            if (status === "success") {
+                $("#rightPopup").html(returnData);
+                //이벤트 등록부
+                // this.bindEvents();
+            } else {
+                toastr.error("관리자에게 문의 바랍니다.", "정보를 불러오지 못했습니다.");
+            }
+        },
+        complete: function () {
+        },
+    });
+}
 
 
 
