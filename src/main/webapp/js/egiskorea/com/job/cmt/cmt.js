@@ -1659,7 +1659,7 @@ class FacilityCommon {
           });
           formData.append("ids", ids.join(","));
 
-          loadingBar("show");
+          ui.loadingBar("show");
           $.ajax({
             url: "/job/fcts/deleteFacility.do",
             type: "post",
@@ -1678,11 +1678,11 @@ class FacilityCommon {
                 alert(`삭제에 실패했습니다.`);
                 console.log(result["errorMsg"]);
               }
-              loadingBar("hide");
+              ui.loadingBar("hide");
             })
             .fail(() => {
               alert(`삭제에 실패했습니다.`);
-              loadingBar("hide");
+              ui.loadingBar("hide");
             });
         }
       } else {
@@ -2066,7 +2066,7 @@ class FacilityCommon {
    * 검색
    */
   search() {
-    loadingBar("show");
+    ui.loadingBar("show");
     const featureType = this.params["featureType"];
     const filter = this.params["filter"];
     const listSize = this.params["listSize"];
@@ -2094,7 +2094,7 @@ class FacilityCommon {
 
         // this.highlightFeatures(this.features);
         toastr.warning("this.highlightFeatures(this.features);", "객체 지도 표출");
-        loadingBar("hide");
+        ui.loadingBar("hide");
         // createLineArr();
       });
   }
@@ -2443,7 +2443,7 @@ class FacilityDetail {
     this.modeObj = null;
     this.mode = null;
 
-    closeSubPopup();
+    ui.closeSubPopup();
   }
 
   /**
@@ -2548,7 +2548,7 @@ class FacilityDetail {
     const element = $(tag);
 
 
-    openPopup("rightSubPopup");
+    ui.openPopup("rightSubPopup");
     $("#rightSubPopup").append(element);
     // 스크롤 적용
     $(".scroll-y", this.selector).mCustomScrollbar({
@@ -2683,7 +2683,7 @@ class FacilityDetail {
       const titles = validColumns.map((column) => column["title"]);
       alert(`[${titles.join()}] 정수만 입력 가능합니다.`);
     } else {
-      loadingBar("show");
+      ui.loadingBar("show");
       $.post("/job/fcts/insertFacility.do", data)
         .done((response) => {
           const result = JSON.parse(response);
@@ -2697,11 +2697,11 @@ class FacilityDetail {
             alert(`등록에 실패했습니다.`);
             console.log(result["errorMsg"]);
           }
-          loadingBar("hide");
+          ui.loadingBar("hide");
         })
         .fail(() => {
           alert(`등록에 실패했습니다.`);
-          loadingBar("hide");
+          ui.loadingBar("hide");
         });
     }
   }
@@ -2751,7 +2751,7 @@ class FacilityDetail {
       const titles = validColumns.map((column) => column["title"]);
       alert(`[${titles.join()}] 정수만 입력 가능합니다.`);
     } else {
-      loadingBar("show");
+      ui.loadingBar("show");
       $.post("/job/fcts/updateFacility.do", data)
         .done((response) => {
           const result = JSON.parse(response);
@@ -2765,11 +2765,11 @@ class FacilityDetail {
             alert(`수정에 실패했습니다.`);
             console.log(result["errorMsg"]);
           }
-          loadingBar("hide");
+          ui.loadingBar("hide");
         })
         .fail(() => {
           alert(`수정에 실패했습니다.`);
-          loadingBar("hide");
+          ui.loadingBar("hide");
         });
     }
   }
@@ -2778,7 +2778,7 @@ class FacilityDetail {
    * 삭제
    */
   remove() {
-    loadingBar("show");
+    ui.loadingBar("show");
     const formData = new FormData();
     formData.append("dataId", this.featureType);
     formData.append("ids", this.feature.getId());
@@ -2803,11 +2803,11 @@ class FacilityDetail {
           alert(`삭제에 실패했습니다.`);
           console.log(result["errorMsg"]);
         }
-        loadingBar("hide");
+        ui.loadingBar("hide");
       })
       .fail(() => {
         alert(`삭제에 실패했습니다.`);
-        loadingBar("hide");
+        ui.loadingBar("hide");
       });
   }
 }
@@ -3124,13 +3124,13 @@ class EditingTool {
    * 페이지 불러오기
    */
   load() {
-    loadingBar("show");
+    ui.loadingBar("show");
     $(this.selector).load("/job/fcts/editView.do", () => {
       this.initUi();
       this.bindEvents();
       this.loadSnap();
       $(this.selector).show();
-      loadingBar("hide");
+      ui.loadingBar("hide");
     });
   }
 

@@ -10,7 +10,7 @@ function aj_selectBackgroundMapInfoList() {
         dataType : "html",
         async: false,
         beforeSend : function(jqXHR, settings) {
-            loadingShowHide("show");
+            ui.loadingBar("show");
         },
         success : function(returnData, status) {
             if (status == "success") {
@@ -21,7 +21,7 @@ function aj_selectBackgroundMapInfoList() {
             }
         },
         complete : function() {
-            loadingShowHide("hide");
+            ui.loadingBar("hide");
         }
     });
 }

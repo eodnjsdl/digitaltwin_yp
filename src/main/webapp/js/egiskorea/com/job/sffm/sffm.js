@@ -72,7 +72,7 @@ var SFFM = {
 		
 		// 시설물 변경
 		$("#sffm-facilityType").change(function() {
-			closeSubPopup();
+			ui.closeSubPopup();
 			
 			// WMS 레이어 삭제
 			// if(GLOBAL.layerWMS != null){
@@ -134,7 +134,7 @@ var SFFM = {
 	// 가로등관리 등록하기 페이지 호출
 	// aj_insertSafetyFacilLampMngView : function() {
 	aj_insertSafetyFacilLampMngView: function(form, param1, param2){
-		loadingBar("show");
+		ui.loadingBar("show");
 		// $(".popup-sub").removeClass("opened").html("");
 
 		var formData = new FormData(form);
@@ -160,14 +160,14 @@ var SFFM = {
 					return;
 				}
 			}, complete : function(){
-				loadingBar("hide"); 
+				ui.loadingBar("hide");
 			}
 		});
 	},
 	// 가로등관리 상세보기 페이지 호출
 	// aj_selectSafetyFacilLampMng : function(gid, lon, lat) {
 	aj_selectSafetyFacilLampMng: function(form, param1, param2){
-		loadingBar("show");
+		ui.loadingBar("show");
 		// $(".popup-sub").removeClass("opened").html("");
 		// if(app2D) {
 		// 	cmmUtil.setPoiHighlightRemove(); //기존 활성화 되어 있는 아이콘 모두 비활성화 해주기.
@@ -224,7 +224,7 @@ var SFFM = {
 				}
 
 			}, complete : function(){
-				loadingBar("hide"); 
+				ui.loadingBar("hide");
 			}
 		});
 	},
@@ -234,7 +234,7 @@ var SFFM = {
 				gid: gid
 		}
 		if(confirm("삭제하시겠습니까?") == true){
-			loadingBar("show");
+			ui.loadingBar("show");
 			$.ajax({
 				url:"/job/sffm/deleteSffm.do",
 				type: "POST",
@@ -243,10 +243,10 @@ var SFFM = {
 				success:function(result) {
 					toastr.success("정상적으로 삭제되었습니다.");
 					// bottomPopupOpen("safetyFacilitiesManagement");
-					openPopup("bottomPopup");
+					ui.openPopup("bottomPopup");
 					aj_selectSafetyFacilitiesMngList($("#tmpForm")[0]);
 				}, complete : function(){
-					loadingBar("hide"); 
+					ui.loadingBar("hide");
 				}
 			});
 	    } else {
@@ -341,7 +341,7 @@ var SFFM = {
 		}
 		
 		if(confirm("등록하시겠습니까?") == true){
-			loadingBar("show");
+			ui.loadingBar("show");
 			$.ajax({
 				url:"/job/sffm/insertSffm.do",
 				type: "POST",
@@ -350,10 +350,10 @@ var SFFM = {
 				success:function(result) {
 				    toastr.success("정상적으로 등록되었습니다.");
 					// bottomPopupOpen("safetyFacilitiesManagement");
-					openPopup("bottomPopup");
+					ui.openPopup("bottomPopup");
 					aj_selectSafetyFacilitiesMngList($("#tmpForm")[0]);
 				}, complete : function(){
-					loadingBar("hide"); 
+					ui.loadingBar("hide");
 					SFFM.removeCmmPOI();
 				}
 			});
@@ -365,7 +365,7 @@ var SFFM = {
 	updateSffm : function(gid, manageNo, adres, instlDe, strtlgtCnt, lat, lon, alt) {
 		
 		// SFFM.aj_insertSafetyFacilLampMngView();
-		openPopup("rightSubPopup");
+		ui.openPopup("rightSubPopup");
 		SFFM.aj_insertSafetyFacilLampMngView($("#tmpForm")[0], "", "right");
 		
 		var btnHtml = '<div><button type="button" class="btn basic bi-save" onclick="SFFM.updateOkSffm('+gid+');fn_select_detail('+gid+', '+lon+', '+lat+')" id="sffm-update-ok">저장</button> <button type="button" class="btn basic bi-cancel" onclick="fn_select_detail('+gid+', '+lon+', '+lat+');SFFM.removeCmmPOI();">취소</button></div>'
@@ -431,7 +431,7 @@ var SFFM = {
 				stdde: stdde
 		}
 		if(confirm("수정하시겠습니까?") == true){
-			loadingBar("show");
+			ui.loadingBar("show");
 			$.ajax({
 				url:"/job/sffm/updateSffm.do",
 				type: "POST",
@@ -440,10 +440,10 @@ var SFFM = {
 				success:function(result) {
 				    toastr.success("정상적으로 수정되었습니다.");
 				    // bottomPopupOpen("safetyFacilitiesManagement");
-					openPopup("bottomPopup");
+					ui.openPopup("bottomPopup");
 					aj_selectSafetyFacilitiesMngList($("#tmpForm")[0]);
 				}, complete : function(){
-					loadingBar("hide"); 
+					ui.loadingBar("hide");
 					SFFM.removeCmmPOI();
 				}
 			});

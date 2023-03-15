@@ -93,7 +93,7 @@ var M_SPCE_ANLS = {
    * 대상지역 불러오기
    */
   loadTarget: function () {
-    loadingShowHide("show");
+    ui.loadingBar("show");
     store.emd.getData().done((features) => {
       const sorted = util.array.sort(features, "emd_kor_nm");
       const tags = sorted.map((feature) => {
@@ -104,7 +104,7 @@ var M_SPCE_ANLS = {
       $("[name=analysis-target]", this.selector).html(
         `<option value="">읍면동 기준</option>${tags.join("")}`
       );
-      loadingShowHide("hide");
+      ui.loadingBar("hide");
     });
   },
 
@@ -127,7 +127,7 @@ var M_SPCE_ANLS = {
   highlight: function () {
     const emdCode = $("[name=analysis-target]", this.selector).val();
     const dataId = $("[name=analysis-facility]", this.selector).val();
-    loadingShowHide("show");
+    ui.loadingBar("show");
     if(mapType == "2D"){
     	 if (emdCode) {
     	      store.emd.getData().done((features) => {
@@ -208,7 +208,7 @@ var M_SPCE_ANLS = {
     		  }
     		});
     }
-    loadingShowHide("hide");
+    ui.loadingBar("hide");
   },
 
   /**
@@ -222,7 +222,7 @@ var M_SPCE_ANLS = {
     )["lyrDtlKnd"];
     this.type = type;
 
-    loadingShowHide("show");
+    ui.loadingBar("show");
     const data = { emdCode, dataId, type };
     $.get("/anls/spce/analysis.do", data)
       .done((response) => {
@@ -238,11 +238,11 @@ var M_SPCE_ANLS = {
         this.list = JSON.parse(response)["result"];
         this.renderList();
         this.renderChart();
-        loadingShowHide("hide");
+        ui.loadingBar("hide");
       })
       .fail(() => {
         alert("공간 분석에 실패하였습니다.");
-        loadingShowHide("hide");
+        ui.loadingBar("hide");
       });
   },
 

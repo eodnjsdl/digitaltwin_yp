@@ -731,7 +731,7 @@ function setInsertOdrInfo(data, pageType){
 // 공사예정 정보 > 리스트 표출(공사 예정 정보 리스트 페이지)
 function aj_selectConstructionScheduleList(form){
 
-	loadingBar("show");
+	ui.loadingBar("show");
 	var	formData = new FormData(form);
 
 	$.ajax({
@@ -753,7 +753,7 @@ function aj_selectConstructionScheduleList(form){
 				return;
 			}
 		}, complete : function(){
-			loadingBar("hide");
+			ui.loadingBar("hide");
 		}
 	});
 }
@@ -763,7 +763,7 @@ function aj_selectConstructionSchedule(keyId){
 	dtmap.poi.select(keyId);
 //	poiListScheduleDtl = poiListSchedule;		// poi표출 list백업
 	poiListSchedule = ''; 						// js로드시 해당값이 있을경우 poi표출하므로 백업처리후 리스트 초기화
-	loadingBar("show");
+	ui.loadingBar("show");
 	var formData = new FormData();
 	formData.append('cntrkPrrngId', keyId);
 /*	formData.append('plnYear', rePlnYear);
@@ -819,7 +819,7 @@ function aj_selectConstructionSchedule(keyId){
 				return;
 			}
 		}, complete : function(){
-			loadingBar("hide");
+			ui.loadingBar("hide");
 		}
 	});
 }
@@ -851,7 +851,7 @@ function aj_selectConstructionScheduleOderInfo(cntrkPrrngId, orderId, type){
 				return;
 			}
 		}, complete : function(){
-			loadingBar("hide");
+			ui.loadingBar("hide");
 		}
 	});
 }
@@ -874,7 +874,7 @@ function aj_deleteConstructionScheduleOrder(objParams, type){
 				return;
 			}
 		}, complete : function(){
-			loadingBar("hide");
+			ui.loadingBar("hide");
 		}
 	 });
 }
@@ -911,7 +911,7 @@ function aj_deleteConstructionSchedule(cntrkPrrngId){
 				return;
 			}
 		}, complete : function(){
-			loadingBar("hide");
+			ui.loadingBar("hide");
 		}
 	});
 }
@@ -919,7 +919,7 @@ function aj_deleteConstructionSchedule(cntrkPrrngId){
 //--------------------------------------------------------- 수정 --------------------------------------------------
 //공사 예정 정보 > 상세페이지 > 수정페이지로 이동
 function aj_updateConstructionScheduleView(keyId){
-	loadingBar("show");
+	ui.loadingBar("show");
 	var formData = new FormData();
 	formData.append('cntrkPrrngId', keyId);
 	formData.append('plnYear', rePlnYearDtl);
@@ -951,7 +951,7 @@ function aj_updateConstructionScheduleView(keyId){
 				return;
 			}
 		}, complete : function(){
-			loadingBar("hide");
+			ui.loadingBar("hide");
 		}
 	});
 }
@@ -1017,7 +1017,7 @@ function aj_updateConstructionScheduleNomal(form){
 				return;
 			}
 		}, complete : function(){
-			loadingBar("hide");
+			ui.loadingBar("hide");
 		}
 	})
 }
@@ -1025,7 +1025,7 @@ function aj_updateConstructionScheduleNomal(form){
 var dataList = '';
 // 공사예정 > 등록페이지/수정페이지 > 공사내역 공통상세코드 정보 조회
 function aj_selectConstructionScheduleDtlCode(codeId){
-	//loadingBar("show");
+	//ui.loadingBar("show");
 	var formData = new FormData();
 	formData.append('codeId', codeId);
 	$.ajax({
@@ -1045,14 +1045,14 @@ function aj_selectConstructionScheduleDtlCode(codeId){
 				return;
 			}
 		}, complete : function(){
-			loadingBar("hide");
+			ui.loadingBar("hide");
 		}
 	})
 }
 
 // 공사예정 정보 > 등록 페이지로 이동 처리
 function aj_insertConstructionScheduleView(){
-	loadingBar("show");
+	ui.loadingBar("show");
 	var formData = new FormData();
 	formData.append('PlnYear', rePlnYear);
 	formData.append('PlnQu', rePlnQu);
@@ -1081,14 +1081,14 @@ function aj_insertConstructionScheduleView(){
 				return;
 			}
 		}, complete : function(){
-			loadingBar("hide");
+			ui.loadingBar("hide");
 		}
 	});
 }
 
 // 공사 계획정보 > 등록페이지 > 공사계획 조회 (innerPopup 호출)
 function aj_selectInnerConstructionPlan(form){
-	loadingBar("show");
+	ui.loadingBar("show");
 	var	formData = new FormData(form);
 
 	formData.append('cntrkPrrngPrcuseAt', "Y");
@@ -1116,14 +1116,14 @@ function aj_selectInnerConstructionPlan(form){
 				return;
 			}
 		}, complete : function(){
-			loadingBar("hide");
+			ui.loadingBar("hide");
 		}
 	});
 }
 
 //공사예정 > 등록페이지 > 기본정보 등록 처리및 (공통코드, 공통상세코드 정보 조회)
 function aj_insertConstructionScheduleNomal(form){
-	//loadingBar("show");
+	//ui.loadingBar("show");
 	var formData = new FormData(form);
 	if($("#rChk2_1").is(":checked")){
 		keyId = "Y";
@@ -1155,7 +1155,7 @@ function aj_insertConstructionScheduleNomal(form){
 				return;
 			}
 		}, complete : function(){
-			loadingBar("hide");
+			ui.loadingBar("hide");
 		}
 	})
 }
@@ -1163,7 +1163,7 @@ function aj_insertConstructionScheduleNomal(form){
 //공사예정 정보 > 등록페이지 > 차수정보 등록 처리, 등록 되어있는 차수정보 조회
 //공사예정 정보 > 수정페이지 > 차수정보 등록 처리, 등록 되어있는 차수정보 조회
 function aj_insertConstructionScheduleOdr(form, type){
-	//loadingBar("show");
+	//ui.loadingBar("show");
 	var keyId = '';
 	var	formData = new FormData(form);
 	if(type == "odrInsertPage"){
@@ -1202,7 +1202,7 @@ function aj_insertConstructionScheduleOdr(form, type){
 				return;
 			}
 		}, complete : function(){
-			loadingBar("hide");
+			ui.loadingBar("hide");
 		}
 	});
 }
@@ -1235,7 +1235,7 @@ function aj_insertConstructionScheduleOdr2(dtlCodeArray, type){
 				return;
 			}
 		}, complete : function(){
-			loadingBar("hide");
+			ui.loadingBar("hide");
 		}
 	});
 }
@@ -1243,7 +1243,7 @@ function aj_insertConstructionScheduleOdr2(dtlCodeArray, type){
 //공사예정 정보 > 수정페이지 > 차수정보 수정 처리, 등록 되어있는 차수정보 조회
 function aj_updateConstructionScheduleOdr(dtlCodeArray, type){
 
-	loadingBar("show");
+	ui.loadingBar("show");
 	$.ajax({
 		type:"post",
 		url: "/job/bco/cws/updateConstructionScheduleOdr.do",
@@ -1262,7 +1262,7 @@ function aj_updateConstructionScheduleOdr(dtlCodeArray, type){
 				return;
 			}
 		}, complete : function(){
-			loadingBar("hide");
+			ui.loadingBar("hide");
 		}
 	});
 }

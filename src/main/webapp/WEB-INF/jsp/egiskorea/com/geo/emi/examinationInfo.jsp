@@ -51,7 +51,7 @@ function fn_select_delete(orgFid) {
 				if(status == "success") {
 					if(removeLine(returnData) == "ok"){
 						alert("<spring:message code="success.common.delete" />");
-						closeSubPopup();
+						ui.closeSubPopup();
 						aj_selectExaminationInfoList($("#searchFormLeft")[0], "");
 					}else{
 						alert("<spring:message code="fail.common.delete" />");

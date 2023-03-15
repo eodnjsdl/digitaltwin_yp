@@ -36,7 +36,7 @@ function fn_deleteUnderWaterUseFacil(gid){
 
 // 지하수이용시설 수정페이지 열기
 function fn_select_update(gid){
-	openPopup("rightSubPopup");
+	ui.openPopup("rightSubPopup");
 	aj_updateUnderWaterUseFacilView($("#tmpForm")[0], gid, "right");
 }
 

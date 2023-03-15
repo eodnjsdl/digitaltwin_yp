@@ -82,7 +82,7 @@ function aj_deleteLayerManagementInfo(){
 		
 		layerListStr = layerListStr.slice(0, -1);
 		
-		loadingShowHide("show");
+		ui.loadingBar("show");
 		$.ajax({
 			type : "POST",
 			url : "/lyr/lym/deleteLayerManagementInfo.do",
@@ -105,7 +105,7 @@ function aj_deleteLayerManagementInfo(){
 					alert("레이어 삭제를 실패하였습니다.");
 				}
 			}, complete : function(){
-				loadingShowHide("hide");
+				ui.loadingBar("hide");
 			}
 		});	
 	} else{
@@ -125,7 +125,7 @@ function aj_insertLayerListInfo(){
 		
 		layerListStr = layerListStr.slice(0, -1);
 		
-		loadingShowHide("show");
+		ui.loadingBar("show");
 		$.ajax({
 			type : "POST",
 			url : "/lyr/lym/insertLayerListInfo.do",
@@ -149,7 +149,7 @@ function aj_insertLayerListInfo(){
 					return;
 				} 
 			}, complete : function(){
-				loadingShowHide("hide"); 
+				ui.loadingBar("hide");
 			}
 		});
 	} else{

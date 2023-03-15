@@ -38,6 +38,8 @@
     <script src="/js/plugin/chart/chart.js"></script>
     <script src="/js/html2canvas.min.js" type="text/javascript"></script>
 
+    <!-- ui (공통) -->
+    <script src="/js/ui/ui.js"></script>
     <!-- ui (좌측메뉴) -->
     <script src="/js/ui/ui-left.js"></script>
     <!-- ui (레이어TOC) -->
@@ -48,8 +50,6 @@
     <script src="/js/ui/ui-toolbar.js"></script>
     <!-- ui (좌측메뉴-업무영역) -->
     <script src="/js/ui/ui-work.js"></script>
-    <!-- ui (공통) -->
-    <script src="/js/ui/ui.js"></script>
 
     <!-- toastr 2.1.4 -->
     <script type="text/javascript" src="/js/plugin/toastr-2.1.4/toastr.js"></script>
@@ -150,48 +150,48 @@
             <div class="map-tool">
                 <ul class="map-tool-list">
                     <li>
-                        <button type="button" id="" class="tool-btn icon01 dataPopup topPopup" data-popup="top-popup01"
-                                title="통합행정정보"></button>
+                        <button type="button" id="" class="tool-btn icon01 rightPopup"
+                                data-popup="top-popup01" data-maptype="ALL" title="통합행정정보"></button>
                     </li>
                     <li>
-                        <button type="button" id="landBuilding" class="tool-btn icon02 dataPopup topPopup"
-                                data-popup="top-popup02" title="지적/건물"></button>
+                        <button type="button" id="landBuilding" class="tool-btn icon02 rightPopup"
+                                data-popup="top-popup02" data-maptype="ALL" title="지적/건물"></button>
                     </li>
                     <li>
-                        <button type="button" id="dwldInfo" class="tool-btn icon03 dataPopup topPopup"
-                                data-popup="top-popup03" title="내보내기"></button>
+                        <button type="button" id="dwldInfo" class="tool-btn icon03 rightPopup"
+                                data-popup="top-popup03" data-maptype="ALL" title="내보내기"></button>
                     </li>
                     <li>
-                        <button type="button" id="memoInfo" class="tool-btn icon04 dataPopup topPopup"
-                                data-popup="top-popup04" title="메모정보"></button>
+                        <button type="button" id="memoInfo" class="tool-btn icon04 rightPopup"
+                                data-popup="top-popup04" data-maptype="ALL" title="메모정보"></button>
                     </li>
                     <li>
-                        <button type="button" id="potoInfo" class="tool-btn icon05 dataPopup topPopup"
-                                data-popup="top-popup05" title="사진정보"></button>
+                        <button type="button" id="potoInfo" class="tool-btn icon05 rightPopup"
+                                data-popup="top-popup05" data-maptype="ALL" title="사진정보"></button>
                     </li>
                     <li>
-                        <button type="button" id="favorites" class="tool-btn icon06 dataPopup topPopup"
-                                data-popup="top-popup06" title="즐겨찾기"></button>
+                        <button type="button" id="favorites" class="tool-btn icon06 rightPopup"
+                                data-popup="top-popup06" data-maptype="ALL" title="즐겨찾기"></button>
                     </li>
                     <li>
-                        <button type="button" id="" class="tool-btn icon07 dataPopup topPopup" data-popup="top-popup07"
-                                title="지도저장"></button>
+                        <button type="button" id="" class="tool-btn icon07 rightPopup"
+                                data-popup="top-popup07" data-maptype="ALL" title="지도저장"></button>
                     </li>
                     <li>
-                        <button type="button" id="graphicInfo" class="tool-btn icon08 dataPopup topPopup"
-                                data-popup="top-popup08" title="그리기도구"></button>
+                        <button type="button" id="graphicInfo" class="tool-btn icon08 rightPopup"
+                                data-popup="top-popup08" data-maptype="ALL" title="그리기도구"></button>
                     </li>
                     <li>
-                        <button type="button" id="backgroundMapInfo" class="tool-btn icon09 dataPopup topPopup"
-                                data-popup="top-popup09" title="배경지도"></button>
+                        <button type="button" id="dronInfo" class="tool-btn icon10 rightPopup"
+                                data-popup="top-popup10" data-maptype="ALL" title="드론영상"></button>
                     </li>
                     <li>
-                        <button type="button" id="dronInfo" class="tool-btn icon10 dataPopup topPopup"
-                                data-popup="top-popup10" title="드론영상"></button>
+                        <button type="button" id="layerList" class="tool-btn icon11 rightPopup"
+                                data-popup="top-popup11" data-maptype="3D" title="3D 레이어"></button>
                     </li>
                     <li>
-                        <button type="button" id="layerList" class="tool-btn icon11 dataPopup topPopup"
-                                data-popup="top-popup11" title="3D 레이어"></button>
+                        <button type="button" id="backgroundMapInfo" class="tool-btn icon09 rightPopup"
+                                data-popup="top-popup09" data-maptype="ALL" title="배경지도"></button>
                     </li>
                 </ul>
             </div>
@@ -383,19 +383,19 @@
             <div id="lnb">
                 <ul>
                     <li data-menu="lnb-search">
-                        <button type="button" class="lnb-btn" title="검색"></button>
+                        <button type="button" class="lnb-btn" title="검색" data-maptype="ALL"></button>
                     </li>
                     <li data-menu="lnb-layer">
-                        <button type="button" class="lnb-btn" title="레이어"></button>
+                        <button type="button" class="lnb-btn" title="레이어" data-maptype="ALL"></button>
                     </li>
                     <li data-menu="lnb-theme">
-                        <button type="button" class="lnb-btn" title="주제도"></button>
+                        <button type="button" class="lnb-btn" title="주제도" data-maptype="ALL"></button>
                     </li>
                     <li data-menu="lnb-work">
-                        <button type="button" class="lnb-btn" title="업무"></button>
+                        <button type="button" class="lnb-btn" title="업무" data-maptype="ALL"></button>
                     </li>
                     <li data-menu="lnb-analysis">
-                        <button type="button" class="lnb-btn" title="분석"></button>
+                        <button type="button" class="lnb-btn" title="분석" data-maptype="ALL"></button>
                     </li>
                 </ul>
             </div>
@@ -438,28 +438,36 @@
                 <div class="lnb-body">
                     <ul class="lnb-dep2" id="moduleList">
                         <li>
-                            <button type="button" class="dataPopup" data-popup="analysis-01-05">AI영상분석(3D)</button>
+                            <button type="button" class="dataPopup" data-popup="analysis-01-05" data-maptype="3D">
+                                AI영상분석(3D)</button>
                         </li>
                         <li>
-                            <button type="button" class="dataPopup" data-popup="analysis-01-01">조망권분석(3D)</button>
+                            <button type="button" class="dataPopup" data-popup="analysis-01-01" data-maptype="3D">
+                                조망권분석(3D)</button>
                         </li>
                         <li>
-                            <button type="button" class="dataPopup" data-popup="analysis-01-04">경사분석(3D)</button>
+                            <button type="button" class="dataPopup" data-popup="analysis-01-04" data-maptype="3D">
+                                경사분석(3D)</button>
                         </li>
                         <li>
-                            <button type="button" class="dataPopup">공간분석</button>
+                            <button type="button" class="dataPopup" data-maptype="2D">
+                                공간분석</button>
                         </li>
                         <li>
-                            <button type="button" class="dataPopup" data-popup="analysis-01-02">일조권분석(3D)</button>
+                            <button type="button" class="dataPopup" data-popup="analysis-01-02" data-maptype="3D">
+                                일조권분석(3D)</button>
                         </li>
                         <li>
-                            <button type="button" class="dataPopup" data-popup="analysis-01-06">지형단면도(3D)</button>
+                            <button type="button" class="dataPopup" data-popup="analysis-01-06" data-maptype="3D">
+                                지형단면도(3D)</button>
                         </li>
                         <li>
-                            <button type="button" class="dataPopup" data-popup="analysis-01-07">지하시설단면</button>
+                            <button type="button" class="dataPopup" data-popup="analysis-01-07" data-maptype="2D">
+                                지하시설단면</button>
                         </li>
                         <li>
-                            <button type="button" class="dataPopup">가시권분석(3D)</button>
+                            <button type="button" class="dataPopup" data-maptype="3D">
+                                가시권분석(3D)</button>
                         </li>
 
                     </ul>
@@ -485,17 +493,17 @@
             <div class="side-util">
                 <ul>
                     <li data-menu="lnb-territory">
-                        <button type="button" class="side-btn territory" title="국토정보관리"></button>
+                        <button type="button" class="side-btn territory" title="국토정보관리" data-maptype="ALL"></button>
                     </li>
                     <li data-menu="lnb-manager">
-                        <button type="button" class="side-btn manager" title="관리자"
+                        <button type="button" class="side-btn manager" title="관리자" data-maptype="ALL"
                                 onclick="window.open('/com/mngr/usr/selectGroupManageList.do')"></button>
                     </li>
                     <li data-menu="lnb-setting">
-                        <button type="button" class="side-btn setting" title="설정"></button>
+                        <button type="button" class="side-btn setting" title="설정" data-maptype="3D"></button>
                     </li>
                     <li>
-                        <button type="button" class="side-btn manual" title="도움말"
+                        <button type="button" class="side-btn manual" title="도움말" data-maptype="ALL"
                                 onclick="window.open('/userManual.do')"></button>
                     </li>
                 </ul>
@@ -2556,6 +2564,10 @@
      * dtmap.init('3D');
      */
     dtmap.init('2D');
+    /**
+     * 초기화 UI
+     */
+    ui.init();
 
 
 </script>

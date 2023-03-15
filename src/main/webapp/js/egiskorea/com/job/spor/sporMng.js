@@ -25,7 +25,7 @@ $(document).ready(function() {
  * @returns
  */
 function sportsMngView(gid){
-	loadingShowHide("show"); 
+	ui.loadingBar("show");
 //	console.log(gid);
 	$(".popup-sub").removeClass("opened").html("");
 	var formData = new FormData();
@@ -47,7 +47,7 @@ function sportsMngView(gid){
 				return;
 			} 
 		}, complete : function(){
-			loadingShowHide("hide"); 
+			ui.loadingBar("hide");
 		}
 	});
 }

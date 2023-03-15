@@ -16,7 +16,7 @@
 
 <script type="text/javascript">
 
-   	// callDatePicker();
+   	// ui.callDatePicker();
 
    	var rePlnYear = "<c:out value='${searchVO.plnYear}'></c:out>";
 	// 시기 - 분기

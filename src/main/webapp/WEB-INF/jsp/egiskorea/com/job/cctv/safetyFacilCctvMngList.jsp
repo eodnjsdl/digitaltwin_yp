@@ -13,13 +13,13 @@
 
 	// 가로등관리 등록페이지 열기 버튼
 	$("#insertSafetyFacilCctvMngView").on("click", function() {
-		openPopup("rightSubPopup");
+		ui.openPopup("rightSubPopup");
 		CCTV.aj_insertSafetyFacilCctvMngView($("#tmpForm")[0], "", "right");
 	});
 
 	// 가로등관리 상세페이지 열기
 	function fn_select_cctv_detail(gid, lon, lat) {
-		openPopup("rightSubPopup");
+		ui.openPopup("rightSubPopup");
 		CCTV.aj_selectSafetyFacilCctvMng($("#tmpForm")[0], gid, "right");
 	}
 </script>

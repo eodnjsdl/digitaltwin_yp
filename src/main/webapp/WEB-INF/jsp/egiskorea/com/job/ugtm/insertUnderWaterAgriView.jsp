@@ -37,7 +37,7 @@ $("#agriRegist").on("click", function(){
 	}
 	
 	if(confirm("<spring:message code="common.regist.msg" />")){	//등록하시겠습니까?
-       	loadingShowHide("show");
+       	ui.loadingBar("show");
        	$.ajax({
        		type : "POST",
        		url	 : "/job/ugtm/insertUnderWaterAgri.do",
@@ -58,7 +58,7 @@ $("#agriRegist").on("click", function(){
 					GLOBAL.StartPoint = false;
 					removePoint(GLOBAL.NomalIcon);
 				}
-				loadingShowHide("hide"); 
+				ui.loadingBar("hide");
 				
 			}, 
        	});

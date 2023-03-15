@@ -60,7 +60,7 @@ function aj_registFaciReseMng(){
 	var form = $("#insertFaciReseMngForm")[0];
 	var formData = new FormData(form);
 	
-	loadingShowHide("show");
+	ui.loadingBar("show");
    	$.ajax({
    		type : "POST",
    		url	 : "/job/fcrm/insertFaciReseMng.do",
@@ -77,7 +77,7 @@ function aj_registFaciReseMng(){
 				return;
 			}
 		}, complete : function(){
-			loadingShowHide("hide"); 
+			ui.loadingBar("hide");
 			
 		}, 
    	});

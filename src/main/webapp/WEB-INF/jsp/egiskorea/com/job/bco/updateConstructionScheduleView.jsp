@@ -10,7 +10,7 @@
 
 <script type="text/javascript">
 // 캘릭더 이벤트 
-callDatePicker();
+ui.callDatePicker();
 
 // 공사예정 활용여부 체크
 var rePnrsAt = "<c:out value='${nomalList.pnrsAt}'></c:out>";

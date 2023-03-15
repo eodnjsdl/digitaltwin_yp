@@ -270,7 +270,7 @@ function init() {
 	
 	
 	
-	loadingShowHide('hide');
+	ui.loadingBar('hide');
 }
 
 /* 관련 글로벌 객체 초기화 함수 */

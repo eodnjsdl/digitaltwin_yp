@@ -1,5 +1,5 @@
 $(document).ready(function(){
-	callDatePicker();
+	ui.callDatePicker();
 });
 
 //POILsyrt를 추가해준다.

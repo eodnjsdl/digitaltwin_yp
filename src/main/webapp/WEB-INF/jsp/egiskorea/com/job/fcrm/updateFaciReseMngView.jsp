@@ -80,7 +80,7 @@ function aj_updateFaciReseMng(){
 	var form = $("#updateFaciReseMngForm")[0];
 	var formData = new FormData(form);
 	
-	loadingShowHide("show");
+	ui.loadingBar("show");
    	$.ajax({
    		type : "POST",
 		url: "/job/fcrm/updateFaciReseMng.do",
@@ -98,7 +98,7 @@ function aj_updateFaciReseMng(){
 				return;
 			}
 		}, complete : function(){
-			loadingShowHide("hide"); 
+			ui.loadingBar("hide");
 		}
 	});
 }

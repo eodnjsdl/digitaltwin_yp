@@ -1,5 +1,5 @@
 $(document).ready(function(){
-	callDatePicker();
+	ui.callDatePicker();
 	if(poiList != ""){
 		// setPointLayer();
 	}
@@ -59,7 +59,7 @@ function fn_select_linkPage(pageNo){
 
 // 태양광발전소 등록페이지 열기 버튼 
 function fn_select_regist(){
-	openPopup("rightSubPopup");
+	ui.openPopup("rightSubPopup");
 	aj_insertRenewableEnergyView($("#tmpForm")[0], "", "right");
 }
 
@@ -71,7 +71,7 @@ $("tr[name='energyDtl']").unbind('click').bind('click',function(){
 	// cmmUtil.setPoiHighlight('TGD_ELCTY_BSNS_PRMISN', gid);
 	// rightSubPopupOpen("selectRenewableEnergy", gid, "right");
 
-	openPopup("rightSubPopup");
+	ui.openPopup("rightSubPopup");
 	aj_selectRenewableEnergy($("#tmpForm")[0], gid, "right");
 
 });
@@ -280,7 +280,7 @@ function setPointLayer(){
 
 // 태양광발전소 등록하기 페이지 호출
 function aj_insertRenewableEnergyView(form, param1, param2){
-	loadingBar("show");
+	ui.loadingBar("show");
 	
 	var formData = new FormData(form);
 	
@@ -299,14 +299,14 @@ function aj_insertRenewableEnergyView(form, param1, param2){
 				return;
 			} 
 		}, complete : function(){
-			loadingBar("hide"); 
+			ui.loadingBar("hide");
 		}
 	});
 }
 
 // 태양광발전소 상세보기 페이지 호출
 function aj_selectRenewableEnergy(form, gid, param2){
-	loadingBar("show");
+	ui.loadingBar("show");
 	
 	$('.bbs-list tbody tr').removeClass('active');
 	$('#'+gid).addClass('active');
@@ -337,14 +337,14 @@ function aj_selectRenewableEnergy(form, gid, param2){
 				return;
 			} 
 		}, complete : function(){
-			loadingBar("hide"); 
+			ui.loadingBar("hide");
 		}
 	});
 } 
 
 //태양광발전소 상세 > 수정페이지 열기
 function aj_updateRenewableEnergyView(form, param1, param2){
-	loadingBar("show");
+	ui.loadingBar("show");
 	
 	var formData = new FormData(form);
 	if(param1 != ''){
@@ -367,7 +367,7 @@ function aj_updateRenewableEnergyView(form, param1, param2){
 				return;
 			} 
 		}, complete : function(){
-			loadingBar("hide"); 
+			ui.loadingBar("hide");
 		}
 	});
 }
@@ -376,7 +376,7 @@ function aj_updateRenewableEnergyView(form, param1, param2){
 $("#returnBack").unbind('click').bind('click',function(){
 	// rightSubPopupOpen("selectRenewableEnergy", $(this).data('gid'), "right");
 
-	openPopup("rightSubPopup");
+	ui.openPopup("rightSubPopup");
 	aj_selectRenewableEnergy($("#tmpForm")[0], $(this).data('gid'), "right");
 
 });

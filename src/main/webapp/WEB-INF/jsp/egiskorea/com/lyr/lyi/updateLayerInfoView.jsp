@@ -99,7 +99,7 @@ function aj_updateLayerInfo(){
 		processData : false,
 		contentType : false,
 		beforeSend : function(jqXHR, settings) {
-			loadingShowHide("show");
+			ui.loadingBar("show");
 		},
 		success : function(returnData) {
 			if (returnData.callback == "success") {

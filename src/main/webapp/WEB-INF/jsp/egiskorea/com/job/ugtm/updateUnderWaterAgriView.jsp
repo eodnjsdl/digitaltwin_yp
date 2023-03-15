@@ -34,7 +34,7 @@ $("#agriUpdate").on("click", function(){
 	}
 	
 	if(confirm("<spring:message code="common.update.msg" />")){	//수정하시겠습니까?
-       	loadingShowHide("show");
+       	ui.loadingBar("show");
        	$.ajax({
        		type : "POST",
        		url	 : "/job/ugtm/updateUnderWaterAgri.do",
@@ -60,7 +60,7 @@ $("#agriUpdate").on("click", function(){
 					GLOBAL.StartPoint = false;
 					removePoint(GLOBAL.NomalIcon);
 				}
-				loadingShowHide("hide"); 
+				ui.loadingBar("hide");
 			}
        	});
 	}
@@ -70,7 +70,7 @@ var years = "<c:out value="${result.devlopYear}" />";
 
 // 지하수개발(농업용공공관정) 수정페이지 취소버튼
 $("#returnBack").unbind('click').bind('click',function(){
-	openPopup("rightSubPopup");
+	ui.openPopup("rightSubPopup");
 	aj_selectUnderWaterAgri($("#tmpForm")[0], $(this).data('gid'), "right");
 });
 </script>

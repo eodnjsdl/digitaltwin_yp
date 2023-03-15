@@ -14,7 +14,7 @@ function fn_update_examinationInfo(form){
 		var formData = new FormData($("#examinationInfo")[0]);
 		
 		if(confirm("<spring:message code="common.update.msg" />")){
-			loadingShowHide("show"); 
+			ui.loadingBar("show");
 			$.ajax({
 				type : "POST",
 				url: "/geo/emi/updateExaminationInfo.do",
@@ -35,7 +35,7 @@ function fn_update_examinationInfo(form){
 						return;
 					}
 				}, complete : function(){
-					loadingShowHide("hide"); 
+					ui.loadingBar("hide");
 				}
 			});
 		}

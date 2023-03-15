@@ -96,7 +96,7 @@
 		}
 	})
 	
-	callDatePicker();
+	ui.callDatePicker();
 		
 	function getDate( element ) {
 		var date;

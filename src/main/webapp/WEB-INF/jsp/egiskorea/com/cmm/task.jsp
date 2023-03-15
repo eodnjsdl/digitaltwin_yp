@@ -14,23 +14,22 @@ $(document).ready(function(){
 								<ul class="lnb-list">
 									<li><p class="lnb-dep1">공간정보활용</p>
 										<ul class="lnb-dep2">
-											<li><button type="button" id="constructionPlan" class="dataPopup leftPopup" data-popup="constructionPlan">사업공유관리</button></li>
-											<li><button type="button" id="undergroundWaterManagement" class="dataPopup bottomPopup" data-popup="undergroundWaterManagement" style="text-decoration: underline;">지하수관리</button></li>
-											<li><button type="button" id="renewableEnergy" class="dataPopup bottomPopup" data-popup="renewableEnergy">신재생에너지</button></li>
-											<li><button type="button" id="safetyFacilitiesManagement" class="dataPopup bottomPopup" data-popup="safetyFacilitiesManagement">안전시설물관리</button></li>
-											<li><button type="button" id="inBusinessEstaInfo" class="dataPopup bottomPopup" data-popup="inBusinessEstaInfo">관내업소정보조회</button></li>
-											<li><button type="button" id="atmospherePollution" class="dataPopup leftPopup" data-popup="atmospherePollution">대기오염</button></li>
+											<li><button type="button" id="constructionPlan" class="leftPopup" data-popup="constructionPlan">사업공유관리</button></li>
+											<li><button type="button" id="undergroundWaterManagement" class="bottomPopup" data-popup="undergroundWaterManagement" style="text-decoration: underline;">지하수관리</button></li>
+											<li><button type="button" id="renewableEnergy" class="bottomPopup" data-popup="renewableEnergy">신재생에너지</button></li>
+											<li><button type="button" id="safetyFacilitiesManagement" class="bottomPopup" data-popup="safetyFacilitiesManagement">안전시설물관리</button></li>
+											<li><button type="button" id="inBusinessEstaInfo" class="bottomPopup" data-popup="inBusinessEstaInfo">관내업소정보조회</button></li>
+											<li><button type="button" id="atmospherePollution" class="leftPopup" data-popup="atmospherePollution">대기오염</button></li>
 										</ul>
 									</li>
 									<li><p class="lnb-dep1">시설관리</p>
 										<ul class="lnb-dep2">
-											<li><button type="button" id="waterSupplyFacility" class="dataPopup bottomPopup" data-popup="waterSupplyFacility" style="text-decoration: underline;">상수도시설</button></li>
-											<li><button type="button" id="sewerSupplyFacility" class="dataPopup bottomPopup" data-popup="sewerSupplyFacility">하수도시설</button></li>
-											<li><button type="button" id="transportationFacility" class="dataPopup bottomPopup" data-popup="transportationFacility">교통시설</button></li>
-											<li><button type="button" id="physicalEducationFacility" class="dataPopup bottomPopup" data-popup="physicalEducationFacility">체육시설</button></li>
-											<li><button type="button" id="welfareFacility" class="dataPopup bottomPopup" data-popup="welfareFacility">복지시설</button></li>
-											<li><button type="button" id="faciReseMng" class="dataPopup leftPopup" data-popup="faciReseMng">시설예약관리</button></li>
-											<!-- <li><button type="button" id="" class="dataPopup">건물편집(3D)</button></li> -->
+											<li><button type="button" id="waterSupplyFacility" class="bottomPopup" data-popup="waterSupplyFacility" style="text-decoration: underline;">상수도시설</button></li>
+											<li><button type="button" id="sewerSupplyFacility" class="bottomPopup" data-popup="sewerSupplyFacility">하수도시설</button></li>
+											<li><button type="button" id="transportationFacility" class="bottomPopup" data-popup="transportationFacility">교통시설</button></li>
+											<li><button type="button" id="physicalEducationFacility" class="bottomPopup" data-popup="physicalEducationFacility">체육시설</button></li>
+											<li><button type="button" id="welfareFacility" class="bottomPopup" data-popup="welfareFacility">복지시설</button></li>
+											<li><button type="button" id="faciReseMng" class="leftPopup" data-popup="faciReseMng">시설예약관리</button></li>
 										</ul>
 									</li>
 								</ul>

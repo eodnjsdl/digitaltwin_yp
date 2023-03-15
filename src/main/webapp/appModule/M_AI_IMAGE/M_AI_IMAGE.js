@@ -334,7 +334,7 @@ var M_AI_IMAGE = {
 			//초기화
 			M_AI_IMAGE.analysis.reset();
 			//프로그레스
-			loadingShowHide("show");
+			ui.loadingBar("show");
 
 			//초기화
 			M_AI_IMAGE.global.isn=null;
@@ -422,7 +422,7 @@ var M_AI_IMAGE = {
 					
 					if(result.response.length == 0){
 						alert("분석결과값이 없습니다. 화면조정후 다시 시도하세요.")
-						loadingShowHide("hide");
+						ui.loadingBar("hide");
 						return false;
 					}
 					if(result.response.length > 0) {
@@ -570,7 +570,7 @@ var M_AI_IMAGE = {
 			
 				DRAW.CANVAS.ETC.setVisible( "gridCanvas" , false );
 
-				loadingShowHide("hide");
+				ui.loadingBar("hide");
 				M_AI_IMAGE.setCheckbox();
 				Module.XDRenderData();
 				Module.XDIsMouseOverDiv(false);

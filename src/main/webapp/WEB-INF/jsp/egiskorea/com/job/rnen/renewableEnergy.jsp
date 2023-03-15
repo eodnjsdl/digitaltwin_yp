@@ -38,7 +38,7 @@ function fn_deleteRenewableEnergy(gid){
 function fn_select_update(gid){
 	// rightSubPopupOpen("updateRenewableEnergyView", gid, "right");
 
-	openPopup("rightSubPopup");
+	ui.openPopup("rightSubPopup");
 	aj_updateRenewableEnergyView($("#tmpForm")[0], gid, "right");
 }
 </script>

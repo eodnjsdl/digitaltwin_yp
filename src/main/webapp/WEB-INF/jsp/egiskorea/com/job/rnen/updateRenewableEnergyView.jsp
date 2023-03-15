@@ -29,7 +29,7 @@ $("#energyUpdate").on("click", function(){
 	}
 	
 	if(confirm("<spring:message code="common.update.msg" />")){	//수정하시겠습니까?
-       	loadingShowHide("show");
+       	ui.loadingBar("show");
        	$.ajax({
        		type : "POST",
        		url	 : "/job/rnen/updateRenewableEnergy.do",
@@ -51,7 +51,7 @@ $("#energyUpdate").on("click", function(){
 					return;
 				}
 			}, complete : function(){
-				loadingShowHide("hide");
+				ui.loadingBar("hide");
 				if(GLOBAL.StartPoint){
 					GLOBAL.StartPoint = false;
 					removePoint(GLOBAL.NomalIcon);

@@ -176,7 +176,7 @@ function fn_select_linkPage(pageNo){
 
 // 지하수이용시설 등록페이지 열기 
 $("#insertUnderWaterUseFacilView").on("click", function(){
-	openPopup("rightSubPopup");
+	ui.openPopup("rightSubPopup");
 	aj_insertUnderWaterUseFacilView($("#tmpForm")[0], "", "right");
 });
 
@@ -186,7 +186,7 @@ $("tr[name='uwUseFacilDtl']").unbind('click').bind('click',function(){
 	// cmmUtil.setPoiHighlightRemove(); //기존 활성화 되어 있는 아이콘 모두 비활성화 해주기.
 	// cmmUtil.setPoiHighlight('TGD_UGRWTR_UTLZTN_FCLTY', $(this).data('gid')); //POI 아이콘 활성화
 
-	openPopup("rightSubPopup");
+	ui.openPopup("rightSubPopup");
 	aj_selectUnderWaterUseFacil($("#tmpForm")[0], $(this).data('gid'), "right");
 });
 
@@ -250,7 +250,7 @@ $("input[name=underWaterUseFacilSelect]").on('change',function(){
 
 // 지하수이용시설 등록페이지 열기
 function aj_insertUnderWaterUseFacilView(form, param1, param2){
-	loadingBar("show");
+	ui.loadingBar("show");
 	
 	var formData = new FormData(form);
 	
@@ -269,7 +269,7 @@ function aj_insertUnderWaterUseFacilView(form, param1, param2){
 				return;
 			} 
 		}, complete : function(){
-			loadingBar("hide");
+			ui.loadingBar("hide");
 			setYear();
 		}
 	});
@@ -277,7 +277,7 @@ function aj_insertUnderWaterUseFacilView(form, param1, param2){
 
 // 지하수이용시설  상세페이지 열기
 function aj_selectUnderWaterUseFacil(form, gid, param2){
-	loadingBar("show");
+	ui.loadingBar("show");
 	
 	$('.bbs-list tbody tr').removeClass('active');
 	$('#'+gid).addClass('active');
@@ -309,14 +309,14 @@ function aj_selectUnderWaterUseFacil(form, gid, param2){
 				return;
 			} 
 		}, complete : function(){
-			loadingBar("hide"); 
+			ui.loadingBar("hide");
 		}
 	});
 }
 
 // 지하수이용시설  상세 > 수정페이지 열기
 function aj_updateUnderWaterUseFacilView(form, param1, param2){
-	loadingBar("show");
+	ui.loadingBar("show");
 	
 	var formData = new FormData(form);
 	if(param1 != ''){
@@ -339,7 +339,7 @@ function aj_updateUnderWaterUseFacilView(form, param1, param2){
 				return;
 			} 
 		}, complete : function(){
-			loadingBar("hide"); 
+			ui.loadingBar("hide");
 			setYear();
 		}
 	});

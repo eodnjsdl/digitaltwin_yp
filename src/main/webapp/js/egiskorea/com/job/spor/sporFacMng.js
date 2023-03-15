@@ -28,7 +28,7 @@ $(document).ready(function() {
  * @returns
  */
 function sportsFacMngView(gid){
-	loadingShowHide("show"); 
+	ui.loadingBar("show");
 //	console.log(gid);
 	$(".popup-sub").removeClass("opened").html("");
 	var formData = new FormData();
@@ -52,7 +52,7 @@ function sportsFacMngView(gid){
 				return;
 			} 
 		}, complete : function(){
-			loadingShowHide("hide"); 
+			ui.loadingBar("hide");
 		}
 	});
 }
@@ -64,7 +64,7 @@ function sportsFacMngView(gid){
  * @returns
  */
 function sportsFacMngViewPaging(pageIndex, gid){
-	loadingShowHide("show"); 
+	ui.loadingBar("show");
 	$(".popup-sub").removeClass("opened").html("");
 	
 	var formData = new FormData();
@@ -95,7 +95,7 @@ function sportsFacMngViewPaging(pageIndex, gid){
 		error: function(request,status,error){
 			console.log("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
 		}, complete : function(){
-			loadingShowHide("hide"); 
+			ui.loadingBar("hide");
 		}
 	});
 }
@@ -140,7 +140,7 @@ function setPoint(){
 				return;
 			} 
 		}, complete : function(){
-			loadingShowHide("hide"); 
+			ui.loadingBar("hide");
 		}
 	});
 }

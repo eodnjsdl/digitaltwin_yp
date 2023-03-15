@@ -468,7 +468,7 @@ function fn_selectInquiry_linkPage(pageNo){
 //공사정보 조회 > 리스트 표출(공사정보 조회 리스트 페이지)
 function aj_selectConstructionInquiryList(form){
 	$("#pageType").val('type01');
-	loadingBar("show");	
+	ui.loadingBar("show");
 	var	formData = new FormData(form);
 	$.ajax({
 		type : "POST",
@@ -502,14 +502,14 @@ function aj_selectConstructionInquiryList(form){
 				return;
 			} 
 		}, complete : function(){
-			loadingBar("hide");
+			ui.loadingBar("hide");
 		}
 	});
 }
 
 //공사정보 조회 > 공간 검색 리스트 표출(공사정보 조회 리스트 페이지)
 function aj_selectConstructionInquirySpaceList(form){
-	loadingBar("show");	
+	ui.loadingBar("show");
 	$("#pageType").val('type02');
 	var	formData = new FormData(form);
 	//formData.append('pageType', 'type02');
@@ -547,7 +547,7 @@ function aj_selectConstructionInquirySpaceList(form){
 				return;
 			} 
 		}, complete : function(){
-			loadingBar("hide"); 
+			ui.loadingBar("hide");
 		}
 	});
 }
@@ -555,7 +555,7 @@ function aj_selectConstructionInquirySpaceList(form){
 //공사정보 조회 > 상세 표출(공사정보 조회 상세 페이지)
 function aj_selectConstructionInquiry(keyId){
 	dtmap.poi.select(keyId);
-	loadingBar("show");	
+	ui.loadingBar("show");
 	var formData = new FormData();
 	formData.append('cntrkPrrngId', keyId);
 	formData.append('plnYear', rePlnYear);
@@ -594,7 +594,7 @@ function aj_selectConstructionInquiry(keyId){
 				return;
 			} 
 		}, complete : function(){
-			loadingBar("hide"); 
+			ui.loadingBar("hide");
 		}
 	});
 }
@@ -626,7 +626,7 @@ function aj_selectConstructionInquiryOderInfo(cntrkPrrngId, orderId){
 				return;
 			} 
 		}, complete : function(){
-			loadingBar("hide"); 
+			ui.loadingBar("hide");
 		}
 	});
 }

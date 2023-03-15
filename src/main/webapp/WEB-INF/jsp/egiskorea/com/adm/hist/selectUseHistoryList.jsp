@@ -47,7 +47,7 @@ function fn_download_excelData(form){
 	}
 	
 	document.cookie = "fileDownload=TRUE; path=/";
-	loadingShowHide("show");
+	ui.loadingBar("show");
 	 	
 	form.action = "/com/mngr/hist/downlaodUseHistoryListExcel.do";
 	form.submit();
@@ -57,7 +57,7 @@ function fn_download_excelData(form){
         
         if(token == "FALSE") {
         	clearInterval(downloadTimer);
-        	loadingShowHide("hide");
+        	ui.loadingBar("hide");
         }
     }, 1000);
 }

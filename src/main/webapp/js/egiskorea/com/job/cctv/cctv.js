@@ -65,7 +65,7 @@ var CCTV = {
 		
 		// 시설물 변경
 		$("#cctv-facilityType").change(function() {
-			closeSubPopup();
+			ui.closeSubPopup();
 			
 			// WMS 레이어 삭제
 			// if(GLOBAL.layerWMS != null){
@@ -120,7 +120,7 @@ var CCTV = {
 	},
 	// CCTV관리 등록하기 페이지 호출
 	aj_insertSafetyFacilCctvMngView : function(form, param1, param2) {
-		loadingBar("show");
+		ui.loadingBar("show");
 		// $(".popup-sub").removeClass("opened").html("");
 
 		var formData = new FormData(form);
@@ -144,13 +144,13 @@ var CCTV = {
 					return;
 				}
 			}, complete : function(){
-				loadingBar("hide"); 
+				ui.loadingBar("hide");
 			}
 		});
 	},
 	// CCTV 상세보기 페이지 호출
 	aj_selectSafetyFacilCctvMng : function(form, param1, param2) {
-		loadingBar("show");
+		ui.loadingBar("show");
 		// $(".popup-sub").removeClass("opened").html("");
 		// cmmUtil.setCameraMove(parseFloat(lon), parseFloat(lat), true);
 		
@@ -212,7 +212,7 @@ var CCTV = {
 				}
 
 			}, complete : function(){
-				loadingBar("hide"); 
+				ui.loadingBar("hide");
 			}
 		});
 	},
@@ -222,7 +222,7 @@ var CCTV = {
 				gid: gid
 		}
 		if(confirm("삭제하시겠습니까?") == true){
-			loadingBar("show");
+			ui.loadingBar("show");
 			$.ajax({
 				url:"/job/cctv/deleteCctv.do",
 				type: "POST",
@@ -231,10 +231,10 @@ var CCTV = {
 				success:function(result) {
 					toastr.success("정상적으로 삭제되었습니다.");
 					// bottomPopupOpen("safetyFacilitiesCctv");
-					openPopup("bottomPopup");
+					ui.openPopup("bottomPopup");
 					aj_selectCctvList($("#tmpForm")[0]);
 				}, complete : function(){
-					loadingBar("hide"); 
+					ui.loadingBar("hide");
 				}
 			});
 	    } else {
@@ -303,7 +303,7 @@ var CCTV = {
 		}
 		
 		if(confirm("등록하시겠습니까?") == true){
-			loadingBar("show");
+			ui.loadingBar("show");
 			$.ajax({
 				url:"/job/cctv/insertCctv.do",
 				type: "POST",
@@ -312,10 +312,10 @@ var CCTV = {
 				success:function(result) {
 				    alert("정상적으로 등록되었습니다.");
 					// bottomPopupOpen("safetyFacilitiesCctv");
-					openPopup("bottomPopup");
+					ui.openPopup("bottomPopup");
 					aj_selectCctvList($("#tmpForm")[0]);
 				}, complete : function(){
-					loadingBar("hide"); 
+					ui.loadingBar("hide");
 					CCTV.removeCmmPOI();
 				}
 			});
@@ -327,7 +327,7 @@ var CCTV = {
 	updateCctv : function(gid, deviceid, gbn, label, lat, lon, adres) {
 		CCTV.getCode(gbn, 'update');
 		// CCTV.aj_insertSafetyFacilCctvMngView();
-		openPopup("rightSubPopup");
+		ui.openPopup("rightSubPopup");
 		CCTV.aj_insertSafetyFacilCctvMngView($("#tmpForm")[0], "", "right");
 		
 		var btnHtml = '<div><button type="button" class="btn basic bi-save" id="cctv-update-ok" onclick="CCTV.updateOkCctv('+gid+');fn_select_cctv_detail('+gid+', '+lon+', '+lat+');">저장</button> <button type="button" class="btn basic bi-cancel" onclick="fn_select_cctv_detail('+gid+', '+lon+', '+lat+');CCTV.removeCmmPOI();">취소</button></div>'
@@ -379,7 +379,7 @@ var CCTV = {
 				adres: adres
 		}
 		if(confirm("수정하시겠습니까?") == true){
-			loadingBar("show");
+			ui.loadingBar("show");
 			$.ajax({
 				url:"/job/cctv/updateCctv.do",
 				type: "POST",
@@ -388,10 +388,10 @@ var CCTV = {
 				success:function(result) {
 				    alert("정상적으로 수정되었습니다.");
 				    // bottomPopupOpen("safetyFacilitiesCctv");
-					openPopup("bottomPopup");
+					ui.openPopup("bottomPopup");
 					aj_selectCctvList($("#tmpForm")[0]);
 				}, complete : function(){
-					loadingBar("hide"); 
+					ui.loadingBar("hide");
 					CCTV.removeCmmPOI();
 				}
 			});

@@ -1,7 +1,7 @@
 //$(document).ready(function(){
 $(function(){
 	
-//	callDatePicker();
+//	ui.callDatePicker();
 	/*if(poiList != ""){
 		setPointLayer();
 	}*/
@@ -344,7 +344,7 @@ function aj_selectTransportationFacility(form, gid){
 	
 //	debugger;
 	
-	loadingShowHide("show");
+	ui.loadingBar("show");
 	$(".popup-sub").removeClass("opened").html("");
 	
 	$('.bbs-list tbody tr').removeClass('active');
@@ -379,7 +379,7 @@ function aj_selectTransportationFacility(form, gid){
 				return;
 			} 
 		}, complete : function(){
-			loadingShowHide("hide"); 
+			ui.loadingBar("hide");
 		}
 	});
 }
@@ -398,7 +398,7 @@ function aj_selectTransportationFacility(form, gid){
 // 교통시설 철도선로 목록 호출
 function aj_selectRailroadTrackList(form, searchType){
 	
-	loadingShowHide("show");
+	ui.loadingBar("show");
 	
 	var spatialSearch = ''; 
 	
@@ -432,7 +432,7 @@ function aj_selectRailroadTrackList(form, searchType){
 				return;
 			} 
 		}, complete : function(){
-			loadingShowHide("hide"); 
+			ui.loadingBar("hide");
 		}
 	});
 	
@@ -444,7 +444,7 @@ function aj_selectRailroadTrack(form, gid){
 	
 //	debugger;
 	
-	loadingShowHide("show");
+	ui.loadingBar("show");
 	$(".popup-sub").removeClass("opened").html("");
 	
 	$('.bbs-list tbody tr').removeClass('active');
@@ -474,7 +474,7 @@ function aj_selectRailroadTrack(form, gid){
 				return;
 			} 
 		}, complete : function(){
-			loadingShowHide("hide"); 
+			ui.loadingBar("hide");
 		}
 	});
 	
@@ -496,7 +496,7 @@ function aj_selectRailroadTrack(form, gid){
 // 교통시설 철도역사 목록 호출
 function aj_selectRailroadStationList(form, searchType){
 	
-	loadingShowHide("show");
+	ui.loadingBar("show");
 	
 	var spatialSearch = ''; 
 	
@@ -530,7 +530,7 @@ function aj_selectRailroadStationList(form, searchType){
 				return;
 			} 
 		}, complete : function(){
-			loadingShowHide("hide"); 
+			ui.loadingBar("hide");
 		}
 	});
 	

@@ -21,7 +21,7 @@ $(document).ready(function(){
 });
 
 bottomPopupOpen("safetyFacilityMng");
-callDatePicker();
+ui.callDatePicker();
 
 // 안전시설 가시화
 function showSafetyFacility(type){

@@ -28,7 +28,7 @@ $("#energyRegist").on("click", function(){
 	}
 	
 	if(confirm("<spring:message code="common.regist.msg" />")){	//등록하시겠습니까?
-       	loadingShowHide("show");
+       	ui.loadingBar("show");
        	$.ajax({
        		type : "POST",
        		url	 : "/job/rnen/insertRenewableEnergy.do",
@@ -46,7 +46,7 @@ $("#energyRegist").on("click", function(){
 					return;
 				}
 			}, complete : function(){
-				loadingShowHide("hide"); 
+				ui.loadingBar("hide");
 				if(GLOBAL.StartPoint){
 					GLOBAL.StartPoint = false;
 					removePoint(GLOBAL.NomalIcon);

@@ -1,6 +1,6 @@
 // popup-sub 취소버튼
 $(document).on("click", ".closeSub", function(){		
-	closeSubPopup();
+	ui.closeSubPopup();
 
 	// removePoint(GLOBAL.NomalIcon);
 	toastr.warning("객체 선택 해제하기", "객체 선택 해제하기");
@@ -38,7 +38,7 @@ var ugdvUi = '';
 var ugufUi = '';
 function aj_selectUnderWaterMngList(form, searchType){
 	
-	loadingBar("show");
+	ui.loadingBar("show");
 
 	var spitalSearch = '';
 	var	formData = new FormData(form);
@@ -90,7 +90,7 @@ function aj_selectUnderWaterMngList(form, searchType){
 				return;
 			}
 		}, complete : function(){
-			loadingBar("hide");
+			ui.loadingBar("hide");
 		}
 	});
 }
@@ -99,7 +99,7 @@ function aj_selectUnderWaterMngList(form, searchType){
 var rnenFlag = '';
 var rnenUi = '';
 function aj_selectRenewableEnergyList(form, searchType){
-	loadingBar("show");
+	ui.loadingBar("show");
 
 	if(form == $("#tmpForm")[0]){
 		rnenFlag = '';
@@ -147,7 +147,7 @@ function aj_selectRenewableEnergyList(form, searchType){
 				return;
 			}
 		}, complete : function(){
-			loadingBar("hide");
+			ui.loadingBar("hide");
 		}
 	});
 }
@@ -155,7 +155,7 @@ function aj_selectRenewableEnergyList(form, searchType){
 // 안전시설물관리 > 가로등관리(기본) 목록 호출
 var SFFMspitalYN = '';
 function aj_selectSafetyFacilitiesMngList(form, searchType){
-	loadingBar("show");
+	ui.loadingBar("show");
 
 	var searchInstlDe = $('#sffm-search-instl-de').val();
 	var searchAdres = $('#sffm-search-adres').val();
@@ -180,7 +180,7 @@ function aj_selectSafetyFacilitiesMngList(form, searchType){
 		sffmBuffer2 = 0;
 	} else if(isNaN(sffmBuffer2)) {
 		alert("반경을 숫자로 입력하여 주세요.");
-		loadingBar("hide");
+		ui.loadingBar("hide");
 		return
 	}
 
@@ -206,7 +206,7 @@ function aj_selectSafetyFacilitiesMngList(form, searchType){
 	// 버퍼값 예외처리
 	if(Number.isInteger(parseInt(sffmBuffer))) {
 	} else {
-		loadingBar("hide");
+		ui.loadingBar("hide");
 		alert("공간검색 범위를 숫자로 입력하여주세요.")
 		return;
 	}
@@ -282,11 +282,11 @@ function aj_selectSafetyFacilitiesMngList(form, searchType){
 					return;
 				}
 			}, complete : function(){
-				loadingBar("hide");
+				ui.loadingBar("hide");
 			}
 		});
 	} else {
-		loadingBar("hide");
+		ui.loadingBar("hide");
 	}
 }
 
@@ -294,7 +294,7 @@ function aj_selectSafetyFacilitiesMngList(form, searchType){
 var CCTVspitalYN = '';
 function aj_selectCctvList(form, searchType){
 	var searchGbn = $("#cctv-search-selbox option:selected").text();
-	loadingBar("show");
+	ui.loadingBar("show");
 
 	var searchDeviceid = $('#cctv-search-deviceid').val();
 	var searchLabel = $('#cctv-search-label').val();
@@ -318,7 +318,7 @@ function aj_selectCctvList(form, searchType){
 		cctvBuffer2 = 0;
 	} else if(isNaN(cctvBuffer2)) {
 		alert("반경을 숫자로 입력하여 주세요.");
-		loadingBar("hide");
+		ui.loadingBar("hide");
 		return
 	}
 
@@ -344,7 +344,7 @@ function aj_selectCctvList(form, searchType){
 	// 버퍼값 예외처리
 	if(Number.isInteger(parseInt(cctvBuffer))) {
 	} else {
-		loadingBar("hide");
+		ui.loadingBar("hide");
 		alert("공간검색 범위를 숫자로 입력하여주세요.")
 		return;
 	}
@@ -421,18 +421,18 @@ function aj_selectCctvList(form, searchType){
 					return;
 				}
 			}, complete : function(){
-				loadingBar("hide");
+				ui.loadingBar("hide");
 			}
 		});
 	} else {
-		loadingBar("hide");
+		ui.loadingBar("hide");
 	}
 }
 
 //교통시설 목록 호출 > 기본적으로 도로구간 호출
 function aj_selectTransportationFacilityList(form, searchType){
 	//cmmUtil.drawClear();
-	loadingBar("show");
+	ui.loadingBar("show");
 
 	var spatialSearch = '';
 	var bufferCnt = '0';
@@ -450,7 +450,7 @@ function aj_selectTransportationFacilityList(form, searchType){
 	// 버퍼값 예외처리
 	if(Number.isInteger(parseInt(bufferCnt))) {
 	} else {
-		loadingBar("hide");
+		ui.loadingBar("hide");
 		alert("공간검색 범위를 숫자로 입력하여주세요.")
 		return;
 	}
@@ -476,7 +476,7 @@ function aj_selectTransportationFacilityList(form, searchType){
 				return;
 			}
 		}, complete : function(){
-			loadingBar("hide");
+			ui.loadingBar("hide");
 		}
 	});
 
@@ -485,7 +485,7 @@ function aj_selectTransportationFacilityList(form, searchType){
 var WLREspitalYN = '';
 // 복지시설 목록 호출
 function aj_selectWelfareFacilityList(form, searchType){
-	loadingBar("show");
+	ui.loadingBar("show");
 
 	var searchFcltySe = $("#wlre-search-fclty-se option:selected").text();
 
@@ -535,7 +535,7 @@ function aj_selectWelfareFacilityList(form, searchType){
 	if(Number.isInteger(parseInt(wlreBuffer))) {
 
 	} else {
-		loadingBar("hide");
+		ui.loadingBar("hide");
 		alert("공간검색 범위를 숫자로 입력하여주세요.")
 		return;
 	}
@@ -583,11 +583,11 @@ function aj_selectWelfareFacilityList(form, searchType){
 					return;
 				}
 			}, complete : function(){
-				loadingBar("hide");
+				ui.loadingBar("hide");
 			}
 		});
 	} else {
-		loadingBar("hide");
+		ui.loadingBar("hide");
 	}
 
 
@@ -626,7 +626,7 @@ function aj_selectPhysicalEducationFacilityList(form,type){
 		SPOR_SPITAL_YN = '';
 	}
 
-	loadingBar("show");
+	ui.loadingBar("show");
 
 	var	formData = new FormData(form);
 
@@ -723,7 +723,7 @@ function aj_selectPhysicalEducationFacilityList(form,type){
 			console.log("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
 		},
 		complete : function(){
-			loadingBar("hide");
+			ui.loadingBar("hide");
 		}
 	});
 
@@ -752,7 +752,7 @@ function aj_selectPhysicalEducationFacilityList(form,type){
 
 //bottomPopup 호출
 function aj_selectBottomPopup(popupUrl){
-	loadingBar("show");
+	ui.loadingBar("show");
 	$.ajax({
 		type : "POST",
 		url : popupUrl,
@@ -766,14 +766,14 @@ function aj_selectBottomPopup(popupUrl){
 				return;
 			}
 		}, complete : function(){
-			loadingBar("hide");
+			ui.loadingBar("hide");
 		}
 	});
 }
 
 // leftPopup 호출
 function aj_selectLeftPopup(popupUrl){
-	loadingBar("show");
+	ui.loadingBar("show");
 	$.ajax({
 		type : "POST",
 		url : "/job/bco/cwp/selectConstructionWorkPlanList.do",
@@ -787,7 +787,7 @@ function aj_selectLeftPopup(popupUrl){
 				return;
 			}
 		}, complete : function(){
-			loadingBar("hide");
+			ui.loadingBar("hide");
 		}
 	});
 }
@@ -795,7 +795,7 @@ function aj_selectLeftPopup(popupUrl){
 //공사계획정보 호출
 function aj_selectConstructionPlanList(form){
 
-	loadingBar("show");
+	ui.loadingBar("show");
 	var	formData = new FormData(form);
 
 	$.ajax({
@@ -817,7 +817,7 @@ function aj_selectConstructionPlanList(form){
 				return;
 			}
 		}, complete : function(){
-			loadingBar("hide");
+			ui.loadingBar("hide");
 		}
 	});
 }
@@ -875,7 +875,7 @@ function aj_selectAtmospherePollutionList(form){
 				return;
 			}
 		}, complete : function(){
-			// loadingBar("hide");
+			// ui.loadingBar("hide");
 		}
 	});
 
@@ -885,7 +885,7 @@ function aj_selectAtmospherePollutionList(form){
 var highChk = '';
 function aj_selectFaciReseMngList(form){
 
-	loadingBar("show");
+	ui.loadingBar("show");
 	var	formData = new FormData(form);
 
 	if(form == $("#tmpForm")[0]){
@@ -917,7 +917,7 @@ function aj_selectFaciReseMngList(form){
 				return;
 			}
 		}, complete : function(){
-			loadingBar("hide");
+			ui.loadingBar("hide");
 		}
 	});
 }
@@ -926,7 +926,7 @@ function aj_selectFaciReseMngList(form){
 var ibbiFlag = '';
 var ibbiUi = '';
 function aj_selectInBusinessEstaInfoList(form, searchType){
-	loadingBar("show");
+	ui.loadingBar("show");
 
 	if(form == $("#tmpForm")[0]){
 		ibbiFlag = '';
@@ -973,7 +973,7 @@ function aj_selectInBusinessEstaInfoList(form, searchType){
 				return;
 			}
 		}, complete : function(){
-			loadingBar("hide");
+			ui.loadingBar("hide");
 		}
 	});
 }

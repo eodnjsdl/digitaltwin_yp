@@ -16,7 +16,7 @@ var cwp = {
 $(document).ready(function(){ // 실행할 기능을 정의해주세요.
 	/*loadScript('/js/egiskorea/com/cmm/cmmUtil.js');*/
 	// 달력
-	//callDatePicker();
+	//ui.callDatePicker();
 	//callSelectOptions();
 
 	// 공사 계획정보 등록 화면 이동 이벤트 처리
@@ -188,7 +188,7 @@ function callSelectOptions(){
 // 공사 계획정보 상세정보 조회하기
 function aj_selectConstructionPlan(keyId){
 	poiListPlan = '';
-	loadingBar("show");
+	ui.loadingBar("show");
 	dtmap.poi.select(keyId);
 	var form = $("#searchPlanForm")[0];
 	var formData = new FormData(form);
@@ -231,14 +231,14 @@ function aj_selectConstructionPlan(keyId){
 				return;
 			}
 		}, complete : function(){
-			loadingBar("hide");
+			ui.loadingBar("hide");
 		}
 	});
 }
 
 //공사 계획정보 수정 페이지 호출 처리
 function aj_updateConstructionPlanView(keyId){
-	loadingBar("show");
+	ui.loadingBar("show");
 
 	var formData = new FormData();
 	formData.append('cntrkPlnId', keyId);
@@ -270,7 +270,7 @@ function aj_updateConstructionPlanView(keyId){
 				return;
 			}
 		}, complete : function(){
-			loadingBar("hide");
+			ui.loadingBar("hide");
 		}
 	});
 }
@@ -278,7 +278,7 @@ function aj_updateConstructionPlanView(keyId){
 //공사 계획정보 수정 처리
 function aj_updateConstructionPlan(form){
 	var keyId = '';
-	loadingBar("show");
+	ui.loadingBar("show");
 	var formData = new FormData(form);
 	if($("#rChk1_1").is(":checked")){
 		keyId = "Y";
@@ -307,7 +307,7 @@ function aj_updateConstructionPlan(form){
 				return;
 			}
 		}, complete : function(){
-			loadingBar("hide");
+			ui.loadingBar("hide");
 		}
 	});
 }
@@ -315,7 +315,7 @@ function aj_updateConstructionPlan(form){
 //공사 계획정보 삭제 처리
 function aj_deleteConstructionPlan(form, param){
 
-	loadingBar("show");
+	ui.loadingBar("show");
 	var formData = new FormData(form);
 	formData.append('cntrkPlnId', param);
 
@@ -346,7 +346,7 @@ function aj_deleteConstructionPlan(form, param){
 				return;
 			}
 		}, complete : function(){
-			loadingBar("hide");
+			ui.loadingBar("hide");
 		}
 	});
 }
@@ -354,7 +354,7 @@ function aj_deleteConstructionPlan(form, param){
 
 // 공사 계획정보 등록하기 화면으로 이동
 function aj_insertConstructionPlanView(){
-	loadingBar("show");
+	ui.loadingBar("show");
 	var formData = new FormData();
 
 	formData.append('plnYear', rePlnYear);
@@ -385,7 +385,7 @@ function aj_insertConstructionPlanView(){
 				return;
 			}
 		}, complete : function(){
-			loadingBar("hide");
+			ui.loadingBar("hide");
 		}
 	});
 }
@@ -393,7 +393,7 @@ function aj_insertConstructionPlanView(){
 // 공사 계획정보 등록 처리
 function aj_insertConstructionPlan(form){
 
-	loadingBar("show");
+	ui.loadingBar("show");
 	var formData = new FormData(form);
 	if($("#rChk1_1").is(":checked")){
 		keyId = "Y";
@@ -421,7 +421,7 @@ function aj_insertConstructionPlan(form){
 				return;
 			}
 		}, complete : function(){
-			loadingBar("hide");
+			ui.loadingBar("hide");
 		}
 	});
 }
@@ -508,7 +508,7 @@ function fn_selectPlan_linkPage(pageNo){
 
 //공사계획정보 호출
 function aj_selectConstructionPlanListPage(form){
-	loadingBar("show");
+	ui.loadingBar("show");
 	var	formData = new FormData(form);
 
 	$.ajax({
@@ -540,7 +540,7 @@ function aj_selectConstructionPlanListPage(form){
 				return;
 			}
 		}, complete : function(){
-			loadingBar("hide");
+			ui.loadingBar("hide");
 		}
 	});
 }

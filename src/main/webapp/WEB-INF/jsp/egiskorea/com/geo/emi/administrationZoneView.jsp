@@ -145,7 +145,7 @@ function fn_insert_administrationZone(form){
 						$(".progressbar-value").css("width",parseInt(percent)+"%");
 						$(".progress-label").html(parseInt(percent)+"%");
 						if(percent == "100"){
-							loadingShowHide("show"); 
+							ui.loadingBar("show");
 						}
 					};
 					return xhr;
@@ -164,7 +164,7 @@ function fn_insert_administrationZone(form){
 						return;
 					}
 				}, complete : function(){
-					loadingShowHide("hide"); 
+					ui.loadingBar("hide");
 				}
 			});
 		}

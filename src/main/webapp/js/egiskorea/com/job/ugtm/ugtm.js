@@ -1,5 +1,5 @@
 $(document).ready(function(){
-	callDatePicker();
+	ui.callDatePicker();
 	if(poiList != ""){
 		// setPointLayer();
 	}
@@ -33,7 +33,7 @@ $("#changeBox").change(function(){
 // 지하수관리 > 지하수이용시설 목록 호출
 function aj_selectUnderWaterUseFacilList(form, searchType){
 	
-	loadingBar("show");
+	ui.loadingBar("show");
 	
 	if(form == $("#tmpForm")[0]){
 		ugagFlag = '';
@@ -85,7 +85,7 @@ function aj_selectUnderWaterUseFacilList(form, searchType){
 				return;
 			} 
 		}, complete : function(){
-			loadingBar("hide"); 
+			ui.loadingBar("hide");
 		}
 	});
 }
@@ -93,7 +93,7 @@ function aj_selectUnderWaterUseFacilList(form, searchType){
 //지하수관리 > 지하수개발 목록 호출
 function aj_selectUnderWaterDevelopList(form, searchType){
 	
-	loadingBar("show");
+	ui.loadingBar("show");
 	
 	if(form == $("#tmpForm")[0]){
 		ugagFlag = '';
@@ -145,7 +145,7 @@ function aj_selectUnderWaterDevelopList(form, searchType){
 				return;
 			} 
 		}, complete : function(){
-			loadingBar("hide"); 
+			ui.loadingBar("hide");
 		}
 	});
 	

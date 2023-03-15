@@ -174,7 +174,7 @@ var M_SUHN_ANLS = {
 	
 }
 $(document).ready(function(){
-	   callDatePicker();
+	   ui.callDatePicker();
 	});
 
 $(function(){

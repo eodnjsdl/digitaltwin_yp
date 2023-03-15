@@ -24,7 +24,7 @@ $(".popup-reset").unbind('click').bind('click',function(){
 	ibbiUi = '';
 	// cmmUtil.drawClear();
 	// bottomPopupOpen('inBusinessEstaInfo');
-	openPopup("bottomPopup");
+	ui.openPopup("bottomPopup");
 	aj_selectInBusinessEstaInfoList($("#tmpForm")[0]);
 });
 

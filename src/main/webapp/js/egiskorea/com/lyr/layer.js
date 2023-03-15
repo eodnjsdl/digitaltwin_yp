@@ -114,7 +114,7 @@ function aj_selectLayerList(mode, reset = false){
 						? $(".lnb-layer input[name='searchKeyword']").val()
 						: $("#rightPopup input[name='searchKeyword']").val();
 	
-	loadingShowHide("show");
+	ui.loadingBar("show");
 	$.ajax({
 		type : "POST",
 		url : "/lyr/lym/selectLayerList.do",
@@ -145,7 +145,7 @@ function aj_selectLayerList(mode, reset = false){
 				return;
 			} 
 		}, complete : function(){
-			loadingShowHide("hide"); 
+			ui.loadingBar("hide");
 		}
 	});
 }
@@ -155,7 +155,7 @@ function aj_selectLayerManagementList(){
 	var searchCondition = $("#leftPopup select[name='searchCondition']").val();
 	var searchKeyword = $("#leftPopup input[name='searchKeyword']").val();
 	
-	loadingShowHide("show");
+	ui.loadingBar("show");
 	$.ajax({
 		type : "POST",
 		url : "/lyr/lym/selectLayerManagementList.do",
@@ -183,14 +183,14 @@ function aj_selectLayerManagementList(){
 				return;
 			} 
 		}, complete : function(){
-			loadingShowHide("hide"); 
+			ui.loadingBar("hide");
 		}
 	});
 }
  
 // 레이어 등록 관리 호출
 function aj_insertDataConversionView(){
-	loadingShowHide("show");
+	ui.loadingBar("show");
 	$.ajax({
 		type : "POST",
 		url : "/lyr/dtcv/insertDataConversionView.do",
@@ -204,14 +204,14 @@ function aj_insertDataConversionView(){
 				return;
 			} 
 		}, complete : function(){
-			loadingShowHide("hide"); 
+			ui.loadingBar("hide");
 		}
 	});
 }
 
 // 레이어 정보 수정 화면 표출
 function aj_updateLayerInfoView(layerId){
-	loadingShowHide("show");
+	ui.loadingBar("show");
 	$.ajax({
 		type : "POST",
 		url : "/lyr/lyi/updateLayerInfoView.do",
@@ -229,7 +229,7 @@ function aj_updateLayerInfoView(layerId){
 				return;
 			} 
 		}, complete : function(){
-			loadingShowHide("hide"); 
+			ui.loadingBar("hide");
 		}
 	});
 }

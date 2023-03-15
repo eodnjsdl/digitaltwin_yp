@@ -63,7 +63,7 @@ function sporSelLocation(){
  * @returns
  */
 function insertSportsView(form){
-	loadingShowHide("show");
+	ui.loadingBar("show");
 	var	formData = new FormData(form);
 	$.ajax({
 		type : "POST",
@@ -77,7 +77,7 @@ function insertSportsView(form){
 			if(status == "success") {		
 				$("#container").append(returnData); //팝업 append
 				YYMM_datePicker()
-//				callDatePicker(); //date picker
+//				ui.callDatePicker(); //date picker
 				
 				$(".scroll-y").mCustomScrollbar({
 					scrollbarPosition:"outside"
@@ -88,7 +88,7 @@ function insertSportsView(form){
 				return;
 			} 
 		}, complete : function(){
-			loadingShowHide("hide"); 
+			ui.loadingBar("hide");
 		}
 	});
 
@@ -109,7 +109,7 @@ function deleteSports(gid){
 			dataType : "json",
 			data : {"gid" : gid},
 			success : function(data){
-				closeSubPopup();
+				ui.closeSubPopup();
 				fn_select_physicalEducation_facility_list();
 			},
 			complete : function (){
@@ -232,7 +232,7 @@ function selectSportsDetail(gid,lon,lat){
 		success : function(returnData, status){
 			if(status == "success") {		
 				$("#container").append(returnData);
-//				callDatePicker(); //date picker
+//				ui.callDatePicker(); //date picker
 				YYMM_datePicker()
 			}else{ 
 				toastr.error("관리자에게 문의 바랍니다.", "정보를 불러오지 못했습니다.");
@@ -263,7 +263,7 @@ function updateSportsView(gid){
 		success : function(returnData, status){
 			if(status == "success") {
 				$("#container").append(returnData); //팝업 append
-//				callDatePicker(); //date picker		
+//				ui.callDatePicker(); //date picker
 				YYMM_datePicker()
 				$(".scroll-y").mCustomScrollbar({
 					scrollbarPosition:"outside"
@@ -679,7 +679,7 @@ function resetFacMagLayer(){
 function cancleSportsPopup(){
 	$('#selectSafetyFacilLampMng').removeClass('opened');
 	removePoint(GLOBAL.NomalIcon);
-	closeSubPopup();
+	ui.closeSubPopup();
 }
 
 /**

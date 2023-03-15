@@ -543,7 +543,7 @@ $(document).ready(function(){
 		}
 		
 		// 임시
-		closeSubPopup();
+		ui.closeSubPopup();
 		// 생성된어 있는 POI, Line, Polygon 레이어가 있을때 지워주기
 		/*removeLayer();*/
 		cmmUtil.drawClear();

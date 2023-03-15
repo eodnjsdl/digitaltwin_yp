@@ -1,5 +1,5 @@
 $(document).ready(function(){
-	callDatePicker();
+	ui.callDatePicker();
 	if(poiList != ""){
 		// setPointLayer();
 	}
@@ -60,7 +60,7 @@ $("tr[name='inBusiDtl']").unbind('click').bind('click',function(){
 	// cmmUtil.setPoiHighlight('YP_BSSH_INFO', $(this).data('no'));
 	// rightSubPopupOpen("selectInBusinessEstaInfo", $(this).data('no'), "right");
 
-	openPopup("rightSubPopup");
+	ui.openPopup("rightSubPopup");
 	aj_selectInBusinessEstaInfo($("#tmpForm")[0], $(this).data('no'), "right");
 
 })
@@ -250,7 +250,7 @@ function setPointLayer(){
 
 // 관내업소정보 상세페이지 호출 ajax
 function aj_selectInBusinessEstaInfo(form, no, param2){
-	loadingBar("show");
+	ui.loadingBar("show");
 	
 	// $('.bbs-list tbody tr').removeClass('active');
 	// $('#'+no).addClass('active');
@@ -284,7 +284,7 @@ function aj_selectInBusinessEstaInfo(form, no, param2){
 				return;
 			} 
 		}, complete : function(){
-			loadingBar("hide");
+			ui.loadingBar("hide");
 		}
 	});
 }

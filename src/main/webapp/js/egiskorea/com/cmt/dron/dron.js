@@ -46,7 +46,7 @@ function aj_insertDronInfoView(frm){
 
             if(status == "success") {
                 $("#rightPopup").html(returnData);
-                callDatePicker();
+                ui.callDatePicker();
             }else{
                 toastr.error("관리자에게 문의 바랍니다.", "정보를 불러오지 못했습니다.");
                 return;
@@ -136,7 +136,7 @@ function aj_updateDronInfoView(id,frm){
 
             if(status == "success") {
                 $("#rightPopup").html(returnData);
-                callDatePicker();
+                ui.callDatePicker();
             }else{
                 toastr.error("관리자에게 문의 바랍니다.", "정보를 불러오지 못했습니다.");
                 return;

@@ -178,7 +178,7 @@ function fn_select_linkPage(pageNo){
 
 //농업용공공관정 등록페이지 열기
 function fn_select_regist(){
-	openPopup("rightSubPopup");
+	ui.openPopup("rightSubPopup");
 	aj_insertUnderWaterAgriView($("#tmpForm")[0], "", "right");
 }
 
@@ -188,7 +188,7 @@ $("tr[name='uwAgriDtl']").unbind('click').bind('click',function(){
 	// cmmUtil.setPoiHighlightRemove(); //기존 활성화 되어 있는 아이콘 모두 비활성화 해주기.
 	// cmmUtil.setPoiHighlight('TGD_AGR_PUBLIC_TBWLL', $(this).data('gid')); //POI 아이콘 활성화
 	// openPopup("selectUnderWaterAgri", $(this).data('gid'), "right");
-	openPopup("rightSubPopup");
+	ui.openPopup("rightSubPopup");
 	aj_selectUnderWaterAgri($("#tmpForm")[0], $(this).data('gid'), "right");
 });
 
@@ -255,7 +255,7 @@ $("input[name=underWaterAgriSelect]").on('change',function(){
 
 // 농업용공공관정 등록페이지 열기
 function aj_insertUnderWaterAgriView(form, param1, param2){
-	loadingBar("show");
+	ui.loadingBar("show");
 
 	var formData = new FormData(form);
 
@@ -274,7 +274,7 @@ function aj_insertUnderWaterAgriView(form, param1, param2){
 				return;
 			}
 		}, complete : function(){
-			loadingBar("hide");
+			ui.loadingBar("hide");
 			setYear();
 		}
 	});
@@ -282,7 +282,7 @@ function aj_insertUnderWaterAgriView(form, param1, param2){
 
 // 농업용공공관정 상세페이지 열기
 function aj_selectUnderWaterAgri(form, gid, param2){
-	loadingBar("show");
+	ui.loadingBar("show");
 	$('.bbs-list tbody tr').removeClass('active');
 	$('#'+gid).addClass('active');
 	// cmmUtil.setCameraMove($('#'+gid).data('lon'), $('#'+gid).data('lat'));
@@ -315,14 +315,14 @@ function aj_selectUnderWaterAgri(form, gid, param2){
 				return;
 			}
 		}, complete : function(){
-			loadingBar("hide");
+			ui.loadingBar("hide");
 		}
 	});
 }
 
 // 농업용공공관정 상세 > 수정페이지 열기
 function aj_updateUnderWaterAgriView(form, param1, param2){
-	loadingBar("show");
+	ui.loadingBar("show");
 
 	var formData = new FormData(form);
 	if(param1 != ''){
@@ -346,7 +346,7 @@ function aj_updateUnderWaterAgriView(form, param1, param2){
 				return;
 			}
 		}, complete : function(){
-			loadingBar("hide");
+			ui.loadingBar("hide");
 			setYear();
 		}
 	});

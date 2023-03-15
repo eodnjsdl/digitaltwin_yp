@@ -124,7 +124,7 @@ function aj_selectAtmospherePollution(ms) {
 var openYangPyeongEup = function(){
 	
 //		debugger;
-	loadingBar("show");
+	ui.loadingBar("show");
 	$(".popup-sub").removeClass("opened").html("");
 	
 	var formData = new FormData();
@@ -190,7 +190,7 @@ var openYangPyeongEup = function(){
 				return;
 			} 
 		}, complete : function(){
-			loadingBar("hide"); 
+			ui.loadingBar("hide");
 		}
 	});
 		
@@ -201,7 +201,7 @@ var openYangPyeongEup = function(){
 var openYongMunMyeon = function(){
 	
 //	debugger;
-	loadingBar("show");
+	ui.loadingBar("show");
 	$(".popup-sub").removeClass("opened").html("");
 	
 	var formData = new FormData();
@@ -250,7 +250,7 @@ var openYongMunMyeon = function(){
 				return;
 			} 
 		}, complete : function(){
-			loadingBar("hide"); 
+			ui.loadingBar("hide");
 		}
 	});
 	
@@ -291,7 +291,7 @@ function apptList(ypeUrl, ymmUrl) {
 	// 기준일시 표기
 	$("#standardDateTime").append(dateString + ' ' + currentHour + ':00')
 
-	loadingBar("show", $(".popup-left"));
+	ui.loadingBar("show", $(".popup-left"));
 
 	// // 조회시 테이블 리스트 삭제
 	// $(".appt-table.bbs-list tbody").empty();
@@ -320,7 +320,7 @@ function apptList(ypeUrl, ymmUrl) {
 			// $(".appt-table.bbs-list tbody").append(dataList);
 			
 		}, complete : function(){
-			// loadingBar("hide");
+			// ui.loadingBar("hide");
 
 			// 용문면
 			$.ajax({
@@ -345,7 +345,7 @@ function apptList(ypeUrl, ymmUrl) {
 					$(".appt-table.bbs-list tbody").append(dataList);
 
 				}, complete : function(){
-					loadingBar("hide");
+					ui.loadingBar("hide");
 				}
 			});
 
@@ -379,7 +379,7 @@ function apptList(ypeUrl, ymmUrl) {
 		success : function(data, status){
 			yPEMeasuringStation = data.response.body.items;
 		}, complete : function(){
-			// loadingBar("hide");
+			// ui.loadingBar("hide");
 		}
 	});
 	
@@ -392,7 +392,7 @@ function apptList(ypeUrl, ymmUrl) {
 		success : function(data, status){
 			yMMMeasuringStation = data.response.body.items;
 		}, complete : function(){
-			// loadingBar("hide");
+			// ui.loadingBar("hide");
 		}
 	});
 	

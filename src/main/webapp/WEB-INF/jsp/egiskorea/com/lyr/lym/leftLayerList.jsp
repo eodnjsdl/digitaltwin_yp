@@ -165,7 +165,7 @@ function aj_deleteLayerListInfo(btn){
 				return;
 			} 
 		}, complete : function(){
-			loadingShowHide("hide"); 
+			ui.loadingBar("hide");
 		}
 	});
 }

@@ -157,7 +157,7 @@ $(document).ready(function(){
 				}
 			});
 			
-			loadingShowHide("show");
+			ui.loadingBar("show");
 			
 			$.ajax({
 				type : "POST",

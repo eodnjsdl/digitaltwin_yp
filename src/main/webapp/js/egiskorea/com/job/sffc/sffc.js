@@ -1,5 +1,5 @@
 function aj_selectWtlFacilitiesList(){
-	loadingShowHide("show");
+	ui.loadingBar("show");
 	$.ajax({
 		type : "POST",
 		url : "/job/sffc/selectWtlFacilitiesList.do",
@@ -13,7 +13,7 @@ function aj_selectWtlFacilitiesList(){
 				return;
 			} 
 		}, complete : function(){
-			loadingShowHide("hide"); 
+			ui.loadingBar("hide");
             selectWtlList(1);
 		}
 	});

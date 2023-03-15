@@ -11,7 +11,7 @@
 <script src="/js/egiskorea/com/cmm/cmmUtil.js"></script>
 
 <script type="text/javascript">
-callDatePicker();
+ui.callDatePicker();
 
 var rePnrsAt = "<c:out value='${nomalList.pnrsAt}'></c:out>";
 

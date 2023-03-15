@@ -6,7 +6,7 @@
 <script>
 $(document).ready(function(){
 	$(".popup-panel").removeClass('opened');
-	loadingShowHide("hide");
+	ui.loadingBar("hide");
 })
 </script>
 

@@ -125,7 +125,7 @@ class UnitySearch {
     }
 
     this.params["nm"] = nm;
-    loadingShowHide("show");
+    ui.loadingBar("show");
     $.ajax({
       url: "/sach/Unty/searchTotal.do",
       type: "POST",
@@ -134,7 +134,7 @@ class UnitySearch {
       this.searchType = "total";
       const result = JSON.parse(res);
       that.createResults(result, that.searchTotal);
-      loadingShowHide("hide");
+      ui.loadingBar("hide");
     });
   }
 
@@ -311,7 +311,7 @@ class AddressSearch {
    * 읍면동
    */
   load() {
-    loadingShowHide("show");
+    ui.loadingBar("show");
     store.emd.getData().done((features) => {
       const sorted = util.array.sort(features, "emd_kor_nm");
       const tags = sorted.map((feature) => {
@@ -323,7 +323,7 @@ class AddressSearch {
       $(".search-address-emd", this.selector).trigger("change");
       $(".search-road-emd", this.selector).html(tags.join(""));
       $(".search-road-emd", this.selector).trigger("change");
-      loadingShowHide("hide");
+      ui.loadingBar("hide");
     });
   }
 
@@ -332,7 +332,7 @@ class AddressSearch {
    * @param {string} emdCd 읍면동코드
    */
   loadLi(emdCd) {
-    loadingShowHide("show");
+    ui.loadingBar("show");
     const filter = ol.format.filter.like("li_cd", `${emdCd}*`);
     util.gis
       .getFeature(["tgd_scco_li"], filter, null, null, [
@@ -356,7 +356,7 @@ class AddressSearch {
         } catch (error) {
           console.log(`리 을 가져오는데 실패했습니다.`);
         } finally {
-          loadingShowHide("hide");
+          ui.loadingBar("hide");
         }
       });
   }
@@ -366,7 +366,7 @@ class AddressSearch {
    * @param {string} emdCd 읍면동코드
    */
   loadRn(emdCd) {
-    loadingShowHide("show");
+    ui.loadingBar("show");
     const filter = ol.format.filter.equalTo("emd_cd", emdCd);
     //util.gis.getFeature(["v_tgd_sprd_rn"], filter).done((geojson) => {
     util.gis
@@ -392,10 +392,10 @@ class AddressSearch {
         } catch (error) {
           console.log(`도로명을 가져오는데 실패했습니다.`);
         } finally {
-          loadingShowHide("hide");
+          ui.loadingBar("hide");
         }
       });
-    loadingShowHide("hide");
+    ui.loadingBar("hide");
   }
 
   /**
@@ -430,17 +430,17 @@ class AddressSearch {
 
     this.params["pnu"] = pnu;
 
-    loadingShowHide("show");
+    ui.loadingBar("show");
     $.post("/sach/adr/searchAddress.do", this.params)
       .done((response) => {
         this.searchType = "address";
         const result = JSON.parse(response);
         this.createResults(result, this.searchAddress);
-        loadingShowHide("hide");
+        ui.loadingBar("hide");
       })
       .fail(() => {
         alert("주소 검색에 실패하였습니다.");
-        loadingShowHide("hide");
+        ui.loadingBar("hide");
       });
   }
 
@@ -463,17 +463,17 @@ class AddressSearch {
     this.params["mnnm"] = mnnm || "";
     this.params["slno"] = slno || "";
 
-    loadingShowHide("show");
+    ui.loadingBar("show");
     $.post("/sach/adr/searchRoadAddress.do", this.params)
       .done((response) => {
         this.searchType = "roadAddress";
         const result = JSON.parse(response);
         this.createResults(result, this.searchRoadAddress);
-        loadingShowHide("hide");
+        ui.loadingBar("hide");
       })
       .fail(() => {
         alert("도로명 주소 검색에 실패하였습니다.");
-        loadingShowHide("hide");
+        ui.loadingBar("hide");
       });
   }
 

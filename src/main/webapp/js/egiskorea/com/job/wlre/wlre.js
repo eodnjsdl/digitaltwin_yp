@@ -92,7 +92,7 @@ var WLRE = {
 	},
 	// 등록화면 호출
 	aj_selectWelfareFacilityModal : function() {
-		loadingShowHide("show");
+		ui.loadingBar("show");
 		$(".popup-sub").removeClass("opened").html("");
 		
 		$.ajax({
@@ -108,7 +108,7 @@ var WLRE = {
 					return;
 				} 
 			}, complete : function(){
-				loadingShowHide("hide"); 
+				ui.loadingBar("hide");
 			}
 		});
 	},
@@ -118,7 +118,7 @@ var WLRE = {
 				gid: gid
 		}
 		if(confirm("삭제하시겠습니까?") == true){
-			loadingShowHide("show");
+			ui.loadingBar("show");
 			$.ajax({
 				url:"/job/wlre/deleteWelfare.do",
 				type: "POST",
@@ -128,7 +128,7 @@ var WLRE = {
 					toastr.success("정상적으로 삭제되었습니다.");
 					bottomPopupOpen("welfareFacility");
 				}, complete : function(){
-					loadingShowHide("hide"); 
+					ui.loadingBar("hide");
 				}
 			});
 	    } else {
@@ -195,7 +195,7 @@ var WLRE = {
 				dataStdde: dataStdde
 		}
 		if(confirm("등록하시겠습니까?") == true){
-			loadingShowHide("show");
+			ui.loadingBar("show");
 			$.ajax({
 				url:"/job/wlre/insertWelfare.do",
 				type: "POST",
@@ -205,7 +205,7 @@ var WLRE = {
 				    alert("정상적으로 등록되었습니다.");
 					bottomPopupOpen("welfareFacility");
 				}, complete : function(){
-					loadingShowHide("hide"); 
+					ui.loadingBar("hide");
 					WLRE.removeCmmPOI();
 				}
 			});
@@ -240,7 +240,7 @@ var WLRE = {
 	},
 	// 복지시설 상세조회
 	selectWelfare : function(gid, lon, lat) {
-		loadingShowHide("show");
+		ui.loadingBar("show");
 		$(".popup-sub").removeClass("opened").html("");
 		
 		$('.bbs-list tbody tr').removeClass('active');
@@ -280,7 +280,7 @@ var WLRE = {
 					return;
 				} 
 			}, complete : function(){
-				loadingShowHide("hide"); 
+				ui.loadingBar("hide");
 			}
 		});
 	},
@@ -361,7 +361,7 @@ var WLRE = {
 			}
 			
 			if(confirm("수정하시겠습니까?") == true){
-				loadingShowHide("show");
+				ui.loadingBar("show");
 				$.ajax({
 					url:"/job/wlre/updateWelfare.do",
 					type: "POST",
@@ -371,7 +371,7 @@ var WLRE = {
 					    alert("정상적으로 수정되었습니다.");
 						bottomPopupOpen("welfareFacility");
 					}, complete : function(){
-						loadingShowHide("hide"); 
+						ui.loadingBar("hide");
 						WLRE.removeCmmPOI();
 					}
 				});

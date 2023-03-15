@@ -6,7 +6,7 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <script src="/js/egiskorea/com/job/sffm/sffm.js"></script>
 <script>
-callDatePicker();
+ui.callDatePicker();
 </script>
 
 <%--<div class="popup-panel popup-sub opened" style="bottom: 398px;right: 70px;width: 550px;height: 445px;" id="insertSafetyFacilLampMngView">--%>

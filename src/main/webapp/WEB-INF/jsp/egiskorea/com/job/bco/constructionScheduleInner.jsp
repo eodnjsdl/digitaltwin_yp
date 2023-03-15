@@ -8,7 +8,7 @@
 <script src="/js/egiskorea/com/job/bco/cws.js"></script>
 <script type="text/javascript">
 
-   	//callDatePicker();
+   	//ui.callDatePicker();
 	// 시기 - 년도
 	var rePlnYearInner = "<c:out value='${searchVO.plnYear}'></c:out>";
 	// 시기 - 분기

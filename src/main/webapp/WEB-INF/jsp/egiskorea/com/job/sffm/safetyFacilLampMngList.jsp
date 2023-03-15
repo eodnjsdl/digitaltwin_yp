@@ -8,19 +8,19 @@
 <%--<script src="/js/egiskorea/com/cmm/cmmUtil.js"></script>--%>
 <script>
 $(document).ready(function() {
-	callDatePicker();
+	ui.callDatePicker();
 	SFFM.init();
 });
 
 // 가로등관리 등록페이지 열기 버튼
 $("#insertSafetyFacilLampMngView").on("click", function(){
-	openPopup("rightSubPopup");
+	ui.openPopup("rightSubPopup");
 	SFFM.aj_insertSafetyFacilLampMngView($("#tmpForm")[0], "", "right");
 });
 
 // 가로등관리 상세페이지 열기
 function fn_select_detail(gid, lon, lat){
-	openPopup("rightSubPopup");
+	ui.openPopup("rightSubPopup");
 	// SFFM.aj_selectSafetyFacilLampMng(gid, lon, lat);
 
 	SFFM.aj_selectSafetyFacilLampMng($("#tmpForm")[0], gid, "right");

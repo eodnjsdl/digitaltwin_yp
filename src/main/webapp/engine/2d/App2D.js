@@ -92,7 +92,7 @@ class App2D {
 //                cmmUtil.highlightGeometry(result["lnbrWkt"]);
             	coordinate2d = coordinate;
             	if(!is3dInit){
-        			loadingShowHide('show')
+        			ui.loadingBar('show')
         			is3dBtn = false;
 				
 					var engineVersion = "v0.0.0.1";

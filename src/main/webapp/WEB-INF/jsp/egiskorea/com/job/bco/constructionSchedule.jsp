@@ -11,7 +11,7 @@
 <script type="text/javascript">
 var rePageChk = false;
 
-callDatePicker();
+ui.callDatePicker();
 
 var rePnrsAt = "<c:out value='${nomalList.pnrsAt}'></c:out>";
 if(rePnrsAt == "Y"){
