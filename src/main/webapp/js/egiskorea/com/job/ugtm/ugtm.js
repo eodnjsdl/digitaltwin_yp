@@ -171,9 +171,10 @@ var setYear = function(){
 }
 
 // '지도에서 선택' 버튼
-// $("#mapSelectBtn").unbind('click').bind('click',function(){
-// 	cmmUtil.getPositionGeom(positionCallback);
-// });
+$("#mapSelectBtn").unbind('click').bind('click',function(){
+	// cmmUtil.getPositionGeom(positionCallback);
+	toastr.warning("cmmUtil.getPositionGeom(positionCallback);", "지도 그리기 모드 + 맵 지도 클릭지점 좌표값 리턴");
+});
 
 // geom 값 넣기
 function positionCallback(pointGeom, address){

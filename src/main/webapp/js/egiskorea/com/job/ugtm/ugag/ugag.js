@@ -126,19 +126,20 @@ $(document).ready(function(){
 //페이지네이션1
 function fn_select_list(searchType){
 
-	if(!$('#mapType3D').prop("checked")) {
-		const yMap = app2D.getYMap();
-
-		if($('#rChk1-2').is(":checked") && yMap.getModule("highlight").getFeatures("sky").length != 1 && $('.groundwaterSpace').hasClass("on")) {
-			 alert("영역을 선택해주세요.");
-			 return;
-		}
-	}
+	// if(!$('#mapType3D').prop("checked")) {
+	// 	const yMap = app2D.getYMap();
+	//
+	// 	if($('#rChk1-2').is(":checked") && yMap.getModule("highlight").getFeatures("sky").length != 1 && $('.groundwaterSpace').hasClass("on")) {
+	// 		 alert("영역을 선택해주세요.");
+	// 		 return;
+	// 	}
+	// }
 
 	$("#rightSubPopup").removeClass("opened").html("");
 	document.getElementById("searchForm").pageIndex.value = 1;
 	if(searchType == 'attr') {
 		// cmmUtil.drawClear();
+		toastr.warning("cmmUtil.drawClear();", "지도 그리기 초기화");
 		ugagFlag = 'true';
 		ugagUi = 'false';
 		$("#spitalSearch").val('');
@@ -149,12 +150,15 @@ function fn_select_list(searchType){
 		$(".ugtmSrch").val('');
 
 		var buffer = $("#bufferCnt").val();
-		// if(buffer && buffer > 0) {
-		// 	const wkt = cmmUtil.getSelectFeatureWKT();
-		// 	if(wkt) {
-		// 		cmmUtil.showBufferGeometry(wkt, buffer);
-		// 	}
-		// }
+		if(buffer && buffer > 0) {
+			// const wkt = cmmUtil.getSelectFeatureWKT();
+			toastr.warning("cmmUtil.getSelectFeatureWKT();", "1. 선택 그리기 공간객체 WKT 가져오기");
+			// if(wkt) {
+			// 	cmmUtil.showBufferGeometry(wkt, buffer);
+			// }
+			toastr.warning("cmmUtil.showBufferGeometry(wkt, buffer);", "2. 버퍼 공간 정보 표시");
+		}
+
 		aj_selectUnderWaterMngList($("#searchForm")[0], searchType);
 	}
 }
@@ -231,6 +235,7 @@ $("#ugagExcelDownload").on("click", function(){
 $("input[name=underWaterAgriAreaDrawing]").on('change',function(){
 	var chk2 = $("input[name=underWaterAgriAreaDrawing]:checked").val();
 	// cmmUtil.spitalDraw(chk2);
+	toastr.warning("spitalDraw(chk2);", "공간검색 사용자정의");
 });
 
 // 공간검색 radio버튼 change 이벤트2
@@ -240,9 +245,11 @@ $("input[name=underWaterAgriSelect]").on('change',function(){
 	if(chk != '1'){
 		$(".spaceArea").show();
 		// cmmUtil.spitalDraw(chk2);
+		toastr.warning("spitalDraw(chk2);", "공간검색 사용자정의");
 	} else {
 		$(".spaceArea").hide();
 		// cmmUtil.drawClear();
+		toastr.warning("cmmUtil.drawClear();", "지도 그리기 초기화");
 	}
 });
 
@@ -287,7 +294,9 @@ function aj_selectUnderWaterAgri(form, gid, param2){
 	var formData = new FormData(form);
 	if(gid != ''){
 		formData.append('gid', gid);
+		toastr.warning("객체 선택 해제하기", "1. 객체 선택 해제하기");
 		dtmap.poi.select(gid);
+		toastr.success("dtmap.poi.select(gid);", "2. 객체 선택");
 	}
 
 	$.ajax({

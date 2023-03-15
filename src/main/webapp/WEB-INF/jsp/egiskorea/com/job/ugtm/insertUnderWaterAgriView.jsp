@@ -9,6 +9,10 @@
 <script src="/js/egiskorea/com/job/spaceSearch.js"></script>
 <script src="/js/egiskorea/com/cmm/cmmUtil.js"></script>
 <script>
+
+
+	toastr.warning("객체 선택 해제하기", "객체 선택 해제하기");
+
 // 농업용공공관정 등록하기 버튼
 $("#agriRegist").on("click", function(){
 	

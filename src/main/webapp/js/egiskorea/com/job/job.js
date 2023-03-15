@@ -1,7 +1,9 @@
 // popup-sub 취소버튼
 $(document).on("click", ".closeSub", function(){		
 	closeSubPopup();
+
 	// removePoint(GLOBAL.NomalIcon);
+	toastr.warning("객체 선택 해제하기", "객체 선택 해제하기");
 });
 
 //생성된어 있는 POI, Line, Polygon 레이어가 있을때 지워주기
@@ -1001,4 +1003,7 @@ function cancelMode(){
 	// setTimeout(function(){
 	// 	Module.XDSetMouseState(6);
 	// }, 100);
+
+	toastr.warning("객체 선택 해제하기", "객체 선택 해제하기");
+
 }

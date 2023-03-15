@@ -9,6 +9,9 @@
 <script src="/js/egiskorea/com/job/spaceSearch.js"></script>
 <script src="/js/egiskorea/com/cmm/cmmUtil.js"></script>
 <script>
+
+	toastr.warning("객체 선택 해제하기", "객체 선택 해제하기");
+
 // 지하수이용시설 등록하기 버튼
 $("#useFacilRegist").on("click", function(){
 	

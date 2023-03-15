@@ -29,6 +29,7 @@ $(".popup-reset").unbind('click').bind('click',function(){
 
 //Poi 추가
 dtmap.poi.clear();
+toastr.success("dtmap.poi.clear();", "1. 지도의 객체 초기화");
 for (let i = 0; i < poiList.resultList.length; i++) {
 	let poi = poiList.resultList[i];
 	dtmap.poi.addPoi({
@@ -40,7 +41,9 @@ for (let i = 0; i < poiList.resultList.length; i++) {
 		img : './images/poi/underWaterDevelop_poi.png'
 	})
 }
+toastr.success("dtmap.poi.addPoi()", "2. 지도에 객체 표출");
 dtmap.poi.fit();
+toastr.success("dtmap.poi.fit();", "3. 지도 영역 이동");
 </script>
 <form:form name="selectUnderWaterDevelopExcelList" id="searchForm" method="post" onsubmit="fn_select_list(); return false;">
 <input type="hidden" name="pageIndex" id="pageIndex" value="<c:out value='${searchVO.pageIndex}' />">

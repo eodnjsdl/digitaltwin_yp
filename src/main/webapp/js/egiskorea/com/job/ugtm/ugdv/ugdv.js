@@ -126,19 +126,20 @@ function setPointLayer(){
 //페이지네이션1
 function fn_select_list(searchType){
 	
-	if(!$('#mapType3D').prop("checked")) {
-		const yMap = app2D.getYMap();
-		
-		if($('#rChk1-2').is(":checked") && yMap.getModule("highlight").getFeatures("sky").length != 1 && $('.groundwaterSpace').hasClass("on")) {
-			 alert("영역을 선택해주세요.");
-			 return;
-		}
-	}
+	// if(!$('#mapType3D').prop("checked")) {
+	// 	const yMap = app2D.getYMap();
+	//
+	// 	if($('#rChk1-2').is(":checked") && yMap.getModule("highlight").getFeatures("sky").length != 1 && $('.groundwaterSpace').hasClass("on")) {
+	// 		 alert("영역을 선택해주세요.");
+	// 		 return;
+	// 	}
+	// }
 	
 	$("#rightSubPopup").removeClass("opened").html("");
 	document.getElementById("searchForm").pageIndex.value = 1;
 	if(searchType == 'attr') {
-		cmmUtil.drawClear();
+		// cmmUtil.drawClear();
+		toastr.warning("cmmUtil.drawClear();", "지도 그리기 초기화");
 		ugdvFlag = 'true';
 		ugdvUi = 'false';
 		$("#spitalSearch").val('');
@@ -150,10 +151,12 @@ function fn_select_list(searchType){
 		
 		var buffer = $("#bufferCnt").val();
 		if(buffer && buffer > 0) {
-			const wkt = cmmUtil.getSelectFeatureWKT();
-			if(wkt) {
-				cmmUtil.showBufferGeometry(wkt, buffer);
-			}
+			// const wkt = cmmUtil.getSelectFeatureWKT();
+			toastr.warning("cmmUtil.getSelectFeatureWKT();", "1. 선택 그리기 공간객체 WKT 가져오기");
+			// if(wkt) {
+			// 	cmmUtil.showBufferGeometry(wkt, buffer);
+			// }
+			toastr.warning("cmmUtil.showBufferGeometry(wkt, buffer);", "2. 버퍼 공간 정보 표시");
 		}
 		aj_selectUnderWaterDevelopList($("#searchForm")[0], searchType);
 	}

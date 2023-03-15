@@ -25,7 +25,7 @@ $(document).ready(function(){
 									<li><p class="lnb-dep1">시설관리</p>
 										<ul class="lnb-dep2">
 											<li><button type="button" id="waterSupplyFacility" class="dataPopup bottomPopup" data-popup="waterSupplyFacility">상수도시설</button></li>
-											<li><button type="button" id="sewerSupplyFacility" class="dataPopup bottomPopup" data-popup="work-02-02">하수도시설</button></li>
+											<li><button type="button" id="sewerSupplyFacility" class="dataPopup bottomPopup" data-popup="sewerSupplyFacility">하수도시설</button></li>
 											<li><button type="button" id="transportationFacility" class="dataPopup bottomPopup" data-popup="transportationFacility">교통시설</button></li>
 											<li><button type="button" id="physicalEducationFacility" class="dataPopup bottomPopup" data-popup="physicalEducationFacility">체육시설</button></li>
 											<li><button type="button" id="welfareFacility" class="dataPopup bottomPopup" data-popup="welfareFacility">복지시설</button></li>
