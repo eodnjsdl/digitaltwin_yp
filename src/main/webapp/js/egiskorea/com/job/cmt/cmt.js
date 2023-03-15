@@ -1588,7 +1588,8 @@ class FacilityCommon {
     $("[name=rad-facility-drawing]", that.container).on("click", function () {
       const node = $(this);
       const value = node.val();
-      that.searchDrawing(value);
+      // that.searchDrawing(value);
+      toastr.warning("that.searchDrawing(value);", "공간검색 사용자정의");
     });
 
     // 속성 검색
