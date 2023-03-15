@@ -172,7 +172,7 @@ function fn_select_detail(gid, lon, lat){
 	</div>
 </div>
 <button type="button" class="manualBtn" title="도움말" onclick="manualTab('안전시설물관리')"></button>
-<button type="button" class="popup-close" title="닫기" onclick="SFFM.removeCmmPOI();"></button>
+<button type="button" class="popup-close" title="닫기" onClick="toastr.warning('SFFM.removeCmmPOI();', 'onclick 이벤트');"></button>
 <button type="button" class="popup-reset" class="초기화" onclick="bottomPopupOpen('safetyFacilitiesManagement');"></button>
 <button type="button" class="popup-bottom-toggle" onclick="toggleFold(this);" title="접기"></button>
 <!-- //안전시설물관리 -->

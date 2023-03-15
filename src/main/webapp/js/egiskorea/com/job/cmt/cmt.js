@@ -2442,6 +2442,8 @@ class FacilityDetail {
     this.featureType = null;
     this.modeObj = null;
     this.mode = null;
+
+    closeSubPopup();
   }
 
   /**
@@ -2474,10 +2476,10 @@ class FacilityDetail {
    * @returns
    */
   render() {
-    $(".div-failcity-detail").remove();
+    // $(".div-failcity-detail").remove();
 
     let tag = ``;
-    tag += `<div class="popup-panel popup-sub popup-draggable div-failcity-detail opened">`;
+    // tag += `<div class="popup-panel popup-sub popup-draggable div-failcity-detail opened">`;
     tag += `<div class="popup-header">${this.modeObj.getTitle(
       this.title
     )}</div>`;
@@ -2544,8 +2546,10 @@ class FacilityDetail {
     tag += `</div>`;
     tag += `</div>`;
     const element = $(tag);
-    $("#container").append(element);
 
+
+    openPopup("rightSubPopup");
+    $("#rightSubPopup").append(element);
     // 스크롤 적용
     $(".scroll-y", this.selector).mCustomScrollbar({
       scrollbarPosition: "outside",
@@ -2913,7 +2917,7 @@ class FacilityDetailAdd {
     let tag = ``;
     tag += `<div>`;
     tag += `  <button type="button" class="btn basic bi-edit btn_add">등록</button>`;
-    tag += `  <button type="button" class="btn basic bi-cancel btn_cancel">취소</button>`;
+    tag += `  <button type="button" class="btn basic bi-cancel btn_cancel closeSub">취소</button>`;
     tag += `</div>`;
     return tag;
   }
@@ -2966,7 +2970,7 @@ class FacilityDetailView {
     tag += `<div>`;
     tag += `  <button type="button" class="btn basic bi-edit btn_edit">수정</button>`;
     tag += `  <button type="button" class="btn basic bi-delete2 btn_delete">삭제</button>`;
-    tag += `  <button type="button" class="btn basic bi-cancel btn_cancel">취소</button>`;
+    tag += `  <button type="button" class="btn basic bi-cancel btn_cancel closeSub">취소</button>`;
     tag += `</div>`;
     return tag;
   }
@@ -3081,7 +3085,7 @@ class FacilityDetailEdit {
     let tag = ``;
     tag += `<div>`;
     tag += `  <button type="button" class="btn basic bi-write2 btn_save">수정완료</button>`;
-    tag += `  <button type="button" class="btn basic bi-cancel btn_cancel">취소</button>`;
+    tag += `  <button type="button" class="btn basic bi-cancel btn_cancel closeSub">취소</button>`;
     tag += `</div>`;
     return tag;
   }

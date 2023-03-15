@@ -51,13 +51,13 @@ function fn_select_delete(orgFid) {
 				if(status == "success") {
 					if(removeLine(returnData) == "ok"){
 						alert("<spring:message code="success.common.delete" />");
-						$(".popup-sub").removeClass("opened");
+						closeSubPopup();
 						aj_selectExaminationInfoList($("#searchFormLeft")[0], "");
 					}else{
 						alert("<spring:message code="fail.common.delete" />");
 					}
 				}else{
-					alert("ERROR!");
+					toastr.error("관리자에게 문의 바랍니다.", "정보를 불러오지 못했습니다.");
 					return;
 				}
 			}

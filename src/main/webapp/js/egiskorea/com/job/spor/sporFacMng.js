@@ -48,7 +48,7 @@ function sportsFacMngView(gid){
 				$("#container").append(returnData);
 				setPoint();
 			}else{ 
-				alert("ERROR!");
+				toastr.error("관리자에게 문의 바랍니다.", "정보를 불러오지 못했습니다.");
 				return;
 			} 
 		}, complete : function(){
@@ -88,7 +88,7 @@ function sportsFacMngViewPaging(pageIndex, gid){
 				$("#container").append(returnData);
 				
 			}else{ 
-				alert("ERROR!");
+				toastr.error("관리자에게 문의 바랍니다.", "정보를 불러오지 못했습니다.");
 				return;
 			} 
 		},
@@ -136,7 +136,7 @@ function setPoint(){
 					setFacSportsPoi(parseFloat(lon), parseFloat(lat), asstnFcltyNm);
 				}
 			}else{ 
-				alert("ERROR!");
+				toastr.error("관리자에게 문의 바랍니다.", "정보를 불러오지 못했습니다.");
 				return;
 			} 
 		}, complete : function(){

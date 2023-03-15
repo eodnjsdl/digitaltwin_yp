@@ -141,7 +141,7 @@ function aj_selectLayerList(mode, reset = false){
 					});
 				}
 			}else{ 
-				alert("ERROR!");
+				toastr.error("관리자에게 문의 바랍니다.", "정보를 불러오지 못했습니다.");
 				return;
 			} 
 		}, complete : function(){
@@ -179,7 +179,7 @@ function aj_selectLayerManagementList(){
 					});
 				}
 			}else{ 
-				alert("ERROR!");
+				toastr.error("관리자에게 문의 바랍니다.", "정보를 불러오지 못했습니다.");
 				return;
 			} 
 		}, complete : function(){
@@ -200,7 +200,7 @@ function aj_insertDataConversionView(){
 			if(status == "success") {
 				$("#leftPopup").html(returnData);
 			}else{ 
-				alert("ERROR!");
+				toastr.error("관리자에게 문의 바랍니다.", "정보를 불러오지 못했습니다.");
 				return;
 			} 
 		}, complete : function(){
@@ -225,7 +225,7 @@ function aj_updateLayerInfoView(layerId){
 				$("#layerManagement").removeClass("active");
 				$("#leftPopup").html(returnData);
 			}else{ 
-				alert("ERROR!");
+				toastr.error("관리자에게 문의 바랍니다.", "정보를 불러오지 못했습니다.");
 				return;
 			} 
 		}, complete : function(){

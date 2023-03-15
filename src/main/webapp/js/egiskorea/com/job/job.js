@@ -1,6 +1,6 @@
 // popup-sub 취소버튼
 $(document).on("click", ".closeSub", function(){		
-	$(".popup-sub").removeClass("opened");
+	closeSubPopup();
 	// removePoint(GLOBAL.NomalIcon);
 });
 

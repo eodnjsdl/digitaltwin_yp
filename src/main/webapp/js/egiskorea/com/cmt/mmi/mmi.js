@@ -20,7 +20,7 @@ function aj_selectMemoInfoList(frm){
 				});
 				$("input:checkbox[id='memoOrder2']").prop("checked", true);
 			}else{ 
-				alert("ERROR!");
+				toastr.error("관리자에게 문의 바랍니다.", "정보를 불러오지 못했습니다.");
 				return;
 			} 
 		}, complete : function(){
@@ -65,7 +65,7 @@ function aj_insertMemoInfoView(frm){
 			if(status == "success") {				
 				$("#rightPopup").html(returnData);
 			}else{ 
-				alert("ERROR!");
+				toastr.error("관리자에게 문의 바랍니다.", "정보를 불러오지 못했습니다.");
 				return;
 			} 
 		}, complete : function(){
@@ -95,7 +95,7 @@ function aj_updateMemoInfoView(id,frm){
 			if(status == "success") {				
 				$("#rightPopup").html(returnData);
 			}else{ 
-				alert("ERROR!");
+				toastr.error("관리자에게 문의 바랍니다.", "정보를 불러오지 못했습니다.");
 				return;
 			} 
 		}, complete : function(){
@@ -124,7 +124,7 @@ function aj_selectMemoInfoView(id,frm){
 			if(status == "success") {				
 				$("#rightPopup").html(returnData);
 			}else{ 
-				alert("ERROR!");
+				toastr.error("관리자에게 문의 바랍니다.", "정보를 불러오지 못했습니다.");
 				return;
 			} 
 		}, complete : function(){

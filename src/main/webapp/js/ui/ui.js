@@ -43,3 +43,8 @@ function callDatePicker(){
         buttonImage: '/images/icon/form-calendar.svg',
     });
 }
+
+
+function closeSubPopup() {
+    $(".popup-sub").removeClass("opened");
+}

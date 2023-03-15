@@ -84,7 +84,7 @@ function insertSportsView(form){
 				});
 			
 			}else{ 
-				alert("ERROR!");
+				toastr.error("관리자에게 문의 바랍니다.", "정보를 불러오지 못했습니다.");
 				return;
 			} 
 		}, complete : function(){
@@ -109,7 +109,7 @@ function deleteSports(gid){
 			dataType : "json",
 			data : {"gid" : gid},
 			success : function(data){
-				$(".popup-sub").removeClass("opened");
+				closeSubPopup();
 				fn_select_physicalEducation_facility_list();
 			},
 			complete : function (){
@@ -235,7 +235,7 @@ function selectSportsDetail(gid,lon,lat){
 //				callDatePicker(); //date picker
 				YYMM_datePicker()
 			}else{ 
-				alert("ERROR!");
+				toastr.error("관리자에게 문의 바랍니다.", "정보를 불러오지 못했습니다.");
 				return;
 			} 
 		}
@@ -270,7 +270,7 @@ function updateSportsView(gid){
 				});
 			
 			}else{ 
-				alert("ERROR!");
+				toastr.error("관리자에게 문의 바랍니다.", "정보를 불러오지 못했습니다.");
 				return;
 			} 
 		}, complete : function(){
@@ -321,7 +321,7 @@ function updateSports(gid){
 //					selectSportsDetail(gid); //상세보기
 //					fn_select_physicalEducation_facility_list(); // 체육시설 목록
 				}else{ 
-					alert("ERROR!");
+					toastr.error("관리자에게 문의 바랍니다.", "정보를 불러오지 못했습니다.");
 					return;
 				} 
 			},error: function(request,status,error){
@@ -679,7 +679,7 @@ function resetFacMagLayer(){
 function cancleSportsPopup(){
 	$('#selectSafetyFacilLampMng').removeClass('opened');
 	removePoint(GLOBAL.NomalIcon);
-	$(".popup-sub").removeClass("opened");
+	closeSubPopup();
 }
 
 /**

@@ -266,7 +266,7 @@ function aj_updateConstructionPlanView(keyId){
 					scrollbarPosition:"outside"
 				});
 			}else{
-				alert("ERROR!");
+				toastr.error("관리자에게 문의 바랍니다.", "정보를 불러오지 못했습니다.");
 				return;
 			}
 		}, complete : function(){
@@ -303,7 +303,7 @@ function aj_updateConstructionPlan(form){
 				});
 				//destroy();
 			}else{
-				alert("ERROR!");
+				toastr.error("관리자에게 문의 바랍니다.", "정보를 불러오지 못했습니다.");
 				return;
 			}
 		}, complete : function(){
@@ -342,7 +342,7 @@ function aj_deleteConstructionPlan(form, param){
 					scrollbarPosition:"outside"
 				});
 			}else{
-				alert("ERROR!");
+				toastr.error("관리자에게 문의 바랍니다.", "정보를 불러오지 못했습니다.");
 				return;
 			}
 		}, complete : function(){
@@ -381,7 +381,7 @@ function aj_insertConstructionPlanView(){
 				});
 				// destroy();
 			}else{
-				alert("ERROR!");
+				toastr.error("관리자에게 문의 바랍니다.", "정보를 불러오지 못했습니다.");
 				return;
 			}
 		}, complete : function(){
@@ -417,7 +417,7 @@ function aj_insertConstructionPlan(form){
 					scrollbarPosition:"outside"
 				});
 			}else{
-				alert("ERROR!");
+				toastr.error("관리자에게 문의 바랍니다.", "정보를 불러오지 못했습니다.");
 				return;
 			}
 		}, complete : function(){
@@ -536,7 +536,7 @@ function aj_selectConstructionPlanListPage(form){
 				$("#cntrkLcAdres").val(inCntrkLcAdres);
 				$("#cntrkNm").val(inCntrkNm);
 			}else{
-				alert("ERROR!");
+				toastr.error("관리자에게 문의 바랍니다.", "정보를 불러오지 못했습니다.");
 				return;
 			}
 		}, complete : function(){

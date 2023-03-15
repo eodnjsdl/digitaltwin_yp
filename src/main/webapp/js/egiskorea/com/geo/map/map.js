@@ -17,7 +17,7 @@ function MapSetting() {
 				
 				setPlanetTransparency(returnData.result.tpgrphTrnsprc);
 			}else{ 
-				alert("ERROR!");
+				toastr.error("관리자에게 문의 바랍니다.", "정보를 불러오지 못했습니다.");
 				return;
 			} 
 		}, complete : function(){

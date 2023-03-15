@@ -13,7 +13,7 @@ function aj_selectBusinessInfo(pnu){
 			if(status == "success") {
 				$("#rightPopup").html(returnData);
 			}else{ 
-				alert("ERROR!");
+				toastr.error("관리자에게 문의 바랍니다.", "정보를 불러오지 못했습니다.");
 				return;
 			} 
 		}, complete : function(){
@@ -84,7 +84,7 @@ function aj_selectAdministrationZoneList(frm){
 			if(status == "success") {				
 				$(".lnb-territory").html(returnData);
 			}else{ 
-				alert("ERROR!");
+				toastr.error("관리자에게 문의 바랍니다.", "정보를 불러오지 못했습니다.");
 				return;
 			} 
 		}, complete : function(){
@@ -106,7 +106,7 @@ function aj_insertAdministrationZoneView(){
 			if(status == "success") {				
 				$("#leftPopup").html(returnData);
 			}else{ 
-				alert("ERROR!");
+				toastr.error("관리자에게 문의 바랍니다.", "정보를 불러오지 못했습니다.");
 				return;
 			} 
 		}, complete : function(){
@@ -139,7 +139,7 @@ function aj_selectExaminationInfoList(frm, param1, param2){
 			if(status == "success") {				
 				$("#leftPopup").html(returnData);
 			}else{ 
-				alert("ERROR!");
+				toastr.error("관리자에게 문의 바랍니다.", "정보를 불러오지 못했습니다.");
 				return;
 			} 
 		}, complete : function(){
@@ -178,7 +178,7 @@ function aj_selectExaminationInfo(frm, param1, param2){
 					$(".sub-popup-body").removeClass("territory-info-body detail").addClass("survey-information-body");
 				}
 			}else{ 
-				alert("ERROR!");
+				toastr.error("관리자에게 문의 바랍니다.", "정보를 불러오지 못했습니다.");
 				return;
 			} 
 		}, complete : function(){
@@ -206,7 +206,7 @@ function aj_updateExaminationInfoView(frm, param1, param2){
 			if(status == "success") {	
 				$("#leftSubPopup").html(returnData);
 			}else{ 
-				alert("ERROR!");
+				toastr.error("관리자에게 문의 바랍니다.", "정보를 불러오지 못했습니다.");
 				return;
 			} 
 		}, complete : function(){
@@ -226,7 +226,7 @@ function aj_selectMapSettingInfo(){
 			if(status == "success") {	
 				$(".lnb-setting").html(returnData);
 			}else{ 
-				alert("ERROR!");
+				toastr.error("관리자에게 문의 바랍니다.", "정보를 불러오지 못했습니다.");
 				return;
 			} 
 		}, complete : function(){

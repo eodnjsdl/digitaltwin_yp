@@ -79,7 +79,7 @@ function aj_updateOpQnaView(){
 			if(status == "success") {
 				$("#opqna").html(returnData);
 			}else{ 
-				alert("ERROR!");
+				toastr.error("관리자에게 문의 바랍니다.", "정보를 불러오지 못했습니다.");
 				return;
 			} 
 		}, complete : function(){
@@ -104,7 +104,7 @@ function aj_deleteOpQna(){
 				if(status == "success") {
 					$("#opqna").html(returnData);
 				}else{ 
-					alert("ERROR!");
+					toastr.error("관리자에게 문의 바랍니다.", "정보를 불러오지 못했습니다.");
 					return;
 				} 
 			}, complete : function(){
@@ -134,7 +134,7 @@ function aj_insertOpQnaAnswer(){
 			if(status == "success") {
 				$("#opqna").html(returnData);
 			}else{ 
-				alert("ERROR!");
+				toastr.error("관리자에게 문의 바랍니다.", "정보를 불러오지 못했습니다.");
 				return;
 			} 
 		}, complete : function(){
@@ -161,7 +161,7 @@ function aj_updateOpQnaAnswerView(){
 			if(status == "success") {
 				$("#opqna").html(returnData);
 			}else{ 
-				alert("ERROR!");
+				toastr.error("관리자에게 문의 바랍니다.", "정보를 불러오지 못했습니다.");
 				return;
 			} 
 		}, complete : function(){
@@ -189,7 +189,7 @@ function aj_deleteOpQnaAnswer(){
 				if(status == "success") {
 					$("#opqna").html(returnData);
 				}else{ 
-					alert("ERROR!");
+					toastr.error("관리자에게 문의 바랍니다.", "정보를 불러오지 못했습니다.");
 					return;
 				} 
 			}, complete : function(){

@@ -200,6 +200,6 @@ $(".popup-reset").unbind('click').bind('click',function(){
 </div>
 </form>
 <button type="button" class="manualBtn" title="도움말" onclick="manualTab('관내업소정보조회')"></button>
-<button type="button" class="popup-close" title="닫기" onClick="removeLayer(); cmmUtil.drawClear();"></button>
+<button type="button" class="popup-close" title="닫기" onClick="toastr.warning('removeLayer(); cmmUtil.drawClear();', 'onclick 이벤트');"></button>
 <button type="button" class="popup-reset" class="초기화"></button>
 <button type="button" class="popup-bottom-toggle" title="접기" onclick="toggleFold(this);"></button>				

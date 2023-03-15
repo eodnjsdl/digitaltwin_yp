@@ -101,7 +101,7 @@ function fn_id_check(){
 					//사용가능한 아이디입니다.
 					$("#divModalResult").html("<font color='blue'><spring:message code="comUssUmt.userManageRegistModal.result" /> : ["+returnData.checkId+"]<spring:message code="comUssUmt.userManageRegistModal.notUseMsg" /></font>");
 				}
-			}else{ alert("ERROR!");return;} 
+			}else{ toastr.error("관리자에게 문의 바랍니다.", "정보를 불러오지 못했습니다.");return;}
 		}
 		});
 }
@@ -128,7 +128,7 @@ function fn_id_checkOk(){
 					$("input[name=emplyrId]").val(returnData.checkId);
 					$("#egovModal").setEgovModalClose();
 				}
-			}else{ alert("ERROR!");return;} 
+			}else{ toastr.error("관리자에게 문의 바랍니다.", "정보를 불러오지 못했습니다.");return;}
 		}
 		});
 }

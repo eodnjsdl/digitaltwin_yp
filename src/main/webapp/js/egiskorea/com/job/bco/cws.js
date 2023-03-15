@@ -815,7 +815,7 @@ function aj_selectConstructionSchedule(keyId){
 				// 마우스 상태 설정
 				// Module.XDSetMouseState(Module.MML_SELECT_POINT);
 			}else{
-				alert("ERROR!");
+				toastr.error("관리자에게 문의 바랍니다.", "정보를 불러오지 못했습니다.");
 				return;
 			}
 		}, complete : function(){
@@ -847,7 +847,7 @@ function aj_selectConstructionScheduleOderInfo(cntrkPrrngId, orderId, type){
 				codeDtlList = dataList.codeDtlList;	// 공사내역 상세
 				setDtlOrderInfo(type);
 			}else{
-				alert("ERROR!");
+				toastr.error("관리자에게 문의 바랍니다.", "정보를 불러오지 못했습니다.");
 				return;
 			}
 		}, complete : function(){
@@ -870,7 +870,7 @@ function aj_deleteConstructionScheduleOrder(objParams, type){
 				setInsertOdrInfo(data.odrList, type);
 				// cmmUtil.setOdrLayers(poiScheduleInfo.ordLayerId, poiScheduleInfo.LineLayerId, poiScheduleInfo.imgUrl, orderListSchedule);	// 차수정보 표출
 			}else{
-				alert("ERROR!");
+				toastr.error("관리자에게 문의 바랍니다.", "정보를 불러오지 못했습니다.");
 				return;
 			}
 		}, complete : function(){
@@ -907,7 +907,7 @@ function aj_deleteConstructionSchedule(cntrkPrrngId){
 					scrollbarPosition:"outside"
 				});
 			}else{
-				alert("ERROR!");
+				toastr.error("관리자에게 문의 바랍니다.", "정보를 불러오지 못했습니다.");
 				return;
 			}
 		}, complete : function(){
@@ -947,7 +947,7 @@ function aj_updateConstructionScheduleView(keyId){
 				//cmmUtil.setOdrLayers(poiScheduleInfo.ordLayerId, poiScheduleInfo.LineLayerId, poiScheduleInfo.imgUrl, orderListInfo);
 
 			}else{
-				alert("ERROR!");
+				toastr.error("관리자에게 문의 바랍니다.", "정보를 불러오지 못했습니다.");
 				return;
 			}
 		}, complete : function(){
@@ -1013,7 +1013,7 @@ function aj_updateConstructionScheduleNomal(form){
 
 				$("tbody[name='tbodyOdrUpdateInfo']").append(odrHtml);
 			}else{
-				alert("ERROR!");
+				toastr.error("관리자에게 문의 바랍니다.", "정보를 불러오지 못했습니다.");
 				return;
 			}
 		}, complete : function(){
@@ -1041,7 +1041,7 @@ function aj_selectConstructionScheduleDtlCode(codeId){
 				dataList = JSON.parse(data);
 				setConstructionInfo(JSON.parse(data));
 			}else{
-				alert("ERROR!");
+				toastr.error("관리자에게 문의 바랍니다.", "정보를 불러오지 못했습니다.");
 				return;
 			}
 		}, complete : function(){
@@ -1077,7 +1077,7 @@ function aj_insertConstructionScheduleView(){
 					scrollbarPosition:"outside"
 				});
 			}else{
-				alert("ERROR!");
+				toastr.error("관리자에게 문의 바랍니다.", "정보를 불러오지 못했습니다.");
 				return;
 			}
 		}, complete : function(){
@@ -1112,7 +1112,7 @@ function aj_selectInnerConstructionPlan(form){
 					scrollbarPosition:"outside"
 				});
 			}else{
-				alert("ERROR!");
+				toastr.error("관리자에게 문의 바랍니다.", "정보를 불러오지 못했습니다.");
 				return;
 			}
 		}, complete : function(){
@@ -1151,7 +1151,7 @@ function aj_insertConstructionScheduleNomal(form){
 				cws.insertResult = true;
 				odrCwsSetOptions(dataList);
 			}else{
-				alert("ERROR!");
+				toastr.error("관리자에게 문의 바랍니다.", "정보를 불러오지 못했습니다.");
 				return;
 			}
 		}, complete : function(){
@@ -1198,7 +1198,7 @@ function aj_insertConstructionScheduleOdr(form, type){
 				setPointLayer();					// 기본정보 마커 표출
 				// cmmUtil.setOdrLayers(poiScheduleInfo.ordLayerId, poiScheduleInfo.LineLayerId, poiScheduleInfo.imgUrl, dataList.odrList);	// 차수정보 표출
 			}else{
-				alert("ERROR!");
+				toastr.error("관리자에게 문의 바랍니다.", "정보를 불러오지 못했습니다.");
 				return;
 			}
 		}, complete : function(){
@@ -1231,7 +1231,7 @@ function aj_insertConstructionScheduleOdr2(dtlCodeArray, type){
 				//setPointLayer();					// 기본정보 마커 표출
 				// cmmUtil.setOdrLayers(poiScheduleInfo.ordLayerId, poiScheduleInfo.LineLayerId, poiScheduleInfo.imgUrl, data.odrList);	// 차수정보 표출
 			}else{
-				alert("ERROR!");
+				toastr.error("관리자에게 문의 바랍니다.", "정보를 불러오지 못했습니다.");
 				return;
 			}
 		}, complete : function(){
@@ -1258,7 +1258,7 @@ function aj_updateConstructionScheduleOdr(dtlCodeArray, type){
 				orderListInfo = data.odrList;
 				// cmmUtil.setOdrLayers(poiScheduleInfo.ordLayerId, poiScheduleInfo.LineLayerId, poiScheduleInfo.imgUrl, data.odrList);	// 차수정보 표출
 			}else{
-				alert("ERROR!");
+				toastr.error("관리자에게 문의 바랍니다.", "정보를 불러오지 못했습니다.");
 				return;
 			}
 		}, complete : function(){

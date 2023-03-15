@@ -375,7 +375,7 @@ function aj_selectTransportationFacility(form, gid){
 				});
 				*/
 			}else{ 
-				alert("ERROR!");
+				toastr.error("관리자에게 문의 바랍니다.", "정보를 불러오지 못했습니다.");
 				return;
 			} 
 		}, complete : function(){
@@ -428,7 +428,7 @@ function aj_selectRailroadTrackList(form, searchType){
 				});
 				
 			}else{ 
-				alert("ERROR!");
+				toastr.error("관리자에게 문의 바랍니다.", "정보를 불러오지 못했습니다.");
 				return;
 			} 
 		}, complete : function(){
@@ -470,7 +470,7 @@ function aj_selectRailroadTrack(form, gid){
 			if(status == "success") {		
 				$("#rightSubPopup").html(returnData);
 			}else{ 
-				alert("ERROR!");
+				toastr.error("관리자에게 문의 바랍니다.", "정보를 불러오지 못했습니다.");
 				return;
 			} 
 		}, complete : function(){
@@ -526,7 +526,7 @@ function aj_selectRailroadStationList(form, searchType){
 				});
 				
 			}else{ 
-				alert("ERROR!");
+				toastr.error("관리자에게 문의 바랍니다.", "정보를 불러오지 못했습니다.");
 				return;
 			} 
 		}, complete : function(){
@@ -568,7 +568,7 @@ function aj_selectRailroadStation(form, gid){
 			if(status == "success") {		
 				$("#rightSubPopup").html(returnData);
 			}else{ 
-				alert("ERROR!");
+				toastr.error("관리자에게 문의 바랍니다.", "정보를 불러오지 못했습니다.");
 				return;
 			} 
 		}, complete : function(){
@@ -621,7 +621,7 @@ function aj_selectSubwayTrackList(form, searchType){
 				});
 				
 			}else{ 
-				alert("ERROR!");
+				toastr.error("관리자에게 문의 바랍니다.", "정보를 불러오지 못했습니다.");
 				return;
 			} 
 		}, complete : function(){
@@ -663,7 +663,7 @@ function aj_selectSubwayTrack(form, gid){
 			if(status == "success") {		
 				$("#rightSubPopup").html(returnData);
 			}else{ 
-				alert("ERROR!");
+				toastr.error("관리자에게 문의 바랍니다.", "정보를 불러오지 못했습니다.");
 				return;
 			} 
 		}, complete : function(){
@@ -716,7 +716,7 @@ function aj_selectSubwayStationList(form, searchType){
 				});
 				
 			}else{ 
-				alert("ERROR!");
+				toastr.error("관리자에게 문의 바랍니다.", "정보를 불러오지 못했습니다.");
 				return;
 			} 
 		}, complete : function(){
@@ -758,7 +758,7 @@ function aj_selectSubwayStation(form, gid){
 			if(status == "success") {		
 				$("#rightSubPopup").html(returnData);
 			}else{ 
-				alert("ERROR!");
+				toastr.error("관리자에게 문의 바랍니다.", "정보를 불러오지 못했습니다.");
 				return;
 			} 
 		}, complete : function(){
@@ -811,7 +811,7 @@ function aj_selectBridgeList(form, searchType){
 				});
 				
 			}else{ 
-				alert("ERROR!");
+				toastr.error("관리자에게 문의 바랍니다.", "정보를 불러오지 못했습니다.");
 				return;
 			} 
 		}, complete : function(){
@@ -853,7 +853,7 @@ function aj_selectBridge(form, gid){
 			if(status == "success") {		
 				$("#rightSubPopup").html(returnData);
 			}else{ 
-				alert("ERROR!");
+				toastr.error("관리자에게 문의 바랍니다.", "정보를 불러오지 못했습니다.");
 				return;
 			} 
 		}, complete : function(){
@@ -906,7 +906,7 @@ function aj_selectOverpassList(form, searchType){
 				});
 				
 			}else{ 
-				alert("ERROR!");
+				toastr.error("관리자에게 문의 바랍니다.", "정보를 불러오지 못했습니다.");
 				return;
 			} 
 		}, complete : function(){
@@ -948,7 +948,7 @@ function aj_selectOverpass(form, gid){
 			if(status == "success") {		
 				$("#rightSubPopup").html(returnData);
 			}else{ 
-				alert("ERROR!");
+				toastr.error("관리자에게 문의 바랍니다.", "정보를 불러오지 못했습니다.");
 				return;
 			} 
 		}, complete : function(){
@@ -1005,7 +1005,7 @@ function aj_selectTunnelList(form, searchType){
 				});
 				
 			}else{ 
-				alert("ERROR!");
+				toastr.error("관리자에게 문의 바랍니다.", "정보를 불러오지 못했습니다.");
 				return;
 			} 
 		}, complete : function(){
@@ -1047,7 +1047,7 @@ function aj_selectTunnel(form, gid){
 			if(status == "success") {		
 				$("#rightSubPopup").html(returnData);
 			}else{ 
-				alert("ERROR!");
+				toastr.error("관리자에게 문의 바랍니다.", "정보를 불러오지 못했습니다.");
 				return;
 			} 
 		}, complete : function(){

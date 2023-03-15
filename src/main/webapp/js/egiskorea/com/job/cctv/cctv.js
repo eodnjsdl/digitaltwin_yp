@@ -65,7 +65,7 @@ var CCTV = {
 		
 		// 시설물 변경
 		$("#cctv-facilityType").change(function() {
-			$(".popup-sub").removeClass("opened");
+			closeSubPopup();
 			
 			// WMS 레이어 삭제
 			// if(GLOBAL.layerWMS != null){

@@ -262,7 +262,7 @@ dtmap.poi.fit();
 </div>
 </form:form>
 <button type="button" class="manualBtn" title="도움말" onclick="manualTab('지하수관리')"></button>
-<button type="button" class="popup-close" title="닫기" onClick="removeLayer(); cmmUtil.drawClear();"></button>
+<button type="button" class="popup-close" title="닫기" onClick="toastr.warning('removeLayer(); cmmUtil.drawClear();', 'onclick 이벤트');"></button>
 <button type="button" class="popup-reset" class="초기화"></button>
 <button type="button" class="popup-bottom-toggle" onclick="toggleFold(this);" title="접기"></button>
 <!-- //업무 > 공간정보활용 > 지하수관리 -->

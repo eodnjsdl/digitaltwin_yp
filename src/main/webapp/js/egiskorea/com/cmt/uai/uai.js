@@ -61,7 +61,7 @@ function aj_selectLandRegister(pnu){
 			if(status == "success") {
 				$("#rightPopup").html(returnData);
 			}else{ 
-				alert("ERROR!");
+				toastr.error("관리자에게 문의 바랍니다.", "정보를 불러오지 못했습니다.");
 				return;
 			} 
 		}, complete : function(){
@@ -91,7 +91,7 @@ function aj_selectBuildingRegister(pnu){
 					scrollbarPosition:"outside"
 				});
 			}else{ 
-				alert("ERROR!");
+				toastr.error("관리자에게 문의 바랍니다.", "정보를 불러오지 못했습니다.");
 				return;
 			} 
 		}, complete : function(){
@@ -119,7 +119,7 @@ function aj_selectLandUseStatus(pnu){
 					scrollbarPosition:"outside"
 				});
 			}else{ 
-				alert("ERROR!");
+				toastr.error("관리자에게 문의 바랍니다.", "정보를 불러오지 못했습니다.");
 				return;
 			} 
 		}, complete : function(){
@@ -147,7 +147,7 @@ function aj_selectOfficiallyAnnouncedLandPrice(pnu){
 					scrollbarPosition:"outside"
 				});
 			}else{ 
-				alert("ERROR!");
+				toastr.error("관리자에게 문의 바랍니다.", "정보를 불러오지 못했습니다.");
 				return;
 			} 
 		}, complete : function(){
@@ -175,7 +175,7 @@ function aj_selectIndividualizationHousePrice(pnu){
 					scrollbarPosition:"outside"
 				});
 			}else{ 
-				alert("ERROR!");
+				toastr.error("관리자에게 문의 바랍니다.", "정보를 불러오지 못했습니다.");
 				return;
 			} 
 		}, complete : function(){
@@ -203,7 +203,7 @@ function aj_selectAuthorizationPermission(pnu){
 					scrollbarPosition:"outside"
 				});
 			}else{ 
-				alert("ERROR!");
+				toastr.error("관리자에게 문의 바랍니다.", "정보를 불러오지 못했습니다.");
 				return;
 			} 
 		}, complete : function(){
@@ -232,7 +232,7 @@ function aj_selectLandRegisterTest(pnu){
 					scrollbarPosition:"outside"
 				});
 			}else{ 
-				alert("ERROR!");
+				toastr.error("관리자에게 문의 바랍니다.", "정보를 불러오지 못했습니다.");
 				return;
 			} 
 		}, complete : function(){
@@ -280,7 +280,7 @@ function aj_selectLandRegisterSearch(){
 						scrollbarPosition:"outside"
 					});
 				}else{ 
-					alert("ERROR!");
+					toastr.error("관리자에게 문의 바랍니다.", "정보를 불러오지 못했습니다.");
 					return;
 				} 
 			}, complete : function(){

@@ -543,7 +543,7 @@ $(document).ready(function(){
 		}
 		
 		// 임시
-		$(".popup-sub").removeClass("opened");
+		closeSubPopup();
 		// 생성된어 있는 POI, Line, Polygon 레이어가 있을때 지워주기
 		/*removeLayer();*/
 		cmmUtil.drawClear();
@@ -1034,7 +1034,7 @@ function aj_userInfoPopupOpen(id){
 			if(status == "success") {
 				$("#userInfo").html(returnData);
 			}else{ 
-				alert("ERROR!");
+				toastr.error("관리자에게 문의 바랍니다.", "정보를 불러오지 못했습니다.");
 				return;
 			} 
 		}, complete : function(){
@@ -1057,7 +1057,7 @@ function aj_selectNoticeList(pageIndex, searchCnd, searchWrd){
 			if(status == "success") {
 				$("#notice").html(returnData);
 			}else{ 
-				alert("ERROR!");
+				toastr.error("관리자에게 문의 바랍니다.", "정보를 불러오지 못했습니다.");
 				return;
 			} 
 		}, complete : function(){
@@ -1081,7 +1081,7 @@ function aj_selectQnaList(pageIndex, searchCnd, searchWrd){
 			if(status == "success") {
 				$("#qna").html(returnData);
 			}else{ 
-				alert("ERROR!");
+				toastr.error("관리자에게 문의 바랍니다.", "정보를 불러오지 못했습니다.");
 				return;
 			} 
 		}, complete : function(){
@@ -1104,7 +1104,7 @@ function aj_selectOpQnaList(pageIndex, searchCnd, searchWrd){
 			if(status == "success") {
 				$("#opqna").html(returnData);
 			}else{ 
-				alert("ERROR!");
+				toastr.error("관리자에게 문의 바랍니다.", "정보를 불러오지 못했습니다.");
 				return;
 			} 
 		}, complete : function(){

@@ -5,7 +5,7 @@ $(document).ready(function () {
 
 //업무영역 >> 좌측 메뉴 선택
 function leftEvent(){
-    $(".lnb-work button").on("click", function() {
+    $(".lnb-work .lnb-body button").on("click", function() {
         var leftName = $(this).data("popup");
         var classList = $(this).attr('class').split(/\s+/);
         var area = classList[1];
@@ -158,10 +158,6 @@ function openPopup(area, name, direction, param2) {
 
     initPopup(area);
 
-    // if (!$('.popup-header:contains(레이어)').parent().hasClass("opened")) {
-    //     $(".popup-panel").removeClass("opened");
-    // }
-
     $("#" + area).css({
         "top":  _area.top + "px",
         "right":  _area.right + "px",
@@ -182,7 +178,7 @@ function initPopup(area) {
     var arrAllPopupTy = ["leftPopup","leftSubPopup","rightSubPopup","rightPopup","bottomPopup"];
     var arrPopupTy = [];
     if(area.includes("left")) {
-        arrPopupTy = ["rightSubPopup","rightPopup","bottomPopup"];
+        arrPopupTy = ["rightPopup","bottomPopup","rightSubPopup"];
     } else if(area.includes("right")) {
         arrPopupTy = ["leftPopup","leftSubPopup","rightSubPopup"];
     } else if(area.includes("bottom")) {

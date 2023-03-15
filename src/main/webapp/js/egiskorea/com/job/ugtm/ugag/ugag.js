@@ -263,7 +263,7 @@ function aj_insertUnderWaterAgriView(form, param1, param2){
 			if(status == "success") {
 				$("#" + param2 + "SubPopup").append(returnData);
 			}else{
-				alert("ERROR!");
+				toastr.error("관리자에게 문의 바랍니다.", "정보를 불러오지 못했습니다.");
 				return;
 			}
 		}, complete : function(){
@@ -302,7 +302,7 @@ function aj_selectUnderWaterAgri(form, gid, param2){
 			if(status == "success") {
 				$("#" + param2 + "SubPopup").append(returnData);
 			}else{
-				alert("ERROR!");
+				toastr.error("관리자에게 문의 바랍니다.", "정보를 불러오지 못했습니다.");
 				return;
 			}
 		}, complete : function(){
@@ -333,7 +333,7 @@ function aj_updateUnderWaterAgriView(form, param1, param2){
 			if(status == "success") {
 				$("#" + param2 + "SubPopup").append(returnData);
 			}else{
-				alert("ERROR!");
+				toastr.error("관리자에게 문의 바랍니다.", "정보를 불러오지 못했습니다.");
 				return;
 			}
 		}, complete : function(){

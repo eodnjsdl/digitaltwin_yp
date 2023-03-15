@@ -22,7 +22,7 @@ function aj_selectFavoritesList(frm){
 				});
 				$("input:checkbox[id='favoritesOrder2']").prop("checked", true);
 			}else{ 
-				alert("ERROR!");
+				toastr.error("관리자에게 문의 바랍니다.", "정보를 불러오지 못했습니다.");
 				return;
 			} 
 		}, complete : function(){
@@ -48,7 +48,7 @@ function aj_insertFavoritesView(frm){
 			if(status == "success") {				
 				$("#rightPopup").html(returnData);
 			}else{ 
-				alert("ERROR!");
+				toastr.error("관리자에게 문의 바랍니다.", "정보를 불러오지 못했습니다.");
 				return;
 			} 
 		}, complete : function(){
@@ -78,7 +78,7 @@ function aj_updateFavoritesView(bkmkId,frm){
 					$("#rightPopup").html(returnData);
 					
 				}else{ 
-					alert("ERROR!");
+					toastr.error("관리자에게 문의 바랍니다.", "정보를 불러오지 못했습니다.");
 					return;
 				} 
 			}, complete : function(){
@@ -218,7 +218,7 @@ function aj_selectFavoritesInfoView(bkmkId,frm){
 			if(status == "success") {
 				$("#rightPopup").html(returnData);
 			}else{
-				alert("ERROR!");
+				toastr.error("관리자에게 문의 바랍니다.", "정보를 불러오지 못했습니다.");
 				return;
 			}
 		}, complete : function(){

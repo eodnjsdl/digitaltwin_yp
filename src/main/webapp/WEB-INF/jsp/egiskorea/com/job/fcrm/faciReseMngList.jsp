@@ -101,7 +101,7 @@ $(document).ready(function(){
 </div>
 </form>
 <button type="button" class="manualBtn" title="도움말" onclick="manualTab('시설예약관리')"></button>
-<button type="button" class="popup-close" title="닫기" onClick="removeLayer(); cmmUtil.drawClear();"></button>
+<button type="button" class="popup-close" title="닫기" onClick="toastr.warning('removeLayer(); cmmUtil.drawClear();', 'onclick 이벤트');"></button>
 <button type="button" class="popup-reset" class="초기화" id="fcrmResetBtn" onClick="leftPopupOpen('faciReseMng');"></button>
 <button type="button" class="popup-bottom-toggle" title="접기"></button>				
 <!-- //업무 > 시설관리 > 시설예약관리 -->
