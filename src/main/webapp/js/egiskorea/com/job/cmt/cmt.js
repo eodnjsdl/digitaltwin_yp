@@ -1637,7 +1637,7 @@ class FacilityCommon {
         },
         () => {
           // that.highlightFeatures(that.features);
-          toastr.error("this.highlightFeatures(this.features);", "객체 지도 표출");
+          toastr.warning("this.highlightFeatures(this.features);", "객체 지도 표출");
         }
       );
     });
@@ -1707,7 +1707,7 @@ class FacilityCommon {
         node.addClass("active");
         const id = node.attr("data-fid");
         // that.showFeature(id);
-        toastr.success("that.showFeature(id);", "객체 지도 이동 및 하이라이트");
+        toastr.warning("that.showFeature(id);", "객체 지도 이동 및 하이라이트");
         that.openDetail(id);
       }
     );
@@ -2057,7 +2057,7 @@ class FacilityCommon {
     //   return ol.format.filter.dwithin("geom", geometry, buffer, store.getPrj());
     // } else {
     //   return null;
-      toastr.success("cmmUtil.showBufferGeometry(wkt, buffer);", "showBufferGeometry");
+      toastr.warning("cmmUtil.showBufferGeometry(wkt, buffer);", "showBufferGeometry");
     }
 
   }
@@ -2093,7 +2093,7 @@ class FacilityCommon {
         });
 
         // this.highlightFeatures(this.features);
-        toastr.error("this.highlightFeatures(this.features);", "객체 지도 표출");
+        toastr.warning("this.highlightFeatures(this.features);", "객체 지도 표출");
         loadingBar("hide");
         // createLineArr();
       });
@@ -2174,7 +2174,7 @@ class FacilityCommon {
         },
         () => {
           // this.highlightFeatures(this.features);
-          toastr.error("this.highlightFeatures(this.features);", "객체 지도 표출");
+          toastr.warning("this.highlightFeatures(this.features);", "객체 지도 표출");
         }
       );
     }
