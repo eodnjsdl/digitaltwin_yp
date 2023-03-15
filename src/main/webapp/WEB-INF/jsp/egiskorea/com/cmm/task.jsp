@@ -15,7 +15,7 @@ $(document).ready(function(){
 									<li><p class="lnb-dep1">공간정보활용</p>
 										<ul class="lnb-dep2">
 											<li><button type="button" id="constructionPlan" class="dataPopup leftPopup" data-popup="constructionPlan">사업공유관리</button></li>
-											<li><button type="button" id="undergroundWaterManagement" class="dataPopup bottomPopup" data-popup="undergroundWaterManagement">지하수관리</button></li>
+											<li><button type="button" id="undergroundWaterManagement" class="dataPopup bottomPopup" data-popup="undergroundWaterManagement" style="text-decoration: underline;">지하수관리</button></li>
 											<li><button type="button" id="renewableEnergy" class="dataPopup bottomPopup" data-popup="renewableEnergy">신재생에너지</button></li>
 											<li><button type="button" id="safetyFacilitiesManagement" class="dataPopup bottomPopup" data-popup="safetyFacilitiesManagement">안전시설물관리</button></li>
 											<li><button type="button" id="inBusinessEstaInfo" class="dataPopup bottomPopup" data-popup="inBusinessEstaInfo">관내업소정보조회</button></li>
@@ -24,7 +24,7 @@ $(document).ready(function(){
 									</li>
 									<li><p class="lnb-dep1">시설관리</p>
 										<ul class="lnb-dep2">
-											<li><button type="button" id="waterSupplyFacility" class="dataPopup bottomPopup" data-popup="waterSupplyFacility">상수도시설</button></li>
+											<li><button type="button" id="waterSupplyFacility" class="dataPopup bottomPopup" data-popup="waterSupplyFacility" style="text-decoration: underline;">상수도시설</button></li>
 											<li><button type="button" id="sewerSupplyFacility" class="dataPopup bottomPopup" data-popup="sewerSupplyFacility">하수도시설</button></li>
 											<li><button type="button" id="transportationFacility" class="dataPopup bottomPopup" data-popup="transportationFacility">교통시설</button></li>
 											<li><button type="button" id="physicalEducationFacility" class="dataPopup bottomPopup" data-popup="physicalEducationFacility">체육시설</button></li>
