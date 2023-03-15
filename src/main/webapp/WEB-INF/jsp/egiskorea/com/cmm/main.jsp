@@ -13,6 +13,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title><spring:message code="site.title"/></title>
 
+    <!-- Favicon-->
+    <link rel="icon" type="image/x-icon" href="/images/common/favicon.ico" />
+
     <script src="/js/com/jquery/jquery-3.4.1.min.js"></script>
 
     <!-- jquery-ui -->
