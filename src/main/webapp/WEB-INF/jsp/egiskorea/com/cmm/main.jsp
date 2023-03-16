@@ -98,6 +98,11 @@
     <!-- 양평 레이어 상수 -->
     <script src="/js/map/yp-layer.js"></script>
 
+    <!-- 배경지도 관련 -->
+    <script src="/js/egiskorea/com/bcrn/bcrn.js"></script>
+    <!-- 드론영상 관련 -->
+    <script src="/js/egiskorea/com/cmt/dron/dron.js"></script>
+
 
     <!-- 업무 관련 -->
     <script src="/js/egiskorea/com/job/job.js"></script>
@@ -139,7 +144,7 @@
             <div class="map-tool">
                 <ul class="map-tool-list">
                     <li>
-                        <button type="button" id="" class="tool-btn icon01 rightPopup"
+                        <button type="button" id="krasInfo" class="tool-btn icon01 rightPopup"
                                 data-popup="top-popup01" data-maptype="ALL" title="통합행정정보"></button>
                     </li>
                     <li>
@@ -163,7 +168,7 @@
                                 data-popup="top-popup06" data-maptype="ALL" title="즐겨찾기"></button>
                     </li>
                     <li>
-                        <button type="button" id="" class="tool-btn icon07 rightPopup"
+                        <button type="button" id="saveMap" class="tool-btn icon07 rightPopup"
                                 data-popup="top-popup07" data-maptype="ALL" title="지도저장"></button>
                     </li>
                     <li>
@@ -877,7 +882,7 @@
         <!-- //top > 즐겨찾기 -->
 
         <!-- top > 지도저장 -->
-        <div class="popup-panel popup-right top-popup07" style="width: 390px;height: 630px;">
+        <div id="saveMapDiv" class="popup-panel popup-right top-popup07" style="width: 390px;height: 630px;">
             <div class="popup-header">지도저장</div>
             <div class="popup-body">
 

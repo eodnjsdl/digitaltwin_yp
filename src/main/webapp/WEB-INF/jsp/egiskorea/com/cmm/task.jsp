@@ -32,6 +32,13 @@ $(document).ready(function(){
 											<li><button type="button" id="faciReseMng" class="leftPopup" data-popup="faciReseMng">시설예약관리</button></li>
 										</ul>
 									</li>
+
+									<li><p class="lnb-dep1">sample</p>
+										<ul class="lnb-dep2">
+											<li><button type="button" id="workSample" class="bottomPopup" data-popup="workSample">샘플</button></li>
+										</ul>
+									</li>
+
 								</ul>
 							</div>
 						</div>

@@ -1,6 +1,6 @@
 // 드론영상 목록 호출
 function aj_selectDronInfo(param1){
-    loadingShowHide("show");
+    ui.loadingBar("show");
 
     var formData = new FormData(param1);
     $.ajax({
@@ -12,7 +12,6 @@ function aj_selectDronInfo(param1){
         contentType : false,
         async: false,
         success : function(returnData, status){
-
             if(status == "success") {
                 $("#rightPopup").html(returnData);
                 $("input[name='sortKind']:radio" ).on("change", function () {
@@ -20,10 +19,9 @@ function aj_selectDronInfo(param1){
                 });
                 $("input:checkbox[id='rChk3-2']").prop("checked", true);
             } else{
-
             }
         }, complete : function(){
-            loadingShowHide("hide");
+            ui.loadingBar("hide");
         }
     });
 
@@ -31,9 +29,8 @@ function aj_selectDronInfo(param1){
 
 //등록화면 호출.
 function aj_insertDronInfoView(frm){
-    loadingShowHide("show");
+    ui.loadingBar("show");
     var formData = new FormData(frm);
-    
     $.ajax({
         type : "POST",
         url : "/cmt/dron/insertDronInfoView.do",
@@ -43,7 +40,6 @@ function aj_insertDronInfoView(frm){
         contentType : false,
         async: false,
         success : function(returnData, status){
-
             if(status == "success") {
                 $("#rightPopup").html(returnData);
                 ui.callDatePicker();
@@ -52,19 +48,18 @@ function aj_insertDronInfoView(frm){
                 return;
             }
         }, complete : function(){
-            loadingShowHide("hide");
+            ui.loadingBar("hide");
         }
     });
 }
 
 // 드론영상 등록
 function aj_insertDronInfo(frm){
-
     var formData = new FormData(frm);
     for (let i = 0; i < inputFileList.length; i++) {
         formData.append("images"+i, inputFileList[i]);
     }
-    loadingShowHide("show");
+    ui.loadingBar("show");
     $.ajax({
         type : "POST",
         url : "/cmt/dron/insertDronInfo.do",
@@ -76,14 +71,16 @@ function aj_insertDronInfo(frm){
         async: false,
         success : function(returnData, status){
             if(returnData.result == "success") {
-                alert("드론정보를 성공적으로 등록하였습니다.");
-                rightPopupOpen('dronInfo');
+                toastr.success("드론정보를 성공적으로 등록하였습니다.");
+                // rightPopupOpen('dronInfo');
+                ui.openPopup("rightPopup");
+                aj_selectDronInfo($("#tmpForm")[0]);
             } else if (returnData.result == "fail"){
-                alert("드론정보를 등록하는 데 실패하였습니다.");
+                toastr.error("드론정보를 등록하는 데 실패하였습니다.");
                 return;
             }
         }, complete : function(){
-            loadingShowHide("hide");
+            ui.loadingBar("hide");
         }
     });
 }
@@ -91,7 +88,7 @@ function aj_insertDronInfo(frm){
 
 // 드론정보 상세조회 화면 호출
 function aj_selectDronInfoView(id,frm ){
-    loadingShowHide("show");
+    ui.loadingBar("show");
     var formData = new FormData(frm);
     if(id!=null){
         formData.append('dronPicId', id);
@@ -112,7 +109,7 @@ function aj_selectDronInfoView(id,frm ){
                 return;
             }
         }, complete : function(){
-            loadingShowHide("hide");
+            ui.loadingBar("hide");
         }
     });
 }
@@ -121,9 +118,9 @@ function aj_selectDronInfoView(id,frm ){
 
 // 드론정보 수정화면 호출
 function aj_updateDronInfoView(id,frm){
-    loadingShowHide("show");
+    ui.loadingBar("show");
     var formData = new FormData(frm);
-	
+
     $.ajax({
         type : "POST",
         url : "/cmt/dron/updateDronInfoView.do",
@@ -133,7 +130,6 @@ function aj_updateDronInfoView(id,frm){
         contentType : false,
         async: false,
         success : function(returnData, status){
-
             if(status == "success") {
                 $("#rightPopup").html(returnData);
                 ui.callDatePicker();
@@ -142,7 +138,7 @@ function aj_updateDronInfoView(id,frm){
                 return;
             }
         }, complete : function(){
-            loadingShowHide("hide");
+            ui.loadingBar("hide");
         }
     });
 }
@@ -163,7 +159,7 @@ function aj_updateDronInfo(frm){
     //formData.append("insertFileCn", insertFileCn);
     formData.append("updateFileCn", updateFileCn);
     formData.append("updateFileSn", updateFileSn);
-    loadingShowHide("show");
+    ui.loadingBar("show");
     $.ajax({
         type : "POST",
         enctype:"multipart/form-data",
@@ -176,15 +172,15 @@ function aj_updateDronInfo(frm){
         frm: frm,
         success : function(returnData, status){
             if(returnData.result == "success") {
-                alert("드론정보를 성공적으로 수정하였습니다.");
+                toastr.success("드론정보를 성공적으로 수정하였습니다.");
                 //rightPopupOpen('dronInfo');
                  aj_selectDronInfoView(null,this.frm )
             } else if (returnData.result == "fail"){
-                alert("드론정보를 수정하는 데 실패하였습니다.");
+                toastr.error("드론정보를 수정하는 데 실패하였습니다.");
                 return;
             }
         }, complete : function(){
-            loadingShowHide("hide");
+            ui.loadingBar("hide");
         }
     });
 }
@@ -193,7 +189,7 @@ function aj_updateDronInfo(frm){
 // 드론정보 삭제
 function aj_deleteDronInfo(frm){
     var formData = new FormData(frm);
-    loadingShowHide("show");
+    ui.loadingBar("show");
     $.ajax({
         type : "POST",
         url : "/cmt/dron/deleteDronInfo.do",
@@ -204,15 +200,16 @@ function aj_deleteDronInfo(frm){
         async: false,
         success : function(returnData, status){
             if(returnData.result == "success") {
-                alert("드론정보를 성공적으로 삭제하였습니다.");
-
-                rightPopupOpen('dronInfo');
+                toastr.success("드론정보를 성공적으로 삭제하였습니다.");
+                // rightPopupOpen('dronInfo');
+                ui.openPopup("rightPopup");
+                aj_selectDronInfo($("#tmpForm")[0]);
             } else if (returnData.result == "fail"){
-                alert("드론정보를 삭제하는 데 실패하였습니다.");
+                toastr.error("드론정보를 삭제하는 데 실패하였습니다.");
                 return;
             }
         }, complete : function(){
-            loadingShowHide("hide");
+            ui.loadingBar("hide");
         }
     });
 }

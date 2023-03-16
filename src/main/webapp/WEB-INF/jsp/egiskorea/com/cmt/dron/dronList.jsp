@@ -20,7 +20,10 @@
     // 드론정보 등록페이지 이동
     $(".dron_wirte").on("click", function(){
         $(this).addClass("active");
-        rightPopupOpen('insertDronInfo', $("#searchFormDronList")[0]);
+        // rightPopupOpen('insertDronInfo', $("#searchFormDronList")[0]);
+        ui.openPopup("rightPopup");
+        aj_insertDronInfoView($("#searchFormDronList")[0]);
+
     });
     //드론정보 상세조회
     function selectDronInfoView(id){
@@ -97,9 +100,9 @@
                             <tbody>
 
                                 <c:forEach items="${resultList}" var="result" varStatus="status">
-                                    <tr>
+                                    <tr onclick="javascript:selectDronInfoView('<c:out value="${result.dronePicId}" />');">
                                         <td><c:out value="${(result.pageIndex-1) * result.pageUnit + status.count}"/></td>
-                                        <td class="subject align-left"><a href="javascript:selectDronInfoView('<c:out value="${result.dronePicId}" />');" ><c:out value="${result.sj}" /></a></td>
+                                        <td class="subject align-left"><a><c:out value="${result.sj}" /></a></td>
                                         <td><c:out value="${result.grfDe}" /></td>
                                         <td><c:out value="${result.regDt}" /></td>
                                         <td><c:out value="${result.userNm}" /></td>

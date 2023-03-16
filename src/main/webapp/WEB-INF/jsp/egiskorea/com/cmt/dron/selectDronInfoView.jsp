@@ -1,160 +1,180 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="ui" uri="http://egovframework.gov/ctl/ui"%>
+<%@ taglib prefix="ui" uri="http://egovframework.gov/ctl/ui" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 
 <script>
+
     //수정
-    $(".bi-edit").on("click", function(){
+    $(".bi-edit").on("click", function () {
 
         $(this).addClass("active");
-        // rightPopupOpen('updateDronInfo',$('#selectDronInfoViewForm')[0]);
-      	rightPopupOpen('updateDronInfo',<c:out value="${result.dronePicId}" />, $('#updateDeleteDronInfoForm')[0]);
-//         aj_updateDronInfoView($('#selectDronInfoViewForm')[0]);
+        <%--rightPopupOpen('updateDronInfo', <c:out value="${result.dronePicId}" />, $('#updateDeleteDronInfoForm')[0]);--%>
+        ui.openPopup("rightPopup");
+        aj_updateDronInfoView(
+            <c:out value="${result.dronePicId}" />,
+            $('#updateDeleteDronInfoForm')[0]
+        );
+
 
     });
+
     //드론정보 목록조회
-$(".btn-wrap .bi-list").on("click", function(){
-    $(this).addClass("active");
+    $(".btn-wrap .bi-list").on("click", function () {
+        $(this).addClass("active");
 //     rightPopupOpen('dronInfo');
-    aj_selectDronInfo($("#selectDronInfoViewForm")[0], "");
-});
-$(".bi-download").on("click", function(){
+        aj_selectDronInfo($("#selectDronInfoViewForm")[0], "");
+    });
 
-    const src =  $(".thumb").children('img').attr("src")
-    const fileNm =  $(".thumb").children()[1].value;
-    var link = document.createElement("a");
-    link.download = fileNm;
-    link.href = src;
-    link.click();
-});
+    $(".bi-download").on("click", function () {
+        const src = $(".thumb").children('img').attr("src")
+        const fileNm = $(".thumb").children()[1].value;
+        var link = document.createElement("a");
+        link.download = fileNm;
+        link.href = src;
+        link.click();
+    });
 
 
-$(".bi-delete").on("click", function(){
-    if (confirm("드론정보를 삭제하시겠습니까?") == true){    //확인
-        aj_deleteDronInfo($("#updateDeleteDronInfoForm")[0]);
-    }else{   //취소
-        return false;
-    }
-});
+    $(".bi-delete").on("click", function () {
+        if (confirm("드론정보를 삭제하시겠습니까?") == true) {    //확인
+            aj_deleteDronInfo($("#updateDeleteDronInfoForm")[0]);
+        } else {   //취소
+            return false;
+        }
+    });
 
-//사진정보 상세조회
-function selectDronInfoView(id){
-    rightPopupOpen('selectDronInfoView', id, $('#selectDronInfoViewForm')[0]);
+    //사진정보 상세조회
+    function selectDronInfoView(id) {
+        rightPopupOpen('selectDronInfoView', id, $('#selectDronInfoViewForm')[0]);
 //     aj_selectDronInfoView(id);
-}
+    }
 
-$(document).ready(function(){
-    $("#main-video").css('z-index',9998);
-});
+    $(document).ready(function () {
+        $("#main-video").css('z-index', 9998);
+    });
 </script>
 <!-- top > 드론영상 > 상세 -->
-    <div class="popup-header">드론영상</div>
-    <div class="popup-body">
-        <div class="tool-popup-body">
-            <form:form name="selectDronInfoViewForm" id="selectDronInfoViewForm" action="/" method="post">
-<%--                 <input type="hidden" name="dronPicId" id="dronPicId" value="<c:out value="${result.dronePicId}" />"> --%>
-                <input type="hidden" name="atchmnflId" id="atchmnflId" value="<c:out value="${result.atchmnflId}" />">
-                <input type="hidden" name="pageIndex" value="<c:out value='${pageIndex}' />">
-                <input type="hidden" name="searchWrd" value="<c:out value='${searchWrd}' />">
-                <input type="hidden" name="sortKind" value="<c:out value='${sortKind}' />">
-                <input type="hidden" name="searchCnd" value="<c:out value='${searchCnd}' />">
-                <input type="hidden" name="lastModfDt" value="<c:out value='${lastModfDt}' />">
-                
-            </form:form>
-            
-            <form:form name="updateDeleteDronInfoForm" id="updateDeleteDronInfoForm" action="/" method="post">
-                <input type="hidden" name="dronPicId" id="dronPicId" value="<c:out value="${result.dronePicId}" />">
-                <input type="hidden" name="atchmnflId" id="atchmnflId" value="<c:out value="${result.atchmnflId}" />">
-                <input type="hidden" name="pageIndex" value="<c:out value='${pageIndex}' />">
-                <input type="hidden" name="searchWrd" value="<c:out value='${searchWrd}' />">
-                <input type="hidden" name="sortKind" value="<c:out value='${sortKind}' />">
-                <input type="hidden" name="searchCnd" value="<c:out value='${searchCnd}' />">
-                <input type="hidden" name="lastModfDt" value="<c:out value='${lastModfDt}' />">
-                
-            </form:form>
-            <div class="bbs-detail-default">
-                <table class="bbs-detail">
-                    <colgroup>
-                        <col style="width: 20%;">
-                        <col style="width: auto;">
-                    </colgroup>
-                    <tbody>
-                    <tr>
-                        <th scope="row">제목</th>
-                        <td><c:out value="${result.sj}" /></td>
-                    </tr>
-                    <tr>
-                        <th scope="row">작성자</th>
-                        <td><c:out value="${result.userNm}" /></td>
-                    </tr>
-                    <tr>
-                        <th scope="row">등록일</th>
-                        <td><c:out value="${result.regDt}" /></td>
-                    </tr>
-                    <tr>
-                        <th scope="row">촬영일</th>
-                        <td><c:out value="${result.grfDe}"/></td>
-                    </tr>
-                    <tr>
-                        <td colspan="2">
-                            <div class="cont cont-download" style="height: 427px;">
+<div class="popup-header">드론영상</div>
+<div class="popup-body">
+    <div class="tool-popup-body">
+        <form:form name="selectDronInfoViewForm" id="selectDronInfoViewForm" action="/" method="post">
+            <%--                 <input type="hidden" name="dronPicId" id="dronPicId" value="<c:out value="${result.dronePicId}" />"> --%>
+            <input type="hidden" name="atchmnflId" id="atchmnflId" value="<c:out value="${result.atchmnflId}" />">
+            <input type="hidden" name="pageIndex" value="<c:out value='${pageIndex}' />">
+            <input type="hidden" name="searchWrd" value="<c:out value='${searchWrd}' />">
+            <input type="hidden" name="sortKind" value="<c:out value='${sortKind}' />">
+            <input type="hidden" name="searchCnd" value="<c:out value='${searchCnd}' />">
+            <input type="hidden" name="lastModfDt" value="<c:out value='${lastModfDt}' />">
+
+        </form:form>
+
+        <form:form name="updateDeleteDronInfoForm" id="updateDeleteDronInfoForm" action="/" method="post">
+            <input type="hidden" name="dronPicId" id="dronPicId" value="<c:out value="${result.dronePicId}" />">
+            <input type="hidden" name="atchmnflId" id="atchmnflId" value="<c:out value="${result.atchmnflId}" />">
+            <input type="hidden" name="pageIndex" value="<c:out value='${pageIndex}' />">
+            <input type="hidden" name="searchWrd" value="<c:out value='${searchWrd}' />">
+            <input type="hidden" name="sortKind" value="<c:out value='${sortKind}' />">
+            <input type="hidden" name="searchCnd" value="<c:out value='${searchCnd}' />">
+            <input type="hidden" name="lastModfDt" value="<c:out value='${lastModfDt}' />">
+
+        </form:form>
+        <div class="bbs-detail-default">
+            <table class="bbs-detail">
+                <colgroup>
+                    <col style="width: 20%;">
+                    <col style="width: auto;">
+                </colgroup>
+                <tbody>
+                <tr>
+                    <th scope="row">제목</th>
+                    <td><c:out value="${result.sj}"/></td>
+                </tr>
+                <tr>
+                    <th scope="row">작성자</th>
+                    <td><c:out value="${result.userNm}"/></td>
+                </tr>
+                <tr>
+                    <th scope="row">등록일</th>
+                    <td><c:out value="${result.regDt}"/></td>
+                </tr>
+                <tr>
+                    <th scope="row">촬영일</th>
+                    <td><c:out value="${result.grfDe}"/></td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <div class="cont cont-download" style="height: 427px;">
                             <c:forEach var="resultFile" items="${resultFile}" varStatus="status">
                                 <div class="attach-group">
-                                    <c:set var="name" value="${resultFile.fileExtsn}"/>
-                                    <c:choose>
+                                <c:set var="name" value="${resultFile.fileExtsn}"/>
+                                <c:choose>
                                     <c:when test="${name eq 'png'||name eq 'jpg'||name eq 'gif'}">
-                                        <img src='<c:url value='/cmm/fms/getImage.do'/>?atchFileId=<c:out value="${resultFile.atchFileId}"/>&fileSn=<c:out value="${resultFile.fileSn}"/>'  alt="파일이미지"/>
-                                        <input type="hidden" name="orignlFileNm" value="<c:out value="${resultFile.orignlFileNm}" />">
+                                        <img src='<c:url value='/cmm/fms/getImage.do'/>?atchFileId=<c:out value="${resultFile.atchFileId}"/>&fileSn=<c:out value="${resultFile.fileSn}"/>'
+                                             alt="파일이미지"/>
+                                        <input type="hidden" name="orignlFileNm"
+                                               value="<c:out value="${resultFile.orignlFileNm}" />">
                                         </div>
 
                                         <div class="position-bottom btn-wrap justify-content-end">
-                                            <div><button type="button" class="btn basic bi-download">다운로드</button></div>
+                                            <div>
+                                                <button type="button" class="btn basic bi-download">다운로드</button>
+                                            </div>
                                         </div>
                                     </c:when>
-                                        <c:otherwise>
-                                            <video id="main-video" controls >
-                                                <source type="video/mp4" src='<c:url value='/cmm/fms/FileDown.do'/>?atchFileId=<c:out value="${resultFile.atchFileId}"/>&fileSn=<c:out value="${resultFile.fileSn}"/>'>
-                                            </video>
-                                            <canvas id="video-canvas"></canvas>
+                                    <c:otherwise>
+                                        <video id="main-video" controls>
+                                            <source type="video/mp4"
+                                                    src='<c:url value='/cmm/fms/FileDown.do'/>?atchFileId=<c:out value="${resultFile.atchFileId}"/>&fileSn=<c:out value="${resultFile.fileSn}"/>'>
+                                        </video>
+                                        <canvas id="video-canvas"></canvas>
 
-                                        </c:otherwise>
-                                    </c:choose>
+                                    </c:otherwise>
+                                </c:choose>
 
                             </c:forEach>
-                            </div>
-                        </td>
-                    </tr>
-                    </tbody>
-                </table>
-            </div>
+                        </div>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
 
-            <div class="position-bottom btn-wrap">
-                <div><button type="button" class="btn basic bi-list">목록</button></div>
-                <div class="position-absolute right"><button type="button" class="btn basic bi-edit"data-popup="top-popup10-update" title="배경지도">수정</button> <button type="button" class="btn basic bi-delete">삭제</button></div>
+        <div class="position-bottom btn-wrap">
+            <div>
+                <button type="button" class="btn basic bi-list">목록</button>
             </div>
-
-            <div class="bbs-detail-util">
-                <c:if test="${null ne result.prevSj}">
-                    <div class="items">
-                        <div class="term">이전</div>
-                        <div class="desc"><a href="javascript:selectDronInfoView('<c:out value="${result.prevDronId}" />');"><c:out value="${result.prevSj}" /></a></div>
-                    </div>
-                </c:if>
-                <c:if test="${null ne result.nextSj}">
-                    <div class="items">
-                        <div class="term">다음</div>
-                        <div class="desc"><a href="javascript:selectDronInfoView('<c:out value="${result.nextDronId}" />');"><c:out value="${result.nextSj}" /></a></div>
-                    </div>
-                </c:if>
+            <div class="position-absolute right">
+                <button type="button" class="btn basic bi-edit" data-popup="top-popup10-update" title="배경지도">수정</button>
+                <button type="button" class="btn basic bi-delete">삭제</button>
             </div>
         </div>
 
+        <div class="bbs-detail-util">
+            <c:if test="${null ne result.prevSj}">
+                <div class="items">
+                    <div class="term">이전</div>
+                    <div class="desc"><a
+                            href="javascript:selectDronInfoView('<c:out value="${result.prevDronId}" />');"><c:out
+                            value="${result.prevSj}"/></a></div>
+                </div>
+            </c:if>
+            <c:if test="${null ne result.nextSj}">
+                <div class="items">
+                    <div class="term">다음</div>
+                    <div class="desc"><a
+                            href="javascript:selectDronInfoView('<c:out value="${result.nextDronId}" />');"><c:out
+                            value="${result.nextSj}"/></a></div>
+                </div>
+            </c:if>
+        </div>
     </div>
-    <button type="button" class="manualBtn" title="도움말" onclick="manualTab('드론영상')"></button>
-    <button type="button" class="popup-close" title="닫기"></button>
+
+</div>
+<button type="button" class="manualBtn" title="도움말" onclick="manualTab('드론영상')"></button>
+<button type="button" class="popup-close" title="닫기"></button>
 </div>
 <!-- //top > 드론영상 > 상세 -->
 
@@ -179,7 +199,10 @@ $(document).ready(function(){
                     </tr>
                     <tr>
                         <th scope="row">촬영일</th>
-                        <td><div class="datapicker-group w-40p"><input type="text" class="datepicker" value="2020-05-20"></div></td>
+                        <td>
+                            <div class="datapicker-group w-40p"><input type="text" class="datepicker"
+                                                                       value="2020-05-20"></div>
+                        </td>
                     </tr>
                     <tr>
                         <td colspan="2">
@@ -196,18 +219,18 @@ $(document).ready(function(){
                                 <label for="file">파일찾기</label>
                             </div>
                             <script>
-                                $(document).ready(function(){
+                                $(document).ready(function () {
                                     var fileTarget = $('#file');
-                                    fileTarget.on('change', function(){ // 값이 변경되면
-                                        var cur=$(".form-file input[type='file']").val();
+                                    fileTarget.on('change', function () { // 값이 변경되면
+                                        var cur = $(".form-file input[type='file']").val();
                                         $(".upload-name").val(cur);
                                     });
                                 });
                             </script>
                         </td>
                     </tr>
-                    
-                    
+
+
                     <tr>
                         <th scope="row">내용</th>
                         <td><textarea name="" id="" class="form-control">양평군청 일대 드론영상1</textarea></td>
@@ -217,8 +240,13 @@ $(document).ready(function(){
             </div>
 
             <div class="position-bottom btn-wrap">
-                <div class="position-absolute left"><button type="button" class="btn basic bi-list">목록</button></div>
-                <div><button type="button" class="btn basic bi-edit">수정</button> <button type="button" class="btn basic bi-delete">삭제</button></div>
+                <div class="position-absolute left">
+                    <button type="button" class="btn basic bi-list">목록</button>
+                </div>
+                <div>
+                    <button type="button" class="btn basic bi-edit">수정</button>
+                    <button type="button" class="btn basic bi-delete">삭제</button>
+                </div>
             </div>
         </div>
 

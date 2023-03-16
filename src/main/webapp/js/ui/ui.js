@@ -194,8 +194,7 @@ window.ui = (function () {
          *  popup draggable
          */
         $(".popup-draggable").draggable({
-            containment: "#container",
-            cancel: ""
+            containment: "#container"
         });
 
         /**
@@ -426,10 +425,32 @@ window.ui = (function () {
 
                     aj_selectFaciReseMngList($("#tmpForm")[0]);
                     break;
+
+                // 업무 > 공간정보활용 > workSample
+                case "workSample" :
+                    // toastr.success("샘플입니다.", "🙂🙂🙂");
+                    _worksample();
+                    break;
             }
 
         });
     }
+
+
+    //workSample
+    function _worksample() {
+        var container = "#bottomPopup";
+        $(container).load("/job/sample/page.do", function() {
+            toastr.success("/job/sample/page.do.", "페이지🙂호🙂출🙂");
+            $(".scroll-y").mCustomScrollbar({
+                scrollbarPosition: "outside",
+            });
+        });
+
+    }
+
+
+
 
 //업무영역 >> 탭 선택
     function _workTabEvent(){
@@ -513,66 +534,70 @@ window.ui = (function () {
 
     function _asideMenuEvent(){
         $("#map-aside .map-tool-list button").on("click", function() {
-            var name = $(this).data("popup");
+            var id = $(this).attr('id');
             var classList = $(this).attr('class').split(/\s+/);
             var area = classList[2];
             ui.openPopup(area);
-            switch(name){
+            switch(id){
 
                 // aside menu > 통합행정정보
-                case "top-popup01" :
+                case "krasInfo" :
                     toastr.success("통합행정정보")
                     break;
 
                 // aside menu > 지적/건물
-                case "top-popup02" :
+                case "landBuilding" :
                     toastr.success("지적/건물")
                     break;
 
                 // aside menu > 내보내기
-                case "top-popup03" :
+                case "dwldInfo" :
                     toastr.success("내보내기")
                     break;
 
                 // aside menu > 메모정보
-                case "top-popup04" :
+                case "memoInfo" :
                     toastr.success("메모정보")
                     break;
 
                 // aside menu > 사진정보
-                case "top-popup05" :
+                case "potoInfo" :
                     toastr.success("사진정보")
+                    aj_selectPotoInfoList($("#tmpForm")[0]);
                     break;
 
                 // aside menu > 즐겨찾기
-                case "top-popup06" :
+                case "favorites" :
                     toastr.success("즐겨찾기")
+                    aj_selectFavoritesList($("#tmpForm")[0]);
                     break;
 
                 // aside menu > 지도저장
-                case "top-popup07" :
+                case "saveMap" :
                     toastr.success("지도저장")
+                    aj_saveMap();
                     break;
 
                 // aside menu > 그리기도구
-                case "top-popup08" :
+                case "graphicInfo" :
                     toastr.success("그리기도구")
                     aj_selectGraphicInfoList();
                     break;
 
                 // aside menu > 드론영상
-                case "top-popup09" :
+                case "dronInfo" :
                     toastr.success("드론영상")
+                    aj_selectDronInfo($("#tmpForm")[0]);
                     break;
 
                 // aside menu > 3D레이어
-                case "top-popup10" :
+                case "layerList" :
                     toastr.success("3D레이어")
                     aj_selectLayerList("top")
                     break;
 
                 // aside menu > 배경지도
-                case "top-popup11" :
+                case "backgroundMapInfo" :
                     toastr.success("배경지도")
                     aj_selectBackgroundMapInfoList();
                     break;
@@ -580,8 +605,6 @@ window.ui = (function () {
             }
         });
     }
-
-
 
     const module = {
         init: init,
@@ -595,156 +618,4 @@ window.ui = (function () {
     return module;
 
 }());
-
-
-
-
-
-
-//function 별도로 분류할 것
-
-
-
-// 개인별 레이어 목록 호출
-function aj_selectLayerList(mode, reset = false) {
-    var searchKeyword = mode === "left"
-        ? $(".lnb-layer input[name='searchKeyword']").val()
-        : $("#rightPopup input[name='searchKeyword']").val();
-
-    ui.loadingBar("show");
-    $.ajax({
-        type: "POST",
-        url: "/lyr/lym/selectLayerList.do",
-        data: {
-            "searchKeyword": searchKeyword,
-            "mode": mode
-        },
-        dataType: "html",
-        async: false,
-        success: function (returnData, status) {
-            if (status === "success") {
-                if (mode === "left") { // 좌측 메뉴 선택 시
-                    $(".lnb-layer").html(returnData);
-                    $(".lnb-layer input[name='searchKeyword']").val(searchKeyword);
-                    $(".lnb-layer").fadeIn(100);
-                } else if (mode === "top") { // 상단 메뉴 선택 시
-                    $("#rightPopup").html(returnData);
-                    $("#rightPopup input[name='searchKeyword']").val(searchKeyword);
-                }
-
-                if (!$(".lnb-layer .scroll-y").hasClass("mCustomScrollbar")) {
-                    $(".scroll-y").mCustomScrollbar({
-                        scrollbarPosition: "outside",
-                        mouseWheel: {scrollAmount: 250}
-                    });
-                }
-            } else {
-                toastr.error("관리자에게 문의 바랍니다.", "정보를 불러오지 못했습니다.");
-                return;
-            }
-        }, complete: function () {
-            ui.loadingBar("hide");
-        }
-    });
-}
-
-
-// 주제도 목록 호출
-function aj_selectThematicMapList() {
-    var searchKeyword = $(".lnb-theme input[name='searchKeyword']").val();
-
-    $.ajax({
-        type : "POST",
-        url : "/com/tm/selectTMapList.do",
-        data : {
-            "searchKeyword" : searchKeyword
-        },
-        dataType : "html",
-        async: false,
-        beforeSend : function(jqXHR, settings) {
-            ui.loadingBar("show");
-        },
-        success : function(returnData, status){
-            if (status == "success") {
-                $(".lnb-theme").html(returnData);
-                $(".lnb-theme input[name='searchKeyword']").val(searchKeyword);
-
-                if (!$(".lnb-theme .scroll-y").hasClass("mCustomScrollbar")) {
-                    $(".scroll-y").mCustomScrollbar({
-                        scrollbarPosition:"outside"
-                    });
-                }
-            } else {
-                toastr.error("관리자에게 문의 바랍니다.", "정보를 불러오지 못했습니다.");
-                return false;
-            }
-        },
-        complete : function() {
-            ui.loadingBar("hide");
-        }
-    });
-}
-
-
-
-/**
- * @description 배경지도 팝업 함수
- * @Author 플랫폼개발부문 DT솔루션 이준호
- * @Date 2022.03.07
- */
-function aj_selectBackgroundMapInfoList() {
-    $.ajax({
-        type : "POST",
-        url : "/cmt/bm/selectBackgroundMapInfoList.do",
-        dataType : "html",
-        async: false,
-        beforeSend : function(jqXHR, settings) {
-            ui.loadingBar("show");
-        },
-        success : function(returnData, status) {
-            if (status == "success") {
-                $("#rightPopup").html(returnData);
-            } else {
-                toastr.error("관리자에게 문의 바랍니다.", "정보를 불러오지 못했습니다.");
-                return;
-            }
-        },
-        complete : function() {
-            ui.loadingBar("hide");
-        }
-    });
-}
-
-
-
-
-
-
-//그리기도구
-function aj_selectGraphicInfoList() {
-    $.ajax({
-        type: "POST",
-        url: "/cmt/grph/selectGraphicInfoList.do",
-        // data: data,
-        // dataType: "html",
-        // async: false,
-        success: (returnData, status) => {
-            if (status === "success") {
-                $("#rightPopup").html(returnData);
-                //이벤트 등록부
-                // this.bindEvents();
-            } else {
-                toastr.error("관리자에게 문의 바랍니다.", "정보를 불러오지 못했습니다.");
-            }
-        },
-        complete: function () {
-        },
-    });
-}
-
-
-
-
-
-
 
