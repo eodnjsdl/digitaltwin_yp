@@ -30,11 +30,10 @@
 	}
 
 	function fn_insert() {
-		toastr.warning("등록팝업", "🙂 Ajax 🙂 호 🙂 출 🙂 ");
 		ui.openPopup("rightSubPopup");
 		var container = "#rightSubPopup";
 		$(container).load("/job/sample/pageInsert.do", function() {
-			toastr.success("/job/sample/pageInsert.do.", "상세 페이지🙂호🙂출🙂");
+			toastr.warning("등록팝업", "🙂 Ajax 🙂 호 🙂 출 🙂 ");
 			$(".scroll-y").mCustomScrollbar({
 				scrollbarPosition: "outside",
 			});
@@ -46,11 +45,10 @@
 	}
 
 	function fn_pageDetail() {
-		toastr.warning("상세팝업 + 상세정보 표출", "🙂 Ajax 🙂 호 🙂 출 🙂 ");
 		ui.openPopup("rightSubPopup");
 		var container = "#rightSubPopup";
 		$(container).load("/job/sample/pageDetail.do", function() {
-			toastr.success("/job/sample/pageDetail.do.", "상세 페이지🙂호🙂출🙂");
+			toastr.warning("상세팝업 + 상세정보 표출", "🙂 Ajax 🙂 호 🙂 출 🙂 ");
 			$(".scroll-y").mCustomScrollbar({
 				scrollbarPosition: "outside",
 			});
