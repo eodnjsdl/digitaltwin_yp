@@ -60,19 +60,19 @@
 	}
 
 	//Poi 추가
-	dtmap.poi.clear();
+	dtmap.vector.clear();
 	for (let i = 0; i < poiListInquiry.resultList.length; i++) {
 		let poi = poiListInquiry.resultList[i];
-		dtmap.poi.addPoi({
+		dtmap.vector.addPoint({
 			id : poi.cntrkPrrngId,
 			coordinate : [Number(poi.lon),Number(poi.lat)],
 			crs : 'EPSG:5179',
-			text : poi.cntrkNm,
+			column : 'cntrkNm',
 			properties : poi,
 			img :'./images/poi/constructionSchedule_poi.png'
 		})
 	}
-	dtmap.poi.fit();
+	dtmap.vector.fit();
 </script>
 
 <!-- 업무 > 공간정보활용 > 사업공유관리 -->

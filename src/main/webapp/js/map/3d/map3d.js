@@ -103,7 +103,7 @@ window.map3d = (function () {
         map3d.overlay.init();
         map3d.location.init();
         map3d.measure.init();
-        map3d.poi.init();
+        map3d.vector.init();
     }
 
     //window resize Event
@@ -227,14 +227,16 @@ window.map3d = (function () {
     /**
      * 레이어 가시화
      * @param options
+     * @return {map3d.layer.Layer}
      */
     function showLayer(options) {
         let {id, visible} = options;
         let layer = map3d.layer.getById(id);
         if (!layer) {
-            map3d.layer.addLayer(options);
+            layer = map3d.layer.addLayer(options);
         }
         map3d.layer.setVisible(id, visible);
+        return layer;
     }
 
     function clearInteraction() {

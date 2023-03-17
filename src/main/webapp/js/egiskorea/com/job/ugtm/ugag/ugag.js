@@ -1,7 +1,7 @@
 /**
  *  ################################################# 농업용공공관정 #################################################
  */
-$(document).ready(function(){
+$(document).ready(function () {
 });
 
 //POILsyrt를 추가해준다.
@@ -124,7 +124,7 @@ $(document).ready(function(){
 // }
 
 //페이지네이션1
-function fn_select_list(searchType){
+function fn_select_list(searchType) {
 
 	// if(!$('#mapType3D').prop("checked")) {
 	// 	const yMap = app2D.getYMap();
@@ -162,18 +162,19 @@ function fn_select_list(searchType){
 		aj_selectUnderWaterMngList($("#searchForm")[0], searchType);
 	}
 }
-// 페이지네이션2
-function fn_select_linkPage(pageNo){
-	document.getElementById("searchForm").pageIndex.value = pageNo;
-	document.getElementById("searchForm").emdKorNm.value = lastEmdKorNm;
-	document.getElementById("searchForm").manageSeSearch.value = lastManageSeSearch;
-	document.getElementById("searchForm").detailPrposSeSearch.value = lastDetailPrposSeSearch;
-	document.getElementById("searchForm").fcltsSttusSearch.value = lastFcltsSttusSearch;
-	document.getElementById("searchForm").spitalSearch.value = lastSpitalSearch;
-	document.getElementById("searchForm").bufferCnt.value = lastBufferCnt;
 
-	ugagFlag = 'false';
-	aj_selectUnderWaterMngList($("#searchForm")[0], 'spital');
+// 페이지네이션2
+function fn_select_linkPage(pageNo) {
+    document.getElementById("searchForm").pageIndex.value = pageNo;
+    document.getElementById("searchForm").emdKorNm.value = lastEmdKorNm;
+    document.getElementById("searchForm").manageSeSearch.value = lastManageSeSearch;
+    document.getElementById("searchForm").detailPrposSeSearch.value = lastDetailPrposSeSearch;
+    document.getElementById("searchForm").fcltsSttusSearch.value = lastFcltsSttusSearch;
+    document.getElementById("searchForm").spitalSearch.value = lastSpitalSearch;
+    document.getElementById("searchForm").bufferCnt.value = lastBufferCnt;
+
+    ugagFlag = 'false';
+    aj_selectUnderWaterMngList($("#searchForm")[0], 'spital');
 }
 
 //농업용공공관정 등록페이지 열기
@@ -193,42 +194,42 @@ $("tr[name='uwAgriDtl']").unbind('click').bind('click',function(){
 });
 
 //하이라이트
-function ugag_sethigh(gid){
-	var layerList = new Module.JSLayerList(true);
-	var layer = layerList.nameAtLayer("TGD_AGR_PUBLIC_TBWLL");
+function ugag_sethigh(gid) {
+    var layerList = new Module.JSLayerList(true);
+    var layer = layerList.nameAtLayer("TGD_AGR_PUBLIC_TBWLL");
 
-	if(layer.getObjectCount()!=0){
-		for(var i = 0; i < layer.getObjectCount(); i++) {
-			var point = layer.indexAtObject(i);
+    if (layer.getObjectCount() != 0) {
+        for (var i = 0; i < layer.getObjectCount(); i++) {
+            var point = layer.indexAtObject(i);
 
-			if(point.getId() == gid){
-				point.setHighlight(true);
-			} else {
-				point.setHighlight(false);
-			}
-		}
-	}else{
-		console.log("count is -")
-	}
+            if (point.getId() == gid) {
+                point.setHighlight(true);
+            } else {
+                point.setHighlight(false);
+            }
+        }
+    } else {
+        console.log("count is -")
+    }
 }
 
 // 농업용공공관정 엑셀다운로드 버튼
-$("#ugagExcelDownload").on("click", function(){
-	let formName = this.dataset.formName;
-	document.getElementById("searchForm").emdKorNm.value = lastEmdKorNm;
-	document.getElementById("searchForm").manageSeSearch.value = lastManageSeSearch;
-	document.getElementById("searchForm").detailPrposSeSearch.value = lastDetailPrposSeSearch;
-	document.getElementById("searchForm").fcltsSttusSearch.value = lastFcltsSttusSearch;
-	document.getElementById("searchForm").spitalSearch.value = lastSpitalSearch;
-	document.getElementById("searchForm").bufferCnt.value = lastBufferCnt;
+$("#ugagExcelDownload").on("click", function () {
+    let formName = this.dataset.formName;
+    document.getElementById("searchForm").emdKorNm.value = lastEmdKorNm;
+    document.getElementById("searchForm").manageSeSearch.value = lastManageSeSearch;
+    document.getElementById("searchForm").detailPrposSeSearch.value = lastDetailPrposSeSearch;
+    document.getElementById("searchForm").fcltsSttusSearch.value = lastFcltsSttusSearch;
+    document.getElementById("searchForm").spitalSearch.value = lastSpitalSearch;
+    document.getElementById("searchForm").bufferCnt.value = lastBufferCnt;
 
-	let url = '/job/ugtm/' + formName + 'Download.do';
+    let url = '/job/ugtm/' + formName + 'Download.do';
 
-	$("form[name='"+ formName + "']").attr('onsubmit', '');
-	$("form[name='"+ formName + "']").attr('action', url);
-	$("form[name='"+ formName + "']").submit();
-	$("form[name='"+ formName + "']").attr('onsubmit', 'fn_select_list(); return false;');
-	$("form[name='"+ formName + "']").attr('action', '');
+    $("form[name='" + formName + "']").attr('onsubmit', '');
+    $("form[name='" + formName + "']").attr('action', url);
+    $("form[name='" + formName + "']").submit();
+    $("form[name='" + formName + "']").attr('onsubmit', 'fn_select_list(); return false;');
+    $("form[name='" + formName + "']").attr('action', '');
 });
 
 //공간검색 radio버튼 change 이벤트1
@@ -287,16 +288,16 @@ function aj_selectUnderWaterAgri(form, gid, param2){
 	$('#'+gid).addClass('active');
 	// cmmUtil.setCameraMove($('#'+gid).data('lon'), $('#'+gid).data('lat'));
 
-	// if(!app2D){
-	// 	ugag_sethigh(gid);
-	// }
+    // if(!app2D){
+    // 	ugag_sethigh(gid);
+    // }
 
 	var formData = new FormData(form);
 	if(gid != ''){
 		formData.append('gid', gid);
-		toastr.warning("객체 선택 해제하기", "1. 객체 선택 해제하기");
-		dtmap.poi.select(gid);
-		toastr.success("dtmap.poi.select(gid);", "2. 객체 선택");
+		// toastr.warning("객체 선택 해제하기", "1. 객체 선택 해제하기");
+		dtmap.vector.select(gid);
+		toastr.success("dtmap.vector.select(gid);", "2. 객체 선택");
 	}
 
 	$.ajax({
@@ -324,11 +325,11 @@ function aj_selectUnderWaterAgri(form, gid, param2){
 function aj_updateUnderWaterAgriView(form, param1, param2){
 	ui.loadingBar("show");
 
-	var formData = new FormData(form);
-	if(param1 != ''){
-		formData.append('gid', param1);
+    var formData = new FormData(form);
+    if (param1 != '') {
+        formData.append('gid', param1);
 
-	}
+    }
 
 	$.ajax({
 		type : "POST",

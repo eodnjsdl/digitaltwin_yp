@@ -189,7 +189,7 @@ function callSelectOptions(){
 function aj_selectConstructionPlan(keyId){
 	poiListPlan = '';
 	ui.loadingBar("show");
-	dtmap.poi.select(keyId);
+	dtmap.vector.select(keyId);
 	var form = $("#searchPlanForm")[0];
 	var formData = new FormData(form);
 

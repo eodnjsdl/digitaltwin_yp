@@ -77,6 +77,11 @@ map3d.draw = (function () {
         return format.writeGeometry(geom);
     }
 
+    /**
+     * 도형 반환
+     * OpenLayers Geometry 타입으로 리턴
+     * @returns {ol.geom.Geometry}
+     */
     function getGeometry() {
         let coords = getCoordinates();
         let geom;
@@ -101,6 +106,7 @@ map3d.draw = (function () {
         writeGeoJson: writeGeoJson,
         readGeoJson: readGeoJson,
         writeWKT: writeWKT,
+        getGeometry : getGeometry,
         clear: clear
     };
     return module;

@@ -1,34 +1,35 @@
 window.map3d = window.map3d || {}
-map3d.poi = (function () {
+map3d.vector = (function () {
     let _layer;
 
     function init() {
-        _layer = new map3d.layer.POI({
-            id: 'poiLayer'
-        });
+        _layer = new map3d.layer.Vector({
+            id: 'vectorLayer'
+        })
     }
 
     /**
-     * Poi 추가함수
+     * Point 추가함수
      * @param options
      * @param {number} [options.id]
      * @param {number[]} options.coordinate
      * @param {string} options.crs
-     * @param {string} options.text
+     * @param {string} [options.text]
+     * @param {string} [options.column]
      * @param {string} options.img
      * @param {object} [options.properties]
      */
-    function addPoi(options) {
+    function addPoint(options) {
         if (options.crs) {
             if (options.crs !== map3d.crs) {
                 options.coordinate = ol.proj.transform(options.coordinate, options.crs, map3d.crs);
             }
         }
-        _layer.addPoi(options);
+        _layer.addPoint(options);
     }
 
-    function removePoi(id) {
-        _layer.instance.removeAtKey(id);
+    function removeFeature(id) {
+        _layer.removeFeature(id);
     }
 
     function select(id) {
@@ -75,7 +76,7 @@ map3d.poi = (function () {
     }
 
     function clear() {
-        _layer.instance.removeAll();
+        _layer.clear();
     }
 
     function dispose() {
@@ -92,8 +93,8 @@ map3d.poi = (function () {
 
     let module = {
         init: init,
-        addPoi: addPoi,
-        removePoi: removePoi,
+        addPoint: addPoint,
+        removeFeature:removeFeature,
         select: select,
         clear: clear,
         dispose: dispose,

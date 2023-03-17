@@ -113,6 +113,40 @@ window.dtmap = (function () {
         call('setBaseLayer', name)
     }
 
+
+    /**
+     * WFS GetFeature 호출함수
+     * @param options
+     * @param {string | string[]}options.typeNames 레이어 명
+     * @param [options.perPage=10] 한 페이지당 피쳐 개수
+     * @param [options.page=1] 페이지 번호
+     * @param [options.sortBy] 검색 정렬 컬럼명
+     * @return {json} GeoJSON
+     */
+    function wfsGetFeature(options) {
+        let perPage = options.perPage || 10;
+        let page = options.page || 1;
+        if (typeof options.typeNames === 'string') {
+            options.typeNames = [options.typeNames]
+        }
+        let params = {
+            outputFormat: 'application/json',
+            srsName: getMap().crs,
+            featureTypes: options.typeNames,
+            maxFeatures: perPage,
+            startIndex: (page - 1) * perPage,
+            sortBy: options.sortBy,
+        }
+        const featureRequest = new ol.format.WFS().writeGetFeature(params);
+        let data = new XMLSerializer().serializeToString(featureRequest);
+        return $.ajax({
+            url: '/gis/wfs',
+            method: 'post',
+            contentType: "text/plain;charset=UTF-8",
+            data: data
+        })
+    }
+
     const module = {
         init: init,
         goHome: goHome,
@@ -124,6 +158,7 @@ window.dtmap = (function () {
         setBaseLayer: setBaseLayer,
         clearInteraction: clearInteraction,
         clear: clear,
+        wfsGetFeature: wfsGetFeature,
         test: call
     }
 
@@ -148,9 +183,9 @@ window.dtmap = (function () {
                 return getMap().location;
             }
         },
-        'poi': {
+        'vector': {
             get: function () {
-                return getMap().poi;
+                return getMap().vector;
             }
         }
     })

@@ -28,22 +28,22 @@ $(".popup-reset").unbind('click').bind('click',function(){
 });
 
 //Poi 추가
-dtmap.poi.clear();
-toastr.success("dtmap.poi.clear();", "1. 지도의 객체 초기화");
+dtmap.vector.clear();
+toastr.success("dtmap.vector.clear();", "1. 지도의 객체 초기화");
 for (let i = 0; i < poiList.resultList.length; i++) {
 	let poi = poiList.resultList[i];
-	dtmap.poi.addPoi({
+	dtmap.vector.addPoint({
 		id : poi.gid,
 		coordinate : [Number(poi.lon),Number(poi.lat)],
 		crs : 'EPSG:5179',
-		text : poi.fcltyNm,
+		column : 'fcltyNm',
 		properties : poi,
 		img : './images/poi/underWaterAgri_poi.png'
 	})
 }
-toastr.success("dtmap.poi.addPoi()", "2. 지도에 객체 표출");
-dtmap.poi.fit();
-toastr.success("dtmap.poi.fit();", "3. 지도 영역 이동");
+toastr.success("dtmap.vector.addPoint()", "2. 지도에 객체 표출");
+dtmap.vector.fit();
+toastr.success("dtmap.vector.fit();", "3. 지도 영역 이동");
 </script>
 <form:form name="selectUnderWaterAgriExcelList" id="searchForm" method="post" onsubmit="fn_select_list(); return false;">
 <input type="hidden" name="pageIndex" id="pageIndex" value="<c:out value='${searchVO.pageIndex}' />">
@@ -143,10 +143,10 @@ toastr.success("dtmap.poi.fit();", "3. 지도 영역 이동");
 						</div>
 						<div class="space-search-items spaceArea">
 							<span class="drawing-obj small">
-								<span><input type="radio" name="underWaterAgriAreaDrawing" id="aChk1" value="1"><label for="aChk1" class="obj-sm01"></label></span>
-								<span><input type="radio" name="underWaterAgriAreaDrawing" id="aChk2" value="2"><label for="aChk2" class="obj-sm02"></label></span>
-								<span><input type="radio" name="underWaterAgriAreaDrawing" id="aChk3" value="3"><label for="aChk3" class="obj-sm03"></label></span>
-								<span><input type="radio" name="underWaterAgriAreaDrawing" id="aChk4" value="4"><label for="aChk4" class="obj-sm04"></label></span>
+								<span><input type="radio" name="underWaterAgriAreaDrawing" id="aChk1" value="Point"><label for="aChk1" class="obj-sm01"></label></span>
+								<span><input type="radio" name="underWaterAgriAreaDrawing" id="aChk2" value="LineString"><label for="aChk2" class="obj-sm02"></label></span>
+								<span><input type="radio" name="underWaterAgriAreaDrawing" id="aChk3" value="Box"><label for="aChk3" class="obj-sm03"></label></span>
+								<span><input type="radio" name="underWaterAgriAreaDrawing" id="aChk4" value="Circle"><label for="aChk4" class="obj-sm04"></label></span>
 							</span>
 						</div>
 						<div class="space-search-items spaceArea">

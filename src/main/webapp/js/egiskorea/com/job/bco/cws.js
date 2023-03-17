@@ -760,7 +760,7 @@ function aj_selectConstructionScheduleList(form){
 // --------------------------------------------------------- 상세 --------------------------------------------------
 //공사예정 정보 > 상세정보페이지 이동 (상세 내역 조회하기)
 function aj_selectConstructionSchedule(keyId){
-	dtmap.poi.select(keyId);
+	dtmap.vector.select(keyId);
 //	poiListScheduleDtl = poiListSchedule;		// poi표출 list백업
 	poiListSchedule = ''; 						// js로드시 해당값이 있을경우 poi표출하므로 백업처리후 리스트 초기화
 	ui.loadingBar("show");

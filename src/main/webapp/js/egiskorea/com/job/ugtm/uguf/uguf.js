@@ -290,7 +290,7 @@ function aj_selectUnderWaterUseFacil(form, gid, param2){
 	var formData = new FormData(form);
 	if(gid != ''){
 		formData.append('gid', gid);
-		dtmap.poi.select(gid);
+		dtmap.vector.select(gid);
 	}
 	
 	$.ajax({

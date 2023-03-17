@@ -60,8 +60,8 @@ window.map2d = (function () {
     function initModules() {
         map2d.baseLayer.init();
         map2d.measure.init();
+        map2d.vector.init();
         map2d.draw.init();
-        map2d.poi.init();
     }
 
     /**
@@ -105,11 +105,19 @@ window.map2d = (function () {
         _view.fit(extent);
     }
 
+    /**
+     *
+     * @param options
+     * @return {ol.Layer}
+     */
     function showLayer(options) {
         let {id, visible} = options;
         let layer = map2d.layer.getById(id);
-        if (!layer) map2d.layer.addLayer(options);
+        if (!layer) {
+            layer = map2d.layer.addLayer(options);
+        }
         map2d.layer.setVisible(id, visible);
+        return layer;
     }
 
 
@@ -146,7 +154,6 @@ window.map2d = (function () {
         clearInteraction();
         _curInteraction = interaction;
     }
-
 
 
     /**

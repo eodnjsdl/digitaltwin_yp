@@ -31,7 +31,7 @@ map3d.layer.POI = (function () {
      * @param otions
      */
     POI.prototype.addPoi = function (options) {
-        drawPoi.call(this, {
+        return drawPoi.call(this, {
             id: options.id,
             lon: options.coordinate[0],
             lat: options.coordinate[1],
@@ -191,6 +191,7 @@ map3d.layer.POI = (function () {
         }
         this.instance.setMaxDistance(map3d.config.maxDistance);
         this.instance.addObject(point, 0);
+        return point;
     }
 
     /**

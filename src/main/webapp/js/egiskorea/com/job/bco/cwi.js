@@ -554,7 +554,7 @@ function aj_selectConstructionInquirySpaceList(form){
 
 //공사정보 조회 > 상세 표출(공사정보 조회 상세 페이지)
 function aj_selectConstructionInquiry(keyId){
-	dtmap.poi.select(keyId);
+	dtmap.vector.select(keyId);
 	ui.loadingBar("show");
 	var formData = new FormData();
 	formData.append('cntrkPrrngId', keyId);

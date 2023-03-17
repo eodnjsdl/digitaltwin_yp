@@ -50,6 +50,8 @@ map3d.layer = (function () {
             let layer = new map3d.layer.Graph(options);
             layer.setData(GRAPH_DATA[options.layerNm]);
             return layer;
+        } else if (type === 'Vector') {
+            return new map3d.layer.Vector(options);
         }
 
     }
@@ -69,7 +71,13 @@ map3d.layer = (function () {
         } else {
             list = tileLayerList;
         }
-        list.delLayerAtName(layer.getName());
+        if (layer instanceof map3d.layer.Group) {
+            for (let i = 0; i < layer.layers.length; i++) {
+                list.delLayerAtName(layer.layers[i].getName());
+            }
+        } else {
+            list.delLayerAtName(layer.getName());
+        }
         layerMap.delete(id);
     }
 
@@ -123,6 +131,11 @@ map3d.layer = (function () {
         'serviceLayers': {
             get: function () {
                 return tileLayerList;
+            }
+        },
+        'map': {
+            get: function () {
+                return layerMap;
             }
         }
     })
