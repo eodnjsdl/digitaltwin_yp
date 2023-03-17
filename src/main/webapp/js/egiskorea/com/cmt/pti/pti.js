@@ -1,6 +1,6 @@
 // 사진정보 목록 호출
 function aj_selectPotoInfoList(frm){
-	loadingShowHide("show");
+	ui.loadingBar("show");
 	
 	var formData = new FormData(frm);
 	
@@ -24,7 +24,7 @@ function aj_selectPotoInfoList(frm){
 				return;
 			} 
 		}, complete : function(){
-			loadingShowHide("hide"); 
+			ui.loadingBar("hide"); 
 		}
 	});
 }
@@ -47,7 +47,7 @@ function reverseGeo(poinx,pointy){
 
 // 사진정보 등록화면 호출
 function aj_insertPotoInfoView(frm){
-	loadingShowHide("show");
+	ui.loadingBar("show");
 	var formData = new FormData(frm);
 	
 	$.ajax({
@@ -66,7 +66,7 @@ function aj_insertPotoInfoView(frm){
 				return;
 			} 
 		}, complete : function(){
-			loadingShowHide("hide"); 
+			ui.loadingBar("hide"); 
 		}
 	});
 }
@@ -74,7 +74,7 @@ function aj_insertPotoInfoView(frm){
 // 사진정보 수정화면 호출
 function aj_updatePotoInfoView(id,frm){
 
-	loadingShowHide("show");
+	ui.loadingBar("show");
 	var formData = new FormData(frm);
 	
 	$.ajax({
@@ -93,14 +93,14 @@ function aj_updatePotoInfoView(id,frm){
 				return;
 			} 
 		}, complete : function(){
-			loadingShowHide("hide"); 
+			ui.loadingBar("hide"); 
 		}
 	});
 }
 
 // 사진정보 상세조회 화면 호출
 function aj_selectPotoInfoView(id,frm){
-	loadingShowHide("show");
+	ui.loadingBar("show");
 	var formData = new FormData(frm);
 	if(id!=null){
 		formData.append('phtoId', id);
@@ -122,7 +122,7 @@ function aj_selectPotoInfoView(id,frm){
 				return;
 			} 
 		}, complete : function(){
-			loadingShowHide("hide"); 
+			ui.loadingBar("hide"); 
 		}
 	});
 }
@@ -140,7 +140,7 @@ function aj_insertPotoInfo(frm){
         formData.append("images"+i, inputFileList[i]);
     }
     formData.append("fileCn", fileCn);
-	loadingShowHide("show");
+	ui.loadingBar("show");
 	$.ajax({
 		type : "POST",
 		url : "/cmt/pti/insertPotoInfo.do",
@@ -152,15 +152,15 @@ function aj_insertPotoInfo(frm){
 		async: false,
 		success : function(returnData, status){
 			if(returnData.result == "success") {
-				alert("사진정보를 성공적으로 등록하였습니다.");
+				toastr.success("사진정보를 성공적으로 등록하였습니다.");
 				
 				rightPopupOpen('potoInfo');
-			} else if (returnData.result == "fail"){ 
-				alert("사진정보를 등록하는 데 실패하였습니다.");
+			} else if (returnData.result == "fail"){
+				toastr.error("사진정보를 등록하는 데 실패하였습니다.");
 				return;
 			} 
 		}, complete : function(){
-			loadingShowHide("hide"); 
+			ui.loadingBar("hide"); 
 		}
 	});
 }
@@ -197,8 +197,8 @@ function aj_updatePotoInfo(frm){
             success : function(returnData, status){
                 if(status == "success") {
                     
-                } else if (returnData.result == "fail"){ 
-                    alert("사진정보를 수정하는 데 실패하였습니다.");
+                } else if (returnData.result == "fail"){
+					toastr.error("사진정보를 수정하는 데 실패하였습니다.");
                     return;
                 } 
             }, complete : function(){
@@ -219,7 +219,7 @@ function aj_updatePotoInfo(frm){
     }
     formData.append("updateFileSn", updateFileSn);
 
-	loadingShowHide("show");
+	ui.loadingBar("show");
 	$.ajax({
 		type : "POST",
         enctype:"multipart/form-data", 
@@ -232,17 +232,17 @@ function aj_updatePotoInfo(frm){
 		frm:frm,
 		success : function(returnData, status){
 			if(status == "success") {
-				alert("사진정보를 성공적으로 수정하였습니다.");
+				toastr.success("사진정보를 성공적으로 수정하였습니다.");
 				
 				//rightPopupOpen('potoInfo');
 
 				aj_selectPotoInfoView(null,$(this.frm)[0]);
-			} else if (returnData.result == "fail"){ 
-				alert("사진정보를 수정하는 데 실패하였습니다.");
+			} else if (returnData.result == "fail"){
+				toastr.error("사진정보를 수정하는 데 실패하였습니다.");
 				return;
 			} 
 		}, complete : function(){
-			loadingShowHide("hide"); 
+			ui.loadingBar("hide"); 
 		},
 		error : function( error ) {
 
@@ -253,7 +253,7 @@ function aj_updatePotoInfo(frm){
 // 사진정보 삭제
 function aj_deletePotoInfo(frm){
 	var formData = new FormData(frm);
-	loadingShowHide("show");
+	ui.loadingBar("show");
 	$.ajax({
 		type : "POST",
 		url : "/cmt/pti/deletePotoInfo.do",
@@ -264,15 +264,17 @@ function aj_deletePotoInfo(frm){
 		async: false,
 		success : function(returnData, status){
 			if(returnData.result == "success") {
-				alert("사진정보를 성공적으로 삭제하였습니다.");
-				
-				rightPopupOpen('potoInfo');
-			} else if (returnData.result == "fail"){ 
-				alert("사진정보를 삭제하는 데 실패하였습니다.");
+				toastr.success("사진정보를 성공적으로 삭제하였습니다.");
+
+				// rightPopupOpen('potoInfo');
+				ui.openPopup("rightPopup");
+				aj_selectPotoInfoList($("#tmpForm")[0]);
+			} else if (returnData.result == "fail"){
+				toastr.error("사진정보를 삭제하는 데 실패하였습니다.");
 				return;
 			} 
 		}, complete : function(){
-			loadingShowHide("hide"); 
+			ui.loadingBar("hide"); 
 		}
 	});
 }
@@ -282,7 +284,7 @@ function aj_deletePoto(atchmnflId, fileSn){
 	var formData = new FormData();
     formData.append("atchmnflId", atchmnflId);
     formData.append("fileSn", fileSn);
-	loadingShowHide("show");
+	ui.loadingBar("show");
 	$.ajax({
 		type : "POST",
 		url : "/cmt/pti/deletePoto.do",
@@ -294,12 +296,12 @@ function aj_deletePoto(atchmnflId, fileSn){
 		success : function(returnData, status){
 			if(returnData.result == "success") {
 
-			} else if (returnData.result == "fail"){ 
-				alert("사진정보를 삭제하는 데 실패하였습니다.");
+			} else if (returnData.result == "fail"){
+				toastr.error("사진정보를 삭제하는 데 실패하였습니다.");
 				return;
 			} 
 		}, complete : function(){
-			loadingShowHide("hide"); 
+			ui.loadingBar("hide"); 
 		}
 	});
 }

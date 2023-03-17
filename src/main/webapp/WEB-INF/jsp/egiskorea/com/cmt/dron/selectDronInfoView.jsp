@@ -12,7 +12,8 @@
 
         $(this).addClass("active");
         <%--rightPopupOpen('updateDronInfo', <c:out value="${result.dronePicId}" />, $('#updateDeleteDronInfoForm')[0]);--%>
-        ui.openPopup("rightPopup");
+        // ui.openPopup 시 form 삭제됨 (기존로직)
+        // ui.openPopup("rightPopup");
         aj_updateDronInfoView(
             <c:out value="${result.dronePicId}" />,
             $('#updateDeleteDronInfoForm')[0]
@@ -25,7 +26,8 @@
     $(".btn-wrap .bi-list").on("click", function () {
         $(this).addClass("active");
 //     rightPopupOpen('dronInfo');
-        aj_selectDronInfo($("#selectDronInfoViewForm")[0], "");
+        ui.openPopup("rightPopup");
+        aj_selectDronInfo($("#tmpForm")[0]);
     });
 
     $(".bi-download").on("click", function () {
@@ -46,9 +48,10 @@
         }
     });
 
-    //사진정보 상세조회
     function selectDronInfoView(id) {
-        rightPopupOpen('selectDronInfoView', id, $('#selectDronInfoViewForm')[0]);
+        // rightPopupOpen('selectDronInfoView', id, $('#selectDronInfoViewForm')[0]);
+        ui.openPopup("rightPopup");
+        aj_selectDronInfoView(id, $('#selectDronInfoViewForm')[0]);
 //     aj_selectDronInfoView(id);
     }
 

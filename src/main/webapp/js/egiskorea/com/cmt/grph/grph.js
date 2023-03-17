@@ -23,13 +23,13 @@ class GraphicTool {
     constructor(pageIndex, data) {
         this.selector = "#rightPopup";
         this.render(data, pageIndex);
-        if (app2D) {
-            const yMap = app2D.getYMap();
-            const module = yMap.getModule("drawingTool");
-            module.reset();
-        } else {
-            // TO-DO 3d
-        }
+        // if (app2D) {
+        //     const yMap = app2D.getYMap();
+        //     const module = yMap.getModule("drawingTool");
+        //     module.reset();
+        // } else {
+        //     // TO-DO 3d
+        // }
     }
 
     /**
@@ -40,9 +40,9 @@ class GraphicTool {
     render(data, pageIndex) {
         data = data || `sortKind=newest&pageIndex=${pageIndex}`;
         //요구사항으로 3D는 로딩없이 시작_박규호
-        if (app2D) {
-            loadingShowHide("show");
-        }
+        // if (app2D) {
+        //     loadingShowHide("show");
+        // }
         $.ajax({
             type: "POST",
             url: "/cmt/grph/selectGraphicInfoList.do",
@@ -59,9 +59,9 @@ class GraphicTool {
                 }
             },
             complete: function () {
-                if (app2D) {
-                    loadingShowHide("hide");
-                }
+                // if (app2D) {
+                //     loadingShowHide("hide");
+                // }
             },
         });
     }

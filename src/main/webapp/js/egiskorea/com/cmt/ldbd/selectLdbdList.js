@@ -21,7 +21,7 @@ class SelectLdbdList {
     this.features = null;
     this.loadSearchTarget();
     this.bindEvents();
-    this.mapevent(data);
+    // this.mapevent(data);
     this.totalcount = 0;
     this.result = null;
     this.properties  = null;
@@ -41,7 +41,7 @@ class SelectLdbdList {
    */
   loadSearchTarget() {
     const that = this ;
-    loadingShowHide("show");
+    ui.loadingBar("show");
     $.ajax({
       type : "POST",
       url : "/cmt/ldbd/selectLandBuilderList.do",
@@ -50,7 +50,8 @@ class SelectLdbdList {
       success : function(returnData, status){
         if(status == "success") {
           $("#rightPopup").html(returnData);
-          that.mapevent();
+            toastr.error("mapevent");
+          // that.mapevent();
 
 
         }else{
@@ -58,7 +59,7 @@ class SelectLdbdList {
           return;
         }
       }, complete : function(){
-        loadingShowHide("hide");
+        ui.loadingBar("hide");
       }
     });
 
@@ -83,7 +84,7 @@ class SelectLdbdList {
 			  }, 100);
 		  }, true);
 	  }else{
-//		  loadingShowHide("show");
+//		  ui.loadingBar("show");
 		 
 		   var layerName = "lsmd_cont_ldreg_41830"
 		   var wmsLayer = falseLayerList.createWMSLayer(layerName);

@@ -784,6 +784,7 @@
 	margin-bottom: 5px;
 	max-height: 230px;
 	overflow: hidden;
+	text-align: center;
 }
 
 .saveMap-thumb + .btn-wrap {

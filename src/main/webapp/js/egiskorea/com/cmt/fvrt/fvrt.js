@@ -1,11 +1,41 @@
 
 
+// 즐겨찾기 목록 호출
+function aj_selectFavoritesList(frm){
+	ui.loadingBar("show");
+
+	var formData = new FormData(frm);
+
+	$.ajax({
+		type : "POST",
+		url : "/cmt/fvrt/selectFavoritesList.do",
+		data : formData,
+		dataType : "html",
+		processData : false,
+		contentType : false,
+		async: false,
+		success : function(returnData, status){
+			if(status == "success") {
+				$("#rightPopup").html(returnData);
+				$("input[name='sortKind']:radio" ).on("change", function () {
+					fn_select_favorites_list();
+				});
+				$("input:checkbox[id='favoritesOrder2']").prop("checked", true);
+			}else{
+				toastr.error("관리자에게 문의 바랍니다.", "정보를 불러오지 못했습니다.");
+				return;
+			}
+		}, complete : function(){
+			ui.loadingBar("hide");
+		}
+	});
+}
 
 // 즐겨찾기 등록화면 호출
 function aj_insertFavoritesView(frm){
-	loadingShowHide("show");
+	ui.loadingBar("show");
 	var formData = new FormData(frm);
-	
+
 	$.ajax({
 		type : "POST",
 		url : "/cmt/fvrt/insertFavoritesView.do",
@@ -15,22 +45,22 @@ function aj_insertFavoritesView(frm){
 		contentType : false,
 		async: false,
 		success : function(returnData, status){
-			if(status == "success") {				
+			if(status == "success") {
 				$("#rightPopup").html(returnData);
-			}else{ 
+			}else{
 				toastr.error("관리자에게 문의 바랍니다.", "정보를 불러오지 못했습니다.");
 				return;
-			} 
+			}
 		}, complete : function(){
-			loadingShowHide("hide"); 
+			ui.loadingBar("hide");
 		}
 	});
 }
 
 // 즐겨찾기 수정화면 호출
 function aj_updateFavoritesView(bkmkId,frm){
-	if (app2D) {
-		loadingShowHide("show");
+	if (dtmap.mod === "2D") {
+		ui.loadingBar("show");
 		var formData = new FormData(frm);
 		if(bkmkId!=null){
 			formData.append('bkmkId', bkmkId);
@@ -44,25 +74,25 @@ function aj_updateFavoritesView(bkmkId,frm){
 			contentType : false,
 			async: false,
 			success : function(returnData, status){
-				if(status == "success") {				
+				if(status == "success") {
 					$("#rightPopup").html(returnData);
-					
-				}else{ 
+
+				}else{
 					toastr.error("관리자에게 문의 바랍니다.", "정보를 불러오지 못했습니다.");
 					return;
-				} 
+				}
 			}, complete : function(){
-				loadingShowHide("hide"); 
+				ui.loadingBar("hide");
 			}
 		});
 	} else {
-		 return alert("해당 기능은 2D에서 가능합니다.");
+		return toastr.warning("해당 기능은 2D에서 가능합니다.");
 	}
 }
 
 // 즐겨찾기 등록
 function aj_insertFavorites(frm){
-	if (app2D) {
+	if (dtmap.mod === "2D") {
 
 		const yMap = app2D.getYMap();
 		var  centerx= yMap.getMap().getView().getCenter()[0] ;
@@ -83,7 +113,7 @@ function aj_insertFavorites(frm){
 		formData.append("cchLevel",zoom);
 		formData.append("bass",bass);
 		formData.append("ImgDataString",$(".bookmark-basic img").attr("src"));
-		loadingShowHide("show");
+		ui.loadingBar("show");
 		$.ajax({
 			type : "POST",
 			url : "/cmt/fvrt/insertFavorites.do",
@@ -94,15 +124,16 @@ function aj_insertFavorites(frm){
 			async: false,
 			success : function(returnData, status){
 				if(returnData.result == "success") {
-					alert("즐겨찾기를 성공적으로 등록하였습니다.");
-
-					rightPopupOpen('favorites');
+					toastr.success("즐겨찾기를 성공적으로 등록하였습니다.");
+					// rightPopupOpen('favorites');
+					ui.openPopup("rightPopup");
+					aj_selectFavoritesList($("#tmpForm")[0]);
 				} else if (returnData.result == "fail"){
-					alert("즐겨찾기를 등록하는 데 실패하였습니다.");
+					toastr.error("즐겨찾기를 등록하는 데 실패하였습니다.");
 					return;
 				}
 			}, complete : function(){
-				loadingShowHide("hide");
+				ui.loadingBar("hide");
 			}
 		});
 
@@ -135,10 +166,10 @@ function aj_updateFavorites(frm){
 	formData.append("bass",bass);
 	var src = $(".bookmark-basic img").attr("src") ;
 	if(src=="data:image:jpg;base64,"){
-		alert("현재 위치가 수정되지 않았습니다.") ;
+		toastr.error("현재 위치가 수정되지 않았습니다.") ;
 	}
 	formData.append("ImgDataString",src);
-	loadingShowHide("show");
+	ui.loadingBar("show");
 	$.ajax({
 		type : "POST",
 		url : "/cmt/fvrt/updateFavorites.do",
@@ -150,17 +181,18 @@ function aj_updateFavorites(frm){
 		frm,frm,
 		success : function(returnData, status){
 			if(returnData.result == "success") {
-				alert("즐겨찾기를 성공적으로 수정하였습니다.");
-				
-				rightPopupOpen('favorites');
+				toastr.success("즐겨찾기를 성공적으로 수정하였습니다.");
 
+				// rightPopupOpen('favorites');
+				ui.openPopup("rightPopup");
+				aj_selectFavoritesList($("#tmpForm")[0]);
 				aj_selectFavoritesInfoView(null,this.frm);
-			} else if (returnData.result == "fail"){ 
-				alert("즐겨찾기를 수정하는 데 실패하였습니다.");
+			} else if (returnData.result == "fail"){
+				toastr.error("즐겨찾기를 수정하는 데 실패하였습니다.");
 				return;
-			} 
+			}
 		}, complete : function(){
-			loadingShowHide("hide"); 
+			ui.loadingBar("hide");
 		}
 	});
 }
@@ -170,7 +202,7 @@ function aj_updateFavorites(frm){
  * @param id
  */
 function aj_selectFavoritesInfoView(bkmkId,frm){
-	loadingShowHide("show");
+	ui.loadingBar("show");
 	var formData = new FormData(frm);
 	if(bkmkId!=null){
 		formData.append('bkmkId', bkmkId);
@@ -192,7 +224,7 @@ function aj_selectFavoritesInfoView(bkmkId,frm){
 				return;
 			}
 		}, complete : function(){
-			loadingShowHide("hide");
+			ui.loadingBar("hide");
 		}
 	});
 }
@@ -202,7 +234,7 @@ function aj_selectFavoritesInfoView(bkmkId,frm){
 
 function aj_deleteFavoritesView(frm){
 
-	loadingShowHide("show");
+	ui.loadingBar("show");
 	$.ajax({
 		type : "POST",
 		url : "/cmt/fvrt/deleteFavorites.do",
@@ -211,15 +243,17 @@ function aj_deleteFavoritesView(frm){
 		async: false,
 		success : function(returnData, status){
 			if(status == "success") {
-				alert("즐겨찾기를 삭제하였습니다.");
+				toastr.success("즐겨찾기를 삭제하였습니다.");
 
-				rightPopupOpen('favorites');
+				// rightPopupOpen('favorites');
+				ui.openPopup("rightPopup");
+				aj_selectFavoritesList($("#tmpForm")[0]);
 			} else if (returnData.result == "fail"){
-				alert("즐겨찾기를 삭제하는 데 실패하였습니다.");
+				toastr.error("즐겨찾기를 삭제하는 데 실패하였습니다.");
 				return;
 			}
 		}, complete : function(){
-			loadingShowHide("hide");
+			ui.loadingBar("hide");
 		}
 	});
 }

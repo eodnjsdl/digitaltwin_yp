@@ -45,12 +45,25 @@
     <script type="text/javascript" src="/js/plugin/toastr-2.1.4/toastr.js"></script>
     <script type="text/javascript" src="/js/util/toast-confirm.js"></script>
 
-
+    <!-- common stylesheet -->
     <link rel="stylesheet" href="/css/com/common.css">
     <link rel="stylesheet" href="/css/map.css">
 
     <!-- toastr 2.1.4 stylesheet -->
     <link rel="stylesheet" type="text/css" href="/js/plugin/toastr-2.1.4/toastr.css">
+
+    <!-- jspdf 6.7.0 -->
+    <script src="/engine/plugin/v6.7.0/jspdf.umd.min.js"></script>
+    <script src="/engine/plugin/v6.7.0/jspdf.plugin.autotable.min.js"></script>
+
+    <!-- ax5 grid-->
+    <script src="/js/plugin/ax5grid/ax5core.min.js"></script>
+    <script src="/js/plugin/ax5grid/ax5grid.min.js"></script>
+    <!-- ax5 grid css -->
+    <link rel="stylesheet" href="/js/plugin/ax5grid/ax5grid.css">
+
+    <!-- font 맑은고딕: stre.js (지도저장기능 수행 시) -->
+    <script src="/engine/plugin/v6.7.0/malgun.js"></script>
 
     <!-- 2d -->
     <link rel="stylesheet" href="/css/map2d.css">
@@ -99,11 +112,28 @@
     <!-- 양평 레이어 상수 -->
     <script src="/js/map/yp-layer.js"></script>
 
-    <!-- 배경지도 관련 -->
-    <script src="/js/egiskorea/com/bcrn/bcrn.js"></script>
+    <!-- 통합행정정보 관련 -->
+    <script src="/js/egiskorea/com/cmt/uai/uai.js"></script>
+    <!-- 지적/건물 관련 -->
+    <script src="/js/egiskorea/com/cmt/ldbd/selectLdbdList.js"></script>
+    <!-- 내보내기 관련 -->
+    <script src="/js/egiskorea/com/cmt/dwld/dwld.js"></script>
+    <!-- 메모저장 관련 -->
+    <script src="/js/egiskorea/com/cmt/mmi/mmi.js"></script>
+    <!-- 사진정보 관련 -->
+    <script src="/js/egiskorea/com/cmt/pti/pti.js"></script>
+    <!-- 즐겨찾기 관련 -->
+    <script src="/js/egiskorea/com/cmt/fvrt/fvrt.js"></script>
+    <!-- 지도저장 관련 -->
+    <script src="/js/egiskorea/com/cmt/stre/stre.js"></script>
+    <!-- 그리기 관련 -->
+    <script src="/js/egiskorea/com/cmt/grph/grph.js"></script>
     <!-- 드론영상 관련 -->
     <script src="/js/egiskorea/com/cmt/dron/dron.js"></script>
+    <!-- 3D레이어 관련 -->
 
+    <!-- 배경지도 관련 -->
+    <script src="/js/egiskorea/com/bcrn/bcrn.js"></script>
 
     <!-- 업무 관련 -->
     <script src="/js/egiskorea/com/job/job.js"></script>

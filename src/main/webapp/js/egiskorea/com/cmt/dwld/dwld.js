@@ -21,7 +21,7 @@ class DataDownlad {
    * 표시
    */
   render() {
-    loadingShowHide("show");
+    ui.loadingBar("show");
     $.ajax({
       type: "POST",
       url: "/cmt/dwld/dataDownloadView.do",
@@ -40,7 +40,7 @@ class DataDownlad {
         }
       },
       complete: function () {
-        loadingShowHide("hide");
+        ui.loadingBar("hide");
       },
     });
   }
@@ -49,15 +49,15 @@ class DataDownlad {
    * 초기화
    */
   reset() {
-    if (app2D) {
-      cmmUtil.resetMap();
-    } else {
-      Module.XDSetMouseState(1);
-      var layerList = new Module.JSLayerList(true);
-      layerList.delLayerAtName("POLYGON_LAYER");
-      layerList.delLayerAtName("POI");
-      layerList.delLayerAtName("MultiLineString");
-    }
+    // if (app2D) {
+    //   cmmUtil.resetMap();
+    // } else {
+    //   Module.XDSetMouseState(1);
+    //   var layerList = new Module.JSLayerList(true);
+    //   layerList.delLayerAtName("POLYGON_LAYER");
+    //   layerList.delLayerAtName("POI");
+    //   layerList.delLayerAtName("MultiLineString");
+    // }
     $("#download-search-area-extent", this.selector).prop("checked", true);
     $("#download-search-area-extent", this.selector).trigger("change");
     $(".area-search-buffer", this.selector).val(0);
@@ -112,14 +112,14 @@ class DataDownlad {
           "change"
         );
       }
-      if (app2D) {
-        cmmUtil.drawClear();
-      } else {
-        Module.XDSetMouseState(1);
-        if (GLOBAL.layerBox != null) {
-          delWfSLayer(GLOBAL.layerBox);
-        }
-      }
+      // if (app2D) {
+      //   cmmUtil.drawClear();
+      // } else {
+      //   Module.XDSetMouseState(1);
+      //   if (GLOBAL.layerBox != null) {
+      //     delWfSLayer(GLOBAL.layerBox);
+      //   }
+      // }
     });
 
     // 검색영역지정 변경 (현재화면영역, 사용자정의)
@@ -129,7 +129,7 @@ class DataDownlad {
       if (value == "extent") {
         $(".tr_search_area", that.selector).hide();
         $(".th_search_area_span", that.selector).attr("rowspan", 2);
-        cmmUtil.drawClear();
+        // cmmUtil.drawClear();
       } else {
         $(".tr_search_area", that.selector).show();
         $(".th_search_area_span", that.selector).attr("rowspan", 3);
@@ -151,27 +151,27 @@ class DataDownlad {
       .off()
       .on("click", function () {
         const type = $("[name=standard-search-target]", that.selector).val();
-        if (app2D) {
-          if (type) {
-            cmmUtil.selectFacility(type);
-          } else {
-            alert("기준 시설물을 선택하여 주십시오.");
-            $("[name=standard-search-target]", that.selector).focus();
-          }
-        } else {
-          if (type) {
-            if (GLOBAL.layerBox != null) {
-              delWfSLayer(GLOBAL.layerBox);
-            }
-            Module.XDSetMouseState(6);
-            Module.XDRenderData();
-
-            createLayerWfS(type, GLOBAL.layerBox);
-          } else {
-            alert("기준 시설물을 선택하여 주십시오.");
-            $("[name=standard-search-target]", that.selector).focus();
-          }
-        }
+        // if (app2D) {
+        //   if (type) {
+        //     cmmUtil.selectFacility(type);
+        //   } else {
+        //     alert("기준 시설물을 선택하여 주십시오.");
+        //     $("[name=standard-search-target]", that.selector).focus();
+        //   }
+        // } else {
+        //   if (type) {
+        //     if (GLOBAL.layerBox != null) {
+        //       delWfSLayer(GLOBAL.layerBox);
+        //     }
+        //     Module.XDSetMouseState(6);
+        //     Module.XDRenderData();
+        //
+        //     createLayerWfS(type, GLOBAL.layerBox);
+        //   } else {
+        //     alert("기준 시설물을 선택하여 주십시오.");
+        //     $("[name=standard-search-target]", that.selector).focus();
+        //   }
+        // }
       });
 
     // 초기화
@@ -261,13 +261,13 @@ class DataDownlad {
         cmmUtil.showBufferGeometry(params["wkt"], buffer);
       }
 
-      loadingShowHide("show");
+      ui.loadingBar("show");
       const format = new ol.format.WKT();
       const geometry = format.readGeometry(params["wkt"]);
       const filter = ol.format.filter.dwithin("geom", geometry, params["buffer"], store.getPrj());
       util.gis.getFeature(params["dataIds"].split(","), filter, null, null, ["geom"]).done((geojson) => {
         cmmUtil.highlightFeatures(geojson);
-        loadingShowHide("hide");
+        ui.loadingBar("hide");
       });
 
       window.location.href = "/cmt/dwld/dataDownload.do?" + $.param(params);

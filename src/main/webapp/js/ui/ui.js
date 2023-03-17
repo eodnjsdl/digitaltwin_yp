@@ -228,8 +228,19 @@ window.ui = (function () {
      */
     function callDatePicker(){
         $( ".datepicker" ).datepicker({
-            showOn: 'both',
-            buttonImage: '/images/icon/form-calendar.svg',
+            dateFormat: 'yy-mm-dd' //달력 날짜 형태
+            ,showOtherMonths: true //빈 공간에 현재월의 앞뒤월의 날짜를 표시
+            ,showMonthAfterYear:true // 월- 년 순서가아닌 년도 - 월 순서
+            ,changeYear: true //option값 년 선택 가능
+            ,changeMonth: true //option값  월 선택 가능
+            ,showOn: "both" //button:버튼을 표시하고,버튼을 눌러야만 달력 표시 ^ both:버튼을 표시하고,버튼을 누르거나 input을 클릭하면 달력 표시
+            ,monthNamesShort: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'] //달력의 월 부분 텍스트
+            ,monthNames: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'] //달력의 월 부분 Tooltip
+            ,dayNamesMin: ['일','월','화','수','목','금','토'] //달력의 요일 텍스트
+            ,dayNames: ['일요일','월요일','화요일','수요일','목요일','금요일','토요일'] //달력의 요일 Tooltip
+            ,buttonImage: '/images/icon/form-calendar.svg' //버튼 이미지 경로
+            ,buttonText: "선택" //버튼 호버 텍스트
+            ,yearSuffix: "년" //달력의 년도 부분 뒤 텍스트
         });
     }
 
@@ -543,21 +554,25 @@ window.ui = (function () {
                 // aside menu > 통합행정정보
                 case "krasInfo" :
                     toastr.success("통합행정정보")
+                    aj_krasInfo();
                     break;
 
                 // aside menu > 지적/건물
                 case "landBuilding" :
                     toastr.success("지적/건물")
+                    aj_selectLandBuilderList();
                     break;
 
                 // aside menu > 내보내기
                 case "dwldInfo" :
                     toastr.success("내보내기")
+                    aj_dataDownload();
                     break;
 
                 // aside menu > 메모정보
                 case "memoInfo" :
                     toastr.success("메모정보")
+                    aj_selectMemoInfoList($("#tmpForm")[0]);
                     break;
 
                 // aside menu > 사진정보
@@ -593,7 +608,7 @@ window.ui = (function () {
                 // aside menu > 3D레이어
                 case "layerList" :
                     toastr.success("3D레이어")
-                    aj_selectLayerList("top")
+                    aj_selectLayerList("top");
                     break;
 
                 // aside menu > 배경지도
@@ -619,3 +634,49 @@ window.ui = (function () {
 
 }());
 
+
+
+
+//TODO 정리
+
+// 개인별 레이어 목록 호출
+function aj_selectLayerList(mode, reset = false){
+    var searchKeyword = mode == "left"
+        ? $(".lnb-layer input[name='searchKeyword']").val()
+        : $("#rightPopup input[name='searchKeyword']").val();
+
+    ui.loadingBar("show");
+    $.ajax({
+        type : "POST",
+        url : "/lyr/lym/selectLayerList.do",
+        data : {
+            "searchKeyword" : searchKeyword,
+            "mode" : mode
+        },
+        dataType : "html",
+        async: false,
+        success : function(returnData, status){
+            if(status == "success") {
+                if(mode == "left"){ // 좌측 메뉴 선택 시
+                    $(".lnb-layer").html(returnData);
+                    $(".lnb-layer input[name='searchKeyword']").val(searchKeyword);
+                } else if(mode == "top"){ // 상단 메뉴 선택 시
+                    $("#rightPopup").html(returnData);
+                    $("#rightPopup input[name='searchKeyword']").val(searchKeyword);
+                }
+
+                if(!$(".lnb-layer .scroll-y").hasClass("mCustomScrollbar")){
+                    $(".scroll-y").mCustomScrollbar({
+                        scrollbarPosition:"outside",
+                        mouseWheel:{ scrollAmount: 250}
+                    });
+                }
+            }else{
+                toastr.error("관리자에게 문의 바랍니다.", "정보를 불러오지 못했습니다.");
+                return;
+            }
+        }, complete : function(){
+            ui.loadingBar("hide");
+        }
+    });
+}

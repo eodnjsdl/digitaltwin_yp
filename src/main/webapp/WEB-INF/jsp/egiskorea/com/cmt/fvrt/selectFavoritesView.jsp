@@ -9,20 +9,26 @@
     $(".btn-wrap .bi-list").on("click", function(){
         $(this).addClass("active");
         //rightPopupOpen('favorites');
-        aj_selectFavoritesList($("#updateFormFavorites")[0], "");
+        ui.openPopup("rightPopup");
+        aj_selectFavoritesList($("#tmpForm")[0]);
     });
 
     // 즐겨찾기 수정
     $(".btn-wrap .bi-edit").on("click", function(){
-    	if (app2D) {
+    	if (dtmap.mod === "2D") {
         	aj_updateFavoritesView(null,$("#updateFormFavorites")[0]);
     	} else {
-    		alert("해당 기능은 2D에서 가능합니다.");
+            toastr.error("해당 기능은 2D에서 가능합니다.");
     	}
     });
     // 즐겨찾기 삭제
     $(".btn-wrap .bi-delete").on("click", function(){
-        aj_deleteFavoritesView('<c:out value="${result.bkmkId}" />');
+        if (confirm("즐겨찾기를 삭제하시겠습니까?")) {    //확인
+            aj_deleteFavoritesView('<c:out value="${result.bkmkId}" />');
+        } else {   //취소
+            return false;
+        }
+
     });
 
 
