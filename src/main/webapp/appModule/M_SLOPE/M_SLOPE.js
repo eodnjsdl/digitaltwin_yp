@@ -205,7 +205,7 @@ var M_SLOPE = {
 //		}
 		var count = Module.getMap().getInputPointCount();
 		if(count <3){
-			alert("3개이상의 포인트가 선택되어야합니다.");
+			toastr.warning("3개이상의 포인트가 선택되어야합니다.");
 			Module.getMap().clearInputPoint();
 			
 		}
@@ -293,24 +293,24 @@ var M_SLOPE = {
 		var slopeDetail = $("#slopeDetail").val();
 		M_SLOPE.slopeType =$("select[name=slopeType]").val();
 		if(count == 0){
-			alert("영역이 선택되지않았습니다.");
+			toastr.warning("영역이 선택되지않았습니다.");
 			return false;
 		}
 		if(count <3){
-			alert("3개이상의 포인트가 선택되어야합니다");
+			toastr.warning("3개이상의 포인트가 선택되어야합니다");
 			M_SLOPE.resetArea();
 			M_SLOPE.clearAll();
 			Module.getMap().clearInputPoint();
 			return false;
 		}
 		if(slopeGrid == ""){
-//			COMMON.alert("그리드 간격을 입력하여주세요.",'info',function(){});
+//			COMMON.toastr.warning("그리드 간격을 입력하여주세요.",'info',function(){});
 			$("#slopeGrid").focus();
 			return false;
 		}
 		if(M_SLOPE.slopeType == "DA"){
 			if(slopeDetail == ""){
-//				COMMON.alert("화살표 해상도를 입력하여주세요.",'info',function(){});
+//				COMMON.toastr.warning("화살표 해상도를 입력하여주세요.",'info',function(){});
 				$("#slopeDetail").focus();
 				return false;
 			}
@@ -860,7 +860,7 @@ var M_SLOPE = {
 	},
 	saveSlope:function(type){
 		if(M_SLOPE.slopeType == null){
-			alert("분석 후 저장할 수 있습니다.");
+			toastr.warning("분석 후 저장할 수 있습니다.");
 			return false;
 		}
 		var today = new Date();
@@ -943,7 +943,7 @@ var M_SLOPE = {
 			dataType: "json",
 			enctype: "multipart/form-data",
 			success: function (result) {
-//				COMMON.alert("경사분석이 저장되었습니다.","success",function(){
+//				COMMON.toastr.warning("경사분석이 저장되었습니다.","success",function(){
 //					COMMON.unblockUIdiv("MapContainer");
 //				});
 			},
@@ -1197,7 +1197,7 @@ var M_SLOPE = {
 //		deleteSlopeList.push(slid);
 //
 //		if(deleteSlopeList.length == 0){
-//			COMMON.alert("삭제할 경사분석을 선택하여주세요.","warning",function(){
+//			COMMON.toastr.warning("삭제할 경사분석을 선택하여주세요.","warning",function(){
 //				return false;
 //			});
 //			return false;
@@ -1216,7 +1216,7 @@ var M_SLOPE = {
 //				contentType: false,
 //				dataType: "json",
 //				success: function (result) {
-//					COMMON.alert("삭제되었습니다.","success",function(){
+//					COMMON.toastr.warning("삭제되었습니다.","success",function(){
 //						M_SLOPE.loadSlopeList();
 //					});
 //				}
@@ -1260,7 +1260,7 @@ var M_SLOPE = {
 //			contentType: false,
 //			dataType: "json",
 //			success: function (result) {
-//				COMMON.alert("수정되었습니다.","success",function(){
+//				COMMON.toastr.warning("수정되었습니다.","success",function(){
 //				    $("#slopeName_"+slid).text(slopeName);
 //				});
 //			}
@@ -1319,7 +1319,7 @@ var M_SLOPE = {
 //
 //			    		  done("업로드할 수 없습니다.");
 //
-//			    	      COMMON.alert(type+"의 파일은 업로드할 수 없습니다","warning",function(){
+//			    	      COMMON.toastr.warning(type+"의 파일은 업로드할 수 없습니다","warning",function(){
 //			    	    	  return false;
 //			    	      });
 //
@@ -1341,7 +1341,7 @@ var M_SLOPE = {
 //		    			  console.log(result);
 //			    	  }),
 //			    	  this.on("maxfilesexceeded", function(file) {
-//			    	      COMMON.alert("하나의 파일만 업로드할 수 있습니다.","warning",function(){
+//			    	      COMMON.toastr.warning("하나의 파일만 업로드할 수 있습니다.","warning",function(){
 //			    	    	  dropzoneFile.removeAllFiles();
 //			    	    	  dropzoneFile.addFile(file);
 //			    	    	  return false;

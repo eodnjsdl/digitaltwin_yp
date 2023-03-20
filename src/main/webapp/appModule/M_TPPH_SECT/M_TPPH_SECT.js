@@ -14,7 +14,7 @@ var M_TPPH_SECT = {
 		$("#M_TPPH_SECT").attr("onmouseout","M_TPPH_SECT.setMouseOverDiv(false)");
 		
 		$("#tpphClickBtn").off().on("click",function(){
-			alert("지도에 분석할 두 지점을 선택하세요.");
+			toastr.warning("지도에 분석할 두 지점을 선택하세요.");
 			M_TPPH_SECT.setMouseState(Module.MML_INPUT_LINE);
 		})
 		$("#tpphMoveBtn").off().on("click",function(){

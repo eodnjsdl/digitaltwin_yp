@@ -509,9 +509,9 @@ window.ui = (function () {
         let $leftSide = $('#side');
         let $leftBar = $('#lnb');
         $leftBar.on('click', 'li', function () {
+            _changeMenu();
             let $this = $(this);
             let menu = $this.attr('data-menu');
-
             $this.toggleClass("on").siblings().removeClass("on");
             $leftSide.find(".lnb-list").removeClass("on");
             if ($this.hasClass('on')) {

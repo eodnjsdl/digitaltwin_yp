@@ -25,11 +25,11 @@ var M_SPCE_ANLS = {
     this.facility = null;
     $(this.selector).remove();
     this.selector = null;
-    if(GLOBAL.layerBox != null){//데이터내보내기에서 그린 3d객체 있을시 삭제
-		delWfSLayer(GLOBAL.layerBox)
-		GLOBAL.layerBox = null
-		GLOBAL.layerCount = 0
-	}
+    // if(GLOBAL.layerBox != null){//데이터내보내기에서 그린 3d객체 있을시 삭제
+	// 	delWfSLayer(GLOBAL.layerBox)
+	// 	GLOBAL.layerBox = null
+	// 	GLOBAL.layerCount = 0
+	// }
   },
 
   /**
@@ -128,86 +128,86 @@ var M_SPCE_ANLS = {
     const emdCode = $("[name=analysis-target]", this.selector).val();
     const dataId = $("[name=analysis-facility]", this.selector).val();
     ui.loadingBar("show");
-    if(mapType == "2D"){
-    	 if (emdCode) {
-    	      store.emd.getData().done((features) => {
-    	        const findFeature = features.find(
-    	          (feature) => feature.get("emd_cd") == emdCode
-    	        );
-    	        if (findFeature) {
-    	          const filter = ol.format.filter.intersects(
-    	            "geom",
-    	            findFeature.getGeometry(),
-    	            store.getPrj()
-    	          );
-    	          util.gis.getFeature([dataId], filter).done((geojson) => {
-    	            const format = new ol.format.WKT();
-    	            cmmUtil.highlightFeatures(geojson);
-    	            const wkt = format.writeGeometry(findFeature.getGeometry());
-    	            cmmUtil.moveGeometry(wkt);
-    	          });
-    	        }
-    	      });
-    	    } else {
-    	      let filter = null;
-    	      if(dataId == "tgd_spot_bridge"||dataId=='tgd_spsb_statn') {
-    	    	filter = ol.format.filter.equalTo("sig_cd", "41830");
-    	      }
-    	      util.gis.getFeature([dataId], filter).done((geojson) => {
-    	        cmmUtil.highlightFeatures(geojson);
-    	        util.gis.getFeature(["tgd_scco_sig"]).done((json) => {
-    	          cmmUtil.moveFeatures(json);
-    	        });
-    	      });
-    	    }
-    }else{
-    	 $.ajax({
-    		  type : "POST",
-    		  url : "/anls/span/selectSpAnlsList.do",
-    		  data: {
-    			  "emdCd" : emdCode,
-    			  "tabName" : dataId
-    		  },
-    		  dataType:"json",
-    		  async: false,
-    		  success : function(result, status){
-    			if(status == "success") { 	       
-    				if(GLOBAL.layerBox != null){
-    					delWfSLayer(GLOBAL.layerBox);
-    					GLOBAL.layerBox = null;
-    					GLOBAL.layerCount = 0;
-    				}
-    				
-    				var x = m_pos.init[0]
-    				var y = m_pos.init[1]
-    				var z = m_pos.init[2]+8000
-    				
-    				for(var i=0; i<result.length; i++){
-    					
-    					if(result[i].geom ){
-    						make3dObject(result[i])
-    						
-    					}
-    					if(result[i].centerpoint){
-    						
-    						x = parseFloat(result[i].centerpoint.split("(")[1].split(")")[0].split(" ")[0])
-    						y = parseFloat(result[i].centerpoint.split("(")[1].split(")")[0].split(" ")[1])
-    						z = 6000
-    					}
-    					
-    				}
-
-    				setCameraMoveLLAT(x,y,z,90);
-    				
-    			}else{
-    			  toastr.error("관리자에게 문의 바랍니다.", "정보를 불러오지 못했습니다.");
-    			  return;
-    			}
-    		  }, complete : function(result, status){
-    			  
-    		  }
-    		});
-    }
+    // if(mapType == "2D"){
+    // 	 if (emdCode) {
+    // 	      store.emd.getData().done((features) => {
+    // 	        const findFeature = features.find(
+    // 	          (feature) => feature.get("emd_cd") == emdCode
+    // 	        );
+    // 	        if (findFeature) {
+    // 	          const filter = ol.format.filter.intersects(
+    // 	            "geom",
+    // 	            findFeature.getGeometry(),
+    // 	            store.getPrj()
+    // 	          );
+    // 	          util.gis.getFeature([dataId], filter).done((geojson) => {
+    // 	            const format = new ol.format.WKT();
+    // 	            cmmUtil.highlightFeatures(geojson);
+    // 	            const wkt = format.writeGeometry(findFeature.getGeometry());
+    // 	            cmmUtil.moveGeometry(wkt);
+    // 	          });
+    // 	        }
+    // 	      });
+    // 	    } else {
+    // 	      let filter = null;
+    // 	      if(dataId == "tgd_spot_bridge"||dataId=='tgd_spsb_statn') {
+    // 	    	filter = ol.format.filter.equalTo("sig_cd", "41830");
+    // 	      }
+    // 	      util.gis.getFeature([dataId], filter).done((geojson) => {
+    // 	        cmmUtil.highlightFeatures(geojson);
+    // 	        util.gis.getFeature(["tgd_scco_sig"]).done((json) => {
+    // 	          cmmUtil.moveFeatures(json);
+    // 	        });
+    // 	      });
+    // 	    }
+    // }else{
+    // 	 $.ajax({
+    // 		  type : "POST",
+    // 		  url : "/anls/span/selectSpAnlsList.do",
+    // 		  data: {
+    // 			  "emdCd" : emdCode,
+    // 			  "tabName" : dataId
+    // 		  },
+    // 		  dataType:"json",
+    // 		  async: false,
+    // 		  success : function(result, status){
+    // 			if(status == "success") {
+    // 				if(GLOBAL.layerBox != null){
+    // 					delWfSLayer(GLOBAL.layerBox);
+    // 					GLOBAL.layerBox = null;
+    // 					GLOBAL.layerCount = 0;
+    // 				}
+    //
+    // 				var x = m_pos.init[0]
+    // 				var y = m_pos.init[1]
+    // 				var z = m_pos.init[2]+8000
+    //
+    // 				for(var i=0; i<result.length; i++){
+    //
+    // 					if(result[i].geom ){
+    // 						make3dObject(result[i])
+    //
+    // 					}
+    // 					if(result[i].centerpoint){
+    //
+    // 						x = parseFloat(result[i].centerpoint.split("(")[1].split(")")[0].split(" ")[0])
+    // 						y = parseFloat(result[i].centerpoint.split("(")[1].split(")")[0].split(" ")[1])
+    // 						z = 6000
+    // 					}
+    //
+    // 				}
+    //
+    // 				setCameraMoveLLAT(x,y,z,90);
+    //
+    // 			}else{
+    // 			  toastr.error("관리자에게 문의 바랍니다.", "정보를 불러오지 못했습니다.");
+    // 			  return;
+    // 			}
+    // 		  }, complete : function(result, status){
+    //
+    // 		  }
+    // 		});
+    // }
     ui.loadingBar("hide");
   },
 

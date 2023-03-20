@@ -421,7 +421,7 @@ var M_AI_IMAGE = {
 					var totalCnt=  result.response.length;				
 					
 					if(result.response.length == 0){
-						alert("분석결과값이 없습니다. 화면조정후 다시 시도하세요.")
+						toastr.warning("분석결과값이 없습니다. 화면조정후 다시 시도하세요.")
 						ui.loadingBar("hide");
 						return false;
 					}

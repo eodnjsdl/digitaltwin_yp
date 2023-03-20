@@ -76,11 +76,11 @@ function resiCompJomang(){
 	var pointCnt = GLOBAL.Jomang.getObjectCount();
 	
 	if(pointCnt > 5){ 
-		alert('조망점은 최대 5개만 선택할 수 있습니다.');
+		toastr.warning('조망점은 최대 5개만 선택할 수 있습니다.');
 //		changeJomangMouseKeyboardState(false)
 		return false;
 	}else if(pointCnt == 0){
-		alert('조망점이 없습니다.');
+		toastr.warning('조망점이 없습니다.');
 		
 	}else if(pointCnt == 5){
 		
@@ -104,7 +104,7 @@ function registerJomangPoint(e){
 	var pointCnt = GLOBAL.Jomang.getObjectCount();
 
 	if(pointCnt > 4){
-		alert('조망점은 최대 5개만 선택할 수 있습니다.');
+		toastr.warning('조망점은 최대 5개만 선택할 수 있습니다.');
 		disableJomang();
 	} else{
 		Module.getAddObject().Add3DPoint(layerName, "pos_"+jNum, lon, lat, alt, image.data, image.width, image.height, "조망점"+jNum);
@@ -164,7 +164,7 @@ function removeJomangPoint(pointCnt){
 function removeJomangAllPoint() {
 	var pointCnt = GLOBAL.Jomang.getObjectCount();
 	if(pointCnt == 0){
-		alert("삭제할 조망점이없습니다")
+		toastr.warning("삭제할 조망점이없습니다")
 	}
 	$('#jomangList>li button:last-child').each(function(){
 		$(this).click();

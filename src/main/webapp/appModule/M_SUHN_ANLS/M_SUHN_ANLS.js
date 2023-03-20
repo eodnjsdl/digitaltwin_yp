@@ -62,7 +62,7 @@ var M_SUHN_ANLS = {
 	controlPlay:function(){ // 재생 // 그림자생성 -초기화로 다시 그려줌
 		
 		if(M_SUHN_ANLS.startMin > M_SUHN_ANLS.endMin){
-			alert("시작시간이 종료시간보다 빨라야 합니다.");
+			toastr.warning("시작시간이 종료시간보다 빨라야 합니다.");
 
 			return false;
 		}
