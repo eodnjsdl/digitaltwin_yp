@@ -96,49 +96,49 @@ $(document).ready(function(){ // 실행할 기능을 정의해주세요.
 
 //TODO GIS
 //POILsyrt를 추가해준다.
-// function setPlanPointLayer(){
-// 	var mapType = $('input:radio[name="mapType"]:checked').val();
-// 	if(mapType == "2D"){
-// 		//alert("2D환경 POI마커는 개발중입니다!");
-// 	}else{
-// 		// POI 오브젝트를 추가 할 레이어 생성
-// 		var layerList = new Module.JSLayerList(true);
-//
-// 		// 생성된어 있는 POI 레이어가 있을때 지워주기
-// 		if(GLOBAL.LayerId.PoiLayerId != null){
-// 			var layer = layerList.nameAtLayer(GLOBAL.LayerId.PoiLayerId);
-// 			if(layer != null){
-// 				layerList.delLayerAtName(GLOBAL.LayerId.PoiLayerId);
-// 				GLOBAL.LayerId.PoiLayerId = null;
-// 			}
-//
-// 			Module.XDRenderData();
-// 		}
-//
-// 		// POI 레이어 이름은 각 해당 테이블명
-// 		GLOBAL.LayerId.PoiLayerId = cwp.layerId;
-// 		GLOBAL.PoiLayer = layerList.createLayer(GLOBAL.LayerId.PoiLayerId, Module.ELT_3DPOINT);
-//
-// 		// POI 설정
-// 		for(var i = 0; i < poiListPlan.resultList.length; i++){
-// 			var pointX = Number(poiListPlan.resultList[i].lon); //x 좌표
-// 			var pointY = Number(poiListPlan.resultList[i].lat); //y 좌표
-// 			var position = TransformCoordinate(pointX, pointY, 26, 13);
-// 			var options = {
-// 					layer : GLOBAL.PoiLayer,
-// 					layerKey : poiListPlan.resultList[i].cntrkPlnId,
-// 					lon : position.x,
-// 					lat : position.y,
-// 					text : poiListPlan.resultList[i].cntrkNm,
-// 					markerImage : cwp.imgUrl, // 해당 마커 이미지 Url
-// 					lineColor : new Module.JSColor(0, 0, 255)
-// 			}
-// 			createLinePoi2(options);
-// 		}
-// 		// 마우스 상태 설정
-// 		Module.XDSetMouseState(Module.MML_SELECT_POINT);
-// 	}
-// }
+function setPlanPointLayer(){
+	var mapType = $('input:radio[name="mapType"]:checked').val();
+	if(mapType == "2D"){
+		//alert("2D환경 POI마커는 개발중입니다!");
+	}else{
+		// POI 오브젝트를 추가 할 레이어 생성
+		var layerList = new Module.JSLayerList(true);
+
+		// 생성된어 있는 POI 레이어가 있을때 지워주기
+		if(GLOBAL.LayerId.PoiLayerId != null){
+			var layer = layerList.nameAtLayer(GLOBAL.LayerId.PoiLayerId);
+			if(layer != null){
+				layerList.delLayerAtName(GLOBAL.LayerId.PoiLayerId);
+				GLOBAL.LayerId.PoiLayerId = null;
+			}
+
+			Module.XDRenderData();
+		}
+
+		// POI 레이어 이름은 각 해당 테이블명
+		GLOBAL.LayerId.PoiLayerId = cwp.layerId;
+		GLOBAL.PoiLayer = layerList.createLayer(GLOBAL.LayerId.PoiLayerId, Module.ELT_3DPOINT);
+
+		// POI 설정
+		for(var i = 0; i < poiListPlan.resultList.length; i++){
+			var pointX = Number(poiListPlan.resultList[i].lon); //x 좌표
+			var pointY = Number(poiListPlan.resultList[i].lat); //y 좌표
+			var position = TransformCoordinate(pointX, pointY, 26, 13);
+			var options = {
+					layer : GLOBAL.PoiLayer,
+					layerKey : poiListPlan.resultList[i].cntrkPlnId,
+					lon : position.x,
+					lat : position.y,
+					text : poiListPlan.resultList[i].cntrkNm,
+					markerImage : cwp.imgUrl, // 해당 마커 이미지 Url
+					lineColor : new Module.JSColor(0, 0, 255)
+			}
+			createLinePoi2(options);
+		}
+		// 마우스 상태 설정
+		Module.XDSetMouseState(Module.MML_SELECT_POINT);
+	}
+}
 
 // 공사계획정보 시기 Option 정보 생성및 조회값이 있을때 처리
 function callSelectOptions(){

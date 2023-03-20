@@ -8,8 +8,10 @@ map2d.draw = (function () {
     let _modify;
     let _select;
     let _drawOptions;
+    let _buffer;
 
     const DEFAULT_TYPE = 'Polygon'
+    const ORI_GEOM_KEY = '_ori_geom'
 
     function init() {
         _source = new ol.source.Vector();
@@ -66,7 +68,7 @@ map2d.draw = (function () {
                 geometryFunction: geomFunction
             });
             _draw.on('drawstart', onDrawStart);
-
+            _draw.on('drawend', onDrawEnd);
             map2d.map.addInteraction(_draw);
         }
 
@@ -140,6 +142,12 @@ map2d.draw = (function () {
         // console.log('set', e.feature.ol_uid, _drawOptions);
     }
 
+    function onDrawEnd(e) {
+        updateGeometry(e.feature);
+    }
+
+
+
     function writeWKT(index) {
         const format = new ol.format.WKT();
         const features = _source.getFeatures();
@@ -169,12 +177,45 @@ map2d.draw = (function () {
         return geom;
     }
 
+    function setBuffer(value) {
+        _buffer = value;
+        const features = _source.getFeatures();
+        for (let i = 0; i < features.length; i++) {
+            const feature = features[i];
+            updateGeometry(feature);
+        }
+    }
+
+    //지오메트리 버퍼 업데이트
+    function updateGeometry(feature) {
+        if (_buffer <= 0 || isNaN(_buffer)) {
+            const geom = feature.get(ORI_GEOM_KEY);
+            if (geom) {
+                feature.setGeometry(geom);
+            }
+            feature.unset(ORI_GEOM_KEY);
+        } else {
+            const geom = feature.get(ORI_GEOM_KEY) || feature.getGeometry();
+            const buffered = getBufferGeom(geom, _buffer);
+            feature.set(ORI_GEOM_KEY, geom);
+            feature.setGeometry(buffered);
+        }
+    }
+
+    function getBufferGeom(geom, buffer) {
+        const parser = new jsts.io.OL3Parser();
+        const jstsGeom = parser.read(geom);
+        const buffered = jstsGeom.buffer(buffer);
+        return parser.write(buffered);
+    }
+
     let module = {
         init: init,
         active: active,
         dispose: dispose,
         writeWKT: writeWKT,
         getGeometry: getGeometry,
+        setBuffer: setBuffer,
         clear: clear
     }
 

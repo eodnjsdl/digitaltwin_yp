@@ -89,7 +89,8 @@ map2d.vector = (function () {
 
         _source = new ol.source.Vector();
         _layer = new ol.layer.Vector({
-            source: _source
+            source: _source,
+            style : styleFunction
         });
         map2d.map.addLayer(_layer);
         _source.on('change', onSourceChange)
@@ -131,8 +132,6 @@ map2d.vector = (function () {
             }
         })
         feature.setProperties(options.properties);
-        feature.setStyle(styleFunction.bind(options));
-
         _source.addFeature(feature);
     }
 

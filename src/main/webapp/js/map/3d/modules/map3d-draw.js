@@ -84,6 +84,10 @@ map3d.draw = (function () {
      */
     function getGeometry() {
         let coords = getCoordinates();
+        if (coords === undefined || coords.length === 0) {
+            return;
+        }
+
         let geom;
         if (_type === 'POINT') {
             //point
@@ -106,7 +110,7 @@ map3d.draw = (function () {
         writeGeoJson: writeGeoJson,
         readGeoJson: readGeoJson,
         writeWKT: writeWKT,
-        getGeometry : getGeometry,
+        getGeometry: getGeometry,
         clear: clear
     };
     return module;

@@ -47,40 +47,23 @@
         options = {
             typeNames: 'tgd_agr_public_tbwll' + "",
         }
-        var promise = dtmap.wfsGetFeature(options)
+        const promise = dtmap.wfsGetFeature(options);
         promise.then(function (data) {
-            var list = [];
-            var features = readGeoJSON(data);
-            var iconStyle = new ol.style.Style({
-                image: new ol.style.Icon(({
-                    anchorXUnits: 'fraction',
-                    anchorYUnits: 'pixels',
-                    src: '/images/poi/subway_1.png',
-                    scale: 1
-                }))
-            });
-            if (!features || features.length === 0) {
-            	return;
-            }
-            for (var i = 0; i < features.length; i++) {
-                var feature = features[i];
-                features[i].setStyle(iconStyle);
-                var id = feature.getId();
-                var ext = feature.getGeometry().getExtent();
-                if (!bounds) {
-                    bounds = ext;
-                } else {
-                    bounds = ol.extent.extend(bounds, ext);
-                }
-                var properties = feature.getProperties();
-                list.push(Object.assign({}, {gid: id, ext: ext}, properties))
+            //그리드 데이터 전처리
+            const list = [];
+            for (let i = 0; i < data.features.length; i++) {
+                const {id, properties} = data.features[i];
+                list.push({...properties, ...{id: id}});
             }
             grid.setData(list);
-            map2d.setExtent(bounds);
-            if (map2d.view.getZoom() < 10) {
-            	map2d.view.setZoom(10);
-            }
-            map2d.vector.addFeatures(features)
+
+            //지도에 GeoJSON 추가
+            map2d.vector.readGeoJson(data, {
+                marker: {
+                    src: '/images/poi/subway_1.png'
+                }
+            });
+            map2d.vector.fit();
         });
     }
 
