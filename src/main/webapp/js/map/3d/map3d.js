@@ -43,7 +43,7 @@ window.map3d = (function () {
             // Module.Start(container_.clientWidth, container_.clientHeight)
 
             //초기 카메라설정
-            let {center, limitRect, limitAlt, limitCamera} = map3d.config;
+            const {center, limitRect, limitAlt, limitCamera} = map3d.config;
             _camera = Module.getViewCamera();
             _camera.limit = {
                 altitude: {
@@ -72,9 +72,31 @@ window.map3d = (function () {
             initModules();
             _isInit = true;
             _isLoaded.resolve(true);
+
+            //이벤트리스너 등록
+            const canvas = _container.getElementsByTagName('canvas').canvas
+            _container.addEventListener('click', onClick);
+            _container.addEventListener('contextmenu', onClick);
         })
 
         return _isLoaded;
+    }
+
+    function onClick(e) {
+        const screenPosition = new Module.JSVector2D(e.x, e.y);
+        // 화면->지도 좌표 변환
+        const mapPosition = Module.getMap().ScreenToMapPointEX(screenPosition);
+        dtmap.trigger('click', {
+            x: e.x,
+            y: e.y,
+            coordinates: [mapPosition.Longitude, mapPosition.Latitude],
+            altitude: mapPosition.Altitude,
+            origin: e
+        });
+    }
+
+    function onContextmenu(e) {
+        dtmap.trigger('contextmenu', e);
     }
 
     // 지도 세팅 정보 불러오기

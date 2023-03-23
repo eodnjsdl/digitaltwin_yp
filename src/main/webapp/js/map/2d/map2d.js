@@ -55,6 +55,21 @@ window.map2d = (function () {
         });
         initModules();
         _isInit = true;
+        _map.on('click', onClick);
+        _map.on('dblclick', onClick);
+        _map.on('contextmenu', onContextmenu)
+    }
+
+    function onClick(e) {
+        dtmap.trigger('click', e);
+    }
+
+    function onDblClick(e) {
+        dtmap.trigger('dblclick', e);
+    }
+
+    function onContextmenu(e){
+        dtmap.trigger('dblclick', e);
     }
 
     function initModules() {

@@ -17,8 +17,8 @@ map2d.vector = (function () {
      * @property {number} opacity
      */
     const DEFAULT_FILL = {
-        color: 'rgba(255,255,255,0.42)',
-        opacity: 1
+        color: 'rgba(255,255,255)',
+        opacity: 0.4
     }
 
     /**
@@ -40,7 +40,7 @@ map2d.vector = (function () {
     }
 
 
-    const DEFAULT_RADIUS = 5
+    const DEFAULT_RADIUS = 8
 
     /**
      * @typedef MarkerOption
@@ -88,6 +88,8 @@ map2d.vector = (function () {
             endArrow: false
         }
     }
+
+    const SELECTED_COLOR = '#4ff5ff'
 
     let _source;
     let _layer;
@@ -200,8 +202,8 @@ map2d.vector = (function () {
 
         const selected = feature.get('_selected');
         const geom = feature.getGeometry();
-        const fill = fillStyle(merge(DEFAULT_FILL, styleOpt.fill));
-        const stroke = strokeStyle(merge(DEFAULT_STROKE, styleOpt.stroke));
+        const fill = fillStyle(merge(DEFAULT_FILL, styleOpt.fill), selected);
+        const stroke = strokeStyle(merge(DEFAULT_STROKE, styleOpt.stroke), selected);
         const style = new ol.style.Style({
             zIndex: selected ? 9999 : undefined
         });
@@ -243,25 +245,25 @@ map2d.vector = (function () {
         return {...a, ...b}
     }
 
-    function fillStyle(options) {
+    function fillStyle(options, selected) {
+        const rgb = ol.color.asArray(options.color);
         return new ol.style.Fill({
-            color: options.color,
-            opacity: options.opacity
+            color: ol.color.asString([rgb[0], rgb[1], rgb[2], options.opacity])
         })
     }
 
-    function strokeStyle(options) {
+    function strokeStyle(options, selected) {
+        const rgb = ol.color.asArray(selected ? SELECTED_COLOR : options.color);
         return new ol.style.Stroke({
-            color: options.color,
-            opacity: options.opacity,
+            color: ol.color.asString([rgb[0], rgb[1], rgb[2], options.opacity]),
             width: options.width,
             lineDash: getLineDash(options.lineDash, options.width)
         })
     }
 
-    function pointStyle(fill, stroke, options) {
+    function pointStyle(fill, stroke, radius) {
         return new ol.style.Circle({
-            radius: options.radius,
+            radius: radius,
             fill: fill,
             stroke: stroke
         })
@@ -273,7 +275,7 @@ map2d.vector = (function () {
             scale: options.scale,
             src: options.src,
             opacity: options.opacity,
-            color: selected ? '#4ff5ff' : undefined
+            color: selected ? SELECTED_COLOR : undefined
         })
     }
 
@@ -385,11 +387,11 @@ map2d.vector = (function () {
 
         const format = new ol.format.GeoJSON();
         const features = format.readFeatures(json).map((feature) => {
-            const cloned = feature.clone();
+
             // cloned.set("grphcId", grphcId);
             if (feature.get("type") === "Circle") {
-                const geometry = cloned.getGeometry();
-                cloned.setGeometry(
+                const geometry = feature.getGeometry();
+                feature.setGeometry(
                     new ol.geom.Circle(
                         geometry.getCoordinates(),
                         feature.get("circleRadius")
@@ -397,9 +399,9 @@ map2d.vector = (function () {
                 );
             }
             if (style) {
-                cloned.set('style', style);
+                feature.set('style', style);
             }
-            return cloned;
+            return feature;
         });
         _source.addFeatures(features);
     }
