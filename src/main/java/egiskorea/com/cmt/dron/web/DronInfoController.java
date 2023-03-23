@@ -261,9 +261,9 @@ public class DronInfoController {
                     FileVO fvo = new FileVO();
                     fvo.setAtchFileId(atchFileId);
 
-                    int cnt = egovFileMngService.getMaxFileSN(fvo);
+//                    int cnt = egovFileMngService.getMaxFileSN(fvo);
+                    int cnt = 0;
                     List<FileVO> result = fileUtil.parseFileInf(files, "DRON_", cnt, atchFileId, "");
-
                     egovFileMngService.updateFileInfs(result);
                 }
 

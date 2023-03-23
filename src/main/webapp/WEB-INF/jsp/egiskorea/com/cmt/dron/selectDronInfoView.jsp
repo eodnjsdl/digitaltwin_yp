@@ -31,8 +31,8 @@
     });
 
     $(".bi-download").on("click", function () {
-        const src = $(".thumb").children('img').attr("src")
-        const fileNm = $(".thumb").children()[1].value;
+        const src = $("#droneImgArea").children('img').attr("src")
+        const fileNm = $("#droneImgArea").children()[1].value;
         var link = document.createElement("a");
         link.download = fileNm;
         link.href = src;
@@ -56,8 +56,14 @@
     }
 
     $(document).ready(function () {
+
         $("#main-video").css('z-index', 9998);
+
+        $("#droneImg")
+
     });
+
+
 </script>
 <!-- top > 드론영상 > 상세 -->
 <div class="popup-header">드론영상</div>
@@ -111,34 +117,46 @@
                     <td colspan="2">
                         <div class="cont cont-download" style="height: 427px;">
                             <c:forEach var="resultFile" items="${resultFile}" varStatus="status">
-                                <div class="attach-group">
                                 <c:set var="name" value="${resultFile.fileExtsn}"/>
-                                <c:choose>
-                                    <c:when test="${name eq 'png'||name eq 'jpg'||name eq 'gif'}">
-                                        <img src='<c:url value='/cmm/fms/getImage.do'/>?atchFileId=<c:out value="${resultFile.atchFileId}"/>&fileSn=<c:out value="${resultFile.fileSn}"/>'
-                                             alt="파일이미지"/>
-                                        <input type="hidden" name="orignlFileNm"
-                                               value="<c:out value="${resultFile.orignlFileNm}" />">
-                                        </div>
+                            <c:choose>
+                            <c:when test="${fn:toLowerCase(name) eq 'png' || fn:toLowerCase(name) eq 'jpg' || fn:toLowerCase(name) eq 'gif' || fn:toLowerCase(name) eq 'jfif'}">
+                            <div class="attach-group">
+                                <div id="droneImgArea">
+                                    <img id="droneImg" src='<c:url value='/cmm/fms/getImage.do'/>?atchFileId=<c:out value="${resultFile.atchFileId}"/>&fileSn=<c:out value="${resultFile.fileSn}"/>'
+                                         alt="파일이미지"/>
+                                    <input type="hidden" name="orignlFileNm"
+                                           value="<c:out value="${resultFile.orignlFileNm}" />">
+                                </div>
+                            </div>
 
-                                        <div class="position-bottom btn-wrap justify-content-end">
-                                            <div>
-                                                <button type="button" class="btn basic bi-download">다운로드</button>
-                                            </div>
-                                        </div>
-                                    </c:when>
-                                    <c:otherwise>
-                                        <video id="main-video" controls>
-                                            <source type="video/mp4"
-                                                    src='<c:url value='/cmm/fms/FileDown.do'/>?atchFileId=<c:out value="${resultFile.atchFileId}"/>&fileSn=<c:out value="${resultFile.fileSn}"/>'>
-                                        </video>
-                                        <canvas id="video-canvas"></canvas>
+                            <div class="position-bottom btn-wrap justify-content-end">
+                                <div>
+                                    <button type="button" class="btn basic bi-download">다운로드</button>
+                                </div>
+                            </div>
+                            </c:when>
 
-                                    </c:otherwise>
+                            <c:when test="${fn:toLowerCase(name) eq 'mp4'}">
+                            <div class="attach-group">
+                                <video id="main-video" controls>
+                                    <source type="video/mp4"
+                                            src='<c:url value='/cmm/fms/FileDown.do'/>?atchFileId=<c:out value="${resultFile.atchFileId}"/>&fileSn=<c:out value="${resultFile.fileSn}"/>'>
+                                </video>
+                                <canvas id="video-canvas"></canvas>
+                                </c:when>
+
+                                <c:otherwise>
+                                    <div>
+                                        <a>
+                                            지원하지 않는 형식입니다.
+                                        </a>
+                                    </div>
+
+                                </c:otherwise>
                                 </c:choose>
 
-                            </c:forEach>
-                        </div>
+                                </c:forEach>
+                            </div>
                     </td>
                 </tr>
                 </tbody>
