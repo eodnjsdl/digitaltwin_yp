@@ -20,8 +20,8 @@
     $(document).ready(function () {
         var fileTarget = $('#file');
 
-        fileTarget.on('change', function (e) { // 값이 변경되면
-
+        fileTarget.on('change', function (e) {
+            inputFileList = [];
             var cur = $(".form-file input[type='file']").val();
             $(".upload-name").val(cur);
             var file = e.target.files;
@@ -31,7 +31,44 @@
             });
         });
 
+        callImage();
+        changeImage();
     });
+
+    function callImage() {
+        var _src = $("#droneImg").attr("src");
+        $.ajax({
+            type: "GET",
+            url: _src,
+            success: function (returnData, status) {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    $('#droneImg').attr('src', e.target.result);
+                }
+            }, complete: function () {
+            }
+        });
+    }
+
+    function changeImage() {
+        $('#file').on('input', function (e) {
+            if (!this.files || !this.files[0]) return;
+            var that = this;
+            const FR = new FileReader();
+            FR.addEventListener("load", function (evt) {
+                if (that.files[0].type === 'image/jpeg') {
+                    $('#droneImg').attr('src', evt.target.result);
+                    $("#droneMp4Tr").hide();
+                    $("#droneImgTr").show();
+                } else if (that.files[0].type === 'video/mp4') {
+                    $('#droneMp4').attr('src', evt.target.result);
+                    $("#droneImgTr").hide();
+                    $("#droneMp4Tr").show();
+                }
+            });
+            FR.readAsDataURL(this.files[0]);
+        });
+    }
 
 </script>
 <div class="popup-header">드론영상</div>
@@ -66,14 +103,54 @@
                                                                  value="<c:out value="${result.grfDe}"/>"></div>
                         </td>
                     </tr>
-                    <tr>
-                        <td colspan="2">
-                            <div class="attach-group">
 
-                            </div>
-                        </td>
-                    </tr>
                     <c:forEach var="resultFile" items="${resultFile}" varStatus="status">
+                        <c:set var="name" value="${resultFile.fileExtsn}"/>
+                        <c:choose>
+                            <c:when test="${fn:toLowerCase(name) eq 'png' || fn:toLowerCase(name) eq 'jpg' || fn:toLowerCase(name) eq 'gif' || fn:toLowerCase(name) eq 'jfif'}">
+                                <tr id="droneImgTr">
+                                    <td colspan="2">
+                                        <div class="attach-group">
+                                            <div id="droneImgArea">
+                                                <img id="droneImg"
+                                                     src='<c:url value='/cmm/fms/getImage.do'/>?atchFileId=<c:out value="${resultFile.atchFileId}"/>&fileSn=<c:out value="${resultFile.fileSn}"/>'
+                                                />
+                                                <input type="hidden" name="orignlFileNm"
+                                                       value="<c:out value="${resultFile.orignlFileNm}" />">
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </c:when>
+
+                            <c:when test="${fn:toLowerCase(name) eq 'mp4'}">
+                                <tr id="droneMp4Tr">
+                                    <td colspan="2">
+                                        <div class="attach-group">
+                                            <video id="droneMp4" controls>
+                                                <source type="video/mp4"
+                                                        src='<c:url value='/cmm/fms/FileDown.do'/>?atchFileId=<c:out value="${resultFile.atchFileId}"/>&fileSn=<c:out value="${resultFile.fileSn}"/>'>
+                                            </video>
+                                            <canvas id="video-canvas"></canvas>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </c:when>
+
+                            <c:otherwise>
+                                <tr>
+                                    <td colspan="2">
+                                        <div>
+                                            <a>
+                                                지원하지 않는 형식입니다.
+                                            </a>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </c:otherwise>
+                        </c:choose>
+
+
                         <tr>
                             <th scope="row" class="border-top-0">파일첨부</th>
                             <td class="border-top-0">
@@ -85,9 +162,11 @@
                             </td>
                         </tr>
                     </c:forEach>
+
                     <tr>
                         <th scope="row">내용</th>
-                        <td><textarea name="cn" id="cn" class="form-control"><c:out value="${result.cn}"/></textarea>
+                        <td><textarea name="cn" id="cn" class="form-control"><c:out
+                                value="${result.cn}"/></textarea>
                         </td>
                     </tr>
                     </tbody>
@@ -95,9 +174,9 @@
             </div>
 
             <div class="position-bottom btn-wrap">
-                <div class="position-absolute left">
-                    <button type="button" class="btn basic bi-list">목록</button>
-                </div>
+                    <%--                <div class="position-absolute left">--%>
+                    <%--                    <button type="button" class="btn basic bi-list">목록</button>--%>
+                    <%--                </div>--%>
                 <div>
                     <button type="button" class="btn basic bi-edit">수정</button>
                     <button type="button" class="btn basic bi-cancel">취소</button>
