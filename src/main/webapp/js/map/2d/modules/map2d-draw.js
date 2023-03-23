@@ -140,12 +140,13 @@ map2d.draw = (function () {
         }
         e.feature.setProperties({style: _drawOptions});
         // console.log('set', e.feature.ol_uid, _drawOptions);
+        dtmap.trigger('drawstart', e);
     }
 
     function onDrawEnd(e) {
         updateGeometry(e.feature);
+        dtmap.trigger('drawend', e);
     }
-
 
 
     function writeWKT(index) {

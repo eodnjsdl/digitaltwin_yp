@@ -21,17 +21,17 @@ window.ui = (function () {
     function _changeMenu() {
         var $container = $("#container");
         var $buttons = $container.find("button");
-        $.each($buttons,function(k,v){
+        $.each($buttons, function (k, v) {
             var $parent = $(this).parent();
             var mapType = $(this).data("maptype");
-            if(mapType === undefined) return;
+            if (mapType === undefined) return;
             $parent.css({display: "block"});
-            if(dtmap.mod === "2D") {
-                if(mapType === "3D") {
+            if (dtmap.mod === "2D") {
+                if (mapType === "3D") {
                     $parent.css({display: "none"});
                 }
-            } else if(dtmap.mod === "3D") {
-                if(mapType === "2D") {
+            } else if (dtmap.mod === "3D") {
+                if (mapType === "2D") {
                     $parent.css({display: "none"});
                 }
             }
@@ -167,9 +167,9 @@ window.ui = (function () {
                 }
 
                 //TODO 임시 DB화 후 삭제
-                if(id==='layer_F_89_2'){
+                if (id === 'layer_F_89_2') {
                     desc = 'building_object';
-                }else if(id==='layer_F_118_2'){
+                } else if (id === 'layer_F_118_2') {
                     desc = 'landmark';
                 }
 
@@ -212,12 +212,12 @@ window.ui = (function () {
     function loadingBar(type, target) {
         var _target = $('body');
         var _position = "fixed";
-        if(target !== undefined) {
+        if (target !== undefined) {
             _target = target;
             _position = "absolute";
         }
         if (type === "show") {
-            _target.append('<div class="loadingWrapper" style="position:'+ _position + '; top:0; left:0; width:100%; height:100%; background-color:rgba(0, 0, 0, 0.5); background-image:url(/images/common/loading.gif); background-position:center center; background-repeat:no-repeat; z-index: 10000;"></div>');
+            _target.append('<div class="loadingWrapper" style="position:' + _position + '; top:0; left:0; width:100%; height:100%; background-color:rgba(0, 0, 0, 0.5); background-image:url(/images/common/loading.gif); background-position:center center; background-repeat:no-repeat; z-index: 10000;"></div>');
         } else if (type === "hide") {
             $('.loadingWrapper').remove();
         }
@@ -226,21 +226,21 @@ window.ui = (function () {
     /**
      * datePicker
      */
-    function callDatePicker(){
-        $( ".datepicker" ).datepicker({
+    function callDatePicker() {
+        $(".datepicker").datepicker({
             dateFormat: 'yy-mm-dd' //달력 날짜 형태
-            ,showOtherMonths: true //빈 공간에 현재월의 앞뒤월의 날짜를 표시
-            ,showMonthAfterYear:true // 월- 년 순서가아닌 년도 - 월 순서
-            ,changeYear: true //option값 년 선택 가능
-            ,changeMonth: true //option값  월 선택 가능
-            ,showOn: "both" //button:버튼을 표시하고,버튼을 눌러야만 달력 표시 ^ both:버튼을 표시하고,버튼을 누르거나 input을 클릭하면 달력 표시
-            ,monthNamesShort: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'] //달력의 월 부분 텍스트
-            ,monthNames: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'] //달력의 월 부분 Tooltip
-            ,dayNamesMin: ['일','월','화','수','목','금','토'] //달력의 요일 텍스트
-            ,dayNames: ['일요일','월요일','화요일','수요일','목요일','금요일','토요일'] //달력의 요일 Tooltip
-            ,buttonImage: '/images/icon/form-calendar.svg' //버튼 이미지 경로
-            ,buttonText: "선택" //버튼 호버 텍스트
-            ,yearSuffix: "년" //달력의 년도 부분 뒤 텍스트
+            , showOtherMonths: true //빈 공간에 현재월의 앞뒤월의 날짜를 표시
+            , showMonthAfterYear: true // 월- 년 순서가아닌 년도 - 월 순서
+            , changeYear: true //option값 년 선택 가능
+            , changeMonth: true //option값  월 선택 가능
+            , showOn: "both" //button:버튼을 표시하고,버튼을 눌러야만 달력 표시 ^ both:버튼을 표시하고,버튼을 누르거나 input을 클릭하면 달력 표시
+            , monthNamesShort: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'] //달력의 월 부분 텍스트
+            , monthNames: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'] //달력의 월 부분 Tooltip
+            , dayNamesMin: ['일', '월', '화', '수', '목', '금', '토'] //달력의 요일 텍스트
+            , dayNames: ['일요일', '월요일', '화요일', '수요일', '목요일', '금요일', '토요일'] //달력의 요일 Tooltip
+            , buttonImage: '/images/icon/form-calendar.svg' //버튼 이미지 경로
+            , buttonText: "선택" //버튼 호버 텍스트
+            , yearSuffix: "년" //달력의 년도 부분 뒤 텍스트
         });
     }
 
@@ -256,7 +256,7 @@ window.ui = (function () {
      */
     function openPopup(area, name, direction, param2) {
         var _area = {};
-        switch(area){
+        switch (area) {
             //좌측
             case "leftPopup" :
                 _area.top = "unset";
@@ -292,8 +292,8 @@ window.ui = (function () {
         }
         initPopup(area);
         $("#" + area).css({
-            "top":  _area.top + "px",
-            "right":  _area.right + "px",
+            "top": _area.top + "px",
+            "right": _area.right + "px",
             "left": _area.left + "px",
             "width": _area.width + "px",
             "height": _area.heigth + "px"
@@ -308,31 +308,29 @@ window.ui = (function () {
      * 팝업 초기화
      */
     function initPopup(area) {
-        var arrAllPopupTy = ["leftPopup","leftSubPopup","rightSubPopup","rightPopup","bottomPopup"];
+        var arrAllPopupTy = ["leftPopup", "leftSubPopup", "rightSubPopup", "rightPopup", "bottomPopup"];
         var arrPopupTy = [];
-        if(area.includes("left")) {
-            arrPopupTy = ["bottomPopup","rightSubPopup","rightPopup"];
-        } else if(area.includes("right")) {
-            arrPopupTy = ["leftPopup","leftSubPopup","rightSubPopup","rightPopup"];
-        } else if(area.includes("bottom")) {
-            arrPopupTy = ["leftPopup","leftSubPopup","rightSubPopup","rightPopup"];
+        if (area.includes("left")) {
+            arrPopupTy = ["bottomPopup", "rightSubPopup", "rightPopup"];
+        } else if (area.includes("right")) {
+            arrPopupTy = ["leftPopup", "leftSubPopup", "rightSubPopup", "rightPopup"];
+        } else if (area.includes("bottom")) {
+            arrPopupTy = ["leftPopup", "leftSubPopup", "rightSubPopup", "rightPopup"];
         }
-        $.each(arrPopupTy, function( key, value ) {
-            $("#"+value).removeClass("opened").html("");
-        } );
+        $.each(arrPopupTy, function (key, value) {
+            $("#" + value).removeClass("opened").html("");
+        });
     }
 
 
-
-
     //업무영역 >> 좌측 메뉴 선택
-    function _workMenuEvent(){
-        $(".lnb-work .lnb-body button").on("click", function() {
+    function _workMenuEvent() {
+        $(".lnb-work .lnb-body button").on("click", function () {
             var name = $(this).data("popup");
             var classList = $(this).attr('class').split(/\s+/);
             var area = classList[0];
             ui.openPopup(area);
-            switch(name){
+            switch (name) {
 
                 // 업무 > 공간정보활용 > 사업공유관리
                 case "constructionPlan" :
@@ -451,7 +449,7 @@ window.ui = (function () {
     //workSample
     function _worksample() {
         var container = "#bottomPopup";
-        $(container).load("/job/sample/page.do", function() {
+        $(container).load("/job/sample/page.do", function () {
             toastr.success("/job/sample/page.do.", "페이지🙂호🙂출🙂");
             $(".scroll-y").mCustomScrollbar({
                 scrollbarPosition: "outside",
@@ -461,19 +459,17 @@ window.ui = (function () {
     }
 
 
-
-
 //업무영역 >> 탭 선택
-    function _workTabEvent(){
+    function _workTabEvent() {
         // $(document).on("click", ".left-popup-body .inner-tab", function(){
-        $(document).on("click", ".inner-tab", function(){
+        $(document).on("click", ".inner-tab", function () {
             var parent = $(this).parent();
             var tabName = $(this).data("tab");
             //set css
             parent.addClass("on").siblings().removeClass("on");
-            $("."+parent.data("tab")).addClass("on").siblings().removeClass("on");
+            $("." + parent.data("tab")).addClass("on").siblings().removeClass("on");
             //set event
-            switch(tabName){
+            switch (tabName) {
 
                 // 업무 > 사업공유관리 > 공사계획정보
                 case "constructionPlan" :
@@ -502,7 +498,7 @@ window.ui = (function () {
     }
 
     //LEFT 메뉴 선택
-    function _leftMenuEvent(){
+    function _leftMenuEvent() {
         /**
          *  Left Menu
          */
@@ -543,23 +539,28 @@ window.ui = (function () {
         });
     }
 
-    function _asideMenuEvent(){
-        $("#map-aside .map-tool-list button").on("click", function() {
+    function _asideMenuEvent() {
+        $("#map-aside .map-tool-list button").on("click", function () {
             var id = $(this).attr('id');
             var classList = $(this).attr('class').split(/\s+/);
             var area = classList[2];
             ui.openPopup(area);
-            switch(id){
+            switch (id) {
 
                 // aside menu > 통합행정정보
                 case "krasInfo" :
-                    toastr.success("통합행정정보")
+                    toastr.success("통합행정정보");
+                    dtmap.draw.active({type: 'Point', once: true});
+                    dtmap.once('drawend',function(e){
+                        toastr.success('그리기 End Event!');
+                    })
                     aj_krasInfo();
                     break;
 
                 // aside menu > 지적/건물
                 case "landBuilding" :
                     toastr.success("지적/건물")
+                    dtmap.draw.active({type: 'Box', once: true});
                     aj_selectLandBuilderList();
                     break;
 
@@ -635,47 +636,45 @@ window.ui = (function () {
 }());
 
 
-
-
 //TODO 정리
 
 // 개인별 레이어 목록 호출
-function aj_selectLayerList(mode, reset = false){
+function aj_selectLayerList(mode, reset = false) {
     var searchKeyword = mode == "left"
         ? $(".lnb-layer input[name='searchKeyword']").val()
         : $("#rightPopup input[name='searchKeyword']").val();
 
     ui.loadingBar("show");
     $.ajax({
-        type : "POST",
-        url : "/lyr/lym/selectLayerList.do",
-        data : {
-            "searchKeyword" : searchKeyword,
-            "mode" : mode
+        type: "POST",
+        url: "/lyr/lym/selectLayerList.do",
+        data: {
+            "searchKeyword": searchKeyword,
+            "mode": mode
         },
-        dataType : "html",
+        dataType: "html",
         async: false,
-        success : function(returnData, status){
-            if(status == "success") {
-                if(mode == "left"){ // 좌측 메뉴 선택 시
+        success: function (returnData, status) {
+            if (status == "success") {
+                if (mode == "left") { // 좌측 메뉴 선택 시
                     $(".lnb-layer").html(returnData);
                     $(".lnb-layer input[name='searchKeyword']").val(searchKeyword);
-                } else if(mode == "top"){ // 상단 메뉴 선택 시
+                } else if (mode == "top") { // 상단 메뉴 선택 시
                     $("#rightPopup").html(returnData);
                     $("#rightPopup input[name='searchKeyword']").val(searchKeyword);
                 }
 
-                if(!$(".lnb-layer .scroll-y").hasClass("mCustomScrollbar")){
+                if (!$(".lnb-layer .scroll-y").hasClass("mCustomScrollbar")) {
                     $(".scroll-y").mCustomScrollbar({
-                        scrollbarPosition:"outside",
-                        mouseWheel:{ scrollAmount: 250}
+                        scrollbarPosition: "outside",
+                        mouseWheel: {scrollAmount: 250}
                     });
                 }
-            }else{
+            } else {
                 toastr.error("관리자에게 문의 바랍니다.", "정보를 불러오지 못했습니다.");
                 return;
             }
-        }, complete : function(){
+        }, complete: function () {
             ui.loadingBar("hide");
         }
     });

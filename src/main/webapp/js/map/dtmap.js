@@ -1,20 +1,23 @@
 window.dtmap = window.dtmap || {}
 window.dtmap = (function () {
 
-    let cur_mode = '2D';
+    let _cur_mode = '2D';
+    let _eventEmitter = new EventEmitter();
 
     /**
      * 지도 초기화 함수
      * @param {string} [mode='2D'] '2D', '3D' 지도 종류
      */
     function init(mode) {
+
         if (mode !== undefined) {
             if (['2D', '3D'].includes(mode.toUpperCase())) {
-                cur_mode = mode.toUpperCase();
+                _cur_mode = mode.toUpperCase();
             } else {
                 throw new Error('입력값을 확인해주세요, "2D", "3D" 지도만 지원합니다.');
             }
         }
+
 
         getMap().show();
         getMap(true).hide();
@@ -23,18 +26,18 @@ window.dtmap = (function () {
     function call(fName, ...params) {
         let fnc = getMap()[fName]
         if (fnc && typeof fnc === 'function') {
-            fnc.call(dtmap, ...params);
+            return fnc.call(dtmap, ...params);
         } else {
-            throw new Error(cur_mode + '지도에서 지원하지 않는 기능입니다.');
+            throw new Error(_cur_mode + '지도에서 지원하지 않는 기능입니다.');
         }
     }
 
     function getMap(reverse) {
         if (reverse) {
-            return cur_mode === '2D' ? map3d : map2d;
+            return _cur_mode === '2D' ? map3d : map2d;
         } else {
 
-            return cur_mode === '2D' ? map2d : map3d;
+            return _cur_mode === '2D' ? map2d : map3d;
         }
     }
 
@@ -43,12 +46,12 @@ window.dtmap = (function () {
      */
 
     async function switchMap(mod) {
-        if (cur_mode === mod) {
+        if (_cur_mode === mod) {
             return;
         }
 
-        if (cur_mode === '2D') {
-            cur_mode = '3D';
+        if (_cur_mode === '2D') {
+            _cur_mode = '3D';
             map2d.hide();
             await map3d.show();
 
@@ -58,7 +61,7 @@ window.dtmap = (function () {
             map3d.setCenter(center, dtmap.util.zoomToAlt(map2d.view.getZoom()));
 
         } else {
-            cur_mode = '2D'
+            _cur_mode = '2D'
             map2d.show();
             map3d.hide();
 
@@ -81,6 +84,10 @@ window.dtmap = (function () {
 
     function setCenter(center) {
         call('setCenter', center);
+    }
+
+    function getExtent() {
+        return call('getExtent');
     }
 
     function showLayer(options) {
@@ -133,9 +140,9 @@ window.dtmap = (function () {
 
         let filter;
         if (options.geometry) {
-            filter = new ol.format.filter.intersects('geom', options.geometry, getMap().crs);
+            filter = new ol.format.filter.intersects('geom', options.geometry);
         } else if (options.bbox) {
-            filter = new ol.format.filter.bbox('geom', options.bbox, getMap().crs);
+            filter = new ol.format.filter.bbox('geom', options.bbox);
         }
 
         let params = {
@@ -146,6 +153,7 @@ window.dtmap = (function () {
             startIndex: (page - 1) * perPage,
             filter: filter
         }
+
         const featureRequest = new ol.format.WFS().writeGetFeature(params);
         let data = new XMLSerializer().serializeToString(featureRequest);
         return $.ajax({
@@ -156,6 +164,23 @@ window.dtmap = (function () {
         })
     }
 
+    function on(type, listener) {
+        return _eventEmitter.on(type, listener);
+    }
+
+    function once(type, listener) {
+        return _eventEmitter.once(type, listener);
+    }
+
+    function off(type, listener) {
+        return _eventEmitter.off(type, listener);
+    }
+
+    function trigger(type, data) {
+        return _eventEmitter.trigger(type, [data]);
+    }
+
+
     const module = {
         init: init,
         goHome: goHome,
@@ -163,18 +188,27 @@ window.dtmap = (function () {
         zoomOut: zoomOut,
         switchMap: switchMap,
         setCenter: setCenter,
+        getExtent: getExtent,
         showLayer: showLayer,
         setBaseLayer: setBaseLayer,
         clearInteraction: clearInteraction,
         clear: clear,
         wfsGetFeature: wfsGetFeature,
-        test: call
+        on: on,
+        once: once,
+        off: off,
+        trigger: trigger
     }
 
     Object.defineProperties(module, {
         'mod': {
             get: function () {
-                return cur_mode;
+                return _cur_mode;
+            }
+        },
+        'crs': {
+            get: function () {
+                return getMap().crs;
             }
         },
         'draw': {

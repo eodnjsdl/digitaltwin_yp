@@ -2085,6 +2085,8 @@ class FacilityCommon {
             // } else {
             //   return null;
             toastr.warning("cmmUtil.showBufferGeometry(wkt, buffer);", "showBufferGeometry");
+        }else{
+            dtmap.draw.getGeometry();
         }
 
     }

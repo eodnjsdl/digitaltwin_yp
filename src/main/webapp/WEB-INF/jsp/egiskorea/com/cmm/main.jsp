@@ -62,6 +62,8 @@
     <!-- ax5 grid css -->
     <link rel="stylesheet" href="/js/plugin/ax5grid/ax5grid.css">
 
+    <script src="/js/plugin/eventEmitter/EventEmitter.js"></script>
+
     <!-- font 맑은고딕: stre.js (지도저장기능 수행 시) -->
     <script src="/engine/plugin/v6.7.0/malgun.js"></script>
 
@@ -74,6 +76,7 @@
 
     <script src="/engine/dt_info.js"></script>
     <script src="/js/map/dtmap.js"></script>
+
     <script src="/js/map/dtmap-config.js"></script>
     <script src="/js/map/dtmap-urls.js"></script>
     <script src="/js/map/dtmap-util.js"></script>

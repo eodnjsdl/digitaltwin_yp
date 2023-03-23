@@ -205,10 +205,12 @@ map3d.draw = (function () {
         if (_bufferLayer) {
             _bufferLayer.removeAll();
         }
+        dtmap.trigger('drawstart', e);
     }
 
     function onMouseUp(e) {
-        drawBuffer()
+        drawBuffer();
+        dtmap.trigger('drawend', e);
     }
 
     let module = {

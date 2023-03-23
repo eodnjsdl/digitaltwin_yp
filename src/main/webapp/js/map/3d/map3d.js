@@ -31,7 +31,7 @@ window.map3d = (function () {
             });
 
             // 이전버전 초기화 소스
-            // var canvas = document.createElement("canvas");
+            // const canvas = document.createElement("canvas");
             // canvas.id = "canvas"; // id가 canvas가 아닐경우 에러발생
             // canvas.width = container_.clientWidth;
             // canvas.height = container_.clientHeight;
@@ -118,14 +118,14 @@ window.map3d = (function () {
     //엔진 스크립트 로드
     function loadScript() {
         let promise = $.Deferred();
-        var tm = (new Date()).getTime();	// 캐싱 방지
+        const tm = (new Date()).getTime();	// 캐싱 방지
 
-        var file = "../engine/XDWorldEM.asm.js?tm=" + tm;
-        var xhr = new XMLHttpRequest();
+        const file = "../engine/XDWorldEM.asm.js?tm=" + tm;
+        const xhr = new XMLHttpRequest();
         xhr.open('GET', file, true);
         xhr.onload = function () {
 
-            var script = document.createElement('script');
+            const script = document.createElement('script');
             script.innerHTML = xhr.responseText;
             document.body.appendChild(script);
 
@@ -133,18 +133,18 @@ window.map3d = (function () {
             setTimeout(function () {
                 (function () {
 
-                    var memoryInitializer = "../engine/XDWorldEM.html.mem?tm=" + tm;
-                    var xhr = Module['memoryInitializerRequest'] = new XMLHttpRequest();
+                    const memoryInitializer = "../engine/XDWorldEM.html.mem?tm=" + tm;
+                    const xhr = Module['memoryInitializerRequest'] = new XMLHttpRequest();
                     xhr.open('GET', memoryInitializer, true);
                     xhr.responseType = 'arraybuffer';
                     xhr.onload = function (e) {
 
                         // 3. XDWorldEM.js 파일 로드
-                        var url = "../engine/XDWorldEM.js?tm=" + tm;
-                        var xhr = new XMLHttpRequest();
+                        const url = "../engine/XDWorldEM.js?tm=" + tm;
+                        const xhr = new XMLHttpRequest();
                         xhr.open('GET', url, true);
                         xhr.onload = function () {
-                            var script = document.createElement('script');
+                            const script = document.createElement('script');
                             script.innerHTML = xhr.responseText;
                             document.body.appendChild(script);
                             //Load End 시점
@@ -197,9 +197,21 @@ window.map3d = (function () {
      * @param altitude
      */
     function setCenter(center, altitude) {
-        var alt = Module.getMap().getTerrHeightFast(center[0], center[1]);
+        const alt = Module.getMap().getTerrHeightFast(center[0], center[1]);
         let centerVec = new Module.JSVector3D(center[0], center[1], alt);
         _camera.moveLookAt(centerVec, 30, 0, altitude * 1.6);
+    }
+
+    /**
+     * 화면 영역 반환
+     */
+    function getExtent() {
+        const canvas = _container.getElementsByTagName('canvas').canvas
+        const x2 = canvas.width;
+        const y2 = canvas.height;
+        const min = Module.getMap().ScreenToMapPointEX(new Module.JSVector2D(0, 0));
+        const max = Module.getMap().ScreenToMapPointEX(new Module.JSVector2D(x2, y2));
+        return [min.Longitude, min.Latitude, max.Longitude, max.Latitude];
     }
 
     /**
@@ -315,6 +327,7 @@ window.map3d = (function () {
         zoomOut: zoomOut,
         setCenter: setCenter,
         getCenter: getCenter,
+        getExtent: getExtent,
         showLayer: showLayer,
         setInteraction: setInteraction,
         clearInteraction: clearInteraction,
