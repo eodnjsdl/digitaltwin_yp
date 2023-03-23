@@ -1,6 +1,7 @@
 window.map3d = window.map3d || {};
 map3d.layer = map3d.layer || {};
 map3d.layer.POI = (function () {
+    const DEFAULT_POI_COLOR = '#d04545';
 
     function POI(options) {
         map3d.layer.Layer.call(this, options)
@@ -35,12 +36,7 @@ map3d.layer.POI = (function () {
             id: options.id,
             lon: options.coordinate[0],
             lat: options.coordinate[1],
-            text: options.text,
-            img: options.img,
-            lineColor: new Module.JSColor(255, 255, 255),
-            // type: data.poiType,
-            poiColor: options.poiColor,
-
+            style: options.style
         });
     }
 
@@ -109,12 +105,14 @@ map3d.layer.POI = (function () {
                         drawPoi.call(that, {
                             lon: list[i].lon,
                             lat: list[i].lat,
-                            text: list[i].text,
-                            img: "./images/poi/" + data.poiImg,
-                            lineColor: new Module.JSColor(255, 255, 255),
-                            type: data.poiType,
-                            poiColor: data.poiColor,
-
+                            style: {
+                                label: {
+                                    text: list[i].text
+                                },
+                                marker: {
+                                    src: "./images/poi/" + data.poiImg,
+                                }
+                            }
                         });
                     }
                 }
@@ -123,6 +121,12 @@ map3d.layer.POI = (function () {
     }
 
 
+    /**
+     *
+     * @param options.style
+     *
+     * @return {*|tt}
+     */
     function drawPoi(options) {
         let id;
         if (options.id === undefined) {
@@ -130,18 +134,20 @@ map3d.layer.POI = (function () {
         } else {
             id = this.id + '_' + options.id;
         }
-
+        const {lon, lat, style} = options;
         let point = Module.createPoint(id);
         // z값 구해서 넣기
-        let alt = Module.getMap().getTerrHeightFast(Number(options.lon), Number(options.lat));
-        point.setPosition(new Module.JSVector3D(options.lon, options.lat, alt));
+        let alt = Module.getMap().getTerrHeightFast(Number(lon), Number(lat));
+        point.setPosition(new Module.JSVector3D(lon, lat, alt));
         // POI 수직 라인 설정
-        point.setPositionLine(30.0 + alt, options.lineColor);
+        point.setPositionLine(30.0 + alt, new Module.JSColor(255, 255, 255));
         // 텍스트 설정
-        point.setText(String(options.text));
+        if (style.label) {
+            point.setText(String(style.label.text));
+        }
 
         // 이미지 형태
-        if (options.img) {
+        if (style.marker) {
             // POI 이미지 로드
             var img = new Image();
             img.onload = function () {
@@ -155,35 +161,37 @@ map3d.layer.POI = (function () {
                 let imageData = ctx.getImageData(0, 0, this.width, this.height).data;
                 point.setImage(imageData, this.width, this.height);
             };
-            img.src = options.img;
+            img.src = style.marker.src;
         } else { // 원형
+            //스타일 옵션
+            let radius = style.radius || 4;
+            let fillColor = style.fill?.color || DEFAULT_POI_COLOR
+            let strokeColor = style.stroke?.color || 'white';
+            let strokeWidth = style.stroke?.width || 2;
+
+            let size = Math.round(radius * 2) + strokeWidth;
+
+
             // 이미지 로드 후 캔버스에 그리기
             let canvas = document.createElement('canvas');
             let ctx = canvas.getContext('2d');
 
-            ctx.width = 30;
-            ctx.height = 30;
+            ctx.width = size;
+            ctx.height = size;
+
             ctx.clearRect(0, 0, ctx.width, ctx.height);
 
             let x = ctx.width / 2;
             let y = ctx.height / 2;
 
-            if (options.poiColor.indexOf("#") >= 0) {
-                let hex = options.poiColor;
-                let red = parseInt(hex[1] + hex[2], 16);
-                let green = parseInt(hex[3] + hex[4], 16);
-                let blue = parseInt(hex[5] + hex[6], 16);
-
-                options.poiColor = "rgba(" + red + "," + green + "," + blue + ", 255)";
-            }
 
             // 동그라미 마커 이미지 그리기
             ctx.beginPath();
-            ctx.arc(x, y, 4, 0, 2 * Math.PI, false);
-            ctx.fillStyle = options.poiColor;
+            ctx.arc(x, y, radius, 0, 2 * Math.PI, false);
+            ctx.fillStyle = hexToRGB(fillColor);
             ctx.fill();
-            ctx.lineWidth = 2;
-            ctx.strokeStyle = 'white';
+            ctx.lineWidth = strokeWidth;
+            ctx.strokeStyle = strokeColor;
             ctx.stroke();
 
             point.setImage(ctx.getImageData(0, 0, ctx.width, ctx.height).data, ctx.width, ctx.height);
@@ -210,6 +218,17 @@ map3d.layer.POI = (function () {
         layer.tile_load_ratio = 1000;
         this.serviceType = 'service';
         return layer;
+    }
+
+    function hexToRGB(hex) {
+        if (hex.indexOf("#") >= 0) {
+            let red = parseInt(hex[1] + hex[2], 16);
+            let green = parseInt(hex[3] + hex[4], 16);
+            let blue = parseInt(hex[5] + hex[6], 16);
+
+            return "rgba(" + red + "," + green + "," + blue + ", 255)";
+        }
+        return hex;
     }
 
     return POI;

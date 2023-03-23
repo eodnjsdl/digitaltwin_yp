@@ -3,6 +3,15 @@ map2d.vector = (function () {
 
 
     /**
+     * @typedef StyleOption
+     * @property {FillOption} [fill] 채움색 옵션
+     * @property {StrokeOption} [stroke] 선색 옵션
+     * @property {number} [radius] 점일경우 점의 반경
+     * @property {MarkerOption} [marker] 마커 옵션
+     * @property {LabelOption} [label] 라벨링 옵션
+     */
+
+    /**
      * @typedef FillOption
      * @property {string} color
      * @property {number} opacity
@@ -30,13 +39,8 @@ map2d.vector = (function () {
         endArrow: false
     }
 
-    /**
-     * @typedef PointOption
-     * @property {number} [radius=5]
-     */
-    const DEFAULT_POINT = {
-        radius: 5
-    }
+
+    const DEFAULT_RADIUS = 5
 
     /**
      * @typedef MarkerOption
@@ -52,15 +56,18 @@ map2d.vector = (function () {
     }
 
     /**
-     * @typedef TextOption
+     * @typedef LabelOption
      * @property {boolean} [bold=false]
      * @property {boolean} [italic=false]
      * @property {number} [fontSize=26]
      * @property {string} [fontFamily='sans-serif']
      * @property {string} [textAlign='center]]
+     * @property {number} [offsetY=15]
+     * @property {FillOption} [fill]
+     * @property {StrokeOption} [stroke]
      *
      */
-    const DEFAULT_TEXT = {
+    const DEFAULT_LABEL = {
         bold: false,
         italic: false,
         fontSize: 14,
@@ -90,7 +97,7 @@ map2d.vector = (function () {
         _source = new ol.source.Vector();
         _layer = new ol.layer.Vector({
             source: _source,
-            style : styleFunction
+            style: styleFunction
         });
         map2d.map.addLayer(_layer);
         _source.on('change', onSourceChange)
@@ -184,8 +191,13 @@ map2d.vector = (function () {
      * 스타일 관련 함수
      */
 
+
     function styleFunction(feature, resolution) {
-        const styleOpt = feature.get('style') || {};
+        let styleOpt = feature.get('style') || {};
+        if (typeof styleOpt === 'function') {
+            styleOpt = styleOpt(feature);
+        }
+
         const selected = feature.get('_selected');
         const geom = feature.getGeometry();
         const fill = fillStyle(merge(DEFAULT_FILL, styleOpt.fill));
@@ -194,12 +206,12 @@ map2d.vector = (function () {
             zIndex: selected ? 9999 : undefined
         });
 
-        if (styleOpt.text) {
+        if (styleOpt.label) {
             //텍스트
-            if (styleOpt.text.column) {
-                styleOpt.text.text = feature.get(styleOpt.text.column);
+            if (styleOpt.label.column) {
+                styleOpt.label.text = feature.get(styleOpt.label.column);
             }
-            style.setText(textStyle(merge(DEFAULT_TEXT, styleOpt.text)));
+            style.setText(textStyle(merge(DEFAULT_LABEL, styleOpt.label)));
         }
 
         if (geom instanceof ol.geom.Polygon) {
@@ -220,12 +232,11 @@ map2d.vector = (function () {
                 style.setImage(markerStyle(merge(DEFAULT_MARKER, styleOpt.marker), selected));
             } else {
                 //포인트
-                style.setImage(pointStyle(fill, stroke, merge(DEFAULT_POINT, styleOpt.point)));
+                style.setImage(pointStyle(fill, stroke, styleOpt.radius || DEFAULT_RADIUS));
             }
 
             return style;
         }
-
     }
 
     function merge(a, b) {
@@ -411,7 +422,7 @@ map2d.vector = (function () {
     function addFeatures(features, style) {
         if (style) {
             features.map((f) => {
-                f.set('style',style)
+                f.set('style', style)
             })
         }
         _source.addFeatures(features)
@@ -451,8 +462,8 @@ map2d.vector = (function () {
                     fill: DEFAULT_FILL,
                     stroke: DEFAULT_STROKE,
                     marker: DEFAULT_MARKER,
-                    point: DEFAULT_POINT,
-                    text: DEFAULT_TEXT
+                    point: DEFAULT_RADIUS,
+                    text: DEFAULT_LABEL
                 }
             }
         }

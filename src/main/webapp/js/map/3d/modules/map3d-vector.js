@@ -85,16 +85,32 @@ map3d.vector = (function () {
 
     function fit() {
         let extent = _layer.getExtent();
-        let min = new Module.JSVector2D(extent[0], extent[1]);
-        let max = new Module.JSVector2D(extent[2], extent[3])
-        Module.getViewCamera().moveLonLatBoundary(min, max);
+        let width = measure(extent[0], extent[1], extent[2], extent[3])
+        let centerVec = new Module.JSVector3D((extent[0] + extent[2]) / 2, (extent[1] + extent[3]) / 2, width < 800 ? 800 : width);
+        map3d.camera.move(centerVec, 90, 0, 0);
     }
 
+    function measure(lat1, lon1, lat2, lon2) {  // generally used geo measurement function
+        var R = 6378.137; // Radius of earth in KM
+        var dLat = lat2 * Math.PI / 180 - lat1 * Math.PI / 180;
+        var dLon = lon2 * Math.PI / 180 - lon1 * Math.PI / 180;
+        var a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+            Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
+            Math.sin(dLon / 2) * Math.sin(dLon / 2);
+        var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+        var d = R * c;
+        return d * 1000; // meters
+    }
+
+    function readGeoJson(data, style) {
+        _layer.readGeoJson(data, style);
+    }
 
     let module = {
         init: init,
         addPoint: addPoint,
-        removeFeature:removeFeature,
+        removeFeature: removeFeature,
+        readGeoJson: readGeoJson,
         select: select,
         clear: clear,
         dispose: dispose,

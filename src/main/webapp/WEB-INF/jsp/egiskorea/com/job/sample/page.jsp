@@ -58,12 +58,50 @@
             grid.setData(list);
 
             //지도에 GeoJSON 추가
-            map2d.vector.readGeoJson(data, {
-                marker: {
-                    src: '/images/poi/subway_1.png'
+            dtmap.vector.readGeoJson(data, function (feature) {
+
+                /**
+                 * 스타일 콜백 예시
+                 */
+
+                let properties = feature.getProperties();
+                let dph = Number(properties['dph']);
+                if (dph >= 110) {
+                    return {
+                        marker: {
+                            src: '/images/poi/subway_1.png'
+                        },
+                        label: {
+                            text: '텍스트 직접입력'
+                        }
+                    }
+                } else if (dph >= 100 && dph < 110) {
+                    return {
+                        marker: {
+                            src: '/images/poi/subway_2.png'
+                        },
+                        label: {
+                            column: 'fclty_nm'
+                        }
+                    }
+                } else {
+                    return {
+                        fill: {
+                            color: 'rgba(46,161,255,0.68)'
+                        },
+                        stroke: {
+                            color: '#89dfff',
+                            width: 4
+                        },
+                        radius: 10,
+                        label: {
+                            column: 'fclty_nm'
+                        }
+                    }
                 }
             });
-            map2d.vector.fit();
+
+            dtmap.vector.fit();
         });
     }
 

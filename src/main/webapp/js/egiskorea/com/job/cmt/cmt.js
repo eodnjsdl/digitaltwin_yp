@@ -2114,7 +2114,10 @@ class FacilityCommon {
                 });
 
                 // this.highlightFeatures(this.features);
-                toastr.warning("this.highlightFeatures(this.features);", "객체 지도 표출");
+                dtmap.vector.clear();
+                dtmap.vector.readGeoJson(geojson);
+                dtmap.vector.fit();
+                toastr.warning("dtmap.vector.readGeoJson(geojson);", "객체 지도 표출");
                 ui.loadingBar("hide");
                 // createLineArr();
             });
