@@ -17,7 +17,7 @@ map2d.vector = (function () {
      * @property {number} opacity
      */
     const DEFAULT_FILL = {
-        color: '#ff0000',
+        color: 'rgba(255,255,255,0.42)',
         opacity: 1
     }
 
@@ -31,7 +31,7 @@ map2d.vector = (function () {
      * @property {boolean} [endArrow=false]
      */
     const DEFAULT_STROKE = {
-        color: '#ff0000',
+        color: '#008cff',
         opacity: 1,
         width: 3,
         lineDash: 'solid',

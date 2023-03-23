@@ -116,11 +116,12 @@ window.dtmap = (function () {
 
     /**
      * WFS GetFeature 호출함수
-     * @param options
+     * @param {object} options
      * @param {string | string[]}options.typeNames 레이어 명
-     * @param [options.perPage=10] 한 페이지당 피쳐 개수
-     * @param [options.page=1] 페이지 번호
-     * @param [options.sortBy] 검색 정렬 컬럼명
+     * @param {number} [options.perPage=10] 한 페이지당 피쳐 개수
+     * @param {number} [options.page=1] 페이지 번호
+     * @param {ol.geom.Geometry} [options.geometry] intersects 도형 (우선)
+     * @param {number[]} [bbox] 검색 영역 [minX, minY, maxX, maxY] (geometry 있을경우 수행안함)
      * @return {json} GeoJSON
      */
     function wfsGetFeature(options) {
@@ -129,13 +130,21 @@ window.dtmap = (function () {
         if (typeof options.typeNames === 'string') {
             options.typeNames = [options.typeNames]
         }
+
+        let filter;
+        if (options.geometry) {
+            filter = new ol.format.filter.intersects('geom', options.geometry, getMap().crs);
+        } else if (options.bbox) {
+            filter = new ol.format.filter.bbox('geom', options.bbox, getMap().crs);
+        }
+
         let params = {
             outputFormat: 'application/json',
             srsName: getMap().crs,
             featureTypes: options.typeNames,
             maxFeatures: perPage,
             startIndex: (page - 1) * perPage,
-            sortBy: options.sortBy,
+            filter: filter
         }
         const featureRequest = new ol.format.WFS().writeGetFeature(params);
         let data = new XMLSerializer().serializeToString(featureRequest);

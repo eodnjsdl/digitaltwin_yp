@@ -1612,6 +1612,7 @@ class FacilityCommon {
         $(".facility-attribute-search", that.container).on("click", function () {
             that.searchAttribute();
             // cmmUtil.drawClear();
+            debugger
         });
         /*$(".std_dip_max", that.container).on("keydown", function (event) {
           if (event.keyCode == "13") {
@@ -1627,7 +1628,12 @@ class FacilityCommon {
         // 공간 검색
         $(".facility-spatial-search", that.container).on("click", function () {
             // that.searchArea();
-            dtmap.draw.getGeometry(0);
+            dtmap.wfsGetFeature({
+                typeNames : that.featureType,
+                geometry : dtmap.draw.getGeometry()
+            }).then(function(e){
+                console.log(e);
+            })
 
         });
         $(".area-facility-buffer", that.container).on("keyup", function (event) {
