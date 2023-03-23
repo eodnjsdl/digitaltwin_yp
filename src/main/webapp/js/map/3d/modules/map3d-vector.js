@@ -33,11 +33,13 @@ map3d.vector = (function () {
     }
 
     function select(id) {
-        const poi = _layer.getPoi(id);
+        const poi = _layer.getFeatureById(id);
+        window.test=poi;
         if (poi) {
-            poi.setHighlight(true);
-            let camera = map3d.camera;
-            camera.moveLookAt(poi.getPosition(), camera.getTilt(), camera.getDirect(), 800);
+            _layer.pointLayer.setHighLight(poi.object);
+            // poi.setHighlight(true);
+            // let camera = map3d.camera;
+            // camera.moveLookAt(poi.getPosition(), camera.getTilt(), camera.getDirect(), 800);
         }
         //TODO 하이라이트 기능 개발
 
