@@ -23,6 +23,8 @@ map3d.layer.Polygon = (function () {
 
     Polygon.prototype.add = function (options) {
         map3d.layer.Geometry.prototype.add.call(this, options);
+        //TODO Polygon 객체 생성 구현 필요
+        console.warn(this, 'Polygon 객체 생성 미구현');
     }
 
 
