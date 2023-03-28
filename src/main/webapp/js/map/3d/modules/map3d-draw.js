@@ -33,7 +33,7 @@ map3d.draw = (function () {
     }
 
     function dispose() {
-        Module.XDSetMouseState(Module.MML_MOVE_GRAB);
+        Module.XDSetMouseState(Module.MML_SELECT_POINT);
         map3d.canvas.removeEventListener('mousedown', onMouseDown);
         map3d.canvas.removeEventListener('mouseup', onMouseUp);
         removeBufferLayer();

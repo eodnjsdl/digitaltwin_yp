@@ -73,7 +73,7 @@ map3d.measure = (function () {
 
     }
     Measure.prototype.dispose = function () {
-        Module.XDSetMouseState(Module.MML_MOVE_GRAB);
+        Module.XDSetMouseState(Module.MML_SELECT_POINT);
         Module.getOption().SetDistanceMeasureLineDepthBuffer(true);	// WEBGL GL_DEPTH_TEST 설정
         this.clear();
         this.removeLayer();

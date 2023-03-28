@@ -29,6 +29,9 @@ map3d.layer.Layer = (function () {
         }
         return this.instance.getName();
     }
+    Layer.prototype.dispose = function () {
+        console.log('layer dispose');
+    }
 
 
     return Layer;

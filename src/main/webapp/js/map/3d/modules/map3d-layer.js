@@ -12,21 +12,31 @@ map3d.layer = (function () {
 
     /**
      *
-     * @param options
+     * @param {object || map3d.layer.Layer}options
      * @returns {*}
      */
     function addLayer(options) {
-        let {id, type} = options;
-        if (getById(id)) {
-            throw new Error(id + " 레이어가 이미 존재합니다.");
-        }
+        if (options instanceof map3d.layer.Layer) {
+            let layer = options;
+            if (getById(layer.id)) {
+                throw new Error(layer.id + " 레이어가 이미 존재합니다.");
+            }
+            layerMap.set(layer.id, layer);
+            return layer;
+        } else {
 
-        if (!type) {
-            throw new Error("레이어 종류가 지정되지 않았습니다.");
+            let {id, type} = options;
+            if (getById(id)) {
+                throw new Error(id + " 레이어가 이미 존재합니다.");
+            }
+
+            if (!type) {
+                throw new Error("레이어 종류가 지정되지 않았습니다.");
+            }
+            let layer = createLayer(options);
+            layerMap.set(id, layer);
+            return layer;
         }
-        let layer = createLayer(options);
-        layerMap.set(id, layer);
-        return layer;
     }
 
     function createLayer(options) {
@@ -50,8 +60,12 @@ map3d.layer = (function () {
             let layer = new map3d.layer.Graph(options);
             layer.setData(GRAPH_DATA[options.layerNm]);
             return layer;
-        } else if (type === 'Vector') {
-            return new map3d.layer.Vector(options);
+        } else if (type === 'Point') {
+            return new map3d.layer.Point(options);
+        } else if (type === 'Line') {
+            return new map3d.layer.Line(options);
+        } else if (type === 'Polygon') {
+            return new map3d.layer.Polygon(options);
         }
 
     }
