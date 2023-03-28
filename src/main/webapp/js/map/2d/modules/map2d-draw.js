@@ -19,7 +19,8 @@ map2d.draw = (function () {
             source: _source,
             name: 'drawLayer',
             zIndex: 3,
-            style: map2d.vector.style
+            style: map2d.vector.style,
+            isDefault: true
         });
         map2d.map.addLayer(_layer);
     }
@@ -74,6 +75,7 @@ map2d.draw = (function () {
 
         if (!_snap) {
             _snap = new ol.interaction.Snap({source: _source});
+            window.test = _snap;
             map2d.map.addInteraction(_snap);
         }
 
@@ -210,6 +212,13 @@ map2d.draw = (function () {
         return parser.write(buffered);
     }
 
+    function setSnap(source) {
+
+
+
+    }
+
+
     let module = {
         init: init,
         active: active,
@@ -217,7 +226,8 @@ map2d.draw = (function () {
         writeWKT: writeWKT,
         getGeometry: getGeometry,
         setBuffer: setBuffer,
-        clear: clear
+        clear: clear,
+        setSnap: setSnap
     }
 
     Object.defineProperties(module, {

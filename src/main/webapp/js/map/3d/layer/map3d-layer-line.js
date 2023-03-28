@@ -28,7 +28,8 @@ map3d.layer.Line = (function () {
         map3d.layer.Geometry.prototype.add.call(this, options);
 
         const id = this.genId(options.id);
-        const {coordinates, properties} = options;
+        let {coordinates, properties} = options;
+        properties = properties || {};
         const vec3Array = new Module.Collection();
 
 
@@ -45,11 +46,18 @@ map3d.layer.Line = (function () {
             }
         }
 
+
         // 파이프 옵션
         const startColor = new Module.JSColor(200, 0, 0, 255), // 파이프 시작 색상
             endColor = new Module.JSColor(200, 0, 0, 255), // 파이프 끝 색상
-            segment = 10, // 파이프 단면 세그먼트
-            radius = 5; // 파이프 단면 반지름
+            segment = 10; // 파이프 단면 세그먼트
+
+        let radius = 0.5;
+        if (properties['std_dip'] && !isNaN(properties['std_dip'])) {
+            radius = (properties['std_dip'] * 0.001) / 2;
+            console.log(radius);
+            radius = radius < 0.01 ? 0.01 : radius
+        }
 
         // 파이프 생성
         const object = Module.createPipe(id);
@@ -78,7 +86,7 @@ map3d.layer.Line = (function () {
         this.instance.addObject(object, 0);
 
         // 간소화 출력 거리 설정
-        object.setSimplifyRange(object.getExtent() * 2.0);
+        // object.setSimplifyRange(object.getExtent() * 2.0);
         return object;
     }
 

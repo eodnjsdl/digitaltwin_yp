@@ -230,6 +230,11 @@ window.dtmap = (function () {
                 return getMap().location;
             }
         },
+        'layer': {
+            get: function () {
+                return getMap().layer;
+            }
+        },
         'vector': {
             get: function () {
                 return getMap().vector;

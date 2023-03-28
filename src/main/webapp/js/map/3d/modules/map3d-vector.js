@@ -32,21 +32,24 @@ map3d.vector = (function () {
         if (!_pointLayer) {
             _pointLayer = map3d.layer.addLayer({
                 id: 'Vector_Point',
-                type: 'Point'
+                type: 'Point',
+                isDefault: true
             });
         }
 
         if (!_lineLayer) {
             _lineLayer = map3d.layer.addLayer({
                 id: 'Vector_Line',
-                type: 'Line'
+                type: 'Line',
+                isDefault: true
             })
         }
 
         if (!_polygonLayer) {
             _polygonLayer = map3d.layer.addLayer({
                 id: 'Vector_Polygon',
-                type: 'Polygon'
+                type: 'Polygon',
+                isDefault: true
             })
         }
         Module.getOption().selectColor = new Module.JSColor(255, 79, 245, 255);
@@ -62,7 +65,7 @@ map3d.vector = (function () {
             Module.getMap().setSelectObject(obj);
         }
         const camera = map3d.camera;
-        camera.moveLookAt(obj.getPosition(), camera.getTilt(), camera.getDirect(), 800);
+        camera.moveLookAt(obj.position, camera.getTilt(), camera.getDirect(), 300);
 
         // layer.setHighLight(id);
     }
@@ -154,10 +157,10 @@ map3d.vector = (function () {
             _featureTypeMap.set(id, TYPE.POINT);
         } else if (geometry instanceof ol.geom.LineString || geometry instanceof ol.geom.MultiLineString) {
             object = _lineLayer.add(param);
-            _featureTypeMap.set(id, TYPE.Line);
+            _featureTypeMap.set(id, TYPE.LINE);
         } else if (geometry instanceof ol.geom.Polygon || geometry instanceof ol.geom.MultiPolygon) {
             object = _polygonLayer.add(param);
-            _featureTypeMap.set(id, TYPE.Polygon);
+            _featureTypeMap.set(id, TYPE.POLYGON);
         }
         return object;
     }

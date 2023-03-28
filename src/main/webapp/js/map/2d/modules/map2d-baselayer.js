@@ -17,7 +17,8 @@ map2d.baseLayer = (function () {
         layerGroup = new ol.layer.Group({
             name: 'baseLayers',
             zIndex: 0,
-            layers: layers
+            layers: layers,
+            isDefault: true
         });
         map2d.map.addLayer(layerGroup)
     }

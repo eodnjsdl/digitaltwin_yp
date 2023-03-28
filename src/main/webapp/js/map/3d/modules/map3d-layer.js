@@ -128,12 +128,29 @@ map3d.layer = (function () {
         return layerMap.get(id);
     }
 
+    function clear() {
+        const targets = [];
+        for (let [key, layer] of layerMap) {
+            if (layer.isDefault) {
+                continue;
+            }
+            targets.push(key);
+        }
+
+        for (let i = 0; i < targets.length; i++) {
+            removeLayer(targets[i]);
+        }
+
+        layerMap.clear();
+    }
+
     let module = {
         init: init,
         addLayer: addLayer,
         removeLayer: removeLayer,
         setVisible: setVisible,
-        getById: getById
+        getById: getById,
+        clear: clear
     }
 
     Object.defineProperties(module, {
