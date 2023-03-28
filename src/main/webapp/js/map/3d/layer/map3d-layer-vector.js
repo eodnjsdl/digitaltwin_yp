@@ -164,6 +164,20 @@ map3d.layer.Vector = (function () {
         return this.source.getExtent();
     }
 
+    Vector.prototype.getFeatureById = function (id) {
+        let feature = this.source.getFeatureById(id);
+        if (feature) {
+
+            return {
+                feature: feature,
+                object: this.pointLayer.get(id)
+
+            }
+        } else {
+            return;
+        }
+    }
+
     function createPointLayer() {
         if (!this.pointLayer) {
             this.pointLayer = new map3d.layer.POI({id: this.id + '_PointLayer'});
@@ -190,10 +204,11 @@ map3d.layer.Vector = (function () {
         const coordinate = feature.getGeometry().getCoordinates();
         map3d.setCenter(coordinate, 800);
 
-        return this.pointLayer.addPoi({
+        return this.pointLayer.add({
+            id: feature.getId(),
             coordinate: coordinate,
             style: styleOpt,
-        })
+        });
     }
 
     function addLine(feature, styleOpt) {

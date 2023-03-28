@@ -202,6 +202,8 @@ window.ui = (function () {
          */
         $(document).on('click', '.popup-panel .popup-close', function () {
             $(this).closest('.popup-panel').removeClass('opened');
+            // 마우스 이벤트 초기화 (그리기)
+            dtmap.draw.dispose();
         });
 
     }
@@ -220,6 +222,9 @@ window.ui = (function () {
             _target.append('<div class="loadingWrapper" style="position:' + _position + '; top:0; left:0; width:100%; height:100%; background-color:rgba(0, 0, 0, 0.5); background-image:url(/images/common/loading.gif); background-position:center center; background-repeat:no-repeat; z-index: 10000;"></div>');
         } else if (type === "hide") {
             $('.loadingWrapper').remove();
+            $(".scroll-y").mCustomScrollbar({
+                scrollbarPosition: "outside"
+            });
         }
     }
 
@@ -256,6 +261,7 @@ window.ui = (function () {
      */
     function openPopup(area, name, direction, param2) {
         var _area = {};
+        var _name = name !== undefined ? name : undefined;
         switch (area) {
             //좌측
             case "leftPopup" :
@@ -291,6 +297,22 @@ window.ui = (function () {
                 break;
         }
         initPopup(area);
+
+        if(_name === "krasInfo") {
+            _area.top = "unset";
+            _area.right = "unset";
+            _area.left = "unset";
+            _area.width = "660";
+            _area.heigth = "807";
+        }
+        else if(_name === "examinationInfo") {
+            _area.top = "190";
+            _area.right = "90";
+            _area.left = "unset";
+            _area.width = "620";
+            _area.heigth = "642";
+        }
+
         $("#" + area).css({
             "top": _area.top + "px",
             "right": _area.right + "px",
@@ -299,9 +321,9 @@ window.ui = (function () {
             "height": _area.heigth + "px"
         });
         $("#" + area).addClass("opened");
-        $(".scroll-y").mCustomScrollbar({
-            scrollbarPosition: "outside"
-        });
+        // $(".scroll-y").mCustomScrollbar({
+        //     scrollbarPosition: "outside"
+        // });
     }
 
     /**
@@ -313,13 +335,18 @@ window.ui = (function () {
         if (area.includes("left")) {
             arrPopupTy = ["bottomPopup", "rightSubPopup", "rightPopup"];
         } else if (area.includes("right")) {
-            arrPopupTy = ["leftPopup", "leftSubPopup", "rightSubPopup", "rightPopup"];
+            if(area === "rightSubPopup") arrPopupTy = ["leftPopup", "leftSubPopup", "rightSubPopup"];
+            else arrPopupTy = ["leftPopup", "leftSubPopup", "rightSubPopup", "rightPopup"];
         } else if (area.includes("bottom")) {
             arrPopupTy = ["leftPopup", "leftSubPopup", "rightSubPopup", "rightPopup"];
         }
         $.each(arrPopupTy, function (key, value) {
             $("#" + value).removeClass("opened").html("");
         });
+
+        // 마우스 이벤트 초기화 (그리기)
+        dtmap.draw.dispose();
+
     }
 
 
@@ -544,21 +571,18 @@ window.ui = (function () {
             var id = $(this).attr('id');
             var classList = $(this).attr('class').split(/\s+/);
             var area = classList[2];
-            ui.openPopup(area);
+            // ui.openPopup(area);
             switch (id) {
-
                 // aside menu > 통합행정정보
                 case "krasInfo" :
-                    toastr.success("통합행정정보");
-                    dtmap.draw.active({type: 'Point', once: true});
-                    dtmap.once('drawend',function(e){
-                        toastr.success('그리기 End Event!');
-                    })
-                    aj_krasInfo();
+                    initPopup(area);
+                    toastr.success("지도에서 위치를 선택하세요. ", "통합행정정보");
+                    aj_krasInfo(area);
                     break;
 
                 // aside menu > 지적/건물
                 case "landBuilding" :
+                    initPopup(area);
                     toastr.success("지적/건물")
                     dtmap.draw.active({type: 'Box', once: true});
                     aj_selectLandBuilderList();
@@ -566,54 +590,63 @@ window.ui = (function () {
 
                 // aside menu > 내보내기
                 case "dwldInfo" :
+                    ui.openPopup(area);
                     toastr.success("내보내기")
                     aj_dataDownload();
                     break;
 
                 // aside menu > 메모정보
                 case "memoInfo" :
+                    ui.openPopup(area);
                     toastr.success("메모정보")
                     aj_selectMemoInfoList($("#tmpForm")[0]);
                     break;
 
                 // aside menu > 사진정보
                 case "potoInfo" :
+                    ui.openPopup(area);
                     toastr.success("사진정보")
                     aj_selectPotoInfoList($("#tmpForm")[0]);
                     break;
 
                 // aside menu > 즐겨찾기
                 case "favorites" :
+                    ui.openPopup(area);
                     toastr.success("즐겨찾기")
                     aj_selectFavoritesList($("#tmpForm")[0]);
                     break;
 
                 // aside menu > 지도저장
                 case "saveMap" :
+                    ui.openPopup(area);
                     toastr.success("지도저장")
                     aj_saveMap();
                     break;
 
                 // aside menu > 그리기도구
                 case "graphicInfo" :
+                    ui.openPopup(area);
                     toastr.success("그리기도구")
                     aj_selectGraphicInfoList();
                     break;
 
                 // aside menu > 드론영상
                 case "dronInfo" :
+                    ui.openPopup(area);
                     toastr.success("드론영상")
                     aj_selectDronInfo($("#tmpForm")[0]);
                     break;
 
                 // aside menu > 3D레이어
                 case "layerList" :
+                    ui.openPopup(area);
                     toastr.success("3D레이어")
                     aj_selectLayerList("top");
                     break;
 
                 // aside menu > 배경지도
                 case "backgroundMapInfo" :
+                    ui.openPopup(area);
                     toastr.success("배경지도")
                     aj_selectBackgroundMapInfoList();
                     break;

@@ -165,15 +165,19 @@ window.dtmap = (function () {
     }
 
     function on(type, listener) {
-        return _eventEmitter.on(type, listener);
+        return _eventEmitter.addListener(type, listener);
     }
 
     function once(type, listener) {
-        return _eventEmitter.once(type, listener);
+        return _eventEmitter.addOnceListener(type, listener);
     }
 
     function off(type, listener) {
-        return _eventEmitter.off(type, listener);
+        if (listener) {
+            return _eventEmitter.removeListener(type, listener);
+        } else {
+            return _eventEmitter.removeEvent(type);
+        }
     }
 
     function trigger(type, data) {

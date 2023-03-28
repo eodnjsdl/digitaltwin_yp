@@ -148,6 +148,8 @@
     <!-- 분석 -->
     <script src="/js/egiskorea/com/anls/anls.js"></script>
 
+    <!-- 지적 정보 -->
+    <script src="/js/egiskorea/com/geo/geographic.js"></script>
 
 </head>
 <body class="<c:out value='${loginVO.id}'/>">

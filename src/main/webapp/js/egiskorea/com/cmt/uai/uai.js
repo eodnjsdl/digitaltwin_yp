@@ -8,10 +8,17 @@ $(document).ready(function () {
 });
 
 
-function aj_krasInfo() {
-	toastr.error("맵이벤트");
+function aj_krasInfo(_area) {
+    dtmap.draw.active({type: 'Point', once: true});
+    dtmap.on('drawend',function(e){
+        var geom = e.feature.getGeometry();
+        var coord = geom.getFlatCoordinates();
+        reverseUaiGeo(parseFloat(coord[0]), parseFloat(coord[1]));
+
+    })
+
     // if (!is3dInit) {
-    //     loadingShowHide('show')
+    //     ui.loadingBar('show')
     //     call3D(false);
 	//
     //     is3dInit = true;
@@ -32,26 +39,25 @@ function aj_krasInfo() {
 }
 
 function reverseUaiGeo(pointx, pointy) {
-    var vPosition = new Module.JSVector2D(pointx, pointy);
-
+    // var vPosition = new Module.JSVector2D(pointx, pointy);
     // 좌표변환 실행
-    var vResult = Module.getProjection().convertProjection(26, vPosition, 13); // 5179 -> 4326
-
-    var pnu = aj_getPnuByLonLat(vResult.x, vResult.y);
-
+    // var vResult = Module.getProjection().convertProjection(26, vPosition, 13); // 5179 -> 4326
+    var transCoord = proj4("EPSG:5179", "EPSG:4326", [pointx,pointy]);
+    var pnu = aj_getPnuByLonLat(transCoord[0], transCoord[1]);
     if (pnu != "") {
         var landRegister = getLandRegisterByPnu(pnu);
-
-        rightPopupOpen("landRegister", pnu, null, true);
-        cmmUtil.highlightGeometry(landRegister.landRegister.geometry);
+        // rightPopupOpen("landRegister", pnu, null, true);
+        ui.openPopup("rightPopup", "krasInfo");
+        aj_selectLandRegister(pnu);
+        // cmmUtil.highlightGeometry(landRegister.landRegister.geometry);
     } else {
-        alert("조회된 결과가 없습니다.");
+        toastr.error("조회된 결과가 없습니다.");
     }
 }
 
 // 토지대장 표출
 function aj_selectLandRegister(pnu) {
-    loadingShowHide("show");
+    ui.loadingBar("show");
     $.ajax({
         type: "POST",
         url: "/cmt/uai/selectLandRegister.do",
@@ -68,14 +74,14 @@ function aj_selectLandRegister(pnu) {
                 return;
             }
         }, complete: function () {
-            loadingShowHide("hide");
+            ui.loadingBar("hide");
         }
     });
 }
 
 // 건축물대장 표출
 function aj_selectBuildingRegister(pnu) {
-    loadingShowHide("show");
+    ui.loadingBar("show");
     $.ajax({
         type: "POST",
         url: "/cmt/uai/selectBuildingRegister.do",
@@ -86,8 +92,6 @@ function aj_selectBuildingRegister(pnu) {
         async: false,
         success: function (returnData, status) {
             if (status == "success") {
-                console.log('dd');
-                console.log(returnData);
                 $("#rightPopup .tabBoxDepth1-wrap").html(returnData);
 
                 $(".scroll-y").mCustomScrollbar({
@@ -98,14 +102,14 @@ function aj_selectBuildingRegister(pnu) {
                 return;
             }
         }, complete: function () {
-            loadingShowHide("hide");
+            ui.loadingBar("hide");
         }
     });
 }
 
 // 토지이용현황 표출
 function aj_selectLandUseStatus(pnu) {
-    loadingShowHide("show");
+    ui.loadingBar("show");
     $.ajax({
         type: "POST",
         url: "/cmt/uai/selectLandUseStatus.do",
@@ -126,14 +130,14 @@ function aj_selectLandUseStatus(pnu) {
                 return;
             }
         }, complete: function () {
-            loadingShowHide("hide");
+            ui.loadingBar("hide");
         }
     });
 }
 
 // 공시지가 표출
 function aj_selectOfficiallyAnnouncedLandPrice(pnu) {
-    loadingShowHide("show");
+    ui.loadingBar("show");
     $.ajax({
         type: "POST",
         url: "/cmt/uai/selectOfficiallyAnnouncedLandPrice.do",
@@ -154,14 +158,14 @@ function aj_selectOfficiallyAnnouncedLandPrice(pnu) {
                 return;
             }
         }, complete: function () {
-            loadingShowHide("hide");
+            ui.loadingBar("hide");
         }
     });
 }
 
 // 개별주택가격 표출
 function aj_selectIndividualizationHousePrice(pnu) {
-    loadingShowHide("show");
+    ui.loadingBar("show");
     $.ajax({
         type: "POST",
         url: "/cmt/uai/selectIndividualizationHousePrice.do",
@@ -182,14 +186,14 @@ function aj_selectIndividualizationHousePrice(pnu) {
                 return;
             }
         }, complete: function () {
-            loadingShowHide("hide");
+            ui.loadingBar("hide");
         }
     });
 }
 
 // 인허가 표출
 function aj_selectAuthorizationPermission(pnu) {
-    loadingShowHide("show");
+    ui.loadingBar("show");
     $.ajax({
         type: "POST",
         url: "/cmt/uai/selectAuthorizationPermission.do",
@@ -210,14 +214,14 @@ function aj_selectAuthorizationPermission(pnu) {
                 return;
             }
         }, complete: function () {
-            loadingShowHide("hide");
+            ui.loadingBar("hide");
         }
     });
 }
 
 //토지대장 표출
 function aj_selectLandRegisterTest(pnu) {
-    loadingShowHide("show");
+    ui.loadingBar("show");
     $.ajax({
         type: "POST",
         url: "/cmt/uai/selectLandRegister.do",
@@ -239,7 +243,7 @@ function aj_selectLandRegisterTest(pnu) {
                 return;
             }
         }, complete: function () {
-            loadingShowHide("hide");
+            ui.loadingBar("hide");
         }
     });
 }
@@ -250,12 +254,10 @@ function aj_selectLandRegisterSearch() {
     var mntn = $("#mntn").is(":checked") ? "2" : "1";
     var pnu = $('#li').val() + mntn + $('#mainAdr').val().padStart(4, '0') + $('#subAdr').val().padStart(4, '0');
 
-    console.log('pnu : ', pnu);
-
     var landRegister = getLandRegisterByPnu(pnu);
 
     if (landRegister.landRegister == null) {
-        alert("조회된 결과가 없습니다.");
+        toastr.error("조회된 결과가 없습니다.");
         return;
     } else {
         var coordinates = OLOAD.setPosition(landRegister.landRegister.geometry, "MULTIPOLYGON", 0);
@@ -265,7 +267,7 @@ function aj_selectLandRegisterSearch() {
         createVerticalPlane(coordinates.coordinates);
         OLOAD.loadCenterData(landRegister);
 
-        loadingShowHide("show");
+        ui.loadingBar("show");
         $.ajax({
             type: "POST",
             url: "/cmt/uai/selectLandRegister.do",
@@ -287,7 +289,7 @@ function aj_selectLandRegisterSearch() {
                     return;
                 }
             }, complete: function () {
-                loadingShowHide("hide");
+                ui.loadingBar("hide");
             }
         });
     }

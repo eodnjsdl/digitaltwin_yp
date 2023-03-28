@@ -13,8 +13,11 @@ $(document).ready(function(){
 });
 
 function fn_right_select_detail(pnu){
-	rightSubPopupOpen("examinationInfo", pnu, "right");
+	// rightSubPopupOpen("examinationInfo", pnu, "right");
+	ui.openPopup("rightSubPopup", "examinationInfo");
+	aj_selectExaminationInfo($("#tmpForm")[0], pnu, "right");
 }
+
 </script>
 				<!-- top > 통합행정정보 -->
 					<div class="popup-header">통합행정정보</div>

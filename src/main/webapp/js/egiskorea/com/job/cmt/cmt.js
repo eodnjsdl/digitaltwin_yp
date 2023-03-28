@@ -1733,6 +1733,7 @@ class FacilityCommon {
                 node.addClass("active");
                 const id = node.attr("data-fid");
                 // that.showFeature(id);
+                dtmap.vector.select(id);
                 toastr.warning("that.showFeature(id);", "객체 지도 이동 및 하이라이트");
                 that.openDetail(id);
             }

@@ -11,31 +11,31 @@ function fn_select_update(pnu){
 
 $(document).ready(function(){
 	var landRegister = getLandRegisterByPnu("<c:out value='${result.pnu}' />");
-	
+
 	$('#leftPopup .popup-close').click(function(){
-		if(app2D){
-			cmmUtil.resetMap();
-		} else{
-			if(OLOAD.m_center_Polygon != null) {
-				OLOAD.m_center_Polygon.removeAllObject();
-				new Module.JSLayerList(true).nameAtLayer("COLOR_POLYGON_LAYER").removeAll();
-				new Module.JSLayerList(true).nameAtLayer("LINE_LAYER").removeAll();
-		    }	
-		}
+		// if(app2D){
+		// 	cmmUtil.resetMap();
+		// } else{
+		// 	if(OLOAD.m_center_Polygon != null) {
+		// 		OLOAD.m_center_Polygon.removeAllObject();
+		// 		new Module.JSLayerList(true).nameAtLayer("COLOR_POLYGON_LAYER").removeAll();
+		// 		new Module.JSLayerList(true).nameAtLayer("LINE_LAYER").removeAll();
+		//     }
+		// }
 	});
-	
-	if(app2D){
-		cmmUtil.highlightGeometry(landRegister.landRegister.geometry);
-	} else{
-		if("<c:out value='${result.pnu}' />" != ""){
-			var coordinates = OLOAD.setPosition(landRegister.landRegister.geometry, "MULTIPOLYGON", 0);
-			
-			moveCamera(landRegister, "ldpl");
-			createVerticalPlane(coordinates.coordinates);
-			OLOAD.loadCenterData(landRegister);
-		}	
-	}	
-	
+
+	<%--if(app2D){--%>
+	<%--	cmmUtil.highlightGeometry(landRegister.landRegister.geometry);--%>
+	<%--} else{--%>
+	<%--	if("<c:out value='${result.pnu}' />" != ""){--%>
+	<%--		var coordinates = OLOAD.setPosition(landRegister.landRegister.geometry, "MULTIPOLYGON", 0);--%>
+
+	<%--		moveCamera(landRegister, "ldpl");--%>
+	<%--		createVerticalPlane(coordinates.coordinates);--%>
+	<%--		OLOAD.loadCenterData(landRegister);--%>
+	<%--	}--%>
+	<%--}--%>
+
 });
 
 function fn_select_delete(orgFid) {
@@ -70,7 +70,7 @@ function fn_select_delete(orgFid) {
 							<input type="hidden" name="pnu">
 							<div class="popup-header">속성정보</div>
 							<div class="popup-body">
-								<div class="sub-popup-body">			
+								<div class="sub-popup-body">
 									<h3 class="cont-tit">기본정보</h3>
 									<div class="data-default">
 										<table class="data-write">
@@ -147,7 +147,7 @@ function fn_select_delete(orgFid) {
 																<td><c:out value="${result.j0200}" /></td>
 																<th scope="row">현실지목 소분류</th>
 																<td><c:out value="${result.j0302}" /></td>
-															</tr>													
+															</tr>
 														</tbody>
 													</table>
 												</div>
@@ -185,7 +185,7 @@ function fn_select_delete(orgFid) {
 																	<tr>
 																		<th scope="row">용도3(%)</th>
 																		<td><c:out value="${result.j0403p}" /></td>
-																	</tr>															
+																	</tr>
 																</tbody>
 															</table>
 														</div>
@@ -222,13 +222,13 @@ function fn_select_delete(orgFid) {
 																	<tr>
 																		<th scope="row">용도3(%)</th>
 																		<td><c:out value="${result.j0503p}" /></td>
-																	</tr>															
+																	</tr>
 																</tbody>
 															</table>
 														</div>
 													</div>
 												</div>
-													
+
 												<h4 class="cont-stit">국공유지</h4>
 												<div class="data-default">
 													<table class="data-write">
@@ -244,11 +244,11 @@ function fn_select_delete(orgFid) {
 																<td><c:out value="${result.g0100}" /></td>
 																<th scope="row">유지무단</th>
 																<td><c:out value="${result.g0101}" /></td>
-															</tr>																									
+															</tr>
 														</tbody>
 													</table>
 												</div>
-												
+
 												<h4 class="cont-stit">조사자 의견</h4>
 												<div style="padding-bottom: 5px;"><textarea name="opinion" class="form-control"><c:out value="${result.opinion}" /></textarea></div>
 											</div>
@@ -333,7 +333,7 @@ function fn_select_delete(orgFid) {
 																		<div class="col"><c:out value="${result.c0302e}" /></div>
 																	</div>
 																</td>
-															</tr>																								
+															</tr>
 														</tbody>
 													</table>
 												</div>
@@ -396,7 +396,7 @@ function fn_select_delete(orgFid) {
 																		<div class="col"><c:out value="${result.c0403c}" /></div>
 																	</div>
 																</td>
-															</tr>																								
+															</tr>
 														</tbody>
 													</table>
 												</div>
@@ -424,8 +424,8 @@ function fn_select_delete(orgFid) {
 																		<div class="col-auto tit">변경</div>
 																		<div class="col"><c:out value="${result.c0500c}" /></div>
 																	</div>
-																</td>														
-															</tr>																																					
+																</td>
+															</tr>
 														</tbody>
 													</table>
 												</div>
@@ -471,7 +471,7 @@ function fn_select_delete(orgFid) {
 																		<div class="col"><c:out value="${result.c0602c}" /></div>
 																	</div>
 																</td>
-															</tr>																																				
+															</tr>
 														</tbody>
 													</table>
 												</div>
@@ -512,8 +512,8 @@ function fn_select_delete(orgFid) {
 																		<div class="col-auto tit">기타</div>
 																		<div class="col"><c:out value="${result.l0100e}" /></div>
 																	</div>
-																</td>														
-															</tr>																																					
+																</td>
+															</tr>
 														</tbody>
 													</table>
 												</div>
@@ -563,7 +563,7 @@ function fn_select_delete(orgFid) {
 																		<div class="col"><c:out value="${result.l0202e}" /></div>
 																	</div>
 																</td>
-															</tr>																					
+															</tr>
 														</tbody>
 													</table>
 												</div>
@@ -626,11 +626,11 @@ function fn_select_delete(orgFid) {
 																		<div class="col"><c:out value="${result.l0303c}" /></div>
 																	</div>
 																</td>
-															</tr>																					
+															</tr>
 														</tbody>
 													</table>
 												</div>
-												
+
 												<h4 class="cont-stit">임야</h4>
 												<div class="data-default">
 													<table class="data-write">
@@ -656,7 +656,7 @@ function fn_select_delete(orgFid) {
 																	</div>
 																</td>
 															</tr>
-																																			
+
 														</tbody>
 													</table>
 												</div>
@@ -685,7 +685,7 @@ function fn_select_delete(orgFid) {
 																		<div class="col"><c:out value="${result.l0500c}" /></div>
 																	</div>
 																</td>
-															</tr>																		
+															</tr>
 														</tbody>
 													</table>
 												</div>
@@ -731,7 +731,7 @@ function fn_select_delete(orgFid) {
 																		<div class="col"><c:out value="${result.l0602c}" /></div>
 																	</div>
 																</td>
-															</tr>																		
+															</tr>
 														</tbody>
 													</table>
 												</div>
@@ -788,8 +788,8 @@ function fn_select_delete(orgFid) {
 																		<div class="col-auto tit">기타</div>
 																		<div class="col"><c:out value="${result.b0102e}" /></div>
 																	</div>
-																</td>														
-															</tr>																																					
+																</td>
+															</tr>
 														</tbody>
 													</table>
 												</div>
@@ -838,8 +838,8 @@ function fn_select_delete(orgFid) {
 																		<div class="col-auto tit">기타</div>
 																		<div class="col"><c:out value="${result.b0202e}" /></div>
 																	</div>
-																</td>														
-															</tr>																																					
+																</td>
+															</tr>
 														</tbody>
 													</table>
 												</div>
@@ -869,8 +869,8 @@ function fn_select_delete(orgFid) {
 																		<div class="col-auto tit">변경</div>
 																		<div class="col"><c:out value="${result.b0300c}" /></div>
 																	</div>
-																</td>													
-															</tr>	
+																</td>
+															</tr>
 															<tr>
 																<th scope="row">건물구조</th>
 																<td>
@@ -909,8 +909,8 @@ function fn_select_delete(orgFid) {
 																		<div class="col-auto tit">기타</div>
 																		<div class="col"><c:out value="${result.b0500e}" /></div>
 																	</div>
-																</td>														
-															</tr>																																					
+																</td>
+															</tr>
 														</tbody>
 													</table>
 												</div>
@@ -959,8 +959,8 @@ function fn_select_delete(orgFid) {
 																		<div class="col-auto tit">기타</div>
 																		<div class="col"><c:out value="${result.b0602e}" /></div>
 																	</div>
-																</td>														
-															</tr>																																					
+																</td>
+															</tr>
 														</tbody>
 													</table>
 												</div>
@@ -1005,10 +1005,10 @@ function fn_select_delete(orgFid) {
 																		<div class="col-auto tit">변경</div>
 																		<div class="col"><c:out value="${result.b0800c}" /></div>
 																	</div>
-																</td>														
+																</td>
 															</tr>
 															<tr>
-																<th scope="row">특수<br>부대시설</th>																
+																<th scope="row">특수<br>부대시설</th>
 																<td class="align-top">
 																	<div class="form-row">
 																		<div class="col-auto tit">이전</div>
@@ -1040,8 +1040,8 @@ function fn_select_delete(orgFid) {
 																	<div class="form-row">
 																		<div class="col-auto tit">변경</div>
 																		<div class="col"><c:out value="${result.b1000c}" /></div>
-																	</div>																	
-																</td>														
+																	</div>
+																</td>
 															</tr>
 															<tr>
 																<th scope="row">공가<br>주택구분</th>
@@ -1058,8 +1058,8 @@ function fn_select_delete(orgFid) {
 																		<div class="col-auto tit">변경</div>
 																		<div class="col"><c:out value="${result.b1100c}" /></div>
 																	</div>
-																</td>														
-															</tr>							
+																</td>
+															</tr>
 														</tbody>
 													</table>
 												</div>

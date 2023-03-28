@@ -1,6 +1,6 @@
 // 업소정보 표출
 function aj_selectBusinessInfo(pnu){
-	loadingShowHide("show");
+	ui.loadingBar("show");
 	$.ajax({
 		type : "POST",
 		url : "/geo/bsi/selectBussinessInfo.do",
@@ -17,7 +17,7 @@ function aj_selectBusinessInfo(pnu){
 				return;
 			} 
 		}, complete : function(){
-			loadingShowHide("hide"); 
+			ui.loadingBar("hide"); 
 		}
 	});
 }
@@ -47,7 +47,7 @@ function aj_getPnuByLonLat(lon, lat){
 // pnu를 통해 지적정보 조회
 function getLandRegisterByPnu(pnu){
 	var landRegister;
-	var crs = app2D == null ? "4326" : "5179";
+	var crs = dtmap.mod == '3D' ? "4326" : "5179";
 	
 	$.ajax({
 		type : "POST",
@@ -68,7 +68,7 @@ function getLandRegisterByPnu(pnu){
 
 // 행정구역별 조사정보 목록 호출
 function aj_selectAdministrationZoneList(frm){
-	loadingShowHide("show");
+	ui.loadingBar("show");
 	
 	var formData = new FormData(frm);
 	
@@ -88,14 +88,14 @@ function aj_selectAdministrationZoneList(frm){
 				return;
 			} 
 		}, complete : function(){
-			loadingShowHide("hide"); 
+			ui.loadingBar("hide"); 
 		}
 	});
 }
 
 // 행정구역별 조사정보 등록화면 호출
 function aj_insertAdministrationZoneView(){
-	loadingShowHide("show");
+	ui.loadingBar("show");
 	
 	$.ajax({
 		type : "POST",
@@ -113,14 +113,14 @@ function aj_insertAdministrationZoneView(){
 			$(".scroll-y").mCustomScrollbar({
 				scrollbarPosition:"outside"
 			});
-			loadingShowHide("hide"); 
+			ui.loadingBar("hide"); 
 		}
 	});
 }
 
 // 조사정보 목록 호출
 function aj_selectExaminationInfoList(frm, param1, param2){
-	loadingShowHide("show");
+	ui.loadingBar("show");
 	
 	var formData = new FormData(frm);
 	if(param1 != ''){
@@ -146,14 +146,14 @@ function aj_selectExaminationInfoList(frm, param1, param2){
 			$(".scroll-y").mCustomScrollbar({
 				scrollbarPosition:"outside"
 			});
-			loadingShowHide("hide"); 
+			ui.loadingBar("hide"); 
 		}
 	});
 }
 
 //조사정보 호출
 function aj_selectExaminationInfo(frm, param1, param2){
-	loadingShowHide("show");
+	ui.loadingBar("show");
 	
 	var formData = new FormData(frm);
 	if(param1 != ''){
@@ -180,16 +180,16 @@ function aj_selectExaminationInfo(frm, param1, param2){
 			}else{ 
 				toastr.error("관리자에게 문의 바랍니다.", "정보를 불러오지 못했습니다.");
 				return;
-			} 
+			}
 		}, complete : function(){
-			loadingShowHide("hide"); 
+			ui.loadingBar("hide"); 
 		}
 	});
 }
 
 //조사정보 수정화면 호출
 function aj_updateExaminationInfoView(frm, param1, param2){
-	loadingShowHide("show");
+	ui.loadingBar("show");
 	
 	var formData = new FormData(frm);
 	formData.append("pnu", param1);
@@ -210,7 +210,7 @@ function aj_updateExaminationInfoView(frm, param1, param2){
 				return;
 			} 
 		}, complete : function(){
-			loadingShowHide("hide"); 
+			ui.loadingBar("hide"); 
 		}
 	});
 }
@@ -230,7 +230,7 @@ function aj_selectMapSettingInfo(){
 				return;
 			} 
 		}, complete : function(){
-			loadingShowHide("hide"); 
+			ui.loadingBar("hide"); 
 		}
 	});
 }

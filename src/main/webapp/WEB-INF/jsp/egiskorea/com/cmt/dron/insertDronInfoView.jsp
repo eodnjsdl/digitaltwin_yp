@@ -24,7 +24,48 @@
 
     var inputFileList = new Array();
 
+    $(document).ready(function () {
+
+        var fileTarget = $('#file');
+        fileTarget.on('change', function (e) {
+            inputFileList = [];
+            var cur = $(".form-file input[type='file']").val();
+            $(".upload-name").val(cur);
+            var file = e.target.files;
+            var filesArr = Array.prototype.slice.call(file);
+            filesArr.forEach(function (f) {
+                inputFileList.push(f);
+            });
+        });
+
+        changeImage();
+
+    });
+
+
+    function changeImage() {
+        $('#file').on('input', function (e) {
+            if (!this.files || !this.files[0]) return;
+            var that = this;
+            const FR = new FileReader();
+            FR.addEventListener("load", function (evt) {
+                if (that.files[0].type === 'image/jpeg') {
+                    $('#droneImg').attr('src', evt.target.result);
+                    $("#droneMp4Tr").hide();
+                    $("#droneImgTr").show();
+                } else if (that.files[0].type === 'video/mp4') {
+                    $('#droneMp4').attr('src', evt.target.result);
+                    $("#droneImgTr").hide();
+                    $("#droneMp4Tr").show();
+                }
+            });
+            FR.readAsDataURL(this.files[0]);
+        });
+    }
+
+
 </script>
+
 
 <div class="popup-header">드론영상</div>
 <div class="popup-body">
@@ -55,13 +96,40 @@
                                                                  class="datepicker" autocomplete="off"></div>
                         </td>
                     </tr>
-                    <tr>
+
+                        <%--                    <tr>--%>
+                        <%--                        <td colspan="2">--%>
+                        <%--                            <div class="attach-group">--%>
+
+                        <%--                            </div>--%>
+                        <%--                        </td>--%>
+                        <%--                    </tr>--%>
+                        <%--                    --%>
+
+                    <tr id="droneImgTr" style="display: none;">
                         <td colspan="2">
                             <div class="attach-group">
-
+                                <div id="droneImgArea">
+                                    <img id="droneImg" src=''/>
+                                    <input type="hidden" name="orignlFileNm"
+                                           value="">
+                                </div>
                             </div>
                         </td>
                     </tr>
+                    <tr id="droneMp4Tr" style="display: none;">
+                        <td colspan="2">
+                            <div class="attach-group">
+                                <video id="droneMp4" controls>
+<%--                                    <source id="droneMp4" type="video/mp4"--%>
+<%--                                            src='<c:url value='/cmm/fms/FileDown.do'/>?atchFileId=<c:out value="${resultFile.atchFileId}"/>&fileSn=<c:out value="${resultFile.fileSn}"/>'>--%>
+                                </video>
+                                <canvas id="video-canvas"></canvas>
+                            </div>
+                        </td>
+
+                    </tr>
+
                     <tr>
                         <th scope="row" class="border-top-0">파일첨부</th>
                         <td class="border-top-0">
@@ -70,23 +138,6 @@
                                                                                                  value=".gif,.png,.jpg,.mp4 파일선택">
                                 <label for="file">파일찾기</label>
                             </div>
-                            <script>
-                                $(document).ready(function () {
-                                    var fileTarget = $('#file');
-
-                                    fileTarget.on('change', function (e) { // 값이 변경되면
-
-                                        var cur = $(".form-file input[type='file']").val();
-                                        $(".upload-name").val(cur);
-                                        var file = e.target.files;
-                                        var filesArr = Array.prototype.slice.call(file);
-                                        filesArr.forEach(function (f) {
-                                            inputFileList.push(f);
-                                        });
-                                    });
-
-                                });
-                            </script>
                         </td>
                     </tr>
                     <tr>

@@ -39,8 +39,8 @@ map2d.draw = (function () {
      * @param {boolean} [options.once] 한번만 그리기 (도형 그릴때 기존 도형 삭제)
      */
     function active(options) {
-        map2d.setInteraction(this);
         dispose();
+        map2d.setInteraction(this);
         _drawOptions = parseOption(options);
 
         if (!_draw) {
