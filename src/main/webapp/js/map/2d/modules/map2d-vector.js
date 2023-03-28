@@ -216,11 +216,11 @@ map2d.vector = (function () {
             style.setText(textStyle(merge(DEFAULT_LABEL, styleOpt.label)));
         }
 
-        if (geom instanceof ol.geom.Polygon) {
+        if (geom instanceof ol.geom.Polygon || geom instanceof ol.geom.MultiPolygon) {
             style.setFill(fill);
             style.setStroke(stroke);
             return style;
-        } else if (geom instanceof ol.geom.LineString) {
+        } else if (geom instanceof ol.geom.LineString || geom instanceof ol.geom.MultiLineString) {
             style.setStroke(stroke)
             return [style,
                 ...lineStyle(feature, resolution, merge(DEFAULT_STROKE, styleOpt.stroke))]
@@ -228,7 +228,7 @@ map2d.vector = (function () {
             style.setFill(fill);
             style.setStroke(stroke);
             return style;
-        } else if (geom instanceof ol.geom.Point) {
+        } else if (geom instanceof ol.geom.Point || geom instanceof ol.geom.MultiPoint) {
             if (styleOpt.marker) {
                 //마커
                 style.setImage(markerStyle(merge(DEFAULT_MARKER, styleOpt.marker), selected));
@@ -380,6 +380,27 @@ map2d.vector = (function () {
         return styles;
     }
 
+    function readWKT(wkt, properties) {
+        if (!wkt) {
+            return;
+        }
+
+        const format = new ol.format.WKT();
+        const geometry = format.readGeometry(wkt);
+        const feature = new ol.Feature();
+        feature.setGeometry(geometry);
+
+        if (properties && typeof properties === 'object') {
+            if (properties.geometry) {
+                delete properties.geometry
+            }
+            feature.setProperties(properties, true)
+        }
+        _source.addFeature(feature);
+
+        return feature;
+    }
+
     function readGeoJson(json, style) {
         if (typeof json === 'string') {
             json = JSON.parse(json);
@@ -437,6 +458,7 @@ map2d.vector = (function () {
         clear: clear,
         dispose: dispose,
         fit: fit,
+        readWKT: readWKT,
         readGeoJson: readGeoJson,
         writeGeoJson: writeGeoJson,
         addFeatures: addFeatures
