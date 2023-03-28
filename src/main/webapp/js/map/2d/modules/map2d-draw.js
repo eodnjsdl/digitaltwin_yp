@@ -140,12 +140,12 @@ map2d.draw = (function () {
         }
         e.feature.setProperties({style: _drawOptions});
         // console.log('set', e.feature.ol_uid, _drawOptions);
-        dtmap.trigger('drawstart', e);
+        dtmap.trigger('drawstart', {geometry: e.feature.getGeometry(), origin: e});
     }
 
     function onDrawEnd(e) {
         updateGeometry(e.feature);
-        dtmap.trigger('drawend', e);
+        dtmap.trigger('drawend', {geometry: e.feature.getGeometry(), origin: e});
     }
 
 

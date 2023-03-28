@@ -3,7 +3,7 @@ map3d.draw = (function () {
     let _type;
     let _buffer = 0;
     let _bufferLayer;
-    let BUFFER_LAYER_KEY = 'BUFFER_POLYGON_LAYER'
+    let BUFFER_LAYER_KEY = 'BUFFER_POLYGON_LAYER';
 
     function init() {
 
@@ -41,7 +41,9 @@ map3d.draw = (function () {
 
     function clear() {
         Module.getMap().clearInputPoint();
-        _bufferLayer.removeAll();
+        if (_bufferLayer) {
+            _bufferLayer.removeAll();
+        }
     }
 
     function getCoordinates() {
@@ -205,12 +207,12 @@ map3d.draw = (function () {
         if (_bufferLayer) {
             _bufferLayer.removeAll();
         }
-        dtmap.trigger('drawstart', e);
+        dtmap.trigger('drawstart', {geometry: getGeometry(), origin: e});
     }
 
     function onMouseUp(e) {
         drawBuffer();
-        dtmap.trigger('drawend', e);
+        dtmap.trigger('drawend', {geometry: getGeometry(), origin: e});
     }
 
     let module = {
