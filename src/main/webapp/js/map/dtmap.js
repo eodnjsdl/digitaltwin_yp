@@ -3,7 +3,6 @@ window.dtmap = (function () {
 
     let _cur_mode = '2D';
     let _eventEmitter = new EventEmitter();
-    window.test = _eventEmitter
 
     /**
      * 지도 초기화 함수
