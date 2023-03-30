@@ -4,7 +4,7 @@ map3d.layer.Layer = (function () {
 
 
     function Layer(options) {
-        let {id, layerNm, table, store, visible} = options;
+        let {id, layerNm, table, store, visible, isBase} = options;
         this.id = id;
         this.layerNm = layerNm;
         this.table = table;
@@ -12,7 +12,7 @@ map3d.layer.Layer = (function () {
         this.visible = visible;
         this.minLevel = 0;
         this.maxLevel = 15;
-
+        this.isDefault = options.isDefault;
         this.instance = this.createInstance(options);
     }
 
@@ -28,6 +28,9 @@ map3d.layer.Layer = (function () {
             return;
         }
         return this.instance.getName();
+    }
+    Layer.prototype.dispose = function () {
+        console.log('layer dispose');
     }
 
 

@@ -19,7 +19,8 @@ map2d.draw = (function () {
             source: _source,
             name: 'drawLayer',
             zIndex: 3,
-            style: map2d.vector.style
+            style: map2d.vector.style,
+            isDefault: true
         });
         map2d.map.addLayer(_layer);
     }
@@ -39,7 +40,7 @@ map2d.draw = (function () {
      * @param {boolean} [options.once] 한번만 그리기 (도형 그릴때 기존 도형 삭제)
      */
     function active(options) {
-        dispose();
+        // dispose();
         map2d.setInteraction(this);
         _drawOptions = parseOption(options);
 
@@ -74,6 +75,7 @@ map2d.draw = (function () {
 
         if (!_snap) {
             _snap = new ol.interaction.Snap({source: _source});
+            window.test = _snap;
             map2d.map.addInteraction(_snap);
         }
 
@@ -140,12 +142,14 @@ map2d.draw = (function () {
         }
         e.feature.setProperties({style: _drawOptions});
         // console.log('set', e.feature.ol_uid, _drawOptions);
-        dtmap.trigger('drawstart', e);
+        dtmap.trigger('drawstart', {geometry: e.feature.getGeometry(), origin: e});
     }
 
     function onDrawEnd(e) {
         updateGeometry(e.feature);
-        dtmap.trigger('drawend', e);
+        setTimeout(function () {
+            dtmap.trigger('drawend', {geometry: e.feature.getGeometry(), origin: e});
+        })
     }
 
 
@@ -204,11 +208,21 @@ map2d.draw = (function () {
     }
 
     function getBufferGeom(geom, buffer) {
+        if (geom instanceof ol.geom.Circle) {
+            geom = ol.geom.Polygon.fromCircle(geom);
+        }
+
         const parser = new jsts.io.OL3Parser();
         const jstsGeom = parser.read(geom);
         const buffered = jstsGeom.buffer(buffer);
         return parser.write(buffered);
     }
+
+    function setSnap(source) {
+
+
+    }
+
 
     let module = {
         init: init,
@@ -217,7 +231,8 @@ map2d.draw = (function () {
         writeWKT: writeWKT,
         getGeometry: getGeometry,
         setBuffer: setBuffer,
-        clear: clear
+        clear: clear,
+        setSnap: setSnap
     }
 
     Object.defineProperties(module, {

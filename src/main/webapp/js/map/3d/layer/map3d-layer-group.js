@@ -13,6 +13,8 @@ map3d.layer.Group = (function () {
         this.maxLevel = 15;
     }
 
+    map3d.inherits(Group, map3d.layer.Layer);
+
     Group.prototype.setVisible = function (visible) {
 
         this.layers.forEach((function (layer) {
@@ -53,6 +55,10 @@ map3d.layer.Group = (function () {
             }
         }
         return result;
+    }
+
+    Group.prototype.getName = function () {
+        return this.layerNm;
     }
 
     return Group;

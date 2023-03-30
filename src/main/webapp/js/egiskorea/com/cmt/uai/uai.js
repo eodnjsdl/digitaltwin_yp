@@ -7,15 +7,17 @@ $(document).ready(function () {
 
 });
 
+function onDrawEnd(e) {
+    dtmap.draw.clear();
+    var geom = e.geometry;
+    var coord = geom.getFlatCoordinates();
+    reverseUaiGeo(parseFloat(coord[0]), parseFloat(coord[1]));
+}
 
-function aj_krasInfo(_area) {
+function aj_krasInfo() {
     dtmap.draw.active({type: 'Point', once: true});
-    dtmap.on('drawend',function(e){
-        var geom = e.feature.getGeometry();
-        var coord = geom.getFlatCoordinates();
-        reverseUaiGeo(parseFloat(coord[0]), parseFloat(coord[1]));
+    dtmap.on('drawend', onDrawEnd);
 
-    })
 
     // if (!is3dInit) {
     //     ui.loadingBar('show')
@@ -42,13 +44,17 @@ function reverseUaiGeo(pointx, pointy) {
     // var vPosition = new Module.JSVector2D(pointx, pointy);
     // 좌표변환 실행
     // var vResult = Module.getProjection().convertProjection(26, vPosition, 13); // 5179 -> 4326
-    var transCoord = proj4("EPSG:5179", "EPSG:4326", [pointx,pointy]);
+    var transCoord = proj4(dtmap.crs, "EPSG:4326", [pointx,pointy]);
     var pnu = aj_getPnuByLonLat(transCoord[0], transCoord[1]);
     if (pnu != "") {
         var landRegister = getLandRegisterByPnu(pnu);
+        landRegister.landRegister ?
+            dtmap.vector.readWKT(landRegister.landRegister.geometry,  landRegister.landRegister)
+            : toastr.error("geometry 값이 존재하지 않습니다.");
         // rightPopupOpen("landRegister", pnu, null, true);
         ui.openPopup("rightPopup", "krasInfo");
         aj_selectLandRegister(pnu);
+        // dtmap.vector.readWKT(landRegister.landRegister.geometry,  landRegister.landRegister);
         // cmmUtil.highlightGeometry(landRegister.landRegister.geometry);
     } else {
         toastr.error("조회된 결과가 없습니다.");

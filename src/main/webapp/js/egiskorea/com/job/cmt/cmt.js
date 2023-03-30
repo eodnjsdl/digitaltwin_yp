@@ -1626,13 +1626,23 @@ class FacilityCommon {
         });
 
         // 공간 검색
-        $(".facility-spatial-search", that.container).on("click", function () {
+        $(".facility-spatial-search", that.container).on("click", function (e) {
             // that.searchArea();
-            dtmap.wfsGetFeature({
-                typeNames : that.featureType,
-                geometry : dtmap.draw.getGeometry()
-            }).then(function(e){
-                console.log(e);
+            const $parent = $(e.target).closest('.search-area');
+            const type = $parent.find('input[name="rad-facility-area"]:checked').val();
+
+            const param = {
+                typeNames: that.featureType,
+            }
+            if (type === 'extent') {
+                param.bbox = dtmap.getExtent();
+            } else {
+                param.geometry = dtmap.draw.getGeometry()
+            }
+
+            dtmap.wfsGetFeature(param).then(function (e) {
+                dtmap.vector.clear();
+                dtmap.vector.readGeoJson(e);
             })
 
         });
@@ -2086,7 +2096,7 @@ class FacilityCommon {
             // } else {
             //   return null;
             toastr.warning("cmmUtil.showBufferGeometry(wkt, buffer);", "showBufferGeometry");
-        }else{
+        } else {
             dtmap.draw.getGeometry();
         }
 
