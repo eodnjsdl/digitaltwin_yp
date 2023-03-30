@@ -134,33 +134,47 @@ window.dtmap = (function () {
     function wfsGetFeature(options) {
         let perPage = options.perPage || 10;
         let page = options.page || 1;
-        if (typeof options.typeNames === 'string') {
-            options.typeNames = [options.typeNames]
+        if (options.typeNames instanceof Array) {
+            options.typeNames = options.typeNames.join(",");
         }
 
-        let filter;
+
+        // let filter;
+        // if (options.geometry) {
+        //     filter = new ol.format.filter.intersects('geom', options.geometry);
+        // } else if (options.bbox) {
+        //     filter = new ol.format.filter.bbox('geom', options.bbox);
+        // }
+
+        let cql = '1=1';
+        // if (filter) {
+        //     cql += ' AND (' + filter + ')'
+        // }
         if (options.geometry) {
-            filter = new ol.format.filter.intersects('geom', options.geometry);
+            cql += ' AND INTERSECT(geom, ' + bbox.toString() + ",'" + dtmap.crs + "'" + ')';
         } else if (options.bbox) {
-            filter = new ol.format.filter.bbox('geom', options.bbox);
+            cql += ' AND BBOX(geom, ' + bbox.toString() + ",'" + dtmap.crs + "'" + ')';
         }
+
 
         let params = {
+            request: 'GetFeature',
             outputFormat: 'application/json',
             srsName: getMap().crs,
-            featureTypes: options.typeNames,
+            typeNames: options.typeNames,
             maxFeatures: perPage,
             startIndex: (page - 1) * perPage,
-            filter: filter
+            cql: cql,
+            sortBy: options.sortBy ? options.sortBy : 'gid'
         }
 
-        const featureRequest = new ol.format.WFS().writeGetFeature(params);
-        let data = new XMLSerializer().serializeToString(featureRequest);
+        // const featureRequest = new ol.format.WFS().writeGetFeature(params);
+        // let data = new XMLSerializer().serializeToString(featureRequest);
         return $.ajax({
             url: '/gis/wfs',
             method: 'post',
-            contentType: "text/plain;charset=UTF-8",
-            data: data
+            // contentType: "application/json",
+            data: params
         })
     }
 
