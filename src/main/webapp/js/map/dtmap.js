@@ -132,35 +132,61 @@ window.dtmap = (function () {
      * @return {json} GeoJSON
      */
     function wfsGetFeature(options) {
-        let perPage = options.perPage || 10;
-        let page = options.page || 1;
-        if (typeof options.typeNames === 'string') {
-            options.typeNames = [options.typeNames]
+        if (options.typeNames instanceof Array) {
+            options.typeNames = options.typeNames.join(",");
         }
 
-        let filter;
+        //페이지 정보 없을경우 모든피쳐 검색
+        let page;
+        let perPage = options.perPage;
+        if (perPage) {
+            page = ((options.page || 1) - 1) * perPage
+        }
+
+        //cql 필터
+        let cql = '1=1';
         if (options.geometry) {
-            filter = new ol.format.filter.intersects('geom', options.geometry);
+            let wkt;
+            if (options.geometry instanceof ol.geom.SimpleGeometry) {
+                let geom = options.geometry.clone();
+                if (dtmap.crs !== 'EPSG:5179') {
+                    geom.transform(dtmap.crs, 'EPSG:5179');
+                }
+
+                const format = new ol.format.WKT();
+                if (options.geometry instanceof ol.geom.Circle) {
+                    geom = ol.geom.Polygon.fromCircle(options.geometry);
+                }
+                wkt = format.writeGeometry(geom);
+            } else {
+                wkt = options.geometry
+            }
+            cql += ' AND INTERSECTS(geom, ' + wkt + ')';
         } else if (options.bbox) {
-            filter = new ol.format.filter.bbox('geom', options.bbox);
+            cql += ' AND BBOX(geom, ' + options.bbox.toString() + ",'" + dtmap.crs + "'" + ')';
+        }
+
+        if (options.filter) {
+            cql += ' AND ' + options.filter;
         }
 
         let params = {
+            version: '1.1.0',
+            request: 'GetFeature',
             outputFormat: 'application/json',
             srsName: getMap().crs,
-            featureTypes: options.typeNames,
+            typeNames: options.typeNames,
             maxFeatures: perPage,
-            startIndex: (page - 1) * perPage,
-            filter: filter
+            startIndex: page,
+            cql_filter: cql === '1=1' ? undefined : cql,
+            sortBy: options.sortBy ? options.sortBy : 'gid'
         }
 
-        const featureRequest = new ol.format.WFS().writeGetFeature(params);
-        let data = new XMLSerializer().serializeToString(featureRequest);
         return $.ajax({
             url: '/gis/wfs',
             method: 'post',
-            contentType: "text/plain;charset=UTF-8",
-            data: data
+            // contentType: "application/json",
+            data: params
         })
     }
 
@@ -228,6 +254,11 @@ window.dtmap = (function () {
         'location': {
             get: function () {
                 return getMap().location;
+            }
+        },
+        'layer': {
+            get: function () {
+                return getMap().layer;
             }
         },
         'vector': {

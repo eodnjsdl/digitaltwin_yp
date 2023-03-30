@@ -65,8 +65,8 @@ map2d.layer = (function () {
         let {type} = options;
         if (type === 'WMS') {
             return createWMS(options);
-        } else if (type === 'WFS') {
-            return createWFS(options);
+        } else if (type === 'TMS') {
+
         }
 
     }
@@ -93,14 +93,26 @@ map2d.layer = (function () {
         return layer;
     }
 
-    function createWFS(options) {
+    function clear() {
+        let layers = map2d.map.getLayers().getArray().slice();
+        let targets = [];
+        for (let i = 0; i < layers.length; i++) {
+            if (layers[i].get("isDefault")) {
+                continue;
+            }
+            targets.push(layers[i]);
+        }
 
+        for (let i = 0; i < targets.length; i++) {
+            map2d.map.removeLayer(targets[i]);
+        }
     }
 
     let module = {
         addLayer: addLayer,
         removeLayer: removeLayer,
         setVisible: setVisible,
+        clear: clear,
         getById: getById
     }
     return module;

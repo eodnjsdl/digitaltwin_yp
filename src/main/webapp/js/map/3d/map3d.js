@@ -29,6 +29,7 @@ window.map3d = (function () {
             Module.initialize({
                 container: _container
             });
+            Module.XDSetMouseState(Module.MML_SELECT_POINT);
 
             // 이전버전 초기화 소스
             // const canvas = document.createElement("canvas");
@@ -72,11 +73,12 @@ window.map3d = (function () {
             initModules();
             _isInit = true;
             _isLoaded.resolve(true);
-
+            ``
             //이벤트리스너 등록
             const canvas = _container.getElementsByTagName('canvas').canvas
             _container.addEventListener('click', onClick);
             _container.addEventListener('contextmenu', onClick);
+            canvas.addEventListener('Fire_EventSelectedObject', onSelectObject);
         })
 
         return _isLoaded;
@@ -87,8 +89,7 @@ window.map3d = (function () {
         // 화면->지도 좌표 변환
         const mapPosition = Module.getMap().ScreenToMapPointEX(screenPosition);
         dtmap.trigger('click', {
-            x: e.x,
-            y: e.y,
+            pixel: [e.x, e.y],
             coordinates: [mapPosition.Longitude, mapPosition.Latitude],
             altitude: mapPosition.Altitude,
             origin: e
@@ -97,6 +98,10 @@ window.map3d = (function () {
 
     function onContextmenu(e) {
         dtmap.trigger('contextmenu', e);
+    }
+
+    function onSelectObject(e) {
+        dtmap.trigger('select', {origin: e})
     }
 
     // 지도 세팅 정보 불러오기
@@ -338,6 +343,10 @@ window.map3d = (function () {
         }
         wmts.quality = "middle";	// wmts 이미지 품질
         wmts.zeroLevel = 2;			// wmts 이미지 LOD
+
+    }
+
+    function getLayer(name){
 
     }
 

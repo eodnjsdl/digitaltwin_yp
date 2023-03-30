@@ -14,7 +14,7 @@
     <title><spring:message code="site.title"/></title>
 
     <!-- Favicon-->
-    <link rel="icon" type="image/x-icon" href="/images/common/favicon.ico" />
+    <link rel="icon" type="image/x-icon" href="/images/common/favicon.ico"/>
 
     <script src="/js/com/jquery/jquery-3.4.1.min.js"></script>
 
@@ -62,7 +62,6 @@
     <!-- ax5 grid css -->
     <link rel="stylesheet" href="/js/plugin/ax5grid/ax5grid.css">
 
-    <script src="/js/plugin/eventEmitter/EventEmitter.js"></script>
 
     <!-- font 맑은고딕: stre.js (지도저장기능 수행 시) -->
     <script src="/engine/plugin/v6.7.0/malgun.js"></script>
@@ -74,7 +73,14 @@
     <script src="/engine/plugin/v6.7.0/ol.js"></script>
     <script src="/engine/plugin/v6.7.0/jsts.min.js"></script>
 
+
     <script src="/engine/dt_info.js"></script>
+
+    <!-- DTMAP Plugin -->
+    <script src="/js/plugin/eventEmitter/EventEmitter.js"></script>
+    <script src="/js/plugin/rbush/rbush.js"></script>
+
+    <!-- DTMAP -->
     <script src="/js/map/dtmap.js"></script>
 
     <script src="/js/map/dtmap-config.js"></script>
@@ -106,12 +112,15 @@
     <script src="/js/map/3d/layer/map3d-layer-wms.js"></script>
     <script src="/js/map/3d/layer/map3d-layer-wfs.js"></script>
     <script src="/js/map/3d/layer/map3d-layer-poi.js"></script>
+    <script src="/js/map/3d/layer/map3d-layer-geom.js"></script>
+    <script src="/js/map/3d/layer/map3d-layer-point.js"></script>
+    <script src="/js/map/3d/layer/map3d-layer-line.js"></script>
+    <script src="/js/map/3d/layer/map3d-layer-polygon.js"></script>
     <script src="/js/map/3d/layer/map3d-layer-csv.js"></script>
     <script src="/js/map/3d/layer/map3d-layer-3ds.js"></script>
     <script src="/js/map/3d/layer/map3d-layer-img.js"></script>
     <script src="/js/map/3d/layer/map3d-layer-shp.js"></script>
     <script src="/js/map/3d/layer/map3d-layer-facility.js"></script>
-    <script src="/js/map/3d/layer/map3d-layer-vector.js"></script>
 
     <!-- 양평 레이어 상수 -->
     <script src="/js/map/yp-layer.js"></script>
@@ -486,35 +495,43 @@
                     <ul class="lnb-dep2" id="moduleList">
                         <li>
                             <button type="button" class="dataPopup" data-popup="analysis-01-05" data-maptype="3D">
-                                AI영상분석(3D)</button>
+                                AI영상분석(3D)
+                            </button>
                         </li>
                         <li>
                             <button type="button" class="dataPopup" data-popup="analysis-01-01" data-maptype="3D">
-                                조망권분석(3D)</button>
+                                조망권분석(3D)
+                            </button>
                         </li>
                         <li>
                             <button type="button" class="dataPopup" data-popup="analysis-01-04" data-maptype="3D">
-                                경사분석(3D)</button>
+                                경사분석(3D)
+                            </button>
                         </li>
                         <li>
                             <button type="button" class="dataPopup" data-maptype="2D">
-                                공간분석</button>
+                                공간분석
+                            </button>
                         </li>
                         <li>
                             <button type="button" class="dataPopup" data-popup="analysis-01-02" data-maptype="3D">
-                                일조권분석(3D)</button>
+                                일조권분석(3D)
+                            </button>
                         </li>
                         <li>
                             <button type="button" class="dataPopup" data-popup="analysis-01-06" data-maptype="3D">
-                                지형단면도(3D)</button>
+                                지형단면도(3D)
+                            </button>
                         </li>
                         <li>
                             <button type="button" class="dataPopup" data-popup="analysis-01-07" data-maptype="2D">
-                                지하시설단면</button>
+                                지하시설단면
+                            </button>
                         </li>
                         <li>
                             <button type="button" class="dataPopup" data-maptype="3D">
-                                가시권분석(3D)</button>
+                                가시권분석(3D)
+                            </button>
                         </li>
 
                     </ul>
