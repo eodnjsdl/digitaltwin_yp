@@ -19,8 +19,7 @@
 
     //sample 농업용공공관정 (digitaltwin:tgd_agr_public_tbwll)
     function call_wfs() {
-        var bounds;
-        var options;
+        dtmap.vector.clear();
         var grid = new ax5.ui.grid();
         var $container = $("#container");
         var $target = $container.find('#sampleGridDiv [data-ax5grid="attr-grid"]')
@@ -44,10 +43,11 @@
                 {key: "prpos_se", label: "용도구분"},
             ]
         });
-        options = {
-            typeNames: 'tgd_agr_public_tbwll' + "",
-        }
-        const promise = dtmap.wfsGetFeature(options);
+        const promise = dtmap.wfsGetFeature({
+            typeNames: 'tgd_agr_public_tbwll',
+            perPage: 10,
+            page: 1
+        });
         promise.then(function (data) {
             //그리드 데이터 전처리
             const list = [];
