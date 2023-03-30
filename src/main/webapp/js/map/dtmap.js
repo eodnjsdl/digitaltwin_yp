@@ -138,14 +138,6 @@ window.dtmap = (function () {
             options.typeNames = options.typeNames.join(",");
         }
 
-
-        // let filter;
-        // if (options.geometry) {
-        //     filter = new ol.format.filter.intersects('geom', options.geometry);
-        // } else if (options.bbox) {
-        //     filter = new ol.format.filter.bbox('geom', options.bbox);
-        // }
-
         let cql = '1=1';
         if (options.geometry) {
             let wkt;
@@ -163,12 +155,10 @@ window.dtmap = (function () {
             } else {
                 wkt = options.geometry
             }
-            // wkt = wkt.substr(0, wkt.length - 1) + ',' + dtmap.crs + ')'
             cql += ' AND INTERSECTS(geom, ' + wkt + ')';
         } else if (options.bbox) {
             cql += ' AND BBOX(geom, ' + options.bbox.toString() + ",'" + dtmap.crs + "'" + ')';
         }
-
 
         let params = {
             version: '1.1.0',
@@ -182,8 +172,6 @@ window.dtmap = (function () {
             sortBy: options.sortBy ? options.sortBy : 'gid'
         }
 
-        // const featureRequest = new ol.format.WFS().writeGetFeature(params);
-        // let data = new XMLSerializer().serializeToString(featureRequest);
         return $.ajax({
             url: '/gis/wfs',
             method: 'post',
