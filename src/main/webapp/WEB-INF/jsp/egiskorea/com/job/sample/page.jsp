@@ -44,9 +44,9 @@
             ]
         });
         const promise = dtmap.wfsGetFeature({
-            typeNames: 'tgd_agr_public_tbwll',
-            perPage: 10,
-            page: 1
+            typeNames: 'tgd_agr_public_tbwll', //WFS 레이어명
+            perPage: 10, //페이지당 피쳐 개수
+            page: 1 //검색할 페이지 번호
         });
         promise.then(function (data) {
             //그리드 데이터 전처리
