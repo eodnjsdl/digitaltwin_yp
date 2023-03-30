@@ -147,7 +147,9 @@ map2d.draw = (function () {
 
     function onDrawEnd(e) {
         updateGeometry(e.feature);
-        dtmap.trigger('drawend', {geometry: e.feature.getGeometry(), origin: e});
+        setTimeout(function () {
+            dtmap.trigger('drawend', {geometry: e.feature.getGeometry(), origin: e});
+        })
     }
 
 
@@ -213,7 +215,6 @@ map2d.draw = (function () {
     }
 
     function setSnap(source) {
-
 
 
     }
