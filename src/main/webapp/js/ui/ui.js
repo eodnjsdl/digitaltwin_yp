@@ -412,7 +412,8 @@ window.ui = (function () {
 
                 // 업무 > 시설관리 > 상수도시설
                 case "waterSupplyFacility" :
-                    aj_facility("WaterSupplyFacility");
+                    //aj_facility("WaterSupplyFacility");
+                    getFacilityListView("WaterSupplyFacility")
                     break;
 
                 // 업무 > 시설관리 > 하수도시설

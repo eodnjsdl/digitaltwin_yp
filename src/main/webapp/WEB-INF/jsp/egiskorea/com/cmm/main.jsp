@@ -144,7 +144,20 @@
     <script src="/js/egiskorea/com/job/cmt/cmt.js"></script>
     <script src="/js/egiskorea/com/job/wrpp/wrpp.js"></script>
     <script src="/js/egiskorea/com/job/swg/swg.js"></script>
-
+    
+    <!-- uhh add...  -->
+    <!-- 업무 /시설관리 재작업  -->
+	<script src="/js/egiskorea/com/job/fcmr/facilityCommon.js"></script>			<!-- 시설 공통  --> 
+	<script src="/js/egiskorea/com/job/fcmr/facilityWaterSupply.js"></script>		<!-- 상수도시설  -->
+	<!-- 하수도시설  -->
+	<!-- 교통시설  -->
+	<!-- 체육시설  -->
+	<!-- 복지시설  -->
+	<!-- 시설예약관리  -->
+	
+	<!-- uhh add... end  -->
+	
+	
     <!-- 분석 -->
     <script src="/js/egiskorea/com/anls/anls.js"></script>
 
