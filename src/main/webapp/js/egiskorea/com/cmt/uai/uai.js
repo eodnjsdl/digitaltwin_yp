@@ -8,7 +8,7 @@ $(document).ready(function () {
 });
 
 function onDrawEnd(e) {
-    // dtmap.draw.clear();
+    dtmap.draw.clear();
     var geom = e.geometry;
     var coord = geom.getFlatCoordinates();
     reverseUaiGeo(parseFloat(coord[0]), parseFloat(coord[1]));
