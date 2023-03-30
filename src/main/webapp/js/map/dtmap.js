@@ -132,12 +132,18 @@ window.dtmap = (function () {
      * @return {json} GeoJSON
      */
     function wfsGetFeature(options) {
-        let perPage = options.perPage || 10;
-        let page = options.page || 1;
         if (options.typeNames instanceof Array) {
             options.typeNames = options.typeNames.join(",");
         }
 
+        //페이지 정보 없을경우 모든피쳐 검색
+        let page;
+        let perPage = options.perPage;
+        if (perPage) {
+            page = ((options.page || 1) - 1) * perPage
+        }
+
+        //cql 필터
         let cql = '1=1';
         if (options.geometry) {
             let wkt;
@@ -160,6 +166,10 @@ window.dtmap = (function () {
             cql += ' AND BBOX(geom, ' + options.bbox.toString() + ",'" + dtmap.crs + "'" + ')';
         }
 
+        if (options.filter) {
+            cql += ' AND ' + options.filter;
+        }
+
         let params = {
             version: '1.1.0',
             request: 'GetFeature',
@@ -167,7 +177,7 @@ window.dtmap = (function () {
             srsName: getMap().crs,
             typeNames: options.typeNames,
             maxFeatures: perPage,
-            startIndex: (page - 1) * perPage,
+            startIndex: page,
             cql_filter: cql === '1=1' ? undefined : cql,
             sortBy: options.sortBy ? options.sortBy : 'gid'
         }
