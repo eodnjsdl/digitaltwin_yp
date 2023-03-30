@@ -147,24 +147,38 @@ window.dtmap = (function () {
         // }
 
         let cql = '1=1';
-        // if (filter) {
-        //     cql += ' AND (' + filter + ')'
-        // }
         if (options.geometry) {
-            cql += ' AND INTERSECT(geom, ' + bbox.toString() + ",'" + dtmap.crs + "'" + ')';
+            let wkt;
+            if (options.geometry instanceof ol.geom.SimpleGeometry) {
+                let geom = options.geometry.clone();
+                if (dtmap.crs !== 'EPSG:5179') {
+                    geom.transform(dtmap.crs, 'EPSG:5179');
+                }
+
+                const format = new ol.format.WKT();
+                if (options.geometry instanceof ol.geom.Circle) {
+                    geom = ol.geom.Polygon.fromCircle(options.geometry);
+                }
+                wkt = format.writeGeometry(geom);
+            } else {
+                wkt = options.geometry
+            }
+            // wkt = wkt.substr(0, wkt.length - 1) + ',' + dtmap.crs + ')'
+            cql += ' AND INTERSECTS(geom, ' + wkt + ')';
         } else if (options.bbox) {
-            cql += ' AND BBOX(geom, ' + bbox.toString() + ",'" + dtmap.crs + "'" + ')';
+            cql += ' AND BBOX(geom, ' + options.bbox.toString() + ",'" + dtmap.crs + "'" + ')';
         }
 
 
         let params = {
+            version: '1.1.0',
             request: 'GetFeature',
             outputFormat: 'application/json',
             srsName: getMap().crs,
             typeNames: options.typeNames,
             maxFeatures: perPage,
             startIndex: (page - 1) * perPage,
-            cql: cql,
+            cql_filter: cql === '1=1' ? undefined : cql,
             sortBy: options.sortBy ? options.sortBy : 'gid'
         }
 

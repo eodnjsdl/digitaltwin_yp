@@ -208,6 +208,10 @@ map2d.draw = (function () {
     }
 
     function getBufferGeom(geom, buffer) {
+        if (geom instanceof ol.geom.Circle) {
+            geom = ol.geom.Polygon.fromCircle(geom);
+        }
+
         const parser = new jsts.io.OL3Parser();
         const jstsGeom = parser.read(geom);
         const buffered = jstsGeom.buffer(buffer);

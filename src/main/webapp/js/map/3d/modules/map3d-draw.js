@@ -51,7 +51,9 @@ map3d.draw = (function () {
         let list = Module.getMap().getInputPointList();
         for (let i = 0; i < list.count; i++) {
             let vec = list.item(i);
-            coords.push([vec.Longitude, vec.Latitude, vec.Altitude]);
+            coords.push([vec.Longitude, vec.Latitude
+                // , vec.Altitude
+            ]);
         }
         return coords;
     }
