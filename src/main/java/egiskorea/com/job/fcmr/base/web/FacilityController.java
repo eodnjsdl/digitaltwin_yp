@@ -44,7 +44,36 @@ public class FacilityController {
           ModelMap model) throws Exception {
       return "egiskorea/com/job/fcmr/facilityListView";
   }
-
   
+  /**
+   * 
+   * @Description : 시설물 상세 화면 조회 
+   * @Author 황의현
+   * @Date 2023.03.31
+   * @return 시설물 뷰 경로
+   * @throws Exception
+   */
+
+  @RequestMapping(value = "/getFacilityDetailView.do")
+  public String getFacilityDetailView(
+          @ModelAttribute("facilityVO") FacilityVO facilityVO,
+          ModelMap model) throws Exception {
+      return "egiskorea/com/job/fcmr/facilityDetailView";
+  }
+  
+  /**
+   * 
+   * @Description : 시설물 등록 화면 조회 
+   * @Author 황의현
+   * @Date 2023.03.31
+   * @return 시설물 뷰 경로
+   * @throws Exception
+   */
+  @RequestMapping(value = "/getFacilityInsertView.do")
+  public String getFacilityInsertView(
+          @ModelAttribute("facilityVO") FacilityVO facilityVO,
+          ModelMap model) throws Exception {
+      return "egiskorea/com/job/fcmr/facilityInsertView";
+  }
   
 }

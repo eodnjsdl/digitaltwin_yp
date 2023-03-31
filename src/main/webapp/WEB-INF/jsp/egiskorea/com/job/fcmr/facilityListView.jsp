@@ -251,9 +251,9 @@
             <div class="bbs-top">
                 <div class="bbs-list-num">조회결과 : --건</div>
                 <div>
-                    <button type="button" class="btn basic" onclick="fn_pageDetail();">상세보기</button>
+                    <button type="button" class="btn basic" onclick="getFacilityDetailView('WaterSupplyFacility');">상세보기</button>
                     <button type="button" class="btn basic" onclick="call_wfs();">Ajax</button>
-                    <button type="button" class="btn basic bi-write btn_add" onclick="fn_insert();">등록</button>
+                    <button type="button" class="btn basic bi-write btn_add" onclick="getFacilityInsertView('WaterSupplyFacility');">등록</button>
                     <button type="button" class="btn basic bi-excel btn_excel" onclick="fn_downloadExcel();">엑셀저장
                     </button>
                 </div>

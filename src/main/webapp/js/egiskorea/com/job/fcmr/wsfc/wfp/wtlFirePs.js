@@ -1,94 +1,17 @@
 /**
- * - 업무 / 시설관리 / 상수도 시설
+ * - 업무 / 시설관리 / 상수도 시설 / 소방시설
  * 
  * @returns
  */
 
-//전역변수
-var baseGrid = null;
-
 //jqeury
 $(document).ready(function(){
-	console.log("facilityWaterSupply.js");
-	console.log("상수도시설");
-	
-	
+	console.log("wtlFirePs.js");
+	console.log("소방시설");
 	
 });
 
 //functions
-
-//상수도 관리 목록 조회
-function getWtlFacilityList(){
-	console.log("getWtlFacilityList()");
-     
-     var $container = $("#container");
-     var $target = $container.find('#bottomPopup .facility-select')
-     
-     let list = [	//DB 처리 필요?
-      {value: "WtlFirePs", title: "소방시설"},
-      {value: "WtlPipeLm", title: "상수관로"},
-      {value: "WtlFlowPs", title: "유량계"},
-      {value: "WtlManhPs", title: "상수맨홀"},
-      {value: "WtlPipePs", title: "상수관로심도"},
-      {value: "WtlPrgaPs", title: "수압계"},
-      {value: "WtlServPs", title: "배수지"},
-      {value: "wtlSplyLs", title: "급수관로"},
-      {value: "wtlValvPs", title: "변류시설"}
-     ];
-     
-     $target.empty();
-     
-     var options="";
-     for (let i = 0; i < list.length; i++) {
-    	 //console.log(list[i]);
-    	 options += "<option value='"+list[i].value+"'>"+list[i].title+"</option>";
-     }
-     
-     $target.append(options);
-     
-     //이벤트 추가
-     $target.on('change', function() {
-    	 getWaterSupplyFacility(this.value);
-	 });
-     
-     //첫번째 항목 강제 실행
-     $("#bottomPopup .facility-select option:eq(0)").trigger('change');	
-     
-}
-
-
-//상수도시설 분기
-function getWaterSupplyFacility(name){
-	console.log("getWaterSupplyFacility(name)");
-		
-	if(name){
-		if(name == "WtlFirePs"){			//소방시설
-			selectWtlFirePsSearchOption();
-			selectWtlFirePsList(1);	
-		}else if(name == "WtlPipeLm"){		//상수관로
-			
-		}else if(name == "WtlFlowPs"){		//유량계
-			
-		}else if(name == "WtlManhPs"){		//상수맨홀
-			
-		}else if(name == "WtlPipePs"){		//상수관로심도
-			
-		}else if(name == "WtlPrgaPs"){		//수압계
-			
-		}else if(name == "WtlServPs"){		//배수지
-			
-		}else if(name == "wtlSplyLs"){		//급수관로
-			
-		}else if(name == "wtlValvPs"){		//변류시설
-			
-		}else{
-			alert("잘못된 호출")
-			return;
-		}
-		
-	}
-}
 
 /////////
 //소방시설
@@ -97,6 +20,7 @@ function getWaterSupplyFacility(name){
 function selectWtlFirePsSearchOption(){
 	console.log("selectWtlFirePsSearchOption()");
 	
+	 ui.loadingBar("show");
 	//속성검색 조건 세팅
 	$("#lSrchOptions").load("/job/fcmr/wsfc/wfp/getWtlFirePsListSrchOpView.do", function () {
 		toastr.success("/job/fcmr/wsfc/wfp/getWtlFirePsListSrchOpView.do", "페이지🙂호🙂출🙂");
@@ -105,8 +29,7 @@ function selectWtlFirePsSearchOption(){
 		getEmdKorNmCode("#lSrchOptions select[name=hjd_cde]");				//읍면동
 		
 		getCmmCodeData("OGC-048", "#lSrchOptions select[name=mof_cde]");	//소화전형식	
-		
-		
+				
 		/////////////////
 		
 		//grid 기본 세팅
@@ -114,6 +37,8 @@ function selectWtlFirePsSearchOption(){
 	    var $target = $container.find('#baseGridDiv [data-ax5grid="attr-grid"]')
 	    $target.css('height', 'inherit');
 		
+	    baseGrid = null;	//axgrid 전역 변수 
+	    
 		baseGrid = new ax5.ui.grid();
 		
 		baseGrid.setConfig({
@@ -138,7 +63,7 @@ function selectWtlFirePsSearchOption(){
 	            {key: "geom", 				label: "공간정보"},
 	        ],
 	        page: {
-	            navigationItemCount: 9,
+	            navigationItemCount: 10,
 	            height: 30,
 	            display: true,
 	            firstIcon: '|<',
@@ -146,13 +71,20 @@ function selectWtlFirePsSearchOption(){
 	            nextIcon: '>',
 	            lastIcon: '>|',
 	            onChange: function () {
-	            	//alert(this.page.selectPage);
 	            	selectWtlFirePsList(this.page.selectPage+1);
+	            }
+	        },
+	        body: {
+	        	// 데이터 행의 click 이벤트를 정의합니다. 이벤트 변수 및 this 프로퍼티는 아래 onclick 함수를 참고하세요
+	        	onClick: function () {
+	                console.log(this.item);
+	                alert("아이디:"+this.item.gid);
 	            }
 	        }
 			
 		});
 		
+		 ui.loadingBar("hide");
 	});
 	
 }
@@ -165,7 +97,7 @@ function selectWtlFirePsList(page) {
     var options;
     options = {
         typeNames: 'wtl_fire_ps' + "",
-        //perPage : 10,
+        perPage : 10,
         page : page
     }
     
@@ -173,20 +105,43 @@ function selectWtlFirePsList(page) {
     promise.then(function (data) {
         //그리드 데이터 전처리
         const list = [];
+        //console.log("data.features.length>>>"+data.features.length);
+        var total = data.totalFeatures;
+        var totalPages = Math.ceil(total/10);
+        
+        //console.log("total>>>"+total);
+        //console.log("totalPages>>>"+totalPages);
+        if(total>0){
+        	$("#bottomPopup .bbs-list-num").html("조회결과:"+total+"건");
+        }
+        
         for (let i = 0; i < data.features.length; i++) {
+        	
+        	//지형지물부호 코드 변경
+        	//console.log(data.features[i].properties);
+        	var ftr_cde = data.features[i].properties.ftr_cde;
+        	//console.log(ftr_cde);
+        	if(ftr_cde == "SA119"){
+        		//console.log(ftr_cde+">>>"+"급수탑");
+        		data.features[i].properties.ftr_cde = "급수탑";
+        	}else if(ftr_cde == "SA118"){
+        		//console.log(ftr_cde+">>>"+"소화전");
+        		data.features[i].properties.ftr_cde = "소화전";
+        	}
+        	
             const {id, properties} = data.features[i];
             list.push({...properties, ...{id: id}});
         }
-        //grid.setData(list);
-        console.log("page>>"+page);
+       
+        //console.log("page>>"+page);
         baseGrid.setData(
         	{	
         		list: list,
         		page: {
         			currentPage : page-1,
         			pageSize:10,
-        			totalElements: 500,
-        			totalPages:50
+        			totalElements: total,
+        			totalPages:totalPages
         		}
         	}	
         );
