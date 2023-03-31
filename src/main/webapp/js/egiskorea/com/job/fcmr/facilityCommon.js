@@ -12,7 +12,7 @@ $(document).ready(function(){
 
 
 //전역변수
-var baseGrid = null;		//axGrid 변수
+var 1baseGrid = null;		//axGrid 변수
 
 
 //functions
