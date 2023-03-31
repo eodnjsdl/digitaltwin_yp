@@ -15,7 +15,6 @@ $(document).ready(function(){
 var baseGrid = null;		//axGrid 변수
 
 
-
 //functions
 
 //기본 페이지 로드 
