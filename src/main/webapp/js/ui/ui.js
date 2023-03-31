@@ -202,7 +202,8 @@ window.ui = (function () {
          */
         $(document).on('click', '.popup-panel .popup-close', function () {
             $(this).closest('.popup-panel').removeClass('opened');
-            // 마우스 이벤트 초기화 (그리기)
+            // 초기화 (그리기)
+            dtmap.draw.clear();
             dtmap.draw.dispose();
         });
 
@@ -344,7 +345,8 @@ window.ui = (function () {
             $("#" + value).removeClass("opened").html("");
         });
 
-        // 마우스 이벤트 초기화 (그리기)
+        // 초기화 (그리기)
+        dtmap.draw.clear();
         dtmap.draw.dispose();
 
     }
@@ -566,25 +568,31 @@ window.ui = (function () {
         });
     }
 
+    //그리기 초기화
+    function _initDrawEvent() {
+        dtmap.off('drawend');
+        dtmap.vector.clear();
+    }
+
     function _asideMenuEvent() {
         $("#map-aside .map-tool-list button").on("click", function () {
             var id = $(this).attr('id');
             var classList = $(this).attr('class').split(/\s+/);
             var area = classList[2];
             // ui.openPopup(area);
+            _initDrawEvent();
             switch (id) {
                 // aside menu > 통합행정정보
                 case "krasInfo" :
                     initPopup(area);
                     toastr.success("지도에서 위치를 선택하세요. ", "통합행정정보");
-                    aj_krasInfo(area);
+                    aj_krasInfo();
                     break;
 
                 // aside menu > 지적/건물
                 case "landBuilding" :
                     initPopup(area);
-                    toastr.success("지적/건물")
-                    dtmap.draw.active({type: 'Box', once: true});
+                    toastr.success("지도에서 위치를 선택하세요. ", "지적/건물");
                     aj_selectLandBuilderList();
                     break;
 
