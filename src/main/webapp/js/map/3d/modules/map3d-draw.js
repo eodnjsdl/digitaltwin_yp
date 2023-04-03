@@ -4,6 +4,8 @@ map3d.draw = (function () {
     let _buffer = 0;
     let _bufferLayer;
     let BUFFER_LAYER_KEY = 'BUFFER_POLYGON_LAYER';
+    let _isDown = false;
+    let _isDrag = false;
 
     function init() {
 
@@ -30,12 +32,14 @@ map3d.draw = (function () {
         getBufferLayer();
         map3d.canvas.addEventListener('mousedown', onMouseDown);
         map3d.canvas.addEventListener('mouseup', onMouseUp);
+        map3d.canvas.addEventListener('mousemove', onMouseMove);
     }
 
     function dispose() {
         Module.XDSetMouseState(Module.MML_SELECT_POINT);
         map3d.canvas.removeEventListener('mousedown', onMouseDown);
         map3d.canvas.removeEventListener('mouseup', onMouseUp);
+        map3d.canvas.removeEventListener('mousemove', onMouseMove);
         removeBufferLayer();
     }
 
@@ -202,6 +206,10 @@ map3d.draw = (function () {
     }
 
     function onMouseDown(e) {
+        if (e.button !== 0) {
+            return;
+        }
+        _isDown = true;
         if (_type === 'POINT') {
             Module.getMap().clearInputPoint();
         }
@@ -213,8 +221,22 @@ map3d.draw = (function () {
     }
 
     function onMouseUp(e) {
-        drawBuffer();
-        dtmap.trigger('drawend', {geometry: getGeometry(), origin: e});
+        if (e.button !== 0) {
+            return;
+        }
+
+        if (!_isDrag || (_type === 'BOX' || _type === 'CIRCLE')) {
+            drawBuffer();
+            dtmap.trigger('drawend', {geometry: getGeometry(), origin: e});
+        }
+        _isDown = false;
+        _isDrag = false;
+    }
+
+    function onMouseMove(e) {
+        if (_isDown) {
+            _isDrag = true;
+        }
     }
 
     let module = {

@@ -75,7 +75,7 @@ map3d.layer = (function () {
      * @param id
      */
     function removeLayer(id) {
-        let layer = getById(id)
+        let layer = getById(id);
         if (!layer) {
             return;
         }

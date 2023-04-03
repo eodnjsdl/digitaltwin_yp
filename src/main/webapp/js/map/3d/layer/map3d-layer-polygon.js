@@ -30,13 +30,15 @@ map3d.layer.Polygon = (function () {
     Polygon.prototype.add = function (options) {
         map3d.layer.Geometry.prototype.add.call(this, options);
         //TODO Polygon 객체 생성 구현 필요
-        console.warn(this, 'Polygon 객체 생성 미구현');
+        // console.warn(this, 'Polygon 객체 생성 미구현');
 
         const id = this.genId(options.id);
         let {coordinates, properties} = options;
         properties = properties || {};
 
-        var polygonVertex = new Module.JSVec3Array();
+        const polygonVertex = new Module.JSVec3Array();
+        const part = new Module.Collection();
+
         coordinates = coordinates[0];
         for (let i = 0; i < coordinates.length; i++) {
             const coord = coordinates[i];
@@ -47,26 +49,21 @@ map3d.layer.Polygon = (function () {
                 }
 
                 let alt = Module.getMap().getTerrHeightFast(xy[0], xy[1]);
-                polygonVertex.push(new Module.JSVector3D(xy[0], xy[1], 100))
+                polygonVertex.push(new Module.JSVector3D(xy[0], xy[1], alt + map3d.config.vertclPynHeight))
             }
         }
+        part.add(polygonVertex.count());
+        const object = Module.createColorPolygon(id);
 
-        let object = Module.createPolygon(id);
-
-        // 폴리곤 색상 설정
-        var polygonStyle = new Module.JSPolygonStyle();
-        polygonStyle.setFill(true);
-        polygonStyle.setFillColor(new Module.JSColor(100, 255, 0, 0));
-        polygonStyle.setOutLine(true);
-        polygonStyle.setOutLineWidth(2.0);
-        polygonStyle.setOutLineColor(new Module.JSColor(255, 0, 0));
-        object.setStyle(polygonStyle);
-
-        var part = new Module.Collection();
-        part.add(coordinates.length - 1);
-
-        object.setPartCoordinates(polygonVertex, part);
-
+        // 폴리곤 수직 벽면 형태 정의
+        object.SetVerticalPlane(
+            polygonVertex,
+            part,
+            -map3d.config.vertclPynHeight,
+            new Module.JSColor(150, map3d.config.vertclPynColorR, map3d.config.vertclPynColorG, map3d.config.vertclPynColorB),
+            new Module.JSColor(255, map3d.config.vertclPynColorR, map3d.config.vertclPynColorG, map3d.config.vertclPynColorB)
+        );
+        object.SetCullMode(1);
         //프로퍼티 설정
         if (properties) {
             Object.keys(properties).forEach(function (key) {
@@ -86,12 +83,12 @@ map3d.layer.Polygon = (function () {
     }
 
 
-    function createVerticalPlane(_coordinates){
+    function createVerticalPlane(_coordinates) {
 
         // 레이어 생성
         var layerList = new Module.JSLayerList(true);
 
-        if(!layerList.nameAtLayer("LINE_LAYER") && !layerList.nameAtLayer("COLOR_POLYGON_LAYER")) {
+        if (!layerList.nameAtLayer("LINE_LAYER") && !layerList.nameAtLayer("COLOR_POLYGON_LAYER")) {
             var lineLayer = layerList.createLayer("LINE_LAYER", Module.ELT_SKY_LINE);
             var colorPolygonlayer = layerList.createLayer("COLOR_POLYGON_LAYER", Module.ELT_POLYHEDRON);
         } else {
@@ -114,9 +111,9 @@ map3d.layer.Polygon = (function () {
         var coordinates = new Module.JSVec3Array();
         var parts = new Module.Collection();
 
-        for (var i=0; i<_coordinates.length; i++) {
+        for (var i = 0; i < _coordinates.length; i++) {
             var alt = Module.getMap().getTerrHeightFast(_coordinates[i][0], _coordinates[i][1]);
-            coordinates.push( new Module.JSVector3D(_coordinates[i][0], _coordinates[i][1], alt + userSetup.vertclPynHeight));
+            coordinates.push(new Module.JSVector3D(_coordinates[i][0], _coordinates[i][1], alt + userSetup.vertclPynHeight));
         }
         parts.add(_coordinates.length);
 
