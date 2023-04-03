@@ -23,121 +23,6 @@
             featureProjection: map2d.map.getView().getProjection()
         });
     }
-
-    //sample 농업용공공관정 (digitaltwin:tgd_agr_public_tbwll)
-    function call_wfs() {
-        var bounds;
-        var options;
-        var grid = new ax5.ui.grid();
-        var $container = $("#container");
-        var $target = $container.find('#sampleGridDiv [data-ax5grid="attr-grid"]')
-        $target.css('height', 'inherit');
-        grid.setConfig({
-            target: $target,
-            sortable: true,
-            multipleSelect: false,
-            columns: [
-                {key: "adres", label: "주소", width: 65},
-                {key: "calbr", label: "구경"},
-                {key: "detail_prpos_se", label: "세부용도구분"},
-                {key: "devlop_year", label: "개발년도"},
-                {key: "dph", label: "심도"},
-                {key: "dscrgpp_calbr", label: "토출관구경"},
-                {key: "fclts_chck_de", label: "시설물점검일자"},
-                {key: "fclts_sttus", label: "시설물상태"},
-                {key: "fclty_nm", label: "시설명"},
-                {key: "manage_instt_nm", label: "관리기관명"},
-                {key: "manage_se", label: "관리구분"},
-                {key: "prpos_se", label: "용도구분"},
-            ],
-            page: {
-                navigationItemCount: 9,
-                height: 30,
-                display: true,
-                firstIcon: '|<',
-                prevIcon: '<',
-                nextIcon: '>',
-                lastIcon: '>|',
-                onChange: function () {
-                	//search(this.page.selectPage);
-                	alert(this.page.selectPage);
-                }
-            }
-        
-        });
-        options = {
-            typeNames: 'tgd_agr_public_tbwll' + "",
-        }
-        const promise = dtmap.wfsGetFeature(options);
-        promise.then(function (data) {
-            //그리드 데이터 전처리
-            const list = [];
-            for (let i = 0; i < data.features.length; i++) {
-                const {id, properties} = data.features[i];
-                list.push({...properties, ...{id: id}});
-            }
-            //grid.setData(list);
-            /////////////
-            grid.setData(
-            	{	
-            		list: list,
-            		page: {
-            			currentPage : 0,
-            			pageSize:10,
-            			totalElements: 500,
-            			totalPages:50
-            		}
-            	}	
-            );
-
-            //지도에 GeoJSON 추가
-            dtmap.vector.readGeoJson(data, function (feature) {
-
-                /**
-                 * 스타일 콜백 예시
-                 */
-
-                let properties = feature.getProperties();
-                let dph = Number(properties['dph']);
-                if (dph >= 110) {
-                    return {
-                        marker: {
-                            src: '/images/poi/subway_1.png'
-                        },
-                        label: {
-                            text: '텍스트 직접입력'
-                        }
-                    }
-                } else if (dph >= 100 && dph < 110) {
-                    return {
-                        marker: {
-                            src: '/images/poi/subway_2.png'
-                        },
-                        label: {
-                            column: 'fclty_nm'
-                        }
-                    }
-                } else {
-                    return {
-                        fill: {
-                            color: 'rgba(46,161,255,0.68)'
-                        },
-                        stroke: {
-                            color: '#89dfff',
-                            width: 4
-                        },
-                        radius: 10,
-                        label: {
-                            column: 'fclty_nm'
-                        }
-                    }
-                }
-            });
-
-            dtmap.vector.fit();
-        });
-    }
-
     function fn_insert() {
         ui.openPopup("rightSubPopup");
         var container = "#rightSubPopup";
@@ -251,8 +136,8 @@
             <div class="bbs-top">
                 <div class="bbs-list-num">조회결과 : --건</div>
                 <div>
-                    <button type="button" class="btn basic" onclick="getFacilityDetailView('WaterSupplyFacility');">상세보기</button>
-                    <button type="button" class="btn basic" onclick="call_wfs();">Ajax</button>
+                    <!-- <button type="button" class="btn basic" onclick="getFacilityDetailView('WaterSupplyFacility');">상세보기</button> -->
+                    <!-- <button type="button" class="btn basic" onclick="call_wfs();">Ajax</button> -->
                     <button type="button" class="btn basic bi-write btn_add" onclick="getFacilityInsertView('WaterSupplyFacility');">등록</button>
                     <button type="button" class="btn basic bi-excel btn_excel" onclick="fn_downloadExcel();">엑셀저장
                     </button>
@@ -267,13 +152,9 @@
                         </div> -->
                         <div id="gridax5" data-ax5grid="attr-grid" data-ax5grid-config="{}" style="flex: 1"></div>
                     </div>
-                    '
-
-
                 </div>
-
-                <div class="pagination">
-                </div>
+                <!-- <div class="pagination">
+                </div> -->
             </div>
         </div>
     </div>

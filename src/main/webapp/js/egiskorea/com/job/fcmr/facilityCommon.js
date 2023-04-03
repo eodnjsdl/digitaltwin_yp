@@ -34,9 +34,9 @@ function getFacilityListView(categoryName){
 	var container = "#bottomPopup";
     $(container).load("/job/fcmr/base/getFacilityListView.do", function () {
         toastr.success("/job/fcmr/base/getFacilityListView.do", "페이지🙂호🙂출🙂");
-        $(".scroll-y").mCustomScrollbar({
+        /*$(".scroll-y").mCustomScrollbar({
             scrollbarPosition: "outside",
-        });
+        });*/
         
         if(categoryName){
         	selectFacility(categoryName);
@@ -92,7 +92,7 @@ function selectFacility(categoryName){
 }
 
 //상세 페이지 로드
-function getFacilityDetailView(categoryName){
+/*function getFacilityDetailView(categoryName){
 	console.log("getFacilityDetailView()");
 	
 	if(!categoryName){
@@ -114,11 +114,11 @@ function getFacilityDetailView(categoryName){
     	
     });
 	
-}
+}*/
 
 
 //상세 페이지 분기
-function selectFacilityDetail(categoryName){
+/*function selectFacilityDetail(categoryName){
 	console.log("selectFacilityDetail(categoryName)");
 	
 	if(categoryName){
@@ -143,7 +143,7 @@ function selectFacilityDetail(categoryName){
 		alert("잘못된 접근");
 		return;
 	}
-}
+}*/
 
 
 //등록 페이지 로드
