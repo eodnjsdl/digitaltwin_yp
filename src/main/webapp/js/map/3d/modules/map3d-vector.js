@@ -131,6 +131,25 @@ map3d.vector = (function () {
         addFeatures(features, map3d.crs, style);
     }
 
+    function readWKT(wkt, properties) {
+        if (!wkt) {
+            return;
+        }
+
+        const format = new ol.format.WKT();
+        const geometry = format.readGeometry(wkt);
+        const feature = new ol.Feature();
+        feature.setGeometry(geometry);
+
+        if (properties && typeof properties === 'object') {
+            if (properties.geometry) {
+                delete properties.geometry
+            }
+            feature.setProperties(properties, true)
+        }
+        return addFeature(feature, 'EPSG:4326')
+    }
+
     function addFeatures(features, crs, style) {
         for (let i = 0; i < features.length; i++) {
             addFeature(features[i], crs, style);
@@ -221,6 +240,7 @@ map3d.vector = (function () {
 
     let module = {
         init: init,
+        readWKT: readWKT,
         readGeoJson: readGeoJson,
         addFeatures: addFeatures,
         getFeature: getFeature,

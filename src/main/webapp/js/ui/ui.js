@@ -194,7 +194,8 @@ window.ui = (function () {
          *  popup draggable
          */
         $(".popup-draggable").draggable({
-            containment: "#container"
+            containment: "#container",
+            handle: ".popup-header"
         });
 
         /**

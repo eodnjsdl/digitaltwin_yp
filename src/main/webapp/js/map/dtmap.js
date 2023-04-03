@@ -129,18 +129,140 @@ window.dtmap = (function () {
      * @param {number} [options.page=1] 페이지 번호
      * @param {ol.geom.Geometry} [options.geometry] intersects 도형 (우선)
      * @param {number[]} [bbox] 검색 영역 [minX, minY, maxX, maxY] (geometry 있을경우 수행안함)
+     * @param {string | string[]} [options.filter] 필터 수식 (배열일 경우 and 연산으로 처리됨)
+     *        ' '공백 구분 문자로  "Key Expression Value" 형태로 작성해야함
+     *        Key           - 컬럼명
+     *        Expression    - 수식 ( = , < , <= , > , >= , like )
+     *        Value         - 값
+     *        ex)
+     *          emd_kor_nm like 강하면
+     *          gid >= 3
      * @return {json} GeoJSON
      */
     function wfsGetFeature(options) {
+        const data = getWFSParamXML(options);
+        // const data = getWFSParam(options);
+        return $.ajax({
+            url: '/gis/wfs',
+            method: 'post',
+            // contentType: "application/json",
+            data: data
+        })
+    }
+
+    function getWFSParamXML(options) {
+        if (typeof options.typeNames === 'string') {
+            options.typeNames = [options.typeNames];
+        }
+        //페이지 정보 없을경우 모든피쳐 검색
+        let startIndex;
+        let maxFeatures;
+        if (options.page || options.perPage) {
+            maxFeatures = options.perPage || 10;
+            startIndex = ((options.page || 1) - 1) * maxFeatures
+        }
+        let filter = getWFSFilter(options);
+
+        const featureRequest = new ol.format.WFS().writeGetFeature({
+            outputFormat: 'application/json',
+            srsName: getMap().crs,
+            featureTypes: options.typeNames,
+            maxFeatures: maxFeatures,
+            startIndex: startIndex,
+            filter: filter
+        });
+
+        wfsSortBy(featureRequest, options);
+
+        return new XMLSerializer().serializeToString(featureRequest);
+    }
+
+    function getWFSFilter(options) {
+        let ary = []
+
+        if (options.filter) {
+            if (options.filter instanceof Array) {
+                for (let i = 0; i < options.filter.length; i++) {
+                    ary.push(parseFilter(options.filter[i]));
+                }
+            } else {
+                ary.push(parseFilter(options.filter));
+            }
+        }
+
+        if (options.geometry) {
+            ary.push(new ol.format.filter.intersects('geom', options.geometry));
+        } else if (options.bbox) {
+            ary.push(new ol.format.filter.bbox('geom', options.bbox));
+        }
+
+        if (ary.length === 0) {
+            return undefined;
+        } else if (ary.length === 1) {
+            return ary[0];
+        } else {
+            return ol.format.filter.and(...ary);
+        }
+
+    }
+
+    function parseFilter(data) {
+        const param = data.split(' ');
+        const k = param[0];
+        const e = param[1];
+        const v = param[2];
+        let filter;
+        switch (e) {
+            case '=':
+                filter = ol.format.filter.equalTo(k, v);
+                break;
+            case '<':
+                filter = ol.format.filter.lessThan(k, v);
+                break;
+            case '>':
+                filter = ol.format.filter.greaterThan(k, v);
+                break;
+            case '<=':
+                filter = ol.format.filter.lessThanOrEqualTo(k, v);
+                break;
+            case '>=':
+                filter = ol.format.filter.greaterThanOrEqualTo(k, v);
+                break;
+            case 'like':
+                filter = ol.format.filter.like(k, '*' + v + '*');
+                break;
+        }
+        return filter
+    }
+
+    function wfsSortBy(featureRequest, options) {
+        const ogcNS = 'http://www.opengis.net/ogc'
+        featureRequest.setAttribute('xmlns:ogc', ogcNS)
+        const doc = featureRequest.ownerDocument;
+        const query = featureRequest.getElementsByTagName('Query')[0];
+        const sortby = doc.createElementNS(ogcNS, 'ogc:SortBy');
+        const sortProperty = doc.createElementNS(ogcNS, 'ogc:SortProperty');
+        sortby.appendChild(sortProperty);
+        const propertyName = doc.createElementNS(ogcNS, 'ogc:PropertyName');
+        propertyName.setHTML(options.sortBy || 'gid');
+        const order = doc.createElementNS(ogcNS, 'ogc:SortOrder');
+        order.setHTML('ASC');
+        sortProperty.appendChild(propertyName);
+        sortProperty.appendChild(order);
+        sortby.appendChild(sortProperty);
+        query.appendChild(sortby);
+    }
+
+    function getWFSParam(options) {
         if (options.typeNames instanceof Array) {
             options.typeNames = options.typeNames.join(",");
         }
-
         //페이지 정보 없을경우 모든피쳐 검색
-        let page;
-        let perPage = options.perPage;
-        if (perPage) {
-            page = ((options.page || 1) - 1) * perPage
+        let startIndex;
+        let maxFeatures;
+        if (options.page || options.perPage) {
+            maxFeatures = options.perPage || 10;
+            startIndex = ((options.page || 1) - 1) * maxFeatures
         }
 
         //cql 필터
@@ -149,10 +271,6 @@ window.dtmap = (function () {
             let wkt;
             if (options.geometry instanceof ol.geom.SimpleGeometry) {
                 let geom = options.geometry.clone();
-                if (dtmap.crs !== 'EPSG:5179') {
-                    geom.transform(dtmap.crs, 'EPSG:5179');
-                }
-
                 const format = new ol.format.WKT();
                 if (options.geometry instanceof ol.geom.Circle) {
                     geom = ol.geom.Polygon.fromCircle(options.geometry);
@@ -176,18 +294,12 @@ window.dtmap = (function () {
             outputFormat: 'application/json',
             srsName: getMap().crs,
             typeNames: options.typeNames,
-            maxFeatures: perPage,
-            startIndex: page,
+            maxFeatures: maxFeatures,
+            startIndex: startIndex,
             cql_filter: cql === '1=1' ? undefined : cql,
             sortBy: options.sortBy ? options.sortBy : 'gid'
         }
-
-        return $.ajax({
-            url: '/gis/wfs',
-            method: 'post',
-            // contentType: "application/json",
-            data: params
-        })
+        return params;
     }
 
     function on(type, listener) {
