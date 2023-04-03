@@ -64,7 +64,8 @@ function getWaterSupplyFacility(name){
 		}else if(name == "WtlPipeLm"){		//상수관로
 			
 		}else if(name == "WtlFlowPs"){		//유량계
-			
+			selectWtlFlowPsSearchOption();
+			selectWtlFlowPsList(1);
 		}else if(name == "WtlManhPs"){		//상수맨홀
 			
 		}else if(name == "WtlPipePs"){		//상수관로심도

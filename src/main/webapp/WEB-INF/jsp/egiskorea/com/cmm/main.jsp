@@ -163,7 +163,7 @@
 	<!-- {상수도 하위 메뉴}  -->	
 	<script src="/js/egiskorea/com/job/fcmr/wsfc/wfp/wtlFirePs.js"></script>			<!-- 소방시설  -->
 	<!-- 상수관로 -->
-	<!-- 유량계 -->
+	<script src="/js/egiskorea/com/job/fcmr/wsfc/wflp/wtlFlowPs.js"></script>			<!-- 유량계 -->
 	<!-- 상수맨홀 -->
 	<!-- 상수관로심도 -->
 	<!-- 수압계 -->
