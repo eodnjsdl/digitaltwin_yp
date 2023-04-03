@@ -69,7 +69,7 @@ class SelectLdbdList {
         var _this = new SelectLdbdList();
         const that = _this ;
         var geom = e.geometry.clone();
-        geom = geom.transform(dtmap.crs, "EPSG:5174");
+        // geom = geom.transform(dtmap.crs, "EPSG:5174");
 
 
         var options = {

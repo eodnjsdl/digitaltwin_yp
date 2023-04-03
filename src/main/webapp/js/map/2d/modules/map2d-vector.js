@@ -100,7 +100,8 @@ map2d.vector = (function () {
         _layer = new ol.layer.Vector({
             source: _source,
             style: styleFunction,
-            isDefault: true
+            isDefault: true,
+            zIndex: 999
         });
         map2d.map.addLayer(_layer);
         _source.on('change', onSourceChange)

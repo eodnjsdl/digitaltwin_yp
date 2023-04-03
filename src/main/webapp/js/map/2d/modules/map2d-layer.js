@@ -80,6 +80,7 @@ map2d.layer = (function () {
         var layer = new ol.layer.Image({
             id: id,
             title: table,
+            zIndex: options.zIndex || 1,
             // extent: ol.proj.transformExtent(extent, bbox.crs.$, gis.map.Instance.getView().getProjection()),
             source: new ol.source.ImageWMS({
                 url: '/gis/wms',
