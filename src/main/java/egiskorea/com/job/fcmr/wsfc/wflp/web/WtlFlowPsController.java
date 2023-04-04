@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import egiskorea.com.job.fcmr.base.service.FacilityVO;
 import egiskorea.com.job.fcmr.wsfc.wflp.service.WtlFlowPsVO;
-import egiskorea.com.job.fcmr.wsfc.wfp.service.WtlFirePsVO;
 
 /**
  * @Description 시설관리/상수도시설/유량계

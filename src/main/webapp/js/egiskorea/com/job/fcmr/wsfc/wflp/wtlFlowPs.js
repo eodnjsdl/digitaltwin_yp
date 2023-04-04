@@ -23,7 +23,8 @@ function selectWtlFlowPsSearchOption(){
 		
 		//옵션 값 세팅
 		getEmdKorNmCode("#lSrchOptions select[name=hjd_cde]");				//읍면동		
-		getCmmCodeData("OGC-048", "#lSrchOptions select[name=mof_cde]");	//유량계형식	
+		getCmmCodeData("OGC-141", "#lSrchOptions select[name=gag_cde]");	//유량계종류	
+		getCmmCodeData("OGC-041", "#lSrchOptions select[name=mof_cde]");	//유량계형식	
 		
 		//grid 기본 세팅
 		var $container = $("#container");
@@ -61,7 +62,6 @@ function selectWtlFlowPsSearchOption(){
 	        },
 	        body: {
 	        	onClick: function () {					// 데이터 행의 click 이벤트 정의
-	                console.log(this.item);
 	                getFlowDetailView(this.item);
 	            }
 	        }
