@@ -129,7 +129,8 @@ window.dtmap = (function () {
      * @param {number} [options.page=1] 페이지 번호
      * @param {ol.geom.Geometry} [options.geometry] intersects 도형 (우선)
      * @param {number[]} [bbox] 검색 영역 [minX, minY, maxX, maxY] (geometry 있을경우 수행안함)
-     * @param {string | string[]} [options.filter] 필터 수식 (배열일 경우 and 연산으로 처리됨)
+     * @param {string} [options.cql] cql 필터 (cql필터 가 있을경우 json request로 수행)         -> 필터방식은 둘중 택 1
+     * @param {string | string[]} [options.filter] 필터 수식 (배열일 경우 and 연산으로 처리됨)   -> 필터방식은 둘중 택 1
      *        ' '공백 구분 문자로  "Key Expression Value" 형태로 작성해야함
      *        Key           - 컬럼명
      *        Expression    - 수식 ( = , < , <= , > , >= , like )
@@ -137,11 +138,32 @@ window.dtmap = (function () {
      *        ex)
      *          emd_kor_nm like 강하면
      *          gid >= 3
+     *
+     *          1. XML Filter 방식
+     *          dtmap.wfsGetFeature({
+     *              typeNames : 'wtl_fire_ps',
+     *              page : 1,
+     *              perPage : 10,
+     *              filter : ['gid > 10', 'gid < 20']
+     *          })
+     *
+     *          2. CQL 방식
+     *         dtmap.wfsGetFeature({
+     *              typeNames : 'wtl_fire_ps',
+     *              page : 1,
+     *              perPage : 10,
+     *              cql : 'gid > 10 and gid < 20'
+     *          })
+     *
      * @return {json} GeoJSON
      */
     function wfsGetFeature(options) {
-        const data = getWFSParamXML(options);
-        // const data = getWFSParam(options);
+        let data;
+        if (options.cql) {
+            data = getWFSParam(options);
+        } else {
+            data = getWFSParamXML(options);
+        }
         return $.ajax({
             url: '/gis/wfs',
             method: 'post',
@@ -181,12 +203,9 @@ window.dtmap = (function () {
         let ary = []
 
         if (options.filter) {
-            if (options.filter instanceof Array) {
-                for (let i = 0; i < options.filter.length; i++) {
-                    ary.push(parseFilter(options.filter[i]));
-                }
-            } else {
-                ary.push(parseFilter(options.filter));
+            const filter = parseFilter(options.filter);
+            if (filter) {
+                ary.push(filter);
             }
         }
 
@@ -207,6 +226,23 @@ window.dtmap = (function () {
     }
 
     function parseFilter(data) {
+        if (data instanceof Array) {
+            if (data.length === 0) {
+                return;
+            }
+            const filters = [];
+            for (let i = 0; i < data.length; i++) {
+                filters.push(parseFilter(data[i]))
+            }
+            if (filters.length === 0) {
+                return;
+            } else if (filters.length === 1) {
+                return filters[0];
+            } else {
+                return ol.format.filter.and(...filters);
+            }
+        }
+
         const param = data.split(' ');
         const k = param[0];
         const e = param[1];
@@ -229,7 +265,11 @@ window.dtmap = (function () {
                 filter = ol.format.filter.greaterThanOrEqualTo(k, v);
                 break;
             case 'like':
-                filter = ol.format.filter.like(k, '*' + v + '*');
+                if (!v.startsWith('*') && !v.endsWith('*')) {
+                    filter = ol.format.filter.like(k, '*' + v + '*');
+                } else {
+                    filter = ol.format.filter.like(k, v);
+                }
                 break;
         }
         return filter
@@ -284,11 +324,11 @@ window.dtmap = (function () {
             cql += ' AND BBOX(geom, ' + options.bbox.toString() + ",'" + dtmap.crs + "'" + ')';
         }
 
-        if (options.filter) {
-            cql += ' AND ' + options.filter;
+        if (options.cql) {
+            cql += ' AND ' + options.cql;
         }
 
-        let params = {
+        return {
             version: '1.1.0',
             request: 'GetFeature',
             outputFormat: 'application/json',
@@ -299,7 +339,6 @@ window.dtmap = (function () {
             cql_filter: cql === '1=1' ? undefined : cql,
             sortBy: options.sortBy ? options.sortBy : 'gid'
         }
-        return params;
     }
 
     function on(type, listener) {

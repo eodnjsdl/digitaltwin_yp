@@ -1612,7 +1612,6 @@ class FacilityCommon {
         $(".facility-attribute-search", that.container).on("click", function () {
             that.searchAttribute();
             // cmmUtil.drawClear();
-            debugger
         });
         /*$(".std_dip_max", that.container).on("keydown", function (event) {
           if (event.keyCode == "13") {
@@ -2008,25 +2007,31 @@ class FacilityCommon {
                     }
                 } else {
                     if (type == "text") {
-                        return ol.format.filter.like(name, `*${val}*`);
+                        // return ol.format.filter.like(name, `*${val}*`);
+                        return `${name} like ${val}`
                     } else if (type == "code") {
-                        return ol.format.filter.equalTo(name, val);
+                        // return ol.format.filter.equalTo(name, val);
+                        return `${name} = ${val}`
                     } else if (type == "emd") {
-                        return ol.format.filter.equalTo(name, val);
+                        // return ol.format.filter.equalTo(name, val);
+                        return `${name} = ${val}`
                     } else if (type == "number") {
                         if (parseInt(val[0]) && parseInt(val[1])) {
-                            return ol.format.filter.between(
-                                name,
-                                parseInt(val[0]),
-                                parseInt(val[1])
-                            );
+                            // return ol.format.filter.between(
+                            //     name,
+                            //     parseInt(val[0]),
+                            //     parseInt(val[1])
+                            // );
+                            return [`${name} >= ${val[0]}`,`${name} <= ${val[1]}`]
                         } else if (parseInt(val[0])) {
-                            return ol.format.filter.greaterThanOrEqualTo(
-                                name,
-                                parseInt(val[0])
-                            );
+                            // return ol.format.filter.greaterThanOrEqualTo(
+                            //     name,
+                            //     parseInt(val[0])
+                            // );
+                            return `${name} >= ${val[0]}`
                         } else if (parseInt(val[1])) {
-                            return ol.format.filter.lessThanOrEqualTo(name, parseInt(val[1]));
+                            // return ol.format.filter.lessThanOrEqualTo(name, parseInt(val[1]));
+                            return `${name} <= ${val[1]}`
                         }
                     } else {
                         console.log(`지원되지 않는 검색 타입 입니다.`);
@@ -2035,13 +2040,14 @@ class FacilityCommon {
                 }
             });
 
-        if (filters.length == 1) {
-            return filters[0];
-        } else if (filters.length > 1) {
-            return ol.format.filter.and(...filters);
-        } else {
-            return null;
-        }
+        // if (filters.length == 1) {
+        //     return filters[0];
+        // } else if (filters.length > 1) {
+        //     return ol.format.filter.and(...filters);
+        // } else {
+        //     return null;
+        // }
+        return filters
     }
 
     /**
@@ -2111,7 +2117,41 @@ class FacilityCommon {
         const filter = this.params["filter"];
         const listSize = this.params["listSize"];
         const page = this.params["page"];
-        util.gis
+
+        dtmap.wfsGetFeature({
+            typeNames : featureType,
+            filter : filter,
+            page : page,
+            perPage : listSize
+        }).then((geojson)=>{
+            const format = new ol.format.GeoJSON();
+
+            this.features = format.readFeatures(geojson);
+            this.features.forEach((feature) => {
+                feature.setGeometry(
+                    feature.getGeometry().clone()
+                );
+            });
+            this.renderGridBody(this.features);
+            this.renderGridHead();
+            this.renderTotalCount(geojson.totalFeatures);
+
+            this.params["total"] = geojson.totalFeatures;
+            new Paging(`${this.container} .pagination`, this.params, (page) => {
+                this.params["page"] = page;
+                this.search();
+            });
+
+            // this.highlightFeatures(this.features);
+            dtmap.vector.clear();
+            dtmap.vector.readGeoJson(geojson);
+            dtmap.vector.fit();
+            toastr.warning("dtmap.vector.readGeoJson(geojson);", "객체 지도 표출");
+            ui.loadingBar("hide");
+            // createLineArr();
+        })
+
+        /*util.gis
             .getFeature([featureType], filter, listSize, page)
             .done((geojson) => {
                 const format = new ol.format.GeoJSON();
@@ -2139,7 +2179,7 @@ class FacilityCommon {
                 toastr.warning("dtmap.vector.readGeoJson(geojson);", "객체 지도 표출");
                 ui.loadingBar("hide");
                 // createLineArr();
-            });
+            });*/
     }
 
     /**
