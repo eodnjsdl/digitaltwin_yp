@@ -13,74 +13,155 @@ $(document).ready(function(){
 
 //functions
 
-//상수도 관리 목록 조회
-function getWtlFacilityList(){
-	console.log("getWtlFacilityList()");
-     
-     var $container = $("#container");
-     var $target = $container.find('#bottomPopup .facility-select')
-     
-     let list = [	//DB 처리 필요?
-      {value: "WtlFirePs", title: "소방시설"},
-      {value: "WtlPipeLm", title: "상수관로"},
-      {value: "WtlFlowPs", title: "유량계"},
-      {value: "WtlManhPs", title: "상수맨홀"},
-      {value: "WtlPipePs", title: "상수관로심도"},
-      {value: "WtlPrgaPs", title: "수압계"},
-      {value: "WtlServPs", title: "배수지"},
-      {value: "wtlSplyLs", title: "급수관로"},
-      {value: "wtlValvPs", title: "변류시설"}
-     ];
-     
-     $target.empty();
-     
-     var options="";
-     for (let i = 0; i < list.length; i++) {
-    	 //console.log(list[i]);
-    	 options += "<option value='"+list[i].value+"'>"+list[i].title+"</option>";
-     }
-     
-     $target.append(options);
-     
-     //이벤트 추가
-     $target.on('change', function() {
-    	 getWaterSupplyFacility(this.value);
-	 });
-     
-     //첫번째 항목 강제 실행
-     $("#bottomPopup .facility-select option:eq(0)").trigger('change');	
-     
-}
-
-
 //상수도시설 분기
 function getWaterSupplyFacility(name){
 	console.log("getWaterSupplyFacility(name)");
 		
 	if(name){
-		if(name == "WtlFirePs"){			//소방시설
-			selectWtlFirePsSearchOption();
-			selectWtlFirePsList(1);	
-		}else if(name == "WtlPipeLm"){		//상수관로
-			
-		}else if(name == "WtlFlowPs"){		//유량계
-			
-		}else if(name == "WtlManhPs"){		//상수맨홀
-			
-		}else if(name == "WtlPipePs"){		//상수관로심도
-			
-		}else if(name == "WtlPrgaPs"){		//수압계
-			
-		}else if(name == "WtlServPs"){		//배수지
-			
+		if(name == "wtlFirePs"){			//소방시설
+			selectWtlFirePsListView();
+		}else if(name == "wtlPipeLm"){		//상수관로
+			toastr.error("작업중", "상수관로");	
+			return;
+		}else if(name == "wtlFlowPs"){		//유량계
+			toastr.error("작업중", "유량계");	
+			return;
+		}else if(name == "wtlManhPs"){		//상수맨홀
+			toastr.error("작업중", "상수맨홀");
+			return;
+		}else if(name == "wtlPipePs"){		//상수관로심도
+			toastr.error("작업중", "상수관로심도");
+			return;
+		}else if(name == "wtlPrgaPs"){		//수압계
+			toastr.error("작업중", "수압계");
+			return;
+		}else if(name == "wtlServPs"){		//배수지
+			toastr.error("작업중", "배수지");
+			return;
 		}else if(name == "wtlSplyLs"){		//급수관로
-			
+			toastr.error("작업중", "급수관로");
+			return;
 		}else if(name == "wtlValvPs"){		//변류시설
-			
+			toastr.error("작업중", "변류시설");
+			return;
 		}else{
 			alert("잘못된 호출")
 			return;
 		}
 		
 	}
+	
+}
+
+////////////////////////
+
+//읍면동 데이터 조회
+function getEmdKorNmCode(tagClass){
+
+	//store 전역 변수 cmt.js 에 있음
+	//읍면동 데이터 조회
+	/*store.emd.getData().done((features) => {
+	    const sorted = util.array.sort(features, "emd_kor_nm");
+	    const tags = sorted.map((feature) => {
+	      return `<option value="${feature.get("emd_cd")}">${feature.get("emd_kor_nm")}</option>`;
+	    });
+	    
+	    $(tagClass).append(tags);
+    
+	});*/
+	////////////////
+	var options;
+    options = {
+        typeNames: 'tgd_scco_emd' + "",
+    }
+    
+    const promise = dtmap.wfsGetFeature(options);
+    promise.then(function (data) {
+        //그리드 데이터 전처리
+        const list = [];
+        //조회데이터 list 에 json 형태로 저장
+        for (let i = 0; i < data.features.length; i++) {
+            const {id, properties} = data.features[i];
+            list.push({...properties, ...{id: id}});
+        }
+        
+        //select box option 값으로 변경
+        const optionsData = list.map((item) => {
+      	  return `<option value="${item.emd_cd}">${item.emd_kor_nm}</option>`; 
+        });
+  	 
+        $(tagClass).append(optionsData);
+    });
+	
+}
+
+//공통 코드 조회 및 selectbox tag 처리
+//codeId 		: 조회할 코드 id 
+//selectBoxTag 	: select box 에 option 값 세팅, 없으면 해당 코드의 데이터 json 형태로 리턴
+//selectedValue	: 해당 값이 선택되게 처리
+function getCmmCodeData(codeId, selectBoxTag, selectedValue) {	
+	//console.log("getCmmCodeData(codeId, selectTag)");
+	
+	//ajax - 전달받은 주소로 GET 방식의 HTTP 요청을 전송함
+	$.get("/com/cmm/selectCmmCodeDetail.do", { codeId: codeId })
+    .done((response) => {
+      const list = JSON.parse(response)["list"];
+
+      if(selectBoxTag){
+    	  const data = list.map((item) => {
+    		  if(item.code == selectedValue){
+    			  return `<option value="${item.code}" selected="selected">${item.codeNm}</option>`;
+    		  }else{
+    			  return `<option value="${item.code}">${item.codeNm}</option>`; 
+    		  }
+          });
+    	 
+    	  $(selectBoxTag).append(data);
+    	  
+      }else{
+    	  return list;
+      }
+     
+    })
+    .fail(() => {
+      alert(`코드 정보를 가져오는데 실패했습니다.`);
+    });
+	
+}
+
+//공통 코드 값 조회
+//codeId 		: 조회할 코드 id 
+//code			: code 번호
+function getCmmcodeNm(codeId, code) {
+	console.log("getCmmcodeNm()");
+	console.log(codeId);
+	console.log(code);
+	
+	var d = util.code.load(codeId);
+	
+	console.log(d);
+	
+	/*$.get("/com/cmm/selectCmmCodeDetail.do", { codeId: codeId })
+    .done((response) => {
+      const list = JSON.parse(response)["list"];
+
+      var codeNm = "";
+      for(var i=0; i<list.length; i++){
+    	  if(list[i].code == code){
+    		  codeNm = list[i].codeNm;
+    	  }
+      }
+      
+      if(codeNm){
+    	  return codeNm;
+      }else{
+    	  return null;
+      }
+     
+     
+    })
+    .fail(() => {
+      alert(`코드 정보를 가져오는데 실패했습니다.`);
+    });*/
+	
 }

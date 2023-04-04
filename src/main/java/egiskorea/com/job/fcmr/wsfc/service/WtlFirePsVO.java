@@ -1,4 +1,4 @@
-package egiskorea.com.job.fcmr.wsfc.wfp.service;
+package egiskorea.com.job.fcmr.wsfc.service;
 
 import java.io.Serializable;
 
@@ -180,5 +180,5 @@ public class WtlFirePsVO implements Serializable{
 	public void setGeom(String geom) {
 		this.geom = geom;
 	}
-
+	
 }

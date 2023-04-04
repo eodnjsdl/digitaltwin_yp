@@ -16,6 +16,95 @@ $(document).ready(function(){
 /////////
 //소방시설
 
+//소방시설 목록 화면 조회
+function selectWtlFirePsListView(){
+	console.log("selectWtlFirePsListView()");
+	
+	ui.loadingBar("show");
+	
+	var baseContainer = "#bottomPopup";
+    $(baseContainer).load("/job/fcmr/wsfc/selectWtlFireListView.do", function () {
+        toastr.success("/job/fcmr/wsfc/selectWtlFireListView.do", "페이지🙂호🙂출🙂");
+        
+        $(".scroll-y").mCustomScrollbar({
+            scrollbarPosition: "outside",
+        });
+        
+        //옵션 값 세팅
+		getEmdKorNmCode("#lSrchOptions select[name=hjd_cde]");				//읍면동
+		getCmmCodeData("OGC-048", "#lSrchOptions select[name=mof_cde]");	//소화전형식	
+		
+		//grid 기본 세팅
+		var $container = $("#container");
+	    var $target = $container.find('#baseGridDiv [data-ax5grid="attr-grid"]')
+	    $target.css('height', 'inherit');
+		
+	    baseGrid = null;	//ax5uigrid 전역 변수 
+	    
+		baseGrid = new ax5.ui.grid();
+		
+		baseGrid.setConfig({
+			target:  $target,
+	        sortable: true,
+	        multipleSelect: false,
+	        columns: [
+	            //{key: "gid", 				label: "아이디",			width:200},
+	            {key: "ftr_cde", 			label: "지형지물부호코드",	width:100},
+	            {key: "ftr_cde_nm", 		label: "지형지물부호",		width:'*'},
+	            {key: "ftr_idn", 			label: "관리번호",			width:'*'},
+	            {key: "hjd_cde", 			label: "읍면동",			width:'*'},
+	            {key: "mng_cde", 			label: "관리기관",			width:'*'},
+	            {key: "sht_num", 			label: "도엽번호",			width:'*'},
+	            {key: "ist_ymd", 			label: "설치일자",			width:'*'},
+	            {key: "hom_num", 			label: "수용가번호",		width:'*'},
+	            {key: "mof_cde", 			label: "소화전형식",		width:'*'},
+	            {key: "fir_dip", 			label: "소화전구경",		width:'*'},
+	            {key: "std_dip", 			label: "관경",			width:'*'},
+	            //{key: "sup_hit", 			label: "급수탑높이",		width:100},
+	            //{key: "sys_chk", 			label: "대장초기화여",		width:100},
+	            //{key: "ang_dir", 			label: "방향각",			width:100},
+	            //{key: "geom", 			label: "공간정보",			width:100}
+	        ],
+	        page: {
+	            navigationItemCount: 10,
+	            height: 30,
+	            display: true,
+	            firstIcon: '|<',
+	            prevIcon: '<',
+	            nextIcon: '>',
+	            lastIcon: '>|',
+	            onChange: function () {
+	            	selectWtlFirePsList(this.page.selectPage+1);
+	            }
+	        },
+	        body: {
+	        	// 데이터 행의 click 이벤트를 정의합니다. 이벤트 변수 및 this 프로퍼티는 아래 onclick 함수를 참고하세요
+	        	onClick: function () {
+	                //console.log(this.item);
+	                //alert("아이디:"+this.item.gid);
+	                
+	                getWtlFirePsDetail(this.item);	//소방 시설 상세 페이지 로드
+	            }
+	        }
+			
+		});
+        
+    	//목록 조회  - 1 page
+		selectWtlFirePsList(1);
+		
+		//상수도 관리 메뉴 - 이벤트
+		var $container = $("#container");
+	    var $target = $container.find('#bottomPopup .facility-select');
+		
+		$target.on('change', function() {
+			getWaterSupplyFacility(this.value);
+		});
+		
+		ui.loadingBar("hide");
+    });
+	
+}
+
 //소방시설 옵션 설정
 function selectWtlFirePsSearchOption(){
 	console.log("selectWtlFirePsSearchOption()");
@@ -47,7 +136,7 @@ function selectWtlFirePsSearchOption(){
 	        multipleSelect: false,
 	        columns: [
 	            //{key: "gid", 				label: "아이디",			width:200},
-	            //{key: "ftr_cde", 			label: "지형지물부호코드",	width:100},
+	            {key: "ftr_cde", 			label: "지형지물부호코드",	width:100},
 	            {key: "ftr_cde_nm", 		label: "지형지물부호",		width:'*'},
 	            {key: "ftr_idn", 			label: "관리번호",			width:'*'},
 	            {key: "hjd_cde", 			label: "읍면동",			width:'*'},
@@ -113,42 +202,42 @@ function selectWtlFirePsList(page) {
 	let filterString = "";
 	
 	if(hjd_cde){
-		filters.push("hjd_cde" + "=" + hjd_cde+"00"); 
+		filters.push("hjd_cde" + " = " + hjd_cde+"00"); 
 	}
 	
 	if(mof_cde){
-		filters.push("mof_cde" + "=" +"'"+ mof_cde +"'");
+		filters.push("mof_cde" + " = " + mof_cde);
 	}
 	
 	if(std_dip_min && std_dip_max){
 		filters.push("std_dip" + " BETWEEN " + std_dip_min +" AND " + std_dip_max);
 	}else if(std_dip_min){
-		filters.push("std_dip" + ">=" + std_dip_min);
+		filters.push("std_dip" + " >= " + std_dip_min);
 	}else if(std_dip_max){
-		filters.push("std_dip" + "<=" + std_dip_max);
+		filters.push("std_dip" + " <= " + std_dip_max);
 	}
 	
 	//console.log("filters>>>");
 	//console.log(filters)
 
-	var filter = "";
+	/*var filter = "";
 	
 	if(filters.length>0){
 		for(var i=0; i<filters.length; i++){
 			if(i < (filters.length-1) ){
-				filter += filters[i]+"&&";
+				filter += filters[i]+" AND ";
 			}else{
 				filter += filters[i];
 			}
 		}
-	}
+	}*/
 	
 	//console.log(filter);
 	
     var options;
     options = {
         typeNames	: 'wtl_fire_ps' + "",
-        filter 		: filter,
+        filter 		: filters,
         perPage 	: 10,
         page 		: page
     }
@@ -163,10 +252,13 @@ function selectWtlFirePsList(page) {
         
         //console.log("total>>>"+total);
         //console.log("totalPages>>>"+totalPages);
+        
+        //총합 화면 처리
         if(total>0){
         	$("#bottomPopup .bbs-list-num").html("조회결과:"+total+"건");
         }
         
+        //데이터 코드 변환
         for (let i = 0; i < data.features.length; i++) {
         	
         	//지형지물부호 코드 변경
@@ -184,8 +276,8 @@ function selectWtlFirePsList(page) {
             const {id, properties} = data.features[i];
             list.push({...properties, ...{id: id}});
         }
-       
         
+        //gird 적용
         baseGrid.setData(
         	{	
         		list: list,
@@ -207,13 +299,20 @@ function getWtlFirePsDetail(detailData){
 	console.log(detailData);
 
 	ui.loadingBar("show");
+	var formData = new FormData();
+	
+	for ( var key in detailData ) {
+		formData.append(key, detailData[key]);
+	}
 	
 	$.ajax({
-		url:"/job/fcmr/wsfc/wfp/getWtlFirePsDetail.do",
+		url:"/job/fcmr/wsfc/getWtlFirePsDetail.do",
 		type: "POST",
-		data: JSON.stringify(detailData),
+		//data: JSON.stringify(detailData),
+		data: formData,
 		dataType: 'html',
-		contentType: "application/json; charset=utf-8",
+		//contentType: "application/json; charset=utf-8",
+		contentType: false,
         processData: false,
 		success:function(result) {
 			console.log(result);
@@ -228,25 +327,8 @@ function getWtlFirePsDetail(detailData){
 		}
 		, complete : function(){
 			ui.loadingBar("hide");
-			
 		}
-	
 	});
-	
-    /*$(container).load("/job/fcmr/base/getWtlFirePsDetail.do", function () {
-    	
-    	
-        toastr.success("/job/fcmr/base/getWtlFirePsDetail.do", "페이지🙂호🙂출🙂");
-        $(".scroll-y").mCustomScrollbar({
-            scrollbarPosition: "outside",
-        });
-        
-        if(categoryName){
-        	selectFacilityDetail(categoryName);
-        }
-    	
-    });*/
-	
 	
 }
 
