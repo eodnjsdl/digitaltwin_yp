@@ -138,6 +138,23 @@ window.dtmap = (function () {
      *        ex)
      *          emd_kor_nm like 강하면
      *          gid >= 3
+     *
+     *          1. XML Filter 방식
+     *          dtmap.wfsGetFeature({
+     *              typeNames : 'wtl_fire_ps',
+     *              page : 1,
+     *              perPage : 10,
+     *              filter : ['gid > 10', 'gid < 20']
+     *          })
+     *
+     *          2. CQL 방식
+     *         dtmap.wfsGetFeature({
+     *              typeNames : 'wtl_fire_ps',
+     *              page : 1,
+     *              perPage : 10,
+     *              cql : 'gid > 10 and gid < 20'
+     *          })
+     *
      * @return {json} GeoJSON
      */
     function wfsGetFeature(options) {
