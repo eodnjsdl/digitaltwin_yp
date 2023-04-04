@@ -203,12 +203,9 @@ window.dtmap = (function () {
         let ary = []
 
         if (options.filter) {
-            if (options.filter instanceof Array) {
-                for (let i = 0; i < options.filter.length; i++) {
-                    ary.push(parseFilter(options.filter[i]));
-                }
-            } else {
-                ary.push(parseFilter(options.filter));
+            const filter = parseFilter(options.filter);
+            if (filter) {
+                ary.push(filter);
             }
         }
 
@@ -229,6 +226,23 @@ window.dtmap = (function () {
     }
 
     function parseFilter(data) {
+        if (data instanceof Array) {
+            if (data.length === 0) {
+                return;
+            }
+            const filters = [];
+            for (let i = 0; i < data.length; i++) {
+                filters.push(parseFilter(data[i]))
+            }
+            if (filters.length === 0) {
+                return;
+            } else if (filters.length === 1) {
+                return filters[0];
+            } else {
+                return ol.format.filter.and(...filters);
+            }
+        }
+
         const param = data.split(' ');
         const k = param[0];
         const e = param[1];
@@ -251,7 +265,11 @@ window.dtmap = (function () {
                 filter = ol.format.filter.greaterThanOrEqualTo(k, v);
                 break;
             case 'like':
-                filter = ol.format.filter.like(k, '*' + v + '*');
+                if (!v.startsWith('*') && !v.endsWith('*')) {
+                    filter = ol.format.filter.like(k, '*' + v + '*');
+                } else {
+                    filter = ol.format.filter.like(k, v);
+                }
                 break;
         }
         return filter
