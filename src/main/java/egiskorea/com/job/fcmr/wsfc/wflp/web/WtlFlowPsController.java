@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import egiskorea.com.job.fcmr.base.service.FacilityVO;
 import egiskorea.com.job.fcmr.wsfc.wflp.service.WtlFlowPsVO;
+import egiskorea.com.job.fcmr.wsfc.wfp.service.WtlFirePsVO;
 
 /**
  * @Description 시설관리/상수도시설/유량계
@@ -29,14 +30,14 @@ import egiskorea.com.job.fcmr.wsfc.wflp.service.WtlFlowPsVO;
 public class WtlFlowPsController {
 	
 		private static final Logger logger = LoggerFactory.getLogger(WtlFlowPsController.class);
-	
-/*		//옵션 화면 조회
+		
+		//옵션 화면 조회
 		@RequestMapping(value = "/getWtlFlowPsListSrchOpView.do")
-		public String selectWtlFlowPsList(
-		        @ModelAttribute("wtlFlowPsVO") WtlFlowPsVO workSampleVO,
-		        ModelMap model) throws Exception {
-		    return "egiskorea/com/job/fcmr/wsfc/wflp/wtlFlowPsSearchOption";
-		}*/
+	    public String selectWtlFlowPsList(
+	            @ModelAttribute("wtlFlowPsVO") WtlFlowPsVO workSampleVO,
+	            ModelMap model) throws Exception {
+	        return "egiskorea/com/job/fcmr/wsfc/wflp/wtlFlowPsSearchOption";
+	    }
 		
 		/**
 		 * 
@@ -53,5 +54,5 @@ public class WtlFlowPsController {
 		        ModelMap model) throws Exception {
 		    return "egiskorea/com/job/fcmr/wsfc/wflp/flowDetailView";
 		}
-	
+		
 }
