@@ -92,7 +92,7 @@
 	<!-- 신재생에너지 > 태양광발전소 상세보기 -->
 	<select id="selectRenewableEnergy" parameterType="renewableEnergyVO" resultType="renewableEnergy">
 		/* SQL_ID: 전영후_RenewableEnergy_SQL_postgres.xml.selectRenewableEnergy 태양광발전소 상세조회 */
-		SELECT 	 GID, ELCPWSTN_NM, EQP_LC, ELTGNR_SE, PRMISN_VOLM, BSNS_SE
+		SELECT 	 GID, ELCPWSTN_NM, EQP_LC, ELTGNR_SE, PRMISN_VOLM, BSNS_SE, ST_ASTEXT(GEOM) AS GEOM
 		FROM 	 TGD_ELCTY_BSNS_PRMISN
 		WHERE    1=1
 			AND  GID = #{gid}

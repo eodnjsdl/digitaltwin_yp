@@ -1,8 +1,5 @@
 $(document).ready(function(){
 	ui.callDatePicker();
-	if(poiList != ""){
-		// setPointLayer();
-	}
 });
 
 // 지하수관리 셀렉트박스 체인지 함수
@@ -10,7 +7,6 @@ $("#changeBox").change(function(){
 	// 열려있던 우측서브팝업창 닫기
 	$("#rightSubPopup").removeClass("opened").html("");
 	var thisValue = $(this).val();
-	// cmmUtil.drawClear();
 	// 농업용공공관정
 	if(thisValue == 'underWaterAgri') {
 		aj_selectUnderWaterMngList($("#tmpForm")[0]);
@@ -21,12 +17,6 @@ $("#changeBox").change(function(){
 	} else if(thisValue == 'underUseFacil') {
 		aj_selectUnderWaterUseFacilList($("#tmpForm")[0]);
 	} 
-	
-	// var LayerList = new Module.JSLayerList(true);
-	//
-	// if(LayerList.nameAtLayer("Line_Arr_Option")) {
-	// 	LayerList.nameAtLayer("Line_Arr_Option").removeAll();
-	// }
 
 })
 
@@ -163,29 +153,9 @@ var setYear = function(){
 	}
 	
 	$("#devlopYear").append(yearHtml);
-	if(years != ""){
-		$("#devlopYear").val(years);
+	if(year != ""){
+		$("#devlopYear").val(year);
 	} else {
 		$("#devlopYear").val(year);
 	}
 }
-
-// '지도에서 선택' 버튼
-$("#mapSelectBtn").unbind('click').bind('click',function(){
-	// cmmUtil.getPositionGeom(positionCallback);
-	toastr.warning("cmmUtil.getPositionGeom(positionCallback);", "지도 그리기 모드 + 맵 지도 클릭지점 좌표값 리턴");
-});
-
-// geom 값 넣기
-function positionCallback(pointGeom, address){
-	$("#adres").val("경기도 " + address);
-	$("#geom").val(pointGeom);
-}
-
-//속성검색 공간검색 탭박스 change 이벤트시 도형 지워주기
-/*$(document).on("click", ".tabBoxDepth2-wrap .tabBoxDepth2 > ul > li > .inner-tab", function(){ 
-	$(".ugtmSrch").val('');
-	cmmUtil.drawClear();
-});*/
-
-

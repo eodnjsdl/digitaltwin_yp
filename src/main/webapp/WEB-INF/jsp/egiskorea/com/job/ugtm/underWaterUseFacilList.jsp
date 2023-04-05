@@ -8,8 +8,6 @@
 <script src="/js/egiskorea/com/job/ugtm/uguf/uguf.js"></script>
 <%--<script src="/js/egiskorea/com/cmm/cmmUtil.js"></script>--%>
 <script>
-//3d poi
-var poiList = ${poiList};
 $(".spaceArea").hide();
 var lastEmdKorNm = "<c:out value='${searchVO.emdKorNm}' />";
 var lastAllvlBsrckSeSearch = "<c:out value='${searchVO.allvlBsrckSeSearch}' />";
@@ -26,24 +24,6 @@ $(".popup-reset").unbind('click').bind('click',function(){
 	cmmUtil.drawClear();
 	bottomPopupOpen('undergroundWaterUseFacility');
 });
-
-//Poi 추가
-dtmap.vector.clear();
-toastr.success("dtmap.vector.clear();", "1. 지도의 객체 초기화");
-for (let i = 0; i < poiList.resultList.length; i++) {
-	let poi = poiList.resultList[i];
-	dtmap.vector.addPoint({
-		id : poi.gid,
-		coordinate : [Number(poi.lon),Number(poi.lat)],
-		crs : 'EPSG:5179',
-		column:'adres',
-		properties : poi,
-		img : './images/poi/underWaterDevelop_poi.png'
-	})
-}
-toastr.success("dtmap.vector.addPoint()", "2. 지도에 객체 표출");
-dtmap.vector.fit();
-toastr.success("dtmap.vector.fit();", "3. 지도 영역 이동");
 </script>
 <form:form name="selectUnderWaterUseFacilExcelList" id="searchForm" method="post" onsubmit="fn_select_list(); return false;">
 <input type="hidden" name="pageIndex" id="pageIndex" value="<c:out value='${searchVO.pageIndex}' />">
@@ -130,7 +110,7 @@ toastr.success("dtmap.vector.fit();", "3. 지도 영역 이동");
 						</table>
 					</div>
 					<div class="btn-wrap">
-						<div><button type="button" class="btn type01 search" onClick="fn_select_list('attr');">조회</button></div>
+						<div><button type="button" class="btn type01 search" onClick="setData(0);">조회</button></div>
 					</div>
 				</div>
 				<div class="tab-cont groundwaterSpace">
@@ -163,105 +143,16 @@ toastr.success("dtmap.vector.fit();", "3. 지도 영역 이동");
 		<!-- //검색영역 -->
 		<div class="items data-area">
 			<div class="bbs-top">
-				<div class="bbs-list-num">조회결과 : <strong><c:out value="${resultCnt}"></c:out></strong>건</div>
+				<div class="bbs-list-num">조회결과 : <strong></strong>건</div>
 				<div>
-					<button type="button" class="btn basic bi-write" id="insertUnderWaterUseFacilView">등록</button> 
+					<button type="button" class="btn basic bi-write" id="insertUnderWaterUseFacilView" onclick="fn_insert();">등록</button> 
 					<button type="button" class="btn basic bi-excel" id="ugufExcelDownload" data-form-name="selectUnderWaterUseFacilExcelList">엑셀저장</button> 
 				</div>
 			</div>
 			<div class="bbs-list-wrap" style="height: 267px;"><!-- pagination 하단 고정을 위해 반드시 필요 -->
 				<div class="bbs-default">
-					<div class="bbs-list-head">
-						<table class="bbs-list">
-							<colgroup>
-								<col style="width: 6%;">
-								<col style="width: auto;">
-								<col style="width: 8%;">
-								<col style="width: 5%;">
-								<col style="width: 5%;">
-								<col style="width: 5%;">
-								<col style="width: 6%;">
-								<col style="width: 6%;">
-								<col style="width: 5%;">
-								<col style="width: 5%;">
-								<col style="width: 5%;">
-								<col style="width: 5%;">
-								<col style="width: 6%;">
-								<col style="width: 6%;">
-								<col style="width: 6%;">
-							</colgroup>
-							<thead>
-								<tr>
-									<th scope="col">관리구분</th>
-									<th scope="col">주소</th>
-									<th scope="col">허가신고번호</th>
-									<th scope="col">충적/암반</th>
-									<th scope="col">개발연도</th>														
-									<th scope="col">용도</th>
-									<th scope="col">세부용도</th>
-									<th scope="col">공공/사설</th>
-									<th scope="col">표고</th>
-									<th scope="col">구경 (㎜)</th>
-									<th scope="col">심도 (m)</th>
-									<th scope="col">양수량 (㎥/일)</th>
-									<th scope="col">토출관구경 (㎥)</th>
-									<th scope="col">연사용량 (㎥)</th>
-									<th scope="col">펌프마력 (hp)</th>
-								</tr>
-							</thead>
-						</table>
+					<div data-ax5grid="bbs-grid"  data-ax5grid-config="{}" style="height: 267px;">
 					</div>
-					<div class="scroll-y">
-						<table class="bbs-list">
-							<colgroup>
-								<col style="width: 6%;">
-								<col style="width: auto;">
-								<col style="width: 8%;">
-								<col style="width: 5%;">
-								<col style="width: 5%;">
-								<col style="width: 5%;">
-								<col style="width: 6%;">
-								<col style="width: 6%;">
-								<col style="width: 5%;">
-								<col style="width: 5%;">
-								<col style="width: 5%;">
-								<col style="width: 5%;">
-								<col style="width: 6%;">
-								<col style="width: 6%;">
-								<col style="width: 6%;">
-							</colgroup>
-							<tbody>
-							<c:forEach items="${resultList}" var="useList" varStatus="status">
-								<tr name="uwUseFacilDtl" id="<c:out value="${useList.gid}" />" data-gid='<c:out value="${useList.gid}" />' data-lon='<c:out value="${useList.lon}" />' data-lat='<c:out value="${useList.lat}" />'>
-									<td><c:out value="${useList.manageSe}"></c:out></td>
-									<td><c:out value="${useList.adres}"></c:out></td>
-									<td><c:out value="${useList.prmisnSttemntNo}"></c:out></td>
-									<td><c:out value="${useList.allvlBsrckSe}"></c:out></td>
-									<td><c:out value="${useList.devlopYear}"></c:out></td>
-									<td><c:out value="${useList.prposSe}"></c:out></td>
-									<td><c:out value="${useList.detailPrposSe}"></c:out></td>
-									<td><c:out value="${useList.publicPvtesblSe}"></c:out></td>
-									<td><c:out value="${useList.al}"></c:out></td>
-									<td><c:out value="${useList.calbr}"></c:out></td>
-									<td><c:out value="${useList.dph}"></c:out></td>
-									<td><c:out value="${useList.wpQty}"></c:out></td>
-									<td><c:out value="${useList.dscrgppCalbr}"></c:out></td>
-									<td><c:out value="${useList.yrUseQty}"></c:out></td>
-									<td><c:out value="${useList.pumpHrspw}"></c:out></td>
-								</tr>
-							</c:forEach>
-							<c:if test="${fn:length(resultList) == 0}">
-								<tr>
-									<td class="noData" colspan="15">데이터가 없습니다.</td>
-								</tr>
-							</c:if>
-							</tbody>
-						</table>
-					</div>
-				</div>
-				
-				<div class="pagination">
-					<ui:pagination paginationInfo="${paginationInfo}" type="pagination" jsFunction="fn_select_linkPage"/>
 				</div>
 			</div>
 		</div>

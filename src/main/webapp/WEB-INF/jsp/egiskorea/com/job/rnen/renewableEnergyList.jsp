@@ -6,10 +6,7 @@
 <%@ taglib prefix="ui" uri="http://egovframework.gov/ctl/ui"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <script src="/js/egiskorea/com/job/rnen/rnen.js"></script>
-<%--<script src="/js/egiskorea/com/cmm/cmmUtil.js"></script>--%>
 <script type="text/javascript">
-// 3d poi
-var poiList = ${poiList};
 $(".spaceArea").hide();
 var lastEmdKorNm = "<c:out value='${searchVO.emdKorNm}' />";
 var lastBsnsSeSearch = "<c:out value='${searchVO.bsnsSeSearch}' />";
@@ -92,13 +89,13 @@ $(".popup-reset").unbind('click').bind('click',function(){
 									</td>
 								</tr>
 								<tr>
-									<td colspan="2"><input type="text" class="form-control rnenSrch" id="elcpwstnNmSearch" name="elcpwstnNmSearch" value='<c:out value="${searchVO.elcpwstnNmSearch}" />' onkeyup="rnenInputKeyup()" placeholder="발전소명"></td>
+									<td colspan="2"><input type="text" class="form-control rnenSrch" id="elcpwstnNmSearch" name="elcpwstnNmSearch" value='<c:out value="${searchVO.elcpwstnNmSearch}" />' onkeypress="if( event.keyCode == 13 ){ setData(0); }" placeholder="발전소명"></td>
 								</tr>
 							</tbody>
 						</table>
 					</div>
 					<div class="btn-wrap">
-						<div><button type="button" id="renewableSearch" class="btn type01 search" onClick="fn_select_list('attr');">조회</button></div>
+						<div><button type="button" id="renewableSearch" class="btn type01 search" onClick="setData(0);">조회</button></div>
 					</div>
 				</div>
 				<div class="tab-cont energySpace">
@@ -131,65 +128,16 @@ $(".popup-reset").unbind('click').bind('click',function(){
 		<!-- //검색영역 -->
 		<div class="items data-area">
 			<div class="bbs-top">
-				<div class="bbs-list-num">조회결과 : <strong><c:out value="${resultCnt}" /></strong>건</div>
+				<div class="bbs-list-num">조회결과 : <strong></strong>건</div>
 				<div>
-					<button type="button" class="btn basic bi-write" onClick="fn_select_regist();">등록</button> 
+					<button type="button" class="btn basic bi-write" onClick="fn_insert();">등록</button> 
 					<button type="button" class="btn basic bi-excel" id="rnenExcelDownload" data-form-name="selectRenewableEnergyExcelList">엑셀저장</button> 
 				</div>
 			</div>
 			<div class="bbs-list-wrap" style="height: 267px;"><!-- pagination 하단 고정을 위해 반드시 필요 -->
 				<div class="bbs-default">
-					<div class="bbs-list-head">
-						<table class="bbs-list">
-							<colgroup>
-								<col style="width: 10%;">
-								<col style="width: auto;">
-								<col style="width: auto;">
-								<col style="width: 8%;">
-								<col style="width: 11%;">
-							</colgroup>
-							<thead>
-								<tr>
-									<th scope="col">발전기구분</th>
-									<th scope="col">발전소명</th>
-									<th scope="col">설비위치</th>
-									<th scope="col">허가용량</th>
-									<th scope="col">사업구분</th>	
-								</tr>
-							</thead>
-						</table>
+					<div data-ax5grid="bbs-grid"  data-ax5grid-config="{}" style="height: 267px;">
 					</div>
-					<div class="scroll-y">
-						<table class="bbs-list">
-							<colgroup>
-								<col style="width: 10%;">
-								<col style="width: auto;">
-								<col style="width: auto;">
-								<col style="width: 8%;">
-								<col style="width: 11%;">
-							</colgroup>
-							<tbody>
-							<c:forEach items="${resultList}" var="solarPlantList" varStatus="status">
-								<tr name="energyDtl" id="<c:out value="${solarPlantList.gid}" />" data-gid='<c:out value="${solarPlantList.gid}" />' data-lon='<c:out value="${solarPlantList.lon}" />' data-lat='<c:out value="${solarPlantList.lat}" />'>
-									<td><c:out value="${solarPlantList.eltgnrSe}"></c:out></td>
-									<td><c:out value="${solarPlantList.elcpwstnNm}"></c:out></td>
-									<td><c:out value="${solarPlantList.eqpLc}"></c:out></td>
-									<td><c:out value="${solarPlantList.prmisnVolm}"></c:out></td>
-									<td><c:out value="${solarPlantList.bsnsSe}"></c:out></td>
-								</tr>
-							</c:forEach>
-							<c:if test="${fn:length(resultList) == 0}">
-								<tr>
-									<td class="noData" colspan="5">데이터가 없습니다.</td>
-								</tr>
-							</c:if>
-							</tbody>
-						</table>
-					</div>
-				</div>
-				
-				<div class="pagination">
-					<ui:pagination paginationInfo="${paginationInfo}" type="pagination" jsFunction="fn_select_linkPage"/>
 				</div>
 			</div>
 		</div>
