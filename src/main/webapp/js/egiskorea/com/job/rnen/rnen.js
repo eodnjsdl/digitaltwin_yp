@@ -54,7 +54,7 @@ function setData(_pageNo){
 	var gridList =this;
 	const promise = dtmap.wfsGetFeature({
 		typeNames: 'tgd_elcty_bsns_prmisn', //WFS 레이어명
-		page  : 1,
+		page  : _pageNo,
 		perPage : 100,
 		filter : cqlList
 	});
@@ -79,6 +79,23 @@ function setData(_pageNo){
 	    totalPages: Math.ceil(data.totalFeatures/100)
 	  }
 	});
+	dtmap.vector.clear();
+	dtmap.vector.readGeoJson(data, function (feature) {
+	/**
+	* 스타일 콜백 예시
+	*/
+	let properties = feature.getProperties();
+	    return {
+	        marker: {
+	            src: '/images/poi/renewableEnergy_poi.png'
+	            },
+	            label: {
+	                text: properties.elcpwstn_nm
+
+	            }
+	        }
+	});
+	dtmap.vector.fit();
   })
 }
 //태양광발전소 등록하기 페이지 호출

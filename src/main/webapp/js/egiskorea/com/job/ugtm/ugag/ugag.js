@@ -61,7 +61,7 @@ function setData(_pageNo){
 	var gridList =this;
 	const promise = dtmap.wfsGetFeature({
 		typeNames: 'tgd_agr_public_tbwll', //WFS 레이어명
-		page  : 1,
+		page  : _pageNo,
 		perPage : 100,
 		filter : cqlList
 	});
@@ -86,6 +86,22 @@ function setData(_pageNo){
 	  	    totalPages: Math.ceil(data.totalFeatures/100)
 	  	  }
 	  	});
+	   	dtmap.vector.clear();
+		dtmap.vector.readGeoJson(data, function (feature) {
+		/**
+		* 스타일 콜백 예시
+		*/
+		let properties = feature.getProperties();
+		    return {
+		        marker: {
+		            src: '/images/poi/underWaterAgri_poi.png'
+		            },
+		            label: {
+		                text: properties.fclty_nm
+		            }
+		        }
+		});
+		dtmap.vector.fit();
   })
 }
 //농업용공공관정 등록페이지 열기

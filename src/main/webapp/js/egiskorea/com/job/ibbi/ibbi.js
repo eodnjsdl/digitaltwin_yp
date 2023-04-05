@@ -50,11 +50,11 @@ function setData(_pageNo){
 	if(lc_all_adr!=''){cqlList.push("lc_all_adr like "+lc_all_adr+" ")}
 	if(opnn_svc_nm!=''){cqlList.push("opnn_svc_nm = "+opnn_svc_nm+" ")}
 	if(bplc_nm!=''){cqlList.push("bplc_nm like "+bplc_nm+" ")}
-
+	
 	var gridList =this;	
 	const promise = dtmap.wfsGetFeature({
 		typeNames: 'yp_bssh_info', //WFS 레이어명
-		page  : 1,
+		page  : _pageNo+1,
 		perPage : 100,
 		filter : cqlList
 	});
@@ -79,6 +79,22 @@ function setData(_pageNo){
 		    totalPages: Math.ceil(data.totalFeatures/100)
 		  }
 		});
+		dtmap.vector.clear();
+		dtmap.vector.readGeoJson(data, function (feature) {
+		/**
+		* 스타일 콜백 예시
+		*/
+		let properties = feature.getProperties();
+		    return {
+		        marker: {
+		            src: '/images/poi/faciRese_poi.png'
+		            },
+		            label: {
+		                text: properties.bplc_nm
+		            }
+		        }
+		});
+		dtmap.vector.fit();
 	  })
 }
 //관내업소정보조회 상세보기
@@ -127,3 +143,18 @@ $("#ibbiExcelDownload").on("click", function(){
 	$("form[name='"+ formName + "']").attr('onsubmit', 'fn_select_list(); return false;'); 
 	$("form[name='"+ formName + "']").attr('action', '');
 });
+
+function readGeoJSON(data) {
+    if (!data.crs || !data.features || data.features.length === 0) {
+        return;
+    }
+    var crs = data.crs.properties.name;
+    if (crs.includes('urn:ogc:def:crs:EPSG::')) {
+        crs = crs.replace('urn:ogc:def:crs:EPSG::', 'EPSG:');
+    }
+    var format = new ol.format.GeoJSON();
+    return format.readFeatures(data, {
+        dataProjection: crs,
+        featureProjection: map2d.map.getView().getProjection()
+    });
+}
