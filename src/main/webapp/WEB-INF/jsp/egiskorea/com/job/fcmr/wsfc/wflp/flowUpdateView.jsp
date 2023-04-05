@@ -28,13 +28,13 @@
 						<tr>
 							<th scope="row">행정읍면동</th>
 							<td>
-                                <select name="hjd_cde" id="hjdname" class="form-select">
+                                <select name="hjd_cde" class="form-select">
                                 	<option value="">선택</option>
                                 </select>
 							</td>
 							<th scope="row">관리기관</th>
 							<td>
-								<select name="" id="" class="form-select">
+								<select name="mng_cde" class="form-select">
                                 	<option value="">선택</option>
                                 </select>
 							</td>
@@ -42,12 +42,12 @@
 						<tr>
 							<th scope="row">도엽번호</th>
 							<td>
-								<input type="text" class="form-control" id="" name="" value="">
+								<input type="text" name="sht_num" class="form-control" value="" maxlength="11">
 							</td>
 							<th scope="row">설치일자</th>
 							<td>
 								<div class="datapicker-group">
-								    <input type="text" id="dp1638342099432" name="" class="datepicker hasDatepicker" autocomplete="off">
+								    <input type="text" name="ist_ymd" class="datepicker hasDatepicker" value="" id="" autocomplete="off">
 								    <button type="button" class="ui-datepicker-trigger">
 								        <img src="../images/icon/form-calendar.svg" alt="..." title="...">
 								    </button>
@@ -57,13 +57,13 @@
 						<tr>
 							<th scope="row">유량계종류</th>
 							<td>
-								<select name="gag_cde" id="" class="form-select">
+								<select name="gag_cde" class="form-select">
                                 	<option value="">선택</option>
                                 </select>
 							</td>
 							<th scope="row">유량계형식</th>
 							<td>
-								<select name="mof_cde" id="" class="form-select">
+								<select name="mof_cde" class="form-select">
                                 	<option value="">선택</option>
                                 </select>
 							</td>
@@ -71,11 +71,11 @@
 						<tr>
 							<th scope="row">관경(mm)</th>
 							<td>
-								<input type="text" class="form-control" id="" name="" value="">
+								<input type="number" name="std_dip" class="form-control" value="">
 							</td>
 							<th scope="row">제작회사명</th>
 							<td>
-								<input type="text" class="form-control" id="" name="" value="">
+								<input type="text" name="prc_nam" class="form-control" value="" maxlength="100">
 							</td>
 						</tr>
 						<tr>
@@ -87,11 +87,11 @@
 						<tr>
 							<th scope="row">공사번호</th>
 							<td>
-								<input type="text" class="form-control" id="" name="" value="">
+								<input type="text" name="cnt_num" class="form-control" value="" maxlength="8">
 							</td>
 							<th scope="row">방향각</th>
 							<td>
-								<input type="text" class="form-control" id="" name="" value="">
+								<input type="number" name="ang_dir" class="form-control" value="">
 							</td>
 						</tr>
 						<tr>

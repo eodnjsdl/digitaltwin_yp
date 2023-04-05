@@ -153,7 +153,6 @@ function selectWtlFlowPsList(page) {
 			/* 읍면동별 검색하기 하드코딩 end */
         }
        
-        //console.log("page>>"+page);
         baseGrid.setData(
         	{	
         		list: list,
@@ -168,15 +167,12 @@ function selectWtlFlowPsList(page) {
     });
 }
 
+var items;
 //상세 페이지 로드
 function getFlowDetailView(item){
-	var item = item;	// 받아온 데이터
-	if(item.prc_nam == null){	// 제작회사명 null 값 처리
-		item.prc_nam = "-";
-	}
-	if(item.cnt_num == null){	// 공사번호 null 값 처리
-		item.cnt_num = "-";
-	}
+	item.prc_nam = item.prc_nam || '-';	// 제작회사명 null 값 처리
+	item.cnt_num = item.cnt_num || '-';	// 공사번호 null 값 처리
+	items = item;
     
     var options;		// wfsGetFeature 파라미터 설정
     options = {
@@ -310,6 +306,7 @@ function getFlowUpdateView(){
 			/* 팝업 load 함수 start */
 		    $(container).load("/job/fcmr/wsfc/wflp/getFlowUpdateView.do", function () {
 		    	getEmdKorNmCode("#lSrchOptions select[name=hjd_cde]");				//읍면동
+		    	getCmmCodeData("MNG-001", "#lSrchOptions select[name=mng_cde]");	//관리기관
 				getCmmCodeData("OGC-141", "#lSrchOptions select[name=gag_cde]");	//유량계종류	
 				getCmmCodeData("OGC-041", "#lSrchOptions select[name=mof_cde]");	//유량계형식
 		    	
