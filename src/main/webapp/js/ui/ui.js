@@ -439,11 +439,8 @@ window.ui = (function () {
 
                 // 업무 > 시설관리 > 체육시설
                 case "physicalEducationFacility" :
-                    toastr.error("상수도시설의 기능을 참고해 주세요.", "리팩토링 작업대상입니다.");
-                    $("#" + area).removeClass("opened");
-                    return;
-
-                    aj_selectPhysicalEducationFacilityList($("#tmpForm")[0]);
+                	//aj_selectPhysicalEducationFacilityList($("#tmpForm")[0]);
+                	getPhyEduFaciList();
                     break;
 
                 // 업무 > 시설관리 > 복지시설

@@ -202,7 +202,9 @@
 	<!-- ////////////////////////////  -->
 	
 	<!-- [체육시설]  -->
-	
+	<script src="/js/egiskorea/com/job/fcmr/phfc/phyEduFaciList.js"></script>
+	<script src="/js/egiskorea/com/job/fcmr/phfc/phyEduFaciDetail.js"></script>
+	<script src="/js/egiskorea/com/job/fcmr/phfc/phyEduFaciMng.js"></script>
 	<!-- ////////////////////////////  -->
 	
 	<!-- [복지시설]  -->
