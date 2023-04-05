@@ -558,6 +558,7 @@ window.ui = (function () {
     function _initDrawEvent() {
         dtmap.off('drawend');
         dtmap.vector.clear();
+        dtmap.draw.clear();
     }
 
     function _asideMenuEvent() {
@@ -579,7 +580,8 @@ window.ui = (function () {
                 case "landBuilding" :
                     initPopup(area);
                     toastr.success("지도에서 위치를 선택하세요. ", "지적/건물");
-                    aj_selectLandBuilderList();
+                    aj_ldbdInfo();
+                    // aj_selectLandBuilderList();
                     break;
 
                 // aside menu > 내보내기
