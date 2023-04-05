@@ -4,11 +4,9 @@
 <%@ taglib prefix="ui" uri="http://egovframework.gov/ctl/ui" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
-<script src="/js/egiskorea/com/job/rnen/rnen.js"></script>
 <script src="/js/egiskorea/com/job/spaceSearch.js"></script>
-<script src="/js/egiskorea/com/cmm/cmmUtil.js"></script>
-
 <script>
+ui.callDatePicker();
 // 태양광발전소 수정하기 버튼
 $("#energyUpdate").on("click", function(){
 	
@@ -29,7 +27,6 @@ $("#energyUpdate").on("click", function(){
 	}
 	
 	if(confirm("<spring:message code="common.update.msg" />")){	//수정하시겠습니까?
-       	ui.loadingBar("show");
        	$.ajax({
        		type : "POST",
        		url	 : "/job/rnen/updateRenewableEnergy.do",
@@ -41,27 +38,22 @@ $("#energyUpdate").on("click", function(){
 				if(returnData.result == "success") {
 					alert("<spring:message code="success.common.update" />");
 					if(lastSpitalSearch != ''){
-						aj_selectRenewableEnergyList($("#searchForm")[0],'spital');
+						setData(0); 
+						fn_pageDetail($("#gid").val());
 					} else {
-						aj_selectRenewableEnergyList($("#searchForm")[0], 'attr');
+						setData(0); 
+						fn_pageDetail($("#gid").val());
 					}
-					rightSubPopupOpen("selectRenewableEnergy", $("#gid").val(), "right");
+					
 				} else {
 					alert("<spring:message code="fail.common.update" />");
 					return;
-				}
-			}, complete : function(){
-				ui.loadingBar("hide");
-				if(GLOBAL.StartPoint){
-					GLOBAL.StartPoint = false;
-					removePoint(GLOBAL.NomalIcon);
 				}
 			}
        	});
 	}
 });
 </script>
-
 <!-- 업무 > 공간정보활용 > 신재생에너지 > 태양광발전소 상세조회 -->
 <!-- <div class="popup-panel popup-sub opened" style="bottom: 398px;right: 70px;width: 550px;height: 445px;" id="selectRenewableEnergy"> -->
 	<div class="popup-header">태양광발전소 수정하기</div>
@@ -124,7 +116,7 @@ $("#energyUpdate").on("click", function(){
 				<div class="position-bottom btn-wrap">
 					<div>
 						<button type="button" class="btn basic bi-write2" id="energyUpdate">수정완료</button> 
-						<button type="button" class="btn basic bi-cancel" id="returnBack" data-gid='<c:out value="${result.gid}" />'>취소</button>
+						<button type="button" class="btn basic bi-cancel" id="returnBack" onclick='fn_pageDetail(<c:out value="${result.gid}" />)'>취소</button>
 					</div>
 				</div>
 			</div>							
@@ -132,6 +124,6 @@ $("#energyUpdate").on("click", function(){
 		<input type="hidden" id="gid" name="gid" value="<c:out value="${result.gid}" />">
 		</form:form>
 	</div>
-	<button type="button" class="popup-close" title="닫기" onClick="removePoint(GLOBAL.NomalIcon);"></button>				
+	<button type="button" class="popup-close" title="닫기"></button>				
 <!-- </div> -->
 <!-- //업무 > 공간정보활용 > 신재생에너지 > 태양광발전소 등록하기 -->

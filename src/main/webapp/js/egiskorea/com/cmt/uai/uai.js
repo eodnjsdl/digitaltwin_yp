@@ -7,8 +7,7 @@ $(document).ready(function () {
 
 });
 
-function onDrawEnd(e) {
-    dtmap.draw.clear();
+function _onDrawEnd_krasInfo(e) {
     var geom = e.geometry;
     var coord = geom.getFlatCoordinates();
     reverseUaiGeo(parseFloat(coord[0]), parseFloat(coord[1]));
@@ -16,7 +15,7 @@ function onDrawEnd(e) {
 
 function aj_krasInfo() {
     dtmap.draw.active({type: 'Point', once: true});
-    dtmap.on('drawend', onDrawEnd);
+    dtmap.on('drawend', _onDrawEnd_krasInfo);
 
 
     // if (!is3dInit) {

@@ -5,10 +5,9 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="validator" uri="http://www.springmodules.org/tags/commons-validator" %>
-<script src="/js/egiskorea/com/job/ugtm/ugtm.js"></script>
 <script src="/js/egiskorea/com/job/spaceSearch.js"></script>
-<script src="/js/egiskorea/com/cmm/cmmUtil.js"></script>
 <script>
+ui.callDatePicker();
 // 지하수개발 수정하기 버튼
 $("#devUpdate").on("click", function(){
 	
@@ -28,8 +27,7 @@ $("#devUpdate").on("click", function(){
 		return false;
 	}
 	
-	if(confirm("<spring:message code="common.update.msg" />")){	//등록하시겠습니까?
-       	ui.loadingBar("show");
+	if(confirm("<spring:message code="common.update.msg" />")){	
        	$.ajax({
        		type : "POST",
        		url	 : "/job/ugtm/updateUnderWaterDevelop.do",
@@ -41,22 +39,17 @@ $("#devUpdate").on("click", function(){
 				if(returnData.result == "success") {
 					alert("<spring:message code="success.common.update" />");
 					if(lastSpitalSearch != ''){
-						aj_selectUnderWaterDevelopList($("#searchForm")[0],'spital');
+						setData(0); 
+						fn_pageDetail($("#gid").val());
 					} else {
-						aj_selectUnderWaterDevelopList($("#searchForm")[0], 'attr');
+						setData(0); 
+						fn_pageDetail($("#gid").val());
 					}
-					rightSubPopupOpen("selectUnderWaterDevelop", $("#gid").val(), "right");
 				} else {
 					alert("<spring:message code="fail.common.update" />");
 					return;
 				}
-			}, complete : function(){
-				if(GLOBAL.StartPoint){
-					GLOBAL.StartPoint = false;
-					removePoint(GLOBAL.NomalIcon);
-				}
-				ui.loadingBar("hide");
-			}, 
+			}
        	});
 	}
 	
@@ -64,11 +57,6 @@ $("#devUpdate").on("click", function(){
 
 var years = "<c:out value="${result.devlopYear}" />";
 
-// 지하수개발 수정페이지 취소버튼
-$("#returnBack").unbind('click').bind('click',function(){
-	ui.openPopup("rightSubPopup");
-	aj_selectUnderWaterDevelop($("#tmpForm")[0], $(this).data('gid'), "right");
-});
 </script>
 
 	<div class="popup-header">지하수개발 수정하기</div>
@@ -205,7 +193,7 @@ $("#returnBack").unbind('click').bind('click',function(){
 				<div class="position-bottom btn-wrap">
 					<div>
 						<button type="button" class="btn basic bi-write2" id="devUpdate">수정완료</button> 
-						<button type="button" class="btn basic bi-cancel" id="returnBack" data-gid='<c:out value="${result.gid}" />'>취소</button>
+						<button type="button" class="btn basic bi-cancel" id="returnBack" onclick='fn_pageDetail(<c:out value="${result.gid}" />)'>취소</button>
 					</div>
 				</div>
 			</div>							
@@ -213,4 +201,4 @@ $("#returnBack").unbind('click').bind('click',function(){
 		<input type="hidden" id="gid" name="gid" value="<c:out value="${result.gid}" />">
 		</form:form>
 	</div>
-	<button type="button" class="popup-close" title="닫기" onClick="removePoint(GLOBAL.NomalIcon);"></button>				
+	<button type="button" class="popup-close" title="닫기" ></button>				

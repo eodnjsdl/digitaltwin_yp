@@ -77,59 +77,13 @@ public class RenewableEnergyController {
 			@ModelAttribute("searchVO") RenewableEnergyVO renewableEnergyVO,
 			TgdSccoEmdVO tgdSccoEmdVO,
 			ModelMap model) throws Exception{ 
-		
-		renewableEnergyVO.setPageUnit(10);
-		renewableEnergyVO.setPageSize(propertyService.getInt("pageSize"));
-		
-		PaginationInfo paginationInfo = new PaginationInfo();
-		
-		paginationInfo.setCurrentPageNo(renewableEnergyVO.getPageIndex());
-		paginationInfo.setRecordCountPerPage(renewableEnergyVO.getPageUnit());
-		paginationInfo.setPageSize(renewableEnergyVO.getPageSize());
-
-		renewableEnergyVO.setFirstIndex(paginationInfo.getFirstRecordIndex());
-		renewableEnergyVO.setLastIndex(paginationInfo.getLastRecordIndex());
-		renewableEnergyVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
-		
-		// 태양광발전소 리스트
-		Map<String, Object> map = renewableEnergyService.selectRenewableEnergyList(renewableEnergyVO);
 		// 읍면동 리스트
-		Map<String, Object> map2 = commonnessSpaceSearchService.selectTgdSccoEmdList(tgdSccoEmdVO);
+		Map<String, Object> map = commonnessSpaceSearchService.selectTgdSccoEmdList(tgdSccoEmdVO);
 		// 사업구분 리스트
-		Map<String, Object> map3 = renewableEnergyService.selectRenewalbeEnergyBsnsSeList(renewableEnergyVO);
+		Map<String, Object> map2 = renewableEnergyService.selectRenewalbeEnergyBsnsSeList(renewableEnergyVO);
 		
-		if(map.get("resultList").toString().length() < 3) {
-			
-			int pageIndex = renewableEnergyVO.getPageIndex();
-			if (pageIndex > 1) {
-				renewableEnergyVO.setPageIndex(pageIndex -1);
-				renewableEnergyVO.setPageUnit(10);
-				renewableEnergyVO.setPageSize(propertyService.getInt("pageSize"));
-				
-				paginationInfo.setCurrentPageNo(renewableEnergyVO.getPageIndex());
-				paginationInfo.setRecordCountPerPage(renewableEnergyVO.getPageUnit());
-				paginationInfo.setPageSize(renewableEnergyVO.getPageSize());
-				
-				renewableEnergyVO.setFirstIndex(paginationInfo.getFirstRecordIndex());
-				renewableEnergyVO.setLastIndex(paginationInfo.getLastRecordIndex());
-				renewableEnergyVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
-				map = renewableEnergyService.selectRenewableEnergyList(renewableEnergyVO);
-			}
-		}
-		
-		Gson gson = new Gson();
-		String poiList = gson.toJson(map);
-		
-		int totCnt = Integer.parseInt((String)map.get("resultCnt"));
-		  
-		paginationInfo.setTotalRecordCount(totCnt);
-		
-		model.addAttribute("resultList", map.get("resultList"));
-		model.addAttribute("resultCnt", map.get("resultCnt"));
-		model.addAttribute("paginationInfo", paginationInfo);
-		model.addAttribute("sccoEndList", map2.get("resultList"));
-		model.addAttribute("bsnsSeList", map3.get("resultList"));
-		model.addAttribute("poiList", poiList);
+		model.addAttribute("sccoEndList", map.get("resultList"));
+		model.addAttribute("bsnsSeList", map2.get("resultList"));
 		
 		return "egiskorea/com/job/rnen/renewableEnergyList";
 	}

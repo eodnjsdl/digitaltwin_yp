@@ -102,7 +102,7 @@
 	<select id="selectUnderWaterAgri" parameterType="underWaterAgriVO" resultType="underWaterAgri">
 		/* SQL_ID: 전영후_UnderWaterMng_SQL_postgres.xml.selectUnderWaterAgri 농업용공공관정 상세보기*/
 		SELECT 	 MANAGE_SE, ADRES, FCLTY_NM, DEVLOP_YEAR, MANAGE_INSTT_NM, PRPOS_SE, DETAIL_PRPOS_SE, 
-				 CALBR, DPH, WP_ABLTY, DSCRGPP_CALBR, PUMP_STLE_SE, PUMP_HRSPW, FCLTS_STTUS, FCLTS_CHCK_DE, GID
+				 CALBR, DPH, WP_ABLTY, DSCRGPP_CALBR, PUMP_STLE_SE, PUMP_HRSPW, FCLTS_STTUS, FCLTS_CHCK_DE, GID,ST_ASTEXT(GEOM) AS GEOM
 		FROM 	 TGD_AGR_PUBLIC_TBWLL
 		WHERE    1=1
 			AND	 GID = #{gid}
@@ -313,7 +313,7 @@
 	<select id="selectUnderWaterDevelop" parameterType="underWaterDevelopVO" resultType="underWaterDevelop">
 		/* SQL_ID: 전영후_UnderWaterMng_SQL_postgres.xml.selectUnderWaterDevelop 지하수개발 상세보기*/
 		SELECT 	 GID, MANAGE_SE, ADRES, AL, DEVLOP_YEAR, ALLVL_BSRCK_SE, PRMISN_STTEMNT_SE, PRMISN_STTEMNT_NO, 
-				 PRPOS_SE, DETAIL_PRPOS_SE, CALBR, DPH, WP_QTY, YR_USE_QTY, DSCRGPP_CALBR, PUMP_HRSPW
+				 PRPOS_SE, DETAIL_PRPOS_SE, CALBR, DPH, WP_QTY, YR_USE_QTY, DSCRGPP_CALBR, PUMP_HRSPW,ST_ASTEXT(GEOM) AS GEOM
 		FROM 	 TGD_UGRWTR_DEVLOP
 		WHERE    1=1
 			AND	 GID = #{gid}
@@ -517,9 +517,9 @@
 	<select id="selectUnderWaterUseFacil" parameterType="underWaterUseFacilVO" resultType="underWaterUseFacil">
 		/* SQL_ID: 전영후_UnderWaterMng_SQL_postgres.xml.selectUnderWaterUseFacil 지하수이용시설 상세보기*/
 		SELECT 	 GID, MANAGE_SE, ADRES, AL, DEVLOP_YEAR, ALLVL_BSRCK_SE, PUBLIC_PVTESBL_SE, PRMISN_STTEMNT_SE, PRMISN_STTEMNT_NO, PRPOS_SE, 
-				 DETAIL_PRPOS_SE, CALBR, DPH, WP_QTY, YR_USE_QTY, DSCRGPP_CALBR, PUMP_HRSPW
+				 DETAIL_PRPOS_SE, CALBR, DPH, WP_QTY, YR_USE_QTY, DSCRGPP_CALBR, PUMP_HRSPW ,ST_ASTEXT(GEOM) AS GEOM
 		FROM 	 TGD_UGRWTR_UTLZTN_FCLTY
-		WHERE    1=1
+		WHERE    1=1 
 			AND	 GID = #{gid}
 	</select>
 	
