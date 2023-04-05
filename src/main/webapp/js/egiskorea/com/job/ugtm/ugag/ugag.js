@@ -61,7 +61,7 @@ function setData(_pageNo){
 	var gridList =this;
 	const promise = dtmap.wfsGetFeature({
 		typeNames: 'tgd_agr_public_tbwll', //WFS 레이어명
-		page  : _pageNo,
+		page  : _pageNo+1,
 		perPage : 100,
 		filter : cqlList
 	});
