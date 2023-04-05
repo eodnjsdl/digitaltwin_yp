@@ -36,21 +36,23 @@ public class WaterSupplyController {
     public String selectWtlFireListView(
             @ModelAttribute("wtlFirePsVO") WtlFirePsVO wtlFirePsVO,
             ModelMap model) throws Exception {
-        return "egiskorea/com/job/fcmr/wsfc/wfp/wtlFirePsListView";
+        return "egiskorea/com/job/fcmr/wsfc/wfip/wtlFirePsListView";
     }
 	
 	//등록 화면 조회
+	@RequestMapping(value = "/insertWtlFirePsView.do")
+    public String insertWtlFirePsView(
+            @ModelAttribute("wtlFirePsVO") WtlFirePsVO wtlFirePsVO,
+            ModelMap model) throws Exception {
+        return "egiskorea/com/job/fcmr/wsfc/wfip/wtlFirePsInsert";
+    }
 	
 	//상세 화면 조회
 	@RequestMapping(value = "/getWtlFirePsDetail.do", method = RequestMethod.POST)
     public String getWtlFirePsDetail(
     		@ModelAttribute("wtlFirePsVO") WtlFirePsVO wtlFirePsVO
     		, ModelMap model) throws Exception {
-
-		//System.out.println("wtlFirePsVO>>>>>>>>>>>>>");
-		//System.out.println(wtlFirePsVO.toString());
-		
-        return "egiskorea/com/job/fcmr/wsfc/wfp/wtlFirePsDetail";
+        return "egiskorea/com/job/fcmr/wsfc/wfip/wtlFirePsDetail";
     }
 		
 	////////

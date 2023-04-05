@@ -28,18 +28,10 @@ function fn_deleteUnderWaterDevelop(gid){
 					alert("<spring:message code="fail.common.delete" />");
 					return;
 				}
-			}, complete : function(){
 			}
 		});
 	}
 }
-
-// 지하수개발 수정페이지 열기
-function fn_select_update(gid){
-	ui.openPopup("rightSubPopup");
-	aj_updateUnderWaterDevelopView($("#tmpForm")[0], gid, "right");
-}
-
 </script>
 
 	<div class="popup-header">지하수개발 상세보기</div>
@@ -142,7 +134,7 @@ function fn_select_update(gid){
 				</div>
 				<div class="position-bottom btn-wrap justify-content-end">
 					<div>
-						<button type="button" class="btn basic bi-edit" onClick="fn_select_update('<c:out value="${result.gid}" />')">수정</button>
+						<button type="button" class="btn basic bi-edit" onClick="fn_update('<c:out value="${result.gid}" />')">수정</button>
 						<button type="button" class="btn basic bi-delete2" onclick="fn_deleteUnderWaterDevelop('<c:out value="${result.gid}" />')">삭제</button> 
 						<button type="button" class="btn basic bi-cancel closeSub">취소</button>
 					</div>

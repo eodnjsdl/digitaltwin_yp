@@ -115,57 +115,8 @@ function fn_select_detail(gid, lon, lat){
 			</div>
 			<div class="bbs-list-wrap" style="height: 273px;"><!-- pagination 하단 고정을 위해 반드시 필요 -->
 				<div class="bbs-default">
-					<div class="bbs-list-head">
-						<table class="bbs-list" id="sffm-table">
-							<colgroup>
-								<col style="width: 10%;">
-								<col style="width: auto;">
-								<col style="width: auto;">
-								<col style="width: 8%;">
-								<col style="width: 11%;">
-							</colgroup>
-							<thead>
-								<tr>
-									<th scope="col">관리번호</th>
-									<th scope="col">주소</th>
-									<th scope="col">설치일자</th>
-									<th scope="col">가로등수</th>
-									<th scope="col">기준일</th>
-								</tr>
-							</thead>
-						</table>
+					<div data-ax5grid="bbs-grid"  data-ax5grid-config="{}" style="height: 267px;">
 					</div>
-					<div class="scroll-y">
-						<table class="bbs-list">
-							<colgroup>
-								<col style="width: 10%;">
-								<col style="width: auto;">
-								<col style="width: auto;">
-								<col style="width: 8%;">
-								<col style="width: 11%;">
-							</colgroup>
-							<tbody>
-							<c:forEach items="${resultList}" var="lampList" varStatus="status">
-								<tr id="sffm_<c:out value="${lampList.gid}" />" data-gid="<c:out value="${lampList.gid}" />"  onClick="fn_select_detail('<c:out value="${lampList.gid}" />', '<c:out value="${lampList.lon}" />', '<c:out value="${lampList.lat}" />')">
-									<td><c:out value="${lampList.manageNo}"></c:out></td>
-									<td><c:out value="${lampList.adres}"></c:out></td>
-									<td><c:out value="${lampList.instlDe}"></c:out></td>
-									<td><c:out value="${lampList.strtlgtCnt}"></c:out></td>
-									<td><c:out value="${lampList.stdde}"></c:out></td>
-								</tr>
-							</c:forEach>
-							<c:if test="${fn:length(resultList) == 0}">
-								<tr>
-									<td class="noData" colspan="6">데이터가 없습니다.</td>
-								</tr>
-							</c:if>
-							</tbody>
-						</table>
-					</div>
-				</div>
-				
-				<div class="pagination">
-					<ui:pagination paginationInfo="${paginationInfo}" type="pagination" jsFunction="SFFM.fn_select_sffm_linkPage"/>
 				</div>
 			</div>
 		</div>

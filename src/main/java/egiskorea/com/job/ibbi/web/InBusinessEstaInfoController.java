@@ -75,41 +75,14 @@ public class InBusinessEstaInfoController {
 			@ModelAttribute("searchVO") InBusinessEstaInfoVO inBusinessEstaInfoVO,
 			TgdSccoEmdVO tgdSccoEmdVO,
 			ModelMap model) throws Exception{ 
-		
-		inBusinessEstaInfoVO.setPageUnit(10);
-		inBusinessEstaInfoVO.setPageSize(propertyService.getInt("pageSize"));
-		
-		PaginationInfo paginationInfo = new PaginationInfo();
-		
-		paginationInfo.setCurrentPageNo(inBusinessEstaInfoVO.getPageIndex());
-		paginationInfo.setRecordCountPerPage(inBusinessEstaInfoVO.getPageUnit());
-		paginationInfo.setPageSize(inBusinessEstaInfoVO.getPageSize());
-
-		inBusinessEstaInfoVO.setFirstIndex(paginationInfo.getFirstRecordIndex());
-		inBusinessEstaInfoVO.setLastIndex(paginationInfo.getLastRecordIndex());
-		inBusinessEstaInfoVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
-		
-		// 관내업소정보 리스트
-		Map<String, Object> map = inBusinessEstaInfoService.selectInBusinessEstaInfoList(inBusinessEstaInfoVO);
 		// 읍면동 리스트
-		Map<String, Object> map2 = commonnessSpaceSearchService.selectTgdSccoEmdList(tgdSccoEmdVO);
+		Map<String, Object> map = commonnessSpaceSearchService.selectTgdSccoEmdList(tgdSccoEmdVO);
 		// 개방서비스명 리스트
-		Map<String, Object> map3 = inBusinessEstaInfoService.selectInBusinessEstaInfoOpnnSvcNmList(inBusinessEstaInfoVO);
+		Map<String, Object> map2 = inBusinessEstaInfoService.selectInBusinessEstaInfoOpnnSvcNmList(inBusinessEstaInfoVO);
 		
-		Gson gson = new Gson();
-		String poiList = gson.toJson(map);
-		
-		int totCnt = Integer.parseInt((String)map.get("resultCnt"));
-		  
-		paginationInfo.setTotalRecordCount(totCnt);
-		
-		model.addAttribute("resultList", map.get("resultList"));
-		model.addAttribute("resultCnt", map.get("resultCnt"));
-		model.addAttribute("paginationInfo", paginationInfo);
-		model.addAttribute("sccoEndList", map2.get("resultList"));
-		model.addAttribute("opnnSvcNmList", map3.get("resultList"));
-		model.addAttribute("poiList", poiList);
-		
+		model.addAttribute("sccoEndList", map.get("resultList"));
+		model.addAttribute("opnnSvcNmList", map2.get("resultList"));
+	
 		return "egiskorea/com/job/ibbi/inBusinessEstaInfoList";
 	}
 	

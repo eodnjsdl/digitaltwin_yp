@@ -160,7 +160,7 @@
 	<!-- [상수도 시설] --> 
 	<script src="/js/egiskorea/com/job/fcmr/wsfc/facilityWaterSupply.js"></script>		<!-- 상수도시설  공통 -->
 	<!-- {상수도 하위 메뉴}  -->	
-	<script src="/js/egiskorea/com/job/fcmr/wsfc/wfp/wtlFirePs.js"></script>			<!-- 소방시설  -->
+	<script src="/js/egiskorea/com/job/fcmr/wsfc/wfip/wtlFirePs.js"></script>			<!-- 소방시설  -->
 	<!-- 상수관로 -->
 	<!-- 유량계 -->
 	<!-- 상수맨홀 -->
