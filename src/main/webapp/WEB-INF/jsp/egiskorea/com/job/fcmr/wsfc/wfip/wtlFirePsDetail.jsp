@@ -5,9 +5,7 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
-<script>
 
-</script>
 <!-- 업무 > 시설관리 > 상수수도시설 > 소방시설 상세보기-->
 
        	<div class="popup-header">소방시설 상세보기</div>
@@ -27,7 +25,7 @@
                                    <tr>
                                        <th scope="row">지형지물부호</th>
                                        <td>
-                                          	<c:out value="${wtlFirePsVO.ftr_cde }"/>
+                                          	<c:out value="${wtlFirePsVO.ftr_cde_nm }"/>
                                        </td>
                                        <th scope="row">관리번호</th>
                                        <td>
@@ -35,13 +33,18 @@
                                        </td>
                                    </tr>
                                    <tr>
-                                       <th scope="row">행정읍면동</th>
+                                       <th scope="row">읍면동</th>
                                        <td>
-                                       		<c:out value="${wtlFirePsVO.hjd_cde }"/>
+                                       		<c:out value="${wtlFirePsVO.hjd_cde_nm }"/>
                                        </td>
                                        <th scope="row">관리기관</th>
                                        <td>
-                                           <c:out value="${wtlFirePsVO.mng_cde }"/>
+                                       	   <c:if test="${wtlFirePsVO.mng_cde_nm  != '' || wtlFirePsVO.mng_cde_nm  ne null}">
+                                           		<c:out value="${wtlFirePsVO.mng_cde_nm }"/>
+                                           </c:if>
+                                           <c:if test="${wtlFirePsVO.mng_cde_nm  == '' || wtlFirePsVO.mng_cde_nm  eq null }">
+                                           		<c:out value="${wtlFirePsVO.mng_cde }"/>
+                                           </c:if>
                                        </td>
                                    </tr>
                                    <tr>
@@ -59,11 +62,13 @@
                                    <tr>
                                        <th scope="row">수용가번호</th>
                                        <td>
-                                       		<c:out value="${wtlFirePsVO.hom_num }"/>
+                                       		<c:if test="${wtlFirePsVO.hom_num  != '' || wtlFirePsVO.hom_num  ne null}">
+	                                       		<c:out value="${wtlFirePsVO.hom_num }"/>
+                                       		</c:if>
                                        </td>
                                        <th scope="row">소화전형식</th>
                                        <td>
-                                           <c:out value="${wtlFirePsVO.mof_cde }"/>
+                                           <c:out value="${wtlFirePsVO.mof_cde_nm }"/>
                                        </td>
                                    </tr>
                                    <tr>
@@ -83,56 +88,22 @@
                                        </td>
                                        <th scope="row">공사번호</th>
                                        <td>
-                                       		<c:out value="${wtlFirePsVO.cnt_num }"/>
+	                                       	<c:out value="${wtlFirePsVO.cnt_num }"/>
                                        </td>
                                    </tr>
                                    <tr>
                                        <th scope="row">방향각</th>
-                                       <td>
+                                       <td colspan="3" >
                                        		<c:out value="${wtlFirePsVO.ang_dir }"/>
-                                       	</td>
-                                       <th scope="row">기관관리번호</th>
-                                       <td>
-                                       		<c:out value="${wtlFirePsVO.gid }"/>
                                        </td>
-                                   </tr>
-                                   <tr>
-                                       <th scope="row">생성일</th>
-                                       <td>
-                                           <div class="datapicker-group">
-                                           		<c:out value="${wtlFirePsVO.gid }"/>
-                                           	</div>
-                                       </td>
-                                       <th scope="row">생성자</th>
-                                       <td>
-                                       		<c:out value="${wtlFirePsVO.gid }"/>
-                                       </td>
-                                   </tr>
-                                   <tr>
-                                       <th scope="row">수정일</th>
-                                       <td>
-                                           <div class="datapicker-group">
-                                           		<!-- <input type="text" class="datepicker"> -->
-                                           		<c:out value="${wtlFirePsVO.gid }"/>
-                                           </div>
-                                       </td>
-                                       <th scope="row">수정자</th>
-                                       <td>
-                                       		<!-- <input type="text" class="form-control"> -->
-                                       		<c:out value="${wtlFirePsVO.gid }"/>
-                                       	</td>
                                    </tr>
                                    <tr>
                                        <th scope="row">위치</th>
                                        <td colspan="3">
                                            <div class="form-row">
-                                           		<c:out value="${wtlFirePsVO.gid }"/>
-                                              <!--  <div class="col"><input type="text" class="form-control"></div>
-                                               <div class="col-auto">
-                                                   <button type="button" class="btn type01 bi-location"
-                                                           data-popup="space-edit-tool">지도에서 선택
-                                                   </button>
-                                               </div> -->
+                                           	  <%-- <c:out value="${wtlFirePsVO.geom }"/> --%>
+                                           	  <input type="text" class="form-control txt-geometry-address" value="" readonly="readonly">
+                                           	  <input type="hidden" name="geomText" value="<c:out value="${wtlFirePsVO.geom }"/>" >
                                            </div>
                                        </td>
                                    </tr>
@@ -140,10 +111,11 @@
                                </table>
                            </div>
                        </div>
-                       <div class="position-bottom btn-wrap">
+                       <div class="position-bottom btn-wrap justify-content-end">
                            <div>
-                               <button type="button" class="btn basic bi-write2">등록</button>
-                               <button type="button" class="btn basic bi-cancel">취소</button>
+                           	   <button type="button" class="btn basic bi-edit btn_edit">수정</button>
+                               <button type="button" class="btn basic bi-delete2 btn_delete">삭제</button>  
+                               <button type="button" class="btn basic bi-cancel btn_cancel">취소</button>
                            </div>
                        </div>
                    </div>
@@ -152,3 +124,21 @@
            <button type="button" class="popup-close" title="닫기"></button>
 
 <!-- 업무 > 시설관리 > 상수수도시설 > 소방시설 상세보기 end -->
+
+<script type="text/javascript">
+	//jqeury
+	$(document).ready(function(){
+		console.log("wtlFirePsDetail.jsp");
+		
+		var geom = "${wtlFirePsVO.geom}";
+		//console.log(geom);
+		
+		//위치 : 주소 조회
+		getAddressForPoint(geom, ".txt-geometry-address");
+		 
+	});
+   
+
+</script>
+
+	

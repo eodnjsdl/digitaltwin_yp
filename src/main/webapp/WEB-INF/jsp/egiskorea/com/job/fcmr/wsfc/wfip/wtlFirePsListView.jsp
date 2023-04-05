@@ -1,57 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" %>
 
-<script>
 
-	//jqeury
-	$(document).ready(function(){
-		console.log("wtlFirePsListView.jsp");	
-	});
-
-
-	//functions
-    /* function readGeoJSON(data) {
-        if (!data.crs || !data.features || data.features.length === 0) {
-            return;
-        }
-        var crs = data.crs.properties.name;
-        if (crs.includes('urn:ogc:def:crs:EPSG::')) {
-            crs = crs.replace('urn:ogc:def:crs:EPSG::', 'EPSG:');
-        }
-        var format = new ol.format.GeoJSON();
-        return format.readFeatures(data, {
-            dataProjection: crs,
-            featureProjection: map2d.map.getView().getProjection()
-        });
-    }
-	
-    function fn_insert() {
-        ui.openPopup("rightSubPopup");
-        var container = "#rightSubPopup";
-        $(container).load("/job/sample/pageInsert.do", function () {
-            toastr.warning("등록팝업", "🙂 Ajax 🙂 호 🙂 출 🙂 ");
-            $(".scroll-y").mCustomScrollbar({
-                scrollbarPosition: "outside",
-            });
-        });
-    }
-
-    function fn_downloadExcel() {
-        toastr.error("엑셀다운로드", "🙂 Ajax 🙂 호 🙂 출 🙂 ");
-    }
-
-    function fn_pageDetail() {
-        ui.openPopup("rightSubPopup");
-        var container = "#rightSubPopup";
-        $(container).load("/job/sample/pageDetail.do", function () {
-            toastr.warning("상세팝업 + 상세정보 표출", "🙂 Ajax 🙂 호 🙂 출 🙂 ");
-            $(".scroll-y").mCustomScrollbar({
-                scrollbarPosition: "outside",
-            });
-        });
-    } */
-
-    //
-</script>
 <!-- 업무 > 공통 -->
 <div class="popup-header">상수도관리</div>
 <div class="popup-body">
@@ -169,9 +118,7 @@
             <div class="bbs-top">
                 <div class="bbs-list-num">조회결과 : --건</div>
                 <div>
-                    <!-- <button type="button" class="btn basic" onclick="getFacilityDetailView('WaterSupplyFacility');">상세보기</button> -->
-                    <!-- <button type="button" class="btn basic" onclick="call_wfs();">Ajax</button> -->
-                    <button type="button" class="btn basic bi-write btn_add" onclick="getFacilityInsertView('WaterSupplyFacility');">등록</button>
+                    <button type="button" class="btn basic bi-write btn_add" onclick="insertWtlFirePsView();">등록</button>
                     <button type="button" class="btn basic bi-excel btn_excel" onclick="fn_downloadExcel();">엑셀저장
                     </button>
                 </div>
@@ -198,3 +145,19 @@
 <button type="button" class="popup-reset" class="초기화"></button>
 <button type="button" class="popup-bottom-toggle" title="접기"></button>
 <!-- //업무 > 시설물 공통 -->
+<script type="text/javascript">
+	//jqeury
+	$(document).ready(function(){
+		console.log("wtlFirePsListView.jsp");	
+		
+		//상수도 관리 메뉴 - 이벤트
+		var $container = $("#container");
+	    var $target = $container.find('#bottomPopup .facility-select');
+		
+		$target.on('change', function() {
+			getWaterSupplyFacility(this.value);
+		});
+	});
+
+	//functions
+</script>

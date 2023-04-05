@@ -10,15 +10,18 @@ public class WtlFirePsVO implements Serializable{
 	
 	/** ftr_cde 지형지물부호*/
 	private String ftr_cde;
+	private String ftr_cde_nm;
 	
 	/** ftr_idn 관리번호 */
 	private String ftr_idn;
 	
 	/** hjd_cde 읍면동 */
 	private String hjd_cde;
+	private String hjd_cde_nm;
 	
 	/** mng_cde 관리기관 */
 	private String mng_cde;
+	private String mng_cde_nm;
 	
 	/** sht_num 도엽번호 */
 	private String sht_num;
@@ -31,6 +34,7 @@ public class WtlFirePsVO implements Serializable{
 	
 	/** mof_cde 소화전형식 */
 	private String mof_cde;
+	private String mof_cde_nm;
 	
 	/** fir_dip 소화전구경 */
 	private String fir_dip;
@@ -69,6 +73,14 @@ public class WtlFirePsVO implements Serializable{
 		this.ftr_cde = ftr_cde;
 	}
 
+	public String getFtr_cde_nm() {
+		return ftr_cde_nm;
+	}
+
+	public void setFtr_cde_nm(String ftr_cde_nm) {
+		this.ftr_cde_nm = ftr_cde_nm;
+	}
+
 	public String getFtr_idn() {
 		return ftr_idn;
 	}
@@ -85,12 +97,28 @@ public class WtlFirePsVO implements Serializable{
 		this.hjd_cde = hjd_cde;
 	}
 
+	public String getHjd_cde_nm() {
+		return hjd_cde_nm;
+	}
+
+	public void setHjd_cde_nm(String hjd_cde_nm) {
+		this.hjd_cde_nm = hjd_cde_nm;
+	}
+
 	public String getMng_cde() {
 		return mng_cde;
 	}
 
 	public void setMng_cde(String mng_cde) {
 		this.mng_cde = mng_cde;
+	}
+
+	public String getMng_cde_nm() {
+		return mng_cde_nm;
+	}
+
+	public void setMng_cde_nm(String mng_cde_nm) {
+		this.mng_cde_nm = mng_cde_nm;
 	}
 
 	public String getSht_num() {
@@ -123,6 +151,14 @@ public class WtlFirePsVO implements Serializable{
 
 	public void setMof_cde(String mof_cde) {
 		this.mof_cde = mof_cde;
+	}
+
+	public String getMof_cde_nm() {
+		return mof_cde_nm;
+	}
+
+	public void setMof_cde_nm(String mof_cde_nm) {
+		this.mof_cde_nm = mof_cde_nm;
 	}
 
 	public String getFir_dip() {

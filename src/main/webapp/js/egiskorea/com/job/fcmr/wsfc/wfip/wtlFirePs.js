@@ -20,6 +20,9 @@ $(document).ready(function(){
 function selectWtlFirePsListView(){
 	console.log("selectWtlFirePsListView()");
 	
+	/////////////////
+	
+	//목록 화면 조회
 	ui.loadingBar("show");
 	
 	var baseContainer = "#bottomPopup";
@@ -49,15 +52,18 @@ function selectWtlFirePsListView(){
 	        multipleSelect: false,
 	        columns: [
 	            //{key: "gid", 				label: "아이디",			width:200},
-	            {key: "ftr_cde", 			label: "지형지물부호코드",	width:100},
+	            {key: "ftr_cde", 			label: "지형지물부호code",	width:'*'},
 	            {key: "ftr_cde_nm", 		label: "지형지물부호",		width:'*'},
 	            {key: "ftr_idn", 			label: "관리번호",			width:'*'},
-	            {key: "hjd_cde", 			label: "읍면동",			width:'*'},
-	            {key: "mng_cde", 			label: "관리기관",			width:'*'},
+	            {key: "hjd_cde", 			label: "읍면동code",		width:'*'},
+	            {key: "hjd_cde_nm", 		label: "읍면동",			width:'*'},
+	            {key: "mng_cde", 			label: "관리기관code",		width:'*'},
+	            {key: "mng_cde_nm", 		label: "관리기관",			width:'*'},
 	            {key: "sht_num", 			label: "도엽번호",			width:'*'},
 	            {key: "ist_ymd", 			label: "설치일자",			width:'*'},
 	            {key: "hom_num", 			label: "수용가번호",		width:'*'},
-	            {key: "mof_cde", 			label: "소화전형식",		width:'*'},
+	            {key: "mof_cde", 			label: "소화전형식code",	width:'*'},
+	            {key: "mof_cde_nm", 		label: "소화전형식",		width:'*'},
 	            {key: "fir_dip", 			label: "소화전구경",		width:'*'},
 	            {key: "std_dip", 			label: "관경",			width:'*'},
 	            //{key: "sup_hit", 			label: "급수탑높이",		width:100},
@@ -80,9 +86,6 @@ function selectWtlFirePsListView(){
 	        body: {
 	        	// 데이터 행의 click 이벤트를 정의합니다. 이벤트 변수 및 this 프로퍼티는 아래 onclick 함수를 참고하세요
 	        	onClick: function () {
-	                //console.log(this.item);
-	                //alert("아이디:"+this.item.gid);
-	                
 	                getWtlFirePsDetail(this.item);	//소방 시설 상세 페이지 로드
 	            }
 	        }
@@ -91,14 +94,6 @@ function selectWtlFirePsListView(){
         
     	//목록 조회  - 1 page
 		selectWtlFirePsList(1);
-		
-		//상수도 관리 메뉴 - 이벤트
-		var $container = $("#container");
-	    var $target = $container.find('#bottomPopup .facility-select');
-		
-		$target.on('change', function() {
-			getWaterSupplyFacility(this.value);
-		});
 		
 		ui.loadingBar("hide");
     });
@@ -118,11 +113,6 @@ function selectWtlFirePsList(page) {
 	const std_dip_min 	=	$("#lSrchOptions input[name=std_dip_min]").val();			//관경 최소 값
 	const std_dip_max 	=	$("#lSrchOptions input[name=std_dip_max]").val();			//관경 최대 값
 	
-	//console.log("hjd_cde>>"+hjd_cde);
-	//console.log("mof_cde>>"+mof_cde);
-	//console.log("std_dip_min>>"+std_dip_min);
-	//console.log("std_dip_max>>"+std_dip_max);
-	
 	let filterString = "";
 	
 	if(hjd_cde){
@@ -134,29 +124,14 @@ function selectWtlFirePsList(page) {
 	}
 	
 	if(std_dip_min && std_dip_max){
-		filters.push("std_dip" + " BETWEEN " + std_dip_min +" AND " + std_dip_max);
+		//filters.push("std_dip" + " BETWEEN " + std_dip_min +" AND " + std_dip_max);
+		filters.push("std_dip" + " >= " + std_dip_min);
+		filters.push("std_dip" + " <= " + std_dip_max);
 	}else if(std_dip_min){
 		filters.push("std_dip" + " >= " + std_dip_min);
 	}else if(std_dip_max){
 		filters.push("std_dip" + " <= " + std_dip_max);
 	}
-	
-	//console.log("filters>>>");
-	//console.log(filters)
-
-	/*var filter = "";
-	
-	if(filters.length>0){
-		for(var i=0; i<filters.length; i++){
-			if(i < (filters.length-1) ){
-				filter += filters[i]+" AND ";
-			}else{
-				filter += filters[i];
-			}
-		}
-	}*/
-	
-	//console.log(filter);
 	
     var options;
     options = {
@@ -170,34 +145,46 @@ function selectWtlFirePsList(page) {
     promise.then(function (data) {
         //그리드 데이터 전처리
         const list = [];
-        //console.log("data.features.length>>>"+data.features.length);
+        
         var total = data.totalFeatures;
         var totalPages = Math.ceil(total/10);
-        
-        //console.log("total>>>"+total);
-        //console.log("totalPages>>>"+totalPages);
         
         //총합 화면 처리
         if(total>0){
         	$("#bottomPopup .bbs-list-num").html("조회결과:"+total+"건");
         }
         
+        //console.log(data.features);
+        
         //데이터 코드 변환
         for (let i = 0; i < data.features.length; i++) {
         	
         	//지형지물부호 코드 변경
-        	//console.log(data.features[i].properties);
         	var ftr_cde = data.features[i].properties.ftr_cde;
-        	//console.log(ftr_cde);
-        	if(ftr_cde == "SA119"){
-        		//console.log(ftr_cde+">>>"+"급수탑");
-        		data.features[i].properties.ftr_cde_nm = "급수탑";
-        	}else if(ftr_cde == "SA118"){
-        		//console.log(ftr_cde+">>>"+"소화전");
-        		data.features[i].properties.ftr_cde_nm = "소화전";
-        	}
+        	data.features[i].properties.ftr_cde_nm = getCmmCodeDataArray("SA-001", ftr_cde);
         	
-            const {id, properties} = data.features[i];
+        	//관리기관 코드 변경
+        	var mng_cde = data.features[i].properties.mng_cde;
+        	data.features[i].properties.mng_cde_nm = getCmmCodeDataArray("MNG-001", mng_cde);
+        	
+        	//읍면동 코드 변경(wfs)
+        	var hjd_cde = data.features[i].properties.hjd_cde;
+        	data.features[i].properties.hjd_cde_nm = getCmmCodeDataArray("tgd_scco_emd", hjd_cde);
+        	
+        	//소화전 형식 코드 변경
+        	var mof_cde = data.features[i].properties.mof_cde;
+        	data.features[i].properties.mof_cde_nm = getCmmCodeDataArray("OGC-048", mof_cde);
+            
+            //좌표 처리
+        	var geomType 	= data.features[i].geometry.type;
+        	var geomCoord	= data.features[i].geometry.coordinates[0]+" "+data.features[i].geometry.coordinates[1];
+        	
+        	var dd = geomType+"("+ geomCoord +")";
+        	//list.push(data.features[i].geometry_name, geomType+"("+ geomCoord +")" );
+        	data.features[i].properties.geom = geomType+"("+ geomCoord +")";
+        	//data.features[i].properties.geom = data.features[i].geometry;
+        	
+        	const {id, properties} = data.features[i];
             list.push({...properties, ...{id: id}});
         }
         
@@ -226,7 +213,9 @@ function getWtlFirePsDetail(detailData){
 	var formData = new FormData();
 	
 	for ( var key in detailData ) {
-		formData.append(key, detailData[key]);
+		if(detailData[key]){	//null 값이나 빈칸은 제외
+			formData.append(key, detailData[key]);
+		}
 	}
 	
 	$.ajax({
@@ -239,12 +228,10 @@ function getWtlFirePsDetail(detailData){
 		contentType: false,
         processData: false,
 		success:function(result) {
-			console.log(result);
-			
+			//console.log(result);
 			ui.openPopup("rightSubPopup");
 			var container = "#rightSubPopup";
 			$(container).html(result);
-			
 		}
 		,error: function(request,status,error){
 			console.log("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
@@ -257,9 +244,26 @@ function getWtlFirePsDetail(detailData){
 }
 
 
-
-
-
+//소방시설 등록 화면 조회
+function insertWtlFirePsView(){
+	console.log("insertWtlFirePsView()");
+	
+	ui.loadingBar("show");
+	
+	ui.openPopup("rightSubPopup");
+	
+	var container = "#rightSubPopup";
+    $(container).load("/job/fcmr/wsfc/insertWtlFirePsView.do", function () {
+        toastr.success("/job/fcmr/wsfc/insertWtlFirePsView.do", "페이지🙂호🙂출🙂");
+        
+        $(".scroll-y").mCustomScrollbar({
+            scrollbarPosition: "outside",
+        });
+		
+		ui.loadingBar("hide");
+    });
+	
+}
 
 
 
