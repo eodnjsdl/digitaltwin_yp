@@ -257,7 +257,7 @@ function getFlowDetailView(item){
 					</div>
 				</div>
 				<div class="position-bottom btn-wrap justify-content-end">
-					<div><button type="button" class="btn basic bi-edit">수정</button> <button type="button" class="btn basic bi-delete">삭제</button></div>
+					<div><button type="button" class="btn basic bi-edit" onclick="getFlowUpdateView()">수정</button> <button type="button" class="btn basic bi-delete">삭제</button></div>
 				</div>
 			</div>`;
 			/* 유량계 상세페이지에 들어갈 내용 end */
@@ -283,4 +283,121 @@ function getFlowDetailView(item){
     	});																							// 콜백함수 end
     });
     /* 리버스 지오코딩에 필요한 콜백함수 end */
+}
+
+//상세 페이지 로드
+function getFlowUpdateView(){
+
+			/* 유량계 상세페이지에 들어갈 내용 start */
+			let tag = `<div class="popup-body">
+			<div class="data-write-wrap" style="height: 377px;">
+				<div class="scroll-y">
+					<div class="data-default">
+						<table class="data-detail">
+							<colgroup>
+								<col style="width: 23%;">
+								<col style="width: auto;">
+								<col style="width: 23%;">
+								<col style="width: auto;">
+							</colgroup>
+							<tbody>
+								<tr>
+									<th scope="row">지형지물부호</th>
+									<td></td>
+									<th scope="row">관리번호</th>
+									<td></td>
+								</tr>
+								<tr>
+									<th scope="row">행정읍면동</th>
+									<td>
+		                                <select name="" id="" class="form-select hjd_cde">
+		                                	<option value="">선택</option>
+		                                </select>
+									</td>
+									<th scope="row">관리기관</th>
+									<td>
+										<select name="" id="" class="form-select">
+		                                	<option value="">선택</option>
+		                                </select>
+									</td>
+								</tr>
+								<tr>
+									<th scope="row">도엽번호</th>
+									<td>
+										<select name="" id="" class="form-select">
+		                                	<option value="">선택</option>
+		                                </select>
+									</td>
+									<th scope="row">설치일자</th>
+									<td>
+										<select name="" id="" class="form-select">
+		                                	<option value="">선택</option>
+		                                </select>
+									</td>
+								</tr>
+								<tr>
+									<th scope="row">유량계종류</th>
+									<td>
+										<select name="" id="" class="form-select">
+		                                	<option value="">선택</option>
+		                                </select>
+									</td>
+									<th scope="row">유량계형식</th>
+									<td>
+										<select name="" id="" class="form-select">
+		                                	<option value="">선택</option>
+		                                </select>
+									</td>
+								</tr>
+								<tr>
+									<th scope="row">관경(mm)</th>
+									<td>
+										<input type="text" class="form-control" id="" name="" value="">
+									</td>
+									<th scope="row">제작회사명</th>
+									<td>
+										<input type="text" class="form-control" id="" name="" value="">
+									</td>
+								</tr>
+								<tr>
+									<th scope="row">관로지형지물부호</th>
+									<td></td>
+									<th scope="row">관로관리번호</th>
+									<td></td>
+								</tr>
+								<tr>
+									<th scope="row">공사번호</th>
+									<td>
+										<input type="text" class="form-control" id="" name="" value="">
+									</td>
+									<th scope="row">방향각</th>
+									<td>
+										<input type="text" class="form-control" id="" name="" value="">
+									</td>
+								</tr>
+								<tr>
+									<th scope="row">위치</th>
+									<td colspan="3"></td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+				<div class="position-bottom btn-wrap justify-content-end">
+					<div><button type="button" class="btn basic bi-write2">등록</button> <button type="button" class="btn basic bi-cancel">취소</button></div>
+				</div>
+			</div>`;
+			/* 유량계 상세페이지에 들어갈 내용 end */
+			
+		    const element = $(tag);				// container에 삽입할 요소
+			
+		    // 팝업 변수 설정
+			ui.openPopup("rightSubPopup");
+			var container = "#rightSubPopup";
+			
+			/* 팝업 load 함수 start */
+		    $(container).load("/job/fcmr/wsfc/wflp/getFlowUpdateView.do", function () {
+				$(container).append(element);	// container에 요소 추가하기
+		    });
+		    /* 팝업 load 함수 end */
 }

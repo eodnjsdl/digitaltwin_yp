@@ -54,4 +54,20 @@ public class WtlFlowPsController {
 		    return "egiskorea/com/job/fcmr/wsfc/wflp/flowDetailView";
 		}
 		
+		/**
+		 * 
+		 * @Description : 유량계 수정하기
+		 * @Author 장현승
+		 * @Date 2023.03.31
+		 * @return 시설물 뷰 경로
+		 * @throws Exception
+		 */
+
+		@RequestMapping(value = "/getFlowUpdateView.do")
+		public String getFlowUpdateView(
+		        @ModelAttribute("facilityVO") FacilityVO facilityVO,
+		        ModelMap model) throws Exception {
+		    return "egiskorea/com/job/fcmr/wsfc/wflp/flowUpdateView";
+		}
+		
 }
