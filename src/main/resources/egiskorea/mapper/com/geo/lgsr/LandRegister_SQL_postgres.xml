@@ -13,8 +13,8 @@
 		<if test="@egovframework.com.cmm.util.EgovMybaitsUtil@isEquals(mode,'lp')">
 			SELECT 		LCL.PNU, DLC.ORI,
 						<choose>
-							<when test="@egovframework.com.cmm.util.EgovMybaitsUtil@isEquals(crs,'5179')">
-								ST_ASTEXT(ST_TRANSFORM(ST_SETSRID(LCL.GEOM, 5174), 5179)) AS GEOMETRY,
+							<when test="@egovframework.com.cmm.util.EgovMybaitsUtil@isNotEmpty(crs)">
+								ST_ASTEXT(ST_TRANSFORM(ST_SETSRID(LCL.GEOM, 5174), CAST(#{crs} as integer))) AS GEOMETRY,
 							</when>
 							<otherwise>
 								ST_ASTEXT(LCL.GEOM) AS GEOMETRY,
@@ -23,13 +23,13 @@
 						ST_X(ST_ASTEXT(ST_CENTROID(ST_TRANSFORM(ST_SETSRID(LCL.GEOM, 5174), 4326)))) AS LON,
 						ST_Y(ST_ASTEXT(ST_CENTROID(ST_TRANSFORM(ST_SETSRID(LCL.GEOM, 5174), 4326)))) AS LAT,
 						ST_AREA(ST_ASTEXT(GEOM)) AS AREA
-			FROM 		LSMD_CONT_LDREG_41830 LCL 
+			FROM 		LSMD_CONT_LDREG_41830 LCL
 			INNER JOIN 	DT_LANDCATEGORYINFO DLC
 			ON 			LCL.PNU = DLC.PNU
 			WHERE 		LCL.PNU = #{pnu}
 		</if>
 		<if test="@egovframework.com.cmm.util.EgovMybaitsUtil@isEquals(mode,'li')">
-			SELECT  LI_CD AS PNU, 
+			SELECT  LI_CD AS PNU,
 				<choose>
 					<when test="@egovframework.com.cmm.util.EgovMybaitsUtil@isEquals(crs,'5179')">
 						ST_ASTEXT(GEOM) AS GEOMETRY,
@@ -41,7 +41,7 @@
 					ST_X(ST_ASTEXT(ST_CENTROID(ST_TRANSFORM(ST_SETSRID(GEOM, 5179), 4326)))) AS LON,
 					ST_Y(ST_ASTEXT(ST_CENTROID(ST_TRANSFORM(ST_SETSRID(GEOM, 5179), 4326)))) AS LAT,
 					ST_AREA(ST_ASTEXT(GEOM)) AS AREA
-			FROM 	TGD_SCCO_LI 
+			FROM 	TGD_SCCO_LI
 			WHERE 	SUBSTRING(LI_CD, 0, 11) = #{pnu}
 		</if>
 	</select>

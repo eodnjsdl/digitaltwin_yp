@@ -22,7 +22,10 @@ map3d.layer.Line = (function () {
 
     /**
      *
-     * @param otions
+     * @param {object} options
+     * @param {number[]} options.coordinates 좌표 배열
+     * @param {object} [options.properties] 속성정보
+     * @param {number} [options.scale=1] 스케일값
      */
     Line.prototype.add = function (options) {
         map3d.layer.Geometry.prototype.add.call(this, options);
@@ -58,6 +61,7 @@ map3d.layer.Line = (function () {
             console.log(radius);
             radius = radius < 0.01 ? 0.01 : radius
         }
+        radius *= options.scale || 2;
 
         // 파이프 생성
         const object = Module.createPipe(id);

@@ -16,6 +16,11 @@ window.ui = (function () {
         _asideMenuEvent();
         //지도 모드에 따라 메뉴 변경
         _changeMenu();
+        
+        //제이쿼리 캐시 제거
+        jQuery.ajaxSetup({
+        	cache: false
+    	});
     }
 
     function _changeMenu() {
@@ -194,7 +199,8 @@ window.ui = (function () {
          *  popup draggable
          */
         $(".popup-draggable").draggable({
-            containment: "#container"
+            containment: "#container",
+            handle: ".popup-header"
         });
 
         /**
@@ -363,10 +369,6 @@ window.ui = (function () {
 
                 // 업무 > 공간정보활용 > 사업공유관리
                 case "constructionPlan" :
-                    toastr.error("지하수관리의 기능을 참고해 주세요.", "리팩토링 작업대상입니다.");
-                    $("#" + area).removeClass("opened");
-                    return;
-
                     //공사계획정보 (first tab)
                     aj_selectConstructionPlanList($("#tmpForm")[0]);
                     break;
@@ -378,44 +380,28 @@ window.ui = (function () {
 
                 // 업무 > 공간정보활용 > 신재생에너지
                 case "renewableEnergy" :
-                    toastr.error("지하수관리의 기능을 참고해 주세요.", "리팩토링 작업대상입니다.");
-                    $("#" + area).removeClass("opened");
-                    return;
-
                     aj_selectRenewableEnergyList($("#tmpForm")[0]);
                     break;
 
                 // 업무 > 공간정보활용 > 안전시설물관리
                 case "safetyFacilitiesManagement" :
-                    toastr.error("지하수관리의 기능을 참고해 주세요.", "리팩토링 작업대상입니다.");
-                    $("#" + area).removeClass("opened");
-                    return;
-
                     aj_selectSafetyFacilitiesMngList($("#tmpForm")[0]);
                     break;
 
                 // 업무 > 공간정보활용 > 관내업소정보조회
                 case "inBusinessEstaInfo" :
-                    toastr.error("지하수관리의 기능을 참고해 주세요.", "리팩토링 작업대상입니다.");
-                    $("#" + area).removeClass("opened");
-                    return;
-
                     aj_selectInBusinessEstaInfoList($("#tmpForm")[0]);
                     break;
 
                 // 업무 > 공간정보활용 > 대기오염
                 case "atmospherePollution" :
-                    toastr.error("지하수관리의 기능을 참고해 주세요.", "리팩토링 작업대상입니다.");
-                    $("#" + area).removeClass("opened");
-                    return;
-
                     aj_selectAtmospherePollutionList($("#tmpForm")[0]);
                     break;
 
                 // 업무 > 시설관리 > 상수도시설
                 case "waterSupplyFacility" :
                     //aj_facility("WaterSupplyFacility");
-                    getFacilityListView("WaterSupplyFacility")
+                    getWaterSupplyFacility("wtlFirePs");		//상수도 시설 소방시설
                     break;
 
                 // 업무 > 시설관리 > 하수도시설
@@ -438,11 +424,8 @@ window.ui = (function () {
 
                 // 업무 > 시설관리 > 체육시설
                 case "physicalEducationFacility" :
-                    toastr.error("상수도시설의 기능을 참고해 주세요.", "리팩토링 작업대상입니다.");
-                    $("#" + area).removeClass("opened");
-                    return;
-
-                    aj_selectPhysicalEducationFacilityList($("#tmpForm")[0]);
+                	//aj_selectPhysicalEducationFacilityList($("#tmpForm")[0]);
+                	getPhyEduFaciList();
                     break;
 
                 // 업무 > 시설관리 > 복지시설
@@ -573,6 +556,7 @@ window.ui = (function () {
     function _initDrawEvent() {
         dtmap.off('drawend');
         dtmap.vector.clear();
+        dtmap.draw.clear();
     }
 
     function _asideMenuEvent() {
@@ -594,7 +578,8 @@ window.ui = (function () {
                 case "landBuilding" :
                     initPopup(area);
                     toastr.success("지도에서 위치를 선택하세요. ", "지적/건물");
-                    aj_selectLandBuilderList();
+                    aj_ldbdInfo();
+                    // aj_selectLandBuilderList();
                     break;
 
                 // aside menu > 내보내기

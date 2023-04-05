@@ -4,10 +4,9 @@
 <%@ taglib prefix="ui" uri="http://egovframework.gov/ctl/ui" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
-<script src="/js/egiskorea/com/job/rnen/rnen.js"></script>
 <script src="/js/egiskorea/com/job/spaceSearch.js"></script>
-<script src="/js/egiskorea/com/cmm/cmmUtil.js"></script>
 <script>
+ui.callDatePicker();
 // 태양광발전소 등록하기 버튼
 $("#energyRegist").on("click", function(){
 	
@@ -38,19 +37,14 @@ $("#energyRegist").on("click", function(){
 			dataType: "json",
 			success : function(returnData, status){
 				if(returnData.result == "success") {
-					alert("<spring:message code="success.common.insert" />");
-					
-					bottomPopupOpen("renewableEnergy");
+					initGrid();
+					setData(0); 
 				} else {
 					alert("<spring:message code="fail.common.insert" />");
 					return;
 				}
 			}, complete : function(){
 				ui.loadingBar("hide");
-				if(GLOBAL.StartPoint){
-					GLOBAL.StartPoint = false;
-					removePoint(GLOBAL.NomalIcon);
-				}
 			}, 
        	});
 	}
@@ -125,5 +119,5 @@ $("#energyRegist").on("click", function(){
 		</div>
 		</form:form>
 	</div>
-	<button type="button" class="popup-close" title="닫기" onClick="removePoint(GLOBAL.NomalIcon);"></button>				
+	<button type="button" class="popup-close" title="닫기" ></button>				
 <!-- //업무 > 공간정보활용 > 신재생에너지 > 태양광발전소 등록하기 -->

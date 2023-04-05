@@ -156,12 +156,11 @@
     
     <!-- uhh add...  -->
     <!-- [[업무 /시설관리 재작업]]  -->
-	<script src="/js/egiskorea/com/job/fcmr/facilityCommon.js"></script>				<!-- 시설 공통  -->
-	
+    
 	<!-- [상수도 시설] --> 
 	<script src="/js/egiskorea/com/job/fcmr/wsfc/facilityWaterSupply.js"></script>		<!-- 상수도시설  공통 -->
 	<!-- {상수도 하위 메뉴}  -->	
-	<script src="/js/egiskorea/com/job/fcmr/wsfc/wfp/wtlFirePs.js"></script>			<!-- 소방시설  -->
+	<script src="/js/egiskorea/com/job/fcmr/wsfc/wfip/wtlFirePs.js"></script>			<!-- 소방시설  -->
 	<!-- 상수관로 -->
 	<script src="/js/egiskorea/com/job/fcmr/wsfc/wflp/wtlFlowPs.js"></script>			<!-- 유량계 -->
 	<!-- 상수맨홀 -->
@@ -203,7 +202,9 @@
 	<!-- ////////////////////////////  -->
 	
 	<!-- [체육시설]  -->
-	
+	<script src="/js/egiskorea/com/job/fcmr/phfc/phyEduFaciList.js"></script>
+	<script src="/js/egiskorea/com/job/fcmr/phfc/phyEduFaciDetail.js"></script>
+	<script src="/js/egiskorea/com/job/fcmr/phfc/phyEduFaciMng.js"></script>
 	<!-- ////////////////////////////  -->
 	
 	<!-- [복지시설]  -->

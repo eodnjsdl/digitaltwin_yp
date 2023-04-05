@@ -1,4 +1,4 @@
-package egiskorea.com.job.fcmr.wsfc.wfp.service.impl;
+package egiskorea.com.job.fcmr.wsfc.service.impl;
 
 import egiskorea.com.job.sample.service.*;
 import egiskorea.com.job.sample.service.impl.WorkSampleDAO;
@@ -10,10 +10,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@Service("wtlFirePsService")
-public class WtlFirePsServiceImpl extends EgovAbstractServiceImpl implements WorkSampleService {
+@Service("waterSupplyService")
+public class WaterSupplyServiceImpl extends EgovAbstractServiceImpl implements WorkSampleService {
 	
-	@Resource(name = "wtlFirePsDAO")
-	private WtlFirePsDAO wtlFirePsDAO;
+	@Resource(name = "waterSupplyDAO")
+	private WaterSupplyDAO waterSupplyDAO;
 
 }

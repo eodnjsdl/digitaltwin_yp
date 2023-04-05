@@ -1,6 +1,7 @@
 package egiskorea.com.geo.com.web;
 
 import java.io.IOException;
+import java.net.URLDecoder;
 import java.nio.charset.Charset;
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
@@ -114,22 +115,19 @@ public class GisController {
 
         HttpPost httpPost = new HttpPost(url);
 
-//    httpPost.setEntity(new StringEntity(source, Charset.defaultCharset()));
         httpPost.setHeader("Charset", "UTF-8");
-        if (source.trim().startsWith("<")) {
-            httpPost.setHeader("Content-Type", "application/xml");
+        if (source.trim().startsWith("<")||source.trim().startsWith("%3C")) {
+//            httpPost.setHeader("Content-Type", "application/xml");
+            httpPost.setEntity(new StringEntity(URLDecoder.decode(source), Charset.defaultCharset()));
         } else {
             String c = request.getContentType();
             if (c.contains(";")) {
                 c = c.trim().split(";")[0];
             }
             httpPost.setHeader("Content-Type", c);
+            byte[] postData = source.getBytes();
+            httpPost.setEntity(new ByteArrayEntity(postData));
         }
-
-        byte[] postData = source.getBytes();
-//        httpPost.setHeader("Content-Length", Integer.toString(postData.length));
-        httpPost.setEntity(new ByteArrayEntity(postData));
-
 
         try (CloseableHttpClient httpClient = HttpClients.createDefault();
              CloseableHttpResponse httpResponse = httpClient.execute(httpPost)) {

@@ -83,65 +83,19 @@ public class UnderWaterMngController {
 			@ModelAttribute("searchVO") UnderWaterAgriVO underWaterAgriVO,
 			TgdSccoEmdVO tgdSccoEmdVO,
 			ModelMap model) throws Exception{ 
-		
-		underWaterAgriVO.setPageUnit(10);
-		underWaterAgriVO.setPageSize(propertyService.getInt("pageSize"));
-		
-		PaginationInfo paginationInfo = new PaginationInfo();
-		
-		paginationInfo.setCurrentPageNo(underWaterAgriVO.getPageIndex());
-		paginationInfo.setRecordCountPerPage(underWaterAgriVO.getPageUnit());
-		paginationInfo.setPageSize(underWaterAgriVO.getPageSize());
-
-		underWaterAgriVO.setFirstIndex(paginationInfo.getFirstRecordIndex());
-		underWaterAgriVO.setLastIndex(paginationInfo.getLastRecordIndex());
-		underWaterAgriVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
-		
-		// 농업용공공관정 목록
-		Map<String, Object> map = underWaterMngService.selectUnderWaterAgriList(underWaterAgriVO);
 		// 읍면동 목록
-		Map<String, Object> map2 = commonnessSpaceSearchService.selectTgdSccoEmdList(tgdSccoEmdVO);
+		Map<String, Object> map = commonnessSpaceSearchService.selectTgdSccoEmdList(tgdSccoEmdVO);
 		// 관리구분 목록
-		Map<String, Object> map3 = underWaterMngService.selectUnderWaterAgriManageSeList(underWaterAgriVO);
+		Map<String, Object> map2 = underWaterMngService.selectUnderWaterAgriManageSeList(underWaterAgriVO);
 		// 세부용도 목록
-		Map<String, Object> map4 = underWaterMngService.selectUnderWaterAgriDetailPrposSeList(underWaterAgriVO);	
+		Map<String, Object> map3 = underWaterMngService.selectUnderWaterAgriDetailPrposSeList(underWaterAgriVO);	
 		// 시설상태 목록
-		Map<String, Object> map5 = underWaterMngService.selectUnderWaterAgriFcltsSttusList(underWaterAgriVO);
-		
-		if(map.get("resultList").toString().length() < 3) {
-			
-			int pageIndex = underWaterAgriVO.getPageIndex();
-			if (pageIndex > 1) {
-				underWaterAgriVO.setPageIndex(pageIndex -1);
-				underWaterAgriVO.setPageUnit(10);
-				underWaterAgriVO.setPageSize(propertyService.getInt("pageSize"));
-				
-				paginationInfo.setCurrentPageNo(underWaterAgriVO.getPageIndex());
-				paginationInfo.setRecordCountPerPage(underWaterAgriVO.getPageUnit());
-				paginationInfo.setPageSize(underWaterAgriVO.getPageSize());
-				
-				underWaterAgriVO.setFirstIndex(paginationInfo.getFirstRecordIndex());
-				underWaterAgriVO.setLastIndex(paginationInfo.getLastRecordIndex());
-				underWaterAgriVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
-				map = underWaterMngService.selectUnderWaterAgriList(underWaterAgriVO);
-			}
-		}
-		
-		Gson gson = new Gson();
-		String poiList = gson.toJson(map);
-		
-		int totCnt = Integer.parseInt((String)map.get("resultCnt"));
-		  
-		paginationInfo.setTotalRecordCount(totCnt);
-		
-		model.addAttribute("resultList", map.get("resultList"));
-		model.addAttribute("resultCnt", map.get("resultCnt"));
-		model.addAttribute("paginationInfo", paginationInfo);
-		model.addAttribute("sccoEndList", map2.get("resultList"));
-		model.addAttribute("poiList", poiList);
-		model.addAttribute("manageSeList", map3.get("resultList"));
-		model.addAttribute("detailPrposSeList", map4.get("resultList"));
-		model.addAttribute("fcltsSttusList", map5.get("resultList"));
+		Map<String, Object> map4 = underWaterMngService.selectUnderWaterAgriFcltsSttusList(underWaterAgriVO);
+	
+		model.addAttribute("sccoEndList", map.get("resultList"));
+		model.addAttribute("manageSeList", map2.get("resultList"));
+		model.addAttribute("detailPrposSeList", map3.get("resultList"));
+		model.addAttribute("fcltsSttusList", map4.get("resultList"));
 		
 		return "egiskorea/com/job/ugtm/underWaterAgriList";
 	}
@@ -389,65 +343,19 @@ public class UnderWaterMngController {
 			@ModelAttribute("searchVO") UnderWaterDevelopVO underWaterDevelopVO,
 			TgdSccoEmdVO tgdSccoEmdVO,
 			ModelMap model) throws Exception{ 
-		
-		underWaterDevelopVO.setPageUnit(10);
-		underWaterDevelopVO.setPageSize(propertyService.getInt("pageSize"));
-		
-		PaginationInfo paginationInfo = new PaginationInfo();
-		
-		paginationInfo.setCurrentPageNo(underWaterDevelopVO.getPageIndex());
-		paginationInfo.setRecordCountPerPage(underWaterDevelopVO.getPageUnit());
-		paginationInfo.setPageSize(underWaterDevelopVO.getPageSize());
-
-		underWaterDevelopVO.setFirstIndex(paginationInfo.getFirstRecordIndex());
-		underWaterDevelopVO.setLastIndex(paginationInfo.getLastRecordIndex());
-		underWaterDevelopVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
-		
-		// 지하수개발 목록
-		Map<String, Object> map = underWaterMngService.selectUnderWaterDevelopList(underWaterDevelopVO);
 		// 읍면동 목록
-		Map<String, Object> map2 = commonnessSpaceSearchService.selectTgdSccoEmdList(tgdSccoEmdVO);
+		Map<String, Object> map = commonnessSpaceSearchService.selectTgdSccoEmdList(tgdSccoEmdVO);
 		// 암반구분 목록
-		Map<String, Object> map3 = underWaterMngService.selectUnderWaterDevelopAllvlBsrckSeList(underWaterDevelopVO);
+		Map<String, Object> map2 = underWaterMngService.selectUnderWaterDevelopAllvlBsrckSeList(underWaterDevelopVO);
 		// 용도구분 목록
-		Map<String, Object> map4 = underWaterMngService.selectUnderWaterDevelopPrposSeList(underWaterDevelopVO);
+		Map<String, Object> map3 = underWaterMngService.selectUnderWaterDevelopPrposSeList(underWaterDevelopVO);
 		// 세부용도 목록
-		Map<String, Object> map5 = underWaterMngService.selectUnderWaterDevelopDetailPrposSeList(underWaterDevelopVO);
+		Map<String, Object> map4 = underWaterMngService.selectUnderWaterDevelopDetailPrposSeList(underWaterDevelopVO);
 		
-		if(map.get("resultList").toString().length() < 3) {
-			
-			int pageIndex = underWaterDevelopVO.getPageIndex();
-			if (pageIndex > 1) {
-				underWaterDevelopVO.setPageIndex(pageIndex -1);
-				underWaterDevelopVO.setPageUnit(10);
-				underWaterDevelopVO.setPageSize(propertyService.getInt("pageSize"));
-				
-				paginationInfo.setCurrentPageNo(underWaterDevelopVO.getPageIndex());
-				paginationInfo.setRecordCountPerPage(underWaterDevelopVO.getPageUnit());
-				paginationInfo.setPageSize(underWaterDevelopVO.getPageSize());
-				
-				underWaterDevelopVO.setFirstIndex(paginationInfo.getFirstRecordIndex());
-				underWaterDevelopVO.setLastIndex(paginationInfo.getLastRecordIndex());
-				underWaterDevelopVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
-				map = underWaterMngService.selectUnderWaterDevelopList(underWaterDevelopVO);
-			}
-		}
-		
-		Gson gson = new Gson();
-		String poiList = gson.toJson(map);
-		
-		int totCnt = Integer.parseInt((String)map.get("resultCnt"));
-		  
-		paginationInfo.setTotalRecordCount(totCnt);
-		
-		model.addAttribute("resultList", map.get("resultList"));
-		model.addAttribute("resultCnt", map.get("resultCnt"));
-		model.addAttribute("paginationInfo", paginationInfo);
-		model.addAttribute("sccoEndList", map2.get("resultList"));
-		model.addAttribute("poiList", poiList);
-		model.addAttribute("allvlBsrckSeList", map3.get("resultList"));
-		model.addAttribute("prposSeList", map4.get("resultList"));
-		model.addAttribute("detailPrposSeList", map5.get("resultList"));
+		model.addAttribute("sccoEndList", map.get("resultList"));
+		model.addAttribute("allvlBsrckSeList", map2.get("resultList"));
+		model.addAttribute("prposSeList", map3.get("resultList"));
+		model.addAttribute("detailPrposSeList", map4.get("resultList"));
 		
 		return "egiskorea/com/job/ugtm/underWaterDevelopList";
 	}
@@ -691,64 +599,19 @@ public class UnderWaterMngController {
 			TgdSccoEmdVO tgdSccoEmdVO,
 			ModelMap model) throws Exception{ 
 		
-		underWaterUseFacilVO.setPageUnit(10);
-		underWaterUseFacilVO.setPageSize(propertyService.getInt("pageSize"));
-		
-		PaginationInfo paginationInfo = new PaginationInfo();
-		
-		paginationInfo.setCurrentPageNo(underWaterUseFacilVO.getPageIndex());
-		paginationInfo.setRecordCountPerPage(underWaterUseFacilVO.getPageUnit());
-		paginationInfo.setPageSize(underWaterUseFacilVO.getPageSize());
-
-		underWaterUseFacilVO.setFirstIndex(paginationInfo.getFirstRecordIndex());
-		underWaterUseFacilVO.setLastIndex(paginationInfo.getLastRecordIndex());
-		underWaterUseFacilVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
-		
-		// 지하수이용시설 목록
-		Map<String, Object> map = underWaterMngService.selectUnderWaterUseFacilList(underWaterUseFacilVO);
 		// 읍면동목록
-		Map<String, Object> map2 = commonnessSpaceSearchService.selectTgdSccoEmdList(tgdSccoEmdVO);
+		Map<String, Object> map = commonnessSpaceSearchService.selectTgdSccoEmdList(tgdSccoEmdVO);
 		// 암반구분 목록
-		Map<String, Object> map3 = underWaterMngService.selectUnderWaterUseFacilAllvlBsrckSeList(underWaterUseFacilVO);
+		Map<String, Object> map2 = underWaterMngService.selectUnderWaterUseFacilAllvlBsrckSeList(underWaterUseFacilVO);
 		// 용도구분 목록
-		Map<String, Object> map4 = underWaterMngService.selectUnderWaterUseFacilPrposSeList(underWaterUseFacilVO);
+		Map<String, Object> map3 = underWaterMngService.selectUnderWaterUseFacilPrposSeList(underWaterUseFacilVO);
 		// 세부용도 목록
-		Map<String, Object> map5 = underWaterMngService.selectUnderWaterUseFacilDetailPrposSeList(underWaterUseFacilVO);
+		Map<String, Object> map4 = underWaterMngService.selectUnderWaterUseFacilDetailPrposSeList(underWaterUseFacilVO);
 		
-		if(map.get("resultList").toString().length() < 3) {
-			
-			int pageIndex = underWaterUseFacilVO.getPageIndex();
-			if (pageIndex > 1) {
-				underWaterUseFacilVO.setPageIndex(pageIndex -1);
-				underWaterUseFacilVO.setPageUnit(10);
-				underWaterUseFacilVO.setPageSize(propertyService.getInt("pageSize"));
-				
-				paginationInfo.setCurrentPageNo(underWaterUseFacilVO.getPageIndex());
-				paginationInfo.setRecordCountPerPage(underWaterUseFacilVO.getPageUnit());
-				paginationInfo.setPageSize(underWaterUseFacilVO.getPageSize());
-				
-				underWaterUseFacilVO.setFirstIndex(paginationInfo.getFirstRecordIndex());
-				underWaterUseFacilVO.setLastIndex(paginationInfo.getLastRecordIndex());
-				underWaterUseFacilVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
-				map = underWaterMngService.selectUnderWaterUseFacilList(underWaterUseFacilVO);
-			}
-		}
-		
-		Gson gson = new Gson();
-		String poiList = gson.toJson(map);
-		
-		int totCnt = Integer.parseInt((String)map.get("resultCnt"));
-		  
-		paginationInfo.setTotalRecordCount(totCnt);
-		
-		model.addAttribute("resultList", map.get("resultList"));
-		model.addAttribute("resultCnt", map.get("resultCnt"));
-		model.addAttribute("paginationInfo", paginationInfo);
-		model.addAttribute("sccoEndList", map2.get("resultList"));
-		model.addAttribute("poiList", poiList);
-		model.addAttribute("allvlBsrckSeList", map3.get("resultList"));
-		model.addAttribute("prposSeList", map4.get("resultList"));
-		model.addAttribute("detailPrposSeList", map5.get("resultList"));
+		model.addAttribute("sccoEndList", map.get("resultList"));
+		model.addAttribute("allvlBsrckSeList", map2.get("resultList"));
+		model.addAttribute("prposSeList", map3.get("resultList"));
+		model.addAttribute("detailPrposSeList", map4.get("resultList"));
 		
 		return "egiskorea/com/job/ugtm/underWaterUseFacilList";
 	}

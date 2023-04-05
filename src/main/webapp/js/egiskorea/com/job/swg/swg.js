@@ -134,7 +134,8 @@ class SwlConnLs extends Facility {
           title: "설치년도",
           type: "year",
           getFilter: (name, val) => {
-            return ol.format.filter.like(name, `${val}*`);
+            // return ol.format.filter.like(name, `${val}*`);
+            return `${name} like ${val}`
           },
         },
 

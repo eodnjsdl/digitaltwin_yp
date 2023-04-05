@@ -17,8 +17,7 @@ function fn_deleteRenewableEnergy(gid){
 			success : function(returnData, status){
 				if(returnData.result == "success") {
 					alert("<spring:message code="success.common.delete" />");
-					//bottomPopupOpen("renewableEnergy");
-					$("#rightSubPopup").removeClass("opened").html("");
+						$("#rightSubPopup").removeClass("opened").html("");
 					if(lastSpitalSearch != ''){
 						aj_selectRenewableEnergyList($("#searchForm")[0],'spital');
 					} else {
@@ -32,14 +31,6 @@ function fn_deleteRenewableEnergy(gid){
 			}
 		});
 	}
-}
-
-// 태양광발전소 수정페이지 열기
-function fn_select_update(gid){
-	// rightSubPopupOpen("updateRenewableEnergyView", gid, "right");
-
-	ui.openPopup("rightSubPopup");
-	aj_updateRenewableEnergyView($("#tmpForm")[0], gid, "right");
 }
 </script>
 
@@ -95,9 +86,8 @@ function fn_select_update(gid){
 				</div>
 				<div class="position-bottom btn-wrap justify-content-end">
 					<div>
-						<button type="button" class="btn basic bi-edit" onClick="fn_select_update('<c:out value="${result.gid}" />')">수정</button>
+						<button type="button" class="btn basic bi-edit" onClick="fn_update('<c:out value="${result.gid}" />')">수정</button>
 						<button type="button" class="btn basic bi-delete2" onclick="fn_deleteRenewableEnergy('<c:out value="${result.gid}" />')">삭제</button> 
-						<button type="button" class="btn basic bi-cancel closeSub">취소</button>
 					</div>
 				</div>
 			</div>							
