@@ -5,10 +5,9 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="validator" uri="http://www.springmodules.org/tags/commons-validator" %>
-<script src="/js/egiskorea/com/job/ugtm/ugtm.js"></script>
 <script src="/js/egiskorea/com/job/spaceSearch.js"></script>
-<script src="/js/egiskorea/com/cmm/cmmUtil.js"></script>
 <script>
+ui.callDatePicker();
 // 지하수이용시설 수정하기 버튼
 $("#useFacilUpdate").on("click", function(){
 	
@@ -29,7 +28,6 @@ $("#useFacilUpdate").on("click", function(){
 	}
 	
 	if(confirm("<spring:message code="common.update.msg" />")){	//수정하시겠습니까?
-       	ui.loadingBar("show");
        	$.ajax({
        		type : "POST",
        		url	 : "/job/ugtm/updateUnderWaterUseFacil.do",
@@ -41,34 +39,23 @@ $("#useFacilUpdate").on("click", function(){
 				if(returnData.result == "success") {
 					<%--alert("<spring:message code="success.common.update" />");--%>
 					if(lastSpitalSearch != ''){
-						aj_selectUnderWaterUseFacilList($("#searchForm")[0],'spital');
+						setData(0); 
+						fn_pageDetail($("#gid").val());
 					} else {
-						aj_selectUnderWaterUseFacilList($("#searchForm")[0], 'attr');
+						setData(0); 
+						fn_pageDetail($("#gid").val());
 					}
-					rightSubPopupOpen("selectUnderWaterUseFacil", $("#gid").val(), "right");
 				} else {
 					toastr.error("관리자에게 문의 바랍니다.", "정보를 불러오지 못했습니다.");
 					return;
 				}
-			}, complete : function(){
-				if(GLOBAL.StartPoint){
-					GLOBAL.StartPoint = false;
-					removePoint(GLOBAL.NomalIcon);
-				}
-				ui.loadingBar("hide");
-			}, 
+			}
        	});
 	}
 	
 });
 
 var years = "<c:out value="${result.devlopYear}" />";
-
-// 지하수이용시설 수정페이지 취소버튼
-$("#returnBack").unbind('click').bind('click',function(){
-	ui.openPopup("rightSubPopup");
-	aj_selectUnderWaterUseFacil($("#tmpForm")[0], $(this).data('gid'), "right");
-});
 </script>
 
 	<div class="popup-header">지하수이용시설 수정하기</div>
@@ -217,7 +204,7 @@ $("#returnBack").unbind('click').bind('click',function(){
 				<div class="position-bottom btn-wrap">
 					<div>
 						<button type="button" class="btn basic bi-write2" id="useFacilUpdate">수정완료</button> 
-						<button type="button" class="btn basic bi-cancel" id="returnBack" data-gid='<c:out value="${result.gid}" />'>취소</button>
+						<button type="button" class="btn basic bi-cancel" id="returnBack" onclick='fn_pageDetail(<c:out value="${result.gid}" />)'>취소</button>
 					</div>
 				</div>
 			</div>							
@@ -225,4 +212,4 @@ $("#returnBack").unbind('click').bind('click',function(){
 		<input type="hidden" id="gid" name="gid" value="<c:out value="${result.gid}" />">
 		</form:form>
 	</div>
-	<button type="button" class="popup-close" title="닫기" onClick="removePoint(GLOBAL.NomalIcon);"></button>				
+	<button type="button" class="popup-close" title="닫기"></button>				

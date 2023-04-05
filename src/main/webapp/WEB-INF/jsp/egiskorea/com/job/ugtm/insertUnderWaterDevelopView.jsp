@@ -5,13 +5,9 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="validator" uri="http://www.springmodules.org/tags/commons-validator" %>
-<script src="/js/egiskorea/com/job/ugtm/ugtm.js"></script>
 <script src="/js/egiskorea/com/job/spaceSearch.js"></script>
-<script src="/js/egiskorea/com/cmm/cmmUtil.js"></script>
 <script>
-
-	toastr.warning("객체 선택 해제하기", "객체 선택 해제하기");
-
+ui.callDatePicker();
 // 지하수개발 등록하기 버튼
 $("#devRegist").on("click", function(){
 	
@@ -42,18 +38,14 @@ $("#devRegist").on("click", function(){
 			dataType: "json",
 			success :  function(returnData, status){
 				if(returnData.result == "success") {
-					alert("<spring:message code="success.common.insert" />");
 					$("#rightSubPopup").removeClass("opened").html("");
-					aj_selectUnderWaterDevelopList($("#tmpForm")[0]);
+					initGrid();
+					setData(0); 
 				} else {
 					alert("<spring:message code="fail.common.insert" />");
 					return;
 				}
 			}, complete : function(){
-				if(GLOBAL.StartPoint){
-					GLOBAL.StartPoint = false;
-					removePoint(GLOBAL.NomalIcon);
-				}
 				ui.loadingBar("hide");
 			}, 
        	});
@@ -205,4 +197,4 @@ var years = "";
 		</div>
 		</form:form>
 	</div>
-	<button type="button" class="popup-close" title="닫기" onClick="removePoint(GLOBAL.NomalIcon);"></button>				
+	<button type="button" class="popup-close" title="닫기"></button>				
