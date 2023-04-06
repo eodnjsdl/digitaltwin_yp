@@ -26,7 +26,6 @@ function codeArrayInit(){
 	console.log("codeArrayInit()");
 	
 	var codeData = [
-        { code: "SA117", codeNm: "유량계" },
         { code: "SA118", codeNm: "급수탑" },
         { code: "SA119", codeNm: "소화전" },
       ];
@@ -37,6 +36,10 @@ function codeArrayInit(){
 	setCmmCodeDataArray("OGC-048");				//소화전 형식
 	
 	setEmdCodeDataArray("tgd_scco_emd");		//읍면동 코드
+	
+	//유량계 코드
+	setCmmCodeDataArray("OGC-141");				//유량계 종류
+	setCmmCodeDataArray("OGC-041");				//유량계 형식
 }
 
 

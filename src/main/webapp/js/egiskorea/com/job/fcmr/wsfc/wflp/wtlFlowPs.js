@@ -150,7 +150,8 @@ function selectWtlFlowPsList(page) {
         	
         	//지형지물부호 코드 변경
         	var ftr_cde = data.features[i].properties.ftr_cde;
-        	data.features[i].properties.ftr_cde_nm = getCmmCodeDataArray("SA-001", ftr_cde);
+        	//data.features[i].properties.ftr_cde_nm = getCmmCodeDataArray("SA-001", ftr_cde);
+        	data.features[i].properties.ftr_cde_nm = "유량계";
         	
         	//관리기관 코드 변경
         	var mng_cde = data.features[i].properties.mng_cde;
