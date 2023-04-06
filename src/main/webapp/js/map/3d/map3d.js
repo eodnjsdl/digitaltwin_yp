@@ -102,7 +102,25 @@ window.map3d = (function () {
     }
 
     function onSelectObject(e) {
-        dtmap.trigger('select', {origin: e})
+        const layer = map3d.layer.getByName(e.layerName);
+        if (!layer) {
+            return;
+        }
+        let data;
+        if (layer instanceof map3d.layer.Geometry) {
+            const object = layer.get(e.objKey);
+            data = {
+                id: e.objKey,
+                ...object
+            }
+        } else {
+            const object = layer.instance.keyAtObject(e.objKey)
+            data = {
+                id: e.objKey,
+                object: object
+            }
+        }
+        dtmap.trigger('select', data)
     }
 
     // 지도 세팅 정보 불러오기

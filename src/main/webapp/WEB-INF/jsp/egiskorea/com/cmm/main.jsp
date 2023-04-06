@@ -62,6 +62,9 @@
     <!-- ax5 grid css -->
     <link rel="stylesheet" href="/js/plugin/ax5grid/ax5grid.css">
 
+    <!-- zoom -->
+    <link href="/js/plugin/jquery-fat-zoom.js/css/zoom.css" rel="stylesheet">
+    <script type="text/javascript" src="/js/plugin/jquery-fat-zoom.js/dist/zoom.js"></script>
 
     <!-- font 맑은고딕: stre.js (지도저장기능 수행 시) -->
     <script src="/engine/plugin/v6.7.0/malgun.js"></script>
