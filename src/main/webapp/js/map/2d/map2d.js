@@ -62,6 +62,17 @@ window.map2d = (function () {
 
     function onClick(e) {
         dtmap.trigger('click', e);
+
+        if (_map.hasFeatureAtPixel(e.pixel)) {
+            const feature = _map.getFeaturesAtPixel(e.pixel)[0];
+            dtmap.trigger('select', {
+                id: feature.getId(),
+                property: feature.getProperties(),
+                geometry: feature.getGeometry(),
+                feature: feature
+            });
+        }
+
     }
 
     function onDblClick(e) {
