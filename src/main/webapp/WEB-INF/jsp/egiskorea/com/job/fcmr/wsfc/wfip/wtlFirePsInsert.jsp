@@ -68,8 +68,7 @@
                                        <th scope="row">설치일자</th>
                                        <td>
                                        	 	<!-- <input type="text" name="ist_ymd" class="form-control datepicker hasDatepicker" value="" id="dp1680677660036"> -->
-                                       	 	<input type="text" name="ist_ymd" class="form-control datepicker " value="" id="dp1680677660036"
-                                       	 	 style="border-radius: 5px 0 0 5px; border: 1px solid #44516A;">
+                                       	 	<input type="text" name="ist_ymd" class="form-control datepicker " value="" id="dp1680677660036">
                                        </td>
                                    </tr>
                                    <tr>
