@@ -50,8 +50,7 @@ function getWaterSupplyFacility(name){
 			toastr.error("작업중", "상수관로");	
 			return;
 		}else if(name == "wtlFlowPs"){		//유량계
-			toastr.error("작업중", "유량계");	
-			return;
+			selectWtlFlowPsListView();
 		}else if(name == "wtlManhPs"){		//상수맨홀
 			toastr.error("작업중", "상수맨홀");
 			return;
