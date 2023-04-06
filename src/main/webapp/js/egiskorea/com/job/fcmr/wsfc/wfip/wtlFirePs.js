@@ -250,6 +250,8 @@ function insertWtlFirePsView(){
 	
 	ui.loadingBar("show");
 	
+	$("#rightSubPopup").addClass("div-failcity-detail");
+	
 	ui.openPopup("rightSubPopup");
 	
 	var container = "#rightSubPopup";
@@ -259,10 +261,57 @@ function insertWtlFirePsView(){
         $(".scroll-y").mCustomScrollbar({
             scrollbarPosition: "outside",
         });
-		
+        
+        //ui.callDatePicker();
+        
 		ui.loadingBar("hide");
     });
 	
+}
+
+//소방시설 등록 
+function insertWtlFirePs(){
+	
+	console.log("insertWtlFirePs()");
+	
+	/*if (!this.feature.getGeometry()) {
+		
+        alert("위치를 등록하여 주십시오.");
+        return false;
+    }*/
+	
+	//insertWtlFirePsForm
+	
+	var feature = new ol.Feature();
+	const params = $("#insertWtlFirePsForm").serializeArray();
+    params.forEach((param) => {
+        if (param.value) {
+            feature.set(param.name, param.value);
+        }
+    });
+    
+    console.log(params);
+    
+    //const wkt = cmmUtil.getEditGeometry();
+    //geom 테스트
+    const wkt = "Point(1000239.5335 1943588.7711)";
+    
+    const format = new ol.format.WKT();
+    let geometry = format.readGeometry(wkt);
+    
+    /*if (geometry.indexOf("multi") >= 0) {
+        if (geometry instanceof ol.geom.Point) {
+            geometry = new ol.geom.MultiPoint([geometry.getCoordinates()]);
+        } else if (geometry instanceof ol.geom.LineString) {
+            geometry = new ol.geom.MultiLineString([geometry]);
+        } else if (geometry instanceof ol.geom.Polygon) {
+            geometry = new ol.geom.MultiPolygon([geometry]);
+        }
+    }*/
+    
+    feature.setGeometry(geometry);
+
+    console.log(feature);
 }
 
 

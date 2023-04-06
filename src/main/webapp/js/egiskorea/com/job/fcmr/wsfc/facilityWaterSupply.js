@@ -181,6 +181,7 @@ function setEmdCodeDataArray(codeId, targetList){
 
 
 ////////////////////////////////////////////////////
+//공통 코드
 
 //공통 코드 조회 및 selectbox tag 처리
 //codeId 		: 조회할 코드 id 
@@ -310,7 +311,10 @@ function getCmmCodeDataArray(codeId, code){
 }
 
 /////////////////////
+//공간정보
 
+
+//좌표로 주소 조회(reverseGeocoding)
 function getAddressForPoint(geomText, tag){
 	
 	if(geomText){

@@ -13,7 +13,7 @@
                <div class="sub-popup-body">
                    <div class="data-write-wrap" style="height: 100%;">
                        <div class="scroll-y">
-                       	   <from>	
+                       	   <form id="insertWtlFirePsForm" method="post">
                            <div class="data-default">
                                <table class="data-write">
                                    <colgroup>
@@ -67,7 +67,9 @@
                                        </td>
                                        <th scope="row">설치일자</th>
                                        <td>
-                                       	 	<input type="text" name="ist_ymd" class="form-control datepicker hasDatepicker" value="" id="dp1680677660036">
+                                       	 	<!-- <input type="text" name="ist_ymd" class="form-control datepicker hasDatepicker" value="" id="dp1680677660036"> -->
+                                       	 	<input type="text" name="ist_ymd" class="form-control datepicker " value="" id="dp1680677660036"
+                                       	 	 style="border-radius: 5px 0 0 5px; border: 1px solid #44516A;">
                                        </td>
                                    </tr>
                                    <tr>
@@ -100,7 +102,7 @@
                                        <th scope="row">급수탑높이</th>
                                        <td>
                                        		<%-- <c:out value="${wtlFirePsVO.sup_hit }"/> --%>
-                                       		<input type="number" name="sup_hit" class="form-control" value="">
+                                       		<input type="number" name="sup_hit" class="form-control" value="" id="testt">
                                        </td>
                                        <th scope="row">공사번호</th>
                                        <td>
@@ -131,12 +133,12 @@
                                    </tbody>
                                </table>
                            </div>
-                           </from>
+                           </form>
                            
                        </div>
                        <div class="position-bottom btn-wrap">
                            <div>
-                           	    <button type="button" class="btn basic bi-edit btn_add">등록</button>
+                           	    <button type="button" class="btn basic bi-edit btn_add" onclick="insertWtlFirePs();">등록</button>
                            		<button type="button" class="btn basic bi-cancel btn_cancel">취소</button>
                            </div>
                        </div>
@@ -151,14 +153,14 @@
 	//jqeury
 	$(document).ready(function(){
 		console.log("wtlFirePsInsert.jsp");
-		
-		// 날짜 적용
-        $("#dp1680677660036").datepicker({
+        
+        // 날짜 적용
+      	$(".datepicker").datepicker({
             showOn: "both",
             buttonImage: "/images/icon/form-calendar.svg",
             dateFormat: "yymmdd",
         }); 
-		
+        
 	});
 
 </script>
