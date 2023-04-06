@@ -2,9 +2,9 @@ window.map2d = (function () {
     /**
      * UTM-K
      */
-    proj4.defs("EPSG:5179", "+proj=tmerc +lat_0=38 +lon_0=127.5 +k=0.9996 +x_0=1000000 +y_0=2000000 +ellps=GRS80 +units=m +no_defs");
+    proj4.defs("EPSG:5179", "+proj=tmerc +lat_0=38 +lon_0=127.5 +k=0.9996 +x_0=1000000 +y_0=2000000 +ellps=GRS80 +units=m +no_defs ");
 
-    proj4.defs("EPSG:5174", "+proj=tmerc +lat_0=38 +lon_0=127.0028902777778 +k=1 +x_0=200000 +y_0=500000 +ellps=bessel +units=m +no_defs");
+    proj4.defs("EPSG:5174", "+proj=tmerc +lat_0=38 +lon_0=127.0028902777778 +k=1 +x_0=200000 +y_0=500000 +ellps=bessel +units=m +no_defs +towgs84=-115.80,474.99,674.11,1.16,-2.31,-1.63,6.43");
 
     /**
      * 중부원점 60만
@@ -68,7 +68,7 @@ window.map2d = (function () {
         dtmap.trigger('dblclick', e);
     }
 
-    function onContextmenu(e){
+    function onContextmenu(e) {
         dtmap.trigger('dblclick', e);
     }
 
@@ -138,6 +138,9 @@ window.map2d = (function () {
 
     function clear() {
         clearInteraction();
+        map2d.vector.clear();
+        map2d.draw.clear();
+        map2d.layer.clear();
         $('.ctrl-group>button').removeClass('active');
     }
 
@@ -155,9 +158,9 @@ window.map2d = (function () {
         _container.style.display = 'none';
     }
 
-    function clearInteraction() {
+    function clearInteraction(skipClear) {
         if (_curInteraction) {
-            if (_curInteraction.clear) {
+            if (_curInteraction.clear && !skipClear) {
                 _curInteraction.clear();
             }
             _curInteraction.dispose();
@@ -165,8 +168,8 @@ window.map2d = (function () {
         }
     }
 
-    function setInteraction(interaction) {
-        clearInteraction();
+    function setInteraction(interaction, skipClear) {
+        clearInteraction(skipClear);
         _curInteraction = interaction;
     }
 

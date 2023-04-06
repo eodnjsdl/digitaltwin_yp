@@ -47,6 +47,7 @@ function bindEvents() {
         html += '    </td>                         ';
         html += '  </tr>                           ';
         $("#build_item", ".ldbdList").html(html);
+        _moveLdbd();
     });
 
     //click 건물
@@ -117,32 +118,38 @@ function bindEvents() {
         html += '    </td>                         ';
         html += '  </tr>                           ';
         $("#build_item", ".ldbdList").html(html);
+        _moveLdbd();
     });
 
     //click 위치이동
     $("#rightPopup").on("click", ".bi-location2", function () {
-        var feature;
-        if ($("#build li").attr('class') === "active") {
-            feature = $("#build").data("feature");
-        } else {
-            feature = $("#jijuk").data("feature");
-        }
-        var gid = feature.properties.gid;
-        var cql = '';
-        cql += "gid=" + gid + "";
-        var promise = dtmap.wfsGetFeature({
-            typeNames: 'lsmd_cont_ldreg_41830', //WFS 레이어명
-            cql: cql
-        });
-        promise.then(function (data) {
-            console.log(data)
-            // dtmap.setCenter(data.features[0].geometry.coordinates)
-            toastr.warning("이동")
-        });
-
+        _moveLdbd();
     });
 
 
+}
+
+function _moveLdbd() {
+    var feature;
+    var layer;
+    if ($("#build li").attr('class') === "active") {
+        feature = $("#build").data("feature");
+        layer = 'tgd_spbd_buld';
+    } else {
+        feature = $("#jijuk").data("feature");
+        layer = 'lsmd_cont_ldreg_41830';
+    }
+    var gid = feature.properties.gid;
+    var cql = '';
+    cql += "gid=" + gid + "";
+    var promise = dtmap.wfsGetFeature({
+        typeNames: layer, //WFS 레이어명
+        cql: cql
+    });
+    promise.then(function (data) {
+        var ftId = data.features[0].id;
+        dtmap.vector.select(ftId);
+    });
 }
 
 function _onDrawEnd_ldbdInfo(e) {
@@ -216,7 +223,7 @@ function setLdbdList(geom, data, layerNm) {
     let road;
     let totalFeatures = data.totalFeatures;
     let properties;
-    reverseGeocoding5174(xObj, yObj).done((result) => {
+    cmmUtil.reverseGeocoding5174(xObj, yObj).done((result) => {
         addr = result.emdKorNm + " " + result.liKorNm;
         road = result.roadAddress;
         for (let i = 0; i < data.features.length; i++) {
@@ -269,49 +276,4 @@ function loadHtml(totalCnt) {
             ui.loadingBar("hide");
         }
     });
-}
-
-/**
- * @description 좌표로 주소 가져오기 (5174 주소검색)
- * @author 플랫폼개발부문 DT솔루션 이준호
- * @date 2022.07.26
- * @param {object} x x._5174, x._5179 좌표
- * @param {object} y y._5174, y._5159 좌표
- */
-function reverseGeocoding5174(x, y) {
-    const deferred = $.Deferred();
-    const format = new ol.format.WKT();
-    const point_5174 = new ol.geom.Point([x._5174, y._5174]);
-    const wkt_5174 = format.writeGeometry(point_5174);
-    const point_5179 = new ol.geom.Point([x._5179, y._5179]);
-    const wkt_5179 = format.writeGeometry(point_5179);
-    $.post("/gis/reverseGeocoding5174.do", {wkt5174: wkt_5174, wkt5179: wkt_5179})
-        .done((response) => {
-            const result = JSON.parse(response)["result"];
-            if (result["emdKorNm"]) {
-                let address = ``;
-                address += result["emdKorNm"] + ` `;
-                address += result["liKorNm"] + ` `;
-                address += result["mntnYn"] == "2" ? `산 ` : ``;
-                address += parseInt(result["lnbrMnnm"]);
-                address += parseInt(result["lnbrSlno"])
-                    ? `-${parseInt(result["lnbrSlno"])}`
-                    : ``;
-                result["address"] = address;
-            }
-            if (result["rn"]) {
-                let roadAddress = ``;
-                roadAddress += result["rn"] + ` `;
-                roadAddress += result["buldMnnm"];
-                roadAddress += parseInt(result["buldSlno"])
-                    ? `-${parseInt(result["buldSlno"])}`
-                    : ``;
-                result["roadAddress"] = roadAddress;
-            }
-            deferred.resolve(result);
-        })
-        .fail(() => {
-            alert("주소 정보를 가져오는데 실패했습니다.");
-        });
-    return deferred;
 }

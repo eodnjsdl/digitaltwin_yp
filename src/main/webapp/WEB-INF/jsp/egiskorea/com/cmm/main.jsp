@@ -101,6 +101,7 @@
     <script src="/js/map/3d/map3d.js"></script>
     <script src="/js/map/3d/config.js"></script>
     <script src="/js/map/3d/modules/map3d-layer.js"></script>
+    <script src="/js/map/3d/modules/map3d-color.js"></script>
     <script src="/js/map/3d/modules/map3d-compass.js"></script>
     <script src="/js/map/3d/modules/map3d-measure.js"></script>
     <script src="/js/map/3d/modules/map3d-overlay.js"></script>
@@ -124,6 +125,9 @@
 
     <!-- 양평 레이어 상수 -->
     <script src="/js/map/yp-layer.js"></script>
+
+    <!-- 공통 파일 -->
+    <script src="/js/egiskorea/com/cmm/cmmUtil.js"></script>
 
     <!-- 통합행정정보 -->
     <script src="/js/egiskorea/com/cmt/uai/uai.js"></script>

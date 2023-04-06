@@ -53,6 +53,7 @@ window.dtmap = (function () {
         if (_cur_mode === '2D') {
             _cur_mode = '3D';
             map2d.hide();
+            map2d.clear();
             await map3d.show();
 
             //2D->3D 위치 동기화
@@ -62,8 +63,9 @@ window.dtmap = (function () {
 
         } else {
             _cur_mode = '2D'
-            map2d.show();
             map3d.hide();
+            map3d.clear();
+            map2d.show();
 
             //3D->2D 위치 동기화
             let vector = map3d.getCenter();

@@ -27,7 +27,8 @@ window.map3d = (function () {
 
             //XDWorld 시작
             Module.initialize({
-                container: _container
+                container: _container,
+                defaultKey: dtmap.urls.EMAP_KEY
             });
             Module.XDSetMouseState(Module.MML_SELECT_POINT);
 
@@ -299,6 +300,9 @@ window.map3d = (function () {
      */
     function clear() {
         clearInteraction();
+        map3d.vector.clear();
+        map3d.draw.clear();
+        map3d.layer.clear();
         $('.ctrl-group>button').removeClass('active');
     }
 
@@ -346,7 +350,7 @@ window.map3d = (function () {
 
     }
 
-    function getLayer(name){
+    function getLayer(name) {
 
     }
 
