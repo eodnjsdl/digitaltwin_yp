@@ -128,6 +128,17 @@ map3d.layer = (function () {
         return layerMap.get(id);
     }
 
+    function getByName(name) {
+        let layer;
+        layerMap.forEach(function (v, k) {
+            if (v.id === name || v.layerNm === name) {
+                layer = v;
+            }
+        })
+        return layer;
+    }
+
+
     function clear() {
         const targets = [];
         for (let [key, layer] of layerMap) {
@@ -150,6 +161,7 @@ map3d.layer = (function () {
         removeLayer: removeLayer,
         setVisible: setVisible,
         getById: getById,
+        getByName: getByName,
         clear: clear
     }
 
