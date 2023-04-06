@@ -26,6 +26,7 @@ function codeArrayInit(){
 	console.log("codeArrayInit()");
 	
 	var codeData = [
+        { code: "SA117", codeNm: "유량계" },
         { code: "SA118", codeNm: "급수탑" },
         { code: "SA119", codeNm: "소화전" },
       ];

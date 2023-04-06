@@ -68,7 +68,7 @@
                     </div>
                     <div class="btn-wrap">
                         <div>
-                            <button type="button" class="btn type01 search facility-attribute-search" onclick="selectWtlFirePsList(1)">조회</button>
+                            <button type="button" class="btn type01 search facility-attribute-search" onclick="selectWtlFlowPsList(1)">조회</button>
                         </div>
                     </div>
                 </div>
@@ -119,7 +119,7 @@
             <div class="bbs-top">
                 <div class="bbs-list-num">조회결과 : --건</div>
                 <div>
-                    <button type="button" class="btn basic bi-write btn_add" onclick="insertWtlFirePsView();">등록</button>
+                    <button type="button" class="btn basic bi-write btn_add" onclick="insertWtlFlowPsView();">등록</button>
                     <button type="button" class="btn basic bi-excel btn_excel" onclick="fn_downloadExcel();">엑셀저장
                     </button>
                 </div>
@@ -149,7 +149,7 @@
 <script type="text/javascript">
 	//jqeury
 	$(document).ready(function(){
-		console.log("wtlFirePsListView.jsp");	
+		console.log("wtlFlowPsListView.jsp");	
 		
 		//상수도 관리 메뉴 - 이벤트
 		var $container = $("#container");

@@ -112,7 +112,7 @@
 			</div>
 		</div>
 		<div class="position-bottom btn-wrap justify-content-end">
-			<div><button type="button" class="btn basic bi-write2">등록</button> <button type="button" class="btn basic bi-cancel" onclick="">취소</button></div>
+			<div><button type="button" class="btn basic bi-write2">수정완료</button> <button type="button" class="btn basic bi-cancel" onclick="">취소</button></div>
 		</div>
 	</div>
 </div>

@@ -71,12 +71,20 @@ public class WaterSupplyController {
         return "egiskorea/com/job/fcmr/wsfc/wflp/wtlFlowPsListView";
     }
 	
+	//등록 화면 조회
+	@RequestMapping(value = "/insertWtlFlowPsView.do")
+	public String insertWtlFlowPsView(
+			@ModelAttribute("wtlFlowPsVO") WtlFlowPsVO wtlFlowPsVO,
+			ModelMap model) throws Exception {
+		return "egiskorea/com/job/fcmr/wsfc/wflp/wtlFlowPsInsert";
+	}
+	
 	//수정 화면 조회
 	@RequestMapping(value = "/updateWtlFlowPsView.do")
 	public String updateWtlFlowPsView(
 			@ModelAttribute("wtlFlowPsVO") WtlFlowPsVO wtlFlowPsVO,
 			ModelMap model) throws Exception {
-		return "egiskorea/com/job/fcmr/wsfc/wflp/wtlFlowUpdate";
+		return "egiskorea/com/job/fcmr/wsfc/wflp/wtlFlowPsUpdate";
 	}
 
 	//상세 화면 조회
