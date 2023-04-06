@@ -155,7 +155,7 @@ class DataDownlad {
         //   if (type) {
         //     cmmUtil.selectFacility(type);
         //   } else {
-        //     alert("기준 시설물을 선택하여 주십시오.");
+        //     toastr.warning("기준 시설물을 선택하여 주십시오.");
         //     $("[name=standard-search-target]", that.selector).focus();
         //   }
         // } else {
@@ -168,7 +168,7 @@ class DataDownlad {
         //
         //     createLayerWfS(type, GLOBAL.layerBox);
         //   } else {
-        //     alert("기준 시설물을 선택하여 주십시오.");
+        //     toastr.warning("기준 시설물을 선택하여 주십시오.");
         //     $("[name=standard-search-target]", that.selector).focus();
         //   }
         // }
@@ -217,10 +217,12 @@ class DataDownlad {
         ).val();
         if (searchArea == "extent") {
           //현재화면영역
-          const extent = cmmUtil.getMapExtent();
-          const geometry = cmmUtil.toSystemProjection(
-            cmmUtil.toPolygonFromExtent(extent)
-          );
+          // const extent = cmmUtil.getMapExtent();
+          const extent = dtmap.getExtent();
+          // const geometry = cmmUtil.toSystemProjection(
+            // cmmUtil.toPolygonFromExtent(extent)
+          // );
+          const geometry = ol.geom.Polygon.fromExtent(extent);
           params["wkt"] = cmmUtil.toWKT(geometry);
         } else if (searchArea == "custom") {
           //사용자정의
@@ -228,7 +230,7 @@ class DataDownlad {
           if (wkt) {
             params["wkt"] = wkt;
           } else {
-            alert("검색 영역을 지정하여 주십시오.");
+            toastr.warning("검색 영역을 지정하여 주십시오.");
             return;
           }
         } else {
@@ -241,7 +243,7 @@ class DataDownlad {
         if (wkt) {
           params["wkt"] = wkt;
         } else {
-          alert("검색 기준 시설물을 선택하여 주십시오.");
+          toastr.warning("검색 기준 시설물을 선택하여 주십시오.");
           return;
         }
         params["buffer"] =
@@ -272,7 +274,7 @@ class DataDownlad {
 
       window.location.href = "/cmt/dwld/dataDownload.do?" + $.param(params);
     } else {
-      alert(`내보내기할 데이터를 선택하여 주십시오.`);
+      toastr.warning(`데이터를 선택하여 주세요.`);
       return;
     }
   }

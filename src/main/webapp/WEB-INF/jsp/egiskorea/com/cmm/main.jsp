@@ -125,6 +125,9 @@
     <!-- 양평 레이어 상수 -->
     <script src="/js/map/yp-layer.js"></script>
 
+    <!-- 공통 파일 -->
+    <script src="/js/egiskorea/com/cmm/cmmUtil.js"></script>
+
     <!-- 통합행정정보 -->
     <script src="/js/egiskorea/com/cmt/uai/uai.js"></script>
     <!-- 지적/건물 -->
