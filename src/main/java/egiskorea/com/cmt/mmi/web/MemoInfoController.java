@@ -128,6 +128,9 @@ public class MemoInfoController {
 		memoInfoVO.setSj(selectSubject);
 		
 		EgovMap result = memoInfoService.selectMemoInfoView(memoInfoVO);
+
+		Map<String, Object> map = memoInfoService.selectMemoInfoList(memoInfoVO);
+
 		Gson gson = new Gson();
 		String gsonResultList = gson.toJson(result);
 		model.addAttribute("pageIndex",memoInfoVO.getPageIndex());
@@ -136,6 +139,7 @@ public class MemoInfoController {
 		model.addAttribute("searchCnd",memoInfoVO.getSearchCnd());
 		model.addAttribute("gsonResultList",gsonResultList);
 		model.addAttribute("result", result);
+		model.addAttribute("resultList", map.get("resultList"));
 		
 		  return "egiskorea/com/cmt/mmi/selectMemoInfoView";
 	}

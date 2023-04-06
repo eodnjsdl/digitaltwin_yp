@@ -153,6 +153,9 @@ public class PotoInfoController {
 		FileVO fileVO = new FileVO();
 		fileVO.setAtchFileId((String) result.get("atchmnflId"));
 		List<FileVO> resultFile = fileService.selectFileInfs(fileVO);
+
+		Map<String, Object> map = potoInfoService.selectPotoInfoList(potoInfoVO);
+
 		Gson gson = new Gson();
 		String gsonResultList = gson.toJson(result);
 		model.addAttribute("pageIndex",potoInfoVO.getPageIndex());
@@ -163,6 +166,7 @@ public class PotoInfoController {
 		model.addAttribute("gsonResultList",gsonResultList);
 		model.addAttribute("resultFile", resultFile);
 		model.addAttribute("result", result);
+		model.addAttribute("resultList", map.get("resultList"));
 		
 		  return "egiskorea/com/cmt/pti/selectPotoInfoView";
 	}

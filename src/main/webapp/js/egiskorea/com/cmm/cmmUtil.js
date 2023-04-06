@@ -101,4 +101,16 @@ var cmmUtil = {
         });
     return deferred;
   },
+
+
+
+    //이미지 확대
+    zoomInImage: function(src) {
+      var html = "";
+      html += "<img src='"+src+"' id='zoomActionImg' alt='이미지' data-action='zoom'/>"
+        $("#wrap").empty(html).append(html);
+
+    }
+
+
 };

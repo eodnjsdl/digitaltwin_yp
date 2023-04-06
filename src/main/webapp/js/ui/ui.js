@@ -208,9 +208,10 @@ window.ui = (function () {
          */
         $(document).on('click', '.popup-panel .popup-close', function () {
             $(this).closest('.popup-panel').removeClass('opened');
-            // 초기화 (그리기)
-            dtmap.draw.clear();
+            // 초기화 (지도)
             dtmap.draw.dispose();
+            dtmap.draw.clear();
+            dtmap.vector.clear();
         });
 
     }
