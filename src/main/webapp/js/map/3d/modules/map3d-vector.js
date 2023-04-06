@@ -1,23 +1,31 @@
 window.map3d = window.map3d || {}
 map3d.vector = (function () {
+    const DEFAULT_FILL = {
+        color: 'rgba(255,255,255)',
+        opacity: 0.4
+    }
+    const DEFAULT_STROKE = {
+        color: 'rgb(0,139,255)',
+        width: 3
+    }
     const DEFAULT_POINT = {
-        fill: {
-            color: '#4854d3'
-        },
-        stroke: {
-            color: 'white',
-            width: 2
-        },
+        fill: DEFAULT_FILL,
+        stroke: DEFAULT_STROKE,
         radius: 5
     }
 
+
     const DEFAULT_LINE = {
-        stroke: {
-            color: '#4854d3',
-            width: 3
-        },
+        stroke: DEFAULT_STROKE,
+        width: 3,
         radius: 5
     }
+
+    const DEFAULT_POLYGON = {
+        fill: DEFAULT_FILL,
+        stroke: DEFAULT_STROKE
+    }
+
     const TYPE = {
         POINT: 'Point',
         LINE: 'Line',
@@ -55,7 +63,10 @@ map3d.vector = (function () {
         Module.getOption().selectColor = new Module.JSColor(255, 79, 245, 255);
     }
 
-    function select(id) {
+    function select(id, multi) {
+        if (!multi) {
+            clearSelect();
+        }
         const layer = getLayerByFeatureId(id);
         if (!layer) {
             return;
@@ -68,6 +79,10 @@ map3d.vector = (function () {
         camera.moveLookAt(obj.position, camera.getTilt(), camera.getDirect(), 300);
 
         // layer.setHighLight(id);
+    }
+
+    function clearSelect() {
+        Module.getMap().clearSelectObj();
     }
 
     function clear() {
@@ -113,6 +128,10 @@ map3d.vector = (function () {
     }
 
     function readGeoJson(json, style) {
+        if (typeof json === 'string') {
+            json = JSON.parse(json);
+        }
+
         let crs
         try {
             crs = json.crs.properties.name;
@@ -145,9 +164,9 @@ map3d.vector = (function () {
             if (properties.geometry) {
                 delete properties.geometry
             }
-            feature.setProperties(properties, true)
+            feature.setProperties(properties, true);
         }
-        return addFeature(feature, 'EPSG:4326')
+        return addFeature(feature, 'EPSG:4326');
     }
 
     function addFeatures(features, crs, style) {
@@ -159,16 +178,26 @@ map3d.vector = (function () {
     function addFeature(feature, crs, style) {
         const f = feature.clone();
         f.setId(feature.getId() || ol.util.getUid(feature));
+
+        if (f.get("type") === "Circle") {
+            const geometry = f.getGeometry();
+            f.setGeometry(
+                new ol.geom.Circle(
+                    geometry.getCoordinates(),
+                    feature.get("circleRadius")
+                )
+            );
+        }
         let geometry = f.getGeometry();
         if (crs !== map3d.crs) {
             geometry.transform(ol.proj.get(crs), ol.proj.get(map3d.crs));
         }
-        const id = feature.getId();
+        const id = f.getId();
         const param = {
             id: id,
-            coordinates: geometry.getCoordinates(),
-            properties: feature.getProperties(),
-            style: getStyleOption(feature, style)
+            geometry: geometry,
+            properties: f.getProperties(),
+            style: getStyleOption(f, style)
         }
         let object;
         if (geometry instanceof ol.geom.Point || geometry instanceof ol.geom.MultiPoint) {
@@ -177,7 +206,7 @@ map3d.vector = (function () {
         } else if (geometry instanceof ol.geom.LineString || geometry instanceof ol.geom.MultiLineString) {
             object = _lineLayer.add(param);
             _featureTypeMap.set(id, TYPE.LINE);
-        } else if (geometry instanceof ol.geom.Polygon || geometry instanceof ol.geom.MultiPolygon) {
+        } else if (geometry instanceof ol.geom.Polygon || geometry instanceof ol.geom.MultiPolygon || geometry instanceof ol.geom.Circle) {
             object = _polygonLayer.add(param);
             _featureTypeMap.set(id, TYPE.POLYGON);
         }
@@ -215,7 +244,7 @@ map3d.vector = (function () {
         if (style && typeof style === 'function') {
             styleOpt = style(feature);
         } else {
-            styleOpt = style || {};
+            styleOpt = {...feature.get('style'), ...style, ...{}};
         }
         if (styleOpt.label) {
             if (styleOpt.label.column) {
@@ -230,8 +259,8 @@ map3d.vector = (function () {
         } else if (geometry instanceof ol.geom.LineString || geometry instanceof ol.geom.MultiLineString) {
             styleOpt = {...DEFAULT_LINE, ...styleOpt};
 
-        } else if (geometry instanceof ol.geom.Polygon || geometry instanceof ol.geom.MultiPolygon) {
-
+        } else if (geometry instanceof ol.geom.Polygon || geometry instanceof ol.geom.MultiPolygon || geometry instanceof ol.geom.Circle) {
+            styleOpt = {...DEFAULT_POLYGON, ...styleOpt};
 
         }
         return styleOpt;
@@ -246,6 +275,7 @@ map3d.vector = (function () {
         getFeature: getFeature,
         select: select,
         clear: clear,
+        clearSelect: clearSelect,
         dispose: dispose,
         fit: fit
     }

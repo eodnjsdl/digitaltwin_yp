@@ -16,52 +16,63 @@ map3d.layer.Line = (function () {
     Line.prototype.createInstance = function () {
         return map3d.userLayers.createObjectLayer({
             name: this.id,
-            type: Module.ELT_PIPE
+            type: Module.ELT_3DLINE
         });
     }
 
     /**
      *
      * @param {object} options
-     * @param {number[]} options.coordinates 좌표 배열
+     * @param {string} [options.id] 객체 아이디값
+     * @param {ol.geom.LineString} options.geometry ol 지오메트리
      * @param {object} [options.properties] 속성정보
-     * @param {number} [options.scale=1] 스케일값
+     * @param {number} [options.scale=2] 스케일값
+     * @param {styleOptions} [options.style] 스타일옵션
      */
     Line.prototype.add = function (options) {
         map3d.layer.Geometry.prototype.add.call(this, options);
 
         const id = this.genId(options.id);
-        let {coordinates, properties} = options;
-        properties = properties || {};
-        const vec3Array = new Module.Collection();
+        let geometry = options.geometry;
 
+        if (geometry instanceof ol.geom.MultiLineString) {
+            //TODO MultiLineString 처리
+            //임시로 첫 라인만 그리도록 처리
+            geometry = geometry.getLineString(0);
+        }
+        const coordinates = computeHeight(geometry.getCoordinates());
+        const style = options.style;
+        const type = style.renderType || '3D'
+        let object;
+        if (type.toUpperCase() === '3D') {
+            object = addPipe.call(this, id, coordinates, style);
+        } else {
+            object = addLine.call(this, id, coordinates, style);
+        }
+        if (!object) {
+            return console.warn('map3d.layer.Line', 'Line 추가 실패');
+        }
+
+        //프로퍼티 설정
+        this.setProperties(object, options.properties);
+    }
+
+
+    function addPipe(id, coordinates, style) {
+
+        const vec3Array = new Module.Collection();
 
         for (let i = 0; i < coordinates.length; i++) {
             const coord = coordinates[i];
-            for (let j = 0; j < coord.length; j++) {
-                const xy = coord[j];
-                if (i === 0) {
-                    map3d.setCenter(xy, 800);
-                }
-
-                let alt = Module.getMap().getTerrHeightFast(xy[0], xy[1]);
-                vec3Array.add(new Module.JSVector3D(xy[0], xy[1], alt))
-            }
+            vec3Array.add(new Module.JSVector3D(coord[0], coord[1], coord[2]))
         }
 
-
+        const stroke = new map3d.Color(style.stroke);
+        const radius = Number(style.stroke.width) || 1;
         // 파이프 옵션
-        const startColor = new Module.JSColor(200, 0, 0, 255), // 파이프 시작 색상
-            endColor = new Module.JSColor(200, 0, 0, 255), // 파이프 끝 색상
+        const startColor = stroke.toJSColor(), // 파이프 시작 색상
+            endColor = stroke.toJSColor(), // 파이프 끝 색상
             segment = 10; // 파이프 단면 세그먼트
-
-        let radius = 0.5;
-        if (properties['std_dip'] && !isNaN(properties['std_dip'])) {
-            radius = (properties['std_dip'] * 0.001) / 2;
-            console.log(radius);
-            radius = radius < 0.01 ? 0.01 : radius
-        }
-        radius *= options.scale || 2;
 
         // 파이프 생성
         const object = Module.createPipe(id);
@@ -74,18 +85,14 @@ map3d.layer.Line = (function () {
             radius / 2.0
         );
 
-        //프로퍼티 설정
-        if (properties) {
-            Object.keys(properties).forEach(function (key) {
-                if (key === 'geometry') {
-                    return;
-                }
-                const value = properties[key];
-                if (value) {
-                    object.setProperty(key, value);
-                }
-            })
-        }
+        // if (style.stroke.startArrow || style.stroke.endArrow) {
+        //     object.SetLineType(3);
+        // }
+        //
+        // if (style.stroke.startArrow && style.stroke.endArrow) {
+        //     object.SetLineType(3);
+        // }
+
         // 파이프 오브젝트를 레이어에 추가
         this.instance.addObject(object, 0);
 
@@ -94,10 +101,51 @@ map3d.layer.Line = (function () {
         return object;
     }
 
+    function addLine(id, coordinates, style) {
+        const stroke = new map3d.Color(style.stroke);
 
-    Line.prototype.setHighLight = async function (poi) {
+        const object = Module.createLineString(id);
+        object.createbyJson({
+            coordinates: {
+                coordinate: coordinates,
+                style: "XYZ",
+            },
+            color: stroke.toJSColor(), // ARGB 설정
+            width: Number(style.stroke.width),
+            union: true,
+        });
+
+        if (style.stroke.lineDash === "DOT" ||
+            style.stroke.lineDash === "DASHED" ||
+            style.stroke.lineDash === "DASH-DOTTED" ||
+            style.stroke.lineDash === "DASH-DOUBLE-DOTTED") {
+            object.SetLineType(4);
+            object.SetDashType(6);
+        }
+
+        if (style.stroke.startArrow || style.stroke.endArrow) {
+            object.SetLineType(3);
+        }
+
+        if (style.stroke.startArrow && style.stroke.endArrow) {
+            object.SetLineType(3);
+        }
 
 
+        this.instance.addObject(object, 0);
+        return object;
+    }
+
+
+    function computeHeight(coordinates) {
+        for (let i = 0; i < coordinates.length; i++) {
+            const coord = coordinates[i];
+            if (!coord[2]) {
+                let alt = Module.getMap().getTerrHeightFast(coord[0], coord[1]);
+                coordinates[i][2] = alt;
+            }
+        }
+        return coordinates;
     }
 
 
