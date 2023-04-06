@@ -188,6 +188,9 @@ function selectWtlFirePsList(page) {
             list.push({...properties, ...{id: id}});
         }
         
+        
+        ///////////////
+        
         //gird 적용
         baseGrid.setData(
         	{	
@@ -200,6 +203,46 @@ function selectWtlFirePsList(page) {
         		}
         	}	
         );
+        
+        ////////////
+        //지도 아이콘 작업
+        
+        dtmap.vector.clear();
+        
+        //지도에 GeoJSON 추가
+        dtmap.vector.readGeoJson(data, function (feature) {
+
+            /**
+             * 스타일 콜백 
+             */
+        	let properties = feature.getProperties();
+            let ftr_cde = properties.ftr_cde;
+            
+            if (ftr_cde == 'SA118' ) {			//급수탑
+                return {
+                    marker: {
+                        src: '/images/poi/waterTower_poi.png'
+                    },
+                    label: {
+                        text: ''
+                    }
+                }
+            } else if (ftr_cde == 'SA119' ) {		//소화전
+                return {
+                    marker: {
+                        src: '/images/poi/hydrant_poi.png'
+                    },
+                    label: {
+                    	text: ''
+                    }
+                }
+            } 
+        	
+        	
+        });
+
+        dtmap.vector.fit();
+        
     });
 	
 }
@@ -243,7 +286,6 @@ function getWtlFirePsDetail(detailData){
 	
 }
 
-
 //소방시설 등록 화면 조회
 function insertWtlFirePsView(){
 	console.log("insertWtlFirePsView()");
@@ -261,6 +303,10 @@ function insertWtlFirePsView(){
         $(".scroll-y").mCustomScrollbar({
             scrollbarPosition: "outside",
         });
+                
+        getEmdKorNmCode("#rightSubPopup select[name=hjd_cde]");				//읍면동
+        getCmmCodeData("MNG-001", "#rightSubPopup select[name=mng_cde]");	//관리기관
+		getCmmCodeData("OGC-048", "#rightSubPopup select[name=mof_cde]");	//소화전형식
         
         //ui.callDatePicker();
         
@@ -296,8 +342,8 @@ function insertWtlFirePs(){
     //geom 테스트
     const wkt = "Point(1000239.5335 1943588.7711)";
     
-    const format = new ol.format.WKT();
-    let geometry = format.readGeometry(wkt);
+    const formatWKT = new ol.format.WKT();
+    let geometry = formatWKT.readGeometry(wkt);
     
     /*if (geometry.indexOf("multi") >= 0) {
         if (geometry instanceof ol.geom.Point) {
@@ -312,7 +358,109 @@ function insertWtlFirePs(){
     feature.setGeometry(geometry);
 
     console.log(feature);
+    
+    const format 	= new ol.format.GeoJSON();
+    const geojson 	= format.writeFeature(feature);
+    
+    const data = {dataId: "wtl_fire_ps", geojson: geojson};
+    
+
+    /*if (warnColumns.length > 0) {
+        const titles = warnColumns.map((column) => column["title"]);
+        alert(`[${titles.join()}] 필수입니다.`);
+    } else if (validColumns.length > 0) {
+        const titles = validColumns.map((column) => column["title"]);
+        alert(`[${titles.join()}] 정수만 입력 가능합니다.`);
+    } else {*/
+    
+    ui.loadingBar("show");
+    
+    $.post("/job/fcts/insertFacility.do", data)
+    .done((response) => {
+        const result = JSON.parse(response);
+        if (result["result"]) {
+            alert("등록 되었습니다.");
+           /* if (this.onSave) {
+                this.onSave();
+            }
+            this.destroy();*/
+            
+            selectWtlFirePsList(1);	//다시 목록 로드
+            
+        } else {
+            alert(`등록에 실패했습니다.`);
+            console.log(result["errorMsg"]);
+        }
+        
+        ui.loadingBar("hide");
+    })
+    .fail(() => {
+        alert(`등록에 실패했습니다.`);
+        ui.loadingBar("hide");
+    });
+    
 }
 
+////////////
 
+//소방시설 등록 화면 조회
+function updateWtlFirePsView(){
+	console.log("updateWtlFirePsView()");
+	
+	ui.loadingBar("show");
+	
+	$("#rightSubPopup").addClass("div-failcity-detail");
+	
+	ui.openPopup("rightSubPopup");
+	
+	var container = "#rightSubPopup";
+    /*$(container).load("/job/fcmr/wsfc/insertWtlFirePsView.do", function () {
+        toastr.success("/job/fcmr/wsfc/insertWtlFirePsView.do", "페이지🙂호🙂출🙂");
+        
+        $(".scroll-y").mCustomScrollbar({
+            scrollbarPosition: "outside",
+        });
+                
+        getEmdKorNmCode("#rightSubPopup select[name=hjd_cde]");				//읍면동
+        getCmmCodeData("MNG-001", "#rightSubPopup select[name=mng_cde]");	//관리기관
+		getCmmCodeData("OGC-048", "#rightSubPopup select[name=mof_cde]");	//소화전형식
+        
+		ui.loadingBar("hide");
+    });*/
+    
+    
+    var formData = new FormData();
+	
+	for ( var key in detailData ) {
+		if(detailData[key]){	//null 값이나 빈칸은 제외
+			formData.append(key, detailData[key]);
+		}
+	}
+	
+	$.ajax({
+		url:"/job/fcmr/wsfc/insertWtlFirePsView.do",
+		type: "POST",
+		//data: JSON.stringify(detailData),
+		data: formData,
+		dataType: 'html',
+		//contentType: "application/json; charset=utf-8",
+		contentType: false,
+        processData: false,
+		success:function(result) {
+			//console.log(result);
+			/*ui.openPopup("rightSubPopup");
+			var container = "#rightSubPopup";
+			$(container).html(result);*/
+		}
+		,error: function(request,status,error){
+			console.log("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+		}
+		, complete : function(){
+			ui.loadingBar("hide");
+		}
+	});
+    
+	
+	
+}
 
