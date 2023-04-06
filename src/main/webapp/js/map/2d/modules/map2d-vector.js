@@ -154,9 +154,7 @@ map2d.vector = (function () {
      */
     function select(id, multi) {
         if (!multi) {
-            _source.getFeatures().forEach(function (f) {
-                f.unset('_selected');
-            });
+            clearSelect();
         }
 
 
@@ -168,6 +166,12 @@ map2d.vector = (function () {
             feature.set('_selected', true);
             map2d.view.setCenter(center);
         }
+    }
+
+    function clearSelect() {
+        _source.getFeatures().forEach(function (f) {
+            f.unset('_selected');
+        });
     }
 
     function clear() {
@@ -507,14 +511,15 @@ map2d.vector = (function () {
     let module = {
         init: init,
         addPoint: addPoint,
-        select: select,
+        addFeatures: addFeatures,
         clear: clear,
+        clearSelect: clearSelect,
         dispose: dispose,
         fit: fit,
         readWKT: readWKT,
         readGeoJson: readGeoJson,
+        select: select,
         writeGeoJson: writeGeoJson,
-        addFeatures: addFeatures
     }
 
     Object.defineProperties(module, {
