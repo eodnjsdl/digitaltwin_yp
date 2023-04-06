@@ -101,6 +101,7 @@
     <script src="/js/map/3d/map3d.js"></script>
     <script src="/js/map/3d/config.js"></script>
     <script src="/js/map/3d/modules/map3d-layer.js"></script>
+    <script src="/js/map/3d/modules/map3d-color.js"></script>
     <script src="/js/map/3d/modules/map3d-compass.js"></script>
     <script src="/js/map/3d/modules/map3d-measure.js"></script>
     <script src="/js/map/3d/modules/map3d-overlay.js"></script>

@@ -68,7 +68,7 @@ window.map2d = (function () {
         dtmap.trigger('dblclick', e);
     }
 
-    function onContextmenu(e){
+    function onContextmenu(e) {
         dtmap.trigger('dblclick', e);
     }
 
@@ -138,6 +138,9 @@ window.map2d = (function () {
 
     function clear() {
         clearInteraction();
+        map2d.vector.clear();
+        map2d.draw.clear();
+        map2d.layer.clear();
         $('.ctrl-group>button').removeClass('active');
     }
 
@@ -155,9 +158,9 @@ window.map2d = (function () {
         _container.style.display = 'none';
     }
 
-    function clearInteraction() {
+    function clearInteraction(skipClear) {
         if (_curInteraction) {
-            if (_curInteraction.clear) {
+            if (_curInteraction.clear && !skipClear) {
                 _curInteraction.clear();
             }
             _curInteraction.dispose();
@@ -165,8 +168,8 @@ window.map2d = (function () {
         }
     }
 
-    function setInteraction(interaction) {
-        clearInteraction();
+    function setInteraction(interaction, skipClear) {
+        clearInteraction(skipClear);
         _curInteraction = interaction;
     }
 

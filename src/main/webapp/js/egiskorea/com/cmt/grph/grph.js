@@ -86,7 +86,7 @@ class GraphicTool {
 
         // 등록
         $(".btn-register", that.selector).on("click", function () {
-            if (app2D) {
+            if (dtmap.mod === '2D') {
                 new GraphicToolEditor();
             } else {
                 return alert("해당 기능은 2D에서 가능합니다.");
@@ -121,26 +121,28 @@ class GraphicTool {
                     .done((response) => {
                         const result = JSON.parse(response)["result"];
                         const geojson = result["geojson"].replaceAll("&quot;", '"');
-                        if (app2D) {
-                            const yMap = app2D.getYMap();
-                            const module = yMap.getModule("drawingTool");
-                            module.fromGeoJSON(geojson, result["grphcId"]);
-                        } else {
-                            createGrph3D(geojson, id);
-                            customfromGeoJSON(geojson, result["grphcId"]);
-                        }
+                        // if (app2D) {
+                        //     const yMap = app2D.getYMap();
+                        //     const module = yMap.getModule("drawingTool");
+                        //     module.fromGeoJSON(geojson, result["grphcId"]);
+                        // } else {
+                        //     createGrph3D(geojson, id);
+                        //     customfromGeoJSON(geojson, result["grphcId"]);
+                        // }
+                        // dtmap.vector.clear();
+                        dtmap.vector.readGeoJson(geojson);
                     })
                     .fail(() => {
                         alert("그리기 정보를 가져오는 실패했습니다.");
                     });
             } else {
-                if (app2D) {
-                    const yMap = app2D.getYMap();
-                    const module = yMap.getModule("drawingTool");
-                    module.removeByGraphicId(id);
-                } else {
-                    removeGrphLayerIndividual(id);
-                }
+                // if (app2D) {
+                //     const yMap = app2D.getYMap();
+                //     const module = yMap.getModule("drawingTool");
+                //     module.removeByGraphicId(id);
+                // } else {
+                //     removeGrphLayerIndividual(id);
+                // }
             }
         });
 
@@ -166,13 +168,13 @@ class GraphicToolEditor {
         this.id = id;
         this.feature = null;
         this.render();
-        if (app2D) {
-            const yMap = app2D.getYMap();
-            const module = yMap.getModule("drawingTool");
-            module.reset();
-        } else {
-            // TO-DO 3d
-        }
+        // if (app2D) {
+        //     const yMap = app2D.getYMap();
+        //     const module = yMap.getModule("drawingTool");
+        //     module.reset();
+        // } else {
+        //     // TO-DO 3d
+        // }
     }
 
     /**
@@ -180,10 +182,13 @@ class GraphicToolEditor {
      */
     render() {
         //요구사항으로 3D는 로딩없이 시작_박규호
-        if (app2D) {
-            loadingShowHide("show");
+        // if (app2D) {
+        //     loadingShowHide("show");
+        // }
+        if (dtmap.mod !== '2D') {
+            return toastr.warning("해당 기능은 2D에서 가능합니다.");
         }
-
+        
         let pageIndex = $("[name=pageIndex]", this.selector).val();
         let searchCl = $("[name=searchCl]", this.selector).val();
         let searchCnd = $("[name=searchCnd]", this.selector).val();
@@ -214,9 +219,6 @@ class GraphicToolEditor {
             async: false,
             success: (returnData, status) => {
                 if (status == "success") {
-                    if (app2D == false || app2D == null) {
-                        return alert("해당 기능은 2D에서 가능합니다.");
-                    }
                     $("#rightPopup").html(returnData);
                     this.initUi();
                     this.bindEvents();
@@ -239,24 +241,26 @@ class GraphicToolEditor {
                                 "checked",
                                 true
                             );
-                            if (app2D) {
-                                const yMap = app2D.getYMap();
-                                const module = yMap.getModule("drawingTool");
-                                module.fromGeoJSON(geojson, result["grphcId"]);
-                                loadingShowHide("hide");
-                            } else {
-                            }
+                            // if (app2D) {
+                            //     const yMap = app2D.getYMap();
+                            //     const module = yMap.getModule("drawingTool");
+                            //     module.fromGeoJSON(geojson, result["grphcId"]);
+                            //     loadingShowHide("hide");
+                            // } else {
+                            // }
+                            dtmap.draw.clear();
+                            dtmap.draw.readGeoJson(geojson)
                         })
                         .fail(() => {
                             alert("그리기 정보를 가져오는 실패했습니다.");
-                            if (app2D) {
-                                loadingShowHide("hide");
-                            }
+                            // if (app2D) {
+                            //     loadingShowHide("hide");
+                            // }
                         });
                 } else {
-                    if (app2D) {
-                        loadingShowHide("hide");
-                    }
+                    // if (app2D) {
+                    //     loadingShowHide("hide");
+                    // }
                 }
             },
         });
@@ -730,18 +734,19 @@ class GraphicToolEditor {
         $(".btn_cancel", that.selector).on("click", function () {
             const data = $(".searchForm", this.selector).serialize();
             that.cancel(data);
-            if (app2D == false || app2D == null) {
-                removeGrphLayer();
-            }
+            // if (app2D == false || app2D == null) {
+            //     removeGrphLayer();
+            // }
         });
 
         // 삭제
         $(".btn_remove", that.selector).on("click", function () {
             if (confirm(`그리기 내용을 삭제하시겠습니까?`)) {
                 that.remove();
-                if (app2D == false || app2D == null) {
-                    removeGrphLayer();
-                }
+                // if (app2D == false || app2D == null) {
+                //     removeGrphLayer();
+                // }
+
             }
         });
     }
@@ -751,57 +756,64 @@ class GraphicToolEditor {
      * @param {string} type 타입
      */
     draw(type) {
-        if (app2D) {
-            const yMap = app2D.getYMap();
-            const module = yMap.getModule("drawingTool");
-            if (type == "Translate") {
-                module.translate(
-                    "select",
-                    (event) => {
-                        if (event.selected.length > 0) {
-                            this.feature = event.selected[0];
-                            this.setStyleUi();
-                        } else {
-                            this.feature = null;
-                            this.resetUi();
-                        }
-                    },
-                    () => {
-                        this.feature = null;
-                        this.resetUi();
-                    }
-                );
-                this.resetUi();
-            } else if (type == "Modify") {
-                module.modify(
-                    "select",
-                    (event) => {
-                        if (event.selected.length > 0) {
-                            this.feature = event.selected[0];
-                            this.setStyleUi();
-                        } else {
-                            this.feature = null;
-                            this.resetUi();
-                        }
-                    },
-                    () => {
-                        this.feature = null;
-                        this.resetUi();
-                    }
-                );
-                this.resetUi();
-            } else {
-                this.feature = null;
-                module.draw(type, "drawend", (event) => {
-                    const feature = event.feature;
-                    const properties = this.getStyle(type);
-                    feature.setProperties(properties);
-                });
-                this.setUi(type);
-            }
+        dtmap.draw.active({type: type});
+
+        // const yMap = app2D.getYMap();
+        // const module = yMap.getModule("drawingTool");
+        if (type == "Translate") {
+            // module.translate(
+            //     "select",
+            //     (event) => {
+            //         if (event.selected.length > 0) {
+            //             this.feature = event.selected[0];
+            //             this.setStyleUi();
+            //         } else {
+            //             this.feature = null;
+            //             this.resetUi();
+            //         }
+            //     },
+            //     () => {
+            //         this.feature = null;
+            //         this.resetUi();
+            //     }
+            // );
+            this.resetUi();
+        } else if (type == "Modify") {
+            // module.modify(
+            //     "select",
+            //     (event) => {
+            //         if (event.selected.length > 0) {
+            //             this.feature = event.selected[0];
+            //             this.setStyleUi();
+            //         } else {
+            //             this.feature = null;
+            //             this.resetUi();
+            //         }
+            //     },
+            //     () => {
+            //         this.feature = null;
+            //         this.resetUi();
+            //     }
+            // );
+            this.resetUi();
         } else {
-            // TO-DO 3D 지도 부분
+            this.feature = null;
+            // module.draw(type, "drawend", (event) => {
+            //     const feature = event.feature;
+            //     const properties = this.getStyle(type);
+            //     feature.setProperties(properties);
+            // });
+            const that = this;
+            dtmap.off('draw');
+            dtmap.on('drawend', function (e) {
+                const feature = e.feature;
+                const properties = that.getStyle(type);
+                feature.setProperties({style: properties});
+            });
+
+            this.setUi(type);
         }
+
     }
 
     /**
@@ -934,7 +946,18 @@ class GraphicToolEditor {
         const pointColor = $(".pointColor", selector).val();
         const shapeType = $(".pointShape", selector).val();
         const pointSize = $(".pointSize", selector).val();
-        return {pointColor, shapeType, pointSize};
+        return {
+            fill: {
+                color: pointColor,
+                opacity: 1
+            },
+            stroke: {
+                color: pointColor,
+                width: 1
+            },
+            shape: shapeType,
+            radius: pointSize
+        };
     }
 
     /**
@@ -966,21 +989,28 @@ class GraphicToolEditor {
      */
     getMarkerStyle() {
         const selector = `${this.selector} .drawingTabPoint`;
-        const style = {};
         const symbol = $(".symbol-group button.active", selector);
         const custom = $(".custom-container li.active", selector);
+        let sid, src, scale;
         if (symbol.length > 0) {
-            style["sid"] = $("img", symbol).attr("data-id");
-            style["src"] = $("img", symbol).attr("src");
-            style["scale"] = $(".markerScale", selector).val();
+            sid = $("img", symbol).attr("data-id");
+            src = $("img", symbol).attr("src");
+            scale = $(".markerScale", selector).val();
         } else if (custom.length > 0) {
-            style["sid"] = $("img", custom).attr("data-id");
-            style["src"] = $("img", custom).attr("src");
-            style["scale"] = $(".customScale", selector).val();
+            sid = $("img", custom).attr("data-id");
+            src = $("img", custom).attr("src");
+            scale = $(".customScale", selector).val();
         } else {
             console.log(`선택된 심볼이 없습니다.`);
         }
-        return style;
+        return {
+            marker: {
+                src: src,
+                anchor: [0.5, 0.5],
+                scale: scale,
+                sid: sid
+            }
+        };
     }
 
     /**
@@ -1023,13 +1053,16 @@ class GraphicToolEditor {
         const strokeWidth = $(".strokeWidth", selector).val();
         const strokeStartArrow = $(".strokeStartArrow", selector).is(":checked");
         const strokeEndArrow = $(".strokeEndArrow", selector).is(":checked");
+
         return {
-            strokeColor,
-            strokeLineDash,
-            strokeOpacity,
-            strokeWidth,
-            strokeStartArrow,
-            strokeEndArrow,
+            stroke: {
+                color: strokeColor,
+                opacity: (100 - strokeOpacity) / 100,
+                width: strokeWidth,
+                lineDash: strokeLineDash,
+                startArrow: strokeStartArrow,
+                endArrow: strokeEndArrow
+            }
         };
     }
 
@@ -1080,12 +1113,16 @@ class GraphicToolEditor {
         const fillColor = $(".fillColor", selector).val();
         const fillOpacity = $(".fillOpacitySlider", selector).slider("value");
         return {
-            strokeColor,
-            strokeLineDash,
-            strokeOpacity,
-            strokeWidth,
-            fillColor,
-            fillOpacity,
+            fill: {
+                color: fillColor,
+                opacity: (100 - fillOpacity) / 100
+            },
+            stroke: {
+                color: strokeColor,
+                opacity: (100 - strokeOpacity) / 100,
+                width: strokeWidth,
+                lineDash: strokeLineDash,
+            }
         };
     }
 
@@ -1124,14 +1161,21 @@ class GraphicToolEditor {
         const textAlign = $("[name=textAlign]:checked", selector).val();
         const text = $(".text", selector).val() || "문자";
         return {
-            fillColor,
-            strokeColor,
-            fontFamily,
-            fontSize,
-            fontBold,
-            fontItalic,
-            textAlign,
-            text,
+            text: {
+                fill: {
+                    color: fillColor
+                },
+                stroke: {
+                    color: strokeColor,
+                    width: 2
+                },
+                fontSize: fontSize,
+                fontFamily: fontFamily,
+                bold: fontBold,
+                italic: fontItalic,
+                textAlign: textAlign,
+                text: text
+            }
         };
     }
 
@@ -1150,17 +1194,23 @@ class GraphicToolEditor {
             return;
         }
 
-        if (app2D) {
-            const yMap = app2D.getYMap();
-            const module = yMap.getModule("drawingTool");
-            const count = module.getCount();
-            if (count == 0) {
-                alert(`그리기 객체를 등록하여 주십시오.`);
+        if (dtmap.mod === '2D') {
+            // const yMap = app2D.getYMap();
+            // const module = yMap.getModule("drawingTool");
+            // const count = module.getCount();
+            // if (count == 0) {
+            //     alert(`그리기 객체를 등록하여 주십시오.`);
+            //     return;
+            // }
+            // geojson = module.toGeoJSON();
+            geojson = dtmap.draw.writeGeoJson();
+
+            if (!geojson) {
+                toastr.warning(`그리기 객체를 등록하여 주십시오.`);
                 return;
             }
-            geojson = module.toGeoJSON();
         } else {
-            return alert('해당 기능은 2D에서 가능합니다.');
+            return toastr.warning('해당 기능은 2D에서 가능합니다.');
 
         }
 
@@ -1178,21 +1228,23 @@ class GraphicToolEditor {
                 .done((response) => {
                     const result = JSON.parse(response);
                     if (result["result"]) {
-                        alert(`그리기가 저장 되었습니다.`);
-                        if (app2D) {
-                            const yMap = app2D.getYMap();
-                            const module = yMap.getModule("drawingTool");
-                            module.reset();
-                        } else {
-                        }
+                        toastr.success(`그리기가 저장 되었습니다.`);
+                        // if (app2D) {
+                        // const yMap = app2D.getYMap();
+                        // const module = yMap.getModule("drawingTool");
+                        // module.reset();
+                        // } else {
+                        // }
+                        dtmap.draw.clear();
+                        dtmap.draw.dispose();
                         new GraphicTool(1);
                     } else {
-                        alert(`그리기 저장에 실패했습니다.`);
+                        toastr.error(`그리기 저장에 실패했습니다.`);
                         console.log(result["errorMsg"]);
                     }
                 })
                 .fail(() => {
-                    alert(`그리기 저장에 실패했습니다.`);
+                    toastr.error(`그리기 저장에 실패했습니다.`);
                 });
         }
     }
@@ -1201,12 +1253,14 @@ class GraphicToolEditor {
      * 취소
      */
     cancel(data) {
-        if (app2D) {
-            const yMap = app2D.getYMap();
-            const module = yMap.getModule("drawingTool");
-            module.reset();
-        } else {
-        }
+        // if (app2D) {
+        //     const yMap = app2D.getYMap();
+        //     const module = yMap.getModule("drawingTool");
+        //     module.reset();
+        // } else {
+        // }
+        dtmap.draw.clear();
+        dtmap.draw.dispose();
         new GraphicTool(pageIndex, data);
     }
 
@@ -1220,12 +1274,14 @@ class GraphicToolEditor {
                 const result = JSON.parse(response);
                 if (result["result"]) {
                     alert(`그리기가 삭제 되었습니다.`);
-                    if (app2D) {
-                        const yMap = app2D.getYMap();
-                        const module = yMap.getModule("drawingTool");
-                        module.reset();
-                    } else {
-                    }
+                    // if (app2D) {
+                    //     const yMap = app2D.getYMap();
+                    //     const module = yMap.getModule("drawingTool");
+                    //     module.reset();
+                    // } else {
+                    // }
+                    dtmap.draw.clear();
+                    dtmap.draw.dispose();
                     new GraphicTool(1);
                 } else {
                     alert(`그리기 삭제에 실패했습니다.`);

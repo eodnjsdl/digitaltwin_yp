@@ -31,14 +31,13 @@ map2d.vector = (function () {
      * @property {boolean} [endArrow=false]
      */
     const DEFAULT_STROKE = {
-        color: '#008cff',
+        color: 'rgb(0,139,255)',
         opacity: 1,
         width: 3,
         lineDash: 'solid',
         startArrow: false,
         endArrow: false
     }
-
 
     const DEFAULT_RADIUS = 8
 
@@ -51,8 +50,7 @@ map2d.vector = (function () {
     const DEFAULT_MARKER = {
         anchor: [0.5, 1],
         scale: 1,
-        opacity: 1,
-
+        opacity: 1
     }
 
     /**

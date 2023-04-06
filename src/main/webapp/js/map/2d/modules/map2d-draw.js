@@ -41,7 +41,7 @@ map2d.draw = (function () {
      */
     function active(options) {
         // dispose();
-        map2d.setInteraction(this);
+        map2d.setInteraction(this, true);
         _drawOptions = parseOption(options);
 
         if (!_draw) {
@@ -148,7 +148,7 @@ map2d.draw = (function () {
     function onDrawEnd(e) {
         updateGeometry(e.feature);
         setTimeout(function () {
-            dtmap.trigger('drawend', {geometry: e.feature.getGeometry(), origin: e});
+            dtmap.trigger('drawend', {geometry: e.feature.getGeometry(), feature: e.feature, origin: e});
         })
     }
 
@@ -223,12 +223,60 @@ map2d.draw = (function () {
 
     }
 
+    function readGeoJson(json, style) {
+        if (typeof json === 'string') {
+            json = JSON.parse(json);
+        }
+
+        const format = new ol.format.GeoJSON();
+        const features = format.readFeatures(json).map((feature) => {
+
+            // cloned.set("grphcId", grphcId);
+            if (feature.get("type") === "Circle") {
+                const geometry = feature.getGeometry();
+                feature.setGeometry(
+                    new ol.geom.Circle(
+                        geometry.getCoordinates(),
+                        feature.get("circleRadius")
+                    )
+                );
+            }
+            if (style) {
+                feature.set('style', style);
+            }
+            return feature;
+        });
+        _source.addFeatures(features);
+    }
+
+    function writeGeoJson() {
+        let features = _source.getFeatures();
+        if (features.length === 0) {
+            return;
+        }
+
+        const format = new ol.format.GeoJSON();
+        features = features.map((feature) => {
+            const cloned = feature.clone();
+            const geom = cloned.getGeometry();
+            if (geom instanceof ol.geom.Circle) {
+                cloned.setGeometry(new ol.geom.Point(geom.getCenter()));
+                cloned.set('circleRadius', geom.getRadius());
+                cloned.set('type', 'Circle')
+            }
+            return cloned;
+        });
+        return format.writeFeatures(features);
+    }
+
 
     let module = {
         init: init,
         active: active,
         dispose: dispose,
         writeWKT: writeWKT,
+        writeGeoJson: writeGeoJson,
+        readGeoJson: readGeoJson,
         getGeometry: getGeometry,
         setBuffer: setBuffer,
         clear: clear,

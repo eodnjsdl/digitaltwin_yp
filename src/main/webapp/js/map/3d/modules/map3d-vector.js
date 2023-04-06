@@ -1,23 +1,31 @@
 window.map3d = window.map3d || {}
 map3d.vector = (function () {
+    const DEFAULT_FILL = {
+        color: 'rgba(255,255,255)',
+        opacity: 0.4
+    }
+    const DEFAULT_STROKE = {
+        color: 'rgb(0,139,255)',
+        width: 3
+    }
     const DEFAULT_POINT = {
-        fill: {
-            color: '#4854d3'
-        },
-        stroke: {
-            color: 'white',
-            width: 2
-        },
+        fill: DEFAULT_FILL,
+        stroke: DEFAULT_STROKE,
         radius: 5
     }
 
+
     const DEFAULT_LINE = {
-        stroke: {
-            color: '#4854d3',
-            width: 3
-        },
+        stroke: DEFAULT_STROKE,
+        width: 3,
         radius: 5
     }
+
+    const DEFAULT_POLYGON = {
+        fill: DEFAULT_FILL,
+        stroke: DEFAULT_STROKE
+    }
+
     const TYPE = {
         POINT: 'Point',
         LINE: 'Line',
@@ -170,6 +178,16 @@ map3d.vector = (function () {
     function addFeature(feature, crs, style) {
         const f = feature.clone();
         f.setId(feature.getId() || ol.util.getUid(feature));
+
+        if (f.get("type") === "Circle") {
+            const geometry = f.getGeometry();
+            f.setGeometry(
+                new ol.geom.Circle(
+                    geometry.getCoordinates(),
+                    feature.get("circleRadius")
+                )
+            );
+        }
         let geometry = f.getGeometry();
         if (crs !== map3d.crs) {
             geometry.transform(ol.proj.get(crs), ol.proj.get(map3d.crs));
@@ -188,7 +206,7 @@ map3d.vector = (function () {
         } else if (geometry instanceof ol.geom.LineString || geometry instanceof ol.geom.MultiLineString) {
             object = _lineLayer.add(param);
             _featureTypeMap.set(id, TYPE.LINE);
-        } else if (geometry instanceof ol.geom.Polygon || geometry instanceof ol.geom.MultiPolygon) {
+        } else if (geometry instanceof ol.geom.Polygon || geometry instanceof ol.geom.MultiPolygon || geometry instanceof ol.geom.Circle) {
             object = _polygonLayer.add(param);
             _featureTypeMap.set(id, TYPE.POLYGON);
         }
@@ -241,8 +259,8 @@ map3d.vector = (function () {
         } else if (geometry instanceof ol.geom.LineString || geometry instanceof ol.geom.MultiLineString) {
             styleOpt = {...DEFAULT_LINE, ...styleOpt};
 
-        } else if (geometry instanceof ol.geom.Polygon || geometry instanceof ol.geom.MultiPolygon) {
-
+        } else if (geometry instanceof ol.geom.Polygon || geometry instanceof ol.geom.MultiPolygon || geometry instanceof ol.geom.Circle) {
+            styleOpt = {...DEFAULT_POLYGON, ...styleOpt};
 
         }
         return styleOpt;
