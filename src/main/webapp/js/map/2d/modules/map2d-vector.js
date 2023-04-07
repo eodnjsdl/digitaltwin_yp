@@ -31,14 +31,13 @@ map2d.vector = (function () {
      * @property {boolean} [endArrow=false]
      */
     const DEFAULT_STROKE = {
-        color: '#008cff',
+        color: 'rgb(0,139,255)',
         opacity: 1,
         width: 3,
         lineDash: 'solid',
         startArrow: false,
         endArrow: false
     }
-
 
     const DEFAULT_RADIUS = 8
 
@@ -51,8 +50,7 @@ map2d.vector = (function () {
     const DEFAULT_MARKER = {
         anchor: [0.5, 1],
         scale: 1,
-        opacity: 1,
-
+        opacity: 1
     }
 
     /**
@@ -154,18 +152,24 @@ map2d.vector = (function () {
      */
     function select(id, multi) {
         if (!multi) {
-            _source.getFeatures().forEach(function (f) {
-                f.unset('_selected');
-            });
+            clearSelect();
         }
 
 
         let feature = _source.getFeatureById(id);
         if (feature) {
-            const coords = feature.getGeometry().getCoordinates();
+            // const center = feature.getGeometry().getCoordinates();
+            const extent = feature.getGeometry().getExtent();
+            const center = [(extent[0] + extent[2]) / 2, (extent[1] + extent[3]) / 2];
             feature.set('_selected', true);
-            map2d.view.setCenter(coords);
+            map2d.view.setCenter(center);
         }
+    }
+
+    function clearSelect() {
+        _source.getFeatures().forEach(function (f) {
+            f.unset('_selected');
+        });
     }
 
     function clear() {
@@ -231,12 +235,14 @@ map2d.vector = (function () {
             style.setStroke(stroke);
             return style;
         } else if (geom instanceof ol.geom.Point || geom instanceof ol.geom.MultiPoint) {
-            if (styleOpt.marker) {
+            if (styleOpt.marker && styleOpt.marker.src) {
                 //마커
                 style.setImage(markerStyle(merge(DEFAULT_MARKER, styleOpt.marker), selected));
+            } else if (styleOpt.text) {
+                style.setText(textStyle(merge(DEFAULT_LABEL, styleOpt.text)));
             } else {
                 //포인트
-                style.setImage(pointStyle(fill, stroke, styleOpt.radius || DEFAULT_RADIUS));
+                style.setImage(pointStyle(fill, stroke, styleOpt.radius || DEFAULT_RADIUS, styleOpt.shape));
             }
 
             return style;
@@ -263,12 +269,57 @@ map2d.vector = (function () {
         })
     }
 
-    function pointStyle(fill, stroke, radius) {
-        return new ol.style.Circle({
-            radius: radius,
-            fill: fill,
-            stroke: stroke
-        })
+    function pointStyle(fill, stroke, radius, shape) {
+        if (shape === "Rectangle") {
+            return new ol.style.RegularShape({
+                fill: fill,
+                stroke: stroke,
+                radius: radius,
+                points: 4,
+                angle: Math.PI / 4,
+            })
+        } else if (shape === "Triangle") {
+            return new ol.style.RegularShape({
+                fill: fill,
+                stroke: stroke,
+                points: 3,
+                radius: radius,
+                angle: 0,
+            })
+        } else if (shape === "Star") {
+            return new ol.style.RegularShape({
+                fill: fill,
+                stroke: stroke,
+                points: 5,
+                radius: radius,
+                radius2: 4,
+                angle: 0,
+            })
+        } else if (shape === "Cross") {
+            return new ol.style.RegularShape({
+                fill: fill,
+                stroke: stroke,
+                points: 4,
+                radius: radius,
+                radius2: 0,
+                angle: 0,
+            })
+        } else if (shape === "X") {
+            return new ol.style.RegularShape({
+                fill: fill,
+                stroke: stroke,
+                points: 4,
+                radius: radius,
+                radius2: 0,
+                angle: Math.PI / 4,
+            })
+        } else {
+            return new ol.style.Circle({
+                radius: radius,
+                fill: fill,
+                stroke: stroke
+            })
+        }
     }
 
     function markerStyle(options, selected) {
@@ -294,15 +345,15 @@ map2d.vector = (function () {
     }
 
     function lineStyle(feature, resolution, options) {
-        const styles = [];
+        let styles = [];
         const geom = feature.getGeometry();
         const coords = geom.getCoordinates();
         if (options.startArrow) {
-            styles.concat(arrowStyle(coords[1], coords[0], resolution, options))
+            styles = styles.concat(arrowStyle(coords[1], coords[0], resolution, options))
         }
 
         if (options.endArrow) {
-            styles.concat(arrowStyle(coords[coords.length - 2], coords[coords.length - 1], resolution, options))
+            styles = styles.concat(arrowStyle(coords[coords.length - 2], coords[coords.length - 1], resolution, options))
         }
 
         return styles;
@@ -325,6 +376,8 @@ map2d.vector = (function () {
     }
 
     function getLineDash(type, width) {
+        type = type || 'SOLID';
+        width = width || 1;
         let lineDash = []; //solid
         let t = type.toUpperCase();
         if (t === "DOT") {
@@ -456,14 +509,15 @@ map2d.vector = (function () {
     let module = {
         init: init,
         addPoint: addPoint,
-        select: select,
+        addFeatures: addFeatures,
         clear: clear,
+        clearSelect: clearSelect,
         dispose: dispose,
         fit: fit,
         readWKT: readWKT,
         readGeoJson: readGeoJson,
+        select: select,
         writeGeoJson: writeGeoJson,
-        addFeatures: addFeatures
     }
 
     Object.defineProperties(module, {

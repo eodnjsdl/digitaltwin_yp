@@ -1,9 +1,7 @@
 // 메모정보 목록 호출
 function aj_selectMemoInfoList(frm){
 	ui.loadingBar("show");
-	
 	var formData = new FormData(frm);
-	
 	$.ajax({
 		type : "POST",
 		url : "/cmt/mmi/selectMemoList.do",
@@ -28,31 +26,47 @@ function aj_selectMemoInfoList(frm){
 		}
 	});
 
+}
 
+function _onDrawEnd_memo(e) {
+	dtmap.draw.dispose();
+	var geom = e.geometry;
+	const position = geom.getFlatCoordinates();
+	var xObj = parseFloat(position[0]);
+	var yObj = parseFloat(position[1]);
+	cmmUtil.reverseGeocoding(xObj, yObj).done((result)=>{
+		$("#loc_memo").val(result["address"]);
+		const format = new ol.format.WKT();
+		const point = new ol.geom.Point([xObj, yObj]);
+		const wkt = format.writeGeometry(point);
+		$("#wkt").val(wkt);
+	});
 }
 
 // 메모 지도에서 선택
 function aj_selectMemoLocation() {
-	cmmUtil.getPosition(reverseMemoGeo);
+	// cmmUtil.getPosition(reverseMemoGeo);
+	dtmap.draw.active({type: 'Point', once: true});
+	dtmap.on('drawend', _onDrawEnd_memo);
 }
-function reverseMemoGeo(poinx,pointy){
-	cmmUtil.reverseGeocoding(poinx, pointy).done((result)=>{
 
-		$("#loc_memo").val(result["address"]);
-		const format = new ol.format.WKT();
-		const point = new ol.geom.Point([poinx, pointy]);
-		const wkt = format.writeGeometry(point);
-		$("#wkt").val(wkt);
-
-	});
-}
+// function reverseMemoGeo(poinx,pointy){
+// 	cmmUtil.reverseGeocoding(poinx, pointy).done((result)=>{
+//
+// 		$("#loc_memo").val(result["address"]);
+// 		const format = new ol.format.WKT();
+// 		const point = new ol.geom.Point([poinx, pointy]);
+// 		const wkt = format.writeGeometry(point);
+// 		$("#wkt").val(wkt);
+//
+// 	});
+// }
 
 
 // 메모정보 등록화면 호출
 function aj_insertMemoInfoView(frm){
 	ui.loadingBar("show");
 	var formData = new FormData(frm);
-	
 	$.ajax({
 		type : "POST",
 		url : "/cmt/mmi/insertMemoInfoView.do",
@@ -147,11 +161,11 @@ function aj_insertMemoInfo(frm){
 		async: false,
 		success : function(returnData, status){
 			if(returnData.result == "success") {
-				toastr.success("메모정보를 성공적으로 등록하였습니다.");
-				
-				rightPopupOpen('memoInfo');
+				toastr.success("정상적으로 등록했습니다.");
+				// rightPopupOpen('memoInfo');
+				aj_selectMemoInfoList($("#insertFormMemo")[0]);
 			} else if (returnData.result == "fail"){
-				toastr.error("메모정보를 등록하는 데 실패하였습니다.");
+				toastr.error("등록을 실패했습니다.");
 				return;
 			} 
 		}, complete : function(){
@@ -162,7 +176,6 @@ function aj_insertMemoInfo(frm){
 
 // 메모정보 수정
 function aj_updateMemoInfo(frm){
-
 	var formData = new FormData(frm);
 	ui.loadingBar("show");
 	$.ajax({
@@ -179,7 +192,7 @@ function aj_updateMemoInfo(frm){
 				toastr.success("메모정보를 성공적으로 수정하였습니다.");
 				aj_selectMemoInfoView(null,this.frm);
 			} else if (returnData.result == "fail"){
-				toastr.error("메모정보를 수정하는 데 실패하였습니다.");
+				toastr.error("메모정보를 수정하는데 실패하였습니다.");
 				return;
 			} 
 		}, complete : function(){

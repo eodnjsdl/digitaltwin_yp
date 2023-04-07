@@ -63,7 +63,7 @@ $(".top-memo-body .bi-location").on("click", aj_selectMemoLocation);
                         </tr>
                         <tr>
                             <th scope="row">위치</th>
-                            <td colspan="3"><input type="text" class="form-control w-70p" id="loc_memo"> <button type="button" class="btn type01 bi-location">지도에서 선택</button></td>
+                            <td colspan="3"><input type="text" class="form-control w-70p" id="loc_memo" readonly> <button type="button" class="btn type01 bi-location">지도에서 선택</button></td>
                         </tr>
                         <tr>
                             <td colspan="4">
