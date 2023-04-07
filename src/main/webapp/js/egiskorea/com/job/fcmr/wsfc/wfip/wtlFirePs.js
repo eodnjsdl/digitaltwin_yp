@@ -26,27 +26,27 @@ function selectWtlFirePsListView(){
 	ui.loadingBar("show");
 	
 	var baseContainer = "#bottomPopup";
-    $(baseContainer).load("/job/fcmr/wsfc/selectWtlFireListView.do", function () {
-        toastr.success("/job/fcmr/wsfc/selectWtlFireListView.do", "페이지🙂호🙂출🙂");
+    $(baseContainer).load("/job/fcmr/wsfc/selectWtlFirePsListView.do", function () {
+        toastr.success("/job/fcmr/wsfc/selectWtlFirePsListView.do", "페이지🙂호🙂출🙂");
         
         $(".scroll-y").mCustomScrollbar({
             scrollbarPosition: "outside",
         });
         
         //옵션 값 세팅
-		getEmdKorNmCode("#lSrchOptions select[name=hjd_cde]");				//읍면동
-		getCmmCodeData("OGC-048", "#lSrchOptions select[name=mof_cde]");	//소화전형식	
+		getCmmCodeData("YPE001", 	"#lSrchOptions select[name=hjd_cde]");	//읍면동	
+		getCmmCodeData("OGC-048", 	"#lSrchOptions select[name=mof_cde]");	//소화전형식	
 		
 		//grid 기본 세팅
 		var $container = $("#container");
 	    var $target = $container.find('#baseGridDiv [data-ax5grid="attr-grid"]')
 	    $target.css('height', 'inherit');
 		
-	    baseGrid = null;	//ax5uigrid 전역 변수 
+	    FACILITY.Ax5UiGrid = null;	//ax5uigrid 전역 변수 
 	    
-		baseGrid = new ax5.ui.grid();
+	    FACILITY.Ax5UiGrid = new ax5.ui.grid();
 		
-		baseGrid.setConfig({
+	    FACILITY.Ax5UiGrid.setConfig({
 			target:  $target,
 	        sortable: true,
 	        multipleSelect: false,
@@ -86,7 +86,7 @@ function selectWtlFirePsListView(){
 	        body: {
 	        	// 데이터 행의 click 이벤트를 정의합니다. 이벤트 변수 및 this 프로퍼티는 아래 onclick 함수를 참고하세요
 	        	onClick: function () {
-	                getWtlFirePsDetail(this.item);	//소방 시설 상세 페이지 로드
+	        		selectWtlFirePs(this.item);	//소방 시설 상세 페이지 로드
 	            }
 	        }
 			
@@ -116,7 +116,7 @@ function selectWtlFirePsList(page) {
 	let filterString = "";
 	
 	if(hjd_cde){
-		filters.push("hjd_cde" + " = " + hjd_cde+"00"); 
+		filters.push("hjd_cde" + " = " + hjd_cde); 
 	}
 	
 	if(mof_cde){
@@ -167,32 +167,30 @@ function selectWtlFirePsList(page) {
         	var mng_cde = data.features[i].properties.mng_cde;
         	data.features[i].properties.mng_cde_nm = getCmmCodeDataArray("MNG-001", mng_cde);
         	
-        	//읍면동 코드 변경(wfs)
+        	//읍면동 코드 변경
         	var hjd_cde = data.features[i].properties.hjd_cde;
-        	data.features[i].properties.hjd_cde_nm = getCmmCodeDataArray("tgd_scco_emd", hjd_cde);
+        	data.features[i].properties.hjd_cde_nm = getCmmCodeDataArray("YPE001", hjd_cde);
         	
         	//소화전 형식 코드 변경
         	var mof_cde = data.features[i].properties.mof_cde;
         	data.features[i].properties.mof_cde_nm = getCmmCodeDataArray("OGC-048", mof_cde);
             
             //좌표 처리
-        	var geomType 	= data.features[i].geometry.type;
+        	/*var geomType 	= data.features[i].geometry.type;
         	var geomCoord	= data.features[i].geometry.coordinates[0]+" "+data.features[i].geometry.coordinates[1];
         	
         	var dd = geomType+"("+ geomCoord +")";
-        	//list.push(data.features[i].geometry_name, geomType+"("+ geomCoord +")" );
-        	data.features[i].properties.geom = geomType+"("+ geomCoord +")";
-        	//data.features[i].properties.geom = data.features[i].geometry;
+        	data.features[i].properties.geom = geomType+"("+ geomCoord +")"*/;
+        	data.features[i].properties.geomObj = data.features[i].geometry;
         	
         	const {id, properties} = data.features[i];
             list.push({...properties, ...{id: id}});
         }
         
-        
         ///////////////
         
         //gird 적용
-        baseGrid.setData(
+        FACILITY.Ax5UiGrid.setData(
         	{	
         		list: list,
         		page: {
@@ -248,8 +246,8 @@ function selectWtlFirePsList(page) {
 }
 
 //소방시설 상세정보 조회
-function getWtlFirePsDetail(detailData){
-	console.log("getWtlFirePsDetail(detailData)");
+function selectWtlFirePs(detailData){
+	console.log("selectWtlFirePs(detailData)");
 	console.log(detailData);
 
 	ui.loadingBar("show");
@@ -262,7 +260,7 @@ function getWtlFirePsDetail(detailData){
 	}
 	
 	$.ajax({
-		url:"/job/fcmr/wsfc/getWtlFirePsDetail.do",
+		url:"/job/fcmr/wsfc/selectWtlFirePs.do",
 		type: "POST",
 		//data: JSON.stringify(detailData),
 		data: formData,
@@ -292,7 +290,7 @@ function insertWtlFirePsView(){
 	
 	ui.loadingBar("show");
 	
-	$("#rightSubPopup").addClass("div-failcity-detail");
+	$("#rightSubPopup").addClass("div-failcity-detail");	//날짜 css 때문	
 	
 	ui.openPopup("rightSubPopup");
 	
@@ -303,12 +301,10 @@ function insertWtlFirePsView(){
         $(".scroll-y").mCustomScrollbar({
             scrollbarPosition: "outside",
         });
-                
-        getEmdKorNmCode("#rightSubPopup select[name=hjd_cde]");				//읍면동
+       
+        getCmmCodeData("YPE001",  "#rightSubPopup select[name=hjd_cde]");	//읍면동	
         getCmmCodeData("MNG-001", "#rightSubPopup select[name=mng_cde]");	//관리기관
 		getCmmCodeData("OGC-048", "#rightSubPopup select[name=mof_cde]");	//소화전형식
-        
-        //ui.callDatePicker();
         
 		ui.loadingBar("hide");
     });
@@ -317,8 +313,15 @@ function insertWtlFirePsView(){
 
 //소방시설 등록 
 function insertWtlFirePs(){
-	
 	console.log("insertWtlFirePs()");
+	toastr.error("insertWtlFirePs()", "소방시설 등록 작업중");
+	return false;
+	/////////
+	//유효성 체크
+	
+	//필수 값 체크
+	
+	//값 체크
 	
 	/*if (!this.feature.getGeometry()) {
 		
@@ -326,7 +329,8 @@ function insertWtlFirePs(){
         return false;
     }*/
 	
-	//insertWtlFirePsForm
+	//console.log($("#insertWtlFirePsForm input[name=ist_ymd]").val());
+	
 	
 	var feature = new ol.Feature();
 	const params = $("#insertWtlFirePsForm").serializeArray();
@@ -336,7 +340,7 @@ function insertWtlFirePs(){
         }
     });
     
-    console.log(params);
+    //console.log(params);
     
     //const wkt = cmmUtil.getEditGeometry();
     //geom 테스트
@@ -380,10 +384,10 @@ function insertWtlFirePs(){
         const result = JSON.parse(response);
         if (result["result"]) {
             alert("등록 되었습니다.");
-           /* if (this.onSave) {
+            if (this.onSave) {
                 this.onSave();
             }
-            this.destroy();*/
+            this.destroy();
             
             selectWtlFirePsList(1);	//다시 목록 로드
             
@@ -403,31 +407,26 @@ function insertWtlFirePs(){
 
 ////////////
 
-//소방시설 등록 화면 조회
-function updateWtlFirePsView(){
-	console.log("updateWtlFirePsView()");
+//소방시설 수정 화면 조회
+function updateWtlFirePsView(id){
+	//console.log("updateWtlFirePsView()");
+	//console.log("id>"+id);
 	
-	ui.loadingBar("show");
+	var detailData = null;
+	if( FACILITY.Ax5UiGrid){
+		var list =  FACILITY.Ax5UiGrid.list;
+		
+		for(var i=0; i<list.length; i++){
+			if(list[i].id == id){
+				detailData = list[i];
+			}
+		}
+	}
 	
-	$("#rightSubPopup").addClass("div-failcity-detail");
-	
-	ui.openPopup("rightSubPopup");
-	
-	var container = "#rightSubPopup";
-    /*$(container).load("/job/fcmr/wsfc/insertWtlFirePsView.do", function () {
-        toastr.success("/job/fcmr/wsfc/insertWtlFirePsView.do", "페이지🙂호🙂출🙂");
-        
-        $(".scroll-y").mCustomScrollbar({
-            scrollbarPosition: "outside",
-        });
-                
-        getEmdKorNmCode("#rightSubPopup select[name=hjd_cde]");				//읍면동
-        getCmmCodeData("MNG-001", "#rightSubPopup select[name=mng_cde]");	//관리기관
-		getCmmCodeData("OGC-048", "#rightSubPopup select[name=mof_cde]");	//소화전형식
-        
-		ui.loadingBar("hide");
-    });*/
-    
+	if(!detailData && detailData == null){
+		alert("소방시설 상세보기 오류");
+		return false;
+	}
     
     var formData = new FormData();
 	
@@ -437,8 +436,11 @@ function updateWtlFirePsView(){
 		}
 	}
 	
+	//id 값 저장
+	formData.append("id", detailData['id']);
+	
 	$.ajax({
-		url:"/job/fcmr/wsfc/insertWtlFirePsView.do",
+		url:"/job/fcmr/wsfc/updateWtlFirePsView.do",
 		type: "POST",
 		//data: JSON.stringify(detailData),
 		data: formData,
@@ -448,9 +450,13 @@ function updateWtlFirePsView(){
         processData: false,
 		success:function(result) {
 			//console.log(result);
-			/*ui.openPopup("rightSubPopup");
+			
+			$("#rightSubPopup").addClass("div-failcity-detail");	//날짜 css 때문	
+			ui.openPopup("rightSubPopup");
+			
 			var container = "#rightSubPopup";
-			$(container).html(result);*/
+			$(container).html(result);
+			
 		}
 		,error: function(request,status,error){
 			console.log("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
@@ -459,8 +465,6 @@ function updateWtlFirePsView(){
 			ui.loadingBar("hide");
 		}
 	});
-    
-	
 	
 }
 
