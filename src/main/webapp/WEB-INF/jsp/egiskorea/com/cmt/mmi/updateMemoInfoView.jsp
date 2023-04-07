@@ -9,11 +9,12 @@
 $(".btn-wrap .bi-cancel").on("click", function(){
         $(this).addClass("active");
         //rightPopupOpen('memoInfo');
-    aj_selectMemoInfoView(null,$("#updateFormMemo")[0]);
+        aj_selectMemoInfoView(null,$("#updateFormMemo")[0]);
 });
 
 // 메모정보 수정
 $(".btn-wrap .bi-edit").on("click", function(){
+    dtmap.vector.clear();
     aj_updateMemoInfo($("#updateFormMemo")[0]);
 });
 
@@ -22,12 +23,14 @@ $(".top-memo-body .bi-location").on("click", aj_selectMemoLocation);
 $(function() {
     const wkt = "<c:out value="${result.wkt}" />";
     const sj = "<c:out value="${result.sj}" />";
+    const id = "<c:out value="${result.memoId}" />";
     const reader = new ol.format.WKT();
+    const feature = new ol.Feature(reader.readGeometry(wkt));
+    feature.setId(id);
     const features = [];
-    features.push(new ol.Feature(reader.readGeometry(wkt)));
+    features.push(feature);
     const format = new ol.format.GeoJSON();
     const geojson = format.writeFeatures(features);
-    const feature = format.readFeatures(geojson);
     const geometry = reader.readGeometry(wkt);
     const pointX = geometry.flatCoordinates[0];
     const pointY = geometry.flatCoordinates[1];
@@ -43,40 +46,10 @@ $(function() {
             }
         }
     });
+    dtmap.vector.select(feature.getId());
     cmmUtil.reverseGeocoding(pointX, pointY).done((result) => {
         $("#loc_memo").val(result["address"]);
     });
-
-    <%--if(app2D){--%>
-
-    <%--    const wkt ="<c:out value="${result.wkt}" />";--%>
-    <%--    const features = [];--%>
-    <%--    const reader = new ol.format.WKT();--%>
-    <%--    features.push(new ol.Feature(reader.readGeometry(wkt)));--%>
-    <%--    const format = new ol.format.GeoJSON();--%>
-    <%--    const geojson = format.writeFeatures(features);--%>
-    <%--    const feature = format.readFeatures(geojson);--%>
-
-    <%--    const geometry = reader.readGeometry(wkt);--%>
-    <%--    const pointX = geometry.flatCoordinates[0];--%>
-    <%--    const pointY = geometry.flatCoordinates[1];--%>
-    <%--    cmmUtil.highlightFeatures(geojson, "/images/poi/memo_poi.png");--%>
-    <%--    cmmUtil.reverseGeocoding(pointX, pointY).done((result)=>{--%>
-    <%--        $("#loc_memo").val(result["address"]);--%>
-    <%--    });--%>
-    <%--}else{--%>
-	<%--	var list = ${gsonResultList};--%>
-	<%--	if(list.wkt){--%>
-	<%--		var pointX = parseFloat(list.wkt.split(" ")[0].split("(")[1])--%>
-	<%--		var pointY = parseFloat(list.wkt.split(" ")[1].split("(")[0])--%>
-	<%--		var position = TransformCoordinate(pointX, pointY, 26, 13);--%>
-	<%--        cmmUtil.reverseGeocoding(pointX, pointY).done((result)=>{--%>
-	<%--            $("#loc_memo").val(result["address"]);--%>
-	<%--        });--%>
-	<%--        --%>
-	<%--		setCameraMove_3D(position.x, position.y);--%>
-	<%--	}--%>
-	<%--}--%>
 });
 
 </script>
@@ -126,7 +99,7 @@ $(function() {
                         </tr>
                         <tr>
                             <th scope="row">위치</th>
-                            <td colspan="3"><input type="text" class="form-control w-65p" id="loc_memo"> <button type="button" class="btn type01 bi-location">지도에서 선택</button></td>
+                            <td colspan="3"><input type="text" class="form-control w-65p" id="loc_memo" readonly> <button type="button" class="btn type01 bi-location">지도에서 선택</button></td>
                         </tr>
                         <tr>
                             <td colspan="4">
@@ -142,7 +115,7 @@ $(function() {
             <div class="position-bottom btn-wrap">
                 <div><button type="button" class="btn basic bi-edit">수정</button> <button type="button" class="btn basic bi-cancel">취소</button></div>
             </div>
-                <input type="hidden" id="wkt" name="wkt" value="${result.wkt}">
+            <input type="hidden" id="wkt" name="wkt" value="${result.wkt}">
             </form:form>		
         </div>
     </div>

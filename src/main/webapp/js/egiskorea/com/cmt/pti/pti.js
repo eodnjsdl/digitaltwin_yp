@@ -30,20 +30,37 @@ function aj_selectPotoInfoList(frm){
 }
 
 
-//  지도에서 선택
-function aj_selectphotoLocation() {
-	 cmmUtil.getPosition(reverseGeo);
-}
-
-function reverseGeo(poinx,pointy){
-	cmmUtil.reverseGeocoding(poinx, pointy).done((result)=>{
-		$("#loc").val(result["address"]);
+function _onDrawEnd_photo(e) {
+	dtmap.draw.dispose();
+	var geom = e.geometry;
+	const position = geom.getFlatCoordinates();
+	var xObj = parseFloat(position[0]);
+	var yObj = parseFloat(position[1]);
+	cmmUtil.reverseGeocoding(xObj, yObj).done((result)=>{
+		$("#loc_poto").val(result["address"]);
 		const format = new ol.format.WKT();
-		const point = new ol.geom.Point([poinx, pointy]);
+		const point = new ol.geom.Point([xObj, yObj]);
 		const wkt = format.writeGeometry(point);
 		$("#wkt").val(wkt);
 	});
 }
+
+//  지도에서 선택
+function aj_selectphotoLocation() {
+	 // cmmUtil.getPosition(reverseGeo);
+	dtmap.draw.active({type: 'Point', once: true});
+	dtmap.on('drawend', _onDrawEnd_photo);
+}
+
+// function reverseGeo(poinx,pointy){
+// 	cmmUtil.reverseGeocoding(poinx, pointy).done((result)=>{
+// 		$("#loc").val(result["address"]);
+// 		const format = new ol.format.WKT();
+// 		const point = new ol.geom.Point([poinx, pointy]);
+// 		const wkt = format.writeGeometry(point);
+// 		$("#wkt").val(wkt);
+// 	});
+// }
 
 // 사진정보 등록화면 호출
 function aj_insertPotoInfoView(frm){
@@ -153,8 +170,8 @@ function aj_insertPotoInfo(frm){
 		success : function(returnData, status){
 			if(returnData.result == "success") {
 				toastr.success("사진정보를 성공적으로 등록하였습니다.");
-				
-				rightPopupOpen('potoInfo');
+				// rightPopupOpen('potoInfo');
+				aj_selectPotoInfoList($("#tmpForm")[0]);
 			} else if (returnData.result == "fail"){
 				toastr.error("사진정보를 등록하는 데 실패하였습니다.");
 				return;
@@ -166,7 +183,7 @@ function aj_insertPotoInfo(frm){
 }
 
 // 사진정보 수정
-function aj_updatePotoInfo(frm){
+function aj_updatePotoInfo(frm){ console.log(frm)
 	var formData = new FormData(frm);
 	var updateFileCn =new Array();
     var updateFileSn = new Array();
@@ -181,33 +198,31 @@ function aj_updatePotoInfo(frm){
         } else {
             var fileSn = $('input:checkbox[name=potoCheck]').eq(idx).parent().parent().parent().parent().children()[3].value;
             updateFileSn.push(fileSn);
-            console.log(fileSn)
-            console.log($('#atchmnflId').val());
+            // console.log(fileSn)
+            // console.log($('#atchmnflId').val());
             updateFileCn.push($('input:text[name=fileCn]').eq(idx).val());
 			formData.append("updateFileCn",$('input:text[name=fileCn_new]').eq(idx).val());
         }
     });
 
     for(var i=0; i<updateFileCn.length; ++i) {
-        Data = {'atchmnflId' : $('#atchmnflId').val(), 'updateFileCn' : updateFileCn[i], 'updateFileSn' : updateFileSn[i]}
+		Data = {
+			'atchmnflId': $('#atchmnflId').val(),
+			'updateFileCn': updateFileCn[i],
+			'updateFileSn': updateFileSn[i]
+		}
         $.ajax({
             type : "POST",
             url : "/cmt/pti/updateFileDetail.do",
             data : Data,
             success : function(returnData, status){
                 if(status == "success") {
-                    
                 } else if (returnData.result == "fail"){
-					toastr.error("사진정보를 수정하는 데 실패하였습니다.");
+					toastr.error("사진정보를 수정하는데 실패하였습니다.");
                     return;
                 } 
             }, complete : function(){
-
-            },
-			error : function( error ) {
-
 			}
-
         });
     }
 
@@ -243,9 +258,6 @@ function aj_updatePotoInfo(frm){
 			} 
 		}, complete : function(){
 			ui.loadingBar("hide"); 
-		},
-		error : function( error ) {
-
 		}
 	});
 }

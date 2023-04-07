@@ -32,13 +32,8 @@ function _onDrawEnd_memo(e) {
 	dtmap.draw.dispose();
 	var geom = e.geometry;
 	const position = geom.getFlatCoordinates();
-	// var position_5174 = proj4(dtmap.crs, "EPSG:5174", [position[0], position[1]]); //5179좌표에서 5174로 변경
-	// var xObj = {'_5174': position_5174[0], '_5179': position[0]};
-	// var yObj = {'_5174': position_5174[1], '_5179': position[1]};
-
 	var xObj = parseFloat(position[0]);
 	var yObj = parseFloat(position[1]);
-
 	cmmUtil.reverseGeocoding(xObj, yObj).done((result)=>{
 		$("#loc_memo").val(result["address"]);
 		const format = new ol.format.WKT();
@@ -181,7 +176,6 @@ function aj_insertMemoInfo(frm){
 
 // 메모정보 수정
 function aj_updateMemoInfo(frm){
-
 	var formData = new FormData(frm);
 	ui.loadingBar("show");
 	$.ajax({
@@ -198,7 +192,7 @@ function aj_updateMemoInfo(frm){
 				toastr.success("메모정보를 성공적으로 수정하였습니다.");
 				aj_selectMemoInfoView(null,this.frm);
 			} else if (returnData.result == "fail"){
-				toastr.error("메모정보를 수정하는 데 실패하였습니다.");
+				toastr.error("메모정보를 수정하는데 실패하였습니다.");
 				return;
 			} 
 		}, complete : function(){

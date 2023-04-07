@@ -14,20 +14,19 @@
     });
     // 사진정보 등록
     $(".btn-wrap .bi-write2").on("click", function () {
-
         // 미입력 관련 VALIDATE
         var sj = $("#sj").val();
         var wkt = $("#wkt").val();
         var fileLength = $("#potoImgInsertList td").length;
 
         if (sj == '') {
-            alert("제목을 입력해주세요.");
+            toastr.warning("제목을 입력해 주세요.");
             return;
         } else if (wkt == '' || wkt == undefined) { // 위치 유무 체크
-            alert("위치를 지정해주세요.");
+            toastr.warning("위치를 지정해 주세요.");
             return;
         } else if (fileLength == 0) { //파일이 유무 체크
-            alert("파일을 선택해주세요.");
+            toastr.warning("파일을 선택해 주세요.");
             return;
         } else {
             aj_insertPotoInfo($("#insertFormPoto")[0]);
@@ -51,7 +50,7 @@
             $("input[name='potoAll']").prop("checked", false);
 
         } else {
-            alert('선택된 사진이 없습니다.');
+            toastr.warning('선택된 사진이 없습니다.');
         }
     });
 
@@ -101,7 +100,7 @@
                     </tr>
                     <tr>
                         <th scope="row">위치</th>
-                        <td><input type="text" class="form-control" id="loc" style="width: 207px;">
+                        <td><input type="text" class="form-control" id="loc_poto" style="width: 207px;" readonly>
                             <button type="button" class="btn type01 bi-location">지도에서 선택</button>
                         </td>
                     </tr>

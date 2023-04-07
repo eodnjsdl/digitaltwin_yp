@@ -44,7 +44,6 @@
     });
     //사진 다운로드
     $(".top-images-dtBody .position-bottom .bi-download").on("click", function () {
-
         const src = $(".swiper-slide-active img").attr("src");
         const fileNm = $(".swiper-slide-active .thumb").children()[1].value
         var link = document.createElement("a");
@@ -53,40 +52,84 @@
         link.click();
     });
 
-    $(function () {
-        if (app2D) {
-            const wkt = "<c:out value="${result.wkt}" />";
+    // 사진 click
+    $(".swiper-wrapper img").on("click", function (e) {
+        var src = e.target.src;
+        cmmUtil.zoomInImage(src) ;
+    });
 
-            const reader = new ol.format.WKT();
-            const features = [];
-            features.push(new ol.Feature(reader.readGeometry(wkt)));
-            const format = new ol.format.GeoJSON();
 
-            const geojson = format.writeFeatures(features);
-            const feature = format.readFeatures(geojson);
-            cmmUtil.highlightFeatures(geojson, "/images/poi/poto_poi.png");
-            util.gis.moveFeatures(app2D.getYMap().getMap(), feature);
-
-            const geometry = reader.readGeometry(wkt);
-            const pointX = geometry.flatCoordinates[0];
-            const pointY = geometry.flatCoordinates[1];
-            cmmUtil.reverseGeocoding(pointX, pointY).done((result) => {
-                $("#loc_poto").html(result["address"]);
-            });
-        } else {
-            var list = ${gsonResultList};
-            if (list.wkt) {
-                var pointX = parseFloat(list.wkt.split(" ")[0].split("(")[1])
-                var pointY = parseFloat(list.wkt.split(" ")[1].split("(")[0])
-                var position = TransformCoordinate(pointX, pointY, 26, 13);
-
-                cmmUtil.reverseGeocoding(pointX, pointY).done((result) => {
-                    $("#loc_poto").html(result["address"]);
-                });
-
-                setCameraMove_3D(position.x, position.y);
+    function refreshLayerByPhoto() {
+        const ids = [];
+        const wkts = [];
+        const sj = [];
+        <c:forEach  items="${resultList}" var="item">
+        ids.push("${item.phtoId}");
+        wkts.push("${item.wkt}");
+        sj.push("${item.sj}");
+        </c:forEach>
+        const reader = new ol.format.WKT();
+        const features = [];
+        wkts.forEach((wkt, index) => {
+            if (wkt) {
+                const feature = new ol.Feature(reader.readGeometry(wkt));
+                feature.setId(ids[index]);
+                feature.setProperties({"sj": sj[index]});
+                features.push(feature);
             }
+        });
+        if (features.length > 0) {
+            const format = new ol.format.GeoJSON();
+            const geojson = format.writeFeatures(features);
+            dtmap.draw.clear();
+            dtmap.draw.dispose();
+            dtmap.vector.clearSelect();
+            //지도에 GeoJSON 추가
+            dtmap.vector.readGeoJson(geojson, function (feature) {
+                return {
+                    marker: {
+                        src: '/images/poi/memo_poi.png'
+                    },
+                    label: {
+                        text: feature.get("sj")
+                    }
+                }
+            });
         }
+    }
+
+    $(function () {
+        refreshLayerByPhoto();
+        const wkt = "<c:out value="${result.wkt}" />";
+        const sj = "<c:out value="${result.sj}" />";
+        const id = "<c:out value="${result.memoId}" />";
+        const reader = new ol.format.WKT();
+        const feature = new ol.Feature(reader.readGeometry(wkt));
+        feature.setId(id);
+        const features = [];
+        features.push(feature);
+        const format = new ol.format.GeoJSON();
+        const geojson = format.writeFeatures(features);
+        const geometry = reader.readGeometry(wkt);
+        const pointX = geometry.flatCoordinates[0];
+        const pointY = geometry.flatCoordinates[1];
+
+        // dtmap.vector.clear();
+        //지도에 GeoJSON 추가
+        dtmap.vector.readGeoJson(geojson, function (feature) {
+            return {
+                marker: {
+                    src: '/images/poi/poto_poi.png'
+                },
+                label: {
+                    text: sj
+                }
+            }
+        });
+        dtmap.vector.select(feature.getId());
+        cmmUtil.reverseGeocoding(pointX, pointY).done((result) => {
+            $("#loc_poto").html(result["address"]);
+        });
 
     });
 
@@ -160,7 +203,7 @@
                                         <div class="swiper-slide">
                                             <div class="thumb">
                                                 <img src='<c:url value='/cmm/fms/getImage.do'/>?atchFileId=<c:out value="${resultFile.atchFileId}"/>&fileSn=<c:out value="${resultFile.fileSn}"/>'
-                                                     alt="파일이미지"/>
+                                                     alt="파일이미지" />
                                                 <input type="hidden" name="orignlFileNm"
                                                        value="<c:out value="${resultFile.orignlFileNm}" />">
                                             </div>
