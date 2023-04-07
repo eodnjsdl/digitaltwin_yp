@@ -94,7 +94,7 @@ var years = "";
 									<td colspan="3">
 										<div class="form-row">
 											<div class="col"><input type="text" class="form-control" id="adres" name="adres"></div> 
-											<div class="col-auto"><button type="button" class="btn type01 bi-location" id="mapSelectBtn">지도에서 선택</button></div>
+											<div class="col-auto"><button type="button" class="btn type01 bi-location" id="mapSelectBtn" onclick="fn_getLocation()">지도에서 선택</button></div>
 											<input type="hidden" name="geom" id="geom">
 										</div>
 									</td>
