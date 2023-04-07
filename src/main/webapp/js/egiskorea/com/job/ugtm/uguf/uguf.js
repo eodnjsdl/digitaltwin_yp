@@ -71,7 +71,6 @@ function setData(_pageNo){
 		$(".bbs-list-num").empty();
 		$(".bbs-list-num").html("조회결과 : <strong>"+data.totalFeatures+"</strong>건");
 
-		toastr.success("페이징된 POI 추가 및 지도 BBOX 이동");
 		   var list = [];
 		   for(i =0;i<data.features.length;i++){
 		      const {id, properties} = data.features[i];
@@ -204,3 +203,23 @@ $("#ugufExcelDownload").on("click", function(){
 	$("form[name='"+ formName + "']").attr('onsubmit', 'fn_select_list(); return false;');
 	$("form[name='"+ formName + "']").attr('action', '');
 });
+
+//지도에서 선택 _ 주소 및 경위도 위치 가져오기
+function fn_getLocation() {
+	dtmap.draw.active({type: 'Point', once: true});
+	dtmap.on('drawend', onDrawEnd);
+}
+function onDrawEnd(e) {
+	dtmap.draw.dispose();
+	var geom = e.geometry;
+	const position = geom.getFlatCoordinates();
+	var xObj = parseFloat(position[0]);
+	var yObj = parseFloat(position[1]);
+	cmmUtil.reverseGeocoding(xObj, yObj).done((result)=>{
+		$("#adres").val("경기도 양평군 "+result["address"]);
+		const format = new ol.format.WKT();
+		const point = new ol.geom.Point([xObj, yObj]);
+		const wkt = format.writeGeometry(point);
+		$("#geom").val(wkt);
+	});
+}

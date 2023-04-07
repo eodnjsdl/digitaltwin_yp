@@ -63,7 +63,6 @@ function setData(_pageNo){
 		$(".bbs-list-num").empty();
 		$(".bbs-list-num").html("조회결과 : <strong>"+data.totalFeatures+"</strong>건");
 
-		toastr.success("페이징된 POI 추가 및 지도 BBOX 이동");
 		   var list = [];
 		   for(i =0;i<data.features.length;i++){
 		      const {id, properties} = data.features[i];
