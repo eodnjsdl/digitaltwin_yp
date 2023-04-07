@@ -203,7 +203,7 @@
                                         <div class="swiper-slide">
                                             <div class="thumb">
                                                 <img src='<c:url value='/cmm/fms/getImage.do'/>?atchFileId=<c:out value="${resultFile.atchFileId}"/>&fileSn=<c:out value="${resultFile.fileSn}"/>'
-                                                     alt="파일이미지" />
+                                                     alt="파일이미지"  style="cursor:pointer;"/>
                                                 <input type="hidden" name="orignlFileNm"
                                                        value="<c:out value="${resultFile.orignlFileNm}" />">
                                             </div>
