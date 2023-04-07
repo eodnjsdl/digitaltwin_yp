@@ -9,52 +9,81 @@
     $(".btn-wrap .bi-cancel").on("click", function () {
         $(this).addClass("active");
         //rightPopupOpen('potoInfo');
-
         aj_selectPotoInfoView(null, $("#updateFormPoto")[0]);
-
-
     });
     // 사진정보 수정
     $(".btn-wrap .bi-edit").on("click", function () {
-
+        dtmap.vector.clear();
         aj_updatePotoInfo($("#updateFormPoto")[0]);
     });
 
-
     $(".bi-location").on("click", aj_selectphotoLocation);
 
+
     $(function () {
-
-        if (app2D) {
-            const wkt = "<c:out value="${result.wkt}" />";
-            const reader = new ol.format.WKT();
-            const geometry = reader.readGeometry(wkt);
-            const pointX = geometry.flatCoordinates[0];
-            const pointY = geometry.flatCoordinates[1];
-            const features = [];
-            features.push(new ol.Feature(reader.readGeometry(wkt)));
-            const format = new ol.format.GeoJSON();
-            const geojson = format.writeFeatures(features);
-            cmmUtil.highlightFeatures(geojson, "/images/poi/poto_poi.png");
-            cmmUtil.reverseGeocoding(pointX, pointY).done((result) => {
-                $("#loc_poto").val(result["address"]);
-            });
-        } else {
-            var list = ${gsonResultList};
-            if (list.wkt) {
-                var pointX = parseFloat(list.wkt.split(" ")[0].split("(")[1])
-                var pointY = parseFloat(list.wkt.split(" ")[1].split("(")[0])
-                var position = TransformCoordinate(pointX, pointY, 26, 13);
-
-                cmmUtil.reverseGeocoding(pointX, pointY).done((result) => {
-                    $("#loc_poto").val(result["address"]);
-                });
-
-                setCameraMove_3D(position.x, position.y);
+        const wkt = "<c:out value="${result.wkt}" />";
+        const sj = "<c:out value="${result.sj}" />";
+        const id = "<c:out value="${result.memoId}" />";
+        const reader = new ol.format.WKT();
+        const feature = new ol.Feature(reader.readGeometry(wkt));
+        feature.setId(id);
+        const features = [];
+        features.push(feature);
+        const format = new ol.format.GeoJSON();
+        const geojson = format.writeFeatures(features);
+        const geometry = reader.readGeometry(wkt);
+        const pointX = geometry.flatCoordinates[0];
+        const pointY = geometry.flatCoordinates[1];
+        // dtmap.vector.clear();
+        //지도에 GeoJSON 추가
+        dtmap.vector.readGeoJson(geojson, function (feature) {
+            return {
+                marker: {
+                    src: '/images/poi/memo_poi.png'
+                },
+                label: {
+                    text: sj
+                }
             }
-        }
-    });
+        });
+        dtmap.vector.select(feature.getId());
+        cmmUtil.reverseGeocoding(pointX, pointY).done((result) => {
+            $("#loc_poto").val(result["address"]);
+        });
 
+
+
+
+        <%--if (app2D) {--%>
+        <%--    const wkt = "<c:out value="${result.wkt}" />";--%>
+        <%--    const reader = new ol.format.WKT();--%>
+        <%--    const geometry = reader.readGeometry(wkt);--%>
+        <%--    const pointX = geometry.flatCoordinates[0];--%>
+        <%--    const pointY = geometry.flatCoordinates[1];--%>
+        <%--    const features = [];--%>
+        <%--    features.push(new ol.Feature(reader.readGeometry(wkt)));--%>
+        <%--    const format = new ol.format.GeoJSON();--%>
+        <%--    const geojson = format.writeFeatures(features);--%>
+        <%--    cmmUtil.highlightFeatures(geojson, "/images/poi/poto_poi.png");--%>
+        <%--    cmmUtil.reverseGeocoding(pointX, pointY).done((result) => {--%>
+        <%--        $("#loc_poto").val(result["address"]);--%>
+        <%--    });--%>
+        <%--} else {--%>
+        <%--    var list = ${gsonResultList};--%>
+        <%--    if (list.wkt) {--%>
+        <%--        var pointX = parseFloat(list.wkt.split(" ")[0].split("(")[1])--%>
+        <%--        var pointY = parseFloat(list.wkt.split(" ")[1].split("(")[0])--%>
+        <%--        var position = TransformCoordinate(pointX, pointY, 26, 13);--%>
+
+        <%--        cmmUtil.reverseGeocoding(pointX, pointY).done((result) => {--%>
+        <%--            $("#loc_poto").val(result["address"]);--%>
+        <%--        });--%>
+
+        <%--        setCameraMove_3D(position.x, position.y);--%>
+        <%--    }--%>
+        <%--}--%>
+
+    });
 
     // 사진정보 선택삭제
     $(".btn-wrap .left .bi-delete2").on("click", function () {
@@ -74,17 +103,14 @@
                             $('input:checkbox[name=potoCheck]').eq(idx).parent().parent().parent().parent().empty();
                             console.log($('#atchmnflId').val());
                             aj_deletePoto($('#atchmnflId').val(), fileSn);
-
                         }
                     }
                 });
-
-
             } else {   //취소
                 return false;
             }
         } else {
-            alert('선택된 사진이 없습니다.');
+            toastr.warning('선택된 사진이 없습니다.');
         }
     });
 
@@ -111,7 +137,7 @@
             <input type="hidden" name="searchWrd" value="<c:out value='${searchWrd}' />">
             <input type="hidden" name="sortKind" value="<c:out value='${sortKind}' />">
             <input type="hidden" name="searchCnd" value="<c:out value='${searchCnd}' />">
-            <h3 class="cont-tit">사진등록 수정하기</h3>
+            <h3 class="cont-tit"></h3>
             <div class="bbs-write-default">
                 <table class="bbs-write">
                     <colgroup>
@@ -151,7 +177,7 @@
                     </tr>
                     <tr>
                         <th scope="row">위치</th>
-                        <td colspan="3"><input type="text" class="form-control" id="loc_poto" style="width: 215px;">
+                        <td colspan="3"><input type="text" class="form-control" id="loc_poto" style="width: 215px;" readonly>
                             <button type="button" class="btn type01 bi-location">지도에서 선택</button>
                         </td>
                     </tr>
@@ -250,6 +276,7 @@
                     <button type="button" class="btn basic bi-cancel">취소</button>
                 </div>
             </div>
+            <input type="hidden" id="wkt" name="wkt" value="${result.wkt}">
         </form:form>
     </div>
 

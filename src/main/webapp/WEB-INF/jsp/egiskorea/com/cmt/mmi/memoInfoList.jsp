@@ -42,55 +42,52 @@
         }
     }
 
-    <%--$(function () {--%>
-    <%--    if (app2D) {--%>
-    <%--        const ids = [];--%>
-    <%--        const wkts = [];--%>
-    <%--        <c:forEach  items="${resultList}" var="item">--%>
-    <%--        ids.push("${item.memoId}");--%>
-    <%--        wkts.push("${item.wkt}");--%>
-    <%--        </c:forEach>--%>
-    <%--        const reader = new ol.format.WKT();--%>
-    <%--        const features = [];--%>
-    <%--        wkts.forEach((wkt, index) => {--%>
-    <%--            if (wkt) {--%>
-    <%--                const feature = new ol.Feature(reader.readGeometry(wkt));--%>
-    <%--                feature.setId(ids[index]);--%>
-    <%--                features.push(feature);--%>
-    <%--            }--%>
-    <%--        });--%>
-    <%--        if (features.length > 0) {--%>
-    <%--            const format = new ol.format.GeoJSON();--%>
-    <%--            const geojson = format.writeFeatures(features);--%>
-    <%--            cmmUtil.highlightFeatures(geojson, "/images/poi/memo_poi.png", {--%>
-    <%--                onClick: function (feature) {--%>
-    <%--                    selectMemoInfoView(feature.getId());--%>
-    <%--                }--%>
-    <%--            });--%>
-    <%--        }--%>
+    $(function () {
 
-    <%--    } else {--%>
-    <%--        var list = ${gsonResultList};--%>
+        const ids = [];
+        const wkts = [];
+        const sj = [];
+        <c:forEach  items="${resultList}" var="item">
+        ids.push("${item.memoId}");
+        wkts.push("${item.wkt}");
+        sj.push("${item.sj}");
+        </c:forEach>
+        const reader = new ol.format.WKT();
+        const features = [];
+        wkts.forEach((wkt, index) => {
+            if (wkt) {
+                const feature = new ol.Feature(reader.readGeometry(wkt));
+                feature.setId(ids[index]);
+                feature.setProperties({"sj": sj[index]});
+                features.push(feature);
+            }
+        });
+        if (features.length > 0) {
+            const format = new ol.format.GeoJSON();
+            const geojson = format.writeFeatures(features);
 
-    <%--        var layerList = new Module.JSLayerList(true);--%>
-    <%--        var Layer = layerList.createLayer("POI_img", Module.ELT_3DPOINT);--%>
-    <%--        for (var i = 0; i < list.length; i++) {--%>
-    <%--            if (list[i].wkt) {--%>
-    <%--                var pointX = parseFloat(list[i].wkt.split(" ")[0].split("(")[1])--%>
-    <%--                var pointY = parseFloat(list[i].wkt.split(" ")[1].split(")")[0])--%>
-    <%--                //5179 -> 4326--%>
-    <%--                var position = TransformCoordinate(pointX, pointY, 26, 13);--%>
-
-    <%--                var alt = Module.getMap().getTerrHeightFast(position.x, position.y);--%>
-
-    <%--                createImagePoi(position.x, position.y, alt, "/images/poi/memo_poi.png", i, Layer)--%>
-    <%--                GLOBAL.layerBox = "POI_img"--%>
-    <%--            }--%>
-
-    <%--        }--%>
-
-    <%--    }--%>
-    <%--});--%>
+            dtmap.draw.clear();
+            dtmap.draw.dispose();
+            dtmap.vector.clear();
+            //지도에 GeoJSON 추가
+            dtmap.vector.readGeoJson(geojson, function (feature) {
+                return {
+                    marker: {
+                        src: '/images/poi/memo_poi.png'
+                    },
+                    label: {
+                        text: feature.get("sj")
+                    }
+                }
+            });
+            toastr.warning("POI 클릭 이벤트 세팅")
+            // cmmUtil.highlightFeatures(geojson, "/images/poi/memo_poi.png", {
+            //     onClick: function (feature) {
+            //         selectMemoInfoView(feature.getId());
+            //     }
+            // });
+        }
+    });
 
 </script>
 <!-- top > 메모정보 -->

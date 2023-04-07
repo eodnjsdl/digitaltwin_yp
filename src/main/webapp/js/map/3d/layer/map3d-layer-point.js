@@ -4,8 +4,7 @@ map3d.layer.Point = (function () {
     const DEFAULT_POI_COLOR = '#d04545';
 
     function Point(options) {
-        map3d.layer.Geometry.call(this, options)
-        this.imageMap = new Map();
+        map3d.layer.Geometry.call(this, options);
         this.depth = 1;
     }
 
@@ -18,7 +17,7 @@ map3d.layer.Point = (function () {
     Point.prototype.createInstance = function () {
         return map3d.userLayers.createObjectLayer({
             name: this.id,
-            type: Module.ELT_3DPOINT
+            type: Module.ELT_POLYHEDRON
         });
     }
 
@@ -29,142 +28,189 @@ map3d.layer.Point = (function () {
     Point.prototype.add = function (options) {
         map3d.layer.Geometry.prototype.add.call(this, options);
         const id = this.genId(options.id);
+        let geometry = options.geometry;
 
-        const {coordinates, style} = options;
+        if (geometry instanceof ol.geom.MultiPoint) {
+            //TODO MultiPoint 처리
+            //임시로 첫 포인트만 그리도록 처리
+            geometry = geometry.getPoint(0);
+        }
+
+        const coordinates = geometry.getCoordinates();
+        const style = options.style || {};
         const lon = coordinates[0];
         const lat = coordinates[1];
 
-        const point = Module.createPoint(id);
+        const object = Module.createPoint(id);
         // z값 구해서 넣기
         const alt = Module.getMap().getTerrHeightFast(Number(lon), Number(lat));
-        point.setPosition(new Module.JSVector3D(lon, lat, alt));
+        object.setPosition(new Module.JSVector3D(lon, lat, alt));
         // Polygon 수직 라인 설정
-        point.setPositionLine(30.0 + alt, new Module.JSColor(255, 255, 255));
+        object.setPositionLine(30.0 + alt, new Module.JSColor(255, 255, 255));
         // 텍스트 설정
         if (style.label) {
-            point.setText(String(style.label.text));
+            object.setText(String(style.label.text));
         }
 
         if (style.marker) {
             // 이미지 형태
-            drawMarker(id, style, point, this.imageMap);
+            drawMarker(id, style, object);
+        } else if (style.text) {
+            //텍스트
+            drawText(id, style, object);
         } else {
             // 원형
-            drawVector(id, style, point, this.imageMap);
-
+            drawVector(id, style, object);
         }
+        //프로퍼티 설정
         this.instance.setMaxDistance(map3d.config.maxDistance);
-        this.instance.addObject(point, 0);
-        return point;
+        this.instance.addObject(object, 0);
+
+        this.setProperties(object, options.properties);
+
+        return object;
 
     }
 
-    Point.prototype.setHighLight = async function (id) {
+    function drawMarker(id, style, point) {
+        const src = style.marker.src;
+        const symbol = Module.getSymbol();
+        const icon = symbol.getIcon(id);
+        if (icon) {
+            point.setIcon(icon);
+        } else {
 
-        const obj = this.get(id);
-        const img = this.imageMap.get(id);
-        if (!obj || !img) {
-            return;
+            // 이미지 로드
+            const img = new Image();
+            const that = this;
+            img.onload = function () {
+                // 이미지 로드 후 캔버스에 그리기
+                const width = img.width * (style.marker.scale || 1);
+                const height = img.height * (style.marker.scale || 1);
+
+                const canvas = document.createElement('canvas');
+                canvas.width = width;
+                canvas.height = height;
+
+                const ctx = canvas.getContext('2d');
+                ctx.drawImage(img, 0, 0, img.width, img.height, 0, 0, width, height);
+
+                const imgData = ctx.getImageData(0, 0, width, height).data;
+
+
+                // Symbol에 새 아이콘 추가
+                symbol.insertIcon(id, imgData, width, height);
+                const icon = symbol.getIcon(id);
+                point.setIcon(icon);
+            };
+            img.src = style.marker.src;
         }
-        const imgData = new ImageData(img.data, img.width, img.height);
-        const canvas = document.createElement('canvas');
-        const ctx = canvas.getContext('2d');
-        ctx.width = img.width;
-        ctx.height = img.height;
-        ctx.putImageData(imgData, 0, 0);
-        // set composite mode
-        ctx.globalCompositeOperation = "source-in";
-        // draw color
-        ctx.fillStyle = "rgba(79,245,255,1)";
-        ctx.fillRect(0, 0, ctx.width, ctx.height);
-        const sourcein = await createImageBitmap(canvas);
-
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-        ctx.putImageData(imgData, 0, 0);
-        ctx.globalCompositeOperation = "darken";
-        ctx.drawImage(sourcein, 0, 0);
-
-        const data = ctx.getImageData(0, 0, img.width, img.height).data;
-        obj.setImage(data, img.width, img.height);
-
-
     }
 
-    function drawMarker(id, style, point, imageMap) {
-        // 이미지 로드
-        const img = new Image();
-        const that = this;
-        img.onload = function () {
-            // 이미지 로드 후 캔버스에 그리기
-            const canvas = document.createElement('canvas');
-            const ctx = canvas.getContext('2d');
-            ctx.width = img.width;
-            ctx.height = img.height;
-            ctx.drawImage(img, 0, 0);
-
-            const imgData = ctx.getImageData(0, 0, this.width, this.height).data;
-            point.setImage(imgData, this.width, this.height);
-            imageMap.set(id, {
-                data: imgData,
-                width: img.width,
-                height: img.height
-            })
-        };
-        img.src = style.marker.src;
-    }
-
-    function drawVector(id, style, point, imageMap) {
+    function drawVector(id, style, point) {
         //스타일 옵션
-        const radius = style.radius || 4;
-        const fillColor = style.fill?.color || DEFAULT_POI_COLOR
-        const strokeColor = style.stroke?.color || 'white';
-        const strokeWidth = style.stroke?.width || 2;
+        const radius = Number(style.radius || 4);
 
-        const size = Math.round(radius * 2) + strokeWidth;
-
-
-        // 이미지 로드 후 캔버스에 그리기
-        const canvas = document.createElement('canvas');
-        const ctx = canvas.getContext('2d');
-
-        ctx.width = size;
-        ctx.height = size;
-
-        ctx.clearRect(0, 0, ctx.width, ctx.height);
-
-        const x = ctx.width / 2;
-        const y = ctx.height / 2;
-
-
-        // 동그라미 마커 이미지 그리기
-        ctx.beginPath();
-        ctx.arc(x, y, radius, 0, 2 * Math.PI, false);
-        ctx.fillStyle = hexToRGB(fillColor);
-        ctx.fill();
-        ctx.lineWidth = strokeWidth;
-        ctx.strokeStyle = strokeColor;
-        ctx.stroke();
-        const imgData = ctx.getImageData(0, 0, ctx.width, ctx.height).data;
-
-        point.setImage(imgData, ctx.width, ctx.height);
-        imageMap.set(id, {
-            data: imgData,
-            width: ctx.width,
-            height: ctx.height
-        })
-    }
-
-    function hexToRGB(hex) {
-        if (hex.indexOf("#") >= 0) {
-            let red = parseInt(hex[1] + hex[2], 16);
-            let green = parseInt(hex[3] + hex[4], 16);
-            let blue = parseInt(hex[5] + hex[6], 16);
-
-            return "rgba(" + red + "," + green + "," + blue + ", 255)";
+        if (style.stroke.lineDash) {
+            style.stroke.lineDash = getLineDash(style.stroke.lineDash);
         }
-        return hex;
+        const fill = new ol.style.Fill(style.fill);
+        const stroke = new ol.style.Stroke(style.stroke);
+        let shapeRender;
+        if (style.shape === "Rectangle") {
+            shapeRender = new ol.style.RegularShape({
+                fill: fill,
+                stroke: stroke,
+                radius: radius,
+                points: 4,
+                angle: Math.PI / 4,
+            })
+        } else if (style.shape === "Triangle") {
+            shapeRender = new ol.style.RegularShape({
+                fill: fill,
+                stroke: stroke,
+                points: 3,
+                radius: radius,
+                angle: 0,
+            })
+        } else if (style.shape === "Star") {
+            shapeRender = new ol.style.RegularShape({
+                fill: fill,
+                stroke: stroke,
+                points: 5,
+                radius: radius,
+                radius2: 4,
+                angle: 0,
+            })
+        } else if (style.shape === "Cross") {
+            shapeRender = new ol.style.RegularShape({
+                fill: fill,
+                stroke: stroke,
+                points: 4,
+                radius: radius,
+                radius2: 0,
+                angle: 0,
+            })
+        } else if (style.shape === "X") {
+            shapeRender = new ol.style.RegularShape({
+                fill: fill,
+                stroke: stroke,
+                points: 4,
+                radius: radius,
+                radius2: 0,
+                angle: Math.PI / 4,
+            })
+        } else {
+            shapeRender = new ol.style.Circle({
+                radius: radius,
+                fill: fill,
+                stroke: stroke
+            })
+        }
+        const canvas = shapeRender.getImage(1);
+        const ctx = canvas.getContext('2d');
+        const imgData = ctx.getImageData(0, 0, canvas.width, canvas.height).data;
+
+        point.setImage(imgData, canvas.width, canvas.height);
     }
+
+    function getLineDash(type, width) {
+        type = type || 'SOLID';
+        width = width || 1;
+        let lineDash = []; //solid
+        let t = type.toUpperCase();
+        if (t === "DOT") {
+            lineDash = [width * 2, width * 2];
+        } else if (t === "DASHED") {
+            lineDash = [width * 6, width * 2];
+        } else if (t === "DASH-DOTTED") {
+            lineDash = [width * 6, width * 2, width * 2, width * 2];
+        } else if (t === "DASH-DOUBLE-DOTTED") {
+            lineDash = [
+                width * 6,
+                width * 2,
+                width * 2,
+                width * 2,
+                width * 2,
+                width * 2,
+            ];
+        } else if (t === 'SOLID') {
+            lineDash = undefined;
+        } else {
+            lineDash = undefined;
+            console.warn(`지원되지 않는 선 패턴입니다.`);
+        }
+        return lineDash;
+    }
+
+    function drawText(id, style, object) {
+        const fillColor = new map3d.Color(style.text.fill);
+        const strokeColor = new map3d.Color(style.text.stroke);
+
+        object.setFontStyle(style.text.fontFamily, style.text.fontSize, style.text.bold ? 800 : 300, fillColor.toJSColor(), strokeColor.toJSColor());
+        object.setText(style.text.text);
+    }
+
 
     return Point;
 }());

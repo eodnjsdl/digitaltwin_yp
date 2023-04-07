@@ -37,43 +37,81 @@
         }
     });
 
-
-    $(function () {
-        if (app2D) {
-            const wkt = "<c:out value="${result.wkt}" />";
-
-            const reader = new ol.format.WKT();
-            const features = [];
-            features.push(new ol.Feature(reader.readGeometry(wkt)));
+    function refreshLayerByMemo() {
+        const ids = [];
+        const wkts = [];
+        const sj = [];
+        <c:forEach  items="${resultList}" var="item">
+        ids.push("${item.memoId}");
+        wkts.push("${item.wkt}");
+        sj.push("${item.sj}");
+        </c:forEach>
+        const reader = new ol.format.WKT();
+        const features = [];
+        wkts.forEach((wkt, index) => {
+            if (wkt) {
+                const feature = new ol.Feature(reader.readGeometry(wkt));
+                feature.setId(ids[index]);
+                feature.setProperties({"sj": sj[index]});
+                features.push(feature);
+            }
+        });
+        if (features.length > 0) {
             const format = new ol.format.GeoJSON();
             const geojson = format.writeFeatures(features);
-            const feature = format.readFeatures(geojson);
-            const geometry = reader.readGeometry(wkt);
-            const pointX = geometry.flatCoordinates[0];
-            const pointY = geometry.flatCoordinates[1];
-            cmmUtil.highlightFeatures(geojson, "/images/poi/memo_poi.png");
-            cmmUtil.reverseGeocoding(pointX, pointY).done((result) => {
-                $("#loc_memo").html(result["address"]);
+            dtmap.draw.clear();
+            dtmap.draw.dispose();
+            dtmap.vector.clearSelect();
+            //지도에 GeoJSON 추가
+            dtmap.vector.readGeoJson(geojson, function (feature) {
+                return {
+                    marker: {
+                        src: '/images/poi/memo_poi.png'
+                    },
+                    label: {
+                        text: feature.get("sj")
+                    }
+                }
             });
-            const yMap = app2D.getYMap();
-            util.gis.moveFeatures(yMap.getMap(), feature);
-
-
-        } else {//상세정보 조회시 줌인
-            var list = ${gsonResultList};
-            if (list.wkt) {
-                var pointX = parseFloat(list.wkt.split(" ")[0].split("(")[1])
-                var pointY = parseFloat(list.wkt.split(" ")[1].split("(")[0])
-                var position = TransformCoordinate(pointX, pointY, 26, 13);
-
-                cmmUtil.reverseGeocoding(pointX, pointY).done((result) => {
-                    $("#loc_memo").html(result["address"]);
-                });
-
-                setCameraMove_3D(position.x, position.y);
-            }
-
         }
+    }
+
+    $(function () {
+        refreshLayerByMemo();
+        const wkt = "<c:out value="${result.wkt}" />";
+        const sj = "<c:out value="${result.sj}" />";
+        const id = "<c:out value="${result.memoId}" />";
+        const reader = new ol.format.WKT();
+        const feature = new ol.Feature(reader.readGeometry(wkt));
+        feature.setId(id);
+        const features = [];
+        features.push(feature);
+        const format = new ol.format.GeoJSON();
+        const geojson = format.writeFeatures(features);
+        const geometry = reader.readGeometry(wkt);
+        const pointX = geometry.flatCoordinates[0];
+        const pointY = geometry.flatCoordinates[1];
+        // dtmap.vector.clear();
+        //지도에 GeoJSON 추가
+        dtmap.vector.readGeoJson(geojson, function (feature) {
+            return {
+                marker: {
+                    src: '/images/poi/memo_poi.png'
+                },
+                label: {
+                    text: sj
+                }
+            }
+        });
+        dtmap.vector.select(feature.getId());
+        cmmUtil.reverseGeocoding(pointX, pointY).done((result) => {
+            $("#loc_memo").html(result["address"]);
+        });
+
+        // cmmUtil.highlightFeatures(geojson, "/images/poi/memo_poi.png");
+        // const yMap = app2D.getYMap();
+        // util.gis.moveFeatures(yMap.getMap(), feature);
+
     });
 
 </script>

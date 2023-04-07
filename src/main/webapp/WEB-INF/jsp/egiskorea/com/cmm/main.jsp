@@ -62,6 +62,9 @@
     <!-- ax5 grid css -->
     <link rel="stylesheet" href="/js/plugin/ax5grid/ax5grid.css">
 
+    <!-- zoom -->
+    <link href="/js/plugin/jquery-fat-zoom.js/css/zoom.css" rel="stylesheet">
+    <script type="text/javascript" src="/js/plugin/jquery-fat-zoom.js/dist/zoom.js"></script>
 
     <!-- font 맑은고딕: stre.js (지도저장기능 수행 시) -->
     <script src="/engine/plugin/v6.7.0/malgun.js"></script>
@@ -101,6 +104,7 @@
     <script src="/js/map/3d/map3d.js"></script>
     <script src="/js/map/3d/config.js"></script>
     <script src="/js/map/3d/modules/map3d-layer.js"></script>
+    <script src="/js/map/3d/modules/map3d-color.js"></script>
     <script src="/js/map/3d/modules/map3d-compass.js"></script>
     <script src="/js/map/3d/modules/map3d-measure.js"></script>
     <script src="/js/map/3d/modules/map3d-overlay.js"></script>
@@ -124,6 +128,9 @@
 
     <!-- 양평 레이어 상수 -->
     <script src="/js/map/yp-layer.js"></script>
+
+    <!-- 공통 파일 -->
+    <script src="/js/egiskorea/com/cmm/cmmUtil.js"></script>
 
     <!-- 통합행정정보 -->
     <script src="/js/egiskorea/com/cmt/uai/uai.js"></script>
