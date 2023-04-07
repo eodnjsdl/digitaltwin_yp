@@ -172,6 +172,8 @@
 		var gridRowId = "${gridRowId }";
 		
 		var geomData = getGeomDataForGridRowId(gridRowId);
+		console.log("geomData>>");
+		console.log(geomData);
 		if(geomData){
 			getAddressForPoint(geomData, "#rightSubPopup .txt-geometry-address");
 		}else{

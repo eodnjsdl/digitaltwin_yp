@@ -409,8 +409,8 @@ function insertWtlFirePs(){
 
 //소방시설 수정 화면 조회
 function updateWtlFirePsView(id){
-	//console.log("updateWtlFirePsView()");
-	//console.log("id>"+id);
+	console.log("updateWtlFirePsView()");
+	console.log("id>"+id);
 	
 	var detailData = null;
 	if( FACILITY.Ax5UiGrid){
@@ -431,13 +431,10 @@ function updateWtlFirePsView(id){
     var formData = new FormData();
 	
 	for ( var key in detailData ) {
-		if(detailData[key]){	//null 값이나 빈칸은 제외
+		if(detailData[key]){	//null 값이나 빈칸은 제외, 여기서 id 값 까지 포함 되서 파라미터 완성
 			formData.append(key, detailData[key]);
 		}
 	}
-	
-	//id 값 저장
-	formData.append("id", detailData['id']);
 	
 	$.ajax({
 		url:"/job/fcmr/wsfc/updateWtlFirePsView.do",
