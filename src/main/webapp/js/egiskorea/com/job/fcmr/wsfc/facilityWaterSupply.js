@@ -37,6 +37,11 @@ function codeArrayInit(){
 	
 	setEmdCodeDataArray("tgd_scco_emd");		//읍면동 코드
 	
+	//상수관로 코드
+	setCmmCodeDataArray("OGC-004");				//관용도
+	setCmmCodeDataArray("OGC-003");				//관재질
+	setCmmCodeDataArray("OGC-005");				//접합종류
+	
 	//유량계 코드
 	setCmmCodeDataArray("OGC-141");				//유량계 종류
 	setCmmCodeDataArray("OGC-041");				//유량계 형식
@@ -51,8 +56,7 @@ function getWaterSupplyFacility(name){
 		if(name == "wtlFirePs"){			//소방시설
 			selectWtlFirePsListView();
 		}else if(name == "wtlPipeLm"){		//상수관로
-			toastr.error("작업중", "상수관로");	
-			return;
+			selectWtlPipeLmListView();
 		}else if(name == "wtlFlowPs"){		//유량계
 			selectWtlFlowPsListView();
 		}else if(name == "wtlManhPs"){		//상수맨홀
