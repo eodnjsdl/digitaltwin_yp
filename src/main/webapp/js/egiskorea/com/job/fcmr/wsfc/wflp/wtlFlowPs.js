@@ -47,18 +47,18 @@ function selectWtlFlowPsListView(){
 	        multipleSelect: false,
 	        columns: [
 	            //{key: "gid", 				label: "아이디",			width:200},
-	            {key: "ftr_cde", 			label: "지형지물부호code",	width:'*'},
+	            //{key: "ftr_cde", 			label: "지형지물부호code",	width:'*'},
 	            {key: "ftr_cde_nm", 		label: "지형지물부호",		width:'*'},
 	            {key: "ftr_idn", 			label: "관리번호",			width:'*'},
-	            {key: "hjd_cde", 			label: "읍면동code",		width:'*'},
+	           // {key: "hjd_cde", 			label: "읍면동code",		width:'*'},
 	            {key: "hjd_cde_nm", 		label: "읍면동",			width:'*'},
 	            {key: "mng_cde", 			label: "관리기관code",		width:'*'},
 	            {key: "mng_cde_nm", 		label: "관리기관",			width:'*'},
 	            {key: "sht_num", 			label: "도엽번호",			width:'*'},
 	            {key: "ist_ymd", 			label: "설치일자",			width:'*'},
-	            {key: "gag_cde", 			label: "유량계종류code",	width:'*'},
+	            //{key: "gag_cde", 			label: "유량계종류code",	width:'*'},
 	            {key: "gag_cde_nm", 		label: "유량계종류",		width:'*'},
-	            {key: "mof_cde", 			label: "유량계형식code",	width:'*'},
+	            //{key: "mof_cde", 			label: "유량계형식code",	width:'*'},
 	            {key: "mof_cde_nm", 		label: "유량계형식",		width:'*'},
 	            {key: "std_dip", 			label: "관경",			width:'*'},
 	            //{key: "prc_nam", 			label: "제작회사명",		width:100},
@@ -196,10 +196,11 @@ function selectWtlFlowPsList(page) {
     });
 }
 
-//소방시설 상세정보 조회
+var updateData;
+// 유량계 상세정보 조회
 function getWtlFlowPsDetail(detailData){
-	console.log("getWtlFlowPsDetail(detailData)");
-	console.log(detailData);
+//	console.log("getWtlFlowPsDetail(detailData)");
+//	console.log(detailData);
 
 	ui.loadingBar("show");
 	var formData = new FormData();
@@ -209,6 +210,8 @@ function getWtlFlowPsDetail(detailData){
 			formData.append(key, detailData[key]);
 		}
 	}
+	
+	updateData = detailData;
 	
 	$.ajax({
 		url:"/job/fcmr/wsfc/getWtlFlowPsDetail.do",
@@ -237,46 +240,65 @@ function getWtlFlowPsDetail(detailData){
 
 // 유량계 등록 화면 조회
 function insertWtlFlowPsView(){
-	console.log("insertWtlFlowPsView()");
-	
+	// 팝업 변수 설정
 	ui.loadingBar("show");
-	
 	ui.openPopup("rightSubPopup");
-	
 	var container = "#rightSubPopup";
+	
+	/* 팝업 load 함수 start */
     $(container).load("/job/fcmr/wsfc/insertWtlFlowPsView.do", function () {
-        toastr.success("/job/fcmr/wsfc/insertWtlFlowPsView.do", "페이지🙂호🙂출🙂");
-        
+    	getEmdKorNmCode("#lSrchOptions select[name=hjd_cde]");				//읍면동
+    	getCmmCodeData("MNG-001", "#lSrchOptions select[name=mng_cde]");	//관리기관
+		getCmmCodeData("OGC-141", "#lSrchOptions select[name=gag_cde]");	//유량계종류	
+		getCmmCodeData("OGC-041", "#lSrchOptions select[name=mof_cde]");	//유량계형식
         $(".scroll-y").mCustomScrollbar({
             scrollbarPosition: "outside",
         });
-		
 		ui.loadingBar("hide");
     });
-	
+    /* 팝업 load 함수 end */
 }
 
-//유량계 수정 화면 조회
+// 유량계 수정 화면 조회
 function updateWtlFlowPsView(){
-
-			/* 유량계 상세페이지에 들어갈 내용 start */
-			let tag = ``;
-			/* 유량계 상세페이지에 들어갈 내용 end */
-			
-		    const element = $(tag);				// container에 삽입할 요소
-			
-		    // 팝업 변수 설정
-			ui.openPopup("rightSubPopup");
-			var container = "#rightSubPopup";
-			
-			/* 팝업 load 함수 start */
-		    $(container).load("/job/fcmr/wsfc/updateWtlFlowPsView.do", function () {
-		    	getEmdKorNmCode("#lSrchOptions select[name=hjd_cde]");				//읍면동
-		    	getCmmCodeData("MNG-001", "#lSrchOptions select[name=mng_cde]");	//관리기관
-				getCmmCodeData("OGC-141", "#lSrchOptions select[name=gag_cde]");	//유량계종류	
-				getCmmCodeData("OGC-041", "#lSrchOptions select[name=mof_cde]");	//유량계형식
-		    	
-				$(container).append(element);	// container에 요소 추가하기
-		    });
-		    /* 팝업 load 함수 end */
+    // 팝업 변수 설정
+	ui.openPopup("rightSubPopup");
+	var container = "#rightSubPopup";
+	
+	/* 팝업 load 함수 start */
+    $(container).load("/job/fcmr/wsfc/updateWtlFlowPsView.do", function () {
+		
+/*	    $.ajax({
+	        url: "/job/fcmr/wsfc/updateWtlFlowPsView.do",
+	        method: "POST",
+	        data: updateData,
+	        processData: false,
+	        contentType: false,
+	        success: function (result) {
+	            // success callback function
+	        	$('#ftr_cde').text(updateData.ftr_cde_nm);					// 지형지물부호
+	        	$('#ftr_idn').text(updateData.ftr_idn);						// 관리번호
+	        	$('select[name="hjd_cde"] option[value="41830250"]').attr('selected', 'selected');
+	        	$("td input[name=sht_num]").val(updateData.sht_num);		// 도엽번호
+	        	$("td input[name=ist_ymd]").val(updateData.ist_ymd);		// 설치일자
+	        	$("td input[name=std_dip]").val(updateData.std_dip);		// 관경
+	        	$("td input[name=prc_nam]").val(updateData.prc_nam);		// 제작회사명
+	        	$('#pip_cde').text(updateData.pip_cde);						// 관로지형지물부호
+	        	$('#pip_idn').text(updateData.pip_idn);						// 관로관리번호
+	        	$("td input[name=cnt_num]").val(updateData.cnt_num);		// 공사번호
+	        	$("td input[name=ang_dir]").val(updateData.ang_dir);		// 방향각
+	        	//$("td input[name=geom]").val(updateData.geom);				// 위치
+	        },
+	        error: function (xhr, status, error) {
+	            // error callback function
+	        }
+	    });*/
+	    
+	    getEmdKorNmCode("#lSrchOptions select[name=hjd_cde]");				//읍면동
+	    getCmmCodeData("MNG-001", "#lSrchOptions select[name=mng_cde]");	//관리기관
+	    getCmmCodeData("OGC-141", "#lSrchOptions select[name=gag_cde]");	//유량계종류	
+	    getCmmCodeData("OGC-041", "#lSrchOptions select[name=mof_cde]");	//유량계형식
+	    
+    });
+    /* 팝업 load 함수 end */
 }

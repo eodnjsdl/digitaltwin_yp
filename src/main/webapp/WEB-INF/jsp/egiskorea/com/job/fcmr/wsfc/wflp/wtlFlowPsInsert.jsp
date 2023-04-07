@@ -14,7 +14,7 @@
                    <div class="data-write-wrap" style="height: 100%;">
                        <div class="scroll-y">	
                            <div class="data-default">
-								<table class="data-detail">
+								<table class="data-write">
 									<colgroup>
 										<col style="width: 23%;">
 										<col style="width: auto;">

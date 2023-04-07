@@ -1,4 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="ui" uri="http://egovframework.gov/ctl/ui"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
 <script>
 
@@ -8,10 +13,10 @@
 <button type="button" class="popup-close" onClick="toastr.warning('removeLayer(); cmmUtil.drawClear();', 'onclick 이벤트');" title="닫기"></button>
 <!-- //업무 > 시설관리 > 상수도시설 > 유량계 수정하기 -->
 <div class="popup-body">
-	<div class="data-write-wrap" style="height: 377px;">
+	<div class="data-write-wrap" style="height: 100%;">
 		<div class="scroll-y">
 			<div class="data-default">
-				<table class="data-detail">
+				<table class="data-write">
 					<colgroup>
 						<col style="width: 23%;">
 						<col style="width: auto;">
@@ -21,9 +26,9 @@
 					<tbody id="lSrchOptions">
 						<tr>
 							<th scope="row">지형지물부호</th>
-							<td></td>
+							<td id="ftr_cde"></td>
 							<th scope="row">관리번호</th>
-							<td></td>
+							<td id="ftr_idn"></td>
 						</tr>
 						<tr>
 							<th scope="row">행정읍면동</th>
@@ -80,9 +85,9 @@
 						</tr>
 						<tr>
 							<th scope="row">관로지형지물부호</th>
-							<td></td>
+							<td id="pip_cde"></td>
 							<th scope="row">관로관리번호</th>
-							<td></td>
+							<td id="pip_idn"></td>
 						</tr>
 						<tr>
 							<th scope="row">공사번호</th>
@@ -99,7 +104,7 @@
 						    <td colspan="3">
 						        <div class="form-row">
 						            <div class="col">
-						                <input type="text" class="form-control txt-geometry-address" value="" readonly="readonly">
+						                <input type="text" name="geom" class="form-control txt-geometry-address" value="" readonly="readonly">
 						            </div>
 						            <div class="col-auto">
 						                <button type="button" class="btn type01 bi-location btn-select-map" data-popup="space-edit-tool"></button>
