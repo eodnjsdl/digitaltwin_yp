@@ -50,8 +50,8 @@
 											<th scope="row">설치일자</th>
 											<td>
 												<div class="datapicker-group">
-												    <input type="text" name="ist_ymd" class="datepicker hasDatepicker" value="" id="" autocomplete="off">
-												    <button type="button" class="ui-datepicker-trigger">
+												    <input type="text" name="ist_ymd" class="datepicker hasDatepicker" value="" id="ist_ymd" autocomplete="off">
+												    <button type="button" class="ui-datepicker-trigger" onclick="pipe_datePicker();">
 												        <img src="../images/icon/form-calendar.svg" alt="..." title="...">
 												    </button>
 												</div>
@@ -137,8 +137,7 @@
             showOn: "both",
             buttonImage: "/images/icon/form-calendar.svg",
             dateFormat: "yymmdd",
-        }); 
-		
+        });		
 	});
 
 </script>
