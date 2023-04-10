@@ -465,5 +465,26 @@ public class PotoInfoController {
 		
 		return mav;
 	}
-	
+
+
+	/**
+	 * 사진 파일 갯수 조회
+	 *
+	 * @param potoInfoVO 사진 vo
+	 * @param model
+	 * @return "egiskorea/com/cmt/pti/selectCntPhotoFile"
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/selectCntPhotoFile.do")
+	public String selectCntPhotoFile(
+			@ModelAttribute("searchVO") PotoInfoVO potoInfoVO,
+			ModelMap model, HttpServletRequest request) throws Exception{
+		EgovMap result = potoInfoService.selectPotoInfoView(potoInfoVO);
+		FileVO fileVO = new FileVO();
+		fileVO.setAtchFileId((String) result.get("atchmnflId"));
+		List<FileVO> resultFile = fileService.selectFileInfs(fileVO);
+		model.addAttribute("resultFileSize", resultFile.size());
+		return "jsonView";
+	}
+
 }

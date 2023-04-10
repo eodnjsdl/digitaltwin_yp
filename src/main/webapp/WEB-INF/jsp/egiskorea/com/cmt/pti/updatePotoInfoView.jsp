@@ -5,22 +5,96 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <script>
-    // 사진정보 목록조회
-    $(".btn-wrap .bi-cancel").on("click", function () {
-        $(this).addClass("active");
-        //rightPopupOpen('potoInfo');
-        aj_selectPotoInfoView(null, $("#updateFormPoto")[0]);
+
+    var inputFileList = new Array();
+    var objPtInfoview = {};
+    objPtInfoview.exIdx = $('input:checkbox[name=potoCheck]').length;
+    objPtInfoview.fileCnt = 0;
+    objPtInfoview.changeUploadMode = false;
+
+    $(document).ready(function () {
+        initPhotoInfoView();
+        bindEventPhotoInfoView();
+        readFilePhotoInfoView();
+        checkPhotoFileCnt();
     });
-    // 사진정보 수정
-    $(".btn-wrap .bi-edit").on("click", function () {
-        dtmap.vector.clear();
-        aj_updatePotoInfo($("#updateFormPoto")[0]);
-    });
 
-    $(".bi-location").on("click", aj_selectphotoLocation);
+    //사진파일 갯수 조회
+    function checkPhotoFileCnt() {
+        var deferred = $.Deferred();
+        var formData = new FormData($('#updateFormPoto')[0]);
+        $.ajax({
+            url: "/cmt/pti/selectCntPhotoFile.do",
+            type: 'POST',
+            data: formData,
+            processData: false,
+            contentType: false,
+            dataType: "json",
+            success: function (result) {
+                objPtInfoview.fileCnt = result.resultFileSize;
+                deferred.resolve(objPtInfoview.fileCnt);
+            },
+            error: function (result) {
+            }
+        });
+        return deferred;
+    }
 
+    function bindEventPhotoInfoView() {
+        // 사진정보 목록조회
+        $(".btn-wrap .bi-cancel").on("click", function () {
+            $(this).addClass("active");
+            //rightPopupOpen('potoInfo');
+            aj_selectPotoInfoView(null, $("#updateFormPoto")[0]);
+        });
+        // 사진정보 수정
+        $(".btn-wrap .bi-edit").on("click", function () {
+            dtmap.vector.clear();
+            aj_updatePotoInfo($("#updateFormPoto")[0]);
+            objPtInfoview.changeUploadMode = false;
+        });
 
-    $(function () {
+        $(".bi-location").on("click", aj_selectphotoLocation);
+
+        // 사진정보 선택삭제
+        $(".btn-wrap .left .bi-delete2").on("click", function () {
+            if ($("input[name='potoCheck']:checked").length > 0) {
+                if (confirm("선택된 사진정보를 삭제하시겠습니까?") == true) {    //확인
+                    $('input:checkbox[name=potoCheck]').each(function () {
+                        if (this.checked) {//checked 처리된 항목의 값
+                            var idx = $('input:checkbox[name=potoCheck]').index(this);
+                            var sn = $('input:checkbox[name=potoCheck]').eq(idx).parent().parent().parent().parent().children()[3].value;
+                            if (sn == '') {
+                                inputFileList.splice(idx - objPtInfoview.exIdx, 1);
+                                $('input:checkbox[name=potoCheck]').eq(idx).parent().parent().parent().parent().empty();
+                                $("input[name='potoAll']").prop("checked", false);
+                            } else {
+                                var fileSn = $('input:checkbox[name=potoCheck]').eq(idx).parent().parent().parent().parent().children()[3].value;
+                                $('input:checkbox[name=potoCheck]').eq(idx).parent().parent().parent().parent().empty();
+                                // console.log($('#atchmnflId').val());
+                                aj_deletePoto($('#atchmnflId').val(), fileSn);
+                            }
+                        }
+                    });
+                } else {   //취소
+                    return false;
+                }
+            } else {
+                toastr.warning('선택된 사진이 없습니다.');
+            }
+        });
+
+        $('#potoAll').on("click", function () {
+            if ($("input[name='potoAll']").prop("checked")) {
+                $("input[name='potoCheck']").prop("checked", true);
+            } else {
+                $("input[name='potoCheck']").prop("checked", false);
+            }
+        });
+
+    }
+
+    function initPhotoInfoView() {
         const wkt = "<c:out value="${result.wkt}" />";
         const sj = "<c:out value="${result.sj}" />";
         const id = "<c:out value="${result.memoId}" />";
@@ -50,80 +124,35 @@
         cmmUtil.reverseGeocoding(pointX, pointY).done((result) => {
             $("#loc_poto").val(result["address"]);
         });
+    }
 
+    function readFilePhotoInfoView() {
+        var fileTarget = $('#file');
+        fileTarget.on('change', function (e) {
+            objPtInfoview.changeUploadMode = true;
+            var cur = $(".form-file input[type='file']").val();
+            var file = e.target.files;
+            var filesArr = Array.prototype.slice.call(file);
+            filesArr.forEach(function (f) {
+                inputFileList.push(f);
+                var temp = parseInt($("input[name='potoCheck']:last").val()) + 1;
+                if ($("input[name='potoCheck']").length == 0) {
+                    temp = 0;
+                }
+                $('#potoImgUpdateList').append(`
+                                            <tr>
+                                                <td class="align-center"><span class="form-checkbox"><span>
+                                                    <input type="checkbox" name="potoCheck" id="potoCheck` + temp + `" value="` + temp + `">
+                                                    <label for="potoCheck` + temp + `"></label></span></span></td>
+                                                <td class="text-overflow">` + f.name + `</td>
+                                                <td><input type="text" class="form-control" name="fileCn_new"></td>
+                                                <input type="hidden" name="fileSn" />
+                                            </tr>`);
+            });
+            $(".upload-name").val(cur);
+        });
+    }
 
-
-
-        <%--if (app2D) {--%>
-        <%--    const wkt = "<c:out value="${result.wkt}" />";--%>
-        <%--    const reader = new ol.format.WKT();--%>
-        <%--    const geometry = reader.readGeometry(wkt);--%>
-        <%--    const pointX = geometry.flatCoordinates[0];--%>
-        <%--    const pointY = geometry.flatCoordinates[1];--%>
-        <%--    const features = [];--%>
-        <%--    features.push(new ol.Feature(reader.readGeometry(wkt)));--%>
-        <%--    const format = new ol.format.GeoJSON();--%>
-        <%--    const geojson = format.writeFeatures(features);--%>
-        <%--    cmmUtil.highlightFeatures(geojson, "/images/poi/poto_poi.png");--%>
-        <%--    cmmUtil.reverseGeocoding(pointX, pointY).done((result) => {--%>
-        <%--        $("#loc_poto").val(result["address"]);--%>
-        <%--    });--%>
-        <%--} else {--%>
-        <%--    var list = ${gsonResultList};--%>
-        <%--    if (list.wkt) {--%>
-        <%--        var pointX = parseFloat(list.wkt.split(" ")[0].split("(")[1])--%>
-        <%--        var pointY = parseFloat(list.wkt.split(" ")[1].split("(")[0])--%>
-        <%--        var position = TransformCoordinate(pointX, pointY, 26, 13);--%>
-
-        <%--        cmmUtil.reverseGeocoding(pointX, pointY).done((result) => {--%>
-        <%--            $("#loc_poto").val(result["address"]);--%>
-        <%--        });--%>
-
-        <%--        setCameraMove_3D(position.x, position.y);--%>
-        <%--    }--%>
-        <%--}--%>
-
-    });
-
-    // 사진정보 선택삭제
-    $(".btn-wrap .left .bi-delete2").on("click", function () {
-        if ($("input[name='potoCheck']:checked").length > 0) {
-            if (confirm("선택된 사진정보를 삭제하시겠습니까?") == true) {    //확인
-
-                $('input:checkbox[name=potoCheck]').each(function () {
-                    if (this.checked) {//checked 처리된 항목의 값
-                        var idx = $('input:checkbox[name=potoCheck]').index(this);
-                        var sn = $('input:checkbox[name=potoCheck]').eq(idx).parent().parent().parent().parent().children()[3].value;
-                        if (sn == '') {
-                            inputFileList.splice(idx - exIdx, 1);
-                            $('input:checkbox[name=potoCheck]').eq(idx).parent().parent().parent().parent().empty();
-                            $("input[name='potoAll']").prop("checked", false);
-                        } else {
-                            var fileSn = $('input:checkbox[name=potoCheck]').eq(idx).parent().parent().parent().parent().children()[3].value;
-                            $('input:checkbox[name=potoCheck]').eq(idx).parent().parent().parent().parent().empty();
-                            console.log($('#atchmnflId').val());
-                            aj_deletePoto($('#atchmnflId').val(), fileSn);
-                        }
-                    }
-                });
-            } else {   //취소
-                return false;
-            }
-        } else {
-            toastr.warning('선택된 사진이 없습니다.');
-        }
-    });
-
-    $('#potoAll').on("click", function () {
-        if ($("input[name='potoAll']").prop("checked")) {
-            $("input[name='potoCheck']").prop("checked", true);
-        } else {
-            $("input[name='potoCheck']").prop("checked", false);
-        }
-    });
-
-    var inputFileList = new Array();
-    var exIdx = $('input:checkbox[name=potoCheck]').length;
 </script>
 <!-- top > 사진정보 > 수정 -->
 <div class="popup-header">사진정보</div>
@@ -177,7 +206,8 @@
                     </tr>
                     <tr>
                         <th scope="row">위치</th>
-                        <td colspan="3"><input type="text" class="form-control" id="loc_poto" style="width: 215px;" readonly>
+                        <td colspan="3"><input type="text" class="form-control" id="loc_poto" style="width: 215px;"
+                                               readonly>
                             <button type="button" class="btn type01 bi-location">지도에서 선택</button>
                         </td>
                     </tr>
@@ -189,33 +219,6 @@
                                     class="upload-name" value="파일선택">
                                 <label for="file">파일찾기</label>
                             </div>
-                            <script>
-                                $(document).ready(function () {
-                                    var fileTarget = $('#file');
-                                    fileTarget.on('change', function (e) {
-                                        var cur = $(".form-file input[type='file']").val();
-                                        var file = e.target.files;
-                                        var filesArr = Array.prototype.slice.call(file);
-                                        filesArr.forEach(function (f) {
-                                            inputFileList.push(f);
-                                            var temp = parseInt($("input[name='potoCheck']:last").val()) + 1;
-                                            if ($("input[name='potoCheck']").length == 0) {
-                                                temp = 0;
-                                            }
-                                            $('#potoImgUpdateList').append(`
-                                            <tr>
-                                                <td class="align-center"><span class="form-checkbox"><span>
-                                                    <input type="checkbox" name="potoCheck" id="potoCheck` + temp + `" value="` + temp + `">
-                                                    <label for="potoCheck` + temp + `"></label></span></span></td>
-                                                <td class="text-overflow">` + f.name + `</td>
-                                                <td><input type="text" class="form-control" name="fileCn_new"></td>
-                                                <input type="hidden" name="fileSn" />
-                                            </tr>`);
-                                        });
-                                        $(".upload-name").val(cur);
-                                    });
-                                });
-                            </script>
                         </td>
                     </tr>
                     </tbody>
