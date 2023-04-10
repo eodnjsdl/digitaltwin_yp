@@ -10,6 +10,9 @@ map2d.draw = (function () {
     let _translate;
     let _drawOptions;
     let _buffer;
+    let _snapLayer;
+    let _snapSource;
+    const _snapCollection = new ol.Collection([], {unique: true});
 
     const DEFAULT_TYPE = 'Polygon'
     const ORI_GEOM_KEY = '_ori_geom'
@@ -18,12 +21,23 @@ map2d.draw = (function () {
         _source = new ol.source.Vector();
         _layer = new ol.layer.Vector({
             source: _source,
-            name: 'drawLayer',
             zIndex: 999,
             style: map2d.vector.style,
             isDefault: true
         });
+
+        _source.on('addfeature', onAddFeature);
+        _source.on('removefeature', onRemoveFeature);
+
         map2d.map.addLayer(_layer);
+    }
+
+    function onAddFeature(e) {
+        _snapCollection.push(e.feature);
+    }
+
+    function onRemoveFeature(e) {
+        _snapCollection.remove(e.feature);
     }
 
     /**
@@ -89,7 +103,9 @@ map2d.draw = (function () {
 
     function createSnap() {
         if (!_snap) {
-            _snap = new ol.interaction.Snap({source: _source});
+            _snap = new ol.interaction.Snap({
+                features: _snapCollection
+            });
             map2d.map.addInteraction(_snap);
         }
     }
@@ -119,7 +135,9 @@ map2d.draw = (function () {
     function createSelect() {
         if (!_select) {
             _select = new ol.interaction.Select({
-                source: _source,
+                filter: function (feature, layer) {
+                    return layer === _layer;
+                },
                 style: selectStyleFunction
             });
             map2d.map.addInteraction(_select);
@@ -200,10 +218,12 @@ map2d.draw = (function () {
             _select.un('select', onSelect);
             _select = undefined;
         }
+
     }
 
     function clear() {
         _source.clear();
+        clearSnapLayer();
     }
 
     function parseOption(options) {
@@ -313,10 +333,6 @@ map2d.draw = (function () {
         return parser.write(buffered);
     }
 
-    function setSnap(source) {
-
-
-    }
 
     function readGeoJson(json, style) {
         if (typeof json === 'string') {
@@ -364,6 +380,71 @@ map2d.draw = (function () {
         return format.writeFeatures(features);
     }
 
+    function getSnapLayer() {
+
+    }
+
+    /**
+     * 스냅 레이어 설정
+     * @param {string} name 레이어 서비스 명
+     */
+    function setSnapLayer(name) {
+        clearSnapLayer();
+
+        if (!_snapSource) {
+            _snapSource = new ol.source.Vector({
+                format: new ol.format.GeoJSON(),
+                loader: function (extent, resolution, projection, success, failure) {
+                    dtmap.wfsGetFeature({
+                        typeNames: name,
+                        bbox: extent,
+                        cql: '1=1',
+                        crs: dtmap.crs
+                    }).then(function (json) {
+                        const features = _snapSource.getFormat().readFeatures(json);
+                        _snapSource.addFeatures(features);
+                    })
+                },
+                strategy: ol.loadingstrategy.bbox
+            });
+            _snapSource.on('addfeature', onAddFeature);
+            _snapSource.on('removefeature', onRemoveFeature);
+        }
+
+        if (!_snapLayer) {
+            _snapLayer = new ol.layer.Vector({
+                source: _snapSource,
+                name: 'snapLayer',
+                zIndex: 998,
+            });
+            map2d.map.addLayer(_snapLayer);
+        }
+
+
+    }
+
+    function clearSnapLayer() {
+        if (_snapSource) {
+            _snapSource.clear();
+            _snapSource = undefined;
+        }
+
+        if (_snapLayer) {
+            map2d.map.removeLayer(_snapLayer);
+            _snapLayer = undefined;
+        }
+    }
+
+    function addFeatures(features) {
+        if (!features) {
+            return;
+        }
+        if (features instanceof Array) {
+            return _source.addFeatures(features);
+        } else {
+            return _source.addFeature(features);
+        }
+    }
 
     let module = {
         init: init,
@@ -374,8 +455,11 @@ map2d.draw = (function () {
         readGeoJson: readGeoJson,
         getGeometry: getGeometry,
         setBuffer: setBuffer,
-        clear: clear,
-        setSnap: setSnap
+        getSnapLayer: getSnapLayer,
+        setSnapLayer: setSnapLayer,
+        clearSnapLayer: clearSnapLayer,
+        addFeatures: addFeatures,
+        clear: clear
     }
 
     Object.defineProperties(module, {

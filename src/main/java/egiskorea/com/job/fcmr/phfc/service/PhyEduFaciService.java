@@ -1,6 +1,9 @@
 package egiskorea.com.job.fcmr.phfc.service;
 
+import java.util.HashMap;
 import java.util.Map;
+
+import org.apache.poi.xssf.streaming.SXSSFWorkbook;
 
 import egiskorea.com.job.spor.service.SportsVO;
 
@@ -30,21 +33,31 @@ public interface PhyEduFaciService {
 	/**
 	 * 체육시설 등록
 	 */
+	public int insertPhyEduFaci(SportsVO sportsVO) throws Exception;
 	
 	/**
 	 * 체육시설 수정
 	 */
+	public int updatePhyEduFaci(SportsVO sportsVO) throws Exception;
 	
 	/**
 	 * 체육시설 삭제
 	 */
+	public int deletePhyEduFaci(SportsVO sportsVO) throws Exception;
+	
+	/**
+	 * 체육시설 엑셀 다운로드
+	 * @throws Exception
+	 */
+	SXSSFWorkbook makePhyEduFaciExcelList(HashMap parameter);
+	HashMap getPhyEduFaciExcel(SportsVO sportsVO);
 	
 	/**
 	 * 체육시설 > 운영정보 리스트 조회
 	 * @param sportsVO
 	 * @return
 	 */
-	public Map<String, Object> phyMngListView(SportsVO sportsVO) throws Exception;
+	public Map<String, Object> selectPhyMngList(SportsVO sportsVO) throws Exception;
 	
 	/**
 	 * 체육시설 > 운영정보 년도 중복체크
@@ -79,7 +92,7 @@ public interface PhyEduFaciService {
 	 * @param sportsVO
 	 * @return
 	 */
-	public Map<String, Object> phyFaciMngListView(SportsVO sportsVO) throws Exception;
+	public Map<String, Object> selectPhyFaciMngList(SportsVO sportsVO) throws Exception;
 	
 	/**
 	 * 체육시설 > 시설정보 등록

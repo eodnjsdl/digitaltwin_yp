@@ -35,15 +35,39 @@ public class PhyEduFaciDAO extends ComAbstractDAO {
 	
 	/**
 	 * 체육시설 등록
+	 * @param sportsVO
+	 * @return Exception
 	 */
+	public int insertPhyEduFaci(SportsVO sportsVO) throws Exception {
+		return insert("phyEduFaciDAO.insertPhyEduFaci", sportsVO);
+	}
 	
 	/**
 	 * 체육시설 수정
+	 * @param sportsVO
+	 * @return Exception
 	 */
+	public int updatePhyEduFaci(SportsVO sportsVO) throws Exception {
+		return update("phyEduFaciDAO.updatePhyEduFaci", sportsVO);
+	}
 	
 	/**
 	 * 체육시설 삭제
+	 * @param sportsVO
+	 * @return Exception
 	 */
+	public int deletePhyEduFaci(SportsVO sportsVO) throws Exception {
+		return delete("phyEduFaciDAO.deletePhyEduFaci", sportsVO);
+	}
+	
+	/**
+	 * 체육시설 엑셀 다운로드
+	 * @param sportsVO
+	 * @return Exception
+	 */
+	public List<?> getPhyEduFaciExcel(SportsVO sportsVO) {
+		return selectList("phyEduFaciDAO.getPhyEduFaciExcel", sportsVO);
+	}
 	
 	/**
 	 * 체육시설 > 운영정보 리스트 조회

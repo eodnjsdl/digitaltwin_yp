@@ -23,7 +23,7 @@ function test(pageNo){
 		<div class="data-write-wrap" style="height: 100%;">
 			<div class="">
 				<div class="data-default">
-					<table class="data-write">
+					<table id="phyMng" class="data-write">
 						<colgroup>
 							<col style="width: 23%;">
 							<col style="width: auto;">

@@ -3,14 +3,50 @@
 <mapper namespace="phyEduFaciDAO">
 	<!-- 체육시설 상세 조회 -->
 	<select id="selectPhyEduFaciDetail" parameterType="sportsVO" resultType="sportsVO">
-		SELECT GID, FCLTY_NM, FCLTY_TY, ADRES, OPER_MTHD, ERC_CT, BULD_SIZE, LAD_SIZE,FCLTY_SUMRY, MANAGE_NMPR, FYER_UTLZTN_NMPR, CHRG_DEPT_NM ,CHARGER_NM, CTTPC_TELNO, FOND_DE, LAST_MODF_DT<!-- , ST_SETSRID(ST_GEOMFROMTEXT(#{geom}), 5179), ST_X(ST_TRANSFORM(GEOM,4326)) AS LON, ST_Y(ST_TRANSFORM(GEOM,4326)) AS LAT-->
+		SELECT GID, FCLTY_NM, FCLTY_TY, ADRES, OPER_MTHD, ERC_CT, BULD_SIZE, LAD_SIZE,FCLTY_SUMRY, MANAGE_NMPR, FYER_UTLZTN_NMPR, CHRG_DEPT_NM ,CHARGER_NM, CTTPC_TELNO, FOND_DE, LAST_MODF_DT, ST_SETSRID(ST_GEOMFROMTEXT(#{geom}), 5179), ST_X(ST_TRANSFORM(GEOM,4326)) AS LON, ST_Y(ST_TRANSFORM(GEOM,4326)) AS LAT
 			FROM TGD_PHSTRN_FCLTY
-			WHERE 1=1 AND GID = #{gid}
+			 WHERE 1=1 AND GID = #{gid}
 	</select>
 	
 	<!-- 체육시설 등록 -->
+	<insert id="insertPhyEduFaci" parameterType="sportsVO">
+		INSERT INTO TGD_PHSTRN_FCLTY
+		 (GID, FCLTY_NM, FCLTY_TY, OPER_MTHD, FOND_DE, BULD_SIZE, LAD_SIZE, STDM_STNDRD, MANAGE_NMPR, FYER_UTLZTN_NMPR, ERC_CT, ADRES, CHRG_DEPT_NM, CHARGER_NM, CTTPC_TELNO, FCLTY_SUMRY, GEOM, FRST_REGIST_DT, FRST_REGISTER_ID, LAST_MODF_DT, LAST_UPDUSR_ID)
+		VALUES
+		 (NEXTVAL('TGD_PHSTRN_FCLTY_GID_SEQ'), #{fcltyNm}, #{fcltyTy}, #{operMthd}, #{fondDe}, #{buldSize}, #{ladSize}, #{stdmStndrd}, #{manageNmpr}, #{fyerUtlztnNmpr}, #{ercCt}, #{adres}, #{chrgDeptNm}, #{chargerNm}, #{cttpcTelno}, #{fcltySumry}, ST_GEOMFROMTEXT(#{geom}, 5179), now(), #{frstRegisterId}, now(), #{lastUpdusrId})
+	</insert>
+	
 	<!-- 체육시설 수정 -->
+	<update id="updatePhyEduFaci" parameterType="sportsVO" >
+		UPDATE TGD_PHSTRN_FCLTY
+			SET FCLTY_NM = #{fcltyNm}, ADRES = #{adres}, FCLTY_TY = #{fcltyTy}, OPER_MTHD = #{operMthd}, ERC_CT = #{ercCt}, FOND_DE = #{fondDe}, BULD_SIZE = #{buldSize}, LAD_SIZE = #{ladSize}, MANAGE_NMPR = #{manageNmpr}, FYER_UTLZTN_NMPR = #{fyerUtlztnNmpr}, CHRG_DEPT_NM = #{chrgDeptNm}, CHARGER_NM = #{chargerNm}, CTTPC_TELNO = #{cttpcTelno}, FCLTY_SUMRY = #{fcltySumry}, LAST_MODF_DT = now(), LAST_UPDUSR_ID = #{lastUpdusrId}
+			<if test="geom != null and geom !=''">
+				, GEOM = ST_SETSRID(ST_GEOMFROMTEXT(#{geom}), 5179)	
+			</if>
+			WHERE GID = #{gid}
+	</update>
+	
 	<!-- 체육시설 삭제 -->
+	<delete id="deletePhyEduFaci">
+		DELETE FROM TGD_PHSTRN_FCLTY WHERE GID = #{gid}
+	</delete>
+	
+	<!-- 체육시설 엑셀 다운로드 -->	
+	<select id="getAllSportsExcel" parameterType="sportsVO" resultType="HashMap">
+		SELECT GID, FCLTY_NM, ADRES, CHARGER_NM, CTTPC_TELNO, FOND_DE, LAST_MODF_DT, ST_X(ST_TRANSFORM(GEOM,4326)) AS LON_LON,ST_Y(ST_TRANSFORM(GEOM,4326))AS LAT_LAT 
+			<if test="sporSpitalSearch != ''">
+				, ST_ASTEXT(ST_BUFFER(ST_GEOMFROMTEXT(#{sporSpitalSearch}, 4326), #{sportsBuffer} , 'join=round')) bufferArea /* bufferArea */
+			</if>
+			FROM TGD_PHSTRN_FCLTY
+			 WHERE 1=1
+				<if test = "sports_oper_mthd_cd !='' and sports_oper_mthd_cd != null" >
+					AND OPER_MTHD LIKE '%' || #{sports_oper_mthd_cd} || '%'
+				</if>
+			AND ADRES LIKE '%' || #{sporSearchAdres} || '%' AND FCLTY_NM LIKE '%' || #{sporSearchAlsfc_nm} || '%' 
+				<if test="sporSpitalSearch !=''">
+					AND ST_INTERSECTS(ST_BUFFER(ST_GEOMFROMTEXT(#{sporSpitalSearch}, 4326), #{sportsBuffer}), ST_TRANSFORM(GEOM, 4326)) = true
+				</if>
+	</select>
 	
 	<!-- 체육시설 > 운영정보 목록 조회 -->
 	<select id="selectPhyMngList" resultType="egovMap" parameterType="sportsVO">

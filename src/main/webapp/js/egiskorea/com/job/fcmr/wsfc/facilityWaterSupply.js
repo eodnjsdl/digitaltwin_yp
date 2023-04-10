@@ -36,6 +36,7 @@ function codeArrayInit(){
 	setCmmCodeDataArray("MNG-001");				//관리기관	
 	setCmmCodeDataArray("OGC-048");				//소화전 형식
 	
+
 }
 
 
@@ -47,11 +48,9 @@ function getWaterSupplyFacility(name){
 		if(name == "wtlFirePs"){			//소방시설
 			selectWtlFirePsListView();
 		}else if(name == "wtlPipeLm"){		//상수관로
-			toastr.error("작업중", "상수관로");	
-			return;
+			selectWtlPipeLmListView();
 		}else if(name == "wtlFlowPs"){		//유량계
-			toastr.error("작업중", "유량계");	
-			return;
+			selectWtlFlowPsListView();
 		}else if(name == "wtlManhPs"){		//상수맨홀
 			toastr.error("작업중", "상수맨홀");
 			return;
