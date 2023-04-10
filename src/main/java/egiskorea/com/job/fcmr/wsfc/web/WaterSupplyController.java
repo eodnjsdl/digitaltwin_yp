@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import egiskorea.com.job.fcmr.wsfc.service.WtlFirePsVO;
+import egiskorea.com.job.fcmr.wsfc.service.WtlFlowPsVO;
+import egiskorea.com.job.fcmr.wsfc.service.WtlPipeLmVO;
 
 /**
  * @Description 시설관리/상수도시설
@@ -20,6 +22,7 @@ import egiskorea.com.job.fcmr.wsfc.service.WtlFirePsVO;
  *  수정일               수정자            수정내용
  *  ----------   --------   ---------------------------
  *  2023.04.04   황의현           최초 생성
+ *  2023.04.06   장현승           상수관로, 유량계
  */
 
 @Controller
@@ -58,8 +61,72 @@ public class WaterSupplyController {
 	////////
 	//상수관로
 	
+	//목록 화면 호출
+	@RequestMapping(value = "/selectWtlPipeListView.do")
+    public String selectWtlPipeLmList(
+            @ModelAttribute("wtlPipeLmVO") WtlPipeLmVO wtlPipeLmVO,
+            ModelMap model) throws Exception {
+        return "egiskorea/com/job/fcmr/wsfc/wpil/wtlPipeLmListView";
+    }
+	
+	//등록 화면 조회
+	@RequestMapping(value = "/insertWtlPipeLmView.do")
+	public String insertWtlPipeLmView(
+			@ModelAttribute("wtlPipeLmVO") WtlPipeLmVO wtlPipeLmVO,
+			ModelMap model) throws Exception {
+		return "egiskorea/com/job/fcmr/wsfc/wpil/wtlPipeLmInsert";
+	}
+	
+	//상세 화면 조회
+	@RequestMapping(value = "/getWtlPipeLmDetail.do")
+	public String getWtlPipeLmDetail(
+			@ModelAttribute("wtlPipeLmVO") WtlPipeLmVO wtlPipeLmVO,
+			ModelMap model) throws Exception {
+		return "egiskorea/com/job/fcmr/wsfc/wpil/wtlPipeLmDetail";
+	}
+	
+	//수정 화면 조회
+	@RequestMapping(value = "/updateWtlPipeLmView.do")
+	public String updateWtlPipeLmView(
+			@ModelAttribute("wtlPipeLmVO") WtlPipeLmVO wtlPipeLmVO,
+			ModelMap model) throws Exception {
+		return "egiskorea/com/job/fcmr/wsfc/wpil/wtlPipeLmUpdate";
+	}
+	
 	////////
 	//유량계
+	
+	//목록 화면 호출
+	@RequestMapping(value = "/selectWtlFlowListView.do")
+    public String selectWtlFlowPsList(
+            @ModelAttribute("wtlFlowPsVO") WtlFlowPsVO wtlFlowPsVO,
+            ModelMap model) throws Exception {
+        return "egiskorea/com/job/fcmr/wsfc/wflp/wtlFlowPsListView";
+    }
+	
+	//등록 화면 조회
+	@RequestMapping(value = "/insertWtlFlowPsView.do")
+	public String insertWtlFlowPsView(
+			@ModelAttribute("wtlFlowPsVO") WtlFlowPsVO wtlFlowPsVO,
+			ModelMap model) throws Exception {
+		return "egiskorea/com/job/fcmr/wsfc/wflp/wtlFlowPsInsert";
+	}
+	
+	//상세 화면 조회
+	@RequestMapping(value = "/getWtlFlowPsDetail.do")
+	public String getWtlFlowPsDetail(
+			@ModelAttribute("wtlFlowPsVO") WtlFlowPsVO wtlFlowPsVO,
+			ModelMap model) throws Exception {
+		return "egiskorea/com/job/fcmr/wsfc/wflp/wtlFlowPsDetail";
+	}
+	
+	//수정 화면 조회
+	@RequestMapping(value = "/updateWtlFlowPsView.do")
+	public String updateWtlFlowPsView(
+			@ModelAttribute("wtlFlowPsVO") WtlFlowPsVO wtlFlowPsVO,
+			ModelMap model) throws Exception {
+		return "egiskorea/com/job/fcmr/wsfc/wflp/wtlFlowPsUpdate";
+	}
 	
 	////////
 	//상수맨홀
