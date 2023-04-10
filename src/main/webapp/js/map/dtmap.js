@@ -84,6 +84,10 @@ window.dtmap = (function () {
         call('zoomOut');
     }
 
+    function getCenter() {
+        return call('getCenter');
+    }
+
     function setCenter(center) {
         call('setCenter', center);
     }
@@ -370,6 +374,7 @@ window.dtmap = (function () {
         zoomIn: zoomIn,
         zoomOut: zoomOut,
         switchMap: switchMap,
+        getCenter: getCenter,
         setCenter: setCenter,
         getExtent: getExtent,
         showLayer: showLayer,

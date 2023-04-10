@@ -108,8 +108,14 @@ var cmmUtil = {
     zoomInImage: function(src) {
       var html = "";
       html += "<img src='"+src+"' id='zoomActionImg' alt='이미지' data-action='zoom'/>"
-        $("#wrap").empty(html).append(html);
-
+      $("#wrap").append(html);
+      $("#zoomActionImg").click();
+      $("#zoomActionImg").on("click", function(){
+        $(".zoom-img-wrap").remove();
+        $("#zoomActionImg").remove();
+        $(".zoom-overlay").remove();
+        $(".webmaster").removeClass("zoom-overlay-transitioning zoom-overlay-open");
+      });
     }
 
 
