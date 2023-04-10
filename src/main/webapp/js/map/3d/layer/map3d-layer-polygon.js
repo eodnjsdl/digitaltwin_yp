@@ -26,6 +26,7 @@ map3d.layer.Polygon = (function () {
         });
     }
 
+
     /**
      *
      * @param {object} options
@@ -64,6 +65,13 @@ map3d.layer.Polygon = (function () {
 
     }
 
+
+    Polygon.prototype.removeById = function (id) {
+        map3d.layer.Geometry.prototype.removeById.call(this, id);
+        // this.instance.removeAtKey(id+'_LINE');
+
+    }
+
     function addPolygon3D(id, geometry, style) {
         let vertex = new Module.JSVec3Array();
         let parts = new Module.Collection();
@@ -89,26 +97,27 @@ map3d.layer.Polygon = (function () {
         );
         object.SetCullMode(1);
 
-        const lineObject = Module.createLineString(id + '_LINE');
-        // 라인 설정
-        lineObject.setPartCoordinates(vertex, parts);
-
-        // 라인 스타일
-        const lineStyle = new Module.JSPolyLineStyle();
-        lineStyle.setWidth(Number(style.stroke.width) + 2);
-        lineStyle.setColor(stroke.toJSColor());
-        lineObject.setStyle(lineStyle);
-        const lineDash = style.stroke?.lineDash || 'SOLID'
-        if (lineDash === "DOT" ||
-            lineDash === "DASHED" ||
-            lineDash === "DASH-DOTTED" ||
-            lineDash === "DASH-DOUBLE-DOTTED") {
-            lineObject.SetLineType(4);
-            lineObject.SetDashType(6);
-        }
-
         this.instance.addObject(object, 0);
-        this.instance.addObject(lineObject, 0);
+
+        // const lineObject = Module.createLineString(id + '_LINE');
+        // // 라인 설정
+        // lineObject.setPartCoordinates(vertex, parts);
+        //
+        // // 라인 스타일
+        // const lineStyle = new Module.JSPolyLineStyle();
+        // lineStyle.setWidth(Number(style.stroke.width) + 2);
+        // lineStyle.setColor(stroke.toJSColor());
+        // lineObject.setStyle(lineStyle);
+        // const lineDash = style.stroke?.lineDash || 'SOLID'
+        // if (lineDash === "DOT" ||
+        //     lineDash === "DASHED" ||
+        //     lineDash === "DASH-DOTTED" ||
+        //     lineDash === "DASH-DOUBLE-DOTTED") {
+        //     lineObject.SetLineType(4);
+        //     lineObject.SetDashType(6);
+        // }
+        // this.instance.addObject(lineObject, 0);
+
         // this.instance.setMaxDistance(map3d.config.maxDistance);
 
         return object;
