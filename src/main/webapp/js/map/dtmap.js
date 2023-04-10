@@ -85,7 +85,7 @@ window.dtmap = (function () {
     }
 
     function getCenter() {
-        call('getCenter');
+        return call('getCenter');
     }
 
     function setCenter(center) {
