@@ -22,10 +22,11 @@
                             </colgroup>
                             <tbody id="lSrchOptions">
 								<tr>
-								<th scope="row">시설구분</th>
+								<th scope="row">시설유형</th>
 									<td>
 										<select name="sports_fcty_tp_cd" id="sports_fcty_tp_cd" class="form-select">
 											<option value="">전체</option>
+											<option value="체육시설">체육시설</option>
 										</select>
 									</td>
 								</tr>

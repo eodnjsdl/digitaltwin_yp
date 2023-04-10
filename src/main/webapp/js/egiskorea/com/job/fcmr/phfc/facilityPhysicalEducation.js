@@ -147,7 +147,6 @@ function selectPhyEduFaciList(page) {
         
         //지도에 GeoJSON 추가
         dtmap.vector.readGeoJson(data, function(feature) {
-        	console.log(feature)
             //스타일 콜백 
         	let properties = feature.getProperties();
             let ftr_cde = properties.fclty_nm;
@@ -205,81 +204,62 @@ function insertPhyEduFaciView() {
 
 // 체육시설 등록 저장
 function insertPhyEduFaci() {
-	var fclty_nm = $('input[name=fclty_nm]').val();
-	var adres = '경기도 양평군';//$('input[name=adres]').val();
-	var fclty_ty = $('#fclty_ty option:selected').val();
-	var oper_mthd = $('#oper_mthd option:selected').val();
-	var erc_ct = $('input[name=erc_ct]').val();
-	var fond_de = $('input[name=fond_de]').val();
-	var buld_size = $('input[name=buld_size]').val();
-	var lad_size = $('input[name=lad_size]').val();
-	var manage_nmpr = $('input[name=manage_nmpr]').val();
-	var fyer_utlztn_nmpr = $('input[name=fyer_utlztn_nmpr]').val();
-	var chrg_dept_nm = $('#chrg_dept_nm option:selected').val();
-	var charger_nm = $('input[name=charger_nm]').val();
-	var cttpc_telno = $('input[name=cttpc_telno]').val();
-	var fclty_sumry = $('input[name=fclty_sumry]').val();
-	var geom = 'POINT(1002725.6322952138 1939131.3901101280)';//$('#geom').val();
+	// NULL값도 가능한 input
+	var fclty_ty 				= $('#phyEduFaciTbl #fclty_ty option:selected').val();			// 시설유형
+	var oper_mthd 				= $('#phyEduFaciTbl #oper_mthd option:selected').val();			// 운영방식
+	var erc_ct 					= $('#phyEduFaciTbl input[name=erc_ct]').val();					// 건립비용
+	var buld_size 				= $('#phyEduFaciTbl input[name=buld_size]').val();				// 건물면적
+	var lad_size 				= $('#phyEduFaciTbl input[name=lad_size]').val();				// 토지면적
+	var manage_nmpr 			= $('#phyEduFaciTbl input[name=manage_nmpr]').val();			// 관리인원
+	var fyer_utlztn_nmpr 		= $('#phyEduFaciTbl input[name=fyer_utlztn_nmpr]').val();		// 연간이용인원
+	var chrg_dept_nm 			= $('#phyEduFaciTbl #chrg_dept_nm option:selected').val();		// 담당자
+	var fclty_sumry 			= $('#phyEduFaciTbl input[name=fclty_sumry]').val();			// 시설물개요
 	
-	// 유효성 체크
-	var date = /^\d{4}-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])$/;
-	var tel = /^[0-9]{3}-[0-9]{3,4}-[0-9]{4}/;
-	var nm = /^[가-힣a-zA-Z]+$/;
-	
+	var fclty_nm = $('#phyEduFaciTbl input[name=fclty_nm]').val();
 	if (fclty_nm == '') {
 		alert('시설명을 입력해주세요.');
+		$('#phyEduFaciTbl input[name=fclty_nm]').focus();
 		return false;
 	}
+	
+	var adres = '경기도 양평군';//$('#phyEduFaciTbl input[name=adres]').val();
+	var geom = 'POINT(1022725.6322952138 1949131.3901101280)';//$('#phyEduFaciTbl #geom').val();
 	if (adres == '' || geom == '') {
 		alert('지도에서 위치를 선택해주세요.');
 		return false;
 	}
-	if (erc_ct == '') {
-		alert('건립비용을 입력해주세요.');
-		return false;
+	
+	// NULL값도 가능하지만 값이 입력되면 유효성 검사
+	var date = /^\d{4}-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])$/;
+	var fond_de = $('#phyEduFaciTbl input[name=fond_de]').val();
+	if (!fond_de == '') {
+		if (!date.test(fond_de)) {
+			alert('날짜형식에 맞게 입력해주세요.')
+			$('#phyEduFaciTbl input[name=fond_de]').focus();
+			return false;
+		}
 	}
-	if (fond_de == '') {
-		alert('건립일을 입력해주세요.')
-		return false;
-	} else if (!date.test(fond_de)) {
-		alert('날짜형식에 맞게 입력해주세요.')
-		$('input[name=fond_de]').focus();
-		return false;
+	
+	var nm = /^[가-힣a-zA-Z]+$/;
+	var charger_nm = $('#phyEduFaciTbl input[name=charger_nm]').val();
+	if (!charger_nm == '') {
+		if (!nm.test(charger_nm)) {
+			alert('한글 또는 영문을 이용해 입력해주세요.');
+			$('#phyEduFaciTbl input[name=charger_nm]').focus();
+			return false;
+		}
 	}
-	if (buld_size == '') {
-		alert('건물면적을 입력해주세요.');
-		return false;
-	}
-	if (lad_size == '') {
-		alert('토지면적을 입력해주세요.');
-		return false;
-	}
-	if (manage_nmpr == '') {
-		alert('관리인원을 입력해주세요.');
-		return false;
-	}
-	if (fyer_utlztn_nmpr == '') {
-		alert('연간이용인원을 입력해주세요.');
-		return false;
-	}
-	if (charger_nm == '') {
-		alert('담당자의 이름을 입력해주세요.');
-		$('input[name=charger_nm]').focus();
-		return false;
-	} else if (!nm.test(charger_nm)) {
-		alert('한글 또는 영문을 이용해 입력해주세요.');
-		$('input[name=charger_nm]').focus();
-		return false;
-	}
-	if (cttpc_telno == '') {
-		alert('담당자의 연락처를 입력해주세요.');
-		$('input[name=cttpc_telno]').focus();
-		return false;
-	} else if (!tel.test(cttpc_telno)) {
-		alert('형식에 맞게 입력해주세요. ex) 000-0000-0000');
-		$('input[name=cttpc_telno]').focus();
-		return false;
+	
+	var tel = /^[0-9]{3}-[0-9]{3,4}-[0-9]{4}/;
+	var cttpc_telno = $('#phyEduFaciTbl input[name=cttpc_telno]').val();
+	if (!cttpc_telno == '') {
+		if (!tel.test(cttpc_telno)) {
+			alert('전화번호 형식에 맞게 입력해주세요. ex) 000-0000-0000');
+			$('#phyEduFaciTbl input[name=cttpc_telno]').focus();
+			return false;
+		}
 	} else {
+		// 등록 진행
 		if (confirm("등록하시겠습니까?") == true) {
 			ui.loadingBar("show");
 			
@@ -351,80 +331,59 @@ function updatePhyEduFaciView(gid) {
 function updatePhyEduFaci(gid) {
 	var page = $('#hiddenPage').val();
 	
-	var fclty_nm = $('input[name=fclty_nm]').val();
-	var adres = '경기도 양평군';//$('input[name=adres]').val();
-	var fclty_ty = $('#fclty_ty option:selected').val();
-	var oper_mthd = $('#oper_mthd option:selected').val();
-	var erc_ct = $('input[name=erc_ct]').val();
-	var fond_de = $('input[name=fond_de]').val();
-	var buld_size = $('input[name=buld_size]').val();
-	var lad_size = $('input[name=lad_size]').val();
-	var manage_nmpr = $('input[name=manage_nmpr]').val();
-	var fyer_utlztn_nmpr = $('input[name=fyer_utlztn_nmpr]').val();
-	var chrg_dept_nm = $('#chrg_dept_nm option:selected').val();
-	var charger_nm = $('input[name=charger_nm]').val();
-	var cttpc_telno = $('input[name=cttpc_telno]').val();
-	var fclty_sumry = $('input[name=fclty_sumry]').val();
-	var geom = 'POINT(1022725.6322952138 1949131.3901101280)';//$('#geom').val();
+	// NULL값도 가능한 input
+	var fclty_ty = $('#phyEduFaciTbl #fclty_ty option:selected').val();				// 시설유형
+	var oper_mthd = $('#phyEduFaciTbl #oper_mthd option:selected').val();			// 운영방식
+	var erc_ct = $('#phyEduFaciTbl input[name=erc_ct]').val();						// 건립비용
+	var buld_size = $('#phyEduFaciTbl input[name=buld_size]').val();				// 건물면적
+	var lad_size = $('#phyEduFaciTbl input[name=lad_size]').val();					// 토지면적
+	var manage_nmpr = $('#phyEduFaciTbl input[name=manage_nmpr]').val();			// 관리인원
+	var fyer_utlztn_nmpr = $('#phyEduFaciTbl input[name=fyer_utlztn_nmpr]').val();	// 연간이용인원
+	var chrg_dept_nm = $('#phyEduFaciTbl #chrg_dept_nm option:selected').val();		// 담당자
+	var fclty_sumry = $('#phyEduFaciTbl input[name=fclty_sumry]').val();			// 시설물개요
 	
-	// 유효성 체크
-	var date = /^\d{4}-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])$/;
-	var tel = /^[0-9]{3}-[0-9]{3,4}-[0-9]{4}/;
-	var nm = /^[가-힣a-zA-Z]+$/;
-	
+	var fclty_nm = $('#phyEduFaciTbl input[name=fclty_nm]').val();
 	if (fclty_nm == '') {
 		alert('시설명을 입력해주세요.');
 		return false;
 	}
+	
+	var adres = '경기도 양평군 양평읍';//$('#phyEduFaciTbl input[name=adres]').val();
+	var geom = 'POINT(1022725.6322952138 1949131.3901101280)';//$('#phyEduFaciTbl #geom').val();
 	if (adres == '' || geom == '') {
 		alert('지도에서 위치를 선택해주세요.');
 		return false;
 	}
-	if (erc_ct == '') {
-		alert('건립비용을 입력해주세요.');
-		return false;
+	
+	// NULL값도 가능하지만 값이 입력되면 유효성 검사
+	var date = /^\d{4}-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])$/;
+	var fond_de = $('#phyEduFaciTbl input[name=fond_de]').val();
+	if (!fond_de == '') {
+		if (!date.test(fond_de)) {
+			alert('날짜형식에 맞게 입력해주세요.')
+			$('#phyEduFaciTbl input[name=fond_de]').focus();
+			return false;
+		}
 	}
-	if (fond_de == '') {
-		alert('건립일을 입력해주세요.')
-		return false;
-	} else if (!date.test(fond_de)) {
-		alert('날짜형식에 맞게 입력해주세요.')
-		$('input[name=fond_de]').focus();
-		return false;
+	
+	var nm = /^[가-힣a-zA-Z]+$/;
+	var charger_nm = $('#phyEduFaciTbl input[name=charger_nm]').val();
+	if (!charger_nm == '') {
+		if (!nm.test(charger_nm)) {
+			alert('한글 또는 영문을 이용해 입력해주세요.');
+			$('#phyEduFaciTbl input[name=charger_nm]').focus();
+			return false;
+		}
 	}
-	if (buld_size == '') {
-		alert('건물면적을 입력해주세요.');
-		return false;
-	}
-	if (lad_size == '') {
-		alert('토지면적을 입력해주세요.');
-		return false;
-	}
-	if (manage_nmpr == '') {
-		alert('관리인원을 입력해주세요.');
-		return false;
-	}
-	if (fyer_utlztn_nmpr == '') {
-		alert('연간이용인원을 입력해주세요.');
-		return false;
-	}
-	if (charger_nm == '') {
-		alert('담당자의 이름을 입력해주세요.');
-		$('input[name=charger_nm]').focus();
-		return false;
-	} else if (!nm.test(charger_nm)) {
-		alert('한글 또는 영문을 이용해 입력해주세요.');
-		$('input[name=charger_nm]').focus();
-		return false;
-	}
-	if (cttpc_telno == '') {
-		alert('담당자의 연락처를 입력해주세요.');
-		$('input[name=cttpc_telno]').focus();
-		return false;
-	} else if (!tel.test(cttpc_telno)) {
-		alert('형식에 맞게 입력해주세요. ex) 000-0000-0000');
-		$('input[name=cttpc_telno]').focus();
-		return false;
+	
+	var tel = /^[0-9]{3}-[0-9]{3,4}-[0-9]{4}/;
+	var cttpc_telno = $('#phyEduFaciTbl input[name=cttpc_telno]').val();
+	if (!cttpc_telno == '') {
+		if (!tel.test(cttpc_telno)) {
+			alert('전화번호 형식에 맞게 입력해주세요. ex) 000-0000-0000');
+			$('#phyEduFaciTbl input[name=cttpc_telno]').focus();
+			return false;
+		}
 	} else {
 		if (confirm("체육시설 정보를 수정하시겠습니까?") == true) {
 			ui.loadingBar("show");
@@ -570,14 +529,14 @@ function maxLengthCheck(object){
 function insertPhyMng(gid) {
 	//alert('운영정보 등록 GID: ' + gid);
 	
-	var oper_year = $('select[name=oper_year]').val();
-	var acqs_amount = $('input[name=acqs_amount]').val();
-	var dprc_am = $('input[name=dprc_am]').val();
-	var dprc_acmtl_am = $('input[name=dprc_acmtl_am]').val();
-	var bk_amount = $('input[name=bk_amount]').val();
-	var contents_yycnt = $('input[name=contents_yycnt]').val();
-	var oper_ct = $('input[name=oper_ct]').val();
-	var oper_ern = $('input[name=oper_ern]').val();
+	var oper_year = $('#phyFaciMng select[name=oper_year]').val();
+	var acqs_amount = $('#phyFaciMng input[name=acqs_amount]').val();
+	var dprc_am = $('#phyFaciMng input[name=dprc_am]').val();
+	var dprc_acmtl_am = $('#phyFaciMng input[name=dprc_acmtl_am]').val();
+	var bk_amount = $('#phyFaciMng input[name=bk_amount]').val();
+	var contents_yycnt = $('#phyFaciMng input[name=contents_yycnt]').val();
+	var oper_ct = $('#phyFaciMng input[name=oper_ct]').val();
+	var oper_ern = $('#phyFaciMng input[name=oper_ern]').val();
 	
 	if (acqs_amount == '' || dprc_am == '' || dprc_acmtl_am == '' || bk_amount == '' || oper_ct == '' || oper_ern == '') {
 		alert("상세정보를 모두 입력해주세요");
@@ -782,17 +741,17 @@ function getPhyFaciMngViewPaging(pageIndex, gid) {
 function insertPhyFaciMng(gid) {
 	//alert('시설정보 등록 GID: ' + gid);
 	
-	var asstn_fclty_nm = $('input[name=asstn_fclty_nm]').val();
-	var oper_strt_time = $('select[name=oper_strt_time]').val() + ':00';
-	var oper_end_time = $('select[name=oper_end_time]').val() + ':00';
-	var rsrv_at = $('input:radio[name=rsrv_at]:checked').val();
-	var ho_cnt = $('input[name=ho_cnt]').val();
-	var fclty_dc = $('input[name=fclty_dc]').val();
-	var geom = 'POINT(1011725.6322952138 1949131.3901101280)';//$('#geom').val();
+	var asstn_fclty_nm = $('#phyMng input[name=asstn_fclty_nm]').val();
+	var oper_strt_time = $('#phyMng select[name=oper_strt_time]').val() + ':00';
+	var oper_end_time = $('#phyMng select[name=oper_end_time]').val() + ':00';
+	var rsrv_at = $('#phyMng input:radio[name=rsrv_at]:checked').val();
+	var ho_cnt = $('#phyMng input[name=ho_cnt]').val();
+	var fclty_dc = $('#phyMng input[name=fclty_dc]').val();
+	var geom = 'POINT(1011725.6322952138 1949131.3901101280)';//$('#phyMng #geom').val();
 	
 	if (asstn_fclty_nm == '') {
 		alert('시설명을 입력해주세요.');
-		$('input[name=asstn_fclty_nm]').focus();
+		$('#phyMng input[name=asstn_fclty_nm]').focus();
 		return false;
 	}
 	if (geom == '') {

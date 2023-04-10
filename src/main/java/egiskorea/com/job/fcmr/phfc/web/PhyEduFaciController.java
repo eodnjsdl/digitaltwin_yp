@@ -100,7 +100,7 @@ public class PhyEduFaciController {
 	public String insertPhyEduFaciView(
 			@ModelAttribute("PhyEduFaciVO") PhyEduFaciVO phyEduFaciVO,
 			ModelMap model) throws Exception {
-		return "egiskorea/com/job/fcmr/phfc/phyEduFaciInsert";
+		return "egiskorea/com/job/fcmr/phfc/insertPhyEduFaciView";
 	}
 	
 	/**
@@ -154,7 +154,7 @@ public class PhyEduFaciController {
 		
 		model.addAttribute("result", result);
 		
-		return "egiskorea/com/job/fcmr/phfc/phyEduFaciInsert";
+		return "egiskorea/com/job/fcmr/phfc/insertPhyEduFaciView";
 	}
 	
 	/**

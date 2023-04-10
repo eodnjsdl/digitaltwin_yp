@@ -55,7 +55,7 @@ $(".scroll-y").mCustomScrollbar({
 								<td>
 									<c:out value="${result.ercCt}"></c:out>
 								</td>
-								<th scope="row">건립일</th>
+								<th scope="row">설립일자</th>
 								<td>
 									<c:out value="${result.fondDe}"></c:out>
 								</td>
