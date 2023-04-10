@@ -202,8 +202,12 @@ map2d.vector = (function () {
 
     function styleFunction(feature, resolution) {
         let styleOpt = feature.get('style') || {};
-        if (typeof styleOpt === 'function') {
-            styleOpt = styleOpt(feature);
+        // if (typeof styleOpt === 'function') {
+        //     styleOpt = styleOpt(feature);
+        // }
+        const styleFnc = feature.get('_style');
+        if (styleFnc && typeof styleFnc === 'function') {
+            styleOpt = styleFnc(feature);
         }
 
         const selected = feature.get('_selected');
@@ -474,7 +478,9 @@ map2d.vector = (function () {
                     )
                 );
             }
-            if (style) {
+            if (typeof style === 'function') {
+                feature.set('_style', style);
+            } else {
                 feature.set('style', style);
             }
             return feature;
@@ -492,6 +498,7 @@ map2d.vector = (function () {
                 cloned.set('circleRadius', geom.getRadius());
                 cloned.set('type', 'Circle')
             }
+            cloned.unset('_style', true);
             return cloned;
         });
         return format.writeFeatures(features);
@@ -506,6 +513,17 @@ map2d.vector = (function () {
         _source.addFeatures(features)
     }
 
+    function removeFeatureByFilter(filter) {
+        const features = _source
+            .getFeatures()
+            .filter(function (feature) {
+                return filter(feature, feature.getProperties());
+            });
+        features.forEach((feature) => {
+            _source.removeFeature(feature);
+        });
+    }
+
     let module = {
         init: init,
         addPoint: addPoint,
@@ -518,6 +536,7 @@ map2d.vector = (function () {
         readGeoJson: readGeoJson,
         select: select,
         writeGeoJson: writeGeoJson,
+        removeFeatureByFilter: removeFeatureByFilter
     }
 
     Object.defineProperties(module, {

@@ -23,13 +23,6 @@ class GraphicTool {
     constructor(pageIndex, data) {
         this.selector = "#rightPopup";
         this.render(data, pageIndex);
-        // if (app2D) {
-        //     const yMap = app2D.getYMap();
-        //     const module = yMap.getModule("drawingTool");
-        //     module.reset();
-        // } else {
-        //     // TO-DO 3d
-        // }
     }
 
     /**
@@ -39,10 +32,6 @@ class GraphicTool {
      */
     render(data, pageIndex) {
         data = data || `sortKind=newest&pageIndex=${pageIndex}`;
-        //요구사항으로 3D는 로딩없이 시작_박규호
-        // if (app2D) {
-        //     loadingShowHide("show");
-        // }
         $.ajax({
             type: "POST",
             url: "/cmt/grph/selectGraphicInfoList.do",
@@ -59,9 +48,6 @@ class GraphicTool {
                 }
             },
             complete: function () {
-                // if (app2D) {
-                //     loadingShowHide("hide");
-                // }
             },
         });
     }
@@ -121,28 +107,18 @@ class GraphicTool {
                     .done((response) => {
                         const result = JSON.parse(response)["result"];
                         const geojson = result["geojson"].replaceAll("&quot;", '"');
-                        // if (app2D) {
-                        //     const yMap = app2D.getYMap();
-                        //     const module = yMap.getModule("drawingTool");
-                        //     module.fromGeoJSON(geojson, result["grphcId"]);
-                        // } else {
-                        //     createGrph3D(geojson, id);
-                        //     customfromGeoJSON(geojson, result["grphcId"]);
-                        // }
-                        // dtmap.vector.clear();
-                        dtmap.vector.readGeoJson(geojson);
+                        dtmap.vector.readGeoJson(geojson, function (feature) {
+                            feature.set('grphcId', id);
+                            return feature.get('style');
+                        });
                     })
                     .fail(() => {
                         alert("그리기 정보를 가져오는 실패했습니다.");
                     });
             } else {
-                // if (app2D) {
-                //     const yMap = app2D.getYMap();
-                //     const module = yMap.getModule("drawingTool");
-                //     module.removeByGraphicId(id);
-                // } else {
-                //     removeGrphLayerIndividual(id);
-                // }
+                dtmap.vector.removeFeatureByFilter(function (obj, prop) {
+                    return prop["grphcId"] === id
+                })
             }
         });
 
@@ -168,13 +144,6 @@ class GraphicToolEditor {
         this.id = id;
         this.feature = null;
         this.render();
-        // if (app2D) {
-        //     const yMap = app2D.getYMap();
-        //     const module = yMap.getModule("drawingTool");
-        //     module.reset();
-        // } else {
-        //     // TO-DO 3d
-        // }
     }
 
     /**
@@ -188,7 +157,7 @@ class GraphicToolEditor {
         if (dtmap.mod !== '2D') {
             return toastr.warning("해당 기능은 2D에서 가능합니다.");
         }
-        
+
         let pageIndex = $("[name=pageIndex]", this.selector).val();
         let searchCl = $("[name=searchCl]", this.selector).val();
         let searchCnd = $("[name=searchCnd]", this.selector).val();
@@ -241,21 +210,15 @@ class GraphicToolEditor {
                                 "checked",
                                 true
                             );
-                            // if (app2D) {
-                            //     const yMap = app2D.getYMap();
-                            //     const module = yMap.getModule("drawingTool");
-                            //     module.fromGeoJSON(geojson, result["grphcId"]);
-                            //     loadingShowHide("hide");
-                            // } else {
-                            // }
+                            dtmap.vector.clear();
                             dtmap.draw.clear();
                             dtmap.draw.readGeoJson(geojson)
                         })
                         .fail(() => {
                             alert("그리기 정보를 가져오는 실패했습니다.");
-                            // if (app2D) {
-                            //     loadingShowHide("hide");
-                            // }
+                            dtmap.vector.clear();
+                            dtmap.draw.clear();
+
                         });
                 } else {
                     // if (app2D) {
