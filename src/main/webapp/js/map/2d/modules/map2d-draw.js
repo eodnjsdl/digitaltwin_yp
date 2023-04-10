@@ -7,6 +7,7 @@ map2d.draw = (function () {
     let _snap;
     let _modify;
     let _select;
+    let _translate;
     let _drawOptions;
     let _buffer;
 
@@ -43,11 +44,23 @@ map2d.draw = (function () {
         // dispose();
         map2d.setInteraction(this, true);
         _drawOptions = parseOption(options);
+        if (_drawOptions.type === 'Modify') {
+            createModify();
+        } else if (_drawOptions.type === 'Translate') {
+            createTranslate();
+        } else {
+            createDraw(_drawOptions);
+        }
+        createSnap();
 
+
+    }
+
+    function createDraw(options) {
         if (!_draw) {
             let geomFunction;
             let drawType = 'Circle';
-            let {type} = _drawOptions;
+            let {type} = options;
             if (type === "Rectangle") {
                 geomFunction = ol.interaction.Draw.createRegularPolygon(4);
             } else if (type === "Triangle") {
@@ -72,16 +85,96 @@ map2d.draw = (function () {
             _draw.on('drawend', onDrawEnd);
             map2d.map.addInteraction(_draw);
         }
+    }
 
+    function createSnap() {
         if (!_snap) {
             _snap = new ol.interaction.Snap({source: _source});
-            window.test = _snap;
             map2d.map.addInteraction(_snap);
         }
+    }
 
+    function createModify() {
+        createSelect();
         if (!_modify) {
-            _modify = new ol.interaction.Modify({source: _source});
+            _modify = new ol.interaction.Modify({
+                features: _select.getFeatures(),
+            });
             map2d.map.addInteraction(_modify);
+        }
+    }
+
+    function createTranslate() {
+        createSelect();
+        if (!_translate) {
+            _translate = new ol.interaction.Translate({
+                features: _select.getFeatures(),
+            });
+            map2d.map.addInteraction(_translate);
+        }
+
+
+    }
+
+    function createSelect() {
+        if (!_select) {
+            _select = new ol.interaction.Select({
+                source: _source,
+                style: selectStyleFunction
+            });
+            map2d.map.addInteraction(_select);
+            // _select.on('select', onSelect)
+            map2d.map.on('pointermove', onPointerMove);
+        }
+    }
+
+    function selectStyleFunction(feature, resolution) {
+        const style = map2d.vector.style(feature, resolution);
+
+
+        const fill = new ol.style.Fill({
+            color: 'rgba(255,0,0,0.01)'
+        });
+        const stroke = new ol.style.Stroke({
+            color: 'rgba(255,0,0,0.2)',
+            width: 3
+        });
+        const selectStyle = new ol.style.Style({
+            image: new ol.style.Circle({
+                fill: new ol.style.Fill({
+                    color: 'rgba(255,255,255,0.51)'
+                }),
+                stroke: stroke,
+                radius: 5
+            }),
+            fill: fill,
+            stroke: stroke
+        });
+        if (style instanceof Array) {
+            return [...style, selectStyle]
+        } else {
+            return [style, selectStyle]
+        }
+    }
+
+    function onSelect(e) {
+        map2d.map.getTargetElement().style.cursor = '';
+    }
+
+    function onPointerMove(e) {
+        map2d.map.getTargetElement().style.cursor = '';
+        const hit = map2d.map.hasFeatureAtPixel(e.pixel);
+        if (hit) {
+            const selected = _select.getFeatures().getArray()[0];
+            const find = map2d.map.getFeaturesAtPixel(e.pixel)[0];
+            if (!selected || selected !== find) {
+                map2d.map.getTargetElement().style.cursor = hit ? 'pointer' : '';
+            }
+        }
+
+
+        if (_select.getFeatures().getArray().length === 0) {
+            map2d.map.getTargetElement().style.cursor = map2d.map.hasFeatureAtPixel(e.pixel) ? 'pointer' : '';
         }
     }
 
@@ -103,6 +196,8 @@ map2d.draw = (function () {
 
         if (_select) {
             map2d.map.removeInteraction(_select);
+            map2d.map.un('pointermove', onPointerMove);
+            _select.un('select', onSelect);
             _select = undefined;
         }
     }
