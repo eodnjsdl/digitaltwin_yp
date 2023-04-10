@@ -5,9 +5,7 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
-<script>
 
-</script>
 <!-- 업무 > 시설관리 > 상수도시설 > 유량계 수정하기 -->
 <div class="popup-header">유량계 수정하기</div>
 <button type="button" class="popup-close" onClick="toastr.warning('removeLayer(); cmmUtil.drawClear();', 'onclick 이벤트');" title="닫기"></button>
@@ -26,9 +24,13 @@
 					<tbody id="lSrchOptions">
 						<tr>
 							<th scope="row">지형지물부호</th>
-							<td id="ftr_cde"></td>
+							<td>
+                               	<c:out value="${wtlFlowPsVO.ftr_cde_nm }"/>
+                            </td>
 							<th scope="row">관리번호</th>
-							<td id="ftr_idn"></td>
+							<td>
+                               	<c:out value="${wtlFlowPsVO.ftr_idn }"/>
+                            </td>
 						</tr>
 						<tr>
 							<th scope="row">행정읍면동</th>
@@ -40,23 +42,18 @@
 							<th scope="row">관리기관</th>
 							<td>
 								<select name="mng_cde" class="form-select">
-                                	<option value="">선택</option>
-                                </select>
+                           			<option value="">선택</option>
+                         		</select>
 							</td>
 						</tr>
 						<tr>
 							<th scope="row">도엽번호</th>
 							<td>
-								<input type="text" name="sht_num" class="form-control" value="" maxlength="11">
+								<input type="text" name="sht_num" class="form-control" value="${wtlFlowPsVO.sht_num }" maxlength="11">
 							</td>
 							<th scope="row">설치일자</th>
 							<td>
-								<div class="datapicker-group">
-								    <input type="text" name="ist_ymd" class="datepicker hasDatepicker" value="" id="" autocomplete="off">
-								    <button type="button" class="ui-datepicker-trigger">
-								        <img src="../images/icon/form-calendar.svg" alt="..." title="...">
-								    </button>
-								</div>
+							    <input type="text" name="ist_ymd" class="form-control datepicker " value="${wtlFlowPsVO.ist_ymd }" id="dp1680677660036">
 							</td>
 						</tr>
 						<tr>
@@ -76,27 +73,31 @@
 						<tr>
 							<th scope="row">관경(mm)</th>
 							<td>
-								<input type="number" name="std_dip" class="form-control" value="">
+								<input type="number" name="std_dip" class="form-control" value="${wtlFlowPsVO.std_dip }">
 							</td>
 							<th scope="row">제작회사명</th>
 							<td>
-								<input type="text" name="prc_nam" class="form-control" value="" maxlength="100">
+								<input type="text" name="prc_nam" class="form-control" value="${wtlFlowPsVO.prc_nam }" maxlength="100">
 							</td>
 						</tr>
 						<tr>
 							<th scope="row">관로지형지물부호</th>
-							<td id="pip_cde"></td>
+							<td>
+                               	<c:out value="${wtlFlowPsVO.pip_cde }"/>
+                            </td>
 							<th scope="row">관로관리번호</th>
-							<td id="pip_idn"></td>
+							<td>
+                               	<c:out value="${wtlFlowPsVO.pip_idn }"/>
+                            </td>
 						</tr>
 						<tr>
 							<th scope="row">공사번호</th>
 							<td>
-								<input type="text" name="cnt_num" class="form-control" value="" maxlength="8">
+								<input type="text" name="cnt_num" class="form-control" value="${wtlFlowPsVO.cnt_num }" maxlength="8">
 							</td>
 							<th scope="row">방향각</th>
 							<td>
-								<input type="number" name="ang_dir" class="form-control" value="">
+								<input type="number" name="ang_dir" class="form-control" value="${wtlFlowPsVO.ang_dir }">
 							</td>
 						</tr>
 						<tr>
@@ -121,3 +122,57 @@
 		</div>
 	</div>
 </div>
+<!-- 업무 > 시설관리 > 상수도시설 > 유량계 수정하기 end -->
+
+<script type="text/javascript">
+	//jqeury
+	$(document).ready(function(){
+		console.log("updateWtlFlowPsView.jsp");
+        
+		// 날짜 형식 처리 예정 
+        // 날짜 적용 - 지금 8자리로 되어 있어 이것 사용 (변경 예정) 
+		// 현재 db column 길이는 8~9자리 로 되어 었음 
+      	$(".datepicker").datepicker({
+            showOn: "both",
+            buttonImage: "/images/icon/form-calendar.svg",
+            dateFormat: "yymmdd",
+        }); 
+        
+		// 날짜 - 10자리(yyyy-mm-dd) 적용시 사용
+      	//ui.callDatePicker();
+
+		//////////////////
+		//selectbox 값 세팅
+		
+      	//읍면동 
+		let hjd_cde = '${wtlFlowPsVO.hjd_cde }';
+      	getCmmCodeData("YPE001", "#rightSubPopup select[name=hjd_cde]", hjd_cde);
+      	
+      	//관리기관
+		let mng_cde = '${wtlFlowPsVO.mng_cde }';
+      	getCmmCodeData("MNG-001", "#rightSubPopup select[name=mng_cde]", mng_cde);
+      	
+      	//유량계종류
+      	let gag_cde = '${wtlFlowPsVO.gag_cde }';
+      	getCmmCodeData("OGC-141", "#rightSubPopup select[name=gag_cde]", gag_cde);
+      	
+      	//유량계형식
+      	let mof_cde = '${wtlFlowPsVO.mof_cde }';
+      	getCmmCodeData("OGC-041", "#rightSubPopup select[name=mof_cde]", mof_cde);
+      	
+      	///////////////////////
+      	//gird 데이터를 통한 주소 조회
+		var gridRowId = "${gridRowId }";
+		
+		var geomData = getGeomDataForGridRowId(gridRowId);
+		console.log("geomData>>");
+		console.log(geomData);
+		if(geomData){
+			getAddressForPoint(geomData, "#rightSubPopup .txt-geometry-address");
+		}else{
+			console.log("상세보기 좌표 오류");
+		}
+        
+	});
+
+</script>

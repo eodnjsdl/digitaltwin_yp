@@ -35,7 +35,6 @@ function codeArrayInit(){
 	setCmmCodeDataArray("YPE001 ");				//읍면동 코드
 	setCmmCodeDataArray("MNG-001");				//관리기관	
 	setCmmCodeDataArray("OGC-048");				//소화전 형식
-	setEmdCodeDataArray("tgd_scco_emd");		//읍면동 코드
 	
 	//상수관로 코드
 	setCmmCodeDataArray("OGC-004");				//관용도

@@ -28,7 +28,7 @@ function selectWtlPipeLmListView(){
         });
         
         // 옵션 값 세팅
-		getEmdKorNmCode("#lSrchOptions select[name=hjd_cde]");				//읍면동		
+        getCmmCodeData("YPE001", "#lSrchOptions select[name=hjd_cde]");		//읍면동
 		getCmmCodeData("OGC-004", "#lSrchOptions select[name=saa_cde]");	//관용도	
 		getCmmCodeData("OGC-003", "#lSrchOptions select[name=mop_cde]");	//관재질
 		
@@ -37,11 +37,11 @@ function selectWtlPipeLmListView(){
 	    var $target = $container.find('#baseGridDiv [data-ax5grid="attr-grid"]')
 	    $target.css('height', 'inherit');
 		
-	    baseGrid = null;	//ax5uigrid 전역 변수 
+	    FACILITY.Ax5UiGrid = null;	//ax5uigrid 전역 변수 
 	    
-		baseGrid = new ax5.ui.grid();
+	    FACILITY.Ax5UiGrid = new ax5.ui.grid();
 		
-		baseGrid.setConfig({
+	    FACILITY.Ax5UiGrid.setConfig({
 			target:  $target,
 	        sortable: true,
 	        multipleSelect: false,
@@ -88,7 +88,7 @@ function selectWtlPipeLmListView(){
 	        body: {
 	        	// 데이터 행의 click 이벤트를 정의
 	        	onClick: function () {
-	        		getWtlPipeLmDetail(this.item);	// 상수관로 상세 페이지 로드
+	        		selectWtlPipeLmDetail(this.item);	// 상수관로 상세 페이지 로드
 	            }
 	        }
 			
@@ -175,7 +175,7 @@ function selectWtlPipeLmList(page) {
         	
         	//읍면동 코드 변경(wfs)
         	var hjd_cde = data.features[i].properties.hjd_cde;
-        	data.features[i].properties.hjd_cde_nm = getCmmCodeDataArray("tgd_scco_emd", hjd_cde);
+        	data.features[i].properties.hjd_cde_nm = getCmmCodeDataArray("YPE001", hjd_cde);
         	
         	//관용도 코드 변경
         	var saa_cde = data.features[i].properties.saa_cde;
@@ -186,19 +186,18 @@ function selectWtlPipeLmList(page) {
         	data.features[i].properties.mop_cde_nm = getCmmCodeDataArray("OGC-003", mop_cde);
             
             //좌표 처리
-        	var geomType 	= data.features[i].geometry.type;
+        	/*var geomType 	= data.features[i].geometry.type;
         	var geomCoord	= data.features[i].geometry.coordinates[0]+" "+data.features[i].geometry.coordinates[1];
         	
         	var dd = geomType+"("+ geomCoord +")";
-        	//list.push(data.features[i].geometry_name, geomType+"("+ geomCoord +")" );
-        	data.features[i].properties.geom = geomType+"("+ geomCoord +")";
-        	//data.features[i].properties.geom = data.features[i].geometry;
+        	data.features[i].properties.geom = geomType+"("+ geomCoord +")"*/;
+        	data.features[i].properties.geomObj = data.features[i].geometry;
         	
         	const {id, properties} = data.features[i];
             list.push({...properties, ...{id: id}});
         }
        
-        baseGrid.setData(
+        FACILITY.Ax5UiGrid.setData(
         	{	
         		list: list,
         		page: {
@@ -213,8 +212,8 @@ function selectWtlPipeLmList(page) {
 }
 
 // 상수관로 상세정보 조회
-function getWtlPipeLmDetail(detailData){
-	console.log("getWtlFlowPsDetail(detailData)");
+function selectWtlPipeLmDetail(detailData){
+	console.log("selectWtlPipeLmDetail(detailData)");
 	console.log(detailData);
 
 	ui.loadingBar("show");
@@ -227,7 +226,7 @@ function getWtlPipeLmDetail(detailData){
 	}
 
 	$.ajax({
-		url:"/job/fcmr/wsfc/getWtlPipeLmDetail.do",
+		url:"/job/fcmr/wsfc/selectWtlPipeLmDetail.do",
 		type: "POST",
 		//data: JSON.stringify(detailData),
 		data: formData,
@@ -253,17 +252,21 @@ function getWtlPipeLmDetail(detailData){
 
 // 상수관로 등록 화면 조회
 function insertWtlPipeLmView(){
+	console.log("insertWtlPipeLmView()");
+	
 	// 팝업 변수 설정
 	ui.loadingBar("show");
+	$("#rightSubPopup").addClass("div-failcity-detail");
 	ui.openPopup("rightSubPopup");
 	var container = "#rightSubPopup";
 	
 	/* 팝업 load 함수 start */
     $(container).load("/job/fcmr/wsfc/insertWtlPipeLmView.do", function () {
-    	getEmdKorNmCode("#lSrchOptions select[name=hjd_cde]");				//읍면동
+    	getCmmCodeData("YPE001", "#lSrchOptions select[name=hjd_cde]");		//읍면동
     	getCmmCodeData("MNG-001", "#lSrchOptions select[name=mng_cde]");	//관리기관
 		getCmmCodeData("OGC-004", "#lSrchOptions select[name=saa_cde]");	//관용도	
 		getCmmCodeData("OGC-003", "#lSrchOptions select[name=mop_cde]");	//관재질
+		getCmmCodeData("OGC-005", "#lSrchOptions select[name=jht_cde]");	//접합종류
         $(".scroll-y").mCustomScrollbar({
             scrollbarPosition: "outside",
         });
@@ -273,19 +276,58 @@ function insertWtlPipeLmView(){
 }
 
 // 상수관로 수정 화면 조회
-function updateWtlPipeLmView(){
-    // 팝업 변수 설정
-	ui.openPopup("rightSubPopup");
-	var container = "#rightSubPopup";
+function updateWtlPipeLmView(id){
+	console.log("updateWtlPipeLmView()");
+	console.log("id>"+id);
 	
-	/* 팝업 load 함수 start */
-    $(container).load("/job/fcmr/wsfc/updateWtlPipeLmView.do", function () {
+	var detailData = null;
+	if( FACILITY.Ax5UiGrid){
+		var list =  FACILITY.Ax5UiGrid.list;
 		
-	    getEmdKorNmCode("#lSrchOptions select[name=hjd_cde]");				//읍면동
-	    getCmmCodeData("MNG-001", "#lSrchOptions select[name=mng_cde]");	//관리기관
-		getCmmCodeData("OGC-004", "#lSrchOptions select[name=saa_cde]");	//관용도	
-		getCmmCodeData("OGC-003", "#lSrchOptions select[name=mop_cde]");	//관재질
-	    
-    });
-    /* 팝업 load 함수 end */
+		for(var i=0; i<list.length; i++){
+			if(list[i].id == id){
+				detailData = list[i];
+			}
+		}
+	}
+	
+	if(!detailData && detailData == null){
+		alert("상수관로 상세보기 오류");
+		return false;
+	}
+    
+    var formData = new FormData();
+	
+	for ( var key in detailData ) {
+		if(detailData[key]){	//null 값이나 빈칸은 제외, 여기서 id 값 까지 포함 되서 파라미터 완성
+			formData.append(key, detailData[key]);
+		}
+	}
+	
+	$.ajax({
+		url:"/job/fcmr/wsfc/updateWtlPipeLmView.do",
+		type: "POST",
+		//data: JSON.stringify(detailData),
+		data: formData,
+		dataType: 'html',
+		//contentType: "application/json; charset=utf-8",
+		contentType: false,
+        processData: false,
+		success:function(result) {
+			//console.log(result);
+			
+			// 팝업 변수 설정
+			$("#rightSubPopup").addClass("div-failcity-detail");	//날짜 css 때문	
+			ui.openPopup("rightSubPopup");
+			var container = "#rightSubPopup";
+			$(container).html(result);
+			
+		}
+		,error: function(request,status,error){
+			console.log("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+		}
+		, complete : function(){
+			ui.loadingBar("hide");
+		}
+	});
 }
