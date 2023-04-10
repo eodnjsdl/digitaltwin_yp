@@ -29,9 +29,11 @@ function getPhyEduFaciListView() {
 			return date.substr(0, 10);
 		}
 		
-		baseGrid = null;	//axgrid 전역 변수 
-		baseGrid = new ax5.ui.grid();
-		baseGrid.setConfig({
+		FACILITY.Ax5UiGrid = null;	//ax5uigrid 전역 변수 
+	    
+	    FACILITY.Ax5UiGrid = new ax5.ui.grid();
+		
+	    FACILITY.Ax5UiGrid.setConfig({
 			target: $target,
 			sortable: true,
 			multipleSelect: false,
@@ -59,7 +61,7 @@ function getPhyEduFaciListView() {
 				lastIcon: '&gt;&gt;',
 	            onChange: function() {
 	            	selectPhyEduFaciList(this.page.selectPage + 1);
-	            }
+	            	$('#hiddenPage').val(this.page.selectPage + 1);	            }
 			},
 			body: {
 				onClick: function() {
@@ -71,8 +73,8 @@ function getPhyEduFaciListView() {
 		});
 	});
 	
-	ui.loadingBar("hide");
 	selectPhyEduFaciList(1);
+	ui.loadingBar("hide");
 };
 
 // 체육시설 목록 조회
@@ -115,14 +117,10 @@ function selectPhyEduFaciList(page) {
 		//그리드 데이터 전처리
 		const list = [];
 		for (let i = 0; i < data.features.length; i++) {
-			const {id, properties} = data.features[i];
-			
 			//좌표 처리
-			var geomType = data.features[i].geometry.type;
-			var geomCoord = data.features[i].geometry.coordinates[0]+" "+data.features[i].geometry.coordinates[1];
+			data.features[i].properties.geomObj = data.features[i].geometry;
         	
-        	data.features[i].properties.geom = geomType + "(" + geomCoord + ")";
-        	
+			const {id, properties} = data.features[i];
 			list.push({...properties, ...{id: id}});
 		}
 		
@@ -133,7 +131,8 @@ function selectPhyEduFaciList(page) {
         	$("#bottomPopup .bbs-list-num").html("조회결과: " + total + "건");
         }
 
-		baseGrid.setData({
+		//gird 적용
+        FACILITY.Ax5UiGrid.setData({
 			list: list,
 			page: {
 				currentPage: page - 1,	// 현재 페이지
@@ -142,6 +141,27 @@ function selectPhyEduFaciList(page) {
 				totalPages: totPge		// 전체 페이지 갯수
 			}
 		})
+		
+		//지도 아이콘 작업
+        dtmap.vector.clear();
+        
+        //지도에 GeoJSON 추가
+        dtmap.vector.readGeoJson(data, function(feature) {
+        	console.log(feature)
+            //스타일 콜백 
+        	let properties = feature.getProperties();
+            let ftr_cde = properties.fclty_nm;
+            
+            return {
+                marker: {
+                    src: '/images/poi/sports_poi.png'
+                },
+                label: {
+                    text: ''
+                }
+            }
+        });
+        dtmap.vector.fit();
 	});
 };
 
@@ -186,7 +206,7 @@ function insertPhyEduFaciView() {
 // 체육시설 등록 저장
 function insertPhyEduFaci() {
 	var fclty_nm = $('input[name=fclty_nm]').val();
-	var adres = $('input[name=adres]').val();
+	var adres = '경기도 양평군';//$('input[name=adres]').val();
 	var fclty_ty = $('#fclty_ty option:selected').val();
 	var oper_mthd = $('#oper_mthd option:selected').val();
 	var erc_ct = $('input[name=erc_ct]').val();
@@ -195,17 +215,69 @@ function insertPhyEduFaci() {
 	var lad_size = $('input[name=lad_size]').val();
 	var manage_nmpr = $('input[name=manage_nmpr]').val();
 	var fyer_utlztn_nmpr = $('input[name=fyer_utlztn_nmpr]').val();
-	var chrg_dept_nm =  $('#chrg_dept_nm option:selected').val();
+	var chrg_dept_nm = $('#chrg_dept_nm option:selected').val();
 	var charger_nm = $('input[name=charger_nm]').val();
 	var cttpc_telno = $('input[name=cttpc_telno]').val();
 	var fclty_sumry = $('input[name=fclty_sumry]').val();
-	var geom = $('#geom').val();
+	var geom = 'POINT(1002725.6322952138 1939131.3901101280)';//$('#geom').val();
 	
-	if (fclty_nm == '' || adres == '' || fclty_ty == '' || oper_mthd == '' ||erc_ct == ''
-			|| fond_de == '' || buld_size == '' || lad_size == '' || manage_nmpr == '' || fyer_utlztn_nmpr == ''
-			|| chrg_dept_nm == '' || charger_nm == '' || cttpc_telno == '' || fclty_sumry == '' || geom == '') {
-		alert("상세정보를 입력해주세요");
-		
+	// 유효성 체크
+	var date = /^\d{4}-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])$/;
+	var tel = /^[0-9]{3}-[0-9]{3,4}-[0-9]{4}/;
+	var nm = /^[가-힣a-zA-Z]+$/;
+	
+	if (fclty_nm == '') {
+		alert('시설명을 입력해주세요.');
+		return false;
+	}
+	if (adres == '' || geom == '') {
+		alert('지도에서 위치를 선택해주세요.');
+		return false;
+	}
+	if (erc_ct == '') {
+		alert('건립비용을 입력해주세요.');
+		return false;
+	}
+	if (fond_de == '') {
+		alert('건립일을 입력해주세요.')
+		return false;
+	} else if (!date.test(fond_de)) {
+		alert('날짜형식에 맞게 입력해주세요.')
+		$('input[name=fond_de]').focus();
+		return false;
+	}
+	if (buld_size == '') {
+		alert('건물면적을 입력해주세요.');
+		return false;
+	}
+	if (lad_size == '') {
+		alert('토지면적을 입력해주세요.');
+		return false;
+	}
+	if (manage_nmpr == '') {
+		alert('관리인원을 입력해주세요.');
+		return false;
+	}
+	if (fyer_utlztn_nmpr == '') {
+		alert('연간이용인원을 입력해주세요.');
+		return false;
+	}
+	if (charger_nm == '') {
+		alert('담당자의 이름을 입력해주세요.');
+		$('input[name=charger_nm]').focus();
+		return false;
+	} else if (!nm.test(charger_nm)) {
+		alert('한글 또는 영문을 이용해 입력해주세요.');
+		$('input[name=charger_nm]').focus();
+		return false;
+	}
+	if (cttpc_telno == '') {
+		alert('담당자의 연락처를 입력해주세요.');
+		$('input[name=cttpc_telno]').focus();
+		return false;
+	} else if (!tel.test(cttpc_telno)) {
+		alert('형식에 맞게 입력해주세요. ex) 000-0000-0000');
+		$('input[name=cttpc_telno]').focus();
 		return false;
 	} else {
 		if (confirm("등록하시겠습니까?") == true) {
@@ -213,7 +285,7 @@ function insertPhyEduFaci() {
 			
 			$.ajax({
 				type : "POST",
-				url : "/job/fcmr/phfc/insertPhyFaciMng.do",
+				url : "/job/fcmr/phfc/insertPhyEduFaci.do",
 				dataType : "json",
 				data : {
 					"fcltyNm" : fclty_nm,
@@ -233,10 +305,8 @@ function insertPhyEduFaci() {
 					"geom" : geom
 				},
 				success : function(data){
-					$('.sporInput').val('');
-					
 					alert("정상적으로 등록되었습니다.");
-					//bottomPopupOpen('physicalEducationFacility');
+					ui.closeSubPopup();
 					selectPhyEduFaciList(1);
 					//removePoint(GLOBAL.NomalIcon);
 				},
@@ -279,16 +349,136 @@ function updatePhyEduFaciView(gid) {
 
 // 체육시설 수정 저장
 function updatePhyEduFaci(gid) {
-	alert('체육시설 수정 저장 GID: ' + gid);
+	var page = $('#hiddenPage').val();
+	
+	var fclty_nm = $('input[name=fclty_nm]').val();
+	var adres = '경기도 양평군';//$('input[name=adres]').val();
+	var fclty_ty = $('#fclty_ty option:selected').val();
+	var oper_mthd = $('#oper_mthd option:selected').val();
+	var erc_ct = $('input[name=erc_ct]').val();
+	var fond_de = $('input[name=fond_de]').val();
+	var buld_size = $('input[name=buld_size]').val();
+	var lad_size = $('input[name=lad_size]').val();
+	var manage_nmpr = $('input[name=manage_nmpr]').val();
+	var fyer_utlztn_nmpr = $('input[name=fyer_utlztn_nmpr]').val();
+	var chrg_dept_nm = $('#chrg_dept_nm option:selected').val();
+	var charger_nm = $('input[name=charger_nm]').val();
+	var cttpc_telno = $('input[name=cttpc_telno]').val();
+	var fclty_sumry = $('input[name=fclty_sumry]').val();
+	var geom = 'POINT(1022725.6322952138 1949131.3901101280)';//$('#geom').val();
+	
+	// 유효성 체크
+	var date = /^\d{4}-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])$/;
+	var tel = /^[0-9]{3}-[0-9]{3,4}-[0-9]{4}/;
+	var nm = /^[가-힣a-zA-Z]+$/;
+	
+	if (fclty_nm == '') {
+		alert('시설명을 입력해주세요.');
+		return false;
+	}
+	if (adres == '' || geom == '') {
+		alert('지도에서 위치를 선택해주세요.');
+		return false;
+	}
+	if (erc_ct == '') {
+		alert('건립비용을 입력해주세요.');
+		return false;
+	}
+	if (fond_de == '') {
+		alert('건립일을 입력해주세요.')
+		return false;
+	} else if (!date.test(fond_de)) {
+		alert('날짜형식에 맞게 입력해주세요.')
+		$('input[name=fond_de]').focus();
+		return false;
+	}
+	if (buld_size == '') {
+		alert('건물면적을 입력해주세요.');
+		return false;
+	}
+	if (lad_size == '') {
+		alert('토지면적을 입력해주세요.');
+		return false;
+	}
+	if (manage_nmpr == '') {
+		alert('관리인원을 입력해주세요.');
+		return false;
+	}
+	if (fyer_utlztn_nmpr == '') {
+		alert('연간이용인원을 입력해주세요.');
+		return false;
+	}
+	if (charger_nm == '') {
+		alert('담당자의 이름을 입력해주세요.');
+		$('input[name=charger_nm]').focus();
+		return false;
+	} else if (!nm.test(charger_nm)) {
+		alert('한글 또는 영문을 이용해 입력해주세요.');
+		$('input[name=charger_nm]').focus();
+		return false;
+	}
+	if (cttpc_telno == '') {
+		alert('담당자의 연락처를 입력해주세요.');
+		$('input[name=cttpc_telno]').focus();
+		return false;
+	} else if (!tel.test(cttpc_telno)) {
+		alert('형식에 맞게 입력해주세요. ex) 000-0000-0000');
+		$('input[name=cttpc_telno]').focus();
+		return false;
+	} else {
+		if (confirm("체육시설 정보를 수정하시겠습니까?") == true) {
+			ui.loadingBar("show");
+			
+			$.ajax({
+				type : "POST",
+				url : "/job/fcmr/phfc/updatePhyEduFaci.do",
+				dataType : "json",
+				data : {
+					"gid" : gid,
+					"fcltyNm" : fclty_nm,
+					"adres" : adres,
+					"fcltyTy" : fclty_ty,
+					"operMthd" : oper_mthd,
+					"ercCt" : erc_ct,
+					"fondDe" : fond_de,
+					"buldSize" : buld_size,
+					"ladSize" : lad_size,
+					"manageNmpr" : manage_nmpr,
+					"fyerUtlztnNmpr" : fyer_utlztn_nmpr,
+					"chrgDeptNm" : chrg_dept_nm,
+					"chargerNm" : charger_nm,
+					"cttpcTelno" : cttpc_telno,
+					"fcltySumry" : fclty_sumry,
+					"geom" : geom
+				},
+				success : function(data){
+					alert("정상적으로 수정되었습니다.");
+					
+			        //지도 reload 필요
+					selectPhyEduFaciList(page);
+					selectPhyEduFaciDetail(gid);
+					//removePoint(GLOBAL.NomalIcon);
+				},
+				error: function(request,status,error) {
+					console.log("code: " + request.status + "\n" + "message: " + request.responseText + "\n" + "error: " + error);
+				},
+				complete : function() {
+					ui.loadingBar("hide");
+				}
+			});
+		} else {
+			return;
+		}
+	}
 }
 
 // 체육시설 삭제
 function deletePhyEduFaci(gid) {
 	ui.loadingBar("show");
-	if (confirm("체육시설 정보를 삭제 하시겠습니까?") == true){    //확인
+	if (confirm("체육시설 정보를 삭제하시겠습니까?") == true){    // 확인
 		$.ajax({
 			type : "POST",
-			url : "/job/fcmr/phfc/deletePhyFaciMng.do",
+			url : "/job/fcmr/phfc/deletePhyEduFaci.do",
 			dataType : "json",
 			data : {
 				"gid" : gid
@@ -381,15 +571,15 @@ function insertPhyMng(gid) {
 	//alert('운영정보 등록 GID: ' + gid);
 	
 	var oper_year = $('select[name=oper_year]').val();
-	var acqs_amount= $('input[name=acqs_amount]').val();
-	var dprc_am= $('input[name=dprc_am]').val();
-	var dprc_acmtl_am= $('input[name=dprc_acmtl_am]').val();
-	var bk_amount= $('input[name=bk_amount]').val();
-	var contents_yycnt= $('input[name=contents_yycnt]').val();
-	var oper_ct= $('input[name=oper_ct]').val();
-	var oper_ern= $('input[name=oper_ern]').val();
+	var acqs_amount = $('input[name=acqs_amount]').val();
+	var dprc_am = $('input[name=dprc_am]').val();
+	var dprc_acmtl_am = $('input[name=dprc_acmtl_am]').val();
+	var bk_amount = $('input[name=bk_amount]').val();
+	var contents_yycnt = $('input[name=contents_yycnt]').val();
+	var oper_ct = $('input[name=oper_ct]').val();
+	var oper_ern = $('input[name=oper_ern]').val();
 	
-	if (oper_year == '' || dprc_am == '' || dprc_acmtl_am == '' || bk_amount == '' || oper_ct == '' || oper_ern == '') {
+	if (acqs_amount == '' || dprc_am == '' || dprc_acmtl_am == '' || bk_amount == '' || oper_ct == '' || oper_ern == '') {
 		alert("상세정보를 모두 입력해주세요");
 		
 		return false;
@@ -592,21 +782,21 @@ function getPhyFaciMngViewPaging(pageIndex, gid) {
 function insertPhyFaciMng(gid) {
 	//alert('시설정보 등록 GID: ' + gid);
 	
-	var asstn_fclty_nm= $('input[name=asstn_fclty_nm]').val();
+	var asstn_fclty_nm = $('input[name=asstn_fclty_nm]').val();
 	var oper_strt_time = $('select[name=oper_strt_time]').val() + ':00';
-	var oper_end_time= $('select[name=oper_end_time]').val() + ':00';
-	var rsrv_at= $('input:radio[name=rsrv_at]:checked').val();
-	var ho_cnt= $('input[name=ho_cnt]').val();
-	var fclty_dc= $('input[name=fclty_dc]').val();
-	var geom= $('input[name=geom]').val();
+	var oper_end_time = $('select[name=oper_end_time]').val() + ':00';
+	var rsrv_at = $('input:radio[name=rsrv_at]:checked').val();
+	var ho_cnt = $('input[name=ho_cnt]').val();
+	var fclty_dc = $('input[name=fclty_dc]').val();
+	var geom = 'POINT(1011725.6322952138 1949131.3901101280)';//$('#geom').val();
 	
-	if (asstn_fclty_nm == '' || oper_strt_time == '' || oper_end_time == '' || rsrv_at == '' || ho_cnt == '' || fclty_dc == '') {
-		alert("상세정보를 모두 입력해주세요");
-		
+	if (asstn_fclty_nm == '') {
+		alert('시설명을 입력해주세요.');
+		$('input[name=asstn_fclty_nm]').focus();
 		return false;
-	} else if (geom == '') {
-		alert("체육시설 위치를 선택해주세요.");
-		
+	}
+	if (geom == '') {
+		alert('지도에서 선택 버튼을 눌러 위치를 입력해주세요.');
 		return false;
 	} else {
 		// 운영정보 신규 등록
