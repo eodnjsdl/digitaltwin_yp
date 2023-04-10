@@ -414,19 +414,16 @@ window.ui = (function () {
                     aj_facility("SewerSupplyFacility");
                     break;
 
-                // 업무 > 시설관리 > 교통시설
+                 // 업무 > 시설관리 > 교통시설
                 case "transportationFacility" :
-                    toastr.error("상수도시설의 기능을 참고해 주세요.", "리팩토링 작업대상입니다.");
-                    $("#" + area).removeClass("opened");
-                    return;
-
-                    aj_selectTransportationFacilityList($("#tmpForm")[0]);
+                    //aj_selectTransportationFacilityList($("#tmpForm")[0]);
+                	getTransportationFacility("roadSection");	// 교통시설 - 도로구간
                     break;
 
                 // 업무 > 시설관리 > 체육시설
                 case "physicalEducationFacility" :
                 	//aj_selectPhysicalEducationFacilityList($("#tmpForm")[0]);
-                	getPhyEduFaciList();
+                	getPhyEduFaciListView();
                     break;
 
                 // 업무 > 시설관리 > 복지시설

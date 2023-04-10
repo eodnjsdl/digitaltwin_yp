@@ -4,6 +4,7 @@
 <div class="popup-header">체육시설</div>
 <div class="popup-body">
     <div class="bottom-popup-body bottom-popup-group">
+    	<!-- 검색영역 -->
         <div class="items search-area">
 			<div class="tabBoxDepth2-wrap">
                 <div class="tabBoxDepth2">
@@ -38,35 +39,26 @@
 									</td>
 								</tr>
 								<tr>
-									<td colspan="2"><input type="text" class="form-control" id="sporSearchAdres" name="sporSearchAdres" onkeypress="if( event.keyCode == 13 ){ searchPhyEduFaciList(1);} "placeholder="읍면동"></td>
+									<td colspan="2"><input type="text" class="form-control" id="sporSearchAdres" name="sporSearchAdres" onkeypress="if( event.keyCode == 13 ){ selectPhyEduFaciList(1);}" placeholder="읍면동"></td>
 								</tr>
 								<tr>
-									<td colspan="2"><input type="text" class="form-control" id="sporSearchAlsfc_nm" name="sporSearchAlsfc_nm" onkeypress="if( event.keyCode == 13 ){ searchPhyEduFaciList(1);}" placeholder="시설명"></td>
+									<td colspan="2"><input type="text" class="form-control" id="sporSearchAlsfc_nm" name="sporSearchAlsfc_nm" onkeypress="if( event.keyCode == 13 ){ selectPhyEduFaciList(1);}" placeholder="시설명"></td>
 								</tr>
 							</tbody>
                         </table>
                     </div>
                     <div class="btn-wrap">
-						<div><button type="button" class="btn type01 search" onclick="searchPhyEduFaciList(1);">조회</button></div>
+						<div><button type="button" class="btn type01 search" onclick="selectPhyEduFaciList(1);">조회</button></div>
 					</div>
 				</div>
 				<div class="tab-cont waterSpace">
 					<div class="space-search-group">
 						<div class="space-search-items">
 							<span class="form-radio text group">
-								<span><input type="radio" name="sportsSelect" id="rChk1-1" value="1" checked=""><label for="rChk1-1">현재화면영역</label></span>
+								<span><input type="radio" name="sportsSelect" id="rChk1-1" value="1" checked="checked"><label for="rChk1-1">현재화면영역</label></span>
 								<span><input type="radio" name="sportsSelect" id="rChk1-2" value="2"><label for="rChk1-2">사용자 정의</label></span>
 							</span>
 						</div>
-						<div class="space-search-items areaSrchTool">
-							<span class="drawing-obj small">
-								<span><input type="radio" name="sportsAreaDrawing" id="aChk1" value="1"><label for="aChk1" class="obj-sm01"></label></span>
-								<span><input type="radio" name="sportsAreaDrawing" id="aChk2" value="2"><label for="aChk2" class="obj-sm02"></label></span>
-								<span><input type="radio" name="sportsAreaDrawing" id="aChk3" value="3"><label for="aChk3" class="obj-sm03"></label></span>
-								<span><input type="radio" name="sportsAreaDrawing" id="aChk4" value="4"><label for="aChk4" class="obj-sm04"></label></span>
-							</span>
-						</div>
-						<div class="space-search-items areaSrchTool">경계로부터 <span class="form-group"><input type="text" onKeyup="this.value=this.value.replace(/[^-0-9]/g,'');" id="sportsBuffer" class="form-control align-center"onkeypress="if( event.keyCode == 13 ){ aj_selectPhysicalEducationFacilityList($('#spor_searchForm')[0],'spital'); }" value="0"> <sub>m</sub></span> 이내 범위</div>
 					</div>
 					<div class="btn-wrap">
 						<div><button type="button" class="btn type01 search" onclick="aj_selectPhysicalEducationFacilityList($('#spor_searchForm')[0],'spital');">조회</button></div>
@@ -74,6 +66,7 @@
 				</div>
 			</div>
 		</div>
+		<!-- //검색영역 -->
 		<div class="items data-area">
             <div class="bbs-top">
                 <div class="bbs-list-num">조회결과 : --건</div>
@@ -96,4 +89,4 @@
 <button type="button" class="popup-close" title="닫기" onclick="removeLayer(); destroy();"></button>
 <button type="button" class="popup-reset" class="초기화" onclick="bottomPopupOpen('physicalEducationFacility');"></button>
 <button type="button" class="popup-bottom-toggle" title="접기" onclick="toggleFold(this);"></button>				
-<!-- 업무 > 시설관리 > 체육시설 end -->
+<!-- //업무 > 시설관리 > 체육시설 end -->

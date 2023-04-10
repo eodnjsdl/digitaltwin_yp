@@ -101,8 +101,8 @@ $(".scroll-y").mCustomScrollbar({
 			<div class="position-bottom btn-wrap">
 				<div class="position-bottom btn-wrap justify-content-between">
 					<input type="hidden" id="sGid" name="sGid" value="${result.gid}">
-					<button type="button" class="btn basic bi-list" id ="sportsMng" name="sportsMng" onclick="phyMngView('<c:out value="${result.gid}"/>')">운영정보 관리</button>
-					<button type="button" class="btn basic bi-list" id ="sportsFacMng" name ="sportsFacMng" style="left: -35px;" onclick="phyFaciMngView('<c:out value="${result.gid}"/>')">시설정보 관리</button>
+					<button type="button" class="btn basic bi-list" id ="sportsMng" name="sportsMng" onclick="getPhyMngView('<c:out value="${result.gid}"/>')">운영정보 관리</button>
+					<button type="button" class="btn basic bi-list" id ="sportsFacMng" name ="sportsFacMng" style="left: -35px;" onclick="getPhyFaciMngView('<c:out value="${result.gid}"/>')">시설정보 관리</button>
 					<button type="button" class="btn basic bi-edit" id="lampUpdate" style="right: -70px;" onclick="updatePhyEduFaciView('<c:out value="${result.gid}"></c:out>')">수정</button> 
 					<button type="button" class="btn basic bi-delete2" id ="deleteSports" style="right: -35px;" onclick="deletePhyEduFaci('<c:out value="${result.gid}"></c:out>')">삭제</button>
 					<button type="button" class="btn basic bi-cancel" onclick="cancleSportsPopup();">취소</button>
