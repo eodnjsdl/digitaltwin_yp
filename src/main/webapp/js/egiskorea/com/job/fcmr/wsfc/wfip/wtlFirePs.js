@@ -52,17 +52,17 @@ function selectWtlFirePsListView(){
 	        multipleSelect: false,
 	        columns: [
 	            //{key: "gid", 				label: "아이디",			width:200},
-	            {key: "ftr_cde", 			label: "지형지물부호code",	width:'*'},
+	            //{key: "ftr_cde", 			label: "지형지물부호code",	width:'*'},
 	            {key: "ftr_cde_nm", 		label: "지형지물부호",		width:'*'},
 	            {key: "ftr_idn", 			label: "관리번호",			width:'*'},
-	            {key: "hjd_cde", 			label: "읍면동code",		width:'*'},
+	            //{key: "hjd_cde", 			label: "읍면동code",		width:'*'},
 	            {key: "hjd_cde_nm", 		label: "읍면동",			width:'*'},
-	            {key: "mng_cde", 			label: "관리기관code",		width:'*'},
+	            //{key: "mng_cde", 			label: "관리기관code",		width:'*'},
 	            {key: "mng_cde_nm", 		label: "관리기관",			width:'*'},
 	            {key: "sht_num", 			label: "도엽번호",			width:'*'},
 	            {key: "ist_ymd", 			label: "설치일자",			width:'*'},
 	            {key: "hom_num", 			label: "수용가번호",		width:'*'},
-	            {key: "mof_cde", 			label: "소화전형식code",	width:'*'},
+	            //{key: "mof_cde", 			label: "소화전형식code",	width:'*'},
 	            {key: "mof_cde_nm", 		label: "소화전형식",		width:'*'},
 	            {key: "fir_dip", 			label: "소화전구경",		width:'*'},
 	            {key: "std_dip", 			label: "관경",			width:'*'},
@@ -176,11 +176,6 @@ function selectWtlFirePsList(page) {
         	data.features[i].properties.mof_cde_nm = getCmmCodeDataArray("OGC-048", mof_cde);
             
             //좌표 처리
-        	/*var geomType 	= data.features[i].geometry.type;
-        	var geomCoord	= data.features[i].geometry.coordinates[0]+" "+data.features[i].geometry.coordinates[1];
-        	
-        	var dd = geomType+"("+ geomCoord +")";
-        	data.features[i].properties.geom = geomType+"("+ geomCoord +")"*/;
         	data.features[i].properties.geomObj = data.features[i].geometry;
         	
         	const {id, properties} = data.features[i];
@@ -270,9 +265,12 @@ function selectWtlFirePs(detailData){
         processData: false,
 		success:function(result) {
 			//console.log(result);
+			
 			ui.openPopup("rightSubPopup");
 			var container = "#rightSubPopup";
 			$(container).html(result);
+			
+			
 		}
 		,error: function(request,status,error){
 			console.log("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
