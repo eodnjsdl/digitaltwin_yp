@@ -196,8 +196,8 @@ map3d.vector = (function () {
         const param = {
             id: id,
             geometry: geometry,
+            style: getStyleOption(f, style),
             properties: f.getProperties(),
-            style: getStyleOption(f, style)
         }
         let object;
         if (geometry instanceof ol.geom.Point || geometry instanceof ol.geom.MultiPoint) {
@@ -267,10 +267,33 @@ map3d.vector = (function () {
 
     }
 
+    function removeFeatureByFilter(filter) {
+        let keys = []
+        _featureTypeMap.forEach(function (v, k) {
+            keys.push(k);
+        });
+        let features = [];
+        keys.filter((v) => {
+            const feature = getFeature(v);
+            if (filter(feature, feature.properties)) {
+                features.push(v);
+            }
+        })
+        //
+        features.forEach((v) => {
+            const layer = getLayerByFeatureId(v);
+            if (layer) {
+                layer.removeById(v);
+                _featureTypeMap.delete(v);
+            }
+        });
+    }
+
     let module = {
         init: init,
         readWKT: readWKT,
         readGeoJson: readGeoJson,
+        removeFeatureByFilter: removeFeatureByFilter,
         addFeatures: addFeatures,
         getFeature: getFeature,
         select: select,
