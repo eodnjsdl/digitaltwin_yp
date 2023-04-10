@@ -120,14 +120,59 @@ map2d.draw = (function () {
         if (!_select) {
             _select = new ol.interaction.Select({
                 source: _source,
-                hitTolerance: 10,
+                style: selectStyleFunction
             });
             map2d.map.addInteraction(_select);
+            // _select.on('select', onSelect)
             map2d.map.on('pointermove', onPointerMove);
         }
     }
 
+    function selectStyleFunction(feature, resolution) {
+        const style = map2d.vector.style(feature, resolution);
+
+
+        const fill = new ol.style.Fill({
+            color: 'rgba(255,0,0,0.01)'
+        });
+        const stroke = new ol.style.Stroke({
+            color: 'rgba(255,0,0,0.2)',
+            width: 3
+        });
+        const selectStyle = new ol.style.Style({
+            image: new ol.style.Circle({
+                fill: new ol.style.Fill({
+                    color: 'rgba(255,255,255,0.51)'
+                }),
+                stroke: stroke,
+                radius: 5
+            }),
+            fill: fill,
+            stroke: stroke
+        });
+        if (style instanceof Array) {
+            return [...style, selectStyle]
+        } else {
+            return [style, selectStyle]
+        }
+    }
+
+    function onSelect(e) {
+        map2d.map.getTargetElement().style.cursor = '';
+    }
+
     function onPointerMove(e) {
+        map2d.map.getTargetElement().style.cursor = '';
+        const hit = map2d.map.hasFeatureAtPixel(e.pixel);
+        if (hit) {
+            const selected = _select.getFeatures().getArray()[0];
+            const find = map2d.map.getFeaturesAtPixel(e.pixel)[0];
+            if (!selected || selected !== find) {
+                map2d.map.getTargetElement().style.cursor = hit ? 'pointer' : '';
+            }
+        }
+
+
         if (_select.getFeatures().getArray().length === 0) {
             map2d.map.getTargetElement().style.cursor = map2d.map.hasFeatureAtPixel(e.pixel) ? 'pointer' : '';
         }
@@ -152,6 +197,7 @@ map2d.draw = (function () {
         if (_select) {
             map2d.map.removeInteraction(_select);
             map2d.map.un('pointermove', onPointerMove);
+            _select.un('select', onSelect);
             _select = undefined;
         }
     }

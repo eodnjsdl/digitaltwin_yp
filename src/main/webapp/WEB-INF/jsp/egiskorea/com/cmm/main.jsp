@@ -80,6 +80,7 @@
     <script src="/engine/dt_info.js"></script>
 
     <!-- DTMAP Plugin -->
+    <script src="/js/plugin/lodash/lodash.min.js"></script>
     <script src="/js/plugin/html2canvas/html2canvas.min.js"></script>
     <script src="/js/plugin/eventEmitter/EventEmitter.min.js"></script>
     <script src="/js/plugin/rbush/rbush.min.js"></script>

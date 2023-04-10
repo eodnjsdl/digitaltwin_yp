@@ -39,12 +39,12 @@ class GraphicTool {
             dataType: "html",
             async: false,
             success: (returnData, status) => {
-                if (status == "success") {
+                if (status === "success") {
                     $("#rightPopup").html(returnData);
                     this.bindEvents();
                 } else {
                     toastr.error("관리자에게 문의 바랍니다.", "정보를 불러오지 못했습니다.");
-                    return;
+
                 }
             },
             complete: function () {
@@ -65,7 +65,7 @@ class GraphicTool {
             that.render(data);
         });
         $("[name=searchWrd]", that.selector).on("keydown", function (event) {
-            if (event.keyCode == 13) {
+            if (event.keyCode === 13) {
                 $(".btn-search", that.selector).trigger("click");
             }
         });
@@ -187,13 +187,13 @@ class GraphicToolEditor {
             dataType: "html",
             async: false,
             success: (returnData, status) => {
-                if (status == "success") {
+                if (status === "success") {
                     $("#rightPopup").html(returnData);
                     this.initUi();
                     this.bindEvents();
                 } else {
                     toastr.error("관리자에게 문의 바랍니다.", "정보를 불러오지 못했습니다.");
-                    return;
+
                 }
             },
             complete: () => {
@@ -277,7 +277,11 @@ class GraphicToolEditor {
             slide: function (event, ui) {
                 lineStrokeOpacity.val(ui.value + "%");
                 if (that.feature) {
-                    that.feature.set("strokeOpacity", ui.value);
+                    updateStyle(that.feature, {
+                        stroke: {
+                            opacity: ui.value
+                        }
+                    })
                 }
             },
         });
@@ -296,7 +300,11 @@ class GraphicToolEditor {
             slide: function (event, ui) {
                 lineStrokeWidth.val(ui.value);
                 if (that.feature) {
-                    that.feature.set("strokeWidth", ui.value);
+                    updateStyle(that.feature, {
+                        stroke: {
+                            width: ui.value
+                        }
+                    })
                 }
             },
         });
@@ -328,7 +336,11 @@ class GraphicToolEditor {
             slide: function (event, ui) {
                 polygonStrokeOpacity.val(ui.value + "%");
                 if (that.feature) {
-                    that.feature.set("strokeOpacity", ui.value);
+                    updateStyle(that.feature, {
+                        stroke: {
+                            opacity: ui.value
+                        }
+                    })
                 }
             },
         });
@@ -350,7 +362,11 @@ class GraphicToolEditor {
             slide: function (event, ui) {
                 polygonStrokeWidth.val(ui.value);
                 if (that.feature) {
-                    that.feature.set("strokeWidth", ui.value);
+                    updateStyle(that.feature, {
+                        stroke: {
+                            width: ui.value
+                        }
+                    })
                 }
             },
         });
@@ -382,7 +398,11 @@ class GraphicToolEditor {
             slide: function (event, ui) {
                 polygonFillOpacity.val(ui.value + "%");
                 if (that.feature) {
-                    that.feature.set("fillOpacity", ui.value);
+                    updateStyle(that.feature, {
+                        fill: {
+                            opacity: ui.value
+                        }
+                    })
                 }
             },
         });
@@ -421,7 +441,11 @@ class GraphicToolEditor {
             slide: function (event, ui) {
                 fontSize.val(ui.value + "px");
                 if (that.feature) {
-                    that.feature.set("fontSize", ui.value);
+                    updateStyle(that.feature, {
+                        text: {
+                            fontSize: ui.value
+                        }
+                    })
                 }
             },
         });
@@ -443,21 +467,29 @@ class GraphicToolEditor {
         // 점 색상
         $(".drawingTabPoint .pointColor", that.selector).on("change", function () {
             if (that.feature) {
-                that.feature.set("pointColor", $(this).val());
+                updateStyle(that.feature, {
+                    fill: {
+                        color: $(this).val()
+                    }
+                })
             }
         });
 
         // 점 모양
         $(".drawingTabPoint .pointShape", that.selector).on("change", function () {
             if (that.feature) {
-                that.feature.set("shapeType", $(this).val());
+                updateStyle(that.feature, {
+                    shape: $(this).val()
+                })
             }
         });
 
         // 점 크기
         $(".drawingTabPoint .pointSize", that.selector).on("change", function () {
             if (that.feature) {
-                that.feature.set("pointSize", $(this).val());
+                updateStyle(that.feature, {
+                    radius: $(this).val()
+                })
             }
         });
 
@@ -469,8 +501,13 @@ class GraphicToolEditor {
                 that.resetSymbolActived();
                 node.addClass("active");
                 if (that.feature) {
-                    that.feature.set("sid", $("img", node).attr("data-id"));
-                    that.feature.set("src", $("img", node).attr("src"));
+                    updateStyle(that.feature, {
+                        marker: {
+                            sid: $("img", node).attr("data-id"),
+                            src: $("img", node).attr("src")
+                        }
+                    })
+
                 }
             }
         );
@@ -481,7 +518,11 @@ class GraphicToolEditor {
                 that.feature &&
                 $(".symbol-group button.active", that.selector).length > 0
             ) {
-                that.feature.set("scale", $(this).val());
+                updateStyle(that.feature, {
+                    marker: {
+                        scale: $(this).val()
+                    }
+                })
             }
         });
 
@@ -546,19 +587,24 @@ class GraphicToolEditor {
                 that.resetSymbolActived();
                 node.addClass("active");
                 if (that.feature) {
-                    that.feature.set("sid", $("img", node).attr("data-id"));
-                    that.feature.set("src", $("img", node).attr("src"));
+                    updateStyle(that.feature, {
+                        marker: {
+                            sid: $("img", node).attr("data-id"),
+                            src: $("img", node).attr("src")
+                        }
+                    })
                 }
             }
         );
 
         // 심볼 크기 비율
         $(".drawingTabPoint .customScale", that.selector).on("change", function () {
-            if (
-                that.feature &&
-                $(".custom-container li.active", that.selector).length
-            ) {
-                that.feature.set("scale", $(this).val());
+            if (that.feature && $(".custom-container li.active", that.selector).length) {
+                updateStyle(that.feature, {
+                    marker: {
+                        scale: $(this).val()
+                    }
+                })
             }
         });
 
@@ -587,14 +633,22 @@ class GraphicToolEditor {
         // 선 색상
         $(".drawingTabLine .strokeColor", that.selector).on("change", function () {
             if (that.feature) {
-                that.feature.set("strokeColor", $(this).val());
+                updateStyle(that.feature, {
+                    stroke: {
+                        color: $(this).val()
+                    }
+                })
             }
         });
 
         // 선 모양
         $(".drawingTabLine .strokeLineDash", that.selector).on("change", function () {
                 if (that.feature) {
-                    that.feature.set("strokeLineDash", $(this).val());
+                    updateStyle(that.feature, {
+                        stroke: {
+                            lineDash: $(this).val()
+                        }
+                    })
                 }
             }
         );
@@ -602,7 +656,11 @@ class GraphicToolEditor {
         // 선 시작화살표
         $(".drawingTabLine .strokeStartArrow", that.selector).on("click", function () {
                 if (that.feature) {
-                    that.feature.set("strokeStartArrow", $(this).is(":checked"));
+                    updateStyle(that.feature, {
+                        stroke: {
+                            startArrow: $(this).is(":checked")
+                        }
+                    })
                 }
             }
         );
@@ -610,7 +668,11 @@ class GraphicToolEditor {
         // 선 끝화살표
         $(".drawingTabLine .strokeEndArrow", that.selector).on("click", function () {
                 if (that.feature) {
-                    that.feature.set("strokeEndArrow", $(this).is(":checked"));
+                    updateStyle(that.feature, {
+                        stroke: {
+                            endArrow: $(this).is(":checked")
+                        }
+                    })
                 }
             }
         );
@@ -618,7 +680,11 @@ class GraphicToolEditor {
         // 면 - 선 색상
         $(".drawingTabPolygon .strokeColor", that.selector).on("change", function () {
                 if (that.feature) {
-                    that.feature.set("strokeColor", $(this).val());
+                    updateStyle(that.feature, {
+                        stroke: {
+                            color: $(this).val()
+                        }
+                    })
                 }
             }
         );
@@ -626,7 +692,11 @@ class GraphicToolEditor {
         // 면 - 선 모양
         $(".drawingTabPolygon .strokeLineDash", that.selector).on("change", function () {
                 if (that.feature) {
-                    that.feature.set("strokeLineDash", $(this).val());
+                    updateStyle(that.feature, {
+                        stroke: {
+                            lineDash: $(this).val()
+                        }
+                    })
                 }
             }
         );
@@ -634,49 +704,81 @@ class GraphicToolEditor {
         // 면 색상
         $(".drawingTabPolygon .fillColor", that.selector).on("change", function () {
             if (that.feature) {
-                that.feature.set("fillColor", $(this).val());
+                updateStyle(that.feature, {
+                    fill: {
+                        color: $(this).val()
+                    }
+                })
             }
         });
 
         // 글자 색상
         $(".drawingTabText .fillColor", that.selector).on("change", function () {
             if (that.feature) {
-                that.feature.set("fillColor", $(this).val());
+                updateStyle(that.feature, {
+                    text: {
+                        fill: {
+                            color: $(this).val()
+                        }
+                    }
+                })
             }
         });
 
         // 글자 테두리 색상
-        $(".drawingTabText .fillColor", that.selector).on("change", function () {
+        $(".drawingTabText .strokeColor", that.selector).on("change", function () {
             if (that.feature) {
-                that.feature.set("fillColor", $(this).val());
+                updateStyle(that.feature, {
+                    text: {
+                        stroke: {
+                            color: $(this).val()
+                        }
+                    }
+                })
             }
         });
 
         // 글꼴
         $(".drawingTabText .font", that.selector).on("change", function () {
             if (that.feature) {
-                that.feature.set("fontFamily", $(this).val());
+                updateStyle(that.feature, {
+                    text: {
+                        fontFamily: $(this).val()
+                    }
+                })
             }
         });
 
         // 굵게
         $(".drawingTabText .fontBold", that.selector).on("click", function () {
             if (that.feature) {
-                that.feature.set("fontBold", $(this).is(":checked"));
+                updateStyle(that.feature, {
+                    text: {
+                        bold: $(this).is(':checked')
+                    }
+                })
             }
         });
 
         // 기울기
         $(".drawingTabText .fontItalic", that.selector).on("click", function () {
             if (that.feature) {
-                that.feature.set("fontItalic", $(this).is(":checked"));
+                updateStyle(that.feature, {
+                    text: {
+                        italic: $(this).is(':checked')
+                    }
+                })
             }
         });
 
         // 정렬
         $(".drawingTabText [name=textAlign]", that.selector).on("click", function () {
                 if (that.feature) {
-                    that.feature.set("textAlign", $(this).val());
+                    updateStyle(that.feature, {
+                        text: {
+                            textAlign: $(this).val()
+                        }
+                    })
                 }
             }
         );
@@ -684,7 +786,11 @@ class GraphicToolEditor {
         // 문자
         $(".drawingTabText .text", that.selector).on("change", function () {
             if (that.feature) {
-                that.feature.set("text", $(this).val());
+                updateStyle(that.feature, {
+                    text: {
+                        text: $(this).val()
+                    }
+                })
             }
         });
 
@@ -712,6 +818,7 @@ class GraphicToolEditor {
 
             }
         });
+
     }
 
     /**
@@ -720,44 +827,30 @@ class GraphicToolEditor {
      */
     draw(type) {
         dtmap.draw.active({type: type});
-
-        // const yMap = app2D.getYMap();
-        // const module = yMap.getModule("drawingTool");
-        if (type == "Translate") {
-            // module.translate(
-            //     "select",
-            //     (event) => {
-            //         if (event.selected.length > 0) {
-            //             this.feature = event.selected[0];
-            //             this.setStyleUi();
-            //         } else {
-            //             this.feature = null;
-            //             this.resetUi();
-            //         }
-            //     },
-            //     () => {
-            //         this.feature = null;
-            //         this.resetUi();
-            //     }
-            // );
+        dtmap.off('select');
+        if (type === "Translate") {
+            dtmap.on("select", (event) => {
+                    if (event.feature) {
+                        this.feature = event.feature;
+                        this.setStyleUi();
+                    } else {
+                        this.feature = null;
+                        this.resetUi();
+                    }
+                }
+            );
             this.resetUi();
-        } else if (type == "Modify") {
-            // module.modify(
-            //     "select",
-            //     (event) => {
-            //         if (event.selected.length > 0) {
-            //             this.feature = event.selected[0];
-            //             this.setStyleUi();
-            //         } else {
-            //             this.feature = null;
-            //             this.resetUi();
-            //         }
-            //     },
-            //     () => {
-            //         this.feature = null;
-            //         this.resetUi();
-            //     }
-            // );
+        } else if (type === "Modify") {
+            dtmap.on("select", (event) => {
+                    if (event.feature) {
+                        this.feature = event.feature;
+                        this.setStyleUi();
+                    } else {
+                        this.feature = null;
+                        this.resetUi();
+                    }
+                }
+            );
             this.resetUi();
         } else {
             this.feature = null;
@@ -795,25 +888,25 @@ class GraphicToolEditor {
     setUi(type) {
         // 전체 스타일 비활성화
         $(".tabBoxDepth2 li button").prop("disabled", false);
-        if (type == "Point") {
+        if (type === "Point") {
             $(".tabBoxDepth2 li[data-tab=drawingTabPoint] button").trigger("click");
             $(".tab-cont .row_point", this.selector).show();
             $(".tab-cont .row_marker", this.selector).hide();
-        } else if (type == "Marker") {
+        } else if (type === "Marker") {
             $(".tabBoxDepth2 li[data-tab=drawingTabPoint] button").trigger("click");
             $(".tab-cont .row_point", this.selector).hide();
             $(".tab-cont .row_marker", this.selector).show();
-        } else if (type == "LineString") {
+        } else if (type === "LineString") {
             $(".tabBoxDepth2 li[data-tab=drawingTabLine] button").trigger("click");
-        } else if (type == "Rectangle") {
+        } else if (type === "Rectangle") {
             $(".tabBoxDepth2 li[data-tab=drawingTabPolygon] button").trigger("click");
-        } else if (type == "Triangle") {
+        } else if (type === "Triangle") {
             $(".tabBoxDepth2 li[data-tab=drawingTabPolygon] button").trigger("click");
-        } else if (type == "Polygon") {
+        } else if (type === "Polygon") {
             $(".tabBoxDepth2 li[data-tab=drawingTabPolygon] button").trigger("click");
-        } else if (type == "Circle") {
+        } else if (type === "Circle") {
             $(".tabBoxDepth2 li[data-tab=drawingTabPolygon] button").trigger("click");
-        } else if (type == "Text") {
+        } else if (type === "Text") {
             $(".tabBoxDepth2 li[data-tab=drawingTabText] button").trigger("click");
         } else {
             console.log(`${type} 지원되지 않는 타입입니다.`);
@@ -825,27 +918,28 @@ class GraphicToolEditor {
      * 스타일로 UI 설정
      */
     setStyleUi() {
-        const type = this.feature.get("type");
+        const style = this.feature.get("style");
+        const type = style.type;
         this.resetUi();
         this.setUi(type);
-        if (type == "Point") {
-            this.setPointStyle(this.feature);
-        } else if (type == "Marker") {
-            this.setMarkerStyle(this.feature);
-        } else if (type == "LineString") {
-            this.setLineStyle(this.feature);
-        } else if (type == "Rectangle") {
-            this.setPolygonStyle(this.feature);
-        } else if (type == "Triangle") {
-            this.setPolygonStyle(this.feature);
-        } else if (type == "Polygon") {
-            this.setPolygonStyle(this.feature);
-        } else if (type == "Circle") {
-            this.setPolygonStyle(this.feature);
-        } else if (type == "Text") {
-            this.setTextStyle(this.feature);
+        if (type === "Point") {
+            this.setPointStyle(style);
+        } else if (type === "Marker") {
+            this.setMarkerStyle(style);
+        } else if (type === "LineString") {
+            this.setLineStyle(style);
+        } else if (type === "Rectangle") {
+            this.setPolygonStyle(style);
+        } else if (type === "Triangle") {
+            this.setPolygonStyle(style);
+        } else if (type === "Polygon") {
+            this.setPolygonStyle(style);
+        } else if (type === "Circle") {
+            this.setPolygonStyle(style);
+        } else if (type === "Text") {
+            this.setTextStyle(style);
         } else {
-            console.log(`${type} 지원되지 않는 타입입니다.`);
+            console.log(`${style} 지원되지 않는 타입입니다.`);
         }
     }
 
@@ -866,21 +960,21 @@ class GraphicToolEditor {
      */
     getStyle(type) {
         let style = null;
-        if (type == "Point") {
+        if (type === "Point") {
             style = this.getPointStyle();
-        } else if (type == "Marker") {
+        } else if (type === "Marker") {
             style = this.getMarkerStyle();
-        } else if (type == "LineString") {
+        } else if (type === "LineString") {
             style = this.getLineStyle();
-        } else if (type == "Rectangle") {
+        } else if (type === "Rectangle") {
             style = this.getPolygonStyle();
-        } else if (type == "Triangle") {
+        } else if (type === "Triangle") {
             style = this.getPolygonStyle();
-        } else if (type == "Polygon") {
+        } else if (type === "Polygon") {
             style = this.getPolygonStyle();
-        } else if (type == "Circle") {
+        } else if (type === "Circle") {
             style = this.getPolygonStyle();
-        } else if (type == "Text") {
+        } else if (type === "Text") {
             style = this.getTextStyle();
         } else {
             console.log(`${type} 지원되지 않는 타입입니다.`);
@@ -891,13 +985,12 @@ class GraphicToolEditor {
 
     /**
      * 점 스타일 설정
-     * @param {ol.Feature} feature 공간객체
      */
-    setPointStyle(feature) {
+    setPointStyle(style) {
         const selector = `${this.selector} .drawingTabPoint`;
-        $(".pointColor", selector).minicolors("value", feature.get("pointColor"));
-        $(".pointShape", selector).val(feature.get("shapeType"));
-        $(".pointSize", selector).val(feature.get("pointSize"));
+        $(".pointColor", selector).minicolors("value", style.fill.color);
+        $(".pointShape", selector).val(style.shape);
+        $(".pointSize", selector).val(style.radius);
     }
 
     /**
@@ -925,24 +1018,19 @@ class GraphicToolEditor {
 
     /**
      * 마커 스타일 설정
-     * @param {ol.Feature} feature 공간객체
+     * @param {object} style 스타일
      */
-    setMarkerStyle(feature) {
+    setMarkerStyle(style) {
+
         const selector = `${this.selector} .drawingTabPoint`;
-        const symbol = $(
-            `.symbol-group button img[data-id=${feature.get("sid")}]`,
-            selector
-        );
-        const custom = $(
-            `.custom-container li img[data-id=${feature.get("sid")}]`,
-            selector
-        );
+        const symbol = $(`.symbol-group button img[data-id=${style.marker.sid}]`, selector);
+        const custom = $(`.custom-container li img[data-id=${style.marker.sid}]`, selector);
         if (symbol.length > 0) {
             symbol.trigger("click");
-            $(".markerScale", selector).val(feature.get("scale"));
+            $(".markerScale", selector).val(style.scale);
         } else if (custom.length > 0) {
             custom.trigger("click");
-            $(".customScale", selector).val(feature.get("scale"));
+            $(".customScale", selector).val(style.marker.scale);
         }
     }
 
@@ -978,30 +1066,19 @@ class GraphicToolEditor {
 
     /**
      * 선 스타일 설정
-     * @param {ol.Feature} feature 공간객체
+     * @param {object} style 스타일
      */
-    setLineStyle(feature) {
+    setLineStyle(style) {
         const selector = `${this.selector} .drawingTabLine`;
-        $(".strokeColor", selector).minicolors("value", feature.get("strokeColor"));
-        $(".strokeLineDash", selector).val(feature.get("strokeLineDash"));
-        $(".strokeOpacitySlider", selector).slider(
-            "value",
-            feature.get("strokeOpacity")
-        );
-        $(".strokeOpacity", selector).val(`${feature.get("strokeOpacity")}%`);
-        $(".strokeWidthSlider", selector).slider(
-            "value",
-            feature.get("strokeWidth")
-        );
-        $(".strokeWidth", selector).val(feature.get("strokeWidth"));
-        $(".strokeStartArrow", selector).prop(
-            "checked",
-            feature.get("strokeStartArrow")
-        );
-        $(".strokeEndArrow", selector).prop(
-            "checked",
-            feature.get("strokeEndArrow")
-        );
+        const opacity = 100 - style.stroke.opacity * 100;
+        $(".strokeColor", selector).minicolors("value", style.stroke.color);
+        $(".strokeLineDash", selector).val(style.stroke.lineDash);
+        $(".strokeOpacitySlider", selector).slider("value", opacity);
+        $(".strokeOpacity", selector).val(`${opacity}%`);
+        $(".strokeWidthSlider", selector).slider("value", style.stroke.width);
+        $(".strokeWidth", selector).val(style.stroke.width);
+        $(".strokeStartArrow", selector).prop("checked", style.stroke.startArrow);
+        $(".strokeEndArrow", selector).prop("checked", style.stroke.endArrow);
     }
 
     /**
@@ -1031,36 +1108,25 @@ class GraphicToolEditor {
 
     /**
      * 면 스타일 설정
-     * @param {ol.Feature} feature 공간객체
+     * @param {object} style 스타일
      */
-    setPolygonStyle(feature) {
+    setPolygonStyle(style) {
         const selector = `${this.selector} .drawingTabPolygon`;
-        $(".strokeColor", selector).minicolors("value", feature.get("strokeColor"));
-        $(".strokeLineDash", selector).val(feature.get("strokeLineDash"));
-        $(".strokeOpacitySlider", selector).slider(
-            "value",
-            feature.get("strokeOpacity")
-        );
-        $(".strokeOpacity", selector).val(`${feature.get("strokeOpacity")}%`);
-        $(".strokeWidthSlider", selector).slider(
-            "value",
-            feature.get("strokeWidth")
-        );
-        $(".strokeWidth", selector).val(feature.get("strokeWidth"));
-        $(".strokeStartArrow", selector).prop(
-            "checked",
-            feature.get("strokeStartArrow")
-        );
-        $(".strokeEndArrow", selector).prop(
-            "checked",
-            feature.get("strokeEndArrow")
-        );
-        $(".fillColor", selector).minicolors("value", feature.get("fillColor"));
-        $(".fillOpacitySlider", selector).slider(
-            "value",
-            feature.get("fillOpacity")
-        );
-        $(".fillOpacity", selector).val(`${feature.get("fillOpacity")}%`);
+        const fill = style.fill;
+        const stroke = style.stroke;
+        const fillOpacity = 100 - (fill.opacity * 100);
+        const strokeOpacity = 100 - (stroke.opacity * 100);
+        $(".strokeColor", selector).minicolors("value", stroke.color);
+        $(".strokeLineDash", selector).val(stroke.lineDash);
+        $(".strokeOpacitySlider", selector).slider("value", strokeOpacity);
+        $(".strokeOpacity", selector).val(`${strokeOpacity}%`);
+        $(".strokeWidthSlider", selector).slider("value", stroke.width);
+        $(".strokeWidth", selector).val(stroke.width);
+        $(".strokeStartArrow", selector).prop("checked", stroke.startArrow);
+        $(".strokeEndArrow", selector).prop("checked", stroke.endArrow);
+        $(".fillColor", selector).minicolors("value", fill.color);
+        $(".fillOpacitySlider", selector).slider("value", fillOpacity);
+        $(".fillOpacity", selector).val(`${fillOpacity}%`);
     }
 
     /**
@@ -1091,22 +1157,21 @@ class GraphicToolEditor {
 
     /**
      * 문자 스타일 설정
-     * @param {ol.Feature} feature 공간객체
+     * @param {object} style 스타일
      */
-    setTextStyle(feature) {
+    setTextStyle(style) {
         const selector = `${this.selector} .drawingTabText`;
-        $(".fillColor", selector).minicolors("value", feature.get("fillColor"));
-        $(".strokeColor", selector).minicolors("value", feature.get("strokeColor"));
-        $(".font", selector).val(feature.get("fontFamily"));
-        $(".fontSizeSlider", selector).slider("value", feature.get("fontSize"));
-        $(".fontSize", selector).val(`${feature.get("fontSize")}%`);
-        $(".fontBold", selector).prop("checked", feature.get("fontBold"));
-        $(".fontItalic", selector).prop("checked", feature.get("fontItalic"));
-        $(`[name=textAlign][value=${feature.get("textAlign")}]`, selector).prop(
-            "checked",
-            true
-        );
-        $(".text", selector).val(feature.get("text"));
+
+
+        $(".fillColor", selector).minicolors("value", style.text.fill.color);
+        $(".strokeColor", selector).minicolors("value", style.text.stroke.color);
+        $(".font", selector).val(style.text.fontFamily);
+        $(".fontSizeSlider", selector).slider("value", style.text.fontSize);
+        $(".fontSize", selector).val(`${style.text.fontSize}%`);
+        $(".fontBold", selector).prop("checked", style.text.bold);
+        $(".fontItalic", selector).prop("checked", style.text.italic);
+        $(`[name=textAlign][value=${style.text.textAlign}]`, selector).prop("checked", true);
+        $(".text", selector).val(style.text.text);
     }
 
     /**
@@ -1224,6 +1289,7 @@ class GraphicToolEditor {
         // }
         dtmap.draw.clear();
         dtmap.draw.dispose();
+        dtmap.off('select');
         new GraphicTool(pageIndex, data);
     }
 
@@ -1257,3 +1323,8 @@ class GraphicToolEditor {
     }
 }
 
+function updateStyle(feature, style) {
+    const origin = feature.get('style');
+    feature.set('style', _.merge(origin,style));
+    feature.changed();
+}

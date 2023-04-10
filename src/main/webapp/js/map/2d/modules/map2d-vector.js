@@ -135,7 +135,7 @@ map2d.vector = (function () {
             marker: {
                 src: options.img
             },
-            text: {
+            label: {
                 text: options.text,
                 column: options.column
             }
@@ -212,8 +212,8 @@ map2d.vector = (function () {
 
         const selected = feature.get('_selected');
         const geom = feature.getGeometry();
-        const fill = fillStyle(merge(DEFAULT_FILL, styleOpt.fill), selected);
-        const stroke = strokeStyle(merge(DEFAULT_STROKE, styleOpt.stroke), selected);
+        const fill = fillStyle(_.merge(DEFAULT_FILL, styleOpt.fill), selected);
+        const stroke = strokeStyle(_.merge(DEFAULT_STROKE, styleOpt.stroke), selected);
         const style = new ol.style.Style({
             zIndex: selected ? 9999 : undefined
         });
@@ -223,7 +223,7 @@ map2d.vector = (function () {
             if (styleOpt.label.column) {
                 styleOpt.label.text = feature.get(styleOpt.label.column);
             }
-            style.setText(textStyle(merge(DEFAULT_LABEL, styleOpt.label)));
+            style.setText(textStyle(_.merge(DEFAULT_LABEL, styleOpt.label)));
         }
 
         if (geom instanceof ol.geom.Polygon || geom instanceof ol.geom.MultiPolygon) {
@@ -233,7 +233,7 @@ map2d.vector = (function () {
         } else if (geom instanceof ol.geom.LineString || geom instanceof ol.geom.MultiLineString) {
             style.setStroke(stroke)
             return [style,
-                ...lineStyle(feature, resolution, merge(DEFAULT_STROKE, styleOpt.stroke))]
+                ...lineStyle(feature, resolution, _.merge(DEFAULT_STROKE, styleOpt.stroke))]
         } else if (geom instanceof ol.geom.Circle) {
             style.setFill(fill);
             style.setStroke(stroke);
@@ -241,9 +241,9 @@ map2d.vector = (function () {
         } else if (geom instanceof ol.geom.Point || geom instanceof ol.geom.MultiPoint) {
             if (styleOpt.marker && styleOpt.marker.src) {
                 //마커
-                style.setImage(markerStyle(merge(DEFAULT_MARKER, styleOpt.marker), selected));
+                style.setImage(markerStyle(_.merge(DEFAULT_MARKER, styleOpt.marker), selected));
             } else if (styleOpt.text) {
-                style.setText(textStyle(merge(DEFAULT_LABEL, styleOpt.text)));
+                style.setText(textStyle(_.merge(DEFAULT_LABEL, styleOpt.text)));
             } else {
                 //포인트
                 style.setImage(pointStyle(fill, stroke, styleOpt.radius || DEFAULT_RADIUS, styleOpt.shape));
@@ -251,10 +251,6 @@ map2d.vector = (function () {
 
             return style;
         }
-    }
-
-    function merge(a, b) {
-        return {...a, ...b}
     }
 
     function fillStyle(options, selected) {
