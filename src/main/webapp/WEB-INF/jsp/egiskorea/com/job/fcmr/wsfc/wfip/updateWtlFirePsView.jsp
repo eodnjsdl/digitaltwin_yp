@@ -5,6 +5,18 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
+<style type="text/css">
+	.popup-panel.popup-sub .update-wtlFirePs-popup-close {
+	    top: 0;
+	    right: 0;
+	    width: 39px;
+	    height: 39px;
+	    border-left: 1px solid #44516A;
+	    background: url(/images/icon/popup-close2.svg) no-repeat 50% 50%;
+	    border-top-right-radius: 10px;
+	    position: absolute;
+	}
+</style>
 
 <!-- 업무 > 시설관리 > 상수도시설 > 소방시설 수정하기-->
 
@@ -101,6 +113,7 @@
                                        <th scope="row">방향각</th>
                                        <td colspan="3" >
                                        		<input type="number" name="ang_dir" class="form-control" value="${wtlFirePsVO.ang_dir }">
+                                       		
                                        </td>
                                    </tr>
                                    <tr>
@@ -109,6 +122,7 @@
                                            <div class="form-row">
                                            		<div class="col">
                                            			<input type="text" class="form-control txt-geometry-address" value="" readonly="readonly">
+                                           			<input type="text" name="geom" class="form-control" value="">
                                            		</div>                    
                                            		<div class="col-auto">
                                            			<button type="button" class="btn type01 bi-location btn-select-map" data-popup="space-edit-tool">지도에서 선택</button>
@@ -131,7 +145,8 @@
                    </div>
                </div>
            </div>
-           <button type="button" class="popup-close" title="닫기" onclick="cancelMode();"></button>
+           <!-- <button type="button" class="popup-close" title="닫기" onclick="cancelMode();"></button> -->
+           <button type="button" class="update-wtlFirePs-popup-close" title="닫기" onclick="cancelMode();"></button>
 
 <!-- 업무 > 시설관리 > 상수도시설 > 소방시설 수정하기 end -->
 
@@ -172,45 +187,70 @@
 		var gridRowId = "${gridRowId }";
 		
 		var geomData = getGeomDataForGridRowId(gridRowId);
-		console.log("geomData>>");
-		console.log(geomData);
 		if(geomData){
 			getAddressForPoint(geomData, "#rightSubPopup .txt-geometry-address");
+			$("#rightSubPopup input[name=geom]").val(geomData);
 		}else{
 			console.log("상세보기 좌표 오류");
 		}
-        
-		
 		
 		// 지도에서 선택
         $(".btn-select-map", this.element).on("click", function () {
         	console.log( '수정화면');
-        	alert(this);
+        	//alert(this);
         	
-            /* this.editingTool = new EditingTool(
-                that.geometryType,
-                that.feature.getGeometry(),
-                (geometry) => {
-                    this.feature.setGeometry(geometry);
-                    this.getAddress(geometry).done((result) => {
-                        if (result["address"]) {
-                            this.address = result["address"];
-                        } else {
-                            this.address = "";
-                        }
-                        $(".txt-geometry-address", that.selector).val(this.address);
-                    });
-
-                    const format = new ol.format.WKT();
-                    cmmUtil.highlightGeometry(format.writeGeometry(geometry));
-
-                    this.editingTool = null;
-                }
-            ); */
+        	ui.loadingBar("show");
+            $('.space-edit-tool').load("/job/fcts/editView.do", () => {
+                
+                $(".space-edit-tool").show();
+                
+               	$.getJSON(
+			        "/com/mngr/info/selectAllLayerManageList.do"
+			   	).done((response) => {
+			    	var list = response["list"];
+			    	let tag = `<option value="">시설물</option>`;
+			    	for(var i=0; i<list.length; i++){
+			    		const name 	= list[i].tblNm.toLowerCase();
+			    		const title = list[i].lyrNm;
+			    		tag += `<option value=`+name+`>`+title+`</option>`; 
+			    	}
+			    	$(".space-edit-tool select[name=edit-snap-target]").html(tag);
+			    }); 
+               	
+               	var obj = {};
+               	obj.geometryType = "point";
+              
+               	//geoEditBindEvents(obj);
+                
+                ui.loadingBar("hide");
+            });
             
         });
 		
+		/////////////////////
 		
+        $(".popup-panel .update-wtlFirePs-popup-close").on("click", function () {
+    		$(this).closest('.popup-panel').removeClass('opened');
+            // 초기화 (지도)
+            dtmap.draw.dispose();
+            dtmap.draw.clear();
+            
+            var gridRowId = "${gridRowId }";
+        	
+        	var detailData = null;
+        	if( FACILITY.Ax5UiGrid){
+        		var list =  FACILITY.Ax5UiGrid.list;
+        		
+        		for(var i=0; i<list.length; i++){
+        			if(list[i].id == gridRowId){
+        				detailData = list[i];
+        			}
+        		}
+        	}
+        	
+        	selectWtlFirePs(detailData);	
+            
+    	});
 		
 	});
 

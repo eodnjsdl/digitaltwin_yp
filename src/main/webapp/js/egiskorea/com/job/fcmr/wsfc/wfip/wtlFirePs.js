@@ -86,6 +86,7 @@ function selectWtlFirePsListView(){
 	        body: {
 	        	// 데이터 행의 click 이벤트를 정의합니다. 이벤트 변수 및 this 프로퍼티는 아래 onclick 함수를 참고하세요
 	        	onClick: function () {
+	        		console.log(this);
 	        		selectWtlFirePs(this.item);	//소방 시설 상세 페이지 로드
 	            }
 	        }
@@ -312,8 +313,8 @@ function insertWtlFirePsView(){
 //소방시설 등록 
 function insertWtlFirePs(){
 	console.log("insertWtlFirePs()");
-	toastr.error("insertWtlFirePs()", "소방시설 등록 작업중");
-	return false;
+	//toastr.error("insertWtlFirePs()", "소방시설 등록 작업중");
+	//return false;
 	/////////
 	//유효성 체크
 	
@@ -328,8 +329,7 @@ function insertWtlFirePs(){
     }*/
 	
 	//console.log($("#insertWtlFirePsForm input[name=ist_ymd]").val());
-	
-	
+		
 	var feature = new ol.Feature();
 	const params = $("#insertWtlFirePsForm").serializeArray();
     params.forEach((param) => {
@@ -342,7 +342,7 @@ function insertWtlFirePs(){
     
     //const wkt = cmmUtil.getEditGeometry();
     //geom 테스트
-    const wkt = "Point(1000239.5335 1943588.7711)";
+    const wkt = $("#rightSubPopup input[name=geom]").val();
     
     const formatWKT = new ol.format.WKT();
     let geometry = formatWKT.readGeometry(wkt);
@@ -376,16 +376,16 @@ function insertWtlFirePs(){
     } else {*/
     
     ui.loadingBar("show");
-    
+   
     $.post("/job/fcts/insertFacility.do", data)
     .done((response) => {
         const result = JSON.parse(response);
         if (result["result"]) {
             alert("등록 되었습니다.");
-            if (this.onSave) {
+            /*if (this.onSave) {
                 this.onSave();
             }
-            this.destroy();
+            this.destroy();*/
             
             selectWtlFirePsList(1);	//다시 목록 로드
             

@@ -5,6 +5,18 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
+<style type="text/css">
+	.popup-panel.popup-sub .select-wtlFirePs-popup-close {
+	    top: 0;
+	    right: 0;
+	    width: 39px;
+	    height: 39px;
+	    border-left: 1px solid #44516A;
+	    background: url(/images/icon/popup-close2.svg) no-repeat 50% 50%;
+	    border-top-right-radius: 10px;
+	    position: absolute;
+	}
+</style>
 
 <!-- 업무 > 시설관리 > 상수도시설 > 소방시설 상세보기-->
 
@@ -104,7 +116,7 @@
                                            <div class="form-row">
                                            	  <c:out value="${wtlFirePsVO.geom }"/>
                                            	  <input type="text" class="form-control txt-geometry-address" value="" readonly="readonly">
-                                           	  <input type="hidden" name="geomText" value="<c:out value="${wtlFirePsVO.geom }"/>" >
+                                           	  <input type="text" name="geom" class="form-control" value="">
                                            </div>
                                            
                                            <!-- <div class="form-row">
@@ -132,7 +144,8 @@
                    </div>
                </div>
            </div>
-           <button type="button" class="popup-close" title="닫기"></button>
+           <!-- <button type="button" class="popup-close" title="닫기"></button> -->
+           <button type="button" class="select-wtlFirePs-popup-close" title="닫기"></button>
 
 <!-- 업무 > 시설관리 > 상수도시설 > 소방시설 상세보기 end -->
 
@@ -154,12 +167,22 @@
 		var gridRowId = "${gridRowId }";
 		
 		var geomData = getGeomDataForGridRowId(gridRowId);
+		console.log(geomData);
 		if(geomData){
 			getAddressForPoint(geomData, "#rightSubPopup .txt-geometry-address");
+			$("#rightSubPopup input[name=geom]").val(geomData);
 		}else{
 			console.log("상세보기 좌표 오류");
 		}
 		
+		///////////////
+		
+		 $(".popup-panel .select-wtlFirePs-popup-close").on("click", function () {
+    		 $(this).closest('.popup-panel').removeClass('opened');
+            // 초기화 (지도)
+            dtmap.draw.dispose();
+            dtmap.draw.clear();
+    	});
 		
 		
 	});

@@ -5,10 +5,20 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
-
+<style type="text/css">
+	.popup-panel.popup-sub .insert-wtlFirePs-popup-close {
+	    top: 0;
+	    right: 0;
+	    width: 39px;
+	    height: 39px;
+	    border-left: 1px solid #44516A;
+	    background: url(/images/icon/popup-close2.svg) no-repeat 50% 50%;
+	    border-top-right-radius: 10px;
+	    position: absolute;
+	}
+</style>
 
 <!-- 업무 > 시설관리 > 상수수도시설 > 소방시설 등록하기-->
-
        	<div class="popup-header">소방시설 등록하기</div>
            <div class="popup-body">
                <div class="sub-popup-body">
@@ -27,7 +37,6 @@
                                    <tr>
                                        <th scope="row">지형지물부호</th>
                                        <td>
-                                          	<%-- <c:out value="${wtlFirePsVO.ftr_cde_nm }"/> --%>
                                           	<select name="ftr_cde" class="form-select" readonly="readonly">
                                           		<option value="SA118">급수탑</option>
                                           		<option value="SA119" selected="selected">소화전</option>
@@ -35,14 +44,12 @@
                                        </td>
                                        <th scope="row">관리번호</th>
                                        <td>
-                                       	  	<%-- <c:out value="${wtlFirePsVO.ftr_idn }"/> --%>
                                        	  	<input type="number" name="ftr_idn" class="form-control" value="" readonly="readonly">
                                        </td>
                                    </tr>
                                    <tr>
                                        <th scope="row">읍면동</th>
                                        <td>
-                                       		<%-- <c:out value="${wtlFirePsVO.hjd_cde_nm }"/> --%>
                                        		<select name="hjd_cde" class="form-select">
                                        			<option value="">선택</option>
                                        		</select>	
@@ -63,7 +70,6 @@
                                    <tr>
                                        <th scope="row">도엽번호</th>
                                        <td>
-                                       		<%-- <c:out value="${wtlFirePsVO.sht_num }"/> --%>
                                        		<input type="text" name="sht_num" class="form-control" value="" maxlength="11">
                                        </td>
                                        <th scope="row">설치일자</th>
@@ -100,12 +106,10 @@
                                    <tr>
                                        <th scope="row">급수탑높이</th>
                                        <td>
-                                       		<%-- <c:out value="${wtlFirePsVO.sup_hit }"/> --%>
                                        		<input type="number" name="sup_hit" class="form-control" value="" id="testt">
                                        </td>
                                        <th scope="row">공사번호</th>
                                        <td>
-	                                       	<%-- <c:out value="${wtlFirePsVO.cnt_num }"/> --%>
 	                                       	<input type="text" name="cnt_num" class="form-control" value="" maxlength="8">
                                        </td>
                                    </tr>
@@ -122,7 +126,7 @@
                                            <div class="form-row">
                                            		<div class="col">
                                            			<input type="text" class="form-control txt-geometry-address" value="" readonly="readonly">
-                                           			<input type="hidden" name="geom" class="form-control" value="">
+                                           			<input type="text" name="geom" class="form-control" value="">
                                            		</div>                    
                                            		<div class="col-auto">
                                            			<button type="button" class="btn type01 bi-location btn-select-map" data-popup="space-edit-tool">지도에서 선택</button>
@@ -145,7 +149,8 @@
                    </div>
                </div>
            </div>
-           <button type="button" class="popup-close" title="닫기" onclick="cancelMode();"></button>
+           <!-- <button type="button" class="popup-close" title="닫기" onclick="cancelMode();"></button> -->
+           <button type="button" class="insert-wtlFirePs-popup-close" title="닫기" onclick="cancelMode();"></button>
 
 <!-- 업무 > 시설관리 > 상수수도시설 > 소방시설 등록하기 end -->
 
@@ -169,7 +174,7 @@
 		
      	// 지도에서 선택
         $(".btn-select-map", this).on("click", function () {
-        	console.log( '등록 화면');
+        	console.log('등록 화면');
         	console.log(this);
         	
         	ui.loadingBar("show");
@@ -232,7 +237,16 @@
             
         });
 		
-		
+     	
+     	//////////////////
+     	//
+     	
+     	$(".popup-panel .insert-wtlFirePs-popup-close").on("click", function () {
+     		 $(this).closest('.popup-panel').removeClass('opened');
+             // 초기화 (지도)
+             dtmap.draw.dispose();
+             dtmap.draw.clear();
+     	});
         
 	});
 	
@@ -280,10 +294,8 @@
             }
 
             if (type) {
-                //cmmUtil.drawEditGeometry(type);
-                
-                //aj_selectMemoLocation();
-                dtmap.draw.active({type: 'Point', once: true});
+
+            	dtmap.draw.active({type: 'Point', once: true});
             	dtmap.on('drawend', _onDrawEnd_wtlFirePsGeom);
                 
                 //toastr.warning("cmmUtil.drawEditGeometry(type);", "객체 그리기 모드");
@@ -350,6 +362,8 @@
             } else {
                 alert(`공간정보를 입력하여 주십시오.`);
             } */
+            
+            //위경도 좌표계에 있는 좌표를 등록 페이지에 적용
             var xObj = $(".space-edit-tool .edit-x").val();
             var yObj = $(".space-edit-tool .edit-y").val();
             
@@ -370,8 +384,7 @@
         
 	}
 	
-	
-	//
+	//위경도 좌표계에 표시
 	function _onDrawEnd_wtlFirePsGeom(e){
 		dtmap.draw.dispose();
 		var geom = e.geometry;
@@ -381,57 +394,7 @@
 		
 		$(".space-edit-tool .edit-x").val(xObj);
 		$(".space-edit-tool .edit-y").val(yObj);
-		
-		/* cmmUtil.reverseGeocoding(xObj, yObj).done((result)=>{
-			$("#insertWtlFirePsForm .txt-geometry-address").val(result["address"]);
-			const format = new ol.format.WKT();
-			const point = new ol.geom.Point([xObj, yObj]);
-			const wkt = format.writeGeometry(point);
-			$("#insertWtlFirePsForm input[name=geom]").val(wkt);
-		}); */
-		
-		
-		
 	}
-	
-	function _onDrawEnd_memo2(e) {
-		console.log("_onDrawEnd_memo2()");
-		dtmap.draw.dispose();
-		var geom = e.geometry;
-		const position = geom.getFlatCoordinates();
-		var xObj = parseFloat(position[0]);
-		var yObj = parseFloat(position[1]);
-		cmmUtil.reverseGeocoding(xObj, yObj).done((result)=>{
-			$("#loc_memo").val(result["address"]);
-			const format = new ol.format.WKT();
-			const point = new ol.geom.Point([xObj, yObj]);
-			const wkt = format.writeGeometry(point);
-			$("#wkt").val(wkt);
-		});
-	}
-	
-	
-	//지도에서 선택 _ 주소 및 경위도 위치 가져오기
-	/* function fn_getLocation() {
-		dtmap.draw.active({type: 'Point', once: true});
-		dtmap.on('drawend', onDrawEnd);
-	}
-	function onDrawEnd(e) {
-		dtmap.draw.dispose();
-		var geom = e.geometry;
-		const position = geom.getFlatCoordinates();
-		var xObj = parseFloat(position[0]);
-		var yObj = parseFloat(position[1]);
-		cmmUtil.reverseGeocoding(xObj, yObj).done((result)=>{
-			$("#adres").val("경기도 양평군 "+result["address"]);
-			const format = new ol.format.WKT();
-			const point = new ol.geom.Point([xObj, yObj]);
-			const wkt = format.writeGeometry(point);
-			$("#geom").val(wkt);
-		});
-	} */
-
-	
 
 </script>
 
