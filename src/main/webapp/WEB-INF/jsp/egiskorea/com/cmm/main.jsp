@@ -45,6 +45,9 @@
     <script type="text/javascript" src="/js/plugin/toastr-2.1.4/toastr.js"></script>
     <script type="text/javascript" src="/js/util/toast-confirm.js"></script>
 
+	<!-- ax5 grid css -->
+    <link rel="stylesheet" href="/js/plugin/ax5grid/ax5grid.css">
+
     <!-- common stylesheet -->
     <link rel="stylesheet" href="/css/com/common.css">
     <link rel="stylesheet" href="/css/map.css">
@@ -59,8 +62,7 @@
     <!-- ax5 grid-->
     <script src="/js/plugin/ax5grid/ax5core.min.js"></script>
     <script src="/js/plugin/ax5grid/ax5grid.min.js"></script>
-    <!-- ax5 grid css -->
-    <link rel="stylesheet" href="/js/plugin/ax5grid/ax5grid.css">
+    
 
     <!-- zoom -->
     <link href="/js/plugin/jquery-fat-zoom.js/css/zoom.css" rel="stylesheet">

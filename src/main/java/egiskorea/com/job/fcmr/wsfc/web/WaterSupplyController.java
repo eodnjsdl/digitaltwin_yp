@@ -35,11 +35,20 @@ public class WaterSupplyController {
 	//소방시설
 	
 	//목록 화면 호출
-	@RequestMapping(value = "/selectWtlFireListView.do")
-    public String selectWtlFireListView(
+	@RequestMapping(value = "/selectWtlFirePsListView.do")
+    public String selectWtlFirePsListView(
             @ModelAttribute("wtlFirePsVO") WtlFirePsVO wtlFirePsVO,
             ModelMap model) throws Exception {
         return "egiskorea/com/job/fcmr/wsfc/wfip/wtlFirePsListView";
+    }
+	
+	//상세 화면 조회
+	@RequestMapping(value = "/selectWtlFirePs.do", method = RequestMethod.POST)
+    public String selectWtlFirePs(
+    		@ModelAttribute("wtlFirePsVO") WtlFirePsVO wtlFirePsVO, String id,
+    		ModelMap model) throws Exception {
+			model.addAttribute("gridRowId", id);
+        return "egiskorea/com/job/fcmr/wsfc/wfip/selectWtlFirePs";
     }
 	
 	//등록 화면 조회
@@ -47,16 +56,18 @@ public class WaterSupplyController {
     public String insertWtlFirePsView(
             @ModelAttribute("wtlFirePsVO") WtlFirePsVO wtlFirePsVO,
             ModelMap model) throws Exception {
-        return "egiskorea/com/job/fcmr/wsfc/wfip/wtlFirePsInsert";
+        return "egiskorea/com/job/fcmr/wsfc/wfip/insertWtlFirePsView";
     }
 	
-	//상세 화면 조회
-	@RequestMapping(value = "/getWtlFirePsDetail.do", method = RequestMethod.POST)
-    public String getWtlFirePsDetail(
-    		@ModelAttribute("wtlFirePsVO") WtlFirePsVO wtlFirePsVO
-    		, ModelMap model) throws Exception {
-        return "egiskorea/com/job/fcmr/wsfc/wfip/wtlFirePsDetail";
+	//수정 화면 조회
+	@RequestMapping(value = "/updateWtlFirePsView.do", method = RequestMethod.POST)
+    public String updateWtlFirePsView(
+    		@ModelAttribute("wtlFirePsVO") WtlFirePsVO wtlFirePsVO, String id,
+    		ModelMap model) throws Exception {
+			model.addAttribute("gridRowId", id);
+        return "egiskorea/com/job/fcmr/wsfc/wfip/updateWtlFirePsView";
     }
+	
 		
 	////////
 	//상수관로
