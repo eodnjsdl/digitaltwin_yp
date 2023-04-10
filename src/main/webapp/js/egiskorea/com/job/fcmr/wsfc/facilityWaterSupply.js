@@ -16,6 +16,7 @@ $(document).ready(function(){
 //전역 변수
 var FACILITY={
 	CODEARRAY :[],		//code 데이블 정리
+	Ax5UiGrid :null	
 }
 
 
@@ -23,7 +24,7 @@ var FACILITY={
 
 //코드 세팅 : gird 데이터 code 변환 위해
 function codeArrayInit(){
-	console.log("codeArrayInit()");
+	//console.log("codeArrayInit()");
 	
 	var codeData = [
         { code: "SA118", codeNm: "급수탑" },
@@ -31,10 +32,9 @@ function codeArrayInit(){
       ];
 	
 	setCmmCodeDataArray("SA-001", codeData);	//지형지물부호	SA-001 임의로 만든
-	
+	setCmmCodeDataArray("YPE001 ");				//읍면동 코드
 	setCmmCodeDataArray("MNG-001");				//관리기관	
 	setCmmCodeDataArray("OGC-048");				//소화전 형식
-	
 	setEmdCodeDataArray("tgd_scco_emd");		//읍면동 코드
 	
 	//상수관로 코드
@@ -45,12 +45,13 @@ function codeArrayInit(){
 	//유량계 코드
 	setCmmCodeDataArray("OGC-141");				//유량계 종류
 	setCmmCodeDataArray("OGC-041");				//유량계 형식
+
 }
 
 
 //상수도시설 분기
 function getWaterSupplyFacility(name){
-	console.log("getWaterSupplyFacility(name)");
+	//console.log("getWaterSupplyFacility(name)");
 		
 	if(name){
 		if(name == "wtlFirePs"){			//소방시설
@@ -86,108 +87,9 @@ function getWaterSupplyFacility(name){
 	
 }
 
-////////////////////////
 
-//읍면동 데이터 조회
-function getEmdKorNmCode(tagClass, selectedValue){
-
-	//읍면동 데이터 조회
-	var options;
-    options = {
-        typeNames: 'tgd_scco_emd' + "",
-    }
-    
-    const promise = dtmap.wfsGetFeature(options);
-    promise.then(function (data) {
-        
-    	//그리드 데이터 전처리
-        const list = [];
-        
-        //조회데이터 list 에 json 형태로 저장getCmmCodeDataArray
-        for (let i = 0; i < data.features.length; i++) {
-            const {id, properties} = data.features[i];
-            list.push({...properties, ...{id: id}});
-        }
-        
-        //select box option 값으로 변경
-        const optionsData = list.map((item) => {
-        	
-        	if(item.emd_cd == selectedValue){		//선택된 값이 있으면 선택되게 처리
-        		return `<option value="${item.emd_cd}" selected="selected">${item.emd_kor_nm}</option>`;
-        	}else{
-        		return `<option value="${item.emd_cd}">${item.emd_kor_nm}</option>`; 
-        	}
-        	
-        });
-  	 
-        $(tagClass).append(optionsData);
-    });
-	
-}
-
-//읍면동 코드 테이블 정리 - 임시 uhh add...
-function setEmdCodeDataArray(codeId, targetList){
-	//console.log("setEmdCodeDataArray()");
-	
-	//기존 에 있는지 확인
-	if(FACILITY.CODEARRAY.length > 0){
-		for(var i=0; i<FACILITY.CODEARRAY.length; i++){
-			if(FACILITY.CODEARRAY[i].codeId == codeId){
-				console.log("이미 있는 코드 입니다.");
-				return;
-			}
-		}
-	}
-		
-	//목록 있을시 에는 배열에 코드 저장
-	if(targetList && targetList.length>0 ){
-		 const listCodes = targetList.map((code) => {
-    		 return {
-    			 value	: code["emd_cd"]+"00",
-    			 text 	: code["emd_kor_nm"]
-    		 };
-         });
-    	 var listCodeData = {codeId : codeId , value: listCodes};
-    	 FACILITY.CODEARRAY.push(listCodeData);
-    	 
-    	 return;
-	}
-	
-	var options;
-    options = {
-        typeNames: 'tgd_scco_emd' + "",
-    }
-    
-    const promise = dtmap.wfsGetFeature(options);
-    promise.then(function (data) {
-        
-    	//그리드 데이터 전처리
-        const list = [];
-        
-        //조회데이터 list 에 json 형태로 저장getCmmCodeDataArray
-        for (let i = 0; i < data.features.length; i++) {
-            const {id, properties} = data.features[i];
-            list.push({...properties, ...{id: id}});
-        }
-        
-        const codes = list.map((code) => {
-	   		return {
-	   			 value	: code["emd_cd"]+"00",
-	   			 text 	: code["emd_kor_nm"]
-	   		 };
-        });
-        
-	   	var listCodeData = {codeId : codeId , value: codes};
-	   	FACILITY.CODEARRAY.push(listCodeData);
-        
-    });
-	
-}
-
-
-
-
-////////////////////////////////////////////////////
+///////////////////////////
+//공통 코드
 
 //공통 코드 조회 및 selectbox tag 처리
 //codeId 		: 조회할 코드 id 
@@ -317,8 +219,14 @@ function getCmmCodeDataArray(codeId, code){
 }
 
 /////////////////////
+//공간정보
 
+
+//좌표로 주소 조회(reverseGeocoding)
 function getAddressForPoint(geomText, tag){
+	//console.log("getAddressForPoint()");
+	//console.log(geomText);
+	//console.log(tag);
 	
 	if(geomText){
 		
@@ -350,8 +258,37 @@ function getAddressForPoint(geomText, tag){
 	
 }
 
+//girdRowId 를 통해 geom 데이터 조회
+function getGeomDataForGridRowId(gridRowId){
+	//console.log("getGeomDataForGridRowId");
+	//console.log(gridRowId);
 
-
+	//grid 에서 데이터 조회
+	var detailData = null;
+	if(FACILITY.Ax5UiGrid){
+		var list =  FACILITY.Ax5UiGrid.list;
+		
+		for(var i=0; i<list.length; i++){
+			if(list[i].id == gridRowId){
+				detailData = list[i];
+				break;
+			}
+		}
+	}
+	
+	//조회된 데이터에서 geom 데이터 추출
+	var returnGeomVal = "";
+	if(detailData){
+		//console.log(detailData);
+		
+		var geomType 	= detailData.geomObj.type;
+    	var geomCoord	= detailData.geomObj.coordinates[0] + " " + detailData.geomObj.coordinates[1];
+    	
+    	returnGeomVal = geomType+"("+ geomCoord +")";
+	}
+	
+	return returnGeomVal;
+}
 
 
 
