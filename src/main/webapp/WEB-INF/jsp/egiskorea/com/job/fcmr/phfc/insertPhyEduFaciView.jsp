@@ -49,7 +49,7 @@ $("#phyEduFaciTbl #chrg_dept_nm").val(chrgDeptNm).prop("selected", true);
 								<th scope="row">운영방식</th>
 								<td>
 									<select name="oper_mthd" id="oper_mthd" class="form-select">
-										<option value="" selected></option>
+										<option value=""></option>
 										<option value="위탁">위탁</option>
 									</select>
 								</td>
@@ -81,7 +81,7 @@ $("#phyEduFaciTbl #chrg_dept_nm").val(chrgDeptNm).prop("selected", true);
 									<div class="form-row">
 										<div class="col">
 											<select name="chrg_dept_nm" id="chrg_dept_nm" class="form-select">
-												<option value="" selected></option>
+												<option value=""></option>
 												<option value="국토토지과">국토토지과</option>
 											</select>
 										</div>

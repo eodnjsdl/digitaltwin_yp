@@ -205,15 +205,15 @@ function insertPhyEduFaciView() {
 // 체육시설 등록 저장
 function insertPhyEduFaci() {
 	// NULL값도 가능한 input
-	var fclty_ty 				= $('#phyEduFaciTbl #fclty_ty option:selected').val();			// 시설유형
-	var oper_mthd 				= $('#phyEduFaciTbl #oper_mthd option:selected').val();			// 운영방식
-	var erc_ct 					= $('#phyEduFaciTbl input[name=erc_ct]').val();					// 건립비용
-	var buld_size 				= $('#phyEduFaciTbl input[name=buld_size]').val();				// 건물면적
-	var lad_size 				= $('#phyEduFaciTbl input[name=lad_size]').val();				// 토지면적
-	var manage_nmpr 			= $('#phyEduFaciTbl input[name=manage_nmpr]').val();			// 관리인원
-	var fyer_utlztn_nmpr 		= $('#phyEduFaciTbl input[name=fyer_utlztn_nmpr]').val();		// 연간이용인원
-	var chrg_dept_nm 			= $('#phyEduFaciTbl #chrg_dept_nm option:selected').val();		// 담당자
-	var fclty_sumry 			= $('#phyEduFaciTbl input[name=fclty_sumry]').val();			// 시설물개요
+	var fclty_ty 			= $('#phyEduFaciTbl #fclty_ty option:selected').val();		// 시설유형
+	var oper_mthd 			= $('#phyEduFaciTbl #oper_mthd option:selected').val();		// 운영방식
+	var erc_ct 				= $('#phyEduFaciTbl input[name=erc_ct]').val();				// 건립비용
+	var buld_size 			= $('#phyEduFaciTbl input[name=buld_size]').val();			// 건물면적
+	var lad_size 			= $('#phyEduFaciTbl input[name=lad_size]').val();			// 토지면적
+	var manage_nmpr 		= $('#phyEduFaciTbl input[name=manage_nmpr]').val();		// 관리인원
+	var fyer_utlztn_nmpr 	= $('#phyEduFaciTbl input[name=fyer_utlztn_nmpr]').val();	// 연간이용인원
+	var chrg_dept_nm 		= $('#phyEduFaciTbl #chrg_dept_nm option:selected').val();	// 담당자
+	var fclty_sumry 		= $('#phyEduFaciTbl input[name=fclty_sumry]').val();		// 시설물개요
 	
 	var fclty_nm = $('#phyEduFaciTbl input[name=fclty_nm]').val();
 	if (fclty_nm == '') {
@@ -268,21 +268,21 @@ function insertPhyEduFaci() {
 				url : "/job/fcmr/phfc/insertPhyEduFaci.do",
 				dataType : "json",
 				data : {
-					"fcltyNm" : fclty_nm,
-					"adres" : adres,
-					"fcltyTy" : fclty_ty,
-					"operMthd" : oper_mthd,
-					"ercCt" : erc_ct,
-					"fondDe" : fond_de,
-					"buldSize" : buld_size,
-					"ladSize" : lad_size,
-					"manageNmpr" : manage_nmpr,
-					"fyerUtlztnNmpr" : fyer_utlztn_nmpr,
-					"chrgDeptNm" : chrg_dept_nm,
-					"chargerNm" : charger_nm,
-					"cttpcTelno" : cttpc_telno,
-					"fcltySumry" : fclty_sumry,
-					"geom" : geom
+					"fcltyNm" 			: fclty_nm,
+					"adres" 			: adres,
+					"fcltyTy" 			: fclty_ty,
+					"operMthd" 			: oper_mthd,
+					"ercCt" 			: erc_ct,
+					"fondDe" 			: fond_de,
+					"buldSize" 			: buld_size,
+					"ladSize" 			: lad_size,
+					"manageNmpr" 		: manage_nmpr,
+					"fyerUtlztnNmpr" 	: fyer_utlztn_nmpr,
+					"chrgDeptNm" 		: chrg_dept_nm,
+					"chargerNm" 		: charger_nm,
+					"cttpcTelno" 		: cttpc_telno,
+					"fcltySumry" 		: fclty_sumry,
+					"geom" 				: geom
 				},
 				success : function(data){
 					alert("정상적으로 등록되었습니다.");
@@ -332,15 +332,15 @@ function updatePhyEduFaci(gid) {
 	var page = $('#hiddenPage').val();
 	
 	// NULL값도 가능한 input
-	var fclty_ty = $('#phyEduFaciTbl #fclty_ty option:selected').val();				// 시설유형
-	var oper_mthd = $('#phyEduFaciTbl #oper_mthd option:selected').val();			// 운영방식
-	var erc_ct = $('#phyEduFaciTbl input[name=erc_ct]').val();						// 건립비용
-	var buld_size = $('#phyEduFaciTbl input[name=buld_size]').val();				// 건물면적
-	var lad_size = $('#phyEduFaciTbl input[name=lad_size]').val();					// 토지면적
-	var manage_nmpr = $('#phyEduFaciTbl input[name=manage_nmpr]').val();			// 관리인원
-	var fyer_utlztn_nmpr = $('#phyEduFaciTbl input[name=fyer_utlztn_nmpr]').val();	// 연간이용인원
-	var chrg_dept_nm = $('#phyEduFaciTbl #chrg_dept_nm option:selected').val();		// 담당자
-	var fclty_sumry = $('#phyEduFaciTbl input[name=fclty_sumry]').val();			// 시설물개요
+	var fclty_ty 			= $('#phyEduFaciTbl #fclty_ty option:selected').val();		// 시설유형
+	var oper_mthd 			= $('#phyEduFaciTbl #oper_mthd option:selected').val();		// 운영방식
+	var erc_ct 				= $('#phyEduFaciTbl input[name=erc_ct]').val();				// 건립비용
+	var buld_size 			= $('#phyEduFaciTbl input[name=buld_size]').val();			// 건물면적
+	var lad_size 			= $('#phyEduFaciTbl input[name=lad_size]').val();			// 토지면적
+	var manage_nmpr 		= $('#phyEduFaciTbl input[name=manage_nmpr]').val();		// 관리인원
+	var fyer_utlztn_nmpr 	= $('#phyEduFaciTbl input[name=fyer_utlztn_nmpr]').val();	// 연간이용인원
+	var chrg_dept_nm 		= $('#phyEduFaciTbl #chrg_dept_nm option:selected').val();	// 담당자
+	var fclty_sumry 		= $('#phyEduFaciTbl input[name=fclty_sumry]').val();		// 시설물개요
 	
 	var fclty_nm = $('#phyEduFaciTbl input[name=fclty_nm]').val();
 	if (fclty_nm == '') {
@@ -393,22 +393,22 @@ function updatePhyEduFaci(gid) {
 				url : "/job/fcmr/phfc/updatePhyEduFaci.do",
 				dataType : "json",
 				data : {
-					"gid" : gid,
-					"fcltyNm" : fclty_nm,
-					"adres" : adres,
-					"fcltyTy" : fclty_ty,
-					"operMthd" : oper_mthd,
-					"ercCt" : erc_ct,
-					"fondDe" : fond_de,
-					"buldSize" : buld_size,
-					"ladSize" : lad_size,
-					"manageNmpr" : manage_nmpr,
-					"fyerUtlztnNmpr" : fyer_utlztn_nmpr,
-					"chrgDeptNm" : chrg_dept_nm,
-					"chargerNm" : charger_nm,
-					"cttpcTelno" : cttpc_telno,
-					"fcltySumry" : fclty_sumry,
-					"geom" : geom
+					"gid" 				: gid,
+					"fcltyNm" 			: fclty_nm,
+					"adres" 			: adres,
+					"fcltyTy" 			: fclty_ty,
+					"operMthd" 			: oper_mthd,
+					"ercCt" 			: erc_ct,
+					"fondDe" 			: fond_de,
+					"buldSize" 			: buld_size,
+					"ladSize" 			: lad_size,
+					"manageNmpr" 		: manage_nmpr,
+					"fyerUtlztnNmpr" 	: fyer_utlztn_nmpr,
+					"chrgDeptNm" 		: chrg_dept_nm,
+					"chargerNm" 		: charger_nm,
+					"cttpcTelno" 		: cttpc_telno,
+					"fcltySumry" 		: fclty_sumry,
+					"geom" 				: geom
 				},
 				success : function(data){
 					alert("정상적으로 수정되었습니다.");
@@ -529,14 +529,14 @@ function maxLengthCheck(object){
 function insertPhyMng(gid) {
 	//alert('운영정보 등록 GID: ' + gid);
 	
-	var oper_year = $('#phyFaciMng select[name=oper_year]').val();
-	var acqs_amount = $('#phyFaciMng input[name=acqs_amount]').val();
-	var dprc_am = $('#phyFaciMng input[name=dprc_am]').val();
-	var dprc_acmtl_am = $('#phyFaciMng input[name=dprc_acmtl_am]').val();
-	var bk_amount = $('#phyFaciMng input[name=bk_amount]').val();
-	var contents_yycnt = $('#phyFaciMng input[name=contents_yycnt]').val();
-	var oper_ct = $('#phyFaciMng input[name=oper_ct]').val();
-	var oper_ern = $('#phyFaciMng input[name=oper_ern]').val();
+	var oper_year 		= $('#phyFaciMng select[name=oper_year]').val();
+	var acqs_amount 	= $('#phyFaciMng input[name=acqs_amount]').val();
+	var dprc_am 		= $('#phyFaciMng input[name=dprc_am]').val();
+	var dprc_acmtl_am 	= $('#phyFaciMng input[name=dprc_acmtl_am]').val();
+	var bk_amount 		= $('#phyFaciMng input[name=bk_amount]').val();
+	var contents_yycnt 	= $('#phyFaciMng input[name=contents_yycnt]').val();
+	var oper_ct 		= $('#phyFaciMng input[name=oper_ct]').val();
+	var oper_ern 		= $('#phyFaciMng input[name=oper_ern]').val();
 	
 	if (acqs_amount == '' || dprc_am == '' || dprc_acmtl_am == '' || bk_amount == '' || oper_ct == '' || oper_ern == '') {
 		alert("상세정보를 모두 입력해주세요");
@@ -548,8 +548,8 @@ function insertPhyMng(gid) {
 			url : "/job/fcmr/phfc/checkPhyMngYear.do",
 			dataType : "json",
 			data : {
-				"gid" : gid,
-				"oper_year" : oper_year
+				"gid" 			: gid,
+				"oper_year" 	: oper_year
 			},
 			success : function(data) {
 				if (data.result > 0) {
@@ -564,15 +564,15 @@ function insertPhyMng(gid) {
 							url : "/job/fcmr/phfc/updatePhyMng.do",
 							dataType : "json",
 							data : {
-								"gid" : gid,
-								"oper_year" : oper_year,
-								"acqs_amount" : acqs_amount,
-								"dprc_am" : dprc_am,
-								"dprc_acmtl_am" : dprc_acmtl_am,
-								"bk_amount" : bk_amount,
-								"contents_yycnt" : contents_yycnt,
-								"oper_ct" : oper_ct,
-								"oper_ern" : oper_ern
+								"gid" 				: gid,
+								"oper_year" 		: oper_year,
+								"acqs_amount" 		: acqs_amount,
+								"dprc_am" 			: dprc_am,
+								"dprc_acmtl_am" 	: dprc_acmtl_am,
+								"bk_amount" 		: bk_amount,
+								"contents_yycnt" 	: contents_yycnt,
+								"oper_ct" 			: oper_ct,
+								"oper_ern" 			: oper_ern
 							},
 							success : function(data) {
 								getPhyMngView(gid);	// 운영정보 관리 화면
@@ -597,15 +597,15 @@ function insertPhyMng(gid) {
 							url : "/job/fcmr/phfc/insertPhyMng.do",
 							dataType : "json",
 							data : {
-								"gid" : gid,
-								"oper_year" : oper_year,
-								"acqs_amount" : acqs_amount,
-								"dprc_am" : dprc_am,
-								"dprc_acmtl_am" : dprc_acmtl_am,
-								"bk_amount" : bk_amount,
-								"contents_yycnt" : contents_yycnt,
-								"oper_ct" : oper_ct,
-								"oper_ern" : oper_ern
+								"gid" 				: gid,
+								"oper_year" 		: oper_year,
+								"acqs_amount" 		: acqs_amount,
+								"dprc_am" 			: dprc_am,
+								"dprc_acmtl_am" 	: dprc_acmtl_am,
+								"bk_amount" 		: bk_amount,
+								"contents_yycnt" 	: contents_yycnt,
+								"oper_ct" 			: oper_ct,
+								"oper_ern" 			: oper_ern
 							},
 							success : function(data) {
 								$('.align-right').val('');
@@ -656,8 +656,8 @@ function deletePhyMng() {
 			url : "/job/fcmr/phfc/deletePhyMng.do",
 			dataType : "json",
 			data : {
-				"gid" : gid,
-				"oper_year" : oper_year
+				"gid" 			: gid,
+				"oper_year" 	: oper_year
 			},
 			success : function(data){
 				$('.align-right').val('');
@@ -741,13 +741,13 @@ function getPhyFaciMngViewPaging(pageIndex, gid) {
 function insertPhyFaciMng(gid) {
 	//alert('시설정보 등록 GID: ' + gid);
 	
-	var asstn_fclty_nm = $('#phyMng input[name=asstn_fclty_nm]').val();
-	var oper_strt_time = $('#phyMng select[name=oper_strt_time]').val() + ':00';
-	var oper_end_time = $('#phyMng select[name=oper_end_time]').val() + ':00';
-	var rsrv_at = $('#phyMng input:radio[name=rsrv_at]:checked').val();
-	var ho_cnt = $('#phyMng input[name=ho_cnt]').val();
-	var fclty_dc = $('#phyMng input[name=fclty_dc]').val();
-	var geom = 'POINT(1011725.6322952138 1949131.3901101280)';//$('#phyMng #geom').val();
+	var asstn_fclty_nm 	= $('#phyMng input[name=asstn_fclty_nm]').val();
+	var oper_strt_time 	= $('#phyMng select[name=oper_strt_time]').val() + ':00';
+	var oper_end_time 	= $('#phyMng select[name=oper_end_time]').val() + ':00';
+	var rsrv_at 		= $('#phyMng input:radio[name=rsrv_at]:checked').val();
+	var ho_cnt 			= $('#phyMng input[name=ho_cnt]').val();
+	var fclty_dc 		= $('#phyMng input[name=fclty_dc]').val();
+	var geom 			= 'POINT(1011725.6322952138 1949131.3901101280)';//$('#phyMng #geom').val();
 	
 	if (asstn_fclty_nm == '') {
 		alert('시설명을 입력해주세요.');
@@ -769,14 +769,14 @@ function insertPhyFaciMng(gid) {
 				url : "/job/fcmr/phfc/insertPhyFaciMng.do",
 				dataType : "json",
 				data : {
-					"gid" : gid,
-					"asstn_fclty_nm" : asstn_fclty_nm,
-					"oper_strt_time" : oper_strt_time,
-					"oper_end_time" : oper_end_time,
-					"rsrv_at" : rsrv_at,
-					"ho_cnt" : ho_cnt,
-					"fclty_dc" : fclty_dc,
-					"geom" : geom
+					"gid" 				: gid,
+					"asstn_fclty_nm" 	: asstn_fclty_nm,
+					"oper_strt_time" 	: oper_strt_time,
+					"oper_end_time" 	: oper_end_time,
+					"rsrv_at" 			: rsrv_at,
+					"ho_cnt" 			: ho_cnt,
+					"fclty_dc" 			: fclty_dc,
+					"geom" 				: geom
 				},
 				success : function(data) {
 					$('.align-right').val('');
@@ -826,8 +826,8 @@ function deletePhyFaciMng() {
 			url : "/job/fcmr/phfc/deletePhyFaciMng.do",
 			dataType : "json",
 			data : {
-				"gid" : gid,
-				"facList" : facList
+				"gid" 		: gid,
+				"facList" 	: facList
 			},
 			success : function(data) {
 				$('.align-right').val('');
