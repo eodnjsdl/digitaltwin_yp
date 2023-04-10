@@ -32,7 +32,7 @@ function codeArrayInit(){
       ];
 	
 	setCmmCodeDataArray("SA-001", codeData);	//지형지물부호	SA-001 임의로 만든
-	setCmmCodeDataArray("YPE001 ");				//읍면동 코드
+	setCmmCodeDataArray("YPE001");				//읍면동 코드
 	setCmmCodeDataArray("MNG-001");				//관리기관	
 	setCmmCodeDataArray("OGC-048");				//소화전 형식
 	
@@ -103,7 +103,7 @@ function getCmmCodeData(codeId, selectBoxTag, selectedValue) {
     	
     	const list = JSON.parse(response)["list"];
     	
-    	setCmmCodeDataArray(codeId, list);		//전역 코드 배열 처리
+    	//setCmmCodeDataArray(codeId, list);		//전역 코드 배열 처리
     	
     	if(selectBoxTag){
     		

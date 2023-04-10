@@ -135,7 +135,7 @@ map2d.vector = (function () {
             marker: {
                 src: options.img
             },
-            text: {
+            label: {
                 text: options.text,
                 column: options.column
             }
@@ -202,14 +202,18 @@ map2d.vector = (function () {
 
     function styleFunction(feature, resolution) {
         let styleOpt = feature.get('style') || {};
-        if (typeof styleOpt === 'function') {
-            styleOpt = styleOpt(feature);
+        // if (typeof styleOpt === 'function') {
+        //     styleOpt = styleOpt(feature);
+        // }
+        const styleFnc = feature.get('_style');
+        if (styleFnc && typeof styleFnc === 'function') {
+            styleOpt = styleFnc(feature);
         }
 
         const selected = feature.get('_selected');
         const geom = feature.getGeometry();
-        const fill = fillStyle(merge(DEFAULT_FILL, styleOpt.fill), selected);
-        const stroke = strokeStyle(merge(DEFAULT_STROKE, styleOpt.stroke), selected);
+        const fill = fillStyle(_.merge(DEFAULT_FILL, styleOpt.fill), selected);
+        const stroke = strokeStyle(_.merge(DEFAULT_STROKE, styleOpt.stroke), selected);
         const style = new ol.style.Style({
             zIndex: selected ? 9999 : undefined
         });
@@ -219,7 +223,7 @@ map2d.vector = (function () {
             if (styleOpt.label.column) {
                 styleOpt.label.text = feature.get(styleOpt.label.column);
             }
-            style.setText(textStyle(merge(DEFAULT_LABEL, styleOpt.label)));
+            style.setText(textStyle(_.merge(DEFAULT_LABEL, styleOpt.label)));
         }
 
         if (geom instanceof ol.geom.Polygon || geom instanceof ol.geom.MultiPolygon) {
@@ -229,7 +233,7 @@ map2d.vector = (function () {
         } else if (geom instanceof ol.geom.LineString || geom instanceof ol.geom.MultiLineString) {
             style.setStroke(stroke)
             return [style,
-                ...lineStyle(feature, resolution, merge(DEFAULT_STROKE, styleOpt.stroke))]
+                ...lineStyle(feature, resolution, _.merge(DEFAULT_STROKE, styleOpt.stroke))]
         } else if (geom instanceof ol.geom.Circle) {
             style.setFill(fill);
             style.setStroke(stroke);
@@ -237,9 +241,9 @@ map2d.vector = (function () {
         } else if (geom instanceof ol.geom.Point || geom instanceof ol.geom.MultiPoint) {
             if (styleOpt.marker && styleOpt.marker.src) {
                 //마커
-                style.setImage(markerStyle(merge(DEFAULT_MARKER, styleOpt.marker), selected));
+                style.setImage(markerStyle(_.merge(DEFAULT_MARKER, styleOpt.marker), selected));
             } else if (styleOpt.text) {
-                style.setText(textStyle(merge(DEFAULT_LABEL, styleOpt.text)));
+                style.setText(textStyle(_.merge(DEFAULT_LABEL, styleOpt.text)));
             } else {
                 //포인트
                 style.setImage(pointStyle(fill, stroke, styleOpt.radius || DEFAULT_RADIUS, styleOpt.shape));
@@ -247,10 +251,6 @@ map2d.vector = (function () {
 
             return style;
         }
-    }
-
-    function merge(a, b) {
-        return {...a, ...b}
     }
 
     function fillStyle(options, selected) {
@@ -474,7 +474,9 @@ map2d.vector = (function () {
                     )
                 );
             }
-            if (style) {
+            if (typeof style === 'function') {
+                feature.set('_style', style);
+            } else {
                 feature.set('style', style);
             }
             return feature;
@@ -492,6 +494,7 @@ map2d.vector = (function () {
                 cloned.set('circleRadius', geom.getRadius());
                 cloned.set('type', 'Circle')
             }
+            cloned.unset('_style', true);
             return cloned;
         });
         return format.writeFeatures(features);
@@ -506,6 +509,17 @@ map2d.vector = (function () {
         _source.addFeatures(features)
     }
 
+    function removeFeatureByFilter(filter) {
+        const features = _source
+            .getFeatures()
+            .filter(function (feature) {
+                return filter(feature, feature.getProperties());
+            });
+        features.forEach((feature) => {
+            _source.removeFeature(feature);
+        });
+    }
+
     let module = {
         init: init,
         addPoint: addPoint,
@@ -518,6 +532,7 @@ map2d.vector = (function () {
         readGeoJson: readGeoJson,
         select: select,
         writeGeoJson: writeGeoJson,
+        removeFeatureByFilter: removeFeatureByFilter
     }
 
     Object.defineProperties(module, {

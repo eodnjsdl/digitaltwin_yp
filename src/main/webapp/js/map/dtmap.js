@@ -45,6 +45,11 @@ window.dtmap = (function () {
      * export function
      */
 
+    /**
+     * 지도 모드 전환
+     * @param {string} mod '2D' || '3D'
+     * @return {Promise<void>}
+     */
     async function switchMap(mod) {
         if (_cur_mode === mod) {
             return;
@@ -76,21 +81,56 @@ window.dtmap = (function () {
         }
     }
 
+    /**
+     * 줌인
+     */
     function zoomIn() {
         call('zoomIn');
     }
 
+    /**
+     * 줌아웃
+     */
     function zoomOut() {
         call('zoomOut');
     }
 
+    /**
+     * 중심점 가져오기
+     * @return {number} [x,y] || [x,y,z]
+     */
+    function getCenter() {
+        return call('getCenter');
+    }
+
+    /**
+     * 중심점 설정하기
+     * @param {number[]} center [x,y]
+     */
     function setCenter(center) {
         call('setCenter', center);
     }
 
+    /**
+     * 지도 영역 가져오기
+     * @return {number[]} [minX,minY,maxX,maxY]
+     */
     function getExtent() {
         return call('getExtent');
     }
+
+    /**
+     * 레이어 가시화함수
+     * @param options
+     * @param {string} options.id 아이디
+     * @param {string} options.type 종류
+     * @param {boolean} options.visible 가시화 여부
+     * @param {string} options.table
+     * @param {string} options.store
+     * @param {string} options.shpType (현행에서 쓰이던 인자 분석필요)
+     * @param {string} options.layerNm 레이어 서비스 명
+     *
+     */
 
     function showLayer(options) {
         let {id, type, visible, table, store, shpType, layerNm} = options;
@@ -110,14 +150,25 @@ window.dtmap = (function () {
         call('clearInteraction');
     }
 
+    /**
+     * 지도 초기화
+     * 레이어를 제외한 사용자가 지도에 추가한 객체들을 초기화함.
+     */
     function clear() {
         call('clear');
     }
 
+    /**
+     * 초기위치 이동
+     */
     function goHome() {
         call('goHome');
     }
 
+    /**
+     * 배경지도 설정함수
+     * @param {string} name 배경지도 서비스명 'emap' || 'air'
+     */
     function setBaseLayer(name) {
         call('setBaseLayer', name)
     }
@@ -343,14 +394,33 @@ window.dtmap = (function () {
         }
     }
 
+    /**
+     * 지도 이벤트 리스너 등록
+     * @param {string} type 이벤트 타입 'click', 'dbclick', 'drawstart', 'drawend', 'select'
+     * @param {function} listener
+     * @return {EventEmitter}
+     */
     function on(type, listener) {
         return _eventEmitter.addListener(type, listener);
     }
 
+    /**
+     * 지도 이벤트 리스너 등록
+     * 이벤트 1회 발생후 리스너는 삭제.
+     * @param {string} type 이벤트 타입 'click', 'dbclick', 'drawstart', 'drawend', 'select'
+     * @param {function} listener
+     * @return {EventEmitter}
+     */
     function once(type, listener) {
         return _eventEmitter.addOnceListener(type, listener);
     }
 
+    /**
+     * 지도 이벤트 리스너 삭제
+     * @param {string} type 이벤트 타입 'click', 'dbclick', 'drawstart', 'drawend', 'select'
+     * @param {function} listener
+     * @return {EventEmitter}
+     */
     function off(type, listener) {
         if (listener) {
             return _eventEmitter.removeListener(type, listener);
@@ -359,10 +429,28 @@ window.dtmap = (function () {
         }
     }
 
+    /**
+     * 지도 이벤트 발생
+     * @param {string} type 이벤트 타입 'click', 'dbclick', 'drawstart', 'drawend', 'select'
+     * @param {Any} data
+     * @return {*}
+     */
     function trigger(type, data) {
         return _eventEmitter.trigger(type, [data]);
     }
 
+    /**
+     * 지도 이미지 추출
+     * 현재 지도화면을 base64 스트링으로 반환
+     * @return {Promise}
+     */
+    function toImage() {
+        const promise = $.Deferred();
+        html2canvas(getMap().container).then(canvas => {
+            promise.resolve(canvas.toDataURL());
+        });
+        return promise;
+    }
 
     const module = {
         init: init,
@@ -370,6 +458,7 @@ window.dtmap = (function () {
         zoomIn: zoomIn,
         zoomOut: zoomOut,
         switchMap: switchMap,
+        getCenter: getCenter,
         setCenter: setCenter,
         getExtent: getExtent,
         showLayer: showLayer,
@@ -380,7 +469,8 @@ window.dtmap = (function () {
         on: on,
         once: once,
         off: off,
-        trigger: trigger
+        trigger: trigger,
+        toImage: toImage
     }
 
     Object.defineProperties(module, {

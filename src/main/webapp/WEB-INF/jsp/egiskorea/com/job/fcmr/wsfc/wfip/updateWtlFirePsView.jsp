@@ -180,6 +180,38 @@
 			console.log("상세보기 좌표 오류");
 		}
         
+		
+		
+		// 지도에서 선택
+        $(".btn-select-map", this.element).on("click", function () {
+        	console.log( '수정화면');
+        	alert(this);
+        	
+            /* this.editingTool = new EditingTool(
+                that.geometryType,
+                that.feature.getGeometry(),
+                (geometry) => {
+                    this.feature.setGeometry(geometry);
+                    this.getAddress(geometry).done((result) => {
+                        if (result["address"]) {
+                            this.address = result["address"];
+                        } else {
+                            this.address = "";
+                        }
+                        $(".txt-geometry-address", that.selector).val(this.address);
+                    });
+
+                    const format = new ol.format.WKT();
+                    cmmUtil.highlightGeometry(format.writeGeometry(geometry));
+
+                    this.editingTool = null;
+                }
+            ); */
+            
+        });
+		
+		
+		
 	});
 
 </script>
