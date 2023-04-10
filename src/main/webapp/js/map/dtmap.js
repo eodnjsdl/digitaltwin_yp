@@ -367,6 +367,13 @@ window.dtmap = (function () {
         return _eventEmitter.trigger(type, [data]);
     }
 
+    function toImage() {
+        const promise =  $.Deferred();
+        html2canvas(getMap().container).then(canvas => {
+            promise.resolve(canvas.toDataURL());
+        });
+        return promise;
+    }
 
     const module = {
         init: init,
@@ -385,7 +392,8 @@ window.dtmap = (function () {
         on: on,
         once: once,
         off: off,
-        trigger: trigger
+        trigger: trigger,
+        toImage : toImage
     }
 
     Object.defineProperties(module, {
