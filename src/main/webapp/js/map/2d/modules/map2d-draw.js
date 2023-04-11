@@ -45,6 +45,7 @@ map2d.draw = (function () {
      */
 
 
+
     /**
      * @param options {object}
      * @param [options.type="Polygon"] {string} 'Point', 'LineString', 'Polygon', 'Rectangle', 'Triangle', 'Box', 'Marker', 'Text'
@@ -68,6 +69,11 @@ map2d.draw = (function () {
      *
      * //편집 완료된 결과 받기
      * dtmap.draw.writeGeoJson(); //결과 GeoJson String 리턴
+     *
+     * //버퍼 적용하기
+     * dtmap.draw.setBuffer(10); //적용
+     *
+     * dtmap.draw.setBuffer(0); //해제
      *
      */
     function active(options) {
@@ -368,7 +374,6 @@ map2d.draw = (function () {
         const buffered = jstsGeom.buffer(buffer);
         return parser.write(buffered);
     }
-
 
     function readGeoJson(json, style) {
         if (typeof json === 'string') {
