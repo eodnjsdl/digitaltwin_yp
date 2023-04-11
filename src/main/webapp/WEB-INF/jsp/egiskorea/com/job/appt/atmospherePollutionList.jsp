@@ -64,8 +64,8 @@
 										<thead>
 											<tr>
 												<th scope="col">관측소명</th>
-												<th scope="col">미세</th>
-												<th scope="col">초미세</th>
+												<th scope="col">미세먼지</th>
+												<th scope="col">초미세먼지</th>
 												<th scope="col">통합대기환경지수</th>
 												<th scope="col"></th>
 											</tr>
