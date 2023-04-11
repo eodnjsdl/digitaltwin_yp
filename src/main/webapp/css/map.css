@@ -43,7 +43,7 @@ html, body {
 #header .logo a {
 	display: block;
 	height: 100%;
-	background: url(/yp_dt_new/images/common/logo.png) no-repeat 50% 0;
+	background: url(/images/common/logo.png) no-repeat 50% 0;
 	text-indent: -9999px;
 }
 
@@ -73,7 +73,7 @@ html, body {
 	left: 8px;
 	width: 20px;
 	height: 20px;
-	background: url(/yp_dt_new/images/common/hd-user.png) no-repeat 50% / cover;
+	background: url(/images/common/hd-user.png) no-repeat 50% / cover;
 	vertical-align: middle;
 }
 
@@ -83,7 +83,7 @@ html, body {
 	width: 19px;
 	height: 19px;
 	border: 1px solid #44516A;
-	background: #fff url(/yp_dt_new/images/common/bi-userModify.svg) no-repeat 50% 50%;
+	background: #fff url(/images/common/bi-userModify.svg) no-repeat 50% 50%;
 	border-radius: 50%;	
 	vertical-align: middle;
 	margin-top: 1px;
@@ -93,7 +93,7 @@ html, body {
 
 #header .util-box .user-btn:hover, #header .util-box .user-btn.active {
 	border-color: #1C77FF;
-	background: #1C77FF url(/yp_dt_new/images/common/bi-userModify-on.svg) no-repeat 50% 50%;
+	background: #1C77FF url(/images/common/bi-userModify-on.svg) no-repeat 50% 50%;
 }
 
 #header .logout-btn {
@@ -116,7 +116,7 @@ html, body {
 	margin: -2px 5px 0 0;
 	width: 23px;
 	height: 23px;
-	background: url(/yp_dt_new/images/common/bi-logout.svg) no-repeat 50% 50%;
+	background: url(/images/common/bi-logout.svg) no-repeat 50% 50%;
 	vertical-align: middle;
 	-webkit-transition: background .1s;
 	transition: background .1s;
@@ -128,7 +128,7 @@ html, body {
 }
 
 #header .logout-btn:hover::before {
-	background: url(/yp_dt_new/images/common/bi-logout-hover.svg) no-repeat 50% 50%;
+	background: url(/images/common/bi-logout-hover.svg) no-repeat 50% 50%;
 }
 
 #header .util-box .GNB {
@@ -291,7 +291,7 @@ html, body {
 	margin-left: -4px;
 	width: 8px;
 	height: 7px;
-	background: url(/yp_dt_new/images/map/toolTip-arrow-top.png) no-repeat 50% 50%;
+	background: url(/images/map/toolTip-arrow-top.png) no-repeat 50% 50%;
 }
 
 /*------------------------------------------------------------------------------
@@ -335,19 +335,19 @@ html, body {
 }
 
 .map-board .notice-btn {
-	background-image: url(/yp_dt_new/images/map/map-notice.svg);
+	background-image: url(/images/map/map-notice.svg);
 }
 
 .map-board .notice-btn.active {
-	background-image: url(/yp_dt_new/images/map/map-notice-on.svg);
+	background-image: url(/images/map/map-notice-on.svg);
 }
 
 .map-board .qna-btn {
-	background-image: url(/yp_dt_new/images/map/map-board.svg);
+	background-image: url(/images/map/map-board.svg);
 }
 
 .map-board .qna-btn.active {
-	background-image: url(/yp_dt_new/images/map/map-board-on.svg);
+	background-image: url(/images/map/map-board-on.svg);
 }
 
 /*------------------------------------------------------------------------------
@@ -433,14 +433,14 @@ html, body {
 .map-control .ctrl-btn.compass {
 	position: relative;
 	background-color: white;
-	background-image: url(/yp_dt_new/images/map/ctrl-compass-bg.svg);
+	background-image: url(/images/map/ctrl-compass-bg.svg);
 }
 
 .map-control .ctrl-btn.compass span {
 	display: block;
 	width: 100%;
 	height: 100%;
-	background: url(/yp_dt_new/images/map/ctrl-compass.svg) no-repeat 50% 50%;
+	background: url(/images/map/ctrl-compass.svg) no-repeat 50% 50%;
 	
 }
 
@@ -448,15 +448,15 @@ html, body {
 	border-top: 1px solid #E8E8E8;
 }
 
-.map-control .reset {background-image: url(/yp_dt_new/images/map/ctrl-reset.svg);}
-.map-control .globe {background-image: url(/yp_dt_new/images/map/ctrl-globe.svg);}
-.map-control .location {background-image: url(/yp_dt_new/images/map/ctrl-location.svg);}
-.map-control .distance {background-image: url(/yp_dt_new/images/map/ctrl-distance.svg);}
-.map-control .measure {background-image: url(/yp_dt_new/images/map/ctrl-measure.svg);}
-.map-control .radius {background-image: url(/yp_dt_new/images/map/ctrl-radius.svg);}
+.map-control .reset {background-image: url(/images/map/ctrl-reset.svg);}
+.map-control .globe {background-image: url(/images/map/ctrl-globe.svg);}
+.map-control .location {background-image: url(/images/map/ctrl-location.svg);}
+.map-control .distance {background-image: url(/images/map/ctrl-distance.svg);}
+.map-control .measure {background-image: url(/images/map/ctrl-measure.svg);}
+.map-control .radius {background-image: url(/images/map/ctrl-radius.svg);}
 
-.map-control .scaleUp {background-image: url(/yp_dt_new/images/map/ctrl-scaleUp.svg);}
-.map-control .scaleDown {background-image: url(/yp_dt_new/images/map/ctrl-scaleDown.svg);}
+.map-control .scaleUp {background-image: url(/images/map/ctrl-scaleUp.svg);}
+.map-control .scaleDown {background-image: url(/images/map/ctrl-scaleDown.svg);}
 
 
 
@@ -566,7 +566,7 @@ html, body {
 	width: 25px;
 	height: 25px;
 	background-color: #44516A;
-	background-image: url(/yp_dt_new/images/icon/icon-search.svg);
+	background-image: url(/images/icon/icon-search.svg);
 	background-repeat: no-repeat;
 	background-position: 50% 50%;
 	box-shadow: 0px 0px 4px #000;
@@ -753,7 +753,7 @@ html, body {
 	right: 17px;
 	width: 20px;
 	height: 20px;
-	background: url(/yp_dt_new/images/icon/legend-close.svg) no-repeat 50% 50%;
+	background: url(/images/icon/legend-close.svg) no-repeat 50% 50%;
 }
 
 .legend-group {
@@ -823,19 +823,19 @@ html, body {
 	background-color: #1C77FF;
 }
 
-.context .c01::before {background-image: url(/yp_dt_new/images/map/context-icon01.png);}
-.context .c02::before {background-image: url(/yp_dt_new/images/map/context-icon02.png);}
-.context .c03::before {background-image: url(/yp_dt_new/images/map/context-icon03.png);}
-.context .c04::before {background-image: url(/yp_dt_new/images/map/context-icon04.png);}
-.context .c05::before {background-image: url(/yp_dt_new/images/map/context-icon05.png);}
-.context .c06::before {background-image: url(/yp_dt_new/images/map/context-icon06.png);}
-.context .c07::before {background-image: url(/yp_dt_new/images/map/context-icon07.png);}
+.context .c01::before {background-image: url(/images/map/context-icon01.png);}
+.context .c02::before {background-image: url(/images/map/context-icon02.png);}
+.context .c03::before {background-image: url(/images/map/context-icon03.png);}
+.context .c04::before {background-image: url(/images/map/context-icon04.png);}
+.context .c05::before {background-image: url(/images/map/context-icon05.png);}
+.context .c06::before {background-image: url(/images/map/context-icon06.png);}
+.context .c07::before {background-image: url(/images/map/context-icon07.png);}
 
-.context .c01:hover::before {background-image: url(/yp_dt_new/images/map/context-icon01-on.png);}
-.context .c02:hover::before {background-image: url(/yp_dt_new/images/map/context-icon02-on.png);}
-.context .c03:hover::before {background-image: url(/yp_dt_new/images/map/context-icon03-on.png);}
-.context .c04:hover::before {background-image: url(/yp_dt_new/images/map/context-icon04-on.png);}
-.context .c05:hover::before {background-image: url(/yp_dt_new/images/map/context-icon05-on.png);}
-.context .c06:hover::before {background-image: url(/yp_dt_new/images/map/context-icon06-on.png);}
-.context .c07:hover::before {background-image: url(/yp_dt_new/images/map/context-icon07-on.png);}
+.context .c01:hover::before {background-image: url(/images/map/context-icon01-on.png);}
+.context .c02:hover::before {background-image: url(/images/map/context-icon02-on.png);}
+.context .c03:hover::before {background-image: url(/images/map/context-icon03-on.png);}
+.context .c04:hover::before {background-image: url(/images/map/context-icon04-on.png);}
+.context .c05:hover::before {background-image: url(/images/map/context-icon05-on.png);}
+.context .c06:hover::before {background-image: url(/images/map/context-icon06-on.png);}
+.context .c07:hover::before {background-image: url(/images/map/context-icon07-on.png);}
 
