@@ -91,13 +91,13 @@
 											</td>
 											<th scope="row">최저깊이</th>
 											<td>
-												<input type="text" name="low_dep" class="form-control" value="">
+												<input type="number" name="low_dep" class="form-control" value="">
 											</td>
 										</tr>
 										<tr>
 											<th scope="row">최고깊이</th>
 											<td>
-												<input type="text" name="hgh_dep" class="form-control" value="">
+												<input type="number" name="hgh_dep" class="form-control" value="">
 											</td>
 											<th scope="row">공사번호</th>
 											<td>

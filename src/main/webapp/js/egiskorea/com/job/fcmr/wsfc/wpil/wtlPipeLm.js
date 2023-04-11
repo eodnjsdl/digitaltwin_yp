@@ -52,7 +52,7 @@ function selectWtlPipeLmListView(){
 	            {key: "ftr_idn", 			label: "관리번호",			width:'*'},
 //	            {key: "hjd_cde", 			label: "읍면동code",		width:'*'},
 	            {key: "hjd_cde_nm", 		label: "읍면동",			width:'*'},
-	            {key: "mng_cde", 			label: "관리기관code",		width:'*'},
+//	            {key: "mng_cde", 			label: "관리기관code",		width:'*'},
 	            {key: "mng_cde_nm", 		label: "관리기관",			width:'*'},
 	            {key: "sht_num", 			label: "도엽번호",			width:'*'},
 	            {key: "ist_ymd", 			label: "설치일자",			width:'*'},
@@ -119,7 +119,7 @@ function selectWtlPipeLmList(page) {
 	let filterString = "";
 	
 	if(hjd_cde){
-		filters.push("hjd_cde" + " = " + hjd_cde+"00"); 
+		filters.push("hjd_cde" + " = " + hjd_cde); 
 	}
 	
 	if(saa_cde){

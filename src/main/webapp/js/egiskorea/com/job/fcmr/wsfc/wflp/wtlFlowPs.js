@@ -46,28 +46,28 @@ function selectWtlFlowPsListView(){
 	        sortable: true,
 	        multipleSelect: false,
 	        columns: [
-	            //{key: "gid", 				label: "아이디",			width:200},
-	            //{key: "ftr_cde", 			label: "지형지물부호code",	width:'*'},
+//	            {key: "gid", 				label: "아이디",			width:200},
+//	            {key: "ftr_cde", 			label: "지형지물부호code",	width:'*'},
 	            {key: "ftr_cde_nm", 		label: "지형지물부호",		width:'*'},
 	            {key: "ftr_idn", 			label: "관리번호",			width:'*'},
-	           // {key: "hjd_cde", 			label: "읍면동code",		width:'*'},
+//	            {key: "hjd_cde", 			label: "읍면동code",		width:'*'},
 	            {key: "hjd_cde_nm", 		label: "읍면동",			width:'*'},
-	            {key: "mng_cde", 			label: "관리기관code",		width:'*'},
+//	            {key: "mng_cde", 			label: "관리기관code",		width:'*'},
 	            {key: "mng_cde_nm", 		label: "관리기관",			width:'*'},
 	            {key: "sht_num", 			label: "도엽번호",			width:'*'},
 	            {key: "ist_ymd", 			label: "설치일자",			width:'*'},
-	            //{key: "gag_cde", 			label: "유량계종류code",	width:'*'},
+//	            {key: "gag_cde", 			label: "유량계종류code",	width:'*'},
 	            {key: "gag_cde_nm", 		label: "유량계종류",		width:'*'},
-	            //{key: "mof_cde", 			label: "유량계형식code",	width:'*'},
+//	            {key: "mof_cde", 			label: "유량계형식code",	width:'*'},
 	            {key: "mof_cde_nm", 		label: "유량계형식",		width:'*'},
 	            {key: "std_dip", 			label: "관경",			width:'*'},
-	            //{key: "prc_nam", 			label: "제작회사명",		width:100},
-	            //{key: "pip_cde", 			label: "관로지형지물부호",	width:100},
-	            //{key: "pip_idn", 			label: "관로관리번호",		width:100},
-	            //{key: "cnt_num", 			label: "공사번호",			width:100},
-	            //{key: "sys_chk", 			label: "대장초기화여부",	width:100},
-	            //{key: "ang_dir", 			label: "방향각",			width:100},
-	            //{key: "geom", 			label: "공간정보",			width:100}
+//	            {key: "prc_nam", 			label: "제작회사명",		width:100},
+//	            {key: "pip_cde", 			label: "관로지형지물부호",	width:100},
+//	            {key: "pip_idn", 			label: "관로관리번호",		width:100},
+//	            {key: "cnt_num", 			label: "공사번호",			width:100},
+//	            {key: "sys_chk", 			label: "대장초기화여부",	width:100},
+//	            {key: "ang_dir", 			label: "방향각",			width:100},
+//	            {key: "geom", 				label: "공간정보",			width:100}
 	        ],
 	        page: {
 	            navigationItemCount: 10,
@@ -113,7 +113,7 @@ function selectWtlFlowPsList(page) {
 	let filterString = "";
 	
 	if(hjd_cde){
-		filters.push("hjd_cde" + " = " + hjd_cde+"00"); 
+		filters.push("hjd_cde" + " = " + hjd_cde); 
 	}
 	
 	if(gag_cde){
