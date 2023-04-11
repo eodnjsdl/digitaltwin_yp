@@ -2671,6 +2671,58 @@
 
     </div>
 
+	<!-- 업데이트 안내 -->
+	<div class="basic-popup" style="width: 500px;">
+		<div class="basic-header"><p class="tit">업데이트 안내</p></div>
+		<div class="basic-body">
+			<div class="cont">
+				<p>2022.09.19기준 업데이트 </p>
+				<ul class="list-type1">
+					<li>내용</li>
+					<li>내용내용</li>
+				</ul>
+			</div>
+		</div>
+		<div class="basic-footer">
+			<form name="popupForm">
+				<span class="today-checkbox">
+					<input type="checkbox" name="expiredays" id="popup01"><label for="popup01">오늘 하루 팝업 더 이상 보지 않기</label>
+				</span>
+			</form>
+		</div>
+		<button type="button" class="basic-close" title="닫기"></button>
+		<script>
+			$(document).ready(function(){
+				$(".basic-popup .basic-close").click(function(){
+					$(".basic-popup").hide();
+				});
+				
+				function closePop(){
+					if(document.popupForm.expiredays.checked){
+						setCookie( "popup", "hide" , 1 );
+					}
+				}
+
+				function setCookie( cookieName, cookieValue, expireDate ){
+					var today = new Date();
+					today.setDate( today.getDate() + parseInt( expireDate ) );
+					document.cookie = cookieName + "=" + escape( cookieValue ) + "; path=/; expires=" + today.toGMTString() + ";";
+				}
+
+				$("#popup01").on("click", function(){
+					closePop();
+					$(this).parents(".basic-popup").hide();
+				});
+
+
+			  if(document.cookie.indexOf("popup=hide") < 0 ){
+					$(".basic-popup").show();
+				}else{
+					$(".basic-popup").hide();				
+				}
+			});
+		</script>					
+	</div>
     <!-- //container -->
 </div>
 
