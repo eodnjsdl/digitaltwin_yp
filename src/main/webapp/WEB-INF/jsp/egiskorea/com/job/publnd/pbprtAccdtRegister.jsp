@@ -44,7 +44,7 @@
 												<select id="ldcgCd" name="ldcgCd" class="form-select">
 													<c:if test="${fn:length(ldcgCdList) > 0}">
 														<c:forEach var="ldcgCdList" items="${ldcgCdList}">
-															<option value="${ldcgCdList.code}">${ldcgCdList.codeNm}</option>
+															<option value="<c:out value="${ldcgCdList.code}"/>"><c:out value="${ldcgCdList.codeNm}"/></option>
 														</c:forEach>
 													</c:if>
 												</select>

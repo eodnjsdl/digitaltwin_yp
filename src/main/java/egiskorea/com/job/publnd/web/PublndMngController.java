@@ -122,7 +122,9 @@ public class PublndMngController {
 		
 		try {
 			pbprtAccdtService.insertPbprtAccdtInfo(pbprtAccdtVO);
+			int no = pbprtAccdtVO.getPublndNo();
 			mav.addObject("status", "success");
+			mav.addObject("newPublndNo", no);
 		} catch (Exception e) {
 			mav.addObject("status", "fail");
 		}

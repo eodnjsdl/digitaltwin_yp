@@ -23,13 +23,13 @@
 		<!-- //검색영역 -->
 		<div class="items data-area">
 			<div class="bbs-top">
-				<div class="bbs-list-num">조회결과 : <strong>${cnt}</strong>건</div>
+				<div class="bbs-list-num">조회결과 : <strong><c:out value="${cnt}"/></strong>건</div>
 				<div class="bbs-top-side">
 					<select id="year" class="form-select">
 						<option value="allYear">전체</option>
 						<c:if test="${fn:length(yearList) > 0}">
 							<c:forEach var="yearList" items="${yearList}">
-								<option value="${yearList}">${yearList}</option>
+								<option value="<c:out value="${yearList}"/>"><c:out value="${yearList}"/></option>
 							</c:forEach>
 						</c:if>
  					</select>
@@ -51,5 +51,5 @@
 </div>
 <button type="button" class="manualBtn" title="도움말" onclick="manualTab()"></button>
 <button type="button" class="popup-close" title="닫기" onclick="removeLayer();"></button><!-- destroy(); 소멸자 -->
-<button type="button" class="popup-reset" class="초기화" onclick="bottomPopupOpen('pbprtAccdt');"></button>
+<button type="button" class="popup-reset" class="초기화" onclick="resetGrid();"></button>
 <button type="button" class="popup-bottom-toggle" title="접기" onclick="toggleFold(this);"></button>				

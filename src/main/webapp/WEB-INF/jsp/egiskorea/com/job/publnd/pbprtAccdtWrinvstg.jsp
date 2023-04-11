@@ -52,19 +52,19 @@
 								<td id="rm" class="fontSj">비고</td>
 							</tr>
 							<tr>
-								<td><input type="text" name="publndSe" value="${pbprtInfo.publndSe }"></td>
-								<td><input type="text" name="locplc" value="${pbprtInfo.locplc }" disabled></td>
+								<td><input type="text" name="publndSe" value="<c:out value="${pbprtInfo.publndSe }"/>"></td>
+								<td><input type="text" name="locplc" value="<c:out value="${pbprtInfo.locplc }"/>" disabled></td>
 								<td>
-									<input type="text" value="${pbprtInfo.ldcgCdNm }" disabled>
-									<input type="hidden" name="ldcgCd" value="${pbprtInfo.ldcgCd }" disabled>
+									<input type="text" value="<c:out value="${pbprtInfo.ldcgCdNm }"/>" disabled>
+									<input type="hidden" name="ldcgCd" value="<c:out value="${pbprtInfo.ldcgCd }"/>" disabled>
 								</td>
-								<td><input type="number" name="ar" value="${pbprtInfo.ar }" disabled></td>
+								<td><input type="number" name="ar" value="<c:out value="${pbprtInfo.ar }"/>" disabled></td>
 								<td>
-									<input type="number" name="oalp" value="${pbprtInfo.oalp }" 
+									<input type="number" name="oalp" value="<c:out value="${pbprtInfo.oalp }"/>" 
 										<c:if test="${pbprtInfo.oalp ne null }">value="${pbprtInfo.oalp }"</c:if>
 										<c:if test="${pbprtInfo.oalp eq null }">value="0"</c:if>>
 								</td>
-								<td><input type="text" name="rm" value="${pbprtInfo.rm }" disabled></td>
+								<td><input type="text" name="rm" value="<c:out value="${pbprtInfo.rm }"/>" disabled></td>
 							</tr>
 							<tr>
 								<td class="nullTd" colspan="6"></td>
@@ -77,11 +77,11 @@
 								<td id="loan" class="fontSj">대부자</td>
 								<td id="loanAddr" class="fontSj">주소</td>
 								<td>
-									<input type="text" value="${pbprtInfo.addr }" disabled>
+									<input type="text" value="<c:out value="${pbprtInfo.addr }"/>" disabled>
 								</td>
 								<td id="loanNm" class="fontSj">성명</td>
 								<td id="loanNmValue">
-									<input type="text" value="${pbprtInfo.nm }" disabled>
+									<input type="text" value="<c:out value="${pbprtInfo.nm }"/>" disabled>
 								</td>
 							</tr>
 						</tbody>
@@ -97,11 +97,11 @@
 							<tr>
 								<td>
 									<input type="number" name="possesnAr" 
-										<c:if test="${pbprtInfo.possesnAr ne null }">value="${pbprtInfo.possesnAr }"</c:if>
+										<c:if test="${pbprtInfo.possesnAr ne null }">value="${pbprtInfo.possesnAr}"</c:if>
 										<c:if test="${pbprtInfo.possesnAr eq null }">value="0"</c:if>>
 								</td>
-								<td><input type="text" name="possesnCn" value="${pbprtInfo.possesnCn }"></td>
-								<td><input type="text" value="${pbprtInfo.cttpc }" disabled></td>
+								<td><input type="text" name="possesnCn" value="<c:out value="${pbprtInfo.possesnCn}"/>"></td>
+								<td><input type="text" value="<c:out value="${pbprtInfo.cttpc}"/>" disabled></td>
 							</tr>
 						</tbody>
 					</table>
@@ -110,7 +110,7 @@
 							<tr>
 								<td id="loanPosblYn" class="fontSj">대부가능여부</td>
 								<td id="loanPosblYnValue">
-									<input type="text" name="loanPosblYn" value="${pbprtInfo.loanPosblYn }">
+									<input type="text" name="loanPosblYn" value=<c:out value="${pbprtInfo.loanPosblYn }"/>">
 								</td>
 							</tr>
 						</tbody>
@@ -119,11 +119,11 @@
 						<tbody>
 							<tr>
 								<td id="bsrpCn" class="fontSj">출장내용</td>
-								<td id="bsrpCnValue" contenteditable="true">${pbprtInfo.bsrpCn}</td>
+								<td id="bsrpCnValue" contenteditable="true"><c:out value="${pbprtInfo.bsrpCn}"/></td>
 							</tr>
 							<tr>
 								<td id="exmnr" class="fontSj">조사자</td>
-								<td id="exmnrValue" contenteditable="true">${pbprtInfo.exmnr}</td>
+								<td id="exmnrValue" contenteditable="true"><c:out value="${pbprtInfo.exmnr}"/></td>
 							</tr>
 						</tbody>
 					</table>
@@ -169,11 +169,11 @@
 							</tr>
 						</tbody>
 					</table>
-					<input type="hidden" name="wrtYn" value="${pbprtInfo.wrtYn }">
-					<input type="hidden" name="publndNo" value="${pbprtInfo.publndNo }">
+					<input type="hidden" name="wrtYn" value="<c:out value="${pbprtInfo.wrtYn }"/>">
+					<input type="hidden" name="publndNo" value="<c:out value="${pbprtInfo.publndNo }"/>">
 					<input type="hidden" id="fileDelYn" name="fileDelYn" value="N">
-					<input type="hidden" id="satlitPhotoSn" name="satlitPhotoSn" value="${pbprtInfo.satlitPhotoSn}">
-					<input type="hidden" id="sptPhotoSn" name="sptPhotoSn" value="${pbprtInfo.sptPhotoSn}">
+					<input type="hidden" id="satlitPhotoSn" name="satlitPhotoSn" value="<c:out value="${pbprtInfo.satlitPhotoSn}"/>">
+					<input type="hidden" id="sptPhotoSn" name="sptPhotoSn" value="<c:out value="${pbprtInfo.sptPhotoSn}"/>">
 				</form>
 			</div>
 		</div>
@@ -199,7 +199,7 @@
 						<span>등록</span>
 					</c:if>
 				</div>
-				<div onclick="removeInfo(${pbprtInfo.publndNo})">
+				<div onclick="removeInfo(<c:out value="${pbprtInfo.publndNo}"/>)">
 					<c:if test="${pbprtInfo.wrtYn ne 'N' }">
 						<span>삭제</span>
 					</c:if>

@@ -3,6 +3,11 @@
 * author : 백승석
 * since : 2023.02.21
 ********************************/
+
+/**
+ * 테이블 생성 및 테이블 데이터 불러오기
+ * @returns
+ */
 $(document.body).ready(function() {
 	dtmap.init();
 	initGrid();
@@ -195,12 +200,11 @@ function fn_update(publndNo) {
 				if (data.status == 'success') {
 					toastr.success("정상적으로 수정되었습니다.");
 					
-					$('#pbprtAccdtDtlView .pbprtAccdtInput').val('');
+					$('.pbprtAccdtInput').val('');
 					$("#rightSubPopup").empty();
 					ui.closeSubPopup("rightSubPopup");
 					fn_pageDetail(publndNo);
-//					$('#pbprtAccdtDtlView').remove();
-//					OLOAD.m_center_Polygon.removeAllObject();
+					resetGrid();
 					ui.loadingBar("hide");
 				} else {
 					toastr.error("관리자에게 문의 바랍니다.", "정보를 불러오지 못했습니다.");
@@ -220,8 +224,8 @@ function fn_update(publndNo) {
  */
 function insertPbprtAccdtInfo() {
 	if (confirm('등록 하시겠습니까?')) {
-		let formData = $('#pbprtAccdtRegisterView #dataRegistForm').serialize();
-		
+		let formData = $('#dataRegistForm').serialize();
+		let newPublndNo = '';
 		ui.loadingBar("show");
 		$.ajax({
 			data : formData,
@@ -231,10 +235,13 @@ function insertPbprtAccdtInfo() {
 			success : function(data) {
 				if (data.status == 'success') {
 					toastr.success("정상적으로 등록되었습니다.");
-					
-					$('#pbprtAccdtRegisterView .pbprtAccdtInput').val('');
+					newPublndNo = data.newPublndNo;
+					$('.pbprtAccdtInput').val('');
 //					cancelPutPbprtAccdtPopup();
-					bottomPopupOpen('pbprtAccdt');
+//					bottomPopupOpen('pbprtAccdt');
+					
+					resetGrid();
+					fn_pageDetail(newPublndNo);
 					
 					ui.loadingBar("hide");
 				} else {
@@ -243,7 +250,7 @@ function insertPbprtAccdtInfo() {
 					return;
 				}
 			}, complete : function(){
-				bottomPopupOpen('pbprtAccdt');
+//				bottomPopupOpen('pbprtAccdt');
 				ui.loadingBar("hide");
 			}
 		});
@@ -289,8 +296,10 @@ function updatePbprtAccdtInfoDel(publndNo) {
 					toastr.success("정상적으로 삭제되었습니다.");
 					
 					$('.pbprtAccdtInput').val('');
-					cancelPutPbprtAccdtPopup();
-					bottomPopupOpen('pbprtAccdt');
+//					cancelPutPbprtAccdtPopup();
+//					bottomPopupOpen('pbprtAccdt');
+					resetGrid();
+					ui.closeSubPopup("rightSubPopup");
 					ui.loadingBar("hide");
 				} else {
 					toastr.error('ERROR!');
@@ -298,7 +307,6 @@ function updatePbprtAccdtInfoDel(publndNo) {
 					return;
 				}
 			}, complete : function(){
-				bottomPopupOpen('pbprtAccdt');
 				ui.loadingBar("hide");
 			}
 		});
@@ -314,8 +322,7 @@ function updatePbprtAccdtInfoDel(publndNo) {
  */
 function updatePbprtAccdtInfo(publndNo) {
 	if (confirm('수정 하시겠습니까?')) {
-		let formData = $('#pbprtAccdtDtlView #dataRegistForm').serialize();
-		
+		let formData = $('#dataRegistForm').serialize();
 		
 		ui.loadingBar("show");
 		$.ajax({
@@ -327,10 +334,11 @@ function updatePbprtAccdtInfo(publndNo) {
 				if (data.status == 'success') {
 					toastr.success("정상적으로 수정되었습니다.");
 					
-					$('#pbprtAccdtDtlView .pbprtAccdtInput').val('');
-					bottomPopupOpen('pbprtAccdt');
-					$('#pbprtAccdtDtlView').remove();
-					OLOAD.m_center_Polygon.removeAllObject();
+					$('.pbprtAccdtInput').val('');
+//					bottomPopupOpen('pbprtAccdt');
+//					$('#pbprtAccdtDtlView').remove();
+//					OLOAD.m_center_Polygon.removeAllObject();
+					resetGrid();
 					ui.loadingBar("hide");
 				} else {
 					toastr.error('ERROR!');
@@ -338,7 +346,7 @@ function updatePbprtAccdtInfo(publndNo) {
 					return;
 				}
 			}, complete : function(){
-				bottomPopupOpen('pbprtAccdt');
+//				bottomPopupOpen('pbprtAccdt');
 				ui.loadingBar("hide");
 			}
 		});
@@ -371,8 +379,7 @@ function downloadPbprtAccdtExcel() {
  */
 function selectPbprtAccdtExcelUploadView(){
 	ui.loadingBar("show");
-	$('#pbprtAccdtExcelUploadView').remove();
-	
+	ui.openPopup("rightSubPopup");
 	$.ajax({
 		type : "POST",
 		url : "/job/publnd/selectPbprtAccdtExcelUploadView.do",
@@ -382,11 +389,11 @@ function selectPbprtAccdtExcelUploadView(){
 		async: false,
 		success : function(returnData, status){
 			if(status == "success") {		
-				$("#container").append(returnData);
-				
-				$(".scroll-y").mCustomScrollbar({
-					scrollbarPosition:"outside"
-				});
+				$("#rightSubPopup").append(returnData);
+//				
+//				$(".scroll-y").mCustomScrollbar({
+//					scrollbarPosition:"outside"
+//				});
 			
 			}else{ 
 				toastr.error("ERROR!");
