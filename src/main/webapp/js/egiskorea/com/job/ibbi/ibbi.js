@@ -142,18 +142,3 @@ $("#ibbiExcelDownload").on("click", function(){
 	$("form[name='"+ formName + "']").attr('onsubmit', 'fn_select_list(); return false;'); 
 	$("form[name='"+ formName + "']").attr('action', '');
 });
-
-function readGeoJSON(data) {
-    if (!data.crs || !data.features || data.features.length === 0) {
-        return;
-    }
-    var crs = data.crs.properties.name;
-    if (crs.includes('urn:ogc:def:crs:EPSG::')) {
-        crs = crs.replace('urn:ogc:def:crs:EPSG::', 'EPSG:');
-    }
-    var format = new ol.format.GeoJSON();
-    return format.readFeatures(data, {
-        dataProjection: crs,
-        featureProjection: map2d.map.getView().getProjection()
-    });
-}
