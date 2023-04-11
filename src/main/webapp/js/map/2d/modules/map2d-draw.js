@@ -53,6 +53,22 @@ map2d.draw = (function () {
      * @param {MarkerOption} [options.marker] 마커 (type="Marker" 일 경우에만 사용)
      * @param {TextOption} [options.text] 텍스트 (type="Text" 일 경우에만 사용)
      * @param {boolean} [options.once] 한번만 그리기 (도형 그릴때 기존 도형 삭제)
+     *
+     * @example 편집 예제
+     * const feature = dtmap.vector.getFeature(featureId); //편집대상 피쳐검색
+     * dtmap.draw.clear(); //그리기 소스 및 스냅레이어 초기화
+     * dtmap.draw.active({type:'Modify'}); //그리기 편집 활성화 'Modify' 'Translate'
+     * dtmap.draw.addFeatures(feature); //편집 대상 피쳐 추가
+     *
+     * //스냅레이어 설정
+     * dtmap.draw.setSnapLayer('digitaltwin:lsmd_cont_ldreg_41830');
+     *
+     * //스냅레이어 클리어
+     * dtmap.draw.clearSnapLayer();
+     *
+     * //편집 완료된 결과 받기
+     * dtmap.draw.writeGeoJson(); //결과 GeoJson String 리턴
+     *
      */
     function active(options) {
         // dispose();
@@ -181,18 +197,18 @@ map2d.draw = (function () {
 
     function onPointerMove(e) {
         map2d.map.getTargetElement().style.cursor = '';
-        const hit = map2d.map.hasFeatureAtPixel(e.pixel);
+        let hit = map2d.map.hasFeatureAtPixel(e.pixel);
         if (hit) {
             const selected = _select.getFeatures().getArray()[0];
-            const find = map2d.map.getFeaturesAtPixel(e.pixel)[0];
-            if (!selected || selected !== find) {
-                map2d.map.getTargetElement().style.cursor = hit ? 'pointer' : '';
+            if (selected) {
+                return;
             }
-        }
-
-
-        if (_select.getFeatures().getArray().length === 0) {
-            map2d.map.getTargetElement().style.cursor = map2d.map.hasFeatureAtPixel(e.pixel) ? 'pointer' : '';
+            const find = map2d.map.getFeaturesAtPixel(e.pixel)[0];
+            if (selected === find) {
+                return;
+            }
+            hit = hit && _source.hasFeature(find);
+            map2d.map.getTargetElement().style.cursor = hit ? 'pointer' : '';
         }
     }
 
@@ -270,7 +286,7 @@ map2d.draw = (function () {
 
     function writeWKT(index) {
         const format = new ol.format.WKT();
-        const features = _source.getFeatures();
+        const features = removePrivateProperty(_source.getFeatures());
         if (index !== undefined) {
             const feature = features[index];
             if (!feature) {
@@ -282,8 +298,28 @@ map2d.draw = (function () {
         } else {
             return format.writeFeatures(features);
         }
+    }
 
+    function removePrivateProperty(feature) {
+        if (!feature) {
+            return;
+        }
 
+        if (feature instanceof Array) {
+            const ary = [];
+            for (let i = 0; i < feature.length; i++) {
+                const f = removePrivateProperty(feature[i]);
+                if (f) {
+                    ary.push(f);
+                }
+            }
+            return ary;
+        } else {
+            const cloned = feature.clone();
+            cloned.unset('_style');
+            cloned.unset('_selected');
+            return cloned;
+        }
     }
 
     /**
@@ -381,11 +417,14 @@ map2d.draw = (function () {
     }
 
     function getSnapLayer() {
-
+        if (_snapLayer) {
+            return _snapLayer.get('name');
+        }
     }
 
     /**
      * 스냅 레이어 설정
+     * 성능을 고려해 줌레벨 16부터 가시화 됨
      * @param {string} name 레이어 서비스 명
      */
     function setSnapLayer(name) {
@@ -414,9 +453,10 @@ map2d.draw = (function () {
         if (!_snapLayer) {
             _snapLayer = new ol.layer.Vector({
                 source: _snapSource,
-                name: 'snapLayer',
                 zIndex: 998,
+                minZoom: 16,
             });
+            _snapLayer.set('name', name);
             map2d.map.addLayer(_snapLayer);
         }
 
@@ -440,9 +480,10 @@ map2d.draw = (function () {
             return;
         }
         if (features instanceof Array) {
-            return _source.addFeatures(features);
+            _source.addFeatures(features);
         } else {
-            return _source.addFeature(features);
+            _source.addFeature(features);
+            _select.getFeatures().push(features);
         }
     }
 
