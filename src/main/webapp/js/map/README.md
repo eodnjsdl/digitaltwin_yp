@@ -14,14 +14,15 @@
 @param {string} [options.cql] cql 필터 (cql필터 가 있을경우 json request로 수행)         -> 필터방식은 둘중 택 1
 @param {string | string[]} [options.filter] 필터 수식 (배열일 경우 and 연산으로 처리됨)   -> 필터방식은 둘중 택 1
  **/
+
  //1. XML Filter 방식
  dtmap.wfsGetFeature({
      typeNames : 'wtl_fire_ps',
      page : 1,
      perPage : 10,
-     sortBy : 'gid',
-     orderBy : 'ASC',
-     filter : ['gid > 10', 'gid < 20']
+     sortBy : 'gid', //정렬 컬럼명
+     orderBy : 'ASC', //정렬 방식
+     filter : ['gid > 10', 'gid < 20'] //조건이 여러개일 경우 배열, 단건일경우 스트링으로 입력
  })
 
 //2. CQL 방식
@@ -29,8 +30,8 @@ dtmap.wfsGetFeature({
      typeNames : 'wtl_fire_ps',
      page : 1,
      perPage : 10,
-     sortBy : 'gid',
-     orderBy : 'DESC',
+     sortBy : 'gid', //정렬 컬럼명
+     orderBy : 'DESC', //정렬 방식
      cql : 'gid > 10 and gid < 20'
  })
 ```
