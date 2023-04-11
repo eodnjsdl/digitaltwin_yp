@@ -1,0 +1,488 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper	namespace="publndMng">
+
+	<!-- 페이징 -->
+	<sql id="paginationPrefix">
+		SELECT *
+			FROM(
+				SELECT (ROW_NUMBER() OVER()) AS RN, TB.*
+			  	FROM(
+	</sql>
+
+	<sql id="paginationSuffix">
+				) AS TB
+			) AS TB_ALL
+		WHERE RN BETWEEN #{firstRow} AND #{lastRow}
+	</sql>
+	
+	<!-- 공유재산 실태조사 목록 조회 -->
+	<select id="selectPbprtAccdtList" resultType="pbprtAccdtVO">
+		<include refid="paginationPrefix" />
+			select pm.publnd_no 
+				 , pm.ctrt_ymd 
+				 , pm.cntrctpd 
+				 , pm.locplc 
+				 , c.code_nm ldcg_cd
+				 , pm.ar 
+				 , pm.loan_ar 
+				 , pm.loan_prpos 
+				 , pm.rrno 
+				 , pm.loanmn_sndng_yn 
+				 , pm.nm 
+				 , pm.addr 
+				 , pm.zip 
+				 , pm.cttpc 
+				 , pm.rm
+				 , pm.nht_sndng 
+				 , pm.atch_papers 
+				 , pm.cnfirm_matter  
+				 , pm.edit_yn
+				 , pm.year
+			  from 
+					(
+						select publnd_no 
+							 , ctrt_ymd 
+							 , cntrctpd 
+							 , locplc 
+							 , ldcg_cd 
+							 , ar 
+							 , loan_ar 
+							 , loan_prpos 
+							 , rrno 
+							 , loanmn_sndng_yn 
+							 , nm 
+							 , addr 
+							 , zip 
+							 , cttpc 
+							 , rm
+							 , nht_sndng 
+							 , atch_papers 
+							 , cnfirm_matter
+							 , edit_yn 
+							 , year
+						from tbd_publnd_mng 
+					   where del_yn = 'N'
+					   <if test="yearOption != null and yearOption != 'allYear'">
+					     and year = #{yearOption}
+					   </if>
+					) pm
+			inner join comtccmmndetailcode c on (c.code_id = 'J0200' and c.code = pm.ldcg_cd)
+			order by pm.publnd_no
+			<include refid="paginationSuffix" />
+	</select>
+	
+	<!-- 공유재산 실태조사 목록 조회 개수 -->
+	<select id="selectPbprtAccdtListCnt" resultType="int">
+		select COUNT(*) 
+		  from tbd_publnd_mng pm
+		 where del_yn = 'N'
+		 <if test="yearOption != null and yearOption != 'allYear'">
+	       and year = #{yearOption}
+	   	 </if>
+	</select>
+	
+	<!-- 공유재산 실태조사 정보 등록 -->
+	<insert id="insertPbprtAccdtInfo" parameterType="pbprtAccdtVO">
+		insert into tbd_publnd_mng 
+			(
+				  publnd_no 
+				, ctrt_ymd 
+				, cntrctpd 
+				, locplc 
+				, ldcg_cd 
+				, ar 
+				, loan_ar 
+				, loan_prpos 
+				, rrno 
+				, loanmn_sndng_yn 
+				, nm 
+				, addr 
+				, zip 
+				, cttpc 
+				, rm
+				, nht_sndng 
+				, atch_papers 
+				, cnfirm_matter
+				, edit_yn
+				, del_yn
+				, year
+			)
+		values 
+			(
+				  #{publndNo} 
+				, #{ctrtYmd} 
+				, #{cntrctpd} 
+				, #{locplc}
+				, #{ldcgCd}
+				, #{ar}
+				, #{loanAr}
+				, #{loanPrpos}
+				, #{rrno}
+				, #{loanmnSndngYn}
+				, #{nm}
+				, #{addr}
+				, #{zip}
+				, #{cttpc}
+				, #{rm}
+				, #{nhtSndng}
+				, #{atchPapers}
+				, #{cnfirmMatter}
+				, #{editYn}
+				, #{delYn}
+				, #{year}
+			)
+	</insert>
+	
+	<!-- 공유재산실태조사서 정보 등록 시, 공유재산번호최대값 가져오기 -->
+	<select id="selectPbprtAccdtTotCo" resultType="int">
+		select MAX(publnd_no) as publnd_no
+		  from tbd_publnd_mng
+	</select>
+	
+	<!-- 공유재산 실태조사 총 개수 -->
+	<select id="selectPbprtAccdtTotCount" resultType="int">
+		select COUNT(*) from tbd_publnd_mng
+	</select>
+	
+	<!-- 공유재산 실태조사 정보 사용안함변경 -->
+	<update id="updatePbprtAccdtInfoDel" parameterType="int">
+		update tbd_publnd_mng
+		   set del_yn = 'Y'
+		 where publnd_no = #{publndNo}
+	</update>
+	
+	<!-- 공유재산 실태조사 지목코드 목록 조회 -->
+	<select id="selectLdcgCdList" resultType="cmmnCdVO">
+		select code 
+			 , code_nm 
+		  from comtccmmndetailcode c
+		 where c.code_id = 'J0200'
+		 order by code_nm
+	</select>
+	
+	<!-- 공유재산 실태조사 상세정보 조회 -->
+	<select id="selectPbprtAccdtDtlInfo" parameterType="int" resultType="pbprtAccdtVO">
+		select publnd_no 
+			 , ctrt_ymd 
+			 , cntrctpd 
+			 , locplc 
+			 , ldcg_cd 
+			 , ar 
+			 , loan_ar 
+			 , loan_prpos 
+			 , rrno 
+			 , loanmn_sndng_yn 
+			 , nm 
+			 , addr 
+			 , zip 
+			 , cttpc 
+			 , rm
+			 , nht_sndng 
+			 , atch_papers 
+			 , cnfirm_matter
+			 , year
+		  from tbd_publnd_mng
+		 where publnd_no = #{publndNo}
+	</select>
+	
+	<!-- 공유재산 실태조사 상세정보 수정 -->
+	<update id="updatePbprtAccdtInfo" parameterType="pbprtAccdtVO">
+		update tbd_publnd_mng
+		   set ctrt_ymd = #{ctrtYmd} 
+		     , cntrctpd = #{cntrctpd} 
+			 , locplc = #{locplc}
+			 , ldcg_cd = #{ldcgCd} 
+			 , ar = #{ar}
+			 , loan_ar = #{loanAr}
+			 , loan_prpos = #{loanPrpos}
+			 , rrno = #{rrno}
+			 , loanmn_sndng_yn = #{loanmnSndngYn} 
+			 , nm = #{nm}
+			 , addr = #{addr}
+			 , zip = #{zip}
+			 , cttpc = #{cttpc}
+			 , rm = #{rm}
+			 , nht_sndng = #{nhtSndng} 
+			 , atch_papers = #{atchPapers}
+			 , cnfirm_matter = #{cnfirmMatter}
+			 , edit_yn = #{editYn}
+			 , del_yn = #{delYn}
+		 where publnd_no = #{publndNo}
+	</update>
+	
+	<!-- 공유재산 실태조사 엑셀 다운로드 -->
+	<select id="selectPbprtAccdtExcelList" parameterType="Map" resultType="pbprtAccdtVO">
+		select pm.publnd_no 
+				 , pm.ctrt_ymd 
+				 , pm.cntrctpd 
+				 , pm.locplc 
+				 , c.code_nm ldcg_cd
+				 , pm.ar 
+				 , pm.loan_ar 
+				 , pm.loan_prpos 
+				 , pm.rrno 
+				 , pm.loanmn_sndng_yn 
+				 , pm.nm 
+				 , pm.addr 
+				 , pm.zip 
+				 , pm.cttpc 
+				 , pm.rm
+				 , pm.nht_sndng 
+				 , pm.atch_papers 
+				 , pm.cnfirm_matter  
+				 , pm.edit_yn
+				 , pm.year
+			  from 
+					(
+						select publnd_no 
+							 , ctrt_ymd 
+							 , cntrctpd 
+							 , locplc 
+							 , ldcg_cd 
+							 , ar 
+							 , loan_ar 
+							 , loan_prpos 
+							 , rrno 
+							 , loanmn_sndng_yn 
+							 , nm 
+							 , addr 
+							 , zip 
+							 , cttpc 
+							 , rm
+							 , nht_sndng 
+							 , atch_papers 
+							 , cnfirm_matter
+							 , edit_yn 
+							 , year
+						from tbd_publnd_mng 
+					   where del_yn = 'N'
+					   <if test="year neq 'allYear' and year != null and year != ''">
+						   and year = #{year}
+					   </if>
+					) pm
+			inner join comtccmmndetailcode c on (c.code_id = 'J0200' and c.code = pm.ldcg_cd)
+			order by publnd_no
+	</select>
+	
+	<!-- 공유재산 실태조사 년도 목록 조회 -->
+	<select id="selectPbprtAccdtYearList" resultType="String">
+		select distinct year
+		  from tbd_publnd_mng
+		 order by year desc
+	</select>
+	
+	<!-- 공유자산 실태조사 엑셀 등록 -->
+	<insert id="insertPbprtAccdtExcel">
+		insert into tbd_publnd_mng
+		(
+				  publnd_no 
+				, ctrt_ymd 
+				, cntrctpd 
+				, locplc 
+				, ldcg_cd 
+				, ar 
+				, loan_ar 
+				, loan_prpos 
+				, rrno 
+				, loanmn_sndng_yn 
+				, nm 
+				, addr 
+				, zip 
+				, cttpc 
+				, rm
+				, nht_sndng 
+				, atch_papers 
+				, cnfirm_matter
+				, edit_yn
+				, del_yn
+				, year
+			)
+		values 
+		<foreach collection="list" item="list" open="(" separator="),(" close=")">
+				#{list.publndNo} 
+				, #{list.ctrtYmd} 
+				, #{list.cntrctpd} 
+				, #{list.locplc}
+				, #{list.ldcgCd}
+				, #{list.ar}
+				, #{list.loanAr}
+				, #{list.loanPrpos}
+				, #{list.rrno}
+				, #{list.loanmnSndngYn}
+				, #{list.nm}
+				, #{list.addr}
+				, #{list.zip}
+				, #{list.cttpc}
+				, #{list.rm}
+				, #{list.nhtSndng}
+				, #{list.atchPapers}
+				, #{list.cnfirmMatter}
+				, #{list.editYn}
+				, #{list.delYn}
+				, #{list.year}
+		</foreach>
+	</insert>
+	
+	<!-- 공유자산 실태조사 정보 전체 삭제 엑셀 업로드 덮어쓰기용 -->
+	<delete id="deletePbprtAccdtTotInfo">
+		delete from tbd_publnd_mng
+	</delete>
+	<!-- 공유자산 실태조사서 정보 전체 삭제 엑셀 업로드 덮어쓰기용 -->
+	<delete id="deletePbprtAccdtWrinvstgTotInfo">
+		delete from tbd_pbprt_accdt	
+	</delete>
+	
+	<!-- 공유재산 실태조사서 작성 여부 조회 -->
+	<select id="selectPublndNoCnt" resultType="int">
+		select count(*)
+		  from tbd_pbprt_accdt
+		 where publnd_no = #{publndNo}
+	</select>
+	
+	<!-- 공유재산 실태조사서 정보 조회 -->
+	<select id="selectPbprtAccdtWrinvstg" resultType="pbprtAccdtWrinvstgVO">
+		select pm.publnd_no
+			 , pa.publnd_se
+			 , pm.locplc 
+			 , pm.ldcg_cd
+			 , c.code_nm ldcg_cd_nm
+			 , pm.ar 
+			 , pa.oalp
+			 , pm.rm 
+			 , pm.addr 
+			 , pm.nm 
+			 , pa.possesn_ar
+			 , pa.possesn_cn
+			 , pm.cttpc 
+			 , pa.loan_posbl_yn
+			 , pa.bsrp_cn
+			 , pa.exmnr
+			 , pa.atch_file_id
+			 , pa.satlit_photo_sn 
+			 , pa.spt_photo_sn 
+		  from (
+		  		select publnd_no 
+		  			 , locplc
+		  			 , ldcg_cd
+		  			 , ar
+		  			 , rm
+		  			 , addr
+		  			 , nm
+		  			 , cttpc
+		  		  from tbd_publnd_mng
+		  		 where publnd_no = #{publndNo}
+		  	) pm 
+		  left join tbd_pbprt_accdt pa on (pa.publnd_no=pm.publnd_no)
+		 inner join comtccmmndetailcode c on (c.code_id = 'J0200' and c.code=pm.ldcg_cd)
+	</select>
+	
+	<!-- 공유재산 실태조사서 등록 -->
+	<insert id="insertPbprtAccdtWrinvstg" parameterType="pbprtAccdtWrinvstgVO">
+		insert 
+		  into tbd_pbprt_accdt
+			(
+				publnd_no
+			  , publnd_se
+			  , oalp
+			  , possesn_ar
+			  , possesn_cn
+			  , loan_posbl_yn
+			  , bsrp_cn
+			  , exmnr
+			  , atch_file_id
+			  , satlit_photo_sn
+			  , spt_photo_sn
+			)
+			values 
+			(
+				#{publndNo}
+			  , #{publndSe}
+			  , #{oalp}
+			  , #{possesnAr}
+			  , #{possesnCn}
+			  , #{loanPosblYn}
+			  , #{bsrpCn}
+			  , #{exmnr}
+			  , #{atchFileId}
+			  , #{satlitPhotoSn}
+			  , #{sptPhotoSn}
+			)
+			
+	</insert>
+
+	<!-- 공유재산 실태조사서 수정 -->
+	<update id="updatePbprtAccdtWrinvstg" parameterType="pbprtAccdtWrinvstgVO">
+		update tbd_pbprt_accdt
+		   set publnd_se		= #{publndSe}
+			 , oalp				= #{oalp}
+			 , possesn_ar		= #{possesnAr}
+			 , possesn_cn		= #{possesnCn}
+			 , loan_posbl_yn	= #{loanPosblYn}
+			 , bsrp_cn			= #{bsrpCn}
+			 , exmnr			= #{exmnr}
+			 , atch_file_id		= #{atchFileId}
+			 <if test="fileDelYn.equals('Ysatlit')">
+			 , satlit_photo_sn 	= null
+			 </if>
+			 <if test="fileDelYn.equals('Yspt')">
+			 , spt_photo_sn		= null
+			 </if>
+			 <if test="fileDelYn.equals('Y')">
+			 , satlit_photo_sn 	= null
+			 , spt_photo_sn		= null
+			 </if>
+			 <if test="fileDelYn.equals('N') or fileDelYn.equals('chgSpt') or fileDelYn.equals('chgSatlit')">
+			 , satlit_photo_sn 	= #{satlitPhotoSn}
+			 , spt_photo_sn		= #{sptPhotoSn}
+			 </if>
+		 where publnd_no = #{publndNo}
+	</update>
+	
+	<!-- 공유재산 실태조사서 삭제 -->
+	<delete id="deletePbprtAccdtWrinvstg" parameterType="int">
+		delete 
+		  from tbd_pbprt_accdt
+		 where publnd_no = #{publndNo}
+	</delete>
+	
+	<!-- 공유재산 실태조사서 현장 사진 등록 여부 조회 -->
+	<select id="selectSptPhotoInfo" resultType="String">
+		select spt_photo_sn
+		  from tbd_pbprt_accdt
+		 where publnd_no = #{publndNo}  
+	</select>
+	
+	<!-- 공유재산 실태조사서 위성 사진 등록 여부 조회 -->
+	<select id="selectSatlitPhotoInfo" resultType="String">
+		select satlit_photo_sn
+		  from tbd_pbprt_accdt
+		 where publnd_no = #{publndNo}  
+	</select>
+	
+	<!-- 공유재산 실태조사서 현장 사진 등록 여부 조회 -->
+	<select id="selectAtchFileId" resultType="String">
+		select atch_file_id
+		  from tbd_pbprt_accdt
+		 where publnd_no = #{publndNo}  
+	</select>
+	
+	<select id="selectAtchFileIdcnt" resultType="int">
+		select count(*) 
+		  from tbd_pbprt_accdt
+		 where publnd_no = #{publndNo}
+		   and atch_file_id is not null 
+	</select>
+
+	<!-- 공유재산실태 조사서 파일 상세 정보 조회 -->	
+	<select id="selectAtchFileDtlInfo" resultType="fileVO">
+		select file_sn::text
+			 , file_stre_cours
+			 , stre_file_nm
+			 , file_extsn
+		  from comtnfiledetail
+		 where atch_file_id = #{atchFileId}
+		   and file_sn = #{fileSn}::numeric
+	</select>
+	
+</mapper>

@@ -448,6 +448,12 @@ window.ui = (function () {
 
                     aj_selectFaciReseMngList($("#tmpForm")[0]);
                     break;
+                    
+                    // 업무 > 공유지관리 > 공유재산 실태조사 
+                case "pbprtAccdt" :
+                	
+                	aj_selectPbprtAccdtList();
+                	break;
 
                 // 업무 > 공간정보활용 > workSample
                 case "workSample" :

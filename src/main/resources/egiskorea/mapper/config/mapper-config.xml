@@ -158,6 +158,14 @@
 		<typeAlias alias="inBusinessEstaInfoVO" type="egiskorea.com.job.ibbi.service.InBusinessEstaInfoVO" />
 		<typeAlias alias="inBusinessEstaInfo" type="egiskorea.com.job.ibbi.service.InBusinessEstaInfo" />
 		
+		<!-- 업무 > 공유재산 싵태조사 -->
+		<typeAlias alias="pbprtAccdtVO" type="egiskorea.com.job.publnd.service.PbprtAccdtVO"/>
+		<typeAlias alias="pbprtAccdtWrinvstgVO" type="egiskorea.com.job.publnd.service.PbprtAccdtWrinvstgVO"/>
+		<typeAlias alias="cmmnCdVO" type="egiskorea.com.cmm.service.CmmnCdVO"/>
+		
+		<!-- 파일 -->
+		<typeAlias alias="fileVO" type="egovframework.com.cmm.service.FileVO"/>
+		
 		<!-- 설정 -->
 		<typeAlias alias="MapVO" type="egiskorea.com.geo.map.service.MapVO" />
 		
