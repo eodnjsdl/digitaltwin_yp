@@ -67,14 +67,6 @@ public class PbprtAccdtServiceImpl extends EgovAbstractServiceImpl implements Pb
 	public List<PbprtAccdtVO> selectPbprtAccdtList(PbprtAccdtVO pbprtAccdtVO) {
 		List<PbprtAccdtVO> pbprtAccdtList = null;
 		
-		// 페이지 계산
-		int currentPageNo = pbprtAccdtVO.getCurrentPageNo();
-		int firstRow = currentPageNo * pbprtAccdtVO.getRowCountPerPage() - (pbprtAccdtVO.getRowCountPerPage()-1);
-		int lastRow = currentPageNo * pbprtAccdtVO.getRowCountPerPage();
-		
-		pbprtAccdtVO.setFirstRow(firstRow);
-		pbprtAccdtVO.setLastRow(lastRow);
-		
 		pbprtAccdtList = cmmnDao.selectList("publndMng.selectPbprtAccdtList", pbprtAccdtVO);
 		
 		return pbprtAccdtList;
@@ -265,7 +257,8 @@ public class PbprtAccdtServiceImpl extends EgovAbstractServiceImpl implements Pb
                         cell = row.getCell(3);
                         if(cell != null) {
                         	cell.setCellType(Cell.CELL_TYPE_STRING);
-                        	pbprtAccdtVO.setLdcgCd(cell.getStringCellValue());
+                        	pbprtAccdtVO.setLdcgCd(lgcdCnvrtr(cell.getStringCellValue()));
+//                        	pbprtAccdtVO.setLdcgCd(cell.getStringCellValue());
                         }
                         // 면적
                         cell = row.getCell(4);
@@ -418,7 +411,8 @@ public class PbprtAccdtServiceImpl extends EgovAbstractServiceImpl implements Pb
                         cell = row.getCell(3);
                         if(cell != null) {
                         	cell.setCellType(Cell.CELL_TYPE_STRING);
-                        	pbprtAccdtVO.setLdcgCd(cell.getStringCellValue());
+                        	pbprtAccdtVO.setLdcgCd(lgcdCnvrtr(cell.getStringCellValue()));
+//                        	pbprtAccdtVO.setLdcgCd(cell.getStringCellValue());
                         }
                         // 면적
                         cell = row.getCell(4);
@@ -781,5 +775,95 @@ public class PbprtAccdtServiceImpl extends EgovAbstractServiceImpl implements Pb
     	.replaceAll("onclick", "no_onclick");
         return str;
     }
+	
+	private String lgcdCnvrtr(String cell) {
+		switch(cell) {
+		case "전":
+			cell = "01";
+			break;
+		case "답":
+			cell = "02";
+			break;
+		case "과수원":
+			cell = "03";
+			break;
+		case "목장용지":
+			cell = "04";
+			break;
+		case "임야":
+			cell = "05";
+			break;
+		case "광천지":
+			cell = "06";
+			break;
+		case "염전":
+			cell = "07";
+			break;
+		case "대":
+			cell = "08";
+			break;
+		case "공장용지":
+			cell = "09";
+			break;
+		case "학교용지":
+			cell = "10";
+			break;
+		case "주차장":
+			cell = "11";
+			break;
+		case "주유소":
+			cell = "12";
+			break;
+		case "창고용지":
+			cell = "13";
+			break;
+		case "도로":
+			cell = "14";
+			break;
+		case "철도용지":
+			cell = "15";
+			break;
+		case "제방":
+			cell = "16";
+			break;
+		case "하천":
+			cell = "17";
+			break;
+		case "구거":
+			cell = "18";
+			break;
+		case "유지":
+			cell = "19";
+			break;
+		case "양어장":
+			cell = "20";
+			break;
+		case "수도용지":
+			cell = "21";
+			break;
+		case "공원":
+			cell = "22";
+			break;
+		case "체육용지":
+			cell = "23";
+			break;
+		case "유원지":
+			cell = "24";
+			break;
+		case "종교용지":
+			cell = "25";
+			break;
+		case "사적지":
+			cell = "26";
+			break;
+		case "묘지":
+			cell = "27";
+			break;
+		case "잡종지":
+			cell = "28";
+			break;
+		}
+		return cell;
+	}
 
 }

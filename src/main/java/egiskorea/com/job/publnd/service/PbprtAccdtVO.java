@@ -6,9 +6,7 @@
 ************************************/
 package egiskorea.com.job.publnd.service;
 
-import egiskorea.com.cmm.service.PgeVO;
-
-public class PbprtAccdtVO extends PgeVO {
+public class PbprtAccdtVO {
 	
 	private int publndNo;					// 공유지 번호
 	private String ctrtYmd;					// 계약일자
@@ -32,7 +30,8 @@ public class PbprtAccdtVO extends PgeVO {
 	private String delYn = "N";				// 삭제여부
 	private String year;					// 등록연도
 	private String yearOption;				// 연도별 조회 할때
-
+	private int pageNo;						// 페이지 번호
+	
 	public String getYearOption() {
 		return yearOption;
 	}
@@ -208,4 +207,13 @@ public class PbprtAccdtVO extends PgeVO {
 	public void setYear(String year) {
 		this.year = year;
 	}
+	
+	public int getPageNo() {
+		return pageNo;
+	}
+	
+	public void setPageNo(int pageNo) {
+		this.pageNo = pageNo;
+	}
+	
 }

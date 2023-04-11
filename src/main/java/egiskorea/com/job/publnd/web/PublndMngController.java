@@ -7,7 +7,6 @@
 package egiskorea.com.job.publnd.web;
 
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -58,7 +57,6 @@ public class PublndMngController {
 		
 		// 개수 조회
 		cnt = pbprtAccdtService.selectPbprtAccdtListCnt(pbprtAccdtVO);
-		pbprtAccdtVO.setTotalRowCount(cnt);
 		
 		// 연도 목록 조회
 		yearList = pbprtAccdtService.selectPbprtAccdtYearList();
@@ -82,15 +80,17 @@ public class PublndMngController {
 		List<PbprtAccdtVO> pbprtAccdtList = null;
 		
 		int cnt = 0;
-		//현재 페이지 번호
-		int currentPageNo = pbprtAccdtVO.getCurrentPageNo();
-		
+		int pageNo = 0;
+		pageNo = pbprtAccdtVO.getPageNo();
+		if (pageNo != 0) {
+			pageNo *= 10;
+		}
+		pbprtAccdtVO.setPageNo(pageNo);
 		pbprtAccdtList = pbprtAccdtService.selectPbprtAccdtList(pbprtAccdtVO);
 		cnt = pbprtAccdtService.selectPbprtAccdtListCnt(pbprtAccdtVO);
 		
 		mav.addObject("pbprtAccdtList", pbprtAccdtList);
 		mav.addObject("cnt", cnt);
-		mav.addObject("currentPageNo", currentPageNo);
 		
 		return mav;
 	}

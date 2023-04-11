@@ -1,24 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper	namespace="publndMng">
-
-	<!-- 페이징 -->
-	<sql id="paginationPrefix">
-		SELECT *
-			FROM(
-				SELECT (ROW_NUMBER() OVER()) AS RN, TB.*
-			  	FROM(
-	</sql>
-
-	<sql id="paginationSuffix">
-				) AS TB
-			) AS TB_ALL
-		WHERE RN BETWEEN #{firstRow} AND #{lastRow}
-	</sql>
-	
 	<!-- 공유재산 실태조사 목록 조회 -->
 	<select id="selectPbprtAccdtList" resultType="pbprtAccdtVO">
-		<include refid="paginationPrefix" />
 			select pm.publnd_no 
 				 , pm.ctrt_ymd 
 				 , pm.cntrctpd 
@@ -69,7 +53,7 @@
 					) pm
 			inner join comtccmmndetailcode c on (c.code_id = 'J0200' and c.code = pm.ldcg_cd)
 			order by pm.publnd_no
-			<include refid="paginationSuffix" />
+			limit 10 offset #{pageNo}
 	</select>
 	
 	<!-- 공유재산 실태조사 목록 조회 개수 -->

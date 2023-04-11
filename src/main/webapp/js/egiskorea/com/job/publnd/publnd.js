@@ -11,7 +11,7 @@
 $(document.body).ready(function() {
 	dtmap.init();
 	initGrid();
-	setData();
+	setData(0);
 })
 
 /**
@@ -20,7 +20,7 @@ $(document.body).ready(function() {
  */
 function resetGrid() {
 	initGrid();
-	setData();
+	setData(0);
 }
 
 /**
@@ -89,7 +89,9 @@ function setData(_pageNo) {
 	var gridList = this;
 	let yearOption = $('select#year').val();
 	$.ajax({
-		data : { "yearOption" : yearOption },
+		data : { "yearOption" : yearOption,
+				 "pageNo" : _pageNo
+				},
 		url : "/job/publnd/selectPbprtAccdtPgeList.do",
 		type : 'post',
 		dataType: "json",
@@ -102,8 +104,8 @@ function setData(_pageNo) {
 				page: {
 					currentPage: _pageNo || 0,
 					pageSize: 100,
-					 totalElements: data.cnt,
-					 totalPages: Math.ceil(data.cnt/100)
+					totalElements: data.cnt,
+					totalPages: Math.ceil(data.cnt/10)
 				}
 			});
 			$('.bbs-list-num strong').text(data.cnt);
@@ -435,6 +437,7 @@ function pbprtAccdtExcelUpload(){
 		success:callpbprtAccdtExcelCallback,
 		error:function(xhr,status, error){
 			toastr.error("err: " + error);
+			ui.loadingBar("hide");
 		}, complete : function() {
 			ui.loadingBar("hide"); 
 		}		
@@ -445,9 +448,10 @@ function pbprtAccdtExcelUpload(){
 			toastr.error("파일업로드 실패");
 		} else if (data.result == "success") {
 			toastr.success('등록되었습니다');
-			$('#pbprtAccdtExcelUploadView').remove();
-			bottomPopupOpen('pbprtAccdt');
-			
+//			$('#pbprtAccdtExcelUploadView').remove();
+//			bottomPopupOpen('pbprtAccdt');
+			resetGrid();
+			ui.loadingBar("hide");
 		}
 	}
 }
