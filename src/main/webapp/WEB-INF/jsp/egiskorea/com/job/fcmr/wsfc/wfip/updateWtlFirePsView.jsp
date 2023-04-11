@@ -25,7 +25,7 @@
                <div class="sub-popup-body">
                    <div class="data-write-wrap" style="height: 100%;">
                        <div class="scroll-y">
-                       	   <form id="insertWtlFirePsForm" method="post">
+                       	   <form id="updateWtlFirePsForm" method="post">
                            <div class="data-default">
                                <table class="data-write">
                                    <colgroup>
@@ -39,10 +39,12 @@
                                        <th scope="row">지형지물부호</th>
                                        <td>
                                           	<c:out value="${wtlFirePsVO.ftr_cde_nm }"/>
+                                          	<input type="text" name="ftr_cde" class="form-control" value="${wtlFirePsVO.ftr_cde }">
                                        </td>
                                        <th scope="row">관리번호</th>
                                        <td>
                                        	  	<c:out value="${wtlFirePsVO.ftr_idn }"/>
+                                       	  	<input type="text" name="ftr_idn" class="form-control" value="${wtlFirePsVO.ftr_idn }">
                                        </td>
                                    </tr>
                                    <tr>
@@ -113,7 +115,6 @@
                                        <th scope="row">방향각</th>
                                        <td colspan="3" >
                                        		<input type="number" name="ang_dir" class="form-control" value="${wtlFirePsVO.ang_dir }">
-                                       		
                                        </td>
                                    </tr>
                                    <tr>
@@ -122,7 +123,6 @@
                                            <div class="form-row">
                                            		<div class="col">
                                            			<input type="text" class="form-control txt-geometry-address" value="" readonly="readonly">
-                                           			<input type="text" name="geom" class="form-control" value="">
                                            		</div>                    
                                            		<div class="col-auto">
                                            			<button type="button" class="btn type01 bi-location btn-select-map" data-popup="space-edit-tool">지도에서 선택</button>
@@ -134,11 +134,12 @@
                                </table>
                            </div>
                            </form>
-                           
+                           <input type="text" name="geom" class="form-control" value="">
+                           <input type="text" name="id" value="${id }">
                        </div>
                        <div class="position-bottom btn-wrap justify-content-end">
                            <div>
-                           	    <button type="button" class="btn basic bi-write2 btn_save" onclick="alert('수정완료')">수정완료</button>
+                           	    <button type="button" class="btn basic bi-write2 btn_save" onclick="updateWtlFirePs();">수정완료</button>
                            		<button type="button" class="btn basic bi-cancel btn_cancel">취소</button>
                            </div>
                        </div>
@@ -184,9 +185,9 @@
       	
       	///////////////////////
       	//gird 데이터를 통한 주소 조회
-		var gridRowId = "${gridRowId }";
+		var id =  $("input[name=id]").val();
 		
-		var geomData = getGeomDataForGridRowId(gridRowId);
+		var geomData = getGeomDataForGridId(id);
 		if(geomData){
 			getAddressForPoint(geomData, "#rightSubPopup .txt-geometry-address");
 			$("#rightSubPopup input[name=geom]").val(geomData);
@@ -219,8 +220,9 @@
                	
                	var obj = {};
                	obj.geometryType = "point";
+               	obj.id = id;
               
-               	//geoEditBindEvents(obj);
+               	geoEditBindEvents(obj);
                 
                 ui.loadingBar("hide");
             });
@@ -235,21 +237,9 @@
             dtmap.draw.dispose();
             dtmap.draw.clear();
             
-            var gridRowId = "${gridRowId }";
+            var id = $("input[name=id]").val();
         	
-        	var detailData = null;
-        	if( FACILITY.Ax5UiGrid){
-        		var list =  FACILITY.Ax5UiGrid.list;
-        		
-        		for(var i=0; i<list.length; i++){
-        			if(list[i].id == gridRowId){
-        				detailData = list[i];
-        			}
-        		}
-        	}
-        	
-        	selectWtlFirePs(detailData);	
-            
+        	selectWtlFirePs(id);	
     	});
 		
 	});

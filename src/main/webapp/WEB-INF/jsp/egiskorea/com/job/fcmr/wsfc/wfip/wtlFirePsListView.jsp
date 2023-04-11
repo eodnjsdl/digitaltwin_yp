@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" %>
 
+<!-- js -->
+<script src="/js/egiskorea/com/job/fcmr/wsfc/wfip/wtlFirePs.js"></script>			<!-- 소방시설  -->
 
 <!-- 업무 > 공통 -->
 <div class="popup-header">상수도관리</div>

@@ -13,98 +13,82 @@ $(document).ready(function(){
 
 //functions
 
-/////////
-//소방시설
-
-//소방시설 목록 화면 조회
-function selectWtlFirePsListView(){
-	console.log("selectWtlFirePsListView()");
+//소방시설 리스트 로드 이후 처리
+function wtlFirePsListProcess(){
 	
-	/////////////////
-	
-	//목록 화면 조회
-	ui.loadingBar("show");
-	
-	var baseContainer = "#bottomPopup";
-    $(baseContainer).load("/job/fcmr/wsfc/selectWtlFirePsListView.do", function () {
-        toastr.success("/job/fcmr/wsfc/selectWtlFirePsListView.do", "페이지🙂호🙂출🙂");
-        
-        $(".scroll-y").mCustomScrollbar({
-            scrollbarPosition: "outside",
-        });
-        
-        //옵션 값 세팅
-		getCmmCodeData("YPE001", 	"#lSrchOptions select[name=hjd_cde]");	//읍면동	
-		getCmmCodeData("OGC-048", 	"#lSrchOptions select[name=mof_cde]");	//소화전형식	
-		
-		//grid 기본 세팅
-		var $container = $("#container");
-	    var $target = $container.find('#baseGridDiv [data-ax5grid="attr-grid"]')
-	    $target.css('height', 'inherit');
-		
-	    FACILITY.Ax5UiGrid = null;	//ax5uigrid 전역 변수 
-	    
-	    FACILITY.Ax5UiGrid = new ax5.ui.grid();
-		
-	    FACILITY.Ax5UiGrid.setConfig({
-			target:  $target,
-	        sortable: true,
-	        multipleSelect: false,
-	        columns: [
-	            //{key: "gid", 				label: "아이디",			width:200},
-	            //{key: "ftr_cde", 			label: "지형지물부호code",	width:'*'},
-	            {key: "ftr_cde_nm", 		label: "지형지물부호",		width:'*'},
-	            {key: "ftr_idn", 			label: "관리번호",			width:'*'},
-	            //{key: "hjd_cde", 			label: "읍면동code",		width:'*'},
-	            {key: "hjd_cde_nm", 		label: "읍면동",			width:'*'},
-	            //{key: "mng_cde", 			label: "관리기관code",		width:'*'},
-	            {key: "mng_cde_nm", 		label: "관리기관",			width:'*'},
-	            {key: "sht_num", 			label: "도엽번호",			width:'*'},
-	            {key: "ist_ymd", 			label: "설치일자",			width:'*'},
-	            {key: "hom_num", 			label: "수용가번호",		width:'*'},
-	            //{key: "mof_cde", 			label: "소화전형식code",	width:'*'},
-	            {key: "mof_cde_nm", 		label: "소화전형식",		width:'*'},
-	            {key: "fir_dip", 			label: "소화전구경",		width:'*'},
-	            {key: "std_dip", 			label: "관경",			width:'*'},
-	            //{key: "sup_hit", 			label: "급수탑높이",		width:100},
-	            //{key: "sys_chk", 			label: "대장초기화여",		width:100},
-	            //{key: "ang_dir", 			label: "방향각",			width:100},
-	            //{key: "geom", 			label: "공간정보",			width:100}
-	        ],
-	        page: {
-	            navigationItemCount: 10,
-	            height: 30,
-	            display: true,
-	            firstIcon: '|<',
-	            prevIcon: '<',
-	            nextIcon: '>',
-	            lastIcon: '>|',
-	            onChange: function () {
-	            	selectWtlFirePsList(this.page.selectPage+1);
-	            }
-	        },
-	        body: {
-	        	// 데이터 행의 click 이벤트를 정의합니다. 이벤트 변수 및 this 프로퍼티는 아래 onclick 함수를 참고하세요
-	        	onClick: function () {
-	        		console.log(this);
-	        		selectWtlFirePs(this.item);	//소방 시설 상세 페이지 로드
-	            }
-	        }
-			
-		});
-        
-    	//목록 조회  - 1 page
-		selectWtlFirePsList(1);
-		
-		ui.loadingBar("hide");
+	$(".scroll-y").mCustomScrollbar({
+        scrollbarPosition: "outside",
     });
+    
+    //옵션 값 세팅
+	getCmmCodeData("YPE001", 	"#lSrchOptions select[name=hjd_cde]");	//읍면동	
+	getCmmCodeData("OGC-048", 	"#lSrchOptions select[name=mof_cde]");	//소화전형식	
+	
+	//grid 기본 세팅
+	var $container = $("#container");
+    var $target = $container.find('#baseGridDiv [data-ax5grid="attr-grid"]')
+    $target.css('height', 'inherit');
+	
+    FACILITY.Ax5UiGrid = null;	//ax5uigrid 전역 변수 
+    
+    FACILITY.Ax5UiGrid = new ax5.ui.grid();
+	
+    FACILITY.Ax5UiGrid.setConfig({
+		target:  $target,
+        sortable: true,
+        multipleSelect: false,
+        columns: [
+            //{key: "gid", 				label: "아이디",			width:200},
+            //{key: "ftr_cde", 			label: "지형지물부호code",	width:'*'},
+            {key: "ftr_cde_nm", 		label: "지형지물부호",		width:'*'},
+            {key: "ftr_idn", 			label: "관리번호",			width:'*'},
+            //{key: "hjd_cde", 			label: "읍면동code",		width:'*'},
+            {key: "hjd_cde_nm", 		label: "읍면동",			width:'*'},
+            //{key: "mng_cde", 			label: "관리기관code",		width:'*'},
+            {key: "mng_cde_nm", 		label: "관리기관",			width:'*'},
+            {key: "sht_num", 			label: "도엽번호",			width:'*'},
+            {key: "ist_ymd", 			label: "설치일자",			width:'*'},
+            {key: "hom_num", 			label: "수용가번호",		width:'*'},
+            //{key: "mof_cde", 			label: "소화전형식code",	width:'*'},
+            {key: "mof_cde_nm", 		label: "소화전형식",		width:'*'},
+            {key: "fir_dip", 			label: "소화전구경",		width:'*'},
+            {key: "std_dip", 			label: "관경",			width:'*'},
+            //{key: "sup_hit", 			label: "급수탑높이",		width:100},
+            //{key: "sys_chk", 			label: "대장초기화여",		width:100},
+            //{key: "ang_dir", 			label: "방향각",			width:100},
+            //{key: "geom", 			label: "공간정보",			width:100}
+        ],
+        page: {
+            navigationItemCount: 10,
+            height: 30,
+            display: true,
+            firstIcon: '|<',
+            prevIcon: '<',
+            nextIcon: '>',
+            lastIcon: '>|',
+            onChange: function () {
+            	selectWtlFirePsList(this.page.selectPage+1);
+            }
+        },
+        body: {
+        	onClick: function () {
+        		//console.log(this);
+        		selectWtlFirePs(this.item.id);	//소방 시설 상세 페이지 로드
+            }
+        }
+		
+	});
+    
+	//목록 조회  - 1 page
+	selectWtlFirePsList(1);
 	
 }
 
+
 //소방시설 목록 조회
 function selectWtlFirePsList(page) {
-	//console.log("selectWtlFirePsList(page)");
-	//console.log("page>>>"+page);
+	console.log("selectWtlFirePsList(page)");
+	console.log("page>>>"+page);
 	
 	//검색 조건
 	const filters = [];
@@ -155,7 +139,7 @@ function selectWtlFirePsList(page) {
         	$("#bottomPopup .bbs-list-num").html("조회결과:"+total+"건");
         }
         
-        //console.log(data.features);
+        console.log(data.features);
         
         //데이터 코드 변환
         for (let i = 0; i < data.features.length; i++) {
@@ -176,7 +160,7 @@ function selectWtlFirePsList(page) {
         	var mof_cde = data.features[i].properties.mof_cde;
         	data.features[i].properties.mof_cde_nm = getCmmCodeDataArray("OGC-048", mof_cde);
             
-            //좌표 처리
+            //좌표 처리  geometry로 변수명을 정하면 기존것과 충돌 발생
         	data.features[i].properties.geomObj = data.features[i].geometry;
         	
         	const {id, properties} = data.features[i];
@@ -231,8 +215,6 @@ function selectWtlFirePsList(page) {
                     }
                 }
             } 
-        	
-        	
         });
 
         dtmap.vector.fit();
@@ -242,11 +224,19 @@ function selectWtlFirePsList(page) {
 }
 
 //소방시설 상세정보 조회
-function selectWtlFirePs(detailData){
+function selectWtlFirePs(id){
 	console.log("selectWtlFirePs(detailData)");
-	console.log(detailData);
-
-	ui.loadingBar("show");
+	console.log(id);
+	
+	//상세 정보 조회
+	var detailData = getGridDetailData(id);
+	
+	if(!detailData && detailData == null){
+		alert("소방시설 상세보기 오류");
+		return false;
+	}
+	
+	//파라미터 정리
 	var formData = new FormData();
 	
 	for ( var key in detailData ) {
@@ -254,6 +244,8 @@ function selectWtlFirePs(detailData){
 			formData.append(key, detailData[key]);
 		}
 	}
+	
+	ui.loadingBar("show");
 	
 	$.ajax({
 		url:"/job/fcmr/wsfc/selectWtlFirePs.do",
@@ -271,7 +263,7 @@ function selectWtlFirePs(detailData){
 			var container = "#rightSubPopup";
 			$(container).html(result);
 			
-			
+			dtmap.vector.select(id);	//지도 에 geom 데이터 활성화
 		}
 		,error: function(request,status,error){
 			console.log("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
@@ -410,22 +402,15 @@ function updateWtlFirePsView(id){
 	console.log("updateWtlFirePsView()");
 	console.log("id>"+id);
 	
-	var detailData = null;
-	if( FACILITY.Ax5UiGrid){
-		var list =  FACILITY.Ax5UiGrid.list;
-		
-		for(var i=0; i<list.length; i++){
-			if(list[i].id == id){
-				detailData = list[i];
-			}
-		}
-	}
+	//상세 정보 조회
+	var detailData = getGridDetailData(id);
 	
 	if(!detailData && detailData == null){
 		alert("소방시설 상세보기 오류");
 		return false;
 	}
     
+	//파라미터 처리
     var formData = new FormData();
 	
 	for ( var key in detailData ) {
@@ -434,6 +419,7 @@ function updateWtlFirePsView(id){
 		}
 	}
 	
+	//화면 조회
 	$.ajax({
 		url:"/job/fcmr/wsfc/updateWtlFirePsView.do",
 		type: "POST",
@@ -461,5 +447,69 @@ function updateWtlFirePsView(id){
 		}
 	});
 	
+}
+
+//소방시설 수정 
+function updateWtlFirePs(){
+	console.log("updateWtlFirePs()");
+	 $(".popup-panel .update-wtlFirePs-popup-close").trigger("click");
+	//유효성 체크
+	
+	//업데이트 데이터 처리
+	
+	//form 데이터 처리
+	var feature = new ol.Feature();
+	const params = $("#updateWtlFirePsForm").serializeArray();
+    params.forEach((param) => {
+        if (param.value) {
+            feature.set(param.name, param.value);
+        }
+    });
+
+    //geom 데이터 추가
+    const wkt = $("#rightSubPopup input[name=geom]").val();
+    
+    const formatWKT = new ol.format.WKT();
+    let geometry = formatWKT.readGeometry(wkt);
+    
+    feature.setGeometry(geometry);
+
+    
+    //id값 추가 
+    const id = $("#rightSubPopup input[name=id]").val();
+    feature.setId(id);
+    
+    console.log(feature);
+    
+    //파리미터 작업
+    const format 	= new ol.format.GeoJSON();
+    const geojson 	= format.writeFeature(feature);
+    const data 		= {dataId: "wtl_fire_ps", geojson: geojson};
+
+    //수정진행
+    ui.loadingBar("show");
+   
+    $.post("/job/fcts/updateFacility.do", data)
+    .done((response) => {
+        const result = JSON.parse(response);
+        if (result["result"]) {
+            alert("수정 완료 되었습니다.");
+            
+            //다시 상세 페이지 이동
+            var id = $("input[name=id]").val();
+        	selectWtlFirePs(id);	
+            
+        } else {
+            alert(`수정 실패했습니다.`);
+            console.log(result["errorMsg"]);
+        }
+        
+        ui.loadingBar("hide");
+    })
+    .fail(() => {
+        alert(`등록 실패했습니다.`);
+        ui.loadingBar("hide");
+    });
+    
 }
 

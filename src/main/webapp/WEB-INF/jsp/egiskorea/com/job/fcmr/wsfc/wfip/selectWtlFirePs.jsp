@@ -136,7 +136,7 @@
                        </div>
                        <div class="position-bottom btn-wrap justify-content-end">
                            <div>
-                           	   <button type="button" class="btn basic bi-edit btn_edit" onclick="javascript:updateWtlFirePsView('<c:out value="${gridRowId }"/>')">수정</button>
+                           	   <button type="button" class="btn basic bi-edit btn_edit" onclick="javascript:updateWtlFirePsView('<c:out value="${id }"/>')">수정</button>
                                <button type="button" class="btn basic bi-delete2 btn_delete">삭제</button>  
                                <button type="button" class="btn basic bi-cancel btn_cancel">취소</button>
                            </div>
@@ -154,20 +154,11 @@
 	$(document).ready(function(){
 		console.log("selectWtlFirePs.jsp");
 		
-		//var geom = "${wtlFirePsVO.geom}";
-		
-		//console.log(geom);
-		
-		//위치 : 주소 조회
-		//getAddressForPoint(geom, "#rightSubPopup .txt-geometry-address");
-		
-		//////////////////////
-		
 		//gird 데이터를 통한 주소 조회
-		var gridRowId = "${gridRowId }";
+		var id = "${id }";
 		
-		var geomData = getGeomDataForGridRowId(gridRowId);
-		console.log(geomData);
+		var geomData = getGeomDataForGridId(id);
+		//console.log(geomData);
 		if(geomData){
 			getAddressForPoint(geomData, "#rightSubPopup .txt-geometry-address");
 			$("#rightSubPopup input[name=geom]").val(geomData);
@@ -176,13 +167,19 @@
 		}
 		
 		///////////////
+		//이벤트
 		
-		 $(".popup-panel .select-wtlFirePs-popup-close").on("click", function () {
+		//닫기
+		$(".popup-panel .select-wtlFirePs-popup-close").on("click", function () {
     		 $(this).closest('.popup-panel').removeClass('opened');
             // 초기화 (지도)
             dtmap.draw.dispose();
             dtmap.draw.clear();
     	});
+		
+		//////////////
+		
+		
 		
 		
 	});
