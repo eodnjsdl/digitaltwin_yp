@@ -227,7 +227,7 @@ class MapAddressSearch {
 
       loadingShowHide("show");
       const filter = ol.format.filter.like("pnu", pnu);
-      util.gis.getFeature(["lsmd_cont_ldreg_41830"], filter).done((geojson) => {
+      util.gis.getFeature(["digitaltwin:lsmd_cont_ldreg_41830"], filter).done((geojson) => {
         try {
           if (geojson.totalFeatures > 0) {
             cmmUtil.moveFeatures(geojson);
