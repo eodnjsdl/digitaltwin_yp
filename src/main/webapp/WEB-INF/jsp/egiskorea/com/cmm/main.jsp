@@ -245,9 +245,59 @@
         <div class="util-box">
             <div class="user"><c:out value="${loginVO.name}"/>님
                 <button type="button" id="userModify" class="user-btn" data-popup="userInfoUdt"
-                        onclick="aj_userInfoPopupOpen('<c:out value="${loginVO.id}"/>')"></button>
+                        onclick="aj_userInfoPopupOpen('<c:out value="${loginVO.id}"/>')"></button>     
+            	<button type="button" class="logout-btn" onClick="location.href='/uat/uia/logoutAction.do'">LOGOUT</button>
             </div>
-            <button type="button" class="logout-btn" onClick="location.href='/uat/uia/logoutAction.do'">LOGOUT</button>
+        	<ul class="GNB">
+				<li>
+					<span>정보조회</span>
+					<ul style="height: 47.8125px; padding-top: 0px; margin-top: 5px; padding-bottom: 0px; margin-bottom: 0px; display: none;">
+						<li><button type="button" class="dataPopup" data-popup="top-popup01">통합행정정보</button></li>
+						<li><button type="button" class="dataPopup" data-popup="top-popup02">지적/건물</button></li>
+					</ul>
+				</li>
+				<li>
+					<span>정보공유</span>
+					<ul style="height: 71.7188px; padding-top: 0px; margin-top: 5px; padding-bottom: 0px; margin-bottom: 0px; display: none;">
+						<li><button type="button" class="dataPopup" data-popup="top-popup04">메모정보</button></li>
+						<li><button type="button" class="dataPopup" data-popup="top-popup05">사진정보</button></li>
+						<li><button type="button" class="dataPopup" data-popup="top-popup08">그리기정보</button></li>
+					</ul>
+				</li>
+				<li>
+					<span>영상/지도</span>
+					<ul style="height: 71.7188px; padding-top: 0px; margin-top: 5px; padding-bottom: 0px; margin-bottom: 0px; display: none;">
+						<li><button type="button" class="dataPopup" data-popup="top-popup10">드론영상</button></li>
+						<li><button type="button" class="dataPopup" data-popup="top-popup03">내보내기</button></li>
+						<li><button type="button" class="dataPopup" data-popup="top-popup07">지도저장</button></li>
+					</ul>
+				</li>
+				<li>
+					<span>게시판</span>
+					<ul style="height: 71.7188px; padding-top: 0px; margin-top: 5px; padding-bottom: 0px; margin-bottom: 0px; display: none;">
+						<li><button type="button" class="dataPopup" data-popup="board-notice">공지사항</button></li>
+						<li><button type="button" class="dataPopup" data-popup="board-qna">QnA</button></li>
+						<li><button type="button" class="dataPopup" data-popup="">운영지원</button></li>
+					</ul>
+				</li>
+				<li>
+					<span>지도설정</span>
+					<ul style="height: 71.7188px; padding-top: 0px; margin-top: 5px; padding-bottom: 0px; margin-bottom: 0px; display: none;">
+						<li><button type="button" class="dataPopup" data-popup="top-popup09" title="배경지도">배경지도</button></li>
+						<li><button type="button" class="dataPopup" data-popup="" title="화면분할">화면분할</button></li>
+						<li><button type="button" class="dataPopup" data-popup="top-popup06" title="즐겨찾기">즐겨찾기</button></li>
+					</ul>
+				</li>
+			</ul>
+			<script>
+				$('.GNB li ul').slideUp();
+				$('.GNB').on('mouseenter',function(){
+					$('.GNB li ul').stop().slideDown(300);
+				}).on('mouseleave',function(){
+					$('.GNB li ul').stop().slideUp(300);
+				});
+
+			</script>
         </div>
     </header>
     <!-- //header -->
@@ -255,199 +305,117 @@
     <!-- container -->
     <div id="container">
 
-
         <!-- 지도영역 -->
         <div id="map2D" style="width: 100%; height:100%; display:none;"></div>
         <div id="map3D" style="width: 100%; height:100%; display:none; user-select:none"></div>
 
         <!-- map-aside -->
         <div id="map-aside">
-            <div class="map-tool">
-                <ul class="map-tool-list">
-                    <li>
-                        <button type="button" id="krasInfo" class="tool-btn icon01 rightPopup"
-                                data-popup="top-popup01" data-maptype="ALL" title="통합행정정보"></button>
-                    </li>
-                    <li>
-                        <button type="button" id="landBuilding" class="tool-btn icon02 rightPopup"
-                                data-popup="top-popup02" data-maptype="ALL" title="지적/건물"></button>
-                    </li>
-                    <li>
-                        <button type="button" id="dwldInfo" class="tool-btn icon03 rightPopup"
-                                data-popup="top-popup03" data-maptype="ALL" title="내보내기"></button>
-                    </li>
-                    <li>
-                        <button type="button" id="memoInfo" class="tool-btn icon04 rightPopup"
-                                data-popup="top-popup04" data-maptype="ALL" title="메모정보"></button>
-                    </li>
-                    <li>
-                        <button type="button" id="potoInfo" class="tool-btn icon05 rightPopup"
-                                data-popup="top-popup05" data-maptype="ALL" title="사진정보"></button>
-                    </li>
-                    <li>
-                        <button type="button" id="favorites" class="tool-btn icon06 rightPopup"
-                                data-popup="top-popup06" data-maptype="ALL" title="즐겨찾기"></button>
-                    </li>
-                    <li>
-                        <button type="button" id="saveMap" class="tool-btn icon07 rightPopup"
-                                data-popup="top-popup07" data-maptype="ALL" title="지도저장"></button>
-                    </li>
-                    <li>
-                        <button type="button" id="graphicInfo" class="tool-btn icon08 rightPopup"
-                                data-popup="top-popup08" data-maptype="ALL" title="그리기도구"></button>
-                    </li>
-                    <li>
-                        <button type="button" id="dronInfo" class="tool-btn icon10 rightPopup"
-                                data-popup="top-popup09" data-maptype="ALL" title="드론영상"></button>
-                    </li>
-                    <li>
-                        <button type="button" id="layerList" class="tool-btn icon11 rightPopup"
-                                data-popup="top-popup10" data-maptype="3D" title="3D 레이어"></button>
-                    </li>
-                    <li>
-                        <button type="button" id="backgroundMapInfo" class="tool-btn icon09 rightPopup"
-                                data-popup="top-popup11" data-maptype="ALL" title="배경지도"></button>
-                    </li>
-                </ul>
-            </div>
-
-            <div class="map-board">
-                <button type="button" class="bbs-btn notice-btn" data-popup="board-notice" title="공지사항"
-                        onclick="aj_selectNoticeList();"></button>
-                <button type="button" class="bbs-btn opqna-btn" data-popup="board-opqna" title="운영지원"
-                        onclick="aj_selectOpQnaList(1)"></button>
-                <button type="button" class="bbs-btn qna-btn" data-popup="board-qna" title="게시판"
-                        onclick="aj_selectQnaList(1)"></button>
-            </div>
-
             <div class="map-control">
-                <ul>
-                    <li>
-                        <button type="button" class="ctrl-btn compass" title="나침반"><span name="compass"
-                                                                                         style="transform: rotate(0deg);"></span>
-                        </button>
-                    </li>
-                    <li>
-                        <button type="button" class="ctrl-btn reset" title="초기화"></button>
-                    </li>
-                    <li>
-                        <button type="button" class="ctrl-btn globe" title="위치 초기화"></button>
-                    </li>
-                    <li class="ctrl-group">
-                        <button type="button" class="ctrl-btn location" title="위치"></button>
-                        <button type="button" class="ctrl-btn distance" title="거리"></button>
-                        <button type="button" class="ctrl-btn measure" title="면적"></button>
-                        <button type="button" class="ctrl-btn radius" title="반경"></button>
-                    </li>
-                    <li>
-                        <button type="button" class="ctrl-btn scaleUp" title="확대"></button>
-                        <button type="button" class="ctrl-btn scaleDown" title="축소"></button>
-                    </li>
-                </ul>
-
-                <div class="map-type">
-							<span class="knobs">
-								<span><input type="radio" name="mapType" id="mapType2D" class="mapType2D" value="2D"
-                                             checked="checked"><label for="mapType2D">2D</label></span>
-								<span><input type="radio" name="mapType" id="mapType3D" value="3D"><label
-                                        for="mapType3D">3D</label></span>
-							</span>
-                </div>
-            </div>
+			    <ul>
+			        <li><button type="button" class="ctrl-btn compass" data-name="나침반"><span style="transform: rotate(0deg);"></span></button></li>
+			        <li><button type="button" class="ctrl-btn reset" data-name="초기화"></button></li>
+			        <li><button type="button" class="ctrl-btn globe" data-name="위치 초기화"></button></li>
+			        <li class="ctrl-group">
+			            <button type="button" class="ctrl-btn location" data-name="위치"></button>
+			            <button type="button" class="ctrl-btn distance" data-name="거리"></button>
+			            <button type="button" class="ctrl-btn measure" data-name="면적"></button>
+			            <button type="button" class="ctrl-btn radius" data-name="반경"></button>
+			        </li>
+			        <li><button type="button" class="ctrl-btn scaleUp" onclick="mapZoomControlPlusRe()" data-name="확대"></button>
+			            <button type="button" class="ctrl-btn scaleDown" onclick="mapZoomControlMinusRe()" data-name="축소"></button>
+			        </li>
+			    </ul>
+			</div>
 
             <div class="map-util">
-                <div class="addrSelect">
-                    <select class="form-select2 map-address-type">
-                        <option value="ldreg">지번</option>
-                        <option value="spbd">도로명</option>
-                    </select>
-                    <select class="form-select2 map-address-emd">
-                    </select>
-                    <select class="form-select2 map-address-li">
-                    </select>
-                    <!-- <span class="map-address-mntn-span"><input type="checkbox" id="map-address-mntn" class="map-address-mntn"><label for="map-address-mntn" style="color:#fff;">산</label></span> -->
-                    <span class="form-checkbox text map-address-mntn-span">
-								<span><input type="checkbox" id="map-address-mntn" class="map-address-mntn"><label
-                                        for="map-address-mntn" style="color:#fff;">산</label></span>
-							</span>
-                    <input type="text" class="form-control map-address-text" placeholder="지번 입력">
-                    <button type="button" class="search-btn map-address-search" title="검색"></button>
-                </div>
-
-                <!-- 좌표, 축적 -->
-                <div class="coordinates">
-                    <div class="coordi-header">
-                        <div>
-                            <span class="x">127.48846105</span>
-                            <span class="y">37.49131546</span>
-                        </div>
-                        <!-- <button type="button" class="btn btn-sm type04">이동</button> -->
-                    </div>
-                    <div class="coordi-body">
-                        <div class="items">
-                            <h2>위도,경도 (DMS)</h2>
-                            <div class="row">
-                                <div class="c-col">
-                                    <div class="dms-row">
-                                        <span><input type="text" class="form-control lon-degree"><span
-                                                class="form-text">도</span></span>
-                                        <span><input type="text" class="form-control lon-minute"><span
-                                                class="form-text">분</span></span>
-                                        <span><input type="text" class="form-control lon-second"><span
-                                                class="form-text">초</span></span>
-                                        <span class="form-dash">,</span>
-                                    </div>
-                                </div>
-                                <div class="c-col">
-                                    <div class="dms-row">
-                                        <span><input type="text" class="form-control lat-degree"><span
-                                                class="form-text">도</span></span>
-                                        <span><input type="text" class="form-control lat-minute"><span
-                                                class="form-text">분</span></span>
-                                        <span><input type="text" class="form-control lat-second"><span
-                                                class="form-text">초</span></span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="items">
-                            <h2>위도,경도 (Degree)</h2>
-                            <div class="row">
-                                <div class="c-col"><input type="text" class="form-control lon-hdms"></div>
-                                <div class="c-col"><input type="text" class="form-control lat-hdms"></div>
-                            </div>
-                        </div>
-                        <div class="items">
-                            <h2>사용자정의</h2>
-                            <div class="row">
-                                <div class="c-col">
-                                    <select class="form-select3 coordi-projection" onchange="onchangeCoor()">
-                                        <option value="EPSG:4326">EPSG : 4326</option>
-                                        <option value="EPSG:3857">EPSG : 3857</option>
-                                        <option value="EPSG:5179">EPSG : 5179</option>
-                                        <option value="EPSG:5186">EPSG : 5186</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="c-col"><input type="text" class="form-control coordi-x"></div>
-                                <div class="c-col"><input type="text" class="form-control coordi-y"></div>
-                                <div>
-                                    <button type="button" class="btn btn-sm type03 btn-apply">이동</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <script>
-                        $(function () {
-                            $(".coordi-header > div").click(function () {
-                                $(".coordinates").toggleClass("active");
-                            });
-                        });
-                    </script>
-                </div>
-                <!-- //좌표, 축적 -->
-            </div>
+				<div class="addrSelect">
+					<form action="">
+						<select name="" id="" class="form-select2">
+							<option value="">지번</option>
+							<option value="">도로명</option>
+						</select>
+						<select name="" id="" class="form-select2">
+							<option value="">행정동</option>
+							<option value="">강산면</option>
+						</select>
+						<select name="" id="" class="form-select2">
+							<option value="">법정리</option>
+							<option value="">경강로</option>
+						</select>
+						<input type="text" class="form-control" placeholder="지번 입력"> <button type="button" class="search-btn" title="검색"></button>
+					</form>
+					<form action="">
+						축척 1 :
+						<input type="text" class="form-control scale" placeholder="10000"> <button type="button" class="btn wl btn-sm type04">이동</button>
+					</form>
+				</div>
+	
+				<!-- 좌표, 축적 -->
+				<div class="coordinates">
+					<div class="coordi-header">
+						<div>
+							<span class="x">127.47609649416934</span>
+							<span class="y">37.49284379468381</span>
+						</div>
+						<button type="button" class="btn wl btn-sm type04">위치이동</button>
+					</div>
+					<div class="coordi-body">								
+						<div class="items">
+							<h2>위도,경도 (DMS)</h2>
+							<div class="row">
+								<div class="c-col">
+									<div class="dms-row">
+										<span><input type="text" class="form-control"><span class="form-text">도</span></span>
+										<span><input type="text" class="form-control"><span class="form-text">분</span></span>
+										<span><input type="text" class="form-control"><span class="form-text">초</span></span>
+										<span class="form-dash">,</span>		
+									</div>
+								</div>			
+								<div class="c-col">											
+									<div class="dms-row">
+										<span><input type="text" class="form-control"><span class="form-text">도</span></span>
+										<span><input type="text" class="form-control"><span class="form-text">분</span></span>
+										<span><input type="text" class="form-control"><span class="form-text">초</span></span>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="items">
+							<h2>위도,경도 (Degree)</h2>
+							<div class="row">
+								<div class="c-col"><input type="text" class="form-control"></div>
+								<div class="c-col"><input type="text" class="form-control"></div>
+							</div>
+						</div>
+						<div class="items">
+							<h2>사용자정의</h2>
+							<div class="row">
+								<div class="c-col">
+									<select class="form-select3" name="" id="">
+										<option value="">EPSG : 5179</option>
+										<option value="">EPSG : 5179</option>
+										<option value="">EPSG : 5179</option>
+									</select>
+								</div>
+							</div>
+							<div class="row">										
+								<div class="c-col"><input type="text" class="form-control"></div>
+								<div class="c-col"><input type="text" class="form-control"></div>
+								<div><button type="button" class="btn btn-sm type03">적용</button></div>
+							</div>
+						</div>
+					</div>
+					<script>
+						$( function() {		
+							$(".coordi-header > div").click(function(){
+								$(".coordinates").toggleClass("active");
+							});										
+						});
+					</script>
+				</div>
+				<!-- //좌표, 축적 -->
+			</div>
         </div>
         <!-- //map-aside -->
 
@@ -495,25 +463,25 @@
 
         <!-- side -->
         <div id="side">
-            <div id="lnb">
-                <ul>
-                    <li data-menu="lnb-search">
-                        <button type="button" class="lnb-btn" title="검색" data-maptype="ALL"></button>
-                    </li>
-                    <li data-menu="lnb-layer">
-                        <button type="button" class="lnb-btn" title="레이어" data-maptype="ALL"></button>
-                    </li>
-                    <li data-menu="lnb-theme">
-                        <button type="button" class="lnb-btn" title="주제도" data-maptype="ALL"></button>
-                    </li>
-                    <li data-menu="lnb-work">
-                        <button type="button" class="lnb-btn" title="업무" data-maptype="ALL"></button>
-                    </li>
-                    <li data-menu="lnb-analysis">
-                        <button type="button" class="lnb-btn" title="분석" data-maptype="ALL"></button>
-                    </li>
-                </ul>
-            </div>
+			<div id="lnb">
+				<ul>
+				    <li data-menu="lnb-search" class=""><button type="button" class="lnb-btn">검색</button></li>
+				    <li data-menu="lnb-layer" class=""><button type="button" class="lnb-btn">레이어</button></li>
+				    <li data-menu="lnb-theme" class=""><button type="button" class="lnb-btn">주제도</button></li>
+				    <li data-menu="lnb-space" class=""><button type="button" class="lnb-btn">공간정보</button></li>
+				    <li data-menu="lnb-facility"><button type="button" class="lnb-btn">시설관리</button></li>
+				    <li data-menu="lnb-traffic"><button type="button" class="lnb-btn">교통분석</button></li>
+				    <li data-menu="lnb-administrative" class=""><button type="button" class="lnb-btn">행정자산</button></li>
+				    <li data-menu="lnb-territory"><button type="button" class="lnb-btn">국토조사</button></li>
+				    <li data-menu="lnb-analysis"><button type="button" class="lnb-btn">분석</button></li>
+				</ul>
+				<div class="map-type">
+				    <span class="knobs">
+				        <span><input type="radio" name="mapType" id="mapType2D" checked=""><label for="mapType2D">2D</label></span>
+				        <span><input type="radio" name="mapType" id="mapType3D"><label for="mapType3D">3D</label></span>
+				    </span>
+				</div>
+			</div>
 
             <!-- 검색 -->
             <div class="lnb-search lnb-cont">
@@ -597,7 +565,7 @@
                 </div>
                 <div class="lnb-util">
                     <button type="button" class="manualBtn" title="도움말" onclick="manualTab('분석')"></button>
-                    <button type="button" class="lnb-close" title="닫기"></button>
+
                 </div>
             </div>
 
@@ -612,26 +580,7 @@
             <div class="lnb-setting lnb-cont">
             </div>
             <!-- //설정 -->
-
-            <div class="side-util">
-                <ul>
-                    <li data-menu="lnb-territory">
-                        <button type="button" class="side-btn territory" title="국토정보관리" data-maptype="ALL"></button>
-                    </li>
-                    <li data-menu="lnb-manager">
-                        <button type="button" class="side-btn manager" title="관리자" data-maptype="ALL"
-                                onclick="window.open('/com/mngr/usr/selectGroupManageList.do')"></button>
-                    </li>
-                    <li data-menu="lnb-setting">
-                        <button type="button" class="side-btn setting" title="설정" data-maptype="3D"></button>
-                    </li>
-                    <li>
-                        <button type="button" class="side-btn manual" title="도움말" data-maptype="ALL"
-                                onclick="window.open('/userManual.do')"></button>
-                    </li>
-                </ul>
-            </div>
-
+            
         </div>
         <!-- //side -->
 
@@ -2668,61 +2617,80 @@
 
         <!-- 사용자 매뉴얼 -->
         <!-- //사용자 매뉴얼 -->
-
-    </div>
-
-	<!-- 업데이트 안내 -->
-	<div class="basic-popup" style="width: 500px;">
-		<div class="basic-header"><p class="tit">업데이트 안내</p></div>
-		<div class="basic-body">
-			<div class="cont">
-				<p>2022.09.19기준 업데이트 </p>
-				<ul class="list-type1">
-					<li>내용</li>
-					<li>내용내용</li>
-				</ul>
+		
+		<!-- 업데이트 안내 -->
+		<div class="basic-popup" style="width: 500px;">
+			<div class="basic-header"><p class="tit">업데이트 안내</p></div>
+			<div class="basic-body">
+				<div class="cont">
+					<p>2022.09.19기준 업데이트 </p>
+					<ul class="list-type1">
+						<li>내용</li>
+						<li>내용내용</li>
+					</ul>
+				</div>
 			</div>
-		</div>
-		<div class="basic-footer">
-			<form name="popupForm">
-				<span class="today-checkbox">
-					<input type="checkbox" name="expiredays" id="popup01"><label for="popup01">오늘 하루 팝업 더 이상 보지 않기</label>
-				</span>
-			</form>
-		</div>
-		<button type="button" class="basic-close" title="닫기"></button>
-		<script>
-			$(document).ready(function(){
-				$(".basic-popup .basic-close").click(function(){
-					$(".basic-popup").hide();
-				});
-				
-				function closePop(){
-					if(document.popupForm.expiredays.checked){
-						setCookie( "popup", "hide" , 1 );
+			<div class="basic-footer">
+				<form name="popupForm">
+					<span class="today-checkbox">
+						<input type="checkbox" name="expiredays" id="popup01"><label for="popup01">오늘 하루 팝업 더 이상 보지 않기</label>
+					</span>
+				</form>
+			</div>
+			<button type="button" class="basic-close" title="닫기"></button>
+			<script>
+				$(document).ready(function(){
+					$(".basic-popup .basic-close").click(function(){
+						$(".basic-popup").hide();
+					});
+					
+					function closePop(){
+						if(document.popupForm.expiredays.checked){
+							setCookie( "popup", "hide" , 1 );
+						}
 					}
-				}
-
-				function setCookie( cookieName, cookieValue, expireDate ){
-					var today = new Date();
-					today.setDate( today.getDate() + parseInt( expireDate ) );
-					document.cookie = cookieName + "=" + escape( cookieValue ) + "; path=/; expires=" + today.toGMTString() + ";";
-				}
-
-				$("#popup01").on("click", function(){
-					closePop();
-					$(this).parents(".basic-popup").hide();
+	
+					function setCookie( cookieName, cookieValue, expireDate ){
+						var today = new Date();
+						today.setDate( today.getDate() + parseInt( expireDate ) );
+						document.cookie = cookieName + "=" + escape( cookieValue ) + "; path=/; expires=" + today.toGMTString() + ";";
+					}
+	
+					$("#popup01").on("click", function(){
+						closePop();
+						$(this).parents(".basic-popup").hide();
+					});
+	
+	
+				  if(document.cookie.indexOf("popup=hide") < 0 ){
+						$(".basic-popup").show();
+					}else{
+						$(".basic-popup").hide();				
+					}
+				  
+				  $('.basic-popup').draggable({
+						containment: "#container",
+						scroll: false,
+						start: function() {
+							$(this).css({transform: "none", top: $(this).offset().top+"px", left:$(this).offset().left+"px"});
+						}
+					});
 				});
-
-
-			  if(document.cookie.indexOf("popup=hide") < 0 ){
-					$(".basic-popup").show();
-				}else{
-					$(".basic-popup").hide();				
-				}
-			});
-		</script>					
-	</div>
+			</script>				
+		</div>
+		<!-- //업데이트 안내 -->
+		<!-- 오른쪽 선택 팝업 -->
+		<div class="context hide" style="top: 400px;left: 400px;">
+			<a href="" class="c01">통합행정정보</a>
+			<a href="" class="c02">지적/건물</a>
+			<a href="" class="c03">사진등록</a>
+			<a href="" class="c04">메모등록</a>
+			<a href="" class="c05">위치정보</a>
+			<a href="" class="c06">화면저장</a>
+			<a href="" class="c07">3D전환</a>
+		</div>
+		<!-- //오른쪽 선택 팝업 -->
+    </div>
     <!-- //container -->
 </div>
 

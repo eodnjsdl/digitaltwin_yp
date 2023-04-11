@@ -65,27 +65,6 @@ window.ui = (function () {
             dtmap.goHome();
         });
 
-        // 2D/3D 버튼
-        $mapControl.on('click', 'input[name="mapType"]', function (e) {
-            if (e.target.value === '3D') {
-                ui.loadingBar('show');
-                map3d.isLoaded.then(function () {
-                    ui.loadingBar('hide');
-                })
-            }
-            //측정기능 OFF
-            $mapControl.find('.location, .distance, .measure, .radius').removeClass('active');
-            dtmap.clearInteraction();
-
-            //패널 close
-            $leftSide.removeClass('on');
-            $rightPopup.removeClass('opened');
-
-            dtmap.switchMap(e.target.value);
-            _changeMenu();
-
-        });
-
         //위치
         $mapControl.on('click', '.ctrl-btn.location', function (e) {
             let $this = $(this);
@@ -515,6 +494,9 @@ window.ui = (function () {
          */
         let $leftSide = $('#side');
         let $leftBar = $('#lnb');
+        let $rightPopup = $("#rightPopup");
+        let $mapControl = $('.map-control');
+        
         $leftBar.on('click', 'li', function () {
             _changeMenu();
             let $this = $(this);
@@ -547,6 +529,27 @@ window.ui = (function () {
             } else {
                 $leftSide.find('.lnb-cont').stop().fadeOut(100);
             }
+        });
+        
+        // 2D/3D 버튼
+        $leftBar.on('click', 'input[name="mapType"]', function (e) {
+            if (e.target.value === '3D') {
+                ui.loadingBar('show');
+                map3d.isLoaded.then(function () {
+                    ui.loadingBar('hide');
+                })
+            }
+            //측정기능 OFF
+            $mapControl.find('.location, .distance, .measure, .radius').removeClass('active');
+            dtmap.clearInteraction();
+
+            //패널 close
+            $leftSide.removeClass('on');
+            $rightPopup.removeClass('opened');
+
+            dtmap.switchMap(e.target.value);
+            _changeMenu();
+
         });
     }
 
@@ -704,3 +707,4 @@ function aj_selectLayerList(mode, reset = false) {
         }
     });
 }
+

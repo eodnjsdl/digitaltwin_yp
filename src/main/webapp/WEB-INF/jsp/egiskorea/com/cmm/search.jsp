@@ -234,5 +234,4 @@
 						</div>
 						<div class="lnb-util">
 							<button type="button" class="manualBtn" title="도움말" onclick="manualTab('통합검색')"></button>
-							<button type="button" class="lnb-resetBtn" title="초기화"></button><button type="button" class="lnb-close" title="닫기" onclick="removeLayer()"></button>
 						</div><!-- removeLayer() > 레이어 삭제 함수 job.js에 2D/3D일 경우 나눠놨습니다. -->
