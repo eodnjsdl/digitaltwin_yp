@@ -239,6 +239,19 @@ map3d.draw = (function () {
         }
     }
 
+
+    function getSnapLayer() {
+        console.warn('3D 지도에서 지원하지 않는 기능입니다.');
+    }
+
+    function setSnapLayer() {
+        console.warn('3D 지도에서 지원하지 않는 기능입니다.');
+    }
+
+    function clearSnapLayer() {
+        console.warn('3D 지도에서 지원하지 않는 기능입니다.');
+    }
+
     let module = {
         init: init,
         active: active,
@@ -248,6 +261,9 @@ map3d.draw = (function () {
         writeWKT: writeWKT,
         getGeometry: getGeometry,
         setBuffer: setBuffer,
+        getSnapLayer: getSnapLayer,
+        setSnapLayer: setSnapLayer,
+        clearSnapLayer: clearSnapLayer,
         clear: clear
     };
     return module;

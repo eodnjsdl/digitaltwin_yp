@@ -200,8 +200,9 @@
 	<!-- ////////////////////////////  -->
 	
 	<!-- [교통시설]  -->
-	<!-- {교통시설  공통} -->
-	<!-- 도로구간 -->
+	<script src="/js/egiskorea/com/job/fcmr/tpfc/facilityTransportation.js"></script>	<!-- 교통시설  공통 -->
+	<!-- {교통 하위 메뉴}  -->	
+	<script src="/js/egiskorea/com/job/fcmr/tpfc/rdst/roadSect.js"></script>			<!-- 도로구간  -->
 	<!-- 철도선로 -->
 	<!-- 철도역사 -->
 	<!-- 지하철선로 -->
@@ -213,9 +214,7 @@
 	<!-- ////////////////////////////  -->
 	
 	<!-- [체육시설]  -->
-	<script src="/js/egiskorea/com/job/fcmr/phfc/phyEduFaciList.js"></script>
-	<script src="/js/egiskorea/com/job/fcmr/phfc/phyEduFaciDetail.js"></script>
-	<script src="/js/egiskorea/com/job/fcmr/phfc/phyEduFaciMng.js"></script>
+	<script src="/js/egiskorea/com/job/fcmr/phfc/facilityPhysicalEducation.js"></script>
 	<!-- ////////////////////////////  -->
 	
 	<!-- [복지시설]  -->

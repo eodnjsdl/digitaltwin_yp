@@ -6,6 +6,14 @@
 $(".scroll-y").mCustomScrollbar({
 	scrollbarPosition: "outside"
 });
+
+var fcltyTy = '<c:out value="${result.fcltyTy}"></c:out>';
+var operMthd = '<c:out value="${result.operMthd}"></c:out>';
+var chrgDeptNm = '<c:out value="${result.chrgDeptNm}"></c:out>';
+
+$("#phyEduFaciTbl #fclty_ty").val(fcltyTy).prop("selected", true);
+$("#phyEduFaciTbl #oper_mthd").val(operMthd).prop("selected", true);
+$("#phyEduFaciTbl #chrg_dept_nm").val(chrgDeptNm).prop("selected", true);
 </script>
 
 <!-- 업무 > 시설관리 > 체육시설 > 등록하기 / 수정하기 -->
@@ -15,7 +23,7 @@ $(".scroll-y").mCustomScrollbar({
 		<div class="data-write-wrap" style="height: 100%;">
 			<div class="scroll-y">
 				<div class="data-default">
-					<table class="data-write">
+					<table id="phyEduFaciTbl" class="data-write">
 						<tbody>
 							<tr>
 								<th scope="row">시설명</th>
@@ -34,20 +42,22 @@ $(".scroll-y").mCustomScrollbar({
 								<th scope="row">시설유형</th>
 								<td>
 									<select name="fclty_ty" id="fclty_ty" class="form-select">
-										<option value="체육시설" selected>체육시설</option>
+										<option value=""></option>
+										<option value="체육시설">체육시설</option>
 									</select>
 								</td>
 								<th scope="row">운영방식</th>
 								<td>
 									<select name="oper_mthd" id="oper_mthd" class="form-select">
-										<option value="위탁" selected>위탁</option>
+										<option value="" selected></option>
+										<option value="위탁">위탁</option>
 									</select>
 								</td>
 							</tr>
 							<tr>
 								<th scope="row">건립비용(백만원)</th>
 								<td><input type="number" name="erc_ct" min="0" class="form-control align-left" value="<c:out value="${result.ercCt}"></c:out>"/></td>
-								<th scope="row">건립일</th>
+								<th scope="row">설립일자</th>
 								<td><div class="datapicker-group">
 										<input type="text" name="fond_de" class="datepicker" id="spor_datepicker" value="<c:out value="${result.fondDe}"></c:out>" style="font-size: 12px;"/>
 									</div>
@@ -71,7 +81,8 @@ $(".scroll-y").mCustomScrollbar({
 									<div class="form-row">
 										<div class="col">
 											<select name="chrg_dept_nm" id="chrg_dept_nm" class="form-select">
-												<option value="국토토지과" selected>국토토지과</option>
+												<option value="" selected></option>
+												<option value="국토토지과">국토토지과</option>
 											</select>
 										</div>
 										<div class="col"><input type="text" name="charger_nm" class="form-control" value="<c:out value="${result.chargerNm}"></c:out>"/></div>
