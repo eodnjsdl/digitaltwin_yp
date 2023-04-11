@@ -172,6 +172,28 @@
 			}, complete : function(){
 			}
 		});
+		
+		$( "#dialog-findId" ).dialog({
+			autoOpen: false, //자동 open
+			draggable: false, //draggable 
+			modal: true, //overlay 배경
+			classes: {
+				"ui-dialog": "login-dialog"
+			},
+			width: 500,
+			show: {
+				effect: "fadeIn",
+				duration: 100
+			},
+			hide: {
+				effect: "fadeOut",
+				duration: 100
+			},
+		});
+
+		$( "#findId" ).on( "click", function() {
+			$( "#dialog-findId" ).dialog( "open" );
+		});
 	}
 	
 	<c:if test="${!empty resultMsg}">alert("<spring:message code="${resultMsg}" />");</c:if>
@@ -228,6 +250,58 @@
 				<button type="button" class="system-close" title="닫기"></button>
 			</div>
 		</c:forEach>
+		
+		<!-- 시스템 이용 안내 -->
+		<div class="system-popup">
+			<div class="system-header"><p class="tit">시스템 이용 안내</p></div>
+			<div class="system-body">
+				<div class="cont">
+					<div>
+						<p>- 회원가입 시 먼저 [아이디 찾기]에서 계정 유무를 확인해주시기 바랍니다.<br>이미 계정이 있으신 경우 반려 처리됩니다.</p>
+					</div>
+					<div>
+						<p>- 신규 회원가입<br>
+							1) 자가격리자 관련 기능을 사용하실 경우 : 총괄공무원에게 계정 발급을 요청해주시기 바랍니다.<br>
+							2) 그 외 기능만 사용하실 경우 : 회원가입 페이지에서 신청해주시면 됩니다.
+						</p>
+					</div>
+					<div>
+						<p>- 전담공무원 등록 :<br>
+							총괄공무원이 "신규 자가격리 관리" 상황판의  "정보관리 > 전담공무원관리"에서 등록
+						</p>
+					</div>
+					<div>
+						<p>- 총괄공무원 권한 신청 : <br>
+							총괄공무원이 "신규 자가격리 관리" 상황판의  "정보관리 > 전담공무원관리"에서 <br>
+							해당 아이디의 권한 수정
+						</p>
+					</div>
+					<div>
+						<p>문의사항은 헬프데스크(070-5008-6632)로 연락해주시기 바랍니다.</p>
+					</div>
+	
+					<div class="btn-wrap"><button type="button" class="btn basic bi-check">확인</button></div>
+	
+				</div>
+			</div>
+			<button type="button" class="system-close" title="닫기"></button>
+		</div>
+		<!-- //시스템 이용 안내 -->
+
+		<script>
+			$(document).ready(function(){
+				$('.system-popup').draggable({
+					containment: "#wrap",
+					scroll: false,
+					start: function() {
+						$(this).css({transform: "none", top: $(this).offset().top+"px", left:$(this).offset().left+"px"});
+					}
+				});
+				$(".system-popup .system-close, .system-popup .bi-check").click(function(){
+					$(".system-popup").hide();
+				});
+			});
+		</script>
 		
 		<!-- footer -->
 		<footer id="footer">

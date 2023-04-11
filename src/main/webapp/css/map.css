@@ -36,48 +36,44 @@ html, body {
 }
 
 #header .logo {
-	width: 349px;
-    height: 69px;
+	width: 295px;
+	height: 67px;
 }
 
 #header .logo a {
 	display: block;
 	height: 100%;
-	background: url(/images/common/logo.png) no-repeat 50% 0;
+	background: url(/yp_dt_new/images/common/logo.png) no-repeat 50% 0;
 	text-indent: -9999px;
 }
 
 #header .util-box {
 	display: flex;
-	align-items: center;
-	justify-content: space-between;
-	padding: 0 11px;
-	width: 250px;
-	height: 40px;
-	background-color: #fff;
-	box-shadow: 0px 0px 6px #000;
-	border-radius: 0px 0px 20px 20px;
 }
 
 #header .util-box .user {
-	flex-shrink: 0;
 	position: relative;
-	padding-left: 35px;
-	height: 30px;
-	line-height: 30px;	
-	color: #4A566D;
-	font-size: 15px;
-	font-weight: 700;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	width: 230px;
+	height: 40px;
+	background: #FFFFFF;
+	padding: 0 2px 0 34px;
+	border-radius: 0px 0px 0px 10px;
+	font-family: 'Noto Sans KR', 'Malgun Gothic', '맑은 고딕', sans-serif;
+	font-size: 14px;
+	font-weight: 600;
 }
 
 #header .util-box .user::before {
 	content: '';
 	position: absolute;
-	top: 0;
-	left: 0;
-	width: 30px;
-	height: 30px;
-	background: url(/images/common/hd-user.png) no-repeat 50% 50%;
+	top: 9px;
+	left: 8px;
+	width: 20px;
+	height: 20px;
+	background: url(/yp_dt_new/images/common/hd-user.png) no-repeat 50% / cover;
 	vertical-align: middle;
 }
 
@@ -87,17 +83,17 @@ html, body {
 	width: 19px;
 	height: 19px;
 	border: 1px solid #44516A;
-	background: #fff url(/images/common/bi-userModify.svg) no-repeat 50% 50%;
+	background: #fff url(/yp_dt_new/images/common/bi-userModify.svg) no-repeat 50% 50%;
 	border-radius: 50%;	
 	vertical-align: middle;
+	margin-top: 1px;
 	-webkit-transition: border .2s, background .2s;
 	transition: border .2s, background .2s;
 }
 
 #header .util-box .user-btn:hover, #header .util-box .user-btn.active {
 	border-color: #1C77FF;
-	background: #1C77FF url(/images/common/bi-userModify-on.svg) no-repeat 50% 50%;
-
+	background: #1C77FF url(/yp_dt_new/images/common/bi-userModify-on.svg) no-repeat 50% 50%;
 }
 
 #header .logout-btn {
@@ -120,7 +116,7 @@ html, body {
 	margin: -2px 5px 0 0;
 	width: 23px;
 	height: 23px;
-	background: url(/images/common/bi-logout.svg) no-repeat 50% 50%;
+	background: url(/yp_dt_new/images/common/bi-logout.svg) no-repeat 50% 50%;
 	vertical-align: middle;
 	-webkit-transition: background .1s;
 	transition: background .1s;
@@ -132,9 +128,77 @@ html, body {
 }
 
 #header .logout-btn:hover::before {
-	background: url(/images/common/bi-logout-hover.svg) no-repeat 50% 50%;
+	background: url(/yp_dt_new/images/common/bi-logout-hover.svg) no-repeat 50% 50%;
 }
 
+#header .util-box .GNB {
+	display: flex;
+	width: fit-content;
+	height: fit-content;
+	background: #FFFFFF;
+	border-radius: 0px 0px 10px 0px;
+
+	font-family: 'Noto Sans KR', 'Malgun Gothic', '맑은 고딕', sans-serif;
+	font-size: 14px;
+	font-weight: 500;
+	letter-spacing: -0.03em;
+	text-align: center;
+	color: #969696;
+	padding: 10px;
+	transition: 0.3s;
+}
+#header .util-box .GNB:hover {
+	border-radius: 0px 0px 10px 10px;
+	transition: 0.3s;
+}
+#header .util-box .GNB > li {
+	width: 70px;
+	text-align: center;
+}
+#header .util-box .GNB > li ul {
+	margin-top: 5px;
+}
+#header .util-box .GNB > li span {
+	position: relative;
+	display: block;
+	width: 100%;
+	text-align: center;
+	cursor: pointer;
+}
+#header .util-box .GNB > li span:after {
+	position: absolute;
+	bottom: -3px;
+	left: 50%;
+	content: '';
+	display: none;
+
+	width: 80%;
+	height: 2px;
+	background: linear-gradient(90.01deg, #FFA3A3 0.01%, #79B7FF 101.19%);
+	border-radius: 1px;
+	transform: translateX(-50%);
+}
+#header .util-box .GNB > li:hover span {
+	color: #4A566D;
+}
+#header .util-box .GNB > li:hover span:after {
+	display: block;
+}
+#header .util-box .GNB > li:not(:first-child) span {
+	border-left: 1px solid #e7e7e7;
+}
+#header .util-box .GNB button {
+	font-family: 'Noto Sans KR', 'Malgun Gothic', '맑은 고딕', sans-serif;
+	font-size: 13px;
+	font-weight: 400;
+	letter-spacing: -0.03em;
+	line-height: 1.7;
+	text-align: center;
+	color: #969696;
+}
+#header .util-box .GNB button:hover {
+	color: #4A566D;
+}
 /*------------------------------------------------------------------------------
  * map
  *----------------------------------------------------------------------------*/
@@ -198,31 +262,6 @@ html, body {
 	background-color: #1C77FF;
 }
 
-#map-aside .tool-btn.icon01 {background-image: url(/images/map/tool-icon01.svg);}
-#map-aside .tool-btn.icon02 {background-image: url(/images/map/tool-icon02.svg);}
-#map-aside .tool-btn.icon03 {background-image: url(/images/map/tool-icon03.svg);}
-#map-aside .tool-btn.icon04 {background-image: url(/images/map/tool-icon04.svg);}
-#map-aside .tool-btn.icon05 {background-image: url(/images/map/tool-icon05.svg);}
-#map-aside .tool-btn.icon06 {background-image: url(/images/map/tool-icon06.svg);}
-#map-aside .tool-btn.icon07 {background-image: url(/images/map/tool-icon07.svg);}
-#map-aside .tool-btn.icon08 {background-image: url(/images/map/tool-icon08.svg);}
-#map-aside .tool-btn.icon09 {background-image: url(/images/map/tool-icon09.svg);}
-#map-aside .tool-btn.icon10 {background-image: url(/images/map/tool-icon10.svg);}
-#map-aside .tool-btn.icon11 {background-image: url(/images/map/tool-icon11.svg);}
-
-#map-aside .active .tool-btn.icon01 {background-image: url(/images/map/tool-icon01-on.svg);}
-#map-aside .active .tool-btn.icon02 {background-image: url(/images/map/tool-icon02-on.svg);}
-#map-aside .active .tool-btn.icon03 {background-image: url(/images/map/tool-icon03-on.svg);}
-#map-aside .active .tool-btn.icon04 {background-image: url(/images/map/tool-icon04-on.svg);}
-#map-aside .active .tool-btn.icon05 {background-image: url(/images/map/tool-icon05-on.svg);}
-#map-aside .active .tool-btn.icon06 {background-image: url(/images/map/tool-icon06-on.svg);}
-#map-aside .active .tool-btn.icon07 {background-image: url(/images/map/tool-icon07-on.svg);}
-#map-aside .active .tool-btn.icon08 {background-image: url(/images/map/tool-icon08-on.svg);}
-#map-aside .active .tool-btn.icon09 {background-image: url(/images/map/tool-icon09-on.svg);}
-#map-aside .active .tool-btn.icon10 {background-image: url(/images/map/tool-icon10-on.svg);}
-#map-aside .active .tool-btn.icon11 {background-image: url(/images/map/tool-icon11-on.svg);}
-
-
 .ui-tooltip.style1 {
 	padding: 3px 6px;
 	font-family: 'Noto Sans KR';
@@ -252,7 +291,7 @@ html, body {
 	margin-left: -4px;
 	width: 8px;
 	height: 7px;
-	background: url(/images/map/toolTip-arrow-top.png) no-repeat 50% 50%;	
+	background: url(/yp_dt_new/images/map/toolTip-arrow-top.png) no-repeat 50% 50%;
 }
 
 /*------------------------------------------------------------------------------
@@ -296,36 +335,20 @@ html, body {
 }
 
 .map-board .notice-btn {
-	background-image: url(/images/map/map-notice.svg);
+	background-image: url(/yp_dt_new/images/map/map-notice.svg);
 }
 
 .map-board .notice-btn.active {
-	background-image: url(/images/map/map-notice-on.svg);
+	background-image: url(/yp_dt_new/images/map/map-notice-on.svg);
 }
 
 .map-board .qna-btn {
-	background-image: url(/images/map/map-board.svg);
+	background-image: url(/yp_dt_new/images/map/map-board.svg);
 }
 
 .map-board .qna-btn.active {
-	background-image: url(/images/map/map-board-on.svg);
+	background-image: url(/yp_dt_new/images/map/map-board-on.svg);
 }
-
-.map-board .opqna-btn {
-	background-image: url(/images/map/map-information.png);
-}
-
-.map-board .opqna-btn.active {
-	background-image: url(/images/map/map-information-on.png);
-}
-
-/* .opqna-btn{
-	font-size: 15px;
-	font-weight: 700;
-} */
-
-
-
 
 /*------------------------------------------------------------------------------
  * map > map-control
@@ -343,8 +366,11 @@ html, body {
 	box-shadow: 0 0 6px #000;
 }
 
-.map-control ul li:nth-child(1) {
-	border-radius: 50%;
+.map-control ul li:nth-child(1) .ctrl-btn.compass {
+	border-top-left-radius: 20px;
+	border-top-right-radius: 20px;
+	border-bottom-left-radius: 20px;
+	border-bottom-right-radius: 20px;
 }
 
 .map-control ul li .ctrl-btn:first-child {
@@ -357,59 +383,80 @@ html, body {
 	border-bottom-right-radius: 10px;
 }
 
+.map-control ul li .ctrl-btn.compass:first-child,
+.map-control ul li .ctrl-btn.compass:last-child,
+{
+	border-top-left-radius: 50%;
+	border-top-right-radius: 50%;
+	border-bottom-left-radius: 50%;
+	border-bottom-right-radius: 50%;
+}
+
 .map-control .ctrl-btn {
+	position: relative;
 	display: block;
 	width: 40px;
 	height: 40px;
-	background-color: #44516A;
+	background-color: white;
 	background-repeat: no-repeat;
 	background-position: 50% 50%;
 	-webkit-transition: background .2s;
 	transition: background .2s;
 }
-
 .map-control .ctrl-btn:hover,
 .map-control .ctrl-btn.active {
-	background-color: #1C77FF;
+	background-color: #dbdbdb;
 }
 
 .map-control .ctrl-btn:active {
-	background-color: #44516A;
+	background-color: #dbdbdb;
 }
-
-.map-control .compass {
+.map-control .ctrl-btn:before {
+	position: absolute;
+	top: 5px;
+	right: 50px;
+	content: attr(data-name);
+	width: max-content;
+	font-size: 12px;
+	font-weight: 400;
+	background: white;
+	border-radius: 10px;
+	padding: 5px 10px;
+	box-shadow: 3px 3px 4px rgba(0, 0, 0, 0.5);
+	opacity: 0;
+	transition: 0.3s;
+}
+.map-control:hover .ctrl-btn:before {
+	opacity: 1;
+	transition: 0.3s;
+}
+.map-control .ctrl-btn.compass {
 	position: relative;
-	background-color: transparent;
-	background-image: url(/images/map/ctrl-compass-bg.svg);
-	border-radius: 50%;
+	background-color: white;
+	background-image: url(/yp_dt_new/images/map/ctrl-compass-bg.svg);
 }
 
-.map-control .compass span {
+.map-control .ctrl-btn.compass span {
 	display: block;
 	width: 100%;
 	height: 100%;
-	background: url(/images/map/ctrl-compass.svg) no-repeat 50% 50%;
+	background: url(/yp_dt_new/images/map/ctrl-compass.svg) no-repeat 50% 50%;
 	
 }
 
-.map-control .compass:hover {
-	background-color: transparent;
-}
-
 .map-control ul li .ctrl-btn + .ctrl-btn {
-	border-top: 1px solid #62708A;
-	box-shadow: 0px -1px 0px #384357;
+	border-top: 1px solid #E8E8E8;
 }
 
-.map-control .reset {background-image: url(/images/map/ctrl-reset.svg);}
-.map-control .globe {background-image: url(/images/map/ctrl-globe.svg);}
-.map-control .location {background-image: url(/images/map/ctrl-location.svg);}
-.map-control .distance {background-image: url(/images/map/ctrl-distance.svg);}
-.map-control .measure {background-image: url(/images/map/ctrl-measure.svg);}
-.map-control .radius {background-image: url(/images/map/ctrl-radius.svg);}
+.map-control .reset {background-image: url(/yp_dt_new/images/map/ctrl-reset.svg);}
+.map-control .globe {background-image: url(/yp_dt_new/images/map/ctrl-globe.svg);}
+.map-control .location {background-image: url(/yp_dt_new/images/map/ctrl-location.svg);}
+.map-control .distance {background-image: url(/yp_dt_new/images/map/ctrl-distance.svg);}
+.map-control .measure {background-image: url(/yp_dt_new/images/map/ctrl-measure.svg);}
+.map-control .radius {background-image: url(/yp_dt_new/images/map/ctrl-radius.svg);}
 
-.map-control .scaleUp {background-image: url(/images/map/ctrl-scaleUp.svg);}
-.map-control .scaleDown {background-image: url(/images/map/ctrl-scaleDown.svg);}
+.map-control .scaleUp {background-image: url(/yp_dt_new/images/map/ctrl-scaleUp.svg);}
+.map-control .scaleDown {background-image: url(/yp_dt_new/images/map/ctrl-scaleDown.svg);}
 
 
 
@@ -421,9 +468,16 @@ html, body {
 }
 
 .map-type .knobs {
-	display: block;
-	border-radius: 15px;
+	display: flex;
+	align-items: center;
+	width: 72px;
+	height: 40px;
+	border-radius: 0 20px 20px 0;
+	background: white;
 	box-shadow: 0px 0px 6px #000;	
+}
+.map-type .knobs > span {
+	width: 40px;
 }
 
 .map-type input[type="radio"] {
@@ -438,32 +492,25 @@ html, body {
 
 .map-type label {
 	display: block;
-	width: 40px;
-	height: 40px;
+	width: 33px;
+	height: 33px;
 	line-height: 40px;
 	font-family: 'YangPyeong';
-	color: #fff;
-	font-size: 16px;
+	color: #AFAFAF;
+	font-size: 14px;
+	line-height: 2.5;
 	font-weight: 700;
-	background-color: #44516A;
+	background-color: white;
+	border-radius: 50%;
 	text-align: center;
 	cursor: pointer;
 	-webkit-transition: background .2s;
 	transition: background .2s;
 }
 
-.map-type .knobs span:first-child label {
-	border-bottom: 1px solid #384357;
-	border-radius: 10px 10px 0 0;
-}
-
-.map-type .knobs span:last-child label {
-	border-top: 1px solid #62708A;
-	border-radius: 0 0 10px 10px;
-}
-
 .map-type input[type="radio"]:checked + label {
-	background-color: #1C77FF;
+	color: white;
+	background: linear-gradient(45deg, #FFA3A3 0.01%, #79B7FF 101.19%);
 }
 
 /*------------------------------------------------------------------------------
@@ -478,11 +525,25 @@ html, body {
 	bottom: 0;
 	z-index: 200;
 }
-
-.map-util .addrSelect {
-	margin-bottom: 10px;
+.map-util > div {
+	height: 40px;
+	background-color: rgba(7, 23, 52, 0.8);
+}
+.map-util .btn.wl {
+	border: .5px solid #C2C2C2;
 }
 
+.map-util .addrSelect {
+	border-radius: 20px 0 0 0;
+	padding: 7px 10px 0 20px;
+	display: flex;
+	justify-content: space-between;
+	color: white;
+	font-weight: 500;
+	width: 640px;
+	border-right: 1px solid #ffffff1f;
+}
+.map-util .addrSelect select {height: 24px;}
 .map-util .addrSelect .form-select2 {
 	margin: 0 2px;
 	width: auto;
@@ -490,25 +551,22 @@ html, body {
 .map-util .addrSelect .form-control {
 	margin: 0 2px;
 	width: 130px;
-}
-
-.map-util .addrSelect .form-control {
-	height: 30px;
+	height: 24px;
 	border-color: #8895AD;
 	box-shadow: 0px 0px 4px #000;
 }
 
-.map-util .addrSelect .form-checkbox {
-	display: inline-block;
+.map-util .addrSelect .form-control.scale {
+	width: 60px;
 }
 
 .map-util .addrSelect .search-btn {
 	position: relative;
 	display: inline-block;
-	width: 30px;
-	height: 30px;
+	width: 25px;
+	height: 25px;
 	background-color: #44516A;
-	background-image: url(/images/icon/icon-search.svg);
+	background-image: url(/yp_dt_new/images/icon/icon-search.svg);
 	background-repeat: no-repeat;
 	background-position: 50% 50%;
 	box-shadow: 0px 0px 4px #000;
@@ -527,17 +585,15 @@ html, body {
 
 .map-util .coordinates {
 	position: relative;
-	margin-left: 20px;
 	padding: 0 25px;
-	width: 474px;
+	width: 500px;
 	height: 40px;
-	background-color: rgba(7, 23, 52, 0.8);
-	box-shadow: 0px 0px 6px #000;
-	border-radius: 20px 20px 0 0;
+	border-radius: 0 20px 0 0;
 }
 
 .map-util .coordinates.active {
 	height: 254px;
+	border-radius: 20px 20px 0 0;
 }
 
 .map-util .coordinates.active .coordi-body {
@@ -561,6 +617,7 @@ html, body {
 	right: 0;
 	bottom: 0;
 	height: 40px;
+	cursor: pointer;
 }
 
 .map-util .coordinates .coordi-header span {
@@ -572,25 +629,12 @@ html, body {
 	letter-spacing: 0;
 }
 
-.map-util .coordinates .coordi-header span::before {
-	content: '';
-	display: inline-block;
-	margin: -2px 5px 0 0;
-	width: 23px;
-	height: 23px;
-	font-size: 13px;
-	border: 2px solid #fff;
-	border-radius: 50%;
-	text-align: center;
-	vertical-align: middle;	
-}
-
 .map-util .coordinates .coordi-header .x::before {
-	content: 'X';
+	content: 'X : ';
 }
 
 .map-util .coordinates .coordi-header .y::before {
-	content: 'Y ';
+	content: 'Y : ';
 }
 
 .map-util .coordinates .coordi-header .btn {
@@ -709,7 +753,7 @@ html, body {
 	right: 17px;
 	width: 20px;
 	height: 20px;
-	background: url(/images/icon/legend-close.svg) no-repeat 50% 50%;
+	background: url(/yp_dt_new/images/icon/legend-close.svg) no-repeat 50% 50%;
 }
 
 .legend-group {
@@ -731,6 +775,7 @@ html, body {
 .legend-group .legend-items .vertical-list li {
 	margin-top: 3px;
 }
+
 
 /*------------------------------------------------------------------------------
  * 마우스 우클릭시
@@ -778,86 +823,19 @@ html, body {
 	background-color: #1C77FF;
 }
 
-.context .c01::before {background-image: url(/images/map/context-icon01.png);}
-.context .c02::before {background-image: url(/images/map/context-icon02.png);}
-.context .c03::before {background-image: url(/images/map/context-icon03.png);}
-.context .c04::before {background-image: url(/images/map/context-icon04.png);}
-.context .c05::before {background-image: url(/images/map/context-icon05.png);}
-.context .c06::before {background-image: url(/images/map/context-icon06.png);}
-.context .c07::before {background-image: url(/images/map/context-icon07.png);}
+.context .c01::before {background-image: url(/yp_dt_new/images/map/context-icon01.png);}
+.context .c02::before {background-image: url(/yp_dt_new/images/map/context-icon02.png);}
+.context .c03::before {background-image: url(/yp_dt_new/images/map/context-icon03.png);}
+.context .c04::before {background-image: url(/yp_dt_new/images/map/context-icon04.png);}
+.context .c05::before {background-image: url(/yp_dt_new/images/map/context-icon05.png);}
+.context .c06::before {background-image: url(/yp_dt_new/images/map/context-icon06.png);}
+.context .c07::before {background-image: url(/yp_dt_new/images/map/context-icon07.png);}
 
-.context .c01:hover::before {background-image: url(/images/map/context-icon01-on.png);}
-.context .c02:hover::before {background-image: url(/images/map/context-icon02-on.png);}
-.context .c03:hover::before {background-image: url(/images/map/context-icon03-on.png);}
-.context .c04:hover::before {background-image: url(/images/map/context-icon04-on.png);}
-.context .c05:hover::before {background-image: url(/images/map/context-icon05-on.png);}
-.context .c06:hover::before {background-image: url(/images/map/context-icon06-on.png);}
-.context .c07:hover::before {background-image: url(/images/map/context-icon07-on.png);}
+.context .c01:hover::before {background-image: url(/yp_dt_new/images/map/context-icon01-on.png);}
+.context .c02:hover::before {background-image: url(/yp_dt_new/images/map/context-icon02-on.png);}
+.context .c03:hover::before {background-image: url(/yp_dt_new/images/map/context-icon03-on.png);}
+.context .c04:hover::before {background-image: url(/yp_dt_new/images/map/context-icon04-on.png);}
+.context .c05:hover::before {background-image: url(/yp_dt_new/images/map/context-icon05-on.png);}
+.context .c06:hover::before {background-image: url(/yp_dt_new/images/map/context-icon06-on.png);}
+.context .c07:hover::before {background-image: url(/yp_dt_new/images/map/context-icon07-on.png);}
 
-/*------------------------------------------------------------------------------
- * Hanam
- *----------------------------------------------------------------------------*/
-body.hanam #header .logo a {
-	background: url(/images/hanam/common/logo.png) no-repeat 50% 0;
-}
-
-/*------------------------------------------------------------------------------
- * Gimpo
- *----------------------------------------------------------------------------*/
-body.gimpo #header .logo a {
-	background: url(/images/gimpo/common/logo.png) no-repeat 50% 0;
-}
-
-/*------------------------------------------------------------------------------
- * Uijeongbu
- *----------------------------------------------------------------------------*/
-body.uijeongbu #header .logo a {
-	background: url(/images/uijeongbu/common/logo.png) no-repeat 50% 0;
-}
-
-
-/* alert 메시지 대체 toast message */
-#toastMsg {
-  visibility: hidden;
-  min-width: 250px;
-  margin-left: -125px;
-  background-color: #000000d1;
-  color: #fff;
-  text-align: center;
-  border-radius: 2px;
-  padding: 16px;
-  position: fixed;
-  z-index: 1;
-  left: 50%;
-  top: 50px;
-  height: 50px;
-}
-
-#toastMsg.show {
-  visibility: visible;
-  /* Add animation: Take 0.5 seconds to fade in and out the snackbar.
-  However, delay the fade out process for 2.5 seconds */
-  -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
-  animation: fadein 0.5s, fadeout 0.5s 2.5s;
-}
-
-/* Animations to fade the snackbar in and out */
-@-webkit-keyframes fadein {
-  from {bottom: 0; opacity: 0;}
-  to {bottom: 30px; opacity: 1;}
-}
-
-@keyframes fadein {
-  from {bottom: 0; opacity: 0;}
-  to {bottom: 30px; opacity: 1;}
-}
-
-@-webkit-keyframes fadeout {
-  from {bottom: 30px; opacity: 1;}
-  to {bottom: 0; opacity: 0;}
-}
-
-@keyframes fadeout {
-  from {bottom: 30px; opacity: 1;}
-  to {bottom: 0; opacity: 0;}
-}
