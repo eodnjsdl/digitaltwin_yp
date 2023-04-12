@@ -191,15 +191,15 @@ function aj_selectSafetyFacilitiesMngList(form, searchType){
 		searchAdres = '';
 		searchManageNo = '';
 
-		if(formData.get("pageIndex") == 1 && SFFM.spitalSearch == '') {
+		if(formData.get("pageIndex") == 1 && spitalSearch == '') {
 			sffmBuffer = $('#sffmBuffer').val();
 			// spitalSearch = cmmUtil.spitalSearch('sffm');
 		} else if(searchType == 'spital') {
 			sffmBuffer = $('#sffmBuffer').val();
 			// spitalSearch = cmmUtil.spitalSearch('sffm');
 		} else {
-			spitalSearch = SFFM.spitalSearch;
-			sffmBuffer = SFFM.sffmBuffer;
+			spitalSearch = spitalSearch;
+			sffmBuffer = sffmBuffer;
 		}
 	}
 
@@ -329,15 +329,15 @@ function aj_selectCctvList(form, searchType){
 		searchGbn = '';
 		searchLabel = '';
 
-		if(formData.get("pageIndex") == 1 && CCTV.spitalSearch == '') {
+		if(formData.get("pageIndex") == 1 && spitalSearch == '') {
 			cctvBuffer = $('#cctvBuffer').val();
 			// spitalSearch = cmmUtil.spitalSearch('cctv');
 		} else if(searchType == 'spital') {
 			cctvBuffer = $('#cctvBuffer').val();
 			// spitalSearch = cmmUtil.spitalSearch('cctv');
 		} else {
-			spitalSearch = CCTV.spitalSearch;
-			cctvBuffer = CCTV.cctvBuffer;
+			spitalSearch = spitalSearch;
+			cctvBuffer = cctvBuffer;
 		}
 	}
 
@@ -410,12 +410,12 @@ function aj_selectCctvList(form, searchType){
 							$('#cctvBuffer').val(cctvBuffer);
 						}
 					}
-					CCTV.getCode(searchGbn, 'search');
-					// POI 호출
-					CCTV.selectCctvPOIList(searchDeviceid, searchGbn, searchLabel, spitalSearch, cctvBuffer);
-					// 공간검색 영역 저장
-					CCTV.spitalSearch = spitalSearch;
-					CCTV.cctvBuffer = cctvBuffer;
+					// CCTV.getCode(searchGbn, 'search');
+					// // POI 호출
+					// CCTV.selectCctvPOIList(searchDeviceid, searchGbn, searchLabel, spitalSearch, cctvBuffer);
+					// // 공간검색 영역 저장
+					// CCTV.spitalSearch = spitalSearch;
+					// CCTV.cctvBuffer = cctvBuffer;
 				}else{
 					toastr.error("관리자에게 문의 바랍니다.", "정보를 불러오지 못했습니다.");
 					return;

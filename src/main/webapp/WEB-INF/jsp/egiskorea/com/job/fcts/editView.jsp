@@ -13,6 +13,9 @@
 	}
 </style>
 
+<!-- js -->
+<script src="/js/egiskorea/com/job/fcts/editView.js"></script>			<!-- 공간정보 편집도구 -->
+
 <div class="popup-header">공간정보 편집도구</div>
 <div class="popup-body">
     <div class="sub-popup-body space-editTool">

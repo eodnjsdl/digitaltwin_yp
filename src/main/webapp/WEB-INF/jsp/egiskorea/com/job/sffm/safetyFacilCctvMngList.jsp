@@ -4,25 +4,32 @@
 <%@ taglib prefix="ui" uri="http://egovframework.gov/ctl/ui"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
-<script src="/js/egiskorea/com/job/cctv/cctv.js"></script>
+<script src="/js/egiskorea/com/job/sffm/cctv/cctv.js"></script>
+<script src="/js/egiskorea/com/job/sffm/sffm.js"></script>
 <%--<script src="/js/egiskorea/com/cmm/cmmUtil.js"></script>--%>
-<script>
+<!--<script>
 	$(document).ready(function() {
 		CCTV.init();
 	});
 
-	// 가로등관리 등록페이지 열기 버튼
+	// CCTV관리 등록페이지 열기 버튼
 	$("#insertSafetyFacilCctvMngView").on("click", function() {
 		ui.openPopup("rightSubPopup");
 		CCTV.aj_insertSafetyFacilCctvMngView($("#tmpForm")[0], "", "right");
 	});
 
+	//CCTV관리 상세페이지 열기
+	$(document).on('click', '#bottomPopup #sampleGridDiv tr', function(){
+		ui.openPopup("rightSubPopup");
+		CCTV.aj_selectSafetyFacilCctvMngView($("#tmpForm")[0], "right", $(this).children('td').eq(0).text());
+	})
+	
 	// 가로등관리 상세페이지 열기
 	function fn_select_cctv_detail(gid, lon, lat) {
 		ui.openPopup("rightSubPopup");
-		CCTV.aj_selectSafetyFacilCctvMng($("#tmpForm")[0], gid, "right");
+		CCTV.aj_selectSafetyFacilCctvMngView($("#tmpForm")[0], gid, "right");
 	}
-</script>
+</script>-->
 <!-- 업무 > 공간정보활용 > 안전시설물관리 -->
 <!-- <div class="popup-panel popup-bottom work-01-03" style="left: 320px;width: 1600px;height: 378px;"> -->
 <div class="popup-header">안전시설물관리</div>
@@ -31,13 +38,12 @@
 		<!-- 검색영역 -->
 		<div class="items search-area">
 			<div class="top-search">
-				<select id="cctv-facilityType" class="form-select">
+				<select id="safeFacilityType" class="form-select">
 					<option value="lamp">가로등관리</option>
 					<option value="cctv" selected="selected">CCTV관리</option>
 				</select>
 			</div>
-			<form:form name="searchForm" id="searchForm" method="post"
-				onsubmit="CCTV.fn_select_cctv_list(''); return false;">
+			<form:form name="searchForm" id="searchForm" method="post">
 				<input type="hidden" name="pageIndex" id="pageIndex"
 					value="<c:out value='${searchVO.pageIndex}' />">
 				<input type="hidden" name="bufferArea" id="bufferArea" value="<c:out value='${searchVO.bufferArea}' />">
@@ -60,15 +66,16 @@
 								<tbody>
 									<tr>
 										<th scope="row">기기구분</th>
-										<td colspan="1"><select name="cctv-search-selbox"
-											class="form-control" id="cctv-search-selbox">
+										<td colspan="1">
+											<select name="cctv-search-selbox" class="form-control" id="cctv-search-selbox">
 												<option name="전체" value="">전체</option>
-										</select></td>
+											</select>
+										</td>
 									</tr>
 									<tr>
 										<td colspan="2"><input type="text" class="form-control"
 											id="cctv-search-deviceid"
-											onkeypress="if( event.keyCode == 13 ){ CCTV.fn_select_cctv_list(''); }"
+											onkeypress="if( event.keyCode == 13 ){ fn_search_cctv_list(''); }"
 											placeholder="기기ID"></td>
 									</tr>
 									<!-- <tr>
@@ -77,7 +84,7 @@
 									<tr>
 										<td colspan="2"><input type="text" class="form-control"
 											id="cctv-search-label"
-											onkeypress="if( event.keyCode == 13 ){ CCTV.fn_select_cctv_list(''); }"
+											onkeypress="if( event.keyCode == 13 ){ fn_search_cctv_list(''); }"
 											placeholder="명칭"></td>
 									</tr>
 								</tbody>
@@ -86,7 +93,7 @@
 						<div class="btn-wrap">
 							<div>
 								<button type="button" class="btn type01 search"
-									onclick="CCTV.fn_select_cctv_list('');">조회</button>
+									onclick="setData('');">조회</button>
 							</div>
 						</div>
 					</div>
@@ -115,14 +122,14 @@
 								경계로부터 <span class="form-group"><input type="number"
 									id="cctvBuffer" class="form-control align-center" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" value="0"
 									value="0" placeholder="0"
-									onkeypress="if( event.keyCode == 13 ){ CCTV.fn_select_cctv_list('spital'); }">
+									onkeypress="if( event.keyCode == 13 ){ fn_select_cctv_list('spital'); }">
 									<sub>m</sub></span> 이내 범위
 							</div>
 						</div>
 						<div class="btn-wrap">
 							<div>
 								<button type="button" class="btn type01 search"
-									onclick="CCTV.fn_select_cctv_list('spital');">조회</button>
+									onclick="setData('spital');">조회</button>
 							</div>
 						</div>
 					</div>
@@ -140,7 +147,7 @@
 						<span class="form-checkbox"
 							style="float: left; margin-right: 5px;"><span><input
 								type="checkbox" name="" id="cctvCrimianlChkBox"
-								onclick="CCTV.getCriminalWMS();"><label
+								onclick="getCriminalWMS();"><label
 								for="cctvCrimianlChkBox"></label></span></span>영향권<span class="form-group">
 							<input type="text" id="cctvBuffer2"
 							style="width: 50px; margin-left: 5px;" maxlength="10"
@@ -151,7 +158,7 @@
 					</div>
 					<button type="button" class="btn basic bi-write"
 						id="insertSafetyFacilCctvMngView"
-						onclick="CCTV.getCode('', 'insert');">등록</button>
+						onclick="fn_insert();">등록</button>
 					<a href="/job/cctv/cctvExcelDown.do"><button type="button"
 							class="btn basic bi-excel">엑셀저장</button></a>
 				</div>
@@ -159,53 +166,13 @@
 			<div class="bbs-list-wrap" style="height: 273px;">
 				<!-- pagination 하단 고정을 위해 반드시 필요 -->
 				<div class="bbs-default">
-					<div class="bbs-list-head">
-						<table class="bbs-list" id="cctv-table">
-							<colgroup>
-								<col style="width: 15%;">
-								<col style="width: 15%;">
-								<col style="width: auto;">
-							</colgroup>
-							<thead>
-								<tr>
-									<th scope="col">기기ID</th>
-									<th scope="col">구분</th>
-									<th scope="col">명칭</th>
-								</tr>
-							</thead>
-						</table>
-					</div>
-					<div class="scroll-y">
-						<table class="bbs-list">
-							<colgroup>
-								<col style="width: 15%;">
-								<col style="width: 15%;">
-								<col style="width: auto;">
-							</colgroup>
-							<tbody>
-								<c:forEach items="${resultList}" var="cctvList"
-									varStatus="status">
-									<tr id="cctv_<c:out value="${cctvList.gid}" />"
-										data-gid="<c:out value="${cctvList.gid}" />"
-										onClick="fn_select_cctv_detail('<c:out value="${cctvList.gid}" />', '<c:out value="${cctvList.lon}" />', '<c:out value="${cctvList.lat}" />')">
-										<td><c:out value="${cctvList.deviceid}"></c:out></td>
-										<td><c:out value="${cctvList.gbn}"></c:out></td>
-										<td><c:out value="${cctvList.label}"></c:out></td>
-									</tr>
-								</c:forEach>
-								<c:if test="${fn:length(resultList) == 0}">
-									<tr>
-										<td class="noData" colspan="6">데이터가 없습니다.</td>
-									</tr>
-								</c:if>
-							</tbody>
-						</table>
-					</div>
+					<div id="sampleGridDiv" style="height:inherit; display: flex;flex-direction: column">
+                        <div id="gridax5" data-ax5grid="attr-grid" data-ax5grid-config="{}" style="flex: 1"></div>
+                    </div>
 				</div>
 
 				<div class="pagination">
-					<ui:pagination paginationInfo="${paginationInfo}" type="pagination"
-						jsFunction="CCTV.fn_select_cctv_linkPage" />
+					
 				</div>
 			</div>
 		</div>
