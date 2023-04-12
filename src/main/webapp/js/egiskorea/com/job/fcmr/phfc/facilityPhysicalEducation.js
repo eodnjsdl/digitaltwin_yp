@@ -29,7 +29,7 @@ function getPhyEduFaciListView() {
 			return date.substr(0, 10);
 		}
 		
-		FACILITY.Ax5UiGrid = null;	//ax5uigrid 전역 변수 
+		FACILITY.Ax5UiGrid = null;	// ax5uigrid 전역 변수 
 	    
 	    FACILITY.Ax5UiGrid = new ax5.ui.grid();
 		
@@ -61,7 +61,8 @@ function getPhyEduFaciListView() {
 				lastIcon: '&gt;&gt;',
 	            onChange: function() {
 	            	selectPhyEduFaciList(this.page.selectPage + 1);
-	            	$('#hiddenPage').val(this.page.selectPage + 1);	            }
+	            	$('#hiddenPage').val(this.page.selectPage + 1);
+	            }
 			},
 			body: {
 				onClick: function() {
@@ -82,7 +83,7 @@ function selectPhyEduFaciList(page) {
 	//console.log("selectPhyEduFaciList(page)");
 	//console.log("page >>> " + page);
 	
-	//검색 조건
+	// 검색 조건
 	const filters = [];
 	
 	var sporSearchAdres = $('input[name=sporSearchAdres]').val();				//읍면동
@@ -114,10 +115,10 @@ function selectPhyEduFaciList(page) {
 	const promise = dtmap.wfsGetFeature(options);
 	
 	promise.then(function(data) {
-		//그리드 데이터 전처리
+		// 그리드 데이터 전처리
 		const list = [];
 		for (let i = 0; i < data.features.length; i++) {
-			//좌표 처리
+			// 좌표 처리
 			data.features[i].properties.geomObj = data.features[i].geometry;
         	
 			const {id, properties} = data.features[i];
@@ -131,7 +132,7 @@ function selectPhyEduFaciList(page) {
         	$("#bottomPopup .bbs-list-num").html("조회결과: " + total + "건");
         }
 
-		//gird 적용
+		// gird 적용
         FACILITY.Ax5UiGrid.setData({
 			list: list,
 			page: {
@@ -142,14 +143,14 @@ function selectPhyEduFaciList(page) {
 			}
 		})
 		
-		//지도 아이콘 작업
+		// 지도 아이콘 작업
         dtmap.vector.clear();
         
-        //지도에 GeoJSON 추가
+        // 지도에 GeoJSON 추가
         dtmap.vector.readGeoJson(data, function(feature) {
-            //스타일 콜백 
+            // 스타일 콜백 
         	let properties = feature.getProperties();
-            let ftr_cde = properties.fclty_nm;
+            let fclty_nm = properties.fclty_nm;
             
             return {
                 marker: {
@@ -303,7 +304,7 @@ function insertPhyEduFaci() {
 	}
 }
 
-//체육시설 수정 화면 표출
+// 체육시설 수정 화면 표출
 function updatePhyEduFaciView(gid) {
 	//console.log("updatePhyEduFaciView(gid)");
 	
@@ -518,7 +519,7 @@ function getPhyMngViewPaging(pageIndex, gid) {
 	});
 }
 
-//운영정보 - 금액 최대 길이 check
+// 운영정보 - 금액 최대 길이 check
 function maxLengthCheck(object){
 	if (object.value.length > object.maxLength){
 		object.value = object.value.slice(0, object.maxLength);
@@ -651,6 +652,8 @@ function deletePhyMng() {
 		
 		var gid = parseInt($('#gid').val());
 		
+		ui.loadingBar("show");
+
 		$.ajax({
 			type : "POST",
 			url : "/job/fcmr/phfc/deletePhyMng.do",
@@ -668,7 +671,7 @@ function deletePhyMng() {
 				console.log("code: " + request.status + "\n" + "message: " + request.responseText + "\n" + "error: " + error);
 			},
 			complete : function() {
-				//loadingShowHide("hide"); 
+				ui.loadingBar("hide");
 			}
 		});
 	}

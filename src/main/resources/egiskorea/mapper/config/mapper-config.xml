@@ -135,6 +135,7 @@
 		<typeAlias alias="sportsVO" type="egiskorea.com.job.spor.service.SportsVO" />
 		
 		<!-- 시설관리 > 복지시설 -->
+		<typeAlias alias="welFareFaciVO" type="egiskorea.com.job.fcmr.wlfc.service.WelFareFaciVO" />
 		<typeAlias alias="welfareVO" type="egiskorea.com.job.wlre.service.WelfareVO" />
 		
 		<!-- 업무 > 읍명동  -->

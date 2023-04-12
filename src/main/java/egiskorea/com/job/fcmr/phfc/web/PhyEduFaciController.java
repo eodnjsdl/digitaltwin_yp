@@ -91,9 +91,9 @@ public class PhyEduFaciController {
 	/**
      * 체육시설 등록 화면
      * 
-     * @param SportsVO
+     * @param PhyEduFaciVO
      * @param model
-     * @return "egiskorea/com/job/fcmr/phfc/phyEduFaciInsertView"
+     * @return "egiskorea/com/job/fcmr/phfc/insertPhyEduFaciView"
      * @throws Exception
      */
 	@RequestMapping(value = "/insertPhyEduFaciView.do")
@@ -108,7 +108,7 @@ public class PhyEduFaciController {
      * 
      * @param SportsVO, LoginVO
      * @param model
-     * @return "egiskorea/com/job/fcmr/phfc/phyEduFaciInsertView"
+     * @return "mv"
      * @throws Exception
      */
 	@RequestMapping("/insertPhyEduFaci.do")
@@ -139,7 +139,7 @@ public class PhyEduFaciController {
      * 
      * @param SportsVO
      * @param model
-     * @return "egiskorea/com/job/fcmr/phfc/phyEduFaciInsertView"
+     * @return "egiskorea/com/job/fcmr/phfc/insertPhyEduFaciView"
      * @throws Exception
      */
 	@RequestMapping(value = "/updatePhyEduFaciView.do")
@@ -162,7 +162,7 @@ public class PhyEduFaciController {
      * 
      * @param SportsVO, LoginVO
      * @param model
-     * @return "egiskorea/com/job/fcmr/phfc/phyEduFaciInsertView"
+     * @return "jsonView"
      * @throws Exception
      */
 	@RequestMapping("/updatePhyEduFaci.do")
@@ -212,7 +212,7 @@ public class PhyEduFaciController {
      * 
      * @param SportsVO
      * @param model
-     * @return ""
+     * @return "mv"
      * @throws Exception
      */
 	HashMap exceldown;
@@ -355,7 +355,7 @@ public class PhyEduFaciController {
      * 
      * @param SportsVO
      * @param model
-     * @return "egiskorea/com/job/fcmr/phfc/phyFaciMngView"
+     * @return "mv"
      * @throws Exception
      */
 	@RequestMapping(value = "/deletePhyMng.do")
@@ -384,7 +384,7 @@ public class PhyEduFaciController {
      * 
      * @param SportsVO, LoginVO
      * @param model
-     * @return "mv"
+     * @return "egiskorea/com/job/fcmr/phfc/phyFaciMngView"
      * @throws Exception
      */
 	@RequestMapping(value = "/selectPhyFaciMngList.do")

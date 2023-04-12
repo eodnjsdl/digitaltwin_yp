@@ -22,7 +22,7 @@
                             </colgroup>
                             <tbody id="lSrchOptions">
 								<tr>
-								<th scope="row">시설유형</th>
+									<th scope="row">시설유형</th>
 									<td>
 										<select name="sports_fcty_tp_cd" id="sports_fcty_tp_cd" class="form-select">
 											<option value="">전체</option>
@@ -78,7 +78,7 @@
             </div>
             <div class="bbs-list-wrap" style="height: 267px;"><!-- pagination 하단 고정을 위해 반드시 필요 -->
                 <div class="bbs-default">
-                    <div id="baseGridDiv" style="height:inherit; display: flex;flex-direction: column">
+                    <div id="baseGridDiv" style="height:inherit; display: flex; flex-direction: column">
                     	<input type="hidden" id="hiddenPage" value="1" />
                         <div id="gridax5" data-ax5grid="attr-grid" data-ax5grid-config="{}" style="flex: 1"></div>
                     </div>

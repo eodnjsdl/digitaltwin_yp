@@ -7,13 +7,15 @@ $(".scroll-y").mCustomScrollbar({
 	scrollbarPosition: "outside"
 });
 
-var fcltyTy = '<c:out value="${result.fcltyTy}"></c:out>';
-var operMthd = '<c:out value="${result.operMthd}"></c:out>';
-var chrgDeptNm = '<c:out value="${result.chrgDeptNm}"></c:out>';
+$(document).ready(function(){
+	var fcltyTy = '<c:out value="${result.fcltyTy}"></c:out>';
+	var operMthd = '<c:out value="${result.operMthd}"></c:out>';
+	var chrgDeptNm = '<c:out value="${result.chrgDeptNm}"></c:out>';
 
-$("#phyEduFaciTbl #fclty_ty").val(fcltyTy).prop("selected", true);
-$("#phyEduFaciTbl #oper_mthd").val(operMthd).prop("selected", true);
-$("#phyEduFaciTbl #chrg_dept_nm").val(chrgDeptNm).prop("selected", true);
+	$("#phyEduFaciTbl #fclty_ty").val(fcltyTy).prop("selected", true);
+	$("#phyEduFaciTbl #oper_mthd").val(operMthd).prop("selected", true);
+	$("#phyEduFaciTbl #chrg_dept_nm").val(chrgDeptNm).prop("selected", true);
+});
 </script>
 
 <!-- 업무 > 시설관리 > 체육시설 > 등록하기 / 수정하기 -->
