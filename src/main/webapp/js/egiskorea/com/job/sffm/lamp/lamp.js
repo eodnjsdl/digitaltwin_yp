@@ -54,17 +54,11 @@ function setData(_pageNo){
 	var instlDe = $('#sffm-search-instl-de').val() || '';
 	var adres = $('#sffm-search-adres').val() || '';
 	var manageNo = $('#sffm-search-manage-no').val() || '';
-
-	console.log(instlDe);
-	console.log(adres);
-	console.log(manageNo);
 	var cqlList = [];
 
 	if(instlDe.trim().length >= 1){cqlList.push("instl_de"+" like "+instlDe);}
 	if(adres.trim().length >= 1){cqlList.push("adres"+" like "+adres);}
 	if(manageNo.trim().length >=1){cqlList.push("manage_no"+" like "+manageNo);}
-
-	console.log(cqlList);
 	
 	var gridList = this;
 	const promise = dtmap.wfsGetFeature({
@@ -72,14 +66,13 @@ function setData(_pageNo){
 		page : _pageNo+1,
 		perPage : 100,
 		sortBy : 'gid',
-		orderBy : 'DESC',
+		sortOrder : 'DESC',
 		filter : cqlList
 	});
 
 	promise.then(function(data){
+		toastr.success("지도 BBOX 이동");
 		$("#bottomPopup").find(".bbs-list-num strong").text(data.totalFeatures);
-
-		toastr.success("페이징된 POI 추가 및 지도 BBOX 이동");
 		var list = [];
 		for(i =0;i<data.features.length;i++){
 			const {id, properties} = data.features[i];

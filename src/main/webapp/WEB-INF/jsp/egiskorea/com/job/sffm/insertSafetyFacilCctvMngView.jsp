@@ -4,38 +4,40 @@
 <%@ taglib prefix="ui" uri="http://egovframework.gov/ctl/ui" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
-<script src="/js/egiskorea/com/job/sffm/cctv/cctv.js"></script>
+
 <script>
 //cctv 등록
 $('#cctvRegist').on('click', function(){
 	
-	
-	var form = new FormData();
-	form.append('deviceid', $('input[name=deviceid]').val());
-	form.append('gbn', $('select[name=gbn] option:selected').val());
-	form.append('label', $('input[name=label]').val());
-	form.append('geom', geom);
-	form.append('lat', $('#lat').val());
-	form.append('lon', $('#lon').val());
-	form.append('adres', $('#adres').val());
+	var form = $('#insertCctvForm')[0];
+	var formData = new FormData(form);
 
-	
-	for (let key of form.keys()) {
-		console.log(key, ":", form.get(key));
+	if($('#cctv-deviceid').val()==''){
+		alert('기기ID를 입력하세요!');
+		return;
 	}
+
+	if($('#cctv-label').val()==''){
+		alert('명칭을 입력하세요!');
+		return;
+	}
+
+	if($('#adres').val()==''){
+		alert('주소를 입력하세요!');
+		return;
+	}
+	
 
 	if(confirm("<spring:message code="common.regist.msg" />")){	//등록하시겠습니까?
        	ui.loadingBar("show");
        	$.ajax({
        		type : "POST",
        		url	 : "/job/cctv/insertCctv.do",
-       		data : form,
+       		data : formData,
 			processData : false,
 			contentType : false,
 			dataType: "json",
 			success : function(returnData, status){
-				console.log(status);
-				console.log(returnData);
 				if(returnData.result == "success") {
 					$("#rightSubPopup").removeClass("opened").html("");
 					initGrid();
@@ -64,6 +66,7 @@ $('#cctvRegist').on('click', function(){
 <%--<div class="popup-panel popup-sub opened" style="bottom: 398px;right: 70px;width: 550px;height: 445px;" id="insertSafetyFacilCctvMngView">--%>
 	<div class="popup-header" id="cctv-title-div">CCTV관리 등록하기</div>
 	<div class="popup-body">
+		<form:form id="insertCctvForm" method="post">
 		<div class="sub-popup-body">
 			<div class="data-write-wrap" style="height: 100%;">
 				<div class="scroll-y">
@@ -75,7 +78,7 @@ $('#cctvRegist').on('click', function(){
 								<col style="width: 23%;">
 								<col style="width: auto;">
 							</colgroup>
-							<form:form id="insertCctvForm" method="post">
+							
 							<tbody>
 								<tr>
 									<th scope="row">기기ID</th>
@@ -102,16 +105,8 @@ $('#cctvRegist').on('click', function(){
 										</div>
 									</td>
 								</tr>
-								<!-- <tr>
-									<td colspan="4">
-										<div class="form-row">
-											<div class="col"><input type="text" class="form-control" id="cctv-location" readonly placeholder="경도, 위도"></div> 
-											<div class="col-auto"><button type="button" class="btn type01 bi-location" onclick="CCTV.setLocation();">지도에서 선택</button></div>
-										</div>
-									</td>
-								</tr> -->
 							</tbody>
-							</form:form>
+							
 						</table>
 					</div>
 				</div>
@@ -124,6 +119,7 @@ $('#cctvRegist').on('click', function(){
 				</div>
 			</div>							
 		</div>
+		</form:form>
 	</div>
 	<button type="button" class="popup-close" title="닫기" ></button>				
 </div>
