@@ -163,6 +163,8 @@ function fn_insert(){
 //cctv관리 상세페이지 열기
 function fn_pageDetail(gid){
 
+	dtmap.vector.clearSelect() 
+	dtmap.vector.select('tgd_cctv_status_new.'+gid);
 
 	ui.openPopup("rightSubPopup");
 	

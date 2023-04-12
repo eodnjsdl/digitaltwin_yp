@@ -4,8 +4,8 @@
 <%@ taglib prefix="ui" uri="http://egovframework.gov/ctl/ui" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
-<script src="/js/egiskorea/com/job/sffm/sffm.js"></script>
 <script src="/js/egiskorea/com/job/sffm//lamp/lamp.js"></script>
+<script src="/js/egiskorea/com/job/sffm/sffm.js"></script>
 <%--<script src="/js/egiskorea/com/cmm/cmmUtil.js"></script>--%>
 <script>
 $(document).ready(function() {
@@ -96,8 +96,9 @@ $(document).ready(function() {
 						<sub>m</sub></span>
 					</div>
 					<button type="button" class="btn basic bi-write" onclick="fn_insert();">등록</button> 
-					<!-- <button type="button" class="btn basic bi-write" id="insertSafetyFacilLampMngView" >등록</button>  -->
 					<button type="button" class="btn basic bi-excel" id="lampExcelDownload" data-form-name="selectSffmLampFacilExcelList">엑셀저장</button> 
+					<!-- <a href="/job/sffm/sffmExcelDown.do"><button type="button" class="btn basic bi-excel">엑셀저장</button></a> -->
+					<!-- <button type="button" class="btn basic bi-write" id="insertSafetyFacilLampMngView" >등록</button>  -->
 
                 </div>
             </div>

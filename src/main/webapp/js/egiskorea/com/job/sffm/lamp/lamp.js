@@ -137,7 +137,8 @@ function fn_insert(){
 
 //가로등관리 상세페이지
 function fn_pageDetail(gid){
-
+	dtmap.vector.clearSelect(); 
+	dtmap.vector.select('tgd_strtlgt_status.'+gid);
 	ui.openPopup("rightSubPopup");
 	
 	var formData = new FormData();
