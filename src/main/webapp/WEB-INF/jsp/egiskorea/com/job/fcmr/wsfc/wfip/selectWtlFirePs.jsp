@@ -115,19 +115,9 @@
                                        <td colspan="3">
                                            <div class="form-row">
                                            	  <c:out value="${wtlFirePsVO.geom }"/>
-                                           	  <input type="text" class="form-control txt-geometry-address" value="" readonly="readonly">
-                                           	  <input type="text" name="geom" class="form-control" value="">
+                                           	  <input type="text" 	class="form-control txt-geometry-address" value="" readonly="readonly">
+                                           	  <input type="hidden" 	name="geom" class="form-control" value="">
                                            </div>
-                                           
-                                           <!-- <div class="form-row">
-                                           		<div class="col">
-                                           			<input type="text" class="form-control txt-geometry-address" value="" readonly="readonly">
-                                           		</div>                    
-                                           		<div class="col-auto">
-                                           			<button type="button" class="btn type01 bi-location btn-select-map" data-popup="space-edit-tool">지도에서 선택</button>
-                                           		</div>                  
-                                           </div> -->
-                                           
                                        </td>
                                    </tr>
                                    </tbody>
@@ -136,9 +126,9 @@
                        </div>
                        <div class="position-bottom btn-wrap justify-content-end">
                            <div>
-                           	   <button type="button" class="btn basic bi-edit btn_edit" onclick="javascript:updateWtlFirePsView('<c:out value="${id }"/>')">수정</button>
-                               <button type="button" class="btn basic bi-delete2 btn_delete">삭제</button>  
-                               <button type="button" class="btn basic bi-cancel btn_cancel">취소</button>
+                           	   <button type="button" class="btn basic bi-edit btn_edit" 		onclick="javascript:updateWtlFirePsView('<c:out value="${id }"/>')">수정</button>
+                               <button type="button" class="btn basic bi-delete2 btn_delete" 	onclick="javascript:deleteWtlFirePs('<c:out value="${id }"/>')">삭제</button>  
+                               <button type="button" class="btn basic bi-cancel btn_cancel" 	onclick="javascript:cancelSelectWtlFirePs();">취소</button>
                            </div>
                        </div>
                    </div>
@@ -152,7 +142,7 @@
 <script type="text/javascript">
 	//jqeury
 	$(document).ready(function(){
-		console.log("selectWtlFirePs.jsp");
+		//console.log("selectWtlFirePs.jsp");
 		
 		//gird 데이터를 통한 주소 조회
 		var id = "${id }";
@@ -171,19 +161,27 @@
 		
 		//닫기
 		$(".popup-panel .select-wtlFirePs-popup-close").on("click", function () {
-    		 $(this).closest('.popup-panel').removeClass('opened');
-            // 초기화 (지도)
-            dtmap.draw.dispose();
-            dtmap.draw.clear();
+            cancelSelectWtlFirePs();
     	});
-		
-		//////////////
-		
-		
 		
 		
 	});
-   
+	
+	//functions
+	
+	//소반시설 상세보기 취소
+	function cancelSelectWtlFirePs() {
+		//console.log("cancelSelectWtlFirePs()");
+		
+		$(".select-wtlFirePs-popup-close").closest('.popup-panel').removeClass('opened');
+        // 초기화 (지도)
+        dtmap.draw.dispose();
+        dtmap.draw.clear();
+        
+        dtmap.vector.clearSelect();	//선택 해제
+	}
+	
+	
 
 </script>
 

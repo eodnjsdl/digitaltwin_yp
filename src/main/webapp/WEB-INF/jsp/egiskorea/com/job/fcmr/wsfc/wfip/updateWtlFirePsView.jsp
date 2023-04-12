@@ -39,30 +39,23 @@
                                        <th scope="row">지형지물부호</th>
                                        <td>
                                           	<c:out value="${wtlFirePsVO.ftr_cde_nm }"/>
-                                          	<input type="text" name="ftr_cde" class="form-control" value="${wtlFirePsVO.ftr_cde }">
+                                          	<input type="hidden" name="ftr_cde" class="form-control" value="${wtlFirePsVO.ftr_cde }">
                                        </td>
                                        <th scope="row">관리번호</th>
                                        <td>
                                        	  	<c:out value="${wtlFirePsVO.ftr_idn }"/>
-                                       	  	<input type="text" name="ftr_idn" class="form-control" value="${wtlFirePsVO.ftr_idn }">
+                                       	  	<input type="hidden" name="ftr_idn" class="form-control" value="${wtlFirePsVO.ftr_idn }">
                                        </td>
                                    </tr>
                                    <tr>
                                        <th scope="row">읍면동</th>
                                        <td>
-                                       		<%-- <c:out value="${wtlFirePsVO.hjd_cde_nm }"/> --%>
                                        		<select name="hjd_cde" class="form-select">
                                        			<option value="">선택</option>
                                        		</select>	
                                        </td>
                                        <th scope="row">관리기관</th>
                                        <td>
-                                       	   <%-- <c:if test="${wtlFirePsVO.mng_cde_nm  != '' || wtlFirePsVO.mng_cde_nm  ne null}">
-                                           		<c:out value="${wtlFirePsVO.mng_cde_nm }"/>
-                                           </c:if>
-                                           <c:if test="${wtlFirePsVO.mng_cde_nm  == '' || wtlFirePsVO.mng_cde_nm  eq null }">
-                                           		<c:out value="${wtlFirePsVO.mng_cde }"/>
-                                           </c:if> --%>
                                            <select name="mng_cde" class="form-select">
                                        			<option value="">선택</option>
                                        		</select>
@@ -85,7 +78,6 @@
                                        </td>
                                        <th scope="row">소화전형식</th>
                                        <td>
-                                           <%-- <c:out value="${wtlFirePsVO.mof_cde_nm }"/> --%>
                                            <select name="mof_cde" class="form-select">
                                        			<option value="">선택</option>
                                        	   </select>
@@ -134,13 +126,13 @@
                                </table>
                            </div>
                            </form>
-                           <input type="text" name="geom" class="form-control" value="">
-                           <input type="text" name="id" value="${id }">
+                           <input type="hidden" name="geom" 	value="" class="form-control">
+                           <input type="hidden" name="id" 	value="${id}">
                        </div>
                        <div class="position-bottom btn-wrap justify-content-end">
                            <div>
-                           	    <button type="button" class="btn basic bi-write2 btn_save" onclick="updateWtlFirePs();">수정완료</button>
-                           		<button type="button" class="btn basic bi-cancel btn_cancel">취소</button>
+                           	    <button type="button" class="btn basic bi-write2 btn_save" 		onclick="updateWtlFirePs();">수정완료</button>
+                           		<button type="button" class="btn basic bi-cancel btn_cancel"	onclick="cancelUpdateWtlFirePs();">취소</button>
                            </div>
                        </div>
                    </div>
@@ -154,7 +146,7 @@
 <script type="text/javascript">
 	//jqeury
 	$(document).ready(function(){
-		console.log("updateWtlFirePsView.jsp");
+		//console.log("updateWtlFirePsView.jsp");
         
 		// 날짜 형식 처리 예정 
         // 날짜 적용 - 지금 8자리로 되어 있어 이것 사용 (변경 예정) 
@@ -197,7 +189,7 @@
 		
 		// 지도에서 선택
         $(".btn-select-map", this.element).on("click", function () {
-        	console.log( '수정화면');
+        	//console.log( '수정화면');
         	//alert(this);
         	
         	ui.loadingBar("show");
@@ -231,18 +223,26 @@
 		
 		/////////////////////
 		
+		//닫기 버튼
         $(".popup-panel .update-wtlFirePs-popup-close").on("click", function () {
-    		$(this).closest('.popup-panel').removeClass('opened');
-            // 초기화 (지도)
-            dtmap.draw.dispose();
-            dtmap.draw.clear();
-            
-            var id = $("input[name=id]").val();
-        	
-        	selectWtlFirePs(id);	
+        	cancelUpdateWtlFirePs();
     	});
 		
 	});
+	
+	
+	//수정하기 취소버튼 동작
+	function cancelUpdateWtlFirePs(){
+		//console.log("cancelUpdateWtlFirePs()");
+		
+		$(".update-wtlFirePs-popup-close").closest('.popup-panel').removeClass('opened');
+        // 초기화 (지도)
+        dtmap.draw.dispose();
+        dtmap.draw.clear();
+        
+        var id = $("input[name=id]").val();
+    	selectWtlFirePs(id);
+	}
 
 </script>
 

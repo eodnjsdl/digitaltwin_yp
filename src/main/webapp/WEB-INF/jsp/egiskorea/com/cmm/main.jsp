@@ -166,7 +166,7 @@
     <script src="/js/egiskorea/com/job/swg/swg.js"></script>
     
     <!-- [[업무 /시설관리 재작업]]  -->
-    
+    <script src="/js/egiskorea/com/cmm/common.js"></script> <!-- 메뉴얼 때문에 추가 uhh add... -->
 	<!-- [상수도 시설] --> 
 	<script src="/js/egiskorea/com/job/fcmr/wsfc/facilityWaterSupply.js"></script>		<!-- 상수도시설  공통 -->
 	<!-- {상수도 하위 메뉴}  -->	

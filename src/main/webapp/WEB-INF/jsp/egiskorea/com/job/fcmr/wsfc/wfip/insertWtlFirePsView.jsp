@@ -126,7 +126,7 @@
                                            <div class="form-row">
                                            		<div class="col">
                                            			<input type="text" class="form-control txt-geometry-address" value="" readonly="readonly">
-                                           			<input type="text" name="geom" class="form-control" value="">
+                                           			<input type="hidden" name="geom" class="form-control" value="">
                                            		</div>                    
                                            		<div class="col-auto">
                                            			<button type="button" class="btn type01 bi-location btn-select-map" data-popup="space-edit-tool">지도에서 선택</button>
@@ -143,7 +143,7 @@
                        <div class="position-bottom btn-wrap">
                            <div>
                            	    <button type="button" class="btn basic bi-edit btn_add" onclick="insertWtlFirePs();">등록</button>
-                           		<button type="button" class="btn basic bi-cancel btn_cancel">취소</button>
+                           		<button type="button" class="btn basic bi-cancel btn_cancel" onclick="cancelInsertWtlFirePs()">취소</button>
                            </div>
                        </div>
                    </div>
@@ -172,9 +172,9 @@
       	//ui.callDatePicker();
 		
 		
-     	// 지도에서 선택
+     	// 지도에서 선택 화면 호출
         $(".btn-select-map", this).on("click", function () {
-        	console.log('등록 화면');
+        	console.log('지도 선택 화면');
         	console.log(this);
         	
         	ui.loadingBar("show");
@@ -236,20 +236,25 @@
             ); */
             
         });
-		
      	
      	//////////////////
-     	//
      	
+     	//등록창 닫기
      	$(".popup-panel .insert-wtlFirePs-popup-close").on("click", function () {
-     		 $(this).closest('.popup-panel').removeClass('opened');
-             // 초기화 (지도)
-             dtmap.draw.dispose();
-             dtmap.draw.clear();
+             cancelInsertWtlFirePs();
      	});
-        
+     	
 	});
 	
+	//취소 버튼 동작
+	function cancelInsertWtlFirePs() {
+		//console.log("cancelInsertWtlFirePs()");
+		
+		$(".insert-wtlFirePs-popup-close").closest('.popup-panel').removeClass('opened');
+        // 초기화 (지도)
+        dtmap.draw.dispose();
+        dtmap.draw.clear();
+	}
 	
 
 </script>
