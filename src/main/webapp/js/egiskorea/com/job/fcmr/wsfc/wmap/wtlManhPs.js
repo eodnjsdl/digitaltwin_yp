@@ -1,26 +1,26 @@
 /**
- * - 업무 / 시설관리 / 상수도 시설 / 유량계
+ * - 업무 / 시설관리 / 상수도 시설 / 상수맨홀
  * 
  * @returns
  */
 
 //jqeury
 $(document).ready(function(){
-	console.log("wtlFlowPs.js");
-	console.log("유량계");
+	console.log("wtlManhPs.js");
+	console.log("상수맨홀");
 });
 
-// 유량계 목록 화면 조회
-function selectWtlFlowPsListView(){
-	console.log("selectWtlFlowPsListView()");
+// 상수맨홀 목록 화면 조회
+function selectWtlManhPsListView(){
+	console.log("selectWtlManhPsListView()");
 	
 	// 목록 화면 조회
 	ui.loadingBar("show");
 	
 	var baseContainer = "#bottomPopup";
-    $(baseContainer).load("/job/fcmr/wsfc/selectWtlFlowPsListView.do", function () {
+    $(baseContainer).load("/job/fcmr/wsfc/selectWtlManhPsListView.do", function () {
     	/* 토스트 메시지 start */
-        toastr.success("/job/fcmr/wsfc/selectWtlFlowPsListView.do", "페이지🙂호🙂출🙂");
+        toastr.success("/job/fcmr/wsfc/selectWtlManhPsListView.do", "페이지🙂호🙂출🙂");
         /* 토스트 메시지 end */
         
         $(".scroll-y").mCustomScrollbar({
@@ -29,8 +29,9 @@ function selectWtlFlowPsListView(){
         
         // 옵션 값 세팅
         getCmmCodeData("YPE001", "#lSrchOptions select[name=hjd_cde]");		//읍면동
-		getCmmCodeData("OGC-141", "#lSrchOptions select[name=gag_cde]");	//유량계종류	
-		getCmmCodeData("OGC-041", "#lSrchOptions select[name=mof_cde]");	//유량계형식	
+        getCmmCodeData("MNG-001", "#lSrchOptions select[name=mng_cde]");	//관리기관
+        getCmmCodeData("OGC-002", "#lSrchOptions select[name=som_cde]");	//맨홀종류	
+        getCmmCodeData("OGC-006", "#lSrchOptions select[name=mhs_std]");	//맨홀형태	
 		
 		// grid 기본 세팅
 		var $container = $("#container");
@@ -48,25 +49,23 @@ function selectWtlFlowPsListView(){
 	        columns: [
 //	            {key: "gid", 				label: "아이디",			width:200},
 //	            {key: "ftr_cde", 			label: "지형지물부호code",	width:'*'},
-	            {key: "ftr_cde_nm", 		label: "지형지물부호",		width:'*'},
+//	            {key: "ftr_cde_nm", 		label: "지형지물부호",		width:'*'},
 	            {key: "ftr_idn", 			label: "관리번호",			width:'*'},
 //	            {key: "hjd_cde", 			label: "읍면동code",		width:'*'},
 	            {key: "hjd_cde_nm", 		label: "읍면동",			width:'*'},
+//	            {key: "sht_num", 			label: "도엽번호",			width:'*'},
 //	            {key: "mng_cde", 			label: "관리기관code",		width:'*'},
 	            {key: "mng_cde_nm", 		label: "관리기관",			width:'*'},
-	            {key: "sht_num", 			label: "도엽번호",			width:'*'},
 	            {key: "ist_ymd", 			label: "설치일자",			width:'*'},
-//	            {key: "gag_cde", 			label: "유량계종류code",	width:'*'},
-	            {key: "gag_cde_nm", 		label: "유량계종류",		width:'*'},
-//	            {key: "mof_cde", 			label: "유량계형식code",	width:'*'},
-	            {key: "mof_cde_nm", 		label: "유량계형식",		width:'*'},
-	            {key: "std_dip", 			label: "관경",			width:'*'},
-//	            {key: "prc_nam", 			label: "제작회사명",		width:100},
-//	            {key: "pip_cde", 			label: "관로지형지물부호",	width:100},
-//	            {key: "pip_idn", 			label: "관로관리번호",		width:100},
+	            {key: "dpg_std", 			label: "규격",			width:'*'},
+//	            {key: "som_cde", 			label: "맨홀종류code",		width:'*'},
+	            {key: "som_cde_nm", 		label: "맨홀종류",			width:'*'},
+//	            {key: "mhs_cde", 			label: "맨홀형태code",		width:'*'},
+	            {key: "mhs_cde_nm", 		label: "맨홀형태",			width:'*'},
 //	            {key: "cnt_num", 			label: "공사번호",			width:100},
 //	            {key: "sys_chk", 			label: "대장초기화여부",	width:100},
-//	            {key: "ang_dir", 			label: "방향각",			width:100},
+	            {key: "ang_dir", 			label: "방향각",			width:100},
+//	            {key: "org_idn", 			label: "기관관리번호",		width:100},
 //	            {key: "geom", 				label: "공간정보",			width:100}
 	        ],
 	        page: {
@@ -78,55 +77,55 @@ function selectWtlFlowPsListView(){
 	            nextIcon: '>',
 	            lastIcon: '>|',
 	            onChange: function () {
-	            	selectWtlFlowPsList(this.page.selectPage+1);
+	            	selectWtlManhPsList(this.page.selectPage+1);
 	            }
 	        },
 	        body: {
 	        	// 데이터 행의 click 이벤트를 정의
 	        	onClick: function () {
-	        		selectWtlFlowPsDetail(this.item);	// 유량계 상세 페이지 로드
+	        		selectWtlManhPsDetail(this.item);	// 상수맨홀 상세 페이지 로드
 	            }
 	        }
 			
 		});
         
     	// 목록 조회  - 1 page
-		selectWtlFlowPsList(1);
+		selectWtlManhPsList(1);
 		
 		ui.loadingBar("hide");
     });
 	
 }
 
-// 유량계 목록 조회
-function selectWtlFlowPsList(page) {
-//	console.log("selectWtlFlowPsList(page)");
+// 상수맨홀 목록 조회
+function selectWtlManhPsList(page) {
+//	console.log("selectWtlManhPsList(page)");
 //	console.log("page>>>"+page);
 	
 	//검색 조건
 	const filters = [];
 	
 	const hjd_cde 		=	$("#lSrchOptions select[name=hjd_cde]").val();				//읍면동
-	const gag_cde 		=	$("#lSrchOptions select[name=gag_cde]").val();				//유량계종류
-	const mof_cde 		=	$("#lSrchOptions select[name=mof_cde]").val();				//유량계형식
+	const dpg_std 		=	$("#lSrchOptions input[name=dpg_std]").val();				//규격
+	const som_cde 		=	$("#lSrchOptions select[name=som_cde]").val();				//맨홀종류
 	
 	let filterString = "";
 	
 	if(hjd_cde){
 		filters.push("hjd_cde" + " = " + hjd_cde); 
 	}
-	
-	if(gag_cde){
-		filters.push("gag_cde" + " = " + gag_cde); 
+
+	if(dpg_std){
+		filters.push("dpg_std" + " = " + dpg_std);
 	}
 	
-	if(mof_cde){
-		filters.push("mof_cde" + " = " + mof_cde);
+	if(som_cde){
+		filters.push("som_cde" + " = " + som_cde);
 	}
 	
     var options;
     options = {
-            typeNames	: 'wtl_flow_ps' + "",
+            typeNames	: 'wtl_manh_ps' + "",
             filter 		: filters,
             perPage 	: 10,
             page 		: page
@@ -151,7 +150,7 @@ function selectWtlFlowPsList(page) {
         	//지형지물부호 코드 변경
         	var ftr_cde = data.features[i].properties.ftr_cde;
         	//data.features[i].properties.ftr_cde_nm = getCmmCodeDataArray("SA-001", ftr_cde);
-        	data.features[i].properties.ftr_cde_nm = "유량계";
+        	data.features[i].properties.ftr_cde_nm = "상수맨홀";
         	
         	//관리기관 코드 변경
         	var mng_cde = data.features[i].properties.mng_cde;
@@ -161,13 +160,13 @@ function selectWtlFlowPsList(page) {
         	var hjd_cde = data.features[i].properties.hjd_cde;
         	data.features[i].properties.hjd_cde_nm = getCmmCodeDataArray("YPE001", hjd_cde);
         	
-        	//유량계 종류 코드 변경
-        	var gag_cde = data.features[i].properties.gag_cde;
-        	data.features[i].properties.gag_cde_nm = getCmmCodeDataArray("OGC-141", gag_cde);
+        	//맨홀종류 코드 변경
+        	var som_cde = data.features[i].properties.som_cde;
+        	data.features[i].properties.som_cde_nm = getCmmCodeDataArray("OGC-002", som_cde);
         	
-        	//유량계 형식 코드 변경
-        	var mof_cde = data.features[i].properties.mof_cde;
-        	data.features[i].properties.mof_cde_nm = getCmmCodeDataArray("OGC-041", mof_cde);
+        	//맨홀형태 코드 변경
+        	var mhs_cde = data.features[i].properties.mhs_cde;
+        	data.features[i].properties.mhs_cde_nm = getCmmCodeDataArray("OGC-006", mhs_cde);
             
             //좌표 처리
         	/*var geomType 	= data.features[i].geometry.type;
@@ -195,9 +194,9 @@ function selectWtlFlowPsList(page) {
     });
 }
 
-// 유량계 상세정보 조회
-function selectWtlFlowPsDetail(detailData){
-	console.log("getWtlFlowPsDetail(detailData)");
+// 상수맨홀 상세정보 조회
+function selectWtlManhPsDetail(detailData){
+	console.log("getWtlManhPsDetail(detailData)");
 	console.log(detailData);
 
 	ui.loadingBar("show");
@@ -210,7 +209,7 @@ function selectWtlFlowPsDetail(detailData){
 	}
 
 	$.ajax({
-		url:"/job/fcmr/wsfc/selectWtlFlowPsDetail.do",
+		url:"/job/fcmr/wsfc/selectWtlManhPsDetail.do",
 		type: "POST",
 		//data: JSON.stringify(detailData),
 		data: formData,
@@ -234,9 +233,9 @@ function selectWtlFlowPsDetail(detailData){
 	
 }
 
-// 유량계 등록 화면 조회
-function insertWtlFlowPsView(){
-	console.log("insertWtlFlowPsView()");
+// 상수맨홀 등록 화면 조회
+function insertWtlManhPsView(){
+	console.log("insertWtlManhPsView()");
 	
 	// 팝업 변수 설정
 	ui.loadingBar("show");
@@ -245,24 +244,24 @@ function insertWtlFlowPsView(){
 	var container = "#rightSubPopup";
 	
 	/* 팝업 load 함수 start */
-    $(container).load("/job/fcmr/wsfc/insertWtlFlowPsView.do", function () {
+    $(container).load("/job/fcmr/wsfc/insertWtlManhPsView.do", function () {
         $(".scroll-y").mCustomScrollbar({
             scrollbarPosition: "outside",
         });
         
         getCmmCodeData("YPE001", "#lSrchOptions select[name=hjd_cde]");		//읍면동
         getCmmCodeData("MNG-001", "#lSrchOptions select[name=mng_cde]");	//관리기관
-        getCmmCodeData("OGC-141", "#lSrchOptions select[name=gag_cde]");	//유량계종류	
-        getCmmCodeData("OGC-041", "#lSrchOptions select[name=mof_cde]");	//유량계형식
+        getCmmCodeData("OGC-002", "#lSrchOptions select[name=som_cde]");	//맨홀종류	
+        getCmmCodeData("OGC-006", "#lSrchOptions select[name=mhs_cde]");	//맨홀형태	
         
 		ui.loadingBar("hide");
     });
     /* 팝업 load 함수 end */
 }
 
-// 유량계 수정 화면 조회
-function updateWtlFlowPsView(id){
-	console.log("updateWtlFlowPsView()");
+// 상수맨홀 수정 화면 조회
+function updateWtlManhPsView(id){
+	console.log("updateWtlManhPsView()");
 	console.log("id>"+id);
 	
 	var detailData = null;
@@ -277,7 +276,7 @@ function updateWtlFlowPsView(id){
 	}
 	
 	if(!detailData && detailData == null){
-		alert("유량계 상세보기 오류");
+		alert("상수맨홀 상세보기 오류");
 		return false;
 	}
     
@@ -290,7 +289,7 @@ function updateWtlFlowPsView(id){
 	}
 	
 	$.ajax({
-		url:"/job/fcmr/wsfc/updateWtlFlowPsView.do",
+		url:"/job/fcmr/wsfc/updateWtlManhPsView.do",
 		type: "POST",
 		//data: JSON.stringify(detailData),
 		data: formData,
@@ -315,16 +314,4 @@ function updateWtlFlowPsView(id){
 			ui.loadingBar("hide");
 		}
 	});
-	
-	/* 팝업 load 함수 start */
-//    $(container).load("/job/fcmr/wsfc/updateWtlFlowPsView.do", function () {
-//	    
-//	    //getEmdKorNmCode("#lSrchOptions select[name=hjd_cde]");				//읍면동
-//	    getCmmCodeData("YPE001", "#lSrchOptions select[name=hjd_cde]");		//읍면동
-//	    getCmmCodeData("MNG-001", "#lSrchOptions select[name=mng_cde]");	//관리기관
-//	    getCmmCodeData("OGC-141", "#lSrchOptions select[name=gag_cde]");	//유량계종류	
-//	    getCmmCodeData("OGC-041", "#lSrchOptions select[name=mof_cde]");	//유량계형식
-//	    
-//    });
-    /* 팝업 load 함수 end */
 }

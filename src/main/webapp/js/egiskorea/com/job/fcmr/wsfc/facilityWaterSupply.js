@@ -44,7 +44,19 @@ function codeArrayInit(){
 	//유량계 코드
 	setCmmCodeDataArray("OGC-141");				//유량계 종류
 	setCmmCodeDataArray("OGC-041");				//유량계 형식
-
+	
+	//상수맨홀 코드
+	setCmmCodeDataArray("OGC-002");				//맨홀종류
+	setCmmCodeDataArray("OGC-006");				//맨홀형태
+	
+	//수압계
+	setCmmCodeDataArray("OGC-137");				//수압계종류
+	setCmmCodeDataArray("OGC-041");				//수압계형식
+	
+	//배수지
+	setCmmCodeDataArray("OGC-001");				//관리방법
+	setCmmCodeDataArray("OGC-134");				//배수지제어방법
+	
 }
 
 
@@ -60,17 +72,14 @@ function getWaterSupplyFacility(name){
 		}else if(name == "wtlFlowPs"){		//유량계
 			selectWtlFlowPsListView();
 		}else if(name == "wtlManhPs"){		//상수맨홀
-			toastr.error("작업중", "상수맨홀");
-			return;
+			selectWtlManhPsListView();
 		}else if(name == "wtlPipePs"){		//상수관로심도
 			toastr.error("작업중", "상수관로심도");
 			return;
 		}else if(name == "wtlPrgaPs"){		//수압계
-			toastr.error("작업중", "수압계");
-			return;
+			selectWtlPrgaPsListView();
 		}else if(name == "wtlServPs"){		//배수지
-			toastr.error("작업중", "배수지");
-			return;
+			selectWtlServPsListView();
 		}else if(name == "wtlSplyLs"){		//급수관로
 			toastr.error("작업중", "급수관로");
 			return;

@@ -174,10 +174,10 @@
 	<script src="/js/egiskorea/com/job/fcmr/wsfc/wfip/wtlFirePs.js"></script>			<!-- 소방시설  -->
 	<script src="/js/egiskorea/com/job/fcmr/wsfc/wpil/wtlPipeLm.js"></script>			<!-- 상수관로 -->
 	<script src="/js/egiskorea/com/job/fcmr/wsfc/wflp/wtlFlowPs.js"></script>			<!-- 유량계 -->
-	<!-- 상수맨홀 -->
+	<script src="/js/egiskorea/com/job/fcmr/wsfc/wmap/wtlManhPs.js"></script>			<!-- 상수맨홀 -->
 	<!-- 상수관로심도 -->
-	<!-- 수압계 -->
-	<!-- 배수지 -->
+	<script src="/js/egiskorea/com/job/fcmr/wsfc/wprp/wtlPrgaPs.js"></script>			<!-- 수압계 -->
+	<script src="/js/egiskorea/com/job/fcmr/wsfc/wsep/wtlServPs.js"></script>			<!-- 배수지 -->
 	<!-- 급수관로 -->
 	<!-- 변류시설 -->
 	

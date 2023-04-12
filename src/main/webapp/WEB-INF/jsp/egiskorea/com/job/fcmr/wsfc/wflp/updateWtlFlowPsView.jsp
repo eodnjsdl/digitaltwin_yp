@@ -33,7 +33,7 @@
                             </td>
 						</tr>
 						<tr>
-							<th scope="row">행정읍면동</th>
+							<th scope="row">읍면동</th>
 							<td>
                                 <select name="hjd_cde" class="form-select">
                                 	<option value="">선택</option>

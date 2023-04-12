@@ -6,9 +6,9 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
 
-<!-- 업무 > 시설관리 > 상수수도시설 > 유량계 등록하기-->
+<!-- 업무 > 시설관리 > 상수수도시설 > 배수지 등록하기-->
 
-       	<div class="popup-header">유량계 등록하기</div>
+       	<div class="popup-header">배수지 등록하기</div>
            <div class="popup-body">
                <div class="sub-popup-body">
                    <div class="data-write-wrap" style="height: 100%;">
@@ -26,7 +26,7 @@
 	                                       	<th scope="row">지형지물부호</th>
 	                                       	<td>
 	                                          	<select name="ftr_cde" class="form-select">
-	                                          		<option value="SA117" selected="selected">유량계</option>
+	                                          		<option value="SA121" selected="selected">배수지</option>
 	                                          	</select>
 	                                       	</td>
 	                                       	<th scope="row">관리번호</th>
@@ -41,17 +41,17 @@
 				                                	<option value="">선택</option>
 				                                </select>
 											</td>
+											<th scope="row">도엽번호</th>
+											<td>
+												<input type="text" name="sht_num" class="form-control" value="" maxlength="11">
+											</td>
+										</tr>
+										<tr>
 											<th scope="row">관리기관</th>
 											<td>
 												<select name="mng_cde" class="form-select">
 				                                	<option value="">선택</option>
 				                                </select>
-											</td>
-										</tr>
-										<tr>
-											<th scope="row">도엽번호</th>
-											<td>
-												<input type="text" name="sht_num" class="form-control" value="" maxlength="11">
 											</td>
 											<th scope="row">설치일자</th>
 											<td>
@@ -59,13 +59,13 @@
 											</td>
 										</tr>
 										<tr>
-											<th scope="row">유량계종류</th>
+											<th scope="row">배수지종류</th>
 											<td>
-												<select name="gag_cde" class="form-select">
+												<select name="pga_cde" class="form-select">
 				                                	<option value="">선택</option>
 				                                </select>
 											</td>
-											<th scope="row">유량계형식</th>
+											<th scope="row">배수지형식</th>
 											<td>
 												<select name="mof_cde" class="form-select">
 				                                	<option value="">선택</option>
@@ -77,30 +77,44 @@
 											<td>
 												<input type="number" name="std_dip" class="form-control" value="">
 											</td>
-											<th scope="row">제작회사명</th>
+											<th scope="row">기준압력</th>
 											<td>
-												<input type="text" name="prc_nam" class="form-control" value="" maxlength="100">
+												<input type="number" name="std_saf" class="form-control" value="">
 											</td>
 										</tr>
 										<tr>
+											<th scope="row">평균압력</th>
+											<td>
+												<input type="number" name="avg_saf" class="form-control" value="">
+											</td>
+											<th scope="row">측정압력</th>
+											<td>
+	                                       	  	<input type="number" name="msr_saf" class="form-control" value="">
+											</td>
+										</tr>
+										<tr>
+											<th scope="row">배수관_관경</th>
+											<td>
+												<input type="number" name="srv_dip" class="form-control" value="">
+											</td>
 											<th scope="row">관로지형지물부호</th>
 											<td>
-												<select name="pip_cde" class="form-select">
-				                                	<option value="SA001" selected="selected">상수관로</option>
-				                                </select>
-											</td>
-											<th scope="row">관로관리번호</th>
-											<td>
-	                                       	  	<input type="text" name="pip_idn" class="form-control" value="" readonly="readonly">
+												<input type="number" name="pip_cde" class="form-control" value="">
 											</td>
 										</tr>
 										<tr>
+											<th scope="row">관로관리번호</th>
+											<td>
+												<input type="text" name="pip_idn" class="form-control" value="" maxlength="8" readonly="readonly">
+											</td>
 											<th scope="row">공사번호</th>
 											<td>
 												<input type="text" name="cnt_num" class="form-control" value="" maxlength="8">
 											</td>
+										</tr>
+										<tr>
 											<th scope="row">방향각</th>
-											<td>
+											<td colspan="3">
 												<input type="number" name="ang_dir" class="form-control" value="">
 											</td>
 										</tr>
@@ -132,7 +146,7 @@
            </div>
            <button type="button" class="popup-close" title="닫기" onclick="cancelMode();"></button>
 
-<!-- 업무 > 시설관리 > 상수수도시설 > 유량계 등록하기 end -->
+<!-- 업무 > 시설관리 > 상수수도시설 > 배수지 등록하기 end -->
 
 <script type="text/javascript">
 	//jqeury
