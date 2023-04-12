@@ -834,8 +834,6 @@
 
         <!-- top > 드론영상 -->
         <div class="popup-panel popup-right top-popup10" style="width: 480px;height: 807px;">
-            <button type="button" class="manualBtn" title="도움말" onclick="manualTab('드론영상')"></button>
-            <button type="button" class="popup-close" title="닫기"></button>
         </div>
         <!-- //top > 드론영상 -->
 
