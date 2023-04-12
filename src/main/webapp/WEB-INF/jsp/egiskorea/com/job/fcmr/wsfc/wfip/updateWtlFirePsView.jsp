@@ -5,6 +5,18 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
+<style type="text/css">
+	.popup-panel.popup-sub .update-wtlFirePs-popup-close {
+	    top: 0;
+	    right: 0;
+	    width: 39px;
+	    height: 39px;
+	    border-left: 1px solid #44516A;
+	    background: url(/images/icon/popup-close2.svg) no-repeat 50% 50%;
+	    border-top-right-radius: 10px;
+	    position: absolute;
+	}
+</style>
 
 <!-- 업무 > 시설관리 > 상수도시설 > 소방시설 수정하기-->
 
@@ -13,7 +25,7 @@
                <div class="sub-popup-body">
                    <div class="data-write-wrap" style="height: 100%;">
                        <div class="scroll-y">
-                       	   <form id="insertWtlFirePsForm" method="post">
+                       	   <form id="updateWtlFirePsForm" method="post">
                            <div class="data-default">
                                <table class="data-write">
                                    <colgroup>
@@ -27,28 +39,23 @@
                                        <th scope="row">지형지물부호</th>
                                        <td>
                                           	<c:out value="${wtlFirePsVO.ftr_cde_nm }"/>
+                                          	<input type="hidden" name="ftr_cde" class="form-control" value="${wtlFirePsVO.ftr_cde }">
                                        </td>
                                        <th scope="row">관리번호</th>
                                        <td>
                                        	  	<c:out value="${wtlFirePsVO.ftr_idn }"/>
+                                       	  	<input type="hidden" name="ftr_idn" class="form-control" value="${wtlFirePsVO.ftr_idn }">
                                        </td>
                                    </tr>
                                    <tr>
                                        <th scope="row">읍면동</th>
                                        <td>
-                                       		<%-- <c:out value="${wtlFirePsVO.hjd_cde_nm }"/> --%>
                                        		<select name="hjd_cde" class="form-select">
                                        			<option value="">선택</option>
                                        		</select>	
                                        </td>
                                        <th scope="row">관리기관</th>
                                        <td>
-                                       	   <%-- <c:if test="${wtlFirePsVO.mng_cde_nm  != '' || wtlFirePsVO.mng_cde_nm  ne null}">
-                                           		<c:out value="${wtlFirePsVO.mng_cde_nm }"/>
-                                           </c:if>
-                                           <c:if test="${wtlFirePsVO.mng_cde_nm  == '' || wtlFirePsVO.mng_cde_nm  eq null }">
-                                           		<c:out value="${wtlFirePsVO.mng_cde }"/>
-                                           </c:if> --%>
                                            <select name="mng_cde" class="form-select">
                                        			<option value="">선택</option>
                                        		</select>
@@ -71,7 +78,6 @@
                                        </td>
                                        <th scope="row">소화전형식</th>
                                        <td>
-                                           <%-- <c:out value="${wtlFirePsVO.mof_cde_nm }"/> --%>
                                            <select name="mof_cde" class="form-select">
                                        			<option value="">선택</option>
                                        	   </select>
@@ -120,25 +126,27 @@
                                </table>
                            </div>
                            </form>
-                           
+                           <input type="hidden" name="geom" 	value="" class="form-control">
+                           <input type="hidden" name="id" 	value="${id}">
                        </div>
                        <div class="position-bottom btn-wrap justify-content-end">
                            <div>
-                           	    <button type="button" class="btn basic bi-write2 btn_save" onclick="alert('수정완료')">수정완료</button>
-                           		<button type="button" class="btn basic bi-cancel btn_cancel">취소</button>
+                           	    <button type="button" class="btn basic bi-write2 btn_save" 		onclick="updateWtlFirePs();">수정완료</button>
+                           		<button type="button" class="btn basic bi-cancel btn_cancel"	onclick="cancelUpdateWtlFirePs();">취소</button>
                            </div>
                        </div>
                    </div>
                </div>
            </div>
-           <button type="button" class="popup-close" title="닫기" onclick="cancelMode();"></button>
+           <!-- <button type="button" class="popup-close" title="닫기" onclick="cancelMode();"></button> -->
+           <button type="button" class="update-wtlFirePs-popup-close" title="닫기" onclick="cancelMode();"></button>
 
 <!-- 업무 > 시설관리 > 상수도시설 > 소방시설 수정하기 end -->
 
 <script type="text/javascript">
 	//jqeury
 	$(document).ready(function(){
-		console.log("updateWtlFirePsView.jsp");
+		//console.log("updateWtlFirePsView.jsp");
         
 		// 날짜 형식 처리 예정 
         // 날짜 적용 - 지금 8자리로 되어 있어 이것 사용 (변경 예정) 
@@ -169,50 +177,72 @@
       	
       	///////////////////////
       	//gird 데이터를 통한 주소 조회
-		var gridRowId = "${gridRowId }";
+		var id =  $("input[name=id]").val();
 		
-		var geomData = getGeomDataForGridRowId(gridRowId);
-		console.log("geomData>>");
-		console.log(geomData);
+		var geomData = getGeomDataForGridId(id);
 		if(geomData){
 			getAddressForPoint(geomData, "#rightSubPopup .txt-geometry-address");
+			$("#rightSubPopup input[name=geom]").val(geomData);
 		}else{
 			console.log("상세보기 좌표 오류");
 		}
-        
-		
 		
 		// 지도에서 선택
         $(".btn-select-map", this.element).on("click", function () {
-        	console.log( '수정화면');
-        	alert(this);
+        	//console.log( '수정화면');
+        	//alert(this);
         	
-            /* this.editingTool = new EditingTool(
-                that.geometryType,
-                that.feature.getGeometry(),
-                (geometry) => {
-                    this.feature.setGeometry(geometry);
-                    this.getAddress(geometry).done((result) => {
-                        if (result["address"]) {
-                            this.address = result["address"];
-                        } else {
-                            this.address = "";
-                        }
-                        $(".txt-geometry-address", that.selector).val(this.address);
-                    });
-
-                    const format = new ol.format.WKT();
-                    cmmUtil.highlightGeometry(format.writeGeometry(geometry));
-
-                    this.editingTool = null;
-                }
-            ); */
+        	ui.loadingBar("show");
+            $('.space-edit-tool').load("/job/fcts/editView.do", () => {
+                
+                $(".space-edit-tool").show();
+                
+               	$.getJSON(
+			        "/com/mngr/info/selectAllLayerManageList.do"
+			   	).done((response) => {
+			    	var list = response["list"];
+			    	let tag = `<option value="">시설물</option>`;
+			    	for(var i=0; i<list.length; i++){
+			    		const name 	= list[i].tblNm.toLowerCase();
+			    		const title = list[i].lyrNm;
+			    		tag += `<option value=`+name+`>`+title+`</option>`; 
+			    	}
+			    	$(".space-edit-tool select[name=edit-snap-target]").html(tag);
+			    }); 
+               	
+               	var obj = {};
+               	obj.geometryType = "point";
+               	obj.id = id;
+              
+               	geoEditBindEvents(obj);
+                
+                ui.loadingBar("hide");
+            });
             
         });
 		
+		/////////////////////
 		
+		//닫기 버튼
+        $(".popup-panel .update-wtlFirePs-popup-close").on("click", function () {
+        	cancelUpdateWtlFirePs();
+    	});
 		
 	});
+	
+	
+	//수정하기 취소버튼 동작
+	function cancelUpdateWtlFirePs(){
+		//console.log("cancelUpdateWtlFirePs()");
+		
+		$(".update-wtlFirePs-popup-close").closest('.popup-panel').removeClass('opened');
+        // 초기화 (지도)
+        dtmap.draw.dispose();
+        dtmap.draw.clear();
+        
+        var id = $("input[name=id]").val();
+    	selectWtlFirePs(id);
+	}
 
 </script>
 

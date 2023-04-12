@@ -156,7 +156,7 @@ map2d.vector = (function () {
         }
 
 
-        let feature = _source.getFeatureById(id);
+        let feature = getFeature(id);
         if (feature) {
             // const center = feature.getGeometry().getCoordinates();
             const extent = feature.getGeometry().getExtent();
@@ -164,6 +164,10 @@ map2d.vector = (function () {
             feature.set('_selected', true);
             map2d.view.setCenter(center);
         }
+    }
+
+    function getFeature(id) {
+        return _source.getFeatureById(id);
     }
 
     function clearSelect() {
@@ -532,7 +536,8 @@ map2d.vector = (function () {
         readGeoJson: readGeoJson,
         select: select,
         writeGeoJson: writeGeoJson,
-        removeFeatureByFilter: removeFeatureByFilter
+        removeFeatureByFilter: removeFeatureByFilter,
+        getFeature: getFeature
     }
 
     Object.defineProperties(module, {

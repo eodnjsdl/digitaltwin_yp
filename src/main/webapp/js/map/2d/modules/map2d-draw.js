@@ -10,6 +10,9 @@ map2d.draw = (function () {
     let _translate;
     let _drawOptions;
     let _buffer;
+    let _snapLayer;
+    let _snapSource;
+    const _snapCollection = new ol.Collection([], {unique: true});
 
     const DEFAULT_TYPE = 'Polygon'
     const ORI_GEOM_KEY = '_ori_geom'
@@ -18,17 +21,29 @@ map2d.draw = (function () {
         _source = new ol.source.Vector();
         _layer = new ol.layer.Vector({
             source: _source,
-            name: 'drawLayer',
             zIndex: 999,
             style: map2d.vector.style,
             isDefault: true
         });
+
+        _source.on('addfeature', onAddFeature);
+        _source.on('removefeature', onRemoveFeature);
+
         map2d.map.addLayer(_layer);
+    }
+
+    function onAddFeature(e) {
+        _snapCollection.push(e.feature);
+    }
+
+    function onRemoveFeature(e) {
+        _snapCollection.remove(e.feature);
     }
 
     /**
      * export 함수
      */
+
 
 
     /**
@@ -39,6 +54,27 @@ map2d.draw = (function () {
      * @param {MarkerOption} [options.marker] 마커 (type="Marker" 일 경우에만 사용)
      * @param {TextOption} [options.text] 텍스트 (type="Text" 일 경우에만 사용)
      * @param {boolean} [options.once] 한번만 그리기 (도형 그릴때 기존 도형 삭제)
+     *
+     * @example 편집 예제
+     * const feature = dtmap.vector.getFeature(featureId); //편집대상 피쳐검색
+     * dtmap.draw.clear(); //그리기 소스 및 스냅레이어 초기화
+     * dtmap.draw.active({type:'Modify'}); //그리기 편집 활성화 'Modify' 'Translate'
+     * dtmap.draw.addFeatures(feature); //편집 대상 피쳐 추가
+     *
+     * //스냅레이어 설정
+     * dtmap.draw.setSnapLayer('digitaltwin:lsmd_cont_ldreg_41830');
+     *
+     * //스냅레이어 클리어
+     * dtmap.draw.clearSnapLayer();
+     *
+     * //편집 완료된 결과 받기
+     * dtmap.draw.writeGeoJson(); //결과 GeoJson String 리턴
+     *
+     * //버퍼 적용하기
+     * dtmap.draw.setBuffer(10); //적용
+     *
+     * dtmap.draw.setBuffer(0); //해제
+     *
      */
     function active(options) {
         // dispose();
@@ -89,7 +125,9 @@ map2d.draw = (function () {
 
     function createSnap() {
         if (!_snap) {
-            _snap = new ol.interaction.Snap({source: _source});
+            _snap = new ol.interaction.Snap({
+                features: _snapCollection
+            });
             map2d.map.addInteraction(_snap);
         }
     }
@@ -119,7 +157,9 @@ map2d.draw = (function () {
     function createSelect() {
         if (!_select) {
             _select = new ol.interaction.Select({
-                source: _source,
+                filter: function (feature, layer) {
+                    return layer === _layer;
+                },
                 style: selectStyleFunction
             });
             map2d.map.addInteraction(_select);
@@ -163,18 +203,18 @@ map2d.draw = (function () {
 
     function onPointerMove(e) {
         map2d.map.getTargetElement().style.cursor = '';
-        const hit = map2d.map.hasFeatureAtPixel(e.pixel);
+        let hit = map2d.map.hasFeatureAtPixel(e.pixel);
         if (hit) {
             const selected = _select.getFeatures().getArray()[0];
-            const find = map2d.map.getFeaturesAtPixel(e.pixel)[0];
-            if (!selected || selected !== find) {
-                map2d.map.getTargetElement().style.cursor = hit ? 'pointer' : '';
+            if (selected) {
+                return;
             }
-        }
-
-
-        if (_select.getFeatures().getArray().length === 0) {
-            map2d.map.getTargetElement().style.cursor = map2d.map.hasFeatureAtPixel(e.pixel) ? 'pointer' : '';
+            const find = map2d.map.getFeaturesAtPixel(e.pixel)[0];
+            if (selected === find) {
+                return;
+            }
+            hit = hit && _source.hasFeature(find);
+            map2d.map.getTargetElement().style.cursor = hit ? 'pointer' : '';
         }
     }
 
@@ -200,10 +240,12 @@ map2d.draw = (function () {
             _select.un('select', onSelect);
             _select = undefined;
         }
+
     }
 
     function clear() {
         _source.clear();
+        clearSnapLayer();
     }
 
     function parseOption(options) {
@@ -250,7 +292,7 @@ map2d.draw = (function () {
 
     function writeWKT(index) {
         const format = new ol.format.WKT();
-        const features = _source.getFeatures();
+        const features = removePrivateProperty(_source.getFeatures());
         if (index !== undefined) {
             const feature = features[index];
             if (!feature) {
@@ -262,8 +304,28 @@ map2d.draw = (function () {
         } else {
             return format.writeFeatures(features);
         }
+    }
 
+    function removePrivateProperty(feature) {
+        if (!feature) {
+            return;
+        }
 
+        if (feature instanceof Array) {
+            const ary = [];
+            for (let i = 0; i < feature.length; i++) {
+                const f = removePrivateProperty(feature[i]);
+                if (f) {
+                    ary.push(f);
+                }
+            }
+            return ary;
+        } else {
+            const cloned = feature.clone();
+            cloned.unset('_style');
+            cloned.unset('_selected');
+            return cloned;
+        }
     }
 
     /**
@@ -313,11 +375,6 @@ map2d.draw = (function () {
         return parser.write(buffered);
     }
 
-    function setSnap(source) {
-
-
-    }
-
     function readGeoJson(json, style) {
         if (typeof json === 'string') {
             json = JSON.parse(json);
@@ -364,6 +421,76 @@ map2d.draw = (function () {
         return format.writeFeatures(features);
     }
 
+    function getSnapLayer() {
+        if (_snapLayer) {
+            return _snapLayer.get('name');
+        }
+    }
+
+    /**
+     * 스냅 레이어 설정
+     * 성능을 고려해 줌레벨 16부터 가시화 됨
+     * @param {string} name 레이어 서비스 명
+     */
+    function setSnapLayer(name) {
+        clearSnapLayer();
+
+        if (!_snapSource) {
+            _snapSource = new ol.source.Vector({
+                format: new ol.format.GeoJSON(),
+                loader: function (extent, resolution, projection, success, failure) {
+                    dtmap.wfsGetFeature({
+                        typeNames: name,
+                        bbox: extent,
+                        cql: '1=1',
+                        crs: dtmap.crs
+                    }).then(function (json) {
+                        const features = _snapSource.getFormat().readFeatures(json);
+                        _snapSource.addFeatures(features);
+                    })
+                },
+                strategy: ol.loadingstrategy.bbox
+            });
+            _snapSource.on('addfeature', onAddFeature);
+            _snapSource.on('removefeature', onRemoveFeature);
+        }
+
+        if (!_snapLayer) {
+            _snapLayer = new ol.layer.Vector({
+                source: _snapSource,
+                zIndex: 998,
+                minZoom: 16,
+            });
+            _snapLayer.set('name', name);
+            map2d.map.addLayer(_snapLayer);
+        }
+
+
+    }
+
+    function clearSnapLayer() {
+        if (_snapSource) {
+            _snapSource.clear();
+            _snapSource = undefined;
+        }
+
+        if (_snapLayer) {
+            map2d.map.removeLayer(_snapLayer);
+            _snapLayer = undefined;
+        }
+    }
+
+    function addFeatures(features) {
+        if (!features) {
+            return;
+        }
+        if (features instanceof Array) {
+            _source.addFeatures(features);
+        } else {
+            _source.addFeature(features);
+            _select.getFeatures().push(features);
+        }
+    }
 
     let module = {
         init: init,
@@ -374,8 +501,11 @@ map2d.draw = (function () {
         readGeoJson: readGeoJson,
         getGeometry: getGeometry,
         setBuffer: setBuffer,
-        clear: clear,
-        setSnap: setSnap
+        getSnapLayer: getSnapLayer,
+        setSnapLayer: setSnapLayer,
+        clearSnapLayer: clearSnapLayer,
+        addFeatures: addFeatures,
+        clear: clear
     }
 
     Object.defineProperties(module, {
