@@ -251,38 +251,38 @@
         	<ul class="GNB">
 				<li>
 					<span>정보조회</span>
-					<ul style="height: 47.8125px; padding-top: 0px; margin-top: 5px; padding-bottom: 0px; margin-bottom: 0px; display: none;">
-						<li><button type="button" class="dataPopup" data-popup="top-popup01">통합행정정보</button></li>
-						<li><button type="button" class="dataPopup" data-popup="top-popup02">지적/건물</button></li>
+					<ul>
+						<li><button type="button" id="krasInfo" class="dataPopup" data-popup="top-popup01">통합행정정보</button></li>
+						<li><button type="button" id="landBuilding" class="dataPopup" data-popup="top-popup02">지적/건물</button></li>
 					</ul>
 				</li>
 				<li>
 					<span>정보공유</span>
-					<ul style="height: 71.7188px; padding-top: 0px; margin-top: 5px; padding-bottom: 0px; margin-bottom: 0px; display: none;">
-						<li><button type="button" class="dataPopup" data-popup="top-popup04">메모정보</button></li>
-						<li><button type="button" class="dataPopup" data-popup="top-popup05">사진정보</button></li>
-						<li><button type="button" class="dataPopup" data-popup="top-popup08">그리기정보</button></li>
+					<ul>
+						<li><button type="button" id="memoInfo" class="dataPopup" data-popup="top-popup04">메모정보</button></li>
+						<li><button type="button" id="potoInfo" class="dataPopup" data-popup="top-popup05">사진정보</button></li>
+						<li><button type="button" id="potoInfo" class="dataPopup" data-popup="top-popup08">그리기정보</button></li>
 					</ul>
 				</li>
 				<li>
 					<span>영상/지도</span>
-					<ul style="height: 71.7188px; padding-top: 0px; margin-top: 5px; padding-bottom: 0px; margin-bottom: 0px; display: none;">
-						<li><button type="button" class="dataPopup" data-popup="top-popup10">드론영상</button></li>
-						<li><button type="button" class="dataPopup" data-popup="top-popup03">내보내기</button></li>
-						<li><button type="button" class="dataPopup" data-popup="top-popup07">지도저장</button></li>
+					<ul>
+						<li><button type="button" id="dronInfo" class="dataPopup" data-popup="top-popup10">드론영상</button></li>
+						<li><button type="button" id="dwldInfo" class="dataPopup" data-popup="top-popup03">내보내기</button></li>
+						<li><button type="button" id="saveMap" class="dataPopup" data-popup="top-popup07">지도저장</button></li>
 					</ul>
 				</li>
 				<li>
 					<span>게시판</span>
-					<ul style="height: 71.7188px; padding-top: 0px; margin-top: 5px; padding-bottom: 0px; margin-bottom: 0px; display: none;">
-						<li><button type="button" class="dataPopup" data-popup="board-notice">공지사항</button></li>
-						<li><button type="button" class="dataPopup" data-popup="board-qna">QnA</button></li>
-						<li><button type="button" class="dataPopup" data-popup="">운영지원</button></li>
+					<ul>
+						<li><button type="button" id="dronInfo" class="dataPopup" data-popup="board-notice">공지사항</button></li>
+						<li><button type="button" id="dronInfo" class="dataPopup" data-popup="board-qna">QnA</button></li>
+						<li><button type="button" id="dronInfo" class="dataPopup" data-popup="">운영지원</button></li>
 					</ul>
 				</li>
 				<li>
 					<span>지도설정</span>
-					<ul style="height: 71.7188px; padding-top: 0px; margin-top: 5px; padding-bottom: 0px; margin-bottom: 0px; display: none;">
+					<ul>
 						<li><button type="button" class="dataPopup" data-popup="top-popup09" title="배경지도">배경지도</button></li>
 						<li><button type="button" class="dataPopup" data-popup="" title="화면분할">화면분할</button></li>
 						<li><button type="button" class="dataPopup" data-popup="top-popup06" title="즐겨찾기">즐겨찾기</button></li>
@@ -296,7 +296,6 @@
 				}).on('mouseleave',function(){
 					$('.GNB li ul').stop().slideUp(300);
 				});
-
 			</script>
         </div>
     </header>
@@ -469,11 +468,11 @@
 				    <li data-menu="lnb-layer" class=""><button type="button" class="lnb-btn">레이어</button></li>
 				    <li data-menu="lnb-theme" class=""><button type="button" class="lnb-btn">주제도</button></li>
 				    <li data-menu="lnb-space" class=""><button type="button" class="lnb-btn">공간정보</button></li>
-				    <li data-menu="lnb-facility"><button type="button" class="lnb-btn">시설관리</button></li>
-				    <li data-menu="lnb-traffic"><button type="button" class="lnb-btn">교통분석</button></li>
+				    <li data-menu="lnb-facility" class=""><button type="button" class="lnb-btn">시설관리</button></li>
+				    <li data-menu="lnb-traffic" class=""><button type="button" class="lnb-btn">교통분석</button></li>
 				    <li data-menu="lnb-administrative" class=""><button type="button" class="lnb-btn">행정자산</button></li>
-				    <li data-menu="lnb-territory"><button type="button" class="lnb-btn">국토조사</button></li>
-				    <li data-menu="lnb-analysis"><button type="button" class="lnb-btn">분석</button></li>
+				    <li data-menu="lnb-territory" class=""><button type="button" class="lnb-btn">국토조사</button></li>
+				    <li data-menu="lnb-analysis" class=""><button type="button" class="lnb-btn">분석</button></li>
 				</ul>
 				<div class="map-type">
 				    <span class="knobs">
@@ -501,15 +500,15 @@
             <!-- //주제도 -->
 	
 			<!-- 공간정보 -->
-			<div class="lnb-space lnb-cont" >
+			<div class="lnb-space lnb-cont">
 				<div class="lnb-header"><h2 class="tit">공간정보</h2></div>
 				<div class="lnb-body">
-					<div class="scroll-y mCustomScrollbar _mCS_6 mCS_no_scrollbar" style="position: relative; overflow: visible;"><div id="mCSB_6" class="mCustomScrollBox mCS-light mCSB_vertical mCSB_outside" tabindex="0" style="max-height: none;"><div id="mCSB_6_container" class="mCSB_container mCS_y_hidden mCS_no_scrollbar_y" style="position:relative; top:0; left:0;" dir="ltr">
+					<div class="scroll-y">
 						<ul class="lnb-list">
 							<li><p class="lnb-dep1">공간정보활용</p>
 								<ul class="lnb-dep2">
 									<li><button type="button" class="dataPopup" data-popup="work-01-01">사업공유관리</button></li>
-									<li class=""><button type="button" class="dataPopup" data-popup="work-01-02">지하수관리</button></li>
+									<li><button type="button" class="dataPopup" data-popup="work-01-02">지하수관리</button></li>
 									<li><button type="button" class="dataPopup" data-popup="work-01-03">신재생에너지</button></li>
 									<li><button type="button" class="dataPopup" data-popup="work-01-04">안전시설물관리</button></li>
 									<li><button type="button" class="dataPopup" data-popup="work-01-05">관내업소정보조회</button></li>
@@ -517,16 +516,16 @@
 								</ul>
 							</li>
 						</ul>
-					</div></div><div id="mCSB_6_scrollbar_vertical" class="mCSB_scrollTools mCSB_6_scrollbar mCS-light mCSB_scrollTools_vertical" style="display: none;"><div class="mCSB_draggerContainer"><div id="mCSB_6_dragger_vertical" class="mCSB_dragger" style="position: absolute; min-height: 30px; top: 0px; height: 0px;"><div class="mCSB_dragger_bar" style="line-height: 30px;"></div></div><div class="mCSB_draggerRail"></div></div></div></div>
+					</div>
 				</div>
-			</div>	
+			</div>
 			<!-- //공간정보 -->
 			
             <!-- 시설관리 -->
 			<div class="lnb-facility lnb-cont">
 				<div class="lnb-header"><h2 class="tit">시설관리</h2></div>
 				<div class="lnb-body">
-					<div class="scroll-y mCustomScrollbar _mCS_7 mCS_no_scrollbar" style="position: relative; overflow: visible;"><div id="mCSB_7" class="mCustomScrollBox mCS-light mCSB_vertical mCSB_outside" tabindex="0" style="max-height: none;"><div id="mCSB_7_container" class="mCSB_container mCS_y_hidden mCS_no_scrollbar_y" style="position:relative; top:0; left:0;" dir="ltr">
+					<div class="scroll-y">
 						<ul class="lnb-list">
 							<li><p class="lnb-dep1">시설관리</p>
 								<ul class="lnb-dep2">
@@ -540,7 +539,7 @@
 								</ul>
 							</li>
 						</ul>
-					</div></div><div id="mCSB_7_scrollbar_vertical" class="mCSB_scrollTools mCSB_7_scrollbar mCS-light mCSB_scrollTools_vertical" style="display: none;"><div class="mCSB_draggerContainer"><div id="mCSB_7_dragger_vertical" class="mCSB_dragger" style="position: absolute; min-height: 30px; top: 0px; height: 0px;"><div class="mCSB_dragger_bar" style="line-height: 30px;"></div></div><div class="mCSB_draggerRail"></div></div></div></div>
+					</div>
 				</div>
 			</div>
             <!-- //시설관리 -->
@@ -549,7 +548,7 @@
             <div class="lnb-traffic lnb-cont">
 				<div class="lnb-header"><h2 class="tit">교통분석</h2></div>
 				<div class="lnb-body">
-					<div class="scroll-y mCustomScrollbar _mCS_9 mCS_no_scrollbar" style="position: relative; overflow: visible;"><div id="mCSB_9" class="mCustomScrollBox mCS-light mCSB_vertical mCSB_outside" tabindex="0" style="max-height: none;"><div id="mCSB_9_container" class="mCSB_container mCS_y_hidden mCS_no_scrollbar_y" style="position:relative; top:0; left:0;" dir="ltr">
+					<div class="scroll-y">
 						<ul class="lnb-list">
 							<li><p class="lnb-dep1">교통분석</p>
 								<ul class="lnb-dep2">
@@ -559,7 +558,7 @@
 								</ul>
 							</li>
 						</ul>
-					</div></div><div id="mCSB_9_scrollbar_vertical" class="mCSB_scrollTools mCSB_9_scrollbar mCS-light mCSB_scrollTools_vertical" style="display: none;"><div class="mCSB_draggerContainer"><div id="mCSB_9_dragger_vertical" class="mCSB_dragger" style="position: absolute; min-height: 30px; top: 0px; height: 0px;"><div class="mCSB_dragger_bar" style="line-height: 30px;"></div></div><div class="mCSB_draggerRail"></div></div></div></div>
+					</div>
 				</div>
 			</div>
             <!-- //교통분석 -->
@@ -568,7 +567,7 @@
 			<div class="lnb-administrative lnb-cont">
 				<div class="lnb-header"><h2 class="tit">행정자산</h2></div>
 				<div class="lnb-body">
-					<div class="scroll-y mCustomScrollbar _mCS_10 mCS_no_scrollbar" style="position: relative; overflow: visible;"><div id="mCSB_10" class="mCustomScrollBox mCS-light mCSB_vertical mCSB_outside" tabindex="0" style="max-height: none;"><div id="mCSB_10_container" class="mCSB_container mCS_y_hidden mCS_no_scrollbar_y" style="position:relative; top:0; left:0;" dir="ltr">
+					<div class="scroll-y">
 						<ul class="lnb-list">
 							<li><p class="lnb-dep1">행정자산</p>
 								<ul class="lnb-dep2">
@@ -578,13 +577,13 @@
 								</ul>
 							</li>
 						</ul>
-					</div></div><div id="mCSB_10_scrollbar_vertical" class="mCSB_scrollTools mCSB_10_scrollbar mCS-light mCSB_scrollTools_vertical" style="display: none;"><div class="mCSB_draggerContainer"><div id="mCSB_10_dragger_vertical" class="mCSB_dragger" style="position: absolute; min-height: 30px; top: 0px; height: 0px;"><div class="mCSB_dragger_bar" style="line-height: 30px;"></div></div><div class="mCSB_draggerRail"></div></div></div></div>
+					</div>
 				</div>
 			</div>
 			<!-- //행정자산 -->
 			
 			<!-- 국토조사 -->
-			<div class="lnb-territory lnb-cont" style="display: none;">
+			<div class="lnb-territory lnb-cont">
 				<div class="lnb-header"><h2 class="tit">국토정보관리</h2></div>
 				<div class="lnb-body">
 					<div class="btn-wrap"><button type="button" class="btn bi-write" data-popup="territory-Regist">등록</button></div>
@@ -651,7 +650,7 @@
 						$(".lnb-territory .bi-write").click(function(){
 							$(this).addClass("active");
 						});
-
+	
 						$(".territory-list a").click(function(){
 							$(this).parent().addClass("active").siblings().removeClass("active");
 						});
@@ -661,15 +660,6 @@
 			<!-- //국토조사 -->
 			
             <!-- 분석 -->
-            <script>
-                $(document).ready(function () {
-                    // 팝업창 닫기 event
-                    $(".lnb-analysis .lnb-close").click(function () {
-                        $(".lnb-analysis").stop().fadeOut(100);
-                        $("#lnb li[data-menu]").removeClass("on");
-                    });
-                });
-            </script>
             <div class="lnb-analysis lnb-cont">
                 <div class="lnb-header"><h2 class="tit">분석</h2></div>
                 <div class="lnb-body">

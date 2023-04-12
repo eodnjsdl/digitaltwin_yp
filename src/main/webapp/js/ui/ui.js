@@ -561,91 +561,86 @@ window.ui = (function () {
     }
 
     function _asideMenuEvent() {
-        $("#map-aside .map-tool-list button").on("click", function () {
+        $(".util-box .GNB button").on("click", function () {
             var id = $(this).attr('id');
-            var classList = $(this).attr('class').split(/\s+/);
-            var area = classList[2];
-            // ui.openPopup(area);
+            var area = $(this).attr('class');
             _initDrawEvent();
             switch (id) {
+            
+            	//정보조회
                 // aside menu > 통합행정정보
                 case "krasInfo" :
-                    initPopup(area);
+                	ui.openPopup(area);
                     toastr.success("지도에서 위치를 선택하세요. ", "통합행정정보");
                     aj_krasInfo();
                     break;
-
                 // aside menu > 지적/건물
                 case "landBuilding" :
-                    initPopup(area);
+                	ui.openPopup(area);
                     toastr.success("지도에서 위치를 선택하세요. ", "지적/건물");
                     aj_ldbdInfo();
                     // aj_selectLandBuilderList();
                     break;
 
-                // aside menu > 내보내기
-                case "dwldInfo" :
-                    ui.openPopup(area);
-                    toastr.success("내보내기")
-                    aj_dataDownload();
-                    break;
-
+                //정보공유
                 // aside menu > 메모정보
                 case "memoInfo" :
                     ui.openPopup(area);
                     toastr.success("메모정보")
                     aj_selectMemoInfoList($("#tmpForm")[0]);
                     break;
-
                 // aside menu > 사진정보
                 case "potoInfo" :
                     ui.openPopup(area);
                     toastr.success("사진정보")
                     aj_selectPotoInfoList($("#tmpForm")[0]);
                     break;
-
-                // aside menu > 즐겨찾기
-                case "favorites" :
-                    ui.openPopup(area);
-                    toastr.success("즐겨찾기")
-                    aj_selectFavoritesList($("#tmpForm")[0]);
-                    break;
-
-                // aside menu > 지도저장
-                case "saveMap" :
-                    ui.openPopup(area);
-                    toastr.success("지도저장")
-                    aj_saveMap();
-                    break;
-
                 // aside menu > 그리기도구
                 case "graphicInfo" :
                     ui.openPopup(area);
                     toastr.success("그리기도구")
                     aj_selectGraphicInfoList();
                     break;
-
+                
+                //영상/지도
                 // aside menu > 드론영상
                 case "dronInfo" :
                     ui.openPopup(area);
                     toastr.success("드론영상")
                     aj_selectDronInfo($("#tmpForm")[0]);
                     break;
-
-                // aside menu > 3D레이어
-                case "layerList" :
+                // aside menu > 내보내기
+                case "dwldInfo" :
                     ui.openPopup(area);
-                    toastr.success("3D레이어")
-                    aj_selectLayerList("top");
+                    toastr.success("내보내기")
+                    aj_dataDownload();
                     break;
+                // aside menu > 지도저장
+                case "saveMap" :
+                    ui.openPopup(area);
+                    toastr.success("지도저장")
+                    aj_saveMap();
+                    break; 
 
+                //게시판
+                
+                //지도설정
                 // aside menu > 배경지도
                 case "backgroundMapInfo" :
                     ui.openPopup(area);
                     toastr.success("배경지도")
                     aj_selectBackgroundMapInfoList();
+                    break;    
+                // aside menu > 화면 분할
+                case "backgroundMapInfo" :
+                    toastr.success("화면 분할")
+                    break;        
+                // aside menu > 즐겨찾기
+                case "favorites" :
+                    ui.openPopup(area);
+                    toastr.success("즐겨찾기")
+                    aj_selectFavoritesList($("#tmpForm")[0]);
                     break;
-
             }
         });
     }
