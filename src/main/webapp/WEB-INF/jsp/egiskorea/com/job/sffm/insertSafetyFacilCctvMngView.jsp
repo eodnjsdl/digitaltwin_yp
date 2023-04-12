@@ -10,13 +10,21 @@
 $('#cctvRegist').on('click', function(){
 	
 	
-	$("#geom").val("POINT(998475.8757163942 1943527.8912290551)");
-	$("#adres").val("경기도 양평읍 양근리 638");
-	var form = new FormData($('#insertCctvForm')[0]);
-	form.append('lat', 1);
-	form.append('lon', 1);
+	var form = new FormData();
+	form.append('deviceid', $('input[name=deviceid]').val());
+	form.append('gbn', $('select[name=gbn] option:selected').val());
+	form.append('label', $('input[name=label]').val());
+	form.append('geom', geom);
+	form.append('lat', $('#lat').val());
+	form.append('lon', $('#lon').val());
+	form.append('adres', $('#adres').val());
 
-	// if(confirm("<spring:message code="common.regist.msg" />")){	//등록하시겠습니까?
+	
+	for (let key of form.keys()) {
+		console.log(key, ":", form.get(key));
+	}
+
+	if(confirm("<spring:message code="common.regist.msg" />")){	//등록하시겠습니까?
        	ui.loadingBar("show");
        	$.ajax({
        		type : "POST",
@@ -33,7 +41,7 @@ $('#cctvRegist').on('click', function(){
 					initGrid();
 					setData(0); 
 				} else {
-					// alert("<spring:message code="fail.common.insert" />");
+					alert("<spring:message code="fail.common.insert" />");
 					return;
 				}
 			},error : function (request,status,error){
@@ -44,7 +52,7 @@ $('#cctvRegist').on('click', function(){
 				
 			}, 
        	});
-	// }
+	}
 
 
 
@@ -73,7 +81,7 @@ $('#cctvRegist').on('click', function(){
 									<th scope="row">기기ID</th>
 									<td><input type="text" class="form-control" id="cctv-deviceid" name="deviceid" maxlength="20"></td>
 									<th scope="row">기기구분</th>
-									<td><select name="cctv-insert-selbox" class="form-control" id="cctv-insert-selbox" name="gbn"></select></td>
+									<td><select class="form-control" id="cctv-insert-selbox" name="gbn"></select></td>
 								</tr>
 								<tr>
 									<th scope="row">명칭</th>
@@ -85,9 +93,12 @@ $('#cctvRegist').on('click', function(){
 									<th scope="row">주소</th>
 									<td colspan="3">
 										<div class="form-row">
-											<div class="col"><input type="text" class="form-control" id="cctv-adres" name="adres" maxlength="255"></div>
+											<div class="col"><input type="text" class="form-control" id="adres" name="adres" maxlength="255"></div>
 											<div class="col" style="display: none;"><input type="text" class="form-control" id="cctv-location" readonly placeholder="경도, 위도"></div> 
-											<div class="col-auto"><button type="button" class="btn type01 bi-location" onclick="CCTV.setLocation();">지도에서 선택</button></div>
+											<div class="col-auto"><button type="button" class="btn type01 bi-location"  onclick="fn_getLocation()">지도에서 선택</button></div>
+											<input type="hidden" name="geom" id="geom">
+											<input type="hidden" name="lon" id="lon">
+											<input type="hidden" name="lat" id="lat">
 										</div>
 									</td>
 								</tr>

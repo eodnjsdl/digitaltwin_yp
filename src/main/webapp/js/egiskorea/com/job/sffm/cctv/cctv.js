@@ -87,6 +87,8 @@ function setData(_pageNo){
 		typeNames: 'tgd_cctv_status_new', //WFS 레이어명
 		page : (_pageNo||0)+1,
 		perPage : 100,
+		sortBy : 'gid',
+		orderBy : 'DESC',
 		filter : cqlList
 	});
 
@@ -117,7 +119,7 @@ function setData(_pageNo){
 		let properties = feature.getProperties();
 		    return {
 		        marker: {
-		            src: '/images/poi/street_lamp.png'
+		            src: '/images/poi/cctv_poi.png'
 		            },
 		            label: {
 		                text: properties.deviceid
@@ -197,7 +199,7 @@ function fn_update(gid){
 	
 	$.ajax({
 		type : "POST",
-		url : "/job/sffm/updateSafetyFacilLampMngView.do",
+		url : "/job/cctv/updateSafetyFacilCctvMngView.do",
 		data: formData,
 		dataType : "html",
 		processData : false,

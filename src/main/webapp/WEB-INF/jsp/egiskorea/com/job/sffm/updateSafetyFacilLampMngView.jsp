@@ -37,7 +37,7 @@ function lampUpdate(gid){
 	formData.append('gid', gid);
 	console.log(formData);
 	
-	//if(confirm("<spring:message code="common.update.msg" />")){	//수정하시겠습니까?
+	if(confirm("<spring:message code="common.update.msg" />")){	//수정하시겠습니까?
        	$.ajax({
        		type : "POST",
        		url	 : "/job/sffm/updateSffm.do",
@@ -49,17 +49,17 @@ function lampUpdate(gid){
 				console.log(returnData);
 				console.log(status)
 				if(returnData.result == "success") {
-					//alert("<spring:message code="success.common.update" />");
+					alert("<spring:message code="success.common.update" />");
 					setData($('button[data-ax5grid-page-selected=true]').text()-1); 
 					fn_pageDetail(gid);
 					
 				} else {
-					//alert("<spring:message code="fail.common.update" />");
+					alert("<spring:message code="fail.common.update" />");
 					return;
 				}
 			}
        	});
-	//}
+	}
 }
 
 

@@ -12,9 +12,8 @@ ui.callDatePicker();
 $('#lampRegist').on('click', function(){
 	var form = new FormData();
 
-	$("#geom").val("POINT(998475.8757163942 1943527.8912290551)");
-	$("#adres").val("경기도 양평읍 양근리 638");
-
+	// $("#geom").val("POINT(998475.8757163942 1943527.8912290551)");
+	// $("#adres").val("경기도 양평읍 양근리 638");
 	var manage_no = $('#manage-no').val();
 	var instl_de = $('#instl-de').val();
 	var adres = $('#adres').val();
@@ -53,11 +52,15 @@ $('#lampRegist').on('click', function(){
 		form.append('strtlgtCnt', strtlgt_cnt);
 	}
 
-	form.append('lat', 1);
-	form.append('lon', 1);
-	form.append('alt', 1);
-	form.append('stdde', 1);
+	form.append('lat', $('#lat').val());
+	form.append('lon', $('#lon').val());
+	// form.append('alt', Module.getMap().getTerrHeightFast(parseFloat(127.48846105), parseFloat(37.49131546)).toFixed(6));
+	form.append('alt', "1");
+	form.append('stdde', new Date().toISOString().substring(0, 10));
 	// if(confirm("<spring:message code="common.regist.msg" />")){	//등록하시겠습니까?
+		for (let key of form.keys()) {
+		console.log(key, ":", form.get(key));
+	}
        	ui.loadingBar("show");
        	$.ajax({
        		type : "POST",
@@ -121,8 +124,10 @@ $('#lampRegist').on('click', function(){
 										<div class="form-row">
 											<div class="col"><input type="text" class="form-control" id="adres" maxlength="65"></div>
 											<div class="col" style="display: none;"><input type="text" class="form-control" id="location" readonly placeholder="경도, 위도"></div> 
-											<div class="col-auto"><button type="button" class="btn type01 bi-location" id="mapSelectBtn">지도에서 선택</button></div>
+											<div class="col-auto"><button type="button" class="btn type01 bi-location" id="mapSelectBtn" onclick="fn_getLocation()">지도에서 선택</button></div>
 											<input type="hidden" name="geom" id="geom">
+											<input type="hidden" name="lon" id="lon">
+											<input type="hidden" name="lat" id="lat">
 										</div>
 									</td>
 								</tr>

@@ -71,6 +71,8 @@ function setData(_pageNo){
 		typeNames: 'tgd_strtlgt_status', //WFS 레이어명
 		page : _pageNo+1,
 		perPage : 100,
+		sortBy : 'gid',
+		orderBy : 'DESC',
 		filter : cqlList
 	});
 
