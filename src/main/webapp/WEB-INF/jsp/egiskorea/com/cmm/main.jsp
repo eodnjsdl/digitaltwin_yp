@@ -496,16 +496,170 @@
 
             <!-- 주제도 -->
             <div class="lnb-theme lnb-cont">
-                <%--<%@ include file="/WEB-INF/jsp/egiskorea/com/tm/thematicMap.jsp" %>--%>
+                <%@ include file="/WEB-INF/jsp/egiskorea/com/tm/thematicMap.jsp" %>
             </div>
             <!-- //주제도 -->
+	
+			<!-- 공간정보 -->
+			<div class="lnb-space lnb-cont" >
+				<div class="lnb-header"><h2 class="tit">공간정보</h2></div>
+				<div class="lnb-body">
+					<div class="scroll-y mCustomScrollbar _mCS_6 mCS_no_scrollbar" style="position: relative; overflow: visible;"><div id="mCSB_6" class="mCustomScrollBox mCS-light mCSB_vertical mCSB_outside" tabindex="0" style="max-height: none;"><div id="mCSB_6_container" class="mCSB_container mCS_y_hidden mCS_no_scrollbar_y" style="position:relative; top:0; left:0;" dir="ltr">
+						<ul class="lnb-list">
+							<li><p class="lnb-dep1">공간정보활용</p>
+								<ul class="lnb-dep2">
+									<li><button type="button" class="dataPopup" data-popup="work-01-01">사업공유관리</button></li>
+									<li class=""><button type="button" class="dataPopup" data-popup="work-01-02">지하수관리</button></li>
+									<li><button type="button" class="dataPopup" data-popup="work-01-03">신재생에너지</button></li>
+									<li><button type="button" class="dataPopup" data-popup="work-01-04">안전시설물관리</button></li>
+									<li><button type="button" class="dataPopup" data-popup="work-01-05">관내업소정보조회</button></li>
+									<li><button type="button" class="dataPopup" data-popup="work-01-06">대기오염</button></li>
+								</ul>
+							</li>
+						</ul>
+					</div></div><div id="mCSB_6_scrollbar_vertical" class="mCSB_scrollTools mCSB_6_scrollbar mCS-light mCSB_scrollTools_vertical" style="display: none;"><div class="mCSB_draggerContainer"><div id="mCSB_6_dragger_vertical" class="mCSB_dragger" style="position: absolute; min-height: 30px; top: 0px; height: 0px;"><div class="mCSB_dragger_bar" style="line-height: 30px;"></div></div><div class="mCSB_draggerRail"></div></div></div></div>
+				</div>
+			</div>	
+			<!-- //공간정보 -->
+			
+            <!-- 시설관리 -->
+			<div class="lnb-facility lnb-cont">
+				<div class="lnb-header"><h2 class="tit">시설관리</h2></div>
+				<div class="lnb-body">
+					<div class="scroll-y mCustomScrollbar _mCS_7 mCS_no_scrollbar" style="position: relative; overflow: visible;"><div id="mCSB_7" class="mCustomScrollBox mCS-light mCSB_vertical mCSB_outside" tabindex="0" style="max-height: none;"><div id="mCSB_7_container" class="mCSB_container mCS_y_hidden mCS_no_scrollbar_y" style="position:relative; top:0; left:0;" dir="ltr">
+						<ul class="lnb-list">
+							<li><p class="lnb-dep1">시설관리</p>
+								<ul class="lnb-dep2">
+									<li><button type="button" class="dataPopup" data-popup="work-02-01">상수도시설</button></li>
+									<li><button type="button" class="dataPopup" data-popup="work-02-02">하수도시설</button></li>
+									<li><button type="button" class="dataPopup" data-popup="work-02-03">교통시설</button></li>
+									<li><button type="button" class="dataPopup" data-popup="work-02-04">체육시설</button></li>
+									<li><button type="button" class="dataPopup" data-popup="work-02-05">복지시설</button></li>
+									<li><button type="button" class="dataPopup" data-popup="work-02-06">시설예약관리</button></li>
+									<!-- <li><button type="button" class="dataPopup">건물편집(3D)</button></li> -->
+								</ul>
+							</li>
+						</ul>
+					</div></div><div id="mCSB_7_scrollbar_vertical" class="mCSB_scrollTools mCSB_7_scrollbar mCS-light mCSB_scrollTools_vertical" style="display: none;"><div class="mCSB_draggerContainer"><div id="mCSB_7_dragger_vertical" class="mCSB_dragger" style="position: absolute; min-height: 30px; top: 0px; height: 0px;"><div class="mCSB_dragger_bar" style="line-height: 30px;"></div></div><div class="mCSB_draggerRail"></div></div></div></div>
+				</div>
+			</div>
+            <!-- //시설관리 -->
+            
+            <!-- 교통분석 -->
+            <div class="lnb-traffic lnb-cont">
+				<div class="lnb-header"><h2 class="tit">교통분석</h2></div>
+				<div class="lnb-body">
+					<div class="scroll-y mCustomScrollbar _mCS_9 mCS_no_scrollbar" style="position: relative; overflow: visible;"><div id="mCSB_9" class="mCustomScrollBox mCS-light mCSB_vertical mCSB_outside" tabindex="0" style="max-height: none;"><div id="mCSB_9_container" class="mCSB_container mCS_y_hidden mCS_no_scrollbar_y" style="position:relative; top:0; left:0;" dir="ltr">
+						<ul class="lnb-list">
+							<li><p class="lnb-dep1">교통분석</p>
+								<ul class="lnb-dep2">
+									<li><button type="button" class="dataPopup" data-popup="">버스노선정보</button></li>
+									<li><button type="button" class="dataPopup" data-popup="">인구정보</button></li>
+									<li><button type="button" class="dataPopup" data-popup="">대중교통 취약분석</button></li>
+								</ul>
+							</li>
+						</ul>
+					</div></div><div id="mCSB_9_scrollbar_vertical" class="mCSB_scrollTools mCSB_9_scrollbar mCS-light mCSB_scrollTools_vertical" style="display: none;"><div class="mCSB_draggerContainer"><div id="mCSB_9_dragger_vertical" class="mCSB_dragger" style="position: absolute; min-height: 30px; top: 0px; height: 0px;"><div class="mCSB_dragger_bar" style="line-height: 30px;"></div></div><div class="mCSB_draggerRail"></div></div></div></div>
+				</div>
+			</div>
+            <!-- //교통분석 -->
+            
+			<!-- 행정자산 -->
+			<div class="lnb-administrative lnb-cont">
+				<div class="lnb-header"><h2 class="tit">행정자산</h2></div>
+				<div class="lnb-body">
+					<div class="scroll-y mCustomScrollbar _mCS_10 mCS_no_scrollbar" style="position: relative; overflow: visible;"><div id="mCSB_10" class="mCustomScrollBox mCS-light mCSB_vertical mCSB_outside" tabindex="0" style="max-height: none;"><div id="mCSB_10_container" class="mCSB_container mCS_y_hidden mCS_no_scrollbar_y" style="position:relative; top:0; left:0;" dir="ltr">
+						<ul class="lnb-list">
+							<li><p class="lnb-dep1">행정자산</p>
+								<ul class="lnb-dep2">
+									<li><button type="button" class="dataPopup" data-popup="">행정자산관리</button></li>
+									<li><button type="button" class="dataPopup" data-popup="">공유지관리</button></li>
+									<li><button type="button" class="dataPopup" data-popup="">공유재산 실태조사</button></li>
+								</ul>
+							</li>
+						</ul>
+					</div></div><div id="mCSB_10_scrollbar_vertical" class="mCSB_scrollTools mCSB_10_scrollbar mCS-light mCSB_scrollTools_vertical" style="display: none;"><div class="mCSB_draggerContainer"><div id="mCSB_10_dragger_vertical" class="mCSB_dragger" style="position: absolute; min-height: 30px; top: 0px; height: 0px;"><div class="mCSB_dragger_bar" style="line-height: 30px;"></div></div><div class="mCSB_draggerRail"></div></div></div></div>
+				</div>
+			</div>
+			<!-- //행정자산 -->
+			
+			<!-- 국토조사 -->
+			<div class="lnb-territory lnb-cont" style="display: none;">
+				<div class="lnb-header"><h2 class="tit">국토정보관리</h2></div>
+				<div class="lnb-body">
+					<div class="btn-wrap"><button type="button" class="btn bi-write" data-popup="territory-Regist">등록</button></div>
+					<div class="bbs-top">
+						<div>
+							<select name="" id="" class="form-select">
+								<option value="">전체</option>
+							</select>
+						</div>
+						<div><button type="button" class="btn basic bi-all">전체 보기</button></div>
+					</div>
+					<div class="territory-list-wrap">
+						<ul class="territory-list">
+							<li><a href="javascript:void(0);" data-popup="territory-detail"><span class="tit">양평읍 양근리 조사데이터</span><span class="writer">웹마스터</span><span class="date">2021.09.27</span></a>
+								<div><button type="button" class="icon-btn delete" title="삭제"></button></div>
+							</li>
+							<li><a href="javascript:void(0);" data-popup="territory-detail"><span class="tit">양평읍 양근리 조사데이터</span><span class="writer">웹마스터</span><span class="date">2021.09.27</span></a>
+								<div><button type="button" class="icon-btn delete" title="삭제"></button></div>
+							</li>
+							<li><a href="javascript:void(0);" data-popup="territory-detail"><span class="tit">양평읍 양근리 조사데이터</span><span class="writer">웹마스터</span><span class="date">2021.09.27</span></a>
+								<div><button type="button" class="icon-btn delete" title="삭제"></button></div>
+							</li>
+							<li><a href="javascript:void(0);" data-popup="territory-detail"><span class="tit">양평읍 양근리 조사데이터</span><span class="writer">웹마스터</span><span class="date">2021.09.27</span></a>
+								<div><button type="button" class="icon-btn delete" title="삭제"></button></div>
+							</li>
+							<li><a href="javascript:void(0);"><span class="tit">양평읍 양근리 조사데이터</span><span class="writer">웹마스터</span><span class="date">2021.09.27</span></a>
+								<div><button type="button" class="icon-btn delete" title="삭제"></button></div>
+							</li>
+							<li><a href="javascript:void(0);"><span class="tit">양평읍 양근리 조사데이터</span><span class="writer">웹마스터</span><span class="date">2021.09.27</span></a>
+								<div><button type="button" class="icon-btn delete" title="삭제"></button></div>
+							</li>
+							<li><a href="javascript:void(0);"><span class="tit">양평읍 양근리 조사데이터</span><span class="writer">웹마스터</span><span class="date">2021.09.27</span></a>
+								<div><button type="button" class="icon-btn delete" title="삭제"></button></div>
+							</li>
+							<li><a href="javascript:void(0);"><span class="tit">양평읍 양근리 조사데이터</span><span class="writer">웹마스터</span><span class="date">2021.09.27</span></a>
+								<div><button type="button" class="icon-btn delete" title="삭제"></button></div>
+							</li>
+							<li><a href="javascript:void(0);"><span class="tit">양평읍 양근리 조사데이터</span><span class="writer">웹마스터</span><span class="date">2021.09.27</span></a>
+								<div><button type="button" class="icon-btn delete" title="삭제"></button></div>
+							</li>
+							<li><a href="javascript:void(0);"><span class="tit">양평읍 양근리 조사데이터</span><span class="writer">웹마스터</span><span class="date">2021.09.27</span></a>
+								<div><button type="button" class="icon-btn delete" title="삭제"></button></div>
+							</li>
+							<li><a href="javascript:void(0);"><span class="tit">양평읍 양근리 조사데이터</span><span class="writer">웹마스터</span><span class="date">2021.09.27</span></a>
+								<div><button type="button" class="icon-btn delete" title="삭제"></button></div>
+							</li>
+						</ul>
+						<div class="pagination">
+							<a href="javascript:void(0);" class="first" title="처음"></a>
+							<a href="javascript:void(0);" class="prev" title="이전"></a>
+							<strong class="current">1</strong>
+							<a href="javascript:void(0);">2</a>
+							<a href="javascript:void(0);">3</a>
+							<a href="javascript:void(0);">4</a>
+							<a href="javascript:void(0);">5</a>
+							<a href="javascript:void(0);" class="next" title="다음"></a>
+							<a href="javascript:void(0);" class="last" title="마지막"></a>
+						</div>
+					</div>
+				</div>
+				<div class="lnb-util"><button type="button" class="lnb-resetBtn" title="초기화"></button></div>
+				<script>
+					$(document).ready(function(){
+						$(".lnb-territory .bi-write").click(function(){
+							$(this).addClass("active");
+						});
 
-            <!-- 업무 -->
-            <div class="lnb-work lnb-cont">
-                <%@ include file="/WEB-INF/jsp/egiskorea/com/cmm/task.jsp" %>
-            </div>
-            <!-- //업무 -->
-
+						$(".territory-list a").click(function(){
+							$(this).parent().addClass("active").siblings().removeClass("active");
+						});
+					});
+				</script>
+			</div>
+			<!-- //국토조사 -->
+			
             <!-- 분석 -->
             <script>
                 $(document).ready(function () {
@@ -527,37 +681,37 @@
                         </li>
                         <li>
                             <button type="button" class="dataPopup" data-popup="analysis-01-01" data-maptype="3D">
-                                조망권분석(3D)
+                                 	조망권분석(3D)
                             </button>
                         </li>
                         <li>
                             <button type="button" class="dataPopup" data-popup="analysis-01-04" data-maptype="3D">
-                                경사분석(3D)
+                                	경사분석(3D)
                             </button>
                         </li>
                         <li>
                             <button type="button" class="dataPopup" data-maptype="2D">
-                                공간분석
+                                	공간분석
                             </button>
                         </li>
                         <li>
                             <button type="button" class="dataPopup" data-popup="analysis-01-02" data-maptype="3D">
-                                일조권분석(3D)
+                                	일조권분석(3D)
                             </button>
                         </li>
                         <li>
                             <button type="button" class="dataPopup" data-popup="analysis-01-06" data-maptype="3D">
-                                지형단면도(3D)
+                                	지형단면도(3D)
                             </button>
                         </li>
                         <li>
                             <button type="button" class="dataPopup" data-popup="analysis-01-07" data-maptype="2D">
-                                지하시설단면
+                                	지하시설단면
                             </button>
                         </li>
                         <li>
                             <button type="button" class="dataPopup" data-maptype="3D">
-                                가시권분석(3D)
+                                	가시권분석(3D)
                             </button>
                         </li>
 
@@ -565,21 +719,9 @@
                 </div>
                 <div class="lnb-util">
                     <button type="button" class="manualBtn" title="도움말" onclick="manualTab('분석')"></button>
-
                 </div>
             </div>
-
             <!-- //분석 -->
-
-            <!-- 국토정보관리 -->
-            <div class="lnb-territory lnb-cont">
-            </div>
-            <!-- //국토정보관리 -->
-
-            <!-- 설정 -->
-            <div class="lnb-setting lnb-cont">
-            </div>
-            <!-- //설정 -->
             
         </div>
         <!-- //side -->
