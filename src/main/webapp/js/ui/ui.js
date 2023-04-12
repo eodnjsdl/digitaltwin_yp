@@ -623,7 +623,25 @@ window.ui = (function () {
                     break; 
 
                 //게시판
-                
+                // aside menu > 게시판
+                case "notice" :
+                    ui.openPopup(area);
+                    toastr.success("게시판")
+                    aj_selectNoticeList();
+                    break;
+                // aside menu > QnA
+                case "opqna" :
+                    ui.openPopup(area);
+                    toastr.success("QnA")
+                    aj_selectOpQnaList(1);
+                    break;
+                // aside menu > 운영지원
+                case "qna" :
+                    ui.openPopup(area);
+                    toastr.success("운영지원")
+                    aj_selectQnaList(1);
+                    break; 
+                    
                 //지도설정
                 // aside menu > 배경지도
                 case "backgroundMapInfo" :

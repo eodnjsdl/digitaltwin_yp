@@ -252,40 +252,40 @@
 				<li>
 					<span>정보조회</span>
 					<ul>
-						<li><button type="button" id="krasInfo" class="dataPopup" data-popup="top-popup01">통합행정정보</button></li>
-						<li><button type="button" id="landBuilding" class="dataPopup" data-popup="top-popup02">지적/건물</button></li>
+						<li><button type="button" id="krasInfo" class="dataPopup">통합행정정보</button></li>
+						<li><button type="button" id="landBuilding" class="dataPopup">지적/건물</button></li>
 					</ul>
 				</li>
 				<li>
 					<span>정보공유</span>
 					<ul>
-						<li><button type="button" id="memoInfo" class="dataPopup" data-popup="top-popup04">메모정보</button></li>
-						<li><button type="button" id="potoInfo" class="dataPopup" data-popup="top-popup05">사진정보</button></li>
-						<li><button type="button" id="potoInfo" class="dataPopup" data-popup="top-popup08">그리기정보</button></li>
+						<li><button type="button" id="memoInfo" class="rightPopup">메모정보</button></li>
+						<li><button type="button" id="potoInfo" class="rightPopup">사진정보</button></li>
+						<li><button type="button" id="graphicInfo" class="rightPopup">그리기정보</button></li>
 					</ul>
 				</li>
 				<li>
 					<span>영상/지도</span>
 					<ul>
-						<li><button type="button" id="dronInfo" class="dataPopup" data-popup="top-popup10">드론영상</button></li>
-						<li><button type="button" id="dwldInfo" class="dataPopup" data-popup="top-popup03">내보내기</button></li>
-						<li><button type="button" id="saveMap" class="dataPopup" data-popup="top-popup07">지도저장</button></li>
+						<li><button type="button" id="dronInfo" class="rightPopup">드론영상</button></li>
+						<li><button type="button" id="dwldInfo" class="rightPopup">내보내기</button></li>
+						<li><button type="button" id="saveMap" class="rightPopup">지도저장</button></li>
 					</ul>
 				</li>
 				<li>
 					<span>게시판</span>
 					<ul>
-						<li><button type="button" id="dronInfo" class="dataPopup" data-popup="board-notice">공지사항</button></li>
-						<li><button type="button" id="dronInfo" class="dataPopup" data-popup="board-qna">QnA</button></li>
-						<li><button type="button" id="dronInfo" class="dataPopup" data-popup="">운영지원</button></li>
+						<li><button type="button" id="notice" class="rightPopup" class="dataPopup">공지사항</button></li>
+						<li><button type="button" id="opqna" class="rightPopup" class="dataPopup">QnA</button></li>
+						<li><button type="button" id="qna" class="rightPopup" class="dataPopup">운영지원</button></li>
 					</ul>
 				</li>
 				<li>
 					<span>지도설정</span>
 					<ul>
-						<li><button type="button" class="dataPopup" data-popup="top-popup09" title="배경지도">배경지도</button></li>
-						<li><button type="button" class="dataPopup" data-popup="" title="화면분할">화면분할</button></li>
-						<li><button type="button" class="dataPopup" data-popup="top-popup06" title="즐겨찾기">즐겨찾기</button></li>
+						<li><button type="button" id="backgroundMapInfo" class="rightPopup"  title="배경지도">배경지도</button></li>
+						<li><button type="button" class="rightPopup" title="화면분할">화면분할</button></li>
+						<li><button type="button" id="favorites" class="rightPopup"  title="즐겨찾기">즐겨찾기</button></li>
 					</ul>
 				</li>
 			</ul>
@@ -744,349 +744,23 @@
 
 
         <!-- top > 데이터 내보내기 -->
-        <div class="popup-panel popup-right top-popup03" style="width: 420px;height: 807px;"></div>
+        <div class="popup-panel popup-right top-popup03" style="width: 420px;height: 807px;">
+        </div>
         <!-- //top > 데이터 내보내기 -->
 
         <!-- top > 메모정보 -->
         <div class="popup-panel popup-right top-popup04" style="width: 480px;height: 807px;">
-            <div class="popup-header">메모정보</div>
-            <div class="popup-body">
-
-                <div class="tool-popup-body top-memo-body">
-                    <div class="srch-box">
-                        <div class="form-row">
-                            <div class="col-auto">
-                                <select class="form-select">
-                                    <option value="">제목</option>
-                                    <option value="">작성자</option>
-                                </select>
-                            </div>
-                            <div class="col"><input type="text" class="form-control"></div>
-                            <div class="col-auto">
-                                <button type="button" class="btn type01 search">조회</button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="btn-wrap justify-content-end">
-                        <div><a href="/contents/top04-regist.html" class="btn bi-write" target="_blank">등록</a></div>
-                    </div>
-
-                    <div class="bbs-top marT10">
-                        <div class="bbs-list-num">조회결과 : <strong>50</strong>건</div>
-                        <div class="list-sort">
-									<span class="form-radio text group">
-										<span><input type="radio" name="list" id="rChk3-1" checked="checked"><label
-                                                for="rChk3-1">제목순</label></span>
-										<span><input type="radio" name="list" id="rChk3-2"><label
-                                                for="rChk3-2">최신순</label></span>
-									</span>
-                        </div>
-                    </div>
-                    <div class="bbs-list-wrap" style="height: 586px;"><!-- pagination 하단 고정을 위해 반드시 필요 -->
-                        <div class="bbs-default">
-                            <div class="bbs-list-head">
-                                <table class="bbs-list">
-                                    <colgroup>
-                                        <col style="width: 13%;">
-                                        <col style="width: auto;">
-                                        <col style="width: 20%;">
-                                        <col style="width: 20%;">
-                                        <col style="width: 15%;">
-                                    </colgroup>
-                                    <thead>
-                                    <tr>
-                                        <th scope="col">번호</th>
-                                        <th scope="col">제목</th>
-                                        <th scope="col">작성자</th>
-                                        <th scope="col">등록일</th>
-                                        <th scope="col">공유</th>
-                                    </tr>
-                                    </thead>
-                                </table>
-                            </div>
-                            <div class="scroll-y">
-                                <table class="bbs-list">
-                                    <colgroup>
-                                        <col style="width: 13%;">
-                                        <col style="width: auto;">
-                                        <col style="width: 20%;">
-                                        <col style="width: 20%;">
-                                        <col style="width: 15%;">
-                                    </colgroup>
-                                    <tbody>
-                                    <tr>
-                                        <td>50</td>
-                                        <td class="align-left"><a href="/contents/top04-detail.html" class="subject"
-                                                                  target="_blank">메모1 _입니다.</a></td>
-                                        <td>홍길동</td>
-                                        <td>2021.10.15</td>
-                                        <td>공유</td>
-                                    </tr>
-                                    <tr>
-                                        <td>49</td>
-                                        <td class="align-left"><a href="javascript:void(0);" class="subject">메모1
-                                            _입니다.</a></td>
-                                        <td>홍길동</td>
-                                        <td>2021.10.15</td>
-                                        <td>공유</td>
-                                    </tr>
-                                    <tr>
-                                        <td>48</td>
-                                        <td class="align-left"><a href="javascript:void(0);" class="subject">메모1
-                                            _입니다.</a></td>
-                                        <td>홍길동</td>
-                                        <td>2021.10.15</td>
-                                        <td>공유</td>
-                                    </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-
-                        <div class="pagination">
-                            <a href="javascript:void(0);" class="first" title="처음"></a>
-                            <a href="javascript:void(0);" class="prev" title="이전"></a>
-                            <strong class="current">1</strong>
-                            <a href="javascript:void(0);">2</a>
-                            <a href="javascript:void(0);">3</a>
-                            <a href="javascript:void(0);">4</a>
-                            <a href="javascript:void(0);">5</a>
-                            <a href="javascript:void(0);" class="next" title="다음"></a>
-                            <a href="javascript:void(0);" class="last" title="마지막"></a>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-            <button type="button" class="popup-close" title="닫기"></button>
         </div>
         <!-- //top > 메모정보 -->
 
         <!-- top > 사진정보 -->
         <div class="popup-panel popup-right top-popup05" style="width: 480px;height: 807px;">
-            <div class="popup-header">사진정보</div>
-            <div class="popup-body">
-
-                <div class="tool-popup-body">
-                    <div class="srch-box">
-                        <div class="form-row">
-                            <div class="col-auto">
-                                <select class="form-select">
-                                    <option value="">제목</option>
-                                    <option value="">작성자</option>
-                                </select>
-                            </div>
-                            <div class="col"><input type="text" class="form-control"></div>
-                            <div class="col-auto">
-                                <button type="button" class="btn type01 search">조회</button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="btn-wrap justify-content-end">
-                        <div><a href="/contents/top05-regist.html" class="btn bi-write" target="_blank">등록</a></div>
-                    </div>
-
-                    <div class="bbs-top marT10">
-                        <div class="bbs-list-num">조회결과 : <strong>50</strong>건</div>
-                        <div class="list-sort">
-									<span class="form-radio text group">
-										<span><input type="radio" name="list" id="rChk3-1" checked="checked"><label
-                                                for="rChk3-1">제목순</label></span>
-										<span><input type="radio" name="list" id="rChk3-2"><label
-                                                for="rChk3-2">최신순</label></span>
-									</span>
-                        </div>
-                    </div>
-                    <div class="bbs-list-wrap" style="height: 586px;"><!-- pagination 하단 고정을 위해 반드시 필요 -->
-                        <div class="bbs-default">
-                            <div class="bbs-list-head">
-                                <table class="bbs-list">
-                                    <colgroup>
-                                        <col style="width: 13%;">
-                                        <col style="width: auto;">
-                                        <col style="width: 20%;">
-                                        <col style="width: 20%;">
-                                        <col style="width: 15%;">
-                                    </colgroup>
-                                    <thead>
-                                    <tr>
-                                        <th scope="col">번호</th>
-                                        <th scope="col">제목</th>
-                                        <th scope="col">작성자</th>
-                                        <th scope="col">등록일</th>
-                                        <th scope="col">공유</th>
-                                    </tr>
-                                    </thead>
-                                </table>
-                            </div>
-                            <div class="scroll-y">
-                                <table class="bbs-list">
-                                    <colgroup>
-                                        <col style="width: 13%;">
-                                        <col style="width: auto;">
-                                        <col style="width: 20%;">
-                                        <col style="width: 20%;">
-                                        <col style="width: 15%;">
-                                    </colgroup>
-                                    <tbody>
-                                    <tr>
-                                        <td>50</td>
-                                        <td class="align-left"><a href="/contents/top05-detail.html" class="subject"
-                                                                  target="_blank">사진 테스트 1 입니다.</a></td>
-                                        <td>홍길동</td>
-                                        <td>2021.10.15</td>
-                                        <td>공유</td>
-                                    </tr>
-                                    <tr>
-                                        <td>49</td>
-                                        <td class="align-left"><a href="javascript:void(0);" class="subject">사진 테스트 1
-                                            입니다.</a></td>
-                                        <td>홍길동</td>
-                                        <td>2021.10.15</td>
-                                        <td>공유</td>
-                                    </tr>
-                                    <tr>
-                                        <td>48</td>
-                                        <td class="align-left"><a href="javascript:void(0);" class="subject">사진 테스트 1
-                                            입니다.</a></td>
-                                        <td>홍길동</td>
-                                        <td>2021.10.15</td>
-                                        <td>공유</td>
-                                    </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-
-                        <div class="pagination">
-                            <a href="javascript:void(0);" class="first" title="처음"></a>
-                            <a href="javascript:void(0);" class="prev" title="이전"></a>
-                            <strong class="current">1</strong>
-                            <a href="javascript:void(0);">2</a>
-                            <a href="javascript:void(0);">3</a>
-                            <a href="javascript:void(0);">4</a>
-                            <a href="javascript:void(0);">5</a>
-                            <a href="javascript:void(0);" class="next" title="다음"></a>
-                            <a href="javascript:void(0);" class="last" title="마지막"></a>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
             <button type="button" class="popup-close" title="닫기"></button>
         </div>
         <!-- //top > 사진정보 -->
 
         <!-- top > 즐겨찾기 -->
         <div class="popup-panel popup-right top-popup06" style="width: 480px;height: 807px;">
-            <div class="popup-header">즐겨찾기</div>
-            <div class="popup-body">
-
-                <div class="tool-popup-body">
-                    <div class="srch-box">
-                        <div class="form-row">
-                            <div class="col"><input type="text" class="form-control"></div>
-                            <div class="col-auto">
-                                <button type="button" class="btn type01 search">조회</button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="btn-wrap justify-content-end">
-                        <div><a href="/contents/top06-regist.html" class="btn bi-write" target="_blank">등록</a></div>
-                    </div>
-
-                    <div class="bbs-top marT10">
-                        <div class="bbs-list-num">조회결과 : <strong>50</strong>건</div>
-                        <div class="list-sort">
-									<span class="form-radio text group">
-										<span><input type="radio" name="list" id="rChk6-1" checked="checked"><label
-                                                for="rChk6-1">제목순</label></span>
-										<span><input type="radio" name="list" id="rChk6-2"><label
-                                                for="rChk6-2">최신순</label></span>
-									</span>
-                        </div>
-                    </div>
-                    <div class="bbs-list-wrap" style="height: 586px;"><!-- pagination 하단 고정을 위해 반드시 필요 -->
-                        <div class="bbs-default">
-                            <div class="bbs-list-head">
-                                <table class="bbs-list">
-                                    <colgroup>
-                                        <col style="width: 13%;">
-                                        <col style="width: auto;">
-                                        <col style="width: 20%;">
-                                        <col style="width: 20%;">
-                                    </colgroup>
-                                    <thead>
-                                    <tr>
-                                        <th scope="col">번호</th>
-                                        <th scope="col">제목</th>
-                                        <th scope="col">등록일</th>
-                                        <th scope="col"></th>
-                                    </tr>
-                                    </thead>
-                                </table>
-                            </div>
-                            <div class="scroll-y">
-                                <table class="bbs-list">
-                                    <colgroup>
-                                        <col style="width: 13%;">
-                                        <col style="width: auto;">
-                                        <col style="width: 20%;">
-                                        <col style="width: 20%;">
-                                    </colgroup>
-                                    <tbody>
-                                    <tr>
-                                        <td>10</td>
-                                        <td class="subject"><a href="/contents/top06-update.html" class="badge-subject"
-                                                               target="_blank">양평군청 일대 지도사진 <span
-                                                class="badge basic">기본</span></a></td>
-                                        <td>2021.10.15</td>
-                                        <td>
-                                            <button type="button" class="icon-btn location" title="이동"></button>
-                                            <button type="button" class="icon-btn edit" title="다시저장"></button>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>9</td>
-                                        <td class="subject"><a href="javascript:void(0);">양평군청 일대 지도사진</a></td>
-                                        <td>2021.10.15</td>
-                                        <td>
-                                            <button type="button" class="icon-btn location" title="이동"></button>
-                                            <button type="button" class="icon-btn edit" title="다시저장"></button>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>8</td>
-                                        <td class="subject"><a href="javascript:void(0);">양평군청 일대 지도사진</a></td>
-                                        <td>2021.10.15</td>
-                                        <td>
-                                            <button type="button" class="icon-btn location" title="이동"></button>
-                                            <button type="button" class="icon-btn edit" title="다시저장"></button>
-                                        </td>
-                                    </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-
-                        <div class="pagination">
-                            <a href="javascript:void(0);" class="first" title="처음"></a>
-                            <a href="javascript:void(0);" class="prev" title="이전"></a>
-                            <strong class="current">1</strong>
-                            <a href="javascript:void(0);">2</a>
-                            <a href="javascript:void(0);">3</a>
-                            <a href="javascript:void(0);">4</a>
-                            <a href="javascript:void(0);">5</a>
-                            <a href="javascript:void(0);" class="next" title="다음"></a>
-                            <a href="javascript:void(0);" class="last" title="마지막"></a>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
             <button type="button" class="popup-close" title="닫기"></button>
         </div>
         <!-- //top > 즐겨찾기 -->
@@ -1160,116 +834,6 @@
 
         <!-- top > 드론영상 -->
         <div class="popup-panel popup-right top-popup10" style="width: 480px;height: 807px;">
-            <div class="popup-header">드론영상</div>
-            <div class="popup-body">
-
-                <div class="tool-popup-body">
-                    <div class="srch-box">
-                        <div class="form-row">
-                            <div class="col-auto">
-                                <select class="form-select">
-                                    <option value="">제목</option>
-                                    <option value="">작성자</option>
-                                </select>
-                            </div>
-                            <div class="col"><input type="text" class="form-control"></div>
-                            <div class="col-auto">
-                                <button type="button" class="btn type01 search">조회</button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="btn-wrap justify-content-end">
-                        <div><a href="/contents/top10-regist.html" class="btn bi-write" target="_blank">등록</a></div>
-                    </div>
-
-                    <div class="bbs-top marT10">
-                        <div class="bbs-list-num">조회결과 : <strong>50</strong>건</div>
-                        <div class="list-sort">
-									<span class="form-radio text group">
-										<span><input type="radio" name="list" id="rChk3-1" checked="checked"><label
-                                                for="rChk3-1">제목순</label></span>
-										<span><input type="radio" name="list" id="rChk3-2"><label
-                                                for="rChk3-2">최신순</label></span>
-									</span>
-                        </div>
-                    </div>
-                    <div class="bbs-list-wrap" style="height: 586px;"><!-- pagination 하단 고정을 위해 반드시 필요 -->
-                        <div class="bbs-default">
-                            <div class="bbs-list-head">
-                                <table class="bbs-list">
-                                    <colgroup>
-                                        <col style="width: 13%;">
-                                        <col style="width: auto;">
-                                        <col style="width: 20%;">
-                                        <col style="width: 20%;">
-                                        <col style="width: 15%;">
-                                    </colgroup>
-                                    <thead>
-                                    <tr>
-                                        <th scope="col">번호</th>
-                                        <th scope="col">제목</th>
-                                        <th scope="col">촬영일</th>
-                                        <th scope="col">등록일</th>
-                                        <th scope="col">작성자</th>
-                                    </tr>
-                                    </thead>
-                                </table>
-                            </div>
-                            <div class="scroll-y">
-                                <table class="bbs-list">
-                                    <colgroup>
-                                        <col style="width: 13%;">
-                                        <col style="width: auto;">
-                                        <col style="width: 20%;">
-                                        <col style="width: 20%;">
-                                        <col style="width: 15%;">
-                                    </colgroup>
-                                    <tbody>
-                                    <tr>
-                                        <td>50</td>
-                                        <td class="align-left"><a href="/contents/top10-detail.html" class="subject"
-                                                                  target="_blank">드론 테스트 1 입니다.</a></td>
-                                        <td>2021.05.20</td>
-                                        <td>2021.10.15</td>
-                                        <td>홍길동</td>
-                                    </tr>
-                                    <tr>
-                                        <td>50</td>
-                                        <td class="align-left"><a href="javascript:void(0);" class="subject">드론 테스트 1
-                                            입니다.</a></td>
-                                        <td>2021.05.20</td>
-                                        <td>2021.10.15</td>
-                                        <td>홍길동</td>
-                                    </tr>
-                                    <tr>
-                                        <td>50</td>
-                                        <td class="align-left"><a href="javascript:void(0);" class="subject">드론 테스트 1
-                                            입니다.</a></td>
-                                        <td>2021.05.20</td>
-                                        <td>2021.10.15</td>
-                                        <td>홍길동</td>
-                                    </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-
-                        <div class="pagination">
-                            <a href="javascript:void(0);" class="first" title="처음"></a>
-                            <a href="javascript:void(0);" class="prev" title="이전"></a>
-                            <strong class="current">1</strong>
-                            <a href="javascript:void(0);">2</a>
-                            <a href="javascript:void(0);">3</a>
-                            <a href="javascript:void(0);">4</a>
-                            <a href="javascript:void(0);">5</a>
-                            <a href="javascript:void(0);" class="next" title="다음"></a>
-                            <a href="javascript:void(0);" class="last" title="마지막"></a>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
             <button type="button" class="manualBtn" title="도움말" onclick="manualTab('드론영상')"></button>
             <button type="button" class="popup-close" title="닫기"></button>
         </div>
@@ -1280,115 +844,6 @@
 
         <!-- 업무 > 공간정보활용 > 대기오염 -->
         <div class="popup-panel popup-left work-01-06" style="left: 320px;width: 515px;height: 807px;">
-            <div class="popup-header">대기오염</div>
-            <div class="popup-body">
-                <div class="left-popup-body">
-                    <div class="srch-box">
-                        <div class="srch-default">
-                            <table class="srch-tbl">
-                                <colgroup>
-                                    <col style="width: 15%;">
-                                    <col style="width: auto;">
-                                </colgroup>
-                                <tbody>
-                                <tr>
-                                    <th scope="row">기준일시</th>
-                                    <td>
-                                        <div class="form-row">
-                                            <div class="col">
-                                                <div class="datapicker-group"><input type="text" id="dp1638342099432"
-                                                                                     name=""
-                                                                                     class="datepicker hasDatepicker"
-                                                                                     autocomplete="off">
-                                                    <button type="button" class="ui-datepicker-trigger"><img
-                                                            src="../images/icon/form-calendar.svg" alt="..."
-                                                            title="..."></button>
-                                                </div>
-                                            </div>
-                                            <div class="col">
-                                                <select class="form-select">
-                                                    <option value="">15시</option>
-                                                    <option value="">16시</option>
-                                                </select>
-                                            </div>
-                                            <div class="col-auto">
-                                                <button type="button" class="btn type01 search">조회</button>
-                                            </div>
-                                        </div>
-                                    </td>
-                                </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                    <div class="bbs-top">
-                        <div class="bbs-list-num">조회결과 : <strong>50</strong>건</div>
-                    </div>
-                    <div class="bbs-list-wrap" style="height: 624px;"><!-- pagination 하단 고정을 위해 반드시 필요 -->
-                        <div class="bbs-default">
-                            <div class="bbs-list-head">
-                                <table class="bbs-list">
-                                    <colgroup>
-                                        <col style="width: 20%;">
-                                        <col style="width: 20%;">
-                                        <col style="width: 20%;">
-                                        <col style="width: auto;">
-                                        <col style="width: 50px;">
-                                    </colgroup>
-                                    <thead>
-                                    <tr>
-                                        <th scope="col">관측소명</th>
-                                        <th scope="col">미세</th>
-                                        <th scope="col">초미세</th>
-                                        <th scope="col">통합대기환경지수</th>
-                                        <th scope="col"></th>
-                                    </tr>
-                                    </thead>
-                                </table>
-                            </div>
-                            <div class="scroll-y">
-                                <table class="bbs-list">
-                                    <colgroup>
-                                        <col style="width: 20%;">
-                                        <col style="width: 20%;">
-                                        <col style="width: 20%;">
-                                        <col style="width: auto;">
-                                        <col style="width: 50px;">
-                                    </colgroup>
-                                    <tbody>
-                                    <tr>
-                                        <td>양평읍</td>
-                                        <td>11㎍/㎥</td>
-                                        <td>7㎍/㎥</td>
-                                        <td>50</td>
-                                        <td>
-                                            <button type="button" class="icon-btn stats" data-popup="work-01-06-detail"
-                                                    title="대기관측소"></button>
-                                        </td>
-                                    </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-
-                        <div class="pagination">
-                            <a href="javascript:void(0);" class="first" title="처음"></a>
-                            <a href="javascript:void(0);" class="prev" title="이전"></a>
-                            <strong class="current">1</strong>
-                            <a href="javascript:void(0);">2</a>
-                            <a href="javascript:void(0);">3</a>
-                            <a href="javascript:void(0);">4</a>
-                            <a href="javascript:void(0);">5</a>
-                            <a href="javascript:void(0);" class="next" title="다음"></a>
-                            <a href="javascript:void(0);" class="last" title="마지막"></a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <button type="button" class="manualBtn" title="도움말" onclick="manualTab('대기오염')"></button>
-            <button type="button" class="popup-close" title="닫기"></button>
-            <button type="button" class="popup-reset" class="초기화"></button>
-            <button type="button" class="popup-left-toggle" title="접기"></button>
         </div>
         <!-- //업무 > 공간정보활용 > 대기오염 -->
 
