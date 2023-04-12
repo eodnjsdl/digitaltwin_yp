@@ -213,18 +213,18 @@ public class SafetyFacilitiesMngController {
 		@RequestMapping(value = "/sffmExcelDown.do")
 		public ModelAndView sffmExcelDown(@RequestParam Map paramMap, ModelMap model) throws Exception { 
 			
-//			ModelAndView mav = new ModelAndView("excelDownloadView");
-//			
-//			SXSSFWorkbook workbook = safetyFacilitiesMngService.makeSffmExcelList(excelResultMap);
-//			
-//			mav.addObject("locale", Locale.KOREA);
-//			mav.addObject("workbook", workbook);
-//			mav.addObject("workbookName", "가로등관리목록");
-//			mav.addObject("fileType", "excel");
-//				
-//			return mav;
+			ModelAndView mav = new ModelAndView("excelDownloadView");
 			
-			Workbook workbook = new HSSFWorkbook();
+			SXSSFWorkbook workbook = safetyFacilitiesMngService.makeSffmExcelList(excelResultMap);
+			
+			mav.addObject("locale", Locale.KOREA);
+			mav.addObject("workbook", workbook);
+			mav.addObject("workbookName", "가로등관리목록");
+			mav.addObject("fileType", "excel");
+				
+			return mav;
+			
+		/*	Workbook workbook = new HSSFWorkbook();
 	        Sheet sheet = workbook.createSheet("가로등관리_목록");
 	        int rowNo = 0;
 	 
@@ -258,7 +258,7 @@ public class SafetyFacilitiesMngController {
 	        response.setHeader("Content-Disposition", "attachment;filename=Sffm_List.xls");
 	 
 	        workbook.write(response.getOutputStream());
-	        workbook.close(); 
+	        workbook.close(); */
 		}
 		HashMap excelResultMap;
 	
