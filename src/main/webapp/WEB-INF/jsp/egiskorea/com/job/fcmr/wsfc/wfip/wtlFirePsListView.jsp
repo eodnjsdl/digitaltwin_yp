@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" %>
 
+<!-- js -->
+<script src="/js/egiskorea/com/job/fcmr/wsfc/wfip/wtlFirePs.js"></script>			<!-- 소방시설  -->
 
 <!-- 업무 > 공통 -->
 <div class="popup-header">상수도관리</div>
@@ -125,30 +127,28 @@
             </div>
             <div class="bbs-list-wrap" style="height: 267px;"><!-- pagination 하단 고정을 위해 반드시 필요 -->
                 <div class="bbs-default">
-
                     <div id="baseGridDiv" style="height:inherit; display: flex;flex-direction: column">
-                        <!-- <div style="display: inline-block">
-                            <label>농업용공공관정</label>
-                        </div> -->
                         <div id="gridax5" data-ax5grid="attr-grid" data-ax5grid-config="{}" style="flex: 1"></div>
                     </div>
                 </div>
-                <!-- <div class="pagination">
-                </div> -->
             </div>
+            <input type="hidden" id="wtiFirePsListPage" 	value="">
         </div>
     </div>
 </div>
 <button type="button" class="manualBtn" title="도움말" onclick="manualTab('상수도시설')"></button>
 <button type="button" class="popup-close"
         onClick="toastr.warning('removeLayer(); cmmUtil.drawClear();', 'onclick 이벤트');" title="닫기"></button>
-<button type="button" class="popup-reset" class="초기화"></button>
+<button type="button" class="popup-reset"></button>
 <button type="button" class="popup-bottom-toggle" title="접기"></button>
 <!-- //업무 > 시설물 공통 -->
 <script type="text/javascript">
 	//jqeury
 	$(document).ready(function(){
-		console.log("wtlFirePsListView.jsp");	
+		//console.log("wtlFirePsListView.jsp");	
+		
+		//////////////////
+		//하위메뉴 select box
 		
 		//상수도 관리 메뉴 - 이벤트
 		var $container = $("#container");
@@ -157,6 +157,111 @@
 		$target.on('change', function() {
 			getWaterSupplyFacility(this.value);
 		});
+		
+		///////////
+		//관리 상위 버튼
+		
+		// 접기/펼치기
+        $(".popup-bottom-toggle", "#bottomPopup").on("click", function () {
+            const node = $(this);
+            const divNode = node.closest("div.popup-panel");
+            if (divNode.is(".fold")) {
+                node.attr("title", "펼치기");
+                divNode.removeClass("fold");
+            } else {
+                node.attr("title", "접기");
+                divNode.addClass("fold");
+            }
+        });
+		
+		//리셋
+		$(".popup-reset").unbind('click').bind('click',function(){
+			$target.trigger("change"); 
+		});
+		
+		//닫기
+		$(".popup-close").unbind('click').bind('click',function(){
+			//등록, 상세, 수정 팝업 창 닫기
+			if($("#rightSubPopup").hasClass("opened")){
+				$("#rightSubPopup").removeClass("opened");
+				$("#rightSubPopup").empty();
+			}
+		});
+		
+		
+		/////////////////////
+     	
+     	// 공간 검색
+        $(".facility-spatial-search", "#bottomPopup").on("click", function (e) {
+            // that.searchArea();
+            const $parent = $(e.target).closest('.search-area');
+            const type = $parent.find('input[name="rad-facility-area"]:checked').val();
+
+            const param = {
+                typeNames: "wtl_fire_ps",
+            }
+            if (type === 'extent') {
+                param.bbox = dtmap.getExtent();
+            } else {
+                param.geometry = dtmap.draw.getGeometry()
+            }
+
+            dtmap.wfsGetFeature(param).then(function (e) {
+                dtmap.vector.clear();
+                dtmap.vector.readGeoJson(e);
+            })
+
+        });
+     	
+     	
+     	// 검색영역지정 변경 (현재화면영역, 사용자정의)
+        $("[name=rad-facility-area]", "#bottomPopup").on("change", function () {
+            const node = $(this);
+            const value = node.val();
+            if (value == "extent") {
+                $(".space-facility-area", "#bottomPopup").hide();
+            } else {
+                $(".space-facility-area", "#bottomPopup").show();
+                $("[name=rad-facility-drawing]:first", "#bottomPopup").trigger("click");
+            }
+        }); 
+     	
+     	
+     	// 사용자 정의 검색 조건
+        $("[name=rad-facility-drawing]", "#bottomPopup").on("click", function () {
+            const node = $(this);
+            const value = node.val();
+            // that.searchDrawing(value);
+
+            let type;
+            switch (Number(value)) {
+                case 1:
+                    type = 'Point';
+                    break;
+                case 2:
+                    type = 'LineString';
+                    break;
+                case 3:
+                    type = 'Box';
+                    break;
+                case 4:
+                    type = 'Circle';
+                    break;
+            }
+            dtmap.draw.active({type: type, once: true})
+            toastr.warning("that.searchDrawing(value);", "공간검색 사용자정의");
+        });
+		
+     	
+        $(".area-facility-buffer", "#bottomPopup").on("keyup", function (event) {
+            // if (event.keyCode == "13") {
+            //     $(".facility-spatial-search", that.container).trigger("click");
+            // }
+
+            dtmap.draw.setBuffer(Number(this.value))
+        });
+        
+		
 	});
 
 	//functions

@@ -6,11 +6,10 @@
 
 //jqeury
 $(document).ready(function(){
-	console.log("facilityWaterSupply.js");
-	console.log("상수도시설");
+	//console.log("facilityWaterSupply.js");
+	//console.log("상수도시설");
 	
 	codeArrayInit();
-	
 });
 
 //전역 변수
@@ -18,7 +17,6 @@ var FACILITY={
 	CODEARRAY :[],		//code 데이블 정리
 	Ax5UiGrid :null	
 }
-
 
 //functions
 
@@ -35,7 +33,6 @@ function codeArrayInit(){
 	setCmmCodeDataArray("YPE001");				//읍면동 코드
 	setCmmCodeDataArray("MNG-001");				//관리기관	
 	setCmmCodeDataArray("OGC-048");				//소화전 형식
-	
 
 }
 
@@ -75,8 +72,25 @@ function getWaterSupplyFacility(name){
 		}
 		
 	}
-	
 }
+
+//////////////////
+//목록 화면 조회
+
+//소방시설 목록 화면 조회
+function selectWtlFirePsListView(){
+	//console.log("selectWtlFirePsListView()");
+	
+	ui.loadingBar("show");
+	
+	var baseContainer = "#bottomPopup";
+    $(baseContainer).load("/job/fcmr/wsfc/selectWtlFirePsListView.do", function () {
+        //toastr.success("/job/fcmr/wsfc/selectWtlFirePsListView.do", "페이지🙂호🙂출🙂");
+    	wtlFirePsListProcess();
+		ui.loadingBar("hide");
+    });
+}
+
 
 
 ///////////////////////////
@@ -250,22 +264,12 @@ function getAddressForPoint(geomText, tag){
 }
 
 //girdRowId 를 통해 geom 데이터 조회
-function getGeomDataForGridRowId(gridRowId){
+function getGeomDataForGridId(id){
 	//console.log("getGeomDataForGridRowId");
 	//console.log(gridRowId);
 
 	//grid 에서 데이터 조회
-	var detailData = null;
-	if(FACILITY.Ax5UiGrid){
-		var list =  FACILITY.Ax5UiGrid.list;
-		
-		for(var i=0; i<list.length; i++){
-			if(list[i].id == gridRowId){
-				detailData = list[i];
-				break;
-			}
-		}
-	}
+	var detailData = getGridDetailData(id);
 	
 	//조회된 데이터에서 geom 데이터 추출
 	var returnGeomVal = "";
@@ -282,7 +286,24 @@ function getGeomDataForGridRowId(gridRowId){
 }
 
 
-
-
-
-
+//현재 목록 화면의 gird 상세 정보 조회
+function getGridDetailData(id){
+	//console.log("getGridDetailData(id)");
+	
+	var  detailData = null;
+	if(FACILITY.Ax5UiGrid){
+		var list =  FACILITY.Ax5UiGrid.list;
+		
+		for(var i=0; i<list.length; i++){
+			if(list[i].id == id){
+				detailData = list[i];
+				break;
+			}
+		}
+		
+		return detailData;
+	}else{
+		alert("현재 gird 목록이 없습니다.");
+	}
+	
+}

@@ -47,7 +47,7 @@ public class WaterSupplyController {
     public String selectWtlFirePs(
     		@ModelAttribute("wtlFirePsVO") WtlFirePsVO wtlFirePsVO, String id,
     		ModelMap model) throws Exception {
-			model.addAttribute("gridRowId", id);
+			model.addAttribute("id", id);
         return "egiskorea/com/job/fcmr/wsfc/wfip/selectWtlFirePs";
     }
 	
@@ -64,7 +64,7 @@ public class WaterSupplyController {
     public String updateWtlFirePsView(
     		@ModelAttribute("wtlFirePsVO") WtlFirePsVO wtlFirePsVO, String id,
     		ModelMap model) throws Exception {
-			model.addAttribute("gridRowId", id);
+			model.addAttribute("id", id);
         return "egiskorea/com/job/fcmr/wsfc/wfip/updateWtlFirePsView";
     }
 	
