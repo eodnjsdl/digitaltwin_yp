@@ -365,7 +365,7 @@ window.ui = (function () {
                 _area.right = "unset";
                 _area.left = "unset";
                 _area.width = "480";
-                _area.heigth = "720";
+                _area.heigth = "807";
                 break;
             //우측 sub
             case "rightSubPopup" :
@@ -383,6 +383,13 @@ window.ui = (function () {
 	            _area.width = "unset";
 	            _area.heigth = "unset";
 	            break;
+	        default :
+	            _area.top = "unset";
+	            _area.right = "unset";
+	            _area.left = "unset";
+	            _area.width = "unset";
+	            _area.heigth = "unset";
+	            break;     
         }
         
         initPopup(area);
@@ -404,12 +411,16 @@ window.ui = (function () {
         var arrAllPopupTy = ["leftPopup", "leftSubPopup", "rightSubPopup", "rightPopup", "bottomPopup","bbsPopup"];
         var arrPopupTy = [];
         if (area.includes("left")) {
-            arrPopupTy = ["bottomPopup", "rightSubPopup", "rightPopup"];
+            arrPopupTy = ["bottomPopup", "rightSubPopup", "rightPopup","bbsPopup"];
         } else if (area.includes("right")) {
-            if(area === "rightSubPopup") arrPopupTy = ["leftPopup", "leftSubPopup", "rightSubPopup"];
-            else arrPopupTy = ["leftPopup", "leftSubPopup", "rightSubPopup", "rightPopup"];
+            if(area === "rightSubPopup") 
+            	arrPopupTy = ["leftPopup", "leftSubPopup", "rightSubPopup","bbsPopup"];
+            else 
+            	arrPopupTy = ["leftPopup", "leftSubPopup", "rightSubPopup", "rightPopup","bbsPopup"];
         } else if (area.includes("bottom")) {
             arrPopupTy = ["leftPopup", "leftSubPopup", "rightSubPopup", "rightPopup","bbsPopup"];
+        } else if (area.includes("bbsPopup")){
+        	arrPopupTy = arrAllPopupTy;
         }
         $.each(arrPopupTy, function (key, value) {
             $("#" + value).removeClass("opened").html("");
@@ -644,8 +655,7 @@ window.ui = (function () {
 }());
 
 
-//TODO 정리
-
+//팝업 오픈 실행 함수 
 // 개인별 레이어 목록 호출
 function aj_selectLayerList(mode, reset = false) {
     var searchKeyword = mode == "left"
@@ -687,10 +697,10 @@ function aj_selectLayerList(mode, reset = false) {
         }
     });
 }
-
+//사용자 정보 조회
 function aj_userInfoPopupOpen(id){
 	ui.openPopup("userInfoUdt");
-	popup-overlay
+	$(".popup-overlay").show();
 	$.ajax({
 		type : "POST",
 		url : "/com/usi/userInfoViewPopup.do",
@@ -710,3 +720,77 @@ function aj_userInfoPopupOpen(id){
 		}
 	});
 }
+//공지사항
+function aj_selectNoticeList(pageIndex, searchCnd, searchWrd){
+	$(".popup-overlay").show();
+	$.ajax({
+		type : "POST",
+		url : "/com/noti/selectNoticeList.do",
+		data: {
+			pageIndex : pageIndex,
+			searchCnd : searchCnd,
+			searchWrd : searchWrd,
+		},
+		dataType : "html",
+		async: false,
+		success : function(returnData, status){
+			if(status == "success") {
+				$("#bbsPopup").html(returnData);
+			}else{ 
+				toastr.error("관리자에게 문의 바랍니다.", "정보를 불러오지 못했습니다.");
+				return;
+			} 
+		}, complete : function(){
+		}
+	});
+}
+
+//qna
+function aj_selectQnaList(pageIndex, searchCnd, searchWrd){
+	$(".popup-overlay").show();
+	$.ajax({
+		type : "POST",
+		url : "/com/qna/selectQnaList.do",
+		data : {
+			pageIndex : pageIndex,
+			searchCnd : searchCnd,
+			searchWrd : searchWrd,
+		},
+		dataType : "html",
+		async: false,
+		success : function(returnData, status){
+			if(status == "success") {
+				$("#bbsPopup").html(returnData);
+			}else{ 
+				toastr.error("관리자에게 문의 바랍니다.", "정보를 불러오지 못했습니다.");
+				return;
+			} 
+		}, complete : function(){
+		}
+	});
+}
+//운영지원
+function aj_selectOpQnaList(pageIndex, searchCnd, searchWrd){
+	$(".popup-overlay").show();
+	$.ajax({
+		type : "POST",
+		url : "/com/opqna/selectOpQnaList.do",
+		data : {
+			pageIndex : pageIndex,
+			searchCnd : searchCnd,
+			searchWrd : searchWrd,
+		},
+		dataType : "html",
+		async: false,
+		success : function(returnData, status){
+			if(status == "success") {
+				$("#bbsPopup").html(returnData);
+			}else{ 
+				toastr.error("관리자에게 문의 바랍니다.", "정보를 불러오지 못했습니다.");
+				return;
+			} 
+		}, complete : function(){
+		}
+	});
+}
+

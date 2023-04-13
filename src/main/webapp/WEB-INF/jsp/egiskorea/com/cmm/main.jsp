@@ -681,12 +681,12 @@
         </div>
         <!-- //bbs popup-panel -->
         <!-- //팝업 메뉴 기본틀 -->
+        
         <!-- 팝업 메뉴 예외 틀 -->
         <!-- 사용자정보 조회 및  수정 -->
 		<div id="userInfoUdt" class="popup-panel popup-sub userInfoUdt">
         </div>
         <!-- 사용자정보 조회 및  수정 -->
-        
         <!-- //팝업 메뉴 예외 틀 -->
         
 		<!-- //팝업 메뉴 전체 -->

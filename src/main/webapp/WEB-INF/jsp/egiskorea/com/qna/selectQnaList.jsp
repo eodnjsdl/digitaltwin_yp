@@ -148,7 +148,7 @@ function aj_pagination(pageIndex) {
 									</div>
 								</form:form>
 							</div>
-							<div class="bbs-list-wrap" style="height: 683px;"><!-- pagination 하단 고정을 위해 반드시 필요 -->
+							<div class="bbs-list-wrap" style="height: 530px;"><!-- pagination 하단 고정을 위해 반드시 필요 -->
 								<div class="bbs-default">
 									<div class="bbs-list-head">
 										<table class="bbs-list">
