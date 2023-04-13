@@ -39,7 +39,7 @@ import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
  */
 
 @Controller
-@RequestMapping("/job/fcmr/phfc/")
+@RequestMapping("/job/fcmr/phfc")
 public class PhyEduFaciController {
 
 	private static final Logger logger = LoggerFactory.getLogger(PhyEduFaciController.class);
@@ -50,15 +50,29 @@ public class PhyEduFaciController {
 	@Resource(name = "propertiesService")
 	protected EgovPropertyService propertyService;
 	
-	// 목록(옵션) 조회
-	@RequestMapping(value = "/selectPhyEduFaciList.do")
+	/**
+     * 체육시설 목록 조회
+     * 
+     * @param PhyEduFaciVO
+     * @param model
+     * @return "egiskorea/com/job/fcmr/phfc/phyEduFaciListView"
+     * @throws Exception
+     */
+	@RequestMapping(value = "/selectPhyEduFaciListView.do")
 	public String selectPhyEduFaciList(
 			@ModelAttribute("PhyEduFaciVO") PhyEduFaciVO phyEduFaciVO,
 			ModelMap model) throws Exception {
 		return "egiskorea/com/job/fcmr/phfc/phyEduFaciListView";
 	}
 	
-	// 상세보기 화면
+	/**
+     * 체육시설 상세보기
+     * 
+     * @param SportsVO
+     * @param model
+     * @return "egiskorea/com/job/fcmr/phfc/phyEduFaciDetail"
+     * @throws Exception
+     */
 	@RequestMapping(value = "/selectPhyEduFaciDetail.do")
 	public String selectPhyEduFaciDetail(
 			@ModelAttribute("SportsVO") SportsVO sportsVO,
@@ -71,20 +85,63 @@ public class PhyEduFaciController {
 		SportsVO result = phyEduFaciService.selectPhyEduFaciDetail(sportsVO);
 		model.addAttribute("result", result);
 		
-		return "egiskorea/com/job/fcmr/phfc/phyEduFaciDetailView";
+		return "egiskorea/com/job/fcmr/phfc/phyEduFaciDetail";
 	}
 	
-	// 등록 화면
+	/**
+     * 체육시설 등록 화면
+     * 
+     * @param SportsVO
+     * @param model
+     * @return "egiskorea/com/job/fcmr/phfc/phyEduFaciInsertView"
+     * @throws Exception
+     */
 	@RequestMapping(value = "/insertPhyEduFaciView.do")
 	public String insertPhyEduFaciView(
 			@ModelAttribute("PhyEduFaciVO") PhyEduFaciVO phyEduFaciVO,
 			ModelMap model) throws Exception {
-		return "egiskorea/com/job/fcmr/phfc/phyEduFaciInsertView";
+		return "egiskorea/com/job/fcmr/phfc/insertPhyEduFaciView";
 	}
 	
-	// 등록
+	/**
+     * 체육시설 등록 -> SportController 이용
+     * 
+     * @param SportsVO, LoginVO
+     * @param model
+     * @return "egiskorea/com/job/fcmr/phfc/phyEduFaciInsertView"
+     * @throws Exception
+     */
+	@RequestMapping("/insertPhyEduFaci.do")
+	public ModelAndView insertPhyEduFaci(
+			@ModelAttribute("SportsVO") SportsVO sportsVO,
+			HttpServletRequest request, ModelMap model) throws Exception {
+		LoginVO loginVO = (LoginVO) request.getSession().getAttribute("loginVO");
+		
+		sportsVO.setFrstRegisterId(loginVO.getId());
+		sportsVO.setLastUpdusrId(loginVO.getId());
+		
+		ModelAndView mv = new ModelAndView("jsonView");
+		
+		try {
+			phyEduFaciService.insertPhyEduFaci(sportsVO);
+			mv.addObject("result", "success");
+			
+		} catch(Exception e) {
+			logger.info(e.getMessage());
+			mv.addObject("result", "fail");
+		}
+		
+		return mv;
+	}
 	
-	// 수정 화면
+	/**
+     * 체육시설 수정 화면
+     * 
+     * @param SportsVO
+     * @param model
+     * @return "egiskorea/com/job/fcmr/phfc/phyEduFaciInsertView"
+     * @throws Exception
+     */
 	@RequestMapping(value = "/updatePhyEduFaciView.do")
 	public String updatePhyEduFaciView(
 			@ModelAttribute("SportsVO") SportsVO sportsVO,
@@ -97,23 +154,95 @@ public class PhyEduFaciController {
 		
 		model.addAttribute("result", result);
 		
-		return "egiskorea/com/job/fcmr/phfc/phyEduFaciInsertView";
+		return "egiskorea/com/job/fcmr/phfc/insertPhyEduFaciView";
 	}
 	
-	// 수정
-	
-	// 삭제
-	@RequestMapping(value = "/deletePhyEduFaci.do")
-	public String deletePhyEduFaci(
+	/**
+     * 체육시설 수정 -> SportController 이용
+     * 
+     * @param SportsVO, LoginVO
+     * @param model
+     * @return "egiskorea/com/job/fcmr/phfc/phyEduFaciInsertView"
+     * @throws Exception
+     */
+	@RequestMapping("/updatePhyEduFaci.do")
+	public String updatePhyEduFaci(
 			@ModelAttribute("SportsVO") SportsVO sportsVO,
 			HttpServletRequest request, ModelMap model) throws Exception {
+		LoginVO loginVO = (LoginVO) request.getSession().getAttribute("loginVO");
 		
-		return "egiskorea/com/job/fcmr/phfc/phyEduFaciListView";
+		sportsVO.setLastUpdusrId(loginVO.getId());
+		
+		phyEduFaciService.updatePhyEduFaci(sportsVO);
+		
+		SportsVO result = phyEduFaciService.selectPhyEduFaciDetail(sportsVO);
+		model.addAttribute("result", result);
+		
+		return "jsonView";
 	}
 	
-	// 운영정보 관리 조회
-	@RequestMapping(value = "/phyMngView.do")
-	public String phyMngView(@ModelAttribute("SportsVO") SportsVO sportsVO,
+	/**
+     * 체육시설 삭제 -> SportController 이용
+     * 
+     * @param SportsVO
+     * @param model
+     * @return "mv"
+     * @throws Exception
+     */
+	@RequestMapping(value = "/deletePhyEduFaci.do")
+	public ModelAndView deletePhyEduFaci(
+			@ModelAttribute("SportsVO") SportsVO sportsVO,
+			ModelMap model) throws Exception {
+		ModelAndView mv = new ModelAndView("jsonView");
+		
+		try {
+			phyEduFaciService.deletePhyEduFaci(sportsVO);
+			
+			mv.addObject("result", "success");
+		} catch(Exception e) {
+			logger.info(e.getMessage());
+			
+			mv.addObject("result", "fail");
+		}
+		return mv;
+	}
+	
+	/**
+     * 체육시설 엑셀 다운로드 -> SportController 이용
+     * 
+     * @param SportsVO
+     * @param model
+     * @return ""
+     * @throws Exception
+     */
+	HashMap exceldown;
+	@RequestMapping(value = "/getAllSportsExcel.do")
+	public ModelAndView getAllSportsExcel(
+			@ModelAttribute("SportsVO") SportsVO sportsVO, 
+			@RequestParam Map paramMap, ModelMap model) throws Exception{
+		
+		ModelAndView mv = new ModelAndView("excelDownloadView");
+		
+		SXSSFWorkbook workbook = phyEduFaciService.makePhyEduFaciExcelList(exceldown);
+		
+		mv.addObject("locale", Locale.KOREA);
+		mv.addObject("workbook", workbook);
+		mv.addObject("workbookName", "체육시설목록");
+		mv.addObject("fileType", "excel");
+			
+		return mv;
+	}
+	
+	/**
+     * 체육시설 운영정보 관리 조회 -> SportController 이용
+     * 
+     * @param SportsVO
+     * @param model
+     * @return "egiskorea/com/job/fcmr/phfc/phyMngView"
+     * @throws Exception
+     */
+	@RequestMapping(value = "/selectPhyMngList.do")
+	public String selectPhyMngList(@ModelAttribute("SportsVO") SportsVO sportsVO,
 			ModelMap model) throws Exception {
 		
 		sportsVO.setPageUnit(10);
@@ -128,7 +257,7 @@ public class PhyEduFaciController {
 		sportsVO.setLastIndex(paginationInfo.getLastRecordIndex());
 		sportsVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
 		
-		Map<String, Object> map = phyEduFaciService.phyMngListView(sportsVO);
+		Map<String, Object> map = phyEduFaciService.selectPhyMngList(sportsVO);
 		
 		int totCnt = Integer.parseInt((String) map.get("resultCnt"));
 		paginationInfo.setTotalRecordCount(totCnt);
@@ -145,7 +274,14 @@ public class PhyEduFaciController {
 		return "egiskorea/com/job/fcmr/phfc/phyMngView";
 	}
 	
-	// 운영정보 년도 중복체크
+	/**
+     * 체육시설 운영정보 년도 중복체크 -> SportController 이용
+     * 
+     * @param SportsVO
+     * @param model
+     * @return "jsonView"
+     * @throws Exception
+     */
 	@RequestMapping(value = "/checkPhyMngYear.do")
 	public String checkPhyMngYear(ModelMap model, @ModelAttribute("SportsVO") SportsVO sportsVO) throws Exception{
 		int result = phyEduFaciService.checkPhyMngYear(sportsVO);
@@ -155,7 +291,14 @@ public class PhyEduFaciController {
 		return "jsonView";
 	}
 	
-	// 운영정보 등록 -> SportController 이용
+	/**
+     * 체육시설 운영정보 등록 -> SportController 이용
+     * 
+     * @param SportsVO, LoginVO
+     * @param model
+     * @return "mv"
+     * @throws Exception
+     */
 	@RequestMapping(value = "/insertPhyMng.do")
 	public ModelAndView insertPhyMng(
 			@ModelAttribute("SportsVO") SportsVO sportsVO,
@@ -178,7 +321,14 @@ public class PhyEduFaciController {
 		return mv;
 	}
 	
-	// 운영정보 수정 -> SportController 이용
+	/**
+     * 체육시설 운영정보 수정 -> SportController 이용
+     * 
+     * @param SportsVO, LoginVO
+     * @param model
+     * @return "mv"
+     * @throws Exception
+     */
 	@RequestMapping(value = "/updatePhyMng.do")
 	public ModelAndView updatePhyMng(
 			@ModelAttribute("SportsVO") SportsVO sportsVO,
@@ -200,7 +350,14 @@ public class PhyEduFaciController {
 		return mv;
 	}
 	
-	// 운영정보 삭제 -> SportController 이용
+	/**
+     * 체육시설 운영정보 삭제 -> SportController 이용
+     * 
+     * @param SportsVO
+     * @param model
+     * @return "egiskorea/com/job/fcmr/phfc/phyFaciMngView"
+     * @throws Exception
+     */
 	@RequestMapping(value = "/deletePhyMng.do")
 	public ModelAndView deletePhyMng(
 			@ModelAttribute("SportsVO") SportsVO sportsVO,
@@ -222,9 +379,16 @@ public class PhyEduFaciController {
 		return mv;
 	}
 	
-	// 시설정보 관리
-	@RequestMapping(value = "/phyFaciMngView.do")
-	public String phyFaciMngView(@ModelAttribute("SportsVO") SportsVO sportsVO,
+	/**
+     * 체육시설 시설정보 관리 조회 -> SportController 이용
+     * 
+     * @param SportsVO, LoginVO
+     * @param model
+     * @return "mv"
+     * @throws Exception
+     */
+	@RequestMapping(value = "/selectPhyFaciMngList.do")
+	public String selectPhyFaciMngList(@ModelAttribute("SportsVO") SportsVO sportsVO,
 			ModelMap model) throws Exception {
 		
 		sportsVO.setPageUnit(10);
@@ -239,7 +403,7 @@ public class PhyEduFaciController {
 		sportsVO.setLastIndex(paginationInfo.getLastRecordIndex());
 		sportsVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
 		
-		Map<String, Object> map = phyEduFaciService.phyFaciMngListView(sportsVO);
+		Map<String, Object> map = phyEduFaciService.selectPhyFaciMngList(sportsVO);
 		
 		int totCnt = Integer.parseInt((String) map.get("resultCnt"));
 		paginationInfo.setTotalRecordCount(totCnt);
@@ -256,7 +420,14 @@ public class PhyEduFaciController {
 		return "egiskorea/com/job/fcmr/phfc/phyFaciMngView";
 	}
 	
-	// 시설정보 등록 -> SportController 이용
+	/**
+     * 체육시설 시설정보 등록 -> SportController 이용
+     * 
+     * @param SportsVO, LoginVO
+     * @param model
+     * @return "mv"
+     * @throws Exception
+     */
 	@RequestMapping(value = "/insertPhyFaciMng.do")
 	public ModelAndView insertPhyFaciMng(
 			@ModelAttribute("SportsVO") SportsVO sportsVO,
@@ -281,7 +452,14 @@ public class PhyEduFaciController {
 		return mv;
 	}
 	
-	// 시설정보 삭제 -> SportController 이용
+	/**
+     * 체육시설 시설정보 삭제 -> SportController 이용
+     * 
+     * @param SportsVO, LoginVO
+     * @param model
+     * @return "mv"
+     * @throws Exception
+     */
 	@RequestMapping(value = "/deletePhyFaciMng.do")
 	public ModelAndView deletePhyFaciMng(
 			@ModelAttribute("SportsVO") SportsVO sportsVO,

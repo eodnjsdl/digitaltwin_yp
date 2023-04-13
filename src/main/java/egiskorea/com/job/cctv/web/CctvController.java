@@ -26,6 +26,8 @@ import org.springframework.web.servlet.ModelAndView;
 import egiskorea.com.job.cctv.service.CctvService;
 import egiskorea.com.job.cctv.service.SafetyFacilCctvMng;
 import egiskorea.com.job.cctv.service.SafetyFacilCctvMngVO;
+import egiskorea.com.job.sffm.service.SafetyFacilLampMng;
+import egiskorea.com.job.sffm.service.SafetyFacilLampMngVO;
 import egovframework.com.cmm.ComDefaultCodeVO;
 import egovframework.com.cmm.service.EgovCmmUseService;
 import egovframework.rte.fdl.property.EgovPropertyService;
@@ -69,8 +71,8 @@ public class CctvController {
 	public String selectCctvList(
 			@ModelAttribute("searchVO") SafetyFacilCctvMngVO safetyFacilCctvMngVO,
 			ModelMap model, HttpServletRequest request) throws Exception{
-		
-		safetyFacilCctvMngVO.setPageUnit(10);
+	
+	/*	safetyFacilCctvMngVO.setPageUnit(10);
 		safetyFacilCctvMngVO.setPageSize(propertyService.getInt("pageSize"));
 		
 		PaginationInfo paginationInfo = new PaginationInfo();
@@ -97,9 +99,9 @@ public class CctvController {
 		
 		model.addAttribute("resultList", map.get("resultList"));
 		model.addAttribute("resultCnt", map.get("resultCnt"));
-		model.addAttribute("paginationInfo", paginationInfo);
+		model.addAttribute("paginationInfo", paginationInfo);*/
 		
-		return "egiskorea/com/job/cctv/safetyFacilCctvMngList";
+		return "egiskorea/com/job/sffm/safetyFacilCctvMngList";
 	}
 	
 	// 안전시설물관리 > CCTV관리 등록페이지 호출
@@ -107,8 +109,27 @@ public class CctvController {
 	public String insertSafetyFacilCctvMngView(
 			ModelMap model) throws Exception{
 		
-		return "egiskorea/com/job/cctv/insertSafetyFacilCctvMngView";
+		return "egiskorea/com/job/sffm/insertSafetyFacilCctvMngView";
 	}
+	
+	/**
+	 * 안전시설물관리 > 가로등관리 수정페이지 호출
+	 * 
+	 * @param 
+	 * @param model
+	 * @return "egiskorea/com/job/sffm/updateSafetyFacilCctvMngView"
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/updateSafetyFacilCctvMngView.do")
+	public String updateSafetyFacilCctvMngView(
+			@ModelAttribute("safetyFacilCctvMngVO") SafetyFacilCctvMngVO safetyFacilCctvMngVO,
+			ModelMap model) throws Exception{
+		SafetyFacilCctvMng result = cctvService.selectSafetyFacilCctvMng(safetyFacilCctvMngVO);
+		model.addAttribute("result", result);
+		
+		return "egiskorea/com/job/sffm/updateSafetyFacilCctvMngView";
+	}
+	
 	
 	// 안전시설물관리 > CCTV관리 상세페이지 호출
 	@RequestMapping(value = "/selectCctv.do")
@@ -119,25 +140,34 @@ public class CctvController {
 		SafetyFacilCctvMng result = cctvService.selectSafetyFacilCctvMng(safetyFacilCctvMngVO);
 		model.addAttribute("result", result);
 		
-		return "egiskorea/com/job/cctv/safetyFacilCctvMng";
+		return "egiskorea/com/job/sffm/safetyFacilCctvMng";
 	}
 	
 	// 안전시설물관리 > CCTV관리 삭제
 	@RequestMapping(value = "/deleteCctv.do")
-	public String deleteCctv(ModelMap model, HttpServletRequest request) throws Exception { 
+	public ModelAndView deleteCctv(ModelMap model, HttpServletRequest request) throws Exception { 
+		ModelAndView mav = new ModelAndView("jsonView");
 		
 		SafetyFacilCctvMng cctvVO = new SafetyFacilCctvMng();
 		cctvVO.setGid(Integer.parseInt(request.getParameter("gid")));
-		cctvService.deleteCctv(cctvVO);
 		
-		return "jsonView";
+		try {
+			cctvService.deleteCctv(cctvVO);
+			mav.addObject("result", "success");
+		}catch(Exception e ) {
+			logger.info(e.getMessage());
+			mav.addObject("result", "fail");
+		}
+		
+		return mav;
 	}
 	
 	// 안전시설물관리 > CCTV관리 등록
 	@RequestMapping(value = "/insertCctv.do")
-	public String insertCctv(ModelMap model, HttpServletRequest request) throws Exception { 
+	public ModelAndView insertCctv(ModelMap model, HttpServletRequest request) throws Exception { 
 		
 		SafetyFacilCctvMng cctvVO = new SafetyFacilCctvMng();
+		ModelAndView mav = new ModelAndView("jsonView");
 		
 		cctvVO.setLabel(request.getParameter("label"));
 		cctvVO.setDeviceid(request.getParameter("deviceid"));
@@ -145,16 +175,23 @@ public class CctvController {
 		cctvVO.setLat(Double.parseDouble(request.getParameter("lat")));
 		cctvVO.setLon(Double.parseDouble(request.getParameter("lon")));
 		cctvVO.setLgsrAdr(request.getParameter("adres"));
-		cctvService.insertCctv(cctvVO);
 		
-		return "jsonView";
+		try {
+			cctvService.insertCctv(cctvVO);
+			mav.addObject("result", "success");
+		}catch(Exception e ) {
+			logger.info(e.getMessage());
+			mav.addObject("result", "fail");
+		}
+		return mav;
 	}
 
 	// 안전시설물관리 > CCTV관리 수정
 	@RequestMapping(value = "/updateCctv.do")
-	public String updateCctv(ModelMap model, HttpServletRequest request) throws Exception { 
+	public ModelAndView updateCctv(ModelMap model, HttpServletRequest request) throws Exception { 
 		
 		SafetyFacilCctvMng cctvVO = new SafetyFacilCctvMng();
+		ModelAndView mav = new ModelAndView("jsonView");
 		
 		cctvVO.setGid(Integer.parseInt(request.getParameter("gid")));
 		cctvVO.setLabel(request.getParameter("label"));
@@ -164,9 +201,14 @@ public class CctvController {
 		cctvVO.setLon(Double.parseDouble(request.getParameter("lon")));
 		cctvVO.setLgsrAdr(request.getParameter("adres"));
 		
-		cctvService.updateCctv(cctvVO);
-		
-		return "jsonView";
+		try {
+			cctvService.updateCctv(cctvVO);
+			mav.addObject("result", "success");
+		}catch(Exception e ) {
+			logger.info(e.getMessage());
+			mav.addObject("result", "fail");
+		}
+		return mav;
 	}
 	
 	// 안전시설물관리 > CCTV관리 엑셀다운

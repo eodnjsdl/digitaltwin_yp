@@ -4,30 +4,16 @@
 <%@ taglib prefix="ui" uri="http://egovframework.gov/ctl/ui" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
+<script src="/js/egiskorea/com/job/sffm//lamp/lamp.js"></script>
 <script src="/js/egiskorea/com/job/sffm/sffm.js"></script>
 <%--<script src="/js/egiskorea/com/cmm/cmmUtil.js"></script>--%>
 <script>
 $(document).ready(function() {
 	ui.callDatePicker();
-	SFFM.init();
 });
-
-// 가로등관리 등록페이지 열기 버튼
-$("#insertSafetyFacilLampMngView").on("click", function(){
-	ui.openPopup("rightSubPopup");
-	SFFM.aj_insertSafetyFacilLampMngView($("#tmpForm")[0], "", "right");
-});
-
-// 가로등관리 상세페이지 열기
-function fn_select_detail(gid, lon, lat){
-	ui.openPopup("rightSubPopup");
-	// SFFM.aj_selectSafetyFacilLampMng(gid, lon, lat);
-
-	SFFM.aj_selectSafetyFacilLampMng($("#tmpForm")[0], gid, "right");
-
-}
 </script>
 <!-- 업무 > 공간정보활용 > 안전시설물관리 -->
+<form:form name="selectSffmLampFacilExcelList" id="searchForm" method="post" onsubmit="fn_select_list(); return false;">
 <!-- <div class="popup-panel popup-bottom work-01-03" style="left: 320px;width: 1600px;height: 378px;"> -->	
 <div class="popup-header">안전시설물관리</div>
 <div class="popup-body">
@@ -35,12 +21,12 @@ function fn_select_detail(gid, lon, lat){
 		<!-- 검색영역 -->
 		<div class="items search-area">
 			<div class="top-search">
-				<select id="sffm-facilityType" class="form-select">
+				<select id="safeFacilityType" class="form-select">
 					<option value="lamp">가로등관리</option>
 					<option value="cctv">CCTV관리</option>
 				</select>
 			</div>
-			<form:form name="searchForm" id="searchForm" method="post" onsubmit="SFFM.fn_select_sffm_list(''); return false;">
+			<form:form name="searchForm" id="searchForm" method="post" onsubmit="fn_select_sffm_list(''); return false;">
 			<input type="hidden" name="pageIndex" id="pageIndex" value="<c:out value='${searchVO.pageIndex}' />">
 			<input type="hidden" name="bufferArea" id="bufferArea" value="<c:out value='${searchVO.bufferArea}' />">
 			<div class="tabBoxDepth2-wrap">
@@ -60,19 +46,19 @@ function fn_select_detail(gid, lon, lat){
 							<tbody>
 								<tr>
 									<th scope="row">설치일자</th>
-									<td><div class="datapicker-group"><input type="text" id="sffm-search-instl-de" name="" class="datepicker" value="" autocomplete="off" onkeypress="if( event.keyCode == 13 ){ SFFM.fn_select_sffm_list(''); }"></div></td>
+									<td><div class="datapicker-group"><input type="text" id="sffm-search-instl-de" name="instlDe" class="datepicker" value="" autocomplete="off" onkeypress="if( event.keyCode == 13 ){ fn_search_sffm_list(''); }"></div></td>
 								</tr>
 								<tr>
-									<td colspan="2"><input type="text" class="form-control" id="sffm-search-adres" onkeypress="if( event.keyCode == 13 ){ SFFM.fn_select_sffm_list(''); }" placeholder="주소"></td>
+									<td colspan="2"><input type="text" class="form-control" id="sffm-search-adres" name="adres" onkeypress="if( event.keyCode == 13 ){ fn_search_sffm_list(''); }" placeholder="주소"></td>
 								</tr>
 								<tr>
-									<td colspan="2"><input type="text" class="form-control" id="sffm-search-manage-no" onkeypress="if( event.keyCode == 13 ){ SFFM.fn_select_sffm_list(''); }" placeholder="관리번호"></td>
+									<td colspan="2"><input type="text" class="form-control" id="sffm-search-manage-no" name="manageNo" onkeypress="if( event.keyCode == 13 ){ fn_search_sffm_list(''); }" placeholder="관리번호"></td>
 								</tr>
 							</tbody>
 						</table>
 					</div>
 					<div class="btn-wrap">
-						<div><button type="button" class="btn type01 search" onclick="SFFM.fn_select_sffm_list('');">조회</button></div>
+						<div><button type="button" class="btn type01 search" onclick="setData('');">조회</button></div>
 					</div>
 				</div>
 				<div class="tab-cont safetyFacilitySpace">
@@ -91,37 +77,41 @@ function fn_select_detail(gid, lon, lat){
 								<span><input type="radio" name="sffmAreaDrawing" id="aChk4_sffm" value="4"><label for="aChk4_sffm" class="obj-sm04"></label></span>
 							</span>
 						</div>
-						<div class="space-search-items areaSrchTool">경계로부터 <span class="form-group"><input type="number" id="sffmBuffer" class="form-control align-center" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" value="0" placeholder="0" onkeypress="if( event.keyCode == 13 ){ SFFM.fn_select_sffm_list('spital'); }"> <sub>m</sub></span> 이내 범위</div>
+						<div class="space-search-items areaSrchTool">경계로부터 <span class="form-group"><input type="number" id="sffmBuffer" name="sffmBuffer" class="form-control align-center" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" value="0" placeholder="0" onkeypress="if( event.keyCode == 13 ){ SFFM.fn_select_sffm_list('spital'); }"> <sub>m</sub></span> 이내 범위</div>
 					</div>
 					<div class="btn-wrap">
-						<div><button type="button" class="btn type01 search" onclick="SFFM.fn_select_sffm_list('spital');">조회</button></div>
+						<div><button type="button" class="btn type01 search" onclick="setData();">조회</button></div>
 					</div>
 				</div>
 			</div>
 			</form:form>
 		</div>
 		<!-- //검색영역 -->
-		<div class="items data-area">
-			<div class="bbs-top">
-				<div class="bbs-list-num">조회결과 : <strong><c:out value="${resultCnt}"></c:out></strong>건</div>
-				<div>
-					<div class="" style="margin-right: 25px; float: left;"><span class="form-checkbox" style="float: left; margin-right: 5px;"><span><input type="checkbox" name="" id="sffmCrimianlChkBox" onclick="SFFM.getCriminalWMS();"><label for="sffmCrimianlChkBox"></label></span></span>영향권<span class="form-group">
+        <div class="items data-area">
+            <div class="bbs-top">
+                <div class="bbs-list-num">조회결과 : <strong></strong>건</strong></div>
+                <div>
+                    <div class="" style="margin-right: 25px; float: left;"><span class="form-checkbox" style="float: left; margin-right: 5px;"><span><input type="checkbox" name="" id="sffmCrimianlChkBox" onclick="getCriminalWMS();"><label for="sffmCrimianlChkBox"></label></span></span>영향권<span class="form-group">
 						<input type="text" id="sffmBuffer2" style="width: 50px; margin-left: 5px;" maxlength="10" class="form-control align-center" value="0" onkeypress="if( event.keyCode == 13 ){ aj_selectSafetyFacilitiesMngList($('#searchForm')[0]); }"> 
 						<sub>m</sub></span>
 					</div>
-					<button type="button" class="btn basic bi-write" id="insertSafetyFacilLampMngView">등록</button> 
-					<a href="/job/sffm/sffmExcelDown.do"><button type="button" class="btn basic bi-excel">엑셀저장</button></a>
-				</div>
-			</div>
-			<div class="bbs-list-wrap" style="height: 273px;"><!-- pagination 하단 고정을 위해 반드시 필요 -->
-				<div class="bbs-default">
-					<div data-ax5grid="bbs-grid"  data-ax5grid-config="{}" style="height: 267px;">
-					</div>
-				</div>
-			</div>
-		</div>
+					<button type="button" class="btn basic bi-write" onclick="fn_insert();">등록</button> 
+					<button type="button" class="btn basic bi-excel" id="lampExcelDownload" data-form-name="selectSffmLampFacilExcelList">엑셀저장</button> 
+					<!-- <a href="/job/sffm/sffmExcelDown.do"><button type="button" class="btn basic bi-excel">엑셀저장</button></a> -->
+					<!-- <button type="button" class="btn basic bi-write" id="insertSafetyFacilLampMngView" >등록</button>  -->
+
+                </div>
+            </div>
+            <div class="bbs-list-wrap" style="height: 267px;"><!-- pagination 하단 고정을 위해 반드시 필요 -->
+                <div class="bbs-default">
+                        <div id="gridax5" data-ax5grid="attr-grid" data-ax5grid-config="{}" style="height: 267px;"></div>
+                </div>
+            </div>
+        </div>
+
 	</div>
 </div>
+</form:form>
 <button type="button" class="manualBtn" title="도움말" onclick="manualTab('안전시설물관리')"></button>
 <button type="button" class="popup-close" title="닫기" onClick="toastr.warning('SFFM.removeCmmPOI();', 'onclick 이벤트');"></button>
 <button type="button" class="popup-reset" class="초기화" onclick="bottomPopupOpen('safetyFacilitiesManagement');"></button>

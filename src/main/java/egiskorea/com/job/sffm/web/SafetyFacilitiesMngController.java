@@ -1,11 +1,13 @@
 package egiskorea.com.job.sffm.web;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.apache.poi.xssf.streaming.SXSSFWorkbook;
 import org.slf4j.Logger;
@@ -15,8 +17,10 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import egiskorea.com.cmm.service.impl.ExcelView;
 import egiskorea.com.job.sffm.service.SafetyFacilLampMng;
 import egiskorea.com.job.sffm.service.SafetyFacilLampMngVO;
 import egiskorea.com.job.sffm.service.SafetyFacilitiesMngService;
@@ -68,36 +72,8 @@ public class SafetyFacilitiesMngController {
 	@RequestMapping(value = "/selectSafetyFacilLampMngList.do")
 	public String selectSafetyFacilLampMngList(
 			@ModelAttribute("searchVO") SafetyFacilLampMngVO safetyFacilLampMngVO,
-			ModelMap model, HttpServletRequest request) throws Exception{
-		
-		safetyFacilLampMngVO.setPageUnit(10);
-		safetyFacilLampMngVO.setPageSize(propertyService.getInt("pageSize"));
-		
-		PaginationInfo paginationInfo = new PaginationInfo();
-		
-		paginationInfo.setCurrentPageNo(safetyFacilLampMngVO.getPageIndex());
-		paginationInfo.setRecordCountPerPage(safetyFacilLampMngVO.getPageUnit());
-		paginationInfo.setPageSize(safetyFacilLampMngVO.getPageSize());
+			ModelMap model/*, HttpServletRequest request*/) throws Exception{
 
-		safetyFacilLampMngVO.setFirstIndex(paginationInfo.getFirstRecordIndex());
-		safetyFacilLampMngVO.setLastIndex(paginationInfo.getLastRecordIndex());
-		safetyFacilLampMngVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
-		
-		safetyFacilLampMngVO.setSearchInstlDe(request.getParameter("searchInstlDe"));
-		safetyFacilLampMngVO.setSearchAdres(request.getParameter("searchAdres"));
-		safetyFacilLampMngVO.setSearchManageNo(request.getParameter("searchManageNo"));
-		safetyFacilLampMngVO.setSpitalSearch(request.getParameter("spitalSearch"));
-		safetyFacilLampMngVO.setSffmBuffer(Double.parseDouble(request.getParameter("sffmBuffer")) * 0.00001);
-		
-		Map<String, Object> map = safetyFacilitiesMngService.selectSafetyFacilLampMngList(safetyFacilLampMngVO);
-		
-		int totCnt = Integer.parseInt((String)map.get("resultCnt"));
-		  
-		paginationInfo.setTotalRecordCount(totCnt);
-		
-		model.addAttribute("resultList", map.get("resultList"));
-		model.addAttribute("resultCnt", map.get("resultCnt"));
-		model.addAttribute("paginationInfo", paginationInfo);
 		
 		return "egiskorea/com/job/sffm/safetyFacilLampMngList";
 	}
@@ -115,6 +91,23 @@ public class SafetyFacilitiesMngController {
 			ModelMap model) throws Exception{
 		
 		return "egiskorea/com/job/sffm/insertSafetyFacilLampMngView";
+	}
+	/**
+	 * 안전시설물관리 > 가로등관리 수정페이지 호출
+	 * 
+	 * @param 
+	 * @param model
+	 * @return "egiskorea/com/job/sffm/updateSafetyFacilLampMngView"
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/updateSafetyFacilLampMngView.do")
+	public String updateSafetyFacilLampMngView(
+			@ModelAttribute("safetyFacilLampMngVO") SafetyFacilLampMngVO safetyFacilLampMngVO,
+			ModelMap model) throws Exception{
+		SafetyFacilLampMng result = safetyFacilitiesMngService.selectSafetyFacilLampMng(safetyFacilLampMngVO);
+		model.addAttribute("result", result);
+		
+		return "egiskorea/com/job/sffm/updateSafetyFacilLampMngView";
 	}
 	
 	/**
@@ -138,20 +131,31 @@ public class SafetyFacilitiesMngController {
 	
 	// 안전시설물관리 > 가로등관리 삭제
 	@RequestMapping(value = "/deleteSffm.do")
-	public String deleteSffm(ModelMap model, HttpServletRequest request) throws Exception { 
+	public ModelAndView deleteSffm(ModelMap model, HttpServletRequest request) throws Exception { 
+		
+		ModelAndView mav = new ModelAndView("jsonView");
 		
 		SafetyFacilLampMng sffmVO = new SafetyFacilLampMng();
 		sffmVO.setGid(Integer.parseInt(request.getParameter("gid")));
-		safetyFacilitiesMngService.deleteSffm(sffmVO);
 		
-		return "jsonView";
+		try {
+			safetyFacilitiesMngService.deleteSffm(sffmVO);
+			mav.addObject("result", "success");
+		}catch(Exception e ) {
+			logger.info(e.getMessage());
+			mav.addObject("result", "fail");
+		}
+		
+		
+		return mav;
 	}
 	
 	// 안전시설물관리 > 가로등관리 등록
 	@RequestMapping(value = "/insertSffm.do")
-	public String insertSffm(ModelMap model, HttpServletRequest request) throws Exception { 
+	public ModelAndView insertSffm(ModelMap model, HttpServletRequest request) throws Exception { 
 		
 		SafetyFacilLampMng sffmVO = new SafetyFacilLampMng();
+		ModelAndView mav = new ModelAndView("jsonView");
 		
 		sffmVO.setManageNo(request.getParameter("manageNo"));
 		sffmVO.setInstlDe(request.getParameter("instlDe"));
@@ -164,12 +168,23 @@ public class SafetyFacilitiesMngController {
 		
 		safetyFacilitiesMngService.insertSffm(sffmVO);
 		
-		return "jsonView";
+		try {
+			safetyFacilitiesMngService.updateSffm(sffmVO);
+			mav.addObject("result", "success");
+		}catch(Exception e ) {
+			logger.info(e.getMessage());
+			mav.addObject("result", "fail");
+		}
+		
+		return mav;
 	}
 
 	// 안전시설물관리 > 가로등관리 수정
+	@ResponseBody
 	@RequestMapping(value = "/updateSffm.do")
-	public String updateSffm(ModelMap model, HttpServletRequest request) throws Exception { 
+	public ModelAndView updateSffm(ModelMap model, HttpServletRequest request) throws Exception { 
+		
+		ModelAndView mav = new ModelAndView("jsonView");
 		
 		SafetyFacilLampMng sffmVO = new SafetyFacilLampMng();
 		
@@ -183,64 +198,71 @@ public class SafetyFacilitiesMngController {
 		sffmVO.setAlttd(Double.parseDouble(request.getParameter("alt")));
 		sffmVO.setStdde(request.getParameter("stdde"));
 		
-		safetyFacilitiesMngService.updateSffm(sffmVO);
+		try {
+			safetyFacilitiesMngService.updateSffm(sffmVO);
+			mav.addObject("result", "success");
+		}catch(Exception e ) {
+			logger.info(e.getMessage());
+			mav.addObject("result", "fail");
+		}
 		
-		return "jsonView";
+		return mav;
 	}
 	
 	// 안전시설물관리 > 가로등관리 엑셀다운
-	@RequestMapping(value = "/sffmExcelDown.do")
-	public ModelAndView sffmExcelDown(@RequestParam Map paramMap, ModelMap model) throws Exception { 
-		
-		ModelAndView mav = new ModelAndView("excelDownloadView");
-		
-		SXSSFWorkbook workbook = safetyFacilitiesMngService.makeSffmExcelList(excelResultMap);
-		
-		mav.addObject("locale", Locale.KOREA);
-		mav.addObject("workbook", workbook);
-		mav.addObject("workbookName", "가로등관리목록");
-		mav.addObject("fileType", "excel");
+		@RequestMapping(value = "/sffmExcelDown.do")
+		public ModelAndView sffmExcelDown(@RequestParam Map paramMap, ModelMap model) throws Exception { 
 			
-		return mav;
-		
-		/* Workbook workbook = new HSSFWorkbook();
-        Sheet sheet = workbook.createSheet("가로등관리_목록");
-        int rowNo = 0;
- 
-        Row headerRow = sheet.createRow(rowNo++);
-        headerRow.createCell(0).setCellValue("GID");
-        headerRow.createCell(1).setCellValue("관리번호");
-        headerRow.createCell(2).setCellValue("주소");
-        headerRow.createCell(3).setCellValue("설치일자");
-        headerRow.createCell(4).setCellValue("가로등수");
-        headerRow.createCell(5).setCellValue("위도");
-        headerRow.createCell(6).setCellValue("경도");
-        headerRow.createCell(7).setCellValue("기준일");
-        headerRow.createCell(8).setCellValue("GEOMETRY");
- 
-        List<SafetyFacilLampMng> excelList = safetyFacilitiesMngService.sffmExcelDown();
-        
-        for (SafetyFacilLampMng list : excelList) {
-            Row row = sheet.createRow(rowNo++);
-            row.createCell(0).setCellValue(list.getGid());
-            row.createCell(1).setCellValue(list.getManageNo());
-            row.createCell(2).setCellValue(list.getAdres());
-            row.createCell(3).setCellValue(list.getInstlDe());
-            row.createCell(4).setCellValue(list.getStrtlgtCnt());
-            row.createCell(5).setCellValue(list.getLat());
-            row.createCell(6).setCellValue(list.getLon());
-            row.createCell(7).setCellValue(list.getStdde());
-            row.createCell(8).setCellValue(list.getGeom());
-        }
- 
-        response.setContentType("ms-vnd/excel");
-        response.setHeader("Content-Disposition", "attachment;filename=Sffm_List.xls");
- 
-        workbook.write(response.getOutputStream());
-        workbook.close(); */
-	}
+			ModelAndView mav = new ModelAndView("excelDownloadView");
+			
+			SXSSFWorkbook workbook = safetyFacilitiesMngService.makeSffmExcelList(excelResultMap);
+			
+			mav.addObject("locale", Locale.KOREA);
+			mav.addObject("workbook", workbook);
+			mav.addObject("workbookName", "가로등관리목록");
+			mav.addObject("fileType", "excel");
+				
+			return mav;
+			
+		/*	Workbook workbook = new HSSFWorkbook();
+	        Sheet sheet = workbook.createSheet("가로등관리_목록");
+	        int rowNo = 0;
+	 
+	        Row headerRow = sheet.createRow(rowNo++);
+	        headerRow.createCell(0).setCellValue("GID");
+	        headerRow.createCell(1).setCellValue("관리번호");
+	        headerRow.createCell(2).setCellValue("주소");
+	        headerRow.createCell(3).setCellValue("설치일자");
+	        headerRow.createCell(4).setCellValue("가로등수");
+	        headerRow.createCell(5).setCellValue("위도");
+	        headerRow.createCell(6).setCellValue("경도");
+	        headerRow.createCell(7).setCellValue("기준일");
+	        headerRow.createCell(8).setCellValue("GEOMETRY");
+	 
+	        List<SafetyFacilLampMng> excelList = safetyFacilitiesMngService.sffmExcelDown();
+	        
+	        for (SafetyFacilLampMng list : excelList) {
+	            Row row = sheet.createRow(rowNo++);
+	            row.createCell(0).setCellValue(list.getGid());
+	            row.createCell(1).setCellValue(list.getManageNo());
+	            row.createCell(2).setCellValue(list.getAdres());
+	            row.createCell(3).setCellValue(list.getInstlDe());
+	            row.createCell(4).setCellValue(list.getStrtlgtCnt());
+	            row.createCell(5).setCellValue(list.getLat());
+	            row.createCell(6).setCellValue(list.getLon());
+	            row.createCell(7).setCellValue(list.getStdde());
+	            row.createCell(8).setCellValue(list.getGeom());
+	        }
+	 
+	        response.setContentType("ms-vnd/excel");
+	        response.setHeader("Content-Disposition", "attachment;filename=Sffm_List.xls");
+	 
+	        workbook.write(response.getOutputStream());
+	        workbook.close(); */
+		}
+		HashMap excelResultMap;
 	
-	HashMap excelResultMap;
+/*	HashMap excelResultMap;
 	// 가로등 poi
 	@RequestMapping(value = "/selectSffmPOIList.do")
 	public String selectSffmPOIList(
@@ -278,5 +300,5 @@ public class SafetyFacilitiesMngController {
 		model.addAttribute("paginationInfo", paginationInfo);
 		
 		return "jsonView";
-	}
+	}*/
 }
