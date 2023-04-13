@@ -162,7 +162,7 @@ map2d.draw = (function () {
                 style: selectStyleFunction
             });
             map2d.map.addInteraction(_select);
-            // _select.on('select', onSelect)
+            _select.on('select', onSelect)
             map2d.map.on('pointermove', onPointerMove);
         }
     }
@@ -175,8 +175,8 @@ map2d.draw = (function () {
             color: 'rgba(255,0,0,0.01)'
         });
         const stroke = new ol.style.Stroke({
-            color: 'rgba(255,0,0,0.2)',
-            width: 3
+            color: 'rgba(255,0,0,0.3)',
+            width: 10
         });
         const selectStyle = new ol.style.Style({
             image: new ol.style.Circle({
@@ -197,7 +197,11 @@ map2d.draw = (function () {
     }
 
     function onSelect(e) {
-        map2d.map.getTargetElement().style.cursor = '';
+        let cursor = ''
+        if (_drawOptions.type === 'Translate') {
+            cursor = 'grab'
+        }
+        map2d.map.getTargetElement().style.cursor = cursor;
     }
 
     function onPointerMove(e) {
@@ -205,11 +209,11 @@ map2d.draw = (function () {
         let hit = map2d.map.hasFeatureAtPixel(e.pixel);
         if (hit) {
             const selected = _select.getFeatures().getArray()[0];
-            if (selected) {
-                return;
-            }
+            // if (selected) {
+            //     return;
+            // }
             const find = map2d.map.getFeaturesAtPixel(e.pixel)[0];
-            if (selected === find) {
+            if (!find || selected === find) {
                 return;
             }
             hit = hit && _source.hasFeature(find);
@@ -231,6 +235,11 @@ map2d.draw = (function () {
         if (_modify) {
             map2d.map.removeInteraction(_modify);
             _modify = undefined;
+        }
+
+        if (_translate) {
+            map2d.map.removeInteraction(_translate);
+            _translate = undefined;
         }
 
         if (_select) {
