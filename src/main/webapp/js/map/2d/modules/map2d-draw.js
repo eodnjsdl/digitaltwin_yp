@@ -21,7 +21,7 @@ map2d.draw = (function () {
         _source = new ol.source.Vector();
         _layer = new ol.layer.Vector({
             source: _source,
-            zIndex: 999,
+            zIndex: 99,
             style: map2d.vector.style,
             isDefault: true
         });
@@ -43,7 +43,6 @@ map2d.draw = (function () {
     /**
      * export 함수
      */
-
 
 
     /**
@@ -277,7 +276,9 @@ map2d.draw = (function () {
         if (_drawOptions.once) {
             _source.clear();
         }
-        e.feature.setProperties({style: _drawOptions});
+        if (_drawOptions.style) {
+            e.feature.set('style', _drawOptions.style);
+        }
         // console.log('set', e.feature.ol_uid, _drawOptions);
         dtmap.trigger('drawstart', {geometry: e.feature.getGeometry(), origin: e});
     }
@@ -443,9 +444,22 @@ map2d.draw = (function () {
                         typeNames: name,
                         bbox: extent,
                         cql: '1=1',
-                        crs: dtmap.crs
+                        // crs: dtmap.crs
                     }).then(function (json) {
-                        const features = _snapSource.getFormat().readFeatures(json);
+                        let crs
+                        try {
+                            crs = json.crs.properties.name;
+                            if (crs.includes('urn:ogc:def:crs:EPSG::')) {
+                                crs = crs.replace('urn:ogc:def:crs:EPSG::', 'EPSG:');
+                            }
+                        } catch (e) {
+                            console.warn(`GeoJSON에 좌표계 정보가 없습니다. ${dtmap.crs}로 적용합니다.`)
+                            crs = dtmap.crs;
+                        }
+                        const features = _snapSource.getFormat().readFeatures(json, {
+                            dataProjection: crs,
+                            featureProjection: dtmap.crs
+                        });
                         _snapSource.addFeatures(features);
                     })
                 },

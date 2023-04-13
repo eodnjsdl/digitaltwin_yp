@@ -129,10 +129,10 @@ map3d.layer.Polygon = (function () {
         if (geometry instanceof ol.geom.MultiPolygon) {
             const polygons = geometry.getPolygons();
             for (let i = 0; i < polygons.length; i++) {
-                computeVertexPart(polygons[i], vertex, parts);
+                computeVertexPart(polygons[i], vertex, parts, style.renderType);
             }
         } else {
-            computeVertexPart(geometry, vertex, parts);
+            computeVertexPart(geometry, vertex, parts, style.renderType);
         }
 
         const fill = new map3d.Color(style.fill);
@@ -155,19 +155,22 @@ map3d.layer.Polygon = (function () {
     }
 
 
-    function computeVertexPart(polygon, vertex, part) {
+    function computeVertexPart(polygon, vertex, part, renderType) {
         const coordinates = polygon.getCoordinates();
         for (let i = 0; i < coordinates.length; i++) {
             const coord = coordinates[i];
             for (let j = 0; j < coord.length; j++) {
                 const xy = coord[j];
-                let alt = Module.getMap().getTerrHeightFast(xy[0], xy[1]);
+                let alt = 0
+                if (renderType === '3D') {
+                    alt = Module.getMap().getTerrHeightFast(xy[0], xy[1]);
+                }
                 vertex.push(new Module.JSVector3D(xy[0], xy[1], alt + map3d.config.vertclPynHeight))
             }
             if (part.add) {
                 part.add(coord.length);
             } else {
-                part.push(coord.length);
+                part.push(coord.length-1);
             }
         }
     }

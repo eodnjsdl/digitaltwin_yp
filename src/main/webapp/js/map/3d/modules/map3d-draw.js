@@ -112,9 +112,15 @@ map3d.draw = (function () {
             geom = new ol.geom.Point(coords[0])
         } else if (_type === 'LINESTRING') {
             //line
+            if (coords.length < 2) {
+                return;
+            }
             geom = new ol.geom.LineString(coords);
         } else if (_type === 'BOX' || _type === 'CIRCLE') {
             //polygon
+            if (coords.length < 3) {
+                return;
+            }
             geom = new ol.geom.Polygon([coords]);
         }
 
@@ -227,7 +233,11 @@ map3d.draw = (function () {
 
         if (!_isDrag || (_type === 'BOX' || _type === 'CIRCLE')) {
             drawBuffer();
-            dtmap.trigger('drawend', {geometry: getGeometry(), origin: e});
+            const geom = getGeometry();
+            if (geom) {
+
+                dtmap.trigger('drawend', {geometry: geom, origin: e});
+            }
         }
         _isDown = false;
         _isDrag = false;

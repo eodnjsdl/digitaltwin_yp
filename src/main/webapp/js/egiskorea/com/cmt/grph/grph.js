@@ -1325,6 +1325,6 @@ class GraphicToolEditor {
 
 function updateStyle(feature, style) {
     const origin = feature.get('style');
-    feature.set('style', _.merge(origin,style));
+    feature.set('style', _.merge({},origin,style));
     feature.changed();
 }
