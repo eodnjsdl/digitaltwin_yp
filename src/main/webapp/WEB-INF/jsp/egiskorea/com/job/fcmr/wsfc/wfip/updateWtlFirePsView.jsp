@@ -126,8 +126,8 @@
                                </table>
                            </div>
                            </form>
-                           <input type="hidden" name="geom" 	value="" class="form-control">
-                           <input type="hidden" name="id" 	value="${id}">
+                           <input type="text" name="geom" 	value="" class="form-control">
+                           <input type="text" name="id" 	value="${id}">
                        </div>
                        <div class="position-bottom btn-wrap justify-content-end">
                            <div>
@@ -190,7 +190,6 @@
 		// 지도에서 선택
         $(".btn-select-map", this.element).on("click", function () {
         	//console.log( '수정화면');
-        	//alert(this);
         	
         	ui.loadingBar("show");
             $('.space-edit-tool').load("/job/fcts/editView.do", () => {

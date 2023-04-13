@@ -189,7 +189,10 @@
                 
                 //this.bindEvents();
                 //this.loadSnap();
-                $(".space-edit-tool").show();
+                if(!$(".space-edit-tool").hasClass("opened")){
+                	$(".space-edit-tool").addClass("opened");
+	                //$(".space-edit-tool").show();
+                }
                 
                	$.getJSON(
 			        "/com/mngr/info/selectAllLayerManageList.do"
@@ -207,8 +210,8 @@
 			    }); 
                	
                	var obj = {};
-               	obj.geometryType = "point";
-              
+               	obj.geometryType 	= "point";
+               	
                	geoEditBindEvents(obj);
                 
                 ui.loadingBar("hide");

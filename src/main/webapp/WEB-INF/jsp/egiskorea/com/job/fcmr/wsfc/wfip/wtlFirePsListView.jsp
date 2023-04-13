@@ -186,6 +186,12 @@
 				$("#rightSubPopup").removeClass("opened");
 				$("#rightSubPopup").empty();
 			}
+			
+			//공간정보 편집도구 닫기
+			if($(".space-edit-tool").hasClass("opened")){
+            	$(".space-edit-tool").removeClass("opened");
+                $(".space-edit-tool").empty();
+            }
 		});
 		
 		
