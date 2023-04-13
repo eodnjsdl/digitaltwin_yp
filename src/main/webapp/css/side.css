@@ -293,7 +293,7 @@
  * LNB > 레이어
  *----------------------------------------------------------------------------*/
 .lnb-layer.lnb-cont .lnb-resetBtn {
-	margin-right: 15px;
+	/*margin-right: 15px;*/
 }
 
 .lnb-layer.lnb-cont .manualBtn {
@@ -473,7 +473,7 @@
 }
 
 .lnb-theme.lnb-cont .lnb-resetBtn {
-	margin-right: 15px;
+	/*margin-right: 15px;*/
 }
 
 .lnb-theme.lnb-cont .srch-box {
@@ -699,7 +699,7 @@
 }
 
 .lnb-territory.lnb-cont .lnb-resetBtn {
-	margin-right: 15px;
+	/*margin-right: 15px;*/
 }
 
 .territory-list-wrap {
@@ -766,9 +766,16 @@
  * LNB > 설정
  *----------------------------------------------------------------------------*/
 #side .lnb-setting.lnb-cont {
-	width: 320px;
+	width: 250px;
+	left: unset;
+	right: 85px;
 }
-
+#side .lnb-setting.lnb-cont .lnb-header {
+	background: #44516A;
+}
+#side .lnb-setting.lnb-cont .tit{
+	font-size: 20px;
+}
 .setting-list > li {
 	position: relative;
 	margin: 20px 0;
@@ -821,7 +828,7 @@
 }
 
 .setting-list .minicolors-theme-default .minicolors-input {
-	width: 175px;
+	width: 135px;
 }
 
 .setting-list .tbl-list.vertical-tbl .items + .items, .setting-list  .tbl-list.all-vertical-tbl .items + .items {

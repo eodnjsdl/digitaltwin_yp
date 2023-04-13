@@ -64,7 +64,19 @@ window.ui = (function () {
         $mapControl.on('click', '.globe', function (e) {
             dtmap.goHome();
         });
-
+        
+        //통합행정정보
+        $mapControl.on('click', '.integrated-info', function (e) {
+            toastr.success("지도에서 위치를 선택하세요. ", "통합행정정보");
+            aj_krasInfo();
+        });
+        //지적/건물
+        $mapControl.on('click', '.building', function (e) {
+            toastr.success("지도에서 위치를 선택하세요. ", "지적/건물");
+            aj_ldbdInfo();
+            // aj_selectLandBuilderList();
+        });
+        
         //위치
         $mapControl.on('click', '.ctrl-btn.location', function (e) {
             let $this = $(this);
@@ -246,9 +258,8 @@ window.ui = (function () {
     /**
      * 팝업 생성
      */
-    function openPopup(area, name, direction, param2) {
+    function openPopup(area, name) {
         var _area = {};
-        var _name = name !== undefined ? name : undefined;
         switch (area) {
             //좌측
             case "leftPopup" :
@@ -276,30 +287,15 @@ window.ui = (function () {
                 break;
             //우측 sub
             case "rightSubPopup" :
-                _area.top = "80";
-                _area.right = "80";
+                _area.top = "unset";
+                _area.right = "unset";
                 _area.left = "unset";
                 _area.width = "550";
                 _area.heigth = "480";
                 break;
         }
         initPopup(area);
-
-        if(_name === "krasInfo") {
-            _area.top = "unset";
-            _area.right = "unset";
-            _area.left = "unset";
-            _area.width = "660";
-            _area.heigth = "807";
-        }
-        else if(_name === "examinationInfo") {
-            _area.top = "190";
-            _area.right = "90";
-            _area.left = "unset";
-            _area.width = "620";
-            _area.heigth = "642";
-        }
-
+        
         $("#" + area).css({
             "top": _area.top + "px",
             "right": _area.right + "px",
@@ -308,9 +304,6 @@ window.ui = (function () {
             "height": _area.heigth + "px"
         });
         $("#" + area).addClass("opened");
-        // $(".scroll-y").mCustomScrollbar({
-        //     scrollbarPosition: "outside"
-        // });
     }
 
     /**
@@ -435,20 +428,6 @@ window.ui = (function () {
         });
     }
 
-
-    //workSample
-    function _worksample() {
-        var container = "#bottomPopup";
-        $(container).load("/job/sample/page.do", function () {
-            toastr.success("/job/sample/page.do.", "페이지🙂호🙂출🙂");
-            $(".scroll-y").mCustomScrollbar({
-                scrollbarPosition: "outside",
-            });
-        });
-
-    }
-
-
 //업무영역 >> 탭 선택
     function _workTabEvent() {
         // $(document).on("click", ".left-popup-body .inner-tab", function(){
@@ -566,22 +545,6 @@ window.ui = (function () {
             var area = $(this).attr('class');
             _initDrawEvent();
             switch (id) {
-            
-            	//정보조회
-                // aside menu > 통합행정정보
-                case "krasInfo" :
-                	ui.openPopup(area);
-                    toastr.success("지도에서 위치를 선택하세요. ", "통합행정정보");
-                    aj_krasInfo();
-                    break;
-                // aside menu > 지적/건물
-                case "landBuilding" :
-                	ui.openPopup(area);
-                    toastr.success("지도에서 위치를 선택하세요. ", "지적/건물");
-                    aj_ldbdInfo();
-                    // aj_selectLandBuilderList();
-                    break;
-
                 //정보공유
                 // aside menu > 메모정보
                 case "memoInfo" :

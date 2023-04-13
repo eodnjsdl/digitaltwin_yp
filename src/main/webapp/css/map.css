@@ -56,7 +56,7 @@ html, body {
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
-	width: 230px;
+	width: 200px;
 	height: 40px;
 	background: #FFFFFF;
 	padding: 0 2px 0 34px;
@@ -76,38 +76,70 @@ html, body {
 	background: url(/images/common/hd-user.png) no-repeat 50% / cover;
 	vertical-align: middle;
 }
-
-#header .util-box .user-btn {
+#header .util-box .user button {
 	display: inline-block;
-	margin-top: -3px;
+	position: relative;
+	margin-top: 1px;
 	width: 19px;
 	height: 19px;
+	vertical-align: middle;
+	border-radius: 50%;
+	-webkit-transition: background .2s;
+	transition: background .2s;
+}
+#header .util-box .user button:after {
+	content: attr(data-name);
+	position: absolute;
+	top: 35px;
+	left: 50%;
+	transform: translateX(-50%);
+	padding: 5px 10px;
+	background: white;
+	color: #44516A;
+	width: max-content;
+	font-size: 12px;
+	font-weight: 400;
+	border-radius: 10px;
+	display: none;
+}
+#header .util-box .user button:hover:after {
+	display: block;
+}
+#header .util-box .user-btn {
 	border: 1px solid #44516A;
 	background: #fff url(/images/common/bi-userModify.svg) no-repeat 50% 50%;
-	border-radius: 50%;	
-	vertical-align: middle;
-	margin-top: 1px;
 	-webkit-transition: border .2s, background .2s;
 	transition: border .2s, background .2s;
+}
+#header .util-box .info-btn {background: url(/images/common/bi-info.svg) no-repeat 50% 50%;}
+#header .util-box .user button.manager-btn {
+	width: 20px;
+	height: 22px;
+	border-radius: unset;
+	background: url(/images/common/bi-manager.svg) no-repeat 50% 50%;
 }
 
 #header .util-box .user-btn:hover, #header .util-box .user-btn.active {
 	border-color: #1C77FF;
 	background: #1C77FF url(/images/common/bi-userModify-on.svg) no-repeat 50% 50%;
 }
+#header .util-box .info-btn:hover, #header .util-box .info-btn.active {
+	background: url(/images/common/bi-info-hover.svg) no-repeat 50% 50%;
+}
+#header .util-box .user button.manager-btn:hover, #header .util-box .user button.manager-btn.active {
+	background: url(/images/common/bi-manager-hover.svg) no-repeat 50% 50%;
+}
+
 
 #header .logout-btn {
 	display: block;
 	width: 100px;
 	height: 27px;
-	line-height: 27px;
 	color: #91A3C6;
 	font-size: 13px;
 	font-weight: 700;
 	background-color: #44516A;
 	border-radius: 7px;
-	-webkit-transition: background .2s;
-	transition: background .2s;
 }
 
 #header .logout-btn::before {
@@ -116,7 +148,7 @@ html, body {
 	margin: -2px 5px 0 0;
 	width: 23px;
 	height: 23px;
-	background: url(/images/common/bi-logout.svg) no-repeat 50% 50%;
+	background: url(/images/common/bi-logout.svg) no-repeat 33% 40%;
 	vertical-align: middle;
 	-webkit-transition: background .1s;
 	transition: background .1s;
@@ -127,9 +159,7 @@ html, body {
 	background-color: #090F1B;
 }
 
-#header .logout-btn:hover::before {
-	background: url(/images/common/bi-logout-hover.svg) no-repeat 50% 50%;
-}
+#header .logout-btn:hover::before {background: url(/images/common/bi-logout-hover.svg) no-repeat 33% 40%}
 
 #header .util-box .GNB {
 	display: flex;
@@ -450,10 +480,13 @@ html, body {
 
 .map-control .reset {background-image: url(/images/map/ctrl-reset.svg);}
 .map-control .globe {background-image: url(/images/map/ctrl-globe.svg);}
+.map-control .integrated-info {background-image: url(/images/map/ctrl-integrated-info.svg);}
+.map-control .building {background-image: url(/images/map/ctrl-building.svg);}
 .map-control .location {background-image: url(/images/map/ctrl-location.svg);}
 .map-control .distance {background-image: url(/images/map/ctrl-distance.svg);}
 .map-control .measure {background-image: url(/images/map/ctrl-measure.svg);}
 .map-control .radius {background-image: url(/images/map/ctrl-radius.svg);}
+.map-control .setting {background-image: url(/images/map/ctrl-setting.svg);}
 
 .map-control .scaleUp {background-image: url(/images/map/ctrl-scaleUp.svg);}
 .map-control .scaleDown {background-image: url(/images/map/ctrl-scaleDown.svg);}
