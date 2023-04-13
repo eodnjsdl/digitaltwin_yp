@@ -72,7 +72,7 @@ dtmap.draw.setBuffer(0); //해제
 ### 1. 객체 선택
 ```javascript
 dtmap.on('select', function (e) {
-    //지도에서 객체가 선택되었을때 콜백
+    //dtmap.vector에 등록된 객체가 선택되었을 경우 발생
 
     //2D 이벤트 데이터
     // {
