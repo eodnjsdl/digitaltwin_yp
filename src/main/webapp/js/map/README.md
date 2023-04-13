@@ -87,6 +87,8 @@ dtmap.on('select', function (e) {
     //     object : JSObejct3D,         // JSObejct3D 객체
     //     property : {}                // 속성정보
     // }
+    
+    dtmap.vector.select(e.id) // 선택된 객체 하이라이트
 
 })
 
