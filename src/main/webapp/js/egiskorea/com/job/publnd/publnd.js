@@ -270,14 +270,14 @@ function numberMaxLengthCheck(number) {
 	}
 }
 
-/**
- * 공유재산 실태조사서 새창
- * @param publndNo
- * @returns
- */
-function selectPbprtAccdtWrinvstg(publndNo) {
-	window.open('/job/publnd/selectPbprtAccdtWrinvstg.do?publndNo=' + publndNo, 'wrinvstg','width=1000, height=800');
-}
+///**
+// * 공유재산 실태조사서 새창
+// * @param publndNo
+// * @returns
+// */
+//function selectPbprtAccdtWrinvstg(publndNo) {
+//	window.open('/job/publnd/selectPbprtAccdtWrinvstg.do?publndNo=' + publndNo, 'wrinvstg','width=1000, height=800');
+//}
 
 /**
  * 공유재산 실태조사 정보 삭제(del_yn값변경)

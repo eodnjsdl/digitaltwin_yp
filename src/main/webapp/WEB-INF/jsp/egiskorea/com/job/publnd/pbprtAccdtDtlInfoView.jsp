@@ -8,6 +8,16 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <!DOCTYPE html>
 <html>
+<script>
+/**
+ * 공유재산 실태조사서 새창
+ * @param publndNo
+ * @returns
+ */
+function selectPbprtAccdtWrinvstg(publndNo) {
+	window.open('/job/publnd/selectPbprtAccdtWrinvstg.do?publndNo=' + publndNo, 'wrinvstg','width=1000, height=800');
+}
+</script>
 <body>
 	<!-- 업무 > 공유지관리 > 공유재산 실태조사 상세정보  -->
 		<div class="popup-header">공유재산 실태조사 상세정보</div>
