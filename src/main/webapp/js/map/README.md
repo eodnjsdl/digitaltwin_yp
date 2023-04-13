@@ -65,3 +65,38 @@ dtmap.draw.setBuffer(0); //해제
 
 ```
 
+## 지도 이벤트
+- `dtmap.on(eventType,listener)` 지도 이벤트 리스너 등록
+- `dtmpa.off(eventType,listener)` 지도 이벤트 리스너 삭제 listner가 지정되지 않은경우, eventType에 해당하는 모든 리스너 삭제 
+- eventType : `click` `select` `drawstart` `drawend`
+### 1. 객체 선택
+```javascript
+dtmap.on('select', function (e) {
+    //지도에서 객체가 선택되었을때 콜백
+
+    //2D 이벤트 데이터
+    // {
+    //     id : 'wtl_fire_ps.8',        // 피쳐 아이디
+    //     feature : ol.Feature,        // ol Feature 객체
+    //     geometry : ol.geom.Geometry, //ol geometry 객체
+    //     property : {}                // 속성정보
+    // }
+    //3D 이벤트 데이터
+    // {
+    //     id : 'wtl_fire_ps.8',        // 피쳐 아이디
+    //     object : JSObejct3D,         // JSObejct3D 객체
+    //     property : {}                // 속성정보
+    // }
+
+})
+
+//이벤트 해제
+dtmap.off('select');
+```
+
+### 2. 지도 클릭
+```javascript
+dtmap.on('click',function(e){
+    
+})
+```
