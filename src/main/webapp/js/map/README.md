@@ -67,11 +67,28 @@ dtmap.draw.setBuffer(0); //해제
 
 ## 지도 이벤트
 - `dtmap.on(eventType,listener)` 지도 이벤트 리스너 등록
-- `dtmpa.off(eventType,listener)` 지도 이벤트 리스너 삭제 listner가 지정되지 않은경우, eventType에 해당하는 모든 리스너 삭제 
+- `dtmpa.off(eventType,listener)` 지도 이벤트 리스너 삭제 
+  - listner가 지정되지 않은경우, **eventType에 해당하는 모든 리스너 삭제**
+    ```javascript
+    /**
+     * 이벤트 리스너는 dtmap 객체안에서 공통으로 관리되므로,
+     * 이벤트 리스너 등록시, Named Function 사용을 권장합니다.
+     */
+    //이벤트 등록
+    dtmap.on('select', onSelect);
+    //이벤트 해제
+    dtmap.off('select', onSelect);
+    
+    function onSelect(e) {
+        //콜백
+    }
+    ```
 - eventType : `click` `select` `drawstart` `drawend`
 ### 1. 객체 선택
 ```javascript
-dtmap.on('select', function (e) {
+dtmap.on('select', onSelect); //리스너 등록
+
+function onSelect(e) {
     //dtmap.vector에 등록된 객체가 선택되었을 경우 발생
 
     //2D 이벤트 데이터
@@ -87,18 +104,30 @@ dtmap.on('select', function (e) {
     //     object : JSObejct3D,         // JSObejct3D 객체
     //     property : {}                // 속성정보
     // }
-    
-    dtmap.vector.select(e.id) // 선택된 객체 하이라이트
 
-})
+    dtmap.vector.select(e.id); // 선택된 객체 하이라이트
 
-//이벤트 해제
-dtmap.off('select');
+}
+
+dtmap.off('select', onSelect); //리스너 해제
 ```
 
 ### 2. 지도 클릭
 ```javascript
-dtmap.on('click',function(e){
-    
-})
+dtmap.on('click', onClick);
+
+function onClick(e) {
+    //2D 이벤트 데이터
+    // {
+    //     coordinates : [x,y],
+    //     pixel : [x,y]        
+    // }
+
+    //3D 이벤트 데이터
+    // {
+    //     coordinates : [x,y],
+    //     pixel : [x,y],
+    //     altitude : number
+    // }
+}
 ```
