@@ -3,17 +3,24 @@ window.ui = (function () {
     function init() {
         //일반동작
         _bindEvent();
+        
+        //상단영역
+        _topMenuEvent();
+        
         //LEFT메뉴영역
         _leftMenuEvent();
+        
         //TOC영역
         _leftTocEvent();
+        
         //지도제어툴바영역
         _rightToolEvent();
+        
         //업무영역
         _workMenuEvent();
+        
         _workTabEvent();
-        //상단영역
-        _asideMenuEvent();
+        
         //지도 모드에 따라 메뉴 변경
         _changeMenu();
         
@@ -22,7 +29,109 @@ window.ui = (function () {
         	cache: false
     	});
     }
+    
+    //일반동작
+    function _bindEvent() {
+        /** popup draggable **/
+        $(".popup-draggable").draggable({
+            containment: "#container",
+            handle: ".popup-header"
+        });
+        /** popup close button **/
+        $(document).on('click', '.popup-panel .popup-close', function () {
+            $(this).closest('.popup-panel').removeClass('opened');
+            // 초기화 (지도)
+            dtmap.draw.dispose();
+            dtmap.draw.clear();
+            dtmap.vector.clear();
+        });
+    }
 
+    //상단 메뉴 
+    function _topMenuEvent() {
+        $(".util-box .GNB button").on("click", function () {
+            //아이디 값으로 조회
+        	var id = $(this).attr('id');
+            //data-popup로 팝업 위치 조회
+        	var area = $(this).attr('data-popup');
+            //그리기 초기화
+            _initDrawEvent();
+            switch (id) {
+                //정보공유
+                // aside menu > 메모정보
+                case "memoInfo" :
+                	//위치에 맞는 팝업 오픈
+                    ui.openPopup(area);
+                    //메뉴별 실행 함수 실행
+                    aj_selectMemoInfoList($("#tmpForm")[0]);
+                    break;
+                // aside menu > 사진정보
+                case "potoInfo" :
+                    ui.openPopup(area);
+                    aj_selectPotoInfoList($("#tmpForm")[0]);
+                    break;
+                // aside menu > 그리기도구
+                case "graphicInfo" :
+                    ui.openPopup(area);
+                    aj_selectGraphicInfoList();
+                    break;
+                
+                //영상/지도
+                // aside menu > 드론영상
+                case "dronInfo" :
+                    ui.openPopup(area);
+                    aj_selectDronInfo($("#tmpForm")[0]);
+                    break;
+                // aside menu > 내보내기
+                case "dwldInfo" :
+                    ui.openPopup(area);
+                    aj_dataDownload();
+                    break;
+                // aside menu > 지도저장
+                case "saveMap" :
+                    ui.openPopup(area);
+                    aj_saveMap();
+                    break; 
+
+                //게시판
+                // aside menu > 게시판
+                case "notice" :
+                    ui.openPopup(area);
+                    aj_selectNoticeList();
+                    break;
+                // aside menu > QnA
+                case "opqna" :
+                    ui.openPopup(area);
+                    aj_selectOpQnaList(1);
+                    break;
+                // aside menu > 운영지원
+                case "qna" :
+                    ui.openPopup(area);
+                    aj_selectQnaList(1);
+                    break; 
+                    
+                //지도설정
+                // aside menu > 배경지도
+                case "backgroundMapInfo" :
+                    ui.openPopup(area);
+                    aj_selectBackgroundMapInfoList();
+                    break;    
+                // aside menu > 화면 분할
+                case "backgroundMapInfo" :
+                    toastr.success("화면 분할 기능 추가 필요")
+                    break;        
+                // aside menu > 즐겨찾기
+                case "favorites" :
+                    ui.openPopup(area);
+                    aj_selectFavoritesList($("#tmpForm")[0]);
+                    break;
+            }
+        });
+    }
+    
+    
+    
+    
     function _changeMenu() {
         var $container = $("#container");
         var $buttons = $container.find("button");
@@ -74,7 +183,6 @@ window.ui = (function () {
         $mapControl.on('click', '.building', function (e) {
             toastr.success("지도에서 위치를 선택하세요. ", "지적/건물");
             aj_ldbdInfo();
-            // aj_selectLandBuilderList();
         });
         
         //위치
@@ -87,8 +195,6 @@ window.ui = (function () {
             } else {
                 dtmap.clearInteraction();
             }
-
-
         })
 
         //거리측정
@@ -101,8 +207,6 @@ window.ui = (function () {
             } else {
                 dtmap.clearInteraction();
             }
-
-
         });
 
         //면적측정
@@ -115,8 +219,6 @@ window.ui = (function () {
             } else {
                 dtmap.clearInteraction();
             }
-
-
         })
 
         //반경측정
@@ -185,27 +287,7 @@ window.ui = (function () {
     }
 
 
-    function _bindEvent() {
-        /**
-         *  popup draggable
-         */
-        $(".popup-draggable").draggable({
-            containment: "#container",
-            handle: ".popup-header"
-        });
 
-        /**
-         * popup close button
-         */
-        $(document).on('click', '.popup-panel .popup-close', function () {
-            $(this).closest('.popup-panel').removeClass('opened');
-            // 초기화 (지도)
-            dtmap.draw.dispose();
-            dtmap.draw.clear();
-            dtmap.vector.clear();
-        });
-
-    }
 
     /**
      * loading bar
@@ -283,7 +365,7 @@ window.ui = (function () {
                 _area.right = "unset";
                 _area.left = "unset";
                 _area.width = "480";
-                _area.heigth = "807";
+                _area.heigth = "720";
                 break;
             //우측 sub
             case "rightSubPopup" :
@@ -293,7 +375,16 @@ window.ui = (function () {
                 _area.width = "550";
                 _area.heigth = "480";
                 break;
+            //게시판 sub   
+	        case "bbsPopup" :
+	            _area.top = "unset";
+	            _area.right = "unset";
+	            _area.left = "unset";
+	            _area.width = "unset";
+	            _area.heigth = "unset";
+	            break;
         }
+        
         initPopup(area);
         
         $("#" + area).css({
@@ -310,7 +401,7 @@ window.ui = (function () {
      * 팝업 초기화
      */
     function initPopup(area) {
-        var arrAllPopupTy = ["leftPopup", "leftSubPopup", "rightSubPopup", "rightPopup", "bottomPopup"];
+        var arrAllPopupTy = ["leftPopup", "leftSubPopup", "rightSubPopup", "rightPopup", "bottomPopup","bbsPopup"];
         var arrPopupTy = [];
         if (area.includes("left")) {
             arrPopupTy = ["bottomPopup", "rightSubPopup", "rightPopup"];
@@ -318,7 +409,7 @@ window.ui = (function () {
             if(area === "rightSubPopup") arrPopupTy = ["leftPopup", "leftSubPopup", "rightSubPopup"];
             else arrPopupTy = ["leftPopup", "leftSubPopup", "rightSubPopup", "rightPopup"];
         } else if (area.includes("bottom")) {
-            arrPopupTy = ["leftPopup", "leftSubPopup", "rightSubPopup", "rightPopup"];
+            arrPopupTy = ["leftPopup", "leftSubPopup", "rightSubPopup", "rightPopup","bbsPopup"];
         }
         $.each(arrPopupTy, function (key, value) {
             $("#" + value).removeClass("opened").html("");
@@ -428,7 +519,7 @@ window.ui = (function () {
         });
     }
 
-//업무영역 >> 탭 선택
+    //업무영역 >> 탭 선택
     function _workTabEvent() {
         // $(document).on("click", ".left-popup-body .inner-tab", function(){
         $(document).on("click", ".inner-tab", function () {
@@ -539,93 +630,6 @@ window.ui = (function () {
         dtmap.draw.clear();
     }
 
-    function _asideMenuEvent() {
-        $(".util-box .GNB button").on("click", function () {
-            var id = $(this).attr('id');
-            var area = $(this).attr('class');
-            _initDrawEvent();
-            switch (id) {
-                //정보공유
-                // aside menu > 메모정보
-                case "memoInfo" :
-                    ui.openPopup(area);
-                    toastr.success("메모정보")
-                    aj_selectMemoInfoList($("#tmpForm")[0]);
-                    break;
-                // aside menu > 사진정보
-                case "potoInfo" :
-                    ui.openPopup(area);
-                    toastr.success("사진정보")
-                    aj_selectPotoInfoList($("#tmpForm")[0]);
-                    break;
-                // aside menu > 그리기도구
-                case "graphicInfo" :
-                    ui.openPopup(area);
-                    toastr.success("그리기도구")
-                    aj_selectGraphicInfoList();
-                    break;
-                
-                //영상/지도
-                // aside menu > 드론영상
-                case "dronInfo" :
-                    ui.openPopup(area);
-                    toastr.success("드론영상")
-                    aj_selectDronInfo($("#tmpForm")[0]);
-                    break;
-                // aside menu > 내보내기
-                case "dwldInfo" :
-                    ui.openPopup(area);
-                    toastr.success("내보내기")
-                    aj_dataDownload();
-                    break;
-                // aside menu > 지도저장
-                case "saveMap" :
-                    ui.openPopup(area);
-                    toastr.success("지도저장")
-                    aj_saveMap();
-                    break; 
-
-                //게시판
-                // aside menu > 게시판
-                case "notice" :
-                    ui.openPopup(area);
-                    toastr.success("게시판")
-                    aj_selectNoticeList();
-                    break;
-                // aside menu > QnA
-                case "opqna" :
-                    ui.openPopup(area);
-                    toastr.success("QnA")
-                    aj_selectOpQnaList(1);
-                    break;
-                // aside menu > 운영지원
-                case "qna" :
-                    ui.openPopup(area);
-                    toastr.success("운영지원")
-                    aj_selectQnaList(1);
-                    break; 
-                    
-                //지도설정
-                // aside menu > 배경지도
-                case "backgroundMapInfo" :
-                    ui.openPopup(area);
-                    toastr.success("배경지도")
-                    aj_selectBackgroundMapInfoList();
-                    break;    
-                // aside menu > 화면 분할
-                case "backgroundMapInfo" :
-                    toastr.success("화면 분할")
-                    break;        
-                // aside menu > 즐겨찾기
-                case "favorites" :
-                    ui.openPopup(area);
-                    toastr.success("즐겨찾기")
-                    aj_selectFavoritesList($("#tmpForm")[0]);
-                    break;
-            }
-        });
-    }
-
     const module = {
         init: init,
         loadingBar: loadingBar,
@@ -684,3 +688,25 @@ function aj_selectLayerList(mode, reset = false) {
     });
 }
 
+function aj_userInfoPopupOpen(id){
+	ui.openPopup("userInfoUdt");
+	popup-overlay
+	$.ajax({
+		type : "POST",
+		url : "/com/usi/userInfoViewPopup.do",
+		data: {
+			userId : id 
+		},
+		dataType : "html",
+		async: false,
+		success : function(returnData, status){
+			if(status == "success") {
+				$("#userInfoUdt").html(returnData);
+			}else{ 
+				toastr.error("관리자에게 문의 바랍니다.", "정보를 불러오지 못했습니다.");
+				return;
+			} 
+		}, complete : function(){
+		}
+	});
+}

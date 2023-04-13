@@ -245,41 +245,41 @@
         <div class="util-box">
             <div class="user"><c:out value="${loginVO.name}"/>님
                 <button type="button" class="user-btn" data-popup="userInfoUdt" data-name="사용자정보" onclick="aj_userInfoPopupOpen('<c:out value="${loginVO.id}"/>')"></button>
-                <button type="button" class="info-btn" data-name="도움말"></button>
-				<button type="button" class="manager-btn" data-name="관리자"></button>            
+                <button type="button" class="info-btn" data-name="도움말" onclick="window.open('/userManual.do')"></button>
+				<button type="button" class="manager-btn" data-name="관리자" onclick="window.open('/com/mngr/usr/selectGroupManageList.do')"></button>            
             	<button type="button" class="logout-btn" data-name="로그아웃" onClick="location.href='/uat/uia/logoutAction.do'"></button>
             </div>
-        	<ul class="GNB">
+            <ul class="GNB">
 				<li>
 					<span>정보공유</span>
 					<ul>
-						<li><button type="button" id="memoInfo" class="rightPopup">메모정보</button></li>
-						<li><button type="button" id="potoInfo" class="rightPopup">사진정보</button></li>
-						<li><button type="button" id="graphicInfo" class="rightPopup">그리기정보</button></li>
+						<li><button type="button" id="memoInfo" data-popup="rightPopup">메모정보</button></li>
+						<li><button type="button" id="potoInfo" data-popup="rightPopup">사진정보</button></li>
+						<li><button type="button" id="graphicInfo" data-popup="rightPopup">그리기정보</button></li>
 					</ul>
 				</li>
 				<li>
 					<span>영상/지도</span>
 					<ul>
-						<li><button type="button" id="dronInfo" class="rightPopup">드론영상</button></li>
-						<li><button type="button" id="dwldInfo" class="rightPopup">내보내기</button></li>
-						<li><button type="button" id="saveMap" class="rightPopup">지도저장</button></li>
+						<li><button type="button" id="dronInfo" data-popup="rightPopup">드론영상</button></li>
+						<li><button type="button" id="dwldInfo" data-popup="rightPopup">내보내기</button></li>
+						<li><button type="button" id="saveMap" data-popup="rightPopup">지도저장</button></li>
 					</ul>
 				</li>
 				<li>
 					<span>게시판</span>
 					<ul>
-						<li><button type="button" id="notice" class="rightPopup" class="dataPopup">공지사항</button></li>
-						<li><button type="button" id="opqna" class="rightPopup" class="dataPopup">QnA</button></li>
-						<li><button type="button" id="qna" class="rightPopup" class="dataPopup">운영지원</button></li>
+						<li><button type="button" id="notice" data-popup="bbsPopup">공지사항</button></li>
+						<li><button type="button" id="opqna" data-popup="bbsPopup">QnA</button></li>
+						<li><button type="button" id="qna" data-popup="bbsPopup">운영지원</button></li>
 					</ul>
 				</li>
 				<li>
 					<span>지도설정</span>
 					<ul>
-						<li><button type="button" id="backgroundMapInfo" class="rightPopup"  title="배경지도">배경지도</button></li>
-						<li><button type="button" class="rightPopup" title="화면분할">화면분할</button></li>
-						<li><button type="button" id="favorites" class="rightPopup"  title="즐겨찾기">즐겨찾기</button></li>
+						<li><button type="button" id="backgroundMapInfo" data-popup="rightPopup">배경지도</button></li>
+						<li><button type="button" id="" class="rightPopup">화면분할</button></li>
+						<li><button type="button" id="favorites" data-popup="rightPopup">즐겨찾기</button></li>
 					</ul>
 				</li>
 			</ul>
@@ -586,78 +586,7 @@
 			
 			<!-- 국토조사 -->
 			<div class="lnb-territory lnb-cont">
-				<div class="lnb-header"><h2 class="tit">국토정보관리</h2></div>
-				<div class="lnb-body">
-					<div class="btn-wrap"><button type="button" class="btn bi-write" data-popup="territory-Regist">등록</button></div>
-					<div class="bbs-top">
-						<div>
-							<select name="" id="" class="form-select">
-								<option value="">전체</option>
-							</select>
-						</div>
-						<div><button type="button" class="btn basic bi-all">전체 보기</button></div>
-					</div>
-					<div class="territory-list-wrap">
-						<ul class="territory-list">
-							<li><a href="javascript:void(0);" data-popup="territory-detail"><span class="tit">양평읍 양근리 조사데이터</span><span class="writer">웹마스터</span><span class="date">2021.09.27</span></a>
-								<div><button type="button" class="icon-btn delete" title="삭제"></button></div>
-							</li>
-							<li><a href="javascript:void(0);" data-popup="territory-detail"><span class="tit">양평읍 양근리 조사데이터</span><span class="writer">웹마스터</span><span class="date">2021.09.27</span></a>
-								<div><button type="button" class="icon-btn delete" title="삭제"></button></div>
-							</li>
-							<li><a href="javascript:void(0);" data-popup="territory-detail"><span class="tit">양평읍 양근리 조사데이터</span><span class="writer">웹마스터</span><span class="date">2021.09.27</span></a>
-								<div><button type="button" class="icon-btn delete" title="삭제"></button></div>
-							</li>
-							<li><a href="javascript:void(0);" data-popup="territory-detail"><span class="tit">양평읍 양근리 조사데이터</span><span class="writer">웹마스터</span><span class="date">2021.09.27</span></a>
-								<div><button type="button" class="icon-btn delete" title="삭제"></button></div>
-							</li>
-							<li><a href="javascript:void(0);"><span class="tit">양평읍 양근리 조사데이터</span><span class="writer">웹마스터</span><span class="date">2021.09.27</span></a>
-								<div><button type="button" class="icon-btn delete" title="삭제"></button></div>
-							</li>
-							<li><a href="javascript:void(0);"><span class="tit">양평읍 양근리 조사데이터</span><span class="writer">웹마스터</span><span class="date">2021.09.27</span></a>
-								<div><button type="button" class="icon-btn delete" title="삭제"></button></div>
-							</li>
-							<li><a href="javascript:void(0);"><span class="tit">양평읍 양근리 조사데이터</span><span class="writer">웹마스터</span><span class="date">2021.09.27</span></a>
-								<div><button type="button" class="icon-btn delete" title="삭제"></button></div>
-							</li>
-							<li><a href="javascript:void(0);"><span class="tit">양평읍 양근리 조사데이터</span><span class="writer">웹마스터</span><span class="date">2021.09.27</span></a>
-								<div><button type="button" class="icon-btn delete" title="삭제"></button></div>
-							</li>
-							<li><a href="javascript:void(0);"><span class="tit">양평읍 양근리 조사데이터</span><span class="writer">웹마스터</span><span class="date">2021.09.27</span></a>
-								<div><button type="button" class="icon-btn delete" title="삭제"></button></div>
-							</li>
-							<li><a href="javascript:void(0);"><span class="tit">양평읍 양근리 조사데이터</span><span class="writer">웹마스터</span><span class="date">2021.09.27</span></a>
-								<div><button type="button" class="icon-btn delete" title="삭제"></button></div>
-							</li>
-							<li><a href="javascript:void(0);"><span class="tit">양평읍 양근리 조사데이터</span><span class="writer">웹마스터</span><span class="date">2021.09.27</span></a>
-								<div><button type="button" class="icon-btn delete" title="삭제"></button></div>
-							</li>
-						</ul>
-						<div class="pagination">
-							<a href="javascript:void(0);" class="first" title="처음"></a>
-							<a href="javascript:void(0);" class="prev" title="이전"></a>
-							<strong class="current">1</strong>
-							<a href="javascript:void(0);">2</a>
-							<a href="javascript:void(0);">3</a>
-							<a href="javascript:void(0);">4</a>
-							<a href="javascript:void(0);">5</a>
-							<a href="javascript:void(0);" class="next" title="다음"></a>
-							<a href="javascript:void(0);" class="last" title="마지막"></a>
-						</div>
-					</div>
-				</div>
-				<div class="lnb-util"><button type="button" class="lnb-resetBtn" title="초기화"></button></div>
-				<script>
-					$(document).ready(function(){
-						$(".lnb-territory .bi-write").click(function(){
-							$(this).addClass("active");
-						});
-	
-						$(".territory-list a").click(function(){
-							$(this).parent().addClass("active").siblings().removeClass("active");
-						});
-					});
-				</script>
+				
 			</div>
 			<!-- //국토조사 -->
 			
@@ -721,6 +650,7 @@
         <!-- //side -->
 
 		<!-- 팝업 메뉴 전체 -->
+		<!-- 팝업 메뉴 기본틀 -->
         <!-- left popup-panel -->
         <div id="leftPopup" class="popup-panel popup-left">
         </div>
@@ -745,12 +675,20 @@
         <div id="bottomPopup" class="popup-panel popup-bottom">
         </div>
         <!-- //bottom popup-panel -->
-        
-        <!-- bottom popup-panel -->
-        <div id="noticePopup" class="popup-panel popup-bottom">
+         
+        <!-- bbs popup-panel -->
+        <div id="bbsPopup" class="popup-panel popup-bbs">
         </div>
-        <!-- //bottom popup-panel -->
-        <!-- //LNB Popup -->
+        <!-- //bbs popup-panel -->
+        <!-- //팝업 메뉴 기본틀 -->
+        <!-- 팝업 메뉴 예외 틀 -->
+        <!-- 사용자정보 조회 및  수정 -->
+		<div id="userInfoUdt" class="popup-panel popup-sub userInfoUdt">
+        </div>
+        <!-- 사용자정보 조회 및  수정 -->
+        
+        <!-- //팝업 메뉴 예외 틀 -->
+        
 		<!-- //팝업 메뉴 전체 -->
 
         <!-- 사용자 매뉴얼 -->
@@ -817,6 +755,10 @@
 			</script>				
 		</div>
 		<!-- //업데이트 안내 -->
+		
+		<!-- 팝업 가림판 -->
+		<div class="popup-overlay"></div>
+		<!-- //팝업 가림판 -->
 		
 		<!-- 마우스 오른쪽 선택 팝업 -->
 		<div class="context hide" style="top: 400px;left: 400px;">
