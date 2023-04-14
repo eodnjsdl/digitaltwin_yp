@@ -30,6 +30,9 @@ $("#agriRegist").on("click", function(){
 		alert("숫자(양수)만 입력해주세요!");
 		return false;
 	}
+	for (let key of formData.keys()) {
+		console.log(key, ":", formData.get(key));
+	}
 	
 	if(confirm("<spring:message code="common.regist.msg" />")){	//등록하시겠습니까?
        	ui.loadingBar("show");

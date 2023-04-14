@@ -4,7 +4,7 @@
 <%@ taglib prefix="ui" uri="http://egovframework.gov/ctl/ui" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
-<script src="/js/egiskorea/com/job/sffm/sffm.js"></script>
+
 <script>
 function fn_delete(gid){
 
@@ -78,14 +78,8 @@ function fn_delete(gid){
 									</td>
 								</tr>
 								<tr>
-									<th scope="row">고도</th>
-									<td>
-										<div class="datapicker-group">
-											<c:out value="${result.alttd}"></c:out>
-										</div>
-									</td>
 									<th scope="row">가로등수</th>
-									<td class="align-right">
+									<td colspan="3" class="align-left">
 										<c:out value="${result.strtlgtCnt}"></c:out>
 									</td>
 								</tr>

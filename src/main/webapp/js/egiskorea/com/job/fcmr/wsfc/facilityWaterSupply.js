@@ -54,7 +54,9 @@ function codeArrayInit(){
 	//배수지
 	setCmmCodeDataArray("OGC-001");				//관리방법
 	setCmmCodeDataArray("OGC-134");				//배수지제어방법
-	
+
+	setCmmCodeDataArray("FCLTCD");				// 복지시설 구분
+
 }
 
 

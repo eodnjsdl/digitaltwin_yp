@@ -3,6 +3,19 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
+<style type="text/css">
+	.popup-panel.popup-sub .phy-popup-close {
+	    top: 0;
+	    right: 0;
+	    width: 39px;
+	    height: 39px;
+	    border-left: 1px solid #44516A;
+	    background: url(/images/icon/popup-close2.svg) no-repeat 50% 50%;
+	    border-top-right-radius: 10px;
+	    position: absolute;
+	}
+</style>
+
 <script>
 $(".scroll-y").mCustomScrollbar({
 	scrollbarPosition: "outside"
@@ -23,56 +36,59 @@ function test(pageNo){
 		<div class="data-write-wrap" style="height: 100%;">
 			<div class="">
 				<div class="data-default">
-					<table id="phyMng" class="data-write">
-						<colgroup>
-							<col style="width: 23%;">
-							<col style="width: auto;">
-							<col style="width: 23%;">
-							<col style="width: auto;">
-						</colgroup>
-						<tbody>
-							<tr>
-								<th scope="row">운영연도</th>
-								<td>
-									<select name="oper_year" id="oper_year" class="form-select">
-										<option value="2022">2022</option>
-										<option value="2021">2021</option>
-										<option value="2020">2020</option>
-										<option value="2019">2019</option>
-										<option value="2018">2018</option>
-										<option value="2017">2017</option>
-										<option value="2016">2016</option>
-										<option value="2015">2015</option>
-										<option value="2014">2014</option>
-										<option value="2013">2013</option>
-										<option value="2012">2012</option>
-										<option value="2011">2011</option>
-										<option value="2010">2010</option>
-									</select>
-								</td>
-								<th scope="row">취득가액</th>
-								<td><input type="number" maxlength="16" min="0" name="acqs_amount" id="acqs_amount" class="form-control align-right" oninput="maxLengthCheck(this)"></td>
-							</tr>
-							<tr>
-								<th scope="row">감가상각액</th>
-								<td><input type="number" maxlength="16" min="0" name="dprc_am" id="dprc_am" class="form-control align-right" oninput="maxLengthCheck(this)"></td>
-								<th scope="row">감가상각누계액</th>
-								<td><input type="number" maxlength="16" min="0" name="dprc_acmtl_am" id="dprc_acmtl_am" class="form-control align-right" oninput="maxLengthCheck(this)"></td>
-							</tr>
-							<tr>
-								<th scope="row">장부가액</th>
-								<td><input type="number" maxlength="16" min="0" name="bk_amount" id="bk_amount" class="form-control align-right" oninput="maxLengthCheck(this)"></td>
-								<th scope="row">내용연수</th>
-								<td><input type="text" name="contents_yycnt" id="contents_yycnt" class="form-control align-right"></td>
-							</tr>
-							<tr>
-								<th scope="row">운영비용</th>
-								<td><input type="text" name="oper_ct" id="oper_ct" class="form-control align-right"></td>
-								<th scope="row">운영수익</th>
-								<td><input type="text" name="oper_ern" id="oper_ern" class="form-control align-right"></td>
-							</tr>
-						</tbody>
-					</table>
+					<form id="phyMngFrm" method="post">
+						<table id="phyMng" class="data-write">
+							<colgroup>
+								<col style="width: 23%;">
+								<col style="width: auto;">
+								<col style="width: 23%;">
+								<col style="width: auto;">
+							</colgroup>
+							<tbody>
+								<tr>
+									<th scope="row">운영연도</th>
+									<td>
+										<select name="oper_year" id="oper_year" class="form-select">
+											<option value="2022">2022</option>
+											<option value="2021">2021</option>
+											<option value="2020">2020</option>
+											<option value="2019">2019</option>
+											<option value="2018">2018</option>
+											<option value="2017">2017</option>
+											<option value="2016">2016</option>
+											<option value="2015">2015</option>
+											<option value="2014">2014</option>
+											<option value="2013">2013</option>
+											<option value="2012">2012</option>
+											<option value="2011">2011</option>
+											<option value="2010">2010</option>
+										</select>
+										<input type="hidden" name="gid" id="gid" value="${gid}">
+									</td>
+									<th scope="row">취득가액</th>
+									<td><input type="number" maxlength="16" min="0" name="acqs_amount" id="acqs_amount" class="form-control align-right" oninput="maxLengthCheck(this)"></td>
+								</tr>
+								<tr>
+									<th scope="row">감가상각액</th>
+									<td><input type="number" maxlength="16" min="0" name="dprc_am" id="dprc_am" class="form-control align-right" oninput="maxLengthCheck(this)"></td>
+									<th scope="row">감가상각누계액</th>
+									<td><input type="number" maxlength="16" min="0" name="dprc_acmtl_am" id="dprc_acmtl_am" class="form-control align-right" oninput="maxLengthCheck(this)"></td>
+								</tr>
+								<tr>
+									<th scope="row">장부가액</th>
+									<td><input type="number" maxlength="16" min="0" name="bk_amount" id="bk_amount" class="form-control align-right" oninput="maxLengthCheck(this)"></td>
+									<th scope="row">내용연수</th>
+									<td><input type="text" name="contents_yycnt" id="contents_yycnt" class="form-control align-right"></td>
+								</tr>
+								<tr>
+									<th scope="row">운영비용</th>
+									<td><input type="text" name="oper_ct" id="oper_ct" class="form-control align-right"></td>
+									<th scope="row">운영수익</th>
+									<td><input type="text" name="oper_ern" id="oper_ern" class="form-control align-right"></td>
+								</tr>
+							</tbody>
+						</table>
+					</form>
 				</div>
 				<div class="data-list-wrap marT10" style="height: 169px;">
 					<div class="data-default" style="height: 80%">
@@ -130,11 +146,11 @@ function test(pageNo){
 							</table>
 						</div>
 					</div>
-						<input type="hidden" name="pageIndex" id="pageIndex" value="<c:out value='${SportsVO.pageIndex}' />">
-						<input type="hidden" name="gid" id="gid" value="<c:out value='${gid}' />">
-						<div class="pagination">
-							<ui:pagination paginationInfo="${paginationInfo}" type="pagination" jsFunction="test"/>
-						</div>
+					<input type="hidden" name="pageIndex" id="pageIndex" value="<c:out value='${SportsVO.pageIndex}' />">
+					<input type="hidden" name="gid" id="gid" value="<c:out value='${gid}' />">
+					<div class="pagination">
+						<ui:pagination paginationInfo="${paginationInfo}" type="pagination" jsFunction="test"/>
+					</div>
 				</div>					
 			</div>
 			<div class="position-bottom btn-wrap">
@@ -143,11 +159,12 @@ function test(pageNo){
 				</div>
 				<div>
 					<button type="button" class="btn basic bi-write2" onclick="insertPhyMng('${gid}');">등록</button>
-					<button type="button" class="btn basic bi-cancel" onclick="backPhyEduFaciDetail('${gid}', '${sportsVO.lon }', '${sportsVO.lat }');">취소</button>
+					<button type="button" class="btn basic bi-cancel" onclick="backPhyEduFaciDetail('${gid}');">취소</button>
 				</div>
 			</div>
 		</div>
 	</div>
 </div>
-<button type="button" class="popup-close" title="닫기"></button>				
+<!-- <button type="button" class="popup-close" title="닫기"></button> -->
+<button type="button" class="phy-popup-close" title="닫기" onclick="backPhyEduFaciDetail('${gid}');"></button>
 <!-- 업무 > 시설관리 > 체육시설 > 상세보기 > 운영정보 관리 end -->
