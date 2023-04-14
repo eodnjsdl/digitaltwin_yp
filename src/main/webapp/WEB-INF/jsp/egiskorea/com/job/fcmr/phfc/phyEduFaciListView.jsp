@@ -79,8 +79,9 @@
             <div class="bbs-list-wrap" style="height: 267px;"><!-- pagination 하단 고정을 위해 반드시 필요 -->
                 <div class="bbs-default">
                     <div id="baseGridDiv" style="height:inherit; display: flex; flex-direction: column">
-                    	<input type="hidden" id="hiddenPage" value="1" />
                         <div id="gridax5" data-ax5grid="attr-grid" data-ax5grid-config="{}" style="flex: 1"></div>
+                        <input type="hidden" id="hiddenPage" value="1" />
+                        <input type="hidden" id="hiddenIconId" />
                     </div>
                 </div>
             </div>

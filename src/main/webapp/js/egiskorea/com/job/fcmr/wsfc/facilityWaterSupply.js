@@ -34,6 +34,7 @@ function codeArrayInit(){
 	setCmmCodeDataArray("MNG-001");				//관리기관	
 	setCmmCodeDataArray("OGC-048");				//소화전 형식
 
+	setCmmCodeDataArray("FCLTCD");				// 복지시설 구분
 }
 
 

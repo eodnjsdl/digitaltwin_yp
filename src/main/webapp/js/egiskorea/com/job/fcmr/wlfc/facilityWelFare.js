@@ -6,22 +6,7 @@
 $(document).ready(function(){
 	console.log("facilityWelFare.js");
 	console.log("복지시설");
-	
-	codeArrayInit();
 });
-
-//전역 변수
-var FACILITY = {
-	CODEARRAY : [],		//code 데이블 정리
-	Ax5UiGrid : null	
-}
-
-//코드 세팅 : gird 데이터 code 변환 위해
-function codeArrayInit(){
-	//console.log("codeArrayInit()");
-	
-	setCmmCodeDataArray("FCLTCD");		// 복지시설 구분
-}
 
 // 복지시설 옵션 설정
 function getWelFareFaciListView() {
