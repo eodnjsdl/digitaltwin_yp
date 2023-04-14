@@ -12,8 +12,8 @@
 <script>
 
     $(document).ready(function () {
-        // refreshLayerByPhoto();
-        initUIByPotoInfoView();
+        refreshLayerByPhoto();
+        initByPotoInfoView();
         bindEventPotoInfoView();
     });
 
@@ -87,12 +87,13 @@
             const geojson = format.writeFeatures(features);
             dtmap.draw.clear();
             dtmap.draw.dispose();
+            dtmap.vector.clear();
             dtmap.vector.clearSelect();
             //지도에 GeoJSON 추가
             dtmap.vector.readGeoJson(geojson, function (feature) {
                 return {
                     marker: {
-                        src: '/images/poi/memo_poi.png'
+                        src: '/images/poi/poto_poi.png'
                     },
                     label: {
                         text: feature.get("sj")
@@ -102,7 +103,7 @@
         }
     }
 
-    function initUIByPotoInfoView() {
+    function initByPotoInfoView() {
         const wkt = "<c:out value="${result.wkt}" />";
         const sj = "<c:out value="${result.sj}" />";
         const id = "<c:out value="${result.phtoId}" />";

@@ -15,6 +15,17 @@
         const promise = dtmap.toImage();
         promise.then(function (data) {
             $(".bookmark-basic img").attr("src", data);
+            var centerx = dtmap.getCenter()[0];
+            var centery = dtmap.getCenter()[1];
+            var zoom = map2d.view.getZoom();
+            var _coordiHtml = '';
+            _coordiHtml += '<span class="">중심위치 : </span>';
+            _coordiHtml += ' ' + centerx + ", " + centery;
+            var _zoomiHtml = '';
+            _zoomiHtml += '<span class="">레벨 : </span>';
+            _zoomiHtml += ' ' + zoom;
+            $("#fvrtCord").empty().append(_coordiHtml);
+            $("#fvrtZoom").empty().append(_zoomiHtml);
         });
     }
 
@@ -27,7 +38,32 @@
         });
         // 즐겨찾기 등록
         $(".btn-wrap .bi-write2").on("click", function () {
-            aj_insertFavorites($("#insertFormFavorites")[0]);
+            // 미입력 관련 VALIDATE
+            var sj = $("#bkmkNm").val();
+            if (sj == '') {
+                toastr.warning("제목을 입력해 주세요.");
+                return;
+            } else {
+                aj_insertFavorites($("#insertFormFavorites")[0]);
+            }
+        });
+        // 현재 화면 저장
+        $(".btn-wrap .bi-save").on("click", function () {
+            const promise = dtmap.toImage();
+            promise.then(function (data) {
+                $(".bookmark-basic img").attr("src", data);
+                var  centerx= dtmap.getCenter()[0] ;
+                var  centery= dtmap.getCenter()[1] ;
+                var zoom = map2d.view.getZoom();
+                var _coordiHtml = '';
+                _coordiHtml += '<span class="">중심위치 : </span>';
+                _coordiHtml+= ' ' + centerx + ", " + centery;
+                var _zoomiHtml = '';
+                _zoomiHtml += '<span class="">레벨 : </span>';
+                _zoomiHtml += ' ' + zoom;
+                $("#fvrtCord").empty().append(_coordiHtml);
+                $("#fvrtZoom").empty().append(_zoomiHtml);
+            });
         });
     }
 
@@ -55,7 +91,7 @@
                     <tbody>
                     <tr>
                         <th scope="row">제목</th>
-                        <td><input type="text" class="form-control" name="bkmkNm"></td>
+                        <td><input type="text" class="form-control" id="bkmkNm" name="bkmkNm"></td>
                     </tr>
                     <tr>
                         <th scope="row">기본화면</th>
@@ -68,18 +104,17 @@
                     </tr>
                     <tr>
                         <td colspan="2">
-                            <div class="cont" style="height: 540px;">
-                                <p class="essential marB5">* 현재화면으로 저장됩니다.</p>
-                                <div class="bookmark-basic"><img src="data:image:jpg;base64,<c:out value="${imgSrc}" />"
-                                                                 alt=""></div>
-                                    <%--                                    <div class="marT10">--%>
-                                    <%--                                        <ul>--%>
-                                    <%--                                            <li><span class="">중심위치 : </span> -</li>--%>
-                                    <%--                                            <li><span class="">레벨 : </span> -</li>--%>
-                                    <%--                                            <li><span class="">배경지도 : </span> -</li>--%>
-                                    <%--                                            <li><span class="">레이어 : </span> -</li>--%>
-                                    <%--                                        </ul>--%>
-                                    <%--                                    </div>--%>
+                            <div class="cont" style="height: 500px;">
+                                <div class="btn-wrap justify-content-end marT0 marB5">
+                                    <button type="button" class="btn basic bi-save">현재위치 저장</button>
+                                </div>
+                                <div class="bookmark-basic"><img src="data:image:jpg;base64,<c:out value="${imgSrc}" />" alt=""></div>
+                                <div class="marT10">
+                                    <ul>
+                                        <li id="fvrtCord"></li>
+                                        <li id="fvrtZoom"></li>
+                                    </ul>
+                                </div>
                             </div>
                         </td>
                     </tr>
