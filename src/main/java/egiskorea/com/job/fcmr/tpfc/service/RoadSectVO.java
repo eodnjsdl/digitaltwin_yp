@@ -1,5 +1,7 @@
 package egiskorea.com.job.fcmr.tpfc.service;
 
-public class RoadSectVO {
+import java.io.Serializable;
+
+public class RoadSectVO implements Serializable {
 	
 }

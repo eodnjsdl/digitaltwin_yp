@@ -10,6 +10,8 @@ $(document).ready(function(){
 	//console.log("상수도시설");
 });
 
+//functions
+
 //상수도시설 분기
 function getWaterSupplyFacility(name){
 	//console.log("getWaterSupplyFacility(name)");

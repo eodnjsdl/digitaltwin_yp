@@ -63,7 +63,7 @@
     <script src="/js/plugin/ax5grid/ax5core.min.js"></script>
     <script src="/js/plugin/ax5grid/ax5grid.min.js"></script>
     
-
+	
     <!-- zoom -->
     <link href="/js/plugin/jquery-fat-zoom.js/css/zoom.css" rel="stylesheet">
     <script type="text/javascript" src="/js/plugin/jquery-fat-zoom.js/dist/zoom.js"></script>
@@ -218,7 +218,7 @@
 	<!-- ////////////////////////////  -->
 	
 	<!-- [복지시설]  -->
-	
+	<script src="/js/egiskorea/com/job/fcmr/wlfc/facilityWelFare.js"></script>
 	<!-- ////////////////////////////  -->
 	
 	<!-- [시설예약관리]  -->

@@ -14,6 +14,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -76,10 +77,7 @@ public class PhyEduFaciController {
 	@RequestMapping(value = "/selectPhyEduFaciDetail.do")
 	public String selectPhyEduFaciDetail(
 			@ModelAttribute("SportsVO") SportsVO sportsVO,
-			HttpServletRequest request, ModelMap model) throws Exception {
-		int gid = Integer.parseInt(request.getParameter("gid"));
-		//System.out.println("gid: " + gid);
-		
+			int gid, ModelMap model) throws Exception {
 		sportsVO.setGid(gid);
 		
 		SportsVO result = phyEduFaciService.selectPhyEduFaciDetail(sportsVO);
@@ -91,9 +89,9 @@ public class PhyEduFaciController {
 	/**
      * 체육시설 등록 화면
      * 
-     * @param SportsVO
+     * @param PhyEduFaciVO
      * @param model
-     * @return "egiskorea/com/job/fcmr/phfc/phyEduFaciInsertView"
+     * @return "egiskorea/com/job/fcmr/phfc/insertPhyEduFaciView"
      * @throws Exception
      */
 	@RequestMapping(value = "/insertPhyEduFaciView.do")
@@ -108,10 +106,10 @@ public class PhyEduFaciController {
      * 
      * @param SportsVO, LoginVO
      * @param model
-     * @return "egiskorea/com/job/fcmr/phfc/phyEduFaciInsertView"
+     * @return "mv"
      * @throws Exception
      */
-	@RequestMapping("/insertPhyEduFaci.do")
+	@RequestMapping(value = "/insertPhyEduFaci.do", method = RequestMethod.POST)
 	public ModelAndView insertPhyEduFaci(
 			@ModelAttribute("SportsVO") SportsVO sportsVO,
 			HttpServletRequest request, ModelMap model) throws Exception {
@@ -125,12 +123,10 @@ public class PhyEduFaciController {
 		try {
 			phyEduFaciService.insertPhyEduFaci(sportsVO);
 			mv.addObject("result", "success");
-			
 		} catch(Exception e) {
 			logger.info(e.getMessage());
 			mv.addObject("result", "fail");
 		}
-		
 		return mv;
 	}
 	
@@ -139,21 +135,15 @@ public class PhyEduFaciController {
      * 
      * @param SportsVO
      * @param model
-     * @return "egiskorea/com/job/fcmr/phfc/phyEduFaciInsertView"
+     * @return "egiskorea/com/job/fcmr/phfc/insertPhyEduFaciView"
      * @throws Exception
      */
 	@RequestMapping(value = "/updatePhyEduFaciView.do")
 	public String updatePhyEduFaciView(
 			@ModelAttribute("SportsVO") SportsVO sportsVO,
-			HttpServletRequest request, ModelMap model) throws Exception {
-		int gid = Integer.parseInt(request.getParameter("gid"));
-		
-		sportsVO.setGid(gid);
-		
+			ModelMap model) throws Exception {
 		SportsVO result = phyEduFaciService.selectPhyEduFaciDetail(sportsVO);
-		
 		model.addAttribute("result", result);
-		
 		return "egiskorea/com/job/fcmr/phfc/insertPhyEduFaciView";
 	}
 	
@@ -162,10 +152,10 @@ public class PhyEduFaciController {
      * 
      * @param SportsVO, LoginVO
      * @param model
-     * @return "egiskorea/com/job/fcmr/phfc/phyEduFaciInsertView"
+     * @return "jsonView"
      * @throws Exception
      */
-	@RequestMapping("/updatePhyEduFaci.do")
+	@RequestMapping(value = "/updatePhyEduFaci.do", method = RequestMethod.POST)
 	public String updatePhyEduFaci(
 			@ModelAttribute("SportsVO") SportsVO sportsVO,
 			HttpServletRequest request, ModelMap model) throws Exception {
@@ -189,7 +179,7 @@ public class PhyEduFaciController {
      * @return "mv"
      * @throws Exception
      */
-	@RequestMapping(value = "/deletePhyEduFaci.do")
+	@RequestMapping(value = "/deletePhyEduFaci.do", method = RequestMethod.POST)
 	public ModelAndView deletePhyEduFaci(
 			@ModelAttribute("SportsVO") SportsVO sportsVO,
 			ModelMap model) throws Exception {
@@ -212,7 +202,7 @@ public class PhyEduFaciController {
      * 
      * @param SportsVO
      * @param model
-     * @return ""
+     * @return "mv"
      * @throws Exception
      */
 	HashMap exceldown;
@@ -283,7 +273,8 @@ public class PhyEduFaciController {
      * @throws Exception
      */
 	@RequestMapping(value = "/checkPhyMngYear.do")
-	public String checkPhyMngYear(ModelMap model, @ModelAttribute("SportsVO") SportsVO sportsVO) throws Exception{
+	public String checkPhyMngYear(@ModelAttribute("SportsVO") SportsVO sportsVO,
+			ModelMap model) throws Exception{
 		int result = phyEduFaciService.checkPhyMngYear(sportsVO);
 		
 		model.addAttribute("result", result);
@@ -355,7 +346,7 @@ public class PhyEduFaciController {
      * 
      * @param SportsVO
      * @param model
-     * @return "egiskorea/com/job/fcmr/phfc/phyFaciMngView"
+     * @return "mv"
      * @throws Exception
      */
 	@RequestMapping(value = "/deletePhyMng.do")
@@ -384,7 +375,7 @@ public class PhyEduFaciController {
      * 
      * @param SportsVO, LoginVO
      * @param model
-     * @return "mv"
+     * @return "egiskorea/com/job/fcmr/phfc/phyFaciMngView"
      * @throws Exception
      */
 	@RequestMapping(value = "/selectPhyFaciMngList.do")

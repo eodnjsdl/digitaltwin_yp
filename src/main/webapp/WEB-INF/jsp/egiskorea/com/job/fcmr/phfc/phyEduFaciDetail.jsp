@@ -2,6 +2,19 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
+<style type="text/css">
+	.popup-panel.popup-sub .phy-popup-close {
+	    top: 0;
+	    right: 0;
+	    width: 39px;
+	    height: 39px;
+	    border-left: 1px solid #44516A;
+	    background: url(/images/icon/popup-close2.svg) no-repeat 50% 50%;
+	    border-top-right-radius: 10px;
+	    position: absolute;
+	}
+</style>
+
 <script>
 $(".scroll-y").mCustomScrollbar({
 	scrollbarPosition: "outside"
@@ -105,11 +118,12 @@ $(".scroll-y").mCustomScrollbar({
 					<button type="button" class="btn basic bi-list" id ="sportsFacMng" name ="sportsFacMng" style="left: -35px;" onclick="getPhyFaciMngView('<c:out value="${result.gid}"/>')">시설정보 관리</button>
 					<button type="button" class="btn basic bi-edit" id="lampUpdate" style="right: -70px;" onclick="updatePhyEduFaciView('<c:out value="${result.gid}"></c:out>')">수정</button> 
 					<button type="button" class="btn basic bi-delete2" id ="deleteSports" style="right: -35px;" onclick="deletePhyEduFaci('<c:out value="${result.gid}"></c:out>')">삭제</button>
-					<button type="button" class="btn basic bi-cancel" onclick="cancleSportsPopup();">취소</button>
+					<button type="button" class="btn basic bi-cancel" onclick="closePhyEduFaciPopup();">취소</button>
 				</div>
 			</div>							
 		</div>
 	</div>
 </div>
-<button type="button" class="popup-close" onClick="toastr.warning('removeLayer(); cmmUtil.drawClear();', 'onclick 이벤트');" title="닫기"></button>
+<!-- <button type="button" class="popup-close" title="닫기" onclick="closeInsertPhyFaci();"></button> -->
+<button type="button" class="phy-popup-close" title="닫기" onclick="closePhyEduFaciPopup();"></button>	
 <!-- 업무 > 시설관리 > 체육시설 > 상세보기 end -->

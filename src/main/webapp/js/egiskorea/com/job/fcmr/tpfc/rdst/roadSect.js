@@ -112,7 +112,6 @@ function selectRoadSectList(page) {
 	const promise = dtmap.wfsGetFeature(options);
 
 	promise.then(function(data) {
-		console.log(data);
 		//그리드 데이터 전처리
 		const list = [];
 		for (let i = 0; i < data.features.length; i++) {

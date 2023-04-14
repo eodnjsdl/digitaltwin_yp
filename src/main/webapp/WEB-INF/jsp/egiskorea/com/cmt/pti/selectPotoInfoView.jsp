@@ -8,56 +8,60 @@
 <!-- swiper -->
 <script src="/js/plugin/swiper/swiper.min.js"></script>
 <link rel="stylesheet" href="/js/plugin/swiper/swiper.min.css">
+
 <script>
 
-    // 사진정보 목록조회
-    $(".btn-wrap .bi-list").on("click", function () {
-        $(this).addClass("active");
-        //rightPopupOpen('potoInfo');
-        aj_selectPotoInfoList($("#selectPotoInfoViewForm")[0], "");
+    $(document).ready(function () {
+        // refreshLayerByPhoto();
+        initUIByPotoInfoView();
+        bindEventPotoInfoView();
     });
+
+    function bindEventPotoInfoView() {
+        // 사진정보 목록조회
+        $(".btn-wrap .bi-list").on("click", function () {
+            $(this).addClass("active");
+            //rightPopupOpen('potoInfo');
+            aj_selectPotoInfoList($("#selectPotoInfoViewForm")[0], "");
+        });
+        // 사진정보 수정페이지 이동
+        $(".top-images-dtBody .btn-wrap .bi-edit").on("click", function () {
+            $(this).addClass("active");
+            <%--rightPopupOpen('updatePotoInfo', <c:out value="${result.phtoId}" />, $('#updateDeletePotoInfoForm')[0]);--%>
+
+            // ui.openPopup("rightPopup");
+            aj_updatePotoInfoView(<c:out value="${result.phtoId}" />, $('#updateDeletePotoInfoForm')[0]);
+        });
+        //사진정보 삭제
+        $(".top-images-dtBody .btn-wrap .bi-delete").on("click", function () {
+            if (confirm("사진정보를 삭제하시겠습니까?") == true) {    //확인
+                aj_deletePotoInfo($("#updateDeletePotoInfoForm")[0]);
+            } else {   //취소
+                return false;
+            }
+        });
+        //사진 다운로드
+        $(".top-images-dtBody .position-bottom .bi-download").on("click", function () {
+            const src = $(".swiper-slide-active img").attr("src");
+            const fileNm = $(".swiper-slide-active .thumb").children()[1].value
+            var link = document.createElement("a");
+            link.download = fileNm;
+            link.href = src;
+            link.click();
+        });
+        // 사진 click
+        // $(".swiper-wrapper img").on("click", function (e) {
+        //     var src = e.target.src;
+        //     cmmUtil.zoomInImage(src) ;
+        // });
+    }
 
     //사진정보 게시글 이동
     function selectPotoInfoView(id) {
         // rightPopupOpen('selectPotoInfoView', id, $('#selectPotoInfoViewForm')[0]);
-
         // ui.openPopup("rightPopup");
         aj_selectPotoInfoView(id, $('#selectPotoInfoViewForm')[0]);
     }
-
-    // 사진정보 수정페이지 이동
-    $(".top-images-dtBody .btn-wrap .bi-edit").on("click", function () {
-        $(this).addClass("active");
-        <%--rightPopupOpen('updatePotoInfo', <c:out value="${result.phtoId}" />, $('#updateDeletePotoInfoForm')[0]);--%>
-
-        // ui.openPopup("rightPopup");
-        aj_updatePotoInfoView(<c:out value="${result.phtoId}" />, $('#updateDeletePotoInfoForm')[0]);
-    });
-
-    //사진정보 삭제
-    $(".top-images-dtBody .btn-wrap .bi-delete").on("click", function () {
-        if (confirm("사진정보를 삭제하시겠습니까?") == true) {    //확인
-            aj_deletePotoInfo($("#updateDeletePotoInfoForm")[0]);
-        } else {   //취소
-            return false;
-        }
-    });
-    //사진 다운로드
-    $(".top-images-dtBody .position-bottom .bi-download").on("click", function () {
-        const src = $(".swiper-slide-active img").attr("src");
-        const fileNm = $(".swiper-slide-active .thumb").children()[1].value
-        var link = document.createElement("a");
-        link.download = fileNm;
-        link.href = src;
-        link.click();
-    });
-
-    // 사진 click
-    $(".swiper-wrapper img").on("click", function (e) {
-        var src = e.target.src;
-        cmmUtil.zoomInImage(src) ;
-    });
-
 
     function refreshLayerByPhoto() {
         const ids = [];
@@ -98,11 +102,10 @@
         }
     }
 
-    $(function () {
-        refreshLayerByPhoto();
+    function initUIByPotoInfoView() {
         const wkt = "<c:out value="${result.wkt}" />";
         const sj = "<c:out value="${result.sj}" />";
-        const id = "<c:out value="${result.memoId}" />";
+        const id = "<c:out value="${result.phtoId}" />";
         const reader = new ol.format.WKT();
         const feature = new ol.Feature(reader.readGeometry(wkt));
         feature.setId(id);
@@ -113,7 +116,6 @@
         const geometry = reader.readGeometry(wkt);
         const pointX = geometry.flatCoordinates[0];
         const pointY = geometry.flatCoordinates[1];
-
         // dtmap.vector.clear();
         //지도에 GeoJSON 추가
         dtmap.vector.readGeoJson(geojson, function (feature) {
@@ -130,16 +132,17 @@
         cmmUtil.reverseGeocoding(pointX, pointY).done((result) => {
             $("#loc_poto").html(result["address"]);
         });
-
-    });
+    }
 
 </script>
+
 <style>
     .bbs-detail td .cont-download .position-bottom {
         right: 20px;
         bottom: 20px;
     }
 </style>
+
 <!-- top > 사진정보 > 상세 -->
 <div class="popup-header">사진정보</div>
 <div class="popup-body">
@@ -202,8 +205,8 @@
                                     <c:forEach var="resultFile" items="${resultFile}" varStatus="status">
                                         <div class="swiper-slide">
                                             <div class="thumb">
-                                                <img src='<c:url value='/cmm/fms/getImage.do'/>?atchFileId=<c:out value="${resultFile.atchFileId}"/>&fileSn=<c:out value="${resultFile.fileSn}"/>'
-                                                     alt="파일이미지"  style="cursor:pointer;"/>
+                                                <img src='<c:url value='/cmm/fms/getImage.do'/>?atchFileId=<c:out value="${resultFile.atchFileId}"/>&fileSn=<c:out value="${resultFile.fileSn}"/>&streFileNm= <c:out value="${resultFile.streFileNm}"/>'
+                                                     alt="파일이미지" />
                                                 <input type="hidden" name="orignlFileNm"
                                                        value="<c:out value="${resultFile.orignlFileNm}" />">
                                             </div>
@@ -245,17 +248,17 @@
             <c:if test="${null ne result.prevSj}">
                 <div class="items">
                     <div class="term">이전</div>
-                    <div class="desc"><a
-                            href="javascript:selectPotoInfoView('<c:out value="${result.prevPotoId}" />');"><c:out
-                            value="${result.prevSj}"/></a></div>
+                    <div class="desc" style="cursor: pointer;" onclick="javascript:selectPotoInfoView('<c:out value="${result.prevPotoId}" />');">
+                        <a><c:out value="${result.prevSj}"/></a>
+                    </div>
                 </div>
             </c:if>
             <c:if test="${null ne result.nextSj}">
                 <div class="items">
                     <div class="term">다음</div>
-                    <div class="desc"><a
-                            href="javascript:selectPotoInfoView('<c:out value="${result.nextPotoId}" />');"><c:out
-                            value="${result.nextSj}"/></a></div>
+                    <div class="desc" style="cursor: pointer;" onclick="javascript:selectPotoInfoView('<c:out value="${result.nextPotoId}" />');">
+                        <a><c:out value="${result.nextSj}"/></a>
+                    </div>
                 </div>
             </c:if>
         </div>

@@ -36,9 +36,9 @@ window.ui = (function () {
                     $parent.css({display: "none"});
                 }
             } else if (dtmap.mod === "3D") {
-                if (mapType === "2D") {
-                    $parent.css({display: "none"});
-                }
+                // if (mapType === "2D") {
+                //     $parent.css({display: "none"});
+                // }
             }
         });
     }
@@ -430,13 +430,8 @@ window.ui = (function () {
 
                 // 업무 > 시설관리 > 복지시설
                 case "welfareFacility" :
-                    toastr.error("상수도시설의 기능을 참고해 주세요.", "리팩토링 작업대상입니다.");
-                    $("#" + area).removeClass("opened");
-                    return;
-
-                    //TODO ↓↓↓↓↓↓↓↓↓↓↓
-                    WLREspitalYN = '';
-                    aj_selectWelfareFacilityList($("#tmpForm")[0]);
+                    //aj_selectWelfareFacilityList($("#tmpForm")[0]);
+                	getWelFareFaciListView();
                     break;
 
                 // 업무 > 시설관리 > 시설예약관리
