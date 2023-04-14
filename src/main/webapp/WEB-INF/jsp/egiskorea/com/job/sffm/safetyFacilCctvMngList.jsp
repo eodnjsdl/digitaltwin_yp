@@ -7,29 +7,6 @@
 <script src="/js/egiskorea/com/job/sffm/cctv/cctv.js"></script>
 <script src="/js/egiskorea/com/job/sffm/sffm.js"></script>
 <%--<script src="/js/egiskorea/com/cmm/cmmUtil.js"></script>--%>
-<!--<script>
-	$(document).ready(function() {
-		CCTV.init();
-	});
-
-	// CCTV관리 등록페이지 열기 버튼
-	$("#insertSafetyFacilCctvMngView").on("click", function() {
-		ui.openPopup("rightSubPopup");
-		CCTV.aj_insertSafetyFacilCctvMngView($("#tmpForm")[0], "", "right");
-	});
-
-	//CCTV관리 상세페이지 열기
-	$(document).on('click', '#bottomPopup #sampleGridDiv tr', function(){
-		ui.openPopup("rightSubPopup");
-		CCTV.aj_selectSafetyFacilCctvMngView($("#tmpForm")[0], "right", $(this).children('td').eq(0).text());
-	})
-	
-	// 가로등관리 상세페이지 열기
-	function fn_select_cctv_detail(gid, lon, lat) {
-		ui.openPopup("rightSubPopup");
-		CCTV.aj_selectSafetyFacilCctvMngView($("#tmpForm")[0], gid, "right");
-	}
-</script>-->
 <!-- 업무 > 공간정보활용 > 안전시설물관리 -->
 <!-- <div class="popup-panel popup-bottom work-01-03" style="left: 320px;width: 1600px;height: 378px;"> -->
 <div class="popup-header">안전시설물관리</div>

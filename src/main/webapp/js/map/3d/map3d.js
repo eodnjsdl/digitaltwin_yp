@@ -28,7 +28,7 @@ window.map3d = (function () {
             //XDWorld 시작
             Module.initialize({
                 container: _container,
-                defaultKey: dtmap.urls.EMAP_KEY
+                // defaultKey: dtmap.urls.EMAP_KEY
             });
             Module.XDSetMouseState(Module.MML_SELECT_POINT);
 

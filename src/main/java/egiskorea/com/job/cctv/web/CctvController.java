@@ -26,6 +26,8 @@ import org.springframework.web.servlet.ModelAndView;
 import egiskorea.com.job.cctv.service.CctvService;
 import egiskorea.com.job.cctv.service.SafetyFacilCctvMng;
 import egiskorea.com.job.cctv.service.SafetyFacilCctvMngVO;
+import egiskorea.com.job.sffm.service.SafetyFacilLampMng;
+import egiskorea.com.job.sffm.service.SafetyFacilLampMngVO;
 import egovframework.com.cmm.ComDefaultCodeVO;
 import egovframework.com.cmm.service.EgovCmmUseService;
 import egovframework.rte.fdl.property.EgovPropertyService;
@@ -109,6 +111,25 @@ public class CctvController {
 		
 		return "egiskorea/com/job/sffm/insertSafetyFacilCctvMngView";
 	}
+	
+	/**
+	 * 안전시설물관리 > 가로등관리 수정페이지 호출
+	 * 
+	 * @param 
+	 * @param model
+	 * @return "egiskorea/com/job/sffm/updateSafetyFacilCctvMngView"
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/updateSafetyFacilCctvMngView.do")
+	public String updateSafetyFacilCctvMngView(
+			@ModelAttribute("safetyFacilCctvMngVO") SafetyFacilCctvMngVO safetyFacilCctvMngVO,
+			ModelMap model) throws Exception{
+		SafetyFacilCctvMng result = cctvService.selectSafetyFacilCctvMng(safetyFacilCctvMngVO);
+		model.addAttribute("result", result);
+		
+		return "egiskorea/com/job/sffm/updateSafetyFacilCctvMngView";
+	}
+	
 	
 	// 안전시설물관리 > CCTV관리 상세페이지 호출
 	@RequestMapping(value = "/selectCctv.do")
