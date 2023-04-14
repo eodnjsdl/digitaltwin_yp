@@ -120,7 +120,6 @@ function aj_selectDronInfoView(id,frm ){
 function aj_updateDronInfoView(id,frm){
     ui.loadingBar("show");
     var formData = new FormData(frm);
-
     $.ajax({
         type : "POST",
         url : "/cmt/dron/updateDronInfoView.do",
@@ -146,19 +145,25 @@ function aj_updateDronInfoView(id,frm){
 
 // 사진정보 수정
 function aj_updateDronInfo(frm){
-    var updateFileCn = new Array();
-    var updateFileSn = new Array();
-    var insertFileCn = new Array();
     var formData = new FormData(frm);
+    // var updateFileCn = new Array();
+    // var updateFileSn = new Array();
+    // var insertFileCn = new Array();
+    // formData.delete("updateFileCn");
+
+    // var fileSn = $("#fileSnByUpdateDron").value;
+    // updateFileSn.push(fileSn);
+
     for (let i = 0; i < inputFileList.length; i++) {
         formData.append("images"+i, inputFileList[i]);
     }
-    for(var i=0; i<insertFileCn.length; ++i) {
-        formData.append("insertFileCn", insertFileCn[i]);
-    }
+    // for(var i=0; i<insertFileCn.length; ++i) {
+    //     formData.append("insertFileCn", insertFileCn[i]);
+    // }
     //formData.append("insertFileCn", insertFileCn);
-    formData.append("updateFileCn", updateFileCn);
-    formData.append("updateFileSn", updateFileSn);
+    // formData.append("updateFileCn", updateFileCn);
+    // formData.append("updateFileSn", updateFileSn);
+
     ui.loadingBar("show");
     $.ajax({
         type : "POST",
@@ -212,4 +217,26 @@ function aj_deleteDronInfo(frm){
             ui.loadingBar("hide");
         }
     });
+}
+
+function _onDrawEnd_drone(e) {
+    dtmap.draw.dispose();
+    var geom = e.geometry;
+    const position = geom.getFlatCoordinates();
+    var xObj = parseFloat(position[0]);
+    var yObj = parseFloat(position[1]);
+    cmmUtil.reverseGeocoding(xObj, yObj).done((result)=>{
+        $("#loc_dron").val(result["address"]);
+        const format = new ol.format.WKT();
+        const point = new ol.geom.Point([xObj, yObj]);
+        const x = point.flatCoordinates[0];
+        const y = point.flatCoordinates[1];
+        $("#xcord").val(x);
+        $("#ycord").val(y);
+    });
+}
+
+function aj_selectDronLocation() {
+    dtmap.draw.active({type: 'Point', once: true});
+    dtmap.on('drawend', _onDrawEnd_drone);
 }

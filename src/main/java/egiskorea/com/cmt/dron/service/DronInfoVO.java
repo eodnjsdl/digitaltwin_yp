@@ -87,7 +87,52 @@ public class DronInfoVO implements Serializable {
 	
 	/** 최종수정일시 */
 	private String lastModfDt = "";
-	
+
+    /** X좌표 */
+    private Double xcord = 0.0;
+
+    /** Y좌표 */
+    private Double ycord = 0.0;
+
+    /** 지도수준 */
+    private int cchLevel = 0;
+
+    /** 좌표계종류명 */
+    private String cntmKndNm = "";
+
+
+    public Double getXcord() {
+        return xcord;
+    }
+
+    public void setXcord(Double xcord) {
+        this.xcord = xcord;
+    }
+
+    public Double getYcord() {
+        return ycord;
+    }
+
+    public void setYcord(Double ycord) {
+        this.ycord = ycord;
+    }
+
+    public int getCchLevel() {
+        return cchLevel;
+    }
+
+    public void setCchLevel(int cchLevel) {
+        this.cchLevel = cchLevel;
+    }
+
+    public String getCntmKndNm() {
+        return cntmKndNm;
+    }
+
+    public void setCntmKndNm(String cntmKndNm) {
+        this.cntmKndNm = cntmKndNm;
+    }
+
     public String getDronPicId() {
         return dronPicId;
     }
