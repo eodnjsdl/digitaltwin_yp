@@ -171,25 +171,23 @@
 		// 날짜 - 10자리(yyyy-mm-dd) 적용시 사용
       	//ui.callDatePicker();
 		
-		
      	// 지도에서 선택 화면 호출
         $(".btn-select-map", this).on("click", function () {
-        	console.log('지도 선택 화면');
-        	console.log(this);
+        	//console.log('지도 선택 화면');
+        	//console.log(this);
         	
         	ui.loadingBar("show");
             $('.space-edit-tool').load("/job/fcts/editView.do", () => {
-            	
-                //this.initUi();
                 
                 //선, 면 데이터면 좌표 입력 창 암보이게 수정
                 //if (!(this.geometryType == "point" || this.geometryType == "multipoint")) {
 		            //$(".tr_coordinate", this.selector).hide();
 		        //}
-                
-                //this.bindEvents();
-                //this.loadSnap();
-                $(".space-edit-tool").show();
+         
+                if(!$(".space-edit-tool").hasClass("opened")){
+                	$(".space-edit-tool").addClass("opened");
+                	$(".space-edit-tool").draggable();
+                }
                 
                	$.getJSON(
 			        "/com/mngr/info/selectAllLayerManageList.do"
@@ -207,33 +205,12 @@
 			    }); 
                	
                	var obj = {};
-               	obj.geometryType = "point";
-              
+               	obj.geometryType 	= "point";
+               	
                	geoEditBindEvents(obj);
                 
                 ui.loadingBar("hide");
             });
-        	
-            /* this.editingTool = new EditingTool(
-                that.geometryType,
-                that.feature.getGeometry(),
-                (geometry) => {
-                    this.feature.setGeometry(geometry);
-                    this.getAddress(geometry).done((result) => {
-                        if (result["address"]) {
-                            this.address = result["address"];
-                        } else {
-                            this.address = "";
-                        }
-                        $(".txt-geometry-address", that.selector).val(this.address);
-                    });
-
-                    const format = new ol.format.WKT();
-                    cmmUtil.highlightGeometry(format.writeGeometry(geometry));
-
-                    this.editingTool = null;
-                }
-            ); */
             
         });
      	

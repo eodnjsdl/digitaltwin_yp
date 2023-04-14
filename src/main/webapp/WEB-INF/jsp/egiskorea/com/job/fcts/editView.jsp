@@ -30,7 +30,10 @@
                                     </select>
                                 </div>
                                 <div class="col-auto"><button type="button" class="btn basic btn-xsm edit-btn-snap">스냅</button></div>
-                                <div class="col-auto"><button type="button" class="icon-btn edit edit-btn-modify" title="수정"></button> <button type="button" class="icon-btn delete edit-btn-remove" title="삭제"></button></div>
+                                <div class="col-auto">
+                                	<!-- <button type="button" class="icon-btn edit edit-btn-modify" title="수정"></button> --> 
+                                	<button type="button" class="icon-btn delete edit-btn-remove" title="삭제"></button>
+                                </div>
                                 <div class="col-auto" style="margin-left: auto;"><button type="button" class="btn type03 btn-xsm edit-btn-add">객체추가</button></div>
                             </div>
                         </td>

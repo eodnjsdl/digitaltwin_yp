@@ -6,8 +6,8 @@
 
 //jqeury
 $(document).ready(function(){
-	//console.log("editView.js");
-	//console.log("공간정보 편집도구");
+	console.log("editView.js");
+	console.log("공간정보 편집도구");
 	
 });
 
@@ -15,8 +15,8 @@ $(document).ready(function(){
 
 //공간정보 편집도구
 function geoEditBindEvents(obj) {
-	//console.log("geoEditBindEvents(obj)");
-	//console.log(obj);
+	console.log("geoEditBindEvents(obj)");
+	console.log(obj);
 	
 	if(obj.id){
 		var id = obj.id;
@@ -39,24 +39,28 @@ function geoEditBindEvents(obj) {
 	const that = obj;
 
     // 닫기
-    $(".space-edit-tool .editView-popup-close", that.selector).on("click", function () {
-        //that.reset();
-        $(".space-edit-tool").hide();
+    $(".space-edit-tool .editView-popup-close").on("click", function () {
+    	//그리기 해제
+        dtmap.draw.dispose();
+        dtmap.draw.clear();
+        
+    	clearSpaceEditTool();	//초기화
     });
 
     // 스냅
-    $(".edit-btn-snap", that.selector).on("click", function () {
+    $(".edit-btn-snap").on("click", function () {
         const featureType = $("[name=edit-snap-target]", that.selector).val();
+        //console.log("featureType>>"+featureType);
         if (featureType) {
-            // cmmUtil.highlightSnapLayer(featureType);
-            toastr.warning("cmmUtil.highlightSnapLayer(featureType);", "객체 스내핑 모드");
+        	var layerName = "digitaltwin:"+featureType;
+        	dtmap.draw.setSnapLayer(layerName);
         } else {
             alert("스냅할 대상을 선택하여 주십시오.");
         }
     });
 
     // 객체 추가
-    $(".edit-btn-add", that.selector).on("click", function () {
+    $(".edit-btn-add").on("click", function () {
         let type = null;
         if (that.geometryType == "point" || that.geometryType == "multipoint") {
             type = "Point";
@@ -76,29 +80,34 @@ function geoEditBindEvents(obj) {
 
         if (type) {
 
-        	dtmap.draw.active({type: 'Point', once: true});
-        	dtmap.on('drawend', _onDrawEnd_wtlFirePsGeom);
-            
-            //toastr.warning("cmmUtil.drawEditGeometry(type);", "객체 그리기 모드");
+        	if(type == "Point"){
+        		dtmap.draw.active({type: 'Point', once: true});
+        		dtmap.on('drawend', _onDrawEnd_wtlFirePsGeom);
+        	}else if(type == "LineString"){
+        		toastr.warning("그리기 LineString 작업중", "객체 그리기 모드");
+        	}else if(type == "Polygon"){
+        		toastr.warning("그리기 Polygon 작업중", "객체 그리기 모드");
+        	}
         }
     });
 
     // 객체 수정
-    $(".edit-btn-modify", that.selector).on("click", function () {
+    $(".edit-btn-modify").on("click", function () {
         // cmmUtil.modifyEditGeometry();
         toastr.warning("cmmUtil.modifyEditGeometry();", "객체 수정 모드");
     });
 
     // 객체 삭제
-    $(".edit-btn-remove", that.selector).on("click", function () {
+    $(".edit-btn-remove").on("click", function () {
         if (confirm("객체를 삭제하시겠습니까?")) {
             // cmmUtil.removeEditGeometry();
-            toastr.warning("cmmUtil.removeEditGeometry();", "객체 삭제 모드");
+        	dtmap.draw.clear();
+            //toastr.warning("cmmUtil.removeEditGeometry();", "객체 삭제 모드");
         }
     });
 
     // 좌표 추가
-    $(".edit-add-coordinate", that.selector).on("click", function () {
+    $(".edit-add-coordinate").on("click", function () {
         const xNode = $(".edit-x", that.selector);
         const yNode = $(".edit-y", that.selector);
         if (xNode.val() && yNode.val()) {
@@ -122,11 +131,16 @@ function geoEditBindEvents(obj) {
     });
 
     // 적용
-    $(".edit-btn-apply", that.selector).on("click", function () {
+    $(".edit-btn-apply").on("click", function () {
         
         //위경도 좌표계에 있는 좌표를 등록 페이지에 적용
         var xObj = $(".space-edit-tool .edit-x").val();
         var yObj = $(".space-edit-tool .edit-y").val();
+        
+        if(xObj == "" || yObj == ""){
+        	alert("적용할 좌표가 없습니다.");
+        	return false;
+        }
         
         var xObj = parseFloat(xObj);
 		var yObj = parseFloat(yObj);
@@ -138,7 +152,8 @@ function geoEditBindEvents(obj) {
 			const wkt = format.writeGeometry(point);
 			$("input[name=geom]").val(wkt);
 			
-			$(".space-edit-tool").hide();
+			
+			clearSpaceEditTool();	//초기화
 		});
         
     });
@@ -155,4 +170,18 @@ function _onDrawEnd_wtlFirePsGeom(e){
 	
 	$(".space-edit-tool .edit-x").val(xObj);
 	$(".space-edit-tool .edit-y").val(yObj);
+}
+
+
+//공간정보 편집도구
+function clearSpaceEditTool(){
+    
+    //스냅레이어 클리어
+    dtmap.draw.clearSnapLayer();
+    
+    if($(".space-edit-tool").hasClass("opened")){
+    	$(".space-edit-tool").removeClass("opened");
+    }
+    
+    $(".space-edit-tool").empty();
 }

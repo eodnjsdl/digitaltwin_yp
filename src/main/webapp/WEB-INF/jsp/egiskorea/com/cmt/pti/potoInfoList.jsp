@@ -63,7 +63,7 @@
             dtmap.vector.readGeoJson(geojson, function (feature) {
                 return {
                     marker: {
-                        src: '/images/poi/memo_poi.png'
+                        src: '/images/poi/poto_poi.png'
                     },
                     label: {
                         text: feature.get("sj")

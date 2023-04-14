@@ -246,7 +246,7 @@ window.dtmap = (function () {
 
         const featureRequest = new ol.format.WFS().writeGetFeature({
             outputFormat: 'application/json',
-            srsName: getMap().crs,
+            srsName: options.crs || getMap().crs,
             featureTypes: options.typeNames,
             maxFeatures: maxFeatures,
             startIndex: startIndex,
@@ -270,7 +270,7 @@ window.dtmap = (function () {
         }
 
         if (options.geometry) {
-            ary.push(new ol.format.filter.intersects('geom', options.geometry));
+            ary.push(new ol.format.filter.intersects('geom', options.geometry, options.crs || dtmap.crs));
         } else if (options.bbox) {
             ary.push(new ol.format.filter.bbox('geom', options.bbox));
         }
@@ -392,7 +392,7 @@ window.dtmap = (function () {
             version: '1.1.0',
             request: 'GetFeature',
             outputFormat: 'application/json',
-            srsName: getMap().crs,
+            srsName: options.crs || getMap().crs,
             typeNames: options.typeNames,
             maxFeatures: maxFeatures,
             startIndex: startIndex,

@@ -216,10 +216,10 @@ map2d.vector = (function () {
 
         const selected = feature.get('_selected');
         const geom = feature.getGeometry();
-        const fill = fillStyle(_.merge(DEFAULT_FILL, styleOpt.fill), selected);
-        const stroke = strokeStyle(_.merge(DEFAULT_STROKE, styleOpt.stroke), selected);
+        const fill = fillStyle(_.merge({}, DEFAULT_FILL, styleOpt.fill), selected);
+        const stroke = strokeStyle(_.merge({}, DEFAULT_STROKE, styleOpt.stroke), selected);
         const style = new ol.style.Style({
-            zIndex: selected ? 9999 : undefined
+            zIndex: styleOpt.zIndex ? styleOpt.zIndex : (selected ? 9999 : undefined)
         });
 
         if (styleOpt.label) {
@@ -227,7 +227,7 @@ map2d.vector = (function () {
             if (styleOpt.label.column) {
                 styleOpt.label.text = feature.get(styleOpt.label.column);
             }
-            style.setText(textStyle(_.merge(DEFAULT_LABEL, styleOpt.label)));
+            style.setText(textStyle(_.merge({}, DEFAULT_LABEL, styleOpt.label)));
         }
 
         if (geom instanceof ol.geom.Polygon || geom instanceof ol.geom.MultiPolygon) {
@@ -237,7 +237,7 @@ map2d.vector = (function () {
         } else if (geom instanceof ol.geom.LineString || geom instanceof ol.geom.MultiLineString) {
             style.setStroke(stroke)
             return [style,
-                ...lineStyle(feature, resolution, _.merge(DEFAULT_STROKE, styleOpt.stroke))]
+                ...lineStyle(feature, resolution, _.merge({}, DEFAULT_STROKE, styleOpt.stroke))]
         } else if (geom instanceof ol.geom.Circle) {
             style.setFill(fill);
             style.setStroke(stroke);
@@ -245,9 +245,9 @@ map2d.vector = (function () {
         } else if (geom instanceof ol.geom.Point || geom instanceof ol.geom.MultiPoint) {
             if (styleOpt.marker && styleOpt.marker.src) {
                 //마커
-                style.setImage(markerStyle(_.merge(DEFAULT_MARKER, styleOpt.marker), selected));
+                style.setImage(markerStyle(_.merge({}, DEFAULT_MARKER, styleOpt.marker), selected));
             } else if (styleOpt.text) {
-                style.setText(textStyle(_.merge(DEFAULT_LABEL, styleOpt.text)));
+                style.setText(textStyle(_.merge({}, DEFAULT_LABEL, styleOpt.text)));
             } else {
                 //포인트
                 style.setImage(pointStyle(fill, stroke, styleOpt.radius || DEFAULT_RADIUS, styleOpt.shape));
@@ -466,7 +466,20 @@ map2d.vector = (function () {
         }
 
         const format = new ol.format.GeoJSON();
-        const features = format.readFeatures(json).map((feature) => {
+        let crs
+        try {
+            crs = json.crs.properties.name;
+            if (crs.includes('urn:ogc:def:crs:EPSG::')) {
+                crs = crs.replace('urn:ogc:def:crs:EPSG::', 'EPSG:');
+            }
+        } catch (e) {
+            console.warn(`GeoJSON에 좌표계 정보가 없습니다. ${dtmap.crs}로 적용합니다.`)
+            crs = dtmap.crs;
+        }
+        const features = format.readFeatures(json, {
+            dataProjection: crs,
+            featureProjection: dtmap.crs
+        }).map((feature) => {
 
             // cloned.set("grphcId", grphcId);
             if (feature.get("type") === "Circle") {
@@ -513,6 +526,13 @@ map2d.vector = (function () {
         _source.addFeatures(features)
     }
 
+    function addFeature(feature, style, crs) {
+        if (style) {
+            feature.set('style', style);
+        }
+        _source.addFeature(feature)
+    }
+
     function removeFeatureByFilter(filter) {
         const features = _source
             .getFeatures()
@@ -527,6 +547,7 @@ map2d.vector = (function () {
     let module = {
         init: init,
         addPoint: addPoint,
+        addFeature: addFeature,
         addFeatures: addFeatures,
         clear: clear,
         clearSelect: clearSelect,

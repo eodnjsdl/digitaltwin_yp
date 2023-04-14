@@ -190,12 +190,14 @@
 		// 지도에서 선택
         $(".btn-select-map", this.element).on("click", function () {
         	//console.log( '수정화면');
-        	//alert(this);
         	
         	ui.loadingBar("show");
             $('.space-edit-tool').load("/job/fcts/editView.do", () => {
                 
-                $(".space-edit-tool").show();
+                if(!$(".space-edit-tool").hasClass("opened")){
+                	$(".space-edit-tool").addClass("opened");
+                	$(".space-edit-tool").draggable();
+                }
                 
                	$.getJSON(
 			        "/com/mngr/info/selectAllLayerManageList.do"
