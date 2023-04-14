@@ -278,7 +278,7 @@
 					<span>지도설정</span>
 					<ul>
 						<li><button type="button" id="backgroundMapInfo" data-popup="rightPopup">배경지도</button></li>
-						<li><button type="button" id="" class="rightPopup">화면분할</button></li>
+						<li><button type="button" id="화면분할" class="rightPopup">화면분할</button></li>
 						<li><button type="button" id="favorites" data-popup="rightPopup">즐겨찾기</button></li>
 					</ul>
 				</li>
@@ -322,10 +322,10 @@
 			            <button type="button" class="ctrl-btn distance" data-name="거리"></button>
 			            <button type="button" class="ctrl-btn measure" data-name="면적"></button>
 			            <button type="button" class="ctrl-btn radius" data-name="반경"></button>
-			            <button type="button" class="ctrl-btn setting" data-name="설정"></button>
+			            <button type="button" class="ctrl-btn setting" data-popup="rightPopup"  data-name="설정"></button>
 			        </li>
-			        <li><button type="button" class="ctrl-btn scaleUp" onclick="mapZoomControlPlusRe()" data-name="확대"></button>
-			            <button type="button" class="ctrl-btn scaleDown" onclick="mapZoomControlMinusRe()" data-name="축소"></button>
+			        <li><button type="button" class="ctrl-btn scaleUp"  data-name="확대"></button>
+			            <button type="button" class="ctrl-btn scaleDown"  data-name="축소"></button>
 			        </li>
 			    </ul>
 			</div>
@@ -510,12 +510,12 @@
 						<ul class="lnb-list">
 							<li><p class="lnb-dep1">공간정보활용</p>
 								<ul class="lnb-dep2">
-									<li><button type="button" class="dataPopup" data-popup="work-01-01">사업공유관리</button></li>
-									<li><button type="button" class="dataPopup" data-popup="work-01-02">지하수관리</button></li>
-									<li><button type="button" class="dataPopup" data-popup="work-01-03">신재생에너지</button></li>
-									<li><button type="button" class="dataPopup" data-popup="work-01-04">안전시설물관리</button></li>
-									<li><button type="button" class="dataPopup" data-popup="work-01-05">관내업소정보조회</button></li>
-									<li><button type="button" class="dataPopup" data-popup="work-01-06">대기오염</button></li>
+									<li><button id="constructionPlan" type="button" class="dataPopup" data-popup="leftPopup">사업공유관리</button></li>
+									<li><button id="undergroundWaterManagement" type="button" class="dataPopup" data-popup="bottomPopup">지하수관리</button></li>
+									<li><button id="renewableEnergy" type="button" class="dataPopup" data-popup="bottomPopup">신재생에너지</button></li>
+									<li><button id="safetyFacilitiesManagement" type="button" class="dataPopup" data-popup="bottomPopup">안전시설물관리</button></li>
+									<li><button id="inBusinessEstaInfo" type="button" class="dataPopup" data-popup="bottomPopup">관내업소정보조회</button></li>
+									<li><button id="atmospherePollution" type="button" class="dataPopup" data-popup="leftPopup">대기오염</button></li>
 								</ul>
 							</li>
 						</ul>

@@ -15,7 +15,7 @@ function _onDrawEnd_krasInfo(e) {
 
 function aj_krasInfo() {
     dtmap.draw.active({type: 'Point', once: true});
-    dtmap.on('drawend', _onDrawEnd_krasInfo);
+    dtmap.once('drawend', _onDrawEnd_krasInfo);
 
 
     // if (!is3dInit) {
@@ -43,7 +43,7 @@ function reverseUaiGeo(pointx, pointy) {
     // var vPosition = new Module.JSVector2D(pointx, pointy);
     // 좌표변환 실행
     // var vResult = Module.getProjection().convertProjection(26, vPosition, 13); // 5179 -> 4326
-    var transCoord = proj4(dtmap.crs, "EPSG:4326", [pointx,pointy]);
+	var transCoord = proj4(dtmap.crs, "EPSG:4326", [pointx,pointy]);
     var pnu = aj_getPnuByLonLat(transCoord[0], transCoord[1]);
     if (pnu != "") {
         var landRegister = getLandRegisterByPnu(pnu);

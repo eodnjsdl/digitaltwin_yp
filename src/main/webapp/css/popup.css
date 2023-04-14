@@ -1701,3 +1701,80 @@
 	border-radius: 50%;
 	background-color: #44516A;
 }
+
+
+/*------------------------------------------------------------------------------
+ *  설정
+ *----------------------------------------------------------------------------*/
+.lnb-setting.lnb-cont {
+	width: 250px;
+	left: unset;
+	right: 85px;
+}
+.lnb-setting.lnb-cont .lnb-header {
+	background: #44516A;
+}
+.lnb-setting.lnb-cont .tit{
+	font-size: 20px;
+}
+.setting-list > li {
+	position: relative;
+	margin: 20px 0;
+}
+
+
+.setting-list > li:first-child {
+	margin-top: 0;
+}
+
+.setting-list > li .cont-tit {
+	margin-top: 0;
+}
+
+.setting-list > li .setting-toggle {
+	position: absolute;
+	top: 3px;
+	right: 0;
+	width: 16px;
+	height: 16px;
+	background-color: #161F32;
+	border-radius: 50%;
+}
+
+.setting-list > li .setting-toggle::after {
+	content: '';
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	margin: -2.5px 0 0 -4px;
+	width: 8px;
+	height: 5px;
+	background-image: url(/images/map/layer-toggle-arrow.svg);
+	background-repeat: no-repeat;
+	background-position: 50% 50%;
+	-webkit-transition: all .2s;
+	transition: all .2s;
+}
+
+.setting-list > li .setting-toggle.open::after {
+	transform: rotate(-180deg);
+}
+
+.setting-list > li .term {
+	width: 45px;
+}
+
+.setting-list > li .desc {
+	flex-grow: 1;
+}
+
+.setting-list .minicolors-theme-default .minicolors-input {
+	width: 135px;
+}
+.setting-list .slider-box .slider {
+    background-color: #CDD1DA !important;
+}
+
+.setting-list .tbl-list.vertical-tbl .items + .items, .setting-list  .tbl-list.all-vertical-tbl .items + .items {
+	margin-top: 10px;
+}
