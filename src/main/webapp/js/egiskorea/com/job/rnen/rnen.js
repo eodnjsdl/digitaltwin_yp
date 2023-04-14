@@ -1,3 +1,5 @@
+SEARCHOBJ = null;
+
 $(document.body).ready(function () {
 	initGrid();
     setData(0);       
@@ -37,11 +39,24 @@ function initGrid(){
 }
 //태양광발전소 조회 기능
 function setData(_pageNo){
-	var eqp_lc = $("#emdKorNm").val();
-	var bsns_se = $("#bsnsSeSearch").val();
-	var prmisn_volm_min = $("#prmisnVolmASearch").val();
-	var prmisn_volm_max = $("#prmisnVolmBSearch").val();
-	var elcpwstn_nm = $("#elcpwstnNmSearch").val();
+	// var eqp_lc = $("#emdKorNm").val();
+	// var bsns_se = $("#bsnsSeSearch").val();
+	// var prmisn_volm_min = $("#prmisnVolmASearch").val();
+	// var prmisn_volm_max = $("#prmisnVolmBSearch").val();
+	// var elcpwstn_nm = $("#elcpwstnNmSearch").val();
+
+
+	var eqp_lc = '' , bsns_se = '', prmisn_volm_min = '', prmisn_volm_max = '', elcpwstn_nm = '';
+
+	if(SEARCHOBJ != null){
+		eqp_lc = SEARCHOBJ.searchEmdKorNm;
+		bsns_se = SEARCHOBJ.searchBsnsSeSearch;
+		prmisn_volm_min = SEARCHOBJ.searchPrmisnVolmASearch;
+		prmisn_volm_max = SEARCHOBJ.searchPrmisnVolmBSearch;
+		elcpwstn_nm = SEARCHOBJ.searchElcpwstnNmSearch;
+
+	}
+
 	
 	var cqlList = [];
 	
@@ -119,6 +134,8 @@ function fn_insert(){
 }
 //태양광발전소 상세보기 페이지 호출
 function fn_pageDetail(gid){
+	dtmap.vector.clearSelect(); 
+	dtmap.vector.select('tgd_elcty_bsns_prmisn.'+gid);
 	ui.openPopup("rightSubPopup");
 	
 	var formData = new FormData();
@@ -209,4 +226,15 @@ function onDrawEnd(e) {
 		const wkt = format.writeGeometry(point);
 		$("#geom").val(wkt);
 	});
+}
+
+function fn_search_List(){
+	SEARCHOBJ = {};
+
+	SEARCHOBJ.searchEmdKorNm= $('#emdKorNm').val() || '';
+	SEARCHOBJ.searchBsnsSeSearch = $('#bsnsSeSearch').val() || '';
+	SEARCHOBJ.searchPrmisnVolmASearch = $('#prmisnVolmASearch').val() || '';
+	SEARCHOBJ.searchPrmisnVolmBSearch = $('#prmisnVolmBSearch').val() || '';
+	SEARCHOBJ.searchElcpwstnNmSearch = $('#elcpwstnNmSearch').val() || '';
+	
 }
