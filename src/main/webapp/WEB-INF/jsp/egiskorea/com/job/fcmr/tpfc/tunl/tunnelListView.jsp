@@ -1,10 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
-<script type="text/javascript">
+<script>
 $(document).ready(function(){
+	console.log("roadSectListView.jsp");
+		
 	// 교통시설 메뉴 - 이벤트
 	var $container = $("#container");
-    var $target = $container.find('#bottomPopup #selectBoxTrfc');
+    var $target = $container.find('#bottomPopup .facility-select');
 	
 	$target.on('change', function() {
 		getTransportationFacility(this.value);
@@ -12,7 +14,7 @@ $(document).ready(function(){
 });
 </script>
 
-<!-- 업무 > 시설관리 > 교통시설 > 도로구간 -->
+<!-- 업무 > 시설관리 > 교통시설 > 터널 -->
 <div class="popup-header">교통시설</div>
 <div class="popup-body trfc">
 	<div class="bottom-popup-body bottom-popup-group">						
@@ -20,14 +22,14 @@ $(document).ready(function(){
 		<div class="items search-area">
 			<div class="top-search">
 				<select name="selectBoxTrfc" id="selectBoxTrfc" class="form-select facility-select">
-					<option value="roadSection" selected>도로구간</option>
+					<option value="roadSection">도로구간</option>
 					<option value="railRoadTrack">철도선로</option>
 					<option value="railRoadStation">철도역사</option>
 					<option value="subwayTrack">지하철선로</option>
 					<option value="subwayStation">지하철역사</option>
 					<option value="bridge">교량</option>
 					<option value="overpass">고가도로</option>
-					<option value="tunnel">터널</option>
+					<option value="tunnel" selected>터널</option>
 				</select>
 			</div>
 			<div class="tabBoxDepth2-wrap">
@@ -101,7 +103,7 @@ $(document).ready(function(){
             <div class="bbs-list-wrap" style="height: 267px;">
                 <div class="bbs-default">
                 <form:form>
-                	<div data-ax5grid="roadSectListGrid" data-ax5grid-config="{}" style="height: 267px;"></div> 
+                	<div data-ax5grid="tunnelListGrid" data-ax5grid-config="{}" style="height: 267px;"></div> 
                 </form:form>
                 </div>
             </div>
@@ -110,6 +112,6 @@ $(document).ready(function(){
 </div>
 <button type="button" class="manualBtn" title="도움말" onclick="manualTab('교통시설')"></button>
 <button type="button" class="popup-close" title="닫기" onclick="removeLayer()"></button>
-<button type="button" class="popup-reset" class="초기화" onclick="getTransportationFacility('roadSection')"></button>
+<button type="button" class="popup-reset" class="초기화" onclick="getTransportationFacility('tunnel')"></button>
 <button type="button" class="popup-bottom-toggle" title="접기"></button>				
-<!-- //업무 > 시설관리 > 교통시설 > 도로구간 end -->
+<!-- //업무 > 시설관리 > 교통시설 > 터널 -->

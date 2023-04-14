@@ -85,6 +85,11 @@ public class TransportationFacilityController {
 			TgdSccoEmdVO tgdSccoEmdVO,
 			ModelMap model) throws Exception{
 		
+		// 읍면동 목록
+		Map<String, Object> map0 = commonnessSpaceSearchService.selectTgdSccoEmdList(tgdSccoEmdVO);
+		// 관리구분 목록
+		
+		
 		// 읍면동 선택한 값이 없을시에 기본값 양평군 시군구 코드로 설정
 		if(roadSectionVO.getEmdKorNm() == "") {
 			roadSectionVO.setEmdKorNm("41830");

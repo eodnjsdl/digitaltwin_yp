@@ -93,33 +93,50 @@
 		<typeAlias alias="roadSectionVO" type="egiskorea.com.job.trfc.service.RoadSectionVO" />
 		<typeAlias alias="roadSection" type="egiskorea.com.job.trfc.service.RoadSection" />
 		
+		<!-- 시설관리 > 교통시설 > 도로구간 (구조화 작업중) -->
+		<typeAlias alias="roadSectVO" type="egiskorea.com.job.fcmr.tpfc.service.RoadSectVO" />
+		
 		<!-- 시설관리 > 교통시설 > 철도선로 -->
 		<typeAlias alias="railroadTrackVO" type="egiskorea.com.job.trfc.service.RailroadTrackVO" />
 		<typeAlias alias="railroadTrack" type="egiskorea.com.job.trfc.service.RailroadTrack" />
+		<!-- 시설관리 > 교통시설 > 철도선로 (구조화 작업중) -->
+		<typeAlias alias="rlroadTcVO" type="egiskorea.com.job.fcmr.tpfc.service.RlroadTcVO" />
 		
 		<!-- 시설관리 > 교통시설 > 철도역사 -->
 		<typeAlias alias="railroadStationVO" type="egiskorea.com.job.trfc.service.RailroadStationVO" />
 		<typeAlias alias="railroadStation" type="egiskorea.com.job.trfc.service.RailroadStation" />
+		<!-- 시설관리 > 교통시설 > 철도역사 (구조화 작업중) -->
+		<typeAlias alias="rlroadStVO" type="egiskorea.com.job.fcmr.tpfc.service.RlroadStVO" />
 		
 		<!-- 시설관리 > 교통시설 > 지하철선로 -->
 		<typeAlias alias="subwayTrackVO" type="egiskorea.com.job.trfc.service.SubwayTrackVO" />
 		<typeAlias alias="subwayTrack" type="egiskorea.com.job.trfc.service.SubwayTrack" />
+		<!-- 시설관리 > 교통시설 > 지하철선로 (구조화 작업중) -->
+		<typeAlias alias="sbwayTcVO" type="egiskorea.com.job.fcmr.tpfc.service.SbwayTcVO" />
 		
 		<!-- 시설관리 > 교통시설 > 지하철역사 -->
 		<typeAlias alias="subwayStationVO" type="egiskorea.com.job.trfc.service.SubwayStationVO" />
 		<typeAlias alias="subwayStation" type="egiskorea.com.job.trfc.service.SubwayStation" />
+		<!-- 시설관리 > 교통시설 > 지하철역사 (구조화 작업중) -->
+		<typeAlias alias="sbwayStVO" type="egiskorea.com.job.fcmr.tpfc.service.SbwayStVO" />
 		
 		<!-- 시설관리 > 교통시설 > 교량 -->
 		<typeAlias alias="bridgeVO" type="egiskorea.com.job.trfc.service.BridgeVO" />
 		<typeAlias alias="bridge" type="egiskorea.com.job.trfc.service.Bridge" />
+		<!-- 시설관리 > 교통시설 > 교량 (구조화 작업중) -->
+		<typeAlias alias="brdgeVO" type="egiskorea.com.job.fcmr.tpfc.service.BrdgeVO" />
 		
 		<!-- 시설관리 > 교통시설 > 고가도로 -->
 		<typeAlias alias="overpassVO" type="egiskorea.com.job.trfc.service.OverpassVO" />
 		<typeAlias alias="overpass" type="egiskorea.com.job.trfc.service.Overpass" />
+		<!-- 시설관리 > 교통시설 > 고가도로 (구조화 작업중) -->
+		<typeAlias alias="ovrpassVO" type="egiskorea.com.job.fcmr.tpfc.service.OvrpassVO" />
 		
 		<!-- 시설관리 > 교통시설 > 터널 -->
 		<typeAlias alias="tunnelVO" type="egiskorea.com.job.trfc.service.TunnelVO" />
 		<typeAlias alias="tunnel" type="egiskorea.com.job.trfc.service.Tunnel" />
+		<!-- 시설관리 > 교통시설 > 터널 (구조화 작업중) -->
+		<typeAlias alias="tunnlVO" type="egiskorea.com.job.fcmr.tpfc.service.TunnlVO" />
 		
 		<!-- 사업 공유관리 > 공사계획정보  -->
 		<typeAlias alias="constructionPlanVO" type="egiskorea.com.job.bco.service.ConstructionPlanVO" />

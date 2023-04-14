@@ -416,8 +416,9 @@ window.ui = (function () {
 
                  // 업무 > 시설관리 > 교통시설
                 case "transportationFacility" :
-                    //aj_selectTransportationFacilityList($("#tmpForm")[0]);
-                	getTransportationFacility("roadSection");	// 교통시설 - 도로구간
+                    
+//                    aj_selectTransportationFacilityList($("#tmpForm")[0]);
+            	    getTransportationFacility("roadSection");	// 교통시설 - 도로구간
                     break;
 
                 // 업무 > 시설관리 > 체육시설

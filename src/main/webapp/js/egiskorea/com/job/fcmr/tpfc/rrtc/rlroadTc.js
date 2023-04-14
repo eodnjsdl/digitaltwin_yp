@@ -1,18 +1,16 @@
 /**
- * - 업무 / 시설관리 / 교통시설
- * 
- * @returns
+ * 업무 > 시설관리 > 철도선로
  */
 
 /**
- * 도로구간 목록 불러오기
+ * 철도선로 목록 불러오기
  * @returns
  */
-function selectRoadSectListView() {
-    $('#bottomPopup').load('/job/fcmr/tpfc/selectRoadSectListView.do', function () {
-	toastr.success("/job/fcmr/tpfc/selectRoadSectListView.do", "페이지🙂호🙂출🙂");
+function selectRailroadTrackListView() {
+    $('#bottomPopup').load('/job/fcmr/tpfc/selectRailroadTrackListView.do', function () {
+	toastr.success("/job/fcmr/tpfc/selectRailroadTrackListView.do", "페이지🙂호🙂출🙂");
 	
-	callRoadSectGrid();
+	callRlroadTcGrid();
     });
     
 }
@@ -21,19 +19,19 @@ function selectRoadSectListView() {
  * 테이블 불러오기
  * @returns
  */
-function callRoadSectGrid() {
-    setRoadSectListGrid();
-    setRoadSectListData(0);
+function callRlroadTcGrid() {
+    setRailroadTrackListGrid();
+    setRailroadTrackListData(0);
 }
 
 /**
  * 테이블 기본 세팅
  * @returns
  */
-function setRoadSectListGrid() {
+function setRailroadTrackListGrid() {
     this.target = new ax5.ui.grid();
     this.target.setConfig({
-	target: $('[data-ax5grid="roadSectListGrid"]'),
+	target: $('[data-ax5grid="rlroadTcListGrid"]'),
 	showLineNumber: true,
 	sortable: true,
 	multiSort: true,
@@ -43,27 +41,21 @@ function setRoadSectListGrid() {
 	body: {
 		align: "center",
 		onClick: function() {
-		    selectRoadSectDetailView(this.item.gid);
+			selectRailroadTrackDetailView(this.item.gid);
 		}
 	},
 	page: {
 		navigationItemCount: 9,
 		display: true,
 		onChange: function () {
-		    setRoadSectListData(this.page.selectPage);
+		    setRailroadTrackListData(this.page.selectPage);
 		}
 	},
 	columns: [
-	    {key: "sig_cd",		label: "시군구"},
-	    {key: "rds_man_no",		label: "도로구간일련번호"},
-	    {key: "rn",			label: "도로명(한글)"},
-	    {key: "eng_rn",		label: "도로명(영문)"},
-	    {key: "ntfc_de",		label: "고시일자"},
-	    {key: "wdr_rd_cd",		label: "광역도로구분"},
-	    {key: "rbp_cn",		label: "기점"},
-	    {key: "rep_cn",		label: "종점"},
-	    {key: "road_bt",		label: "도로폭"},
-	    {key: "road_lt",		label: "도로길이"}
+	    {key: "sig_cd",		label: "시군구코드"},
+	    {key: "kor_rlr_nm",		label: "철도노선명(한글)"},
+	    {key: "opert_de",		label: "작업일시"},
+	    {key: "rlr_rlw_sn",		label: "철도선로 일련번호"}
 	],
     });
 }
@@ -73,23 +65,18 @@ function setRoadSectListGrid() {
  * @param _pageNo
  * @returns
  */
-function setRoadSectListData(_pageNo) {
+function setRailroadTrackListData(_pageNo) {
     
-    // 검색 조건 미완성
-    const filters = ['sig_cd = 41830', 'wdr_rd_cd = 3'];
-    const emdKorNm = $("#emdKorNm").val();				// 읍면동
-    const roadBtVal = $("input[name=roadBtVal]").val();			// 도로폭
-    const rn = $("input[name=rn]").val();				// 도로명
-    ///////////////////////////////////////////////////////////////////////////
-
     var gridList = this;
+    
+    // 철도선로 - wms -> sortBy, orderBy, clq(sig_cd = 41830 -- 양평군) 필수
     const promise = dtmap.wfsGetFeature({
-	typeNames: 'tgd_sprd_manage',
+	typeNames: 'tgd_sprl_rlway',
 	perPage: 10,
 	page: _pageNo + 1,
 	sortBy : 'gid',
-	orderBy : 'DESC',
-	filter : filters
+	sortOrder : 'DESC',
+	filter : ['sig_cd = 41830']
     });
     
     promise.then(function(data) {
@@ -123,7 +110,7 @@ function setRoadSectListData(_pageNo) {
  * @param gid
  * @returns
  */
-function selectRoadSectDetailView(gid) {
+function selectRailroadTrackDetailView(gid) {
     ui.openPopup("rightSubPopup");
     ui.loadingBar("show");
     var formData = new FormData();
@@ -135,7 +122,7 @@ function selectRoadSectDetailView(gid) {
     $.ajax({
 	data : formData,
 	type : "POST",
-	url : '/job/fcmr/tpfc/selectRoadSectDtlInfo.do',
+	url : '/job/fcmr/tpfc/selectRailroadTrackInfo.do',
 	dataType : "html",
 	processData : false,
 	contentType : false,
@@ -151,5 +138,7 @@ function selectRoadSectDetailView(gid) {
 	    } 
 	}
     });
+    
     ui.loadingBar("hide");
+    
 }
