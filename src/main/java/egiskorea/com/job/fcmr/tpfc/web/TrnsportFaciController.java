@@ -1,5 +1,7 @@
 package egiskorea.com.job.fcmr.tpfc.web;
 
+import java.util.Map;
+
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
@@ -8,6 +10,8 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import egiskorea.com.job.cmss.service.CommonnessSpaceSearchService;
+import egiskorea.com.job.cmss.service.TgdSccoEmdVO;
 import egiskorea.com.job.fcmr.tpfc.service.BrdgeVO;
 import egiskorea.com.job.fcmr.tpfc.service.OvrpassVO;
 import egiskorea.com.job.fcmr.tpfc.service.RlroadStVO;
@@ -42,6 +46,10 @@ public class TrnsportFaciController {
 	@Resource(name = "trnsportFaciService")
 	private TrnsportFaciService trnsportFaciService;
 	
+	/** 공통공간검색 서비스단 */
+	@Resource(name = "commonnessSpaceSearchService") 
+	private CommonnessSpaceSearchService commonnessSpaceSearchService;
+	
 	// -------- 도로구간 --------
 	
 	/**
@@ -55,7 +63,13 @@ public class TrnsportFaciController {
 	@RequestMapping(value = "/selectRoadSectListView.do")
 	public String selectRoadSectList(
 			@ModelAttribute("roadSectVO") RoadSectVO roadSectVO,
+			TgdSccoEmdVO tgdSccoEmdVO,
 			ModelMap model) throws Exception {
+		
+		// 읍면동 목록
+		Map<String, Object> map = commonnessSpaceSearchService.selectTgdSccoEmdList(tgdSccoEmdVO);
+		model.addAttribute("sccoEndList", map.get("resultList"));
+		
 		return "egiskorea/com/job/fcmr/tpfc/rdst/roadSectListView";
 	}
 	
@@ -91,7 +105,12 @@ public class TrnsportFaciController {
 	@RequestMapping(value = "/selectRailroadTrackListView.do")
 	public String selectRailroadTrackList(
 			@ModelAttribute("rlroadTcVO") RlroadTcVO rlRoadTcVO,
+			TgdSccoEmdVO tgdSccoEmdVO,
 			HttpServletRequest request, ModelMap model) throws Exception {
+		
+		// 읍면동 목록
+		Map<String, Object> map = commonnessSpaceSearchService.selectTgdSccoEmdList(tgdSccoEmdVO);
+		model.addAttribute("sccoEndList", map.get("resultList"));
 		
 		return "egiskorea/com/job/fcmr/tpfc/rrtc/railroadTrackListView";
 	}
@@ -128,7 +147,12 @@ public class TrnsportFaciController {
 	@RequestMapping(value = "/selectRailroadStationListView.do")
 	public String selectRailroadStationList(
 			@ModelAttribute("rlroadStVO") RlroadStVO rlRoadStVO,
+			TgdSccoEmdVO tgdSccoEmdVO,
 			HttpServletRequest request, ModelMap model) throws Exception {
+		
+		// 읍면동 목록
+		Map<String, Object> map = commonnessSpaceSearchService.selectTgdSccoEmdList(tgdSccoEmdVO);
+		model.addAttribute("sccoEndList", map.get("resultList"));
 		
 		return "egiskorea/com/job/fcmr/tpfc/rrst/railroadStationListView";
 	}
@@ -165,7 +189,12 @@ public class TrnsportFaciController {
 	@RequestMapping(value = "/selectSubwayTrackListView.do")
 	public String selectSbwayTrackList(
 			@ModelAttribute("sbwayTcVO") SbwayTcVO SbwayTckVO,
+			TgdSccoEmdVO tgdSccoEmdVO,
 			HttpServletRequest request, ModelMap model) throws Exception {
+		
+		// 읍면동 목록
+		Map<String, Object> map = commonnessSpaceSearchService.selectTgdSccoEmdList(tgdSccoEmdVO);
+		model.addAttribute("sccoEndList", map.get("resultList"));
 		
 		return "egiskorea/com/job/fcmr/tpfc/sbtc/subwayTrackListView";
 	}
@@ -203,7 +232,12 @@ public class TrnsportFaciController {
 	@RequestMapping(value = "/selectSubwayStationListView.do")
 	public String selectSbwayStationList(
 			@ModelAttribute("sbwayStVO") SbwayStVO sbwayStVO,
+			TgdSccoEmdVO tgdSccoEmdVO,
 			HttpServletRequest request, ModelMap model) throws Exception {
+		
+		// 읍면동 목록
+		Map<String, Object> map = commonnessSpaceSearchService.selectTgdSccoEmdList(tgdSccoEmdVO);
+		model.addAttribute("sccoEndList", map.get("resultList"));
 		
 		return "egiskorea/com/job/fcmr/tpfc/sbst/subwayStationListView";
 	}
@@ -240,7 +274,12 @@ public class TrnsportFaciController {
 	@RequestMapping(value = "/selectBridgeListView.do")
 	public String selectBridgeList(
 			@ModelAttribute("BrdgeVO") BrdgeVO brdgeVO,
+			TgdSccoEmdVO tgdSccoEmdVO,
 			HttpServletRequest request, ModelMap model) throws Exception {
+		
+		// 읍면동 목록
+		Map<String, Object> map = commonnessSpaceSearchService.selectTgdSccoEmdList(tgdSccoEmdVO);
+		model.addAttribute("sccoEndList", map.get("resultList"));
 		
 		return "egiskorea/com/job/fcmr/tpfc/brdg/bridgeListView";
 	}
@@ -277,7 +316,12 @@ public class TrnsportFaciController {
 	@RequestMapping(value = "/selectOverpassListView.do")
 	public String selectBridgeList(
 			@ModelAttribute("ovrpassVO") OvrpassVO ovrpassVO,
+			TgdSccoEmdVO tgdSccoEmdVO,
 			HttpServletRequest request, ModelMap model) throws Exception {
+		
+		// 읍면동 목록
+		Map<String, Object> map = commonnessSpaceSearchService.selectTgdSccoEmdList(tgdSccoEmdVO);
+		model.addAttribute("sccoEndList", map.get("resultList"));
 		
 		return "egiskorea/com/job/fcmr/tpfc/ovps/overpassListView";
 	}
@@ -314,7 +358,12 @@ public class TrnsportFaciController {
 	@RequestMapping(value = "/selectTunnelListView.do")
 	public String selectBridgeList(
 			@ModelAttribute("tunnlVO") TunnlVO tunnlVO,
+			TgdSccoEmdVO tgdSccoEmdVO,
 			HttpServletRequest request, ModelMap model) throws Exception {
+		
+		// 읍면동 목록
+		Map<String, Object> map = commonnessSpaceSearchService.selectTgdSccoEmdList(tgdSccoEmdVO);
+		model.addAttribute("sccoEndList", map.get("resultList"));
 		
 		return "egiskorea/com/job/fcmr/tpfc/tunl/tunnelListView";
 	}

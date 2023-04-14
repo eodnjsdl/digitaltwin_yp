@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <script>
 $(document).ready(function(){
 	console.log("roadSectListView.jsp");
@@ -50,8 +51,16 @@ $(document).ready(function(){
 								<tr>
 									<th scope="row">읍면동</th>
 									<td>
+										<!-- <select name="emdKorNm" id="emdKorNm" class="form-select">
+											<option value="41830">전체</option>
+										</select> -->
 										<select name="emdKorNm" id="emdKorNm" class="form-select">
 											<option value="41830">전체</option>
+											<c:forEach items="${sccoEndList}" var="emdList" varStatus="status">
+												<option value="<c:out value='${emdList.emdCd}' />" <c:if test="${searchVO.emdKorNm == emdList.emdCd}">selected</c:if>>
+													<c:out value="${emdList.emdKorNm}" />
+												</option>																
+											</c:forEach>
 										</select>
 									</td>
 								</tr>
