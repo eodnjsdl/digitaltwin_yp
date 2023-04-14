@@ -15,7 +15,20 @@ $(".btn-wrap .bi-cancel").on("click", function(){
 // 메모정보 수정
 $(".btn-wrap .bi-edit").on("click", function(){
     dtmap.vector.clear();
-    aj_updateMemoInfo($("#updateFormMemo")[0]);
+
+    // 미입력 관련 VALIDATE
+    var sj = $("#sj").val();
+    var loc_memo = $("#loc_memo").val();
+    if (sj == '') {
+        toastr.warning("제목을 입력해 주세요.");
+        return;
+    } else if (loc_memo == '' || loc_memo == undefined) { // 위치 유무 체크
+        toastr.warning("위치를 지정해 주세요.");
+        return;
+    } else {
+        aj_updateMemoInfo($("#updateFormMemo")[0]);
+    }
+
 });
 
 $(".top-memo-body .bi-location").on("click", aj_selectMemoLocation);
@@ -76,7 +89,7 @@ $(function() {
                     <tbody>
                         <tr>
                             <th scope="row">제목</th>
-                            <td colspan="3"><input type="text" class="form-control" name="sj" value="<c:out value="${result.sj}" />"></td>
+                            <td colspan="3"><input type="text" class="form-control" id="sj" name="sj" value="<c:out value="${result.sj}" />"></td>
                         </tr>
                         <tr>
                             <th scope="row">작성자</th>
@@ -113,7 +126,7 @@ $(function() {
             </div>
 
             <div class="position-bottom btn-wrap">
-                <div><button type="button" class="btn basic bi-edit">수정</button> <button type="button" class="btn basic bi-cancel">취소</button></div>
+                <div><button type="button" class="btn basic bi-edit">저장</button> <button type="button" class="btn basic bi-cancel">취소</button></div>
             </div>
             <input type="hidden" id="wkt" name="wkt" value="${result.wkt}">
             </form:form>		

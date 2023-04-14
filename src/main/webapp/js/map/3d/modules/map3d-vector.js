@@ -131,7 +131,9 @@ map3d.vector = (function () {
         if (typeof json === 'string') {
             json = JSON.parse(json);
         }
-
+        if (json.features.length === 0) {
+            return;
+        }
         let crs
         try {
             crs = json.crs.properties.name;
@@ -147,7 +149,7 @@ map3d.vector = (function () {
             dataProjection: crs,
             featureProjection: map3d.crs
         });
-        addFeatures(features, map3d.crs, style);
+        addFeatures(features, style, map3d.crs);
     }
 
     function readWKT(wkt, properties) {
@@ -169,13 +171,13 @@ map3d.vector = (function () {
         return addFeature(feature, 'EPSG:4326');
     }
 
-    function addFeatures(features, crs, style) {
+    function addFeatures(features, style, crs) {
         for (let i = 0; i < features.length; i++) {
-            addFeature(features[i], crs, style);
+            addFeature(features[i], style, crs);
         }
     }
 
-    function addFeature(feature, crs, style) {
+    function addFeature(feature, style, crs) {
         const f = feature.clone();
         f.setId(feature.getId() || ol.util.getUid(feature));
 
@@ -294,6 +296,7 @@ map3d.vector = (function () {
         readWKT: readWKT,
         readGeoJson: readGeoJson,
         removeFeatureByFilter: removeFeatureByFilter,
+        addFeature: addFeature,
         addFeatures: addFeatures,
         getFeature: getFeature,
         select: select,

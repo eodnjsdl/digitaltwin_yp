@@ -21,6 +21,7 @@ window.map2d = (function () {
     ol.proj.addProjection(new ol.proj.Projection({
         code: "urn:x-ogc:def:crs:EPSG:5179", units: "m", axisOrientation: "neu",
     }));
+    ol.proj.get('EPSG:4326').axisOrientation_ = 'enu';
 
     let _isInit = false;
     let _container;

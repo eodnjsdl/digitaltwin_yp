@@ -49,7 +49,7 @@
         });
         // 사진정보 수정
         $(".btn-wrap .bi-edit").on("click", function () {
-            dtmap.vector.clear();
+            // dtmap.vector.clear();
             aj_updatePotoInfo($("#updateFormPoto")[0]);
             objPtInfoview.changeUploadMode = false;
         });
@@ -113,7 +113,7 @@
         dtmap.vector.readGeoJson(geojson, function (feature) {
             return {
                 marker: {
-                    src: '/images/poi/memo_poi.png'
+                    src: '/images/poi/poto_poi.png'
                 },
                 label: {
                     text: sj

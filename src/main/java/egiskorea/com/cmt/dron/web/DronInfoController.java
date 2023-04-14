@@ -86,7 +86,7 @@ public class DronInfoController {
 
             dronInfoVO.setEmplyrId("webmaster");
         }
-        dronInfoVO.setPageUnit(4);
+        dronInfoVO.setPageUnit(10);
         dronInfoVO.setPageSize(propertyService.getInt("pageSize"));
         PaginationInfo paginationInfo = new PaginationInfo();
         paginationInfo.setCurrentPageNo(dronInfoVO.getPageIndex());
@@ -196,6 +196,8 @@ public class DronInfoController {
         fileVO.setAtchFileId((String) result.get("atchmnflId"));
         List<FileVO> resultFile = fileService.selectFileInfs(fileVO);
 
+        Map<String, Object> map = dronInfoService.selectDronInfoList(dronInfoVO);
+
         model.addAttribute("pageIndex",dronInfoVO.getPageIndex());
         model.addAttribute("searchWrd",dronInfoVO.getSearchWrd());
         model.addAttribute("sortKind",dronInfoVO.getSortKind());
@@ -203,6 +205,7 @@ public class DronInfoController {
         model.addAttribute("lastModfDt",dronInfoVO.getLastModfDt());
         model.addAttribute("resultFile", resultFile);
         model.addAttribute("result", result);
+        model.addAttribute("resultList", map.get("resultList"));
 
         return "egiskorea/com/cmt/dron/selectDronInfoView";
     }

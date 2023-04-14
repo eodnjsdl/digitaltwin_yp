@@ -111,11 +111,8 @@ map3d.layer.Point = (function () {
         //스타일 옵션
         const radius = Number(style.radius || 4);
 
-        if (style.stroke.lineDash) {
-            style.stroke.lineDash = getLineDash(style.stroke.lineDash);
-        }
-        const fill = new ol.style.Fill(style.fill);
-        const stroke = new ol.style.Stroke(style.stroke);
+        const fill = fillStyle(style.fill);
+        const stroke = strokeStyle(style.stroke);
         let shapeRender;
         if (style.shape === "Rectangle") {
             shapeRender = new ol.style.RegularShape({
@@ -173,6 +170,23 @@ map3d.layer.Point = (function () {
 
         point.setImage(imgData, canvas.width, canvas.height);
     }
+
+    function fillStyle(options) {
+        const rgb = ol.color.asArray(options.color);
+        return new ol.style.Fill({
+            color: ol.color.asString([rgb[0], rgb[1], rgb[2], options.opacity])
+        })
+    }
+
+    function strokeStyle(options) {
+        const rgb = ol.color.asArray(options.color);
+        return new ol.style.Stroke({
+            color: ol.color.asString([rgb[0], rgb[1], rgb[2], options.opacity]),
+            width: options.width,
+            lineDash: getLineDash(options.lineDash, options.width)
+        })
+    }
+
 
     function getLineDash(type, width) {
         type = type || 'SOLID';

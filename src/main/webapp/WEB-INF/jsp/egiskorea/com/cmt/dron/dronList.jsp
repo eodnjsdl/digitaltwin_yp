@@ -6,6 +6,39 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 
 <script>
+
+    $(document).ready(function () {
+        eventBindByDronList();
+        initLayerByDronList();
+    });
+
+    function initLayerByDronList() {
+        const ids = [];
+        const sj = [];
+
+        dtmap.vector.clear();
+        <c:forEach  items="${resultList}" var="item">
+            dtmap.vector.addPoint({
+                id : ${item.dronePicId},
+                coordinate : [Number('${item.xcord}'),Number('${item.ycord}')],
+                crs : 'EPSG:5179',
+                text: '${item.sj}',
+                img : './images/poi/poto_poi.png',
+            })
+        </c:forEach>
+    }
+
+
+    function eventBindByDronList() {
+        // 드론정보 등록페이지 이동
+        $(".dron_wirte").on("click", function () {
+            $(this).addClass("active");
+            // rightPopupOpen('insertDronInfo', $("#searchFormDronList")[0]);
+            ui.openPopup("rightPopup");
+            aj_insertDronInfoView($("#searchFormDronList")[0]);
+        });
+    }
+
     // 드론정보 목록 조회
     function fn_select_dron_list() {
         document.searchFormDronList.pageIndex.value = 1;
@@ -17,15 +50,6 @@
         document.searchFormDronList.pageIndex.value = pageNo;
         aj_selectDronInfo($("#searchFormDronList")[0], "");
     }
-
-    // 드론정보 등록페이지 이동
-    $(".dron_wirte").on("click", function () {
-        $(this).addClass("active");
-        // rightPopupOpen('insertDronInfo', $("#searchFormDronList")[0]);
-        ui.openPopup("rightPopup");
-        aj_insertDronInfoView($("#searchFormDronList")[0]);
-
-    });
 
     //드론정보 상세조회
     function selectDronInfoView(id) {

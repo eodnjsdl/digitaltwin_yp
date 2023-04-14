@@ -5,29 +5,34 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <script>
-    // 즐겨찾기 목록조회
-    $(".btn-wrap .bi-cancel").on("click", function () {
-        $(this).addClass("active");
+
+    $(document).ready(function () {
+        eventBindByInsertFvrtView();
+        initInsertFavtView();
+    });
+
+    function initInsertFavtView() {
+        const promise = dtmap.toImage();
+        promise.then(function (data) {
+            $(".bookmark-basic img").attr("src", data);
+        });
+    }
+
+    function eventBindByInsertFvrtView() {
+        // 즐겨찾기 목록조회
+        $(".btn-wrap .bi-cancel").on("click", function () {
+            $(this).addClass("active");
 //         rightPopupOpen('favorites');
+            aj_selectFavoritesList($("#insertFormFavorites")[0]);
+        });
+        // 즐겨찾기 등록
+        $(".btn-wrap .bi-write2").on("click", function () {
+            aj_insertFavorites($("#insertFormFavorites")[0]);
+        });
+    }
 
-        aj_selectFavoritesList($("#insertFormFavorites")[0]);
-    });
-    // 즐겨찾기 등록
-    $(".btn-wrap .bi-write2").on("click", function () {
-
-        aj_insertFavorites($("#insertFormFavorites")[0]);
-    });
-    $(function () {
-        if (app2D) {
-            const yMap = app2D.getYMap();
-            yMap.exportImage().done((data) => {
-                $(".bookmark-basic img").attr("src", data);
-            });
-        } else {
-            // TO-DO 3D 지도 부분
-        }
-    });
 </script>
+
 <!-- top > 즐겨찾기 -->
 <div class="popup-header">즐겨찾기</div>
 <div class="popup-body">
