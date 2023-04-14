@@ -25,11 +25,11 @@
 						<tr>
 							<th scope="row">지형지물부호</th>
 							<td>
-                               	<c:out value="${wtlPrgaPsVO.ftr_cde_nm }"/>
+                               	<c:out value="${wtlServPsVO.ftr_cde_nm }"/>
                             </td>
 							<th scope="row">관리번호</th>
 							<td>
-                               	<c:out value="${wtlPrgaPsVO.ftr_idn }"/>
+                               	<c:out value="${wtlServPsVO.ftr_idn }"/>
                             </td>
 						</tr>
 						<tr>
@@ -41,7 +41,7 @@
 							</td>
 							<th scope="row">도엽번호</th>
 							<td>
-								<input type="text" name="sht_num" class="form-control" value="${wtlPrgaPsVO.sht_num }" maxlength="11">
+								<input type="text" name="sht_num" class="form-control" value="${wtlServPsVO.sht_num }" maxlength="11">
 							</td>
 						</tr>
 						<tr>
@@ -51,69 +51,73 @@
                            			<option value="">선택</option>
                          		</select>
 							</td>
-							<th scope="row">설치일자</th>
+							<th scope="row">준공일자</th>
 							<td>
-							    <input type="text" name="ist_ymd" class="form-control datepicker " value="${wtlPrgaPsVO.ist_ymd }" id="dp1680677660036">
+							    <input type="text" name="fns_ymd" class="form-control datepicker " value="${wtlServPsVO.fns_ymd }" id="dp1680677660036">
 							</td>
 						</tr>
 						<tr>
-							<th scope="row">배수지종류</th>
+							<th scope="row">배수지명</th>
 							<td>
-								<select name="pga_cde" class="form-select">
-                                	<option value="">선택</option>
-                                </select>
+                                <input type="text" name="srv_nam" class="form-control" value="${wtlServPsVO.srv_nam }">
 							</td>
-							<th scope="row">배수지형식</th>
+							<th scope="row">정수장명</th>
 							<td>
-								<select name="mof_cde" class="form-select">
-                                	<option value="">선택</option>
-                                </select>
+                                <input type="text" name="pur_nam" class="form-control" value="${wtlServPsVO.pur_nam }">
 							</td>
 						</tr>
 						<tr>
-							<th scope="row">관경(mm)</th>
+							<th scope="row">부지면적</th>
 							<td>
-								<input type="number" name="std_dip" class="form-control" value="${wtlPrgaPsVO.std_dip }">
+								<input type="number" name="gai_ara" class="form-control" value="${wtlServPsVO.gai_ara }">
 							</td>
-							<th scope="row">기준압력</th>
+							<th scope="row">관리방법</th>
 							<td>
-								<input type="number" name="std_saf" class="form-control" value="${wtlPrgaPsVO.std_saf }">
-							</td>
-						</tr>
-						<tr>
-							<th scope="row">평균압력</th>
-							<td>
-								<input type="number" name="avg_saf" class="form-control" value="${wtlPrgaPsVO.avg_saf }">
-							</td>
-							<th scope="row">측정압력</th>
-							<td>
-								<input type="number" name="msr_saf" class="form-control" value="${wtlPrgaPsVO.msr_saf }">
+								<select name="sag_cde" class="form-select">
+                           			<option value="">선택</option>
+                         		</select>
 							</td>
 						</tr>
 						<tr>
-							<th scope="row">배수관_관경</th>
+							<th scope="row">시설용량</th>
 							<td>
-								<input type="number" name="srv_dip" class="form-control" value="${wtlPrgaPsVO.srv_dip }">
+								<input type="number" name="srv_vol" class="form-control" value="${wtlServPsVO.srv_vol }">
 							</td>
-							<th scope="row">관로지형지물부호</th>
+							<th scope="row">최고수위</th>
 							<td>
-                               	<c:out value="${wtlPrgaPsVO.pip_cde }"/>
+								<input type="number" name="hgh_wal" class="form-control" value="${wtlServPsVO.hgh_wal }">
+							</td>
+						</tr>
+						<tr>
+							<th scope="row">최저수위</th>
+							<td>
+								<input type="number" name="low_wal" class="form-control" value="${wtlServPsVO.low_wal }">
+							</td>
+							<th scope="row">배수지유입량</th>
+							<td>
+								<input type="number" name="isr_vol" class="form-control" value="${wtlServPsVO.isr_vol }">
                             </td>
 						</tr>
 						<tr>
-							<th scope="row">관로관리번호</th>
+							<th scope="row">급수지역</th>
 							<td>
-                               	<c:out value="${wtlPrgaPsVO.pip_idn }"/>
+								<input type="text" name="sup_are" class="form-control" value="${wtlServPsVO.sup_are }">
                             </td>
+							<th scope="row">급수인구</th>
+							<td>
+								<input type="number" name="sup_pop" class="form-control" value="${wtlServPsVO.sup_pop }">
+							</td>
+						</tr>
+						<tr>
+							<th scope="row">배수지제어방법</th>
+							<td>
+								<select name="scw_cde" class="form-select">
+                           			<option value="">선택</option>
+                         		</select>
+							</td>
 							<th scope="row">공사번호</th>
 							<td>
-								<input type="text" name="cnt_num" class="form-control" value="${wtlPrgaPsVO.cnt_num }" maxlength="8">
-							</td>
-						</tr>
-						<tr>
-							<th scope="row">방향각</th>
-							<td colspan="3">
-								<input type="number" name="ang_dir" class="form-control" value="${wtlPrgaPsVO.ang_dir }">
+								<input type="text" name="cnt_num" class="form-control" value="${wtlServPsVO.cnt_num }">
 							</td>
 						</tr>
 						<tr>
@@ -143,7 +147,7 @@
 <script type="text/javascript">
 	//jqeury
 	$(document).ready(function(){
-		console.log("updateWtlPrgaPsView.jsp");
+		console.log("updateWtlServPsView.jsp");
         
 		// 날짜 형식 처리 예정 
         // 날짜 적용 - 지금 8자리로 되어 있어 이것 사용 (변경 예정) 
@@ -161,20 +165,20 @@
 		//selectbox 값 세팅
 		
       	//읍면동 
-		let hjd_cde = '${wtlPrgaPsVO.hjd_cde }';
+		let hjd_cde = '${wtlServPsVO.hjd_cde }';
       	getCmmCodeData("YPE001", "#rightSubPopup select[name=hjd_cde]", hjd_cde);
       	
       	//관리기관
-		let mng_cde = '${wtlPrgaPsVO.mng_cde }';
+		let mng_cde = '${wtlServPsVO.mng_cde }';
       	getCmmCodeData("MNG-001", "#rightSubPopup select[name=mng_cde]", mng_cde);
       	
-      	//배수지종류
-      	let pga_cde = '${wtlPrgaPsVO.pga_cde }';
-      	getCmmCodeData("OGC-137", "#rightSubPopup select[name=pga_cde]", pga_cde);
+      	//관리방법
+      	let sag_cde = '${wtlServPsVO.sag_cde }';
+      	getCmmCodeData("OGC-001", "#rightSubPopup select[name=sag_cde]", sag_cde);
       	
-      	//배수지형식
-      	let mof_cde = '${wtlPrgaPsVO.mof_cde }';
-      	getCmmCodeData("OGC-041", "#rightSubPopup select[name=mof_cde]", mof_cde);
+      	//배수지제어방법
+      	let scw_cde = '${wtlServPsVO.scw_cde }';
+      	getCmmCodeData("OGC-134", "#rightSubPopup select[name=scw_cde]", scw_cde);
       	
       	///////////////////////
       	//gird 데이터를 통한 주소 조회

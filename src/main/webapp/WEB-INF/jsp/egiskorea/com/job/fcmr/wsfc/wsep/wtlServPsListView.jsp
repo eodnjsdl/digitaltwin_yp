@@ -48,26 +48,17 @@
 									</td>
 								</tr>
 								<tr>  
-									<th scope="row">배수지종류</th>  
+									<th scope="row">배수지명</th>  
 									<td>    
-										<select name="pga_cde" class="form-select">
-											<option value="">선택</option>
-										</select>  
+										<input type="text" name="srv_nam" class="form-control" value="">    
 									</td>
 								</tr>
 								<tr>  
-									<th scope="row">배수지형식</th>  
+									<th scope="row">관리방법</th>  
 									<td>    
-										<select name="mof_cde" class="form-select">
+										<select name="sag_cde" class="form-select">
 											<option value="">선택</option>
 										</select> 
-									</td>
-								</tr>
-								<tr>  
-									<th scope="row">관경</th>  
-									<td>    
-										<input type="number" name="std_dip_min" step="50" class="form-control" value="" style="width:68px">    
-										<input type="number" name="std_dip_max" step="50" class="form-control" value="" onkeyup="inputKeyup()" style="width:68px">  
 									</td>
 								</tr>
                             </tbody>
@@ -75,7 +66,7 @@
                     </div>
                     <div class="btn-wrap">
                         <div>
-                            <button type="button" class="btn type01 search facility-attribute-search" onclick="selectWtlPrgaPsList(1)">조회</button>
+                            <button type="button" class="btn type01 search facility-attribute-search" onclick="selectWtlServPsList(1)">조회</button>
                         </div>
                     </div>
                 </div>
@@ -126,7 +117,7 @@
             <div class="bbs-top">
                 <div class="bbs-list-num">조회결과 : --건</div>
                 <div>
-                    <button type="button" class="btn basic bi-write btn_add" onclick="insertWtlPrgaPsView();">등록</button>
+                    <button type="button" class="btn basic bi-write btn_add" onclick="insertWtlServPsView();">등록</button>
                     <button type="button" class="btn basic bi-excel btn_excel" onclick="fn_downloadExcel();">엑셀저장
                     </button>
                 </div>
@@ -156,7 +147,7 @@
 <script type="text/javascript">
 	//jqeury
 	$(document).ready(function(){
-		console.log("wtlPrgaPsListView.jsp");	
+		console.log("wtlServPsListView.jsp");	
 		
 		//상수도 관리 메뉴 - 이벤트
 		var $container = $("#container");

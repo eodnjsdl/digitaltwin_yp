@@ -18,9 +18,9 @@ function selectWtlServPsListView(){
 	ui.loadingBar("show");
 	
 	var baseContainer = "#bottomPopup";
-    $(baseContainer).load("/job/fcmr/wsep/selectWtlServPsListView.do", function () {
+    $(baseContainer).load("/job/fcmr/wsfc/selectWtlServPsListView.do", function () {
     	/* 토스트 메시지 start */
-        toastr.success("/job/fcmr/wsep/selectWtlServPsListView.do", "페이지🙂호🙂출🙂");
+        toastr.success("/job/fcmr/wsfc/selectWtlServPsListView.do", "페이지🙂호🙂출🙂");
         /* 토스트 메시지 end */
         
         $(".scroll-y").mCustomScrollbar({
@@ -112,10 +112,8 @@ function selectWtlServPsList(page) {
 	const filters = [];
 	
 	const hjd_cde 		=	$("#lSrchOptions select[name=hjd_cde]").val();				//읍면동
-	const pga_cde 		=	$("#lSrchOptions select[name=pga_cde]").val();				//배수지종류
-	const mof_cde 		=	$("#lSrchOptions select[name=mof_cde]").val();				//배수지형식
-	const std_dip_min 	=	$("#lSrchOptions input[name=std_dip_min]").val();			//관경 최소 값
-	const std_dip_max 	=	$("#lSrchOptions input[name=std_dip_max]").val();			//관경 최대 값
+	const srv_nam 		=	$("#lSrchOptions select[name=srv_nam]").val();				//배수지명
+	const sag_cde 		=	$("#lSrchOptions select[name=sag_cde]").val();				//관리방법
 	
 	let filterString = "";
 	
@@ -123,22 +121,12 @@ function selectWtlServPsList(page) {
 		filters.push("hjd_cde" + " = " + hjd_cde); 
 	}
 
-	if(pga_cde){
-		filters.push("pga_cde" + " = " + pga_cde);
+	if(srv_nam){
+		filters.push("srv_nam" + " = " + srv_nam);
 	}
 	
-	if(mof_cde){
-		filters.push("mof_cde" + " = " + mof_cde);
-	}
-	
-	if(std_dip_min && std_dip_max){
-		//filters.push("std_dip" + " BETWEEN " + std_dip_min +" AND " + std_dip_max);
-		filters.push("std_dip" + " >= " + std_dip_min);
-		filters.push("std_dip" + " <= " + std_dip_max);
-	}else if(std_dip_min){
-		filters.push("std_dip" + " >= " + std_dip_min);
-	}else if(std_dip_max){
-		filters.push("std_dip" + " <= " + std_dip_max);
+	if(sag_cde){
+		filters.push("sag_cde" + " = " + sag_cde);
 	}
 	
     var options;
@@ -227,7 +215,7 @@ function selectWtlServPsDetail(detailData){
 	}
 
 	$.ajax({
-		url:"/job/fcmr/wsep/selectWtlServPsDetail.do",
+		url:"/job/fcmr/wsfc/selectWtlServPsDetail.do",
 		type: "POST",
 		//data: JSON.stringify(detailData),
 		data: formData,
@@ -262,7 +250,7 @@ function insertWtlServPsView(){
 	var container = "#rightSubPopup";
 	
 	/* 팝업 load 함수 start */
-    $(container).load("/job/fcmr/wsep/insertWtlServPsView.do", function () {
+    $(container).load("/job/fcmr/wsfc/insertWtlServPsView.do", function () {
         $(".scroll-y").mCustomScrollbar({
             scrollbarPosition: "outside",
         });
@@ -307,7 +295,7 @@ function updateWtlServPsView(id){
 	}
 	
 	$.ajax({
-		url:"/job/fcmr/wsep/updateWtlServPsView.do",
+		url:"/job/fcmr/wsfc/updateWtlServPsView.do",
 		type: "POST",
 		//data: JSON.stringify(detailData),
 		data: formData,

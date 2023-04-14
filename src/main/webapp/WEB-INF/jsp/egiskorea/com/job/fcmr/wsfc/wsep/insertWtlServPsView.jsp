@@ -26,7 +26,7 @@
 	                                       	<th scope="row">지형지물부호</th>
 	                                       	<td>
 	                                          	<select name="ftr_cde" class="form-select">
-	                                          		<option value="SA121" selected="selected">배수지</option>
+	                                          		<option value="SA114" selected="selected">배수지</option>
 	                                          	</select>
 	                                       	</td>
 	                                       	<th scope="row">관리번호</th>
@@ -53,69 +53,73 @@
 				                                	<option value="">선택</option>
 				                                </select>
 											</td>
-											<th scope="row">설치일자</th>
+											<th scope="row">준공일자</th>
 											<td>
-											    <input type="text" name="ist_ymd" class="form-control datepicker" value="" id="dp1680677660036">
+											    <input type="text" name="fns_ymd" class="form-control datepicker" value="" id="dp1680677660036">
 											</td>
 										</tr>
 										<tr>
-											<th scope="row">배수지종류</th>
+											<th scope="row">배수지명</th>
 											<td>
-												<select name="pga_cde" class="form-select">
+												<input type="text" name="srv_nam" class="form-control" value="">
+											</td>
+											<th scope="row">정수장명</th>
+											<td>
+												<input type="text" name="pur_nam" class="form-control" value="">
+											</td>
+										</tr>
+										<tr>
+											<th scope="row">부지면적</th>
+											<td>
+												<input type="number" name="gai_ara" class="form-control" value="">
+											</td>
+											<th scope="row">관리방법</th>
+											<td>
+												<select name="sag_cde" class="form-select">
 				                                	<option value="">선택</option>
 				                                </select>
 											</td>
-											<th scope="row">배수지형식</th>
+										</tr>
+										<tr>
+											<th scope="row">시설용량</th>
 											<td>
-												<select name="mof_cde" class="form-select">
+												<input type="number" name="srv_vol" class="form-control" value="">
+											</td>
+											<th scope="row">최고수위</th>
+											<td>
+	                                       	  	<input type="number" name="hgh_wal" class="form-control" value="">
+											</td>
+										</tr>
+										<tr>
+											<th scope="row">최저수위</th>
+											<td>
+												<input type="number" name="low_wal" class="form-control" value="">
+											</td>
+											<th scope="row">배수지유입량</th>
+											<td>
+												<input type="number" name="isr_vol" class="form-control" value="">
+											</td>
+										</tr>
+										<tr>
+											<th scope="row">급수지역</th>
+											<td>
+												<input type="text" name="sup_are" class="form-control" value="">
+											</td>
+											<th scope="row">급수인구</th>
+											<td>
+												<input type="number" name="sup_pop" class="form-control" value="">
+											</td>
+										</tr>
+										<tr>
+											<th scope="row">배수지제어방법</th>
+											<td>
+												<select name="scw_cde" class="form-select">
 				                                	<option value="">선택</option>
 				                                </select>
-											</td>
-										</tr>
-										<tr>
-											<th scope="row">관경(mm)</th>
-											<td>
-												<input type="number" name="std_dip" class="form-control" value="">
-											</td>
-											<th scope="row">기준압력</th>
-											<td>
-												<input type="number" name="std_saf" class="form-control" value="">
-											</td>
-										</tr>
-										<tr>
-											<th scope="row">평균압력</th>
-											<td>
-												<input type="number" name="avg_saf" class="form-control" value="">
-											</td>
-											<th scope="row">측정압력</th>
-											<td>
-	                                       	  	<input type="number" name="msr_saf" class="form-control" value="">
-											</td>
-										</tr>
-										<tr>
-											<th scope="row">배수관_관경</th>
-											<td>
-												<input type="number" name="srv_dip" class="form-control" value="">
-											</td>
-											<th scope="row">관로지형지물부호</th>
-											<td>
-												<input type="number" name="pip_cde" class="form-control" value="">
-											</td>
-										</tr>
-										<tr>
-											<th scope="row">관로관리번호</th>
-											<td>
-												<input type="text" name="pip_idn" class="form-control" value="" maxlength="8" readonly="readonly">
 											</td>
 											<th scope="row">공사번호</th>
 											<td>
-												<input type="text" name="cnt_num" class="form-control" value="" maxlength="8">
-											</td>
-										</tr>
-										<tr>
-											<th scope="row">방향각</th>
-											<td colspan="3">
-												<input type="number" name="ang_dir" class="form-control" value="">
+												<input type="text" name="cnt_num" class="form-control" value="">
 											</td>
 										</tr>
 										<tr>
@@ -151,7 +155,7 @@
 <script type="text/javascript">
 	//jqeury
 	$(document).ready(function(){
-		console.log("insertWtlFirePsView.jsp");
+		console.log("insertWtlServPsView.jsp");
 	    
 		// 날짜 형식 처리 예정 
 	    // 날짜 적용 - 지금 8자리로 되어 있어 이것 사용 (변경 예정) 
