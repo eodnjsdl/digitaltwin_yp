@@ -5,6 +5,18 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
+<style type="text/css">
+	.popup-panel.popup-sub .select-wtlFlowPs-popup-close {
+	    top: 0;
+	    right: 0;
+	    width: 39px;
+	    height: 39px;
+	    border-left: 1px solid #44516A;
+	    background: url(/images/icon/popup-close2.svg) no-repeat 50% 50%;
+	    border-top-right-radius: 10px;
+	    position: absolute;
+	}
+</style>
 
 <!-- 업무 > 시설관리 > 상수수도시설 > 유량계 상세보기-->
 
@@ -104,8 +116,8 @@
                                        <td colspan="3">
                                            <div class="form-row">
 											  <c:out value="${wtlFlowPsVO.geom }"/>
-                                           	  <input type="text" class="form-control txt-geometry-address" value="" readonly="readonly">
-                                           	  <input type="hidden" name="geomText" value="<c:out value="${wtlFlowPsVO.geom }"/>" >
+                                           	  <input type="text" 	class="form-control txt-geometry-address" value="" readonly="readonly">
+                                           	  <input type="hidden" 	name="geom" class="form-control" value="">
                                            </div>
                                        </td>
                                    </tr>
@@ -115,15 +127,15 @@
                        </div>
                        <div class="position-bottom btn-wrap justify-content-end">
                            <div>
-                           	   <button type="button" class="btn basic bi-edit btn_edit" onclick="javascript:updateWtlFlowPsView('<c:out value="${gridRowId }"/>')">수정</button>
-                               <button type="button" class="btn basic bi-delete2 btn_delete">삭제</button>  
-                               <button type="button" class="btn basic bi-cancel btn_cancel">취소</button>
+                           	   <button type="button" class="btn basic bi-edit btn_edit" 		onclick="javascript:updateWtlFlowPsView('<c:out value="${id }"/>')">수정</button>
+                               <button type="button" class="btn basic bi-delete2 btn_delete" 	onclick="javascript:deleteWtlFlowPs('<c:out value="${id }"/>')">삭제</button>  
+                               <button type="button" class="btn basic bi-cancel btn_cancel" 	onclick="javascript:cancelSelectWtlFlowPs();">취소</button>
                            </div>
                        </div>
                    </div>
                </div>
            </div>
-           <button type="button" class="popup-close" title="닫기"></button>
+           <button type="button" class="select-wtlFlowPs-popup-close" title="닫기"></button>
 
 <!-- 업무 > 시설관리 > 상수수도시설 > 유량계 상세보기 end -->
 
@@ -133,14 +145,39 @@
 		console.log("selectWtlFlowPs.jsp");
 		
 		//gird 데이터를 통한 주소 조회
-		var gridRowId = "${gridRowId }";
+		var id = "${id }";
 		
-		var geomData = getGeomDataForGridRowId(gridRowId);
+		var geomData = getGeomDataForGridId(id);
+		//console.log(geomData);
 		if(geomData){
 			getAddressForPoint(geomData, "#rightSubPopup .txt-geometry-address");
+			$("#rightSubPopup input[name=geom]").val(geomData);
 		}else{
 			console.log("상세보기 좌표 오류");
 		}
-		 
+		
+		///////////////
+		//이벤트
+		
+		//닫기
+		$(".popup-panel .select-wtlFlowPs-popup-close").on("click", function () {
+            cancelSelectWtlFlowPs();
+    	});
+		
+		
 	});
+	
+	//functions
+	
+	//소반시설 상세보기 취소
+	function cancelSelectWtlFlowPs() {
+		//console.log("cancelSelectWtlFlowPs()");
+		
+		$(".select-wtlFlowPs-popup-close").closest('.popup-panel').removeClass('opened');
+        // 초기화 (지도)
+        dtmap.draw.dispose();
+        dtmap.draw.clear();
+        
+        dtmap.vector.clearSelect();	//선택 해제
+	}
 </script>

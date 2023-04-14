@@ -5,6 +5,18 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
+<style type="text/css">
+	.popup-panel.popup-sub .update-wtlFlowPs-popup-close {
+	    top: 0;
+	    right: 0;
+	    width: 39px;
+	    height: 39px;
+	    border-left: 1px solid #44516A;
+	    background: url(/images/icon/popup-close2.svg) no-repeat 50% 50%;
+	    border-top-right-radius: 10px;
+	    position: absolute;
+	}
+</style>
 
 <!-- 업무 > 시설관리 > 상수도시설 > 유량계 수정하기 -->
 <div class="popup-header">유량계 수정하기</div>
@@ -13,6 +25,7 @@
 <div class="popup-body">
 	<div class="data-write-wrap" style="height: 100%;">
 		<div class="scroll-y">
+			<form id="updateWtlFlowPsForm" method="post">
 			<div class="data-default">
 				<table class="data-write">
 					<colgroup>
@@ -21,7 +34,7 @@
 						<col style="width: 23%;">
 						<col style="width: auto;">
 					</colgroup>
-					<tbody id="lSrchOptions">
+					<tbody>
 						<tr>
 							<th scope="row">지형지물부호</th>
 							<td>
@@ -105,10 +118,11 @@
 						    <td colspan="3">
 						        <div class="form-row">
 						            <div class="col">
-						                <input type="text" name="geom" class="form-control txt-geometry-address" value="" readonly="readonly">
+						            	<input type="text" class="form-control txt-geometry-address" value="" readonly="readonly">
+                                    	<input type="hidden" name="geom" class="form-control" value="">
 						            </div>
 						            <div class="col-auto">
-						                <button type="button" class="btn type01 bi-location btn-select-map" data-popup="space-edit-tool"></button>
+						                <button type="button" class="btn type01 bi-location btn-select-map" data-popup="space-edit-tool">지도에서 선택</button>
 						            </div>
 						        </div>
 						    </td>
@@ -116,18 +130,25 @@
 					</tbody>
 				</table>
 			</div>
+			</form>
+			<input type="hidden" name="geom" 	value="" class="form-control">
+            <input type="hidden" name="id" 	value="wtl_flow_ps.${wtlFlowPsVO.gid}">
 		</div>
 		<div class="position-bottom btn-wrap justify-content-end">
-			<div><button type="button" class="btn basic bi-write2">수정완료</button> <button type="button" class="btn basic bi-cancel" onclick="">취소</button></div>
+			<div>
+				<button type="button" class="btn basic bi-write2" onclick="updateWtlFlowPs();">수정완료</button>
+				<button type="button" class="btn basic bi-cancel" onclick="cancelUpdateWtlFlowPs();">취소</button>
+			</div>
 		</div>
 	</div>
 </div>
+<button type="button" class="update-wtlFirePs-popup-close" title="닫기" onclick="cancelMode();"></button>
 <!-- 업무 > 시설관리 > 상수도시설 > 유량계 수정하기 end -->
 
 <script type="text/javascript">
 	//jqeury
 	$(document).ready(function(){
-		console.log("updateWtlFlowPsView.jsp");
+		//console.log("updateWtlFlowPsView.jsp");
         
 		// 날짜 형식 처리 예정 
         // 날짜 적용 - 지금 8자리로 되어 있어 이것 사용 (변경 예정) 
@@ -145,7 +166,7 @@
 		//selectbox 값 세팅
 		
       	//읍면동 
-		let hjd_cde = '${wtlFlowPsVO.hjd_cde }';
+        let hjd_cde = '${wtlFlowPsVO.hjd_cde }';
       	getCmmCodeData("YPE001", "#rightSubPopup select[name=hjd_cde]", hjd_cde);
       	
       	//관리기관
@@ -162,17 +183,71 @@
       	
       	///////////////////////
       	//gird 데이터를 통한 주소 조회
-		var gridRowId = "${gridRowId }";
+		var id =  $("input[name=id]").val();
 		
-		var geomData = getGeomDataForGridRowId(gridRowId);
-		console.log("geomData>>");
-		console.log(geomData);
+		var geomData = getGeomDataForGridId(id);
 		if(geomData){
 			getAddressForPoint(geomData, "#rightSubPopup .txt-geometry-address");
+			$("#rightSubPopup input[name=geom]").val(geomData);
 		}else{
 			console.log("상세보기 좌표 오류");
 		}
-        
+		
+		// 지도에서 선택
+        $(".btn-select-map", this.element).on("click", function () {
+        	//console.log( '수정화면');
+        	//alert(this);
+        	
+        	ui.loadingBar("show");
+            $('.space-edit-tool').load("/job/fcts/editView.do", () => {
+                
+                $(".space-edit-tool").show();
+                
+               	$.getJSON(
+			        "/com/mngr/info/selectAllLayerManageList.do"
+			   	).done((response) => {
+			    	var list = response["list"];
+			    	let tag = `<option value="">시설물</option>`;
+			    	for(var i=0; i<list.length; i++){
+			    		const name 	= list[i].tblNm.toLowerCase();
+			    		const title = list[i].lyrNm;
+			    		tag += `<option value=`+name+`>`+title+`</option>`; 
+			    	}
+			    	$(".space-edit-tool select[name=edit-snap-target]").html(tag);
+			    }); 
+               	
+               	var obj = {};
+               	obj.geometryType = "point";
+               	obj.id = id;
+              
+               	geoEditBindEvents(obj);
+                
+                ui.loadingBar("hide");
+            });
+            
+        });
+		
+		/////////////////////
+		
+		//닫기 버튼
+        $(".popup-panel .update-wtlFlowPs-popup-close").on("click", function () {
+        	cancelUpdateWtlFlowPs();
+    	});
+		
 	});
+	
+	
+	//수정하기 취소버튼 동작
+	function cancelUpdateWtlFlowPs(){
+		//console.log("cancelUpdateWtlFlowPs()");
+		
+		$(".update-wtlFlowPs-popup-close").closest('.popup-panel').removeClass('opened');
+        // 초기화 (지도)
+        dtmap.draw.dispose();
+        dtmap.draw.clear();
+        
+        var id = $("input[name=id]").val();
+    	selectWtlFlowPs(id);
+	}
 
 </script>

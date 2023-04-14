@@ -25,6 +25,7 @@ function codeArrayInit(){
 	//console.log("codeArrayInit()");
 	
 	var codeData = [
+		{ code: "SA117", codeNm: "유량계" },
         { code: "SA118", codeNm: "급수탑" },
         { code: "SA119", codeNm: "소화전" },
       ];
@@ -107,6 +108,20 @@ function selectWtlFirePsListView(){
     $(baseContainer).load("/job/fcmr/wsfc/selectWtlFirePsListView.do", function () {
         //toastr.success("/job/fcmr/wsfc/selectWtlFirePsListView.do", "페이지🙂호🙂출🙂");
     	wtlFirePsListProcess();
+		ui.loadingBar("hide");
+    });
+}
+
+//유량계 목록 화면 조회
+function selectWtlFlowPsListView(){
+	//console.log("selectWtlFlowPsListView()");
+	
+	ui.loadingBar("show");
+	
+	var baseContainer = "#bottomPopup";
+    $(baseContainer).load("/job/fcmr/wsfc/selectWtlFlowPsListView.do", function () {
+        //toastr.success("/job/fcmr/wsfc/selectWtlFlowPsListView.do", "페이지🙂호🙂출🙂");
+    	wtlFlowPsListProcess();
 		ui.loadingBar("hide");
     });
 }

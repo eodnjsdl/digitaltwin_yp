@@ -88,7 +88,7 @@ public class WaterSupplyController {
 	public String getWtlPipeLmDetail(
 			@ModelAttribute("wtlPipeLmVO") WtlPipeLmVO wtlPipeLmVO, String id,
 			ModelMap model) throws Exception {
-			model.addAttribute("gridRowId", id);
+			model.addAttribute("id", id);
 		return "egiskorea/com/job/fcmr/wsfc/wpil/selectWtlPipeLm";
 	}
 	
@@ -105,7 +105,7 @@ public class WaterSupplyController {
 	public String updateWtlPipeLmView(
 			@ModelAttribute("wtlPipeLmVO") WtlPipeLmVO wtlPipeLmVO, String id,
 			ModelMap model) throws Exception {
-			model.addAttribute("gridRowId", id);
+			model.addAttribute("id", id);
 		return "egiskorea/com/job/fcmr/wsfc/wpil/updateWtlPipeLmView";
 	}
 	
@@ -114,18 +114,18 @@ public class WaterSupplyController {
 	
 	//목록 화면 호출
 	@RequestMapping(value = "/selectWtlFlowPsListView.do")
-    public String selectWtlFlowPsList(
+    public String selectWtlFlowPsListView(
             @ModelAttribute("wtlFlowPsVO") WtlFlowPsVO wtlFlowPsVO,
             ModelMap model) throws Exception {
         return "egiskorea/com/job/fcmr/wsfc/wflp/wtlFlowPsListView";
     }
 	
 	//상세 화면 조회
-	@RequestMapping(value = "/selectWtlFlowPsDetail.do", method = RequestMethod.POST)
-	public String getWtlFlowPsDetail(
+	@RequestMapping(value = "/selectWtlFlowPs.do", method = RequestMethod.POST)
+	public String selectWtlFlowPs(
 			@ModelAttribute("wtlFlowPsVO") WtlFlowPsVO wtlFlowPsVO, String id,
 			ModelMap model) throws Exception {
-			model.addAttribute("gridRowId", id);
+			model.addAttribute("id", id);
 		return "egiskorea/com/job/fcmr/wsfc/wflp/selectWtlFlowPs";
 	}
 	
@@ -142,7 +142,7 @@ public class WaterSupplyController {
 	public String updateWtlFlowPsView(
 			@ModelAttribute("wtlFlowPsVO") WtlFlowPsVO wtlFlowPsVO, String id,
 			ModelMap model) throws Exception {
-			model.addAttribute("gridRowId", id);
+			model.addAttribute("id", id);
 		return "egiskorea/com/job/fcmr/wsfc/wflp/updateWtlFlowPsView";
 	}
 	

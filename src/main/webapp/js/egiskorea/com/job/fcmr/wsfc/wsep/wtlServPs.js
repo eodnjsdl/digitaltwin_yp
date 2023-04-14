@@ -67,7 +67,7 @@ function selectWtlServPsListView(){
 //	            {key: "isr_vol", 			label: "배수지유입량",		width:'*'},
 //	            {key: "sup_are", 			label: "급수지역",			width:'*'},
 	            {key: "sup_pop", 			label: "급수인구",			width:'*'},
-	            {key: "scw_cde", 			label: "배수지제어방법code",width:'*'},
+//	            {key: "scw_cde", 			label: "배수지제어방법code",width:'*'},
 	            {key: "scw_cde_nm", 		label: "배수지제어방법",	width:'*'},
 //	            {key: "cnt_num", 			label: "공사번호",			width:'*'},
 //	            {key: "sys_chk", 			label: "대장초기화여부",	width:'*'},
