@@ -126,8 +126,8 @@
                                </table>
                            </div>
                            </form>
-                           <input type="text" name="geom" 	value="" class="form-control">
-                           <input type="text" name="id" 	value="${id}">
+                           <input type="hidden" name="geom" 	value="" class="form-control">
+                           <input type="hidden" name="id" 	value="${id}">
                        </div>
                        <div class="position-bottom btn-wrap justify-content-end">
                            <div>
@@ -194,7 +194,10 @@
         	ui.loadingBar("show");
             $('.space-edit-tool').load("/job/fcts/editView.do", () => {
                 
-                $(".space-edit-tool").show();
+                if(!$(".space-edit-tool").hasClass("opened")){
+                	$(".space-edit-tool").addClass("opened");
+                	$(".space-edit-tool").draggable();
+                }
                 
                	$.getJSON(
 			        "/com/mngr/info/selectAllLayerManageList.do"

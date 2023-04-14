@@ -44,28 +44,16 @@ function geoEditBindEvents(obj) {
         dtmap.draw.dispose();
         dtmap.draw.clear();
         
-        $(".space-edit-tool").hide();
-        $(".space-edit-tool").empty();
-        
+    	clearSpaceEditTool();	//초기화
     });
 
     // 스냅
     $(".edit-btn-snap").on("click", function () {
-    	alert("스냅");
         const featureType = $("[name=edit-snap-target]", that.selector).val();
-        console.log("featureType>>"+featureType);
+        //console.log("featureType>>"+featureType);
         if (featureType) {
-        	/*
-        	* //스냅레이어 설정
-            * dtmap.draw.setSnapLayer('digitaltwin:lsmd_cont_ldreg_41830');
-            *
-            * //스냅레이어 클리어
-            * dtmap.draw.clearSnapLayer();
-        	*/
         	var layerName = "digitaltwin:"+featureType;
         	dtmap.draw.setSnapLayer(layerName);
-            
-            //toastr.warning("cmmUtil.highlightSnapLayer(featureType);", "객체 스내핑 모드");
         } else {
             alert("스냅할 대상을 선택하여 주십시오.");
         }
@@ -113,7 +101,8 @@ function geoEditBindEvents(obj) {
     $(".edit-btn-remove").on("click", function () {
         if (confirm("객체를 삭제하시겠습니까?")) {
             // cmmUtil.removeEditGeometry();
-            toastr.warning("cmmUtil.removeEditGeometry();", "객체 삭제 모드");
+        	dtmap.draw.clear();
+            //toastr.warning("cmmUtil.removeEditGeometry();", "객체 삭제 모드");
         }
     });
 
@@ -148,6 +137,11 @@ function geoEditBindEvents(obj) {
         var xObj = $(".space-edit-tool .edit-x").val();
         var yObj = $(".space-edit-tool .edit-y").val();
         
+        if(xObj == "" || yObj == ""){
+        	alert("적용할 좌표가 없습니다.");
+        	return false;
+        }
+        
         var xObj = parseFloat(xObj);
 		var yObj = parseFloat(yObj);
         
@@ -158,7 +152,8 @@ function geoEditBindEvents(obj) {
 			const wkt = format.writeGeometry(point);
 			$("input[name=geom]").val(wkt);
 			
-			$(".space-edit-tool").hide();
+			
+			clearSpaceEditTool();	//초기화
 		});
         
     });
@@ -175,4 +170,18 @@ function _onDrawEnd_wtlFirePsGeom(e){
 	
 	$(".space-edit-tool .edit-x").val(xObj);
 	$(".space-edit-tool .edit-y").val(yObj);
+}
+
+
+//공간정보 편집도구
+function clearSpaceEditTool(){
+    
+    //스냅레이어 클리어
+    dtmap.draw.clearSnapLayer();
+    
+    if($(".space-edit-tool").hasClass("opened")){
+    	$(".space-edit-tool").removeClass("opened");
+    }
+    
+    $(".space-edit-tool").empty();
 }

@@ -402,6 +402,7 @@ window.ui = (function () {
                 // 업무 > 시설관리 > 상수도시설
                 case "waterSupplyFacility" :
                     //aj_facility("WaterSupplyFacility");
+                	dtmap.off('select', onFacilitySelectEventListener); //클릭 리스너 이벤트 삭제
                     getWaterSupplyFacility("wtlFirePs");		//상수도 시설 소방시설
                     break;
 
@@ -423,6 +424,7 @@ window.ui = (function () {
                 // 업무 > 시설관리 > 체육시설
                 case "physicalEducationFacility" :
                 	//aj_selectPhysicalEducationFacilityList($("#tmpForm")[0]);
+                	dtmap.off('select', onFacilitySelectEventListener); //클릭 리스너 이벤트 삭제
                 	getPhyEduFaciListView();
                     break;
 

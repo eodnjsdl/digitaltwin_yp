@@ -28,7 +28,7 @@
                         <li data-tab="groundwaterProperty" class="on">
                             <button type="button" class="inner-tab">속성검색</button>
                         </li>
-                        <li data-tab="groundwaterSpace" id="srchSpace">
+                        <li data-tab="groundwaterSpace">
                             <button type="button" class="inner-tab">공간검색</button>
                         </li>
                     </ul>
@@ -121,7 +121,7 @@
                 <div class="bbs-list-num">조회결과 : --건</div>
                 <div>
                     <button type="button" class="btn basic bi-write btn_add" onclick="insertWtlFirePsView();">등록</button>
-                    <button type="button" class="btn basic bi-excel btn_excel" onclick="fn_downloadExcel();">엑셀저장
+                    <button type="button" class="btn basic bi-excel btn_excel" onclick="downloadExcelWtlFirePs();">엑셀저장
                     </button>
                 </div>
             </div>
@@ -129,6 +129,7 @@
                 <div class="bbs-default">
                     <div id="baseGridDiv" style="height:inherit; display: flex;flex-direction: column">
                         <div id="gridax5" data-ax5grid="attr-grid" data-ax5grid-config="{}" style="flex: 1"></div>
+                        <div data-ax5grid="attr-grid-excel" style="diplay:none;"></div>
                     </div>
                 </div>
             </div>
@@ -146,7 +147,10 @@
 	//jqeury
 	$(document).ready(function(){
 		//console.log("wtlFirePsListView.jsp");	
-		
+		 
+		//이벤트 리스너 추가
+		dtmap.on('select', onFacilitySelectEventListener);
+		 
 		//////////////////
 		//하위메뉴 select box
 		
@@ -192,30 +196,46 @@
             	$(".space-edit-tool").removeClass("opened");
                 $(".space-edit-tool").empty();
             }
+			
 		});
 		
 		
 		/////////////////////
+		
+		//속성 검색, 공간 검색 탭 제어
+		$(document).on("click", ".tabBoxDepth2-wrap .tabBoxDepth2 > ul > li > .inner-tab", function(){ 
+			$(this).each(function(){
+				$(this).parent().addClass("on").siblings().removeClass("on");
+				$("."+$(this).parent().data("tab")).addClass("on").siblings().removeClass("on");
+			});
+			
+			if($("li[data-tab=groundwaterProperty]").hasClass("on")){	//속성검색 일때 공간 검색때 사용한 그리기 초기화
+				dtmap.draw.dispose();		//그리기 포인트 삭제
+				dtmap.draw.clear();			//그리기 초기화
+			}
+			
+		});
+			
      	
-     	// 공간 검색
+     	// 공간 검색 조회 버튼
         $(".facility-spatial-search", "#bottomPopup").on("click", function (e) {
-            // that.searchArea();
-            const $parent = $(e.target).closest('.search-area');
+           	//console.log("공간검색 조회");
+			
+           	const $parent = $(e.target).closest('.search-area');
             const type = $parent.find('input[name="rad-facility-area"]:checked').val();
-
-            const param = {
-                typeNames: "wtl_fire_ps",
-            }
+            
             if (type === 'extent') {
-                param.bbox = dtmap.getExtent();
+            	FACILITY.spaceSearchOption.bbox 	= dtmap.getExtent();
             } else {
-                param.geometry = dtmap.draw.getGeometry()
+            	if(dtmap.draw.source.getFeatures().length > 0){
+	            	FACILITY.spaceSearchOption.geometry = dtmap.draw.getGeometry();
+            	}else{
+            		alert("영역지정 안되었습니다");
+            		return false;
+            	}
             }
-
-            dtmap.wfsGetFeature(param).then(function (e) {
-                dtmap.vector.clear();
-                dtmap.vector.readGeoJson(e);
-            })
+           	
+           	selectWtlFirePsList(1);
 
         });
      	
@@ -226,6 +246,11 @@
             const value = node.val();
             if (value == "extent") {
                 $(".space-facility-area", "#bottomPopup").hide();
+                
+                //그리기, 그려진 것 초기화
+                dtmap.draw.dispose();
+                dtmap.draw.clear();
+                
             } else {
                 $(".space-facility-area", "#bottomPopup").show();
                 $("[name=rad-facility-drawing]:first", "#bottomPopup").trigger("click");
@@ -237,7 +262,6 @@
         $("[name=rad-facility-drawing]", "#bottomPopup").on("click", function () {
             const node = $(this);
             const value = node.val();
-            // that.searchDrawing(value);
 
             let type;
             switch (Number(value)) {
@@ -255,18 +279,15 @@
                     break;
             }
             dtmap.draw.active({type: type, once: true})
-            toastr.warning("that.searchDrawing(value);", "공간검색 사용자정의");
+            //toastr.warning("that.searchDrawing(value);", "공간검색 사용자정의");
+            $(".area-facility-buffer").val("1").trigger("keyup");
         });
 		
-     	
-        $(".area-facility-buffer", "#bottomPopup").on("keyup", function (event) {
-            // if (event.keyCode == "13") {
-            //     $(".facility-spatial-search", that.container).trigger("click");
-            // }
 
-            dtmap.draw.setBuffer(Number(this.value))
+     	//경계로부터 버퍼 영역 지정
+        $(".area-facility-buffer", "#bottomPopup").on("keyup", function (event) {
+            dtmap.draw.setBuffer(Number(this.value));
         });
-        
 		
 	});
 

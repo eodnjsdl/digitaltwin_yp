@@ -100,45 +100,77 @@ function selectWtlFirePsList(page) {
 		alert("목록 페이지 오류");
 		return false;
 	}
+
+	////////////////
+	//검색 옵션
 	
-	//검색 조건
-	const filters = [];
-	
-	const hjd_cde 		=	$("#lSrchOptions select[name=hjd_cde]").val();				//읍면동
-	const mof_cde 		=	$("#lSrchOptions select[name=mof_cde]").val();				//소화전형식
-	const std_dip_min 	=	$("#lSrchOptions input[name=std_dip_min]").val();			//관경 최소 값
-	const std_dip_max 	=	$("#lSrchOptions input[name=std_dip_max]").val();			//관경 최대 값
-	
-	let filterString = "";
-	
-	if(hjd_cde){
-		filters.push("hjd_cde" + " = " + hjd_cde); 
+	var options;
+	if($(".groundwaterProperty").hasClass("on")){		//속성 검색
+		//console.log("속성 검색 조건");
+		
+		const filters = [];
+		
+		const hjd_cde 		=	$("#lSrchOptions select[name=hjd_cde]").val();				//읍면동
+		const mof_cde 		=	$("#lSrchOptions select[name=mof_cde]").val();				//소화전형식
+		const std_dip_min 	=	$("#lSrchOptions input[name=std_dip_min]").val();			//관경 최소 값
+		const std_dip_max 	=	$("#lSrchOptions input[name=std_dip_max]").val();			//관경 최대 값
+		
+		let filterString = "";
+		
+		if(hjd_cde){
+			filters.push("hjd_cde" + " = " + hjd_cde); 
+		}
+		
+		if(mof_cde){
+			filters.push("mof_cde" + " = " + mof_cde);
+		}
+		
+		if(std_dip_min && std_dip_max){
+			//filters.push("std_dip" + " BETWEEN " + std_dip_min +" AND " + std_dip_max);
+			filters.push("std_dip" + " >= " + std_dip_min);
+			filters.push("std_dip" + " <= " + std_dip_max);
+		}else if(std_dip_min){
+			filters.push("std_dip" + " >= " + std_dip_min);
+		}else if(std_dip_max){
+			filters.push("std_dip" + " <= " + std_dip_max);
+		}
+	    
+	    options = {
+	        typeNames	: 'wtl_fire_ps' + "",
+	        filter 		: filters,
+	        perPage 	: 10,
+	        page 		: page,
+	        sortBy		: 'gid',
+	        sortOrder	: 'DESC',
+	        //sortOrder	: 'ASC'
+	    }
+		
+	}else if($(".groundwaterSpace").hasClass("on")){		//공간 검색
+		//console.log("공간 검색 조건")
+		
+		const $parent 	= $(".facility-spatial-search").closest('.search-area');
+        const type 		= $parent.find('input[name="rad-facility-area"]:checked').val();
+
+        options = {
+            typeNames: "wtl_fire_ps",
+            perPage 	: 10,
+	        page 		: page,
+	        sortBy		: 'gid',
+	        sortOrder	: 'DESC',
+        }
+        if (type === 'extent') {
+        	options.bbox 		= FACILITY.spaceSearchOption.bbox;
+        } else {
+        	options.geometry 	= FACILITY.spaceSearchOption.geometry;
+        }
+		
+	}else{
+		alert("검색창 오류");
 	}
 	
-	if(mof_cde){
-		filters.push("mof_cde" + " = " + mof_cde);
-	}
+	////////////////////////
+	//조회
 	
-	if(std_dip_min && std_dip_max){
-		//filters.push("std_dip" + " BETWEEN " + std_dip_min +" AND " + std_dip_max);
-		filters.push("std_dip" + " >= " + std_dip_min);
-		filters.push("std_dip" + " <= " + std_dip_max);
-	}else if(std_dip_min){
-		filters.push("std_dip" + " >= " + std_dip_min);
-	}else if(std_dip_max){
-		filters.push("std_dip" + " <= " + std_dip_max);
-	}
-	
-    var options;
-    options = {
-        typeNames	: 'wtl_fire_ps' + "",
-        filter 		: filters,
-        perPage 	: 10,
-        page 		: page,
-        sortBy		: 'gid',
-        sortOrder	: 'DESC'
-    }
-    
     const promise = dtmap.wfsGetFeature(options);
     promise.then(function (data) {
         //그리드 데이터 전처리
@@ -236,6 +268,8 @@ function selectWtlFirePsList(page) {
 	
 }
 
+
+
 //////////////
 //상세정보 보회
 
@@ -249,9 +283,19 @@ function selectWtlFirePs(id){
 	
 	var idArray = id.split(".");
 	//console.log(idArray);
+	const typeName	= idArray[0];
+	
+	if(typeName != "wtl_fire_ps"){
+		alert("상세보기 오류");
+		return false;
+	}
+	
 	const gid 		= idArray[1];	
 	if(gid){
 		filters.push("gid" + " = " + gid); 
+	}else{
+		alert("상세보기 오류");
+		return false;
 	}
 	
     var options;
@@ -657,4 +701,155 @@ function deleteWtlFirePs(id){
         });
     }
 	
+}
+
+/////////////////////////////
+//엑셀 다운로드 
+function downloadExcelWtlFirePs() {
+	//console.log("downloadExcelWtlFirePs()");
+	
+	var $container = $("#container");
+    var $target = $container.find('#baseGridDiv [data-ax5grid="attr-grid-excel"]');	//가상의 ax5uigrid 공간에 처리 
+    $target.css('display', 'none');
+	
+	FACILITY.Ax5UiGridAll = null;	//Ax5UiGridAll 전역 변수 
+    
+    FACILITY.Ax5UiGridAll = new ax5.ui.grid();
+	
+    FACILITY.Ax5UiGridAll.setConfig({
+		target:  $target,
+        sortable: true,
+        multipleSelect: false,
+        columns: [
+            //{key: "gid", 				label: "아이디",			width:200},
+            {key: "ftr_cde", 			label: "지형지물부호code",	width:'*'},
+            {key: "ftr_cde_nm", 		label: "지형지물부호",		width:'*'},
+            {key: "ftr_idn", 			label: "관리번호",			width:'*'},
+            {key: "hjd_cde", 			label: "읍면동code",		width:'*'},
+            {key: "hjd_cde_nm", 		label: "읍면동",			width:'*'},
+            {key: "mng_cde", 			label: "관리기관code",		width:'*'},
+            {key: "mng_cde_nm", 		label: "관리기관",			width:'*'},
+            {key: "sht_num", 			label: "도엽번호",			width:'*'},
+            {key: "ist_ymd", 			label: "설치일자",			width:'*'},
+            {key: "hom_num", 			label: "수용가번호",		width:'*'},
+            {key: "mof_cde", 			label: "소화전형식code",	width:'*'},
+            {key: "mof_cde_nm", 		label: "소화전형식",		width:'*'},
+            {key: "fir_dip", 			label: "소화전구경",		width:'*'},
+            {key: "std_dip", 			label: "관경",			width:'*'},
+            //{key: "sup_hit", 			label: "급수탑높이",		width:100},
+            //{key: "sys_chk", 			label: "대장초기화여",		width:100},
+            //{key: "ang_dir", 			label: "방향각",			width:100},
+            //{key: "geom", 			label: "공간정보",			width:100}
+        ],
+
+	});
+
+
+	////////////////
+	//검색 옵션
+	
+	var options;
+	if($(".groundwaterProperty").hasClass("on")){		//속성 검색
+		//console.log("속성 검색 조건");
+		
+		const filters = [];
+		
+		const hjd_cde 		=	$("#lSrchOptions select[name=hjd_cde]").val();				//읍면동
+		const mof_cde 		=	$("#lSrchOptions select[name=mof_cde]").val();				//소화전형식
+		const std_dip_min 	=	$("#lSrchOptions input[name=std_dip_min]").val();			//관경 최소 값
+		const std_dip_max 	=	$("#lSrchOptions input[name=std_dip_max]").val();			//관경 최대 값
+		
+		let filterString = "";
+		
+		if(hjd_cde){
+			filters.push("hjd_cde" + " = " + hjd_cde); 
+		}
+		
+		if(mof_cde){
+			filters.push("mof_cde" + " = " + mof_cde);
+		}
+		
+		if(std_dip_min && std_dip_max){
+			//filters.push("std_dip" + " BETWEEN " + std_dip_min +" AND " + std_dip_max);
+			filters.push("std_dip" + " >= " + std_dip_min);
+			filters.push("std_dip" + " <= " + std_dip_max);
+		}else if(std_dip_min){
+			filters.push("std_dip" + " >= " + std_dip_min);
+		}else if(std_dip_max){
+			filters.push("std_dip" + " <= " + std_dip_max);
+		}
+	    
+	    options = {
+	        typeNames	: 'wtl_fire_ps' + "",
+	        filter 		: filters,
+	        sortBy		: 'gid',
+	        sortOrder	: 'DESC',
+	        //sortOrder	: 'ASC'
+	    }
+		
+	}else if($(".groundwaterSpace").hasClass("on")){		//공간 검색
+		//console.log("공간 검색 조건")
+		
+		const $parent 	= $(".facility-spatial-search").closest('.search-area');
+        const type 		= $parent.find('input[name="rad-facility-area"]:checked').val();
+
+        options = {
+            typeNames: "wtl_fire_ps",
+	        sortBy		: 'gid',
+	        sortOrder	: 'DESC',
+        }
+        if (type === 'extent') {
+        	options.bbox 		= FACILITY.spaceSearchOption.bbox;
+        } else {
+        	options.geometry 	= FACILITY.spaceSearchOption.geometry;
+        }
+		
+	}else{
+		alert("검색창 오류");
+	}
+	
+	////////////////////////
+	//조회
+	
+    const promise = dtmap.wfsGetFeature(options);
+    promise.then(function (data) {
+        //그리드 데이터 전처리
+        const list = [];
+        //console.log(data.features);
+        
+        //데이터 코드 변환
+        for (let i = 0; i < data.features.length; i++) {
+        	
+        	//지형지물부호 코드 변경
+        	var ftr_cde = data.features[i].properties.ftr_cde;
+        	data.features[i].properties.ftr_cde_nm = getCmmCodeDataArray("SA-001", ftr_cde);
+        	
+        	//관리기관 코드 변경
+        	var mng_cde = data.features[i].properties.mng_cde;
+        	data.features[i].properties.mng_cde_nm = getCmmCodeDataArray("MNG-001", mng_cde);
+        	
+        	//읍면동 코드 변경
+        	var hjd_cde = data.features[i].properties.hjd_cde;
+        	data.features[i].properties.hjd_cde_nm = getCmmCodeDataArray("YPE001", hjd_cde);
+        	
+        	//소화전 형식 코드 변경
+        	var mof_cde = data.features[i].properties.mof_cde;
+        	data.features[i].properties.mof_cde_nm = getCmmCodeDataArray("OGC-048", mof_cde);
+            
+            //좌표 처리  geometry로 변수명을 정하면 기존것과 충돌 발생
+        	data.features[i].properties.geomObj = data.features[i].geometry;
+        	
+        	const {id, properties} = data.features[i];
+            list.push({...properties, ...{id: id}});
+        }
+        
+        ///////////////
+        
+        //gird 적용
+        FACILITY.Ax5UiGridAll.setData(list);
+        
+      	//엑셀 export
+		FACILITY.Ax5UiGridAll.exportExcel("EXPORT_소방시설.xls");
+    });
+
 }

@@ -14,8 +14,10 @@ $(document).ready(function(){
 
 //전역 변수
 var FACILITY={
-	CODEARRAY :[],		//code 데이블 정리
-	Ax5UiGrid :null	
+	CODEARRAY :	[],				//code 데이블 정리
+	Ax5UiGrid :	null,			//Ax5UiGrid 변수
+	spaceSearchOption:{},		//공간검색 조건 옵션 변수
+	Ax5UiGridAll : null			//엑셀 다운로드에  사용
 }
 
 //functions
@@ -248,5 +250,60 @@ function getGridDetailData(id){
 	}else{
 		alert("현재 gird 목록이 없습니다.");
 	}
-	
 }
+
+/////////////////////////
+//지도 아이콘(객체) 클릭시 이벤트
+function onFacilitySelectEventListener(e){
+	//console.log("onFacilitySelectEventListener(e)");
+	//console.log(e);
+	if(e){
+		
+		//[참고 자료]
+		//2D 이벤트 데이터
+	    // {
+	    //     id : 'wtl_fire_ps.8',        // 피쳐 아이디
+	    //     feature : ol.Feature,        // ol Feature 객체
+	    //     geometry : ol.geom.Geometry, //ol geometry 객체
+	    //     property : {}                // 속성정보
+	    // }
+	    //3D 이벤트 데이터
+	    // {
+	    //     id : 'wtl_fire_ps.8',        // 피쳐 아이디
+	    //     object : JSObejct3D,         // JSObejct3D 객체
+	    //     property : {}                // 속성정보
+	    // }
+		
+		if(e.object){
+			//console.log("3d")
+			toastr.error("지도 객체 클릭 이벤트 작업중", "3D 객체 클릭");
+		}else{
+			//console.log("2d")
+			
+			var id = e.id; //피쳐 아이디
+			
+			if(id){
+				var idArray = id.split(".");
+				//console.log(idArray);
+				const featureType	= idArray[0];
+				
+				if(featureType == "wtl_fire_ps"){						//상수도시설 - 소방시설
+					selectWtlFirePs(id);
+				}else if(featureType == "wtl_pipe_lm"){					//상수도시설 - 상수관로
+					toastr.error("지도 객체 클릭 작업중", "상수도시설 - 상수관로");
+				}else if(featureType == "wtl_flow_ps"){					//상수도시설 - 유량계
+					toastr.error("지도 객체 클릭 작업중", "상수도시설 - 유량계");
+				}else{
+					alert("지도 객체 선택 오류");
+					return false;
+				}
+			}
+			
+			
+		}
+		
+		
+	}
+}
+
+
