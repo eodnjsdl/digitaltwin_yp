@@ -129,7 +129,7 @@ function aj_pagination(pageIndex) {
 </script>
 
 
-					<div class="popup-header">Q&A</div>
+					<div class="popup-header" style="background-image: url(/images/etc/popup-title-board.svg)">Q&A</div>
 					<div class="popup-body">
 						<div class="bbs-popup-body">
 							<div class="bbs-top">

@@ -662,6 +662,7 @@ window.ui = (function () {
         if(name=="saveMap"){_area.width = "325";_area.heigth = "750";}
         if(name=="krasInfo"){_area.width = "660";_area.heigth = "750";}
         if(name=="setting"){_area.width = "250";_area.heigth = "750";_area.right="160";}
+        if(name=="apptChart"){_area.top="80";_area.width = "400";_area.heigth = "520";_area.left="870";}
         
     	$("#" + area).css({
             "top": _area.top + "px",
@@ -684,7 +685,7 @@ window.ui = (function () {
             arrPopupTy = ["bottomPopup", "rightSubPopup", "rightPopup","bbsPopup"];
         } else if (area.includes("right")) {
             if(area === "rightSubPopup") 
-            	arrPopupTy = ["leftPopup", "rightSubPopup","bbsPopup"];
+            	arrPopupTy = ["rightSubPopup","bbsPopup"];
             else 
             	arrPopupTy = ["leftPopup", "rightSubPopup", "rightPopup","bbsPopup"];
         } else if (area.includes("bottom")) {

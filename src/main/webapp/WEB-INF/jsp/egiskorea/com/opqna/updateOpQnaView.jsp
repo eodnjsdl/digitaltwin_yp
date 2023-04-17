@@ -140,7 +140,7 @@ function aj_selectOpQna(qaId, pageIndex, searchCnd, searchWrd){
 					<input type="hidden" name="wrterNm" value="<c:out value='${qnaVO.wrterNm}'/>" />
 					
 					
-					<div class="popup-header">운영지원</div>
+					<div class="popup-header" style="background-image: url(/images/etc/popup-title-board.svg)">운영지원</div>
 					<div class="popup-body">
 						<div class="bbs-popup-body">
 							<div class="scroll-y" style="height: 654px;">

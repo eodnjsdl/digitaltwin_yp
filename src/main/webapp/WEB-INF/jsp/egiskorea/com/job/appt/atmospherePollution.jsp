@@ -8,9 +8,7 @@
 <script src="/js/egiskorea/com/job/appt/appt.js"></script>
 <script type="text/javascript" src="/js/plugin/echart/echarts.min.js"></script>
 
-
 				<!-- 업무 > 공간정보활용 > 대기오염 > 대기관측소 -->
-				<div class="popup-panel popup-sub opened" style="top: 80px;left: 870px;width: 400px;height: 520px;">
 				<div class="popup-header">대기관측소</div>
 				<div class="popup-body">
 					<div class="sub-popup-body">
@@ -71,5 +69,4 @@
 						});										
 					});
 				</script>
-				</div>
 				<!-- //업무 > 공간정보활용 > 대기오염 > 대기관측소 -->

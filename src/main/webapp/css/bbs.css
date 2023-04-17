@@ -24,7 +24,7 @@
 }
 
 .srch-box .form-select {
-	background-image: url(/yp_dt/images/icon/form-select-arrow-md.jpg);
+	background-image: url(/images/icon/form-select-arrow-md.jpg);
 }
 
 .srch-default table {
@@ -60,7 +60,7 @@
 }
 
 .srch-tbl .form-select {
-	background-image: url(/yp_dt/images/icon/form-select-arrow-md.jpg);
+	background-image: url(/images/icon/form-select-arrow-md.jpg);
 }
 
 .srch-tbl .btn.bi-location {
@@ -778,11 +778,11 @@
 	background-color: #1C77FF;
 }
 
-.comments-panel .comments-list .user-box .edit {background-image: url(/yp_dt/images/icon/icon-comments-edit.svg);}
+.comments-panel .comments-list .user-box .edit {background-image: url(/images/icon/icon-comments-edit.svg);}
 .comments-panel .comments-list .user-box .edit.active,
-.comments-panel .comments-list .user-box .edit:hover {background-image: url(/yp_dt/images/icon/icon-comments-edit-on.svg);}
-.comments-panel .comments-list .user-box .delete {background-image: url(/yp_dt/images/icon/icon-comments-delete.svg);}
-.comments-panel .comments-list .user-box .delete:hover {background-image: url(/yp_dt/images/icon/icon-comments-delete-on.svg);}
+.comments-panel .comments-list .user-box .edit:hover {background-image: url(/images/icon/icon-comments-edit-on.svg);}
+.comments-panel .comments-list .user-box .delete {background-image: url(/images/icon/icon-comments-delete.svg);}
+.comments-panel .comments-list .user-box .delete:hover {background-image: url(/images/icon/icon-comments-delete-on.svg);}
 
 .comments-panel .comments-list .comments {
 	padding: 5px 0;
@@ -859,7 +859,7 @@
 	margin-left: -3px;
 	width: 10px;
 	height: 9px;
-	background: url(/yp_dt/images/etc/reply-badge-arrow.svg) no-repeat 50% 50%;
+	background: url(/images/etc/reply-badge-arrow.svg) no-repeat 50% 50%;
 }
 
 /*------------------------------------------------------------------------------
@@ -912,15 +912,15 @@
 	background-position: 50% 50%;
 }
 
-.pagination .first {left: 0;background-image: url(/yp_dt/images/icon/pagination-first.svg);border-radius: 5px 0 0 5px;}
-.pagination .prev {left: 20px;background-image: url(/yp_dt/images/icon/pagination-prev.svg);border-radius: 0 5px 5px 0;}
-.pagination .next {right: 20px;background-image: url(/yp_dt/images/icon/pagination-next.svg);border-radius: 5px 0 0 5px;}
-.pagination .last {right: 0;background-image: url(/yp_dt/images/icon/pagination-last.svg);border-radius: 0 5px 5px 0;}
+.pagination .first {left: 0;background-image: url(/images/icon/pagination-first.svg);border-radius: 5px 0 0 5px;}
+.pagination .prev {left: 20px;background-image: url(/images/icon/pagination-prev.svg);border-radius: 0 5px 5px 0;}
+.pagination .next {right: 20px;background-image: url(/images/icon/pagination-next.svg);border-radius: 5px 0 0 5px;}
+.pagination .last {right: 0;background-image: url(/images/icon/pagination-last.svg);border-radius: 0 5px 5px 0;}
 
-.pagination .first:hover {background-image: url(/yp_dt/images/icon/pagination-first-on.svg);}
-.pagination .prev:hover {background-image: url(/yp_dt/images/icon/pagination-prev-on.svg);}
-.pagination .next:hover {background-image: url(/yp_dt/images/icon/pagination-next-on.svg);}
-.pagination .last:hover {background-image: url(/yp_dt/images/icon/pagination-last-on.svg);}
+.pagination .first:hover {background-image: url(/images/icon/pagination-first-on.svg);}
+.pagination .prev:hover {background-image: url(/images/icon/pagination-prev-on.svg);}
+.pagination .next:hover {background-image: url(/images/icon/pagination-next-on.svg);}
+.pagination .last:hover {background-image: url(/images/icon/pagination-last-on.svg);}
 
 .pagination .first + .prev,
 .pagination .next + .last {

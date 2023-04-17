@@ -116,7 +116,7 @@ function aj_selectOpQna(){
 </script>
 <!doctype html>				
 				
-					<div class="popup-header">운영지원</div>
+					<div class="popup-header" style="background-image: url(/images/etc/popup-title-board.svg)">운영지원</div>
 					<div class="popup-body">
 						<div class="bbs-popup-body">
 							<div class="scroll-y" style="height: 654px;">
