@@ -3,9 +3,40 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <script>
+
 $(".scroll-y").mCustomScrollbar({
 	scrollbarPosition: "outside"
 });
+
+//geom 값 넣기
+function mapClick() {
+	dtmap.draw.active({type: 'Point', once: true});
+	dtmap.draw.setBuffer(0);	// 공간검색으로 인한 범위 변경
+	
+	dtmap.on('drawend', welFareFaciGeom);
+}
+
+function welFareFaciGeom(e) {
+	dtmap.draw.dispose();
+	var geom = e.geometry;
+	const position = geom.getFlatCoordinates();
+	var xObj = parseFloat(position[0]);
+	var yObj = parseFloat(position[1]);
+	
+	cmmUtil.reverseGeocoding(xObj, yObj).done((result) => {
+		$("#inWelFareFaciTbl input[name=lnmAdres]").val('경기도 양평군 ' + result["address"]);
+		const format = new ol.format.WKT();
+		const point = new ol.geom.Points([xObj, yObj]);
+		const wkt = format.writeGeometry(point);
+		console.log(wkt)
+		$("#inWelFareFaciTbl input[name=geom]").val(wkt);
+	});
+	
+	var lonLat = new ol.geom.Point(ol.proj.transform([xObj, yObj], 'EPSG:5179', 'EPSG:4326'))
+	$("#inWelFareFaciTbl input[name=lon]").val(lonLat.flatCoordinates[0]);
+	$("#inWelFareFaciTbl input[name=lat]").val(lonLat.flatCoordinates[1]);
+}
+
 </script>
 
 <!-- 업무 > 시설관리 > 복지시설 > 등록하기 -->
@@ -26,36 +57,36 @@ $(".scroll-y").mCustomScrollbar({
 						<tbody>
 							<tr>
 								<th scope="row">시설명</th>
-								<td colspan="3"><input type="text" class="form-control" id="wlre_fclty_nm" name="fcltyNm" maxlength="50"></td>												
+								<td colspan="3"><input type="text" class="form-control" id="wel_fclty_nm" name="fcltyNm" maxlength="50"></td>												
 							</tr>										
 							<tr>
 								<th scope="row">시설구분</th>
 								<td>
-									<select name="wlre_fclty_se" class="form-control" id="wlre_fclty_se" name="fcltySe">
+									<select class="form-control" id="wel_fclty_se" name="fcltySe">
 									</select>
 								</td>
 								<th scope="row">전화번호</th>
-								<td><input type="text" class="form-control" id="wlre_cttpc_telno" name="cttpcTelno" maxlength="20"></td>
+								<td><input type="text" class="form-control" id="wel_cttpc_telno" name="cttpcTelno" maxlength="20"></td>
 							</tr>	
 							<tr>
 								<th scope="row">도로명주소</th>
-								<td><input type="text" class="form-control" id="wlre_rn_adres" name="rnAdres" maxlength="200"></td>
+								<td><input type="text" class="form-control" id="wel_rn_adres" name="rnAdres" maxlength="200"></td>
 								<th scope="row">우편번호</th>
-								<td><input type="text" class="form-control" id="wlre_zip" name="zip" maxlength="6"></td>											
+								<td><input type="text" class="form-control" id="wel_zip" name="zip" maxlength="6"></td>											
 							</tr>	
 							<tr>
 								<th scope="row">지번주소</th>
 								<td colspan="3">
 									<div class="form-row">
 										<div class="col">
-											<input type="text" class="form-control" id="wlre_lnm_adres" name="lnmAdres" maxlength="200">
+											<input type="text" class="form-control" id="wel_lnm_adres" name="lnmAdres" maxlength="200" style="width: 270px;">
 										</div>
-										<div class="col" style="display: none;">
-											<input type="text" class="form-control" id="wlre_lon" readonly placeholder="경도">
-											<input type="text" class="form-control" id="wlre_lat" readonly placeholder="위도">
+										<div class="col">
+											<input type="hidden" class="form-control" id="wel_lon" name="lon" placeholder="경도">
+											<input type="hidden" class="form-control" id="wel_lat" name="lat" placeholder="위도">
 										</div> 
 										<div class="col-auto">
-											<button type="button" class="btn type01 bi-location" onclick="WLRE.setLocation();">지도에서 선택</button>
+											<button type="button" class="btn type01 bi-location" onclick="mapClick();">지도에서 선택</button>
 										</div>
 										<input type="hidden" name="geom" id="geom">
 									</div>

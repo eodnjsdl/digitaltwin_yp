@@ -39,9 +39,4 @@ public interface WelFareFaciService {
 	 * 복지시설 삭제
 	 */
 	public int deleteWelFareFaci(WelFareFaciVO welFareFaciVO) throws Exception;
-	
-	/**
-	 * 복지시설 엑셀 다운로드
-	 * @throws Exception
-	 */
 }

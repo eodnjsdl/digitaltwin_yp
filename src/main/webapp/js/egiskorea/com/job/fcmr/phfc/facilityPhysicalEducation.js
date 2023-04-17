@@ -30,9 +30,7 @@ function getPhyEduFaciListView() {
 		}
 		
 		FACILITY.Ax5UiGrid = null;	// ax5uigrid 전역 변수 
-	    
 	    FACILITY.Ax5UiGrid = new ax5.ui.grid();
-		
 	    FACILITY.Ax5UiGrid.setConfig({
 			target: $target,
 			sortable: true,
@@ -42,7 +40,7 @@ function getPhyEduFaciListView() {
 			},
 			columns: [
 				{key: "gid",			label: "관리번호",		width: 80},
-				{key: "fclty_ty", 		label: "시설구분",		width: 100},
+				{key: "fclty_ty", 		label: "시설유형",		width: 100},
 				{key: "fclty_nm",		label: "체육시설명",	width: 200},
 				{key: "adres",			label: "주소",		width: 300},
 				{key: "fond_de",		label: "설립일자",		width: 130},
@@ -60,16 +58,15 @@ function getPhyEduFaciListView() {
 				nextIcon: '&gt;',
 				lastIcon: '&gt;&gt;',
 	            onChange: function() {
-	            	selectPhyEduFaciList(this.page.selectPage + 1);
-	            	$('#hiddenPage').val(this.page.selectPage + 1);
+	            	selectPhyEduFaciList(this.page.selectPage + 1);	// 페이지 이동
+	            	$('.hiddenPage').val(this.page.selectPage + 1);
 	            }
 			},
 			body: {
 				align: "center",
 				onClick: function() {
 					//this.self.select(this.dindex);
-					selectPhyEduFaciDetail(this.item.gid);	// 상세보기
-					$('#hiddenIconId').val(this.item.id);
+					selectPhyEduFaciDetail(this.item.id);	// 상세보기
 				}
 			}
 		});
@@ -85,38 +82,63 @@ function selectPhyEduFaciList(page) {
 	//console.log("page >>> " + page);
 	
 	// 검색 조건
-	const filters = [];
-	
-	var sporSearchAdres = $('input[name=sporSearchAdres]').val();				// 읍면동
-	var sporSearchAlsfc_nm = $('input[name=sporSearchAlsfc_nm]').val();			// 시설명
-	var sports_fcty_tp_cd = $("#sports_fcty_tp_cd option:selected").val();		// 시설구분
-	var sports_oper_mthd_cd = $("#sports_oper_mthd_cd option:selected").val();	// 운영방식
-	
-	if (sporSearchAdres) {
-		filters.push("adres" + " like " + sporSearchAdres)
-	}
-	if (sporSearchAlsfc_nm) {
-		filters.push("fclty_nm" + " like " + sporSearchAlsfc_nm)
-	}
-	if (sports_fcty_tp_cd) {
-		filters.push("fclty_ty" + " = " + sports_fcty_tp_cd)
-	}
-	if (sports_oper_mthd_cd) {
-		filters.push("oper_mthd" + " = " + sports_oper_mthd_cd)
-	}
-
 	var options;
-	options = {
-		typeNames	: 'tgd_phstrn_fclty' + "",
-		perPage		: 10,
-		page		: page,
-		filter		: filters,
-		sortBy		: 'gid',
-        sortOrder	: 'DESC'
-	};
+	
+	if ($(".waterProperty").hasClass("on")) {
+		//console.log("속성 검색 조건");
+		
+		//속성 검색
+		const filters = [];
+		
+		var adres = $('input[name=adres]').val();				// 읍면동
+		var fcltyNm = $('input[name=fcltyNm]').val();			// 시설명
+		var fcltyTy = $("#phyFcltyTy option:selected").val();	// 시설구분
+		var operMthd = $("#phyOperMthd option:selected").val();	// 운영방식
+		
+		if (adres) {
+			filters.push("adres" + " like " + adres);
+		}
+		if (fcltyNm) {
+			filters.push("fclty_nm" + " like " + fcltyNm);
+		}
+		if (fcltyTy) {
+			filters.push("fclty_ty" + " = " + fcltyTy);
+		}
+		if (operMthd) {
+			filters.push("oper_mthd" + " = " + operMthd);
+		}
+		
+		options = {
+			typeNames	: 'tgd_phstrn_fclty' + "",
+			perPage		: 10,
+			page		: page,
+			filter		: filters,
+			sortBy		: 'gid',
+			sortOrder	: 'DESC'
+		};
+	} else if ($(".waterSpace").hasClass("on")) {
+		//console.log("공간 검색 조건");
+		
+		const $parent 	= $(".facility-spatial-search").closest('.search-area');
+		const type 		= $parent.find('input[name="rad-facility-area"]:checked').val();
+
+		options = {
+			typeNames	: 'tgd_phstrn_fclty' + "",
+			perPage		: 10,
+			page		: page,
+			sortBy		: 'gid',
+			sortOrder	: 'DESC'
+		}
+		if (type === 'extent') {
+			options.bbox 		= FACILITY.spaceSearchOption.bbox;
+		} else {
+			options.geometry 	= FACILITY.spaceSearchOption.geometry;
+		}
+	} else {
+		alert("검색 오류");
+	}
 	
 	const promise = dtmap.wfsGetFeature(options);
-	
 	promise.then(function(data) {
 		// 그리드 데이터 전처리
 		const list = [];
@@ -133,6 +155,8 @@ function selectPhyEduFaciList(page) {
 		
 		if (total > 0) {
         	$("#bottomPopup .bbs-list-num").html("조회결과: " + total + "건");
+        } else if (total == 0) {
+        	$("#bottomPopup .bbs-list-num").html("조회결과: 0건");
         }
 
 		// gird 적용
@@ -169,9 +193,18 @@ function selectPhyEduFaciList(page) {
 };
 
 // 체육시설 상세보기
-function selectPhyEduFaciDetail(gid) {
+function selectPhyEduFaciDetail(id) {
 	//console.log("selectPhyEduFaciDetail(item)");
 	//console.log("gid >>> " + gid);
+	
+	var gid;
+	if (id.includes('.')) {
+		var idArray = id.split(".");
+		gid = idArray[1];
+	} else {
+		gid = id;
+		id = "tgd_phstrn_fclty." + id;
+	}
 	
 	ui.openPopup("rightSubPopup");
 	
@@ -179,8 +212,7 @@ function selectPhyEduFaciDetail(gid) {
 	$(container).load("/job/fcmr/phfc/selectPhyEduFaciDetail.do", { gid: gid }, function() {
 		toastr.success("/job/fcmr/phfc/selectPhyEduFaciDetail.do", "페이지🙂호🙂출🙂");
 		
-		var iconId = $('#hiddenIconId').val();
-		dtmap.vector.select(iconId);		// 지도에 표시
+		dtmap.vector.select(id);		// 지도에 표시
 		
 		$(".scroll-y").mCustomScrollbar({
 			scrollbarPosition: "outside",
@@ -299,6 +331,13 @@ function insertPhyEduFaci() {
 					alert("정상적으로 등록되었습니다.");
 					
 					closePhyEduFaciPopup();
+					
+					$('li[data-tab=waterProperty] .inner-tab').click();	// 속성변경 클릭
+					$('input[name=adres]').val('');						// 읍면동 clear
+					$('input[name=fcltyNm]').val('');					// 시설명 clear
+					$("#phyFcltyTy").val('').prop('selected', true);	// 시설구분 clear
+					$("#phyOperMthd").val('').prop('selected', true);	// 운영방식 clear
+					
 					selectPhyEduFaciList(1);
 				},
 				error: function(request,status,error) {
@@ -340,7 +379,7 @@ function updatePhyEduFaciView(gid) {
 
 // 체육시설 수정 저장
 function updatePhyEduFaci(gid) {
-	var page = $('#hiddenPage').val();
+	var page = $('.hiddenPage').val();
 	
 	// NULL값도 가능한 input
 //	var fclty_ty 			= $('#phyEduFaciTbl #fclty_ty option:selected').val();		// 시설유형
@@ -759,24 +798,23 @@ function getPhyFaciMngViewPaging(pageIndex, gid) {
 // 시설정보 등록
 function insertPhyFaciMng(gid) {
 	//alert('시설정보 등록 GID: ' + gid);
-	
-//	var asstn_fclty_nm 	= $('#phyFaciMng input[name=asstn_fclty_nm]').val();
 //	var oper_strt_time 	= $('#phyFaciMng select[name=oper_strt_time]').val() + ':00';
 //	var oper_end_time 	= $('#phyFaciMng select[name=oper_end_time]').val() + ':00';
 //	var rsrv_at 		= $('#phyFaciMng input:radio[name=rsrv_at]:checked').val();
 //	var ho_cnt 			= $('#phyFaciMng input[name=ho_cnt]').val();
-//	var fclty_dc 		= $('#phyFaciMng input[name=fclty_dc]').val();
-//	var geom 			= $('#phyFaciMng #geom').val();
 	
+	var asstn_fclty_nm = $('#phyFaciMng input[name=asstn_fclty_nm]').val();
 	if (asstn_fclty_nm == '') {
 		alert('시설명을 입력해주세요.');
 		$('#phyFaciMng input[name=asstn_fclty_nm]').focus();
 		return false;
 	}
+	var geom = $('#phyFaciMng #geom').val();
 	if (geom == '') {
 		alert('지도에서 선택 버튼을 눌러 위치를 입력해주세요.');
 		return false;
 	}
+	var fclty_dc 		= $('#phyFaciMng input[name=fclty_dc]').val();
 	if (fclty_dc == '') {
 		alert('시설설명을 입력해주세요.');
 		$('#phyFaciMng input[name=fclty_dc]').focus();
@@ -865,19 +903,140 @@ function deletePhyFaciMng() {
 	}
 }
 
+// 체육시설 popup창 닫기
 function closePhyEduFaciPopup() {
-	var page = $('#hiddenPage').val();
+	var page = $('.hiddenPage').val();
 	selectPhyEduFaciList(page);		// 목록 재로딩
+	
+	dtmap.draw.dispose();			// 마우스에 파란점 제거
+	dtmap.draw.clear();				// 지도에 파란점 제거
 	
 	ui.closeSubPopup();				// 팝업 닫기
 }
 
-// 체육시설 엑셀 저장
-function fn_downloadExcel() {
-	alert('체육시설 엑셀 저장');
+//체육시설 엑셀 저장
+function phyEduFaciExcel() {
+	var $container = $("#container");
+    var $target = $container.find('#baseGridDiv [data-ax5grid="attr-grid-excel"]');	//가상의 ax5uigrid 공간에 처리 
+    $target.css('display', 'none');
+    
+	FACILITY.Ax5UiGridAll = null;	//Ax5UiGridAll 전역 변수 
+    FACILITY.Ax5UiGridAll = new ax5.ui.grid();
+    FACILITY.Ax5UiGridAll.setConfig({
+		target:  $target,
+        sortable: true,
+        multipleSelect: false,
+        header: {
+			align: "center"
+		},
+        columns: [
+			{key: "gid",				label: "관리번호",			width: '*'},
+			{key: "fclty_nm",			label: "체육시설명",		width: '*'},
+			{key: "fclty_ty", 			label: "시설유형",			width: '*'},
+			{key: "oper_mthd",			label: "운영방식",			width: '*'},
+			{key: "fond_de",			label: "설립일자",			width: '*'},
+			{key: "buld_size",			label: "건물크기",			width: '*'},
+			{key: "lad_size",			label: "토지크기",			width: '*'},
+			{key: "stdm_stndrd",		label: "경기장규격",		width: '*'},
+			{key: "adtm_aceptnc_nmpr",	label: "관람석수용인원",		width: '*'},
+			{key: "manage_nmpr",		label: "관리인원",			width: '*'},
+			{key: "fyer_utlztn_nmpr",	label: "연간이용인원",		width: '*'},
+			{key: "erc_ct",				label: "건립비용",			width: '*'},
+			{key: "adres",				label: "주소",			width: '*'},
+			{key: "chrg_dept_nm",		label: "담당부서",			width: '*'},
+			{key: "charger_nm",			label: "담당자",			width: '*'},
+			{key: "cttpc_telno",		label: "문의번호",			width: '*'},
+			{key: "fclty_sumry",		label: "시설개요",			width: '*'},
+		],
+		body: {
+			align: "center"
+		}
+    });
+    
+	// 검색 조건
+	var options;
+	
+	if ($(".waterProperty").hasClass("on")) {
+		//속성 검색
+		const filters = [];
+		
+		var adres = $('input[name=adres]').val();				// 읍면동
+		var fcltyNm = $('input[name=fcltyNm]').val();			// 시설명
+		var fcltyTy = $("#phyFcltyTy option:selected").val();	// 시설구분
+		var operMthd = $("#phyOperMthd option:selected").val();	// 운영방식
+		
+		if (adres) {
+			filters.push("adres" + " like " + adres);
+		}
+		if (fcltyNm) {
+			filters.push("fclty_nm" + " like " + fcltyNm);
+		}
+		if (fcltyTy) {
+			filters.push("fclty_ty" + " = " + fcltyTy);
+		}
+		if (operMthd) {
+			filters.push("oper_mthd" + " = " + operMthd);
+		}
+		
+		options = {
+			typeNames	: 'tgd_phstrn_fclty' + "",
+			filter		: filters,
+			sortBy		: 'gid',
+			sortOrder	: 'ASC'
+		};
+	} else if ($(".waterSpace").hasClass("on")) {
+		const $parent 	= $(".facility-spatial-search").closest('.search-area');
+		const type 		= $parent.find('input[name="rad-facility-area"]:checked').val();
+
+		options = {
+			typeNames	: 'tgd_phstrn_fclty' + "",
+			sortBy		: 'gid',
+			sortOrder	: 'ASC'
+		}
+		if (type === 'extent') {
+			options.bbox 		= FACILITY.spaceSearchOption.bbox;
+		} else {
+			options.geometry 	= FACILITY.spaceSearchOption.geometry;
+		}
+	} else {
+		alert("검색 오류");
+	}
+	
+	// 엑셀파일 날짜_시간
+	var today = new Date(); 
+	let year = dateNum(today.getFullYear());		// 년도
+	let month = dateNum(today.getMonth() + 1, 2);	// 월
+	let date = dateNum(today.getDate(), 2);			// 날짜
+	let hours = dateNum(today.getHours(), 2);		// 시
+	let minutes = dateNum(today.getMinutes(), 2);	// 분
+	let seconds = dateNum(today.getSeconds(), 2);	// 초
+
+	var todayDate = year+month+date+'_'+hours+minutes+seconds;
+	
+	const promise = dtmap.wfsGetFeature(options);
+	promise.then(function(data) {
+		// 그리드 데이터 전처리
+		const list = [];
+		for (let i = 0; i < data.features.length; i++) {
+			// 좌표 처리
+			data.features[i].properties.geomObj = data.features[i].geometry;
+        	
+			const {id, properties} = data.features[i];
+			list.push({...properties, ...{id: id}});
+		}
+		
+		// gird 적용
+        FACILITY.Ax5UiGridAll.setData(list);
+        
+        //엑셀 export
+		FACILITY.Ax5UiGridAll.exportExcel("체육시설목록_" + todayDate + ".xls");
+	});
 }
 
-// 체육시설 상세보기로 back
-function backPhyEduFaciDetail(gid) {
-	selectPhyEduFaciDetail(gid);
+function dateNum(number, length) {
+	var num = '' + number;
+	while (num.length < length) {
+		num = '0' + num;
+	}
+	return num;
 }

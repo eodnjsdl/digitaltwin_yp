@@ -34,6 +34,8 @@ $(document).ready(function(){
 //geom 값 넣기
 function mapClick() {
 	dtmap.draw.active({type: 'Point', once: true});
+	dtmap.draw.setBuffer(0);	// 공간검색으로 인한 범위 변경
+	
 	dtmap.on('drawend', phyEduFaciGeom);
 }
 
@@ -45,11 +47,11 @@ function phyEduFaciGeom(e) {
 	var yObj = parseFloat(position[1]);
 	
 	cmmUtil.reverseGeocoding(xObj, yObj).done((result) => {
-		$("input[name=adres]").val('경기도 양평군 ' + result["address"]);
+		$("#phyEduFaciTbl input[name=adres]").val('경기도 양평군 ' + result["address"]);
 		const format = new ol.format.WKT();
 		const point = new ol.geom.Point([xObj, yObj]);
 		const wkt = format.writeGeometry(point);
-		$("input[name=geom]").val(wkt);
+		$("#phyEduFaciTbl input[name=geom]").val(wkt);
 	});
 }
 </script>

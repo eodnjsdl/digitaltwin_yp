@@ -36,6 +36,7 @@ function codeArrayInit(){
 	setCmmCodeDataArray("MNG-001");				//관리기관	
 	setCmmCodeDataArray("OGC-048");				//소화전 형식
 
+	setCmmCodeDataArray("FCLTCD");				// 복지시설 구분
 }
 
 ///////////////////////////
@@ -293,6 +294,10 @@ function onFacilitySelectEventListener(e){
 					toastr.error("지도 객체 클릭 작업중", "상수도시설 - 상수관로");
 				}else if(featureType == "wtl_flow_ps"){					//상수도시설 - 유량계
 					toastr.error("지도 객체 클릭 작업중", "상수도시설 - 유량계");
+				}else if(featureType == "tgd_phstrn_fclty"){					// 체육시설
+					selectPhyEduFaciDetail(id);
+				}else if(featureType == "tgd_sclwlfr_fclty_status"){			// 복지시설
+					selectWelFareFaciDetail(id);
 				}else{
 					alert("지도 객체 선택 오류");
 					return false;
