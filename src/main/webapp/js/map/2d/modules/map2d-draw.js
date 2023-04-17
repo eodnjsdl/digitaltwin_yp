@@ -321,6 +321,9 @@ map2d.draw = (function () {
                 return cloned;
             })
 
+            if (!features || features.length === 0) {
+                return;
+            }
 
             return format.writeFeatures(features);
         }
@@ -355,6 +358,9 @@ map2d.draw = (function () {
     function getGeometry(index) {
         index = index === undefined ? 0 : index;
         let feature = _source.getFeatures()[index];
+        if (!feature) {
+            return;
+        }
         let geom = feature.getGeometry();
         return geom;
     }
