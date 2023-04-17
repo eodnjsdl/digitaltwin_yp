@@ -184,7 +184,10 @@
                 
                 //this.bindEvents();
                 //this.loadSnap();
-                $(".space-edit-tool").show();
+            	if(!$(".space-edit-tool").hasClass("opened")){
+                	$(".space-edit-tool").addClass("opened");
+                	$(".space-edit-tool").draggable();
+                }
                 
                	$.getJSON(
 			        "/com/mngr/info/selectAllLayerManageList.do"
@@ -208,28 +211,6 @@
                 
                 ui.loadingBar("hide");
             });
-        	
-            /* this.editingTool = new EditingTool(
-                that.geometryType,
-                that.feature.getGeometry(),
-                (geometry) => {
-                    this.feature.setGeometry(geometry);
-                    this.getAddress(geometry).done((result) => {
-                        if (result["address"]) {
-                            this.address = result["address"];
-                        } else {
-                            this.address = "";
-                        }
-                        $(".txt-geometry-address", that.selector).val(this.address);
-                    });
-
-                    const format = new ol.format.WKT();
-                    cmmUtil.highlightGeometry(format.writeGeometry(geometry));
-
-                    this.editingTool = null;
-                }
-            ); */
-            
         });
      	
      	//////////////////

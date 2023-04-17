@@ -152,7 +152,10 @@
 <script type="text/javascript">
 	//jqeury
 	$(document).ready(function(){
-		//console.log("wtlFlowPsListView.jsp");	
+		//console.log("wtlFlowPsListView.jsp");
+		
+		//이벤트 리스너 추가
+		dtmap.on('select', onFacilitySelectEventListener);
 		
 		//////////////////
 		//하위메뉴 select box
@@ -193,30 +196,51 @@
 				$("#rightSubPopup").removeClass("opened");
 				$("#rightSubPopup").empty();
 			}
+			
+			//공간정보 편집도구 닫기
+			if($(".space-edit-tool").hasClass("opened")){
+            	$(".space-edit-tool").removeClass("opened");
+                $(".space-edit-tool").empty();
+            }
+			
 		});
 		
 		
 		/////////////////////
+		
+		//속성 검색, 공간 검색 탭 제어
+		$(document).on("click", ".tabBoxDepth2-wrap .tabBoxDepth2 > ul > li > .inner-tab", function(){ 
+			$(this).each(function(){
+				$(this).parent().addClass("on").siblings().removeClass("on");
+				$("."+$(this).parent().data("tab")).addClass("on").siblings().removeClass("on");
+			});
+			
+			if($("li[data-tab=groundwaterProperty]").hasClass("on")){	//속성검색 일때 공간 검색때 사용한 그리기 초기화
+				dtmap.draw.dispose();		//그리기 포인트 삭제
+				dtmap.draw.clear();			//그리기 초기화
+			}
+			
+		});
      	
-     	// 공간 검색
+     	// 공간 검색 조회 버튼
         $(".facility-spatial-search", "#bottomPopup").on("click", function (e) {
-            // that.searchArea();
+        	//console.log("공간검색 조회");
+        	
             const $parent = $(e.target).closest('.search-area');
             const type = $parent.find('input[name="rad-facility-area"]:checked').val();
 
-            const param = {
-                typeNames: "wtl_flow_ps",
-            }
             if (type === 'extent') {
-                param.bbox = dtmap.getExtent();
+            	FACILITY.spaceSearchOption.bbox 	= dtmap.getExtent();
             } else {
-                param.geometry = dtmap.draw.getGeometry()
+            	if(dtmap.draw.source.getFeatures().length > 0){
+	            	FACILITY.spaceSearchOption.geometry = dtmap.draw.getGeometry();
+            	}else{
+            		alert("영역지정 안되었습니다");
+            		return false;
+            	}
             }
-
-            dtmap.wfsGetFeature(param).then(function (e) {
-                dtmap.vector.clear();
-                dtmap.vector.readGeoJson(e);
-            })
+           	
+           	selectWtlFlowPsList(1);
 
         });
      	
@@ -227,6 +251,11 @@
             const value = node.val();
             if (value == "extent") {
                 $(".space-facility-area", "#bottomPopup").hide();
+                
+              	//그리기, 그려진 것 초기화
+                dtmap.draw.dispose();
+                dtmap.draw.clear();
+                
             } else {
                 $(".space-facility-area", "#bottomPopup").show();
                 $("[name=rad-facility-drawing]:first", "#bottomPopup").trigger("click");
@@ -238,7 +267,6 @@
         $("[name=rad-facility-drawing]", "#bottomPopup").on("click", function () {
             const node = $(this);
             const value = node.val();
-            // that.searchDrawing(value);
 
             let type;
             switch (Number(value)) {
@@ -256,19 +284,15 @@
                     break;
             }
             dtmap.draw.active({type: type, once: true})
-            toastr.warning("that.searchDrawing(value);", "공간검색 사용자정의");
+          	//toastr.warning("that.searchDrawing(value);", "공간검색 사용자정의");
+            $(".area-facility-buffer").val("1").trigger("keyup");
         });
 		
      	
+      	//경계로부터 버퍼 영역 지정
         $(".area-facility-buffer", "#bottomPopup").on("keyup", function (event) {
-            // if (event.keyCode == "13") {
-            //     $(".facility-spatial-search", that.container).trigger("click");
-            // }
-
-            dtmap.draw.setBuffer(Number(this.value))
+            dtmap.draw.setBuffer(Number(this.value));
         });
-        
-		
 	});
 
 	//functions

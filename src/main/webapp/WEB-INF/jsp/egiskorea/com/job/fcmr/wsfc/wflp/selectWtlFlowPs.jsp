@@ -169,7 +169,7 @@
 	
 	//functions
 	
-	//소반시설 상세보기 취소
+	//유량계 상세보기 취소
 	function cancelSelectWtlFlowPs() {
 		//console.log("cancelSelectWtlFlowPs()");
 		
