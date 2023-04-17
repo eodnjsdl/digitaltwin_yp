@@ -13,7 +13,7 @@ window.ui = (function () {
         //LEFT메뉴영역
         _leftMenuEvent();
         
-        //지도 모드에 따라 메뉴 변경
+        //지도 모드에 따라 메뉴 변경 2D/3D
         _changeMenu();
    
         //좌측 메뉴 >> 공간정보
@@ -50,6 +50,12 @@ window.ui = (function () {
             dtmap.draw.clear();
             dtmap.vector.clear();
         });
+        
+		//LEFT 메뉴 닫기 버튼
+		$(".lnb-util .lnb-close").click(function(){
+			($(this).parent().parent()).stop().fadeOut(100);
+			$("#lnb li[data-menu]").removeClass("on");									
+		});
     }
 
     //상단 메뉴 

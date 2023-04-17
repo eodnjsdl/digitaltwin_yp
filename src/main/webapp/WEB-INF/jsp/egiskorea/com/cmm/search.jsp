@@ -232,6 +232,21 @@
 								<!-- //공간검색 -->
 							</div>
 						</div>
-						<div class="lnb-util">
-							<button type="button" class="manualBtn" title="도움말" onclick="manualTab('통합검색')"></button>
-						</div><!-- removeLayer() > 레이어 삭제 함수 job.js에 2D/3D일 경우 나눠놨습니다. -->
+						<div class="lnb-util"><button type="button" class="manualBtn" title="도움말"></button> <button type="button" class="lnb-resetBtn" title="초기화"></button><button type="button" class="lnb-close" title="닫기"></button></div>
+						<script>
+							$(document).ready(function(){
+								$(".searchResult-wrap .search-list a").click(function(){
+									$(this).parent().addClass("active").siblings().removeClass("active");
+								});
+
+								$(".searchArea .tabBoxDepth2 .inner-tab").click(function(){
+									if( $("li[data-tab='addrSearchfacility']").hasClass("on") ){
+										$(".searchArea .searchResult-wrap").css({'height': '416px'});
+										$(".searchArea .search-empty").css({'height': '416px'});
+									} else {
+										$(".searchArea .searchResult-wrap").css({'height': '379px'});
+										$(".searchArea .search-empty").css({'height': '379px'});
+									}
+								});
+							});
+						</script>

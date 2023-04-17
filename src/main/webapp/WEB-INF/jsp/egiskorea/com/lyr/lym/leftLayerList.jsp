@@ -203,8 +203,26 @@ function aj_deleteLayerListInfo(btn){
 
 						</div>
 
-						<div class="lnb-util">
-							<button type="button" class="manualBtn" title="도움말" onclick="manualTab('레이어')"></button>
-							<button type="button" class="lnb-resetBtn" title="초기화"></button>
-						</div>
+						<div class="lnb-util"><button type="button" class="manualBtn" title="도움말"></button> <button type="button" class="lnb-resetBtn" title="초기화"></button><button type="button" class="lnb-close" title="닫기"></button></div>
+						<script>
+							$(document).ready(function(){
+								$(".layer-list .layer-detail").click(function(){
+									$(".layer-list li").find(".active").removeClass("active");
+									$(this).closest("li").addClass("active").siblings().removeClass("active");
+								});
+
+								$(".layer-list .layer-toggle").click(function(){
+									$(this).find(".open").removeClass("open").addClass("close");
+
+									if( $(this).hasClass("close") ){
+										$(this).removeClass("close").addClass("open").attr("title","펼치기");
+										$(this).next(".layer-list-dep2").slideUp(200);
+
+									}else if( $(this).hasClass("open")){
+										$(this).removeClass("open").addClass("close").attr("title","접기");
+										$(this).next(".layer-list-dep2").slideDown(200);
+									}
+								});
+							});
+						</script>
 						
