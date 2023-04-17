@@ -9,6 +9,9 @@ $(document).ready(function(){
 	console.log("editView.js");
 	console.log("공간정보 편집도구");
 	
+	
+	dtmap.draw.setBuffer(0);	//버퍼 적용 초기화
+	
 });
 
 //functions
@@ -132,6 +135,28 @@ function geoEditBindEvents(obj) {
 
     // 적용
     $(".edit-btn-apply").on("click", function () {
+    	console.log(".edit-btn-apply");
+    	
+    	/*const wkt = cmmUtil.getEditGeometry();
+        if (wkt) {
+            const format = new ol.format.WKT();
+            let geometry = format.readGeometry(wkt);
+            if (that.geometryType.indexOf("multi") >= 0) {
+                if (geometry instanceof ol.geom.Point) {
+                    geometry = new ol.geom.MultiPoint([geometry.getCoordinates()]);
+                } else if (geometry instanceof ol.geom.LineString) {
+                    geometry = new ol.geom.MultiLineString([geometry]);
+                } else if (geometry instanceof ol.geom.Polygon) {
+                    geometry = new ol.geom.MultiPolygon([geometry]);
+                }
+            }
+            console.log("geometry>>>>>");
+            console.log(geometry);
+        
+        } else {
+            alert(`공간정보를 입력하여 주십시오.`);
+        }*/
+    	
         
         //위경도 좌표계에 있는 좌표를 등록 페이지에 적용
         var xObj = $(".space-edit-tool .edit-x").val();
@@ -146,9 +171,11 @@ function geoEditBindEvents(obj) {
 		var yObj = parseFloat(yObj);
         
     	cmmUtil.reverseGeocoding(xObj, yObj).done((result)=>{
+    		
 			$(".txt-geometry-address").val(result["address"]);
 			const format = new ol.format.WKT();
 			const point = new ol.geom.Point([xObj, yObj]);
+			console.log(point);
 			const wkt = format.writeGeometry(point);
 			$("input[name=geom]").val(wkt);
 			

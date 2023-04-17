@@ -270,7 +270,11 @@ window.dtmap = (function () {
         }
 
         if (options.geometry) {
-            ary.push(new ol.format.filter.intersects('geom', options.geometry, options.crs || dtmap.crs));
+            let geom = options.geometry.clone();
+            if (geom instanceof ol.geom.Circle) {
+                geom = ol.geom.Polygon.fromCircle(geom);
+            }
+            ary.push(new ol.format.filter.intersects('geom', geom, options.crs || dtmap.crs));
         } else if (options.bbox) {
             ary.push(new ol.format.filter.bbox('geom', options.bbox));
         }

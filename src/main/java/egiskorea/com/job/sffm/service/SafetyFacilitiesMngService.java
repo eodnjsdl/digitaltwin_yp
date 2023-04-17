@@ -50,9 +50,13 @@ public interface SafetyFacilitiesMngService {
 	public int updateSffm(SafetyFacilLampMng sffmVO);
 	
 	// 안전시설물관리 > 가로등관리 엑셀다운
-	SXSSFWorkbook makeSffmExcelList(HashMap parameter);
-	List sffmExcelDown(SafetyFacilLampMngVO sffmVO);
+	/*SXSSFWorkbook makeSffmExcelList(HashMap parameter);
+	HashMap sffmExcelDown(SafetyFacilLampMngVO sffmVO);*/
 	
 	// 안전시설물관리 > 가로등관리 poi
 	public List<SafetyFacilLampMng> selectSffmPOIList(SafetyFacilLampMngVO sffmVO);
+
+	public List<SafetyFacilLampMng> selectSffmLampFacilExcelListDownload(SafetyFacilLampMngVO safetyFacilLampMngVO);
+
+
 }

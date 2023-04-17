@@ -75,7 +75,7 @@
 		WHERE GID = #{gid} 
 	</update>
 	
-	<select id="cctvExcelDown" parameterType="safetyFacilCctvMngVO" resultType="HashMap">
+	<!-- <select id="cctvExcelDown" parameterType="safetyFacilCctvMngVO" resultType="HashMap">
 		SELECT *, ST_X(ST_TRANSFORM(GEOM, 4326)) AS lon, ST_Y(ST_TRANSFORM(GEOM, 4326)) AS lat 
 		FROM TGD_CCTV_STATUS_NEW
 		WHERE LABEL LIKE '%'||#{searchLabel}||'%'
@@ -83,6 +83,27 @@
 		AND GBN LIKE '%'||#{searchGbn}||'%'
 		<if test="spitalSearch != ''">
 			AND ST_INTERSECTS(ST_BUFFER(ST_GEOMFROMTEXT(#{spitalSearch}, 4326), #{cctvBuffer}), ST_TRANSFORM(GEOM, 4326)) = true
+		</if>
+		ORDER BY GID ASC
+	</select> -->
+	
+	<!-- 안전시설물관리 엑셀 -->
+	<select id="selectSffmCctvFacilExcelList" parameterType="SafetyFacilCctvMngVO" resultType="SafetyFacilCctvMng">
+		SELECT *
+		 FROM TGD_CCTV_STATUS_NEW
+		 WHERE    1=1
+		<if test="@egovframework.com.cmm.util.EgovMybaitsUtil@isNotEmpty(searchLabel)">
+			AND LABEL LIKE '%'||#{searchLabel}||'%'
+		</if>
+		<if test="@egovframework.com.cmm.util.EgovMybaitsUtil@isNotEmpty(searchDeviceid)">
+			AND  DEVICEID LIKE '%'||#{searchDeviceid}||'%'
+		</if>
+		<if test="@egovframework.com.cmm.util.EgovMybaitsUtil@isNotEmpty(searchGbn)">
+			AND  GBN LIKE '%'||#{searchGbn}||'%'
+		</if>
+		
+		<if test="@egovframework.com.cmm.util.EgovMybaitsUtil@isNotEmpty(spitalSearch)">
+			AND ST_INTERSECTS(ST_BUFFER(ST_GEOMFROMTEXT(#{spitalSearch}, 4326), #{sffmBuffer}), ST_TRANSFORM(GEOM, 4326)) = true
 		</if>
 		ORDER BY GID ASC
 	</select>
