@@ -52,10 +52,10 @@ function setBridgeListGrid() {
 		}
 	},
 	columns: [
-	    {key: "sig_cd",		label: "시군구코드"},
-	    {key: "kor_bri_nm",		label: "교량명(한글)"},
-	    {key: "opert_de",		label: "작업일시"},
-	    {key: "bridge_sn",		label: "교량 일련번호"}
+	    {key: "sig_cd",		label: "시군구코드",		width: 250},
+	    {key: "kor_bri_nm",		label: "교량명(한글)",		width: 250},
+	    {key: "opert_de",		label: "작업일시",			width: 250},
+	    {key: "bridge_sn",		label: "교량 일련번호",		width: 250}
 	],
     });
 }

@@ -54,16 +54,16 @@ function setRoadSectListGrid() {
 		}
 	},
 	columns: [
-	    {key: "sig_cd",		label: "시군구"},
-	    {key: "rds_man_no",		label: "도로구간일련번호"},
-	    {key: "rn",			label: "도로명(한글)"},
-	    {key: "eng_rn",		label: "도로명(영문)"},
-	    {key: "ntfc_de",		label: "고시일자"},
-	    {key: "wdr_rd_cd",		label: "광역도로구분"},
-	    {key: "rbp_cn",		label: "기점"},
-	    {key: "rep_cn",		label: "종점"},
-	    {key: "road_bt",		label: "도로폭"},
-	    {key: "road_lt",		label: "도로길이"}
+	    {key: "sig_cd",		label: "시군구",		width: 100},
+	    {key: "rds_man_no",		label: "도로구간일련번호",	width: 100},
+	    {key: "rn",			label: "도로명(한글)",	width: 100},
+	    {key: "eng_rn",		label: "도로명(영문)",	width: 180},
+	    {key: "ntfc_de",		label: "고시일자",		width: 100},
+	    {key: "wdr_rd_cd",		label: "광역도로구분",	width: 100},
+	    {key: "rbp_cn",		label: "기점",		width: 150},
+	    {key: "rep_cn",		label: "종점",		width: 150},
+	    {key: "road_bt",		label: "도로폭",		width: 100},
+	    {key: "road_lt",		label: "도로길이",		width: 100}
 	],
     });
 }
@@ -74,12 +74,25 @@ function setRoadSectListGrid() {
  * @returns
  */
 function setRoadSectListData(_pageNo) {
+    // 검색 조건
+//    let filters = ['sig_cd = 41830', 'wdr_rd_cd = 3'];
+    let filters = 'sig_cd = 41830 and wdr_rd_cd = 3';
     
-    // 검색 조건 미완성
-    const filters = ['sig_cd = 41830', 'wdr_rd_cd = 3'];
-    const emdKorNm = $("#emdKorNm").val();				// 읍면동
-    const roadBtVal = $("input[name=roadBtVal]").val();			// 도로폭
-    const rn = $("input[name=rn]").val();				// 도로명
+    let emdKorNm = $("#emdKorNm").val();				// 읍면동
+    let roadBtVal = $("input[name=roadBtVal]").val();			// 도로폭
+    let rn = $("input[name=rn]").val();					// 도로명
+    if (emdKorNm != '' && emdKorNm != '41830') {
+	emdKorNm = "'" + emdKorNm + "%'";
+	filters += ' and rbp_cn like ' + emdKorNm;
+//	filters.push('rbp_cn like ' + emdKorNm);
+    }; 
+    if (roadBtVal != '') {filters.push('road_bt = ' + roadBtVal + ' ')}; 
+    if (rn != '') {
+	rn = "'%" + rn + "%'";
+	filters += ' and rn like ' + rn;
+//	filters.push('rn like ' + rn);
+    }; 
+    
     ///////////////////////////////////////////////////////////////////////////
 
     var gridList = this;
@@ -89,7 +102,8 @@ function setRoadSectListData(_pageNo) {
 	page: _pageNo + 1,
 	sortBy : 'gid',
 	orderBy : 'DESC',
-	filter : filters
+	cql : filters
+//	filters : filters
     });
     
     promise.then(function(data) {

@@ -52,10 +52,10 @@ function setRailroadTrackListGrid() {
 		}
 	},
 	columns: [
-	    {key: "sig_cd",		label: "시군구코드"},
-	    {key: "kor_rlr_nm",		label: "철도노선명(한글)"},
-	    {key: "opert_de",		label: "작업일시"},
-	    {key: "rlr_rlw_sn",		label: "철도선로 일련번호"}
+	    {key: "sig_cd",		label: "시군구코드",		width: 250},
+	    {key: "kor_rlr_nm",		label: "철도노선명(한글)",		width: 250},
+	    {key: "opert_de",		label: "작업일시",			width: 250},
+	    {key: "rlr_rlw_sn",		label: "철도선로 일련번호",		width: 250}
 	],
     });
 }
@@ -69,6 +69,11 @@ function setRailroadTrackListData(_pageNo) {
     
     var gridList = this;
     
+    let filters = ['sig_cd = 41830']; 
+    
+    let korRlrNm = $('#korRlrNm').val();
+    if (korRlrNm != '') {filters.push('kor_rlr_nm = ' + korRlrNm)};
+    
     // 철도선로 - wms -> sortBy, orderBy, clq(sig_cd = 41830 -- 양평군) 필수
     const promise = dtmap.wfsGetFeature({
 	typeNames: 'tgd_sprl_rlway',
@@ -76,7 +81,7 @@ function setRailroadTrackListData(_pageNo) {
 	page: _pageNo + 1,
 	sortBy : 'gid',
 	sortOrder : 'DESC',
-	filter : ['sig_cd = 41830']
+	filter : filters
     });
     
     promise.then(function(data) {
@@ -142,3 +147,18 @@ function selectRailroadTrackDetailView(gid) {
     ui.loadingBar("hide");
     
 }
+
+/**
+ * 검색 조건으로 조회
+ * @returns
+ */
+function selectDataWithFilters() {
+    $('#korRlrNm').on('keyup', function () {
+	    if (event.keyCode == 13) {
+		setRailroadTrackListData(0);
+	    }
+	});
+    $('.rlroadTc .search').on('click', function() {
+	setRailroadTrackListData(0);
+    });
+};

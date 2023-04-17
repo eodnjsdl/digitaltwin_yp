@@ -55,7 +55,7 @@ $(document).ready(function(){
 										<select name="emdKorNm" id="emdKorNm" class="form-select">
 											<option value="41830">전체</option>
 											<c:forEach items="${sccoEndList}" var="emdList" varStatus="status">
-												<option value="<c:out value='${emdList.emdCd}' />" <c:if test="${searchVO.emdKorNm == emdList.emdCd}">selected</c:if>>
+												<option value="<c:out value='${emdList.emdKorNm}' />" <c:if test="${searchVO.emdKorNm == emdList.emdCd}">selected</c:if>>
 													<c:out value="${emdList.emdKorNm}" />
 												</option>																
 											</c:forEach>
@@ -63,16 +63,16 @@ $(document).ready(function(){
 									</td>
 								</tr>
 								<tr>
-									<td colspan="2"><input type="text" class="form-control" id="roadBtVal" name="roadBtVal" onkeypress="if( event.keyCode == 13 ){ selectRoadSectList(1);}" placeholder="도로폭"></td>
+									<td colspan="2"><input type="text" class="form-control" id="roadBtVal" name="roadBtVal" onkeypress="if( event.keyCode == 13 ){ setRoadSectListData(0);}" placeholder="도로폭"></td>
 								</tr>
 								<tr>
-									<td colspan="2"><input type="text" class="form-control" id="rn" name="rn" onkeypress="if( event.keyCode == 13 ){ selectRoadSectList(1);}" placeholder="도로명"></td>
+									<td colspan="2"><input type="text" class="form-control" id="rn" name="rn" onkeypress="if( event.keyCode == 13 ){ setRoadSectListData(0);}" placeholder="도로명"></td>
 								</tr>
 							</tbody>
 						</table>
 					</div>
 					<div class="btn-wrap">
-						<div><button type="submit" class="btn type01 search" onclick="selectRoadSectList(1)">조회</button></div>
+						<div><button type="submit" class="btn type01 search" onclick="setRoadSectListData(0)">조회</button></div>
 					</div>
 				</div>
 				<div class="tab-cont waterSpace">

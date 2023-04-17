@@ -52,10 +52,10 @@ function setTunnelListGrid() {
 		}
 	},
 	columns: [
-	    {key: "sig_cd",		label: "시군구코드"},
-	    {key: "tun_kor_nm",		label: "터널명(한글)"},
-	    {key: "opert_de",		label: "작업일시"},
-	    {key: "tunnel_sn",		label: "터널 일련번호"}
+	    {key: "sig_cd",		label: "시군구코드",		width: 250},
+	    {key: "tun_kor_nm",		label: "터널명(한글)",		width: 250},
+	    {key: "opert_de",		label: "작업일시",			width: 250},
+	    {key: "tunnel_sn",		label: "터널 일련번호",		width: 250}
 	],
     });
 }

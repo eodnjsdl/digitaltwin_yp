@@ -52,10 +52,10 @@ function setOverpassListGrid() {
 		}
 	},
 	columns: [
-	    {key: "sig_cd",		label: "시군구코드"},
-	    {key: "kor_ove_nm",		label: "고가도로명(한글)"},
-	    {key: "opert_de",		label: "작업일시"},
-	    {key: "ove_sn",		label: "고가도로 일련번호"}
+	    {key: "sig_cd",		label: "시군구코드",		width: 250},
+	    {key: "kor_ove_nm",		label: "고가도로명(한글)",		width: 250},
+	    {key: "opert_de",		label: "작업일시",			width: 250},
+	    {key: "ove_sn",		label: "고가도로 일련번호",		width: 250}
 	],
     });
 }
