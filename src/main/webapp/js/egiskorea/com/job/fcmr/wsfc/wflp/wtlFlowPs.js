@@ -519,7 +519,7 @@ function updateWtlFlowPsView(id){
 //유량계 수정 
 function updateWtlFlowPs(){
 	//console.log("updateWtlFlowPs()");
-	
+	debugger;
 	/////////
 	//유효성 체크 
 	
@@ -527,12 +527,6 @@ function updateWtlFlowPs(){
 	const geom = $("#rightSubPopup input[name=geom]").val();
 	if(geom == "" || geom == null){
 		alert("위치를 등록하여 주십시오.");
-		return false;
-	}
-	
-	const pip_cde = $("#rightSubPopup select[name=pip_cde]").val();
-	if(pip_cde == "" || pip_cde == null){
-		alert("관로지형지물부호는 필수 값입니다.");
 		return false;
 	}
 	 

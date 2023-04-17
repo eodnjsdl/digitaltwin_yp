@@ -39,10 +39,12 @@
 							<th scope="row">지형지물부호</th>
 							<td>
                                	<c:out value="${wtlFlowPsVO.ftr_cde_nm }"/>
+                               	<input type="hidden" name="ftr_cde" class="form-control" value="${wtlFlowPsVO.ftr_cde }">
                             </td>
 							<th scope="row">관리번호</th>
 							<td>
                                	<c:out value="${wtlFlowPsVO.ftr_idn }"/>
+                               	<input type="hidden" name="ftr_idn" class="form-control" value="${wtlFlowPsVO.ftr_idn }">
                             </td>
 						</tr>
 						<tr>
@@ -97,10 +99,12 @@
 							<th scope="row">관로지형지물부호</th>
 							<td>
                                	<c:out value="${wtlFlowPsVO.pip_cde }"/>
+                               	<input type="hidden" name="pip_cde" class="form-control" value="${wtlFlowPsVO.pip_cde }">
                             </td>
 							<th scope="row">관로관리번호</th>
 							<td>
                                	<c:out value="${wtlFlowPsVO.pip_idn }"/>
+                               	<input type="hidden" name="pip_idn" class="form-control" value="${wtlFlowPsVO.pip_idn }">
                             </td>
 						</tr>
 						<tr>
@@ -132,7 +136,7 @@
 			</div>
 			</form>
 			<input type="hidden" name="geom" 	value="" class="form-control">
-            <input type="hidden" name="id" 	value="wtl_flow_ps.${wtlFlowPsVO.gid}">
+            <input type="hidden" name="id" 	value="${id}">
 		</div>
 		<div class="position-bottom btn-wrap justify-content-end">
 			<div>
