@@ -202,14 +202,22 @@
 	<!-- [교통시설]  -->
 	<script src="/js/egiskorea/com/job/fcmr/tpfc/facilityTransportation.js"></script>	<!-- 교통시설  공통 -->
 	<!-- {교통 하위 메뉴}  -->	
-	<script src="/js/egiskorea/com/job/fcmr/tpfc/rdst/roadSect.js"></script>			<!-- 도로구간  -->
+	<!-- 도로구간  -->
+	<script src="/js/egiskorea/com/job/fcmr/tpfc/rdst/roadSect.js"></script>			
 	<!-- 철도선로 -->
+	<script src="/js/egiskorea/com/job/fcmr/tpfc/rrtc/rlroadTc.js"></script>
 	<!-- 철도역사 -->
+	<script src="/js/egiskorea/com/job/fcmr/tpfc/rrst/rlroadSt.js"></script>
 	<!-- 지하철선로 -->
+	<script src="/js/egiskorea/com/job/fcmr/tpfc/sbtc/sbwayTc.js"></script>
 	<!-- 지하철역사 -->
+	<script src="/js/egiskorea/com/job/fcmr/tpfc/sbst/sbwaySt.js"></script>
 	<!-- 교량 -->
+	<script src="/js/egiskorea/com/job/fcmr/tpfc/brdg/brdge.js"></script>
 	<!-- 고가도로 -->
+	<script src="/js/egiskorea/com/job/fcmr/tpfc/ovps/ovrpass.js"></script>
 	<!-- 터널 -->
+	<script src="/js/egiskorea/com/job/fcmr/tpfc/tunl/tunnl.js"></script>
 	
 	<!-- ////////////////////////////  -->
 	
