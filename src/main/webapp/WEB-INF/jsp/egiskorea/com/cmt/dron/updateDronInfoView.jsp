@@ -27,8 +27,27 @@
 
     function bindEventUpdateDronInfoView() {
         $(".btn-wrap .bi-edit").on("click", function () {
-            dtmap.draw.clear();
-            aj_updateDronInfo($("#updateFormDron")[0]);
+            // dtmap.draw.clear();
+            // 미입력 관련 VALIDATE
+            var sj = $("#sj").val();
+            var potogrfDe = $("#potogrfDe").val();
+            var loc_dron = $("#loc_dron").val();
+            var file = $(".upload-name").val();
+            if (sj == '') {
+                toastr.warning("제목을 입력해 주세요.");
+                return;
+            } else if (potogrfDe == '' || potogrfDe == undefined) { // 촬영일 유무 체크
+                toastr.warning("촬영일을 지정해 주세요.");
+                return;
+            } else if (loc_dron == '' || loc_dron == undefined) { // 위치 유무 체크
+                toastr.warning("위치를 지정해 주세요.");
+                return;
+            } else if (file == '' || file == undefined) { //파일이 유무 체크
+                toastr.warning("파일을 선택해 주세요.");
+                return;
+            } else {
+                aj_updateDronInfo($("#updateFormDron")[0]);
+            }
         });
         $(".btn-wrap .bi-cancel").on("click", function () {
             aj_selectDronInfoView(null, $("#updateFormDron")[0]);
@@ -111,7 +130,7 @@
                     <tr>
                         <th scope="row">제목</th>
                         <td>
-                            <input type="text" class="form-control" name="sj" value="<c:out value="${result.sj}"/>">
+                            <input type="text" class="form-control" id="sj"  name="sj" value="<c:out value="${result.sj}"/>">
                         </td>
                     </tr>
                     <tr>

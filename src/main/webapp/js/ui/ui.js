@@ -408,11 +408,12 @@ window.ui = (function () {
 
                 // 업무 > 시설관리 > 하수도시설
                 case "sewerSupplyFacility" :
-                    toastr.error("상수도시설의 기능을 참고해 주세요.", "리팩토링 작업대상입니다.");
-                    $("#" + area).removeClass("opened");
-                    return;
+                    //toastr.error("상수도시설의 기능을 참고해 주세요.", "리팩토링 작업대상입니다.");
+                    //$("#" + area).removeClass("opened");
+                    //return;
 
-                    aj_facility("SewerSupplyFacility");
+                    //aj_facility("SewerSupplyFacility");
+                	getSewerSupplyFacility("swlConnLs");		//상수도 시설 소방시설
                     break;
 
                  // 업무 > 시설관리 > 교통시설

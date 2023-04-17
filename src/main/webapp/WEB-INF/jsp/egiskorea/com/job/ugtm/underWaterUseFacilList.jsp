@@ -4,6 +4,7 @@
 <%@ taglib prefix="ui" uri="http://egovframework.gov/ctl/ui" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
+<script src="/js/map-ui.js"></script>
 <script src="/js/egiskorea/com/job/ugtm/ugtm.js"></script>
 <script src="/js/egiskorea/com/job/ugtm/uguf/uguf.js"></script>
 <%--<script src="/js/egiskorea/com/cmm/cmmUtil.js"></script>--%>
@@ -19,11 +20,11 @@ var lastBufferCnt = "<c:out value='${searchVO.bufferCnt}' />";
 var lastSelect = "<c:out value='${searchVO.underWaterUseFacilSelect}' />";
 var lastDraw = "<c:out value='${searchVO.underWaterUseFacilAreaDrawing}' />";
 
-$(".popup-reset").unbind('click').bind('click',function(){
-	ugufUi = '';
-	cmmUtil.drawClear();
-	bottomPopupOpen('undergroundWaterUseFacility');
-});
+// $(".popup-reset").unbind('click').bind('click',function(){
+// 	ugufUi = '';
+// 	cmmUtil.drawClear();
+// 	bottomPopupOpen('undergroundWaterUseFacility');
+// });
 </script>
 <form:form name="selectUnderWaterUseFacilExcelList" id="searchForm" method="post" onsubmit="fn_select_list(); return false;">
 <input type="hidden" name="pageIndex" id="pageIndex" value="<c:out value='${searchVO.pageIndex}' />">
@@ -110,7 +111,7 @@ $(".popup-reset").unbind('click').bind('click',function(){
 						</table>
 					</div>
 					<div class="btn-wrap">
-						<div><button type="button" class="btn type01 search" onClick="setData(0);">조회</button></div>
+						<div><button type="button" class="btn type01 search" onClick="fn_search_List(); setData();">조회</button></div>
 					</div>
 				</div>
 				<div class="tab-cont groundwaterSpace">
@@ -161,6 +162,6 @@ $(".popup-reset").unbind('click').bind('click',function(){
 </form:form>
 <button type="button" class="manualBtn" title="도움말" onclick="manualTab('지하수관리')"></button>
 <button type="button" class="popup-close" title="닫기" onClick="toastr.warning('removeLayer(); cmmUtil.drawClear();', 'onclick 이벤트');"></button>
-<button type="button" class="popup-reset" class="초기화"></button>
+<button type="button" class="popup-reset" class="초기화" onclick="bottomPopupOpen('undergroundWaterUseFacility');"></button>
 <button type="button" class="popup-bottom-toggle" onclick="toggleFold(this);" title="접기"></button>					
 <!-- </div> -->

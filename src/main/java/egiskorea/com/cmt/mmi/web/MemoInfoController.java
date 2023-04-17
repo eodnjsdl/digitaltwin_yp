@@ -121,7 +121,18 @@ public class MemoInfoController {
 			logger.info("아이디가 존재하지 않습니다");
 			memoInfoVO.setEmplyrId("webmaster");
 		}
-		
+
+		memoInfoVO.setPageUnit(10);
+		memoInfoVO.setPageSize(propertyService.getInt("pageSize"));
+		PaginationInfo paginationInfo = new PaginationInfo();
+		paginationInfo.setCurrentPageNo(memoInfoVO.getPageIndex());
+		paginationInfo.setRecordCountPerPage(memoInfoVO.getPageUnit());
+		paginationInfo.setPageSize(memoInfoVO.getPageSize());
+		memoInfoVO.setFirstIndex(paginationInfo.getFirstRecordIndex());
+		memoInfoVO.setLastIndex(paginationInfo.getLastRecordIndex());
+		memoInfoVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
+
+
 		String lastModfDt = memoInfoService.selectLastModfDt(memoInfoVO);
 		String selectSubject = memoInfoService.selectSubject(memoInfoVO);
 		memoInfoVO.setLastModfDt(lastModfDt);

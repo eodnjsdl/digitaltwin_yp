@@ -33,8 +33,11 @@ function codeArrayInit(){
       ];
 	
 	setCmmCodeDataArray("SA-001", codeData);	//지형지물부호	SA-001 임의로 만든
+																		
 	setCmmCodeDataArray("YPE001");				//읍면동 코드
 	setCmmCodeDataArray("MNG-001");				//관리기관	
+	
+	//상수도 - 소방시설
 	setCmmCodeDataArray("OGC-048");				//소화전 형식
 	
 	//상수관로 코드
@@ -59,6 +62,11 @@ function codeArrayInit(){
 	setCmmCodeDataArray("OGC-134");				//배수지제어방법
 
 	setCmmCodeDataArray("FCLTCD");				// 복지시설 구분
+
+	//하수도 - 하수연결관
+	setCmmCodeDataArray("OGC-017");				//하수관용도
+	setCmmCodeDataArray("OGC-003");				//관재질
+	setCmmCodeDataArray("OGC-001");				//시설물형태
 
 }
 
@@ -279,8 +287,8 @@ function getGridDetailData(id){
 /////////////////////////
 //지도 아이콘(객체) 클릭시 이벤트
 function onFacilitySelectEventListener(e){
-	//console.log("onFacilitySelectEventListener(e)");
-	//console.log(e);
+	console.log("onFacilitySelectEventListener(e)");
+	console.log(e);
 	if(e){
 		
 		//[참고 자료]
@@ -299,8 +307,27 @@ function onFacilitySelectEventListener(e){
 	    // }
 		
 		if(e.object){
-			//console.log("3d")
-			toastr.error("지도 객체 클릭 이벤트 작업중", "3D 객체 클릭");
+			console.log("3d")
+			//toastr.error("지도 객체 클릭 이벤트 작업중", "3D 객체 클릭");
+			var id = e.id; //피쳐 아이디
+			
+			if(id){
+				var idArray = id.split(".");
+				//console.log(idArray);
+				const featureType	= idArray[0];
+				
+				if(featureType == "wtl_fire_ps"){						//상수도시설 - 소방시설
+					selectWtlFirePs(id);
+				}else if(featureType == "wtl_pipe_lm"){					//상수도시설 - 상수관로
+					toastr.error("지도 객체 클릭 작업중", "상수도시설 - 상수관로");
+				}else if(featureType == "wtl_flow_ps"){					//상수도시설 - 유량계
+					toastr.error("지도 객체 클릭 작업중", "상수도시설 - 유량계");
+				}else{
+					alert("지도 객체 선택 오류");
+					return false;
+				}
+			}
+			
 		}else{
 			//console.log("2d")
 			

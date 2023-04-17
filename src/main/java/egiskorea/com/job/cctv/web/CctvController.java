@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import egiskorea.com.cmm.service.impl.ExcelView;
 import egiskorea.com.job.cctv.service.CctvService;
 import egiskorea.com.job.cctv.service.SafetyFacilCctvMng;
 import egiskorea.com.job.cctv.service.SafetyFacilCctvMngVO;
@@ -373,4 +374,99 @@ public class CctvController {
 			
 		return "jsonView";
 	}
+	
+	//안전시설물관리 > cctv관리 엑셀다운
+	@RequestMapping(value = "/selectSffmCctvFacilExcelListDownload.do")
+	public void selectSffmCctvFacilExcelListtDownload(
+			@ModelAttribute("safetyFacilCctvMngVO") SafetyFacilCctvMngVO safetyFacilCctvMngVO,
+			HttpServletRequest request,
+			HttpServletResponse response,
+			ModelMap model) throws Exception{
+		
+		List<SafetyFacilCctvMng> excelVO = cctvService.selectSffmCctvFacilExcelListDownload(safetyFacilCctvMngVO);
+		
+		
+		String[] titleArr = new String[37];
+		titleArr[0] = "GID";
+		titleArr[1] = "구분";
+		titleArr[2] = "명칭";
+		titleArr[3] = "기기ID";
+		titleArr[4] = "channel";
+		titleArr[5] = "ptz_yn";
+		titleArr[6] = "talk_yn";
+		titleArr[7] = "net_yn";
+		titleArr[8] = "위도";
+		titleArr[9] = "경도";
+		titleArr[10] = "preset1";
+		titleArr[11] = "preset2";
+		titleArr[12] = "preset3";
+		titleArr[13] = "preset4";
+		titleArr[14] = "preset5";
+		titleArr[15] = "preset6";
+		titleArr[16] = "preset7";
+		titleArr[17] = "preset8";
+		titleArr[18] = "preset9";
+		titleArr[19] = "preset10";
+		titleArr[20] = "preset11";
+		titleArr[21] = "preset12";
+		titleArr[22] = "preset13";
+		titleArr[23] = "preset14";
+		titleArr[24] = "preset15";
+		titleArr[25] = "preset16";
+		titleArr[26] = "preset17";
+		titleArr[27] = "preset18";
+		titleArr[28] = "preset19";
+		titleArr[29] = "preset20";
+		titleArr[30] = "angle";
+		titleArr[31] = "주소";
+		titleArr[32] = "new_adr";
+		titleArr[33] = "ip_adr";
+		titleArr[34] = "istl_yy";
+		titleArr[35] = "chan_yy";
+		titleArr[36] = "geom";
+		
+		
+		String[] voTitleArr = new String[37];
+		voTitleArr[0] = "gid";
+		voTitleArr[1] = "gbn";
+		voTitleArr[2] = "label";
+		voTitleArr[3] = "deviceid";
+		voTitleArr[4] = "channel";
+		voTitleArr[5] = "ptzYn";
+		voTitleArr[6] = "talkYn";
+		voTitleArr[7] = "netYn";
+		voTitleArr[8] = "lon";
+		voTitleArr[9] = "lat";
+		voTitleArr[10] = "preset1";
+		voTitleArr[11] = "preset2";
+		voTitleArr[12] = "preset3";
+		voTitleArr[13] = "preset4";
+		voTitleArr[14] = "preset5";
+		voTitleArr[15] = "preset6";
+		voTitleArr[16] = "preset7";
+		voTitleArr[17] = "preset8";
+		voTitleArr[18] = "preset9";
+		voTitleArr[19] = "preset10";
+		voTitleArr[20] = "preset11";
+		voTitleArr[21] = "preset12";
+		voTitleArr[22] = "preset13";
+		voTitleArr[23] = "preset14";
+		voTitleArr[24] = "preset15";
+		voTitleArr[25] = "preset16";
+		voTitleArr[26] = "preset17";
+		voTitleArr[27] = "preset18";
+		voTitleArr[28] = "preset19";
+		voTitleArr[29] = "preset20";
+		voTitleArr[30] = "angle";
+		voTitleArr[31] = "lgsrAdr";
+		voTitleArr[32] = "newAdr";
+		voTitleArr[33] = "ipAdr";
+		voTitleArr[34] = "instlYy";
+		voTitleArr[35] = "chanYy";
+		voTitleArr[36] = "geom";
+		
+		
+		ExcelView.excelDownload(request, response,  "안전시설물관리_cctv관리_", titleArr, voTitleArr, excelVO);
+	}
+
 }

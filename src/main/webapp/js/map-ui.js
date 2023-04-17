@@ -956,7 +956,7 @@ function bottomPopupOpen(bottomName){
 	var bottomHeigth = "";
 	var bottomLeft = "";
 	
-	cmmUtil.resetMap();
+	//cmmUtil.resetMap();
 	
 	$("#leftPopup").removeClass("opened").html("");
 	$("#leftSubPopup").removeClass("opened").html("");
