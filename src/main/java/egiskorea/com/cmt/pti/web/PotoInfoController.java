@@ -143,7 +143,17 @@ public class PotoInfoController {
 			logger.info("아이디가 존재하지 않습니다");
 			potoInfoVO.setEmplyrId("webmaster");
 		}
-		
+
+		potoInfoVO.setPageUnit(10);
+		potoInfoVO.setPageSize(propertyService.getInt("pageSize"));
+		PaginationInfo paginationInfo = new PaginationInfo();
+		paginationInfo.setCurrentPageNo(potoInfoVO.getPageIndex());
+		paginationInfo.setRecordCountPerPage(potoInfoVO.getPageUnit());
+		paginationInfo.setPageSize(potoInfoVO.getPageSize());
+		potoInfoVO.setFirstIndex(paginationInfo.getFirstRecordIndex());
+		potoInfoVO.setLastIndex(paginationInfo.getLastRecordIndex());
+		potoInfoVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
+
 		String lastModfDt = potoInfoService.selectLastModfDt(potoInfoVO);
 		String selectSubject = potoInfoService.selectSubject(potoInfoVO);
 		potoInfoVO.setLastModfDt(lastModfDt);

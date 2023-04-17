@@ -4,10 +4,10 @@
 <%@ taglib prefix="ui" uri="http://egovframework.gov/ctl/ui" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
+<script src="/js/map-ui.js"></script>
 <script src="/js/egiskorea/com/job/ugtm/ugtm.js"></script>
 <script src="/js/egiskorea/com/job/ugtm/ugag/ugag.js"></script>
 <%--<script src="/js/egiskorea/com/cmm/cmmUtil.js"></script>--%>
-<script>
 $(".spaceArea").hide();
 var lastEmdKorNm = "<c:out value='${searchVO.emdKorNm}' />";
 var lastManageSeSearch = "<c:out value='${searchVO.manageSeSearch}' />";
@@ -19,11 +19,11 @@ var lastBufferCnt = "<c:out value='${searchVO.bufferCnt}' />";
 var lastSelect = "<c:out value='${searchVO.underWaterAgriSelect}' />";
 var lastDraw = "<c:out value='${searchVO.underWaterAgriAreaDrawing}' />";
 
-$(".popup-reset").unbind('click').bind('click',function(){
+<!-- $(".popup-reset").unbind('click').bind('click',function(){
 	ugagUi = '';
 	cmmUtil.drawClear();
 	bottomPopupOpen('undergroundWaterManagement');
-});
+}); -->
 </script>
 <form:form name="selectUnderWaterAgriExcelList" id="searchForm" method="post" onsubmit="fn_select_list(); return false;">
 <input type="hidden" name="pageIndex" id="pageIndex" value="<c:out value='${searchVO.pageIndex}' />">
@@ -110,7 +110,7 @@ $(".popup-reset").unbind('click').bind('click',function(){
 						</table>
 					</div>
 					<div class="btn-wrap">
-						<div><button type="button" class="btn type01 search" onClick="setData(0);">조회</button></div>
+						<div><button type="button" class="btn type01 search" onClick="fn_search_List(); setData(0);">조회</button></div>
 					</div>
 				</div>
 				<div class="tab-cont groundwaterSpace">
@@ -161,6 +161,6 @@ $(".popup-reset").unbind('click').bind('click',function(){
 </form:form>
 <button type="button" class="manualBtn" title="도움말" onclick="manualTab('지하수관리')"></button>
 <button type="button" class="popup-close" title="닫기" onClick="toastr.warning('removeLayer(); cmmUtil.drawClear();', 'onclick 이벤트');"></button>
-<button type="button" class="popup-reset" class="초기화"></button>
+<button type="button" class="popup-reset" class="초기화" onclick="bottomPopupOpen('undergroundWaterManagement');"></button>
 <button type="button" class="popup-bottom-toggle" onclick="toggleFold(this);" title="접기"></button>
 <!-- //업무 > 공간정보활용 > 지하수관리 -->

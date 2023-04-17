@@ -645,5 +645,11 @@ public class CctvServiceImpl extends EgovAbstractServiceImpl implements CctvServ
 	@Override
 	public List<SafetyFacilCctvMng> selectCctvPOIList(SafetyFacilCctvMng cctvVO) {
 		return cctvDAO.selectCctvPOIList(cctvVO);
+	}
+
+	@Override
+	public List<SafetyFacilCctvMng> selectSffmCctvFacilExcelListDownload(SafetyFacilCctvMngVO safetyFacilCctvMngVO) {
+		// TODO Auto-generated method stub
+		return cctvDAO.selectSffmCctvFacilExcelList(safetyFacilCctvMngVO);
 	} 
 }	

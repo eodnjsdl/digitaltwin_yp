@@ -302,7 +302,7 @@ map2d.draw = (function () {
 
     function writeWKT(index) {
         const format = new ol.format.WKT();
-        const features = removePrivateProperty(_source.getFeatures());
+        let features = removePrivateProperty(_source.getFeatures());
         if (index !== undefined) {
             const feature = features[index];
             if (!feature) {
@@ -312,6 +312,19 @@ map2d.draw = (function () {
 
 
         } else {
+            features = features.map((feature) => {
+                const cloned = feature.clone();
+                const geom = cloned.getGeometry();
+                if (geom instanceof ol.geom.Circle) {
+                    cloned.setGeometry(ol.geom.Polygon.fromCircle(geom));
+                }
+                return cloned;
+            })
+
+            if (!features || features.length === 0) {
+                return;
+            }
+
             return format.writeFeatures(features);
         }
     }
@@ -345,6 +358,9 @@ map2d.draw = (function () {
     function getGeometry(index) {
         index = index === undefined ? 0 : index;
         let feature = _source.getFeatures()[index];
+        if (!feature) {
+            return;
+        }
         let geom = feature.getGeometry();
         return geom;
     }
