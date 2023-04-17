@@ -7,46 +7,85 @@
 
 <script>
 
-    //수정
-    $(".bi-edit").on("click", function () {
-
-        $(this).addClass("active");
-        <%--rightPopupOpen('updateDronInfo', <c:out value="${result.dronePicId}" />, $('#updateDeleteDronInfoForm')[0]);--%>
-        // ui.openPopup 시 form 삭제됨 (기존로직)
-        // ui.openPopup("rightPopup");
-        aj_updateDronInfoView(
-            <c:out value="${result.dronePicId}" />,
-            $('#updateDeleteDronInfoForm')[0]
-        );
-
+    $(document).ready(function () {
+        initUIByDronInfoView();
+        bindEventDronInfoView()
+        callImage();
+        // refreshLayerByDron();
+        moveBySelectDronInfoView();
 
     });
 
-    //드론정보 목록조회
-    $(".btn-wrap .bi-list").on("click", function () {
-        $(this).addClass("active");
+    function refreshLayerByDron() {
+        dtmap.vector.clear();
+        <c:forEach  items="${resultList}" var="item">
+        dtmap.vector.addPoint({
+            id : ${item.dronePicId},
+            coordinate : [Number('${item.xcord}'),Number('${item.ycord}')],
+            crs : 'EPSG:5179',
+            text: '${item.sj}',
+            img : './images/poi/poto_poi.png',
+        })
+        </c:forEach>
+    }
+
+    function moveBySelectDronInfoView() {
+        const id = "<c:out value="${result.dronePicId}" />";
+        const pointX = ${result.xcord};
+        const pointY = ${result.ycord};
+        dtmap.vector.addPoint({
+            id : id,
+            coordinate : [Number(pointX),Number(pointY)],
+            crs : 'EPSG:5179',
+            img : './images/poi/poto_poi.png'
+        });
+        dtmap.vector.select(id);
+
+        cmmUtil.reverseGeocoding(pointX, pointY).done((result) => {
+            $("#loc_dron").html(result["address"]);
+        });
+    }
+
+    function initUIByDronInfoView() {
+        $("#main-video").css('z-index', 9998);
+    }
+
+    function bindEventDronInfoView() {
+        //수정
+        $(".bi-edit").on("click", function () {
+            $(this).addClass("active");
+            <%--rightPopupOpen('updateDronInfo', <c:out value="${result.dronePicId}" />, $('#updateDeleteDronInfoForm')[0]);--%>
+            // ui.openPopup 시 form 삭제됨 (기존로직)
+            // ui.openPopup("rightPopup");
+            aj_updateDronInfoView(
+                <c:out value="${result.dronePicId}" />,
+                $('#updateDeleteDronInfoForm')[0]
+            );
+        });
+        //드론정보 목록조회
+        $(".btn-wrap .bi-list").on("click", function () {
+            $(this).addClass("active");
 //     rightPopupOpen('dronInfo');
-        ui.openPopup("rightPopup");
-        aj_selectDronInfo($("#tmpForm")[0]);
-    });
+            ui.openPopup("rightPopup");
+            aj_selectDronInfo($("#tmpForm")[0]);
+        });
+        $(".bi-download").on("click", function () {
+            const src = $("#droneImgArea").children('img').attr("src")
+            const fileNm = $("#droneImgArea").children()[1].value;
+            var link = document.createElement("a");
+            link.download = fileNm;
+            link.href = src;
+            link.click();
+        });
+        $(".bi-delete").on("click", function () {
+            if (confirm("드론정보를 삭제하시겠습니까?") == true) {    //확인
+                aj_deleteDronInfo($("#updateDeleteDronInfoForm")[0]);
+            } else {   //취소
+                return false;
+            }
+        });
 
-    $(".bi-download").on("click", function () {
-        const src = $("#droneImgArea").children('img').attr("src")
-        const fileNm = $("#droneImgArea").children()[1].value;
-        var link = document.createElement("a");
-        link.download = fileNm;
-        link.href = src;
-        link.click();
-    });
-
-
-    $(".bi-delete").on("click", function () {
-        if (confirm("드론정보를 삭제하시겠습니까?") == true) {    //확인
-            aj_deleteDronInfo($("#updateDeleteDronInfoForm")[0]);
-        } else {   //취소
-            return false;
-        }
-    });
+    }
 
     function selectDronInfoView(id) {
         // rightPopupOpen('selectDronInfoView', id, $('#selectDronInfoViewForm')[0]);
@@ -54,14 +93,6 @@
         aj_selectDronInfoView(id, $('#selectDronInfoViewForm')[0]);
 //     aj_selectDronInfoView(id);
     }
-
-    $(document).ready(function () {
-
-        $("#main-video").css('z-index', 9998);
-
-        callImage();
-
-    });
 
     function callImage() {
         var _src = $("#droneImg").attr("src");
@@ -128,6 +159,10 @@
                     <td><c:out value="${result.grfDe}"/></td>
                 </tr>
                 <tr>
+                    <th scope="row">위치</th>
+                    <td><span id="loc_dron"/></td>
+                </tr>
+                <tr>
                     <td colspan="2">
                         <div class="cont cont-download">
                             <c:forEach var="resultFile" items="${resultFile}" varStatus="status">
@@ -137,7 +172,7 @@
                                         <div class="attach-group">
                                             <div id="droneImgArea">
                                                 <img id="droneImg"
-                                                     src='<c:url value='/cmm/fms/getImage.do'/>?atchFileId=<c:out value="${resultFile.atchFileId}"/>&fileSn=<c:out value="${resultFile.fileSn}"/>'
+                                                     src='<c:url value='/cmm/fms/getImage.do'/>?atchFileId=<c:out value="${resultFile.atchFileId}"/>&fileSn=<c:out value="${resultFile.fileSn}"/>&streFileNm= <c:out value="${resultFile.streFileNm}"/>'
                                                      alt="파일이미지"/>
                                                 <input type="hidden" name="orignlFileNm"
                                                        value="<c:out value="${resultFile.orignlFileNm}" />">
@@ -193,17 +228,17 @@
             <c:if test="${null ne result.prevSj}">
                 <div class="items">
                     <div class="term">이전</div>
-                    <div class="desc"><a
-                            href="javascript:selectDronInfoView('<c:out value="${result.prevDronId}" />');"><c:out
-                            value="${result.prevSj}"/></a></div>
+                    <div class="desc" style="cursor: pointer;" onclick="javascript:selectDronInfoView('<c:out value="${result.prevDronId}" />');">
+                        <a><c:out value="${result.prevSj}"/></a>
+                    </div>
                 </div>
             </c:if>
             <c:if test="${null ne result.nextSj}">
                 <div class="items">
                     <div class="term">다음</div>
-                    <div class="desc"><a
-                            href="javascript:selectDronInfoView('<c:out value="${result.nextDronId}" />');"><c:out
-                            value="${result.nextSj}"/></a></div>
+                    <div class="desc" style="cursor: pointer;" onclick="javascript:selectDronInfoView('<c:out value="${result.nextDronId}" />');">
+                        <a><c:out value="${result.nextSj}"/></a>
+                    </div>
                 </div>
             </c:if>
         </div>

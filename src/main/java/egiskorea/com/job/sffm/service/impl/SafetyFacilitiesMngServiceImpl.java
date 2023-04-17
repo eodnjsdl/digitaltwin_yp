@@ -97,15 +97,14 @@ public class SafetyFacilitiesMngServiceImpl extends EgovAbstractServiceImpl impl
 		return safetyFacilitiesMngDAO.updateSffm(sffmVO);
 	}
 	
-	// 안전시설물관리 > 가로등관리 엑셀다운
-	@Override
-	public List sffmExcelDown(SafetyFacilLampMngVO sffmVO) {
+
+/*	@Override
+	public HashMap sffmExcelDown(SafetyFacilLampMngVO sffmVO) {
 		HashMap sffmExcelDown = new HashMap();
 		sffmExcelDown.put("b_list", safetyFacilitiesMngDAO.sffmExcelDown(sffmVO));
-		List result = safetyFacilitiesMngDAO.sffmExcelDown(sffmVO);
-		return result;
+		return sffmExcelDown;
 	}
-	/*@Override
+	@Override
 	public SXSSFWorkbook makeSffmExcelList(HashMap param) {
 		SXSSFWorkbook workbook = new SXSSFWorkbook();
 
@@ -297,9 +296,12 @@ public class SafetyFacilitiesMngServiceImpl extends EgovAbstractServiceImpl impl
 		return safetyFacilitiesMngDAO.selectSffmPOIList(sffmVO);
 	}
 
+	// 안전시설물관리 > 가로등관리 엑셀다운
 	@Override
-	public SXSSFWorkbook makeSffmExcelList(HashMap parameter) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<SafetyFacilLampMng> selectSffmLampFacilExcelListDownload(SafetyFacilLampMngVO safetyFacilLampMngVO) {
+		
+		return safetyFacilitiesMngDAO.selectUnderWaterDevelopExcelList(safetyFacilLampMngVO);
 	}
+
+
 }	

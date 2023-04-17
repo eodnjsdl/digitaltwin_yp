@@ -48,7 +48,7 @@ function aj_insertOpQna(){
 		enctype: 'multipart/form-data',
 		success : function(returnData, status){
 			if(status == "success") {
-				$("#opqna").html(returnData);
+				$("#bbsPopup").html(returnData);
 			}else{ 
 				toastr.error("관리자에게 문의 바랍니다.", "정보를 불러오지 못했습니다.");
 				return;

@@ -4,8 +4,9 @@
 <%@ taglib prefix="ui" uri="http://egovframework.gov/ctl/ui" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
-<script src="/js/egiskorea/com/job/sffm/sffm.js"></script>
+<script src="/js/map-ui.js"></script>
 <script src="/js/egiskorea/com/job/sffm//lamp/lamp.js"></script>
+<script src="/js/egiskorea/com/job/sffm/sffm.js"></script>
 <%--<script src="/js/egiskorea/com/cmm/cmmUtil.js"></script>--%>
 <script>
 $(document).ready(function() {
@@ -26,7 +27,7 @@ $(document).ready(function() {
 					<option value="cctv">CCTV관리</option>
 				</select>
 			</div>
-			<form:form name="searchForm" id="searchForm" method="post" onsubmit="fn_select_sffm_list(''); return false;">
+			
 			<input type="hidden" name="pageIndex" id="pageIndex" value="<c:out value='${searchVO.pageIndex}' />">
 			<input type="hidden" name="bufferArea" id="bufferArea" value="<c:out value='${searchVO.bufferArea}' />">
 			<div class="tabBoxDepth2-wrap">
@@ -46,19 +47,19 @@ $(document).ready(function() {
 							<tbody>
 								<tr>
 									<th scope="row">설치일자</th>
-									<td><div class="datapicker-group"><input type="text" id="sffm-search-instl-de" name="" class="datepicker" value="" autocomplete="off" onkeypress="if( event.keyCode == 13 ){ fn_search_sffm_list(''); }"></div></td>
+									<td><div class="datapicker-group"><input type="text" id="sffm-search-instl-de" name="searchInstlDe" class="datepicker" value="" autocomplete="off" onkeypress="if( event.keyCode == 13 ){ fn_search_sffm_list(''); }"></div></td>
 								</tr>
 								<tr>
-									<td colspan="2"><input type="text" class="form-control" id="sffm-search-adres" onkeypress="if( event.keyCode == 13 ){ fn_search_sffm_list(''); }" placeholder="주소"></td>
+									<td colspan="2"><input type="text" class="form-control" id="sffm-search-adres" name="searchAdres" onkeypress="if( event.keyCode == 13 ){ fn_search_sffm_list(''); }" placeholder="주소"></td>
 								</tr>
 								<tr>
-									<td colspan="2"><input type="text" class="form-control" id="sffm-search-manage-no" onkeypress="if( event.keyCode == 13 ){ fn_search_sffm_list(''); }" placeholder="관리번호"></td>
+									<td colspan="2"><input type="text" class="form-control" id="sffm-search-manage-no" name="searchManageNo" onkeypress="if( event.keyCode == 13 ){ fn_search_sffm_list(''); }" placeholder="관리번호"></td>
 								</tr>
 							</tbody>
 						</table>
 					</div>
 					<div class="btn-wrap">
-						<div><button type="button" class="btn type01 search" onclick="setData('');">조회</button></div>
+						<div><button type="button" class="btn type01 search" onclick="fn_search_List(); setData();">조회</button></div>
 					</div>
 				</div>
 				<div class="tab-cont safetyFacilitySpace">
@@ -77,14 +78,14 @@ $(document).ready(function() {
 								<span><input type="radio" name="sffmAreaDrawing" id="aChk4_sffm" value="4"><label for="aChk4_sffm" class="obj-sm04"></label></span>
 							</span>
 						</div>
-						<div class="space-search-items areaSrchTool">경계로부터 <span class="form-group"><input type="number" id="sffmBuffer" class="form-control align-center" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" value="0" placeholder="0" onkeypress="if( event.keyCode == 13 ){ SFFM.fn_select_sffm_list('spital'); }"> <sub>m</sub></span> 이내 범위</div>
+						<div class="space-search-items areaSrchTool">경계로부터 <span class="form-group"><input type="number" id="sffmBuffer" name="sffmBuffer" class="form-control align-center" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" value="0" placeholder="0" onkeypress="if( event.keyCode == 13 ){ SFFM.fn_select_sffm_list('spital'); }"> <sub>m</sub></span> 이내 범위</div>
 					</div>
 					<div class="btn-wrap">
 						<div><button type="button" class="btn type01 search" onclick="setData();">조회</button></div>
 					</div>
 				</div>
 			</div>
-			</form:form>
+			
 		</div>
 		<!-- //검색영역 -->
         <div class="items data-area">
@@ -96,8 +97,9 @@ $(document).ready(function() {
 						<sub>m</sub></span>
 					</div>
 					<button type="button" class="btn basic bi-write" onclick="fn_insert();">등록</button> 
+					<button type="button" class="btn basic bi-excel" id="lampExcelDownload" data-form-name="selectSffmLampFacilExcelList">엑셀저장</button> 
+					<!-- <a href="/job/sffm/sffmExcelDown.do"><button type="button" class="btn basic bi-excel">엑셀저장</button></a> -->
 					<!-- <button type="button" class="btn basic bi-write" id="insertSafetyFacilLampMngView" >등록</button>  -->
-					<button type="button" class="btn basic bi-excel" id="lampExcelDownload" data-form-name="sffmExcelDown">엑셀저장</button> 
 
                 </div>
             </div>

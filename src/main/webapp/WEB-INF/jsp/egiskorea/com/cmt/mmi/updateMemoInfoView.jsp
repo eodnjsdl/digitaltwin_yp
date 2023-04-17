@@ -5,52 +5,68 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <script>
-// 메모정보 목록조회
-$(".btn-wrap .bi-cancel").on("click", function(){
-        $(this).addClass("active");
-        //rightPopupOpen('memoInfo');
-        aj_selectMemoInfoView(null,$("#updateFormMemo")[0]);
-});
 
-// 메모정보 수정
-$(".btn-wrap .bi-edit").on("click", function(){
-    dtmap.vector.clear();
-    aj_updateMemoInfo($("#updateFormMemo")[0]);
-});
+    $(document).ready(function () {
+        initUpdateMemoInfo();
+        bindEventUpdateMemoInfo();
+    });
 
-$(".top-memo-body .bi-location").on("click", aj_selectMemoLocation);
-
-$(function() {
-    const wkt = "<c:out value="${result.wkt}" />";
-    const sj = "<c:out value="${result.sj}" />";
-    const id = "<c:out value="${result.memoId}" />";
-    const reader = new ol.format.WKT();
-    const feature = new ol.Feature(reader.readGeometry(wkt));
-    feature.setId(id);
-    const features = [];
-    features.push(feature);
-    const format = new ol.format.GeoJSON();
-    const geojson = format.writeFeatures(features);
-    const geometry = reader.readGeometry(wkt);
-    const pointX = geometry.flatCoordinates[0];
-    const pointY = geometry.flatCoordinates[1];
-    // dtmap.vector.clear();
-    //지도에 GeoJSON 추가
-    dtmap.vector.readGeoJson(geojson, function (feature) {
-        return {
-            marker: {
-                src: '/images/poi/memo_poi.png'
-            },
-            label: {
-                text: sj
+    function bindEventUpdateMemoInfo() {
+        // 메모정보 목록조회
+        $(".btn-wrap .bi-cancel").on("click", function(){
+            $(this).addClass("active");
+            //rightPopupOpen('memoInfo');
+            aj_selectMemoInfoView(null,$("#updateFormMemo")[0]);
+        });
+        // 메모정보 수정
+        $(".btn-wrap .bi-edit").on("click", function(){
+            // 미입력 관련 VALIDATE
+            var sj = $("#sj").val();
+            var loc_memo = $("#loc_memo").val();
+            if (sj == '') {
+                toastr.warning("제목을 입력해 주세요.");
+                return;
+            } else if (loc_memo == '' || loc_memo == undefined) { // 위치 유무 체크
+                toastr.warning("위치를 지정해 주세요.");
+                return;
+            } else {
+                aj_updateMemoInfo($("#updateFormMemo")[0]);
             }
-        }
-    });
-    dtmap.vector.select(feature.getId());
-    cmmUtil.reverseGeocoding(pointX, pointY).done((result) => {
-        $("#loc_memo").val(result["address"]);
-    });
-});
+        });
+        $(".top-memo-body .bi-location").on("click", aj_selectMemoLocation);
+    }
+
+    function initUpdateMemoInfo() {
+        const wkt = "<c:out value="${result.wkt}" />";
+        const sj = "<c:out value="${result.sj}" />";
+        const id = "<c:out value="${result.memoId}" />";
+        const reader = new ol.format.WKT();
+        const feature = new ol.Feature(reader.readGeometry(wkt));
+        feature.setId(id);
+        const features = [];
+        features.push(feature);
+        const format = new ol.format.GeoJSON();
+        const geojson = format.writeFeatures(features);
+        const geometry = reader.readGeometry(wkt);
+        const pointX = geometry.flatCoordinates[0];
+        const pointY = geometry.flatCoordinates[1];
+        // dtmap.vector.clear();
+        //지도에 GeoJSON 추가
+        dtmap.vector.readGeoJson(geojson, function (feature) {
+            return {
+                marker: {
+                    src: '/images/poi/memo_poi.png'
+                },
+                label: {
+                    text: sj
+                }
+            }
+        });
+        dtmap.vector.select(feature.getId());
+        cmmUtil.reverseGeocoding(pointX, pointY).done((result) => {
+            $("#loc_memo").val(result["address"]);
+        });
+    }
 
 </script>
 <!-- top > 메모정보 > 수정  -->
@@ -76,7 +92,7 @@ $(function() {
                     <tbody>
                         <tr>
                             <th scope="row">제목</th>
-                            <td colspan="3"><input type="text" class="form-control" name="sj" value="<c:out value="${result.sj}" />"></td>
+                            <td colspan="3"><input type="text" class="form-control" id="sj" name="sj" value="<c:out value="${result.sj}" />"></td>
                         </tr>
                         <tr>
                             <th scope="row">작성자</th>
@@ -113,7 +129,7 @@ $(function() {
             </div>
 
             <div class="position-bottom btn-wrap">
-                <div><button type="button" class="btn basic bi-edit">수정</button> <button type="button" class="btn basic bi-cancel">취소</button></div>
+                <div><button type="button" class="btn basic bi-edit">저장</button> <button type="button" class="btn basic bi-cancel">취소</button></div>
             </div>
             <input type="hidden" id="wkt" name="wkt" value="${result.wkt}">
             </form:form>		

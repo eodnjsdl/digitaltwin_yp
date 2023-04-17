@@ -44,5 +44,7 @@ public interface CctvService {
 	HashMap cctvExcelDown(SafetyFacilCctvMngVO safetyFacilCctvMngVO);
 	
 	// 안전시설물관리 > CCTV poi
-	public List<SafetyFacilCctvMng> selectCctvPOIList(SafetyFacilCctvMng cctvVO); 
+	public List<SafetyFacilCctvMng> selectCctvPOIList(SafetyFacilCctvMng cctvVO);
+
+	public List<SafetyFacilCctvMng> selectSffmCctvFacilExcelListDownload(SafetyFacilCctvMngVO safetyFacilCctvMngVO); 
 }

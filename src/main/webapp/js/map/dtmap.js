@@ -181,7 +181,9 @@ window.dtmap = (function () {
      * @param {number} [options.perPage=10] 한 페이지당 피쳐 개수
      * @param {number} [options.page=1] 페이지 번호
      * @param {ol.geom.Geometry} [options.geometry] intersects 도형 (우선)
-     * @param {number[]} [bbox] 검색 영역 [minX, minY, maxX, maxY] (geometry 있을경우 수행안함)
+     * @param {number[]} [options.bbox] 검색 영역 [minX, minY, maxX, maxY] (geometry 있을경우 수행안함)
+     * @param {string} [options.sortBy] 정렬 컬럼명
+     * @param {string} [options.sortOrder='ASC'] 정렬 방식 'ASC', 'DESC
      * @param {string} [options.cql] cql 필터 (cql필터 가 있을경우 json request로 수행)         -> 필터방식은 둘중 택 1
      * @param {string | string[]} [options.filter] 필터 수식 (배열일 경우 and 연산으로 처리됨)   -> 필터방식은 둘중 택 1
      *        ' '공백 구분 문자로  "Key Expression Value" 형태로 작성해야함
@@ -197,6 +199,8 @@ window.dtmap = (function () {
      *              typeNames : 'wtl_fire_ps',
      *              page : 1,
      *              perPage : 10,
+     *              sortBy : 'gid',
+     *              orderBy : 'ASC',
      *              filter : ['gid > 10', 'gid < 20']
      *          })
      *
@@ -205,6 +209,8 @@ window.dtmap = (function () {
      *              typeNames : 'wtl_fire_ps',
      *              page : 1,
      *              perPage : 10,
+     *              sortBy : 'gid',
+     *              orderBy : 'DESC',
      *              cql : 'gid > 10 and gid < 20'
      *          })
      *
@@ -240,14 +246,15 @@ window.dtmap = (function () {
 
         const featureRequest = new ol.format.WFS().writeGetFeature({
             outputFormat: 'application/json',
-            srsName: getMap().crs,
+            srsName: options.crs || getMap().crs,
             featureTypes: options.typeNames,
             maxFeatures: maxFeatures,
             startIndex: startIndex,
             filter: filter
         });
-
-        wfsSortBy(featureRequest, options);
+        if (options.sortBy) {
+            wfsSortBy(featureRequest, options);
+        }
 
         return new XMLSerializer().serializeToString(featureRequest);
     }
@@ -263,7 +270,7 @@ window.dtmap = (function () {
         }
 
         if (options.geometry) {
-            ary.push(new ol.format.filter.intersects('geom', options.geometry));
+            ary.push(new ol.format.filter.intersects('geom', options.geometry, options.crs || dtmap.crs));
         } else if (options.bbox) {
             ary.push(new ol.format.filter.bbox('geom', options.bbox));
         }
@@ -339,7 +346,7 @@ window.dtmap = (function () {
         const propertyName = doc.createElementNS(ogcNS, 'ogc:PropertyName');
         propertyName.setHTML(options.sortBy || 'gid');
         const order = doc.createElementNS(ogcNS, 'ogc:SortOrder');
-        order.setHTML('ASC');
+        order.setHTML(options.sortOrder || 'ASC');
         sortProperty.appendChild(propertyName);
         sortProperty.appendChild(order);
         sortby.appendChild(sortProperty);
@@ -385,7 +392,7 @@ window.dtmap = (function () {
             version: '1.1.0',
             request: 'GetFeature',
             outputFormat: 'application/json',
-            srsName: getMap().crs,
+            srsName: options.crs || getMap().crs,
             typeNames: options.typeNames,
             maxFeatures: maxFeatures,
             startIndex: startIndex,

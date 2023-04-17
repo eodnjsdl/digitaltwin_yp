@@ -21,7 +21,7 @@ map2d.draw = (function () {
         _source = new ol.source.Vector();
         _layer = new ol.layer.Vector({
             source: _source,
-            zIndex: 999,
+            zIndex: 99,
             style: map2d.vector.style,
             isDefault: true
         });
@@ -53,6 +53,27 @@ map2d.draw = (function () {
      * @param {MarkerOption} [options.marker] 마커 (type="Marker" 일 경우에만 사용)
      * @param {TextOption} [options.text] 텍스트 (type="Text" 일 경우에만 사용)
      * @param {boolean} [options.once] 한번만 그리기 (도형 그릴때 기존 도형 삭제)
+     *
+     * @example 편집 예제
+     * const feature = dtmap.vector.getFeature(featureId); //편집대상 피쳐검색
+     * dtmap.draw.clear(); //그리기 소스 및 스냅레이어 초기화
+     * dtmap.draw.active({type:'Modify'}); //그리기 편집 활성화 'Modify' 'Translate'
+     * dtmap.draw.addFeatures(feature); //편집 대상 피쳐 추가
+     *
+     * //스냅레이어 설정
+     * dtmap.draw.setSnapLayer('digitaltwin:lsmd_cont_ldreg_41830');
+     *
+     * //스냅레이어 클리어
+     * dtmap.draw.clearSnapLayer();
+     *
+     * //편집 완료된 결과 받기
+     * dtmap.draw.writeGeoJson(); //결과 GeoJson String 리턴
+     *
+     * //버퍼 적용하기
+     * dtmap.draw.setBuffer(10); //적용
+     *
+     * dtmap.draw.setBuffer(0); //해제
+     *
      */
     function active(options) {
         // dispose();
@@ -141,7 +162,7 @@ map2d.draw = (function () {
                 style: selectStyleFunction
             });
             map2d.map.addInteraction(_select);
-            // _select.on('select', onSelect)
+            _select.on('select', onSelect)
             map2d.map.on('pointermove', onPointerMove);
         }
     }
@@ -154,8 +175,8 @@ map2d.draw = (function () {
             color: 'rgba(255,0,0,0.01)'
         });
         const stroke = new ol.style.Stroke({
-            color: 'rgba(255,0,0,0.2)',
-            width: 3
+            color: 'rgba(255,0,0,0.3)',
+            width: 10
         });
         const selectStyle = new ol.style.Style({
             image: new ol.style.Circle({
@@ -176,23 +197,27 @@ map2d.draw = (function () {
     }
 
     function onSelect(e) {
-        map2d.map.getTargetElement().style.cursor = '';
+        let cursor = ''
+        if (_drawOptions.type === 'Translate') {
+            cursor = 'grab'
+        }
+        map2d.map.getTargetElement().style.cursor = cursor;
     }
 
     function onPointerMove(e) {
         map2d.map.getTargetElement().style.cursor = '';
-        const hit = map2d.map.hasFeatureAtPixel(e.pixel);
+        let hit = map2d.map.hasFeatureAtPixel(e.pixel);
         if (hit) {
             const selected = _select.getFeatures().getArray()[0];
+            // if (selected) {
+            //     return;
+            // }
             const find = map2d.map.getFeaturesAtPixel(e.pixel)[0];
-            if (!selected || selected !== find) {
-                map2d.map.getTargetElement().style.cursor = hit ? 'pointer' : '';
+            if (!find || selected === find) {
+                return;
             }
-        }
-
-
-        if (_select.getFeatures().getArray().length === 0) {
-            map2d.map.getTargetElement().style.cursor = map2d.map.hasFeatureAtPixel(e.pixel) ? 'pointer' : '';
+            hit = hit && _source.hasFeature(find);
+            map2d.map.getTargetElement().style.cursor = hit ? 'pointer' : '';
         }
     }
 
@@ -210,6 +235,11 @@ map2d.draw = (function () {
         if (_modify) {
             map2d.map.removeInteraction(_modify);
             _modify = undefined;
+        }
+
+        if (_translate) {
+            map2d.map.removeInteraction(_translate);
+            _translate = undefined;
         }
 
         if (_select) {
@@ -255,7 +285,9 @@ map2d.draw = (function () {
         if (_drawOptions.once) {
             _source.clear();
         }
-        e.feature.setProperties({style: _drawOptions});
+        if (_drawOptions.style) {
+            e.feature.set('style', _drawOptions.style);
+        }
         // console.log('set', e.feature.ol_uid, _drawOptions);
         dtmap.trigger('drawstart', {geometry: e.feature.getGeometry(), origin: e});
     }
@@ -270,7 +302,7 @@ map2d.draw = (function () {
 
     function writeWKT(index) {
         const format = new ol.format.WKT();
-        const features = _source.getFeatures();
+        const features = removePrivateProperty(_source.getFeatures());
         if (index !== undefined) {
             const feature = features[index];
             if (!feature) {
@@ -282,8 +314,28 @@ map2d.draw = (function () {
         } else {
             return format.writeFeatures(features);
         }
+    }
 
+    function removePrivateProperty(feature) {
+        if (!feature) {
+            return;
+        }
 
+        if (feature instanceof Array) {
+            const ary = [];
+            for (let i = 0; i < feature.length; i++) {
+                const f = removePrivateProperty(feature[i]);
+                if (f) {
+                    ary.push(f);
+                }
+            }
+            return ary;
+        } else {
+            const cloned = feature.clone();
+            cloned.unset('_style');
+            cloned.unset('_selected');
+            return cloned;
+        }
     }
 
     /**
@@ -333,7 +385,6 @@ map2d.draw = (function () {
         return parser.write(buffered);
     }
 
-
     function readGeoJson(json, style) {
         if (typeof json === 'string') {
             json = JSON.parse(json);
@@ -381,11 +432,14 @@ map2d.draw = (function () {
     }
 
     function getSnapLayer() {
-
+        if (_snapLayer) {
+            return _snapLayer.get('name');
+        }
     }
 
     /**
      * 스냅 레이어 설정
+     * 성능을 고려해 줌레벨 16부터 가시화 됨
      * @param {string} name 레이어 서비스 명
      */
     function setSnapLayer(name) {
@@ -399,9 +453,22 @@ map2d.draw = (function () {
                         typeNames: name,
                         bbox: extent,
                         cql: '1=1',
-                        crs: dtmap.crs
+                        // crs: dtmap.crs
                     }).then(function (json) {
-                        const features = _snapSource.getFormat().readFeatures(json);
+                        let crs
+                        try {
+                            crs = json.crs.properties.name;
+                            if (crs.includes('urn:ogc:def:crs:EPSG::')) {
+                                crs = crs.replace('urn:ogc:def:crs:EPSG::', 'EPSG:');
+                            }
+                        } catch (e) {
+                            console.warn(`GeoJSON에 좌표계 정보가 없습니다. ${dtmap.crs}로 적용합니다.`)
+                            crs = dtmap.crs;
+                        }
+                        const features = _snapSource.getFormat().readFeatures(json, {
+                            dataProjection: crs,
+                            featureProjection: dtmap.crs
+                        });
                         _snapSource.addFeatures(features);
                     })
                 },
@@ -414,9 +481,10 @@ map2d.draw = (function () {
         if (!_snapLayer) {
             _snapLayer = new ol.layer.Vector({
                 source: _snapSource,
-                name: 'snapLayer',
                 zIndex: 998,
+                minZoom: 16,
             });
+            _snapLayer.set('name', name);
             map2d.map.addLayer(_snapLayer);
         }
 
@@ -440,9 +508,10 @@ map2d.draw = (function () {
             return;
         }
         if (features instanceof Array) {
-            return _source.addFeatures(features);
+            _source.addFeatures(features);
         } else {
-            return _source.addFeature(features);
+            _source.addFeature(features);
+            _select.getFeatures().push(features);
         }
     }
 

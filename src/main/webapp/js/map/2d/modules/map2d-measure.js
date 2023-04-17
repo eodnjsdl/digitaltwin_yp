@@ -193,7 +193,7 @@ map2d.measure = (function () {
             source: _source,
             name: 'measureLayer',
             style: styleFunction,
-            zIndex: 3,
+            zIndex: 999,
         });
         map2d.map.addLayer(_layer);
     }

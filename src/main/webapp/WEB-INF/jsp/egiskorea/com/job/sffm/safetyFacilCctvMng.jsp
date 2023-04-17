@@ -4,11 +4,11 @@
 <%@ taglib prefix="ui" uri="http://egovframework.gov/ctl/ui" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
-<script src="/js/egiskorea/com/job/sffm/cctv/cctv.js"></script>
+
 <script>
 function fn_delete(gid){
 
-//if(confirm("<spring:message code="common.delete.msg" />")){
+if(confirm("<spring:message code="common.delete.msg" />")){
 	$.ajax({
 		type : "POST",
 		url: "/job/cctv/deleteCctv.do",
@@ -16,21 +16,21 @@ function fn_delete(gid){
 		dataType : "json",
 		success : function(returnData, status){
 			if(returnData.result == "success") {
-				//alert("<spring:message code="success.common.delete" />");
+				alert("<spring:message code="success.common.delete" />");
 					$("#rightSubPopup").removeClass("opened").html("");
 				// if(lastSpitalSearch != ''){
 					aj_selectCctvList($("#searchForm")[0],'spital');
 				// } else {
-					aj_selectCctvList($("#searchForm")[0], 'attr');
+					// aj_selectCctvList($("#searchForm")[0], 'attr');
 				// }
 			}else{
-				//alert("<spring:message code="fail.common.delete" />");
+				alert("<spring:message code="fail.common.delete" />");
 				return;
 			}
 		}, complete : function(){
 		}
 	});
-//}
+}
 }
 </script>
 

@@ -5,6 +5,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="ui" uri="http://egovframework.gov/ctl/ui"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<script src="/js/map-ui.js"></script>
 <script src="/js/egiskorea/com/job/ibbi/ibbi.js"></script>
 <%--<script src="/js/egiskorea/com/cmm/cmmUtil.js"></script>--%>
 <script type="text/javascript">
@@ -18,13 +19,13 @@ var lastBufferCnt = "<c:out value='${searchVO.bufferCnt}' />";
 var lastSelect = "<c:out value='${searchVO.inBusinessEstaInfoSelect}' />";
 var lastDraw = "<c:out value='${searchVO.inBusinessEstaInfoAreaDrawing}' />";
 
-$(".popup-reset").unbind('click').bind('click',function(){
-	ibbiUi = '';
-	// cmmUtil.drawClear();
-	// bottomPopupOpen('inBusinessEstaInfo');
-	ui.openPopup("bottomPopup");
-	aj_selectInBusinessEstaInfoList($("#tmpForm")[0]);
-});
+// $(".popup-reset").unbind('click').bind('click',function(){
+// 	ibbiUi = '';
+// 	// cmmUtil.drawClear();
+// 	// bottomPopupOpen('inBusinessEstaInfo');
+// 	ui.openPopup("bottomPopup");
+// 	aj_selectInBusinessEstaInfoList($("#tmpForm")[0]);
+// });
 
 </script>
 <form name="selectInBusinessEstaInfoExcelList" id="searchForm" method="post" onsubmit="fn_select_list(); return false;">
@@ -85,7 +86,7 @@ $(".popup-reset").unbind('click').bind('click',function(){
 						</table>
 					</div>
 					<div class="btn-wrap">
-						<div><button type="button" class="btn type01 search" onClick="setData(0);">조회</button></div>
+						<div><button type="button" class="btn type01 search" onClick="fn_search_List(); setData(0);">조회</button></div>
 					</div>
 				</div>
 				<div class="tab-cont busiSpace">
@@ -135,5 +136,5 @@ $(".popup-reset").unbind('click').bind('click',function(){
 </form>
 <button type="button" class="manualBtn" title="도움말" onclick="manualTab('관내업소정보조회')"></button>
 <button type="button" class="popup-close" title="닫기" onClick="toastr.warning('removeLayer(); cmmUtil.drawClear();', 'onclick 이벤트');"></button>
-<button type="button" class="popup-reset" class="초기화"></button>
+<button type="button" class="popup-reset" class="초기화" onclick="bottomPopupOpen('inBusinessEstaInfo');"></button>
 <button type="button" class="popup-bottom-toggle" title="접기" onclick="toggleFold(this);"></button>				

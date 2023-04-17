@@ -57,37 +57,40 @@ class MapStore {
      */
     createImage() {
         // 2D
-        if (app2D) {
-            const yMap = app2D.getYMap();
-            yMap.exportImage().done((data, width, height) => {
-                $(".saveMap-thumb img").attr("src", data);
-                this.width = width;
-                this.height = height;
-            });
-        } else {
-            var mapCanvas = Module.canvas;
-
-
-            // 스크린 샷 만들 canvas
-            var captureCanvas = document.createElement('canvas'),
-                ctx = captureCanvas.getContext('2d')
-            ;
-
-            // 크기는 지도 canvas와 동일하게 설정
-            captureCanvas.width = mapCanvas.width;
-            captureCanvas.height = mapCanvas.height;
-
-            var img = new Image();
-
-            img.onload = function () {
-
-                // 지도 캔버스 화면을 복사
-                ctx.drawImage(this, 0, 0, mapCanvas.width, mapCanvas.height);
-
-            };
-            img.src = mapCanvas.toDataURL("image/jpeg");
-            $(".saveMap-thumb img").attr("src", img.src);
-        }
+        // if (app2D) {
+        //     const yMap = app2D.getYMap();
+        //     yMap.exportImage().done((data, width, height) => {
+        //         $(".saveMap-thumb img").attr("src", data);
+        //         this.width = width;
+        //         this.height = height;
+        //     });
+        // } else {
+        //     var mapCanvas = Module.canvas;
+        //
+        //
+        //     // 스크린 샷 만들 canvas
+        //     var captureCanvas = document.createElement('canvas'),
+        //         ctx = captureCanvas.getContext('2d')
+        //     ;
+        //
+        //     // 크기는 지도 canvas와 동일하게 설정
+        //     captureCanvas.width = mapCanvas.width;
+        //     captureCanvas.height = mapCanvas.height;
+        //
+        //     var img = new Image();
+        //
+        //     img.onload = function () {
+        //
+        //         // 지도 캔버스 화면을 복사
+        //         ctx.drawImage(this, 0, 0, mapCanvas.width, mapCanvas.height);
+        //
+        //     };
+        //     img.src = mapCanvas.toDataURL("image/jpeg");
+        //     $(".saveMap-thumb img").attr("src", img.src);
+        // }
+        dtmap.toImage().then(function(data){
+            $(".saveMap-thumb img").attr("src", data);
+        });
     }
 
     /**

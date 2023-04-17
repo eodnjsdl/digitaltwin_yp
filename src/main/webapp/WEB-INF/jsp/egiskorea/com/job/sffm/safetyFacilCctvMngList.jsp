@@ -7,31 +7,9 @@
 <script src="/js/egiskorea/com/job/sffm/cctv/cctv.js"></script>
 <script src="/js/egiskorea/com/job/sffm/sffm.js"></script>
 <%--<script src="/js/egiskorea/com/cmm/cmmUtil.js"></script>--%>
-<!--<script>
-	$(document).ready(function() {
-		CCTV.init();
-	});
-
-	// CCTV관리 등록페이지 열기 버튼
-	$("#insertSafetyFacilCctvMngView").on("click", function() {
-		ui.openPopup("rightSubPopup");
-		CCTV.aj_insertSafetyFacilCctvMngView($("#tmpForm")[0], "", "right");
-	});
-
-	//CCTV관리 상세페이지 열기
-	$(document).on('click', '#bottomPopup #sampleGridDiv tr', function(){
-		ui.openPopup("rightSubPopup");
-		CCTV.aj_selectSafetyFacilCctvMngView($("#tmpForm")[0], "right", $(this).children('td').eq(0).text());
-	})
-	
-	// 가로등관리 상세페이지 열기
-	function fn_select_cctv_detail(gid, lon, lat) {
-		ui.openPopup("rightSubPopup");
-		CCTV.aj_selectSafetyFacilCctvMngView($("#tmpForm")[0], gid, "right");
-	}
-</script>-->
 <!-- 업무 > 공간정보활용 > 안전시설물관리 -->
 <!-- <div class="popup-panel popup-bottom work-01-03" style="left: 320px;width: 1600px;height: 378px;"> -->
+<form:form name="selectSffmCctvFacilExcelList" id="searchForm" method="post" onsubmit="fn_select_list(); return false;">
 <div class="popup-header">안전시설물관리</div>
 <div class="popup-body">
 	<div class="bottom-popup-group">
@@ -67,13 +45,13 @@
 									<tr>
 										<th scope="row">기기구분</th>
 										<td colspan="1">
-											<select name="cctv-search-selbox" class="form-control" id="cctv-search-selbox">
+											<select name="searchGbn" class="form-control" id="cctv-search-selbox">
 												<option name="전체" value="">전체</option>
 											</select>
 										</td>
 									</tr>
 									<tr>
-										<td colspan="2"><input type="text" class="form-control"
+										<td colspan="2"><input type="text" class="form-control" name="searchDeviceid"
 											id="cctv-search-deviceid"
 											onkeypress="if( event.keyCode == 13 ){ fn_search_cctv_list(''); }"
 											placeholder="기기ID"></td>
@@ -82,7 +60,7 @@
 									<td colspan="2"><input type="text" class="form-control" id="cctv-search-gbn" onkeypress="if( event.keyCode == 13 ){ CCTV.fn_select_cctv_list(''); }" placeholder="구분"></td>
 								</tr> -->
 									<tr>
-										<td colspan="2"><input type="text" class="form-control"
+										<td colspan="2"><input type="text" class="form-control" name="searchLabel"
 											id="cctv-search-label"
 											onkeypress="if( event.keyCode == 13 ){ fn_search_cctv_list(''); }"
 											placeholder="명칭"></td>
@@ -93,7 +71,7 @@
 						<div class="btn-wrap">
 							<div>
 								<button type="button" class="btn type01 search"
-									onclick="setData('');">조회</button>
+									onclick="fn_search_List(); setData();">조회</button>
 							</div>
 						</div>
 					</div>
@@ -119,7 +97,7 @@
 								</span>
 							</div>
 							<div class="space-search-items areaSrchTool">
-								경계로부터 <span class="form-group"><input type="number"
+								경계로부터 <span class="form-group"><input type="number" name="cctvBuffer
 									id="cctvBuffer" class="form-control align-center" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" value="0"
 									value="0" placeholder="0"
 									onkeypress="if( event.keyCode == 13 ){ fn_select_cctv_list('spital'); }">
@@ -159,8 +137,9 @@
 					<button type="button" class="btn basic bi-write"
 						id="insertSafetyFacilCctvMngView"
 						onclick="fn_insert();">등록</button>
-					<a href="/job/cctv/cctvExcelDown.do"><button type="button"
-							class="btn basic bi-excel">엑셀저장</button></a>
+						<button type="button" class="btn basic bi-excel" id="cctvExcelDownload" data-form-name="selectSffmCctvFacilExcelList">엑셀저장</button> 
+					<!-- <a href="/job/cctv/cctvExcelDown.do"><button type="button"
+							class="btn basic bi-excel">엑셀저장</button></a> -->
 				</div>
 			</div>
 			<div class="bbs-list-wrap" style="height: 273px;">
@@ -178,10 +157,9 @@
 		</div>
 	</div>
 </div>
+</form:form>
 <button type="button" class="manualBtn" title="도움말" onclick="manualTab('안전시설물관리')"></button>
-<button type="button" class="popup-close" title="닫기"
-	onclick="CCTV.removeCmmPOI();"></button>
-<button type="button" class="popup-reset" class="초기화"
-	onclick="bottomPopupOpen('safetyFacilitiesCctv');"></button>
+<button type="button" class="popup-close" title="닫기"></button>
+<button type="button" class="popup-reset" class="초기화" onclick="bottomPopupOpen('safetyFacilitiesCctv');"></button>
 <button type="button" class="popup-bottom-toggle" onclick="toggleFold(this);" title="접기"></button>
 <!-- //안전시설물관리 -->

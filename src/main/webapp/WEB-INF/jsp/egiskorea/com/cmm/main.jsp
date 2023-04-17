@@ -270,8 +270,8 @@
 					<span>게시판</span>
 					<ul>
 						<li><button type="button" id="notice" data-popup="bbsPopup">공지사항</button></li>
-						<li><button type="button" id="opqna" data-popup="bbsPopup">QnA</button></li>
-						<li><button type="button" id="qna" data-popup="bbsPopup">운영지원</button></li>
+						<li><button type="button" id="qna" data-popup="bbsPopup">QnA</button></li>
+						<li><button type="button" id="opqna" data-popup="bbsPopup">운영지원</button></li>
 					</ul>
 				</li>
 				<li>

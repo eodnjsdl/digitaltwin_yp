@@ -7,25 +7,55 @@
 <!-- top > 드론영상 -->
 <script>
 
-    $(".bi-write2").on("click", function () {
-        aj_insertDronInfo($("#insertFormDron")[0]);
-    });
-
-    $(".btn-wrap .bi-cancel").on("click", function () {
-        $(this).addClass("active");
-        aj_selectDronInfo($("#insertFormDron")[0]);
-    });
-
-    //드론정보 목록조회
-    $(".btn-wrap .bi-list").on("click", function () {
-        $(this).addClass("active");
-        aj_selectDronInfo($("#selectDronInfoViewForm")[0], "");
-    });
-
     var inputFileList = new Array();
 
     $(document).ready(function () {
+        bindEventInsertDronInfoView();
+        initInsertDronList();
+        changeImage();
+    });
 
+    //지도에서 선택
+    $(".top-drone-body .bi-location").on("click", aj_selectDronLocation);
+
+    function bindEventInsertDronInfoView() {
+        $(".bi-write2").on("click", function () {
+            // 미입력 관련 VALIDATE
+            var sj = $("#sj").val();
+            var potogrfDe = $("#potogrfDe").val();
+            var loc_dron = $("#loc_dron").val();
+            var file = $(".upload-name").val();
+
+            if (sj == '') {
+                toastr.warning("제목을 입력해 주세요.");
+                return;
+            } else if (potogrfDe == '' || potogrfDe == undefined) { // 촬영일 유무 체크
+                toastr.warning("촬영일을 지정해 주세요.");
+                return;
+            } else if (loc_dron == '' || loc_dron == undefined) { // 위치 유무 체크
+                toastr.warning("위치를 지정해 주세요.");
+                return;
+            } else if (file == '' || file == undefined) { //파일이 유무 체크
+                toastr.warning("파일을 선택해 주세요.");
+                return;
+            } else {
+                aj_insertDronInfo($("#insertFormDron")[0]);
+            }
+        });
+
+        $(".btn-wrap .bi-cancel").on("click", function () {
+            $(this).addClass("active");
+            aj_selectDronInfo($("#insertFormDron")[0]);
+        });
+
+        //드론정보 목록조회
+        $(".btn-wrap .bi-list").on("click", function () {
+            $(this).addClass("active");
+            aj_selectDronInfo($("#selectDronInfoViewForm")[0], "");
+        });
+    }
+
+    function initInsertDronList() {
         var fileTarget = $('#file');
         fileTarget.on('change', function (e) {
             inputFileList = [];
@@ -37,11 +67,7 @@
                 inputFileList.push(f);
             });
         });
-
-        changeImage();
-
-    });
-
+    }
 
     function changeImage() {
         $('#file').on('input', function (e) {
@@ -70,12 +96,14 @@
 <div class="popup-header">드론영상</div>
 <div class="popup-body">
 
-    <div class="tool-popup-body">
+    <div class="tool-popup-body top-drone-body">
         <form:form name="insertFormDron" id="insertFormDron" method="post" onsubmit="insertFormDron(); return false;">
             <input type="hidden" name="pageIndex" value="<c:out value='${pageIndex}' />">
             <input type="hidden" name="searchWrd" value="<c:out value='${searchWrd}' />">
             <input type="hidden" name="sortKind" value="<c:out value='${sortKind}' />">
             <input type="hidden" name="searchCnd" value="<c:out value='${searchCnd}' />">
+            <input type="hidden" id="xcord" name="xcord">
+            <input type="hidden" id="ycord" name="ycord">
 
             <h3 class="cont-tit">드론영상 등록하기</h3>
             <div class="bbs-write-default">
@@ -87,14 +115,18 @@
                     <tbody>
                     <tr>
                         <th scope="row">제목</th>
-                        <td><input type="text" class="form-control" name="sj"></td>
+                        <td><input type="text" class="form-control" id="sj" name="sj"></td>
                     </tr>
                     <tr>
                         <th scope="row">촬영일</th>
                         <td>
                             <div class="datapicker-group"><input type="text" id="potogrfDe" name="potogrfDe"
-                                                                 class="datepicker" autocomplete="off"></div>
+                                                                 class="datepicker" autocomplete="off" readonly></div>
                         </td>
+                    </tr>
+                    <tr>
+                        <th scope="row">위치</th>
+                        <td><input type="text" class="form-control w-70p" id="loc_dron" readonly> <button type="button" class="btn type01 bi-location">지도에서 선택</button></td>
                     </tr>
 
                         <%--                    <tr>--%>
@@ -134,8 +166,8 @@
                         <th scope="row" class="border-top-0">파일첨부</th>
                         <td class="border-top-0">
                             <div class="form-file">
-                                <input type="file" id="file" accept=".gif,.png,.jpg,.mp4"><input class="upload-name"
-                                                                                                 value=".gif,.png,.jpg,.mp4 파일선택">
+                                <input type="file" id="file" accept="image/gif, image/jpeg, image/png, video/mp4">
+                                <input class="upload-name" placeholder="gif, png, jpg, mp4 파일선택" value="">
                                 <label for="file">파일찾기</label>
                             </div>
                         </td>

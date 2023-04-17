@@ -4,22 +4,59 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
-
 <script>
-
-    $(".btn-wrap .bi-edit").on("click", function () {
-        aj_updateDronInfo($("#updateFormDron")[0]);
-    });
-
-    $(".btn-wrap .bi-cancel").on("click", function () {
-        aj_selectDronInfoView(null, $("#updateFormDron")[0]);
-    });
 
     var inputFileList = new Array();
 
     $(document).ready(function () {
-        var fileTarget = $('#file');
+        bindEventUpdateDronInfoView();
+        initUpdateDronList();
+        callImage();
+        // changeImage();
+        setAddressByUpdateDron();
+    });
 
+    function setAddressByUpdateDron() {
+        const id = "<c:out value="${result.dronePicId}" />";
+        const pointX = ${result.xcord};
+        const pointY = ${result.ycord};
+        cmmUtil.reverseGeocoding(pointX, pointY).done((result) => {
+            $("#loc_dron").val(result["address"]);
+        });
+    }
+
+    function bindEventUpdateDronInfoView() {
+        $(".btn-wrap .bi-edit").on("click", function () {
+            // dtmap.draw.clear();
+            // 미입력 관련 VALIDATE
+            var sj = $("#sj").val();
+            var potogrfDe = $("#potogrfDe").val();
+            var loc_dron = $("#loc_dron").val();
+            var file = $(".upload-name").val();
+            if (sj == '') {
+                toastr.warning("제목을 입력해 주세요.");
+                return;
+            } else if (potogrfDe == '' || potogrfDe == undefined) { // 촬영일 유무 체크
+                toastr.warning("촬영일을 지정해 주세요.");
+                return;
+            } else if (loc_dron == '' || loc_dron == undefined) { // 위치 유무 체크
+                toastr.warning("위치를 지정해 주세요.");
+                return;
+            } else if (file == '' || file == undefined) { //파일이 유무 체크
+                toastr.warning("파일을 선택해 주세요.");
+                return;
+            } else {
+                aj_updateDronInfo($("#updateFormDron")[0]);
+            }
+        });
+        $(".btn-wrap .bi-cancel").on("click", function () {
+            aj_selectDronInfoView(null, $("#updateFormDron")[0]);
+        });
+        $(".top-drone-body .bi-location").on("click", aj_selectDronLocation);
+    }
+
+    function initUpdateDronList() {
+        var fileTarget = $('#file');
         fileTarget.on('change', function (e) {
             inputFileList = [];
             var cur = $(".form-file input[type='file']").val();
@@ -30,10 +67,8 @@
                 inputFileList.push(f);
             });
         });
-
-        callImage();
         changeImage();
-    });
+    }
 
     function callImage() {
         var _src = $("#droneImg").attr("src");
@@ -56,11 +91,11 @@
             var that = this;
             const FR = new FileReader();
             FR.addEventListener("load", function (evt) {
-                if (that.files[0].type === 'image/jpeg') {
+                if (that.files[0].type.match('image')) {
                     $('#droneImg').attr('src', evt.target.result);
                     $("#droneMp4Tr").hide();
                     $("#droneImgTr").show();
-                } else if (that.files[0].type === 'video/mp4') {
+                } else if (that.files[0].type.match('video')) {
                     $('#droneMp4').attr('src', evt.target.result);
                     $("#droneImgTr").hide();
                     $("#droneMp4Tr").show();
@@ -73,7 +108,7 @@
 </script>
 <div class="popup-header">드론영상</div>
 <div class="popup-body">
-    <div class="tool-popup-body">
+    <div class="tool-popup-body top-drone-body">
         <form:form name="updateFormDron" id="updateFormDron" method="post" onsubmit="updateFormDron(); return false;">
             <input type="hidden" name="dronPicId" id="dronPicId" value="<c:out value="${result.dronePicId}" />">
             <input type="hidden" name="atchmnflId" id="atchmnflId" value="<c:out value="${result.atchmnflId}" />">
@@ -81,6 +116,9 @@
             <input type="hidden" name="searchWrd" value="<c:out value='${searchWrd}' />">
             <input type="hidden" name="sortKind" value="<c:out value='${sortKind}' />">
             <input type="hidden" name="searchCnd" value="<c:out value='${searchCnd}' />">
+            <input type="hidden" id="xcord" name="xcord" value="<c:out value='${result.xcord}' />">
+            <input type="hidden" id="ycord" name="ycord" value="<c:out value='${result.ycord}' />">
+
             <h3 class="cont-tit">드론영상 수정하기</h3>
             <div class="bbs-write-default">
                 <table class="bbs-write">
@@ -92,7 +130,7 @@
                     <tr>
                         <th scope="row">제목</th>
                         <td>
-                            <input type="text" class="form-control" name="sj" value="<c:out value="${result.sj}"/>">
+                            <input type="text" class="form-control" id="sj"  name="sj" value="<c:out value="${result.sj}"/>">
                         </td>
                     </tr>
                     <tr>
@@ -102,6 +140,11 @@
                                                                  class="datepicker" autocomplete="off"
                                                                  value="<c:out value="${result.grfDe}"/>"></div>
                         </td>
+                    </tr>
+
+                    <tr>
+                        <th scope="row">위치</th>
+                        <td><input type="text" class="form-control w-70p" id="loc_dron" readonly> <button type="button" class="btn type01 bi-location">지도에서 선택</button></td>
                     </tr>
 
                     <c:forEach var="resultFile" items="${resultFile}" varStatus="status">
@@ -115,8 +158,8 @@
                                                 <img id="droneImg"
                                                      src='<c:url value='/cmm/fms/getImage.do'/>?atchFileId=<c:out value="${resultFile.atchFileId}"/>&fileSn=<c:out value="${resultFile.fileSn}"/>'
                                                 />
-                                                <input type="hidden" name="orignlFileNm"
-                                                       value="<c:out value="${resultFile.orignlFileNm}" />">
+                                                <input type="hidden" name="orignlFileNm" value="<c:out value="${resultFile.orignlFileNm}" />">
+                                                <input type="hidden" id="fileSnByUpdateDron" name="fileSn" value="<c:out value='${resultFile.fileSn}' />">
                                             </div>
                                         </div>
                                     </td>
@@ -178,7 +221,7 @@
                     <%--                    <button type="button" class="btn basic bi-list">목록</button>--%>
                     <%--                </div>--%>
                 <div>
-                    <button type="button" class="btn basic bi-edit">수정</button>
+                    <button type="button" class="btn basic bi-edit">저장</button>
                     <button type="button" class="btn basic bi-cancel">취소</button>
                 </div>
             </div>

@@ -5,6 +5,22 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <script>
+
+    $(document).ready(function () {
+        eventBindByMemoInfoList();
+        initLayerByMemoInfoList();
+    });
+
+    function eventBindByMemoInfoList() {
+        // 메모정보 등록페이지 이동
+        $(".top-memo-body .bi-write").on("click", function () {
+            $(this).addClass("active");
+            // rightPopupOpen('insertMemoInfo', $("#searchFormMemo")[0]);
+            ui.openPopup("rightPopup");
+            aj_insertMemoInfoView($("#searchFormMemo")[0]);
+        });
+    }
+
     // 메모정보 목록 조회
     function fn_select_memo_list() {
         document.searchFormMemo.pageIndex.value = 1;
@@ -13,18 +29,9 @@
 
     // 메모정보 목록 페이지이동
     function fn_select_memo_linkPage(pageNo) {
-
         document.searchFormMemo.pageIndex.value = pageNo;
         aj_selectMemoInfoList($("#searchFormMemo")[0], "");
     }
-
-    // 메모정보 등록페이지 이동
-    $(".top-memo-body .bi-write").on("click", function () {
-        $(this).addClass("active");
-        // rightPopupOpen('insertMemoInfo', $("#searchFormMemo")[0]);
-        ui.openPopup("rightPopup");
-        aj_insertMemoInfoView($("#searchFormMemo")[0]);
-    });
 
     //메모정보 상세조회
     function selectMemoInfoView(id) {
@@ -42,8 +49,7 @@
         }
     }
 
-    $(function () {
-
+    function initLayerByMemoInfoList() {
         const ids = [];
         const wkts = [];
         const sj = [];
@@ -65,7 +71,6 @@
         if (features.length > 0) {
             const format = new ol.format.GeoJSON();
             const geojson = format.writeFeatures(features);
-
             dtmap.draw.clear();
             dtmap.draw.dispose();
             dtmap.vector.clear();
@@ -81,13 +86,8 @@
                 }
             });
             toastr.warning("POI 클릭 이벤트 세팅")
-            // cmmUtil.highlightFeatures(geojson, "/images/poi/memo_poi.png", {
-            //     onClick: function (feature) {
-            //         selectMemoInfoView(feature.getId());
-            //     }
-            // });
         }
-    });
+    }
 
 </script>
 <!-- top > 메모정보 -->

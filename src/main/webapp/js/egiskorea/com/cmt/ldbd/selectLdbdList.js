@@ -137,7 +137,7 @@ function _moveLdbd() {
         layer = 'tgd_spbd_buld';
     } else {
         feature = $("#jijuk").data("feature");
-        layer = 'lsmd_cont_ldreg_41830';
+        layer = 'digitaltwin:lsmd_cont_ldreg_41830';
     }
     var gid = feature.properties.gid;
     var cql = '';
@@ -154,7 +154,7 @@ function _moveLdbd() {
 
 function _onDrawEnd_ldbdInfo(e) {
     var geom = e.geometry;
-    var ldLayer = "lsmd_cont_ldreg_41830";
+    var ldLayer = "digitaltwin:lsmd_cont_ldreg_41830";
     var bdLayer = "tgd_spbd_buld";
     var totalCnt = 0;
     var ldStyle = {
@@ -228,7 +228,7 @@ function setLdbdList(geom, data, layerNm) {
         road = result.roadAddress;
         for (let i = 0; i < data.features.length; i++) {
             properties = data.features[i].properties;
-            if (layerNm === "lsmd_cont_ldreg_41830") {
+            if (layerNm === "digitaltwin:lsmd_cont_ldreg_41830") {
                 var jimok = properties.jibun.charAt(properties.jibun.length - 1); //열
                 var jibun = properties.jibun.slice(0, -1); //문자
                 tag += `<li><p class="tit" id="jijukcount">`;

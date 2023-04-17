@@ -111,14 +111,14 @@ window.ui = (function () {
                     aj_selectNoticeList();
                     break;
                 // aside menu > QnA
-                case "opqna" :
-                    ui.openPopup(area);
-                    aj_selectOpQnaList(1);
-                    break;
-                // aside menu > 운영지원
                 case "qna" :
                     ui.openPopup(area);
                     aj_selectQnaList(1);
+                    break;
+                // aside menu > 운영지원
+                case "opqna" :
+                    ui.openPopup(area);
+                    aj_selectOpQnaList(1);
                     break; 
                     
                 //지도설정
@@ -137,9 +137,9 @@ window.ui = (function () {
                     aj_selectFavoritesList($("#tmpForm")[0]);
                     break;
             }
-        });
+        })
     }
-    
+            
     //RIGHT 메뉴 영역
     function _rightToolEvent() {
         /**
@@ -880,5 +880,3 @@ function aj_mapsetting() {
 		}
 	});
 }
-
-

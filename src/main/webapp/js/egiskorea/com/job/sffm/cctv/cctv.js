@@ -1,6 +1,8 @@
 /**
  * 안전시설물관리 > cctv 관리 js
  */
+
+SEARCHOBJ= null;
 $(document.body).ready(function(){
 	getCode('', 'search');
 	initGrid();
@@ -14,6 +16,7 @@ function getCode(value, type){
 		url:"/job/cctv/getCode.do",
 		type: "POST",
 		dataType: 'json',
+		async:false,
 		success:function(result) {
 			var data = result.resultList;
 			var html = '';
@@ -21,11 +24,7 @@ function getCode(value, type){
 			for(i=0; i<data.length; i++) {
 				html += '<option value='+ data[i].codeNm +'>'+ data[i].codeNm +'</option>';
 			}
-			if(type == 'search') {
-				$("#cctv-search-selbox").append(html);
-			} else {
-				$("#cctv-insert-selbox").html(html);
-			} 
+			$("#cctv-"+type+"-selbox").append(html);
 		}
 	});
 	
@@ -69,16 +68,18 @@ function initGrid(){
 
 
 function setData(_pageNo){
-	var selbox = $('#cctv-search-selbox').val() || '';
-	var deviceid = $('#cctv-search-deviceid').val() || '';
-	var label = $('#cctv-search-label').val() || '';
+	
+	
+	var gbn='', deviceid='', label=''; 
 
-	/*return new ol.format.filter.and( new ol.format.filter.like('label', `*${data.cctvSearchLabel}*`)
-	, new ol.format.filter.like('deviceid', `*${data.cctvSearchDeviceid}*`)
-	, new ol.format.filter.like('gbn', `*${data.cctvSearchSelbox}*`));*/
+	if(SEARCHOBJ != null){
+		gbn = SEARCHOBJ.searchGbn;
+		deviceid = SEARCHOBJ.searchDeviceId;
+		label = SEARCHOBJ.searchLabel;
 
+	}
 	var cqlList = [];
-	if(selbox.trim().length >=1){cqlList.push("gbn like "+selbox+" ");}
+	if(gbn.trim().length >=1){cqlList.push("gbn like "+gbn+" ");}
 	if(deviceid.trim().length >=1){cqlList.push("deviceid like "+deviceid+" ");}
 	if(label.trim().length >=1){cqlList.push("label like "+label+" ");}
 
@@ -87,13 +88,15 @@ function setData(_pageNo){
 		typeNames: 'tgd_cctv_status_new', //WFS 레이어명
 		page : (_pageNo||0)+1,
 		perPage : 100,
+		sortBy : 'gid',
+		sortOrder : 'DESC',
 		filter : cqlList
 	});
 
 	promise.then(function(data){
 		$("#bottomPopup").find(".bbs-list-num strong").text(data.totalFeatures);
 
-		toastr.success("페이징된 POI 추가 및 지도 BBOX 이동");
+		toastr.success("지도 BBOX 이동");
 		var list = [];
 		for(i =0;i<data.features.length;i++){
 			const {id, properties} = data.features[i];
@@ -117,7 +120,7 @@ function setData(_pageNo){
 		let properties = feature.getProperties();
 		    return {
 		        marker: {
-		            src: '/images/poi/street_lamp.png'
+		            src: '/images/poi/cctv_poi.png'
 		            },
 		            label: {
 		                text: properties.deviceid
@@ -158,6 +161,8 @@ function fn_insert(){
 //cctv관리 상세페이지 열기
 function fn_pageDetail(gid){
 
+	dtmap.vector.clearSelect() 
+	dtmap.vector.select('tgd_cctv_status_new.'+gid);
 
 	ui.openPopup("rightSubPopup");
 	
@@ -197,7 +202,7 @@ function fn_update(gid){
 	
 	$.ajax({
 		type : "POST",
-		url : "/job/sffm/updateSafetyFacilLampMngView.do",
+		url : "/job/cctv/updateSafetyFacilCctvMngView.do",
 		data: formData,
 		dataType : "html",
 		processData : false,
@@ -206,15 +211,39 @@ function fn_update(gid){
 		success : function(returnData, status){
 			if(status == "success") {		
 				$("#rightSubPopup").append(returnData);
+				
 			}else{ 
 				toastr.error("관리자에게 문의 바랍니다.", "정보를 불러오지 못했습니다.");
 				return;
 			} 
 		},error : function (request,status,error){
 			console.log("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
-		} , complete : function(){
-			
-		}
+		} 
 	});
 }
+
+
+//cctv 검색조회
+function fn_search_List(){
+	SEARCHOBJ = {};
+
+	SEARCHOBJ.searchGbn= $('#cctv-search-selbox').val() || '';
+	SEARCHOBJ.searchDeviceId = $('#cctv-search-deviceid').val() || '';
+	SEARCHOBJ.searchLabel = $('#cctv-search-label').val() || '';
+
+	
+}
+
+//cctv 엑셀다운로드 버튼
+$("#cctvExcelDownload").on("click", function(){
+	let formName = this.dataset.formName;
+
+	let url = '/job/cctv/' + formName + 'Download.do';
+	
+	$("form[name='"+ formName + "']").attr('onsubmit', '');
+	$("form[name='"+ formName + "']").attr('action', url);
+	$("form[name='"+ formName + "']").submit();
+	$("form[name='"+ formName + "']").attr('onsubmit', 'fn_select_list(); return false;');
+	$("form[name='"+ formName + "']").attr('action', '');
+});
 
