@@ -311,8 +311,7 @@ window.ui = (function () {
             dtmap.clearInteraction();
 
             //패널 close
-            $leftSide.removeClass('on');
-            $rightPopup.removeClass('opened');
+            initPopup("");
 
             dtmap.switchMap(e.target.value);
             _changeMenu();
@@ -320,6 +319,7 @@ window.ui = (function () {
         });
     }
     
+    //2D 3D 전환시  
     function _changeMenu() {
         var $container = $("#container");
         var $buttons = $container.find("button");

@@ -34,9 +34,7 @@
 	<!-- colorPicker -->
 	<script src="/js/plugin/colorPicker/jquery.minicolors.min.js"></script>
 	<link rel="stylesheet" href="/js/plugin/colorPicker/jquery.minicolors.css">
-	
-	<script src="/js/map-ui.js"></script>
-	
+
 	<link rel="stylesheet" href="/css/com/common.css">
 	<link rel="stylesheet" href="/css/map.css">
 	<link rel="stylesheet" href="/css/map2d.css">
