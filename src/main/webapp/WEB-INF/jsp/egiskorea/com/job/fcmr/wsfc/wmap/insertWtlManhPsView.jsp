@@ -5,6 +5,18 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
+<style type="text/css">
+	.popup-panel.popup-sub .insert-wtlManhPs-popup-close {
+	    top: 0;
+	    right: 0;
+	    width: 39px;
+	    height: 39px;
+	    border-left: 1px solid #44516A;
+	    background: url(/images/icon/popup-close2.svg) no-repeat 50% 50%;
+	    border-top-right-radius: 10px;
+	    position: absolute;
+	}
+</style>
 
 <!-- 업무 > 시설관리 > 상수수도시설 > 상수맨홀 등록하기-->
 
@@ -12,7 +24,8 @@
            <div class="popup-body">
                <div class="sub-popup-body">
                    <div class="data-write-wrap" style="height: 100%;">
-                       <div class="scroll-y">	
+                       <div class="scroll-y">
+                       	   <form id="insertWtlManhPsForm" method="post">
                            <div class="data-default">
 								<table class="data-write">
 									<colgroup>
@@ -94,9 +107,10 @@
 										        <div class="form-row">
 										            <div class="col">
 										                <input type="text" class="form-control txt-geometry-address" value="" readonly="readonly">
+										                <input type="hidden" name="geom" class="form-control" value="">
 										            </div>
 										            <div class="col-auto">
-										                <button type="button" class="btn type01 bi-location btn-select-map" data-popup="space-edit-tool"></button>
+										                <button type="button" class="btn type01 bi-location btn-select-map" data-popup="space-edit-tool">지도에서 선택</button>
 										            </div>
 										        </div>
 										    </td>
@@ -104,11 +118,12 @@
 									</tbody>
 								</table>
 							</div>
+							</form>
                        </div>
                        <div class="position-bottom btn-wrap">
                            <div>
-                           	    <button type="button" class="btn basic bi-edit btn_add">등록</button>
-                           		<button type="button" class="btn basic bi-cancel btn_cancel">취소</button>
+                           	    <button type="button" class="btn basic bi-edit btn_add"			onclick="insertWtlManhPs();">등록</button>
+                           		<button type="button" class="btn basic bi-cancel btn_cancel"	onclick="cancelInsertWtlManhPs()">취소</button>
                            </div>
                        </div>
                    </div>
@@ -134,7 +149,71 @@
 	    
 		// 날짜 - 10자리(yyyy-mm-dd) 적용시 사용
 	  	//ui.callDatePicker();
-	    
+		
+	 	// 지도에서 선택 화면 호출
+        $(".btn-select-map", this).on("click", function () {
+        	console.log('지도 선택 화면');
+        	console.log(this);
+        	
+        	ui.loadingBar("show");
+            $('.space-edit-tool').load("/job/fcts/editView.do", () => {
+            	
+                //this.initUi();
+                
+                //선, 면 데이터면 좌표 입력 창 암보이게 수정
+                //if (!(this.geometryType == "point" || this.geometryType == "multipoint")) {
+		            //$(".tr_coordinate", this.selector).hide();
+		        //}
+                
+                //this.bindEvents();
+                //this.loadSnap();
+            	if(!$(".space-edit-tool").hasClass("opened")){
+                	$(".space-edit-tool").addClass("opened");
+                	$(".space-edit-tool").draggable();
+                }
+                
+               	$.getJSON(
+			        "/com/mngr/info/selectAllLayerManageList.do"
+			   	).done((response) => {
+			    	//console.log(response);  
+			    	//console.log(response["list"]);
+			    	var list = response["list"];
+			    	let tag = `<option value="">시설물</option>`;
+			    	for(var i=0; i<list.length; i++){
+			    		const name 	= list[i].tblNm.toLowerCase();
+			    		const title = list[i].lyrNm;
+			    		tag += `<option value=`+name+`>`+title+`</option>`; 
+			    	}
+			    	$(".space-edit-tool select[name=edit-snap-target]").html(tag);
+			    }); 
+               	
+               	var obj = {};
+               	obj.geometryType = "point";
+              
+               	geoEditBindEvents(obj);
+                
+                ui.loadingBar("hide");
+            });
+        });
+     	
+     	//////////////////
+     	
+     	//등록창 닫기
+     	$(".popup-panel .insert-wtlManhPs-popup-close").on("click", function () {
+             cancelInsertWtlManhPs();
+     	});
+     	
 	});
+	
+	//취소 버튼 동작
+	function cancelInsertWtlManhPs() {
+		//console.log("cancelInsertWtlManhPs()");
+		
+		$(".insert-wtlManhPs-popup-close").closest('.popup-panel').removeClass('opened');
+        // 초기화 (지도)
+        dtmap.draw.dispose();
+        dtmap.draw.clear();
+	}
+	
 
 </script>

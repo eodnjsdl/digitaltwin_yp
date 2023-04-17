@@ -74,3 +74,17 @@ function selectWtlFlowPsListView(){
 		ui.loadingBar("hide");
     });
 }
+
+//상수맨홀 목록 화면 조회
+function selectWtlManhPsListView(){
+	//console.log("selectWtlManhPsListView()");
+	
+	ui.loadingBar("show");
+	
+	var baseContainer = "#bottomPopup";
+	$(baseContainer).load("/job/fcmr/wsfc/selectWtlManhPsListView.do", function () {
+		//toastr.success("/job/fcmr/wsfc/selectWtlManhPsListView.do", "페이지🙂호🙂출🙂");
+		wtlManhPsListProcess();
+		ui.loadingBar("hide");
+	});
+}

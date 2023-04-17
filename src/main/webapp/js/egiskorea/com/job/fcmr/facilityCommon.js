@@ -317,6 +317,8 @@ function onFacilitySelectEventListener(e){
 					toastr.error("지도 객체 클릭 작업중", "상수도시설 - 상수관로");
 				}else if(featureType == "wtl_flow_ps"){					//상수도시설 - 유량계
 					selectWtlFlowPs(id);
+				}else if(featureType == "wtl_manh_ps"){					//상수도시설 - 상수맨홀
+					selectWtlManhPs(id);
 				}else{
 					alert("지도 객체 선택 오류");
 					return false;

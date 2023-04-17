@@ -104,36 +104,68 @@ function selectWtlFlowPsList(page) {
 		return false;
 	}
 	
-	//검색 조건
-	const filters = [];
+	////////////////
+	//검색 옵션
 	
-	const hjd_cde 		=	$("#lSrchOptions select[name=hjd_cde]").val();				//읍면동
-	const gag_cde 		=	$("#lSrchOptions select[name=gag_cde]").val();				//유량계종류
-	const mof_cde 		=	$("#lSrchOptions select[name=mof_cde]").val();				//유량계형식
-	
-	let filterString = "";
-	
-	if(hjd_cde){
-		filters.push("hjd_cde" + " = " + hjd_cde); 
+	var options;
+	if($(".groundwaterProperty").hasClass("on")){		//속성 검색
+		//console.log("속성 검색 조건");
+		
+		const filters = [];
+		
+		const hjd_cde 		=	$("#lSrchOptions select[name=hjd_cde]").val();				//읍면동
+		const gag_cde 		=	$("#lSrchOptions select[name=gag_cde]").val();				//유량계종류
+		const mof_cde 		=	$("#lSrchOptions select[name=mof_cde]").val();				//유량계형식
+		
+		let filterString = "";
+		
+		if(hjd_cde){
+			filters.push("hjd_cde" + " = " + hjd_cde); 
+		}
+		
+		if(gag_cde){
+			filters.push("gag_cde" + " = " + gag_cde); 
+		}
+		
+		if(mof_cde){
+			filters.push("mof_cde" + " = " + mof_cde);
+		}
+		
+	    var options;
+	    options = {
+	        typeNames	: 'wtl_flow_ps' + "",
+	        filter 		: filters,
+	        perPage 	: 10,
+	        page 		: page,
+	        sortBy		: 'gid',
+	        //sortOrder	: 'ASC'
+	    }
+		
+	}else if($(".groundwaterSpace").hasClass("on")){		//공간 검색
+		//console.log("공간 검색 조건")
+		
+		const $parent 	= $(".facility-spatial-search").closest('.search-area');
+        const type 		= $parent.find('input[name="rad-facility-area"]:checked').val();
+
+        options = {
+            typeNames: "wtl_flow_ps",
+            perPage 	: 10,
+	        page 		: page,
+	        sortBy		: 'gid',
+	        sortOrder	: 'DESC',
+        }
+        if (type === 'extent') {
+        	options.bbox 		= FACILITY.spaceSearchOption.bbox;
+        } else {
+        	options.geometry 	= FACILITY.spaceSearchOption.geometry;
+        }
+		
+	}else{
+		alert("검색창 오류");
 	}
 	
-	if(gag_cde){
-		filters.push("gag_cde" + " = " + gag_cde); 
-	}
-	
-	if(mof_cde){
-		filters.push("mof_cde" + " = " + mof_cde);
-	}
-	
-    var options;
-    options = {
-        typeNames	: 'wtl_flow_ps' + "",
-        filter 		: filters,
-        perPage 	: 10,
-        page 		: page,
-        sortBy		: 'gid',
-        sortOrder	: 'DESC'
-    }
+	////////////////////////
+	//조회
     
     const promise = dtmap.wfsGetFeature(options);
     promise.then(function (data) {
@@ -237,9 +269,19 @@ function selectWtlFlowPs(id){
 	
 	var idArray = id.split(".");
 	//console.log(idArray);
+	const typeName	= idArray[0];
+	
+	if(typeName != "wtl_flow_ps"){
+		alert("상세보기 오류");
+		return false;
+	}
+	
 	const gid 		= idArray[1];	
 	if(gid){
 		filters.push("gid" + " = " + gid); 
+	}else{
+		alert("상세보기 오류");
+		return false;
 	}
 	
     var options;
@@ -519,7 +561,7 @@ function updateWtlFlowPsView(id){
 //유량계 수정 
 function updateWtlFlowPs(){
 	//console.log("updateWtlFlowPs()");
-	debugger;
+
 	/////////
 	//유효성 체크 
 	
@@ -634,4 +676,155 @@ function deleteWtlFlowPs(id){
         });
     }
 	
+}
+
+/////////////////////////////
+//엑셀 다운로드 
+function downloadExcelWtlFlowPs() {
+	console.log("downloadExcelWtlFlowPs()");
+	
+	var $container = $("#container");
+	var $target = $container.find('#baseGridDiv [data-ax5grid="attr-grid-excel"]');	//가상의 ax5uigrid 공간에 처리 
+	$target.css('display', 'none');
+	
+	FACILITY.Ax5UiGridAll = null;	//Ax5UiGridAll 전역 변수 
+
+	FACILITY.Ax5UiGridAll = new ax5.ui.grid();
+	
+	FACILITY.Ax5UiGridAll.setConfig({
+		target:  $target,
+	    sortable: true,
+	    multipleSelect: false,
+	    columns: [
+	//        {key: "gid", 				label: "아이디",			width:200},
+	    		{key: "ftr_cde", 			label: "지형지물부호code",	width:'*'},
+				{key: "ftr_cde_nm", 		label: "지형지물부호",		width:'*'},
+				{key: "ftr_idn", 			label: "관리번호",			width:'*'},
+				{key: "hjd_cde", 			label: "읍면동code",		width:'*'},
+				{key: "hjd_cde_nm", 		label: "읍면동",			width:'*'},
+				{key: "mng_cde", 			label: "관리기관code",		width:'*'},
+				{key: "mng_cde_nm", 		label: "관리기관",			width:'*'},
+				{key: "sht_num", 			label: "도엽번호",			width:'*'},
+				{key: "ist_ymd", 			label: "설치일자",			width:'*'},
+				{key: "gag_cde", 			label: "유량계종류code",	width:'*'},
+				{key: "gag_cde_nm", 		label: "유량계종류",		width:'*'},
+				{key: "mof_cde", 			label: "유량계형식code",	width:'*'},
+				{key: "mof_cde_nm", 		label: "유량계형식",		width:'*'},
+				{key: "std_dip", 			label: "관경",				width:'*'},
+	//        {key: "prc_nam", 			label: "제작회사명",		width:100},
+	//        {key: "pip_cde", 			label: "관로지형지물부호",	width:100},
+	//        {key: "pip_idn", 			label: "관로관리번호",		width:100},
+	//        {key: "cnt_num", 			label: "공사번호",			width:100},
+	//        {key: "sys_chk", 			label: "대장초기화여부",	width:100},
+	//        {key: "ang_dir", 			label: "방향각",			width:100},
+	//        {key: "geom", 			label: "공간정보",			width:100}
+	    ],
+
+	});
+
+
+	////////////////
+	//검색 옵션
+	
+	var options;
+	if($(".groundwaterProperty").hasClass("on")){		//속성 검색
+		//console.log("속성 검색 조건");
+		
+		const filters = [];
+		
+		const hjd_cde 		=	$("#lSrchOptions select[name=hjd_cde]").val();				//읍면동
+		const gag_cde 		=	$("#lSrchOptions select[name=gag_cde]").val();				//유량계종류
+		const mof_cde 		=	$("#lSrchOptions select[name=mof_cde]").val();				//유량계형식
+
+		let filterString = "";
+		
+		if(hjd_cde){
+			filters.push("hjd_cde" + " = " + hjd_cde); 
+		}
+		
+		if(gag_cde){
+			filters.push("gag_cde" + " = " + gag_cde); 
+		}
+		
+		if(mof_cde){
+			filters.push("mof_cde" + " = " + mof_cde);
+		}
+	    
+	    options = {
+	        typeNames	: 'wtl_flow_ps' + "",
+	        filter 		: filters,
+	        sortBy		: 'gid',
+	        sortOrder	: 'DESC',
+	        //sortOrder	: 'ASC'
+	    }
+		
+	}else if($(".groundwaterSpace").hasClass("on")){		//공간 검색
+		//console.log("공간 검색 조건")
+		
+		const $parent 	= $(".facility-spatial-search").closest('.search-area');
+    const type 		= $parent.find('input[name="rad-facility-area"]:checked').val();
+
+    options = {
+        typeNames: "wtl_flow_ps",
+	        sortBy		: 'gid',
+	        sortOrder	: 'DESC',
+    }
+    if (type === 'extent') {
+    	options.bbox 		= FACILITY.spaceSearchOption.bbox;
+    } else {
+    	options.geometry 	= FACILITY.spaceSearchOption.geometry;
+    }
+		
+	}else{
+		alert("검색창 오류");
+	}
+	
+	////////////////////////
+	//조회
+	
+	const promise = dtmap.wfsGetFeature(options);
+	promise.then(function (data) {
+	    //그리드 데이터 전처리
+	    const list = [];
+	    //console.log(data.features);
+	    
+	    //데이터 코드 변환
+	    for (let i = 0; i < data.features.length; i++) {
+	    	
+	    	//지형지물부호 코드 변경
+			  var ftr_cde = data.features[i].properties.ftr_cde;
+			  data.features[i].properties.ftr_cde_nm = getCmmCodeDataArray("SA-001", ftr_cde);
+			  
+			  //관리기관 코드 변경
+			  var mng_cde = data.features[i].properties.mng_cde;
+			  data.features[i].properties.mng_cde_nm = getCmmCodeDataArray("MNG-001", mng_cde);
+			  
+			  //읍면동 코드 변경(wfs)
+			  var hjd_cde = data.features[i].properties.hjd_cde;
+			  data.features[i].properties.hjd_cde_nm = getCmmCodeDataArray("YPE001", hjd_cde);
+			  
+			  //유량계 종류 코드 변경
+			  var gag_cde = data.features[i].properties.gag_cde;
+			  data.features[i].properties.gag_cde_nm = getCmmCodeDataArray("OGC-141", gag_cde);
+			  
+			  //유량계 형식 코드 변경
+			  var mof_cde = data.features[i].properties.mof_cde;
+			  data.features[i].properties.mof_cde_nm = getCmmCodeDataArray("OGC-041", mof_cde);
+	        
+			  //좌표 처리  geometry로 변수명을 정하면 기존것과 충돌 발생
+			  data.features[i].properties.geomObj = data.features[i].geometry;
+	    	
+			  const {id, properties} = data.features[i];
+	          list.push({...properties, ...{id: id}});
+	    }
+	    
+	    ///////////////
+	    
+	    //gird 적용
+	    FACILITY.Ax5UiGridAll.setData(list);
+	    
+	  	//엑셀 export
+			FACILITY.Ax5UiGridAll.exportExcel("EXPORT_유량계.xls");
+	});
+
 }

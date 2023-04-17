@@ -151,18 +151,18 @@ public class WaterSupplyController {
 	
 	//목록 화면 호출
 	@RequestMapping(value = "/selectWtlManhPsListView.do")
-    public String selectWtlManhPsList(
+    public String selectWtlManhPsListView(
             @ModelAttribute("wtlManhPsVO") WtlManhPsVO wtlManhPsVO,
             ModelMap model) throws Exception {
         return "egiskorea/com/job/fcmr/wsfc/wmap/wtlManhPsListView";
     }
 	
 	//상세 화면 조회
-	@RequestMapping(value = "/selectWtlManhPsDetail.do", method = RequestMethod.POST)
-	public String getWtlManhPsDetail(
+	@RequestMapping(value = "/selectWtlManhPs.do", method = RequestMethod.POST)
+	public String selectWtlManhPs(
 			@ModelAttribute("wtlManhPsVO") WtlManhPsVO wtlManhPsVO, String id,
 			ModelMap model) throws Exception {
-			model.addAttribute("gridRowId", id);
+			model.addAttribute("id", id);
 		return "egiskorea/com/job/fcmr/wsfc/wmap/selectWtlManhPs";
 	}
 	
@@ -179,7 +179,7 @@ public class WaterSupplyController {
 	public String updateWtlManhPsView(
 			@ModelAttribute("wtlManhPsVO") WtlManhPsVO wtlManhPsVO, String id,
 			ModelMap model) throws Exception {
-			model.addAttribute("gridRowId", id);
+			model.addAttribute("id", id);
 		return "egiskorea/com/job/fcmr/wsfc/wmap/updateWtlManhPsView";
 	}
 	
@@ -202,7 +202,7 @@ public class WaterSupplyController {
 	public String getWtlPrgaPsDetail(
 			@ModelAttribute("wtlPrgaPsVO") WtlPrgaPsVO wtlPrgaPsVO, String id,
 			ModelMap model) throws Exception {
-			model.addAttribute("gridRowId", id);
+			model.addAttribute("id", id);
 		return "egiskorea/com/job/fcmr/wsfc/wprp/selectWtlPrgaPs";
 	}
 	
@@ -219,7 +219,7 @@ public class WaterSupplyController {
 	public String updateWtlPrgaPsView(
 			@ModelAttribute("wtlPrgaPsVO") WtlPrgaPsVO wtlPrgaPsVO, String id,
 			ModelMap model) throws Exception {
-			model.addAttribute("gridRowId", id);
+			model.addAttribute("id", id);
 		return "egiskorea/com/job/fcmr/wsfc/wprp/updateWtlPrgaPsView";
 	}
 	
@@ -239,7 +239,7 @@ public class WaterSupplyController {
 	public String getWtlServPsDetail(
 			@ModelAttribute("wtlServPsVO") WtlServPsVO wtlServPsVO, String id,
 			ModelMap model) throws Exception {
-			model.addAttribute("gridRowId", id);
+			model.addAttribute("id", id);
 		return "egiskorea/com/job/fcmr/wsfc/wsep/selectWtlServPs";
 	}
 	
@@ -256,7 +256,7 @@ public class WaterSupplyController {
 	public String updateWtlServPsView(
 			@ModelAttribute("wtlServPsVO") WtlServPsVO wtlServPsVO, String id,
 			ModelMap model) throws Exception {
-			model.addAttribute("gridRowId", id);
+			model.addAttribute("id", id);
 		return "egiskorea/com/job/fcmr/wsfc/wsep/updateWtlServPsView";
 	}
 	

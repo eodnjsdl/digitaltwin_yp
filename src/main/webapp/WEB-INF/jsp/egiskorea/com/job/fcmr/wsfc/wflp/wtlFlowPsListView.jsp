@@ -122,7 +122,7 @@
                 <div class="bbs-list-num">조회결과 : --건</div>
                 <div>
                     <button type="button" class="btn basic bi-write btn_add" onclick="insertWtlFlowPsView();">등록</button>
-                    <button type="button" class="btn basic bi-excel btn_excel" onclick="fn_downloadExcel();">엑셀저장
+                    <button type="button" class="btn basic bi-excel btn_excel" onclick="downloadExcelWtlFlowPs();">엑셀저장
                     </button>
                 </div>
             </div>
@@ -134,6 +134,7 @@
                             <label>농업용공공관정</label>
                         </div> -->
                         <div id="gridax5" data-ax5grid="attr-grid" data-ax5grid-config="{}" style="flex: 1"></div>
+                        <div data-ax5grid="attr-grid-excel" style="diplay:none;"></div>
                     </div>
                 </div>
                 <!-- <div class="pagination">

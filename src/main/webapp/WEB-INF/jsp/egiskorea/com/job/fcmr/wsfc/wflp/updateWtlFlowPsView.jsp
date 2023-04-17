@@ -146,7 +146,7 @@
 		</div>
 	</div>
 </div>
-<button type="button" class="update-wtlFirePs-popup-close" title="닫기" onclick="cancelMode();"></button>
+<button type="button" class="update-wtlFlowPs-popup-close" title="닫기" onclick="cancelMode();"></button>
 <!-- 업무 > 시설관리 > 상수도시설 > 유량계 수정하기 end -->
 
 <script type="text/javascript">
