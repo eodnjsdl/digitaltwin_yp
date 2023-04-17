@@ -1,3 +1,5 @@
+SEARCHOBJ= null;
+
 $(document.body).ready(function () {
 	initGrid();
     setData(0);       
@@ -46,10 +48,20 @@ function initGrid(){
 }
 //농업용공공관정 조회기능
 function setData(_pageNo){
-	var adres = $("#emdKorNm").val();
-	var manage_se = $("#manageSeSearch").val();
-	var detail_prpos_se = $("#detailPrposSeSearch").val();
-	var fclts_sttus = $("#fcltsSttusSearch").val();
+	// var adres = $("#emdKorNm").val();
+	// var manage_se = $("#manageSeSearch").val();
+	// var detail_prpos_se = $("#detailPrposSeSearch").val();
+	// var fclts_sttus = $("#fcltsSttusSearch").val();
+
+	var adres='', manage_se='', detail_prpos_se='', fclts_sttus='';
+
+	if(SEARCHOBJ != null){
+		adres = SEARCHOBJ.searchEmdKorNm;
+		manage_se = SEARCHOBJ.searchManageSeSearch;
+		detail_prpos_se = SEARCHOBJ.searchDetailPrposSeSearch;
+		fclts_sttus = SEARCHOBJ.searchFcltsSttusSearch;
+
+	}
 	
 	var cqlList = [];
 	
@@ -127,6 +139,8 @@ function fn_insert(){
 }
 //태양광발전소 상세보기 페이지 호출
 function fn_pageDetail(gid){
+	dtmap.vector.clearSelect(); 
+	dtmap.vector.select('tgd_agr_public_tbwll.'+gid);
 	ui.openPopup("rightSubPopup");
 	
 	var formData = new FormData();
@@ -217,4 +231,15 @@ function onDrawEnd(e) {
 		const wkt = format.writeGeometry(point);
 		$("#geom").val(wkt);
 	});
+}
+
+//농업용공공관정 검색조회
+function fn_search_List(){
+	SEARCHOBJ = {};
+
+	SEARCHOBJ.searchEmdKorNm= $('#emdKorNm').val() || '';
+	SEARCHOBJ.searchManageSeSearch = $('#manageSeSearch').val() || '';
+	SEARCHOBJ.searchDetailPrposSeSearch = $('#detailPrposSeSearch').val() || '';
+	SEARCHOBJ.searchFcltsSttusSearch = $('#fcltsSttusSearch').val() || '';
+
 }

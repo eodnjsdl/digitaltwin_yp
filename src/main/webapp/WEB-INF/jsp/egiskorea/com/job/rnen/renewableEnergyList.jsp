@@ -5,6 +5,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="ui" uri="http://egovframework.gov/ctl/ui"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<script src="/js/map-ui.js"></script>
 <script src="/js/egiskorea/com/job/rnen/rnen.js"></script>
 <script type="text/javascript">
 $(".spaceArea").hide();
@@ -19,11 +20,11 @@ var lastBufferCnt = "<c:out value='${searchVO.bufferCnt}' />";
 var lastSelect = "<c:out value='${searchVO.renewableEnergySelect}' />";
 var lastDraw = "<c:out value='${searchVO.renewableEnergyAreaDrawing}' />";
 
-$(".popup-reset").unbind('click').bind('click',function(){
-	rnenUi = '';
-	// cmmUtil.drawClear();
-	bottomPopupOpen('renewableEnergy');
-});
+// $(".popup-reset").unbind('click').bind('click',function(){
+// 	rnenUi = '';
+// 	// cmmUtil.drawClear();
+// 	bottomPopupOpen('renewableEnergy');
+// });
 
 </script>
 <form name="selectRenewableEnergyExcelList" id="searchForm" method="post" onsubmit="fn_select_list(); return false;">
@@ -95,7 +96,7 @@ $(".popup-reset").unbind('click').bind('click',function(){
 						</table>
 					</div>
 					<div class="btn-wrap">
-						<div><button type="button" id="renewableSearch" class="btn type01 search" onClick="setData(0);">조회</button></div>
+						<div><button type="button" id="renewableSearch" class="btn type01 search" onClick="fn_search_List(); setData(0);">조회</button></div>
 					</div>
 				</div>
 				<div class="tab-cont energySpace">
@@ -146,6 +147,6 @@ $(".popup-reset").unbind('click').bind('click',function(){
 </form>
 <button type="button" class="manualBtn" title="도움말" onclick="manualTab('신재생에너지')"></button>
 <button type="button" class="popup-close" title="닫기" onClick="toastr.warning('removeLayer(); cmmUtil.drawClear();', 'onclick 이벤트');"></button>
-<button type="button" class="popup-reset" class="초기화"></button>
+<button type="button" class="popup-reset" class="초기화" onclick="bottomPopupOpen('renewableEnergy');"></button>
 <button type="button" class="popup-bottom-toggle" onclick="toggleFold(this);" title="접기"></button>				
 <!-- //업무 > 공간정보활용 > 신재생에너지 -->

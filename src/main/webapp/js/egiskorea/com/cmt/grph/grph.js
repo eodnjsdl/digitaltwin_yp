@@ -279,7 +279,7 @@ class GraphicToolEditor {
                 if (that.feature) {
                     updateStyle(that.feature, {
                         stroke: {
-                            opacity: ui.value
+                            opacity: (100 - ui.value)/100
                         }
                     })
                 }
@@ -338,7 +338,7 @@ class GraphicToolEditor {
                 if (that.feature) {
                     updateStyle(that.feature, {
                         stroke: {
-                            opacity: ui.value
+                            opacity: (100 - ui.value)/100
                         }
                     })
                 }
@@ -400,7 +400,7 @@ class GraphicToolEditor {
                 if (that.feature) {
                     updateStyle(that.feature, {
                         fill: {
-                            opacity: ui.value
+                            opacity: (100 - ui.value)/100
                         }
                     })
                 }
@@ -864,7 +864,7 @@ class GraphicToolEditor {
             dtmap.on('drawend', function (e) {
                 const feature = e.feature;
                 const properties = that.getStyle(type);
-                feature.setProperties({style: properties});
+                feature.set('style', properties);
             });
 
             this.setUi(type);
@@ -1325,6 +1325,6 @@ class GraphicToolEditor {
 
 function updateStyle(feature, style) {
     const origin = feature.get('style');
-    feature.set('style', _.merge(origin,style));
+    feature.set('style', _.merge({}, origin, style));
     feature.changed();
 }

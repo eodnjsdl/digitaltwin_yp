@@ -1,3 +1,5 @@
+SEARCHOBJ = null;
+
 $(document.body).ready(function () {
 	initGrid();
     setData(0);       
@@ -16,7 +18,7 @@ function initGrid(){
         body: {
             align: "center",
             onClick: function () {
-            	fn_pageDetail(this.item.no);
+            	fn_pageDetail(this.item.no, this.item.gid);
             }
         },
         page: {
@@ -41,10 +43,15 @@ function initGrid(){
 }
 //관내업소정보조회 조회 기능
 function setData(_pageNo){
-	var lc_all_adr = $("#emdKorNm").val();
-	var opnn_svc_nm = $("#opnnSvcNmSearch").val();
-	var bplc_nm = $("#bplcNmSearch").val();
 	
+	var lc_all_adr ='', opnn_svc_nm = '',  bplc_nm = '';
+
+	if(SEARCHOBJ != null){
+		lc_all_adr = SEARCHOBJ.searchLcAllAdr;
+		opnn_svc_nm = SEARCHOBJ.searchOpnnSvcNm;
+		bplc_nm = SEARCHOBJ.searchBplcNm;
+	}
+
 	var cqlList = [];
 
 	if(lc_all_adr!=''){cqlList.push("lc_all_adr like "+lc_all_adr+" ")}
@@ -97,7 +104,10 @@ function setData(_pageNo){
 	  })
 }
 //관내업소정보조회 상세보기
-function fn_pageDetail(no){
+function fn_pageDetail(no, gid){
+	dtmap.vector.clearSelect() 
+	console.log('yp_bssh_info.'+gid);
+	dtmap.vector.select('yp_bssh_info.'+gid);
 	ui.openPopup("rightSubPopup");
 	var container = "#rightSubPopup";
 
@@ -156,4 +166,13 @@ function readGeoJSON(data) {
         dataProjection: crs,
         featureProjection: map2d.map.getView().getProjection()
     });
+}
+
+//관내업소정보조회 검색조회
+function fn_search_List(){
+	SEARCHOBJ = {};
+	SEARCHOBJ.searchLcAllAdr= $("#emdKorNm").val() || '';
+	SEARCHOBJ.searchOpnnSvcNm = $("#opnnSvcNmSearch").val() || '';
+	SEARCHOBJ.searchBplcNm = $("#bplcNmSearch").val() || '';
+	
 }

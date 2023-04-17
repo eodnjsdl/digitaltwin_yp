@@ -7,27 +7,51 @@
 <script>
 
     $(document).ready(function () {
+        initUIByFvrtList();
+        eventBindByFvrtList();
+    });
+
+    function initUIByFvrtList() {
         if ($('#favorites').parent().hasClass('active')) {
-            if (app2D) {
+            if (dtmap.mod === "2D") {
                 document.getElementById("write_FVRT").style.display = "block";
             } else {
                 document.getElementById("write_FVRT").style.display = "none";
             }
         }
-    });
+    }
 
-    // 즐겨찾기 등록페이지 이동
-    $(".tool-popup-body .bi-write").on("click", function () {
-        if (dtmap.mod === "2D") {
-            $(this).addClass("active");
-            // rightPopupOpen('insertFavorites', $("#searchFormFavorites")[0]);
-            ui.openPopup("rightPopup");
-            aj_insertFavoritesView($("#searchFormFavorites")[0]);
-        } else {
-            return alert("해당 기능은 2D에서 가능합니다.");
-        }
+    function eventBindByFvrtList() {
+        // 즐겨찾기 등록페이지 이동
+        $(".tool-popup-body .bi-write").on("click", function () {
+            if (dtmap.mod === "2D") {
+                $(this).addClass("active");
+                // rightPopupOpen('insertFavorites', $("#searchFormFavorites")[0]);
+                ui.openPopup("rightPopup");
+                aj_insertFavoritesView($("#searchFormFavorites")[0]);
+            } else {
+                return toastr.warning("해당 기능은 2D에서 가능합니다.");
+            }
+        });
 
-    });
+        //이동버튼
+        // $(".bbs-list #fav_btn").on("click", function () {
+        //     var loc = $(this);
+        //     var x = loc.attr("data-x");
+        //     var y = loc.attr("data-y");
+        //     var z = loc.attr("data-z");
+        //     if (app2D) {
+        //         var yMap = app2D.getYMap();
+        //         yMap.map.getView().setCenter([Number(x), Number(y)]);
+        //         yMap.map.getView().setZoom(Number(z));
+        //     } else {
+        //         var position = TransformCoordinate(parseFloat(x), parseFloat(y), 26, 13);
+        //         setCameraMove_3D(position.x, position.y);
+        //     }
+        //
+        // });
+
+    }
 
     // 즐겨찾기 목록 조회
     function fn_select_favorites_list() {
@@ -41,30 +65,14 @@
         aj_selectFavoritesList($("#searchFormFavorites")[0], "");
     }
 
-    $(".bbs-list #fav_btn").on("click", function () {
-        var loc = $(this);
-        var x = loc.attr("data-x");
-        var y = loc.attr("data-y");
-        var z = loc.attr("data-z");
-        if (app2D) {
-            var yMap = app2D.getYMap();
-            yMap.map.getView().setCenter([Number(x), Number(y)]);
-            yMap.map.getView().setZoom(Number(z));
-        } else {
-            var position = TransformCoordinate(parseFloat(x), parseFloat(y), 26, 13);
-            setCameraMove_3D(position.x, position.y);
-        }
-
-    });
-
     //즐겨찾기 상세조회
     function selectFavoriteInfoView(id) {
         //rightPopupOpen('selectavoritesView');
         aj_selectFavoritesInfoView(id, $("#searchFormFavorites")[0]);
     }
 
-
 </script>
+
 <!-- top > 즐겨찾기 -->
 <div class="popup-header">즐겨찾기</div>
 <div class="popup-body">
@@ -110,15 +118,15 @@
                         <colgroup>
                             <col style="width: 13%;">
                             <col style="width: auto;">
-                            <col style="width: 20%;">
-                            <col style="width: 20%;">
+                            <col style="width: 30%;">
+<%--                            <col style="width: 20%;">--%>
                         </colgroup>
                         <thead>
                         <tr>
                             <th scope="col">번호</th>
                             <th scope="col">제목</th>
                             <th scope="col">등록일</th>
-                            <th scope="col"></th>
+<%--                            <th scope="col"></th>--%>
                         </tr>
                         </thead>
                     </table>
@@ -128,8 +136,8 @@
                         <colgroup>
                             <col style="width: 13%;">
                             <col style="width: auto;">
-                            <col style="width: 20%;">
-                            <col style="width: 20%;">
+                            <col style="width: 30%;">
+<%--                            <col style="width: 20%;">--%>
                         </colgroup>
                         <tbody>
                         <c:forEach items="${resultList}" var="result" varStatus="status">
@@ -142,17 +150,17 @@
                                     </c:if>
                                 </td>
                                 <td><c:out value="${result.regDt}"/></td>
-                                <td onclick="event.stopPropagation();">
-                                    <button type="button" id="fav_btn" class="icon-btn location"
-                                            data-x="<c:out value="${result.xcord}"/>"
-                                            data-y="<c:out value="${result.ycord}"/>"
-                                            data-z="<c:out value="${result.cchLevel}"/>" title="이동"></button>
-                                    <button type="button" class="icon-btn edit" title="다시저장"
-                                            onclick="aj_updateFavoritesView('<c:out
-                                                    value="${result.bkmkId}"/>')"></button>
-                                        <%--                                            <button type="button" class="btn basic bi-delete2" title="삭제" onclick="aj_deleteFavoritesView('<c:out value="${result.bkmkId}" />')">삭제</button>--%>
+<%--                                <td onclick="event.stopPropagation();">--%>
+<%--                                    <button type="button" id="fav_btn" class="icon-btn location"--%>
+<%--                                            data-x="<c:out value="${result.xcord}"/>"--%>
+<%--                                            data-y="<c:out value="${result.ycord}"/>"--%>
+<%--                                            data-z="<c:out value="${result.cchLevel}"/>" title="이동"></button>--%>
+<%--                                    <button type="button" class="icon-btn edit" title="다시저장"--%>
+<%--                                            onclick="aj_updateFavoritesView('<c:out--%>
+<%--                                                    value="${result.bkmkId}"/>')"></button>--%>
+<%--                                        &lt;%&ndash;                                            <button type="button" class="btn basic bi-delete2" title="삭제" onclick="aj_deleteFavoritesView('<c:out value="${result.bkmkId}" />')">삭제</button>&ndash;%&gt;--%>
 
-                                </td>
+<%--                                </td>--%>
                             </tr>
                         </c:forEach>
                         <c:if test="${fn:length(resultList) == 0}">

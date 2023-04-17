@@ -28,7 +28,7 @@ window.map3d = (function () {
             //XDWorld 시작
             Module.initialize({
                 container: _container,
-                defaultKey: dtmap.urls.EMAP_KEY
+                // defaultKey: dtmap.urls.EMAP_KEY
             });
             Module.XDSetMouseState(Module.MML_SELECT_POINT);
 
@@ -78,7 +78,7 @@ window.map3d = (function () {
             //이벤트리스너 등록
             const canvas = _container.getElementsByTagName('canvas').canvas
             _container.addEventListener('click', onClick);
-            _container.addEventListener('contextmenu', onClick);
+            // _container.addEventListener('contextmenu', onClick);
             canvas.addEventListener('Fire_EventSelectedObject', onSelectObject);
         })
 
@@ -86,6 +86,9 @@ window.map3d = (function () {
     }
 
     function onClick(e) {
+        if (e.button !== 0) {
+            return;
+        }
         const screenPosition = new Module.JSVector2D(e.x, e.y);
         // 화면->지도 좌표 변환
         const mapPosition = Module.getMap().ScreenToMapPointEX(screenPosition);

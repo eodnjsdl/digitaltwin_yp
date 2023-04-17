@@ -5,79 +5,14 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <script>
-    // 메모정보 목록조회
-    $(".btn-wrap .bi-list").on("click", function () {
 
-        $(this).addClass("active");
-        aj_selectMemoInfoList($("#selectMemoInfoViewForm")[0]);
-    });
-
-    //메모정보 게시글 이동
-    function selectMemoInfoView(id) {
-        // rightPopupOpen('selectMemoInfoView',id, $("#selectMemoInfoViewForm")[0]);
-        // ui.openPopup("rightPopup");
-        aj_selectMemoInfoView(id, $("#selectMemoInfoViewForm")[0]);
-    }
-
-    //메모정보 수정페이지 이동
-    $(".top-memo-body .btn-wrap .bi-edit").on("click", function () {
-        $(this).addClass("active");
-        <%--rightPopupOpen('updateMemoInfo', <c:out value="${result.memoId}" />, $("#updateDeleteMemoInfoForm")[0]);--%>
-        // ui.openPopup("rightPopup");
-        aj_updateMemoInfoView(<c:out value="${result.memoId}" />, $("#updateDeleteMemoInfoForm")[0]);
-
-    });
-
-    //메모정보 삭제
-    $(".top-memo-body .btn-wrap .bi-delete").on("click", function () {
-        if (confirm("메모정보를 삭제하시겠습니까?") == true) {    //확인
-            aj_deleteMemoInfo($("#updateDeleteMemoInfoForm")[0]);
-        } else {   //취소
-            return false;
-        }
-    });
-
-    function refreshLayerByMemo() {
-        const ids = [];
-        const wkts = [];
-        const sj = [];
-        <c:forEach  items="${resultList}" var="item">
-        ids.push("${item.memoId}");
-        wkts.push("${item.wkt}");
-        sj.push("${item.sj}");
-        </c:forEach>
-        const reader = new ol.format.WKT();
-        const features = [];
-        wkts.forEach((wkt, index) => {
-            if (wkt) {
-                const feature = new ol.Feature(reader.readGeometry(wkt));
-                feature.setId(ids[index]);
-                feature.setProperties({"sj": sj[index]});
-                features.push(feature);
-            }
-        });
-        if (features.length > 0) {
-            const format = new ol.format.GeoJSON();
-            const geojson = format.writeFeatures(features);
-            dtmap.draw.clear();
-            dtmap.draw.dispose();
-            dtmap.vector.clearSelect();
-            //지도에 GeoJSON 추가
-            dtmap.vector.readGeoJson(geojson, function (feature) {
-                return {
-                    marker: {
-                        src: '/images/poi/memo_poi.png'
-                    },
-                    label: {
-                        text: feature.get("sj")
-                    }
-                }
-            });
-        }
-    }
-
-    $(function () {
+    $(document).ready(function () {
         refreshLayerByMemo();
+        initByMemoInfoView();
+        bindEventMemoInfoView();
+    });
+
+    function initByMemoInfoView() {
         const wkt = "<c:out value="${result.wkt}" />";
         const sj = "<c:out value="${result.sj}" />";
         const id = "<c:out value="${result.memoId}" />";
@@ -107,12 +42,81 @@
         cmmUtil.reverseGeocoding(pointX, pointY).done((result) => {
             $("#loc_memo").html(result["address"]);
         });
-
         // cmmUtil.highlightFeatures(geojson, "/images/poi/memo_poi.png");
         // const yMap = app2D.getYMap();
         // util.gis.moveFeatures(yMap.getMap(), feature);
+    }
 
-    });
+    function bindEventMemoInfoView() {
+        // 메모정보 목록조회
+        $(".btn-wrap .bi-list").on("click", function () {
+            $(this).addClass("active");
+            aj_selectMemoInfoList($("#selectMemoInfoViewForm")[0]);
+        });
+        //메모정보 수정페이지 이동
+        $(".top-memo-body .btn-wrap .bi-edit").on("click", function () {
+            $(this).addClass("active");
+            <%--rightPopupOpen('updateMemoInfo', <c:out value="${result.memoId}" />, $("#updateDeleteMemoInfoForm")[0]);--%>
+            // ui.openPopup("rightPopup");
+            aj_updateMemoInfoView(<c:out value="${result.memoId}" />, $("#updateDeleteMemoInfoForm")[0]);
+
+        });
+        //메모정보 삭제
+        $(".top-memo-body .btn-wrap .bi-delete").on("click", function () {
+            if (confirm("메모정보를 삭제하시겠습니까?") == true) {    //확인
+                aj_deleteMemoInfo($("#updateDeleteMemoInfoForm")[0]);
+            } else {   //취소
+                return false;
+            }
+        });
+    }
+
+    //메모정보 게시글 이동
+    function selectMemoInfoView(id) {
+        // rightPopupOpen('selectMemoInfoView',id, $("#selectMemoInfoViewForm")[0]);
+        // ui.openPopup("rightPopup");
+        aj_selectMemoInfoView(id, $("#selectMemoInfoViewForm")[0]);
+    }
+
+    function refreshLayerByMemo() {
+        const ids = [];
+        const wkts = [];
+        const sj = [];
+        <c:forEach  items="${resultList}" var="item">
+        ids.push("${item.memoId}");
+        wkts.push("${item.wkt}");
+        sj.push("${item.sj}");
+        </c:forEach>
+        const reader = new ol.format.WKT();
+        const features = [];
+        wkts.forEach((wkt, index) => {
+            if (wkt) {
+                const feature = new ol.Feature(reader.readGeometry(wkt));
+                feature.setId(ids[index]);
+                feature.setProperties({"sj": sj[index]});
+                features.push(feature);
+            }
+        });
+        if (features.length > 0) {
+            const format = new ol.format.GeoJSON();
+            const geojson = format.writeFeatures(features);
+            dtmap.draw.clear();
+            dtmap.draw.dispose();
+            dtmap.vector.clear();
+            dtmap.vector.clearSelect();
+            //지도에 GeoJSON 추가
+            dtmap.vector.readGeoJson(geojson, function (feature) {
+                return {
+                    marker: {
+                        src: '/images/poi/memo_poi.png'
+                    },
+                    label: {
+                        text: feature.get("sj")
+                    }
+                }
+            });
+        }
+    }
 
 </script>
 <!-- top > 메모정보 > 상세 -->

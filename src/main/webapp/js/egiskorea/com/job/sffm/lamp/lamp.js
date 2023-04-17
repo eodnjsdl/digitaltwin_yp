@@ -1,6 +1,8 @@
 /**
  * 안전시설물관리 > 가로등관리 js
  */
+SEARCHOBJ= null;
+
 $(document.body).ready(function(){
 	initGrid();
 	setData();
@@ -51,9 +53,14 @@ function initGrid(){
 //가로등관리 조회기능
 function setData(_pageNo){
 
-	var instlDe = $('#sffm-search-instl-de').val() || '';
-	var adres = $('#sffm-search-adres').val() || '';
-	var manageNo = $('#sffm-search-manage-no').val() || '';
+	var instlDe='', adres='', manageNo=''; 
+
+	if(SEARCHOBJ != null){
+		instlDe = SEARCHOBJ.searchInstlDe;
+		adres = SEARCHOBJ.searchAdres;
+		manageNo = SEARCHOBJ.searchManageNo;
+
+	}
 	var cqlList = [];
 
 	if(instlDe.trim().length >= 1){cqlList.push("instl_de"+" like "+instlDe);}
@@ -198,14 +205,22 @@ function fn_update(gid){
 	});
 }
 
+//가로등 검색조회
+function fn_search_List(){
+	SEARCHOBJ = {};
+
+	SEARCHOBJ.searchManageNo= $('#sffm-search-manage-no').val() || '';
+	SEARCHOBJ.searchInstlDe = $('#sffm-search-instl-de').val() || '';
+	SEARCHOBJ.searchAdres = $('#sffm-search-adres').val() || '';
+
+	
+}
+
 
 //가로등엑셀다운로드 버튼
 $("#lampExcelDownload").on("click", function(){
 	let formName = this.dataset.formName;
-	document.getElementById("searchForm").instlDe.value = lastEmdKorNm;
-	document.getElementById("searchForm").adres.value = lastAllvlBsrckSeSearch;
-	document.getElementById("searchForm").manageNo.value = lastPrposSeSearch;
-	
+
 	let url = '/job/sffm/' + formName + 'Download.do';
 	
 	$("form[name='"+ formName + "']").attr('onsubmit', '');

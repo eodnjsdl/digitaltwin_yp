@@ -36,9 +36,9 @@ window.ui = (function () {
                     $parent.css({display: "none"});
                 }
             } else if (dtmap.mod === "3D") {
-                if (mapType === "2D") {
-                    $parent.css({display: "none"});
-                }
+                // if (mapType === "2D") {
+                //     $parent.css({display: "none"});
+                // }
             }
         });
     }

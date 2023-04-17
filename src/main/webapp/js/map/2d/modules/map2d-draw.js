@@ -21,7 +21,7 @@ map2d.draw = (function () {
         _source = new ol.source.Vector();
         _layer = new ol.layer.Vector({
             source: _source,
-            zIndex: 999,
+            zIndex: 99,
             style: map2d.vector.style,
             isDefault: true
         });
@@ -43,7 +43,6 @@ map2d.draw = (function () {
     /**
      * export 함수
      */
-
 
 
     /**
@@ -163,7 +162,7 @@ map2d.draw = (function () {
                 style: selectStyleFunction
             });
             map2d.map.addInteraction(_select);
-            // _select.on('select', onSelect)
+            _select.on('select', onSelect)
             map2d.map.on('pointermove', onPointerMove);
         }
     }
@@ -176,8 +175,8 @@ map2d.draw = (function () {
             color: 'rgba(255,0,0,0.01)'
         });
         const stroke = new ol.style.Stroke({
-            color: 'rgba(255,0,0,0.2)',
-            width: 3
+            color: 'rgba(255,0,0,0.3)',
+            width: 10
         });
         const selectStyle = new ol.style.Style({
             image: new ol.style.Circle({
@@ -198,7 +197,11 @@ map2d.draw = (function () {
     }
 
     function onSelect(e) {
-        map2d.map.getTargetElement().style.cursor = '';
+        let cursor = ''
+        if (_drawOptions.type === 'Translate') {
+            cursor = 'grab'
+        }
+        map2d.map.getTargetElement().style.cursor = cursor;
     }
 
     function onPointerMove(e) {
@@ -206,11 +209,11 @@ map2d.draw = (function () {
         let hit = map2d.map.hasFeatureAtPixel(e.pixel);
         if (hit) {
             const selected = _select.getFeatures().getArray()[0];
-            if (selected) {
-                return;
-            }
+            // if (selected) {
+            //     return;
+            // }
             const find = map2d.map.getFeaturesAtPixel(e.pixel)[0];
-            if (selected === find) {
+            if (!find || selected === find) {
                 return;
             }
             hit = hit && _source.hasFeature(find);
@@ -232,6 +235,11 @@ map2d.draw = (function () {
         if (_modify) {
             map2d.map.removeInteraction(_modify);
             _modify = undefined;
+        }
+
+        if (_translate) {
+            map2d.map.removeInteraction(_translate);
+            _translate = undefined;
         }
 
         if (_select) {
@@ -277,7 +285,9 @@ map2d.draw = (function () {
         if (_drawOptions.once) {
             _source.clear();
         }
-        e.feature.setProperties({style: _drawOptions});
+        if (_drawOptions.style) {
+            e.feature.set('style', _drawOptions.style);
+        }
         // console.log('set', e.feature.ol_uid, _drawOptions);
         dtmap.trigger('drawstart', {geometry: e.feature.getGeometry(), origin: e});
     }
@@ -292,7 +302,7 @@ map2d.draw = (function () {
 
     function writeWKT(index) {
         const format = new ol.format.WKT();
-        const features = removePrivateProperty(_source.getFeatures());
+        let features = removePrivateProperty(_source.getFeatures());
         if (index !== undefined) {
             const feature = features[index];
             if (!feature) {
@@ -302,6 +312,19 @@ map2d.draw = (function () {
 
 
         } else {
+            features = features.map((feature) => {
+                const cloned = feature.clone();
+                const geom = cloned.getGeometry();
+                if (geom instanceof ol.geom.Circle) {
+                    cloned.setGeometry(ol.geom.Polygon.fromCircle(geom));
+                }
+                return cloned;
+            })
+
+            if (!features || features.length === 0) {
+                return;
+            }
+
             return format.writeFeatures(features);
         }
     }
@@ -335,6 +358,9 @@ map2d.draw = (function () {
     function getGeometry(index) {
         index = index === undefined ? 0 : index;
         let feature = _source.getFeatures()[index];
+        if (!feature) {
+            return;
+        }
         let geom = feature.getGeometry();
         return geom;
     }
@@ -443,9 +469,22 @@ map2d.draw = (function () {
                         typeNames: name,
                         bbox: extent,
                         cql: '1=1',
-                        crs: dtmap.crs
+                        // crs: dtmap.crs
                     }).then(function (json) {
-                        const features = _snapSource.getFormat().readFeatures(json);
+                        let crs
+                        try {
+                            crs = json.crs.properties.name;
+                            if (crs.includes('urn:ogc:def:crs:EPSG::')) {
+                                crs = crs.replace('urn:ogc:def:crs:EPSG::', 'EPSG:');
+                            }
+                        } catch (e) {
+                            console.warn(`GeoJSON에 좌표계 정보가 없습니다. ${dtmap.crs}로 적용합니다.`)
+                            crs = dtmap.crs;
+                        }
+                        const features = _snapSource.getFormat().readFeatures(json, {
+                            dataProjection: crs,
+                            featureProjection: dtmap.crs
+                        });
                         _snapSource.addFeatures(features);
                     })
                 },
