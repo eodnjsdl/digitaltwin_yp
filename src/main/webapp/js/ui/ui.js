@@ -815,7 +815,6 @@ function aj_selectNoticeList(pageIndex, searchCnd, searchWrd){
 		}
 	});
 }
-
 //qna
 function aj_selectQnaList(pageIndex, searchCnd, searchWrd){
 	$(".popup-overlay").show();
