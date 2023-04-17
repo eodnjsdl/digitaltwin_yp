@@ -43,7 +43,7 @@ function aj_insertQna(){
 		enctype: 'multipart/form-data',
 		success : function(returnData, status){
 			if(status == "success") {
-				$("#qna").html(returnData);
+				$("#bbsPopup").html(returnData);
 			}else{ 
 				toastr.error("관리자에게 문의 바랍니다.", "정보를 불러오지 못했습니다.");
 				return;
@@ -81,7 +81,7 @@ function fnInsertForm(form) {
 					<input type="hidden" name="pageIndex" value="<c:out value='${searchVO.pageIndex}'/>" />
 					<input type="hidden" name="wrterNm" value="<c:out value='${qnaVO.wrterNm}'/>" />
 					
-					<div class="popup-header">Q&A</div>
+					<div class="popup-header" style="background-image: url(/images/etc/popup-title-board.svg)">Q&A</div>
 					<div class="popup-body">
 						<div class="bbs-popup-body">
 							<h3 class="cont-tit marT0">Q&A 등록하기</h3>

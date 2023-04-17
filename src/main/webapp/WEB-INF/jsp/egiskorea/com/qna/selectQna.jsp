@@ -205,7 +205,7 @@ function aj_deleteQnaAnswer(){
 					<input type="hidden" id="searchCnd" value="${searchVO.searchCnd}" />
 					<input type="hidden" id="searchWrd" value="${searchVO.searchWrd}" />
 					
-					<div class="popup-header">Q&A</div>
+					<div class="popup-header" style="background-image: url(/images/etc/popup-title-board.svg)">Q&A</div>
 					<div class="popup-body">
 						<div class="bbs-popup-body">
 							<div class="scroll-y" style="height: 654px;">
