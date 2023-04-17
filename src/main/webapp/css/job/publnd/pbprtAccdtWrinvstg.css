@@ -1,0 +1,188 @@
+@charset "UTF-8";
+
+:root {
+	--border-color: #9d9d9d;
+}
+body {
+	word-break: keep-all;
+}
+.formBordr {
+	margin: 4rem 5%;
+}
+.formBordr h1 {
+	text-align: center;
+}
+.formBordr table {
+	border-right: 1px solid var(--border-color);
+	border-spacing: 0;
+	border-collapse: collapse;
+	text-align: center;
+}
+#sanctner table {
+	width: 21rem;
+    height: 5rem;
+    table-layout: fixed;
+}
+.formBordr table th, .formBordr table td {
+	border: 1px solid var(--border-color);
+	padding: 0.2rem;
+}
+#sanctner {
+	text-align: -webkit-right;
+}
+#exmnCn table {
+	width: 100%;
+}
+#exmnCn td {
+    height: 2rem;
+}
+.formBordr table td.nullTd {
+	border-bottom: transparent;
+}
+#loan, #possesnDtls {
+	width: 15%;
+}
+#loanAddr {
+	width: 10%;
+}
+#loanNm {
+	width: 10%;
+}
+#loanNmValue, #loanPosblYn {
+	width: 20%;
+}
+.formBordr table.loan td,
+.formBordr table.wtrmsPossesn td,
+.formBordr table.loanPosblYn td,
+.formBordr table.bsrpCnExmnr td {
+	border-bottom: transparent;
+}
+.formBordr table td#bsrpCnValue, 
+.formBordr table td#exmnrValue,
+.formBordr table td#loanPosblYnValue {
+	text-align: left;
+}
+.formBordr table td#bsrpCnValue,
+.formBordr table td#exmnrValue {
+	padding: 0.5rem;
+	outline: none;
+}
+#bsrpCn, #exmnr {
+	width: 10%;
+}
+#exmnCn .exmnPhoto td {
+	max-height: 30rem;
+	height: 12rem;
+}
+.fontSj {
+	font-weight: bold;
+}
+.buttonBordr {
+	display: flex;
+}
+.buttonBordrEdit, .buttonBordrStre {
+	display: flex;
+	gap: 0.5rem;
+	font-weight: bold;
+	width: 100%;
+	margin-top: 2rem;
+}
+.buttonBordrEdit div, .buttonBordrStre div {
+	border: 1px solid var(--border-color);
+    border-radius: 3px;
+    padding: 0.2rem;
+    width: 4rem;
+    height: 2rem;
+    text-align: center;
+    cursor: pointer;
+}
+.buttonBordrEdit div:hover, .buttonBordrStre div:hover {
+	background-color: #000;
+	color: #fff;
+}
+.buttonBordrEdit div span, .buttonBordrStre div span {
+	vertical-align: middle;
+}
+.buttonBordrEdit {
+	justify-content: flex-end;
+}
+.buttonBordrStre {
+	justify-content: flex-start;
+}
+.formBordr input {
+    width: 95%;
+    margin: 0;
+    height: -webkit-fill-available;
+    border: 1px solid #9d9d9d78;
+    outline: none;
+}
+.exmnFirst #publndSe, .exmnFirst #rm, .exmnFirst #ldcgCd {
+	width: 10%;
+}
+.exmnPhotoTable {
+	table-layout: fixed;
+}
+#sptPhoto, #satlitPhoto {
+	text-align-last: center;
+    height: auto;
+    border: none;
+    cursor: pointer;
+}
+.exmnPhoto img {
+	width: -webkit-fill-available;
+}
+.photoContainer {
+	display: flex;
+}
+.delFileButton {
+	border: 1px solid var(--border-color);
+    width: 5rem;
+    padding: 0.2rem;
+    font-size: small;
+    background-color: #efefef;
+    border-radius: 3px;
+    cursor: pointer;
+}
+.dsplyNone {
+	display: none;
+}
+input[type="number"] {
+	text-align: right;
+}
+.formBordr input.pdfConvert, .formBordr textarea.pdfConvert {
+ 	border-color: transparent;
+ 	color: #000;
+}
+.formBordr textarea.pdfConvert {
+ 	resize: none;
+}
+
+@media(max-width: 1140px) {
+	.formBordr {
+		margin: 4rem 3%;
+	}
+	#sanctner table {
+	    width: 18rem;
+	    height: 4rem;
+	    font-size: 0.8rem;
+	}
+}
+@media(max-width: 960px) {
+	.formBordr {
+		margin: 4rem 1%;
+	}
+}
+@media print {
+  .buttonBordr, #sptPhoto, #delSptPhoto, #satlitPhoto, #delSatlitPhoto { 
+  	display:none; 
+  }
+  .formBordr input, .formBordr textarea {
+  	border-color: transparent;
+  }
+  .formBordr textarea {
+  	resize: none;
+  }
+  input[disabled] {
+  	color: #000;
+  }
+}
