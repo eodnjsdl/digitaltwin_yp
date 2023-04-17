@@ -32,10 +32,8 @@
                 var _zoomiHtml = '';
                 _zoomiHtml += '<span class="">레벨 : </span>';
                 _zoomiHtml += ' ' + zoom;
-
                 $("#fvrtCord").empty().append(_coordiHtml);
                 $("#fvrtZoom").empty().append(_zoomiHtml);
-
             });
             // if (app2D) {
             //     const yMap = app2D.getYMap();
@@ -48,7 +46,14 @@
         });
         // 즐겨찾기 수정
         $(".btn-wrap .bi-write2").on("click", function () {
-            aj_updateFavorites($("#updateFormFavorites")[0]);
+            // 미입력 관련 VALIDATE
+            var sj = $("#bkmkNm").val();
+            if (sj == '') {
+                toastr.warning("제목을 입력해 주세요.");
+                return;
+            } else {
+                aj_updateFavorites($("#updateFormFavorites")[0]);
+            }
         });
     }
 
@@ -80,7 +85,7 @@
                     <tbody>
                     <tr>
                         <th scope="row">제목</th>
-                        <td colspan="3"><input type="text" class="form-control" name="bkmkNm"
+                        <td colspan="3"><input type="text" class="form-control" id="bkmkNm" name="bkmkNm"
                                                value="<c:out value="${result.bkmkNm}" />"></td>
                     </tr>
                     <tr>
@@ -104,8 +109,7 @@
                                 <div class="btn-wrap justify-content-end marT0 marB5">
                                     <button type="button" class="btn basic bi-save">현재위치 저장</button>
                                 </div>
-                                <div class="bookmark-basic"><img src="data:image:jpg;base64,<c:out value="${imgSrc}" />"
-                                                                 alt=""></div>
+                                <div class="bookmark-basic"><img src="data:image:jpg;base64,<c:out value="${imgSrc}" />" alt=""></div>
                                 <div class="marT10">
                                     <ul>
                                         <li id="fvrtCord"><span class="">중심위치 : </span> <c:out value="${result.xcord}"/>, <c:out

@@ -67,5 +67,10 @@ public class CctvDAO extends ComAbstractDAO {
 	// 안전시설물관리 > CCTV관리 poi
 	public List<SafetyFacilCctvMng> selectCctvPOIList(SafetyFacilCctvMng cctvVO) {
 		return selectList("cctvDAO.selectCctvPOIList", cctvVO);
+	}
+
+	public List<SafetyFacilCctvMng> selectSffmCctvFacilExcelList(SafetyFacilCctvMngVO safetyFacilCctvMngVO) {
+		// TODO Auto-generated method stub
+		return selectList("cctvDAO.selectSffmCctvFacilExcelList", safetyFacilCctvMngVO);
 	} 
 }

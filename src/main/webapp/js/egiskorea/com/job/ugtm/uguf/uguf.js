@@ -1,3 +1,5 @@
+SEARCHOBJ= null;
+
 $(document.body).ready(function () {
 	initGrid();
     setData(0);       
@@ -46,10 +48,20 @@ function initGrid(){
 }
 //지하수이용시설 조회 기능
 function setData(_pageNo){
-	var adres = $("#emdKorNm").val();
-	var allvl_bsrck_se = $("#allvlBsrckSeSearch").val();
-	var prpos_se = $("#prposSeSearch").val();
-	var detail_prpos_se = $("#detailPrposSeSearch").val();
+	// var adres = $("#emdKorNm").val();
+	// var allvl_bsrck_se = $("#allvlBsrckSeSearch").val();
+	// var prpos_se = $("#prposSeSearch").val();
+	// var detail_prpos_se = $("#detailPrposSeSearch").val();
+
+	var adres='', allvl_bsrck_se='', prpos_se='', detail_prpos_se='';
+
+	if(SEARCHOBJ != null){
+		adres = SEARCHOBJ.searchEmdKorNm;
+		allvl_bsrck_se = SEARCHOBJ.searchAllvlBsrckSeSearch
+		prpos_se = SEARCHOBJ.searchPrposSeSearch;
+		detail_prpos_se = SEARCHOBJ.searchDetailPrposSeSearch;
+
+	}
 	
 	var cqlList = [];
 	
@@ -128,6 +140,9 @@ function fn_insert(){
 }
 //지하수이용시설  상세페이지 열기
 function fn_pageDetail(gid){
+	dtmap.vector.clearSelect(); 
+	dtmap.vector.select('tgd_ugrwtr_utlztn_fclty.'+gid);
+
 	ui.openPopup("rightSubPopup");
 	
 	var formData = new FormData();
@@ -222,4 +237,15 @@ function onDrawEnd(e) {
 		const wkt = format.writeGeometry(point);
 		$("#geom").val(wkt);
 	});
+}
+
+//지하수이용시설 검색조회
+function fn_search_List(){
+	SEARCHOBJ = {};
+
+	SEARCHOBJ.searchEmdKorNm= $('#emdKorNm').val() || '';
+	SEARCHOBJ.searchAllvlBsrckSeSearch= $('#allvlBsrckSeSearch').val() || '';
+	SEARCHOBJ.searchPrposSeSearch = $('#prposSeSearch').val() || '';
+	SEARCHOBJ.searchDetailPrposSeSearch = $('#detailPrposSeSearch').val() || '';
+
 }

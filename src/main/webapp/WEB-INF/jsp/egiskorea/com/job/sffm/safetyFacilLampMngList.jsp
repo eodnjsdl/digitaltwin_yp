@@ -4,6 +4,7 @@
 <%@ taglib prefix="ui" uri="http://egovframework.gov/ctl/ui" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
+<script src="/js/map-ui.js"></script>
 <script src="/js/egiskorea/com/job/sffm//lamp/lamp.js"></script>
 <script src="/js/egiskorea/com/job/sffm/sffm.js"></script>
 <%--<script src="/js/egiskorea/com/cmm/cmmUtil.js"></script>--%>
@@ -26,7 +27,7 @@ $(document).ready(function() {
 					<option value="cctv">CCTV관리</option>
 				</select>
 			</div>
-			<form:form name="searchForm" id="searchForm" method="post" onsubmit="fn_select_sffm_list(''); return false;">
+			
 			<input type="hidden" name="pageIndex" id="pageIndex" value="<c:out value='${searchVO.pageIndex}' />">
 			<input type="hidden" name="bufferArea" id="bufferArea" value="<c:out value='${searchVO.bufferArea}' />">
 			<div class="tabBoxDepth2-wrap">
@@ -46,19 +47,19 @@ $(document).ready(function() {
 							<tbody>
 								<tr>
 									<th scope="row">설치일자</th>
-									<td><div class="datapicker-group"><input type="text" id="sffm-search-instl-de" name="instlDe" class="datepicker" value="" autocomplete="off" onkeypress="if( event.keyCode == 13 ){ fn_search_sffm_list(''); }"></div></td>
+									<td><div class="datapicker-group"><input type="text" id="sffm-search-instl-de" name="searchInstlDe" class="datepicker" value="" autocomplete="off" onkeypress="if( event.keyCode == 13 ){ fn_search_sffm_list(''); }"></div></td>
 								</tr>
 								<tr>
-									<td colspan="2"><input type="text" class="form-control" id="sffm-search-adres" name="adres" onkeypress="if( event.keyCode == 13 ){ fn_search_sffm_list(''); }" placeholder="주소"></td>
+									<td colspan="2"><input type="text" class="form-control" id="sffm-search-adres" name="searchAdres" onkeypress="if( event.keyCode == 13 ){ fn_search_sffm_list(''); }" placeholder="주소"></td>
 								</tr>
 								<tr>
-									<td colspan="2"><input type="text" class="form-control" id="sffm-search-manage-no" name="manageNo" onkeypress="if( event.keyCode == 13 ){ fn_search_sffm_list(''); }" placeholder="관리번호"></td>
+									<td colspan="2"><input type="text" class="form-control" id="sffm-search-manage-no" name="searchManageNo" onkeypress="if( event.keyCode == 13 ){ fn_search_sffm_list(''); }" placeholder="관리번호"></td>
 								</tr>
 							</tbody>
 						</table>
 					</div>
 					<div class="btn-wrap">
-						<div><button type="button" class="btn type01 search" onclick="setData('');">조회</button></div>
+						<div><button type="button" class="btn type01 search" onclick="fn_search_List(); setData();">조회</button></div>
 					</div>
 				</div>
 				<div class="tab-cont safetyFacilitySpace">
@@ -84,7 +85,7 @@ $(document).ready(function() {
 					</div>
 				</div>
 			</div>
-			</form:form>
+			
 		</div>
 		<!-- //검색영역 -->
         <div class="items data-area">

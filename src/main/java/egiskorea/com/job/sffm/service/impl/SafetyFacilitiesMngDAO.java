@@ -73,13 +73,19 @@ public class SafetyFacilitiesMngDAO extends ComAbstractDAO {
 		return update("safetyFacilitiesMng.updateSffm", sffmVO);
 	}
 	
-	// 안전시설물관리 > 가로등관리 엑셀다운
-	public List sffmExcelDown(SafetyFacilLampMngVO sffmVO) {
+	
+	/*public List sffmExcelDown(SafetyFacilLampMngVO sffmVO) {
 		return selectList("safetyFacilitiesMng.sffmExcelDown", sffmVO);
-	}
+	}*/
 	
 	// 안전시설물관리 > 가로등관리 poi
 	public List<SafetyFacilLampMng> selectSffmPOIList(SafetyFacilLampMngVO sffmVO) {
 		return selectList("safetyFacilitiesMng.selectSffmPOIList", sffmVO);
+	}
+	
+	// 안전시설물관리 > 가로등관리 엑셀다운
+	public List<SafetyFacilLampMng> selectUnderWaterDevelopExcelList(SafetyFacilLampMngVO safetyFacilLampMngVO) {
+		// TODO Auto-generated method stub
+		return selectList("safetyFacilitiesMng.selectUnderWaterDevelopExcelList", safetyFacilLampMngVO);
 	}
 }
