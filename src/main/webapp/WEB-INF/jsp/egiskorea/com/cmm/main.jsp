@@ -532,12 +532,12 @@
 						<ul class="lnb-list">
 							<li><p class="lnb-dep1">시설관리</p>
 								<ul class="lnb-dep2">
-									<li><button type="button" class="dataPopup" data-popup="work-02-01">상수도시설</button></li>
-									<li><button type="button" class="dataPopup" data-popup="work-02-02">하수도시설</button></li>
-									<li><button type="button" class="dataPopup" data-popup="work-02-03">교통시설</button></li>
-									<li><button type="button" class="dataPopup" data-popup="work-02-04">체육시설</button></li>
-									<li><button type="button" class="dataPopup" data-popup="work-02-05">복지시설</button></li>
-									<li><button type="button" class="dataPopup" data-popup="work-02-06">시설예약관리</button></li>
+									<li><button type="button" id="waterSupplyFacility" class="dataPopup" data-popup="bottomPopup">상수도시설</button></li>
+									<li><button type="button" id="sewerSupplyFacility" class="dataPopup" data-popup="bottomPopup">하수도시설</button></li>
+									<li><button type="button" id="transportationFacility" class="dataPopup" data-popup="bottomPopup">교통시설</button></li>
+									<li><button type="button" id="physicalEducationFacility" class="dataPopup" data-popup="bottomPopup">체육시설</button></li>
+									<li><button type="button" id="welfareFacility" class="dataPopup" data-popup="bottomPopup">복지시설</button></li>
+									<li><button type="button" id="faciReseMng" class="dataPopup" data-popup="leftPopup">시설예약관리</button></li>
 								</ul>
 							</li>
 						</ul>
@@ -554,9 +554,9 @@
 						<ul class="lnb-list">
 							<li><p class="lnb-dep1">교통분석</p>
 								<ul class="lnb-dep2">
-									<li><button type="button" class="dataPopup" data-popup="">버스노선정보</button></li>
-									<li><button type="button" class="dataPopup" data-popup="">인구정보</button></li>
-									<li><button type="button" class="dataPopup" data-popup="">대중교통 취약분석</button></li>
+									<li><button type="button" id="BusRouteInformation" class="dataPopup" data-popup="">버스노선정보</button></li>
+									<li><button type="button" id="PopulationInformation" class="dataPopup" data-popup="">인구정보</button></li>
+									<li><button type="button" id="TransportationVulnerability" id="BusRouteInformation"class="dataPopup" data-popup="">대중교통 취약분석</button></li>
 								</ul>
 							</li>
 						</ul>
@@ -573,9 +573,9 @@
 						<ul class="lnb-list">
 							<li><p class="lnb-dep1">행정자산</p>
 								<ul class="lnb-dep2">
-									<li><button type="button" class="dataPopup" data-popup="">행정자산관리</button></li>
-									<li><button type="button" class="dataPopup" data-popup="">공유지관리</button></li>
-									<li><button type="button" class="dataPopup" data-popup="">공유재산 실태조사</button></li>
+									<li><button type="button" id="AdministrativeAsset" class="dataPopup" data-popup="">행정자산관리</button></li>
+									<li><button type="button" id="CoownedLand" class="dataPopup" data-popup="">공유지관리</button></li>
+									<li><button type="button" id="SurveyProperty" class="dataPopup" data-popup="">공유재산 실태조사</button></li>
 								</ul>
 							</li>
 						</ul>
@@ -599,42 +599,42 @@
 							<li><p class="lnb-dep1">분석</p>
 								<ul class="lnb-dep2">
 			                        <li>
-			                            <button type="button" class="dataPopup" data-popup="analysis-01-05" data-maptype="3D">
+			                            <button type="button" id="M_AI_IMAGE" class="dataPopup" data-popup="analysis-01-05" data-maptype="3D">
 			                                AI영상분석(3D)
 			                            </button>
 			                        </li>
 			                        <li>
-			                            <button type="button" class="dataPopup" data-popup="analysis-01-01" data-maptype="3D">
+			                            <button type="button" id="M_ROV_ANLS" class="dataPopup" data-popup="analysis-01-01" data-maptype="3D">
 			                                 	조망권분석(3D)
 			                            </button>
 			                        </li>
 			                        <li>
-			                            <button type="button" class="dataPopup" data-popup="analysis-01-04" data-maptype="3D">
+			                            <button type="button" id="M_SLOPE" class="dataPopup" data-popup="analysis-01-04" data-maptype="3D">
 			                                	경사분석(3D)
 			                            </button>
 			                        </li>
 			                        <li>
-			                            <button type="button" class="dataPopup" data-maptype="2D">
+			                            <button type="button" id="M_SPCE_ANLS" class="dataPopup" data-maptype="2D">
 			                                	공간분석
 			                            </button>
 			                        </li>
 			                        <li>
-			                            <button type="button" class="dataPopup" data-popup="analysis-01-02" data-maptype="3D">
+			                            <button type="button" id="M_SUHN_ANLS" class="dataPopup" data-popup="analysis-01-02" data-maptype="3D">
 			                                	일조권분석(3D)
 			                            </button>
 			                        </li>
 			                        <li>
-			                            <button type="button" class="dataPopup" data-popup="analysis-01-06" data-maptype="3D">
+			                            <button type="button" id="M_TPPH_SECT" class="dataPopup" data-popup="analysis-01-06" data-maptype="3D">
 			                                	지형단면도(3D)
 			                            </button>
 			                        </li>
 			                        <li>
-			                            <button type="button" class="dataPopup" data-popup="analysis-01-07" data-maptype="2D">
+			                            <button type="button" id="M_UNDG_FCTY_SECT" class="dataPopup" data-popup="analysis-01-07" data-maptype="2D">
 			                                	지하시설단면
 			                            </button>
 			                        </li>
 			                        <li>
-			                            <button type="button" class="dataPopup" data-maptype="3D">
+			                            <button type="button" id="M_VSBL_ANLS" class="dataPopup" data-maptype="3D">
 			                                	가시권분석(3D)
 			                            </button>
 			                        </li>
@@ -655,11 +655,6 @@
         <div id="leftPopup" class="popup-panel popup-left">
         </div>
         <!-- //left popup-panel -->
-
-        <!-- left-sub popup-panel -->
-        <div id="leftSubPopup" class="popup-panel popup-sub">
-        </div>
-        <!-- //left-sub popup-panel -->
 
         <!-- right popup-panel -->
         <div id="rightPopup" class="popup-panel popup-right popup-draggable">
