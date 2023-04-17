@@ -9,8 +9,6 @@
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 		<title>스마트시티 IN 양평 플랫폼</title>
-
-		<script src="/js/map-ui.js"></script>
 		
 		<link rel="stylesheet" href="/css/com/common.css">
 		<link rel="stylesheet" href="/css/error.css">

@@ -196,7 +196,7 @@ function _onDrawEnd_ldbdInfo(e) {
 
 function aj_ldbdInfo() {
     dtmap.draw.active({type: 'Point', once: true});
-    dtmap.on('drawend', _onDrawEnd_ldbdInfo);
+    dtmap.once('drawend', _onDrawEnd_ldbdInfo);
 }
 
 function setLdbdLayer(geom, layerNm, style) {
