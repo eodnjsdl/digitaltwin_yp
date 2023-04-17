@@ -864,7 +864,6 @@
      */
     ui.init();
 
-
 </script>
 
 </body>
