@@ -302,7 +302,7 @@ map2d.draw = (function () {
 
     function writeWKT(index) {
         const format = new ol.format.WKT();
-        const features = removePrivateProperty(_source.getFeatures());
+        let features = removePrivateProperty(_source.getFeatures());
         if (index !== undefined) {
             const feature = features[index];
             if (!feature) {
@@ -312,6 +312,16 @@ map2d.draw = (function () {
 
 
         } else {
+            features = features.map((feature) => {
+                const cloned = feature.clone();
+                const geom = cloned.getGeometry();
+                if (geom instanceof ol.geom.Circle) {
+                    cloned.setGeometry(ol.geom.Polygon.fromCircle(geom));
+                }
+                return cloned;
+            })
+
+
             return format.writeFeatures(features);
         }
     }
