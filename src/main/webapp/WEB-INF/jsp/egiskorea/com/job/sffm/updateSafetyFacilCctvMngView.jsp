@@ -96,7 +96,7 @@ $('#cctvUpdate').click(function(){
 									<th scope="row">주소</th>
 									<td colspan="3">
 										<div class="form-row">
-											<div class="col"><input type="text" class="form-control" id="adres" name="adres" maxlength="255" value="<c:out value = '${result.lgsrAdr}'/>"/></div>
+											<div class="col"><input type="text" class="form-control" id="adres" name="adres" maxlength="255" value="<c:out value = '${result.lgsrAdr}'/>" readonly/></div>
 											<div class="col" style="display: none;"><input type="text" class="form-control" id="location" readonly placeholder="경도, 위도" />></div> 
 											<div class="col-auto"><button type="button" class="btn type01 bi-location" onclick="fn_getLocation()">지도에서 선택</button></div>
 											<input type="hidden" name="lon" id="lon" value="<c:out value='${result.lon}'/>">
