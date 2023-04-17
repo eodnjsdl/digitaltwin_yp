@@ -126,7 +126,7 @@
                                            <div class="form-row">
                                            		<div class="col">
                                            			<input type="text" class="form-control txt-geometry-address" value="" readonly="readonly">
-                                           			<input type="hidden" name="geom" class="form-control" value="">
+                                           			<input type="text" name="geom" class="form-control" value="">
                                            		</div>                    
                                            		<div class="col-auto">
                                            			<button type="button" class="btn type01 bi-location btn-select-map" data-popup="space-edit-tool">지도에서 선택</button>
@@ -231,6 +231,9 @@
         // 초기화 (지도)
         dtmap.draw.dispose();
         dtmap.draw.clear();
+        
+        
+        clearSpaceEditTool();	//공간정보 편집창 닫기
 	}
 	
 

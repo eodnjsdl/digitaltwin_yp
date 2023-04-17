@@ -169,8 +169,9 @@
     <script src="/js/egiskorea/com/cmm/common.js"></script> <!-- 메뉴얼 때문에 추가 uhh add... -->
     
 	<script src="/js/egiskorea/com/job/fcmr/facilityCommon.js"></script>				<!-- 시설관리  공통 -->
+	
 	<!-- [상수도 시설] --> 
-	<script src="/js/egiskorea/com/job/fcmr/wsfc/facilityWaterSupply.js"></script>		<!-- 상수도시설  공통 -->
+	<script src="/js/egiskorea/com/job/fcmr/wsfc/facilityWaterSupply.js"></script>		<!--{상수도시설  공통} -->
 	<!-- {상수도 하위 메뉴}  -->	
 	<script src="/js/egiskorea/com/job/fcmr/wsfc/wpil/wtlPipeLm.js"></script>			<!-- 상수관로 -->
 	<script src="/js/egiskorea/com/job/fcmr/wsfc/wflp/wtlFlowPs.js"></script>			<!-- 유량계 -->
@@ -184,18 +185,7 @@
 	<!-- ////////////////////////////  -->
 	
 	<!-- [하수도시설]  -->
-	<!-- {하수도시설  공통} -->
-	<!-- 하수연결관  -->
-	<!-- 하수관거심도  -->
-	<!-- 하수처리장  -->
-	<!-- 하수맨홀  -->
-	<!-- 면형하수관거  -->
-	<!-- 하수관거  -->
-	<!-- 하수펌프장  -->
-	<!-- 측구  -->
-	<!-- 토구  -->
-	<!-- 물받이  -->
-	<!-- 환기구  -->
+	<script src="/js/egiskorea/com/job/fcmr/ssfc/facilitySewerSupply.js"></script> 		<!-- {하수도시설  공통} -->
 	
 	<!-- ////////////////////////////  -->
 	

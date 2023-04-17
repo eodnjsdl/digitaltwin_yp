@@ -1,25 +1,27 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" %>
 
 <!-- js -->
-<script src="/js/egiskorea/com/job/fcmr/wsfc/wfip/wtlFirePs.js"></script>			<!-- 소방시설  -->
+<script src="/js/egiskorea/com/job/fcmr/ssfc/scol/swlConnLs.js"></script>		<!-- 하수연결관 --> 
 
 <!-- 업무 > 공통 -->
-<div class="popup-header">상수도관리</div>
+<div class="popup-header">하수도관리</div>
 <div class="popup-body">
     <div class="bottom-popup-body bottom-popup-group">
         <!-- 검색영역 -->
         <div class="items search-area">
             <div class="top-search">
                 <select class="form-select facility-select">
-                    <option value="wtlFirePs" selected="selected">소방시설</option>
-                    <option value="wtlPipeLm">상수관로</option>
-                    <option value="wtlFlowPs">유량계</option>
-                    <option value="wtlManhPs">상수맨홀</option>
-                    <option value="wtlPipePs">상수관로심도</option>
-                    <option value="wtlPrgaPs">수압계</option>
-                    <option value="wtlServPs">배수지</option>
-                    <option value="wtlSplyLs">급수관로</option>
-                    <option value="wtlServPs">변류시설</option>
+                    <option value="swlConnLs" selected="selected">하수연결관</option>
+                    <option value="swlDeptPs">하수관거심도</option>
+                    <option value="swlDranPs">하수처리장</option>
+                    <option value="swlManhPs">하수맨홀</option>
+                    <option value="swlPipeAs">면형하수관거</option>
+                    <option value="swlPipeLm">하수관거</option>
+                    <option value="swlPumpPs">하수펌프장</option>
+                    <option value="swlSideLs">측구</option>
+                    <option value="swlSpewPs">토구</option>
+                    <option value="swlSpotPs">물받이</option>
+                    <option value="swlVentPs">환기구</option>
                 </select>
             </div>
             <div class="tabBoxDepth2-wrap">
@@ -50,9 +52,17 @@
 									</td>
 								</tr>
 								<tr>  
-									<th scope="row">소화전형식</th>  
+									<th scope="row">설치년도</th>  
 									<td>    
-										<select name="mof_cde" class="form-select">
+										<select name="ist_ymd" class="form-select">
+											<option value="">선택</option>
+										</select>  
+									</td>
+								</tr>
+								<tr>  
+									<th scope="row">하수관용도</th>  
+									<td>    
+										<select name="sba_cde" class="form-select">
 											<option value="">선택</option>
 										</select>  
 									</td>
@@ -69,7 +79,7 @@
                     </div>
                     <div class="btn-wrap">
                         <div>
-                            <button type="button" class="btn type01 search facility-attribute-search" onclick="selectWtlFirePsList(1)">조회</button>
+                            <button type="button" class="btn type01 search facility-attribute-search" onclick="selectSwlConnLsList(1)">조회</button>
                         </div>
                     </div>
                 </div>
@@ -120,8 +130,9 @@
             <div class="bbs-top">
                 <div class="bbs-list-num">조회결과 : --건</div>
                 <div>
-                    <button type="button" class="btn basic bi-write btn_add opened" 	onclick="insertWtlFirePsView();">등록</button>
-                    <button type="button" class="btn basic bi-excel btn_excel" 	onclick="downloadExcelWtlFirePs();">엑셀저장</button>
+                    <button type="button" class="btn basic bi-write btn_add" onclick="insertSwlConnLsView();">등록</button>
+                    <button type="button" class="btn basic bi-excel btn_excel" onclick="downloadExcelSwlConnLs();">엑셀저장
+                    </button>
                 </div>
             </div>
             <div class="bbs-list-wrap" style="height: 267px;"><!-- pagination 하단 고정을 위해 반드시 필요 -->
@@ -132,11 +143,11 @@
                     </div>
                 </div>
             </div>
-            <input type="hidden" id="wtiFirePsListPage" 	value="">
+            <input type="text" id="swlConnLsListPage" 	value="">
         </div>
     </div>
 </div>
-<button type="button" class="manualBtn" title="도움말" onclick="manualTab('상수도시설')"></button>
+<button type="button" class="manualBtn" title="도움말" onclick="manualTab('하수도시설')"></button>
 <button type="button" class="popup-close"
         onClick="toastr.warning('removeLayer(); cmmUtil.drawClear();', 'onclick 이벤트');" title="닫기"></button>
 <button type="button" class="popup-reset"></button>
@@ -145,26 +156,12 @@
 <script type="text/javascript">
 	//jqeury
 	$(document).ready(function(){
-		console.log("wtlFirePsListView.jsp");	
-		 
+		console.log("swlConnLsListView.jsp");	
+
+		
+		/*
 		//이벤트 리스너 추가
 		dtmap.on('select', onFacilitySelectEventListener);
-		
-		if(dtmap.mod){
-			if(dtmap.mod == "2D"){
-				if($(".data-area .bbs-top .btn_add").css("display") == 'none'){
-					$(".data-area .bbs-top .btn_add").show();
-				}				
-			}else if(dtmap.mod == "3D"){
-				if($(".data-area .bbs-top .btn_add").css("display") != 'none'){
-				   $(".data-area .bbs-top .btn_add").hide();
-				}
-			}else{
-				console.log("2d/3d 모드 오류");
-			}
-		}else{
-			console.log("2d/3d 모드 오류");
-		}
 		 
 		//////////////////
 		//하위메뉴 select box
@@ -303,7 +300,7 @@
         $(".area-facility-buffer", "#bottomPopup").on("keyup", function (event) {
             dtmap.draw.setBuffer(Number(this.value));
         });
-		
+		*/
 	});
 
 	//functions

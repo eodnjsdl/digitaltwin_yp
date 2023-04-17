@@ -120,8 +120,9 @@
             <div class="bbs-top">
                 <div class="bbs-list-num">조회결과 : --건</div>
                 <div>
-                    <button type="button" class="btn basic bi-write btn_add opened" 	onclick="insertWtlFirePsView();">등록</button>
-                    <button type="button" class="btn basic bi-excel btn_excel" 	onclick="downloadExcelWtlFirePs();">엑셀저장</button>
+                    <button type="button" class="btn basic bi-write btn_add" onclick="insertWtlFirePsView();">등록</button>
+                    <button type="button" class="btn basic bi-excel btn_excel" onclick="downloadExcelWtlFirePs();">엑셀저장
+                    </button>
                 </div>
             </div>
             <div class="bbs-list-wrap" style="height: 267px;"><!-- pagination 하단 고정을 위해 반드시 필요 -->
@@ -145,26 +146,10 @@
 <script type="text/javascript">
 	//jqeury
 	$(document).ready(function(){
-		console.log("wtlFirePsListView.jsp");	
+		//console.log("wtlFirePsListView.jsp");	
 		 
 		//이벤트 리스너 추가
 		dtmap.on('select', onFacilitySelectEventListener);
-		
-		if(dtmap.mod){
-			if(dtmap.mod == "2D"){
-				if($(".data-area .bbs-top .btn_add").css("display") == 'none'){
-					$(".data-area .bbs-top .btn_add").show();
-				}				
-			}else if(dtmap.mod == "3D"){
-				if($(".data-area .bbs-top .btn_add").css("display") != 'none'){
-				   $(".data-area .bbs-top .btn_add").hide();
-				}
-			}else{
-				console.log("2d/3d 모드 오류");
-			}
-		}else{
-			console.log("2d/3d 모드 오류");
-		}
 		 
 		//////////////////
 		//하위메뉴 select box
