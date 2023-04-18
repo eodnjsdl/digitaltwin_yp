@@ -98,9 +98,9 @@
 	</select>
 	
 	<!-- 도로구간 상세 조회 -->
-	<select id="selectRoadSection" parameterType="roadSectionVO" resultType="roadSection">
+	<select id="selectRoadSection" parameterType="roadSectVO" resultType="roadSectVO">
 		SELECT SIG_CD,				/* 시군구코드 */
-			   RDS_MAN_NO::varchar,	/* 도로구간일련번호 */
+			   RDS_MAN_NO,			/* 도로구간일련번호 */ /* ::varchar */
 			   RN,					/* 도로명 */
 			   ENG_RN,				/* 영문도로명 */
 			   RN_CD,				/* 도로명코드 */
@@ -263,7 +263,8 @@
 	</select>
 	
 	<!-- 철도선로 상세 조회 -->
-	<select id="selectRailroadTrack" parameterType="railroadTrackVO" resultType="railroadTrack">
+	<!-- <select id="selectRailroadTrack" parameterType="railroadTrackVO" resultType="railroadTrack"> -->
+	<select id="selectRailroadTrack" parameterType="rlroadTcVO" resultType="rlroadTcVO">
 		SELECT SIG_CD,				/* 시군구코드 */
 			   KOR_RLR_NM,			/* 철도노선명_한글 */
 			   RLR_RLW_SN,			/* 철도선로일련번호 */
@@ -388,7 +389,8 @@
 	</select>
 	
 	<!-- 철도역사 상세 조회 -->
-	<select id="selectRailroadStation" parameterType="railroadStationVO" resultType="railroadStation">
+	<!-- <select id="selectRailroadStation" parameterType="railroadStationVO" resultType="railroadStation"> -->
+	<select id="selectRailroadStation" parameterType="rlroadStVO" resultType="rlroadStVO">
 		SELECT SIG_CD,				/* 시군구코드 */
 			   KOR_STA_NM,			/* 철도역사명_한글 */
 			   RLR_STA_SN,			/* 철도역사일련번호 */
@@ -512,7 +514,8 @@
 	</select>
 	
 	<!-- 지하철선로 상세 조회 -->
-	<select id="selectSubwayTrack" parameterType="subwayTrackVO" resultType="subwayTrack">
+	<!-- <select id="selectSubwayTrack" parameterType="subwayTrackVO" resultType="subwayTrack"> -->
+	<select id="selectSubwayTrack" parameterType="sbwayTcVO" resultType="sbwayTcVO">
 		SELECT SIG_CD,				/* 시군구코드 */
 			   KOR_SBR_NM,			/* 지하철노선명_한글 */
 			   SUB_RLW_SN,			/* 지하철선로일련번호 */
@@ -637,7 +640,8 @@
 	</select>
 	
 	<!-- 지하철역사 상세 조회 -->
-	<select id="selectSubwayStation" parameterType="subwayStationVO" resultType="subwayStation">
+	<!-- <select id="selectSubwayStation" parameterType="subwayStationVO" resultType="subwayStation"> -->
+	<select id="selectSubwayStation" parameterType="sbwayStVO" resultType="sbwayStVO">
 		SELECT SIG_CD,				/* 시군구코드 */
 			   KOR_SUB_NM,			/* 지하철역사명_한글 */
 			   SUB_STA_SN,			/* 지하철역사일련번호 */
@@ -761,7 +765,8 @@
 	</select>
 	
 	<!-- 교량 상세 조회 -->
-	<select id="selectBridge" parameterType="bridgeVO" resultType="bridge">
+	<!-- <select id="selectBridge" parameterType="bridgeVO" resultType="bridge"> -->
+	<select id="selectBridge" parameterType="brdgeVO" resultType="brdgeVO">
 		SELECT SIG_CD,				/* 시군구코드 */
 			   KOR_BRI_NM,			/* 교량명_한글 */
 			   BRIDGE_SN,			/* 교량일련번호 */
@@ -885,7 +890,8 @@
 	</select>
 	
 	<!-- 고가도로 목록 조회 -->
-	<select id="selectOverpass" parameterType="overpassVO" resultType="overpass">
+	<!-- <select id="selectOverpass" parameterType="overpassVO" resultType="overpass"> -->
+	<select id="selectOverpass" parameterType="ovrpassVO" resultType="ovrpassVO">
 		SELECT SIG_CD,				/* 시군구코드 */
 			   KOR_OVE_NM,			/* 고가도로명_한글 */
 			   OVE_SN,				/* 고가도로일련번호 */
@@ -1010,7 +1016,8 @@
 	</select>
 	
 	<!-- 터널 목록 조회 -->
-	<select id="selectTunnel" parameterType="tunnelVO" resultType="tunnel">
+	<!-- <select id="selectTunnel" parameterType="tunnelVO" resultType="tunnel"> -->
+	<select id="selectTunnel" parameterType="tunnlVO" resultType="tunnlVO">
 		SELECT SIG_CD,				/* 시군구코드 */
 			   TUN_KOR_NM,			/* 터널명_한글 */
 			   TUNNEL_SN,			/* 터널일련번호 */

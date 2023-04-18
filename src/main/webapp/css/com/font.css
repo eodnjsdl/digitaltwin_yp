@@ -115,17 +115,3 @@ YangPyeong
 		 url(./font/YangPyeong/yangpyeong_B.woff2) format('woff2'), /* WOFF2 지원 브라우저 */
 		 url(./font/YangPyeong/yangpyeong_B.otf) format('opentype');
 }
-
-/* ------------------------------------------------------------------------------------------------------------------------
-HaNamDaum
------------------------------------------------------------------------------------------------------------------------- */
-@font-face {
-    font-family: 'HaNamDaum';
-	font-style: normal;
-	font-weight: 400;
-    src: url(./font/HaNamDaum/HANAMDAUM.eot); /*IE9 호환성 보기*/
-    src: url(./font/HaNamDaum/HANAMDAUM.eot?#iefix) format('embedded-opentype'), /*IE 6-8*/
-         url(./font/HaNamDaum/HANAMDAUM.woff) format('woff'), /*표준 브라우저*/
-		 url(./font/HaNamDaum/HANAMDAUM.woff2) format('woff2'), /* WOFF2 지원 브라우저 */
-		 url(./font/HaNamDaum/HANAMDAUM.otf) format('opentype');
-}

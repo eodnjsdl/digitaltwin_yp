@@ -3,146 +3,167 @@
  * 
  * @returns
  */
-$(document).ready(function(){
-	console.log("roadSect.js");
-	console.log("도로구간");
-});
 
-// 도로구간 옵션 설정
-function getRoadSectListView() {
-	//console.log("getRoadSectListView()");
+/**
+ * 도로구간 목록 불러오기
+ * @returns
+ */
+function selectRoadSectListView() {
+    $('#bottomPopup').load('/job/fcmr/tpfc/selectRoadSectListView.do', function () {
+	toastr.success("/job/fcmr/tpfc/selectRoadSectListView.do", "페이지🙂호🙂출🙂");
 	
-	ui.loadingBar("show");
-	
-	var baseContainer = "#bottomPopup";
-    $(baseContainer).load('/job/fcmr/tpfc/selectRoadSectListView.do', function() {
-		toastr.success("/job/fcmr/tpfc/selectRoadSectListView.do", "페이지🙂호🙂출🙂");
-		
-		getEmdKorNmCode("#emdKorNm");	//읍면동 코드
-		
-		// grid 기본 세팅
-		var $container = $("#container");
-		var $target = $container.find('#baseGridDiv [data-ax5grid="attr-grid"]');
-		$target.css('height', 'inherit');
-		
-		ax5.ui.grid.formatter["roadLt"] = function() {
-			var roadLt = this.value;
-			
-			return Math.floor(roadLt);
-		}
-		
-		baseGrid = null;	//axgrid 전역 변수 
-		baseGrid = new ax5.ui.grid();
-		baseGrid.setConfig({
-			target: $target,
-			sortable: true,
-			multipleSelect: false,
-			header: {
-				align: "center"
-			},
-			columns: [
-				{key: "sig_cd",		label: "시군구",			width: 70},
-				{key: "rds_man_no",	label: "도로구간일련번호",	width: 120},
-				{key: "rn",			label: "도로명(한글)",		width: 150},
-				{key: "eng_rn",		label: "도로명(영문)",		width: 200},
-				{key: "ntfc_de",	label: "고시일자",			width: 90},
-				{key: "wdr_rd_cd",	label: "광역도로구분",		width: 100},
-				{key: "rbp_cn",		label: "기점",			width: 200},
-				{key: "rep_cn",		label: "종점",			width: 200},
-				{key: "road_bt",	label: "도로폭",			width: 60},
-				{key: "road_lt",	label: "도로길이",			width: 80,	formatter: "roadLt"}
-			],
-			page: {
-				navigationItemCount: 10,	// 보여지는 클릭 가능 페이지 번호
-		 		height: 30,
-				display: true,
-				firstIcon: '&lt;&lt;',
-				prevIcon: '&lt;',
-				nextIcon: '&gt;',
-				lastIcon: '&gt;&gt;',
-	            onChange: function() {
-	            	selectRoadSectList(this.page.selectPage + 1);
-	            }
-			},
-			body: {
-				align: 'center',
-				onClick: function() {
-					//this.self.select(this.dindex);
-					//console.log(this.item);
-					selectRoadSectDetail(this.item.gid);
-				}
-			}
-		});
-	});
-	
-	ui.loadingBar("hide");
-	selectRoadSectList(1);
+	callRoadSectGrid();
+    });
+    
 }
 
-function selectRoadSectList(page) {
-	//console.log("selectRoadSectList(page)");
-	//console.log("page >>> " + page);
-	
-	//검색 조건
-	const filters = [];
-
-	const emdKorNm = $("#emdKorNm option:selected").val();				// 읍면동
-	const roadBtVal = $("#lSrchOptions input[name=roadBtVal]").val();	// 도로폭
-	const rn = $("#lSrchOptions input[name=rn]").val();					// 도로명
-	
-	// 읍면동 검색 필터 작업 필요
-	if (emdKorNm) {
-		//filters.push("sig_cd" + " = " + emdKorNm); 
-	}
-	if (roadBtVal) {
-		filters.push("road_bt" + " = " + roadBtVal); 
-	}
-	if (rn) {
-		filters.push("rn" + " like " + rn);
-	}
-	
-	var options;
-	options = {
-		typeNames: 'tgd_sprd_manage' + "",
-		perPage: 10,
-		page: page,
-		filter: filters
-	};
-	
-	const promise = dtmap.wfsGetFeature(options);
-
-	promise.then(function(data) {
-		console.log(data);
-		//그리드 데이터 전처리
-		const list = [];
-		for (let i = 0; i < data.features.length; i++) {
-			const {id, properties} = data.features[i];
-			
-			list.push({...properties, ...{id: id}});
-		}
-		
-		var total = data.totalFeatures;
-		var totPge = Math.ceil(total / 10);
-		
-		if (total > 0) {
-        	$("#bottomPopup .bbs-list-num").html("조회결과: " + total + "건");
-        }
-
-		baseGrid.setData({
-			list: list,
-			page: {
-				currentPage: page - 1,	// 현재 페이지
-				pageSize: 10,			// 한 페이지의 데이터 갯수
-				totalElements: total,	// 전체 데이터 갯수
-				totalPages: totPge		// 전체 페이지 갯수
-			}
-		})
-	});
+/**
+ * 테이블 불러오기
+ * @returns
+ */
+function callRoadSectGrid() {
+    setRoadSectListGrid();
+    setRoadSectListData(0);
 }
 
-function selectRoadSectDetail(gid) {
-	console.log("selectRoadSectDetail(item)");
-	console.log("gid >>> " + gid);
+/**
+ * 테이블 기본 세팅
+ * @returns
+ */
+function setRoadSectListGrid() {
+    this.target = new ax5.ui.grid();
+    this.target.setConfig({
+	target: $('[data-ax5grid="roadSectListGrid"]'),
+	showLineNumber: true,
+	sortable: true,
+	multiSort: true,
+	header: {
+		align: "center"
+	},
+	body: {
+		align: "center",
+		onClick: function() {
+		    selectRoadSectDetailView(this.item.gid);
+		}
+	},
+	page: {
+		navigationItemCount: 9,
+		display: true,
+		onChange: function () {
+		    setRoadSectListData(this.page.selectPage);
+		}
+	},
+	columns: [
+	    {key: "sig_cd",		label: "시군구",		width: 100},
+	    {key: "rds_man_no",		label: "도로구간일련번호",	width: 100},
+	    {key: "rn",			label: "도로명(한글)",	width: 100},
+	    {key: "eng_rn",		label: "도로명(영문)",	width: 180},
+	    {key: "ntfc_de",		label: "고시일자",		width: 100},
+	    {key: "wdr_rd_cd",		label: "광역도로구분",	width: 100},
+	    {key: "rbp_cn",		label: "기점",		width: 150},
+	    {key: "rep_cn",		label: "종점",		width: 150},
+	    {key: "road_bt",		label: "도로폭",		width: 100},
+	    {key: "road_lt",		label: "도로길이",		width: 100}
+	],
+    });
+}
+
+/**
+ * 테이블 데이터 세팅
+ * @param _pageNo
+ * @returns
+ */
+function setRoadSectListData(_pageNo) {
+    // 검색 조건
+//    let filters = ['sig_cd = 41830', 'wdr_rd_cd = 3'];
+    let filters = 'sig_cd = 41830 and wdr_rd_cd = 3';
+    
+    let emdKorNm = $("#emdKorNm").val();				// 읍면동
+    let roadBtVal = $("input[name=roadBtVal]").val();			// 도로폭
+    let rn = $("input[name=rn]").val();					// 도로명
+    if (emdKorNm != '' && emdKorNm != '41830') {
+	emdKorNm = "'" + emdKorNm + "%'";
+	filters += ' and rbp_cn like ' + emdKorNm;
+//	filters.push('rbp_cn like ' + emdKorNm);
+    }; 
+    if (roadBtVal != '') {filters.push('road_bt = ' + roadBtVal + ' ')}; 
+    if (rn != '') {
+	rn = "'%" + rn + "%'";
+	filters += ' and rn like ' + rn;
+//	filters.push('rn like ' + rn);
+    }; 
+    
+    ///////////////////////////////////////////////////////////////////////////
+
+    var gridList = this;
+    const promise = dtmap.wfsGetFeature({
+	typeNames: 'tgd_sprd_manage',
+	perPage: 10,
+	page: _pageNo + 1,
+	sortBy : 'gid',
+	orderBy : 'DESC',
+	cql : filters
+//	filters : filters
+    });
+    
+    promise.then(function(data) {
+	$('.bbs-list-num strong').empty();
+	if (data.totalFeatures > 0) {
+	    $("#bottomPopup .bbs-list-num strong").text(data.totalFeatures);
+	} else {
+	    $("#bottomPopup .bbs-list-num strong").text('0');
+	}
 	
-	toastr.error("아직 작업 중", "리팩토링 작업대상입니다.");
-};
+	var list = [];
+	for (let i = 0; i < data.features.length; i++) {
+	    const {id, properties} = data.features[i];
+	    list.push({...properties, ...{id: id}});
+	}
+
+	gridList.target.setData({
+	    list: list,
+	    page: {
+		currentPage: _pageNo || 0,
+		pageSize: 10,
+		totalElements: data.totalFeatures,
+		totalPages: Math.ceil(data.totalFeatures / 10)
+	    }
+	});
+    });
+}
+
+/**
+ * 테이블 데이터 상세보기  ------ 미완성
+ * @param gid
+ * @returns
+ */
+function selectRoadSectDetailView(gid) {
+    ui.openPopup("rightSubPopup");
+    ui.loadingBar("show");
+    var formData = new FormData();
+	
+    if (gid != '') {
+	formData.append('gid', gid);
+    }
+	
+    $.ajax({
+	data : formData,
+	type : "POST",
+	url : '/job/fcmr/tpfc/selectRoadSectDtlInfo.do',
+	dataType : "html",
+	processData : false,
+	contentType : false,
+	async: false,
+	success : function(data, status) {
+	    if (status == "success") {		
+		$("#rightSubPopup").append(data);
+		
+		toastr.success("상세정보 호출 성공!");
+	    } else { 
+		toastr.error("ERROR!");
+		return;
+	    } 
+	}
+    });
+    ui.loadingBar("hide");
+}
