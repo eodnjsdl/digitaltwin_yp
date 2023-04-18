@@ -45,6 +45,12 @@ window.ui = (function () {
         /** popup close button **/
         $(document).on('click', '.popup-panel .popup-close', function () {
             $(this).closest('.popup-panel').removeClass('opened');
+
+            if($(this).parent('#rightSubPopup').length != 0){
+                return; 
+            }
+
+
             // 초기화 (지도)
             dtmap.draw.dispose();
             dtmap.draw.clear();
