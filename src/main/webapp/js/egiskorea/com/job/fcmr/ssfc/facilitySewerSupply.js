@@ -63,13 +63,12 @@ function getSewerSupplyFacility(name){
 
 //하수연결관 목록 화면 조회
 function selectSwlConnLsListView(){
-	console.log("selectSwlConnLsListView()");
+	//console.log("selectSwlConnLsListView()");
 	
 	ui.loadingBar("show");
 	
 	var baseContainer = "#bottomPopup";
     $(baseContainer).load("/job/fcmr/ssfc/selectSwlConnLsListView.do", function () {
-        //toastr.success("/job/fcmr/ssfc/selectSwlConnLsListView.do", "페이지🙂호🙂출🙂");
     	swlConnLsListProcess();
 		ui.loadingBar("hide");
     });

@@ -18,8 +18,8 @@
 	}
 </style>
 
-<!-- 업무 > 시설관리 > 상수수도시설 > 소방시설 등록하기-->
-       	<div class="popup-header">소방시설 등록하기</div>
+<!-- 업무 > 시설관리 > 하수시설시설 > 하수연결관 등록하기-->
+       	<div class="popup-header">하수연결관 등록하기</div>
            <div class="popup-body">
                <div class="sub-popup-body">
                    <div class="data-write-wrap" style="height: 100%;">
@@ -39,7 +39,6 @@
                                        <td>
                                           	<select name="ftr_cde" class="form-select" readonly="readonly">
                                           		<option value="SA118">급수탑</option>
-                                          		<option value="SA119" selected="selected">소화전</option>
                                           	</select>
                                        </td>
                                        <th scope="row">관리번호</th>
@@ -56,15 +55,9 @@
                                        </td>
                                        <th scope="row">관리기관</th>
                                        <td>
-                                       	   <%-- <c:if test="${wtlFirePsVO.mng_cde_nm  != '' || wtlFirePsVO.mng_cde_nm  ne null}">
-                                           		<c:out value="${wtlFirePsVO.mng_cde_nm }"/>
-                                           </c:if>
-                                           <c:if test="${wtlFirePsVO.mng_cde_nm  == '' || wtlFirePsVO.mng_cde_nm  eq null }">
-                                           		<c:out value="${wtlFirePsVO.mng_cde }"/>
-                                           </c:if> --%>
                                            <select name="mng_cde" class="form-select">
                                        			<option value="">선택</option>
-                                       		</select>
+                                       	   </select>
                                        </td>
                                    </tr>
                                    <tr>
@@ -231,6 +224,10 @@
         // 초기화 (지도)
         dtmap.draw.dispose();
         dtmap.draw.clear();
+        
+        if($(".space-edit-tool").hasClass("opened")){
+	        clearSpaceEditTool();	//공간정보 편집창 닫기
+        }
 	}
 	
 

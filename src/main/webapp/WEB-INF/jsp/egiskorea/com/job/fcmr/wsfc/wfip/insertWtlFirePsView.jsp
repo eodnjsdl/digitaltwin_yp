@@ -56,12 +56,6 @@
                                        </td>
                                        <th scope="row">관리기관</th>
                                        <td>
-                                       	   <%-- <c:if test="${wtlFirePsVO.mng_cde_nm  != '' || wtlFirePsVO.mng_cde_nm  ne null}">
-                                           		<c:out value="${wtlFirePsVO.mng_cde_nm }"/>
-                                           </c:if>
-                                           <c:if test="${wtlFirePsVO.mng_cde_nm  == '' || wtlFirePsVO.mng_cde_nm  eq null }">
-                                           		<c:out value="${wtlFirePsVO.mng_cde }"/>
-                                           </c:if> --%>
                                            <select name="mng_cde" class="form-select">
                                        			<option value="">선택</option>
                                        		</select>
@@ -80,14 +74,10 @@
                                    <tr>
                                        <th scope="row">수용가번호</th>
                                        <td>
-                                       		<%-- <c:if test="${wtlFirePsVO.hom_num  != '' || wtlFirePsVO.hom_num  ne null}">
-	                                       		<c:out value="${wtlFirePsVO.hom_num }"/>
-                                       		</c:if> --%>
                                        		<input type="text" name="hom_num" class="form-control" value="" maxlength="50">
                                        </td>
                                        <th scope="row">소화전형식</th>
                                        <td>
-                                           <%-- <c:out value="${wtlFirePsVO.mof_cde_nm }"/> --%>
                                            <select name="mof_cde" class="form-select">
                                        			<option value="">선택</option>
                                        	   </select>
@@ -116,7 +106,6 @@
                                    <tr>
                                        <th scope="row">방향각</th>
                                        <td colspan="3" >
-                                       		<%-- <c:out value="${wtlFirePsVO.ang_dir }"/> --%>
                                        		<input type="number" name="ang_dir" class="form-control" value="">
                                        </td>
                                    </tr>
@@ -126,7 +115,7 @@
                                            <div class="form-row">
                                            		<div class="col">
                                            			<input type="text" class="form-control txt-geometry-address" value="" readonly="readonly">
-                                           			<input type="text" name="geom" class="form-control" value="">
+                                           			<input type="hidden" name="geom" class="form-control" value="">
                                            		</div>                    
                                            		<div class="col-auto">
                                            			<button type="button" class="btn type01 bi-location btn-select-map" data-popup="space-edit-tool">지도에서 선택</button>
@@ -157,7 +146,14 @@
 <script type="text/javascript">
 	//jqeury
 	$(document).ready(function(){
-		console.log("insertWtlFirePsView.jsp");
+		//console.log("insertWtlFirePsView.jsp");
+	
+		//3d 일때 지도 추가 버튼 삭제 
+		if(dtmap.mod == "3D"){
+			if($("#insertWtlFirePsForm .btn-select-map").css("display") != 'none'){
+				$("#insertWtlFirePsForm .btn-select-map").hide();
+			}
+		}
         
 		// 날짜 형식 처리 예정 
         // 날짜 적용 - 지금 8자리로 되어 있어 이것 사용 (변경 예정) 
@@ -232,8 +228,10 @@
         dtmap.draw.dispose();
         dtmap.draw.clear();
         
-        
-        clearSpaceEditTool();	//공간정보 편집창 닫기
+        if($(".space-edit-tool").hasClass("opened")){
+	        clearSpaceEditTool();	//공간정보 편집창 닫기
+        }
+       
 	}
 	
 

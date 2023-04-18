@@ -12,6 +12,25 @@ $(document).ready(function(){
 
 //functions
 
+//초기화
+function swlConnLsInit(){
+	
+	//등록, 상세, 수정 팝업 창 닫기
+	if($("#rightSubPopup").hasClass("opened")){
+		$("#rightSubPopup").removeClass("opened");
+		$("#rightSubPopup").empty();
+	}
+	
+	//공간정보 편집도구 닫기
+	if($(".space-edit-tool").hasClass("opened")){
+    	$(".space-edit-tool").removeClass("opened");
+        $(".space-edit-tool").empty();
+    }
+	
+	arrangeAddBtnMode();	//등록 버튼
+}
+
+
 ////////////////////
 //목록 조회
 
@@ -139,7 +158,7 @@ function selectSwlConnLsList(page) {
 		}
 		
 		if(ist_ymd){
-			filters.push("ist_ymd" + " = " + ist_ymd);
+			filters.push("ist_ymd" + " like " + ist_ymd +"*");
 		}
 		
 		if(sba_cde){
@@ -193,6 +212,8 @@ function selectSwlConnLsList(page) {
 	
     const promise = dtmap.wfsGetFeature(options);
     promise.then(function (data) {
+    	console.log(data);
+    	
         //그리드 데이터 전처리
         const list = [];
         
@@ -200,7 +221,7 @@ function selectSwlConnLsList(page) {
         var totalPages = Math.ceil(total/10);
         
         //총합 화면 처리
-        if(total>0){
+        if(total>=0){
         	$("#bottomPopup .bbs-list-num").html("조회결과:"+total+"건");
         }
         
@@ -239,7 +260,12 @@ function selectSwlConnLsList(page) {
         	const {id, properties} = data.features[i];
             list.push({...properties, ...{id: id}});
         }
+        ////////////////
         
+        const format = new ol.format.GeoJSON();
+
+        features = format.readFeatures(data);
+       
         ///////////////
         
         //gird 적용
@@ -294,8 +320,8 @@ function selectSwlConnLsList(page) {
 
 //소방시설 상세정보 조회
 function selectSwlConnLs(id){
-	console.log("selectSwlConnLs(id)");
-	console.log(id);
+	//console.log("selectSwlConnLs(id)");
+	//console.log(id);
 	
 	//검색 조건
 	const filters = [];
@@ -325,13 +351,12 @@ function selectSwlConnLs(id){
     
     const promise = dtmap.wfsGetFeature(options);
     promise.then(function (data) {
-    	console.log(data);
+    	//console.log(data);
     	
     	if(data.features.length != 1){
     		alert("상세보기 오류")
     		return false;
     	}
-        	
     	
     	//지형지물부호 코드 변경
     	//var ftr_cde = data.features[0].properties.ftr_cde;
@@ -371,8 +396,8 @@ function selectSwlConnLs(id){
 
 //상세 정보 페이지 불러 오기
 function selectSwlConnLsView(detailData){
-	console.log("selectSwlConnLsView(detailData)");
-	console.log(detailData);
+	//console.log("selectSwlConnLsView(detailData)");
+	//console.log(detailData);
 	
 	if(!detailData && detailData == null){
 		alert("하수연결관 상세보기 오류");
@@ -422,8 +447,8 @@ function selectSwlConnLsView(detailData){
 //등록
 
 //소방시설 등록 화면 조회
-function insertWtlFirePsView(){
-	//console.log("insertWtlFirePsView()");
+function insertSwlConnLsView(){
+	//console.log("insertSwlConnLsView()");
 	
 	ui.loadingBar("show");
 	
@@ -432,16 +457,19 @@ function insertWtlFirePsView(){
 	ui.openPopup("rightSubPopup");
 	
 	var container = "#rightSubPopup";
-    $(container).load("/job/fcmr/wsfc/insertWtlFirePsView.do", function () {
-        toastr.success("/job/fcmr/wsfc/insertWtlFirePsView.do", "페이지🙂호🙂출🙂");
+    $(container).load("/job/fcmr/ssfc/insertSwlConnLsView.do", function () {
+        toastr.success("/job/fcmr/ssfc/insertSwlConnLsView.do", "페이지🙂호🙂출🙂");
         
         $(".scroll-y").mCustomScrollbar({
             scrollbarPosition: "outside",
         });
        
         getCmmCodeData("YPE001",  "#rightSubPopup select[name=hjd_cde]");	//읍면동	
-        getCmmCodeData("MNG-001", "#rightSubPopup select[name=mng_cde]");	//관리기관
-		getCmmCodeData("OGC-048", "#rightSubPopup select[name=mof_cde]");	//소화전형식
+        //getCmmCodeData("MNG-001", "#rightSubPopup select[name=mng_cde]");	//관리기관
+        
+        getCmmCodeData("OGC-017", "#rightSubPopup select[name=sba_cde]");	//하수관용도 코드
+        getCmmCodeData("OGC-003", "#rightSubPopup select[name=mop_cde]");	//관재질 코드
+        getCmmCodeData("OGC-001", "#rightSubPopup select[name=for_cde]");	//시설물형태 코드
         
 		ui.loadingBar("hide");
     });
