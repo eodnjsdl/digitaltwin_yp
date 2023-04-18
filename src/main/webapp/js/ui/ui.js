@@ -56,6 +56,11 @@ window.ui = (function () {
 			($(this).parent().parent()).stop().fadeOut(100);
 			$("#lnb li[data-menu]").removeClass("on");									
 		});
+		
+		$(document).on('click', '.lnb-dep2 button', function (e) {
+	        $(".lnb-dep2").find(".on").removeClass("on");
+	        $(this).parent().addClass("on");
+		});
     }
 
     //상단 메뉴 
@@ -189,7 +194,7 @@ window.ui = (function () {
                 dtmap.clearInteraction();
             }
         })
-
+        
         //거리측정
         $mapControl.on('click', '.ctrl-btn.distance', function (e) {
             let $this = $(this);
@@ -269,6 +274,7 @@ window.ui = (function () {
             ui.initPopup("");
             let $this = $(this);
             let menu = $this.attr('data-menu');
+            $(".lnb-dep2").find(".on").removeClass("on");
             $this.toggleClass("on").siblings().removeClass("on");
             $leftSide.find(".lnb-list").removeClass("on");
             if ($this.hasClass('on')) {
@@ -290,7 +296,7 @@ window.ui = (function () {
                         break;
                     case "lnb-territory" :
                         //TODO 국토조사
-                    	toastr.error("국토조사 개발 필요");
+                    	aj_selectAdministrationZoneList($("#tmpForm")[0]);
                         break;
                 }
             } else {
@@ -314,6 +320,7 @@ window.ui = (function () {
             initPopup("");
             //좌측 메뉴 close
             $(".lnb-cont").css("display","none");
+            $("#lnb li[data-menu]").removeClass("on");	
 
             dtmap.switchMap(e.target.value);
             _changeMenu();
@@ -661,11 +668,39 @@ window.ui = (function () {
         initPopup(area);
         
         //기본 틀 크기와 다른 크기를 갖는 DIV 처리
-        if(name=="backgroundMapInfo"){_area.width = "325";_area.heigth = "807";}
-        if(name=="saveMap"){_area.width = "325";_area.heigth = "750";}
-        if(name=="krasInfo"){_area.width = "660";_area.heigth = "750";}
-        if(name=="setting"){_area.width = "250";_area.heigth = "750";_area.right="160";}
-        if(name=="apptChart"){_area.top="80";_area.width = "400";_area.heigth = "520";_area.left="870";}
+        switch (name) {
+	        case "backgroundMapInfo":
+	        	_area.width = "325";
+	        	_area.heigth = "807";
+	        	break;
+	        case "saveMap":
+	        	_area.width = "325";
+	        	_area.heigth = "750";
+	        	break;
+	        case "krasInfo":
+	        	_area.width = "660";
+	        	_area.heigth = "750";
+	        	break;
+	        case "setting":
+	        	_area.width = "250";
+	        	_area.heigth = "750";
+	        	_area.right="160";
+	        	break;
+	        case "apptChart":
+	        	_area.top="80";
+		        _area.width = "400";
+		        _area.heigth = "520";
+		        _area.left="870";
+	        	break;
+	        case "insertAdministrationZoneView":
+	        	_area.left="425";
+	        	break;	
+	        case "layerManagement":
+	        	_area.left="360";
+	        	_area.width = "550";
+	        	_area.heigth = "807";
+	        	break;	
+        }
         
     	$("#" + area).css({
             "top": _area.top + "px",
