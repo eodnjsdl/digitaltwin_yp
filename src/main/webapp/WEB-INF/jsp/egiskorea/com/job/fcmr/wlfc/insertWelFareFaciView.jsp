@@ -2,6 +2,19 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
+<style type="text/css">
+	.popup-panel.popup-sub .wel-popup-close {
+	    top: 0;
+	    right: 0;
+	    width: 39px;
+	    height: 39px;
+	    border-left: 1px solid #44516A;
+	    background: url(/images/icon/popup-close2.svg) no-repeat 50% 50%;
+	    border-top-right-radius: 10px;
+	    position: absolute;
+	}
+</style>
+
 <script>
 
 $(".scroll-y").mCustomScrollbar({
@@ -9,7 +22,7 @@ $(".scroll-y").mCustomScrollbar({
 });
 
 //geom 값 넣기
-function mapClick() {
+function welMapClick() {
 	dtmap.draw.active({type: 'Point', once: true});
 	dtmap.draw.setBuffer(0);	// 공간검색으로 인한 범위 변경
 	
@@ -26,13 +39,13 @@ function welFareFaciGeom(e) {
 	cmmUtil.reverseGeocoding(xObj, yObj).done((result) => {
 		$("#inWelFareFaciTbl input[name=lnmAdres]").val('경기도 양평군 ' + result["address"]);
 		const format = new ol.format.WKT();
-		const point = new ol.geom.Points([xObj, yObj]);
+		const point = new ol.geom.Point([xObj, yObj]);
 		const wkt = format.writeGeometry(point);
-		console.log(wkt)
+		
 		$("#inWelFareFaciTbl input[name=geom]").val(wkt);
 	});
 	
-	var lonLat = new ol.geom.Point(ol.proj.transform([xObj, yObj], 'EPSG:5179', 'EPSG:4326'))
+	var lonLat = new ol.geom.Point(ol.proj.transform([xObj, yObj], 'EPSG:5179', 'EPSG:4326'));
 	$("#inWelFareFaciTbl input[name=lon]").val(lonLat.flatCoordinates[0]);
 	$("#inWelFareFaciTbl input[name=lat]").val(lonLat.flatCoordinates[1]);
 }
@@ -86,7 +99,7 @@ function welFareFaciGeom(e) {
 											<input type="hidden" class="form-control" id="wel_lat" name="lat" placeholder="위도">
 										</div> 
 										<div class="col-auto">
-											<button type="button" class="btn type01 bi-location" onclick="mapClick();">지도에서 선택</button>
+											<button type="button" class="btn type01 bi-location" onclick="welMapClick();">지도에서 선택</button>
 										</div>
 										<input type="hidden" name="geom" id="geom">
 									</div>
@@ -94,17 +107,18 @@ function welFareFaciGeom(e) {
 							</tr>
 						</tbody>
 					</table>
-					</form>
+				</form>
 				</div>
 			</div>
 			<div class="position-bottom btn-wrap">
 				<div>
 					<button type="button" class="btn basic bi-save" onclick="insertWelFareFaci()">저장</button> 
-					<button type="button" class="btn basic bi-cancel" onclick="cancleWelFarePopup();">취소</button>
+					<button type="button" class="btn basic bi-cancel" onclick="closeWelFarePopup();">취소</button>
 				</div>
 			</div>
 		</div>							
 	</div>
 </div>
-<button type="button" class="popup-close" title="닫기" onclick="removePoint(GLOBAL.NomalIcon);"></button>				
-<!-- 업무 > 시설관리 > 체육시설 > 등록하기 / 수정하기 end -->
+<!-- <button type="button" class="popup-close" title="닫기" onclick="removePoint(GLOBAL.NomalIcon);"></button> -->
+<button type="button" class="wel-popup-close" title="닫기" onclick="closeWelFarePopup();"></button>	
+<!-- 업무 > 시설관리 > 복지시설 > 등록하기 end -->

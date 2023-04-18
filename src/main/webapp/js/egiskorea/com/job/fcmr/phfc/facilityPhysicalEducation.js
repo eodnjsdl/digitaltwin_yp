@@ -81,6 +81,9 @@ function selectPhyEduFaciList(page) {
 	//console.log("selectPhyEduFaciList(page)");
 	//console.log("page >>> " + page);
 	
+	// 팝업 닫기
+	ui.closeSubPopup();
+	
 	// 검색 조건
 	var options;
 	
@@ -198,12 +201,13 @@ function selectPhyEduFaciDetail(id) {
 	//console.log("gid >>> " + gid);
 	
 	var gid;
-	if (id.includes('.')) {
-		var idArray = id.split(".");
-		gid = idArray[1];
-	} else {
+	
+	if (typeof id === 'number') {
 		gid = id;
 		id = "tgd_phstrn_fclty." + id;
+	} else if (id.includes('.')) {
+		var idArray = id.split(".");
+		gid = idArray[1];
 	}
 	
 	ui.openPopup("rightSubPopup");
@@ -439,6 +443,7 @@ function updatePhyEduFaci(gid) {
 			ui.loadingBar("show");
 			
 			const params = $("#phyEduFaciFrm").serializeArray();
+			//console.log(params);
 			
 			$.ajax({
 				type : "POST",

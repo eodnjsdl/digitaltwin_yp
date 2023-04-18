@@ -32,7 +32,7 @@ $(document).ready(function(){
 });
 
 //geom 값 넣기
-function mapClick() {
+function phyMapClick() {
 	dtmap.draw.active({type: 'Point', once: true});
 	dtmap.draw.setBuffer(0);	// 공간검색으로 인한 범위 변경
 	
@@ -51,6 +51,7 @@ function phyEduFaciGeom(e) {
 		const format = new ol.format.WKT();
 		const point = new ol.geom.Point([xObj, yObj]);
 		const wkt = format.writeGeometry(point);
+		
 		$("#phyEduFaciTbl input[name=geom]").val(wkt);
 	});
 }
@@ -68,15 +69,16 @@ function phyEduFaciGeom(e) {
 							<tbody>
 								<tr>
 									<th scope="row">시설명</th>
-									<td colspan="3"><input type="text" name="fcltyNm" class="form-control sporInput" value="<c:out value="${result.fcltyNm}"></c:out>"/></td>												
+									<td colspan="3"><input type="text" name="fcltyNm" class="form-control sporInput" value="<c:out value="${result.fcltyNm}"></c:out>"/></td>										
 								</tr>
 								<tr>
 									<th scope="row">주소</th>
 									<td colspan="3">
 										<div class="form-row">
 											<div class="col"><input type="text" name="adres" class="form-control sporInput"  value="<c:out value="${result.adres}"></c:out>" readonly="readonly"/></div> 
-											<div class="col-auto"><button type="button" class="btn type01 bi-location" id="mapSelectBtn" onclick="mapClick();">지도에서 선택</button></div>
+											<div class="col-auto"><button type="button" class="btn type01 bi-location" id="mapSelectBtn" onclick="phyMapClick();">지도에서 선택</button></div>
 											<input type="hidden" name="geom" id="geom" value="<c:out value="${result.geom}"></c:out>"/>
+											<input type="hidden" name="gid" id="gid" value="<c:out value="${result.gid}"></c:out>" />
 										</div> 
 									</td>												
 								</tr>

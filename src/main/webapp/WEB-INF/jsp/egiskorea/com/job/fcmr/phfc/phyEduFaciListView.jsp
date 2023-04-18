@@ -9,7 +9,7 @@ $(document).ready(function() {
 	dtmap.on('select', onFacilitySelectEventListener);
 
 	// 초기화 버튼
-	$(".popup-reset").unbind('click').bind('click',function(){
+	$(".popup-reset").unbind('click').bind('click',function() {
 		$('li[data-tab=waterProperty] .inner-tab').click();	// 속성변경 클릭
 		$('input[name=adres]').val('');						// 읍면동 clear
 		$('input[name=fcltyNm]').val('');					// 시설명 clear
@@ -20,7 +20,7 @@ $(document).ready(function() {
 	});
 	
 	// 접기/펼치기
-	$(".popup-bottom-toggle", "#bottomPopup").on("click", function () {
+	$(".popup-bottom-toggle", "#bottomPopup").on("click", function() {
 		const node = $(this);
 		const divNode = node.closest("div.popup-panel");
 		if (divNode.is(".fold")) {
@@ -62,7 +62,7 @@ $(document).ready(function() {
 		const type = $parent.find('input[name="rad-facility-area"]:checked').val();
 		
 		if (type === 'extent') {
-			FACILITY.spaceSearchOption.bbox 	= dtmap.getExtent();
+			FACILITY.spaceSearchOption.bbox = dtmap.getExtent();
 		} else {
 			if (dtmap.draw.source.getFeatures().length > 0) {
 				FACILITY.spaceSearchOption.geometry = dtmap.draw.getGeometry();
@@ -77,7 +77,7 @@ $(document).ready(function() {
 	});
 
 	// 검색영역지정 변경 (현재화면영역, 사용자정의)
-	$("[name=rad-facility-area]", "#bottomPopup").on("change", function () {
+	$("[name=rad-facility-area]", "#bottomPopup").on("change", function() {
 		const node = $(this);
 		const value = node.val();
 
@@ -94,7 +94,7 @@ $(document).ready(function() {
 	}); 
 
 	// 사용자 정의 검색 조건
-	$("[name=rad-facility-drawing]", "#bottomPopup").on("click", function () {
+	$("[name=rad-facility-drawing]", "#bottomPopup").on("click", function() {
 		const node = $(this);
 		const value = node.val();
 
@@ -118,7 +118,7 @@ $(document).ready(function() {
 	});
 
 	//경계로부터 버퍼 영역 지정
-	$(".area-facility-buffer", "#bottomPopup").on("keyup", function (event) {
+	$(".area-facility-buffer", "#bottomPopup").on("keyup", function(event) {
 		dtmap.draw.setBuffer(Number(this.value));
 	});
 });

@@ -29,7 +29,7 @@ function test(pageNo) {
 }
 
 //geom 값 넣기
-function mapClick() {
+function phyMapClick() {
 	dtmap.draw.active({type: 'Point', once: true});
 	dtmap.draw.setBuffer(0);	// 공간검색으로 인한 범위 변경
 	
@@ -75,7 +75,7 @@ function phyEduFaciGeom(e) {
 										<input type="text" class="form-control" id="asstn_fclty_nm" name="asstn_fclty_nm" style="width: 74%;margin-right: 2px;">
 										<input type="hidden"  name="geom" id="geom" style="width: 74%;margin-right: 2px;">
 										<input type="hidden" name="gid" id="gid" value="${gid}">
-										<button type="button" class="btn type01 bi-location" id="" onclick="mapClick();">지도에서 선택</button>
+										<button type="button" class="btn type01 bi-location" id="" onclick="phyMapClick();">지도에서 선택</button>
 									</td>
 								</tr>
 								<tr>
