@@ -313,8 +313,8 @@ function getGridDetailData(id){
 /////////////////////////
 //지도 아이콘(객체) 클릭시 이벤트
 function onFacilitySelectEventListener(e){
-	console.log("onFacilitySelectEventListener(e)");
-	console.log(e);
+	//console.log("onFacilitySelectEventListener(e)");
+	//console.log(e);
 	if(e){
 		
 		//[참고 자료]
@@ -345,7 +345,7 @@ function onFacilitySelectEventListener(e){
 				toastr.error("지도 객체 클릭 작업중", "상수도시설 - 상수관로");
 			}else if(featureType == "wtl_flow_ps"){					//상수도시설 - 유량계
 				toastr.error("지도 객체 클릭 작업중", "상수도시설 - 유량계");
-			}else if(featureType == "swl_conn_ls"){					//하수도시설 - 하수연괄관 
+			}else if(featureType == "swl_conn_ls"){					//하수도시설 - 하수연결관 
 				selectSwlConnLs(id);
 			}else{
 				alert("지도 객체 선택 오류");

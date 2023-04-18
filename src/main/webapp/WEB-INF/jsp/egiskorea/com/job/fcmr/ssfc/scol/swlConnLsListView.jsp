@@ -160,6 +160,8 @@
 		
 		//이벤트 리스너 추가
 		dtmap.on('select', onFacilitySelectEventListener);
+		
+		swlConnLsInit();		//초기화
 		 
 		//////////////////
 		//하위메뉴 select box

@@ -173,7 +173,6 @@
 		
 		//닫기
 		$(".popup-panel .select-swlConnLs-popup-close").on("click", function () {
-			alert("aaaaaaa");
             cancelSelectSwlConnLs();
     	});
 		

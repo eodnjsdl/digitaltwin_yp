@@ -242,6 +242,10 @@
         dtmap.draw.dispose();
         dtmap.draw.clear();
         
+        if($(".space-edit-tool").hasClass("opened")){
+	        clearSpaceEditTool();	//공간정보 편집창 닫기
+        }
+        
         var id = $("input[name=id]").val();
     	selectWtlFirePs(id);
 	}
