@@ -157,9 +157,7 @@
 	//jqeury
 	$(document).ready(function(){
 		console.log("swlConnLsListView.jsp");	
-
 		
-		/*
 		//이벤트 리스너 추가
 		dtmap.on('select', onFacilitySelectEventListener);
 		 
@@ -247,7 +245,7 @@
             	}
             }
            	
-           	selectWtlFirePsList(1);
+           	selectSwlConnLsList(1);
 
         });
      	
@@ -300,7 +298,7 @@
         $(".area-facility-buffer", "#bottomPopup").on("keyup", function (event) {
             dtmap.draw.setBuffer(Number(this.value));
         });
-		*/
+		
 	});
 
 	//functions

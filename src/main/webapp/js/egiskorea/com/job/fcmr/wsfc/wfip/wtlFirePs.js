@@ -13,6 +13,25 @@ $(document).ready(function(){
 
 //functions
 
+//초기화
+function wtlFirePsInit(){
+	
+	//등록, 상세, 수정 팝업 창 닫기
+	if($("#rightSubPopup").hasClass("opened")){
+		$("#rightSubPopup").removeClass("opened");
+		$("#rightSubPopup").empty();
+	}
+	
+	//공간정보 편집도구 닫기
+	if($(".space-edit-tool").hasClass("opened")){
+    	$(".space-edit-tool").removeClass("opened");
+        $(".space-edit-tool").empty();
+    }
+	
+	arrangeAddBtnMode();	//등록 버튼
+}
+
+
 ////////////////////
 //목록 조회
 
@@ -180,7 +199,7 @@ function selectWtlFirePsList(page) {
         var totalPages = Math.ceil(total/10);
         
         //총합 화면 처리
-        if(total>0){
+        if(total>=0){
         	$("#bottomPopup .bbs-list-num").html("조회결과:"+total+"건");
         }
         
@@ -267,8 +286,6 @@ function selectWtlFirePsList(page) {
     });
 	
 }
-
-
 
 //////////////
 //상세정보 보회
@@ -396,6 +413,12 @@ function selectWtlFirePsView(detailData){
 //소방시설 등록 화면 조회
 function insertWtlFirePsView(){
 	//console.log("insertWtlFirePsView()");
+	
+	if(dtmap.mod == "3D"){
+		alert('3d 에서 사용할 수 없습니다');
+		arrangeAddBtnMode();
+		return false;
+	}
 	
 	ui.loadingBar("show");
 	

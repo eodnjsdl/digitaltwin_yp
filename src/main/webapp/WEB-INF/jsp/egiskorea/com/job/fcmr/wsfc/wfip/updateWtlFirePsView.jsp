@@ -126,7 +126,7 @@
                                </table>
                            </div>
                            </form>
-                           <input type="hidden" name="geom" 	value="" class="form-control">
+                           <input type="hidden" name="geom" value="" 	class="form-control">
                            <input type="hidden" name="id" 	value="${id}">
                        </div>
                        <div class="position-bottom btn-wrap justify-content-end">
@@ -146,7 +146,15 @@
 <script type="text/javascript">
 	//jqeury
 	$(document).ready(function(){
-		//console.log("updateWtlFirePsView.jsp");
+		console.log("updateWtlFirePsView.jsp");
+		
+		
+		//3d 일때 지도 추가 버튼 삭제 
+		if(dtmap.mod == "3D"){
+			if($("#updateWtlFirePsForm .btn-select-map").css("display") != 'none'){
+				$("#updateWtlFirePsForm .btn-select-map").hide();
+			}
+		}
         
 		// 날짜 형식 처리 예정 
         // 날짜 적용 - 지금 8자리로 되어 있어 이것 사용 (변경 예정) 
@@ -157,7 +165,7 @@
             dateFormat: "yymmdd",
         }); 
         
-		// 날짜 - 10자리(yyyy-mm-dd) 적용시 사용
+		//날짜 - 10자리(yyyy-mm-dd) 적용시 사용
       	//ui.callDatePicker();
 
 		//////////////////
@@ -242,7 +250,9 @@
         dtmap.draw.dispose();
         dtmap.draw.clear();
         
-        clearSpaceEditTool();	//공간정보 편집창 닫기
+        if($(".space-edit-tool").hasClass("opened")){
+	        clearSpaceEditTool();	//공간정보 편집창 닫기
+        }
         
         var id = $("input[name=id]").val();
     	selectWtlFirePs(id);

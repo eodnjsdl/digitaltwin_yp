@@ -145,26 +145,12 @@
 <script type="text/javascript">
 	//jqeury
 	$(document).ready(function(){
-		console.log("wtlFirePsListView.jsp");	
+		//console.log("wtlFirePsListView.jsp");	
 		 
 		//이벤트 리스너 추가
 		dtmap.on('select', onFacilitySelectEventListener);
 		
-		if(dtmap.mod){
-			if(dtmap.mod == "2D"){
-				if($(".data-area .bbs-top .btn_add").css("display") == 'none'){
-					$(".data-area .bbs-top .btn_add").show();
-				}				
-			}else if(dtmap.mod == "3D"){
-				if($(".data-area .bbs-top .btn_add").css("display") != 'none'){
-				   $(".data-area .bbs-top .btn_add").hide();
-				}
-			}else{
-				console.log("2d/3d 모드 오류");
-			}
-		}else{
-			console.log("2d/3d 모드 오류");
-		}
+		wtlFirePsInit();	//초기화
 		 
 		//////////////////
 		//하위메뉴 select box
@@ -295,7 +281,6 @@
             }
             dtmap.draw.active({type: type, once: true})
             //toastr.warning("that.searchDrawing(value);", "공간검색 사용자정의");
-            $(".area-facility-buffer").val("1").trigger("keyup");
         });
 		
 

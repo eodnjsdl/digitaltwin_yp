@@ -139,7 +139,7 @@ function selectSwlConnLsList(page) {
 		}
 		
 		if(ist_ymd){
-			filters.push("ist_ymd" + " = " + ist_ymd);
+			filters.push("ist_ymd" + " like " + ist_ymd +"*");
 		}
 		
 		if(sba_cde){
@@ -193,6 +193,8 @@ function selectSwlConnLsList(page) {
 	
     const promise = dtmap.wfsGetFeature(options);
     promise.then(function (data) {
+    	console.log(data);
+    	
         //그리드 데이터 전처리
         const list = [];
         
@@ -200,7 +202,7 @@ function selectSwlConnLsList(page) {
         var totalPages = Math.ceil(total/10);
         
         //총합 화면 처리
-        if(total>0){
+        if(total>=0){
         	$("#bottomPopup .bbs-list-num").html("조회결과:"+total+"건");
         }
         
@@ -239,7 +241,12 @@ function selectSwlConnLsList(page) {
         	const {id, properties} = data.features[i];
             list.push({...properties, ...{id: id}});
         }
+        ////////////////
         
+        const format = new ol.format.GeoJSON();
+
+        features = format.readFeatures(data);
+       
         ///////////////
         
         //gird 적용
@@ -331,7 +338,6 @@ function selectSwlConnLs(id){
     		alert("상세보기 오류")
     		return false;
     	}
-        	
     	
     	//지형지물부호 코드 변경
     	//var ftr_cde = data.features[0].properties.ftr_cde;
