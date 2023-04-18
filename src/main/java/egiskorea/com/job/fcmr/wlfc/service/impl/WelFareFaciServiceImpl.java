@@ -36,9 +36,7 @@ public class WelFareFaciServiceImpl extends EgovAbstractServiceImpl implements W
 	@Override
 	public WelFareFaciVO selectWelFareFaciDetail(WelFareFaciVO welFareFaciVO) throws Exception {
 		// TODO Auto-generated method stub
-		WelFareFaciVO result = welFareFaciDAO.selectWelFareFaciDetail(welFareFaciVO);
-		
-		return result;
+		return welFareFaciDAO.selectWelFareFaciDetail(welFareFaciVO);
 	}
 	
 	/**

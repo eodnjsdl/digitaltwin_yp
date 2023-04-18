@@ -121,7 +121,7 @@ function welFareFaciGeom(e) {
 			<div class="position-bottom btn-wrap">
 				<div>
 					<button type="button" class="btn basic bi-save" onclick="updateWelFareFaci(<c:out value="${result.gid}"/>)">저장</button> 
-					<button type="button" class="btn basic bi-cancel" onclick="setTimeout(function(){ selectWelFareFaciDetail('<c:out value="${result.gid}"/>') });" >취소</button>
+					<button type="button" class="btn basic bi-cancel" onclick="setTimeout(function(){ selectWelFareFaciDetail(<c:out value="${result.gid}"/>) });" >취소</button>
 				</div>
 			</div>
 		</div>							

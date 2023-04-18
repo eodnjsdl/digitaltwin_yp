@@ -432,6 +432,7 @@ window.ui = (function () {
                 // 업무 > 시설관리 > 복지시설
                 case "welfareFacility" :
                     //aj_selectWelfareFacilityList($("#tmpForm")[0]);
+                	dtmap.off('select', onFacilitySelectEventListener); //클릭 리스너 이벤트 삭제
                 	getWelFareFaciListView();
                     break;
 

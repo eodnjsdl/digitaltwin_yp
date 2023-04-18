@@ -93,10 +93,10 @@ function selectPhyEduFaciList(page) {
 		//속성 검색
 		const filters = [];
 		
-		var adres = $('input[name=adres]').val();				// 읍면동
-		var fcltyNm = $('input[name=fcltyNm]').val();			// 시설명
-		var fcltyTy = $("#phyFcltyTy option:selected").val();	// 시설구분
-		var operMthd = $("#phyOperMthd option:selected").val();	// 운영방식
+		var adres = $('#lSrchOptions input[name=adres]').val();					// 읍면동
+		var fcltyNm = $('#lSrchOptions input[name=fcltyNm]').val();				// 시설명
+		var fcltyTy = $("#lSrchOptions #phyFcltyTy option:selected").val();		// 시설구분
+		var operMthd = $("#lSrchOptions #phyOperMthd option:selected").val();	// 운영방식
 		
 		if (adres) {
 			filters.push("adres" + " like " + adres);
@@ -336,11 +336,11 @@ function insertPhyEduFaci() {
 					
 					closePhyEduFaciPopup();
 					
-					$('li[data-tab=waterProperty] .inner-tab').click();	// 속성변경 클릭
-					$('input[name=adres]').val('');						// 읍면동 clear
-					$('input[name=fcltyNm]').val('');					// 시설명 clear
-					$("#phyFcltyTy").val('').prop('selected', true);	// 시설구분 clear
-					$("#phyOperMthd").val('').prop('selected', true);	// 운영방식 clear
+					$('li[data-tab=waterProperty] .inner-tab').click();				// 속성검색
+					$('#lSrchOptions input[name=adres]').val('');					// 읍면동 clear
+					$('#lSrchOptions input[name=fcltyNm]').val('');					// 시설명 clear
+					$("#lSrchOptions #phyFcltyTy").val('').prop('selected', true);	// 시설구분 clear
+					$("#lSrchOptions #phyOperMthd").val('').prop('selected', true);	// 운영방식 clear
 					
 					selectPhyEduFaciList(1);
 				},
@@ -469,10 +469,10 @@ function updatePhyEduFaci(gid) {
 					"geom" 				: geom
 				},*/
 				success : function(data){
-					alert("정상적으로 수정되었습니다.");
-					
 					selectPhyEduFaciList(page);
 					selectPhyEduFaciDetail(gid);
+					
+					alert("정상적으로 수정되었습니다.");
 				},
 				error: function(request,status,error) {
 					console.log("code: " + request.status + "\n" + "message: " + request.responseText + "\n" + "error: " + error);
@@ -500,8 +500,8 @@ function deletePhyEduFaci(gid) {
 				"gid" : gid
 			},
 			success : function(data) {
-				ui.closeSubPopup();
 				selectPhyEduFaciList(1);
+				ui.closeSubPopup();
 			},
 			complete : function() {
 				ui.loadingBar("hide");
@@ -670,9 +670,10 @@ function insertPhyMng(gid) {
 							},*/
 							success : function(data) {
 								$('.align-right').val('');
-								alert("정상적으로 등록되었습니다");
 								
 								getPhyMngView(gid);	// 운영정보 관리 화면
+								
+								alert("정상적으로 등록되었습니다");
 							},
 							error : function(request,status,error) {
 								console.log("code: " + request.status + "\n" + "message: " + request.responseText + "\n" + "error: " + error);
@@ -849,9 +850,10 @@ function insertPhyFaciMng(gid) {
 				},*/
 				success : function(data) {
 					$('.align-right').val('');
-					alert("정상적으로 등록되었습니다");
 					
 					getPhyFaciMngView(gid);	// 시설정보 관리 화면
+					
+					alert("정상적으로 등록되었습니다");
 				},
 				error : function(request, status, error) {
 					console.log("code: " + request.status + "\n" + "message: " + request.responseText + "\n" + "error: " + error);
@@ -965,10 +967,10 @@ function phyEduFaciExcel() {
 		//속성 검색
 		const filters = [];
 		
-		var adres = $('input[name=adres]').val();				// 읍면동
-		var fcltyNm = $('input[name=fcltyNm]').val();			// 시설명
-		var fcltyTy = $("#phyFcltyTy option:selected").val();	// 시설구분
-		var operMthd = $("#phyOperMthd option:selected").val();	// 운영방식
+		var adres = $('#lSrchOptions input[name=adres]').val();					// 읍면동
+		var fcltyNm = $('#lSrchOptions input[name=fcltyNm]').val();				// 시설명
+		var fcltyTy = $("#lSrchOptions #phyFcltyTy option:selected").val();		// 시설구분
+		var operMthd = $("#lSrchOptions #phyOperMthd option:selected").val();	// 운영방식
 		
 		if (adres) {
 			filters.push("adres" + " like " + adres);

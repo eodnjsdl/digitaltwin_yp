@@ -40,9 +40,7 @@ public class PhyEduFaciServiceImpl extends EgovAbstractServiceImpl implements Ph
 	@Override
 	public SportsVO selectPhyEduFaciDetail(SportsVO sportsVO) throws Exception {
 		// TODO Auto-generated method stub
-		SportsVO result = phyEduFaciDAO.selectPhyEduFaciDetail(sportsVO);
-		
-		return result;
+		return phyEduFaciDAO.selectPhyEduFaciDetail(sportsVO);
 	}
 	
 	/**

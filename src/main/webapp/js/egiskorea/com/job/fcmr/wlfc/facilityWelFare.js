@@ -60,7 +60,7 @@ function getWelFareFaciListView() {
 				align: "center",
 				onClick: function() {
 					//this.self.select(this.dindex);
-					console.log(this.item.id);
+					//console.log(this.item);
 					selectWelFareFaciDetail(this.item.id);
 				}
 			}
@@ -83,14 +83,14 @@ function selectWelFareFaciList(page) {
 	var options;
 	
 	if ($(".waterProperty").hasClass("on")) {
-		//console.log("속성 검색 조건");\
+		//console.log("속성 검색 조건");
 		
-		//속성 검색
+		// 속성 검색
 		const filters = [];
 		
-		var fcltySe = $("#welFcltySe option:selected").val();	// 시설구분
-		var rnAdres = $('input[name=rnAdres]').val();			// 도로명주소
-		var fcltyNm = $('input[name=fcltyNm]').val();			// 시설명
+		var fcltySe = $("#lSrchOptions #welFcltySe option:selected").val();	// 시설구분
+		var rnAdres = $('#lSrchOptions input[name=rnAdres]').val();			// 도로명주소
+		var fcltyNm = $('#lSrchOptions input[name=fcltyNm]').val();			// 시설명
 		
 		if (fcltySe) {
 			filters.push("fclty_se" + " = " + fcltySe);
@@ -102,7 +102,6 @@ function selectWelFareFaciList(page) {
 			filters.push("fclty_nm" + " like " + fcltyNm);
 		}
 		
-		var options;
 		options = {
 			typeNames	: "tgd_sclwlfr_fclty_status" + "",
 			perPage		: 10,
@@ -197,13 +196,11 @@ function selectWelFareFaciDetail(id) {
 	//console.log("gid >>> " + gid);
 	
 	var gid;
-	
+	console.log(typeof id)
 	if (typeof id === 'number') {
-		console.log(id)
 		gid = id;
 		id = "tgd_sclwlfr_fclty_status." + id;
 	} else if (id.includes('.')) {
-		console.log(id)
 		var idArray = id.split(".");
 		gid = idArray[1];
 	}
@@ -283,10 +280,10 @@ function insertWelFareFaci() {
 					alert("정상적으로 등록되었습니다.");
 					closeWelFarePopup();
 					
-					$('li[data-tab=waterProperty] .inner-tab').click();	// 속성변경 클릭
-					$('#welRnAdres').val('');							// 도로명 clear
-					$('#welFcltyNm').val('');							// 시설명 clear
-					$("#welFcltySe").val('').prop('selected', true);	// 시설구분 clear
+					$('li[data-tab=waterProperty] .inner-tab').click();				// 속성검색
+					$('#lSrchOptions input[name=fcltyNm]').val('');					// 시설명 clear
+					$('#lSrchOptions input[name=rnAdres]').val('');					// 도로명주소 clear
+					$("#lSrchOptions #welFcltySe").val('').prop('selected', true);	// 시설구분 clear
 					
 					selectWelFareFaciList(1);
 				},
@@ -322,25 +319,25 @@ function updateWelFareFaciView(gid) {
 function updateWelFareFaci(gid) {
 	var page = $('.hiddenPage').val();
 	
-	var fclty_nm = $('#upWelFareFaciTbl #wel_fclty_nm').val();
+	var fclty_nm = $('#upWelFareFaciTbl input[name=fcltyNm]').val();
 	if (fclty_nm == '') {
 		alert('시설명을 입력해주세요.');
-		$('#upWelFareFaciTbl #wel_fclty_nm').focus();
+		$('#upWelFareFaciTbl input[name=fcltyNm]').focus();
 		return false;
 	}
 	
 	// NULL값도 가능하지만 값이 입력되면 유효성 검사
 	var tel = /^[0-9]{3}-[0-9]{3,4}-[0-9]{4}/;
-	var cttpc_telno = $('#upWelFareFaciTbl #wel_cttpc_telno').val();
+	var cttpc_telno = $('#upWelFareFaciTbl input[name=cttpcTelno]').val();
 	if (!cttpc_telno == '') {
 		if (!tel.test(cttpc_telno)) {
 			alert('전화번호 형식에 맞게 입력해주세요. ex) 000-0000-0000');
-			$('#upWelFareFaciTbl #wel_cttpc_telno').focus();
+			$('#upWelFareFaciTbl input[name=cttpcTelno]').focus();
 			return false;
 		}
 	}
 
-	var lnm_adres = $('#upWelFareFaciTbl #wel_lnm_adres').val();
+	var lnm_adres = $('#upWelFareFaciTbl input[name=lnmAdres]').val();
 	var geom = $('#upWelFareFaciTbl #geom').val();
 	if (lnm_adres == '' || geom == '') {
 		alert('지도에서 위치를 선택해주세요.');
@@ -351,7 +348,7 @@ function updateWelFareFaci(gid) {
 			ui.loadingBar("show");
 			
 			const params = $("#upWelFareFaciFrm").serializeArray();
-			console.log(params);
+			//console.log(params);
 			
 			$.ajax({
 				type : "POST",
@@ -359,10 +356,10 @@ function updateWelFareFaci(gid) {
 				dataType : "json",
 				data : params,
 				success : function(data) {
-					alert("정상적으로 수정되었습니다.");
-					
 					selectWelFareFaciList(page);
 					selectWelFareFaciDetail(gid);
+					
+					alert("정상적으로 수정되었습니다.");
 				},
 				error : function(request, status, error) {
 					console.log("code: " + request.status + "\n" + "message: " + request.responseText + "\n" + "error: " + error);
@@ -390,8 +387,8 @@ function deleteWelFareFaci(gid) {
 				"gid" : gid
 			},
 			success : function(data) {
-				ui.closeSubPopup();
 				selectWelFareFaciList(1);
+				ui.closeSubPopup();
 			},
 			complete : function() {
 				ui.loadingBar("hide");
@@ -415,5 +412,123 @@ function closeWelFarePopup(){
 
 // 복지시설 엑셀 저장
 function welFareFaciExcel() {
-	alert('복지시설 엑셀 저장');
+	var $container = $("#container");
+    var $target = $container.find('#baseGridDiv [data-ax5grid="attr-grid-excel"]');	//가상의 ax5uigrid 공간에 처리 
+    $target.css('display', 'none');
+    
+	FACILITY.Ax5UiGridAll = null;	//Ax5UiGridAll 전역 변수 
+    FACILITY.Ax5UiGridAll = new ax5.ui.grid();
+    FACILITY.Ax5UiGridAll.setConfig({
+		target:  $target,
+        sortable: true,
+        multipleSelect: false,
+        header: {
+			align: "center"
+		},
+        columns: [
+			{key: "gid",				label: "GID",			width: '*'},
+			{key: "fclty_nm",			label: "복지시설명",		width: '*'},
+			{key: "rn_adres", 			label: "도로명주소",		width: '*'},
+			{key: "lnm_adres",			label: "지번주소",			width: '*'},
+			{key: "zip",				label: "우편번호",			width: '*'},
+			{key: "lat",				label: "위도",			width: '*'},
+			{key: "lon",				label: "경도",			width: '*'},
+			{key: "fclty_se_nm",		label: "시설구분",			width: '*'},
+			{key: "cttpc_telno",		label: "전화번호",			width: '*'},
+			{key: "data_stdde",			label: "데이터기준일",		width: '*'},
+			{key: "geom",				label: "GEOMETRY",		width: '*'}
+		],
+		body: {
+			align: "center"
+		}
+    });
+    
+    // 검색 조건
+	var options;
+	
+	if ($(".waterProperty").hasClass("on")) {
+		//속성 검색
+		const filters = [];
+		
+		var fcltySe = $("#lSrchOptions #welFcltySe option:selected").val();	// 시설구분
+		var rnAdres = $('#lSrchOptions input[name=rnAdres]').val();			// 도로명주소
+		var fcltyNm = $('#lSrchOptions input[name=fcltyNm]').val();			// 시설명
+		
+		if (fcltySe) {
+			filters.push("fclty_se" + " = " + fcltySe);
+		}
+		if (rnAdres) {
+			filters.push("rn_adres" + " like " + rnAdres);
+		}
+		if (fcltyNm) {
+			filters.push("fclty_nm" + " like " + fcltyNm);
+		}
+		
+		options = {
+			typeNames	: "tgd_sclwlfr_fclty_status" + "",
+			filter		: filters,
+			sortBy		: 'gid',
+	        sortOrder	: 'DESC'
+		};
+	} else if ($(".waterSpace").hasClass("on")) {
+		//console.log("공간 검색 조건");
+		
+		const $parent 	= $(".facility-spatial-search").closest('.search-area');
+		const type 		= $parent.find('input[name="rad-facility-area"]:checked').val();
+
+		options = {
+			typeNames	: 'tgd_sclwlfr_fclty_status' + "",
+			sortBy		: 'gid',
+			sortOrder	: 'DESC'
+		}
+		if (type === 'extent') {
+			options.bbox 		= FACILITY.spaceSearchOption.bbox;
+		} else {
+			options.geometry 	= FACILITY.spaceSearchOption.geometry;
+		}
+	} else {
+		alert("검색 오류");
+	}
+	
+	// 엑셀파일 날짜_시간
+	var today = new Date(); 
+	let year = dateNum(today.getFullYear());		// 년도
+	let month = dateNum(today.getMonth() + 1, 2);	// 월
+	let date = dateNum(today.getDate(), 2);			// 날짜
+	let hours = dateNum(today.getHours(), 2);		// 시
+	let minutes = dateNum(today.getMinutes(), 2);	// 분
+	let seconds = dateNum(today.getSeconds(), 2);	// 초
+
+	var todayDate = year+month+date+'_'+hours+minutes+seconds;
+	
+	const promise = dtmap.wfsGetFeature(options);
+	promise.then(function(data) {
+		// 그리드 데이터 전처리
+		const list = [];
+		for (let i = 0; i < data.features.length; i++) {
+			// 시설구분 형식 코드 변경
+        	var fclty_se = data.features[i].properties.fclty_se;
+        	data.features[i].properties.fclty_se_nm = getCmmCodeDataArray("FCLTCD", fclty_se);
+        	
+        	// 좌표 처리
+			data.features[i].properties.geomObj = data.features[i].geometry;
+			
+        	const {id, properties} = data.features[i];
+			list.push({...properties, ...{id: id}});
+		}
+		
+		// gird 적용
+        FACILITY.Ax5UiGridAll.setData(list);
+        
+        //엑셀 export
+		FACILITY.Ax5UiGridAll.exportExcel("복지시설목록_" + todayDate + ".xls");
+	});
+}
+
+function dateNum(number, length) {
+	var num = '' + number;
+	while (num.length < length) {
+		num = '0' + num;
+	}
+	return num;
 }

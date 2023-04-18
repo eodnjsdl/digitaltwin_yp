@@ -16,7 +16,6 @@ import java.io.Serializable;
  *  2023.04.11   김영주           최초 생성
  */
 
-@SuppressWarnings("serial")
 public class WelFareFaciVO implements Serializable {
 	
 	/** GID */
@@ -49,66 +48,77 @@ public class WelFareFaciVO implements Serializable {
 	public void setGid(int gid) {
 		this.gid = gid;
 	}
+	
 	public String getFcltyNm() {
 		return fcltyNm;
 	}
 	public void setFcltyNm(String fcltyNm) {
 		this.fcltyNm = fcltyNm;
 	}
+	
 	public String getRnAdres() {
 		return rnAdres;
 	}
 	public void setRnAdres(String rnAdres) {
 		this.rnAdres = rnAdres;
 	}
+	
 	public String getLnmAdres() {
 		return lnmAdres;
 	}
 	public void setLnmAdres(String lnmAdres) {
 		this.lnmAdres = lnmAdres;
 	}
+	
 	public String getZip() {
 		return zip;
 	}
 	public void setZip(String zip) {
 		this.zip = zip;
 	}
+	
 	public double getLat() {
 		return lat;
 	}
 	public void setLat(double lat) {
 		this.lat = lat;
 	}
+	
 	public double getLon() {
 		return lon;
 	}
 	public void setLon(double lon) {
 		this.lon = lon;
 	}
+	
 	public String getFcltySe() {
 		return fcltySe;
 	}
 	public void setFcltySe(String fcltySe) {
 		this.fcltySe = fcltySe;
 	}
+	
 	public String getFcltySeNm() {
 		return fcltySeNm;
 	}
 	public void setFcltySeNm(String fcltySeNm) {
 		this.fcltySeNm = fcltySeNm;
 	}
+	
 	public String getCttpcTelno() {
 		return cttpcTelno;
 	}
 	public void setCttpcTelno(String cttpcTelno) {
 		this.cttpcTelno = cttpcTelno;
 	}
+	
 	public String getDataStdde() {
 		return dataStdde;
 	}
 	public void setDataStdde(String dataStdde) {
 		this.dataStdde = dataStdde;
 	}
+	
 	public String getGeom() {
 		return geom;
 	}

@@ -16,9 +16,11 @@
 </style>
 
 <script>
+
 $(".scroll-y").mCustomScrollbar({
 	scrollbarPosition: "outside"
 });
+
 </script>
 
 <!-- 업무 > 시설관리 > 복지시설 > 상세보기 -->
