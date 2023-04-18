@@ -586,7 +586,7 @@
 								<ul class="lnb-dep2">
 									<li><button type="button" id="AdministrativeAsset" class="dataPopup" data-popup="">행정자산관리</button></li>
 									<li><button type="button" id="CoownedLand" class="dataPopup" data-popup="">공유지관리</button></li>
-									<li><button type="button" id="SurveyProperty" class="dataPopup" data-popup="">공유재산 실태조사</button></li>
+									<li><button type="button" id="SurveyProperty" class="dataPopup" data-popup="bottomPopup">공유재산 실태조사</button></li>
 								</ul>
 							</li>
 						</ul>
