@@ -1,26 +1,17 @@
 window.map2d = window.map2d || {};
 map2d.baseLayer = (function () {
-    let layerGroup;
-    let layers = [];
+    let _layerGroup;
     let LAYER_OPT;
-    let current_ = 'air';
+    let _current = 'air';
 
     function init() {
-        if (layerGroup) {
+        if (_layerGroup) {
             return;
         }
         initConfig();
-        layers = [
-            createLayer('emap'),
-            createLayer('air')
-        ]
-        layerGroup = new ol.layer.Group({
-            name: 'baseLayers',
-            zIndex: 0,
-            layers: layers,
-            isDefault: true
-        });
-        map2d.map.addLayer(layerGroup)
+
+        _layerGroup = createGroup();
+        map2d.map.addLayer(_layerGroup)
     }
 
     function initConfig() {
@@ -104,6 +95,19 @@ map2d.baseLayer = (function () {
 
     }
 
+    function createGroup() {
+        return new ol.layer.Group({
+            title: '배경지도',
+            name: 'baseLayers',
+            zIndex: 0,
+            layers: [
+                createLayer('emap'),
+                createLayer('air')
+            ],
+            isDefault: true
+        });
+    }
+
     function createLayer(name) {
         let opt = LAYER_OPT[name];
         return new ol.layer.Tile({
@@ -115,9 +119,10 @@ map2d.baseLayer = (function () {
     }
 
     function setLayer(name) {
+        let layers = _layerGroup.getLayersArray();
         layers.map((v) => {
             if (v.get('name') === name) {
-                current_ = name;
+                _current = name;
                 v.setVisible(true);
             } else {
                 v.setVisible(false);
@@ -125,11 +130,15 @@ map2d.baseLayer = (function () {
         });
     }
 
-    const module = {init: init, setLayer: setLayer}
+    const module = {
+        init: init,
+        setLayer: setLayer,
+        createGroup: createGroup
+    }
     Object.defineProperties(module, {
         'current': {
             get: function () {
-                return current_;
+                return _current;
             }
         }
     })
