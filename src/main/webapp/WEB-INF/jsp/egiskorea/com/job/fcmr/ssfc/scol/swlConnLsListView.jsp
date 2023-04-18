@@ -157,11 +157,11 @@
 	//jqeury
 	$(document).ready(function(){
 		console.log("swlConnLsListView.jsp");	
-
 		
-		/*
 		//이벤트 리스너 추가
 		dtmap.on('select', onFacilitySelectEventListener);
+		
+		swlConnLsInit();		//초기화
 		 
 		//////////////////
 		//하위메뉴 select box
@@ -247,7 +247,7 @@
             	}
             }
            	
-           	selectWtlFirePsList(1);
+           	selectSwlConnLsList(1);
 
         });
      	
@@ -300,7 +300,7 @@
         $(".area-facility-buffer", "#bottomPopup").on("keyup", function (event) {
             dtmap.draw.setBuffer(Number(this.value));
         });
-		*/
+		
 	});
 
 	//functions

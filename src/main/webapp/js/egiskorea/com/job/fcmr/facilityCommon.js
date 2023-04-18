@@ -214,16 +214,29 @@ function getAddressForPoint(geomText, tag){
 		
 		var geom = geomText;
 		
-		geom = geom.replace("Point", "");
-		geom = geom.replace("(", "");
-		geom = geom.replace(")", "");
+		const formatWKT = new ol.format.WKT();
+		let geometry = formatWKT.readGeometry(geom);
 		
-		geomArray = geom.split(" ");
+		let coordinate = null;
+		//console.log(geometry);
 		
-		reverseGeocoding( 
-			parseFloat(geomArray[0]),
-			parseFloat(geomArray[1]) 
-		).done((result) => {
+        if (geometry instanceof ol.geom.Point) {
+            coordinate = geometry.getCoordinates();
+        } else if (geometry instanceof ol.geom.MultiPoint) {
+            coordinate = geometry.getPoint(0).getCoordinates();
+        } else if (geometry instanceof ol.geom.LineString) {
+            coordinate = geometry.getCoordinateAt(0.5);
+        } else if (geometry instanceof ol.geom.MultiLineString) {
+            coordinate = geometry.getLineString(0).getCoordinateAt(0.5);
+        } else if (geometry instanceof ol.geom.Polygon) {
+            coordinate = ol.extent.getCenter(geometry.getExtent());
+        } else if (geometry instanceof ol.geom.MultiPolygon) {
+            coordinate = ol.extent.getCenter(geometry.getPolygon(0).getExtent());
+        } else {
+            console.log(`정의되지 않은 공간 타입입니다.`);
+        }
+        
+        reverseGeocoding(coordinate[0], coordinate[1]).done((result) => {
 			 //console.log(result);
 	         if (result["address"]) {
 	             address = result["address"];
@@ -240,10 +253,10 @@ function getAddressForPoint(geomText, tag){
 	
 }
 
-//girdRowId 를 통해 geom 데이터 조회
+//gird Id 를 통해 geom 데이터 조회
 function getGeomDataForGridId(id){
-	//console.log("getGeomDataForGridRowId");
-	//console.log(gridRowId);
+	//console.log("getGeomDataForGridId");
+	//console.log(id);
 
 	//grid 에서 데이터 조회
 	var detailData = getGridDetailData(id);
@@ -251,12 +264,47 @@ function getGeomDataForGridId(id){
 	//조회된 데이터에서 geom 데이터 추출
 	var returnGeomVal = "";
 	if(detailData){
+		
 		//console.log(detailData);
 		
 		var geomType 	= detailData.geomObj.type;
-    	var geomCoord	= detailData.geomObj.coordinates[0] + " " + detailData.geomObj.coordinates[1];
-    	
-    	returnGeomVal = geomType+"("+ geomCoord +")";
+		
+		var geomCoord	= "";
+		
+		var type = geomType.toLowerCase();
+		if(type == 'point'){
+			//console.log(detailData.geomObj.coordinates);
+			
+			geomCoord	= detailData.geomObj.coordinates[0] + " " + detailData.geomObj.coordinates[1];
+	    	returnGeomVal = geomType+"("+ geomCoord +")";
+			
+		}else if(type == 'multilinestring'){
+			//console.log(detailData.geomObj.coordinates);
+			
+			var c = detailData.geomObj.coordinates;
+			
+			var t = ""
+			for(var i=0; i<c.length; i++){
+				for(var j=0; j<c[i].length;  j++){
+					
+					t += c[i][j][0] + " " + c[i][j][1];
+					//console.log(c[i].length);
+					if(j < (c[i].length-1) ){
+						t+= ",";
+					}
+					
+				}
+			}
+			
+			//console.log(t);
+			geomCoord	= t;
+	    	
+	    	returnGeomVal = geomType+"(("+ geomCoord +"))";
+		}else if(type == 'multipolygon'){
+			//console.log(detailData.geomObj.coordinates);
+			alert("multipolygon 작업중");
+		}
+		
 	}
 	
 	return returnGeomVal;
@@ -287,8 +335,8 @@ function getGridDetailData(id){
 /////////////////////////
 //지도 아이콘(객체) 클릭시 이벤트
 function onFacilitySelectEventListener(e){
-	console.log("onFacilitySelectEventListener(e)");
-	console.log(e);
+	//console.log("onFacilitySelectEventListener(e)");
+	//console.log(e);
 	if(e){
 		
 		//[참고 자료]
@@ -305,58 +353,54 @@ function onFacilitySelectEventListener(e){
 	    //     object : JSObejct3D,         // JSObejct3D 객체
 	    //     property : {}                // 속성정보
 	    // }
+		//2d/3d 같이 사용 id 값만 
+		var id = e.id; //피쳐 아이디
 		
-		if(e.object){
-			console.log("3d")
-			//toastr.error("지도 객체 클릭 이벤트 작업중", "3D 객체 클릭");
-			var id = e.id; //피쳐 아이디
-			
-			if(id){
-				var idArray = id.split(".");
-				//console.log(idArray);
-				const featureType	= idArray[0];
-				
-				if(featureType == "wtl_fire_ps"){						//상수도시설 - 소방시설
-					selectWtlFirePs(id);
-				}else if(featureType == "wtl_pipe_lm"){					//상수도시설 - 상수관로
-					toastr.error("지도 객체 클릭 작업중", "상수도시설 - 상수관로");
-				}else if(featureType == "wtl_flow_ps"){					//상수도시설 - 유량계
-					selectWtlFlowPs(id);
-				}else{
-					alert("지도 객체 선택 오류");
-					return false;
-				}
+		if(id){
+			var idArray = id.split(".");
+			//console.log(idArray);
+			const featureType	= idArray[0];
+
+			if(featureType == "wtl_fire_ps"){						//상수도시설 - 소방시설
+				selectWtlFirePs(id);
+			}else if(featureType == "wtl_pipe_lm"){					//상수도시설 - 상수관로
+				toastr.error("지도 객체 클릭 작업중", "상수도시설 - 상수관로");
+			}else if(featureType == "wtl_flow_ps"){					//상수도시설 - 유량계
+				toastr.error("지도 객체 클릭 작업중", "상수도시설 - 유량계");
+			}else if(featureType == "swl_conn_ls"){					//하수도시설 - 하수연결관 
+				selectSwlConnLs(id);
+			}else{
+				alert("지도 객체 선택 오류");
+				return false;
 			}
-			
-		}else{
-			//console.log("2d")
-			
-			var id = e.id; //피쳐 아이디
-			
-			if(id){
-				var idArray = id.split(".");
-				//console.log(idArray);
-				const featureType	= idArray[0];
-				
-				if(featureType == "wtl_fire_ps"){						//상수도시설 - 소방시설
-					selectWtlFirePs(id);
-				}else if(featureType == "wtl_pipe_lm"){					//상수도시설 - 상수관로
-					toastr.error("지도 객체 클릭 작업중", "상수도시설 - 상수관로");
-				}else if(featureType == "wtl_flow_ps"){					//상수도시설 - 유량계
-					selectWtlFlowPs(id);
-				}else if(featureType == "wtl_manh_ps"){					//상수도시설 - 상수맨홀
-					selectWtlManhPs(id);
-				}else{
-					alert("지도 객체 선택 오류");
-					return false;
-				}
-			}
-			
-			
+
 		}
-		
 		
 	}
 }
 
+//////////////////////
+
+
+//모드 변환시 등록 버튼 처리
+function arrangeAddBtnMode() {
+	//console.log("arrangeAddBtnMode()");
+	
+	if(dtmap.mod){
+		if(dtmap.mod == "2D"){
+			if($(".data-area .bbs-top .btn_add").css("display") == 'none'){
+				$(".data-area .bbs-top .btn_add").show();
+			}				
+		}else if(dtmap.mod == "3D"){
+			if($(".data-area .bbs-top .btn_add").css("display") != 'none'){
+			   $(".data-area .bbs-top .btn_add").hide();
+			}
+		}else{
+			console.log("2d/3d 모드 오류");
+		}
+	}else{
+		console.log("2d/3d 모드 오류");
+	}
+	
+}
 
