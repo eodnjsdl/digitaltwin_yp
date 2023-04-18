@@ -318,6 +318,8 @@ window.ui = (function () {
 
             //패널 close
             initPopup("");
+            //좌측 메뉴 close
+            $(".lnb-cont").css("display","none");
 
             dtmap.switchMap(e.target.value);
             _changeMenu();
@@ -498,7 +500,7 @@ window.ui = (function () {
         $(".lnb-administrative .lnb-body button").on("click", function () {
         	var name = $(this).attr("id");
             var area = $(this).data("popup"); //팝업 위치명 넣어주세요  ex)rightPopup
-            //ui.openPopup(area);
+            ui.openPopup(area);
             switch (name) {
                 // 행정자산 >  행정자산관리
                 case "AdministrativeAsset" :
@@ -510,7 +512,8 @@ window.ui = (function () {
                     break;
                 // 행정자산 > 공유재산 실태조사
                 case "SurveyProperty" :
-                	toastr.error("공유재산 실태조사");		
+                    	aj_selectPbprtAccdtList();
+                	toastr.success("공유재산 실태조사");		
                     break;     
             }
         });

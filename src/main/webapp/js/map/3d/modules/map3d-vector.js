@@ -72,11 +72,19 @@ map3d.vector = (function () {
             return;
         }
         const obj = layer.get(id);
-        if (obj.getSelectable()) {
-            Module.getMap().setSelectObject(obj);
+        if (!obj) {
+            return;
         }
+        const object3d = obj.object;
+        if (!object3d || !object3d.getSelectable()) {
+            return;
+        }
+
+        Module.getMap().setSelectObject(object3d);
         const camera = map3d.camera;
-        camera.moveLookAt(obj.position, camera.getTilt(), camera.getDirect(), 300);
+        let alt = object3d.position.Altitude * 1.5;
+        alt = alt < 1000 ? 1000 : alt;
+        camera.moveLookAt(object3d.position, camera.getTilt(), camera.getDirect(), alt);
 
         // layer.setHighLight(id);
     }

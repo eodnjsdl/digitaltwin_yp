@@ -73,6 +73,7 @@
 
     <!-- 2d -->
     <link rel="stylesheet" href="/css/map2d.css">
+	<link rel="stylesheet" href="/css/splitmap.css">
     <link rel="stylesheet" href="/engine/plugin/v6.7.0/ol.css">
     <script src="/engine/plugin/v6.7.0/proj4.js"></script>
     <script src="/engine/plugin/v6.7.0/ol.js"></script>
@@ -103,6 +104,7 @@
     <script src="/js/map/2d/modules/map2d-location.js"></script>
     <script src="/js/map/2d/modules/map2d-draw.js"></script>
     <script src="/js/map/2d/modules/map2d-vector.js"></script>
+	<script src="/js/map/2d/modules/map2d-multiview.js"></script>
 
     <!-- 3D Map js -->
     <script src="/js/map/3d/map3d.js"></script>
@@ -586,7 +588,7 @@
 								<ul class="lnb-dep2">
 									<li><button type="button" id="AdministrativeAsset" class="dataPopup" data-popup="">행정자산관리</button></li>
 									<li><button type="button" id="CoownedLand" class="dataPopup" data-popup="">공유지관리</button></li>
-									<li><button type="button" id="SurveyProperty" class="dataPopup" data-popup="">공유재산 실태조사</button></li>
+									<li><button type="button" id="SurveyProperty" class="dataPopup" data-popup="bottomPopup">공유재산 실태조사</button></li>
 								</ul>
 							</li>
 						</ul>

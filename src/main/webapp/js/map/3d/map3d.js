@@ -263,6 +263,18 @@ window.map3d = (function () {
         return [min.Longitude, min.Latitude, max.Longitude, max.Latitude];
     }
 
+    function setExtent() {
+        return console.warn('3D 지도에서는 지원하지 않습니다.');
+    }
+
+    function getZoom() {
+        return console.warn('3D 지도에서는 지원하지 않습니다.');
+    }
+
+    function setZoom() {
+        return console.warn('3D 지도에서는 지원하지 않습니다.');
+    }
+
     /**
      * 3D맵 DIV 보이기
      * @returns {Promise}
@@ -381,9 +393,12 @@ window.map3d = (function () {
         hide: hide,
         zoomIn: zoomIn,
         zoomOut: zoomOut,
-        setCenter: setCenter,
         getCenter: getCenter,
+        setCenter: setCenter,
         getExtent: getExtent,
+        setExtent: setExtent,
+        getZoom: getZoom,
+        setZoom: setZoom,
         showLayer: showLayer,
         setInteraction: setInteraction,
         clearInteraction: clearInteraction,
