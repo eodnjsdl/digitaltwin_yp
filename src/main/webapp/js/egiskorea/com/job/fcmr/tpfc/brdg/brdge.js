@@ -68,6 +68,14 @@ function setBridgeListGrid() {
 function setBridgeListData(_pageNo) {
     
     var gridList = this;
+    // 검색 필터
+    let filters = 'sig_cd = 41830';
+    let korBriNm = $('#korBriNm').val();
+    if (korBriNm != '') {
+	korBriNm = "'%" + korBriNm + "%'";
+	filters += ' and kor_bri_nm like ' + korBriNm;
+    }
+    
     
  // 철도역사 - wms -> sortBy, orderBy, clq(sig_cd = 41830 -- 양평군) 필수
     const promise = dtmap.wfsGetFeature({
@@ -76,7 +84,7 @@ function setBridgeListData(_pageNo) {
 	perPage: 10,
 	sortBy : 'gid',
 	sortOrder : 'DESC',
-	filter : ['sig_cd = 41830']
+	cql : filters
     });
     
     promise.then(function(data) {
@@ -102,15 +110,37 @@ function setBridgeListData(_pageNo) {
 		totalPages: Math.ceil(data.totalFeatures / 10)
 	    }
 	});
+	
+	dtmap.vector.clear();
+	dtmap.vector.readGeoJson(data, function (feature) {
+		let properties = feature.getProperties();
+		// properties에 id 값이 랜덤으로 생성되서, gid와 동일하게 변경해줌
+		// wfs. + gid
+		let getGid = properties.gid;
+		feature.setId('tgd_spot_bridge.' + getGid);					
+		// --------------------------------------------------
+		return {
+			marker: {
+				src: '/images/poi/bridge_poi.png' 
+				},
+				label: {
+					text: properties.kor_bri_nm
+				}
+			}
+	});
+	dtmap.vector.fit();
     });
 }
 
 /**
- * 테이블 데이터 상세보기  ------ 미완성
+ * 테이블 데이터 상세보기
  * @param gid
  * @returns
  */
 function selectBridgeDetailView(gid) {
+    dtmap.vector.clearSelect();
+    dtmap.vector.select('tgd_spot_bridge.' + gid);
+    
     ui.openPopup("rightSubPopup");
     ui.loadingBar("show");
     var formData = new FormData();
@@ -139,5 +169,19 @@ function selectBridgeDetailView(gid) {
 	}
     });
     ui.loadingBar("hide");
-    
 }
+
+/**
+ * 검색 조건으로 조회
+ * @returns
+ */
+function selectBridgeWithFilters() {
+    $('#korBriNm').on('keyup', function () {
+	    if (event.keyCode == 13) {
+		setBridgeListData(0);
+	    }
+	});
+    $('.brdge .search').on('click', function() {
+	setBridgeListData(0);
+    });
+};

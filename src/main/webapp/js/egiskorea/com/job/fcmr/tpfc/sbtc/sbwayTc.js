@@ -53,9 +53,9 @@ function setSubwayTrackListGrid() {
 	},
 	columns: [
 	    {key: "sig_cd",		label: "시군구코드",		width: 250},
-	    {key: "kor_sta_nm",		label: "철도역사명(한글)",		width: 250},
+	    {key: "kor_sbr_nm",		label: "지하철노선명(한글)",		width: 250},
 	    {key: "opert_de",		label: "작업일시",			width: 250},
-	    {key: "rlr_sta_sn",		label: "철도역사 일련번호",		width: 250}
+	    {key: "sub_rlw_sn",		label: "지하철노선 일련번호",		width: 250}
 	],
     });
 }
@@ -69,6 +69,14 @@ function setSubwayTrackListData(_pageNo) {
     
     var gridList = this;
     
+    // 검색 필터
+    let filters = 'sig_cd = 41830';
+    let korSbrNm = $('#korSbrNm').val();
+    if (korSbrNm != '') {
+	korSbrNm = "'%" + korSbrNm + "%'";
+	filters += ' and kor_sbr_nm like ' + korSbrNm;
+    }
+    
  // 철도역사 - wms -> sortBy, orderBy, clq(sig_cd = 41830 -- 양평군) 필수
     const promise = dtmap.wfsGetFeature({
 	typeNames: 'tgd_spsb_rlway',
@@ -76,7 +84,7 @@ function setSubwayTrackListData(_pageNo) {
 	perPage: 10,
 	sortBy : 'gid',
 	sortOrder : 'DESC',
-	filter : ['sig_cd = 41830']
+	cql : filters
     });
     
     promise.then(function(data) {
@@ -102,15 +110,37 @@ function setSubwayTrackListData(_pageNo) {
 		totalPages: Math.ceil(data.totalFeatures / 10)
 	    }
 	});
+	
+	dtmap.vector.clear();
+	dtmap.vector.readGeoJson(data, function (feature) {
+		let properties = feature.getProperties();
+		// properties에 id 값이 랜덤으로 생성되서, gid와 동일하게 변경해줌
+		// wfs. + gid
+		let getGid = properties.gid;
+		feature.setId('tgd_spsb_rlway.' + getGid);					
+		// --------------------------------------------------
+		return {
+			marker: {
+				src: '/images/poi/subwayTrack_poi.png' 
+				},
+				label: {
+					text: properties.kor_sbr_nm
+				}
+			}
+	});
+	dtmap.vector.fit();
     });
 }
 
 /**
- * 테이블 데이터 상세보기  ------ 미완성
+ * 테이블 데이터 상세보기
  * @param gid
  * @returns
  */
 function selectSubwayTrackDetailView(gid) {
+    dtmap.vector.clearSelect();
+    dtmap.vector.select('tgd_spsb_rlway.' + gid);
+    
     ui.openPopup("rightSubPopup");
     ui.loadingBar("show");
     var formData = new FormData();
@@ -140,3 +170,14 @@ function selectSubwayTrackDetailView(gid) {
     });
     ui.loadingBar("hide");
 }
+
+function selectSubwayTrackWithFilters() {
+    $('#korSbrNm').on('keyup', function () {
+	    if (event.keyCode == 13) {
+		setSubwayTrackListData(0);
+	    }
+	});
+    $('.sbwayTc .search').on('click', function() {
+	setSubwayTrackListData(0);
+    });
+};

@@ -13,7 +13,7 @@ $(document).ready(function(){
 		getTransportationFacility(this.value);
 	});
 	
-	selectDataWithFilters();
+	selectRlroadTcWithFilters();
 });
 </script>
 

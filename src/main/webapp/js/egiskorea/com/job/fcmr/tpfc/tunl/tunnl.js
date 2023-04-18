@@ -68,6 +68,13 @@ function setTunnelListGrid() {
 function setTunnelListData(_pageNo) {
     
     var gridList = this;
+    // 검색기능
+    let filters = 'sig_cd = 41830';
+    let tunKorNm = $('#tunKorNm').val();
+    if (tunKorNm != '') {
+	tunKorNm = "'%" + tunKorNm + "%'";
+	filters += ' and tun_kor_nm like ' + tunKorNm;
+    }
     
  // 철도역사 - wms -> sortBy, orderBy, clq(sig_cd = 41830 -- 양평군) 필수
     const promise = dtmap.wfsGetFeature({
@@ -76,7 +83,7 @@ function setTunnelListData(_pageNo) {
 	perPage: 10,
 	sortBy : 'gid',
 	sortOrder : 'DESC',
-	filter : ['sig_cd = 41830']
+	cql : filters
     });
     
     promise.then(function(data) {
@@ -102,15 +109,37 @@ function setTunnelListData(_pageNo) {
 		totalPages: Math.ceil(data.totalFeatures / 10)
 	    }
 	});
+	
+	dtmap.vector.clear();
+	dtmap.vector.readGeoJson(data, function (feature) {
+		let properties = feature.getProperties();
+		// properties에 id 값이 랜덤으로 생성되서, gid와 동일하게 변경해줌
+		// wfs. + gid
+		let getGid = properties.gid;
+		feature.setId('tgd_spot_tunnel.' + getGid);					
+		// --------------------------------------------------
+		return {
+			marker: {
+				src: '/images/poi/tunnel_poi.png' 
+				},
+				label: {
+					text: properties.tun_kor_nm
+				}
+			}
+	});
+	dtmap.vector.fit();
     });
 }
 
 /**
- * 테이블 데이터 상세보기  ------ 미완성
+ * 테이블 데이터 상세보기
  * @param gid
  * @returns
  */
 function selectTunnelDetailView(gid) {
+    dtmap.vector.clearSelect();
+    dtmap.vector.select('tgd_spot_tunnel.' + gid);
+    
     ui.openPopup("rightSubPopup");
     ui.loadingBar("show");
     var formData = new FormData();
@@ -139,5 +168,20 @@ function selectTunnelDetailView(gid) {
 	}
     });
     ui.loadingBar("hide");
-    
 }
+
+/**
+ * 검색 조건으로 조회
+ * @returns
+ */
+function selectTunnelWithFilters() {
+    $('#tunKorNm').on('keyup', function () {
+	    if (event.keyCode == 13) {
+		setTunnelListData(0);
+	    }
+	});
+    $('.tunnl .search').on('click', function() {
+	setTunnelListData(0);
+    });
+};
+

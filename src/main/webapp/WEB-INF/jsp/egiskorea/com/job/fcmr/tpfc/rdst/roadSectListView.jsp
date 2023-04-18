@@ -10,6 +10,8 @@ $(document).ready(function(){
 	$target.on('change', function() {
 		getTransportationFacility(this.value);
 	});
+	
+	selectRoadSectWithFilters();
 });
 </script>
 
@@ -38,7 +40,7 @@ $(document).ready(function(){
 						<li data-tab="waterSpace"><button type="button" class="inner-tab">공간검색</button></li>
 					</ul>
 				</div>
-				<div class="tab-cont waterProperty on">
+				<div class="tab-cont waterProperty on roadSect">
 					<div class="srch-default">
 						<table class="srch-tbl">
 							<colgroup>
@@ -49,9 +51,6 @@ $(document).ready(function(){
 								<tr>
 									<th scope="row">읍면동</th>
 									<td>
-										<!-- <select name="emdKorNm" id="emdKorNm" class="form-select">
-											<option value="41830">전체</option>
-										</select> -->
 										<select name="emdKorNm" id="emdKorNm" class="form-select">
 											<option value="41830">전체</option>
 											<c:forEach items="${sccoEndList}" var="emdList" varStatus="status">
@@ -63,16 +62,16 @@ $(document).ready(function(){
 									</td>
 								</tr>
 								<tr>
-									<td colspan="2"><input type="text" class="form-control" id="roadBtVal" name="roadBtVal" onkeypress="if( event.keyCode == 13 ){ setRoadSectListData(0);}" placeholder="도로폭"></td>
+									<td colspan="2"><input type="text" class="form-control" id="roadBtVal" name="roadBtVal" placeholder="도로폭"></td>
 								</tr>
 								<tr>
-									<td colspan="2"><input type="text" class="form-control" id="rn" name="rn" onkeypress="if( event.keyCode == 13 ){ setRoadSectListData(0);}" placeholder="도로명"></td>
+									<td colspan="2"><input type="text" class="form-control" id="rn" name="rn" placeholder="도로명"></td>
 								</tr>
 							</tbody>
 						</table>
 					</div>
 					<div class="btn-wrap">
-						<div><button type="submit" class="btn type01 search" onclick="setRoadSectListData(0)">조회</button></div>
+						<div><button type="submit" class="btn type01 search">조회</button></div>
 					</div>
 				</div>
 				<div class="tab-cont waterSpace">

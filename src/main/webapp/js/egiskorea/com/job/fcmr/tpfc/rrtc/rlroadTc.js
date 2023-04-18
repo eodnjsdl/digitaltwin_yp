@@ -69,19 +69,22 @@ function setRailroadTrackListData(_pageNo) {
     
     var gridList = this;
     
-    let filters = ['sig_cd = 41830']; 
+    let filters = "sig_cd = 41830"; 
     
     let korRlrNm = $('#korRlrNm').val();
-    if (korRlrNm != '') {filters.push('kor_rlr_nm = ' + korRlrNm)};
+    if (korRlrNm != '') {
+	korRlrNm = "'%" + korRlrNm + "%'";
+    	filters += "and kor_rlr_nm like " + korRlrNm;
+    };
     
-    // 철도선로 - wms -> sortBy, orderBy, clq(sig_cd = 41830 -- 양평군) 필수
+    // 철도선로 - wms -> sortBy, orderBy, cql(sig_cd = 41830 -- 양평군) 필수
     const promise = dtmap.wfsGetFeature({
 	typeNames: 'tgd_sprl_rlway',
 	perPage: 10,
 	page: _pageNo + 1,
 	sortBy : 'gid',
 	sortOrder : 'DESC',
-	filter : filters
+	cql : filters
     });
     
     promise.then(function(data) {
@@ -107,15 +110,37 @@ function setRailroadTrackListData(_pageNo) {
 		totalPages: Math.ceil(data.totalFeatures / 10)
 	    }
 	});
+	
+	dtmap.vector.clear();
+	dtmap.vector.readGeoJson(data, function (feature) {
+	    let properties = feature.getProperties();
+	    // properties에 id 값이 랜덤으로 생성되서, gid와 동일하게 변경해줌
+	    // wfs. + gid
+	    let getGid = properties.gid;
+	    feature.setId('tgd_sprl_rlway.' + getGid);
+	    // --------------------------------------------------
+	    return {
+	        marker: {
+	            src: '/images/poi/railroadTrack_poi.png'
+	            },
+	            label: {
+	                text: properties.kor_rlr_nm
+	            }
+	        }
+	});
+	dtmap.vector.fit();
     });
 }
 
 /**
- * 테이블 데이터 상세보기  ------ 미완성
+ * 테이블 데이터 상세보기
  * @param gid
  * @returns
  */
 function selectRailroadTrackDetailView(gid) {
+    dtmap.vector.clearSelect(); 
+    dtmap.vector.select('tgd_sprl_rlway.' + gid);
+    
     ui.openPopup("rightSubPopup");
     ui.loadingBar("show");
     var formData = new FormData();
@@ -152,7 +177,7 @@ function selectRailroadTrackDetailView(gid) {
  * 검색 조건으로 조회
  * @returns
  */
-function selectDataWithFilters() {
+function selectRlroadTcWithFilters() {
     $('#korRlrNm').on('keyup', function () {
 	    if (event.keyCode == 13) {
 		setRailroadTrackListData(0);
