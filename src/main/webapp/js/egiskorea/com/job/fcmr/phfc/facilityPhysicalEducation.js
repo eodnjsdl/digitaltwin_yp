@@ -16,7 +16,7 @@ function getPhyEduFaciListView() {
 	
 	var baseContainer = "#bottomPopup";
     $(baseContainer).load('/job/fcmr/phfc/selectPhyEduFaciListView.do', function() {
-		toastr.success("/job/fcmr/phfc/selectPhyEduFaciListView.do", "페이지🙂호🙂출🙂");
+		//toastr.success("/job/fcmr/phfc/selectPhyEduFaciListView.do", "페이지🙂호🙂출🙂");
 		
 		// grid 기본 세팅
 		var $container = $("#container");
@@ -214,7 +214,7 @@ function selectPhyEduFaciDetail(id) {
 	
 	var container = "#rightSubPopup";
 	$(container).load("/job/fcmr/phfc/selectPhyEduFaciDetail.do", { gid: gid }, function() {
-		toastr.success("/job/fcmr/phfc/selectPhyEduFaciDetail.do", "페이지🙂호🙂출🙂");
+		//toastr.success("/job/fcmr/phfc/selectPhyEduFaciDetail.do", "페이지🙂호🙂출🙂");
 		
 		dtmap.vector.select(id);		// 지도에 표시
 		
@@ -232,7 +232,7 @@ function insertPhyEduFaciView() {
 	
 	var container = "#rightSubPopup";
 	$(container).load("/job/fcmr/phfc/insertPhyEduFaciView.do", function() {
-		toastr.success("/job/fcmr/phfc/insertPhyEduFaciView.do", "페이지🙂호🙂출🙂");
+		//toastr.success("/job/fcmr/phfc/insertPhyEduFaciView.do", "페이지🙂호🙂출🙂");
 		
 		ui.callDatePicker();	// DatePicker UI
 		
@@ -247,21 +247,9 @@ function insertPhyEduFaciView() {
 
 // 체육시설 등록 저장
 function insertPhyEduFaci() {
-	// NULL값도 가능한 input
-//	var fclty_ty 			= $('#phyEduFaciTbl #fclty_ty option:selected').val();		// 시설유형
-//	var oper_mthd 			= $('#phyEduFaciTbl #oper_mthd option:selected').val();		// 운영방식
-//	var erc_ct 				= $('#phyEduFaciTbl input[name=ercCt]').val();				// 건립비용
-//	var buld_size 			= $('#phyEduFaciTbl input[name=buldSize]').val();			// 건물면적
-//	var lad_size 			= $('#phyEduFaciTbl input[name=ladSize]').val();			// 토지면적
-//	var manage_nmpr 		= $('#phyEduFaciTbl input[name=manageNmpr]').val();		// 관리인원
-//	var fyer_utlztn_nmpr 	= $('#phyEduFaciTbl input[name=fyerUtlztnNmpr]').val();	// 연간이용인원
-//	var chrg_dept_nm 		= $('#phyEduFaciTbl #chrg_dept_nm option:selected').val();	// 담당자
-//	var fclty_sumry 		= $('#phyEduFaciTbl input[name=fcltySumry]').val();		// 시설물개요
-	
 	var fclty_nm = $('#phyEduFaciTbl input[name=fcltyNm]').val();
 	if (fclty_nm == '') {
 		alert('시설명을 입력해주세요.');
-		$('#phyEduFaciTbl input[name=fcltyNm]').focus();
 		return false;
 	}
 	
@@ -272,35 +260,73 @@ function insertPhyEduFaci() {
 		return false;
 	}
 	
-	// NULL값도 가능하지만 값이 입력되면 유효성 검사
+	var erc_ct = $('#phyEduFaciTbl input[name=ercCt]').val();
+	if (erc_ct == '') {
+		alert('건립비용을 입력해주세요.');
+		return false;
+	}
+	
 	var date = /^\d{4}-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])$/;
 	var fond_de = $('#phyEduFaciTbl input[name=fondDe]').val();
-	if (!fond_de == '') {
-		if (!date.test(fond_de)) {
-			alert('날짜형식에 맞게 입력해주세요.')
-			$('#phyEduFaciTbl input[name=fondDe]').focus();
-			return false;
-		}
+	if (fond_de == '') {
+		alert('설립일자를 입력해주세요.')
+		$('#phyEduFaciTbl input[name=fondDe]').focus();
+		return false;
+	} else if (!date.test(fond_de)) {
+		alert('날짜형식에 맞게 입력해주세요.')
+		$('#phyEduFaciTbl input[name=fondDe]').focus();
+		return false;
+	}
+	
+	var buld_size = $('#phyEduFaciTbl input[name=buldSize]').val();
+	if (buld_size == '') {
+		alert('건물면적을 입력해주세요.');
+		return false;
+	}
+	var lad_size = $('#phyEduFaciTbl input[name=ladSize]').val();
+	if (lad_size == '') {
+		alert('토지면적을 입력해주세요.');
+		return false;
+	}
+	var manage_nmpr = $('#phyEduFaciTbl input[name=manageNmpr]').val();
+	if (manage_nmpr == '') {
+		alert('관리인원을 입력해주세요.');
+		return false;
+	}
+	var fyer_utlztn_nmpr = $('#phyEduFaciTbl input[name=fyerUtlztnNmpr]').val();
+	if (fyer_utlztn_nmpr == '') {
+		alert('연간이용인원을 입력해주세요.');
+		return false;
 	}
 	
 	var nm = /^[가-힣a-zA-Z]+$/;
 	var charger_nm = $('#phyEduFaciTbl input[name=chargerNm]').val();
-	if (!charger_nm == '') {
-		if (!nm.test(charger_nm)) {
-			alert('한글 또는 영문을 이용해 입력해주세요.');
-			$('#phyEduFaciTbl input[name=chargerNm]').focus();
-			return false;
-		}
+	if (charger_nm == '') {
+		alert('담당자 이름을 입력해주세요.');
+		$('#phyEduFaciTbl input[name=chargerNm]').focus();
+		return false;
+	} else if (!nm.test(charger_nm)) {
+		alert('한글 또는 영문을 이용해 입력해주세요.');
+		$('#phyEduFaciTbl input[name=chargerNm]').focus();
+		return false;
 	}
 	
 	var tel = /^[0-9]{3}-[0-9]{3,4}-[0-9]{4}/;
 	var cttpc_telno = $('#phyEduFaciTbl input[name=cttpcTelno]').val();
-	if (!cttpc_telno == '') {
-		if (!tel.test(cttpc_telno)) {
-			alert('전화번호 형식에 맞게 입력해주세요. ex) 000-0000-0000');
-			$('#phyEduFaciTbl input[name=cttpcTelno]').focus();
-			return false;
-		}
+	if (cttpc_telno == '') {
+		alert('담당자의 전화번호를 입력해주세요.');
+		$('#phyEduFaciTbl input[name=cttpcTelno]').focus();
+		return false;
+	} else if (!tel.test(cttpc_telno)) {
+		alert('전화번호 형식에 맞게 입력해주세요. ex) 000-0000-0000');
+		$('#phyEduFaciTbl input[name=cttpcTelno]').focus();
+		return false;
+	}
+	
+	var fclty_sumry = $('#phyEduFaciTbl input[name=fcltySumry]').val();
+	if (fclty_sumry == '') {
+		alert('시설물개요를 입력해주세요.');
+		return false;
 	} else {
 		// 등록 진행
 		if (confirm("등록하시겠습니까?") == true) {
@@ -365,7 +391,7 @@ function updatePhyEduFaciView(gid) {
 	
 	var container = "#rightSubPopup";
 	$(container).load("/job/fcmr/phfc/updatePhyEduFaciView.do", { gid: gid }, function() {
-		toastr.success("/job/fcmr/phfc/updatePhyEduFaciView.do", "페이지🙂호🙂출🙂");
+		//toastr.success("/job/fcmr/phfc/updatePhyEduFaciView.do", "페이지🙂호🙂출🙂");
 		
 		ui.callDatePicker();	// DatePicker UI
 		
@@ -385,18 +411,7 @@ function updatePhyEduFaciView(gid) {
 function updatePhyEduFaci(gid) {
 	var page = $('.hiddenPage').val();
 	
-	// NULL값도 가능한 input
-//	var fclty_ty 			= $('#phyEduFaciTbl #fclty_ty option:selected').val();		// 시설유형
-//	var oper_mthd 			= $('#phyEduFaciTbl #oper_mthd option:selected').val();		// 운영방식
-//	var erc_ct 				= $('#phyEduFaciTbl input[name=erc_ct]').val();				// 건립비용
-//	var buld_size 			= $('#phyEduFaciTbl input[name=buld_size]').val();			// 건물면적
-//	var lad_size 			= $('#phyEduFaciTbl input[name=lad_size]').val();			// 토지면적
-//	var manage_nmpr 		= $('#phyEduFaciTbl input[name=manage_nmpr]').val();		// 관리인원
-//	var fyer_utlztn_nmpr 	= $('#phyEduFaciTbl input[name=fyer_utlztn_nmpr]').val();	// 연간이용인원
-//	var chrg_dept_nm 		= $('#phyEduFaciTbl #chrg_dept_nm option:selected').val();	// 담당자
-//	var fclty_sumry 		= $('#phyEduFaciTbl input[name=fclty_sumry]').val();		// 시설물개요
-	
-	var fclty_nm = $('#phyEduFaciTbl input[name=fclty_nm]').val();
+	var fclty_nm = $('#phyEduFaciTbl input[name=fcltyNm]').val();
 	if (fclty_nm == '') {
 		alert('시설명을 입력해주세요.');
 		return false;
@@ -409,35 +424,73 @@ function updatePhyEduFaci(gid) {
 		return false;
 	}
 	
-	// NULL값도 가능하지만 값이 입력되면 유효성 검사
+	var erc_ct = $('#phyEduFaciTbl input[name=ercCt]').val();
+	if (erc_ct == '') {
+		alert('건립비용을 입력해주세요.');
+		return false;
+	}
+	
 	var date = /^\d{4}-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])$/;
-	var fond_de = $('#phyEduFaciTbl input[name=fond_de]').val();
-	if (!fond_de == '') {
-		if (!date.test(fond_de)) {
-			alert('날짜형식에 맞게 입력해주세요.')
-			$('#phyEduFaciTbl input[name=fond_de]').focus();
-			return false;
-		}
+	var fond_de = $('#phyEduFaciTbl input[name=fondDe]').val();
+	if (fond_de == '') {
+		alert('설립일자를 입력해주세요.')
+		$('#phyEduFaciTbl input[name=fondDe]').focus();
+		return false;
+	} else if (!date.test(fond_de)) {
+		alert('날짜형식에 맞게 입력해주세요.')
+		$('#phyEduFaciTbl input[name=fondDe]').focus();
+		return false;
+	}
+	
+	var buld_size = $('#phyEduFaciTbl input[name=buldSize]').val();
+	if (buld_size == '') {
+		alert('건물면적을 입력해주세요.');
+		return false;
+	}
+	var lad_size = $('#phyEduFaciTbl input[name=ladSize]').val();
+	if (lad_size == '') {
+		alert('토지면적을 입력해주세요.');
+		return false;
+	}
+	var manage_nmpr = $('#phyEduFaciTbl input[name=manageNmpr]').val();
+	if (manage_nmpr == '') {
+		alert('관리인원을 입력해주세요.');
+		return false;
+	}
+	var fyer_utlztn_nmpr = $('#phyEduFaciTbl input[name=fyerUtlztnNmpr]').val();
+	if (fyer_utlztn_nmpr == '') {
+		alert('연간이용인원을 입력해주세요.');
+		return false;
 	}
 	
 	var nm = /^[가-힣a-zA-Z]+$/;
-	var charger_nm = $('#phyEduFaciTbl input[name=charger_nm]').val();
-	if (!charger_nm == '') {
-		if (!nm.test(charger_nm)) {
-			alert('한글 또는 영문을 이용해 입력해주세요.');
-			$('#phyEduFaciTbl input[name=charger_nm]').focus();
-			return false;
-		}
+	var charger_nm = $('#phyEduFaciTbl input[name=chargerNm]').val();
+	if (charger_nm == '') {
+		alert('담당자 이름을 입력해주세요.');
+		$('#phyEduFaciTbl input[name=chargerNm]').focus();
+		return false;
+	} else if (!nm.test(charger_nm)) {
+		alert('한글 또는 영문을 이용해 입력해주세요.');
+		$('#phyEduFaciTbl input[name=chargerNm]').focus();
+		return false;
 	}
 	
 	var tel = /^[0-9]{3}-[0-9]{3,4}-[0-9]{4}/;
-	var cttpc_telno = $('#phyEduFaciTbl input[name=cttpc_telno]').val();
-	if (!cttpc_telno == '') {
-		if (!tel.test(cttpc_telno)) {
-			alert('전화번호 형식에 맞게 입력해주세요. ex) 000-0000-0000');
-			$('#phyEduFaciTbl input[name=cttpc_telno]').focus();
-			return false;
-		}
+	var cttpc_telno = $('#phyEduFaciTbl input[name=cttpcTelno]').val();
+	if (cttpc_telno == '') {
+		alert('담당자의 전화번호를 입력해주세요.');
+		$('#phyEduFaciTbl input[name=cttpcTelno]').focus();
+		return false;
+	} else if (!tel.test(cttpc_telno)) {
+		alert('전화번호 형식에 맞게 입력해주세요. ex) 000-0000-0000');
+		$('#phyEduFaciTbl input[name=cttpcTelno]').focus();
+		return false;
+	}
+	
+	var fclty_sumry = $('#phyEduFaciTbl input[name=fcltySumry]').val();
+	if (fclty_sumry == '') {
+		alert('시설물개요를 입력해주세요.');
+		return false;
 	} else {
 		if (confirm("체육시설 정보를 수정하시겠습니까?") == true) {
 			ui.loadingBar("show");

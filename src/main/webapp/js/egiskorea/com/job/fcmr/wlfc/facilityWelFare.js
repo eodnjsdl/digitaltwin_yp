@@ -16,7 +16,7 @@ function getWelFareFaciListView() {
 	
 	var baseContainer = "#bottomPopup";
     $(baseContainer).load('/job/fcmr/wlfc/selectWelFareFaciListView.do', function() {
-		toastr.success("/job/fcmr/wlfc/selectWelFareFaciListView.do", "페이지🙂호🙂출🙂");
+		//toastr.success("/job/fcmr/wlfc/selectWelFareFaciListView.do", "페이지🙂호🙂출🙂");
 		
 		// grid 기본 세팅
 		var $container = $("#container");
@@ -60,7 +60,7 @@ function getWelFareFaciListView() {
 				align: "center",
 				onClick: function() {
 					//this.self.select(this.dindex);
-					//console.log(this.item);
+					console.log(this.item);
 					selectWelFareFaciDetail(this.item.id);
 				}
 			}
@@ -209,7 +209,7 @@ function selectWelFareFaciDetail(id) {
 	
 	var container = "#rightSubPopup";
 	$(container).load("/job/fcmr/wlfc/selectWelFareFaciDetail.do", { gid: gid }, function() {
-		toastr.success("/job/fcmr/wlfc/selectWelFareFaciDetail.do", "페이지🙂호🙂출🙂");
+		//toastr.success("/job/fcmr/wlfc/selectWelFareFaciDetail.do", "페이지🙂호🙂출🙂");
 		
 		dtmap.vector.select(id);		// 지도에 표시
 		
@@ -227,7 +227,7 @@ function insertWelFareFaciView() {
 	
 	var container = "#rightSubPopup";
 	$(container).load("/job/fcmr/wlfc/insertWelFareFaciView.do", function() {
-		toastr.success("/job/fcmr/wlfc/insertWelFareFaciView.do", "페이지🙂호🙂출🙂");
+		//toastr.success("/job/fcmr/wlfc/insertWelFareFaciView.do", "페이지🙂호🙂출🙂");
 		
 		// 시설구분 selectbox
 		getCmmCodeData('FCLTCD', '#inWelFareFaciTbl #wel_fclty_se');
@@ -240,25 +240,46 @@ function insertWelFareFaciView() {
 
 // 복지시설 등록 저장
 function insertWelFareFaci() {
-	var fclty_nm = $('#inWelFareFaciTbl #wel_fclty_nm').val();
+	var fclty_nm = $('#inWelFareFaciTbl input[name=fcltyNm]').val();
 	if (fclty_nm == '') {
 		alert('시설명을 입력해주세요.');
-		$('#inWelFareFaciTbl #wel_fclty_nm').focus();
+		$('#inWelFareFaciTbl input[name=fcltyNm]').focus();
 		return false;
 	}
 	
 	// NULL값도 가능하지만 값이 입력되면 유효성 검사
 	var tel = /^[0-9]{3}-[0-9]{3,4}-[0-9]{4}/;
-	var cttpc_telno = $('#inWelFareFaciTbl #wel_cttpc_telno').val();
-	if (!cttpc_telno == '') {
-		if (!tel.test(cttpc_telno)) {
-			alert('전화번호 형식에 맞게 입력해주세요. ex) 000-0000-0000');
-			$('#inWelFareFaciTbl #wel_cttpc_telno').focus();
-			return false;
-		}
+	var cttpc_telno = $('#inWelFareFaciTbl input[name=cttpcTelno]').val();
+	if (cttpc_telno == '') {
+		alert('전화번호를 입력해주세요.');
+		$('#inWelFareFaciTbl input[name=cttpcTelno]').focus();
+		return false;
+	} else if (!tel.test(cttpc_telno)) {
+		alert('전화번호 형식에 맞게 입력해주세요. ex) 000-0000-0000');
+		$('#inWelFareFaciTbl input[name=cttpcTelno]').focus();
+		return false;
+	}
+	
+	var rn_adres = $('#inWelFareFaciTbl input[name=rnAdres]').val();
+	if (rn_adres == '') {
+		alert('도로명주소를 입력해주세요.');
+		$('#inWelFareFaciTbl input[name=rnAdres]').focus();
+		return false;
+	}
+	
+	var zipNum = /^[0-9]+$/;
+	var zip = $('#inWelFareFaciTbl input[name=zip]').val();
+	if (zip == '') {
+		alert('우편번호를 입력해주세요.');
+		$('#inWelFareFaciTbl input[name=zip]').focus();
+		return false;
+	} else if (!zipNum.test(zip)) {
+		alert('우편번호를 정확하게 입력해주세요.');
+		$('#inWelFareFaciTbl input[name=zip]').focus();
+		return false;
 	}
 
-	var lnm_adres = $('#inWelFareFaciTbl #wel_lnm_adres').val();
+	var lnm_adres = $('#inWelFareFaciTbl input[name=lnmAdres]').val();
 	var geom = $('#inWelFareFaciTbl #geom').val();
 	if (lnm_adres == '' || geom == '') {
 		alert('지도에서 위치를 선택해주세요.');
@@ -307,7 +328,7 @@ function updateWelFareFaciView(gid) {
 	
 	var container = "#rightSubPopup";
 	$(container).load("/job/fcmr/wlfc/updateWelFareFaciView.do", { gid: gid }, function() {
-		toastr.success("/job/fcmr/wlfc/updateWelFareFaciView.do", "페이지🙂호🙂출🙂");
+		//toastr.success("/job/fcmr/wlfc/updateWelFareFaciView.do", "페이지🙂호🙂출🙂");
 		
 		$(".scroll-y").mCustomScrollbar({
 			scrollbarPosition: "outside",
@@ -329,12 +350,33 @@ function updateWelFareFaci(gid) {
 	// NULL값도 가능하지만 값이 입력되면 유효성 검사
 	var tel = /^[0-9]{3}-[0-9]{3,4}-[0-9]{4}/;
 	var cttpc_telno = $('#upWelFareFaciTbl input[name=cttpcTelno]').val();
-	if (!cttpc_telno == '') {
-		if (!tel.test(cttpc_telno)) {
-			alert('전화번호 형식에 맞게 입력해주세요. ex) 000-0000-0000');
-			$('#upWelFareFaciTbl input[name=cttpcTelno]').focus();
-			return false;
-		}
+	if (cttpc_telno == '') {
+		alert('전화번호를 입력해주세요.');
+		$('#upWelFareFaciTbl input[name=cttpcTelno]').focus();
+		return false;
+	} else if (!tel.test(cttpc_telno)) {
+		alert('전화번호 형식에 맞게 입력해주세요. ex) 000-0000-0000');
+		$('#upWelFareFaciTbl input[name=cttpcTelno]').focus();
+		return false;
+	}
+	
+	var rn_adres = $('#upWelFareFaciTbl input[name=rnAdres]').val();
+	if (rn_adres == '') {
+		alert('도로명주소를 입력해주세요.');
+		$('#upWelFareFaciTbl input[name=rnAdres]').focus();
+		return false;
+	}
+	
+	var zipNum = /^[0-9]+$/;
+	var zip = $('#upWelFareFaciTbl input[name=zip]').val();
+	if (zip == '') {
+		alert('우편번호를 입력해주세요.');
+		$('#upWelFareFaciTbl input[name=zip]').focus();
+		return false;
+	} else if (!zipNum.test(zip)) {
+		alert('우편번호를 정확하게 입력해주세요.');
+		$('#upWelFareFaciTbl input[name=zip]').focus();
+		return false;
 	}
 
 	var lnm_adres = $('#upWelFareFaciTbl input[name=lnmAdres]').val();
@@ -426,17 +468,17 @@ function welFareFaciExcel() {
 			align: "center"
 		},
         columns: [
-			{key: "gid",				label: "GID",			width: '*'},
-			{key: "fclty_nm",			label: "복지시설명",		width: '*'},
-			{key: "rn_adres", 			label: "도로명주소",		width: '*'},
-			{key: "lnm_adres",			label: "지번주소",			width: '*'},
-			{key: "zip",				label: "우편번호",			width: '*'},
-			{key: "lat",				label: "위도",			width: '*'},
-			{key: "lon",				label: "경도",			width: '*'},
-			{key: "fclty_se_nm",		label: "시설구분",			width: '*'},
-			{key: "cttpc_telno",		label: "전화번호",			width: '*'},
-			{key: "data_stdde",			label: "데이터기준일",		width: '*'},
-			{key: "geom",				label: "GEOMETRY",		width: '*'}
+			{key: "gid",			label: "GID",			width: '*'},
+			{key: "fclty_nm",		label: "복지시설명",		width: '*'},
+			{key: "rn_adres", 		label: "도로명주소",		width: '*'},
+			{key: "lnm_adres",		label: "지번주소",			width: '*'},
+			{key: "zip",			label: "우편번호",			width: '*'},
+			{key: "lat",			label: "위도",			width: '*'},
+			{key: "lon",			label: "경도",			width: '*'},
+			{key: "fclty_se_nm",	label: "시설구분",			width: '*'},
+			{key: "cttpc_telno",	label: "전화번호",			width: '*'},
+			{key: "data_stdde",		label: "데이터기준일",		width: '*'},
+			{key: "geomText",		label: "GEOMETRY",		width: '*'}
 		],
 		body: {
 			align: "center"
@@ -512,6 +554,9 @@ function welFareFaciExcel() {
         	
         	// 좌표 처리
 			data.features[i].properties.geomObj = data.features[i].geometry;
+			
+			// GEOMETRY 처리
+			data.features[i].properties.geomText = data.features[i].geometry.type + ' (' + data.features[i].geometry.coordinates[0] + ' ' + data.features[i].geometry.coordinates[1] + ')';
 			
         	const {id, properties} = data.features[i];
 			list.push({...properties, ...{id: id}});
