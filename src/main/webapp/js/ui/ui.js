@@ -312,6 +312,8 @@ window.ui = (function () {
 
             //패널 close
             initPopup("");
+            //좌측 메뉴 close
+            $(".lnb-cont").css("display","none");
 
             dtmap.switchMap(e.target.value);
             _changeMenu();
