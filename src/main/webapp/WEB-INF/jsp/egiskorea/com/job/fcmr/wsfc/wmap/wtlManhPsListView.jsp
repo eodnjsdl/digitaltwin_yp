@@ -108,7 +108,7 @@
                     </div>
                     <div class="btn-wrap">
                         <div>
-                            <button type="button" class="btn type01 search facility-spatial-search" onclick="selectWtlManhPsList(1)">조회</button>
+                            <button type="button" class="btn type01 search facility-spatial-search">조회</button>
                         </div>
                     </div>
                 </div>
@@ -120,22 +120,17 @@
                 <div class="bbs-list-num">조회결과 : --건</div>
                 <div>
                     <button type="button" class="btn basic bi-write btn_add" onclick="insertWtlManhPsView();">등록</button>
-                    <button type="button" class="btn basic bi-excel btn_excel" onclick="fn_downloadExcel();">엑셀저장
+                    <button type="button" class="btn basic bi-excel btn_excel" onclick="downloadExcelWtlManhPs();">엑셀저장
                     </button>
                 </div>
             </div>
             <div class="bbs-list-wrap" style="height: 267px;"><!-- pagination 하단 고정을 위해 반드시 필요 -->
                 <div class="bbs-default">
-
                     <div id="baseGridDiv" style="height:inherit; display: flex;flex-direction: column">
-                        <!-- <div style="display: inline-block">
-                            <label>농업용공공관정</label>
-                        </div> -->
                         <div id="gridax5" data-ax5grid="attr-grid" data-ax5grid-config="{}" style="flex: 1"></div>
+                        <div data-ax5grid="attr-grid-excel" style="diplay:none;"></div>
                     </div>
                 </div>
-                <!-- <div class="pagination">
-                </div> -->
             </div>
             <input type="hidden" id="wtlManhPsListPage" 	value="">
         </div>
@@ -154,6 +149,8 @@
 		
 		//이벤트 리스너 추가
 		dtmap.on('select', onFacilitySelectEventListener);
+		
+		wtlManhPsInit();	//초기화
 		
 		//////////////////
 		//하위메뉴 select box

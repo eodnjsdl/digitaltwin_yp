@@ -231,7 +231,10 @@
         dtmap.draw.dispose();
         dtmap.draw.clear();
         
-        clearSpaceEditTool();	//공간정보 편집창 닫기
+        if($(".space-edit-tool").hasClass("opened")){
+	        clearSpaceEditTool();	//공간정보 편집창 닫기
+        }
+        
 	}
 	
 

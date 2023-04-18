@@ -27,9 +27,11 @@ function codeArrayInit(){
 	//console.log("codeArrayInit()");
 	
 	var codeData = [
+		{ code: "SA100", codeNm: "상수맨홀" },
 		{ code: "SA117", codeNm: "유량계" },
         { code: "SA118", codeNm: "급수탑" },
         { code: "SA119", codeNm: "소화전" },
+        { code: "SA991", codeNm: "신축관실" },
       ];
 	
 	setCmmCodeDataArray("SA-001", codeData);	//지형지물부호	SA-001 임의로 만든
@@ -360,20 +362,21 @@ function onFacilitySelectEventListener(e){
 			var idArray = id.split(".");
 			//console.log(idArray);
 			const featureType	= idArray[0];
-
+			
 			if(featureType == "wtl_fire_ps"){						//상수도시설 - 소방시설
 				selectWtlFirePs(id);
 			}else if(featureType == "wtl_pipe_lm"){					//상수도시설 - 상수관로
 				toastr.error("지도 객체 클릭 작업중", "상수도시설 - 상수관로");
 			}else if(featureType == "wtl_flow_ps"){					//상수도시설 - 유량계
-				toastr.error("지도 객체 클릭 작업중", "상수도시설 - 유량계");
+				selectWtlManhPs(id);
+			}else if(featureType == "wtl_manh_ps"){					//상수도시설 - 상수맨홀
+				selectWtlManhPs(id);
 			}else if(featureType == "swl_conn_ls"){					//하수도시설 - 하수연결관 
 				selectSwlConnLs(id);
 			}else{
 				alert("지도 객체 선택 오류");
 				return false;
 			}
-
 		}
 		
 	}

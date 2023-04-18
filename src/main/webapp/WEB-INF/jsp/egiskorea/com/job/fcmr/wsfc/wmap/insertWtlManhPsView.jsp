@@ -34,12 +34,13 @@
 										<col style="width: 23%;">
 										<col style="width: auto;">
 									</colgroup>
-									<tbody id="lSrchOptions">
+									<tbody>
 										<tr>
 	                                       	<th scope="row">지형지물부호</th>
 	                                       	<td>
 	                                          	<select name="ftr_cde" class="form-select">
 	                                          		<option value="SA100" selected="selected">상수맨홀</option>
+	                                          		<option value="SA991">신축관실</option>
 	                                          	</select>
 	                                       	</td>
 	                                       	<th scope="row">관리번호</th>
@@ -129,7 +130,7 @@
                    </div>
                </div>
            </div>
-           <button type="button" class="popup-close" title="닫기" onclick="cancelMode();"></button>
+           <button type="button" class="insert-wtlFlowPs-popup-close" title="닫기" onclick="cancelMode();"></button>
 
 <!-- 업무 > 시설관리 > 상수수도시설 > 상수맨홀 등록하기 end -->
 
@@ -138,6 +139,13 @@
 	$(document).ready(function(){
 		console.log("insertWtlManhPsView.jsp");
 	    
+		//3d 일때 지도 추가 버튼 삭제 
+		if(dtmap.mod == "3D"){
+			if($("#insertWtlManhPsForm .btn-select-map").css("display") != 'none'){
+				$("#insertWtlManhPsForm .btn-select-map").hide();
+			}
+		}
+		
 		// 날짜 형식 처리 예정 
 	    // 날짜 적용 - 지금 8자리로 되어 있어 이것 사용 (변경 예정) 
 		// 현재 db column 길이는 8~9자리 로 되어 었음 
@@ -213,6 +221,11 @@
         // 초기화 (지도)
         dtmap.draw.dispose();
         dtmap.draw.clear();
+        
+        if($(".space-edit-tool").hasClass("opened")){
+	        clearSpaceEditTool();	//공간정보 편집창 닫기
+        }
+        
 	}
 	
 
