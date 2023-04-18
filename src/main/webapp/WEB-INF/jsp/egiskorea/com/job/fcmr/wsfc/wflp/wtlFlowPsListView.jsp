@@ -121,8 +121,8 @@
             <div class="bbs-top">
                 <div class="bbs-list-num">조회결과 : --건</div>
                 <div>
-                    <button type="button" class="btn basic bi-write btn_add" onclick="insertWtlFlowPsView();">등록</button>
-                    <button type="button" class="btn basic bi-excel btn_excel" onclick="downloadExcelWtlFlowPs();">엑셀저장
+                    <button type="button" class="btn basic bi-write btn_add opened" onclick="insertWtlFlowPsView();">등록</button>
+                    <button type="button" class="btn basic bi-excel btn_excel" 		onclick="downloadExcelWtlFlowPs();">엑셀저장
                     </button>
                 </div>
             </div>
@@ -153,7 +153,7 @@
 <script type="text/javascript">
 	//jqeury
 	$(document).ready(function(){
-		//console.log("wtlFlowPsListView.jsp");
+		console.log("wtlFlowPsListView.jsp");
 		
 		//이벤트 리스너 추가
 		dtmap.on('select', onFacilitySelectEventListener);

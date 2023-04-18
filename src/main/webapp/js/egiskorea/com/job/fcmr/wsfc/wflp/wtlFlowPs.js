@@ -138,7 +138,7 @@ function selectWtlFlowPsList(page) {
 	        perPage 	: 10,
 	        page 		: page,
 	        sortBy		: 'gid',
-	        //sortOrder	: 'ASC'
+	        sortOrder	: 'DESC'
 	    }
 		
 	}else if($(".groundwaterSpace").hasClass("on")){		//공간 검색

@@ -20,8 +20,6 @@
 
 <!-- 업무 > 시설관리 > 상수도시설 > 유량계 수정하기 -->
 <div class="popup-header">유량계 수정하기</div>
-<button type="button" class="popup-close" onClick="toastr.warning('removeLayer(); cmmUtil.drawClear();', 'onclick 이벤트');" title="닫기"></button>
-<!-- //업무 > 시설관리 > 상수도시설 > 유량계 수정하기 -->
 <div class="popup-body">
 	<div class="data-write-wrap" style="height: 100%;">
 		<div class="scroll-y">
@@ -205,7 +203,10 @@
         	ui.loadingBar("show");
             $('.space-edit-tool').load("/job/fcts/editView.do", () => {
                 
-                $(".space-edit-tool").show();
+            	if(!$(".space-edit-tool").hasClass("opened")){
+                	$(".space-edit-tool").addClass("opened");
+                	$(".space-edit-tool").draggable();
+                }
                 
                	$.getJSON(
 			        "/com/mngr/info/selectAllLayerManageList.do"
@@ -244,11 +245,13 @@
 	//수정하기 취소버튼 동작
 	function cancelUpdateWtlFlowPs(){
 		//console.log("cancelUpdateWtlFlowPs()");
-		
+		debugger;
 		$(".update-wtlFlowPs-popup-close").closest('.popup-panel').removeClass('opened');
         // 초기화 (지도)
         dtmap.draw.dispose();
         dtmap.draw.clear();
+        
+        clearSpaceEditTool();	//공간정보 편집창 닫기
         
         var id = $("input[name=id]").val();
     	selectWtlFlowPs(id);
