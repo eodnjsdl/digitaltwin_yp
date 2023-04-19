@@ -34,6 +34,11 @@ function aj_selectThematicMapList() {
                         scrollbarPosition:"outside"
                     });
                 }
+        		//LEFT 메뉴 닫기 버튼
+        		$(".lnb-util .lnb-close").click(function(){
+        			($(this).parent().parent()).stop().fadeOut(100);
+        			$("#lnb li[data-menu]").removeClass("on");									
+        		});
             } else {
                 toastr.error("관리자에게 문의 바랍니다.", "정보를 불러오지 못했습니다.");
                 return false;
