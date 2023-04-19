@@ -219,6 +219,11 @@
         	
         	ui.loadingBar("show");
             $('.space-edit-tool').load("/job/fcts/editView.do", () => {
+            	
+            	//선, 면 데이터면 좌표 입력 창 암보이게 수정
+                if (!(this.geometryType == "point" || this.geometryType == "multipoint")) {
+		           	$(".tr_coordinate", this.selector).hide();
+		        }
                 
                 if(!$(".space-edit-tool").hasClass("opened")){
                 	$(".space-edit-tool").addClass("opened");
