@@ -56,6 +56,7 @@ function initGrid(){
 //가로등관리 조회기능
 function setData(_pageNo){
 
+	_pageNo = _pageNo ||0;
 	var options = {
 		typeNames: 'tgd_strtlgt_status', //WFS 레이어명
 		page : _pageNo+1,
@@ -88,6 +89,9 @@ function setData(_pageNo){
         }
 	}
 	
+	console.log(options);
+
+
 	var gridList = this;
 	const promise = dtmap.wfsGetFeature(options);
 
@@ -236,7 +240,13 @@ function fn_search_List(e){
 		const type = $parent.find('input[name="sffmSelect"]:checked').val();
 		
 		if (type === 'extent') {
-			SEARCHOBJ.spaceSearch.bbox = dtmap.getExtent();
+
+
+			// SEARCHOBJ.spaceSearch.bbox = dtmap.getExtent();
+			var bboxArr = dtmap.getExtent();
+			var transformedPosition = ol.proj.transform([bboxArr[0],bboxArr[1], bboxArr[2], bboxArr[3]],'EPSG:5179','EPSG:4326');
+			SEARCHOBJ.spaceSearch.bbox = transformedPosition;
+
 		} else {
 			if(dtmap.draw.source.getFeatures().length > 0){
 				SEARCHOBJ.spaceSearch.geometry = dtmap.draw.getGeometry();
@@ -247,7 +257,7 @@ function fn_search_List(e){
 		}
 	}
 
-
+	console.log(SEARCHOBJ);
 	
 }
 

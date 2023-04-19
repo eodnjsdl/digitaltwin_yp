@@ -79,7 +79,7 @@ $(document).ready(function() {
 							</span>
 						</div>
 						<div class="space-search-items">경계로부터 <span class="form-group">
-							<input type="number" id="sffmBuffer" name="sffmBuffer" class="form-control align-center" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" value="0" placeholder="0" onkeypress="if( event.keyCode == 13 ){ SFFM.fn_select_sffm_list('spital'); }"> <sub>m</sub></span> 이내 범위</div>
+							<input type="number" id="sffmBuffer" name="sffmBuffer" class="form-control align-center" placeholder="0" value="0"> <sub>m</sub></span> 이내 범위</div>
 					</div>
 					<div class="btn-wrap">
 						<div><button type="button" class="btn type01 search" onclick="fn_search_List(event); setData();">조회</button></div>
@@ -201,7 +201,8 @@ $(document).ready(function() {
 		
 
      	//경계로부터 버퍼 영역 지정
-	$(".area-facility-buffer", "#bottomPopup").on("keyup", function (event) {
+	$("#sffmBuffer", "#bottomPopup").on("keyup", function (event) {
+		console.log(this.value);
 		dtmap.draw.setBuffer(Number(this.value));
 	});
 		
