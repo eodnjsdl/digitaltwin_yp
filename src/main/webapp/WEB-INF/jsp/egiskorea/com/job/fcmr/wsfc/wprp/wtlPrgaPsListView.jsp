@@ -141,7 +141,7 @@
                     </div>
                 </div>
             </div>
-            <input type="hidden" id="wtiPrgaPsListPage" 	value="">
+            <input type="hidden" id="wtlPrgaPsListPage" 	value="">
         </div>
     </div>
 </div>
@@ -156,6 +156,14 @@
 	$(document).ready(function(){
 		console.log("wtlPrgaPsListView.jsp");	
 		
+		//이벤트 리스너 추가
+		dtmap.on('select', onFacilitySelectEventListener);
+		
+		wtlPrgaPsInit();	//초기화
+		 
+		//////////////////
+		//하위메뉴 select box
+		
 		//상수도 관리 메뉴 - 이벤트
 		var $container = $("#container");
 	    var $target = $container.find('#bottomPopup .facility-select');
@@ -163,6 +171,133 @@
 		$target.on('change', function() {
 			getWaterSupplyFacility(this.value);
 		});
+		
+		///////////
+		//관리 상위 버튼
+		
+		// 접기/펼치기
+        $(".popup-bottom-toggle", "#bottomPopup").on("click", function () {
+            const node = $(this);
+            const divNode = node.closest("div.popup-panel");
+            if (divNode.is(".fold")) {
+                node.attr("title", "펼치기");
+                divNode.removeClass("fold");
+            } else {
+                node.attr("title", "접기");
+                divNode.addClass("fold");
+            }
+        });
+		
+		//리셋
+		$(".popup-reset").unbind('click').bind('click',function(){
+			$target.trigger("change"); 
+		});
+		
+		//닫기
+		$(".popup-close").unbind('click').bind('click',function(){
+			//등록, 상세, 수정 팝업 창 닫기
+			if($("#rightSubPopup").hasClass("opened")){
+				$("#rightSubPopup").removeClass("opened");
+				$("#rightSubPopup").empty();
+			}
+			
+			//공간정보 편집도구 닫기
+			if($(".space-edit-tool").hasClass("opened")){
+            	$(".space-edit-tool").removeClass("opened");
+                $(".space-edit-tool").empty();
+            }
+			
+		});
+		
+		
+		/////////////////////
+		
+		//속성 검색, 공간 검색 탭 제어
+		$(document).on("click", ".tabBoxDepth2-wrap .tabBoxDepth2 > ul > li > .inner-tab", function(){ 
+			$(this).each(function(){
+				$(this).parent().addClass("on").siblings().removeClass("on");
+				$("."+$(this).parent().data("tab")).addClass("on").siblings().removeClass("on");
+			});
+			
+			if($("li[data-tab=groundwaterProperty]").hasClass("on")){	//속성검색 일때 공간 검색때 사용한 그리기 초기화
+				dtmap.draw.dispose();		//그리기 포인트 삭제
+				dtmap.draw.clear();			//그리기 초기화
+			}
+			
+		});
+			
+     	
+     	// 공간 검색 조회 버튼
+        $(".facility-spatial-search", "#bottomPopup").on("click", function (e) {
+           	//console.log("공간검색 조회");
+			
+           	const $parent = $(e.target).closest('.search-area');
+            const type = $parent.find('input[name="rad-facility-area"]:checked').val();
+            
+            if (type === 'extent') {
+            	FACILITY.spaceSearchOption.bbox 	= dtmap.getExtent();
+            } else {
+            	if(dtmap.draw.source.getFeatures().length > 0){
+	            	FACILITY.spaceSearchOption.geometry = dtmap.draw.getGeometry();
+            	}else{
+            		alert("영역지정 안되었습니다");
+            		return false;
+            	}
+            }
+           	
+           	selectWtlPrgaPsList(1);
+
+        });
+     	
+     	
+     	// 검색영역지정 변경 (현재화면영역, 사용자정의)
+        $("[name=rad-facility-area]", "#bottomPopup").on("change", function () {
+            const node = $(this);
+            const value = node.val();
+            if (value == "extent") {
+                $(".space-facility-area", "#bottomPopup").hide();
+                
+                //그리기, 그려진 것 초기화
+                dtmap.draw.dispose();
+                dtmap.draw.clear();
+                
+            } else {
+                $(".space-facility-area", "#bottomPopup").show();
+                $("[name=rad-facility-drawing]:first", "#bottomPopup").trigger("click");
+            }
+        }); 
+     	
+     	
+     	// 사용자 정의 검색 조건
+        $("[name=rad-facility-drawing]", "#bottomPopup").on("click", function () {
+            const node = $(this);
+            const value = node.val();
+
+            let type;
+            switch (Number(value)) {
+                case 1:
+                    type = 'Point';
+                    break;
+                case 2:
+                    type = 'LineString';
+                    break;
+                case 3:
+                    type = 'Box';
+                    break;
+                case 4:
+                    type = 'Circle';
+                    break;
+            }
+            dtmap.draw.active({type: type, once: true})
+            //toastr.warning("that.searchDrawing(value);", "공간검색 사용자정의");
+        });
+		
+
+     	//경계로부터 버퍼 영역 지정
+        $(".area-facility-buffer", "#bottomPopup").on("keyup", function (event) {
+            dtmap.draw.setBuffer(Number(this.value));
+        });
+		
 	});
 
 	//functions

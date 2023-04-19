@@ -175,8 +175,6 @@
 	<!-- {상수도 하위 메뉴}  -->	
 	<script src="/js/egiskorea/com/job/fcmr/wsfc/wpil/wtlPipeLm.js"></script>			<!-- 상수관로 -->
 	<!-- 상수관로심도 -->
-	<script src="/js/egiskorea/com/job/fcmr/wsfc/wprp/wtlPrgaPs.js"></script>			<!-- 수압계 -->
-	<script src="/js/egiskorea/com/job/fcmr/wsfc/wsep/wtlServPs.js"></script>			<!-- 배수지 -->
 	<!-- 급수관로 -->
 	<!-- 변류시설 -->
 	
