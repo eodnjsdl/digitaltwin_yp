@@ -24,9 +24,6 @@ function aj_selectThematicMapList() {
         },
         dataType : "html",
         async: false,
-        beforeSend : function(jqXHR, settings) {
-            loadingShowHide("show");
-        },
         success : function(returnData, status){
             if (status == "success") {
                 $(".lnb-theme").html(returnData);
@@ -41,9 +38,6 @@ function aj_selectThematicMapList() {
                 toastr.error("관리자에게 문의 바랍니다.", "정보를 불러오지 못했습니다.");
                 return false;
             }
-        },
-        complete : function() {
-            loadingShowHide("hide");
         }
     });
 }

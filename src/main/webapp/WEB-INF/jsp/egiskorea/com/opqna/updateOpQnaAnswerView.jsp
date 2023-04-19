@@ -35,8 +35,6 @@
 	<script src="/js/plugin/colorPicker/jquery.minicolors.min.js"></script>
 	<link rel="stylesheet" href="/js/plugin/colorPicker/jquery.minicolors.css">
 	
-	<script src="/js/map-ui.js"></script>
-	
 	<link rel="stylesheet" href="/css/com/common.css">
 	<link rel="stylesheet" href="/css/map.css">
 	<link rel="stylesheet" href="/css/map2d.css">
@@ -75,7 +73,7 @@ function aj_updateOpQnaAnswer(){
 			async: false,
 			success : function(returnData, status){
 				if(status == "success") {
-					$("#opqna").html(returnData);
+					$("#bbsPopup").html(returnData);
 				}else{ 
 					toastr.error("관리자에게 문의 바랍니다.", "정보를 불러오지 못했습니다.");
 					return;
@@ -103,7 +101,7 @@ function aj_selectOpQna(){
 		async: false,
 		success : function(returnData, status){
 			if(status == "success") {
-				$("#opqna").html(returnData);
+				$("#bbsPopup").html(returnData);
 			}else{ 
 				toastr.error("관리자에게 문의 바랍니다.", "정보를 불러오지 못했습니다.");
 				return;
@@ -116,7 +114,7 @@ function aj_selectOpQna(){
 </script>
 <!doctype html>				
 				
-					<div class="popup-header">운영지원</div>
+					<div class="popup-header" style="background-image: url(/images/etc/popup-title-board.svg)">운영지원</div>
 					<div class="popup-body">
 						<div class="bbs-popup-body">
 							<div class="scroll-y" style="height: 654px;">

@@ -13,7 +13,7 @@ html, body {
 	justify-content: center;
 	height: 100%;
 	min-height: 700px;
-	background: url(/images/login/login-bg.jpg) no-repeat 50% 50%;
+	background: url(/yp_dt/images/login/login-bg.jpg) no-repeat 50% 50%;
 	background-size: cover;
 }
 
@@ -36,7 +36,7 @@ html, body {
 	margin: -1px auto 0;
 	width: 432px;
 	height: 102px;
-	background: url(/images/login/logo.png) no-repeat 50% -7px;
+	background: url(/yp_dt/images/login/logo.png) no-repeat 50% -7px;
 	text-indent: -9999px;
 }
 
@@ -127,11 +127,11 @@ html, body {
 }
 
 .form-checkbox input[type="checkbox"] + label::before {
-	background-image: url(/images/login/form-checkbox.svg);
+	background-image: url(/yp_dt/images/login/form-checkbox.svg);
 }
 
 .form-checkbox input[type="checkbox"]:checked + label::before {
-	background-image: url(/images/login/form-checkbox-on.svg);
+	background-image: url(/yp_dt/images/login/form-checkbox-on.svg);
 }
 
 .login-btn {
@@ -226,7 +226,7 @@ html, body {
 }
 
 .login-dialog .ui-widget-header .ui-icon {
-	background-image: url(/images/icon/popup-close2.svg);
+	background-image: url(/yp_dt/images/icon/popup-close2.svg);
 	background-position: 50% 50%;
 }
 
@@ -402,7 +402,7 @@ select::-ms-expand {
 	font-weight: 500;
 	border: 1px solid #44516A;
 	border-radius: 5px;
-	background-image: url(/images/icon/form-select-arrow-lg.jpg);
+	background-image: url(/yp_dt/images/icon/form-select-arrow-lg.jpg);
 	background-repeat: no-repeat;
 	background-position: right 0 top 50%;
 	-webkit-appearance: none;
@@ -438,7 +438,7 @@ select::-ms-expand {
 	left: 50%;
 	transform: translate(-50%, -50%);
 	width: 650px;
-	height: auto;
+	height: 590px;
 	background-color: #FFFFFF;
 	box-shadow: 0px 20px 30px rgba(0, 0, 0, 0.5);
 	border-radius: 20px;
@@ -455,7 +455,6 @@ select::-ms-expand {
 	color: #44516A;	
 	font-size: 30px;
 	font-weight: 700;
-	padding: 0 50px 0 50px;
 }
 
 .system-popup .system-header::before {
@@ -476,7 +475,7 @@ select::-ms-expand {
 	right: 20px;
 	width: 28px;
 	height: 28px;
-	background: url(/images/login/system-close.png) no-repeat 50% 50%;
+	background: url(/yp_dt/images/login/system-close.png) no-repeat 50% 50%;
 }
 
 .system-popup .system-body {
@@ -495,119 +494,3 @@ select::-ms-expand {
 .system-popup .btn-wrap {
 	margin-top: 60px;
 }
-
-/*------------------------------------------------------------------------------
- * HaNam
- *----------------------------------------------------------------------------*/
-#wrap.hanam {
-	background: url(/images/hanam/login/login-bg.jpg) no-repeat 50% 50%;
-}
-
-#wrap.hanam #login {
-	min-width: 770px;
-	border: 1px solid rgba(255, 255, 255, 0.5);	
-	border-radius: 20px;
-	background-color: rgba(255, 255, 255, 0.6);
-	box-shadow: 0px 20px 30px rgba(0, 0, 0, 0.5);
-	text-align: center;
-	-webkit-backdrop-filter: blur(40px);
-	backdrop-filter: blur(40px);	
-}
-
-#wrap.hanam #login * {
-	font-family: 'HaNamDaum';
-}
-
-#wrap.hanam #login .logo {
-	background: url(/images/hanam/login/logo.png) no-repeat 50% -7px;
-}
-
-#wrap.hanam #login .login-group .form-label, #wrap.hanam #login .login-group .form-control {
-	font-size: 21px;
-}
-
-#wrap.hanam #login .login-group .form-label {
-    width: 210px;
-}
-
-#wrap.hanam .login-btn {
-	line-height: 1.5;
-}
-
-/*------------------------------------------------------------------------------
- * Gimpo
- *----------------------------------------------------------------------------*/
-#wrap.gimpo {
-	background: url(/images/gimpo/login/login-bg.png) no-repeat 50% 50%;
-}
-
-#wrap.gimpo #login {
-	min-width: 770px;
-	border: 1px solid rgba(255, 255, 255, 0.5);	
-	border-radius: 20px;
-	background-color: rgba(255, 255, 255, 0.6);
-	box-shadow: 0px 20px 30px rgba(0, 0, 0, 0.5);
-	text-align: center;
-	-webkit-backdrop-filter: blur(40px);
-	backdrop-filter: blur(40px);	
-}
-
-#wrap.gimpo #login * {
-	font-family: 'HaNamDaum';
-}
-
-#wrap.gimpo #login .logo {
-	background: url(/images/gimpo/login/logo.png) no-repeat 50% -7px;
-	width: 100%;
-}
-
-#wrap.gimpo #login .login-group .form-label, #wrap.gimpo #login .login-group .form-control {
-	font-size: 21px;
-}
-
-#wrap.gimpo #login .login-group .form-label {
-    width: 210px;
-}
-
-#wrap.gimpo .login-btn {
-	line-height: 1.5;
-}
-
-/*------------------------------------------------------------------------------
- * Uijeongbu
- *----------------------------------------------------------------------------*/
-#wrap.uijeongbu {
-	background: url(/images/uijeongbu/login/login-bg.png) no-repeat 50% 50%;
-}
-
-#wrap.uijeongbu #login {
-	min-width: 770px;
-	border: 1px solid rgba(255, 255, 255, 0.5);	
-	border-radius: 20px;
-	background-color: rgba(255, 255, 255, 0.6);
-	box-shadow: 0px 20px 30px rgba(0, 0, 0, 0.5);
-	text-align: center;
-	-webkit-backdrop-filter: blur(40px);
-	backdrop-filter: blur(40px);	
-}
-
-#wrap.uijeongbu #login * {
-	font-family: 'HaNamDaum';
-}
-
-#wrap.uijeongbu #login .logo {
-	background: url(/images/uijeongbu/login/logo.png) no-repeat 50% -7px;
-	width: 100%;
-}
-
-#wrap.uijeongbu #login .login-group .form-label, #wrap.uijeongbu #login .login-group .form-control {
-	font-size: 21px;
-}
-
-#wrap.uijeongbu #login .login-group .form-label {
-    width: 210px;
-}
-
-#wrap.uijeongbu .login-btn {
-	line-height: 1.5;
-}}

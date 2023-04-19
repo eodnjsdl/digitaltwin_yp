@@ -305,4 +305,53 @@ public class ExcelView {
         }
         return encodedFilename;
     }
+    
+    /**
+     * 엑셀 양식 다운로드 - 공유재산 
+     * @param request
+     * @param response
+     * @param fileName
+     * @param title
+     * @throws IOException
+     * @throws InvocationTargetException
+     * @throws SQLException
+     */
+    public static void excelDataDownload(HttpServletRequest request, HttpServletResponse response, String fileName,
+            String[] title)
+            throws IOException, InvocationTargetException, SQLException {
+        try {
+
+            // 행, 열, 열번호
+            Row row = null;
+            Cell cell = null;
+            int rowNo = 0;
+
+            SXSSFWorkbook workbook =  new SXSSFWorkbook();
+            SXSSFSheet sheet = workbook.createSheet();
+
+            CellStyle[] cellStyle = ExcelView.createCellStyle(workbook);
+
+            row = sheet.createRow(rowNo++);
+
+            for (int i = 0; i < title.length; i++) {
+                cell = row.createCell(i);
+                cell.setCellStyle(cellStyle[0]);
+                cell.setCellValue(title[i]);
+            }
+
+            String newNm = getDisposition(fileName, getBrowser(request));
+
+            // 컨텐츠 타입과 파일명 지정
+            response.setContentType("ms-vnd/excel");
+            response.setHeader("Content-Disposition", "attachment; filename=\"" + newNm + ".xlsx\";");
+
+            response.flushBuffer();
+
+            // 엑셀 출력
+            workbook.write(response.getOutputStream());
+            workbook.close();
+        } catch (IOException e) {
+            logger.error("ERROR-01:파일 생성 에러");
+        }
+    }
 }
