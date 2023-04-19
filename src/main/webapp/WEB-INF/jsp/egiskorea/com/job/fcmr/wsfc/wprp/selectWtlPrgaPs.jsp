@@ -6,9 +6,9 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
 
-<!-- 업무 > 시설관리 > 상수수도시설 > 상수관로 상세보기-->
+<!-- 업무 > 시설관리 > 상수수도시설 > 수압계 상세보기-->
 
-       	<div class="popup-header">상수관로 상세보기</div>
+       	<div class="popup-header">수압계 상세보기</div>
            <div class="popup-body">
                <div class="sub-popup-body">
                    <div class="data-write-wrap" style="height: 100%;">
@@ -25,91 +25,103 @@
                                    <tr>
                                        <th scope="row">지형지물부호</th>
                                        <td>
-                                          	<c:out value="${wtlPipeLmVO.ftr_cde_nm }"/>
+                                          	<c:out value="${wtlPrgaPsVO.ftr_cde_nm }"/>
                                        </td>
                                        <th scope="row">관리번호</th>
                                        <td>
-                                       	  	<c:out value="${wtlPipeLmVO.ftr_idn }"/>
+                                       	  	<c:out value="${wtlPrgaPsVO.ftr_idn }"/>
                                        </td>
                                    </tr>
                                    <tr>
                                        <th scope="row">읍면동</th>
                                        <td>
-                                       		<c:out value="${wtlPipeLmVO.hjd_cde_nm }"/>
+                                       		<c:out value="${wtlPrgaPsVO.hjd_cde_nm }"/>
                                        </td>
                                        <th scope="row">도엽번호</th>
                                        <td>
-											<c:out value="${wtlPipeLmVO.sht_num }"/>
+                                       		<c:out value="${wtlPrgaPsVO.sht_num }"/>
                                        </td>
                                    </tr>
                                    <tr>
                                        <th scope="row">관리기관</th>
                                        <td>
-                                       		<c:out value="${wtlPipeLmVO.mng_cde }"/>
+                                       	   <c:if test="${wtlPrgaPsVO.mng_cde_nm  != '' || wtlPrgaPsVO.mng_cde_nm  ne null}">
+                                           		<c:out value="${wtlPrgaPsVO.mng_cde_nm }"/>
+                                           </c:if>
+                                           <c:if test="${wtlPrgaPsVO.mng_cde_nm  == '' || wtlPrgaPsVO.mng_cde_nm  eq null }">
+                                           		<c:out value="${wtlPrgaPsVO.mng_cde }"/>
+                                           </c:if>
                                        </td>
                                        <th scope="row">설치일자</th>
                                        <td>
                                            <div class="datapicker-group">
-                                           		<c:out value="${wtlPipeLmVO.ist_ymd }"/>
+                                           		<c:out value="${wtlPrgaPsVO.ist_ymd }"/>
                                            </div>
                                        </td>
                                    </tr>
                                    <tr>
-                                       <th scope="row">관용도</th>
+                                       <th scope="row">수압계종류</th>
                                        <td>
-                                           <c:out value="${wtlPipeLmVO.saa_cde_nm }"/>
+                                           <c:out value="${wtlPrgaPsVO.pga_cde_nm }"/>
                                        </td>
-                                       <th scope="row">관재질</th>
+                                       <th scope="row">수압계형식</th>
                                        <td>
-                                           <c:out value="${wtlPipeLmVO.mop_cde_nm }"/>
+                                           <c:out value="${wtlPrgaPsVO.mof_cde_nm }"/>
                                        </td>
                                    </tr>
                                    <tr>
                                        <th scope="row">관경(mm)</th>
                                        <td>
-                                       		<c:out value="${wtlPipeLmVO.std_dip }"/>
+                                       		<c:out value="${wtlPrgaPsVO.std_dip }"/>
                                        </td>
-                                       <th scope="row">연장</th>
+                                       <th scope="row">기준압력</th>
                                        <td>
-                                       		<c:out value="${wtlPipeLmVO.byc_len }"/>
-                                       </td>
-                                   </tr>
-                                   <tr>
-                                       <th scope="row">접합종류</th>
-                                       <td>
-                                       		<c:out value="${wtlPipeLmVO.jht_cde }"/>
-                                       </td>
-                                       <th scope="row">최저깊이</th>
-                                       <td>
-	                                       	<c:out value="${wtlPipeLmVO.low_dep }"/>
+                                       		<c:out value="${wtlPrgaPsVO.std_saf }"/>
                                        </td>
                                    </tr>
                                    <tr>
-                                       <th scope="row">최고깊이</th>
+                                       <th scope="row">평균압력</th>
                                        <td>
-                                       		<c:out value="${wtlPipeLmVO.hgh_dep }"/>
+                                       		<c:out value="${wtlPrgaPsVO.avg_saf }"/>
+                                       </td>
+                                       <th scope="row">측정압력</th>
+                                       <td>
+	                                       	<c:out value="${wtlPrgaPsVO.msr_saf }"/>
+                                       </td>
+                                   </tr>
+                                   <tr>
+                                       <th scope="row">배수관_관경</th>
+                                       <td>
+                                       		<c:out value="${wtlPrgaPsVO.srv_dip }"/>
+                                       </td>
+                                       <th scope="row">관로지형지물부호</th>
+                                       <td>
+	                                       	<c:out value="${wtlPrgaPsVO.pip_cde }"/>
+                                       </td>
+                                   </tr>
+                                   <tr>
+                                       <th scope="row">관로관리번호</th>
+                                       <td>
+	                                       	<c:out value="${wtlPrgaPsVO.pip_idn }"/>
                                        </td>
                                        <th scope="row">공사번호</th>
                                        <td>
-	                                       	<c:out value="${wtlPipeLmVO.cnt_num }"/>
+	                                       	<c:out value="${wtlPrgaPsVO.cnt_num }"/>
                                        </td>
                                    </tr>
                                    <tr>
-                                       <th scope="row">탐사구분</th>
-                                       <td>
-	                                       	<c:out value="${wtlPipeLmVO.iqt_cde }"/>
-                                       </td>
-                                       <th scope="row">관라벨</th>
-                                       <td>
-	                                       	<c:out value="${wtlPipeLmVO.org_idn }"/>
+                                       <th scope="row">방향각</th>
+                                       <td colspan="3">
+	                                       	<c:out value="${wtlPrgaPsVO.ang_dir }"/>
                                        </td>
                                    </tr>
                                    <tr>
                                        <th scope="row">위치</th>
                                        <td colspan="3">
                                            <div class="form-row">
+											  <c:out value="${wtlPrgaPsVO.geom }"/>
                                            	  <input type="text" class="form-control txt-geometry-address" value="" readonly="readonly">
-                                           	  <input type="hidden" name="geomText" value="<c:out value="${wtlPipeLmVO.geom }"/>" >
+                                           	  <input type="hidden" name="geomText" value="<c:out value="${wtlPrgaPsVO.geom }"/>" >
                                            </div>
                                        </td>
                                    </tr>
@@ -119,7 +131,7 @@
                        </div>
                        <div class="position-bottom btn-wrap justify-content-end">
                            <div>
-                           	   <button type="button" class="btn basic bi-edit btn_edit" onclick="updateWtlPipeLmView();">수정</button>
+                           	   <button type="button" class="btn basic bi-edit btn_edit" onclick="javascript:updateWtlPrgaPsView('<c:out value="${gridRowId }"/>')">수정</button>
                                <button type="button" class="btn basic bi-delete2 btn_delete">삭제</button>  
                                <button type="button" class="btn basic bi-cancel btn_cancel">취소</button>
                            </div>
@@ -129,17 +141,22 @@
            </div>
            <button type="button" class="popup-close" title="닫기"></button>
 
-<!-- 업무 > 시설관리 > 상수수도시설 > 상수관로 상세보기 end -->
+<!-- 업무 > 시설관리 > 상수수도시설 > 수압계 상세보기 end -->
 
 <script type="text/javascript">
 	//jqeury
 	$(document).ready(function(){
-		console.log("wtlPipeLmDetail.jsp");
+		console.log("selectWtlPrgaPs.jsp");
 		
-		var geom = "${wtlPipeLmVO.geom}";
+		//gird 데이터를 통한 주소 조회
+		var gridRowId = "${gridRowId }";
 		
-		//위치 : 주소 조회
-		getAddressForPoint(geom, ".txt-geometry-address");
+		var geomData = getGeomDataForGridRowId(gridRowId);
+		if(geomData){
+			getAddressForPoint(geomData, "#rightSubPopup .txt-geometry-address");
+		}else{
+			console.log("상세보기 좌표 오류");
+		}
 		 
 	});
 </script>

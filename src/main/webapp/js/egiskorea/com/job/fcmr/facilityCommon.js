@@ -27,8 +27,12 @@ function codeArrayInit(){
 	//console.log("codeArrayInit()");
 	
 	var codeData = [
+		{ code: "SA100", codeNm: "상수맨홀" },
+		{ code: "SA117", codeNm: "유량계" },
         { code: "SA118", codeNm: "급수탑" },
         { code: "SA119", codeNm: "소화전" },
+        { code: "SA121", codeNm: "수압계" },
+        { code: "SA991", codeNm: "신축관실" },
       ];
 	
 	setCmmCodeDataArray("SA-001", codeData);	//지형지물부호	SA-001 임의로 만든
@@ -39,11 +43,34 @@ function codeArrayInit(){
 	//상수도 - 소방시설
 	setCmmCodeDataArray("OGC-048");				//소화전 형식
 	
+	//상수관로 코드
+	setCmmCodeDataArray("OGC-004");				//관용도
+	setCmmCodeDataArray("OGC-003");				//관재질
+	setCmmCodeDataArray("OGC-005");				//접합종류
+	
+	//유량계 코드
+	setCmmCodeDataArray("OGC-141");				//유량계 종류
+	setCmmCodeDataArray("OGC-041");				//유량계 형식
+	
+	//상수맨홀 코드
+	setCmmCodeDataArray("OGC-002");				//맨홀종류
+	setCmmCodeDataArray("OGC-006");				//맨홀형태
+	
+	//수압계
+	setCmmCodeDataArray("OGC-137");				//수압계종류
+	setCmmCodeDataArray("OGC-041");				//수압계형식
+	
+	//배수지
+	setCmmCodeDataArray("OGC-001");				//관리방법
+	setCmmCodeDataArray("OGC-134");				//배수지제어방법
+
+	setCmmCodeDataArray("FCLTCD");				// 복지시설 구분
+
 	//하수도 - 하수연결관
 	setCmmCodeDataArray("OGC-017");				//하수관용도
 	setCmmCodeDataArray("OGC-003");				//관재질
 	setCmmCodeDataArray("OGC-001");				//시설물형태
-	
+
 	// 하수도 - 환기구
 	setCmmCodeDataArray("OGC-003");				// 관재질
 	setCmmCodeDataArray("OGC-012");				// 흡출기형식
@@ -351,7 +378,11 @@ function onFacilitySelectEventListener(e){
 			}else if(featureType == "wtl_pipe_lm"){					//상수도시설 - 상수관로
 				toastr.error("지도 객체 클릭 작업중", "상수도시설 - 상수관로");
 			}else if(featureType == "wtl_flow_ps"){					//상수도시설 - 유량계
-				toastr.error("지도 객체 클릭 작업중", "상수도시설 - 유량계");
+				selectWtlFlowPs(id);
+			}else if(featureType == "wtl_manh_ps"){					//상수도시설 - 상수맨홀
+				selectWtlManhPs(id);
+			}else if(featureType == "wtl_prga_ps"){					//상수도시설 - 수압계
+				selectWtlPrgaPs(id);
 			}else if(featureType == "swl_conn_ls"){					//하수도시설 - 하수연결관 
 				selectSwlConnLs(id);
 			}else if(featureType == "tgd_phstrn_fclty"){			// 체육시설
