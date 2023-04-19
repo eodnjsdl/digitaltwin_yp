@@ -177,8 +177,6 @@
 	<!-- {상수도 하위 메뉴}  -->	
 	<script src="/js/egiskorea/com/job/fcmr/wsfc/wpil/wtlPipeLm.js"></script>			<!-- 상수관로 -->
 	<!-- 상수관로심도 -->
-	<script src="/js/egiskorea/com/job/fcmr/wsfc/wprp/wtlPrgaPs.js"></script>			<!-- 수압계 -->
-	<script src="/js/egiskorea/com/job/fcmr/wsfc/wsep/wtlServPs.js"></script>			<!-- 배수지 -->
 	<!-- 급수관로 -->
 	<!-- 변류시설 -->
 	
@@ -604,44 +602,54 @@
 						<ul class="lnb-list">
 							<li><p class="lnb-dep1">분석</p>
 								<ul class="lnb-dep2">
-			                        <li>
-			                            <button type="button" id="M_AI_IMAGE" class="dataPopup" data-popup="analysis-01-05" data-maptype="3D">
-			                                AI영상분석(3D)
-			                            </button>
-			                        </li>
-			                        <li>
-			                            <button type="button" id="M_ROV_ANLS" class="dataPopup" data-popup="analysis-01-01" data-maptype="3D">
-			                                 	조망권분석(3D)
-			                            </button>
-			                        </li>
-			                        <li>
-			                            <button type="button" id="M_SLOPE" class="dataPopup" data-popup="analysis-01-04" data-maptype="3D">
-			                                	경사분석(3D)
-			                            </button>
-			                        </li>
-			                        <li>
-			                            <button type="button" id="M_SPCE_ANLS" class="dataPopup" data-maptype="2D">
+									<li>
+			                            <button type="button" id="M_SPCE_ANLS" class="dataPopup" data-maptype="">
 			                                	공간분석
 			                            </button>
 			                        </li>
 			                        <li>
-			                            <button type="button" id="M_SUHN_ANLS" class="dataPopup" data-popup="analysis-01-02" data-maptype="3D">
+			                            <button type="button" id="M_UNDG_FCTY_SECT" class="dataPopup" data-maptype="">
+			                                	지하시설단면
+			                            </button>
+			                        </li>
+			                        <li>
+			                            <button type="button" id="M_AI_IMAGE" class="dataPopup"  data-maptype="3D">
+			                                AI영상분석(3D)
+			                            </button>
+			                        </li>
+			                        <li>
+			                            <button type="button" id="M_ROV_ANLS" class="dataPopup"  data-maptype="3D">
+			                                 	조망권분석(3D)
+			                            </button>
+			                        </li>
+			                        <li>
+			                            <button type="button" id="M_SLOPE" class="dataPopup" data-maptype="3D">
+			                                	경사분석(3D)
+			                            </button>
+			                        </li>
+			                        <li>
+			                            <button type="button" id="M_SUHN_ANLS" class="dataPopup" data-maptype="3D">
 			                                	일조권분석(3D)
 			                            </button>
 			                        </li>
 			                        <li>
-			                            <button type="button" id="M_TPPH_SECT" class="dataPopup" data-popup="analysis-01-06" data-maptype="3D">
+			                            <button type="button" id="M_TPPH_SECT" class="dataPopup" data-maptype="3D">
 			                                	지형단면도(3D)
-			                            </button>
-			                        </li>
-			                        <li>
-			                            <button type="button" id="M_UNDG_FCTY_SECT" class="dataPopup" data-popup="analysis-01-07" data-maptype="2D">
-			                                	지하시설단면
 			                            </button>
 			                        </li>
 			                        <li>
 			                            <button type="button" id="M_VSBL_ANLS" class="dataPopup" data-maptype="3D">
 			                                	가시권분석(3D)
+			                            </button>
+			                        </li>
+			                        <li>
+			                            <button type="button" id="" class="dataPopup" data-maptype="">
+			                                	편입토지분석
+			                            </button>
+			                        </li>
+			                        <li>
+			                            <button type="button" id="" class="dataPopup"  data-maptype="">
+			                                	지하시설물터파기
 			                            </button>
 			                        </li>
 								</ul>

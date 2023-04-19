@@ -210,7 +210,7 @@ function selectWtlFirePsList(page) {
         	
         	//지형지물부호 코드 변경
         	var ftr_cde = data.features[i].properties.ftr_cde;
-        	data.features[i].properties.ftr_cde_nm = getCmmCodeDataArray("SA-001", ftr_cde);
+        	data.features[i].properties.ftr_cde_nm = getCmmCodeDataArray("FTR-001", ftr_cde);
         	
         	//관리기관 코드 변경
         	var mng_cde = data.features[i].properties.mng_cde;
@@ -332,7 +332,7 @@ function selectWtlFirePs(id){
         	
     	//지형지물부호 코드 변경
     	var ftr_cde = data.features[0].properties.ftr_cde;
-    	data.features[0].properties.ftr_cde_nm = getCmmCodeDataArray("SA-001", ftr_cde);
+    	data.features[0].properties.ftr_cde_nm = getCmmCodeDataArray("FTR-001", ftr_cde);
     	
     	//관리기관 코드 변경
     	var mng_cde = data.features[0].properties.mng_cde;
@@ -428,7 +428,7 @@ function insertWtlFirePsView(){
 	
 	var container = "#rightSubPopup";
     $(container).load("/job/fcmr/wsfc/insertWtlFirePsView.do", function () {
-        toastr.success("/job/fcmr/wsfc/insertWtlFirePsView.do", "페이지🙂호🙂출🙂");
+        //toastr.success("/job/fcmr/wsfc/insertWtlFirePsView.do", "페이지🙂호🙂출🙂");
         
         $(".scroll-y").mCustomScrollbar({
             scrollbarPosition: "outside",
@@ -845,7 +845,7 @@ function downloadExcelWtlFirePs() {
         	
         	//지형지물부호 코드 변경
         	var ftr_cde = data.features[i].properties.ftr_cde;
-        	data.features[i].properties.ftr_cde_nm = getCmmCodeDataArray("SA-001", ftr_cde);
+        	data.features[i].properties.ftr_cde_nm = getCmmCodeDataArray("FTR-001", ftr_cde);
         	
         	//관리기관 코드 변경
         	var mng_cde = data.features[i].properties.mng_cde;

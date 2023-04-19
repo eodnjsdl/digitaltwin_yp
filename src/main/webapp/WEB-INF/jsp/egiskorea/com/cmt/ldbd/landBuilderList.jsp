@@ -60,5 +60,5 @@
 
 					</div>
 					<button type="button" class="manualBtn" title="도움말" onclick="manualTab('지적/건물')"></button>
-					<button type="button" class="popup-close" title="닫기"></button>
+					<button type="button" class="popup-close" title="닫기" onclick="dtmap.vector.clear();"></button>
 				<!-- //top > 지적/건물 -->
