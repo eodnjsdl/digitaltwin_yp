@@ -34,7 +34,7 @@ function swlConnLsInit(){
 ////////////////////
 //목록 조회
 
-//소방시설 리스트 로드 이후 처리
+//하수연결관 리스트 로드 이후 처리
 function swlConnLsListProcess(){
 	
 	$(".scroll-y").mCustomScrollbar({
@@ -123,7 +123,7 @@ function swlConnLsListProcess(){
 }
 
 
-//소방시설 목록 조회
+//하수연결관 목록 조회
 function selectSwlConnLsList(page) {
 	console.log("selectSwlConnLsList(page)");
 	//console.log("page>>>"+page);
@@ -318,7 +318,7 @@ function selectSwlConnLsList(page) {
 //////////////
 //상세정보 보회
 
-//소방시설 상세정보 조회
+//하수연결관 상세정보 조회
 function selectSwlConnLs(id){
 	//console.log("selectSwlConnLs(id)");
 	//console.log(id);
@@ -359,8 +359,8 @@ function selectSwlConnLs(id){
     	}
     	
     	//지형지물부호 코드 변경
-    	//var ftr_cde = data.features[0].properties.ftr_cde;
-    	//data.features[0].properties.ftr_cde_nm = getCmmCodeDataArray("SA-001", ftr_cde);
+    	var ftr_cde = data.features[0].properties.ftr_cde;
+    	data.features[0].properties.ftr_cde_nm = getCmmCodeDataArray("SA-001", ftr_cde);
     	
     	//읍면동 코드 변경
     	var hjd_cde = data.features[0].properties.hjd_cde;
@@ -446,7 +446,7 @@ function selectSwlConnLsView(detailData){
 //////////////
 //등록
 
-//소방시설 등록 화면 조회
+//하수연결관 등록 화면 조회
 function insertSwlConnLsView(){
 	//console.log("insertSwlConnLsView()");
 	
@@ -554,10 +554,10 @@ function insertSwlConnLs(){
 ////////////
 //수정
 
-//소방시설 수정 화면 조회
+//하수연결관 수정 화면 조회
 function updateSwlConnLsView(id){
-	//console.log("updateSwlConnLsView()");
-	//console.log("id>"+id);
+	console.log("updateSwlConnLsView()");
+	console.log("id>"+id);
 	
 	//상세 정보 조회
 	var detailData = getGridDetailData(id);
@@ -606,9 +606,9 @@ function updateSwlConnLsView(id){
 	
 }
 
-//소방시설 수정 
-function updateWtlFirePs(){
-	//console.log("updateWtlFirePs()");
+//하수연결관 수정 
+function updateSwlConnLs(){
+	//console.log("updateSwlConnLs()");
 	
 	/////////
 	//유효성 체크 
@@ -625,7 +625,7 @@ function updateWtlFirePs(){
 	 
 	//form 데이터 처리
 	var feature = new ol.Feature();
-	const params = $("#updateWtlFirePsForm").serializeArray();
+	const params = $("#updateSwlConnLsForm").serializeArray();
     params.forEach((param) => {
         if (param.value) {
             feature.set(param.name, param.value);
@@ -648,10 +648,11 @@ function updateWtlFirePs(){
     //파리미터 작업
     const format 	= new ol.format.GeoJSON();
     const geojson 	= format.writeFeature(feature);
-    const data 		= {dataId: "wtl_fire_ps", geojson: geojson};
-
+    const data 		= {dataId: "swl_conn_ls", geojson: geojson};
+    console.log(data);
+    alert("작업중");
     //수정진행
-    ui.loadingBar("show");
+    /*ui.loadingBar("show");
    
     $.post("/job/fcts/updateFacility.do", data)
     .done((response) => {
@@ -677,7 +678,7 @@ function updateWtlFirePs(){
     .fail(() => {
         alert(`등록 실패했습니다.`);
         ui.loadingBar("hide");
-    });
+    });*/
     
 }
 

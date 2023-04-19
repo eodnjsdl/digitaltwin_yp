@@ -39,12 +39,12 @@
                                        <th scope="row">지형지물부호</th>
                                        <td>
                                           	<c:out value="${swlConnLsVO.ftr_cde_nm }"/>
-                                          	<input type="hidden" name="ftr_cde" class="form-control" value="${swlConnLsVO.ftr_cde }">
+                                          	<input type="text" name="ftr_cde" class="form-control" value="${swlConnLsVO.ftr_cde }">
                                        </td>
                                        <th scope="row">관리번호</th>
                                        <td>
                                        	  	<c:out value="${swlConnLsVO.ftr_idn }"/>
-                                       	  	<input type="hidden" name="ftr_idn" class="form-control" value="${swlConnLsVO.ftr_idn }">
+                                       	  	<input type="text" name="ftr_idn" class="form-control" value="${swlConnLsVO.ftr_idn }">
                                        </td>
                                    </tr>
                                    <tr>
@@ -144,7 +144,7 @@
                                </table>
                            </div>
                            </form>
-                           <input type="hidden" name="geom" 	value="" class="form-control">
+                           <input type="hidden" name="geom" value="" class="form-control">
                            <input type="hidden" name="id" 	value="${id}">
                        </div>
                        <div class="position-bottom btn-wrap justify-content-end">
@@ -164,7 +164,7 @@
 <script type="text/javascript">
 	//jqeury
 	$(document).ready(function(){
-		//console.log("updateSwlConnLsView.jsp");
+		console.log("updateSwlConnLsView.jsp");
         
 		// 날짜 형식 처리 예정 
         // 날짜 적용 - 지금 8자리로 되어 있어 이것 사용 (변경 예정) 
@@ -215,7 +215,7 @@
 		
 		// 지도에서 선택
         $(".btn-select-map", this.element).on("click", function () {
-        	//console.log( '수정화면');
+        	console.log( '수정화면');
         	
         	ui.loadingBar("show");
             $('.space-edit-tool').load("/job/fcts/editView.do", () => {
@@ -239,7 +239,7 @@
 			    }); 
                	
                	var obj = {};
-               	obj.geometryType = "point";
+               	obj.geometryType = "multilinestring";
                	obj.id = id;
               
                	geoEditBindEvents(obj);
