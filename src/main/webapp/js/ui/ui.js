@@ -456,12 +456,15 @@ window.ui = (function () {
                 //시설관리 > 상수도시설
                 case "waterSupplyFacility" :
                     //aj_facility("WaterSupplyFacility");
+                	dtmap.off('select', onFacilitySelectEventListener); //클릭 리스너 이벤트 삭제
                     getWaterSupplyFacility("wtlFirePs");		//상수도 시설 소방시설
                     break;
 
                 //시설관리 > 하수도시설
                 case "sewerSupplyFacility" :
-                    aj_facility("SewerSupplyFacility");
+                  //aj_facility("SewerSupplyFacility");
+                	dtmap.off('select', onFacilitySelectEventListener); //클릭 리스너 이벤트 삭제
+                	getSewerSupplyFacility("swlConnLs");		//하수도 시설 하수연결관
                     break;
 
                  //시설관리 > 교통시설
@@ -473,6 +476,7 @@ window.ui = (function () {
                 //시설관리 > 체육시설
                 case "physicalEducationFacility" :
                 	//aj_selectPhysicalEducationFacilityList($("#tmpForm")[0]);
+                	dtmap.off('select', onFacilitySelectEventListener); //클릭 리스너 이벤트 삭제
                 	getPhyEduFaciListView();
                     break;
 
@@ -480,7 +484,9 @@ window.ui = (function () {
                 case "welfareFacility" :
                     //TODO ↓↓↓↓↓↓↓↓↓↓↓
                     WLREspitalYN = '';
-                    aj_selectWelfareFacilityList($("#tmpForm")[0]);
+                  //aj_selectWelfareFacilityList($("#tmpForm")[0]);
+                	dtmap.off('select', onFacilitySelectEventListener); //클릭 리스너 이벤트 삭제
+                	getWelFareFaciListView();
                     break;
 
                 //시설관리 > 시설예약관리
@@ -762,7 +768,7 @@ window.ui = (function () {
     }
 
     //업무영역 >> 좌측 메뉴 선택
-    function _workMenuEvent() {
+    function _workMenuEvent() {	
         $(".lnb-work .lnb-body button").on("click", function () {
             var name = $(this).data("popup");
             var classList = $(this).attr('class').split(/\s+/);
