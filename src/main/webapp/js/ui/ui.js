@@ -61,6 +61,24 @@ window.ui = (function () {
 	        $(".lnb-dep2").find(".on").removeClass("on");
 	        $(this).parent().addClass("on");
 		});
+		
+		function handleCreateContextMenu(event){
+			// 기본 Context Menu가 나오지 않게 차단
+			event.preventDefault();
+			const ctxMenu = $(".context");
+			ctxMenu.removeClass("hide");
+			ctxMenu.css("top",event.pageY+'px');
+			ctxMenu.css("left",event.pageX+'px'); 
+		}
+	      
+		function handleClearContextMenu(event){
+			const ctxMenu = $(".context");
+			ctxMenu.addClass("hide");
+		}
+	      
+		// 이벤트 바인딩
+		document.addEventListener('contextmenu', handleCreateContextMenu, false);
+		document.addEventListener('click', handleClearContextMenu, false);
     }
 
     //상단 메뉴 
