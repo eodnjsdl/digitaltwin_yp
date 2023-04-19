@@ -111,7 +111,8 @@ function getCmmCodeData(codeId, selectBoxTag, selectedValue) {
      
     })
     .fail(() => {
-      alert(`코드 정보를 가져오는데 실패했습니다.`);
+    	//alert(`코드 정보를 가져오는데 실패했습니다.`);
+    	console.log(`코드 정보를 가져오는데 실패했습니다.`);
     });
 	
 }
@@ -318,7 +319,7 @@ function getGeomDataForGridId(id){
 function getGridDetailData(id){
 	//console.log("getGridDetailData(id)");
 	
-	var  detailData = null;
+	var detailData = null;
 	if(FACILITY.Ax5UiGrid){
 		var list =  FACILITY.Ax5UiGrid.list;
 		

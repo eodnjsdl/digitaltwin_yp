@@ -55,6 +55,9 @@
                 </tbody>
             </table>
         </div>
+        <input type="hidden" class="pointTempGeomWKT" 	value="">
+        <input type="hidden" class="lineTempGeomWKT" 	value="">
+        <input type="hidden" class="polygonTempGeomWKT"	value="">
 
         <div class="position-bottom btn-wrap"><div><button type="button" class="btn basic bi-check edit-btn-apply">적용</button></div></div>
     </div>

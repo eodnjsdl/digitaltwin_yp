@@ -48,7 +48,6 @@
                                        <th scope="row">읍면동</th>
                                        <td>
                                        		<c:out value="${swlConnLsVO.hjd_cde_nm }"/>
-                                       		
                                        </td>
                                        <th scope="row">관리기관</th>
                                        <td>
@@ -115,11 +114,11 @@
                                    <tr>
                                        <th scope="row">공사번호</th>
                                        <td>
-                                       		<c:out value="${swlConnLsVO.ist_ymd }"/>
-                                       </td>
-                                       <th scope="row">공사번호</th>
-                                       <td>
                                        		<c:out value="${swlConnLsVO.cnt_num }"/>
+                                       </td>
+                                       <th scope="row">관라벨</th>
+                                       <td>
+                                       		<c:out value="${swlConnLsVO.pip_lbl }"/>
                                        </td>
                                    </tr>
                                    <tr>
@@ -175,7 +174,6 @@
 		$(".popup-panel .select-swlConnLs-popup-close").on("click", function () {
             cancelSelectSwlConnLs();
     	});
-		
 		
 	});
 	
