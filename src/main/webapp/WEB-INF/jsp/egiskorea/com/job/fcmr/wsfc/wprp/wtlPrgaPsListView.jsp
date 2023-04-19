@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" %>
 
+<!-- 수압계 -->
+<script src="/js/egiskorea/com/job/fcmr/wsfc/wprp/wtlPrgaPs.js"></script>			<!-- 수압계 -->
 
 <!-- 업무 > 공통 -->
 <div class="popup-header">상수도관리</div>
@@ -127,23 +129,19 @@
                 <div class="bbs-list-num">조회결과 : --건</div>
                 <div>
                     <button type="button" class="btn basic bi-write btn_add" onclick="insertWtlPrgaPsView();">등록</button>
-                    <button type="button" class="btn basic bi-excel btn_excel" onclick="fn_downloadExcel();">엑셀저장
+                    <button type="button" class="btn basic bi-excel btn_excel" onclick="downloadExcelWtlPrgaPs();">엑셀저장
                     </button>
                 </div>
             </div>
             <div class="bbs-list-wrap" style="height: 267px;"><!-- pagination 하단 고정을 위해 반드시 필요 -->
                 <div class="bbs-default">
-
                     <div id="baseGridDiv" style="height:inherit; display: flex;flex-direction: column">
-                        <!-- <div style="display: inline-block">
-                            <label>농업용공공관정</label>
-                        </div> -->
                         <div id="gridax5" data-ax5grid="attr-grid" data-ax5grid-config="{}" style="flex: 1"></div>
+                        <div data-ax5grid="attr-grid-excel" style="diplay:none;"></div>
                     </div>
                 </div>
-                <!-- <div class="pagination">
-                </div> -->
             </div>
+            <input type="hidden" id="wtiPrgaPsListPage" 	value="">
         </div>
     </div>
 </div>

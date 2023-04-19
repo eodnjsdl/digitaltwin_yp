@@ -88,3 +88,17 @@ function selectWtlManhPsListView(){
 		ui.loadingBar("hide");
 	});
 }
+
+//수압계 목록 화면 조회
+function selectWtlPrgaPsListView(){
+	//console.log("selectWtlPrgaPsListView()");
+	
+	ui.loadingBar("show");
+	
+	var baseContainer = "#bottomPopup";
+	$(baseContainer).load("/job/fcmr/wsfc/selectWtlPrgaPsListView.do", function () {
+		//toastr.success("/job/fcmr/wsfc/selectWtlPrgaPsListView.do", "페이지🙂호🙂출🙂");
+		wtlPrgaPsListProcess();
+		ui.loadingBar("hide");
+	});
+}

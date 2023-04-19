@@ -31,6 +31,7 @@ function codeArrayInit(){
 		{ code: "SA117", codeNm: "유량계" },
         { code: "SA118", codeNm: "급수탑" },
         { code: "SA119", codeNm: "소화전" },
+        { code: "SA121", codeNm: "수압계" },
         { code: "SA991", codeNm: "신축관실" },
       ];
 	
@@ -368,9 +369,11 @@ function onFacilitySelectEventListener(e){
 			}else if(featureType == "wtl_pipe_lm"){					//상수도시설 - 상수관로
 				toastr.error("지도 객체 클릭 작업중", "상수도시설 - 상수관로");
 			}else if(featureType == "wtl_flow_ps"){					//상수도시설 - 유량계
-				selectWtlManhPs(id);
+				selectWtlFlowPs(id);
 			}else if(featureType == "wtl_manh_ps"){					//상수도시설 - 상수맨홀
 				selectWtlManhPs(id);
+			}else if(featureType == "wtl_prga_ps"){					//상수도시설 - 수압계
+				selectWtlPrgaPs(id);
 			}else if(featureType == "swl_conn_ls"){					//하수도시설 - 하수연결관 
 				selectSwlConnLs(id);
 			}else{
