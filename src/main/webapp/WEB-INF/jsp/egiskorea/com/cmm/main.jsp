@@ -63,7 +63,7 @@
     <script src="/js/plugin/ax5grid/ax5core.min.js"></script>
     <script src="/js/plugin/ax5grid/ax5grid.min.js"></script>
     
-
+	
     <!-- zoom -->
     <link href="/js/plugin/jquery-fat-zoom.js/css/zoom.css" rel="stylesheet">
     <script type="text/javascript" src="/js/plugin/jquery-fat-zoom.js/dist/zoom.js"></script>
@@ -167,13 +167,14 @@
     <script src="/js/egiskorea/com/job/wrpp/wrpp.js"></script>
     <script src="/js/egiskorea/com/job/swg/swg.js"></script>
     
-    <!-- uhh add...  -->
     <!-- [[업무 /시설관리 재작업]]  -->
+    <script src="/js/egiskorea/com/cmm/common.js"></script> <!-- 메뉴얼 때문에 추가 uhh add... -->
     
+	<script src="/js/egiskorea/com/job/fcmr/facilityCommon.js"></script>				<!-- 시설관리  공통 -->
+	
 	<!-- [상수도 시설] --> 
-	<script src="/js/egiskorea/com/job/fcmr/wsfc/facilityWaterSupply.js"></script>		<!-- 상수도시설  공통 -->
+	<script src="/js/egiskorea/com/job/fcmr/wsfc/facilityWaterSupply.js"></script>		<!--{상수도시설  공통} -->
 	<!-- {상수도 하위 메뉴}  -->	
-	<script src="/js/egiskorea/com/job/fcmr/wsfc/wfip/wtlFirePs.js"></script>			<!-- 소방시설  -->
 	<script src="/js/egiskorea/com/job/fcmr/wsfc/wpil/wtlPipeLm.js"></script>			<!-- 상수관로 -->
 	<script src="/js/egiskorea/com/job/fcmr/wsfc/wflp/wtlFlowPs.js"></script>			<!-- 유량계 -->
 	<!-- 상수맨홀 -->
@@ -186,18 +187,7 @@
 	<!-- ////////////////////////////  -->
 	
 	<!-- [하수도시설]  -->
-	<!-- {하수도시설  공통} -->
-	<!-- 하수연결관  -->
-	<!-- 하수관거심도  -->
-	<!-- 하수처리장  -->
-	<!-- 하수맨홀  -->
-	<!-- 면형하수관거  -->
-	<!-- 하수관거  -->
-	<!-- 하수펌프장  -->
-	<!-- 측구  -->
-	<!-- 토구  -->
-	<!-- 물받이  -->
-	<!-- 환기구  -->
+	<script src="/js/egiskorea/com/job/fcmr/ssfc/facilitySewerSupply.js"></script> 		<!-- {하수도시설  공통} -->
 	
 	<!-- ////////////////////////////  -->
 	
@@ -228,13 +218,12 @@
 	<!-- ////////////////////////////  -->
 	
 	<!-- [복지시설]  -->
-	
+	<script src="/js/egiskorea/com/job/fcmr/wlfc/facilityWelFare.js"></script>
 	<!-- ////////////////////////////  -->
 	
 	<!-- [시설예약관리]  -->
 	
-	<!-- uhh add... end  -->
-	
+	<!-- [[업무 /시설관리 재작업]] end -->
 	
     <!-- 분석 -->
     <script src="/js/egiskorea/com/anls/anls.js"></script>

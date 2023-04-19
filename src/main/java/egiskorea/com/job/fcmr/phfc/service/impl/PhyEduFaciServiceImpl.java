@@ -100,10 +100,6 @@ public class PhyEduFaciServiceImpl extends EgovAbstractServiceImpl implements Ph
 	 * @param sportsVO
 	 * @return
 	 */
-	/**
-	 * 체육시설 엑셀 다운로드
-	 * 
-	 */
 	@Override
 	public HashMap getPhyEduFaciExcel(SportsVO sportsVO) {
 		HashMap getPhyEduFaciExcel = new HashMap();
