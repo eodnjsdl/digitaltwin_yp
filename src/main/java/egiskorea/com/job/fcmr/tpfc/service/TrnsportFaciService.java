@@ -1,5 +1,8 @@
 package egiskorea.com.job.fcmr.tpfc.service;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 /**
  * @Description : 시설관리/교통시설 Service
  * @author      : 김영주
@@ -25,6 +28,14 @@ public interface TrnsportFaciService {
 	 * @return
 	 */
 	public RoadSectVO selectRoadSect(RoadSectVO roadSectVO);
+	/**
+	 * 도로구간 - 엑셀다운로드
+	 * @param request
+	 * @param response
+	 * @param roadSectVO
+	 */
+	public void selectRoadSectExcelListDownload(HttpServletRequest request, HttpServletResponse response,
+			RoadSectVO roadSectVO) throws Exception;
 	
 	// ---------- 철도선로 ----------
 	
@@ -84,4 +95,5 @@ public interface TrnsportFaciService {
 	 * @return
 	 */
 	public TunnlVO selectTunnl(TunnlVO tunnlVO);
+	
 }

@@ -27,6 +27,7 @@ public class RoadSectVO implements Serializable {
 	private String sigCd;			// 시군구코드
 	private String wdrRdCd;			// 광역도로구분코드
 	private String geom;			// 공간정보
+	private String emdKorNm;		// 읍면동정보
 	
 	public Integer getGid() {
 		return gid;
@@ -160,5 +161,10 @@ public class RoadSectVO implements Serializable {
 	public void setGeom(String geom) {
 		this.geom = geom;
 	}
-	
+	public String getEmdKorNm() {
+		return emdKorNm;
+	}
+	public void setEmdKorNm(String emdKorNm) {
+		this.emdKorNm = emdKorNm;
+	}
 }

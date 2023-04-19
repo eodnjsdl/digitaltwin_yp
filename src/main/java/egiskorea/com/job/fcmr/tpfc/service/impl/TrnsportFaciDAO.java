@@ -1,5 +1,7 @@
 package egiskorea.com.job.fcmr.tpfc.service.impl;
 
+import java.util.List;
+
 import org.springframework.stereotype.Repository;
 
 import egiskorea.com.cmm.service.impl.ComAbstractDAO;
@@ -39,6 +41,15 @@ public class TrnsportFaciDAO extends ComAbstractDAO {
 	 */
 	public RoadSectVO selectRoadSect(RoadSectVO roadSectVO) {
 		return selectOne("transportationFacility.selectRoadSection", roadSectVO);
+	}
+	
+	/**
+	 * 교통시설 도로구간 엑셀 다운로드
+	 * @param roadSectVO
+	 * @return
+	 */
+	public List<?> selectRoadSectExcelListDownload(RoadSectVO roadSectVO) {
+		return selectList("transportationFacility.selectRoadSectionExcelList", roadSectVO);
 	}
 	
 	// -------- 철도선로 --------
@@ -109,4 +120,6 @@ public class TrnsportFaciDAO extends ComAbstractDAO {
 	public TunnlVO selectTunnl(TunnlVO tunnlVO) {
 		return selectOne("transportationFacility.selectTunnel", tunnlVO);
 	}
+
+	
 }

@@ -228,15 +228,15 @@ public class WaterSupplyController {
 	
 	//목록 화면 호출
 	@RequestMapping(value = "/selectWtlServPsListView.do")
-    public String selectWtlServPsList(
+    public String selectWtlServPsListView(
             @ModelAttribute("wtlServPsVO") WtlServPsVO wtlServPsVO,
             ModelMap model) throws Exception {
         return "egiskorea/com/job/fcmr/wsfc/wsep/wtlServPsListView";
     }
 	
 	//상세 화면 조회
-	@RequestMapping(value = "/selectWtlServPsDetail.do", method = RequestMethod.POST)
-	public String getWtlServPsDetail(
+	@RequestMapping(value = "/selectWtlServPs.do", method = RequestMethod.POST)
+	public String selectWtlServPs(
 			@ModelAttribute("wtlServPsVO") WtlServPsVO wtlServPsVO, String id,
 			ModelMap model) throws Exception {
 			model.addAttribute("id", id);

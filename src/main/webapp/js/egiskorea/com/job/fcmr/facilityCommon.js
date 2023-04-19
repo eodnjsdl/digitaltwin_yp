@@ -28,6 +28,7 @@ function codeArrayInit(){
 	
 	/*var codeData = [
 		{ code: "SA100", codeNm: "상수맨홀" },
+		{ code: "SA114", codeNm: "배수지" },
 		{ code: "SA117", codeNm: "유량계" },
         { code: "SA118", codeNm: "급수탑" },
         { code: "SA119", codeNm: "소화전" },
@@ -406,6 +407,8 @@ function onFacilitySelectEventListener(e){
 				selectWtlManhPs(id);
 			}else if(featureType == "wtl_prga_ps"){					//상수도시설 - 수압계
 				selectWtlPrgaPs(id);
+			}else if(featureType == "wtl_serv_ps"){					//상수도시설 - 배수지
+				selectWtlServPs(id);
 			}else if(featureType == "swl_conn_ls"){					//하수도시설 - 하수연결관 
 				selectSwlConnLs(id);
 			}else if(featureType == "tgd_phstrn_fclty"){			// 체육시설
