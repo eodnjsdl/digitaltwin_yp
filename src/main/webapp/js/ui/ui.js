@@ -408,11 +408,7 @@ window.ui = (function () {
 
                 // 업무 > 시설관리 > 하수도시설
                 case "sewerSupplyFacility" :
-                    //toastr.error("상수도시설의 기능을 참고해 주세요.", "리팩토링 작업대상입니다.");
-                    //$("#" + area).removeClass("opened");
-                    //return;
-
-                    //aj_facility("SewerSupplyFacility");
+                	//aj_facility("SewerSupplyFacility");
                 	dtmap.off('select', onFacilitySelectEventListener); //클릭 리스너 이벤트 삭제
                 	getSewerSupplyFacility("swlConnLs");		//하수도 시설 하수연결관
                     break;

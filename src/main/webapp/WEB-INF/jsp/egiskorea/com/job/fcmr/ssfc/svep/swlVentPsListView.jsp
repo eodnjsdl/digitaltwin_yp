@@ -3,6 +3,128 @@
 <!-- js -->
 <!-- <script src="/js/egiskorea/com/job/fcmr/ssfc/svep/swlVentPs.js"></script>		환기구  -->
 
+<script>
+$(document).ready(function() {
+	console.log("swlVentPsListView.jsp");	
+
+	//이벤트 리스너 추가
+	dtmap.on('select', onFacilitySelectEventListener);
+
+	// 초기화 버튼
+	$(".popup-reset").unbind('click').bind('click',function() {
+		$('li[data-tab=groundwaterProperty] .inner-tab').click();	// 속성변경 클릭
+		$("#lSrchOptions select[name=hjd_cde]").val('').prop('selected', true);	// 시설구분 clear
+		$("#lSrchOptions select[name=mop_cde]").val('').prop('selected', true);	// 시설구분 clear
+		$("#lSrchOptions select[name=mof_cde]").val('').prop('selected', true);	// 시설구분 clear
+		$("#lSrchOptions select[name=hmp_cde]").val('').prop('selected', true);	// 시설구분 clear
+		
+		selectSwlVentPsList(1);
+	});
+	
+	// 접기/펼치기
+	$(".popup-bottom-toggle", "#bottomPopup").on("click", function() {
+		const node = $(this);
+		const divNode = node.closest("div.popup-panel");
+		if (divNode.is(".fold")) {
+			node.attr("title", "펼치기");
+			divNode.removeClass("fold");
+		} else {
+			node.attr("title", "접기");
+			divNode.addClass("fold");
+		}
+	});
+
+	// 닫기
+	$(".popup-close").unbind('click').bind('click',function() {
+		//등록, 상세, 수정 팝업 창 닫기
+		if ($("#rightSubPopup").hasClass("opened")) {
+			$("#rightSubPopup").removeClass("opened");
+			$("#rightSubPopup").empty();
+		}
+	});
+
+	//속성 검색, 공간 검색 탭 제어
+	$(document).on("click", ".tabBoxDepth2-wrap .tabBoxDepth2 > ul > li > .inner-tab", function() {
+		$(this).each(function() {
+			$(this).parent().addClass("on").siblings().removeClass("on");
+			$("."+$(this).parent().data("tab")).addClass("on").siblings().removeClass("on");
+		});
+		
+		if ($("li[data-tab=groundwaterProperty]").hasClass("on")) {	//속성검색 일때 공간 검색때 사용한 그리기 초기화
+			dtmap.draw.dispose();	//그리기 포인트 삭제
+			dtmap.draw.clear();		//그리기 초기화
+		}
+	});
+	
+	// 공간 검색 조회 버튼
+	$(".facility-spatial-search", "#bottomPopup").on("click", function(e) {
+		//console.log("공간검색 조회");
+		
+		const $parent = $(e.target).closest('.search-area');
+		const type = $parent.find('input[name="rad-facility-area"]:checked').val();
+		
+		if (type === 'extent') {
+			FACILITY.spaceSearchOption.bbox = dtmap.getExtent();
+		} else {
+			if (dtmap.draw.source.getFeatures().length > 0) {
+				FACILITY.spaceSearchOption.geometry = dtmap.draw.getGeometry();
+			} else {
+				alert("영역지정 안되었습니다");
+				return false;
+			}
+		}
+		
+		ui.closeSubPopup();		// 팝업 닫기
+		selectSwlVentPsList(1);
+	});
+
+	// 검색영역지정 변경 (현재화면영역, 사용자정의)
+	$("[name=rad-facility-area]", "#bottomPopup").on("change", function() {
+		const node = $(this);
+		const value = node.val();
+
+		if (value == "extent") {
+			$(".space-facility-area", "#bottomPopup").hide();
+			
+			dtmap.draw.dispose();		//그리기 포인트 삭제
+			dtmap.draw.clear();			//그리기 초기화
+		} else {
+			$(".space-facility-area", "#bottomPopup").show();
+			$("[name=rad-facility-drawing]:first", "#bottomPopup").trigger("click");
+		}
+	}); 
+
+	// 사용자 정의 검색 조건
+	$("[name=rad-facility-drawing]", "#bottomPopup").on("click", function() {
+		const node = $(this);
+		const value = node.val();
+
+		let type;
+		switch (Number(value)) {
+			case 1:
+				type = 'Point';
+				break;
+			case 2:
+				type = 'LineString';
+				break;
+			case 3:
+				type = 'Box';
+				break;
+			case 4:
+				type = 'Circle';
+				break;
+		}
+		dtmap.draw.active({type: type, once: true});
+	});
+
+	//경계로부터 버퍼 영역 지정
+	$(".area-facility-buffer", "#bottomPopup").on("keyup", function(event) {
+		dtmap.draw.setBuffer(Number(this.value));
+	});
+});
+
+</script>
+
 <!-- 업무 > 시설관리 > 하수도시설 > 환기구 -->
 <div class="popup-header">하수도관리</div>
 <div class="popup-body">

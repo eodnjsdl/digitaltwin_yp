@@ -10,7 +10,7 @@ $(document).ready(function(){
 	console.log("환기구");
 });
 
-// 환기구 목록 조회
+// 환기구 목록 페이지 호출
 function selectSwlVentPsListView() {
 	console.log('selectSwlVentPsListView()');
 	
@@ -45,7 +45,7 @@ function selectSwlVentPsListView() {
 				{key: "hjd_cde_nm", 	label: "읍면동",			width: 170},
 				{key: "ist_ymd",		label: "설치일자",			width: 170},
 				{key: "vnt_dip",		label: "환기구구경",		width: 170},
-				{key: "mop_cde_nm",		label: "관재질",			width: 120},
+				{key: "mop_cde_nm",		label: "관재질",			width: 210},
 				{key: "mof_cde_nm",		label: "흡출기형식",		width: 170},
 				{key: "hmp_cde_nm",		label: "흡출기재질",		width: 210}
 			],
@@ -66,7 +66,8 @@ function selectSwlVentPsListView() {
 				align: "center",
 				onClick: function() {
 					//this.self.select(this.dindex);
-					selectSwlVentPsDetail(this.item.id);	// 상세보기
+					console.log(this.item.id);
+					selectSwlVentPs(this.item.id);	// 상세보기
 				}
 			}
 		});
@@ -76,6 +77,7 @@ function selectSwlVentPsListView() {
 	ui.loadingBar("hide");
 }
 
+//환기구 목록 조회
 function selectSwlVentPsList(page) {
 	console.log('selectSwlVentPsList(page)');
 	
@@ -207,6 +209,7 @@ function selectSwlVentPsList(page) {
 	});
 }
 
+//소방시설 상세정보 조회
 function selectSwlVentPs(id) {
 	console.log('selectSwlVentPs(id)');
 	console.log('id >>> ' + id);
@@ -232,7 +235,7 @@ function selectSwlVentPs(id) {
 	
     var options;
     options = {
-        typeNames	: 'swl_conn_ls' + "",
+        typeNames	: 'swl_vent_ps' + "",
         filter 		: filters,
     }
     
@@ -257,6 +260,12 @@ function selectSwlVentPs(id) {
     	// 흡출기재질 코드 처리
     	var hmp_cde = data.features[0].properties.hmp_cde;
     	data.features[0].properties.hmp_cde_nm = getCmmCodeDataArray("OGC-172", hmp_cde);
+    	// 지형지물부호 코드 처리
+    	var ftr_cde = data.features[0].properties.ftr_cde;
+    	data.features[0].properties.ftr_cde_nm = getCmmCodeDataArray("SA-001", ftr_cde);
+    	// 관리기관 코드 처리
+    	var mng_cde = data.features[0].properties.mng_cde;
+    	data.features[0].properties.mng_cde_nm = getCmmCodeDataArray("MNG-001", mng_cde);
 		
     	// 좌표 처리
 		data.features[0].properties.geomObj = data.features[0].geometry;
@@ -268,8 +277,9 @@ function selectSwlVentPs(id) {
     });
 }
 
+//환기구 상세보기 페이지 호출
 function selectSwlVentPsDetail(detailData) {
-	console.log('selectSwlVentPsDetail(data)');
+	console.log('selectSwlVentPsDetail(detailData)');
 	console.log('data >>> ' + detailData);
 	
 	if(!detailData && detailData == null){

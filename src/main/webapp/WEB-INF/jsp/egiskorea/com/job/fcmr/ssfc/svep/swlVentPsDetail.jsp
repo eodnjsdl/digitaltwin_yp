@@ -64,7 +64,7 @@ function cancelSwlVentPsDetail() {
 							<tr>
 								<th scope="row">지형지물부호</th>
 								<td>
-									<c:out value="${swlVentPsVO.ftr_cde}"/>
+									<c:out value="${swlVentPsVO.ftr_cde_nm}"/>
 								</td>
 								<th scope="row">관리번호</th>
 								<td>
@@ -84,7 +84,12 @@ function cancelSwlVentPsDetail() {
 							<tr>
 								<th scope="row">관리기관</th>
 								<td>
-									<c:out value="${swlVentPsVO.mng_cde}"/>
+									<c:if test="${swlVentPsVO.mng_cde_nm != '' || swlVentPsVO.mng_cde_nm ne null}">
+										<c:out value="${swlVentPsVO.mng_cde_nm }"/>
+									</c:if>
+									<c:if test="${swlVentPsVO.mng_cde_nm == '' || swlVentPsVO.mng_cde_nm eq null}">
+										<c:out value="${swlVentPsVO.mng_cde}"/>
+									</c:if>
 								</td>
 								<th scope="row">설치일자</th>
 								<td>
