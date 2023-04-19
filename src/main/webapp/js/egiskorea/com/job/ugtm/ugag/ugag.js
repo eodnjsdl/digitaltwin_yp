@@ -2,7 +2,9 @@ SEARCHOBJ= null;
 
 $(document.body).ready(function () {
 	initGrid();
-    setData(0);       
+    setData(0);
+    //레이어 선택 핸들러
+    dtmap.on('select',spaceClickListener );
 });
 //농업용공공관정 기본 틀 추가
 function initGrid(){
@@ -241,5 +243,16 @@ function fn_search_List(){
 	SEARCHOBJ.searchManageSeSearch = $('#manageSeSearch').val() || '';
 	SEARCHOBJ.searchDetailPrposSeSearch = $('#detailPrposSeSearch').val() || '';
 	SEARCHOBJ.searchFcltsSttusSearch = $('#fcltsSttusSearch').val() || '';
+}
 
+//레이어 선택 상세보기
+function spaceClickListener(e){
+	var gid ;
+	if (dtmap.mod === '3D'){
+		gid=e.properties.gid;
+	}else{
+		gid=e.property.gid;
+	}
+    fn_pageDetail(gid);
+    dtmap.vector.select(e.id);
 }
