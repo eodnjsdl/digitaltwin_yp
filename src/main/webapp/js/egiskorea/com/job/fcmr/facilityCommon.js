@@ -386,6 +386,8 @@ function onFacilitySelectEventListener(e){
 				selectWtlPrgaPs(id);
 			}else if(featureType == "swl_conn_ls"){					//하수도시설 - 하수연결관 
 				selectSwlConnLs(id);
+			}else if(featureType == "swl_vent_ps"){					// 하수도시설 - 환기구 
+				selectSwlVentPs(id);
 			}else if(featureType == "tgd_phstrn_fclty"){			// 체육시설
 				selectPhyEduFaciDetail(id);
 			}else if(featureType == "tgd_sclwlfr_fclty_status"){	// 복지시설

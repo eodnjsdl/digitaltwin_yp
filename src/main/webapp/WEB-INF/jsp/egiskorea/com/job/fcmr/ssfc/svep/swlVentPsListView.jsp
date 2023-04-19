@@ -9,16 +9,18 @@ $(document).ready(function() {
 
 	//이벤트 리스너 추가
 	dtmap.on('select', onFacilitySelectEventListener);
+	
+	//상수도 관리 메뉴 - 이벤트
+	var $container = $("#container");
+    var $target = $container.find('#bottomPopup .facility-select');
+	
+	$target.on('change', function() {
+		getSewerSupplyFacility(this.value);
+	});
 
 	// 초기화 버튼
-	$(".popup-reset").unbind('click').bind('click',function() {
-		$('li[data-tab=groundwaterProperty] .inner-tab').click();	// 속성변경 클릭
-		$("#lSrchOptions select[name=hjd_cde]").val('').prop('selected', true);	// 시설구분 clear
-		$("#lSrchOptions select[name=mop_cde]").val('').prop('selected', true);	// 시설구분 clear
-		$("#lSrchOptions select[name=mof_cde]").val('').prop('selected', true);	// 시설구분 clear
-		$("#lSrchOptions select[name=hmp_cde]").val('').prop('selected', true);	// 시설구분 clear
-		
-		selectSwlVentPsList(1);
+	$(".popup-reset").unbind('click').bind('click',function(){
+		$target.trigger("change"); 
 	});
 	
 	// 접기/펼치기

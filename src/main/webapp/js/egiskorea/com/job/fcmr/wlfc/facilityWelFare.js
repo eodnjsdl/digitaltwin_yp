@@ -443,8 +443,7 @@ function deleteWelFareFaci(gid) {
 
 // 복지시설 popup창 닫기
 function closeWelFarePopup(){
-	var page = $('.hiddenPage').val();
-	selectWelFareFaciList(page);		// 목록 재로딩
+	dtmap.vector.clearSelect();		//선택 해제
 	
 	dtmap.draw.dispose();			// 마우스에 파란점 제거
 	dtmap.draw.clear();				// 지도에 파란점 제거

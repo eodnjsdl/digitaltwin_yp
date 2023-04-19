@@ -16,7 +16,7 @@
 </style>
 
 <script type="text/javascript">
-//jqeury
+
 $(document).ready(function(){
 	console.log("swlVentPsDetail.jsp");
 
@@ -44,6 +44,7 @@ function cancelSwlVentPsDetail() {
 
 		dtmap.vector.clearSelect();	//선택 해제
 }
+
 </script>
 
 <!-- 업무 > 시설관리 > 하수도시설 > 환기구 상세보기-->
@@ -144,7 +145,7 @@ function cancelSwlVentPsDetail() {
 				<div>
 					<button type="button" class="btn basic bi-edit btn_edit" onclick="javascript:updateWtlFirePsView('<c:out value="${id}"/>')">수정</button>
 					<button type="button" class="btn basic bi-delete2 btn_delete" onclick="javascript:deleteWtlFirePs('<c:out value="${id}"/>')">삭제</button>  
-					<button type="button" class="btn basic bi-cancel btn_cancel" onclick="javascript:cancelSelectWtlFirePs();">취소</button>
+					<button type="button" class="btn basic bi-cancel btn_cancel" onclick="closeSwlVentPsPopup();">취소</button>
 				</div>
 			</div>
 		</div>

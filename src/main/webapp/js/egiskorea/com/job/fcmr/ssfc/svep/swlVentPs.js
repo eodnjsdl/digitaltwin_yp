@@ -311,7 +311,7 @@ function selectSwlVentPsDetail(detailData) {
 			var container = "#rightSubPopup";
 			$(container).html(result);
 			
-			//dtmap.vector.select(detailData.id);	//지도에  표시
+			dtmap.vector.select(detailData.id);	//지도에  표시
 		},
 		error : function(request,status,error) {
 			console.log("code: " + request.status + "\n" + "message: " + request.responseText + "\n" + "error: " + error);
@@ -320,4 +320,12 @@ function selectSwlVentPsDetail(detailData) {
 			ui.loadingBar("hide");
 		}
 	});
+}
+
+function closeSwlVentPsPopup() {
+	dtmap.draw.dispose();			// 마우스에 파란점 제거
+	dtmap.draw.clear();				// 지도에 파란점 제거
+	dtmap.vector.clearSelect();		//선택 해제
+	
+	ui.closeSubPopup();				// 팝업 닫기
 }
