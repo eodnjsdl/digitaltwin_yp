@@ -243,7 +243,11 @@
     <script src="/js/egiskorea/com/geo/geographic.js"></script>
     
     <!-- 레이어 -->
+	<script src="/js/egiskorea/com/sach/sach.js"></script>
+    <!-- 레이어 -->
 	<script src="/js/egiskorea/com/lyr/layer.js"></script>
+	<!-- 주제도 -->
+	<script src="/js/egiskorea/com/tm/thematicMap.js"></script>
 
 </head>
 <body class="<c:out value='${loginVO.id}'/>">
@@ -511,7 +515,6 @@
 
             <!-- 주제도 -->
             <div class="lnb-theme lnb-cont">
-                <%@ include file="/WEB-INF/jsp/egiskorea/com/tm/thematicMap.jsp" %>
             </div>
             <!-- //주제도 -->
 	

@@ -284,7 +284,7 @@ window.ui = (function () {
                 switch (menu) {
                     case "lnb-search" :
                         //TODO 검색 메뉴
-                        //aj_search();
+                    	aj_search();
                         break;
                     case "lnb-layer" :
                         $leftSide.find(".lnb-layer input[name='searchKeyword']").val("");
@@ -292,7 +292,7 @@ window.ui = (function () {
                         break;
                     case "lnb-theme" :
                         //TODO 주제도 메뉴
-                    	toastr.error("주제도 개발 필요");
+                    	aj_selectThematicMapList();
                         break;
                     case "lnb-territory" :
                         //TODO 국토조사
