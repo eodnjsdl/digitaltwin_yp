@@ -63,6 +63,7 @@ function setData(_pageNo){
 		perPage : 100,
 		sortBy : 'gid',
 		sortOrder : 'DESC',
+		// crs : 'EPSG:4326'
 	}
 
 	var instlDe='', adres='', manageNo=''; 
@@ -240,12 +241,10 @@ function fn_search_List(e){
 		const type = $parent.find('input[name="sffmSelect"]:checked').val();
 		
 		if (type === 'extent') {
-
-
-			// SEARCHOBJ.spaceSearch.bbox = dtmap.getExtent();
-			var bboxArr = dtmap.getExtent();
-			var transformedPosition = ol.proj.transform([bboxArr[0],bboxArr[1], bboxArr[2], bboxArr[3]],'EPSG:5179','EPSG:4326');
-			SEARCHOBJ.spaceSearch.bbox = transformedPosition;
+			//SEARCHOBJ.spaceSearch.bbox = dtmap.getExtent();
+			 var bboxArr = dtmap.getExtent();
+			 var transformedPosition = ol.proj.transform([bboxArr[0],bboxArr[1], bboxArr[2], bboxArr[3]],'EPSG:5179','EPSG:4326');
+			 SEARCHOBJ.spaceSearch.bbox = transformedPosition;
 
 		} else {
 			if(dtmap.draw.source.getFeatures().length > 0){
@@ -275,7 +274,7 @@ $("#lampExcelDownload").on("click", function(){
 	$("form[name='"+ formName + "']").attr('action', '');
 });
 
-function readGeoJSON(data) {
+/*function readGeoJSON(data) {
     if (!data.crs || !data.features || data.features.length === 0) {
         return;
     }
@@ -288,4 +287,4 @@ function readGeoJSON(data) {
         dataProjection: crs,
         featureProjection: map2d.map.getView().getProjection()
     });
-}
+}*/
