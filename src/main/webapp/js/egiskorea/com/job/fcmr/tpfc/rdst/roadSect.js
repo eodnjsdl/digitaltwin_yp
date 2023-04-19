@@ -50,6 +50,10 @@ function setRoadSectListGrid() {
 	page: {
 		navigationItemCount: 9,
 		display: true,
+		firstIcon: '««',
+	        prevIcon: '«',
+	        nextIcon: '»',
+	        lastIcon: '»»',
 		onChange: function () {
 		    setRoadSectListData(this.page.selectPage);
 		}
@@ -96,6 +100,16 @@ function setRoadSectListData(_pageNo) {
 	rn = "'%" + rn + "%'";
 	filters += ' and rn like ' + rn;
     };
+    
+    
+    let options = {
+	typeNames: 'tgd_sprd_manage',
+	perPage: 10,
+	page: _pageNo + 1,
+	sortBy : 'gid',
+	orderBy : 'DESC',
+	cql : filters
+    }
     
     var gridList = this;
     const promise = dtmap.wfsGetFeature({

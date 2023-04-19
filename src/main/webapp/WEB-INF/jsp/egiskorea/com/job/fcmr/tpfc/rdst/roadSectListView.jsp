@@ -12,7 +12,91 @@ $(document).ready(function(){
 	});
 	
 	selectRoadSectWithFilters();
+	
+	//속성 검색, 공간 검색 탭 제어
+	$(document).on("click", ".tabBoxDepth2-wrap .tabBoxDepth2 > ul > li > .inner-tab", function(){ 
+		$(this).each(function(){
+			$(this).parent().addClass("on").siblings().removeClass("on");
+			$("."+$(this).parent().data("tab")).addClass("on").siblings().removeClass("on");
+		});
+		
+		if($("li[data-tab=roadSectProperty]").hasClass("on")){	//속성검색 일때 공간 검색때 사용한 그리기 초기화
+			dtmap.draw.dispose();		//그리기 포인트 삭제
+			dtmap.draw.clear();			//그리기 초기화
+		}
+	});
+	
+	// 공간 검색 조회 버튼
+    $(".facility-spatial-search", "#bottomPopup").on("click", function (e) {
+		
+       	const $parent = $(e.target).closest('.search-area');
+        const type = $parent.find('input[name="rad-facility-area"]:checked').val();
+        
+        console.log(type);
+        
+        if (type === 'extent') {
+        	FACILITY.spaceSearchOption.bbox 	= dtmap.getExtent();
+        } else {
+        	if(dtmap.draw.source.getFeatures().length > 0){
+         	FACILITY.spaceSearchOption.geometry = dtmap.draw.getGeometry();
+        	}else{
+        		alert("영역을 지정해 주세요.");
+        		return false;
+        	}
+        }
+       	
+    });
+   	
+   	
+   	// 검색영역지정 변경 (현재화면영역, 사용자정의)
+    $("[name=rad-facility-area]", "#bottomPopup").on("change", function () {
+        const node = $(this);
+        const value = node.val();
+        if (value == "extent") {
+            $(".space-facility-area", "#bottomPopup").hide();
+            
+            //그리기, 그려진 것 초기화
+            dtmap.draw.dispose();
+            dtmap.draw.clear();
+            
+        } else {
+            $(".space-facility-area", "#bottomPopup").show();
+            $("[name=rad-facility-drawing]:first", "#bottomPopup").trigger("click");
+        }
+    }); 
+   	
+   	
+   	// 사용자 정의 검색 조건
+    $("[name=rad-facility-drawing]", "#bottomPopup").on("click", function () {
+        const node = $(this);
+        const value = node.val();
+
+        let type;
+        switch (Number(value)) {
+            case 1:
+                type = 'Point';
+                break;
+            case 2:
+                type = 'LineString';
+                break;
+            case 3:
+                type = 'Box';
+                break;
+            case 4:
+                type = 'Circle';
+                break;
+        }
+        dtmap.draw.active({type: type, once: true});
+    });
+
+
+   	//경계로부터 버퍼 영역 지정
+    $(".area-facility-buffer", "#bottomPopup").on("keyup", function (event) {
+        dtmap.draw.setBuffer(Number(this.value));
+    });
 });
+
+
 </script>
 
 <!-- 업무 > 시설관리 > 교통시설 > 도로구간 -->
@@ -36,11 +120,15 @@ $(document).ready(function(){
 			<div class="tabBoxDepth2-wrap">
                 <div class="tabBoxDepth2">
 					<ul>
-						<li data-tab="waterProperty" class="on"><button type="button" class="inner-tab">속성검색</button></li>
-						<li data-tab="waterSpace"><button type="button" class="inner-tab">공간검색</button></li>
+						<li data-tab="roadSectProperty" class="on">
+							<button type="button" class="inner-tab">속성검색</button>
+						</li>
+						<li data-tab="roadSectSpace">
+							<button type="button" class="inner-tab">공간검색</button>
+						</li>
 					</ul>
 				</div>
-				<div class="tab-cont waterProperty on roadSect">
+				<div class="tab-cont roadSectProperty on roadSect">
 					<div class="srch-default">
 						<table class="srch-tbl">
 							<colgroup>
@@ -74,26 +162,51 @@ $(document).ready(function(){
 						<div><button type="submit" class="btn type01 search">조회</button></div>
 					</div>
 				</div>
-				<div class="tab-cont waterSpace">
+				<div class="tab-cont roadSectSpace">
 					<div class="space-search-group">
 						<div class="space-search-items">
 							<span class="form-radio text group">
-								<span><input type="radio" name="trfcSelect" id="rChk1-1" checked="checked" value="1"><label for="rChk1-1">현재화면영역</label></span>
-								<span><input type="radio" name="trfcSelect" id="rChk1-2" value="2"><label for="rChk1-2">사용자 정의</label></span>
+								<span>
+									<input type="radio" name="rad-facility-area" id="rad-facility-area-extent" value="extent" checked="checked">
+									<label for="rad-facility-area-extent">현재화면영역</label>
+								</span>
+								<span>
+									<input type="radio" name="rad-facility-area" id="rad-facility-area-custom" value="custom">
+									<label for="rad-facility-area-custom">사용자 정의</label>
+								</span>
 							</span>
 						</div>
-						<div class="space-search-items areaSrchTool">
+						<div class="space-search-items space-facility-area" style="display:none;">
 							<span class="drawing-obj small">
-								<span><input type="radio" name="trfcAreaDrawing" id="aChk1" value="1"><label for="aChk1" class="obj-sm01"></label></span>
-								<span><input type="radio" name="trfcAreaDrawing" id="aChk2" value="2"><label for="aChk2" class="obj-sm02"></label></span>
-								<span><input type="radio" name="trfcAreaDrawing" id="aChk3" value="3"><label for="aChk3" class="obj-sm03"></label></span>
-								<span><input type="radio" name="trfcAreaDrawing" id="aChk4" value="4"><label for="aChk4" class="obj-sm04"></label></span>
+								<span>
+									<input type="radio" name="rad-facility-drawing" id="rad-facility-drawing-point" value="1">
+									<label for="rad-facility-drawing-point" class="obj-sm01"></label>
+								</span>
+								<span>
+									<input type="radio" name="rad-facility-drawing" id="rad-facility-drawing-linestring" value="2">
+									<label for="rad-facility-drawing-linestring" class="obj-sm02"></label>
+								</span>
+								<span>
+									<input type="radio" name="rad-facility-drawing" id="rad-facility-drawing-box" value="3">
+									<label for="rad-facility-drawing-box" class="obj-sm03"></label>
+								</span>
+								<span>
+									<input type="radio" name="rad-facility-drawing" id="rad-facility-drawing-circle" value="4">
+									<label for="rad-facility-drawing-circle" class="obj-sm04"></label>
+								</span>
 							</span>
 						</div>
-						<div class="space-search-items areaSrchTool">경계로부터 <span class="form-group"><input type="text" onkeyup = "this.value=this.value.replace(/[^-0-9]/g,'');" class="form-control align-center" name="bufferCnt" id="bufferCnt" value="0" placeholder="0"> <sub>m</sub></span> 이내 범위</div>
+						<div class="space-search-items">경계로부터
+							<span class="form-group">
+									<input type="text" onkeyup = "this.value=this.value.replace(/[^-0-9]/g,'');" class="form-control align-center area-facility-buffer" value="0" placeholder="0"/>
+									<sub>m</sub>
+							</span> 이내 범위
+						</div>
 					</div>
 					<div class="btn-wrap">
-						<div><button type="submit" class="btn type01 search">조회</button></div>
+						<div>
+							<button type="submit" class="btn type01 search facility-spatial-search">조회</button>
+						</div>
 					</div>
 				</div>
 			</div>
