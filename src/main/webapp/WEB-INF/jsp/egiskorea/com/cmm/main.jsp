@@ -483,8 +483,8 @@
 				</ul>
 				<div class="map-type">
 				    <span class="knobs">
-				        <span><input type="radio" name="mapType" id="mapType2D" checked=""><label for="mapType2D">2D</label></span>
-				        <span><input type="radio" name="mapType" id="mapType3D"><label for="mapType3D">3D</label></span>
+				        <span><input type="radio" name="mapType" value="2D" id="mapType2D" checked=""><label for="mapType2D">2D</label></span>
+				        <span><input type="radio" name="mapType" value="3D" id="mapType3D"><label for="mapType3D">3D</label></span>
 				    </span>
 				</div>
 			</div>

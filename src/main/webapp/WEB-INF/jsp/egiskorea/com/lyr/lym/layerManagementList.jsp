@@ -68,6 +68,10 @@ $(document).ready(function(){
 			$("#selectedLayerList").empty();
 		}
 	});
+	
+	$("#layerManage_close").on('click', function () {
+    	$("#layerManagement").removeClass("active")
+    });
 });
 
 // 레이어 관리 정보 삭제
@@ -294,6 +298,6 @@ function setLayerManagementListInfo(layerId, layerType, shapeType, shareCheck){
 							</div>
 						</div>
 					</div>
-					<button type="button" class="popup-close" title="닫기"></button>
+					<button type="button" id="layerManage_close" class="popup-close" title="닫기"></button>
 					<button type="button" class="popup-left-toggle" title="접기"></button>	
 				<!-- //레이어 > 레이어관리 -->																		
