@@ -261,7 +261,8 @@ function selectRoadSectionExcelListDownload() {
  * @returns
  */
 function onSelectRoadSectEventListener(e) {
-    let id = e.id.split('.')[1];
+    let id = e.id
+    console.log(e.id.split('.')[1]);
     if (id) {
 	selectRoadSectDetailView(id);
     } else {

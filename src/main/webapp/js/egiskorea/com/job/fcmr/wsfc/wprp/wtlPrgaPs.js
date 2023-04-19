@@ -447,7 +447,7 @@ function insertWtlPrgaPsView(){
             scrollbarPosition: "outside",
         });
        
-        getCmmCodeData("YPE001", "#rightSubPopup select[name=hjd_cde]");		//읍면동
+        getCmmCodeData("YPE001", "#rightSubPopup select[name=hjd_cde]");	//읍면동
         getCmmCodeData("MNG-001", "#rightSubPopup select[name=mng_cde]");	//관리기관
         getCmmCodeData("OGC-137", "#rightSubPopup select[name=pga_cde]");	//수압계종류
         getCmmCodeData("OGC-041", "#rightSubPopup select[name=mof_cde]");	//수압계형식
@@ -473,7 +473,7 @@ function insertWtlPrgaPs(){
 	
 	const pip_cde = $("#insertWtlPrgaPsForm select[name=pip_cde]").val();
 	if(pip_cde == "" || pip_cde == null){
-		alert("지형지물부호는 필수 값입니다.");
+		alert("관로지형지물부호는 필수 값입니다.");
 		return false;
 	}
 	
@@ -618,15 +618,9 @@ function updateWtlPrgaPs(){
 		return false;
 	}
 	
-	const pip_cde = $("#insertWtlPrgaPsForm select[name=pip_cde]").val();
+	const pip_cde = $("#updateWtlPrgaPsForm select[name=pip_cde]").val();
 	if(pip_cde == "" || pip_cde == null){
 		alert("지형지물부호는 필수 값입니다.");
-		return false;
-	}
-	
-	const geom = $("#insertWtlPrgaPsForm input[name=geom]").val();
-	if(geom == "" || geom == null){
-		alert("위치를 등록하여 주십시오.");
 		return false;
 	}
 	 
@@ -755,7 +749,7 @@ function downloadExcelWtlPrgaPs() {
         multipleSelect: false,
         columns: [
 //            {key: "gid", 				label: "아이디",			width:200},
-            {key: "ftr_cde", 			label: "지형지물부호code",	width:'*'},
+//            {key: "ftr_cde", 			label: "지형지물부호code",	width:'*'},
 //            {key: "ftr_cde_nm", 		label: "지형지물부호",		width:'*'},
             {key: "ftr_idn", 			label: "관리번호",			width:'*'},
             {key: "hjd_cde", 			label: "읍면동code",		width:'*'},

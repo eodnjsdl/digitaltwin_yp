@@ -57,16 +57,16 @@ public class SewerSupplyController {
         return "egiskorea/com/job/fcmr/ssfc/scol/insertSwlConnLsView";
     }
 	
-	/*
 	//수정 화면 조회
-	@RequestMapping(value = "/updateWtlFirePsView.do", method = RequestMethod.POST)
-    public String updateWtlFirePsView(
-    		@ModelAttribute("wtlFirePsVO") WtlFirePsVO wtlFirePsVO, String id,
+	@RequestMapping(value = "/updateSwlConnLsView.do", method = RequestMethod.POST)
+    public String updateSwlConnLsView(
+    		@ModelAttribute("swlConnLsVO") SwlConnLsVO swlConnLsVO, String id,
     		ModelMap model) throws Exception {
 			model.addAttribute("id", id);
-        return "egiskorea/com/job/fcmr/wsfc/wfip/updateWtlFirePsView";
+        return "egiskorea/com/job/fcmr/ssfc/scol/updateSwlConnLsView";
     }
-	*/
+	
+	/////////////////////////
 		
 	
 	////////

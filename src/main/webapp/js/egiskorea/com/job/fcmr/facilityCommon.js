@@ -26,16 +26,19 @@ var FACILITY={
 function codeArrayInit(){
 	//console.log("codeArrayInit()");
 	
-	var codeData = [
+	/*var codeData = [
 		{ code: "SA100", codeNm: "상수맨홀" },
+		{ code: "SA114", codeNm: "배수지" },
 		{ code: "SA117", codeNm: "유량계" },
         { code: "SA118", codeNm: "급수탑" },
         { code: "SA119", codeNm: "소화전" },
+        { code: "SB003", codeNm: "하수연결관" },
         { code: "SA121", codeNm: "수압계" },
         { code: "SA991", codeNm: "신축관실" },
-      ];
+      ];*/
 	
-	setCmmCodeDataArray("SA-001", codeData);	//지형지물부호	SA-001 임의로 만든
+	//setCmmCodeDataArray("SA-001", codeData);	//지형지물부호	SA-001 임의로 만든	-> 아래 code로 대체
+	setCmmCodeDataArray("FTR-001");				//지형지물부호  
 																		
 	setCmmCodeDataArray("YPE001");				//읍면동 코드
 	setCmmCodeDataArray("MNG-001");				//관리기관	
@@ -248,6 +251,27 @@ function getAddressForPoint(geomText, tag){
             console.log(`정의되지 않은 공간 타입입니다.`);
         }
         
+        //주소 변환 점 좌표 3d 일때  좌표계 5179 로 변경
+        if(dtmap.mod){
+         	if(dtmap.mod == "2D"){
+     							
+     		}else if(dtmap.mod == "3D"){
+     			const x = coordinate[0];
+                const y = coordinate[1];
+                const point = new ol.geom.Point([x, y]);
+                const wkt = formatWKT.writeGeometry(
+                    point.transform("EPSG:4326", "EPSG:5179")
+                );
+                 
+                //console.log(wkt);
+                let transGeometry = formatWKT.readGeometry(wkt);
+                coordinate = transGeometry.getCoordinates();
+     			//console.log(coordinate);
+     		}else{
+     			console.log("2d/3d 모드 오류");
+     		}
+        }
+        
         reverseGeocoding(coordinate[0], coordinate[1]).done((result) => {
 			 //console.log(result);
 	         if (result["address"]) {
@@ -347,8 +371,8 @@ function getGridDetailData(id){
 /////////////////////////
 //지도 아이콘(객체) 클릭시 이벤트
 function onFacilitySelectEventListener(e){
-	console.log("onFacilitySelectEventListener(e)");
-	console.log(e);
+	//console.log("onFacilitySelectEventListener(e)");
+	//console.log(e);
 	if(e){
 		
 		//[참고 자료]
@@ -383,6 +407,8 @@ function onFacilitySelectEventListener(e){
 				selectWtlManhPs(id);
 			}else if(featureType == "wtl_prga_ps"){					//상수도시설 - 수압계
 				selectWtlPrgaPs(id);
+			}else if(featureType == "wtl_serv_ps"){					//상수도시설 - 배수지
+				selectWtlServPs(id);
 			}else if(featureType == "swl_conn_ls"){					//하수도시설 - 하수연결관 
 				selectSwlConnLs(id);
 			}else if(featureType == "tgd_phstrn_fclty"){			// 체육시설
