@@ -1,7 +1,10 @@
 /**
  * 안전시설물관리 > 가로등관리 js
  */
-SEARCHOBJ= null;
+SEARCHOBJ= {
+	propertySearch: null,
+	spaceSearch:null,
+};
 
 $(document.body).ready(function(){
 	initGrid();
@@ -53,29 +56,40 @@ function initGrid(){
 //가로등관리 조회기능
 function setData(_pageNo){
 
-	var instlDe='', adres='', manageNo=''; 
-
-	if(SEARCHOBJ != null){
-		instlDe = SEARCHOBJ.searchInstlDe;
-		adres = SEARCHOBJ.searchAdres;
-		manageNo = SEARCHOBJ.searchManageNo;
-
-	}
-	var cqlList = [];
-
-	if(instlDe.trim().length >= 1){cqlList.push("instl_de"+" like "+instlDe);}
-	if(adres.trim().length >= 1){cqlList.push("adres"+" like "+adres);}
-	if(manageNo.trim().length >=1){cqlList.push("manage_no"+" like "+manageNo);}
-	
-	var gridList = this;
-	const promise = dtmap.wfsGetFeature({
+	var options = {
 		typeNames: 'tgd_strtlgt_status', //WFS 레이어명
 		page : _pageNo+1,
 		perPage : 100,
 		sortBy : 'gid',
 		sortOrder : 'DESC',
-		filter : cqlList
-	});
+	}
+
+	var instlDe='', adres='', manageNo=''; 
+
+	if(SEARCHOBJ.propertySearch != null){
+		instlDe = SEARCHOBJ.propertySearch.searchInstlDe;
+		adres = SEARCHOBJ.propertySearch.searchAdres;
+		manageNo = SEARCHOBJ.propertySearch.searchManageNo;
+
+		var cqlList = [];
+	
+		if(instlDe.trim().length >= 1){cqlList.push("instl_de"+" like "+instlDe);}
+		if(adres.trim().length >= 1){cqlList.push("adres"+" like "+adres);}
+		if(manageNo.trim().length >=1){cqlList.push("manage_no"+" like "+manageNo);}
+
+		options.filter = cqlList;
+	}else if(SEARCHOBJ.spaceSearch != null){
+		const $parent 	= $(".search-area");
+        const type 		= $parent.find('input[name="sffmSelect"]:checked').val();
+        if (type === 'extent') {
+        	options.bbox = SEARCHOBJ.spaceSearch.bbox;
+        } else {
+        	options.geometry = SEARCHOBJ.spaceSearch.geometry;
+        }
+	}
+	
+	var gridList = this;
+	const promise = dtmap.wfsGetFeature(options);
 
 	promise.then(function(data){
 		toastr.success("지도 BBOX 이동");
@@ -206,14 +220,33 @@ function fn_update(gid){
 }
 
 //가로등 검색조회
-function fn_search_List(){
+function fn_search_List(e){
+	
+	SEARCHOBJ.propertySearch = null;
+	SEARCHOBJ.spaceSearch = null;
+	if($('#sffm-prop').hasClass('on')){
 
-	if($('.safetyFacilityProperty').hasClass)
-	SEARCHOBJ = {};
+		SEARCHOBJ.propertySearch={};
+		SEARCHOBJ.propertySearch.searchManageNo= $('#sffm-search-manage-no').val() || '';
+		SEARCHOBJ.propertySearch.searchInstlDe = $('#sffm-search-instl-de').val() || '';
+		SEARCHOBJ.propertySearch.searchAdres = $('#sffm-search-adres').val() || '';
+	}else if($('#sffm-space').hasClass('on')){
+		SEARCHOBJ.spaceSearch = {};
+		const $parent = $(e.target).closest('.search-area');
+		const type = $parent.find('input[name="sffmSelect"]:checked').val();
+		
+		if (type === 'extent') {
+			SEARCHOBJ.spaceSearch.bbox = dtmap.getExtent();
+		} else {
+			if(dtmap.draw.source.getFeatures().length > 0){
+				SEARCHOBJ.spaceSearch.geometry = dtmap.draw.getGeometry();
+			}else{
+				alert("영역지정 안되었습니다");
+				return false;
+			}
+		}
+	}
 
-	SEARCHOBJ.searchManageNo= $('#sffm-search-manage-no').val() || '';
-	SEARCHOBJ.searchInstlDe = $('#sffm-search-instl-de').val() || '';
-	SEARCHOBJ.searchAdres = $('#sffm-search-adres').val() || '';
 
 	
 }

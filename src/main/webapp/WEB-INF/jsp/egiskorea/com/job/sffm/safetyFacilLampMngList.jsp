@@ -66,11 +66,11 @@ $(document).ready(function() {
 					<div class="space-search-group">
 						<div class="space-search-items">
 							<span class="form-radio text group">
-								<span><input type="radio" name="sffmSelect" id="rChk1-1_sffm" checked="" value="1"><label for="rChk1-1_sffm">현재화면영역</label></span>
-								<span><input type="radio" name="sffmSelect" id="rChk1-2_sffm" value="2"><label for="rChk1-2_sffm">사용자 정의</label></span>
+								<span><input type="radio" name="sffmSelect" id="rChk1-1_sffm" checked="checked" value="extent"><label for="rChk1-1_sffm">현재화면영역</label></span>
+								<span><input type="radio" name="sffmSelect" id="rChk1-2_sffm" value="custom"><label for="rChk1-2_sffm">사용자 정의</label></span>
 							</span>
 						</div>
-						<div class="space-search-items areaSrchTool">
+						<div class="space-search-items areaSrchTool" style="display: none;">
 							<span class="drawing-obj small">
 								<span><input type="radio" name="sffmAreaDrawing" id="aChk1_sffm" value="1"><label for="aChk1_sffm" class="obj-sm01"></label></span>
 								<span><input type="radio" name="sffmAreaDrawing" id="aChk2_sffm" value="2"><label for="aChk2_sffm" class="obj-sm02"></label></span>
@@ -78,10 +78,11 @@ $(document).ready(function() {
 								<span><input type="radio" name="sffmAreaDrawing" id="aChk4_sffm" value="4"><label for="aChk4_sffm" class="obj-sm04"></label></span>
 							</span>
 						</div>
-						<div class="space-search-items areaSrchTool">경계로부터 <span class="form-group"><input type="number" id="sffmBuffer" name="sffmBuffer" class="form-control align-center" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" value="0" placeholder="0" onkeypress="if( event.keyCode == 13 ){ SFFM.fn_select_sffm_list('spital'); }"> <sub>m</sub></span> 이내 범위</div>
+						<div class="space-search-items">경계로부터 <span class="form-group">
+							<input type="number" id="sffmBuffer" name="sffmBuffer" class="form-control align-center" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" value="0" placeholder="0" onkeypress="if( event.keyCode == 13 ){ SFFM.fn_select_sffm_list('spital'); }"> <sub>m</sub></span> 이내 범위</div>
 					</div>
 					<div class="btn-wrap">
-						<div><button type="button" class="btn type01 search" onclick="setData();">조회</button></div>
+						<div><button type="button" class="btn type01 search" onclick="fn_search_List(event); setData();">조회</button></div>
 					</div>
 				</div>
 			</div>
@@ -128,7 +129,7 @@ $(document).ready(function() {
 			$("."+$(this).parent().data("tab")).addClass("on").siblings().removeClass("on");
 		});
 		
-		if($("li[data-tab=groundwaterProperty]").hasClass("on")){	//속성검색 일때 공간 검색때 사용한 그리기 초기화
+		if($("li[data-tab=safetyFacilityProperty]").hasClass("on")){	//속성검색 일때 공간 검색때 사용한 그리기 초기화
 			dtmap.draw.dispose();		//그리기 포인트 삭제
 			dtmap.draw.clear();			//그리기 초기화
 		}
@@ -136,14 +137,14 @@ $(document).ready(function() {
 	});
 
 	// 공간 검색 조회 버튼
-	$(".facility-spatial-search", "#bottomPopup").on("click", function (e) {
+	/*$(".facility-spatial-search", "#bottomPopup").on("click", function (e) {
 		//console.log("공간검색 조회");
 		
 		const $parent = $(e.target).closest('.search-area');
-		const type = $parent.find('input[name="rad-facility-area"]:checked').val();
+		const type = $parent.find('input[name="sffmSelect"]:checked').val();
 		
 		if (type === 'extent') {
-			FACILITY.spaceSearchOption.bbox 	= dtmap.getExtent();
+			FACILITY.spaceSearchOption.bbox = dtmap.getExtent();
 		} else {
 			if(dtmap.draw.source.getFeatures().length > 0){
 				FACILITY.spaceSearchOption.geometry = dtmap.draw.getGeometry();
@@ -153,28 +154,29 @@ $(document).ready(function() {
 			}
 		}
 
-	});
+	});*/
 
 	// 검색영역지정 변경 (현재화면영역, 사용자정의)
-	$("[name=rad-facility-area]", "#bottomPopup").on("change", function () {
+	$("[name=sffmSelect]", "#bottomPopup").on("change", function () {
+		console.log("찍")
 		const node = $(this);
 		const value = node.val();
 		if (value == "extent") {
-			$(".space-facility-area", "#bottomPopup").hide();
+			$(".areaSrchTool", "#bottomPopup").hide();
 			
 			//그리기, 그려진 것 초기화
 			dtmap.draw.dispose();
 			dtmap.draw.clear();
 			
 		} else {
-			$(".space-facility-area", "#bottomPopup").show();
-			$("[name=rad-facility-drawing]:first", "#bottomPopup").trigger("click");
+			$(".areaSrchTool", "#bottomPopup").show();
+			$("[name=sffmAreaDrawing]:first", "#bottomPopup").trigger("click");
 		}
 	}); 
      	
      	
 	// 사용자 정의 검색 조건
-	$("[name=rad-facility-drawing]", "#bottomPopup").on("click", function () {
+	$("[name=sffmAreaDrawing]", "#bottomPopup").on("click", function () {
 		const node = $(this);
 		const value = node.val();
 
