@@ -102,3 +102,17 @@ function selectWtlPrgaPsListView(){
 		ui.loadingBar("hide");
 	});
 }
+
+//배수지 목록 화면 조회
+function selectWtlServPsListView(){
+	//console.log("selectWtlServPsListView()");
+	
+	ui.loadingBar("show");
+	
+	var baseContainer = "#bottomPopup";
+	$(baseContainer).load("/job/fcmr/wsfc/selectWtlServPsListView.do", function () {
+		//toastr.success("/job/fcmr/wsfc/selectWtlServPsListView.do", "페이지🙂호🙂출🙂");
+		wtlServPsListProcess();
+		ui.loadingBar("hide");
+	});
+}
