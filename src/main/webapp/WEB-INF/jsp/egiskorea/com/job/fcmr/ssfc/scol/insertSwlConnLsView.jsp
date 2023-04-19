@@ -132,7 +132,7 @@
                                            <div class="form-row">
                                            		<div class="col">
                                            			<input type="text" class="form-control txt-geometry-address" value="" readonly="readonly">
-                                           			<input type="text" name="geom" class="form-control" value="">
+                                           			<input type="hidden" name="geom" class="form-control" value="">
                                            		</div>                    
                                            		<div class="col-auto">
                                            			<button type="button" class="btn type01 bi-location btn-select-map" data-popup="space-edit-tool">지도에서 선택</button>
@@ -164,7 +164,7 @@
 	//jqeury
 	$(document).ready(function(){
 		
-		console.log("insertSwlConnLsView.jsp");
+		//console.log("insertSwlConnLsView.jsp");
         
 		// 날짜 형식 처리 예정 
         // 날짜 적용 - 지금 8자리로 되어 있어 이것 사용 (변경 예정) 

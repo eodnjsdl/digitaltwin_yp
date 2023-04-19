@@ -38,8 +38,8 @@
                                        <th scope="row">지형지물부호</th>
                                        <td>
                                           	<select name="ftr_cde" class="form-select" readonly="readonly">
-                                          		<option value="SA118">급수탑</option>
-                                          		<option value="SA119" selected="selected">소화전</option>
+                                          		<option value="SA118">상수급수탑</option>
+                                          		<option value="SA119" selected="selected">상수소화전</option>
                                           	</select>
                                        </td>
                                        <th scope="row">관리번호</th>

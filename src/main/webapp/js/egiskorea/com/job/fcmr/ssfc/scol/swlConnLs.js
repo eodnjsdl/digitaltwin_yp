@@ -76,7 +76,7 @@ function swlConnLsListProcess(){
             //{key: "ftr_idn", 			label: "관리번호",			width:'*'},
             //{key: "hjd_cde", 			label: "읍면동code",		width:'*'},
             {key: "hjd_cde_nm", 		label: "읍면동",			width:'*'},
-            {key: "mng_cde", 			label: "관리기관code",		width:'*'},
+            //{key: "mng_cde", 			label: "관리기관code",		width:'*'},
             {key: "mng_cde_nm", 		label: "관리기관",			width:'*'},
             //{key: "sht_num", 			label: "도엽번호",			width:'*'},
             {key: "ist_ymd", 			label: "설치일자",			width:'*'},
@@ -125,7 +125,7 @@ function swlConnLsListProcess(){
 
 //하수연결관 목록 조회
 function selectSwlConnLsList(page) {
-	console.log("selectSwlConnLsList(page)");
+	//console.log("selectSwlConnLsList(page)");
 	//console.log("page>>>"+page);
 	
 	//페이지 변수세팅
@@ -232,7 +232,7 @@ function selectSwlConnLsList(page) {
         	
         	//지형지물부호 코드 변경
         	var ftr_cde = data.features[i].properties.ftr_cde;
-        	data.features[i].properties.ftr_cde_nm = getCmmCodeDataArray("SA-001", ftr_cde);
+        	data.features[i].properties.ftr_cde_nm = getCmmCodeDataArray("FTR-001", ftr_cde);
         	
         	//읍면동 코드 변경
         	var hjd_cde = data.features[i].properties.hjd_cde;
@@ -360,7 +360,7 @@ function selectSwlConnLs(id){
     	
     	//지형지물부호 코드 변경
     	var ftr_cde = data.features[0].properties.ftr_cde;
-    	data.features[0].properties.ftr_cde_nm = getCmmCodeDataArray("SA-001", ftr_cde);
+    	data.features[0].properties.ftr_cde_nm = getCmmCodeDataArray("FTR-001", ftr_cde);
     	
     	//읍면동 코드 변경
     	var hjd_cde = data.features[0].properties.hjd_cde;
@@ -524,7 +524,7 @@ function insertSwlConnLs(){
     
     ////////////
     //등록
-    console.log(data);
+    //console.log(data);
     
     //등록 시작
     ui.loadingBar("show");
@@ -556,8 +556,8 @@ function insertSwlConnLs(){
 
 //하수연결관 수정 화면 조회
 function updateSwlConnLsView(id){
-	console.log("updateSwlConnLsView()");
-	console.log("id>"+id);
+	//console.log("updateSwlConnLsView()");
+	//console.log("id>"+id);
 	
 	//상세 정보 조회
 	var detailData = getGridDetailData(id);
@@ -650,9 +650,9 @@ function updateSwlConnLs(){
     const geojson 	= format.writeFeature(feature);
     const data 		= {dataId: "swl_conn_ls", geojson: geojson};
     console.log(data);
-    alert("작업중");
+    
     //수정진행
-    /*ui.loadingBar("show");
+    ui.loadingBar("show");
    
     $.post("/job/fcts/updateFacility.do", data)
     .done((response) => {
@@ -660,13 +660,13 @@ function updateSwlConnLs(){
         if (result["result"]) {
             alert("수정 완료 되었습니다.");
             
-            var page = $("#wtiFirePsListPage").val();
-            selectWtlFirePsList(page);
+            var page = $("#swlConnLsListPage").val();
+            selectSwlConnLsList(page);
             
             var id = $("#rightSubPopup input[name=id]").val();
-        	selectWtlFirePs(id);
+        	selectSwlConnLs(id);
         	
-        	$(".popup-panel .update-wtlFirePs-popup-close").trigger("click");
+        	$(".popup-panel .update-swlConnLs-popup-close").trigger("click");
             
         } else {
             alert(`수정 실패했습니다.`);
@@ -678,21 +678,21 @@ function updateSwlConnLs(){
     .fail(() => {
         alert(`등록 실패했습니다.`);
         ui.loadingBar("hide");
-    });*/
+    });
     
 }
 
 
 //소방시설 삭제
-function deleteWtlFirePs(id){
-	//console.log("deleteWtlFirePs(id)");
+function deleteSwlConnLs(id){
+	//console.log("deleteSwlConnLs(id)");
 	//console.log(id);
 	
 	if (confirm("삭제하시겠습니까?(복구할 수 없습니다)")) {
 		
 		ui.loadingBar("show");
         const formData = new FormData();
-        formData.append("dataId", 'wtl_fire_ps' + "");
+        formData.append("dataId", 'swl_conn_ls' + "");
         formData.append("ids", id);
 
         $.ajax({
@@ -709,9 +709,9 @@ function deleteWtlFirePs(id){
                 alert("삭제 되었습니다.");
                 
                 //var page = $("#wtiFirePsListPage").val();
-                selectWtlFirePsList(1);	//첫페이지 조회
+                selectSwlConnLsList(1);	//첫페이지 조회
                 
-                cancelSelectWtlFirePs();//창닫기
+                cancelSelectSwlConnLs();//창닫기
                 
             } else {
                 alert(`삭제에 실패했습니다.`);
@@ -729,8 +729,8 @@ function deleteWtlFirePs(id){
 
 /////////////////////////////
 //엑셀 다운로드 
-function downloadExcelWtlFirePs() {
-	//console.log("downloadExcelWtlFirePs()");
+function downloadExcelSwlConnLs() {
+	//console.log("downloadExcelSwlConnLs()");
 	
 	var $container = $("#container");
     var $target = $container.find('#baseGridDiv [data-ax5grid="attr-grid-excel"]');	//가상의 ax5uigrid 공간에 처리 
@@ -745,25 +745,30 @@ function downloadExcelWtlFirePs() {
         sortable: true,
         multipleSelect: false,
         columns: [
-            //{key: "gid", 				label: "아이디",			width:200},
-            {key: "ftr_cde", 			label: "지형지물부호code",	width:'*'},
-            {key: "ftr_cde_nm", 		label: "지형지물부호",		width:'*'},
-            {key: "ftr_idn", 			label: "관리번호",			width:'*'},
-            {key: "hjd_cde", 			label: "읍면동code",		width:'*'},
+        	//{key: "gid", 				label: "아이디",			width:200},
+            //{key: "ftr_cde", 			label: "지형지물부호code",	width:'*'},
+            //{key: "ftr_cde_nm", 		label: "지형지물부호",		width:'*'},
+            //{key: "ftr_idn", 			label: "관리번호",			width:'*'},
+            //{key: "hjd_cde", 			label: "읍면동code",		width:'*'},
             {key: "hjd_cde_nm", 		label: "읍면동",			width:'*'},
             {key: "mng_cde", 			label: "관리기관code",		width:'*'},
             {key: "mng_cde_nm", 		label: "관리기관",			width:'*'},
-            {key: "sht_num", 			label: "도엽번호",			width:'*'},
+            //{key: "sht_num", 			label: "도엽번호",			width:'*'},
             {key: "ist_ymd", 			label: "설치일자",			width:'*'},
-            {key: "hom_num", 			label: "수용가번호",		width:'*'},
-            {key: "mof_cde", 			label: "소화전형식code",	width:'*'},
-            {key: "mof_cde_nm", 		label: "소화전형식",		width:'*'},
-            {key: "fir_dip", 			label: "소화전구경",		width:'*'},
+            {key: "sba_cde", 			label: "하수관용도code",	width:'*'},
+            {key: "sba_cde_nm",			label: "하수관용도",		width:'*'},
+            {key: "mop_cde", 			label: "관재질code",		width:'*'},
+            {key: "mop_cde_nm",			label: "관재질",			width:'*'},
+            {key: "for_cde", 			label: "시설물형태code",	width:'*'},
+            {key: "for_cde_nm", 		label: "시설물형태",		width:'*'},
             {key: "std_dip", 			label: "관경",			width:'*'},
-            //{key: "sup_hit", 			label: "급수탑높이",		width:100},
-            //{key: "sys_chk", 			label: "대장초기화여",		width:100},
-            //{key: "ang_dir", 			label: "방향각",			width:100},
-            //{key: "geom", 			label: "공간정보",			width:100}
+            //{key: "std_hol", 			label: "가로길이",			width:'*'},
+            //{key: "std_vel", 			label: "세로길이",			width:'*'},
+            {key: "byc_len", 			label: "연장",			width:'*'},
+            //{key: "sph_lin", 			label: "차선통로수",		width:'*'},
+            //{key: "cnt_num", 			label: "공사번호",			width:'*'},
+            //{key: "sys_chk", 			label: "대장초기화여부",		width:'*'},
+            //{key: "pip_lbl", 			label: "관라벨",			width:'*'},
         ],
 
 	});
@@ -804,7 +809,7 @@ function downloadExcelWtlFirePs() {
 		}
 	    
 	    options = {
-	        typeNames	: 'wtl_fire_ps' + "",
+	        typeNames	: 'swl_conn_ls' + "",
 	        filter 		: filters,
 	        sortBy		: 'gid',
 	        sortOrder	: 'DESC',
@@ -818,7 +823,7 @@ function downloadExcelWtlFirePs() {
         const type 		= $parent.find('input[name="rad-facility-area"]:checked').val();
 
         options = {
-            typeNames: "wtl_fire_ps",
+            typeNames: "swl_conn_ls",
 	        sortBy		: 'gid',
 	        sortOrder	: 'DESC',
         }
@@ -846,19 +851,27 @@ function downloadExcelWtlFirePs() {
         	
         	//지형지물부호 코드 변경
         	var ftr_cde = data.features[i].properties.ftr_cde;
-        	data.features[i].properties.ftr_cde_nm = getCmmCodeDataArray("SA-001", ftr_cde);
-        	
-        	//관리기관 코드 변경
-        	var mng_cde = data.features[i].properties.mng_cde;
-        	data.features[i].properties.mng_cde_nm = getCmmCodeDataArray("MNG-001", mng_cde);
+        	data.features[i].properties.ftr_cde_nm = getCmmCodeDataArray("FTR-001", ftr_cde);
         	
         	//읍면동 코드 변경
         	var hjd_cde = data.features[i].properties.hjd_cde;
         	data.features[i].properties.hjd_cde_nm = getCmmCodeDataArray("YPE001", hjd_cde);
         	
-        	//소화전 형식 코드 변경
-        	var mof_cde = data.features[i].properties.mof_cde;
-        	data.features[i].properties.mof_cde_nm = getCmmCodeDataArray("OGC-048", mof_cde);
+        	//관리기관 코드 변경
+        	var mng_cde = data.features[i].properties.mng_cde;
+        	data.features[i].properties.mng_cde_nm = getCmmCodeDataArray("MNG-001", mng_cde);
+        	
+        	//하수관용도 코드 변경
+        	var sba_cde = data.features[i].properties.sba_cde;
+        	data.features[i].properties.sba_cde_nm = getCmmCodeDataArray("OGC-017", sba_cde);
+        	
+        	//관재질 코드 변경
+        	var mop_cde = data.features[i].properties.mop_cde;
+        	data.features[i].properties.mop_cde_nm = getCmmCodeDataArray("OGC-003", mop_cde);
+        	
+        	//시설물형태 코드 변경
+        	var for_cde = data.features[i].properties.for_cde;
+        	data.features[i].properties.for_cde_nm = getCmmCodeDataArray("OGC-001", for_cde);
             
             //좌표 처리  geometry로 변수명을 정하면 기존것과 충돌 발생
         	data.features[i].properties.geomObj = data.features[i].geometry;
@@ -873,7 +886,7 @@ function downloadExcelWtlFirePs() {
         FACILITY.Ax5UiGridAll.setData(list);
         
       	//엑셀 export
-		FACILITY.Ax5UiGridAll.exportExcel("EXPORT_소방시설.xls");
+		FACILITY.Ax5UiGridAll.exportExcel("EXPORT_하수연결관.xls");
     });
 
 }

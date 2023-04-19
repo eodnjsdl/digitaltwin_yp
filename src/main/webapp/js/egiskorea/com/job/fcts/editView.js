@@ -6,8 +6,8 @@
 
 //jqeury
 $(document).ready(function(){
-	console.log("editView.js");
-	console.log("공간정보 편집도구");
+	//console.log("editView.js");
+	//console.log("공간정보 편집도구");
 	
 	
 	dtmap.draw.setBuffer(0);	//버퍼 적용 초기화
@@ -18,8 +18,8 @@ $(document).ready(function(){
 
 //공간정보 편집도구
 function geoEditBindEvents(obj) {
-	console.log("geoEditBindEvents(obj)");
-	console.log(obj);
+	//console.log("geoEditBindEvents(obj)");
+	//console.log(obj);
 	
 	/*if(obj.id){
 		var id = obj.id;
@@ -167,7 +167,7 @@ function geoEditBindEvents(obj) {
 
     // 적용
     $(".edit-btn-apply").on("click", function () {
-    	console.log(".edit-btn-apply");
+    	//console.log(".edit-btn-apply");
     	
     	let geom = ""
     		
@@ -249,7 +249,7 @@ function geoEditBindEvents(obj) {
 			//console.log(point);
 			//const wkt = format.writeGeometry(point);
 			
-			console.log(geom);
+			//console.log(geom);
 			$("input[name=geom]").val(geom);
 			
 			clearSpaceEditTool();	//초기화

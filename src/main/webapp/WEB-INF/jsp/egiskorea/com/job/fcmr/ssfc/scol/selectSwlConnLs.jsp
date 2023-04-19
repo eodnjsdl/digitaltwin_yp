@@ -153,7 +153,7 @@
 <script type="text/javascript">
 	//jqeury
 	$(document).ready(function(){
-		console.log("selectSwlConnLs.jsp");
+		//console.log("selectSwlConnLs.jsp");
 		
 		//gird 데이터를 통한 주소 조회
 		var id = "${id }";

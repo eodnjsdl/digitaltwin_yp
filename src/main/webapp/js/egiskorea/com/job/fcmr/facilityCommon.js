@@ -26,7 +26,7 @@ var FACILITY={
 function codeArrayInit(){
 	//console.log("codeArrayInit()");
 	
-	var codeData = [
+	/*var codeData = [
 		{ code: "SA100", codeNm: "상수맨홀" },
 		{ code: "SA117", codeNm: "유량계" },
         { code: "SA118", codeNm: "급수탑" },
@@ -34,9 +34,10 @@ function codeArrayInit(){
         { code: "SB003", codeNm: "하수연결관" },
         { code: "SA121", codeNm: "수압계" },
         { code: "SA991", codeNm: "신축관실" },
-      ];
+      ];*/
 	
-	setCmmCodeDataArray("SA-001", codeData);	//지형지물부호	SA-001 임의로 만든
+	//setCmmCodeDataArray("SA-001", codeData);	//지형지물부호	SA-001 임의로 만든	-> 아래 code로 대체
+	setCmmCodeDataArray("FTR-001");				//지형지물부호  
 																		
 	setCmmCodeDataArray("YPE001");				//읍면동 코드
 	setCmmCodeDataArray("MNG-001");				//관리기관	

@@ -39,12 +39,12 @@
                                        <th scope="row">지형지물부호</th>
                                        <td>
                                           	<c:out value="${swlConnLsVO.ftr_cde_nm }"/>
-                                          	<input type="text" name="ftr_cde" class="form-control" value="${swlConnLsVO.ftr_cde }">
+                                          	<input type="hidden" name="ftr_cde" class="form-control" value="${swlConnLsVO.ftr_cde }">
                                        </td>
                                        <th scope="row">관리번호</th>
                                        <td>
                                        	  	<c:out value="${swlConnLsVO.ftr_idn }"/>
-                                       	  	<input type="text" name="ftr_idn" class="form-control" value="${swlConnLsVO.ftr_idn }">
+                                       	  	<input type="hidden" name="ftr_idn" class="form-control" value="${swlConnLsVO.ftr_idn }">
                                        </td>
                                    </tr>
                                    <tr>
@@ -198,7 +198,7 @@
       	getCmmCodeData("OGC-003", "#rightSubPopup select[name=mop_cde]", mop_cde);
       	
       	//시설물형태
-      	let mng_cde = '${swlConnLsVO.for_cde }';
+      	let for_cde = '${swlConnLsVO.for_cde }';
       	getCmmCodeData("OGC-001", "#rightSubPopup select[name=for_cde]", for_cde);
       	
       	///////////////////////
