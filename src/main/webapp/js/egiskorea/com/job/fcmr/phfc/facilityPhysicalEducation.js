@@ -12,6 +12,8 @@ $(document).ready(function(){
 function getPhyEduFaciListView() {
 	//console.log("getPhyEduFaciListView()");
 	
+	FACILITY.spaceSearchOption = {}		// 공간검색 옵션 초기화
+	
 	ui.loadingBar("show");
 	
 	var baseContainer = "#bottomPopup";
@@ -156,10 +158,8 @@ function selectPhyEduFaciList(page) {
 		var total = data.totalFeatures;
 		var totPge = Math.ceil(total / 10);
 		
-		if (total > 0) {
+		if (total >= 0) {
         	$("#bottomPopup .bbs-list-num").html("조회결과: " + total + "건");
-        } else if (total == 0) {
-        	$("#bottomPopup .bbs-list-num").html("조회결과: 0건");
         }
 
 		// gird 적용
@@ -269,11 +269,11 @@ function insertPhyEduFaci() {
 	var date = /^\d{4}-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])$/;
 	var fond_de = $('#phyEduFaciTbl input[name=fondDe]').val();
 	if (fond_de == '') {
-		alert('설립일자를 입력해주세요.')
+		alert('설립일자를 입력해주세요.');
 		$('#phyEduFaciTbl input[name=fondDe]').focus();
 		return false;
 	} else if (!date.test(fond_de)) {
-		alert('날짜형식에 맞게 입력해주세요.')
+		alert('날짜형식에 맞게 입력해주세요. ex) 0000-00-00');
 		$('#phyEduFaciTbl input[name=fondDe]').focus();
 		return false;
 	}
@@ -433,11 +433,11 @@ function updatePhyEduFaci(gid) {
 	var date = /^\d{4}-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])$/;
 	var fond_de = $('#phyEduFaciTbl input[name=fondDe]').val();
 	if (fond_de == '') {
-		alert('설립일자를 입력해주세요.')
+		alert('설립일자를 입력해주세요.');
 		$('#phyEduFaciTbl input[name=fondDe]').focus();
 		return false;
 	} else if (!date.test(fond_de)) {
-		alert('날짜형식에 맞게 입력해주세요.')
+		alert('날짜형식에 맞게 입력해주세요. ex) 0000-00-00');
 		$('#phyEduFaciTbl input[name=fondDe]').focus();
 		return false;
 	}

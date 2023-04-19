@@ -121,8 +121,8 @@ $(".scroll-y").mCustomScrollbar({
 			</div>
 			<div class="position-bottom btn-wrap justify-content-end">
 				<div>
-					<button type="button" class="btn basic bi-edit" onclick="updateWelFareFaciView('<c:out value="${result.gid}"/>');">수정</button> 
-					<button type="button" class="btn basic bi-delete2" onclick="deleteWelFareFaci('<c:out value="${result.gid}"/>');">삭제</button>
+					<button type="button" class="btn basic bi-edit" onclick="updateWelFareFaciView(<c:out value="${result.gid}"/>);">수정</button> 
+					<button type="button" class="btn basic bi-delete2" onclick="deleteWelFareFaci(<c:out value="${result.gid}"/>);">삭제</button>
 				</div>
 			</div>
 		</div>

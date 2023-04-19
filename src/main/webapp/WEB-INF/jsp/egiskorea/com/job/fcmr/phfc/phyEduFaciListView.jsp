@@ -112,8 +112,7 @@ $(document).ready(function() {
 				type = 'Circle';
 				break;
 		}
-		dtmap.draw.active({type: type, once: true})
-		$(".area-facility-buffer").val("1").trigger("keyup");
+		dtmap.draw.active({type: type, once: true});
 	});
 
 	//경계로부터 버퍼 영역 지정
@@ -221,7 +220,7 @@ $(document).ready(function() {
             </div>
             <div class="bbs-list-wrap" style="height: 267px;"><!-- pagination 하단 고정을 위해 반드시 필요 -->
 				<div class="bbs-default">
-					<div id="baseGridDiv" style="height:inherit; display: flex; flex-direction: column">
+					<div id="baseGridDiv" style="height:inherit; display: flex; flex-direction: column;">
 						<div id="gridax5" data-ax5grid="attr-grid" data-ax5grid-config="{}" style="flex: 1"></div>
 						<div data-ax5grid="attr-grid-excel" style="diplay:none;"></div>
 						<input type="hidden" class="hiddenPage" value="1" />
@@ -233,6 +232,6 @@ $(document).ready(function() {
 </div>
 <button type="button" class="manualBtn" title="도움말" onclick="manualTab('체육시설')"></button>
 <button type="button" class="popup-close" title="닫기"></button>
-<button type="button" class="popup-reset" class="초기화"></button>
+<button type="button" class="popup-reset" title="초기화"></button>
 <button type="button" class="popup-bottom-toggle" title="접기"></button>				
 <!-- //업무 > 시설관리 > 체육시설 end -->

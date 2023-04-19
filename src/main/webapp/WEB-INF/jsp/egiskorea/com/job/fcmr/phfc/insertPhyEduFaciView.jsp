@@ -146,7 +146,7 @@ function phyEduFaciGeom(e) {
 			<div class="position-bottom btn-wrap">
 				<div>
 					<button type="button" class="btn basic bi-save" id="updateSports" onclick="insertPhyEduFaci()">저장</button> 
-					<button type="button" class="btn basic bi-cancel" onclick="setTimeout(function(){ selectPhyEduFaciDetail('<c:out value="${result.gid}"/>') });" >취소</button>
+					<button type="button" class="btn basic bi-cancel" onclick="setTimeout(function(){ selectPhyEduFaciDetail(<c:out value="${result.gid}"/>) });" >취소</button>
 				</div>
 			</div>
 		</div>							

@@ -171,7 +171,7 @@
 	    var $target = $container.find('#bottomPopup .facility-select');
 		
 		$target.on('change', function() {
-			getWaterSupplyFacility(this.value);
+			getSewerSupplyFacility(this.value);
 		});
 		
 		///////////

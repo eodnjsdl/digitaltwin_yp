@@ -48,7 +48,7 @@ function getSewerSupplyFacility(name){
 			toastr.error("작업중", "물받이");
 			return;
 		}else if(name == "swlVentPs"){		//환기구
-			toastr.error("작업중", "환기구");
+			selectSwlVentPsListView();
 			return;
 		}else{
 			alert("잘못된 호출")

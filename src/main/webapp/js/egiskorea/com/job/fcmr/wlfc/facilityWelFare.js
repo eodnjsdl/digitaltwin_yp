@@ -12,6 +12,8 @@ $(document).ready(function(){
 function getWelFareFaciListView() {
 	//console.log("getWelFareFaciListView()");
 	
+	FACILITY.spaceSearchOption = {}		// 공간검색 옵션 초기화
+	
 	ui.loadingBar("show");
 	
 	var baseContainer = "#bottomPopup";
@@ -151,10 +153,8 @@ function selectWelFareFaciList(page) {
 		var total = data.totalFeatures;
 		var totPge = Math.ceil(total / 10);
 		
-		if (total > 0) {
+		if (total >= 0) {
         	$("#bottomPopup .bbs-list-num").html("조회결과: " + total + "건");
-        } else if (total == 0) {
-        	$("#bottomPopup .bbs-list-num").html("조회결과: 0건");
         }
 
 		// gird 적용

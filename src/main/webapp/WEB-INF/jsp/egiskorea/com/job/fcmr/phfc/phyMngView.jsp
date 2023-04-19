@@ -154,8 +154,8 @@ for(var i = 0; i < 10; i++) {
 					<button type="button" class="btn basic bi-delete2" onclick="deletePhyMng();">선택삭제</button>
 				</div>
 				<div>
-					<button type="button" class="btn basic bi-write2" onclick="insertPhyMng('${gid}');">등록</button>
-					<button type="button" class="btn basic bi-cancel" onclick="selectPhyEduFaciDetail('${gid}');">취소</button>
+					<button type="button" class="btn basic bi-write2" onclick="insertPhyMng(${gid});">등록</button>
+					<button type="button" class="btn basic bi-cancel" onclick="selectPhyEduFaciDetail(${gid});">취소</button>
 				</div>
 			</div>
 		</div>

@@ -413,7 +413,8 @@ window.ui = (function () {
                     //return;
 
                     //aj_facility("SewerSupplyFacility");
-                	getSewerSupplyFacility("swlConnLs");		//상수도 시설 소방시설
+                	dtmap.off('select', onFacilitySelectEventListener); //클릭 리스너 이벤트 삭제
+                	getSewerSupplyFacility("swlConnLs");		//하수도 시설 하수연결관
                     break;
 
                  // 업무 > 시설관리 > 교통시설

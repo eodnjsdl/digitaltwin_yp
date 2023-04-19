@@ -227,8 +227,8 @@ function phyEduFaciGeom(e) {
 			<div class="position-bottom btn-wrap">
 				<div class="position-absolute left"><button type="button" class="btn basic bi-delete2" onclick="deletePhyFaciMng();">선택삭제</button></div>
 				<div>
-					<button type="button" class="btn basic bi-write2" onclick="insertPhyFaciMng('${gid}');">등록</button>
-					<button type="button" class="btn basic bi-cancel" onclick="selectPhyEduFaciDetail('${gid}');">취소</button>
+					<button type="button" class="btn basic bi-write2" onclick="insertPhyFaciMng(${gid});">등록</button>
+					<button type="button" class="btn basic bi-cancel" onclick="selectPhyEduFaciDetail(${gid});">취소</button>
 				</div>
 			</div>
 		</div>
