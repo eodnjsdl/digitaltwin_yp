@@ -6,8 +6,8 @@
 
 //jqeury
 $(document).ready(function(){
-	console.log("swlConnLs.js");
-	console.log("하수연결관");
+	//console.log("swlConnLs.js");
+	//console.log("하수연결관");
 });
 
 //functions
@@ -212,7 +212,7 @@ function selectSwlConnLsList(page) {
 	
     const promise = dtmap.wfsGetFeature(options);
     promise.then(function (data) {
-    	console.log(data);
+    	//console.log(data);
     	
         //그리드 데이터 전처리
         const list = [];
@@ -465,8 +465,7 @@ function insertSwlConnLsView(){
         });
        
         getCmmCodeData("YPE001",  "#rightSubPopup select[name=hjd_cde]");	//읍면동	
-        //getCmmCodeData("MNG-001", "#rightSubPopup select[name=mng_cde]");	//관리기관
-        
+        getCmmCodeData("MNG-001", "#rightSubPopup select[name=mng_cde]");	//관리기관
         getCmmCodeData("OGC-017", "#rightSubPopup select[name=sba_cde]");	//하수관용도 코드
         getCmmCodeData("OGC-003", "#rightSubPopup select[name=mop_cde]");	//관재질 코드
         getCmmCodeData("OGC-001", "#rightSubPopup select[name=for_cde]");	//시설물형태 코드
@@ -476,43 +475,32 @@ function insertSwlConnLsView(){
 	
 }
 
-//소방시설 등록 
-function insertWtlFirePs(){
-	//console.log("insertWtlFirePs()");
+//하수연결관 등록 
+function insertSwlConnLs(){
+	console.log("insertSwlConnLs()");
 	
 	/////////
 	//유효성 체크 
 	
 	//필수 값 체크
-	const ftr_cde = $("#insertWtlFirePsForm select[name=ftr_cde]").val();
+	const ftr_cde = $("#insertSwlConnLsForm select[name=ftr_cde]").val();
 	if(ftr_cde == "" || ftr_cde == null){
 		alert("지형지물부호는 필수 값입니다.");
 		return false;
 	}
 	
-	const geom = $("#insertWtlFirePsForm input[name=geom]").val();
+	const geom = $("#insertSwlConnLsForm input[name=geom]").val();
 	if(geom == "" || geom == null){
 		alert("위치를 등록하여 주십시오.");
 		return false;
 	}
-	
-	//값 체크
-	const ang_dir = $("#insertWtlFirePsForm input[name=ang_dir]").val()
-    if (ang_dir) {
-        const regexp = /^[0-9]*$/;
-        var r = regexp.test(ang_dir);
-        if(!r){
-        	alert("방향각은 정수만 입력 가능합니다.")
-        	return false;
-        }
-    }
 
 	////////////
 	// 파라미터 작업
 	
 	//항목 별 데이터 파라미터 처리	
 	var feature = new ol.Feature();
-	const params = $("#insertWtlFirePsForm").serializeArray();
+	const params = $("#insertSwlConnLsForm").serializeArray();
     params.forEach((param) => {
         if (param.value) {
             feature.set(param.name, param.value);
@@ -520,7 +508,7 @@ function insertWtlFirePs(){
     });
  
     //공간 정보 처리
-    const wkt = $("#insertWtlFirePsForm input[name=geom]").val();
+    const wkt = $("#insertSwlConnLsForm input[name=geom]").val();
     
     const formatWKT = new ol.format.WKT();
     let geometry = formatWKT.readGeometry(wkt);
@@ -544,12 +532,13 @@ function insertWtlFirePs(){
     const geojson 	= format.writeFeature(feature);
     const data = {dataId: "wtl_fire_ps", geojson: geojson};
     
-    
     ////////////
     //등록
+    console.log(data);
+    alert("작업중");
     
     //등록 시작
-    ui.loadingBar("show");
+    /*ui.loadingBar("show");
    
     $.post("/job/fcts/insertFacility.do", data)
     .done((response) => {
@@ -569,7 +558,7 @@ function insertWtlFirePs(){
     .fail(() => {
         alert(`등록에 실패했습니다.`);
         ui.loadingBar("hide");
-    });
+    });*/
     
 }
 
@@ -641,17 +630,6 @@ function updateWtlFirePs(){
 		alert("위치를 등록하여 주십시오.");
 		return false;
 	}
-	
-	//값 체크
-	const ang_dir = $("#updateWtlFirePsForm input[name=ang_dir]").val()
-    if (ang_dir) {
-        const regexp = /^[0-9]*$/;
-        var r = regexp.test(ang_dir);
-        if(!r){
-        	alert("방향각은 정수만 입력 가능합니다.")
-        	return false;
-        }
-    }
 	 
 	///////////////
 	//업데이트 데이터 처리	- 기존 update 사용 하기 위해 파라미터 작업

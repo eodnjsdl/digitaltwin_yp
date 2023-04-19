@@ -54,7 +54,7 @@ public class SewerSupplyController {
     public String insertSwlConnLsView(
             @ModelAttribute("swlConnLsVO") SwlConnLsVO swlConnLsVO,
             ModelMap model) throws Exception {
-        return "egiskorea/com/job/fcmr/wsfc/wfip/insertSwlConnLsView";
+        return "egiskorea/com/job/fcmr/ssfc/scol/insertSwlConnLsView";
     }
 	
 	/*
