@@ -1,7 +1,7 @@
 $(document).ready(function(){
 	$(".lnb-territory .lnb-close").on("click", function () {
       $(".lnb-territory").stop().fadeOut(100);
-      $(".side-util li[data-menu]").removeClass("on");
+      $("#lnb li[data-menu]").removeClass("on");
       $('#leftPopup.opened').removeClass('opened');
       $('.popup-sub.opened').removeClass('opened');
     });
