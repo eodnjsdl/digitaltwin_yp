@@ -143,8 +143,8 @@ function cancelSwlVentPsDetail() {
 			</div>
 			<div class="position-bottom btn-wrap justify-content-end">
 				<div>
-					<button type="button" class="btn basic bi-edit btn_edit" onclick="javascript:updateWtlFirePsView('<c:out value="${id}"/>')">수정</button>
-					<button type="button" class="btn basic bi-delete2 btn_delete" onclick="javascript:deleteWtlFirePs('<c:out value="${id}"/>')">삭제</button>  
+					<button type="button" class="btn basic bi-edit btn_edit" onclick="updateSwlVentPsView('<c:out value="${id}"/>')">수정</button>
+					<button type="button" class="btn basic bi-delete2 btn_delete" onclick="deleteSwlVentPs('<c:out value="${id}"/>')">삭제</button>  
 					<button type="button" class="btn basic bi-cancel btn_cancel" onclick="closeSwlVentPsPopup();">취소</button>
 				</div>
 			</div>

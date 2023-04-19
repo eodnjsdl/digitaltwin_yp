@@ -77,7 +77,7 @@ function selectSwlVentPsListView() {
 	ui.loadingBar("hide");
 }
 
-//환기구 목록 조회
+// 환기구 목록 조회
 function selectSwlVentPsList(page) {
 	console.log('selectSwlVentPsList(page)');
 	
@@ -209,7 +209,7 @@ function selectSwlVentPsList(page) {
 	});
 }
 
-//소방시설 상세정보 조회
+// 환기구 상세정보 조회
 function selectSwlVentPs(id) {
 	console.log('selectSwlVentPs(id)');
 	console.log('id >>> ' + id);
@@ -277,7 +277,7 @@ function selectSwlVentPs(id) {
     });
 }
 
-//환기구 상세보기 페이지 호출
+// 환기구 상세보기 페이지 호출
 function selectSwlVentPsDetail(detailData) {
 	console.log('selectSwlVentPsDetail(detailData)');
 	console.log('data >>> ' + detailData);
@@ -304,10 +304,11 @@ function selectSwlVentPsDetail(detailData) {
 		dataType: 'html',
 		contentType: false,
         processData: false,
-		success:function(result) {
+		success: function(result) {
 			//console.log(result);
 			
 			ui.openPopup("rightSubPopup");
+			
 			var container = "#rightSubPopup";
 			$(container).html(result);
 			
@@ -322,10 +323,102 @@ function selectSwlVentPsDetail(detailData) {
 	});
 }
 
+// 환기구 등록 페이지 호출
+function insertSwlVentPsView(){
+	//console.log("insertSwlVentPsView()");
+	
+	ui.loadingBar("show");
+	
+	$("#rightSubPopup").addClass("div-failcity-detail");	//날짜 css 때문	
+	
+	ui.openPopup("rightSubPopup");
+	
+	var container = "#rightSubPopup";
+    $(container).load("/job/fcmr/ssfc/insertSwlVentPsView.do", function () {
+        toastr.success("/job/fcmr/ssfc/insertSwlVentPsView.do", "페이지🙂호🙂출🙂");
+        
+        $(".scroll-y").mCustomScrollbar({
+            scrollbarPosition: "outside",
+        });
+       
+        getCmmCodeData("YPE001",  "#rightSubPopup select[name=hjd_cde]");	//읍면동	
+        getCmmCodeData("MNG-001", "#rightSubPopup select[name=mng_cde]");	//관리기관
+        getCmmCodeData("OGC-003", "#rightSubPopup select[name=mop_cde]");	//관재질 코드
+        getCmmCodeData("OGC-012", "#rightSubPopup select[name=mof_cde]");	//흡출기형식 코드
+        getCmmCodeData("OGC-172", "#rightSubPopup select[name=hmp_cde]");	//흡출기재질 코드
+        
+		ui.loadingBar("hide");
+    });
+}
+
+// 환기구 등록
+function insertSwlVentPs(){
+	console.log("insertSwlVentPs()");
+}
+
+// 환기구 수정 페이지 호출
+function updateSwlVentPsView(id) {
+	//console.log("insertSwlVentPsView()");
+	
+	//상세 정보 조회
+	var detailData = getGridDetailData(id);
+	
+	if (!detailData && detailData == null) {
+		alert("환기구 상세정보 오류");
+		return false;
+	}
+	
+	//파라미터 처리
+    var formData = new FormData();
+	
+	for (var key in detailData) {
+		if (detailData[key]) {	//null 값이나 빈칸은 제외, 여기서 id 값 까지 포함되서 파라미터 완성
+			formData.append(key, detailData[key]);
+			console.log(detailData[key])
+		}
+	}
+	
+	ui.loadingBar("show");
+	
+    $.ajax({
+		url:"/job/fcmr/ssfc/updateSwlVentPsView.do",
+		type: "POST",
+		data: formData,
+		dataType: 'html',
+		contentType: false,
+        processData: false,
+		success: function(result) {
+			//console.log(result);
+			
+			$("#rightSubPopup").addClass("div-failcity-detail");	//날짜 css 때문	
+			ui.openPopup("rightSubPopup");
+			
+			var container = "#rightSubPopup";
+			$(container).html(result);
+		},
+		error : function(request,status,error) {
+			console.log("code: " + request.status + "\n" + "message: " + request.responseText + "\n" + "error: " + error);
+		},
+		complete : function() {
+			ui.loadingBar("hide");
+		}
+	});
+}
+
+// 환기구 수정
+function updateSwlVentPs() {
+	console.log("updateSwlVentPs()");
+}
+
+// 환기구 삭제
+function deleteSwlVentPs(id) {
+	console.log("deleteSwlVentPs()");
+}
+
 function closeSwlVentPsPopup() {
 	dtmap.draw.dispose();			// 마우스에 파란점 제거
 	dtmap.draw.clear();				// 지도에 파란점 제거
-	dtmap.vector.clearSelect();		//선택 해제
+	dtmap.vector.clearSelect();		// 선택 해제
 	
 	ui.closeSubPopup();				// 팝업 닫기
 }

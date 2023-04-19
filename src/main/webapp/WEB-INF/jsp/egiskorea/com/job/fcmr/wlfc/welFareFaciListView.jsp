@@ -71,7 +71,6 @@ $(document).ready(function() {
 			}
 		}
 		
-		ui.closeSubPopup();		// 팝업 닫기
 		selectWelFareFaciList(1);
 	});
 
