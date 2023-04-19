@@ -61,18 +61,9 @@ public class PhyEduFaciDAO extends ComAbstractDAO {
 	}
 	
 	/**
-	 * 체육시설 엑셀 다운로드
-	 * @param sportsVO
-	 * @return Exception
-	 */
-	public List<?> getPhyEduFaciExcel(SportsVO sportsVO) {
-		return selectList("phyEduFaciDAO.getPhyEduFaciExcel", sportsVO);
-	}
-	
-	/**
 	 * 체육시설 > 운영정보 리스트 조회
 	 * @param sportsVO
-	 * @return
+	 * @return Exception
 	 */
 	public List<?> selectPhyMngList(SportsVO sportsVO) {
 		// TODO Auto-generated method stub
@@ -82,7 +73,7 @@ public class PhyEduFaciDAO extends ComAbstractDAO {
 	/**
 	 * 체육시설 > 운영정보 리스트 조회 총 건수
 	 * @param sportsVO
-	 * @return
+	 * @return Exception
 	 */
 	public int selectPhyMngListCnt(SportsVO sportsVO) {
 		// TODO Auto-generated method stub
@@ -92,7 +83,7 @@ public class PhyEduFaciDAO extends ComAbstractDAO {
 	/**
 	 * 체육시설 > 운영정보 년도 중복체크
 	 * @param sportsVO
-	 * @return
+	 * @return Exception
 	 */
 	public int checkPhyMngYear(SportsVO sportsVO) {
 		// TODO Auto-generated method stub
@@ -102,7 +93,7 @@ public class PhyEduFaciDAO extends ComAbstractDAO {
 	/**
 	 * 체육시설 > 운영정보 등록
 	 * @param sportsVO
-	 * @return
+	 * @return Exception
 	 */
 	public int insertPhyMng(SportsVO sportsVO) {
 		// TODO Auto-generated method stub
@@ -112,7 +103,7 @@ public class PhyEduFaciDAO extends ComAbstractDAO {
 	/**
 	 * 체육시설 > 운영정보 수정
 	 * @param sportsVO
-	 * @return
+	 * @return Exception
 	 */
 	public int updatePhyMng(SportsVO sportsVO) {
 		// TODO Auto-generated method stub
@@ -122,7 +113,7 @@ public class PhyEduFaciDAO extends ComAbstractDAO {
 	/**
 	 * 체육시설 > 운영정보 삭제
 	 * @param sportsVO
-	 * @return
+	 * @return Exception
 	 */
 	public int deletePhyMng(SportsVO sportsVO) {
 		// TODO Auto-generated method stub
@@ -132,7 +123,7 @@ public class PhyEduFaciDAO extends ComAbstractDAO {
 	/**
 	 * 체육시설 > 시설정보 리스트 조회
 	 * @param sportsVO
-	 * @return
+	 * @return Exception
 	 */
 	public List<?> selectPhyFaciMngList(SportsVO sportsVO) {
 		// TODO Auto-generated method stub
@@ -142,7 +133,7 @@ public class PhyEduFaciDAO extends ComAbstractDAO {
 	/**
 	 * 체육시설 > 시설정보 리스트 조회 총 건수
 	 * @param sportsVO
-	 * @return
+	 * @return Exception
 	 */
 	public int selectPhyFaciMngListCnt(SportsVO sportsVO) {
 		// TODO Auto-generated method stub
@@ -152,7 +143,7 @@ public class PhyEduFaciDAO extends ComAbstractDAO {
 	/**
 	 * 체육시설 > 시설정보 등록
 	 * @param sportsVO
-	 * @return
+	 * @return Exception
 	 */
 	public int insertPhyFaciMng(SportsVO sportsVO) {
 		// TODO Auto-generated method stub
@@ -162,7 +153,7 @@ public class PhyEduFaciDAO extends ComAbstractDAO {
 	/**
 	 * 체육시설 > 시설정보 삭제
 	 * @param sportsVO
-	 * @return
+	 * @return Exception
 	 */
 	public int deletePhyFaciMng(SportsVO sportsVO) {
 		// TODO Auto-generated method stub

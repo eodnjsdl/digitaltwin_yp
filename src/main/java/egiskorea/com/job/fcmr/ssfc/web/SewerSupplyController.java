@@ -7,9 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import egiskorea.com.job.fcmr.ssfc.service.SwlConnLsVO;
-import egiskorea.com.job.fcmr.wsfc.service.WtlFirePsVO;
-import egiskorea.com.job.fcmr.wsfc.service.WtlFlowPsVO;
-import egiskorea.com.job.fcmr.wsfc.service.WtlPipeLmVO;
+import egiskorea.com.job.fcmr.ssfc.service.SwlVentPsVO;
 
 /**
  * @Description 시설관리/하수도 시설
@@ -71,5 +69,23 @@ public class SewerSupplyController {
 	/////////////////////////
 		
 	
-    
+	////////
+	// 환기구
+	
+	// 환기구 목록 조회
+	@RequestMapping(value = "/selectSwlVentPsListView.do")
+	public String selectSwlVentPsListView(
+			@ModelAttribute("swlVentPsVO") SwlVentPsVO swlVentPsVO,
+			ModelMap model) throws Exception {
+		return "egiskorea/com/job/fcmr/ssfc/svep/swlVentPsListView";
+	}
+	
+	// 환기구 상세화면 조회
+	@RequestMapping(value = "/selectSwlVentPsDetail.do", method = RequestMethod.POST)
+    public String selectSwlVentPsDetail(
+    		@ModelAttribute("swlVentPsVO") SwlVentPsVO swlVentPsVO, String id,
+    		ModelMap model) throws Exception {
+			model.addAttribute("id", id);
+        return "egiskorea/com/job/fcmr/ssfc/svep/swlVentPsDetail";
+    }
 }

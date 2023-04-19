@@ -8,7 +8,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import egiskorea.com.job.fcmr.wsfc.service.WtlFirePsVO;
 import egiskorea.com.job.fcmr.wsfc.service.WtlFlowPsVO;
+import egiskorea.com.job.fcmr.wsfc.service.WtlManhPsVO;
 import egiskorea.com.job.fcmr.wsfc.service.WtlPipeLmVO;
+import egiskorea.com.job.fcmr.wsfc.service.WtlPrgaPsVO;
+import egiskorea.com.job.fcmr.wsfc.service.WtlServPsVO;
 
 /**
  * @Description 시설관리/상수도시설
@@ -73,74 +76,112 @@ public class WaterSupplyController {
 	//상수관로
 	
 	//목록 화면 호출
-	@RequestMapping(value = "/selectWtlPipeListView.do")
+	@RequestMapping(value = "/selectWtlPipeLmListView.do")
     public String selectWtlPipeLmList(
             @ModelAttribute("wtlPipeLmVO") WtlPipeLmVO wtlPipeLmVO,
             ModelMap model) throws Exception {
         return "egiskorea/com/job/fcmr/wsfc/wpil/wtlPipeLmListView";
     }
 	
+	//상세 화면 조회
+	@RequestMapping(value = "/selectWtlPipeLmDetail.do", method = RequestMethod.POST)
+	public String getWtlPipeLmDetail(
+			@ModelAttribute("wtlPipeLmVO") WtlPipeLmVO wtlPipeLmVO, String id,
+			ModelMap model) throws Exception {
+			model.addAttribute("id", id);
+		return "egiskorea/com/job/fcmr/wsfc/wpil/selectWtlPipeLm";
+	}
+	
 	//등록 화면 조회
 	@RequestMapping(value = "/insertWtlPipeLmView.do")
 	public String insertWtlPipeLmView(
 			@ModelAttribute("wtlPipeLmVO") WtlPipeLmVO wtlPipeLmVO,
 			ModelMap model) throws Exception {
-		return "egiskorea/com/job/fcmr/wsfc/wpil/wtlPipeLmInsert";
-	}
-	
-	//상세 화면 조회
-	@RequestMapping(value = "/getWtlPipeLmDetail.do")
-	public String getWtlPipeLmDetail(
-			@ModelAttribute("wtlPipeLmVO") WtlPipeLmVO wtlPipeLmVO,
-			ModelMap model) throws Exception {
-		return "egiskorea/com/job/fcmr/wsfc/wpil/wtlPipeLmDetail";
+		return "egiskorea/com/job/fcmr/wsfc/wpil/insertWtlPipeLmView";
 	}
 	
 	//수정 화면 조회
-	@RequestMapping(value = "/updateWtlPipeLmView.do")
+	@RequestMapping(value = "/updateWtlPipeLmView.do", method = RequestMethod.POST)
 	public String updateWtlPipeLmView(
-			@ModelAttribute("wtlPipeLmVO") WtlPipeLmVO wtlPipeLmVO,
+			@ModelAttribute("wtlPipeLmVO") WtlPipeLmVO wtlPipeLmVO, String id,
 			ModelMap model) throws Exception {
-		return "egiskorea/com/job/fcmr/wsfc/wpil/wtlPipeLmUpdate";
+			model.addAttribute("id", id);
+		return "egiskorea/com/job/fcmr/wsfc/wpil/updateWtlPipeLmView";
 	}
 	
 	////////
 	//유량계
 	
 	//목록 화면 호출
-	@RequestMapping(value = "/selectWtlFlowListView.do")
-    public String selectWtlFlowPsList(
+	@RequestMapping(value = "/selectWtlFlowPsListView.do")
+    public String selectWtlFlowPsListView(
             @ModelAttribute("wtlFlowPsVO") WtlFlowPsVO wtlFlowPsVO,
             ModelMap model) throws Exception {
         return "egiskorea/com/job/fcmr/wsfc/wflp/wtlFlowPsListView";
     }
+	
+	//상세 화면 조회
+	@RequestMapping(value = "/selectWtlFlowPs.do", method = RequestMethod.POST)
+	public String selectWtlFlowPs(
+			@ModelAttribute("wtlFlowPsVO") WtlFlowPsVO wtlFlowPsVO, String id,
+			ModelMap model) throws Exception {
+			model.addAttribute("id", id);
+		return "egiskorea/com/job/fcmr/wsfc/wflp/selectWtlFlowPs";
+	}
 	
 	//등록 화면 조회
 	@RequestMapping(value = "/insertWtlFlowPsView.do")
 	public String insertWtlFlowPsView(
 			@ModelAttribute("wtlFlowPsVO") WtlFlowPsVO wtlFlowPsVO,
 			ModelMap model) throws Exception {
-		return "egiskorea/com/job/fcmr/wsfc/wflp/wtlFlowPsInsert";
-	}
-	
-	//상세 화면 조회
-	@RequestMapping(value = "/getWtlFlowPsDetail.do")
-	public String getWtlFlowPsDetail(
-			@ModelAttribute("wtlFlowPsVO") WtlFlowPsVO wtlFlowPsVO,
-			ModelMap model) throws Exception {
-		return "egiskorea/com/job/fcmr/wsfc/wflp/wtlFlowPsDetail";
+		return "egiskorea/com/job/fcmr/wsfc/wflp/insertWtlFlowPsView";
 	}
 	
 	//수정 화면 조회
-	@RequestMapping(value = "/updateWtlFlowPsView.do")
+	@RequestMapping(value = "/updateWtlFlowPsView.do", method = RequestMethod.POST)
 	public String updateWtlFlowPsView(
-			@ModelAttribute("wtlFlowPsVO") WtlFlowPsVO wtlFlowPsVO,
+			@ModelAttribute("wtlFlowPsVO") WtlFlowPsVO wtlFlowPsVO, String id,
 			ModelMap model) throws Exception {
-		return "egiskorea/com/job/fcmr/wsfc/wflp/wtlFlowPsUpdate";
+			model.addAttribute("id", id);
+		return "egiskorea/com/job/fcmr/wsfc/wflp/updateWtlFlowPsView";
 	}
 	
 	////////
 	//상수맨홀
+	
+	//목록 화면 호출
+	@RequestMapping(value = "/selectWtlManhPsListView.do")
+    public String selectWtlManhPsListView(
+            @ModelAttribute("wtlManhPsVO") WtlManhPsVO wtlManhPsVO,
+            ModelMap model) throws Exception {
+        return "egiskorea/com/job/fcmr/wsfc/wmap/wtlManhPsListView";
+    }
+	
+	//상세 화면 조회
+	@RequestMapping(value = "/selectWtlManhPs.do", method = RequestMethod.POST)
+	public String selectWtlManhPs(
+			@ModelAttribute("wtlManhPsVO") WtlManhPsVO wtlManhPsVO, String id,
+			ModelMap model) throws Exception {
+			model.addAttribute("id", id);
+		return "egiskorea/com/job/fcmr/wsfc/wmap/selectWtlManhPs";
+	}
+	
+	//등록 화면 조회
+	@RequestMapping(value = "/insertWtlManhPsView.do")
+	public String insertWtlManhPsView(
+			@ModelAttribute("wtlManhPsVO") WtlManhPsVO wtlManhPsVO,
+			ModelMap model) throws Exception {
+		return "egiskorea/com/job/fcmr/wsfc/wmap/insertWtlManhPsView";
+	}
+	
+	//수정 화면 조회
+	@RequestMapping(value = "/updateWtlManhPsView.do", method = RequestMethod.POST)
+	public String updateWtlManhPsView(
+			@ModelAttribute("wtlManhPsVO") WtlManhPsVO wtlManhPsVO, String id,
+			ModelMap model) throws Exception {
+			model.addAttribute("id", id);
+		return "egiskorea/com/job/fcmr/wsfc/wmap/updateWtlManhPsView";
+	}
 	
 	//////////
 	//상수관로심도
@@ -148,8 +189,76 @@ public class WaterSupplyController {
 	////////
 	//수압계
 	
+	//목록 화면 호출
+	@RequestMapping(value = "/selectWtlPrgaPsListView.do")
+    public String selectWtlPrgaPsListView(
+            @ModelAttribute("wtlPrgaPsVO") WtlPrgaPsVO wtlPrgaPsVO,
+            ModelMap model) throws Exception {
+        return "egiskorea/com/job/fcmr/wsfc/wprp/wtlPrgaPsListView";
+    }
+	
+	//상세 화면 조회
+	@RequestMapping(value = "/selectWtlPrgaPs.do", method = RequestMethod.POST)
+	public String selectWtlPrgaPs(
+			@ModelAttribute("wtlPrgaPsVO") WtlPrgaPsVO wtlPrgaPsVO, String id,
+			ModelMap model) throws Exception {
+			model.addAttribute("id", id);
+		return "egiskorea/com/job/fcmr/wsfc/wprp/selectWtlPrgaPs";
+	}
+	
+	//등록 화면 조회
+	@RequestMapping(value = "/insertWtlPrgaPsView.do")
+	public String insertWtlPrgaPsView(
+			@ModelAttribute("wtlPrgaPsVO") WtlPrgaPsVO wtlPrgaPsVO,
+			ModelMap model) throws Exception {
+		return "egiskorea/com/job/fcmr/wsfc/wprp/insertWtlPrgaPsView";
+	}
+	
+	//수정 화면 조회
+	@RequestMapping(value = "/updateWtlPrgaPsView.do", method = RequestMethod.POST)
+	public String updateWtlPrgaPsView(
+			@ModelAttribute("wtlPrgaPsVO") WtlPrgaPsVO wtlPrgaPsVO, String id,
+			ModelMap model) throws Exception {
+			model.addAttribute("id", id);
+		return "egiskorea/com/job/fcmr/wsfc/wprp/updateWtlPrgaPsView";
+	}
+	
 	////////
 	//배수지
+	
+	//목록 화면 호출
+	@RequestMapping(value = "/selectWtlServPsListView.do")
+    public String selectWtlServPsList(
+            @ModelAttribute("wtlServPsVO") WtlServPsVO wtlServPsVO,
+            ModelMap model) throws Exception {
+        return "egiskorea/com/job/fcmr/wsfc/wsep/wtlServPsListView";
+    }
+	
+	//상세 화면 조회
+	@RequestMapping(value = "/selectWtlServPsDetail.do", method = RequestMethod.POST)
+	public String getWtlServPsDetail(
+			@ModelAttribute("wtlServPsVO") WtlServPsVO wtlServPsVO, String id,
+			ModelMap model) throws Exception {
+			model.addAttribute("id", id);
+		return "egiskorea/com/job/fcmr/wsfc/wsep/selectWtlServPs";
+	}
+	
+	//등록 화면 조회
+	@RequestMapping(value = "/insertWtlServPsView.do")
+	public String insertWtlServPsView(
+			@ModelAttribute("wtlServPsVO") WtlServPsVO wtlServPsVO,
+			ModelMap model) throws Exception {
+		return "egiskorea/com/job/fcmr/wsfc/wsep/insertWtlServPsView";
+	}
+	
+	//수정 화면 조회
+	@RequestMapping(value = "/updateWtlServPsView.do", method = RequestMethod.POST)
+	public String updateWtlServPsView(
+			@ModelAttribute("wtlServPsVO") WtlServPsVO wtlServPsVO, String id,
+			ModelMap model) throws Exception {
+			model.addAttribute("id", id);
+		return "egiskorea/com/job/fcmr/wsfc/wsep/updateWtlServPsView";
+	}
 	
 	////////
 	//급수관로

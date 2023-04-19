@@ -1,9 +1,6 @@
 package egiskorea.com.job.fcmr.phfc.service;
 
-import java.util.HashMap;
 import java.util.Map;
-
-import org.apache.poi.xssf.streaming.SXSSFWorkbook;
 
 import egiskorea.com.job.spor.service.SportsVO;
 
@@ -46,65 +43,58 @@ public interface PhyEduFaciService {
 	public int deletePhyEduFaci(SportsVO sportsVO) throws Exception;
 	
 	/**
-	 * 체육시설 엑셀 다운로드
-	 * @throws Exception
-	 */
-	SXSSFWorkbook makePhyEduFaciExcelList(HashMap parameter);
-	HashMap getPhyEduFaciExcel(SportsVO sportsVO);
-	
-	/**
 	 * 체육시설 > 운영정보 리스트 조회
 	 * @param sportsVO
-	 * @return
+	 * @return Exception
 	 */
 	public Map<String, Object> selectPhyMngList(SportsVO sportsVO) throws Exception;
 	
 	/**
 	 * 체육시설 > 운영정보 년도 중복체크
 	 * @param sportsVO
-	 * @return
+	 * @return Exception
 	 */
 	public int checkPhyMngYear(SportsVO sportsVO) throws Exception;
 	
 	/**
 	 * 체육시설 > 운영정보 등록
 	 * @param sportsVO
-	 * @return
+	 * @return Exception
 	 */
 	public int insertPhyMng(SportsVO sportsVO) throws Exception;
 	
 	/**
 	 * 체육시설 > 운영정보 수정
 	 * @param sportsVO
-	 * @return
+	 * @return Exception
 	 */
 	public int updatePhyMng(SportsVO sportsVO) throws Exception;
 	
 	/**
 	 * 체육시설 > 운영정보 삭제
 	 * @param sportsVO
-	 * @return
+	 * @return Exception
 	 */
 	public int deletePhyMng(SportsVO sportsVO) throws Exception;
 	
 	/**
 	 * 체육시설 > 시설정보 리스트 조회
 	 * @param sportsVO
-	 * @return
+	 * @return Exception
 	 */
 	public Map<String, Object> selectPhyFaciMngList(SportsVO sportsVO) throws Exception;
 	
 	/**
 	 * 체육시설 > 시설정보 등록
 	 * @param sportsVO
-	 * @return
+	 * @return Exception
 	 */
 	public int insertPhyFaciMng(SportsVO sportsVO) throws Exception;
 	
 	/**
 	 * 체육시설 > 시설정보 삭제
 	 * @param sportsVO
-	 * @return
+	 * @return Exception
 	 */
 	public int deletePhyFaciMng(SportsVO sportsVO) throws Exception;
 }

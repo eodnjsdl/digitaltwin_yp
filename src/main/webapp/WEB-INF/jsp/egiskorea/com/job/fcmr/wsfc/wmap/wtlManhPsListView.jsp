@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" %>
 
 <!-- js -->
-<script src="/js/egiskorea/com/job/fcmr/wsfc/wfip/wtlFirePs.js"></script>			<!-- 소방시설  -->
+<script src="/js/egiskorea/com/job/fcmr/wsfc/wmap/wtlManhPs.js"></script>			<!-- 상수맨홀 -->
 
 <!-- 업무 > 공통 -->
 <div class="popup-header">상수도관리</div>
@@ -11,10 +11,10 @@
         <div class="items search-area">
             <div class="top-search">
                 <select class="form-select facility-select">
-                    <option value="wtlFirePs" selected="selected">소방시설</option>
+                    <option value="wtlFirePs">소방시설</option>
                     <option value="wtlPipeLm">상수관로</option>
                     <option value="wtlFlowPs">유량계</option>
-                    <option value="wtlManhPs">상수맨홀</option>
+                    <option value="wtlManhPs" selected="selected">상수맨홀</option>
                     <option value="wtlPipePs">상수관로심도</option>
                     <option value="wtlPrgaPs">수압계</option>
                     <option value="wtlServPs">배수지</option>
@@ -28,7 +28,7 @@
                         <li data-tab="groundwaterProperty" class="on">
                             <button type="button" class="inner-tab">속성검색</button>
                         </li>
-                        <li data-tab="groundwaterSpace">
+                        <li data-tab="groundwaterSpace" id="srchSpace">
                             <button type="button" class="inner-tab">공간검색</button>
                         </li>
                     </ul>
@@ -41,7 +41,7 @@
                                 <col style="width: auto;">
                             </colgroup>
                             <tbody id="lSrchOptions">
-                            	<tr>  
+								<tr>  
 									<th scope="row">읍면동</th>  
 									<td>    
 										<select name="hjd_cde" class="form-select">
@@ -50,18 +50,17 @@
 									</td>
 								</tr>
 								<tr>  
-									<th scope="row">소화전형식</th>  
+									<th scope="row">규격</th>  
 									<td>    
-										<select name="mof_cde" class="form-select">
-											<option value="">선택</option>
-										</select>  
+										<input type="text" name="dpg_std" class="form-control" value="">    
 									</td>
 								</tr>
 								<tr>  
-									<th scope="row">관경</th>  
+									<th scope="row">맨홀종류</th>  
 									<td>    
-										<input type="number" name="std_dip_min" class="form-control" value="" style="width:68px">    
-										<input type="number" name="std_dip_max" class="form-control" value="" onkeyup="inputKeyup()" style="width:68px">  
+										<select name="som_cde" class="form-select">
+											<option value="">선택</option>
+										</select> 
 									</td>
 								</tr>
                             </tbody>
@@ -69,7 +68,7 @@
                     </div>
                     <div class="btn-wrap">
                         <div>
-                            <button type="button" class="btn type01 search facility-attribute-search" onclick="selectWtlFirePsList(1)">조회</button>
+                            <button type="button" class="btn type01 search facility-attribute-search" onclick="selectWtlManhPsList(1)">조회</button>
                         </div>
                     </div>
                 </div>
@@ -120,8 +119,8 @@
             <div class="bbs-top">
                 <div class="bbs-list-num">조회결과 : --건</div>
                 <div>
-                    <button type="button" class="btn basic bi-write btn_add" onclick="insertWtlFirePsView();">등록</button>
-                    <button type="button" class="btn basic bi-excel btn_excel" onclick="downloadExcelWtlFirePs();">엑셀저장
+                    <button type="button" class="btn basic bi-write btn_add" onclick="insertWtlManhPsView();">등록</button>
+                    <button type="button" class="btn basic bi-excel btn_excel" onclick="downloadExcelWtlManhPs();">엑셀저장
                     </button>
                 </div>
             </div>
@@ -133,24 +132,26 @@
                     </div>
                 </div>
             </div>
-            <input type="hidden" id="wtiFirePsListPage" 	value="">
+            <input type="hidden" id="wtlManhPsListPage" 	value="">
         </div>
     </div>
 </div>
 <button type="button" class="manualBtn" title="도움말" onclick="manualTab('상수도시설')"></button>
 <button type="button" class="popup-close"
         onClick="toastr.warning('removeLayer(); cmmUtil.drawClear();', 'onclick 이벤트');" title="닫기"></button>
-<button type="button" class="popup-reset"></button>
+<button type="button" class="popup-reset" class="초기화"></button>
 <button type="button" class="popup-bottom-toggle" title="접기"></button>
 <!-- //업무 > 시설물 공통 -->
 <script type="text/javascript">
 	//jqeury
 	$(document).ready(function(){
-		//console.log("wtlFirePsListView.jsp");	
-		 
+		//console.log("wtlManhPsListView.jsp");
+		
 		//이벤트 리스너 추가
 		dtmap.on('select', onFacilitySelectEventListener);
-		 
+		
+		wtlManhPsInit();	//초기화
+		
 		//////////////////
 		//하위메뉴 select box
 		
@@ -215,15 +216,14 @@
 			}
 			
 		});
-			
      	
      	// 공간 검색 조회 버튼
         $(".facility-spatial-search", "#bottomPopup").on("click", function (e) {
-           	//console.log("공간검색 조회");
-			
-           	const $parent = $(e.target).closest('.search-area');
+        	//console.log("공간검색 조회");
+        	
+            const $parent = $(e.target).closest('.search-area');
             const type = $parent.find('input[name="rad-facility-area"]:checked').val();
-            
+
             if (type === 'extent') {
             	FACILITY.spaceSearchOption.bbox 	= dtmap.getExtent();
             } else {
@@ -235,7 +235,7 @@
             	}
             }
            	
-           	selectWtlFirePsList(1);
+           	selectWtlManhPsList(1);
 
         });
      	
@@ -247,7 +247,7 @@
             if (value == "extent") {
                 $(".space-facility-area", "#bottomPopup").hide();
                 
-                //그리기, 그려진 것 초기화
+              	//그리기, 그려진 것 초기화
                 dtmap.draw.dispose();
                 dtmap.draw.clear();
                 
@@ -279,16 +279,15 @@
                     break;
             }
             dtmap.draw.active({type: type, once: true})
-            //toastr.warning("that.searchDrawing(value);", "공간검색 사용자정의");
+          	//toastr.warning("that.searchDrawing(value);", "공간검색 사용자정의");
             $(".area-facility-buffer").val("1").trigger("keyup");
         });
 		
-
-     	//경계로부터 버퍼 영역 지정
+     	
+      	//경계로부터 버퍼 영역 지정
         $(".area-facility-buffer", "#bottomPopup").on("keyup", function (event) {
             dtmap.draw.setBuffer(Number(this.value));
         });
-		
 	});
 
 	//functions
