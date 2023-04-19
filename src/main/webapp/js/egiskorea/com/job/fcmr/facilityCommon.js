@@ -29,6 +29,7 @@ function codeArrayInit(){
 	var codeData = [
         { code: "SA118", codeNm: "급수탑" },
         { code: "SA119", codeNm: "소화전" },
+        { code: "SB003", codeNm: "하수연결관" },
       ];
 	
 	setCmmCodeDataArray("SA-001", codeData);	//지형지물부호	SA-001 임의로 만든

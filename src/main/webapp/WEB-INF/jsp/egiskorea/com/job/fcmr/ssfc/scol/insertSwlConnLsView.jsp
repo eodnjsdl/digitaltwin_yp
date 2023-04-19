@@ -38,7 +38,7 @@
                                        <th scope="row">지형지물부호</th>
                                        <td>
                                           	<select name="ftr_cde" class="form-select" readonly="readonly">
-                                          		<option value="SA118">급수탑</option>
+                                          		<option value="SB003" selected="selected">하수연결관</option>
                                           	</select>
                                        </td>
                                        <th scope="row">관리번호</th>

@@ -77,7 +77,7 @@ function swlConnLsListProcess(){
             //{key: "hjd_cde", 			label: "읍면동code",		width:'*'},
             {key: "hjd_cde_nm", 		label: "읍면동",			width:'*'},
             {key: "mng_cde", 			label: "관리기관code",		width:'*'},
-            //{key: "mng_cde_nm", 		label: "관리기관",			width:'*'},
+            {key: "mng_cde_nm", 		label: "관리기관",			width:'*'},
             //{key: "sht_num", 			label: "도엽번호",			width:'*'},
             {key: "ist_ymd", 			label: "설치일자",			width:'*'},
             //{key: "sba_cde", 			label: "하수관용도code",	width:'*'},
@@ -125,7 +125,7 @@ function swlConnLsListProcess(){
 
 //소방시설 목록 조회
 function selectSwlConnLsList(page) {
-	//console.log("selectSwlConnLsList(page)");
+	console.log("selectSwlConnLsList(page)");
 	//console.log("page>>>"+page);
 	
 	//페이지 변수세팅
@@ -239,8 +239,8 @@ function selectSwlConnLsList(page) {
         	data.features[i].properties.hjd_cde_nm = getCmmCodeDataArray("YPE001", hjd_cde);
         	
         	//관리기관 코드 변경
-        	//var mng_cde = data.features[i].properties.mng_cde;
-        	//data.features[i].properties.mng_cde_nm = getCmmCodeDataArray("MNG-001", mng_cde);
+        	var mng_cde = data.features[i].properties.mng_cde;
+        	data.features[i].properties.mng_cde_nm = getCmmCodeDataArray("MNG-001", mng_cde);
         	
         	//하수관용도 코드 변경
         	var sba_cde = data.features[i].properties.sba_cde;
@@ -367,8 +367,8 @@ function selectSwlConnLs(id){
     	data.features[0].properties.hjd_cde_nm = getCmmCodeDataArray("YPE001", hjd_cde);
     	
     	//관리기관 코드 변경
-    	//var mng_cde = data.features[0].properties.mng_cde;
-    	//data.features[0].properties.mng_cde_nm = getCmmCodeDataArray("MNG-001", mng_cde);
+    	var mng_cde = data.features[0].properties.mng_cde;
+    	data.features[0].properties.mng_cde_nm = getCmmCodeDataArray("MNG-001", mng_cde);
     	
     	//하수관용도 코드 변경
     	var sba_cde = data.features[0].properties.sba_cde;
@@ -477,7 +477,7 @@ function insertSwlConnLsView(){
 
 //하수연결관 등록 
 function insertSwlConnLs(){
-	console.log("insertSwlConnLs()");
+	//console.log("insertSwlConnLs()");
 	
 	/////////
 	//유효성 체크 
@@ -513,16 +513,6 @@ function insertSwlConnLs(){
     const formatWKT = new ol.format.WKT();
     let geometry = formatWKT.readGeometry(wkt);
     
-    /*if (geometry.indexOf("multi") >= 0) {
-        if (geometry instanceof ol.geom.Point) {
-            geometry = new ol.geom.MultiPoint([geometry.getCoordinates()]);
-        } else if (geometry instanceof ol.geom.LineString) {
-            geometry = new ol.geom.MultiLineString([geometry]);
-        } else if (geometry instanceof ol.geom.Polygon) {
-            geometry = new ol.geom.MultiPolygon([geometry]);
-        }
-    }*/
-    
     feature.setGeometry(geometry);
 
     //console.log(feature);
@@ -530,15 +520,14 @@ function insertSwlConnLs(){
     //데이터 정리
     const format 	= new ol.format.GeoJSON();
     const geojson 	= format.writeFeature(feature);
-    const data = {dataId: "wtl_fire_ps", geojson: geojson};
+    const data = {dataId: "swl_conn_ls", geojson: geojson};
     
     ////////////
     //등록
     console.log(data);
-    alert("작업중");
     
     //등록 시작
-    /*ui.loadingBar("show");
+    ui.loadingBar("show");
    
     $.post("/job/fcts/insertFacility.do", data)
     .done((response) => {
@@ -546,8 +535,8 @@ function insertSwlConnLs(){
         if (result["result"]) {
             alert("등록 되었습니다.");
             
-            selectWtlFirePsList(1);		//다시 목록 로드
-            cancelInsertWtlFirePs(); 	//창닫기
+            selectSwlConnLsList(1);		//다시 목록 로드
+            cancelInsertSwlConnLs(); 	//창닫기
         } else {
             alert(`등록에 실패했습니다.`);
             console.log(result["errorMsg"]);
@@ -558,7 +547,7 @@ function insertSwlConnLs(){
     .fail(() => {
         alert(`등록에 실패했습니다.`);
         ui.loadingBar("hide");
-    });*/
+    });
     
 }
 
@@ -566,8 +555,8 @@ function insertSwlConnLs(){
 //수정
 
 //소방시설 수정 화면 조회
-function updateWtlFirePsView(id){
-	//console.log("updateWtlFirePsView()");
+function updateSwlConnLsView(id){
+	//console.log("updateSwlConnLsView()");
 	//console.log("id>"+id);
 	
 	//상세 정보 조회
@@ -589,7 +578,7 @@ function updateWtlFirePsView(id){
 	
 	//화면 조회
 	$.ajax({
-		url:"/job/fcmr/wsfc/updateWtlFirePsView.do",
+		url:"/job/fcmr/ssfc/updateSwlConnLsView.do",
 		type: "POST",
 		//data: JSON.stringify(detailData),
 		data: formData,
