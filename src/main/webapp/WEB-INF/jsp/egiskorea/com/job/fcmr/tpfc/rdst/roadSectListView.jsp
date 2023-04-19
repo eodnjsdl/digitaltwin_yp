@@ -1,12 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <script type="text/javascript">
 $(document).ready(function(){
-	console.log("roadSectListView.jsp");
-		
 	// 교통시설 메뉴 - 이벤트
 	var $container = $("#container");
-    var $target = $container.find('#bottomPopup .facility-select');
+    var $target = $container.find('#bottomPopup #selectBoxTrfc');
 	
 	$target.on('change', function() {
 		getTransportationFacility(this.value);
@@ -22,8 +21,8 @@ $(document).ready(function(){
 		<div class="items search-area">
 			<div class="top-search">
 				<select name="selectBoxTrfc" id="selectBoxTrfc" class="form-select facility-select">
-					<option value="roadSection" selected="selected">도로구간</option>
-					<option value="railroadTrack">철도선로</option>
+					<option value="roadSection" selected>도로구간</option>
+					<option value="railRoadTrack">철도선로</option>
 					<option value="railRoadStation">철도역사</option>
 					<option value="subwayTrack">지하철선로</option>
 					<option value="subwayStation">지하철역사</option>
@@ -50,22 +49,30 @@ $(document).ready(function(){
 								<tr>
 									<th scope="row">읍면동</th>
 									<td>
+										<!-- <select name="emdKorNm" id="emdKorNm" class="form-select">
+											<option value="41830">전체</option>
+										</select> -->
 										<select name="emdKorNm" id="emdKorNm" class="form-select">
 											<option value="41830">전체</option>
+											<c:forEach items="${sccoEndList}" var="emdList" varStatus="status">
+												<option value="<c:out value='${emdList.emdKorNm}' />" <c:if test="${searchVO.emdKorNm == emdList.emdCd}">selected</c:if>>
+													<c:out value="${emdList.emdKorNm}" />
+												</option>																
+											</c:forEach>
 										</select>
 									</td>
 								</tr>
 								<tr>
-									<td colspan="2"><input type="text" class="form-control" id="roadBtVal" name="roadBtVal" onkeypress="if( event.keyCode == 13 ){ selectRoadSectList(1);}" placeholder="도로폭"></td>
+									<td colspan="2"><input type="text" class="form-control" id="roadBtVal" name="roadBtVal" onkeypress="if( event.keyCode == 13 ){ setRoadSectListData(0);}" placeholder="도로폭"></td>
 								</tr>
 								<tr>
-									<td colspan="2"><input type="text" class="form-control" id="rn" name="rn" onkeypress="if( event.keyCode == 13 ){ selectRoadSectList(1);}" placeholder="도로명"></td>
+									<td colspan="2"><input type="text" class="form-control" id="rn" name="rn" onkeypress="if( event.keyCode == 13 ){ setRoadSectListData(0);}" placeholder="도로명"></td>
 								</tr>
 							</tbody>
 						</table>
 					</div>
 					<div class="btn-wrap">
-						<div><button type="submit" class="btn type01 search" onclick="selectRoadSectList(1)">조회</button></div>
+						<div><button type="submit" class="btn type01 search" onclick="setRoadSectListData(0)">조회</button></div>
 					</div>
 				</div>
 				<div class="tab-cont waterSpace">
@@ -95,16 +102,16 @@ $(document).ready(function(){
 		<!-- //검색영역 -->
 		<div class="items data-area">
             <div class="bbs-top">
-                <div class="bbs-list-num">조회결과 : --건</div>
+                <div class="bbs-list-num">조회결과 : <strong></strong>건</div>
                 <div>
 					<button type="button" class="btn basic bi-excel trfcExcelDownload" id="selectRoadSectionExcelList">엑셀저장</button>
 				</div>
             </div>
-            <div class="bbs-list-wrap" style="height: 267px;"><!-- pagination 하단 고정을 위해 반드시 필요 -->
+            <div class="bbs-list-wrap" style="height: 267px;">
                 <div class="bbs-default">
-                    <div id="baseGridDiv" style="height:inherit; display: flex;flex-direction: column">
-                        <div id="gridax5" data-ax5grid="attr-grid" data-ax5grid-config="{}" style="flex: 1"></div>
-                    </div>
+                <form:form>
+                	<div data-ax5grid="roadSectListGrid" data-ax5grid-config="{}" style="height: 267px;"></div> 
+                </form:form>
                 </div>
             </div>
         </div>
@@ -112,6 +119,6 @@ $(document).ready(function(){
 </div>
 <button type="button" class="manualBtn" title="도움말" onclick="manualTab('교통시설')"></button>
 <button type="button" class="popup-close" title="닫기" onclick="removeLayer()"></button>
-<button type="button" class="popup-reset" class="초기화" onclick="aj_selectTransportationFacilityList($('#tmpForm')[0])"></button>
-<button type="button" class="popup-bottom-toggle" onclick="toggleFold(this);" title="접기"></button>				
+<button type="button" class="popup-reset" class="초기화" onclick="getTransportationFacility('roadSection')"></button>
+<button type="button" class="popup-bottom-toggle" title="접기"></button>				
 <!-- //업무 > 시설관리 > 교통시설 > 도로구간 end -->

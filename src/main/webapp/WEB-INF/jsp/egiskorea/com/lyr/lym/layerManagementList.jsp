@@ -68,6 +68,10 @@ $(document).ready(function(){
 			$("#selectedLayerList").empty();
 		}
 	});
+	
+	$("#layerManage_close").on('click', function () {
+    	$("#layerManagement").removeClass("active")
+    });
 });
 
 // 레이어 관리 정보 삭제
@@ -207,7 +211,7 @@ function setLayerManagementListInfo(layerId, layerType, shapeType, shareCheck){
 								<div class="tabBoxDepth1">
 									<ul>
 										<li class="on"><button type="button" id="layerManagement" class="inner-tab leftPopup" data-popup="left-layer-mng">목록관리</button></li>
-										<li><button type="button" id="dataConversion" class="inner-tab leftPopup" data-popup="left-layer-mng">등록관리</button></li>
+										<li><button type="button" id="dataConversion" class="inner-tab leftPopup" data-popup="left-layer-mng" onclick="aj_insertDataConversionView();">등록관리</button></li>
 									</ul>
 								</div>
 								<!-- 목록관리 -->
@@ -294,6 +298,6 @@ function setLayerManagementListInfo(layerId, layerType, shapeType, shareCheck){
 							</div>
 						</div>
 					</div>
-					<button type="button" class="popup-close" title="닫기"></button>
+					<button type="button" id="layerManage_close" class="popup-close" title="닫기"></button>
 					<button type="button" class="popup-left-toggle" title="접기"></button>	
 				<!-- //레이어 > 레이어관리 -->																		

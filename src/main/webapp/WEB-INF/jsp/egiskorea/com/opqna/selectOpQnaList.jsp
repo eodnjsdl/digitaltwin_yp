@@ -35,7 +35,7 @@ function fnSearch(){
 		async: false,
 		success : function(returnData, status){
 			if(status == "success") {
-				$("#opqna").html(returnData);
+				$("#bbsPopup").html(returnData);
 			}else{ 
 				toastr.error("관리자에게 문의 바랍니다.", "정보를 불러오지 못했습니다.");
 				return;
@@ -64,7 +64,7 @@ function aj_selectOpQna(qaId){
 		async: false,
 		success : function(returnData, status){
 			if(status == "success") {
-				$("#opqna").html(returnData);
+				$("#bbsPopup").html(returnData);
 			}else{ 
 				toastr.error("관리자에게 문의 바랍니다.", "정보를 불러오지 못했습니다.");
 				return;
@@ -92,7 +92,7 @@ function aj_insertOpQnaView(){
 		async: false,
 		success : function(returnData, status){
 			if(status == "success") {
-				$("#opqna").html(returnData);
+				$("#bbsPopup").html(returnData);
 			}else{ 
 				toastr.error("관리자에게 문의 바랍니다.", "정보를 불러오지 못했습니다.");
 				return;
@@ -115,7 +115,7 @@ function aj_pagination(pageIndex) {
 		async: false,
 		success : function(returnData, status){
 			if(status == "success") {
-				$("#opqna").html(returnData);
+				$("#bbsPopup").html(returnData);
 			}else{ 
 				toastr.error("관리자에게 문의 바랍니다.", "정보를 불러오지 못했습니다.");
 				return;
@@ -129,7 +129,7 @@ function aj_pagination(pageIndex) {
 </script>
 
 
-					<div class="popup-header">운영지원</div>
+					<div class="popup-header" style="background-image: url(/images/etc/popup-title-board.svg)" >운영지원</div>
 					<div class="popup-body">
 						<div class="bbs-popup-body">
 							<div class="bbs-top">
@@ -148,7 +148,7 @@ function aj_pagination(pageIndex) {
 									</div>
 								</form:form>
 							</div>
-							<div class="bbs-list-wrap" style="height: 683px;"><!-- pagination 하단 고정을 위해 반드시 필요 -->
+							<div class="bbs-list-wrap" style="height: 530px;"><!-- pagination 하단 고정을 위해 반드시 필요 -->
 								<div class="bbs-default">
 									<div class="bbs-list-head">
 										<table class="bbs-list">

@@ -125,7 +125,7 @@ var openYangPyeongEup = function(){
 	
 //		debugger;
 	ui.loadingBar("show");
-	$(".popup-sub").removeClass("opened").html("");
+	ui.openPopup("rightSubPopup","apptChart");
 	
 	var formData = new FormData();
 	
@@ -139,7 +139,7 @@ var openYangPyeongEup = function(){
 		async: false,
 		success : function(returnData, status){
 			if(status == "success") {		
-				$("#container").append(returnData);
+				$("#rightSubPopup").append(returnData);
 				
 				var pm10ChartBtn = '<div class="marT5"><button type="button" class="btn basic bi-stats appt ypePm10Value">차트</button></div>'
 				var pm25ChartBtn = '<div class="marT5"><button type="button" class="btn basic bi-stats appt ypePm25Value">차트</button></div>'
@@ -200,9 +200,8 @@ var openYangPyeongEup = function(){
 // 용문면 상세보기
 var openYongMunMyeon = function(){
 	
-//	debugger;
 	ui.loadingBar("show");
-	$(".popup-sub").removeClass("opened").html("");
+	ui.openPopup("rightSubPopup","apptChart");
 	
 	var formData = new FormData();
 	
@@ -216,7 +215,7 @@ var openYongMunMyeon = function(){
 		async: false,
 		success : function(returnData, status){
 			if(status == "success") {		
-				$("#container").append(returnData);
+				$("#rightSubPopup").append(returnData);
 				
 				var pm10ChartBtn = '<div class="marT5"><button type="button" class="btn basic bi-stats appt ymmPm10Value">차트</button></div>'
 				var pm25ChartBtn = '<div class="marT5"><button type="button" class="btn basic bi-stats appt ymmPm25Value">차트</button></div>'

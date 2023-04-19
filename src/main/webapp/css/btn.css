@@ -56,24 +56,6 @@
 	min-width: auto;
 	height: 23px;
 }
-.btnss {
-	position: relative;
-	display: inline-block;
-	padding: 3px 9px;
-	min-width: 50px;
-	font-family: 'Noto Sans KR';
-	color: #fff;
-	font-size: 13px;
-	font-weight: 500;
-	border: 1px solid transparent;
-	background-color: transparent;
-	border-radius: 5px;
-	cursor: pointer;
-	text-align: center;
-	vertical-align: middle;
-	-webkit-transition: all .2s;
-	transition: all .2s;
-}
 
 .btn:hover, .btn.active {
 	color: #fff !important;
@@ -179,66 +161,66 @@ input[class^="bi-"]::before, input[class*="bi-"]::before {
 	transition: background .2s;
 }
 
-.btn.bi-write {width: 94px;height: 35px;background: url(/images/icon/bi-write.png) no-repeat 50% 50%;-webkit-transition: background .2s;transition: background .2s;text-indent: -9999px;}
-.btn.bi-write:hover, .btn.bi-write.active {background: url(/images/icon/bi-write-on.png) no-repeat 50% 50%;}
+.btn.bi-write {width: 94px;height: 35px;background: url(/yp_dt/images/icon/bi-write.png) no-repeat 50% 50%;-webkit-transition: background .2s;transition: background .2s;text-indent: -9999px;}
+.btn.bi-write:hover, .btn.bi-write.active {background: url(/yp_dt/images/icon/bi-write-on.png) no-repeat 50% 50%;}
 .btn.bi-write::before {display: none;}
 
-.btn.bi-delete::before {background-image: url(/images/icon/bi-delete.svg);}
-.btn.bi-delete:hover::before {background-image: url(/images/icon/bi-delete-on.svg);}
-.btn.bi-print::before {background-image: url(/images/icon/bi-print.svg);}
-.btn.bi-print:hover::before {background-image: url(/images/icon/bi-print-on.svg);}
-.btn.bi-list::before {background-image: url(/images/icon/bi-list.svg);}
-.btn.bi-list:hover::before {background-image: url(/images/icon/bi-list-on.svg);}
-.btn.bi-write2::before {background-image: url(/images/icon/bi-write2.svg);}
-.btn.bi-write2:hover::before {background-image: url(/images/icon/bi-write2-on.svg);}
-.btn.bi-save::before {background-image: url(/images/icon/bi-save.svg);}
-.btn.bi-save:hover::before {background-image: url(/images/icon/bi-save-on.svg);}
-.btn.bi-check::before {background-image: url(/images/icon/bi-check.svg);}
-.btn.bi-check:hover::before, .btn.bi-check.btn.active::before {background-image: url(/images/icon/bi-check-on.svg);}
-.btn.bi-edit::before {background-image: url(/images/icon/bi-edit.svg);}
-.btn.bi-edit:hover::before {background-image: url(/images/icon/bi-edit-on.svg);}
-.btn.bi-delete2::before {background-image: url(/images/icon/bi-delete2.svg);}
-.btn.bi-delete2:hover::before {background-image: url(/images/icon/bi-delete2-on.svg);}
-.btn.bi-cancel::before {background-image: url(/images/icon/bi-cancel.svg);}
-.btn.bi-cancel:hover::before {background-image: url(/images/icon/bi-cancel-on.svg);}
-.btn.bi-reset::before {background-image: url(/images/icon/bi-reset.svg);}
-.btn.bi-reset:hover::before {background-image: url(/images/icon/bi-reset-on.svg);}
-.btn.bi-download::before {background-image: url(/images/icon/bi-download.svg);}
-.btn.bi-download:hover::before {background-image: url(/images/icon/bi-download-on.svg);}
-.btn.bi-excel::before {background-image: url(/images/icon/bi-excel.svg);}
-.btn.bi-excel:hover::before {background-image: url(/images/icon/bi-excel-on.svg);}
-.btn.bi-location2::before {background-image: url(/images/icon/bi-location2.svg);}
-.btn.bi-location2:hover::before {background-image: url(/images/icon/bi-location2-on.svg);}
-.btn.bi-setting::before {background-image: url(/images/icon/bi-setting.svg);}
+.btn.bi-delete::before {background-image: url(/yp_dt/images/icon/bi-delete.svg);}
+.btn.bi-delete:hover::before {background-image: url(/yp_dt/images/icon/bi-delete-on.svg);}
+.btn.bi-print::before {background-image: url(/yp_dt/images/icon/bi-print.svg);}
+.btn.bi-print:hover::before {background-image: url(/yp_dt/images/icon/bi-print-on.svg);}
+.btn.bi-list::before {background-image: url(/yp_dt/images/icon/bi-list.svg);}
+.btn.bi-list:hover::before {background-image: url(/yp_dt/images/icon/bi-list-on.svg);}
+.btn.bi-write2::before {background-image: url(/yp_dt/images/icon/bi-write2.svg);}
+.btn.bi-write2:hover::before {background-image: url(/yp_dt/images/icon/bi-write2-on.svg);}
+.btn.bi-save::before {background-image: url(/yp_dt/images/icon/bi-save.svg);}
+.btn.bi-save:hover::before {background-image: url(/yp_dt/images/icon/bi-save-on.svg);}
+.btn.bi-check::before {background-image: url(/yp_dt/images/icon/bi-check.svg);}
+.btn.bi-check:hover::before, .btn.bi-check.btn.active::before {background-image: url(/yp_dt/images/icon/bi-check-on.svg);}
+.btn.bi-edit::before {background-image: url(/yp_dt/images/icon/bi-edit.svg);}
+.btn.bi-edit:hover::before {background-image: url(/yp_dt/images/icon/bi-edit-on.svg);}
+.btn.bi-delete2::before {background-image: url(/yp_dt/images/icon/bi-delete2.svg);}
+.btn.bi-delete2:hover::before {background-image: url(/yp_dt/images/icon/bi-delete2-on.svg);}
+.btn.bi-cancel::before {background-image: url(/yp_dt/images/icon/bi-cancel.svg);}
+.btn.bi-cancel:hover::before {background-image: url(/yp_dt/images/icon/bi-cancel-on.svg);}
+.btn.bi-reset::before {background-image: url(/yp_dt/images/icon/bi-reset.svg);}
+.btn.bi-reset:hover::before {background-image: url(/yp_dt/images/icon/bi-reset-on.svg);}
+.btn.bi-download::before {background-image: url(/yp_dt/images/icon/bi-download.svg);}
+.btn.bi-download:hover::before {background-image: url(/yp_dt/images/icon/bi-download-on.svg);}
+.btn.bi-excel::before {background-image: url(/yp_dt/images/icon/bi-excel.svg);}
+.btn.bi-excel:hover::before {background-image: url(/yp_dt/images/icon/bi-excel-on.svg);}
+.btn.bi-location2::before {background-image: url(/yp_dt/images/icon/bi-location2.svg);}
+.btn.bi-location2:hover::before {background-image: url(/yp_dt/images/icon/bi-location2-on.svg);}
+.btn.bi-setting::before {background-image: url(/yp_dt/images/icon/bi-setting.svg);}
 .btn.bi-setting:hover::before,
-.btn.bi-setting.active::before {background-image: url(/images/icon/bi-setting-on.svg);}
-.btn.bi-comments::before {background-image: url(/images/icon/bi-comments.svg);}
-.btn.bi-comments:hover::before {background-image: url(/images/icon/bi-comments-on.svg);}
-.btn.bi-stats::before {background-image: url(/images/icon/bi-stats.svg);}
-.btn.bi-stats:hover::before {background-image: url(/images/icon/bi-stats-on.svg);}
-.btn.bi-png::before {background-image: url(/images/icon/bi-png.svg);}
-.btn.bi-png:hover::before {background-image: url(/images/icon/bi-png-on.svg);}
-.btn.bi-cursor::before {background-image: url(/images/icon/bi-cursor.svg);}
-.btn.bi-cursor:hover::before {background-image: url(/images/icon/bi-cursor-on.svg);}
-.btn.bi-loading::before {background-image: url(/images/icon/bi-loading.svg);}
-.btn.bi-loading:hover::before {background-image: url(/images/icon/bi-loading-on.svg);}
-.btn.bi-all::before {background-image: url(/images/icon/bi-all.svg);}
+.btn.bi-setting.active::before {background-image: url(/yp_dt/images/icon/bi-setting-on.svg);}
+.btn.bi-comments::before {background-image: url(/yp_dt/images/icon/bi-comments.svg);}
+.btn.bi-comments:hover::before {background-image: url(/yp_dt/images/icon/bi-comments-on.svg);}
+.btn.bi-stats::before {background-image: url(/yp_dt/images/icon/bi-stats.svg);}
+.btn.bi-stats:hover::before {background-image: url(/yp_dt/images/icon/bi-stats-on.svg);}
+.btn.bi-png::before {background-image: url(/yp_dt/images/icon/bi-png.svg);}
+.btn.bi-png:hover::before {background-image: url(/yp_dt/images/icon/bi-png-on.svg);}
+.btn.bi-cursor::before {background-image: url(/yp_dt/images/icon/bi-cursor.svg);}
+.btn.bi-cursor:hover::before {background-image: url(/yp_dt/images/icon/bi-cursor-on.svg);}
+.btn.bi-loading::before {background-image: url(/yp_dt/images/icon/bi-loading.svg);}
+.btn.bi-loading:hover::before {background-image: url(/yp_dt/images/icon/bi-loading-on.svg);}
+.btn.bi-all::before {background-image: url(/yp_dt/images/icon/bi-all.svg);}
 .btn.bi-all:hover::before,
-.btn.bi-all.active::before {background-image: url(/images/icon/bi-all-on.svg);}
+.btn.bi-all.active::before {background-image: url(/yp_dt/images/icon/bi-all-on.svg);}
 
-.btn.bi-out2::before {background-image: url(/images/icon/bi-out2.svg);}
-.btn.bi-out2:hover::before {background-image: url(/images/icon/bi-out2-on.svg);}
+.btn.bi-out2::before {background-image: url(/yp_dt/images/icon/bi-out2.svg);}
+.btn.bi-out2:hover::before {background-image: url(/yp_dt/images/icon/bi-out2-on.svg);}
 
 .btn.bi-out {height: 28px;font-size: 13px;}
-.btn.bi-out::before {width: 18px;height: 18px;background-image: url(/images/icon/bi-out.svg);}
+.btn.bi-out::before {width: 18px;height: 18px;background-image: url(/yp_dt/images/icon/bi-out.svg);}
 .btn.bi-location {padding: 1px 5px 2px;height: 23px;font-weight: normal;}
-.btn.bi-location::before {width: 9px;height: 11px;background-image: url(/images/icon/bi-location.svg);}
+.btn.bi-location::before {width: 9px;height: 11px;background-image: url(/yp_dt/images/icon/bi-location.svg);}
 .btn.bi-search {padding: 1px 5px 2px;height: 23px;font-weight: normal;}
-.btn.bi-search::before {width: 9px;height: 11px;background-image: url(/images/icon/bi-search.svg);}
+.btn.bi-search::before {width: 9px;height: 11px;background-image: url(/yp_dt/images/icon/bi-search.svg);}
 
-.btn.bi-analysis::before {background-image: url(/images/icon/bi-cursor.svg);}
-.btn.bi-analysis:hover::before {background-image: url(/images/icon/bi-cursor-hover.svg);}
-.btn.bi-analysis.complete::before {background-image: url(/images/icon/bi-check-on.svg);}
+.btn.bi-analysis::before {background-image: url(/yp_dt/images/icon/bi-cursor.svg);}
+.btn.bi-analysis:hover::before {background-image: url(/yp_dt/images/icon/bi-cursor-hover.svg);}
+.btn.bi-analysis.complete::before {background-image: url(/yp_dt/images/icon/bi-check-on.svg);}
 
 
 /*------------------------------------------------------------------------------
@@ -283,36 +265,36 @@ input[class^="bi-"]::before, input[class*="bi-"]::before {
 }
 
 /* btn icon */
-.icon-btn.plus {background-image: url(/images/icon/icon-plus.svg);}
-.icon-btn.plus:hover {background-image: url(/images/icon/icon-plus-on.svg);}
-.icon-btn.minus {background-image: url(/images/icon/icon-minus.svg);}
-.icon-btn.minus:hover {background-image: url(/images/icon/icon-minus-on.svg);}
-.icon-btn.location {background-image: url(/images/icon/bi-location2.svg);}
-.icon-btn.location:hover {background-image: url(/images/icon/bi-location2-on.svg);}
-.icon-btn.edit {background-image: url(/images/icon/bi-edit.svg);}
-.icon-btn.edit:hover {background-image: url(/images/icon/bi-edit-on.svg);}
-.icon-btn.detail {background-image: url(/images/icon/bi-detail.svg);}
-.icon-btn.detail:hover {background-image: url(/images/icon/bi-detail-on.svg);}
-.icon-btn.stats {background-image: url(/images/icon/bi-stats.svg);}
-.icon-btn.stats:hover, .icon-btn.stats.active {background-image: url(/images/icon/bi-stats-on.svg);}
-.icon-btn.location-sm {background-image: url(/images/icon/bi-location-sm.svg);}
-.icon-btn.location-sm:hover {background-image: url(/images/icon/bi-location-sm-on.svg);}
-.icon-btn.delete {background-image: url(/images/icon/bi-delete.svg);}
-.icon-btn.delete:hover {background-image: url(/images/icon/bi-delete-on.svg);}
-.icon-btn.location.sm {background-image: url(/images/icon/bi-location-sm.svg);}
-.icon-btn.location.sm:hover {background-image: url(/images/icon/bi-location-sm-on.svg);}
-.icon-btn.reset {background-image: url(/images/icon/icon-reset.svg);}
-.icon-btn.reset:hover {background-image: url(/images/map/lnb-resetBtn.svg);}
-.icon-btn.excel {background-image: url(/images/icon/bi-excel.svg);}
-.icon-btn.excel:hover {background-image: url(/images/icon/bi-excel-on.svg);}
-.icon-btn.detail2 {background-image: url(/images/icon/bi-all.svg);}
-.icon-btn.detail2:hover {background-image: url(/images/icon/bi-all-on.svg);}
-.icon-btn.sm.add {background-image: url(/images/icon/icon-sm-add.svg);}
-.icon-btn.sm.add:hover {background-image: url(/images/icon/icon-sm-add-on.svg);}
-.icon-btn.sm.copy {background-image: url(/images/icon/icon-sm-copy.svg);}
-.icon-btn.sm.copy:hover {background-image: url(/images/icon/icon-sm-copy-on.svg);}
-.icon-btn.sm.delete {background-image: url(/images/icon/icon-sm-delete.svg);}
-.icon-btn.sm.delete:hover {background-image: url(/images/icon/icon-sm-delete-on.svg);}
+.icon-btn.plus {background-image: url(/yp_dt/images/icon/icon-plus.svg);}
+.icon-btn.plus:hover {background-image: url(/yp_dt/images/icon/icon-plus-on.svg);}
+.icon-btn.minus {background-image: url(/yp_dt/images/icon/icon-minus.svg);}
+.icon-btn.minus:hover {background-image: url(/yp_dt/images/icon/icon-minus-on.svg);}
+.icon-btn.location {background-image: url(/yp_dt/images/icon/bi-location2.svg);}
+.icon-btn.location:hover {background-image: url(/yp_dt/images/icon/bi-location2-on.svg);}
+.icon-btn.edit {background-image: url(/yp_dt/images/icon/bi-edit.svg);}
+.icon-btn.edit:hover {background-image: url(/yp_dt/images/icon/bi-edit-on.svg);}
+.icon-btn.detail {background-image: url(/yp_dt/images/icon/bi-detail.svg);}
+.icon-btn.detail:hover {background-image: url(/yp_dt/images/icon/bi-detail-on.svg);}
+.icon-btn.stats {background-image: url(/yp_dt/images/icon/bi-stats.svg);}
+.icon-btn.stats:hover, .icon-btn.stats.active {background-image: url(/yp_dt/images/icon/bi-stats-on.svg);}
+.icon-btn.location-sm {background-image: url(/yp_dt/images/icon/bi-location-sm.svg);}
+.icon-btn.location-sm:hover {background-image: url(/yp_dt/images/icon/bi-location-sm-on.svg);}
+.icon-btn.delete {background-image: url(/yp_dt/images/icon/bi-delete.svg);}
+.icon-btn.delete:hover {background-image: url(/yp_dt/images/icon/bi-delete-on.svg);}
+.icon-btn.location.sm {background-image: url(/yp_dt/images/icon/bi-location-sm.svg);}
+.icon-btn.location.sm:hover {background-image: url(/yp_dt/images/icon/bi-location-sm-on.svg);}
+.icon-btn.reset {background-image: url(/yp_dt/images/icon/icon-reset.svg);}
+.icon-btn.reset:hover {background-image: url(/yp_dt/images/map/lnb-resetBtn.svg);}
+.icon-btn.excel {background-image: url(/yp_dt/images/icon/bi-excel.svg);}
+.icon-btn.excel:hover {background-image: url(/yp_dt/images/icon/bi-excel-on.svg);}
+.icon-btn.detail2 {background-image: url(/yp_dt/images/icon/bi-all.svg);}
+.icon-btn.detail2:hover {background-image: url(/yp_dt/images/icon/bi-all-on.svg);}
+.icon-btn.sm.add {background-image: url(/yp_dt/images/icon/icon-sm-add.svg);}
+.icon-btn.sm.add:hover {background-image: url(/yp_dt/images/icon/icon-sm-add-on.svg);}
+.icon-btn.sm.copy {background-image: url(/yp_dt/images/icon/icon-sm-copy.svg);}
+.icon-btn.sm.copy:hover {background-image: url(/yp_dt/images/icon/icon-sm-copy-on.svg);}
+.icon-btn.sm.delete {background-image: url(/yp_dt/images/icon/icon-sm-delete.svg);}
+.icon-btn.sm.delete:hover {background-image: url(/yp_dt/images/icon/icon-sm-delete-on.svg);}
 
-.btn.bi-delete2::before {background-image: url(/images/icon/bi-delete2.svg);}
-.btn.bi-delete2:hover::before {background-image: url(/images/icon/bi-delete2-on.svg);}
+.btn.bi-delete2::before {background-image: url(/yp_dt/images/icon/bi-delete2.svg);}
+.btn.bi-delete2:hover::before {background-image: url(/yp_dt/images/icon/bi-delete2-on.svg);}

@@ -34,7 +34,6 @@
 		<!-- chart.js -->
 		<script src="/js/plugin/chart/chart.js"></script>
 		<script src="/js/html2canvas.min.js" type="text/javascript"></script>
-		<script src="/js/map-ui.js"></script>
 
 		
 		<!-- 공통 function 파일 -->
