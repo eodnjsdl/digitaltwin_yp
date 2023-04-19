@@ -291,7 +291,6 @@
                     break;
             }
             dtmap.draw.active({type: type, once: true})
-            //toastr.warning("that.searchDrawing(value);", "공간검색 사용자정의");
             $(".area-facility-buffer").val("1").trigger("keyup");
         });
 		
