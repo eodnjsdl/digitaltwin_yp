@@ -207,7 +207,7 @@ function setLayerManagementListInfo(layerId, layerType, shapeType, shareCheck){
 								<div class="tabBoxDepth1">
 									<ul>
 										<li class="on"><button type="button" id="layerManagement" class="inner-tab leftPopup" data-popup="left-layer-mng">목록관리</button></li>
-										<li><button type="button" id="dataConversion" class="inner-tab leftPopup" data-popup="left-layer-mng">등록관리</button></li>
+										<li><button type="button" id="dataConversion" class="inner-tab leftPopup" data-popup="left-layer-mng" onclick="aj_insertDataConversionView();">등록관리</button></li>
 									</ul>
 								</div>
 								<!-- 목록관리 -->

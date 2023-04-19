@@ -20,13 +20,13 @@
 	right: 0;
 	height: 32px;
 	line-height: 32px;
-	font-family: 'YangPyeong';
-    color: #fff;
-    font-size: 21px;
-	font-weight: bold;
+	font-family: 'Noto Sans KR';
+	color: #fff;
+	font-size: 20px;
+	font-weight: 700;
     text-align: center;
 	background-color: #44516A;
-	border-radius: 15px 15px 0px 15px;
+	border-radius: 15px 15px 0px 0px;
 }
 
 .popup-panel .popup-body {
@@ -59,7 +59,7 @@
 	right: 8px;
 	width: 24px;
 	height: 24px;
-	background: url(/images/icon/popup-close.svg) no-repeat 50% 50%;
+	background: url(/yp_dt/images/icon/popup-close.svg) no-repeat 50% 50%;
 	z-index: 5;
 }
 
@@ -70,7 +70,7 @@
 	width: 24px;
 	height: 24px;
 	background-color: rgba(0, 0, 0, 0.5);
-	background-image: url(/images/icon/popup-reset.svg);
+	background-image: url(/yp_dt/images/icon/popup-reset.svg);
 	background-repeat: no-repeat;
 	background-position: 50% 50%;
 	border-radius: 7px;
@@ -86,7 +86,7 @@
 	width: 24px;
 	height: 24px;
 	background-color: rgba(0, 0, 0, 0.5);
-	background-image: url(/images/map/manualBtn.png);
+	background-image: url(/yp_dt/images/map/manualBtn.png);
 	background-repeat: no-repeat;
 	background-position: 50% 50%;
 	border-radius: 7px;
@@ -108,7 +108,6 @@
 	background-color: rgba(0, 0, 0, 0.5);
 	z-index: 500;
 }
-
 
 .popup-panel .tabBoxDepth1-wrap {
 	height: 100%;
@@ -133,23 +132,6 @@
 	right: 34px;
 }
 
-.popup-panel.popup-right .lnb-resetBtn {
-	width: 24px;
-	height: 24px;
-	background-color: rgba(0, 0, 0, 0.5);
-	background-image: url(/yp_dt/images/map/lnb-resetBtn.svg);
-	background-position: 50% 50%;
-	background-repeat: no-repeat;
-	border-radius: 7px;
-	-webkit-transition: background .2s;
-	transition: background .2s;
-	position: absolute;
-	z-index: 5;
-	top: 4px;
-	right: 34px;
-}
-
-
 /*------------------------------------------------------------------------------
  * popup-left
  *----------------------------------------------------------------------------*/
@@ -167,7 +149,7 @@
 	margin-top: -50px;
 	width: 30px;
 	height: 100px;
-	background: url(/images/etc/popup-left-toggle-bg.png) no-repeat 50% 50%;
+	background: url(/yp_dt/images/etc/popup-left-toggle-bg.png) no-repeat 50% 50%;
 }
 
 .popup-panel.popup-left .popup-left-toggle::after {
@@ -179,7 +161,7 @@
 	margin: -5px 0 0 -3px;
 	width: 7px;
 	height: 10px;
-	background: url(/images/etc/popup-left-toggle-arrow.svg) no-repeat 50% 50%;
+	background: url(/yp_dt/images/etc/popup-left-toggle-arrow.svg) no-repeat 50% 50%;
 	-webkit-transition: left .2s;
 	transition: left .2s;
 }
@@ -205,8 +187,7 @@
  *----------------------------------------------------------------------------*/
 .popup-panel.popup-bottom {
 	top: auto;
-	/*bottom: 50px;*/
-	bottom: 10px;
+	bottom: 50px;
 	padding-top: 40px;
 	background-color: transparent;
 	box-shadow: none;
@@ -225,7 +206,6 @@
 	height: 40px;
 	line-height: 40px;
 	width: 275px;
-	background-color: transparent;
 	text-align: left;
 	z-index: 5;
 }
@@ -238,7 +218,7 @@
 	left: -6px;
 	width: 320px;
 	height: 46px;
-	background: transparent url(/images/etc/bottom-popup-header.png) no-repeat 50% 50%;
+	background: transparent url(/yp_dt/images/etc/bottom-popup-header.png) no-repeat 50% 50%;
 	z-index: 1;
 }
 
@@ -283,7 +263,7 @@
 	margin: -3px 0 0 -6px;
 	width: 12px;
 	height: 7px;
-	background: url(/images/icon/popup-toggle.svg);
+	background: url(/yp_dt/images/icon/popup-toggle.svg);
 	-webkit-transition: all .2s;
 	transition: all .2s;
 }
@@ -296,8 +276,8 @@
 	background-color: rgba(0, 0, 0, 0.5);
 }
 
-.popup-panel.popup-bottom .bbs-top .btn.bi-write {width: 50px;height: 27px;background: url(/images/icon/bi-write-sm.png) no-repeat 50% 50%;}
-.popup-panel.popup-bottom .bbs-top .btn.bi-write:hover {background: url(/images/icon/bi-write-sm-on.png) no-repeat 50% 50%;}
+.popup-panel.popup-bottom .bbs-top .btn.bi-write {width: 50px;height: 27px;background: url(/yp_dt/images/icon/bi-write-sm.png) no-repeat 50% 50%;}
+.popup-panel.popup-bottom .bbs-top .btn.bi-write:hover {background: url(/yp_dt/images/icon/bi-write-sm-on.png) no-repeat 50% 50%;}
 
 .popup-panel.popup-bottom .bbs-list thead th {	
 	padding-left: 5px;
@@ -315,7 +295,11 @@
 }
 
 .popup-panel.popup-bottom .tabBoxDepth2-wrap > .tab-cont .btn-wrap {
-	margin-top: 1%;
+	position: absolute;
+	left: 20px;
+	right: 20px;
+	bottom: 20px;
+	margin-top: 0;
 }
 
 .popup-panel.popup-bottom .tabBoxDepth4-wrap > .tab-cont {
@@ -400,7 +384,7 @@
 	width: 39px;
 	height: 39px;
 	border-left: 1px solid #44516A;
-	background: url(/images/icon/popup-close2.svg) no-repeat 50% 50%;
+	background: url(/yp_dt/images/icon/popup-close2.svg) no-repeat 50% 50%;
 	border-top-right-radius: 10px;
 }
 
@@ -451,7 +435,7 @@
 	width: 20px;
 	height: 20px;
 	border: 1px solid #44516A;
-	background-image: url(/images/etc/small-toggle-fold.svg);
+	background-image: url(/yp_dt/images/etc/small-toggle-fold.svg);
 	background-repeat: no-repeat;
 	background-position: 50% 50%;
 	border-radius: 5px;
@@ -464,7 +448,7 @@
 	height: 20px;
 	border: 1px solid #44516A;
 	background-color: #fff;
-	background-image: url(/images/map/manualBtn2.png);
+	background-image: url(/yp_dt/images/map/manualBtn2.png);
 	border-radius: 5px;
 }
 
@@ -512,7 +496,7 @@
 }
 
 .small-popup.fold .popup-toggle {
-	background-image: url(/images/etc/small-toggle.svg);
+	background-image: url(/yp_dt/images/etc/small-toggle.svg);
 }
 
 
@@ -520,12 +504,11 @@
  * 게시판
  *----------------------------------------------------------------------------*/
 .popup-panel.popup-bbs {
-	top: 50%;
-	left: 50%;
-	margin: -415px 0 0 -625px;
+	top: 130px;
+	left: 400px;
 	padding-top: 60px;
 	width: 1250px;
-	height: 830px;
+	height: 690px;
 	z-index: 600;
 }
 
@@ -540,15 +523,11 @@
 }
 
 .popup-panel.board-notice .popup-header {
-	background-image: url(/images/etc/popup-title-notice.svg);
+	background-image: url(/yp_dt/images/etc/popup-title-notice.svg);
 }
 
 .popup-panel.board-qna .popup-header {
-	background-image: url(/images/etc/popup-title-board.svg);
-}
-
-.popup-panel.board-opqna .popup-header {
-	background-image: url(/images/etc/popup-title-information.svg);
+	background-image: url(/yp_dt/images/etc/popup-title-board.svg);
 }
 
 .popup-panel.popup-bbs .popup-body {
@@ -570,7 +549,7 @@
 	width: 80px;
 	height: 80px;
 	border-radius: 15px 15px 0 0;
-	background: #fff url(/images/icon/popup-close3.svg) no-repeat 50% 50%;
+	background: #fff url(/yp_dt/images/icon/popup-close3.svg) no-repeat 50% 50%;
 }
 
 .popup-panel.popup-bbs .popup-close::before {
@@ -580,7 +559,7 @@
 	left: -19px;
 	width: 19px;
 	height: 19px;
-	background: url(/images/etc/board-popup-bg.png) no-repeat 50% 50%;
+	background: url(/yp_dt/images/etc/board-popup-bg.png) no-repeat 50% 50%;
 }
 
 /*------------------------------------------------------------------------------
@@ -589,7 +568,6 @@
 .tool-surveyInfo-body .tabBoxDepth1-wrap {
 	height: calc(100% - 84px);
 }
-
 .tool-surveyInfo-body .tab-cont {
 	position: relative;
 	padding-bottom: 47px;
@@ -632,7 +610,7 @@
  *----------------------------------------------------------------------------*/
  .building-list-group {	
 	display: flex;
-	height: 667px;
+	 height: 610px;
 }
 
 .building-list-item {	
@@ -663,7 +641,7 @@
 	margin: -4px 3px 0 0;
 	width: 20px;
 	height: 20px;
-	background: url(/images/icon/icon-folder.svg) no-repeat 50% 50%;
+	background: url(/yp_dt/images/icon/icon-folder.svg) no-repeat 50% 50%;
 	vertical-align: middle;
 }
 
@@ -695,7 +673,7 @@
 	margin: -4px 5px 0 0;
 	width: 15px;
 	height: 15px;
-	background: url(/images/icon/icon-folder-bul.svg) no-repeat 50% 50%;
+	background: url(/yp_dt/images/icon/icon-folder-bul.svg) no-repeat 50% 50%;
 	vertical-align: middle;
 }
 
@@ -755,12 +733,12 @@
 }
 
 .imagesSwiper .swiper-button-prev, .imagesSwiper .swiper-container-rtl .swiper-button-next {
-   background-image: url(/images/icon/swiper-button-prev.svg);
+   background-image: url(/yp_dt/images/icon/swiper-button-prev.svg);
    left: 0;
 }
 
 .imagesSwiper .swiper-button-next, .imagesSwiper .swiper-container-rtl .swiper-button-prev {
-   background-image: url(/images/icon/swiper-button-next.svg);
+   background-image: url(/yp_dt/images/icon/swiper-button-next.svg);
    right: 0;
 }
 
@@ -784,7 +762,6 @@
 	margin-bottom: 5px;
 	max-height: 230px;
 	overflow: hidden;
-	text-align: center;
 }
 
 .saveMap-thumb + .btn-wrap {
@@ -847,7 +824,6 @@
 .tool-layer-body .scroll-y {
 	height: calc(100% - 86px);
 }
-
 
 /*------------------------------------------------------------------------------
  * LNB > 레이어 > 레이어 정보
@@ -971,7 +947,6 @@
 	height: calc(100% - 22px);
 	border: 1px solid #44516A;
 	border-radius: 5px;
-	padding: 2px 4px;
 }
 
 .layerListMng-group .search-header {	
@@ -992,7 +967,7 @@
 
 .layerListMng-group .search-body {
 	padding: 5px 10px;
-	height: calc(100% - 80px);
+	height: calc(100% - 85px);
 }
 
 .layerListMng-group .search-body .scroll-y {
@@ -1076,7 +1051,7 @@
 	right: 0;
 	width: 24px;
 	height: 100%;
-	background: url(/images/icon/icon-symbol-delete.svg) no-repeat 50% 50%;
+	background: url(/yp_dt/images/icon/icon-symbol-delete.svg) no-repeat 50% 50%;
 }
 
 .layerList-legend {
@@ -1147,13 +1122,8 @@
 }
 
 .tab-cont.constructionInquiry .scroll-y {
-	height: calc(100% - 67px);
-}
-
-.tab-cont.constructionInquiry .bbs-list-wrap .bbs-default .scroll-y {
 	height: calc(100% - 45px);
 }
-
 
 /*------------------------------------------------------------------------------
  * LNB > 업무 > 공간정보활용 > 공간정보 편집도구
@@ -1250,7 +1220,7 @@
 	margin: 0 auto 15px;
 	width: 100%;
 	height: 119px;
-	background: url(/images/etc/analysis-view-thumb.jpg) no-repeat 50% 50%;
+	background: url(/yp_dt/images/etc/analysis-view-thumb.jpg) no-repeat 50% 50%;
 }
 
 .analysis-view-basic .btn-wrap {
@@ -1281,8 +1251,10 @@
 	height: 22px;
 }
 
-.analysis-view-list .icon-btn.delete {background-image: url(/images/icon/bi-delete-sm.svg);}
-.analysis-view-list .icon-btn.delete:hover {background-image: url(/images/icon/bi-delete-sm-on.svg);}
+.analysis-view-list .icon-btn.delete {background-image: url(/yp_dt/images/icon/bi-delete-sm.svg);}
+.analysis-view-list .icon-btn.delete:hover {background-image: url(/yp_dt/images/icon/bi-delete-sm-on.svg);}
+
+
 
 /*------------------------------------------------------------------------------
  * LNB > 분석 > 일조권 분석
@@ -1300,14 +1272,14 @@
 }
 
 .sunlight-slider .ui-slider-range {
-	background: url(/images/etc/slider-range.png) no-repeat -1px 50%;
+	background: url(/yp_dt/images/etc/slider-range.png) no-repeat -1px 50%;
 }
 
 .sunlight-slider .ui-slider-handle {
 	width: 15px;
 	height: 16px;
 	border-color: #939FB5;
-	background: #fff url(/images/etc/slider-handle.svg) no-repeat 50% 50%;
+	background: #fff url(/yp_dt/images/etc/slider-handle.svg) no-repeat 50% 50%;
 	box-shadow: 0px 2px 3px rgba(0, 0, 0, 0.25);
 	border-radius: 3px;
 }
@@ -1339,7 +1311,7 @@
 	margin-left: -4px;
 	width: 8px;
 	height: 7px;
-	background: url(/images/map/toolTip-arrow-bottom.png) no-repeat 50% 50%;
+	background: url(/yp_dt/images/map/toolTip-arrow-bottom.png) no-repeat 50% 50%;
 }
 
 .sunlight-slider-wrap .sunlight-time {
@@ -1384,7 +1356,7 @@
 .sunlight-option-group .form-select {
 	width: 80px;
 	height: 26px;
-	background-image: url(/images/icon/form-select-arrow-md.jpg);
+	background-image: url(/yp_dt/images/icon/form-select-arrow-md.jpg);
 }
 
 .sunlight-option-group .form-select + .form-select {
@@ -1437,13 +1409,13 @@
 	background-color: #1C77FF;
 }
 
-.playCtrl-group .play {background-image: url(/images/etc/playCtrl-play.svg);}
-.playCtrl-group .pause {background-image: url(/images/etc/playCtrl-pause.svg);}
-.playCtrl-group .stop {background-image: url(/images/etc/playCtrl-stop.svg);}
+.playCtrl-group .play {background-image: url(/yp_dt/images/etc/playCtrl-play.svg);}
+.playCtrl-group .pause {background-image: url(/yp_dt/images/etc/playCtrl-pause.svg);}
+.playCtrl-group .stop {background-image: url(/yp_dt/images/etc/playCtrl-stop.svg);}
 
-.playCtrl-group input[type="radio"]:checked + .play {background-image: url(/images/etc/playCtrl-play-on.svg);}
-.playCtrl-group input[type="radio"]:checked + .pause {background-image: url(/images/etc/playCtrl-pause-on.svg);}
-.playCtrl-group input[type="radio"]:checked + .stop {background-image: url(/images/etc/playCtrl-stop-on.svg);}
+.playCtrl-group input[type="radio"]:checked + .play {background-image: url(/yp_dt/images/etc/playCtrl-play-on.svg);}
+.playCtrl-group input[type="radio"]:checked + .pause {background-image: url(/yp_dt/images/etc/playCtrl-pause-on.svg);}
+.playCtrl-group input[type="radio"]:checked + .stop {background-image: url(/yp_dt/images/etc/playCtrl-stop-on.svg);}
 
 /*------------------------------------------------------------------------------
  * LNB > 분석 > 경사분석
@@ -1485,6 +1457,7 @@
 .ai-video-box .form-checkbox.sm input[type=checkbox] + label::before {
 	margin-right: 3px;
 }
+
 /*------------------------------------------------------------------------------
  * LNB > 분석 > 지형단면도
  *----------------------------------------------------------------------------*/
@@ -1609,7 +1582,6 @@
 	color: #818A9D;
 }
 
-
 /*------------------------------------------------------------------------------
  * basic-popup
  *----------------------------------------------------------------------------*/
@@ -1653,7 +1625,7 @@
 	right: 20px;
 	width: 28px;
 	height: 28px;
-	background: url(/images/login/system-close.png) no-repeat 50% 50%;
+	background: url(/yp_dt/images/login/system-close.png) no-repeat 50% 50%;
 }
 
 .basic-popup .basic-body {
@@ -1698,7 +1670,7 @@
 	margin: -3px 0 0 10px;
 	width: 16px;
 	height: 16px;
-	background-image: url(/images/icon/form-checkbox.svg);
+	background-image: url(/yp_dt/images/icon/form-checkbox.svg);
 	background-repeat: no-repeat;
 	background-position: 50% 50%;
 	cursor: pointer;
@@ -1706,7 +1678,7 @@
 }
 
 .basic-popup .today-checkbox input[type=checkbox]:checked + label::after {
-	background-image: url(/images/icon/form-checkbox-on.svg);
+	background-image: url(/yp_dt/images/icon/form-checkbox-on.svg);
 }
 
 .list-type1{
@@ -1730,6 +1702,79 @@
 	background-color: #44516A;
 }
 
-.popup-draggable {
-	z-index: 401;
+
+/*------------------------------------------------------------------------------
+ *  설정
+ *----------------------------------------------------------------------------*/
+.lnb-setting.lnb-cont {
+	width: 250px;
+	left: unset;
+	right: 85px;
+}
+.lnb-setting.lnb-cont .lnb-header {
+	background: #44516A;
+}
+.lnb-setting.lnb-cont .tit{
+	font-size: 20px;
+}
+.setting-list > li {
+	position: relative;
+	margin: 20px 0;
+}
+
+
+.setting-list > li:first-child {
+	margin-top: 0;
+}
+
+.setting-list > li .cont-tit {
+	margin-top: 0;
+}
+
+.setting-list > li .setting-toggle {
+	position: absolute;
+	top: 3px;
+	right: 0;
+	width: 16px;
+	height: 16px;
+	background-color: #161F32;
+	border-radius: 50%;
+}
+
+.setting-list > li .setting-toggle::after {
+	content: '';
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	margin: -2.5px 0 0 -4px;
+	width: 8px;
+	height: 5px;
+	background-image: url(/images/map/layer-toggle-arrow.svg);
+	background-repeat: no-repeat;
+	background-position: 50% 50%;
+	-webkit-transition: all .2s;
+	transition: all .2s;
+}
+
+.setting-list > li .setting-toggle.open::after {
+	transform: rotate(-180deg);
+}
+
+.setting-list > li .term {
+	width: 45px;
+}
+
+.setting-list > li .desc {
+	flex-grow: 1;
+}
+
+.setting-list .minicolors-theme-default .minicolors-input {
+	width: 135px;
+}
+.setting-list .slider-box .slider {
+    background-color: #CDD1DA !important;
+}
+
+.setting-list .tbl-list.vertical-tbl .items + .items, .setting-list  .tbl-list.all-vertical-tbl .items + .items {
+	margin-top: 10px;
 }

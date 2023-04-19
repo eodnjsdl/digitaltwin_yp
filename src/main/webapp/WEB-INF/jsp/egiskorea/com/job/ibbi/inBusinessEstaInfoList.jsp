@@ -5,7 +5,6 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="ui" uri="http://egovframework.gov/ctl/ui"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
-<script src="/js/map-ui.js"></script>
 <script src="/js/egiskorea/com/job/ibbi/ibbi.js"></script>
 <%--<script src="/js/egiskorea/com/cmm/cmmUtil.js"></script>--%>
 <script type="text/javascript">

@@ -1,0 +1,124 @@
+@charset "UTF-8";
+
+/* pagination */
+#pagination {
+	display:flex;
+	list-style: none;
+	justify-content: center;
+	font-size: 0.8rem;
+    margin-top: 0.5rem;
+}
+
+li.page {
+    text-align: center;
+    font-weight: 700;
+    color: #44516A;
+    border: 1px solid transparent;
+    border-radius: 5px;
+    margin: 0 1px;
+    padding: 0 2px;
+    min-width: 20px;
+    height: 20px;
+    line-height: 18px;
+}
+
+.page.fontb, .page:hover {
+	cursor: pointer;
+    color: #fff;
+	padding: 0 5px;
+    border-color: #44516A;
+    background-color: #1c77ff;
+    transition: all .2s;
+}
+
+th.loanmnSndngYn {
+    word-break: keep-all;
+}
+
+#pagination .first, #pagination .prev, #pagination .next, #pagination .last {
+    margin: 0;
+    border-color: #44516A;
+    background-color: #fff;
+    background-repeat: no-repeat;
+    background-position: 50% 50%;
+}
+
+#pagination .first {
+    background-image: url(/images/icon/pagination-first.svg);
+    border-radius: 5px 0 0 5px;
+}
+
+#pagination .last {
+    background-image: url(/images/icon/pagination-last.svg);
+    border-radius: 0 5px 5px 0;
+}
+
+#pagination .prev {
+    background-image: url(/images/icon/pagination-prev.svg);
+    border-radius: 0 5px 5px 0;
+}
+
+#pagination .next {
+    background-image: url(/images/icon/pagination-next.svg);
+    border-radius: 5px 0 0 5px;
+}
+
+#pagination .next + .last {
+    border-left: 0;
+}
+
+#pagination .first + .prev, #pagination .next + .last {
+    border-left: 0;
+}
+
+#pagination .prev {
+	margin-right: 1rem;
+}
+
+#pagination .next {
+	margin-left: 1rem;
+}
+
+#pagination .prev:hover {
+    background-image: url(/images/icon/pagination-prev-on.svg);
+}
+
+#pagination .next:hover {
+    background-image: url(/images/icon/pagination-next-on.svg);
+}
+
+select#year {
+	height: 27px;
+	width: 5.5rem;
+}
+
+select#ldcgCd::-webkit-scrollbar {
+    width: 5px;
+    background-color: transparent;
+}
+
+select#ldcgCd::-webkit-scrollbar-thumb {
+	background-color: rgba(68, 81, 106, 1);
+    border-radius: 5px;
+}
+
+.pbprtAccdtExcelFile {
+	margin: 1rem 0;
+}
+.pbprtAccdtExcelFile .fileName {
+	margin-top: 0.5rem;
+}
+
+.regOption, .wrinvstgBtton, .deleteBtton, .modifyBtton {
+	margin-top: 0.5rem;
+}
+
+.excelUploadBtton {
+    padding-right: 12rem;
+}
+
+.saveMap-satlit-thumb {
+	width: 80%;
+    margin: 0 auto;
+    margin-top: 1rem;
+}

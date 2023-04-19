@@ -13,7 +13,7 @@
 
 <!doctype html>
 
-				<div class="popup-header">공지사항</div>
+				<div class="popup-header" style="background-image: url(/images/etc/popup-title-notice.svg);">공지사항</div>
 					<div class="popup-body">
 						<div class="bbs-popup-body">
 							<div class="bbs-detail-default">

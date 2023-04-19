@@ -151,6 +151,7 @@ $("#ibbiExcelDownload").on("click", function(){
 	$("form[name='"+ formName + "']").submit();
 	$("form[name='"+ formName + "']").attr('onsubmit', 'fn_select_list(); return false;'); 
 	$("form[name='"+ formName + "']").attr('action', '');
+
 });
 
 function readGeoJSON(data) {
