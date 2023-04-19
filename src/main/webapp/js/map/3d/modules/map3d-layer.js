@@ -151,8 +151,6 @@ map3d.layer = (function () {
         for (let i = 0; i < targets.length; i++) {
             removeLayer(targets[i]);
         }
-
-        layerMap.clear();
     }
 
     let module = {
