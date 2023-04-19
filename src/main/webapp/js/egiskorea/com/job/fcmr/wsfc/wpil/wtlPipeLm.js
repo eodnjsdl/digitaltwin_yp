@@ -18,9 +18,9 @@ function selectWtlPipeLmListView(){
 	ui.loadingBar("show");
 	
 	var baseContainer = "#bottomPopup";
-    $(baseContainer).load("/job/fcmr/wsfc/selectWtlPipeListView.do", function () {
+    $(baseContainer).load("/job/fcmr/wsfc/selectWtlPipeLmListView.do", function () {
     	/* 토스트 메시지 start */
-        toastr.success("/job/fcmr/wsfc/selectWtlPipeListView.do", "페이지🙂호🙂출🙂");
+        toastr.success("/job/fcmr/wsfc/selectWtlPipeLmListView.do", "페이지🙂호🙂출🙂");
         /* 토스트 메시지 end */
         
         $(".scroll-y").mCustomScrollbar({
@@ -28,7 +28,7 @@ function selectWtlPipeLmListView(){
         });
         
         // 옵션 값 세팅
-		getEmdKorNmCode("#lSrchOptions select[name=hjd_cde]");				//읍면동		
+        getCmmCodeData("YPE001", "#lSrchOptions select[name=hjd_cde]");		//읍면동
 		getCmmCodeData("OGC-004", "#lSrchOptions select[name=saa_cde]");	//관용도	
 		getCmmCodeData("OGC-003", "#lSrchOptions select[name=mop_cde]");	//관재질
 		
@@ -37,11 +37,11 @@ function selectWtlPipeLmListView(){
 	    var $target = $container.find('#baseGridDiv [data-ax5grid="attr-grid"]')
 	    $target.css('height', 'inherit');
 		
-	    baseGrid = null;	//ax5uigrid 전역 변수 
+	    FACILITY.Ax5UiGrid = null;	//ax5uigrid 전역 변수 
 	    
-		baseGrid = new ax5.ui.grid();
+	    FACILITY.Ax5UiGrid = new ax5.ui.grid();
 		
-		baseGrid.setConfig({
+	    FACILITY.Ax5UiGrid.setConfig({
 			target:  $target,
 	        sortable: true,
 	        multipleSelect: false,
@@ -52,25 +52,21 @@ function selectWtlPipeLmListView(){
 	            {key: "ftr_idn", 			label: "관리번호",			width:'*'},
 //	            {key: "hjd_cde", 			label: "읍면동code",		width:'*'},
 	            {key: "hjd_cde_nm", 		label: "읍면동",			width:'*'},
-	            {key: "mng_cde", 			label: "관리기관code",		width:'*'},
+//	            {key: "mng_cde", 			label: "관리기관code",		width:'*'},
 	            {key: "mng_cde_nm", 		label: "관리기관",			width:'*'},
 	            {key: "sht_num", 			label: "도엽번호",			width:'*'},
 	            {key: "ist_ymd", 			label: "설치일자",			width:'*'},
-//	            {key: "saa_cde", 			label: "관용도code",		width:'*'},
-	            {key: "saa_cde_nm", 		label: "관용도",			width:'*'},
-//	            {key: "mop_cde", 			label: "관재질code",		width:'*'},
-	            {key: "mop_cde_nm", 		label: "관재질",			width:'*'},
+//	            {key: "gag_cde", 			label: "유량계종류code",	width:'*'},
+	            {key: "gag_cde_nm", 		label: "유량계종류",		width:'*'},
+//	            {key: "mof_cde", 			label: "유량계형식code",	width:'*'},
+	            {key: "mof_cde_nm", 		label: "유량계형식",		width:'*'},
 	            {key: "std_dip", 			label: "관경",			width:'*'},
-	            {key: "byc_len", 			label: "연장",			width:'*'},
-	            {key: "jht_cde", 			label: "접합종류code",		width:'*'},
-	            {key: "jht_cde_nm", 		label: "접합종류",			width:'*'},
-//	            {key: "low_dep", 			label: "최저깊이",			width:100},
-//	            {key: "hgh_dep", 			label: "최고깊이",			width:100},
+//	            {key: "prc_nam", 			label: "제작회사명",		width:100},
+//	            {key: "pip_cde", 			label: "관로지형지물부호",	width:100},
+//	            {key: "pip_idn", 			label: "관로관리번호",		width:100},
 //	            {key: "cnt_num", 			label: "공사번호",			width:100},
 //	            {key: "sys_chk", 			label: "대장초기화여부",	width:100},
-//	            {key: "pip_lbl", 			label: "관라벨",			width:100},
-//	            {key: "iqt_cde", 			label: "탐사구분",			width:100},
-//	            {key: "org_idn", 			label: "기관관리번호",		width:100},
+//	            {key: "ang_dir", 			label: "방향각",			width:100},
 //	            {key: "geom", 				label: "공간정보",			width:100}
 	        ],
 	        page: {
@@ -88,7 +84,7 @@ function selectWtlPipeLmListView(){
 	        body: {
 	        	// 데이터 행의 click 이벤트를 정의
 	        	onClick: function () {
-	        		getWtlPipeLmDetail(this.item);	// 상수관로 상세 페이지 로드
+	        		selectWtlPipeLmDetail(this.item);	// 상수관로 상세 페이지 로드
 	            }
 	        }
 			
@@ -111,38 +107,26 @@ function selectWtlPipeLmList(page) {
 	const filters = [];
 	
 	const hjd_cde 		=	$("#lSrchOptions select[name=hjd_cde]").val();				//읍면동
-	const saa_cde 		=	$("#lSrchOptions select[name=saa_cde]").val();				//관용도
-	const mop_cde 		=	$("#lSrchOptions select[name=mop_cde]").val();				//관재질
-	const std_dip_min 	=	$("#lSrchOptions input[name=std_dip_min]").val();			//관경 최소 값
-	const std_dip_max 	=	$("#lSrchOptions input[name=std_dip_max]").val();			//관경 최대 값
+	const gag_cde 		=	$("#lSrchOptions select[name=gag_cde]").val();				//유량계종류
+	const mof_cde 		=	$("#lSrchOptions select[name=mof_cde]").val();				//유량계형식
 	
 	let filterString = "";
 	
 	if(hjd_cde){
-		filters.push("hjd_cde" + " = " + hjd_cde+"00"); 
+		filters.push("hjd_cde" + " = " + hjd_cde); 
 	}
 	
-	if(saa_cde){
-		filters.push("saa_cde" + " = " + saa_cde);
+	if(gag_cde){
+		filters.push("gag_cde" + " = " + gag_cde); 
 	}
 	
-	if(mop_cde){
-		filters.push("mop_cde" + " = " + mop_cde);
-	}
-	
-	if(std_dip_min && std_dip_max){
-		//filters.push("std_dip" + " BETWEEN " + std_dip_min +" AND " + std_dip_max);
-		filters.push("std_dip" + " >= " + std_dip_min);
-		filters.push("std_dip" + " <= " + std_dip_max);
-	}else if(std_dip_min){
-		filters.push("std_dip" + " >= " + std_dip_min);
-	}else if(std_dip_max){
-		filters.push("std_dip" + " <= " + std_dip_max);
+	if(mof_cde){
+		filters.push("mof_cde" + " = " + mof_cde);
 	}
 	
     var options;
     options = {
-            typeNames	: 'wtl_pipe_lm' + "",
+            typeNames	: 'wtl_flow_ps' + "",
             filter 		: filters,
             perPage 	: 10,
             page 		: page
@@ -167,7 +151,7 @@ function selectWtlPipeLmList(page) {
         	//지형지물부호 코드 변경
         	var ftr_cde = data.features[i].properties.ftr_cde;
         	//data.features[i].properties.ftr_cde_nm = getCmmCodeDataArray("SA-001", ftr_cde);
-        	data.features[i].properties.ftr_cde_nm = "상수관로";
+        	data.features[i].properties.ftr_cde_nm = "유량계";
         	
         	//관리기관 코드 변경
         	var mng_cde = data.features[i].properties.mng_cde;
@@ -175,30 +159,29 @@ function selectWtlPipeLmList(page) {
         	
         	//읍면동 코드 변경(wfs)
         	var hjd_cde = data.features[i].properties.hjd_cde;
-        	data.features[i].properties.hjd_cde_nm = getCmmCodeDataArray("tgd_scco_emd", hjd_cde);
+        	data.features[i].properties.hjd_cde_nm = getCmmCodeDataArray("YPE001", hjd_cde);
         	
-        	//관용도 코드 변경
-        	var saa_cde = data.features[i].properties.saa_cde;
-        	data.features[i].properties.saa_cde_nm = getCmmCodeDataArray("OGC-004", saa_cde);
+        	//유량계 종류 코드 변경
+        	var gag_cde = data.features[i].properties.gag_cde;
+        	data.features[i].properties.gag_cde_nm = getCmmCodeDataArray("OGC-141", gag_cde);
         	
-        	//관재질 코드 변경
-        	var mop_cde = data.features[i].properties.mop_cde;
-        	data.features[i].properties.mop_cde_nm = getCmmCodeDataArray("OGC-003", mop_cde);
+        	//유량계 형식 코드 변경
+        	var mof_cde = data.features[i].properties.mof_cde;
+        	data.features[i].properties.mof_cde_nm = getCmmCodeDataArray("OGC-041", mof_cde);
             
             //좌표 처리
-        	var geomType 	= data.features[i].geometry.type;
+        	/*var geomType 	= data.features[i].geometry.type;
         	var geomCoord	= data.features[i].geometry.coordinates[0]+" "+data.features[i].geometry.coordinates[1];
         	
         	var dd = geomType+"("+ geomCoord +")";
-        	//list.push(data.features[i].geometry_name, geomType+"("+ geomCoord +")" );
-        	data.features[i].properties.geom = geomType+"("+ geomCoord +")";
-        	//data.features[i].properties.geom = data.features[i].geometry;
+        	data.features[i].properties.geom = geomType+"("+ geomCoord +")"*/;
+        	data.features[i].properties.geomObj = data.features[i].geometry;
         	
         	const {id, properties} = data.features[i];
             list.push({...properties, ...{id: id}});
         }
        
-        baseGrid.setData(
+        FACILITY.Ax5UiGrid.setData(
         	{	
         		list: list,
         		page: {
@@ -213,8 +196,8 @@ function selectWtlPipeLmList(page) {
 }
 
 // 상수관로 상세정보 조회
-function getWtlPipeLmDetail(detailData){
-	console.log("getWtlFlowPsDetail(detailData)");
+function selectWtlPipeLmDetail(detailData){
+	console.log("selectWtlPipeLmDetail(detailData)");
 	console.log(detailData);
 
 	ui.loadingBar("show");
@@ -227,7 +210,7 @@ function getWtlPipeLmDetail(detailData){
 	}
 
 	$.ajax({
-		url:"/job/fcmr/wsfc/getWtlPipeLmDetail.do",
+		url:"/job/fcmr/wsfc/selectWtlPipeLmDetail.do",
 		type: "POST",
 		//data: JSON.stringify(detailData),
 		data: formData,
@@ -253,17 +236,21 @@ function getWtlPipeLmDetail(detailData){
 
 // 상수관로 등록 화면 조회
 function insertWtlPipeLmView(){
+	console.log("insertWtlPipeLmView()");
+	
 	// 팝업 변수 설정
 	ui.loadingBar("show");
+	$("#rightSubPopup").addClass("div-failcity-detail");
 	ui.openPopup("rightSubPopup");
 	var container = "#rightSubPopup";
 	
 	/* 팝업 load 함수 start */
     $(container).load("/job/fcmr/wsfc/insertWtlPipeLmView.do", function () {
-    	getEmdKorNmCode("#lSrchOptions select[name=hjd_cde]");				//읍면동
+    	getCmmCodeData("YPE001", "#lSrchOptions select[name=hjd_cde]");		//읍면동
     	getCmmCodeData("MNG-001", "#lSrchOptions select[name=mng_cde]");	//관리기관
 		getCmmCodeData("OGC-004", "#lSrchOptions select[name=saa_cde]");	//관용도	
 		getCmmCodeData("OGC-003", "#lSrchOptions select[name=mop_cde]");	//관재질
+		getCmmCodeData("OGC-005", "#lSrchOptions select[name=jht_cde]");	//접합종류
         $(".scroll-y").mCustomScrollbar({
             scrollbarPosition: "outside",
         });
@@ -273,19 +260,58 @@ function insertWtlPipeLmView(){
 }
 
 // 상수관로 수정 화면 조회
-function updateWtlPipeLmView(){
-    // 팝업 변수 설정
-	ui.openPopup("rightSubPopup");
-	var container = "#rightSubPopup";
+function updateWtlPipeLmView(id){
+	console.log("updateWtlPipeLmView()");
+	console.log("id>"+id);
 	
-	/* 팝업 load 함수 start */
-    $(container).load("/job/fcmr/wsfc/updateWtlPipeLmView.do", function () {
+	var detailData = null;
+	if( FACILITY.Ax5UiGrid){
+		var list =  FACILITY.Ax5UiGrid.list;
 		
-	    getEmdKorNmCode("#lSrchOptions select[name=hjd_cde]");				//읍면동
-	    getCmmCodeData("MNG-001", "#lSrchOptions select[name=mng_cde]");	//관리기관
-		getCmmCodeData("OGC-004", "#lSrchOptions select[name=saa_cde]");	//관용도	
-		getCmmCodeData("OGC-003", "#lSrchOptions select[name=mop_cde]");	//관재질
-	    
-    });
-    /* 팝업 load 함수 end */
+		for(var i=0; i<list.length; i++){
+			if(list[i].id == id){
+				detailData = list[i];
+			}
+		}
+	}
+	
+	if(!detailData && detailData == null){
+		alert("상수관로 상세보기 오류");
+		return false;
+	}
+    
+    var formData = new FormData();
+	
+	for ( var key in detailData ) {
+		if(detailData[key]){	//null 값이나 빈칸은 제외, 여기서 id 값 까지 포함 되서 파라미터 완성
+			formData.append(key, detailData[key]);
+		}
+	}
+	
+	$.ajax({
+		url:"/job/fcmr/wsfc/updateWtlPipeLmView.do",
+		type: "POST",
+		//data: JSON.stringify(detailData),
+		data: formData,
+		dataType: 'html',
+		//contentType: "application/json; charset=utf-8",
+		contentType: false,
+        processData: false,
+		success:function(result) {
+			//console.log(result);
+			
+			// 팝업 변수 설정
+			$("#rightSubPopup").addClass("div-failcity-detail");	//날짜 css 때문	
+			ui.openPopup("rightSubPopup");
+			var container = "#rightSubPopup";
+			$(container).html(result);
+			
+		}
+		,error: function(request,status,error){
+			console.log("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+		}
+		, complete : function(){
+			ui.loadingBar("hide");
+		}
+	});
 }

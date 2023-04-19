@@ -31,23 +31,6 @@
 		DELETE FROM TGD_PHSTRN_FCLTY WHERE GID = #{gid}
 	</delete>
 	
-	<!-- 체육시설 엑셀 다운로드 -->	
-	<select id="getAllSportsExcel" parameterType="sportsVO" resultType="HashMap">
-		SELECT GID, FCLTY_NM, ADRES, CHARGER_NM, CTTPC_TELNO, FOND_DE, LAST_MODF_DT, ST_X(ST_TRANSFORM(GEOM,4326)) AS LON_LON,ST_Y(ST_TRANSFORM(GEOM,4326))AS LAT_LAT 
-			<if test="sporSpitalSearch != ''">
-				, ST_ASTEXT(ST_BUFFER(ST_GEOMFROMTEXT(#{sporSpitalSearch}, 4326), #{sportsBuffer} , 'join=round')) bufferArea /* bufferArea */
-			</if>
-			FROM TGD_PHSTRN_FCLTY
-			 WHERE 1=1
-				<if test = "sports_oper_mthd_cd !='' and sports_oper_mthd_cd != null" >
-					AND OPER_MTHD LIKE '%' || #{sports_oper_mthd_cd} || '%'
-				</if>
-			AND ADRES LIKE '%' || #{sporSearchAdres} || '%' AND FCLTY_NM LIKE '%' || #{sporSearchAlsfc_nm} || '%' 
-				<if test="sporSpitalSearch !=''">
-					AND ST_INTERSECTS(ST_BUFFER(ST_GEOMFROMTEXT(#{sporSpitalSearch}, 4326), #{sportsBuffer}), ST_TRANSFORM(GEOM, 4326)) = true
-				</if>
-	</select>
-	
 	<!-- 체육시설 > 운영정보 목록 조회 -->
 	<select id="selectPhyMngList" resultType="egovMap" parameterType="sportsVO">
 		SELECT OPER_YEAR, DPRC_AM, DPRC_ACMTL_AM, BK_AMOUNT, OPER_CT, OPER_ERN

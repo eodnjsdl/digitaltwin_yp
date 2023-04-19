@@ -21,11 +21,20 @@ $(".scroll-y").mCustomScrollbar({
 	scrollbarPosition: "outside"
 });
 
-//체육시설 운영정보 목록 페이징
+// 체육시설 운영정보 목록 페이징
 function test(pageNo){
 	var gid = $('#gid').val();
 	
 	phyMngViewPaging(pageNo, gid);
+}
+
+// 년도
+var today = new Date();   
+var year = today.getFullYear();
+
+for(var i = 0; i < 10; i++) {
+	var yearOption = year - i;
+	$('#phyMng #oper_year').append('<option value="'+ yearOption + '">' + yearOption + '</option>')
 }
 </script>
 
@@ -49,19 +58,6 @@ function test(pageNo){
 									<th scope="row">운영연도</th>
 									<td>
 										<select name="oper_year" id="oper_year" class="form-select">
-											<option value="2022">2022</option>
-											<option value="2021">2021</option>
-											<option value="2020">2020</option>
-											<option value="2019">2019</option>
-											<option value="2018">2018</option>
-											<option value="2017">2017</option>
-											<option value="2016">2016</option>
-											<option value="2015">2015</option>
-											<option value="2014">2014</option>
-											<option value="2013">2013</option>
-											<option value="2012">2012</option>
-											<option value="2011">2011</option>
-											<option value="2010">2010</option>
 										</select>
 										<input type="hidden" name="gid" id="gid" value="${gid}">
 									</td>
@@ -158,13 +154,13 @@ function test(pageNo){
 					<button type="button" class="btn basic bi-delete2" onclick="deletePhyMng();">선택삭제</button>
 				</div>
 				<div>
-					<button type="button" class="btn basic bi-write2" onclick="insertPhyMng('${gid}');">등록</button>
-					<button type="button" class="btn basic bi-cancel" onclick="backPhyEduFaciDetail('${gid}');">취소</button>
+					<button type="button" class="btn basic bi-write2" onclick="insertPhyMng(${gid});">등록</button>
+					<button type="button" class="btn basic bi-cancel" onclick="selectPhyEduFaciDetail(${gid});">취소</button>
 				</div>
 			</div>
 		</div>
 	</div>
 </div>
 <!-- <button type="button" class="popup-close" title="닫기"></button> -->
-<button type="button" class="phy-popup-close" title="닫기" onclick="backPhyEduFaciDetail('${gid}');"></button>
+<button type="button" class="phy-popup-close" title="닫기" onclick="selectPhyEduFaciDetail('${gid}');"></button>
 <!-- 업무 > 시설관리 > 체육시설 > 상세보기 > 운영정보 관리 end -->

@@ -1,7 +1,6 @@
 package egiskorea.com.job.fcmr.wlfc.web;
 
 import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -46,8 +45,7 @@ public class WelFareFaciController {
      */
 	@RequestMapping(value = "/selectWelFareFaciListView.do")
 	public String selectWelFareFaciList(
-			@ModelAttribute("WelFareFaciVO") WelFareFaciVO welFareFaciVO,
-			ModelMap model) throws Exception {
+			@ModelAttribute("WelFareFaciVO") WelFareFaciVO welFareFaciVO, ModelMap model) throws Exception {
 		return "egiskorea/com/job/fcmr/wlfc/welFareFaciListView";
 	}
 	
@@ -61,9 +59,7 @@ public class WelFareFaciController {
      */
 	@RequestMapping(value = "/selectWelFareFaciDetail.do", method = RequestMethod.POST)
 	public String selectWelFareFaciDetail(
-			@ModelAttribute("WelFareFaciVO") WelFareFaciVO welFareFaciVO, 
-			int gid, ModelMap model) throws Exception {
-		
+			@ModelAttribute("WelFareFaciVO") WelFareFaciVO welFareFaciVO, ModelMap model) throws Exception {
 		WelFareFaciVO result = welFareFaciService.selectWelFareFaciDetail(welFareFaciVO);
 		model.addAttribute("result", result);
 		
@@ -80,8 +76,7 @@ public class WelFareFaciController {
      */
 	@RequestMapping(value = "/insertWelFareFaciView.do")
 	public String insertWelFareFaciView(
-			@ModelAttribute("WelFareFaciVO") WelFareFaciVO welFareFaciVO,
-			ModelMap model) throws Exception {
+			@ModelAttribute("WelFareFaciVO") WelFareFaciVO welFareFaciVO, ModelMap model) throws Exception {
 		return "egiskorea/com/job/fcmr/wlfc/insertWelFareFaciView";
 	}
 	
@@ -95,17 +90,7 @@ public class WelFareFaciController {
      */
 	@RequestMapping(value = "/insertWelFareFaci.do", method = RequestMethod.POST)
 	public String insertPhyEduFaci(
-			@ModelAttribute("WelFareFaciVO") WelFareFaciVO welFareFaciVO,
-			HttpServletRequest request, ModelMap model) throws Exception {
-		welFareFaciVO.setFcltyNm(request.getParameter("fcltyNm"));
-		welFareFaciVO.setFcltySe(request.getParameter("fcltySe"));
-		welFareFaciVO.setCttpcTelno(request.getParameter("cttpcTelno"));
-		welFareFaciVO.setRnAdres(request.getParameter("rnAdres"));
-		welFareFaciVO.setZip(request.getParameter("zip"));
-		welFareFaciVO.setLnmAdres(request.getParameter("lnmAdres"));
-		welFareFaciVO.setLat(Double.parseDouble(request.getParameter("lat")));
-		welFareFaciVO.setLon(Double.parseDouble(request.getParameter("lon")));
-		
+			@ModelAttribute("WelFareFaciVO") WelFareFaciVO welFareFaciVO, ModelMap model) throws Exception {
 		welFareFaciService.insertWelFareFaci(welFareFaciVO);
 
 		return "jsonView";
@@ -121,11 +106,8 @@ public class WelFareFaciController {
      */
 	@RequestMapping(value = "/updateWelFareFaciView.do")
 	public String updateWelFareFaciView(
-			@ModelAttribute("WelFareFaciVO") WelFareFaciVO welFareFaciVO,
-			int gid, HttpServletRequest request, ModelMap model) throws Exception {
-		
+			@ModelAttribute("WelFareFaciVO") WelFareFaciVO welFareFaciVO, ModelMap model) throws Exception {
 		WelFareFaciVO result = welFareFaciService.selectWelFareFaciDetail(welFareFaciVO);
-		
 		model.addAttribute("result", result);
 		
 		return "egiskorea/com/job/fcmr/wlfc/updateWelFareFaciView";
@@ -141,17 +123,7 @@ public class WelFareFaciController {
      */
 	@RequestMapping(value = "/updateWelFareFaci.do", method = RequestMethod.POST)
 	public String updatePhyEduFaci(
-			@ModelAttribute("WelFareFaciVO") WelFareFaciVO welFareFaciVO,
-			int gid, HttpServletRequest request, ModelMap model) throws Exception {
-		welFareFaciVO.setFcltyNm(request.getParameter("fcltyNm"));
-		welFareFaciVO.setFcltySe(request.getParameter("fcltySe"));
-		welFareFaciVO.setCttpcTelno(request.getParameter("cttpcTelno"));
-		welFareFaciVO.setRnAdres(request.getParameter("rnAdres"));
-		welFareFaciVO.setZip(request.getParameter("zip"));
-		welFareFaciVO.setLnmAdres(request.getParameter("lnmAdres"));
-		welFareFaciVO.setLat(Double.parseDouble(request.getParameter("lat")));
-		welFareFaciVO.setLon(Double.parseDouble(request.getParameter("lon")));
-		
+			@ModelAttribute("WelFareFaciVO") WelFareFaciVO welFareFaciVO, ModelMap model) throws Exception {
 		welFareFaciService.updateWelFareFaci(welFareFaciVO);
 		
 		WelFareFaciVO result = welFareFaciService.selectWelFareFaciDetail(welFareFaciVO);
@@ -170,13 +142,11 @@ public class WelFareFaciController {
      */
 	@RequestMapping(value = "/deleteWelFareFaci.do")
 	public ModelAndView deleteWelFareFaci(
-			@ModelAttribute("WelFareFaciVO") WelFareFaciVO welFareFaciVO,
-			int gid, ModelMap model) throws Exception {
+			@ModelAttribute("WelFareFaciVO") WelFareFaciVO welFareFaciVO, ModelMap model) throws Exception {
 		ModelAndView mv = new ModelAndView("jsonView");
 		
 		try {
 			welFareFaciService.deleteWelFareFaci(welFareFaciVO);
-			
 			mv.addObject("result", "success");
 		} catch(Exception e) {
 			mv.addObject("result", "fail");

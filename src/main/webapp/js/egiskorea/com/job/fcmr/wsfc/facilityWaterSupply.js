@@ -10,8 +10,6 @@ $(document).ready(function(){
 	//console.log("상수도시설");
 });
 
-//functions
-
 //상수도시설 분기
 function getWaterSupplyFacility(name){
 	//console.log("getWaterSupplyFacility(name)");
@@ -24,17 +22,14 @@ function getWaterSupplyFacility(name){
 		}else if(name == "wtlFlowPs"){		//유량계
 			selectWtlFlowPsListView();
 		}else if(name == "wtlManhPs"){		//상수맨홀
-			toastr.error("작업중", "상수맨홀");
-			return;
+			selectWtlManhPsListView();
 		}else if(name == "wtlPipePs"){		//상수관로심도
 			toastr.error("작업중", "상수관로심도");
 			return;
 		}else if(name == "wtlPrgaPs"){		//수압계
-			toastr.error("작업중", "수압계");
-			return;
+			selectWtlPrgaPsListView();
 		}else if(name == "wtlServPs"){		//배수지
-			toastr.error("작업중", "배수지");
-			return;
+			selectWtlServPsListView();
 		}else if(name == "wtlSplyLs"){		//급수관로
 			toastr.error("작업중", "급수관로");
 			return;
@@ -66,3 +61,44 @@ function selectWtlFirePsListView(){
     });
 }
 
+//유량계 목록 화면 조회
+function selectWtlFlowPsListView(){
+	//console.log("selectWtlFlowPsListView()");
+	
+	ui.loadingBar("show");
+	
+	var baseContainer = "#bottomPopup";
+    $(baseContainer).load("/job/fcmr/wsfc/selectWtlFlowPsListView.do", function () {
+        //toastr.success("/job/fcmr/wsfc/selectWtlFlowPsListView.do", "페이지🙂호🙂출🙂");
+    	wtlFlowPsListProcess();
+		ui.loadingBar("hide");
+    });
+}
+
+//상수맨홀 목록 화면 조회
+function selectWtlManhPsListView(){
+	//console.log("selectWtlManhPsListView()");
+	
+	ui.loadingBar("show");
+	
+	var baseContainer = "#bottomPopup";
+	$(baseContainer).load("/job/fcmr/wsfc/selectWtlManhPsListView.do", function () {
+		//toastr.success("/job/fcmr/wsfc/selectWtlManhPsListView.do", "페이지🙂호🙂출🙂");
+		wtlManhPsListProcess();
+		ui.loadingBar("hide");
+	});
+}
+
+//수압계 목록 화면 조회
+function selectWtlPrgaPsListView(){
+	//console.log("selectWtlPrgaPsListView()");
+	
+	ui.loadingBar("show");
+	
+	var baseContainer = "#bottomPopup";
+	$(baseContainer).load("/job/fcmr/wsfc/selectWtlPrgaPsListView.do", function () {
+		//toastr.success("/job/fcmr/wsfc/selectWtlPrgaPsListView.do", "페이지🙂호🙂출🙂");
+		wtlPrgaPsListProcess();
+		ui.loadingBar("hide");
+	});
+}
