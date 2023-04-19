@@ -10,8 +10,6 @@
  */
 function selectRoadSectListView() {
     $('#bottomPopup').load('/job/fcmr/tpfc/selectRoadSectListView.do', function () {
-	toastr.success("/job/fcmr/tpfc/selectRoadSectListView.do", "페이지🙂호🙂출🙂");
-	
 	callRoadSectGrid();
 	selectRoadSectionExcelListDownload();
     });
@@ -79,48 +77,63 @@ function setRoadSectListGrid() {
  * @returns
  */
 function setRoadSectListData(_pageNo) {
-    // 검색 조건 - cql filter
-    /**
-     * xml filter와 cql filter의 값이 다르게 나옴
-     * cql filter 사용 - wdr_rd_cd
-     */
-    let filters = 'sig_cd = 41830 and wdr_rd_cd = 3';
+    // wfs 옵션값 담을 변수
+    var options;
     
+    // 검색 조건 - cql filter
+    // 속성 검색 활성화 시 옵션, 필터
+    if ($('.roadSectProperty').hasClass('on')) {
+	let filters = 'sig_cd = 41830 and wdr_rd_cd = 3';
+	
 //    let emdKorNm = $("#emdKorNm").val().split(',')[0];			// 읍면동
-    let roadBtVal = $("input[name=roadBtVal]").val();			// 도로폭
-    let rn = $("input[name=rn]").val();					// 도로명
+	let roadBtVal = $("input[name=roadBtVal]").val();			// 도로폭
+	let rn = $("input[name=rn]").val();					// 도로명
 //    if (emdKorNm != '' && emdKorNm != '41830') {
 //	emdKorNm = "'" + emdKorNm + "%'";
 //	filters += ' and rbp_cn like ' + emdKorNm;
 //    }; 
-    if (roadBtVal != '') {
-	filters += ' and road_bt = ' + roadBtVal;
-    }; 
-    if (rn != '') {
-	rn = "'%" + rn + "%'";
-	filters += ' and rn like ' + rn;
-    };
-    
-    
-    let options = {
-	typeNames: 'tgd_sprd_manage',
-	perPage: 10,
-	page: _pageNo + 1,
-	sortBy : 'gid',
-	orderBy : 'DESC',
-	cql : filters
+	if (roadBtVal != '') {
+	    filters += ' and road_bt = ' + roadBtVal;
+	}; 
+	if (rn != '') {
+	    rn = "'%" + rn + "%'";
+	    filters += ' and rn like ' + rn;
+	};
+	
+	options = {
+		typeNames: 'tgd_sprd_manage',
+		perPage: 10,
+		page: _pageNo + 1,
+		sortBy : 'gid',
+		sortOrder : 'DESC',
+		cql : filters
+	}
+	
+	// else if 공간 검색 활성화
+    } else if ($('.roadSectSpace').hasClass('on')) {
+	const $parent = $(".facility-spatial-search").closest('.search-area');
+        const type = $parent.find('input[name="rad-facility-area"]:checked').val();
+	
+	options = {
+		typeNames: 'tgd_sprd_manage',
+		perPage: 10,
+		page: _pageNo + 1,
+		sortBy : 'gid',
+		sortOrder : 'DESC',
+	}
+	if (type === 'extent') {
+    		options.bbox 		= FACILITY.spaceSearchOption.bbox;
+	} else {
+    		options.geometry 	= FACILITY.spaceSearchOption.geometry;
+	}
+		
+    } else {
+	toastr.error("검색 오류");
     }
-    
+/////////////////////////////////////////////////////////////////////////////////////////
+    // 그리드 데이터
     var gridList = this;
-    const promise = dtmap.wfsGetFeature({
-	typeNames: 'tgd_sprd_manage',
-	perPage: 10,
-	page: _pageNo + 1,
-	sortBy : 'gid',
-	orderBy : 'DESC',
-	cql : filters
-    });
-    
+    const promise = dtmap.wfsGetFeature(options);
     promise.then(function(data) {
 	$('.bbs-list-num strong').empty();
 	if (data.totalFeatures > 0) {
@@ -193,8 +206,6 @@ function selectRoadSectDetailView(gid) {
 	success : function(data, status) {
 	    if (status == "success") {		
 		$("#rightSubPopup").append(data);
-		
-		toastr.success("상세정보 호출 성공!");
 	    } else { 
 		toastr.error("ERROR!");
 		return;
@@ -219,6 +230,10 @@ function selectRoadSectWithFilters() {
     });
 };
 
+/**
+ * 엑셀 다운로드 (전체 다운로드만 가능)
+ * @returns
+ */
 function selectRoadSectionExcelListDownload() {
     $('#selectRoadSectExcelListDownload').on('click', function (e) {
 	let url = "/job/fcmr/tpfc/";
@@ -238,4 +253,19 @@ function selectRoadSectionExcelListDownload() {
 	
 	return false;
     })
+}
+
+/**
+ * 객체 선택 시 상세보기
+ * @param e
+ * @returns
+ */
+function onSelectRoadSectEventListener(e) {
+    let id = e.id.split('.')[1];
+    if (id) {
+	selectRoadSectDetailView(id);
+    } else {
+	toastr.error("객체 선택 오류입니다.");
+	return false;
+    }
 }

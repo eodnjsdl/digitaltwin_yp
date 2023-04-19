@@ -8,8 +8,6 @@
  */
 function selectOverpassListView() {
     $('#bottomPopup').load('/job/fcmr/tpfc/selectOverpassListView.do', function () {
-	toastr.success("/job/fcmr/tpfc/selectOverpassListView.do", "페이지🙂호🙂출🙂");
-	
 	callOverpassGrid();
     });
     
@@ -66,26 +64,50 @@ function setOverpassListGrid() {
  * @returns
  */
 function setOverpassListData(_pageNo) {
-    
     var gridList = this;
-    // 검색기능
-    let filters = 'sig_cd = 41830';
-    let korOveNm = $('#korOveNm').val();
-    if (korOveNm != '') {
-	korOveNm = "'%" + korOveNm + "%'";
-	filters += ' and kor_ove_nm like ' + korOveNm;
+    // wfs 옵션값
+    var options;
+    
+    // 검색 기능
+    // 속성 검색 활성화 시 옵션, 필터
+    if ($('.overpassProperty').hasClass('on')) {
+        let filters = 'sig_cd = 41830';
+        let korOveNm = $('#korOveNm').val();
+        if (korOveNm != '') {
+    		korOveNm = "'%" + korOveNm + "%'";
+    		filters += ' and kor_ove_nm like ' + korOveNm;
+        }
+        
+        options = {
+        	typeNames: 'tgd_spot_overpass',
+        	page: _pageNo + 1,
+        	perPage: 10,
+        	sortBy : 'gid',
+        	sortOrder : 'DESC',
+        	cql : filters
+        }
+    } else if ($('.overpassSpace').hasClass('on')) {
+	const $parent = $(".facility-spatial-search").closest('.search-area');
+        const type = $parent.find('input[name="rad-facility-area"]:checked').val();
+	
+	options = {
+		typeNames: 'tgd_spot_overpass',
+		perPage: 10,
+		page: _pageNo + 1,
+		sortBy : 'gid',
+		sortOrder : 'DESC'
+	}
+	if (type === 'extent') {
+    		options.bbox 		= FACILITY.spaceSearchOption.bbox;
+	} else {
+    		options.geometry 	= FACILITY.spaceSearchOption.geometry;
+	}
+    } else {
+	toastr.error("검색 오류");
     }
     
  // 철도역사 - wms -> sortBy, orderBy, clq(sig_cd = 41830 -- 양평군) 필수
-    const promise = dtmap.wfsGetFeature({
-	typeNames: 'tgd_spot_overpass',
-	page: _pageNo + 1,
-	perPage: 10,
-	sortBy : 'gid',
-	sortOrder : 'DESC',
-	cql : filters
-    });
-    
+    const promise = dtmap.wfsGetFeature(options);
     promise.then(function(data) {
 	$('.bbs-list-num strong').empty();
 	if (data.totalFeatures > 0) {
@@ -159,8 +181,6 @@ function selectOverpassDetailView(gid) {
 	success : function(data, status) {
 	    if (status == "success") {		
 		$("#rightSubPopup").append(data);
-		
-		toastr.success("상세정보 호출 성공!");
 	    } else { 
 		toastr.error("ERROR!");
 		return;
@@ -184,3 +204,18 @@ function selectOverpassWithFilters() {
 	setOverpassListData(0);
     });
 };
+
+/**
+ * 객체 선택 시 상세보기
+ * @param e
+ * @returns
+ */
+function onSelectOverpassEventListener(e) {
+    let id = e.id.split('.')[1];
+    if (id) {
+	selectOverpassDetailView(id);
+    } else {
+	toastr.error("객체 선택 오류입니다.");
+	return false;
+    }
+}

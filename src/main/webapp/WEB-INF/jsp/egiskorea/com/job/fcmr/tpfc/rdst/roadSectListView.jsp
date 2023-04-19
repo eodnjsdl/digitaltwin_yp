@@ -3,6 +3,12 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <script type="text/javascript">
 $(document).ready(function(){
+    dtmap.draw.dispose();
+	dtmap.draw.clear();
+    
+	//이벤트 리스너 추가 - 객체 선택
+	dtmap.on('select', onSelectRoadSectEventListener);
+	
 	// 교통시설 메뉴 - 이벤트
 	var $container = $("#container");
     var $target = $container.find('#bottomPopup #selectBoxTrfc');
@@ -44,9 +50,8 @@ $(document).ready(function(){
         		return false;
         	}
         }
-       	
+        setRoadSectListData(0);
     });
-   	
    	
    	// 검색영역지정 변경 (현재화면영역, 사용자정의)
     $("[name=rad-facility-area]", "#bottomPopup").on("change", function () {
@@ -64,7 +69,6 @@ $(document).ready(function(){
             $("[name=rad-facility-drawing]:first", "#bottomPopup").trigger("click");
         }
     }); 
-   	
    	
    	// 사용자 정의 검색 조건
     $("[name=rad-facility-drawing]", "#bottomPopup").on("click", function () {
@@ -88,7 +92,6 @@ $(document).ready(function(){
         }
         dtmap.draw.active({type: type, once: true});
     });
-
 
    	//경계로부터 버퍼 영역 지정
     $(".area-facility-buffer", "#bottomPopup").on("keyup", function (event) {

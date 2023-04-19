@@ -8,8 +8,6 @@
  */
 function selectRailroadStationListView() {
     $('#bottomPopup').load('/job/fcmr/tpfc/selectRailroadStationListView.do', function () {
-	toastr.success("/job/fcmr/tpfc/selectRailroadStationListView.do", "페이지🙂호🙂출🙂");
-	
 	callRlroadStGrid();
     });
     
@@ -66,28 +64,50 @@ function setRailroadStationListGrid() {
  * @returns
  */
 function setRailroadStationListData(_pageNo) {
-    
     var gridList = this;
+    // wfs 옵션값 담을 변수
+    var options;
     
     // 검색 필터
-    let filters = "sig_cd = 41830";
-    let korStaNm = $('#korStaNm').val();
-    if (korStaNm != '') {
-	korStaNm = "'%" + korStaNm + "%'";
-	filters += " and kor_sta_nm like " + korStaNm;
+    if ($('.railroadStationProperty').hasClass('on')) {
+	let filters = "sig_cd = 41830";
+	let korStaNm = $('#korStaNm').val();
+	if (korStaNm != '') {
+	    korStaNm = "'%" + korStaNm + "%'";
+	    filters += " and kor_sta_nm like " + korStaNm;
+	}
+	
+	options = {
+		typeNames : 'tgd_sprl_statn',
+		page : _pageNo + 1,
+		perPage : 10,
+		sortBy : 'gid',
+		sortOrder : 'DESC',
+		cql : filters
+	}
+    } else if ($('.railroadStationSpace').hasClass('on')) {
+	const $parent = $(".facility-spatial-search").closest('.search-area');
+        const type = $parent.find('input[name="rad-facility-area"]:checked').val();
+	
+	options = {
+		typeNames : 'tgd_sprl_statn',
+		page : _pageNo + 1,
+		perPage : 10,
+		sortBy : 'gid',
+		sortOrder : 'DESC'
+	}
+	if (type === 'extent') {
+    		options.bbox 		= FACILITY.spaceSearchOption.bbox;
+	} else {
+    		options.geometry 	= FACILITY.spaceSearchOption.geometry;
+	}
+		
+    } else {
+	toastr.error("검색 오류");
     }
     
-    
  // 철도역사 - wms -> sortBy, orderBy, clq(sig_cd = 41830 -- 양평군) 필수
-    const promise = dtmap.wfsGetFeature({
-	typeNames : 'tgd_sprl_statn',
-	page : _pageNo + 1,
-	perPage : 10,
-	sortBy : 'gid',
-	sortOrder : 'DESC',
-	cql : filters
-    });
-    
+    const promise = dtmap.wfsGetFeature(options);
     promise.then(function(data) {
 	$('.bbs-list-num strong').empty();
 	if (data.totalFeatures > 0) {
@@ -162,8 +182,6 @@ function selectRailroadStationDetailView(gid) {
 	success : function(data, status) {
 	    if (status == "success") {		
 		$("#rightSubPopup").append(data);
-		
-		toastr.success("상세정보 호출 성공!");
 	    } else { 
 		toastr.error("ERROR!");
 		return;
@@ -188,3 +206,18 @@ function selectRlroadStWithFilters() {
 	setRailroadStationListData(0);
     });
 };
+
+/**
+ * 객체 선택 시 상세보기
+ * @param e
+ * @returns
+ */
+function onSelectRailroadStationEventListener(e) {
+    let id = e.id.split('.')[1];
+    if (id) {
+	selectRailroadStationDetailView(id);
+    } else {
+	toastr.error("객체 선택 오류입니다.");
+	return false;
+    }
+}
