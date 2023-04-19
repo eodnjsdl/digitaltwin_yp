@@ -767,7 +767,7 @@ window.ui = (function () {
 
     }
 
-    //업무영역 >> 좌측 메뉴 선택
+ /*   //업무영역 >> 좌측 메뉴 선택
     function _workMenuEvent() {	
         $(".lnb-work .lnb-body button").on("click", function () {
             var name = $(this).data("popup");
@@ -918,9 +918,9 @@ window.ui = (function () {
 
     //LEFT 메뉴 선택
     function _leftMenuEvent() {
-        /**
+        *//**
          *  Left Menu
-         */
+         *//*
         let $leftSide = $('#side');
         let $leftBar = $('#lnb');
         $leftBar.on('click', 'li', function () {
@@ -956,7 +956,7 @@ window.ui = (function () {
                 $leftSide.find('.lnb-cont').stop().fadeOut(100);
             }
         });
-    }
+    }*/
 
     //그리기 초기화
     function _initDrawEvent() {
