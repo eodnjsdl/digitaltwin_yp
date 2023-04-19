@@ -118,3 +118,91 @@ $(document).ready(function() {
 <button type="button" class="popup-reset" class="초기화" onclick="bottomPopupOpen('safetyFacilitiesManagement');"></button>
 <button type="button" class="popup-bottom-toggle" onclick="toggleFold(this);" title="접기"></button>
 <!-- //안전시설물관리 -->
+
+<script>
+
+	//속성 검색, 공간 검색 탭 제어
+	$(document).on("click", ".tabBoxDepth2-wrap .tabBoxDepth2 > ul > li > .inner-tab", function(){ 
+		$(this).each(function(){
+			$(this).parent().addClass("on").siblings().removeClass("on");
+			$("."+$(this).parent().data("tab")).addClass("on").siblings().removeClass("on");
+		});
+		
+		if($("li[data-tab=groundwaterProperty]").hasClass("on")){	//속성검색 일때 공간 검색때 사용한 그리기 초기화
+			dtmap.draw.dispose();		//그리기 포인트 삭제
+			dtmap.draw.clear();			//그리기 초기화
+		}
+		
+	});
+
+	// 공간 검색 조회 버튼
+	$(".facility-spatial-search", "#bottomPopup").on("click", function (e) {
+		//console.log("공간검색 조회");
+		
+		const $parent = $(e.target).closest('.search-area');
+		const type = $parent.find('input[name="rad-facility-area"]:checked').val();
+		
+		if (type === 'extent') {
+			FACILITY.spaceSearchOption.bbox 	= dtmap.getExtent();
+		} else {
+			if(dtmap.draw.source.getFeatures().length > 0){
+				FACILITY.spaceSearchOption.geometry = dtmap.draw.getGeometry();
+			}else{
+				alert("영역지정 안되었습니다");
+				return false;
+			}
+		}
+
+	});
+
+	// 검색영역지정 변경 (현재화면영역, 사용자정의)
+	$("[name=rad-facility-area]", "#bottomPopup").on("change", function () {
+		const node = $(this);
+		const value = node.val();
+		if (value == "extent") {
+			$(".space-facility-area", "#bottomPopup").hide();
+			
+			//그리기, 그려진 것 초기화
+			dtmap.draw.dispose();
+			dtmap.draw.clear();
+			
+		} else {
+			$(".space-facility-area", "#bottomPopup").show();
+			$("[name=rad-facility-drawing]:first", "#bottomPopup").trigger("click");
+		}
+	}); 
+     	
+     	
+	// 사용자 정의 검색 조건
+	$("[name=rad-facility-drawing]", "#bottomPopup").on("click", function () {
+		const node = $(this);
+		const value = node.val();
+
+		let type;
+		switch (Number(value)) {
+			case 1:
+				type = 'Point';
+				break;
+			case 2:
+				type = 'LineString';
+				break;
+			case 3:
+				type = 'Box';
+				break;
+			case 4:
+				type = 'Circle';
+				break;
+		}
+		dtmap.draw.active({type: type, once: true})
+		//toastr.warning("that.searchDrawing(value);", "공간검색 사용자정의");
+	});
+		
+
+     	//경계로부터 버퍼 영역 지정
+	$(".area-facility-buffer", "#bottomPopup").on("keyup", function (event) {
+		dtmap.draw.setBuffer(Number(this.value));
+	});
+		
+
+
+</script>

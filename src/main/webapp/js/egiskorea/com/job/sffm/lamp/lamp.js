@@ -207,6 +207,8 @@ function fn_update(gid){
 
 //가로등 검색조회
 function fn_search_List(){
+
+	if($('.safetyFacilityProperty').hasClass)
 	SEARCHOBJ = {};
 
 	SEARCHOBJ.searchManageNo= $('#sffm-search-manage-no').val() || '';
