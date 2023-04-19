@@ -13,9 +13,6 @@ window.ui = (function () {
         //LEFT메뉴영역
         _leftMenuEvent();
         
-        //지도 모드에 따라 메뉴 변경 2D/3D
-        _changeMenu();
-   
         //좌측 메뉴 >> 공간정보
         _spaceMenuEvent();
         //좌측 메뉴 >> 공간정보 활용 >> 사업공유관리 
@@ -68,17 +65,17 @@ window.ui = (function () {
 			const ctxMenu = $(".context");
 			ctxMenu.removeClass("hide");
 			ctxMenu.css("top",event.pageY+'px');
-			ctxMenu.css("left",event.pageX+'px'); 
+			ctxMenu.css("left",event.pageX+'px');
 		}
 	      
 		function handleClearContextMenu(event){
 			const ctxMenu = $(".context");
 			ctxMenu.addClass("hide");
 		}
-	      
+		var canvas_2d = document.getElementById("map2D");
 		// 이벤트 바인딩
-		document.addEventListener('contextmenu', handleCreateContextMenu, false);
-		document.addEventListener('click', handleClearContextMenu, false);
+		canvas_2d.addEventListener('contextmenu', handleCreateContextMenu, false);
+		canvas_2d.addEventListener('click', handleClearContextMenu, false);
     }
 
     //상단 메뉴 
@@ -191,7 +188,6 @@ window.ui = (function () {
             toastr.success("지도에서 위치를 선택하세요. ", "통합행정정보");
             $(".map-control button").removeClass("active");
             aj_krasInfo();
-            
         });
         //지적/건물
         $mapControl.on('click', '.building', function (e) {
@@ -288,7 +284,6 @@ window.ui = (function () {
         let $mapControl = $('.map-control');
         
         $leftBar.on('click', 'li', function () {
-            _changeMenu();
             ui.initPopup("");
             let $this = $(this);
             let menu = $this.attr('data-menu');
@@ -330,44 +325,24 @@ window.ui = (function () {
                     ui.loadingBar('hide');
                 })
             }
+            
             //측정기능 OFF
             $mapControl.find('.location, .distance, .measure, .radius').removeClass('active');
             dtmap.clearInteraction();
 
-            //패널 close
+            //팝업 close
             initPopup("");
             //좌측 메뉴 close
             $(".lnb-cont").css("display","none");
-            $("#lnb li[data-menu]").removeClass("on");	
-
+            $("#lnb li[data-menu]").removeClass("on");
+            //마우스  오른쪽 팝업
+            $(".context").addClass("hide");
+            
+            console.log(e);
             dtmap.switchMap(e.target.value);
-            _changeMenu();
-
-        });
-    }
-    
-    //2D 3D 전환시  
-    function _changeMenu() {
-        var $container = $("#container");
-        var $buttons = $container.find("button");
-        $.each($buttons, function (k, v) {
-            var $parent = $(this).parent();
-            var mapType = $(this).data("maptype");
-            if (mapType === undefined) return;
-            $parent.css({display: "block"});
-            if (dtmap.mod === "2D") {
-                if (mapType === "3D") {
-                    $parent.css({display: "none"});
-                }
-            } else if (dtmap.mod === "3D") {
-                if (mapType === "2D") {
-                    $parent.css({display: "none"});
-                }
-            }
         });
     }
 
-    
     // 좌측 메뉴 >> 공간정보 활용
     function _spaceMenuEvent() {
         $(".lnb-space .lnb-body button").on("click", function () {

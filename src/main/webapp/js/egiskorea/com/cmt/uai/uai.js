@@ -14,6 +14,7 @@ function _onDrawEnd_krasInfo(e) {
 }
 
 function aj_krasInfo() {
+    dtmap.vector.clear();
     dtmap.draw.active({type: 'Point', once: true});
     dtmap.once('drawend', _onDrawEnd_krasInfo);
 

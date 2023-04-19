@@ -195,6 +195,7 @@ function _onDrawEnd_ldbdInfo(e) {
 }
 
 function aj_ldbdInfo() {
+    dtmap.vector.clear();
     dtmap.draw.active({type: 'Point', once: true});
     dtmap.once('drawend', _onDrawEnd_ldbdInfo);
 }
