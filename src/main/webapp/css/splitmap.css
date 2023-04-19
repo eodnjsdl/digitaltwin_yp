@@ -1,0 +1,71 @@
+/*------------------------------------------------------------------------------
+ * Split Map 2D
+ *----------------------------------------------------------------------------*/
+.split-map-2, .split-map-3, .split-map-4 {
+    position: absolute;
+}
+
+.split-main-map {
+    width: 50%;
+    position: absolute;
+}
+
+.split-sub-map {
+    width: 50%;
+    position: absolute;
+}
+
+/**
+ * 2분할
+ */
+.split-map-2 .split-main-map {
+    height: 100%;
+}
+
+.split-map-2 .split-sub-map {
+    height: 100%;
+}
+
+/**
+ * 3분할
+ */
+.split-map-3 .split-main-map {
+    height: 100%;
+}
+
+.split-map-3 .split-sub-map {
+    height: 50%;
+}
+
+.split-map-3 .split-sub-map:nth-child(2) {
+    right: 0;
+    top: 0;
+}
+
+.split-map-3 .split-sub-map:nth-child(3) {
+    right: 0;
+    bottom: 0;
+}
+
+/**
+ * 4분할
+ */
+.split-map-4 .split-main-map,
+.split-map-4 .split-sub-map {
+    height: 50%;
+}
+
+.split-map-4 .split-sub-map:nth-child(2) {
+    right: 0;
+    top: 0;
+}
+
+.split-map-4 .split-sub-map:nth-child(3) {
+    left: 0;
+    bottom: 0;
+}
+
+.split-map-4 .split-sub-map:nth-child(4) {
+    right: 0;
+    bottom: 0;
+}

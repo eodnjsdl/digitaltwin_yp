@@ -30,13 +30,13 @@ $(document).ready(function(){
 	});
 });
 
+//전체 보기 레이어 추가
 function fn_select_all_list(){
 	$(".territory-list li").each(function() {
 		if($(this).hasClass("active")){
 			$(this).removeClass("active")
 		}
 	});
-	leftPopupOpen('selectExaminationInfoList','','1')
 	
 	if(app2D){
 		cmmUtil.resetMap();
@@ -95,7 +95,7 @@ function fn_delete_administrationZone(txt, dataSeq){
 					<!-- 국토정보관리 -->
 						<div class="lnb-header"><h2 class="tit">국토정보관리</h2></div>
 						<div class="lnb-body">
-							<div class="btn-wrap"><button type="button" id="insertAdministrationZoneView" class="btn bi-write leftPopup" data-popup="territory-Regist">등록</button></div>
+							<div class="btn-wrap"><button type="button" id="insertAdministrationZoneView" class="btn bi-write leftPopup" data-popup="territory-Regist" onclick="aj_insertAdministrationZoneView()">등록</button></div>
 							<div class="bbs-top">
 								<form:form name="searchForm" id="searchForm" method="post" onsubmit="fn_select_list(); return false;">
 								<input type="hidden" name="pageIndex" id="pageIndex" value="<c:out value='${searchVO.pageIndex}' />">
@@ -113,7 +113,7 @@ function fn_delete_administrationZone(txt, dataSeq){
 							<div class="territory-list-wrap">
 								<ul class="territory-list">
 									<c:forEach items="${resultList}" var="result" varStatus="status">
-									<li><a href="javascript:leftPopupOpen('selectExaminationInfoList','<c:out value="${result.code2}" />','1')" data-popup="territory-detail"><span class="tit"><c:out value="${result.code1Nm}" /> <c:out value="${result.code2Nm}" /> 조사데이터</span><span class="writer"><c:out value="${result.userNm}" /></span><span class="date"><c:out value="${result.frstRegistPnttm}" /></span></a>
+									<li><a href="javascript:aj_selectExaminationInfoList('<c:out value="${result.code2}" />','1')" data-popup="territory-detail"><span class="tit"><c:out value="${result.code1Nm}" /> <c:out value="${result.code2Nm}" /> 조사데이터</span><span class="writer"><c:out value="${result.userNm}" /></span><span class="date"><c:out value="${result.frstRegistPnttm}" /></span></a>
 										<div><button type="button" class="icon-btn delete" title="삭제" onClick="fn_delete_administrationZone('<c:out value="${result.code1Nm}" /> <c:out value="${result.code2Nm}" /> 조사데이터','<c:out value="${result.dataSeq}" />')"></button></div>
 									</li>
 									</c:forEach>
@@ -128,10 +128,8 @@ function fn_delete_administrationZone(txt, dataSeq){
 								</div>
 							</div>
 						</div>
-						<div class="lnb-util">
-							<button type="button" class="lnb-resetBtn" title="초기화"></button>
-							<button type="button" class="lnb-close" title="닫기"></button>
-						</div>
+						<div class="lnb-util"><button type="button" class="manualBtn" title="도움말"></button> <button type="button" class="lnb-resetBtn" title="초기화"></button><button type="button" class="lnb-close" title="닫기"></button></div>
+				
 						<script>
 							$(document).ready(function(){
 								$(".lnb-territory .bi-write").click(function(){

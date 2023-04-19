@@ -10,38 +10,50 @@ $(document).ready(function() {
 
 // 교통시설 분기
 function getTransportationFacility(name) {
-	console.log("getTransportationFacility(name)");
+	console.log("getTransportationFacility()");
+	$('#bottomPopup').empty();
 	
-	if (name) {
-		if (name == "roadSection") {			// 도로구간
-			getRoadSectListView();
-		} else if (name == "wtlPipeLm") {		//상수관로
-			toastr.error("작업중", "상수관로");	
-			return;
-		} else if (name == "wtlFlowPs") {		//유량계
-			toastr.error("작업중", "유량계");	
-			return;
-		} else if (name == "wtlManhPs") {		//상수맨홀
-			toastr.error("작업중", "상수맨홀");
-			return;
-		} else if (name == "wtlPipePs") {		//상수관로심도
-			toastr.error("작업중", "상수관로심도");
-			return;
-		} else if (name == "wtlPrgaPs") {		//수압계
-			toastr.error("작업중", "수압계");
-			return;
-		} else if (name == "wtlServPs") {		//배수지
-			toastr.error("작업중", "배수지");
-			return;
-		} else if (name == "wtlSplyLs") {		//급수관로
-			toastr.error("작업중", "급수관로");
-			return;
-		} else if (name == "wtlValvPs") {		//변류시설
-			toastr.error("작업중", "변류시설");
-			return;
-		} else {
-			alert("잘못된 호출")
-			return;
-		}
+	switch (name) {
+	case "roadSection" : 				// 도로구간
+	    toastr.error("작업중 - 전체 조회, 상세조회 가능", "도로구간");
+	    selectRoadSectListView();
+	    break;
+	case "railRoadTrack" :				// 철도선로
+	    toastr.error("작업중 - 전체 조회만 가능", "철도선로");
+	    selectRailroadTrackListView();
+	    break;
+	case "railRoadStation" :			// 철도역사
+	    toastr.error("작업중", "철도역사");
+	    selectRailroadStationListView();
+	    break;
+	case "subwayTrack" :				// 지하철선로
+	    toastr.error("작업중", "지하철선로");
+	    selectSubwayTrackListView();
+	    break;
+	case "subwayStation" :				// 지하철역사
+	    toastr.error("작업중", "지하철역사");
+	    selectSubwayStationListView();
+	    break;
+	case "bridge" :					// 교량
+	    toastr.error("작업중", "교량");
+	    selectBridgeListView();
+	    break;
+	case "overpass" :				// 고가도로
+	    toastr.error("작업중", "고가도로");
+	    selectOverpassListView();
+	    break;
+	case "tunnel" :					// 터널
+	    toastr.error("작업중", "터널");
+	    selectTunnelListView();
+	    break;
+	default :
+	    toastr.error("잘못된 호출입니다.", "오류");
+	    break;
 	}
+}
+
+function setScrollbar() {
+    $(".scroll-y").mCustomScrollbar({
+	scrollbarPosition:"outside"
+    });
 }

@@ -348,8 +348,8 @@ function getGridDetailData(id){
 /////////////////////////
 //지도 아이콘(객체) 클릭시 이벤트
 function onFacilitySelectEventListener(e){
-	//console.log("onFacilitySelectEventListener(e)");
-	//console.log(e);
+	console.log("onFacilitySelectEventListener(e)");
+	console.log(e);
 	if(e){
 		
 		//[참고 자료]

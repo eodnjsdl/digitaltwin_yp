@@ -96,6 +96,7 @@ function aj_selectAdministrationZoneList(frm){
 // 행정구역별 조사정보 등록화면 호출
 function aj_insertAdministrationZoneView(){
 	ui.loadingBar("show");
+	ui.openPopup("leftPopup","insertAdministrationZoneView");
 	
 	$.ajax({
 		type : "POST",
@@ -118,11 +119,13 @@ function aj_insertAdministrationZoneView(){
 	});
 }
 
-// 조사정보 목록 호출
-function aj_selectExaminationInfoList(frm, param1, param2){
+// 조사정보 목록 호출ㄴ
+function aj_selectExaminationInfoList(param1, param2){
 	ui.loadingBar("show");
+
+	ui.openPopup("leftPopup","insertAdministrationZoneView");
 	
-	var formData = new FormData(frm);
+	var formData = new FormData();
 	if(param1 != ''){
 		formData.append("code2", param1);
 	}

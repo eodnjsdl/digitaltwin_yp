@@ -1,11 +1,11 @@
 <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-<rect y="7" width="2" height="7" fill="white"/>
-<rect x="4" y="7" width="1" height="4" fill="white"/>
-<rect x="13" y="7" width="1" height="4" fill="white"/>
-<rect x="7" y="7" width="1" height="2" fill="white"/>
-<rect x="16" y="7" width="1" height="2" fill="white"/>
-<rect x="10" y="7" width="1" height="2" fill="white"/>
-<rect y="13" width="20" height="2" fill="white"/>
-<rect y="5" width="20" height="2" fill="white"/>
-<rect x="18" y="7" width="2" height="7" fill="white"/>
+<path d="M2 7H0V14H2V7Z" fill="#44516A"/>
+<path d="M5 7H4V11H5V7Z" fill="#44516A"/>
+<path d="M14 7H13V11H14V7Z" fill="#44516A"/>
+<path d="M8 7H7V9H8V7Z" fill="#44516A"/>
+<path d="M17 7H16V9H17V7Z" fill="#44516A"/>
+<path d="M11 7H10V9H11V7Z" fill="#44516A"/>
+<path d="M20 13H0V15H20V13Z" fill="#44516A"/>
+<path d="M20 5H0V7H20V5Z" fill="#44516A"/>
+<path d="M20 7H18V14H20V7Z" fill="#44516A"/>
 </svg>
