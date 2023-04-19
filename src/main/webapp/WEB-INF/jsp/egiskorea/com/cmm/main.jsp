@@ -773,6 +773,12 @@
 			<a href="" class="c07">3D전환</a>
 		</div>
 		<!-- //마우스 오른쪽 선택 팝업 -->
+		
+		<!-- 업무 > 공간정보활용 > 공간정보 편집도구 -->
+		<div class="popup-panel popup-sub space-edit-tool" style="top: 80px;left: 320px;width: 385px;height: 200px;">
+		</div>
+		<!-- //업무 > 공간정보활용 > 공간정보 편집도구 -->
+		
     </div>
     <!-- //container -->
 </div>
