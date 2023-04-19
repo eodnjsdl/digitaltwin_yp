@@ -190,5 +190,5 @@ function fn_right_select_detail(pnu){
 						</div>						
 					</div>
 					<button type="button" class="manualBtn" title="도움말" onclick="manualTab('통합행정정보')"></button>
-					<button type="button" class="popup-close" title="닫기"></button>
-				<!-- //top > 통합행정정보 -->
+					<button type="button" class="popup-close" title="닫기"  onclick="dtmap.vector.clear();"></button>
+					<!-- //top > 통합행정정보 -->

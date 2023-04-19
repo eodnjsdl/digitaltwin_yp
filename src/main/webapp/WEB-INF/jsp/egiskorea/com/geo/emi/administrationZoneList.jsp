@@ -11,23 +11,6 @@ $(document).ready(function(){
 	$(".lnb-territory .lnb-resetBtn").unbind('click').bind('click',function(){
 		aj_selectAdministrationZoneList($("#tmpForm")[0])
 	});
-	
-	// 닫기
-	$(".lnb-territory .lnb-close").click(function(){
-		if(app2D){			
-			cmmUtil.resetMap();
-		} else{
-			if(OLOAD.m_center_Polygon != null) {
-				OLOAD.m_center_Polygon.removeAllObject();
-			
-				var colorPolygonLayer = new Module.JSLayerList(true).nameAtLayer("COLOR_POLYGON_LAYER");
-				var lineLayer = new Module.JSLayerList(true).nameAtLayer("LINE_LAYER"); 
-				
-				if(colorPolygonLayer != null) { colorPolygonLayer.removeAll(); } 
-				if(lineLayer != null) { lineLayer.removeAll(); }
-		    }
-		}
-	});
 });
 
 //전체 보기 레이어 추가
@@ -129,7 +112,6 @@ function fn_delete_administrationZone(txt, dataSeq){
 							</div>
 						</div>
 						<div class="lnb-util"><button type="button" class="manualBtn" title="도움말"></button> <button type="button" class="lnb-resetBtn" title="초기화"></button><button type="button" class="lnb-close" title="닫기"></button></div>
-				
 						<script>
 							$(document).ready(function(){
 								$(".lnb-territory .bi-write").click(function(){
