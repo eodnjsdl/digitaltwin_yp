@@ -228,6 +228,13 @@
 
     <!-- 지적 정보 -->
     <script src="/js/egiskorea/com/geo/geographic.js"></script>
+    
+    <!-- 레이어 -->
+	<script src="/js/egiskorea/com/sach/sach.js"></script>
+    <!-- 레이어 -->
+	<script src="/js/egiskorea/com/lyr/layer.js"></script>
+	<!-- 주제도 -->
+	<script src="/js/egiskorea/com/tm/thematicMap.js"></script>
 
 </head>
 <body class="<c:out value='${loginVO.id}'/>">
@@ -476,8 +483,8 @@
 				</ul>
 				<div class="map-type">
 				    <span class="knobs">
-				        <span><input type="radio" name="mapType" id="mapType2D" checked=""><label for="mapType2D">2D</label></span>
-				        <span><input type="radio" name="mapType" id="mapType3D"><label for="mapType3D">3D</label></span>
+				        <span><input type="radio" name="mapType" value="2D" id="mapType2D" checked=""><label for="mapType2D">2D</label></span>
+				        <span><input type="radio" name="mapType" value="3D" id="mapType3D"><label for="mapType3D">3D</label></span>
 				    </span>
 				</div>
 			</div>
@@ -495,7 +502,6 @@
 
             <!-- 주제도 -->
             <div class="lnb-theme lnb-cont">
-                <%@ include file="/WEB-INF/jsp/egiskorea/com/tm/thematicMap.jsp" %>
             </div>
             <!-- //주제도 -->
 	
@@ -587,78 +593,6 @@
 			
 			<!-- 국토조사 -->
 			<div class="lnb-territory lnb-cont">
-				<div class="lnb-header"><h2 class="tit">국토정보관리</h2></div>
-				<div class="lnb-body">
-					<div class="btn-wrap"><button type="button" class="btn bi-write" data-popup="territory-Regist">등록</button></div>
-					<div class="bbs-top">
-						<div>
-							<select name="" id="" class="form-select">
-								<option value="">전체</option>
-							</select>
-						</div>
-						<div><button type="button" class="btn basic bi-all">전체 보기</button></div>
-					</div>
-					<div class="territory-list-wrap">
-						<ul class="territory-list">
-							<li><a href="javascript:void(0);" data-popup="territory-detail"><span class="tit">양평읍 양근리 조사데이터</span><span class="writer">웹마스터</span><span class="date">2021.09.27</span></a>
-								<div><button type="button" class="icon-btn delete" title="삭제"></button></div>
-							</li>
-							<li><a href="javascript:void(0);" data-popup="territory-detail"><span class="tit">양평읍 양근리 조사데이터</span><span class="writer">웹마스터</span><span class="date">2021.09.27</span></a>
-								<div><button type="button" class="icon-btn delete" title="삭제"></button></div>
-							</li>
-							<li><a href="javascript:void(0);" data-popup="territory-detail"><span class="tit">양평읍 양근리 조사데이터</span><span class="writer">웹마스터</span><span class="date">2021.09.27</span></a>
-								<div><button type="button" class="icon-btn delete" title="삭제"></button></div>
-							</li>
-							<li><a href="javascript:void(0);" data-popup="territory-detail"><span class="tit">양평읍 양근리 조사데이터</span><span class="writer">웹마스터</span><span class="date">2021.09.27</span></a>
-								<div><button type="button" class="icon-btn delete" title="삭제"></button></div>
-							</li>
-							<li><a href="javascript:void(0);"><span class="tit">양평읍 양근리 조사데이터</span><span class="writer">웹마스터</span><span class="date">2021.09.27</span></a>
-								<div><button type="button" class="icon-btn delete" title="삭제"></button></div>
-							</li>
-							<li><a href="javascript:void(0);"><span class="tit">양평읍 양근리 조사데이터</span><span class="writer">웹마스터</span><span class="date">2021.09.27</span></a>
-								<div><button type="button" class="icon-btn delete" title="삭제"></button></div>
-							</li>
-							<li><a href="javascript:void(0);"><span class="tit">양평읍 양근리 조사데이터</span><span class="writer">웹마스터</span><span class="date">2021.09.27</span></a>
-								<div><button type="button" class="icon-btn delete" title="삭제"></button></div>
-							</li>
-							<li><a href="javascript:void(0);"><span class="tit">양평읍 양근리 조사데이터</span><span class="writer">웹마스터</span><span class="date">2021.09.27</span></a>
-								<div><button type="button" class="icon-btn delete" title="삭제"></button></div>
-							</li>
-							<li><a href="javascript:void(0);"><span class="tit">양평읍 양근리 조사데이터</span><span class="writer">웹마스터</span><span class="date">2021.09.27</span></a>
-								<div><button type="button" class="icon-btn delete" title="삭제"></button></div>
-							</li>
-							<li><a href="javascript:void(0);"><span class="tit">양평읍 양근리 조사데이터</span><span class="writer">웹마스터</span><span class="date">2021.09.27</span></a>
-								<div><button type="button" class="icon-btn delete" title="삭제"></button></div>
-							</li>
-							<li><a href="javascript:void(0);"><span class="tit">양평읍 양근리 조사데이터</span><span class="writer">웹마스터</span><span class="date">2021.09.27</span></a>
-								<div><button type="button" class="icon-btn delete" title="삭제"></button></div>
-							</li>
-						</ul>
-						<div class="pagination">
-							<a href="javascript:void(0);" class="first" title="처음"></a>
-							<a href="javascript:void(0);" class="prev" title="이전"></a>
-							<strong class="current">1</strong>
-							<a href="javascript:void(0);">2</a>
-							<a href="javascript:void(0);">3</a>
-							<a href="javascript:void(0);">4</a>
-							<a href="javascript:void(0);">5</a>
-							<a href="javascript:void(0);" class="next" title="다음"></a>
-							<a href="javascript:void(0);" class="last" title="마지막"></a>
-						</div>
-					</div>
-				</div>
-				<div class="lnb-util"><button type="button" class="manualBtn" title="도움말"></button> <button type="button" class="lnb-resetBtn" title="초기화"></button><button type="button" class="lnb-close" title="닫기"></button></div>
-				<script>
-					$(document).ready(function(){
-						$(".lnb-territory .bi-write").click(function(){
-							$(this).addClass("active");
-						});
-
-						$(".territory-list a").click(function(){
-							$(this).parent().addClass("active").siblings().removeClass("active");
-						});
-					});
-				</script>
 			</div>
 			<!-- //국토조사 -->
 			
@@ -839,6 +773,12 @@
 			<a href="" class="c07">3D전환</a>
 		</div>
 		<!-- //마우스 오른쪽 선택 팝업 -->
+		
+		<!-- 업무 > 공간정보활용 > 공간정보 편집도구 -->
+		<div class="popup-panel popup-sub space-edit-tool" style="top: 80px;left: 320px;width: 385px;height: 200px;">
+		</div>
+		<!-- //업무 > 공간정보활용 > 공간정보 편집도구 -->
+		
     </div>
     <!-- //container -->
 </div>

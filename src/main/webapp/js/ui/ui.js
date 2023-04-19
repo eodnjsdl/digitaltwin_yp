@@ -13,9 +13,6 @@ window.ui = (function () {
         //LEFT메뉴영역
         _leftMenuEvent();
         
-        //지도 모드에 따라 메뉴 변경 2D/3D
-        _changeMenu();
-   
         //좌측 메뉴 >> 공간정보
         _spaceMenuEvent();
         //좌측 메뉴 >> 공간정보 활용 >> 사업공유관리 
@@ -56,6 +53,29 @@ window.ui = (function () {
 			($(this).parent().parent()).stop().fadeOut(100);
 			$("#lnb li[data-menu]").removeClass("on");									
 		});
+		
+		$(document).on('click', '.lnb-dep2 button', function (e) {
+	        $(".lnb-dep2").find(".on").removeClass("on");
+	        $(this).parent().addClass("on");
+		});
+		
+		function handleCreateContextMenu(event){
+			// 기본 Context Menu가 나오지 않게 차단
+			event.preventDefault();
+			const ctxMenu = $(".context");
+			ctxMenu.removeClass("hide");
+			ctxMenu.css("top",event.pageY+'px');
+			ctxMenu.css("left",event.pageX+'px');
+		}
+	      
+		function handleClearContextMenu(event){
+			const ctxMenu = $(".context");
+			ctxMenu.addClass("hide");
+		}
+		var canvas_2d = document.getElementById("map2D");
+		// 이벤트 바인딩
+		canvas_2d.addEventListener('contextmenu', handleCreateContextMenu, false);
+		canvas_2d.addEventListener('click', handleClearContextMenu, false);
     }
 
     //상단 메뉴 
@@ -168,7 +188,6 @@ window.ui = (function () {
             toastr.success("지도에서 위치를 선택하세요. ", "통합행정정보");
             $(".map-control button").removeClass("active");
             aj_krasInfo();
-            
         });
         //지적/건물
         $mapControl.on('click', '.building', function (e) {
@@ -189,7 +208,7 @@ window.ui = (function () {
                 dtmap.clearInteraction();
             }
         })
-
+        
         //거리측정
         $mapControl.on('click', '.ctrl-btn.distance', function (e) {
             let $this = $(this);
@@ -265,10 +284,10 @@ window.ui = (function () {
         let $mapControl = $('.map-control');
         
         $leftBar.on('click', 'li', function () {
-            _changeMenu();
             ui.initPopup("");
             let $this = $(this);
             let menu = $this.attr('data-menu');
+            $(".lnb-dep2").find(".on").removeClass("on");
             $this.toggleClass("on").siblings().removeClass("on");
             $leftSide.find(".lnb-list").removeClass("on");
             if ($this.hasClass('on')) {
@@ -278,7 +297,7 @@ window.ui = (function () {
                 switch (menu) {
                     case "lnb-search" :
                         //TODO 검색 메뉴
-                        //aj_search();
+                    	aj_search();
                         break;
                     case "lnb-layer" :
                         $leftSide.find(".lnb-layer input[name='searchKeyword']").val("");
@@ -286,11 +305,11 @@ window.ui = (function () {
                         break;
                     case "lnb-theme" :
                         //TODO 주제도 메뉴
-                    	toastr.error("주제도 개발 필요");
+                    	aj_selectThematicMapList();
                         break;
                     case "lnb-territory" :
                         //TODO 국토조사
-                    	toastr.error("국토조사 개발 필요");
+                    	aj_selectAdministrationZoneList($("#tmpForm")[0]);
                         break;
                 }
             } else {
@@ -306,43 +325,24 @@ window.ui = (function () {
                     ui.loadingBar('hide');
                 })
             }
+            
             //측정기능 OFF
             $mapControl.find('.location, .distance, .measure, .radius').removeClass('active');
             dtmap.clearInteraction();
 
-            //패널 close
+            //팝업 close
             initPopup("");
             //좌측 메뉴 close
             $(".lnb-cont").css("display","none");
-
+            $("#lnb li[data-menu]").removeClass("on");
+            //마우스  오른쪽 팝업
+            $(".context").addClass("hide");
+            
+            console.log(e);
             dtmap.switchMap(e.target.value);
-            _changeMenu();
-
-        });
-    }
-    
-    //2D 3D 전환시  
-    function _changeMenu() {
-        var $container = $("#container");
-        var $buttons = $container.find("button");
-        $.each($buttons, function (k, v) {
-            var $parent = $(this).parent();
-            var mapType = $(this).data("maptype");
-            if (mapType === undefined) return;
-            $parent.css({display: "block"});
-            if (dtmap.mod === "2D") {
-                if (mapType === "3D") {
-                    $parent.css({display: "none"});
-                }
-            } else if (dtmap.mod === "3D") {
-                if (mapType === "2D") {
-                    $parent.css({display: "none"});
-                }
-            }
         });
     }
 
-    
     // 좌측 메뉴 >> 공간정보 활용
     function _spaceMenuEvent() {
         $(".lnb-space .lnb-body button").on("click", function () {
@@ -431,12 +431,15 @@ window.ui = (function () {
                 //시설관리 > 상수도시설
                 case "waterSupplyFacility" :
                     //aj_facility("WaterSupplyFacility");
+                	dtmap.off('select', onFacilitySelectEventListener); //클릭 리스너 이벤트 삭제
                     getWaterSupplyFacility("wtlFirePs");		//상수도 시설 소방시설
                     break;
 
                 //시설관리 > 하수도시설
                 case "sewerSupplyFacility" :
-                    aj_facility("SewerSupplyFacility");
+                  //aj_facility("SewerSupplyFacility");
+                	dtmap.off('select', onFacilitySelectEventListener); //클릭 리스너 이벤트 삭제
+                	getSewerSupplyFacility("swlConnLs");		//하수도 시설 하수연결관
                     break;
 
                  //시설관리 > 교통시설
@@ -448,6 +451,7 @@ window.ui = (function () {
                 //시설관리 > 체육시설
                 case "physicalEducationFacility" :
                 	//aj_selectPhysicalEducationFacilityList($("#tmpForm")[0]);
+                	dtmap.off('select', onFacilitySelectEventListener); //클릭 리스너 이벤트 삭제
                 	getPhyEduFaciListView();
                     break;
 
@@ -455,7 +459,9 @@ window.ui = (function () {
                 case "welfareFacility" :
                     //TODO ↓↓↓↓↓↓↓↓↓↓↓
                     WLREspitalYN = '';
-                    aj_selectWelfareFacilityList($("#tmpForm")[0]);
+                  //aj_selectWelfareFacilityList($("#tmpForm")[0]);
+                	dtmap.off('select', onFacilitySelectEventListener); //클릭 리스너 이벤트 삭제
+                	getWelFareFaciListView();
                     break;
 
                 //시설관리 > 시설예약관리
@@ -661,11 +667,39 @@ window.ui = (function () {
         initPopup(area);
         
         //기본 틀 크기와 다른 크기를 갖는 DIV 처리
-        if(name=="backgroundMapInfo"){_area.width = "325";_area.heigth = "807";}
-        if(name=="saveMap"){_area.width = "325";_area.heigth = "750";}
-        if(name=="krasInfo"){_area.width = "660";_area.heigth = "750";}
-        if(name=="setting"){_area.width = "250";_area.heigth = "750";_area.right="160";}
-        if(name=="apptChart"){_area.top="80";_area.width = "400";_area.heigth = "520";_area.left="870";}
+        switch (name) {
+	        case "backgroundMapInfo":
+	        	_area.width = "325";
+	        	_area.heigth = "807";
+	        	break;
+	        case "saveMap":
+	        	_area.width = "325";
+	        	_area.heigth = "750";
+	        	break;
+	        case "krasInfo":
+	        	_area.width = "660";
+	        	_area.heigth = "750";
+	        	break;
+	        case "setting":
+	        	_area.width = "250";
+	        	_area.heigth = "750";
+	        	_area.right="160";
+	        	break;
+	        case "apptChart":
+	        	_area.top="80";
+		        _area.width = "400";
+		        _area.heigth = "520";
+		        _area.left="870";
+	        	break;
+	        case "insertAdministrationZoneView":
+	        	_area.left="425";
+	        	break;	
+	        case "layerManagement":
+	        	_area.left="360";
+	        	_area.width = "550";
+	        	_area.heigth = "807";
+	        	break;	
+        }
         
     	$("#" + area).css({
             "top": _area.top + "px",
@@ -708,8 +742,8 @@ window.ui = (function () {
 
     }
 
-    //업무영역 >> 좌측 메뉴 선택
-    function _workMenuEvent() {
+ /*   //업무영역 >> 좌측 메뉴 선택
+    function _workMenuEvent() {	
         $(".lnb-work .lnb-body button").on("click", function () {
             var name = $(this).data("popup");
             var classList = $(this).attr('class').split(/\s+/);
@@ -859,9 +893,9 @@ window.ui = (function () {
 
     //LEFT 메뉴 선택
     function _leftMenuEvent() {
-        /**
+        *//**
          *  Left Menu
-         */
+         *//*
         let $leftSide = $('#side');
         let $leftBar = $('#lnb');
         $leftBar.on('click', 'li', function () {
@@ -897,8 +931,8 @@ window.ui = (function () {
                 $leftSide.find('.lnb-cont').stop().fadeOut(100);
             }
         });
-    }
-    
+    }*/
+
     //그리기 초기화
     function _initDrawEvent() {
         dtmap.off('drawend');

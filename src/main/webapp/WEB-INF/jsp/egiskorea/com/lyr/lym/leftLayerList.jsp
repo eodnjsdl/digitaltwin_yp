@@ -58,7 +58,8 @@ $(document).ready(function(){
 	// 레이어관리 button event
 	$(".lnb-layer .layer-mng").on("click", function(){
 		$(this).addClass("active");
-		leftPopupOpen("layerManagement");
+		ui.openPopup("leftPopup","layerManagement");
+		aj_selectLayerManagementList();
 	});
 
 	// 팝업창 닫기 event
