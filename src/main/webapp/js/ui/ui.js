@@ -42,10 +42,6 @@ window.ui = (function () {
         /** popup close button **/
         $(document).on('click', '.popup-panel .popup-close', function () {
             $(this).closest('.popup-panel').removeClass('opened');
-            // 초기화 (지도)
-            dtmap.draw.dispose();
-            dtmap.draw.clear();
-            dtmap.vector.clear();
         });
         
 		//LEFT 메뉴 닫기 버튼
