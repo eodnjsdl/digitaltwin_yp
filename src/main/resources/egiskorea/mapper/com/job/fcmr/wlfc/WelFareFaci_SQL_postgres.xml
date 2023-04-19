@@ -14,6 +14,7 @@
 			FCLTY_SE, 
 			CTTPC_TELNO, 
 			DATA_STDDE, 
+			ST_AsText(ST_Transform(GEOM, 5179)) AS GEOM,
 			ST_SETSRID(ST_GEOMFROMTEXT(#{geom}), 5179)
 		FROM TGD_SCLWLFR_FCLTY_STATUS
 		 WHERE 1=1 AND GID = #{gid}
@@ -47,7 +48,7 @@
 			 ST_GEOMFROMTEXT(#{geom}, 5179))
 	</insert>
 	
-	<!-- 체육시설 수정 -->
+	<!-- 복지시설 수정 -->
 	<update id="updateWelFareFaci" parameterType="welFareFaciVO" >
 		UPDATE TGD_SCLWLFR_FCLTY_STATUS
 			SET FCLTY_NM = #{fcltyNm}, 
@@ -64,10 +65,8 @@
 			WHERE GID = #{gid}
 	</update>
 	
-	<!-- 체육시설 삭제 -->
+	<!-- 복지시설 삭제 -->
 	<delete id="deleteWelFareFaci">
 		DELETE FROM TGD_SCLWLFR_FCLTY_STATUS WHERE GID = #{gid}
 	</delete>
-	
-	<!-- 체육시설 엑셀 다운로드 -->	
 </mapper>

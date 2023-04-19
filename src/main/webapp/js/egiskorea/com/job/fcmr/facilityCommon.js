@@ -71,6 +71,14 @@ function codeArrayInit(){
 	setCmmCodeDataArray("OGC-003");				//관재질
 	setCmmCodeDataArray("OGC-001");				//시설물형태
 
+	// 하수도 - 환기구
+	setCmmCodeDataArray("OGC-003");				// 관재질
+	setCmmCodeDataArray("OGC-012");				// 흡출기형식
+	setCmmCodeDataArray("OGC-172");				// 흡출기재질
+	
+	// 복지시설 - 시설구분
+	setCmmCodeDataArray("FCLTCD");				// 시설구분
+
 }
 
 ///////////////////////////
@@ -377,6 +385,10 @@ function onFacilitySelectEventListener(e){
 				selectWtlPrgaPs(id);
 			}else if(featureType == "swl_conn_ls"){					//하수도시설 - 하수연결관 
 				selectSwlConnLs(id);
+			}else if(featureType == "tgd_phstrn_fclty"){			// 체육시설
+				selectPhyEduFaciDetail(id);
+			}else if(featureType == "tgd_sclwlfr_fclty_status"){	// 복지시설
+				selectWelFareFaciDetail(id);
 			}else{
 				alert("지도 객체 선택 오류");
 				return false;

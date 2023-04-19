@@ -29,8 +29,10 @@ function test(pageNo) {
 }
 
 //geom 값 넣기
-function mapClick() {
+function phyMapClick() {
 	dtmap.draw.active({type: 'Point', once: true});
+	dtmap.draw.setBuffer(0);	// 공간검색으로 인한 범위 변경
+	
 	dtmap.on('drawend', phyEduFaciGeom);
 }
 
@@ -46,7 +48,7 @@ function phyEduFaciGeom(e) {
 		const format = new ol.format.WKT();
 		const point = new ol.geom.Point([xObj, yObj]);
 		const wkt = format.writeGeometry(point);
-		$("input[name=geom]").val(wkt);
+		$("#phyFaciMng input[name=geom]").val(wkt);
 	});
 }
 </script>
@@ -73,7 +75,7 @@ function phyEduFaciGeom(e) {
 										<input type="text" class="form-control" id="asstn_fclty_nm" name="asstn_fclty_nm" style="width: 74%;margin-right: 2px;">
 										<input type="hidden"  name="geom" id="geom" style="width: 74%;margin-right: 2px;">
 										<input type="hidden" name="gid" id="gid" value="${gid}">
-										<button type="button" class="btn type01 bi-location" id="" onclick="mapClick();">지도에서 선택</button>
+										<button type="button" class="btn type01 bi-location" id="" onclick="phyMapClick();">지도에서 선택</button>
 									</td>
 								</tr>
 								<tr>
@@ -225,13 +227,13 @@ function phyEduFaciGeom(e) {
 			<div class="position-bottom btn-wrap">
 				<div class="position-absolute left"><button type="button" class="btn basic bi-delete2" onclick="deletePhyFaciMng();">선택삭제</button></div>
 				<div>
-					<button type="button" class="btn basic bi-write2" onclick="insertPhyFaciMng('${gid}');">등록</button>
-					<button type="button" class="btn basic bi-cancel" onclick="backPhyEduFaciDetail('${gid}');">취소</button>
+					<button type="button" class="btn basic bi-write2" onclick="insertPhyFaciMng(${gid});">등록</button>
+					<button type="button" class="btn basic bi-cancel" onclick="selectPhyEduFaciDetail(${gid});">취소</button>
 				</div>
 			</div>
 		</div>
 	</div>
 </div>
 <!-- <button type="button" class="popup-close" title="닫기"></button> -->
-<button type="button" class="phy-popup-close" title="닫기" onclick="backPhyEduFaciDetail('${gid}');"></button>
+<button type="button" class="phy-popup-close" title="닫기" onclick="selectPhyEduFaciDetail('${gid}');"></button>
 <!-- 업무 > 시설관리 > 체육시설 > 상세보기 > 시설정보 관리 end -->

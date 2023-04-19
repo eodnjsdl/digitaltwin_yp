@@ -57,10 +57,4 @@ public class WelFareFaciDAO extends ComAbstractDAO {
 	public int deleteWelFareFaci(WelFareFaciVO welFareFaciVO) throws Exception {
 		return delete("welFareFaciDAO.deleteWelFareFaci", welFareFaciVO);
 	}
-	
-	/**
-	 * 복지시설 엑셀 다운로드
-	 * @param welFareFaciVO
-	 * @return Exception
-	 */
 }

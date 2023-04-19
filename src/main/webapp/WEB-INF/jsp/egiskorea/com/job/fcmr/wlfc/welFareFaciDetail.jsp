@@ -2,10 +2,25 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
+<style type="text/css">
+	.popup-panel.popup-sub .wel-popup-close {
+	    top: 0;
+	    right: 0;
+	    width: 39px;
+	    height: 39px;
+	    border-left: 1px solid #44516A;
+	    background: url(/images/icon/popup-close2.svg) no-repeat 50% 50%;
+	    border-top-right-radius: 10px;
+	    position: absolute;
+	}
+</style>
+
 <script>
+
 $(".scroll-y").mCustomScrollbar({
 	scrollbarPosition: "outside"
 });
+
 </script>
 
 <!-- 업무 > 시설관리 > 복지시설 > 상세보기 -->
@@ -96,9 +111,9 @@ $(".scroll-y").mCustomScrollbar({
 							</tr>
 							<tr>
 								<th scope="row">위도</th>
-								<td id="wlre_det_lat"><c:out value="${result.lat}"></c:out></td>
+								<td id="wlre_det_lat"><fmt:formatNumber value="${result.lat}" pattern=".000000"></fmt:formatNumber></td>
 								<th scope="row">경도</th>
-								<td id="wlre_det_lon"><c:out value="${result.lon}"></c:out></td>											
+								<td id="wlre_det_lon"><fmt:formatNumber value="${result.lon}" pattern=".0000000"></fmt:formatNumber></td>											
 							</tr>
 						</tbody>
 					</table>
@@ -106,12 +121,13 @@ $(".scroll-y").mCustomScrollbar({
 			</div>
 			<div class="position-bottom btn-wrap justify-content-end">
 				<div>
-					<button type="button" class="btn basic bi-edit" onclick="updateWelFareFaciView('<c:out value="${result.gid}"/>');">수정</button> 
-					<button type="button" class="btn basic bi-delete2" onclick="deleteWelFareFaci('<c:out value="${result.gid}"/>');">삭제</button>
+					<button type="button" class="btn basic bi-edit" onclick="updateWelFareFaciView(<c:out value="${result.gid}"/>);">수정</button> 
+					<button type="button" class="btn basic bi-delete2" onclick="deleteWelFareFaci(<c:out value="${result.gid}"/>);">삭제</button>
 				</div>
 			</div>
 		</div>
 	</div>
 </div>
-<button type="button" class="popup-close" onClick="toastr.warning('removeLayer(); cmmUtil.drawClear();', 'onclick 이벤트');" title="닫기"></button>
+<!-- <button type="button" class="popup-close" title="닫기" onclick="removePoint(GLOBAL.NomalIcon);"></button> -->
+<button type="button" class="wel-popup-close" title="닫기" onclick="closeWelFarePopup();"></button>
 <!-- 업무 > 시설관리 > 복지시설 > 상세보기 end -->

@@ -6,8 +6,6 @@ import org.springframework.stereotype.Service;
 
 import egiskorea.com.job.fcmr.wlfc.service.WelFareFaciService;
 import egiskorea.com.job.fcmr.wlfc.service.WelFareFaciVO;
-import egiskorea.com.job.spor.service.SportsVO;
-import egiskorea.com.job.wlre.service.WelfareVO;
 import egovframework.rte.fdl.cmmn.EgovAbstractServiceImpl;
 
 /**
@@ -38,15 +36,13 @@ public class WelFareFaciServiceImpl extends EgovAbstractServiceImpl implements W
 	@Override
 	public WelFareFaciVO selectWelFareFaciDetail(WelFareFaciVO welFareFaciVO) throws Exception {
 		// TODO Auto-generated method stub
-		WelFareFaciVO result = welFareFaciDAO.selectWelFareFaciDetail(welFareFaciVO);
-		
-		return result;
+		return welFareFaciDAO.selectWelFareFaciDetail(welFareFaciVO);
 	}
 	
 	/**
 	 * 복지시설 등록
 	 * @param welFareFaciVO
-	 * @return
+	 * @return Exception
 	 */
 	@Override
 	public int insertWelFareFaci(WelFareFaciVO welFareFaciVO) throws Exception {
@@ -57,7 +53,7 @@ public class WelFareFaciServiceImpl extends EgovAbstractServiceImpl implements W
 	/**
 	 * 복지시설 수정
 	 * @param welFareFaciVO
-	 * @return
+	 * @return Exception
 	 */
 	@Override
 	public int updateWelFareFaci(WelFareFaciVO welFareFaciVO) throws Exception {
@@ -68,17 +64,11 @@ public class WelFareFaciServiceImpl extends EgovAbstractServiceImpl implements W
 	/**
 	 * 복지시설 삭제
 	 * @param welFareFaciVO
-	 * @return
+	 * @return Exception
 	 */
 	@Override
 	public int deleteWelFareFaci(WelFareFaciVO welFareFaciVO) throws Exception {
 		// TODO Auto-generated method stub
 		return welFareFaciDAO.deleteWelFareFaci(welFareFaciVO);
 	}
-	
-	/**
-	 * 복지시설 엑셀 다운로드
-	 * @param welFareFaciVO
-	 * @return
-	 */
 }
