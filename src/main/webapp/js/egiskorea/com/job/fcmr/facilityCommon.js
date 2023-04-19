@@ -249,6 +249,27 @@ function getAddressForPoint(geomText, tag){
             console.log(`정의되지 않은 공간 타입입니다.`);
         }
         
+        //주소 변환 점 좌표 3d 일때  좌표계 5179 로 변경
+        if(dtmap.mod){
+         	if(dtmap.mod == "2D"){
+     							
+     		}else if(dtmap.mod == "3D"){
+     			const x = coordinate[0];
+                const y = coordinate[1];
+                const point = new ol.geom.Point([x, y]);
+                const wkt = formatWKT.writeGeometry(
+                    point.transform("EPSG:4326", "EPSG:5179")
+                );
+                 
+                //console.log(wkt);
+                let transGeometry = formatWKT.readGeometry(wkt);
+                coordinate = transGeometry.getCoordinates();
+     			//console.log(coordinate);
+     		}else{
+     			console.log("2d/3d 모드 오류");
+     		}
+        }
+        
         reverseGeocoding(coordinate[0], coordinate[1]).done((result) => {
 			 //console.log(result);
 	         if (result["address"]) {
@@ -348,8 +369,8 @@ function getGridDetailData(id){
 /////////////////////////
 //지도 아이콘(객체) 클릭시 이벤트
 function onFacilitySelectEventListener(e){
-	console.log("onFacilitySelectEventListener(e)");
-	console.log(e);
+	//console.log("onFacilitySelectEventListener(e)");
+	//console.log(e);
 	if(e){
 		
 		//[참고 자료]

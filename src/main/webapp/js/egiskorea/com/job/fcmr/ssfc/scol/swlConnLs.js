@@ -231,8 +231,8 @@ function selectSwlConnLsList(page) {
         for (let i = 0; i < data.features.length; i++) {
         	
         	//지형지물부호 코드 변경
-        	//var ftr_cde = data.features[i].properties.ftr_cde;
-        	//data.features[i].properties.ftr_cde_nm = getCmmCodeDataArray("SA-001", ftr_cde);
+        	var ftr_cde = data.features[i].properties.ftr_cde;
+        	data.features[i].properties.ftr_cde_nm = getCmmCodeDataArray("SA-001", ftr_cde);
         	
         	//읍면동 코드 변경
         	var hjd_cde = data.features[i].properties.hjd_cde;

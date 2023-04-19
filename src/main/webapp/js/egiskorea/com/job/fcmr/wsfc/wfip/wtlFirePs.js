@@ -428,7 +428,7 @@ function insertWtlFirePsView(){
 	
 	var container = "#rightSubPopup";
     $(container).load("/job/fcmr/wsfc/insertWtlFirePsView.do", function () {
-        toastr.success("/job/fcmr/wsfc/insertWtlFirePsView.do", "페이지🙂호🙂출🙂");
+        //toastr.success("/job/fcmr/wsfc/insertWtlFirePsView.do", "페이지🙂호🙂출🙂");
         
         $(".scroll-y").mCustomScrollbar({
             scrollbarPosition: "outside",
