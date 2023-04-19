@@ -13,6 +13,7 @@ function selectRoadSectListView() {
 	toastr.success("/job/fcmr/tpfc/selectRoadSectListView.do", "페이지🙂호🙂출🙂");
 	
 	callRoadSectGrid();
+	selectRoadSectionExcelListDownload();
     });
     
 }
@@ -81,13 +82,13 @@ function setRoadSectListData(_pageNo) {
      */
     let filters = 'sig_cd = 41830 and wdr_rd_cd = 3';
     
-    let emdKorNm = $("#emdKorNm").val();				// 읍면동
+//    let emdKorNm = $("#emdKorNm").val().split(',')[0];			// 읍면동
     let roadBtVal = $("input[name=roadBtVal]").val();			// 도로폭
     let rn = $("input[name=rn]").val();					// 도로명
-    if (emdKorNm != '' && emdKorNm != '41830') {
-	emdKorNm = "'" + emdKorNm + "%'";
-	filters += ' and rbp_cn like ' + emdKorNm;
-    }; 
+//    if (emdKorNm != '' && emdKorNm != '41830') {
+//	emdKorNm = "'" + emdKorNm + "%'";
+//	filters += ' and rbp_cn like ' + emdKorNm;
+//    }; 
     if (roadBtVal != '') {
 	filters += ' and road_bt = ' + roadBtVal;
     }; 
@@ -204,5 +205,23 @@ function selectRoadSectWithFilters() {
     });
 };
 
-
-
+function selectRoadSectionExcelListDownload() {
+    $('#selectRoadSectExcelListDownload').on('click', function (e) {
+	let url = "/job/fcmr/tpfc/";
+	let urlName = e.target.id;
+	url += urlName + ".do";
+	let emdKorNm = $('#emdKorNm').val().split(',')[1];
+	    if (emdKorNm == null || emdKorNm == '') {
+		emdKorNm = '41830';
+	    }
+	
+	$("form[name='searchFormExcel']").append('<input type="hidden" name="emdKorNm" value=' + emdKorNm + '>');
+	$("form[name='searchFormExcel']").attr('onsubmit', '');
+	$("form[name='searchFormExcel']").attr('action', url);
+	$("form[name='searchFormExcel']").submit();
+	$("form[name='searchFormExcel']").attr('action', '');
+	$("form[name='searchFormExcel'] input[name='emdKorNm']").remove();
+	
+	return false;
+    })
+}

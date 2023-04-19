@@ -54,7 +54,7 @@ $(document).ready(function(){
 										<select name="emdKorNm" id="emdKorNm" class="form-select">
 											<option value="41830">전체</option>
 											<c:forEach items="${sccoEndList}" var="emdList" varStatus="status">
-												<option value="<c:out value='${emdList.emdKorNm}' />" <c:if test="${searchVO.emdKorNm == emdList.emdCd}">selected</c:if>>
+												<option value="<c:out value='${emdList.emdKorNm},${emdList.emdCd}' />" <c:if test="${searchVO.emdKorNm == emdList.emdCd}">selected</c:if>>
 													<c:out value="${emdList.emdKorNm}" />
 												</option>																
 											</c:forEach>
@@ -103,7 +103,8 @@ $(document).ready(function(){
             <div class="bbs-top">
                 <div class="bbs-list-num">조회결과 : <strong></strong>건</div>
                 <div>
-					<button type="button" class="btn basic bi-excel trfcExcelDownload" id="selectRoadSectionExcelList">엑셀저장</button>
+					<button type="button" class="btn basic bi-excel" id="selectRoadSectExcelListDownload" data-form-name="selectRoadSectionExcelList">엑셀저장</button>
+					<form:form name="searchFormExcel" id="searchFormExcel" method="post" onsubmit=""></form:form>
 				</div>
             </div>
             <div class="bbs-list-wrap" style="height: 267px;">
