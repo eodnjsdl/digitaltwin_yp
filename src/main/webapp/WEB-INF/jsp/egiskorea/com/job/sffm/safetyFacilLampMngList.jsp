@@ -138,7 +138,6 @@ $(document).ready(function() {
 
 	// 검색영역지정 변경 (현재화면영역, 사용자정의)
 	$("[name=sffmSelect]", "#bottomPopup").on("change", function () {
-		console.log("찍")
 		const node = $(this);
 		const value = node.val();
 		if (value == "extent") {
