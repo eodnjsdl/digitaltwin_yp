@@ -14,9 +14,7 @@ $(document.body).ready(function(){
 //가로등관리 기본그리드 생성
 function initGrid(){
 	this.target = new ax5.ui.grid();
-	// var $container = $("#container");
-	// var $target = $container.find('#sampleGridDiv [data-ax5grid="attr-grid"]')
-	// $target.css('height', 'inherit');
+	
 	this.target.setConfig({
 		target: $('[data-ax5grid="attr-grid"]'),
 		sortable: true, // 모든 컬럼에 정렬 아이콘 표시
@@ -56,19 +54,20 @@ function initGrid(){
 //가로등관리 조회기능
 function setData(_pageNo){
 
-	_pageNo = _pageNo ||0;
+	_pageNo = _pageNo || 0;
+	console.log(_pageNo);
+
 	var options = {
 		typeNames: 'tgd_strtlgt_status', //WFS 레이어명
 		page : _pageNo+1,
 		perPage : 100,
 		sortBy : 'gid',
 		sortOrder : 'DESC',
-		// crs : 'EPSG:4326'
 	}
 
-	var instlDe='', adres='', manageNo=''; 
+	//검색 옵션
+	if(SEARCHOBJ.propertySearch != null){//속성검색
 
-	if(SEARCHOBJ.propertySearch != null){
 		instlDe = SEARCHOBJ.propertySearch.searchInstlDe;
 		adres = SEARCHOBJ.propertySearch.searchAdres;
 		manageNo = SEARCHOBJ.propertySearch.searchManageNo;
@@ -80,7 +79,9 @@ function setData(_pageNo){
 		if(manageNo.trim().length >=1){cqlList.push("manage_no"+" like "+manageNo);}
 
 		options.filter = cqlList;
-	}else if(SEARCHOBJ.spaceSearch != null){
+
+	}else if(SEARCHOBJ.spaceSearch != null){//공간검색
+
 		const $parent 	= $(".search-area");
         const type 		= $parent.find('input[name="sffmSelect"]:checked').val();
         if (type === 'extent') {
@@ -92,12 +93,11 @@ function setData(_pageNo){
 	
 	console.log(options);
 
-
+	//조회
 	var gridList = this;
 	const promise = dtmap.wfsGetFeature(options);
 
 	promise.then(function(data){
-		toastr.success("지도 BBOX 이동");
 		$("#bottomPopup").find(".bbs-list-num strong").text(data.totalFeatures);
 		var list = [];
 		for(i =0;i<data.features.length;i++){
@@ -135,7 +135,8 @@ function setData(_pageNo){
 	})
 
 }
-//가로등관리 등록페이지 열기
+
+//가로등관리 등록페이지 호출
 function fn_insert(){
 		ui.loadingBar("show");
 		ui.openPopup("rightSubPopup");
@@ -161,7 +162,7 @@ function fn_insert(){
 		});
 }
 
-//가로등관리 상세페이지
+//가로등관리 상세페이지 호출
 function fn_pageDetail(gid){
 	dtmap.vector.clearSelect(); 
 	dtmap.vector.select('tgd_strtlgt_status.'+gid);
@@ -192,6 +193,7 @@ function fn_pageDetail(gid){
 	});
 }
 
+//가로등관리 수정페이지 호출
 function fn_update(gid){
 
 	$("#rightSubPopup").empty();
@@ -224,7 +226,7 @@ function fn_update(gid){
 	});
 }
 
-//가로등 검색조회
+//가로등 검색 조회 버튼
 function fn_search_List(e){
 	
 	SEARCHOBJ.propertySearch = null;
@@ -237,14 +239,12 @@ function fn_search_List(e){
 		SEARCHOBJ.propertySearch.searchAdres = $('#sffm-search-adres').val() || '';
 	}else if($('#sffm-space').hasClass('on')){
 		SEARCHOBJ.spaceSearch = {};
-		const $parent = $(e.target).closest('.search-area');
+		const $parent = $('#bottomPopup').find('.search-area')
 		const type = $parent.find('input[name="sffmSelect"]:checked').val();
 		
 		if (type === 'extent') {
-			//SEARCHOBJ.spaceSearch.bbox = dtmap.getExtent();
 			 var bboxArr = dtmap.getExtent();
-			 var transformedPosition = ol.proj.transform([bboxArr[0],bboxArr[1], bboxArr[2], bboxArr[3]],'EPSG:5179','EPSG:4326');
-			 SEARCHOBJ.spaceSearch.bbox = transformedPosition;
+			 SEARCHOBJ.spaceSearch.bbox = ol.proj.transformExtent(bboxArr,'EPSG:5179','EPSG:4326' );
 
 		} else {
 			if(dtmap.draw.source.getFeatures().length > 0){

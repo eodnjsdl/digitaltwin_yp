@@ -79,7 +79,7 @@ $(document).ready(function() {
 							</span>
 						</div>
 						<div class="space-search-items">경계로부터 <span class="form-group">
-							<input type="number" id="sffmBuffer" name="sffmBuffer" class="form-control align-center" placeholder="0" value="0"> <sub>m</sub></span> 이내 범위</div>
+							<input type="number" id="sffmBuffer" name="sffmBuffer" class="form-control align-center" placeholder="0" value="0" step="10"> <sub>m</sub></span> 이내 범위</div>
 					</div>
 					<div class="btn-wrap">
 						<div><button type="button" class="btn type01 search" onclick="fn_search_List(event); setData();">조회</button></div>
@@ -136,26 +136,6 @@ $(document).ready(function() {
 		
 	});
 
-	// 공간 검색 조회 버튼
-	/*$(".facility-spatial-search", "#bottomPopup").on("click", function (e) {
-		//console.log("공간검색 조회");
-		
-		const $parent = $(e.target).closest('.search-area');
-		const type = $parent.find('input[name="sffmSelect"]:checked').val();
-		
-		if (type === 'extent') {
-			FACILITY.spaceSearchOption.bbox = dtmap.getExtent();
-		} else {
-			if(dtmap.draw.source.getFeatures().length > 0){
-				FACILITY.spaceSearchOption.geometry = dtmap.draw.getGeometry();
-			}else{
-				alert("영역지정 안되었습니다");
-				return false;
-			}
-		}
-
-	});*/
-
 	// 검색영역지정 변경 (현재화면영역, 사용자정의)
 	$("[name=sffmSelect]", "#bottomPopup").on("change", function () {
 		console.log("찍")
@@ -202,7 +182,6 @@ $(document).ready(function() {
 
      	//경계로부터 버퍼 영역 지정
 	$("#sffmBuffer", "#bottomPopup").on("keyup", function (event) {
-		console.log(this.value);
 		dtmap.draw.setBuffer(Number(this.value));
 	});
 		
