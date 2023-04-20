@@ -768,7 +768,7 @@
 	}
 
 	function _setMainUIAction() {
-		$('.GNB li ul').slideUp();
+		// $('.GNB li ul').slideUp();
 		$('.GNB').on('mouseenter',function(){
 			$('.GNB li ul').stop().slideDown(300);
 		}).on('mouseleave',function(){
