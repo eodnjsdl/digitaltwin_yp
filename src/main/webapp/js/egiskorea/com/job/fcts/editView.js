@@ -64,7 +64,7 @@ function geoEditBindEvents(obj) {
 
     // 객체 추가
     $(".edit-btn-add").on("click", function () {
-    	console.log("객체추가");
+    	//console.log("객체추가");
         let type = null;
         if (that.geometryType == "point" || that.geometryType == "multipoint") {
             type = "Point";
@@ -90,11 +90,9 @@ function geoEditBindEvents(obj) {
         	}else if(type == "LineString"){
         		dtmap.draw.active({type: 'LineString', once: true});
         		dtmap.on('drawend', _onDrawEnd_lineGeom);
-        		//toastr.warning("그리기 LineString 작업중", "객체 그리기 모드");
         	}else if(type == "Polygon"){
         		dtmap.draw.active({type: 'Polygon', once: true});
         		dtmap.on('drawend', _onDrawEnd_polygonGeom);
-        		//toastr.warning("그리기 Polygon 작업중", "객체 그리기 모드");
         	}
         }
     });
@@ -306,10 +304,24 @@ function _onDrawEnd_lineGeom(e){
 
 //면 그리기 좌표 처리 
 function _onDrawEnd_polygonGeom(e){
-	console.log("_onDrawEnd_polygonGeom(e)");
-	console.log(e);
+	//console.log("_onDrawEnd_polygonGeom(e)");
+	//console.log(e);
 	
-	alert("작업중");
+	dtmap.draw.dispose();	//그리기 해제
+	
+	var geom = e.geometry;
+	
+	const format = new ol.format.WKT();
+    let polygonWKT = format.writeGeometry(geom);
+    
+    if(polygonWKT.toLowerCase().indexOf("multi") == -1){	//multi 가 없으면 text 수정  : MULTIPOLYGON((( ~ ))) 형태로 변경
+    	polygonWKT = "MULTI" + polygonWKT;
+    	polygonWKT = polygonWKT.replaceAll('((', '(((');
+    	polygonWKT = polygonWKT.replaceAll('))', ')))');
+    }
+    
+    var polygonTempGeomWKT = polygonWKT;
+    $(".polygonTempGeomWKT").val(polygonTempGeomWKT);
 	
 	dtmap.off('drawend', _onDrawEnd_polygonGeom); //이벤트 해제
 }

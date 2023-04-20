@@ -165,6 +165,14 @@
 	//jqeury
 	$(document).ready(function(){
 		console.log("updateSwlConnLsView.jsp");
+		
+		
+		//3d 일때 지도 추가 버튼 삭제 
+		if(dtmap.mod == "3D"){
+			if($("#updateSwlConnLsForm .btn-select-map").css("display") != 'none'){
+				$("#updateSwlConnLsForm .btn-select-map").hide();
+			}
+		}
         
 		// 날짜 형식 처리 예정 
         // 날짜 적용 - 지금 8자리로 되어 있어 이것 사용 (변경 예정) 
@@ -215,7 +223,7 @@
 		
 		// 지도에서 선택
         $(".btn-select-map", this.element).on("click", function () {
-        	console.log( '수정화면');
+        	//console.log( '수정화면');
         	
         	ui.loadingBar("show");
             $('.space-edit-tool').load("/job/fcts/editView.do", () => {

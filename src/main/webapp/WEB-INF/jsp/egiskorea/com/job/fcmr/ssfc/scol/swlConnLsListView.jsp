@@ -209,6 +209,7 @@
                 $(".space-edit-tool").empty();
             }
 			
+			clearMap();		//지도 클리어
 		});
 		
 		
