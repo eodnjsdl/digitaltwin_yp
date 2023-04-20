@@ -20,11 +20,17 @@
         dtmap.vector.clear();
         <c:forEach  items="${resultList}" var="item">
         dtmap.vector.addPoint({
-            id : ${item.dronePicId},
-            coordinate : [Number('${item.xcord}'),Number('${item.ycord}')],
-            crs : 'EPSG:5179',
-            text: '${item.sj}',
-            img : './images/poi/poto_poi.png',
+            id: ${item.dronePicId},
+            coordinate: [Number('${item.xcord}'), Number('${item.ycord}')],
+            crs: 'EPSG:5179',
+            style: {
+                label: {
+                    text: '${item.sj}'
+                },
+                marker: {
+                    src: './images/poi/poto_poi.png'
+                },
+            }
         })
         </c:forEach>
     }
@@ -34,10 +40,10 @@
         const pointX = ${result.xcord};
         const pointY = ${result.ycord};
         dtmap.vector.addPoint({
-            id : id,
-            coordinate : [Number(pointX),Number(pointY)],
-            crs : 'EPSG:5179',
-            img : './images/poi/poto_poi.png'
+            id: id,
+            coordinate: [Number(pointX), Number(pointY)],
+            crs: 'EPSG:5179',
+            img: './images/poi/poto_poi.png'
         });
         dtmap.vector.select(id);
 
@@ -228,7 +234,8 @@
             <c:if test="${null ne result.prevSj}">
                 <div class="items">
                     <div class="term">이전</div>
-                    <div class="desc" style="cursor: pointer;" onclick="javascript:selectDronInfoView('<c:out value="${result.prevDronId}" />');">
+                    <div class="desc" style="cursor: pointer;"
+                         onclick="javascript:selectDronInfoView('<c:out value="${result.prevDronId}"/>');">
                         <a><c:out value="${result.prevSj}"/></a>
                     </div>
                 </div>
@@ -236,7 +243,8 @@
             <c:if test="${null ne result.nextSj}">
                 <div class="items">
                     <div class="term">다음</div>
-                    <div class="desc" style="cursor: pointer;" onclick="javascript:selectDronInfoView('<c:out value="${result.nextDronId}" />');">
+                    <div class="desc" style="cursor: pointer;"
+                         onclick="javascript:selectDronInfoView('<c:out value="${result.nextDronId}"/>');">
                         <a><c:out value="${result.nextSj}"/></a>
                     </div>
                 </div>

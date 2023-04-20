@@ -6,7 +6,7 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
 <style type="text/css">
-	.popup-panel.popup-sub .update-wtlFirePs-popup-close {
+	.popup-panel.popup-sub .update-wtlValvPs-popup-close {
 	    top: 0;
 	    right: 0;
 	    width: 39px;
@@ -18,14 +18,14 @@
 	}
 </style>
 
-<!-- 업무 > 시설관리 > 상수도시설 > 소방시설 수정하기-->
+<!-- 업무 > 시설관리 > 상수도시설 > 변류시설 수정하기-->
 
-       	<div class="popup-header">소방시설 수정하기</div>
+       	<div class="popup-header">변류시설 수정하기</div>
            <div class="popup-body">
                <div class="sub-popup-body">
                    <div class="data-write-wrap" style="height: 100%;">
                        <div class="scroll-y">
-                       	   <form id="updateWtlFirePsForm" method="post">
+                       	   <form id="updateWtlValvPsForm" method="post">
                            <div class="data-default">
                                <table class="data-write">
                                    <colgroup>
@@ -38,13 +38,13 @@
                                    <tr>
                                        <th scope="row">지형지물부호</th>
                                        <td>
-                                          	<c:out value="${wtlFirePsVO.ftr_cde_nm }"/>
-                                          	<input type="hidden" name="ftr_cde" class="form-control" value="${wtlFirePsVO.ftr_cde }">
+                                          	<c:out value="${wtlValvPsVO.ftr_cde_nm }"/>
+                                          	<input type="hidden" name="ftr_cde" class="form-control" value="${wtlValvPsVO.ftr_cde }">
                                        </td>
                                        <th scope="row">관리번호</th>
                                        <td>
-                                       	  	<c:out value="${wtlFirePsVO.ftr_idn }"/>
-                                       	  	<input type="hidden" name="ftr_idn" class="form-control" value="${wtlFirePsVO.ftr_idn }">
+                                       	  	<c:out value="${wtlValvPsVO.ftr_idn }"/>
+                                       	  	<input type="hidden" name="ftr_idn" class="form-control" value="${wtlValvPsVO.ftr_idn }">
                                        </td>
                                    </tr>
                                    <tr>
@@ -54,59 +54,115 @@
                                        			<option value="">선택</option>
                                        		</select>	
                                        </td>
+                                       <th scope="row">도엽번호</th>
+                                       <td>
+                                       		<input type="text" name="sht_num" class="form-control" value="${wtlValvPsVO.sht_num }" maxlength="11">
+                                       </td>
+                                   </tr>
+                                   <tr>
                                        <th scope="row">관리기관</th>
                                        <td>
                                            <select name="mng_cde" class="form-select">
                                        			<option value="">선택</option>
                                        		</select>
                                        </td>
-                                   </tr>
-                                   <tr>
-                                       <th scope="row">도엽번호</th>
-                                       <td>
-                                       		<input type="text" name="sht_num" class="form-control" value="${wtlFirePsVO.sht_num }" maxlength="11">
-                                       </td>
                                        <th scope="row">설치일자</th>
                                        <td>
-                                       	 	<input type="text" name="ist_ymd" class="form-control datepicker " value="${wtlFirePsVO.ist_ymd }" id="dp1680677660036">
+                                       	 	<input type="text" name="ist_ymd" class="form-control datepicker " value="${wtlValvPsVO.ist_ymd }" id="dp1680677660036">
                                        </td>
                                    </tr>
                                    <tr>
-                                       <th scope="row">수용가번호</th>
+                                       <th scope="row">변류형식</th>
                                        <td>
-                                       		<input type="text" name="hom_num" class="form-control" value="${wtlFirePsVO.hom_num }" maxlength="50">
-                                       </td>
-                                       <th scope="row">소화전형식</th>
-                                       <td>
-                                           <select name="mof_cde" class="form-select">
+                                       		<select name="mof_cde" class="form-select">
                                        			<option value="">선택</option>
-                                       	   </select>
-                                       </td>
-                                   </tr>
-                                   <tr>
-                                       <th scope="row">소화전구경(mm)</th>
-                                       <td>
-                                       		<input type="number" name="fir_dip" class="form-control" value="${wtlFirePsVO.fir_dip }">
+                                       		</select>
                                        </td>
                                        <th scope="row">관경(mm)</th>
                                        <td>
-                                       		<input type="number" name="std_dip" class="form-control" value="${wtlFirePsVO.std_dip }">
+                                       		<input type="number" name="std_dip" class="form-control" value="${wtlValvPsVO.std_dip }">
                                        </td>
                                    </tr>
                                    <tr>
-                                       <th scope="row">급수탑높이</th>
+                                       <th scope="row">제수변회전방향</th>
                                        <td>
-                                       		<input type="number" name="sup_hit" class="form-control" value="${wtlFirePsVO.sup_hit }">
+                                       		<select name="sae_cde" class="form-select">
+                                       			<option value="">선택</option>
+                                       		</select>
                                        </td>
+                                       <th scope="row">제수변총회전수</th>
+                                       <td>
+	                                       	<input type="number" name="tro_cnt" class="form-control" value="${wtlValvPsVO.tro_cnt }">
+                                       </td>
+                                   </tr>
+                                   <tr>
+                                       <th scope="row">제수변현회전수</th>
+                                       <td>
+	                                       	<input type="number" name="cro_cnt" class="form-control" value="${wtlValvPsVO.cro_cnt }">
+                                       </td>
+                                       <th scope="row">제수변구동방법</th>
+                                       <td>
+                                       		<select name="mth_cde" class="form-select">
+                                       			<option value="">선택</option>
+                                       		</select>
+                                       </td>
+                                   </tr>
+                                   <tr>
+                                       <th scope="row">시설물형태</th>
+                                       <td>
+                                       		<select name="for_cde" class="form-select">
+                                       			<option value="">선택</option>
+                                       		</select>
+                                       </td>
+                                       <th scope="row">변실규격</th>
+                                       <td>
+	                                       	<input type="text" name="val_std" class="form-control" value="${wtlValvPsVO.val_std }">
+                                       </td>
+                                   </tr>
+                                   <tr>
+                                       <th scope="row">설정압력</th>
+                                       <td>
+                                       		<input type="number" name="val_saf" class="form-control" value="${wtlValvPsVO.val_saf }">
+                                       </td>
+                                       <th scope="row">제작회사명</th>
+                                       <td>
+	                                       	<input type="text" name="prc_nam" class="form-control" value="${wtlValvPsVO.prc_nam }">
+                                       </td>
+                                   </tr>
+                                   <tr>
+                                       <th scope="row">관로지형지물부호</th>
+                                       <td>
+                                          	<c:out value="${wtlValvPsVO.pip_cde }"/>
+                                          	<input type="hidden" name="pip_cde" class="form-control" value="${wtlValvPsVO.pip_cde }">
+                                       </td>
+                                       <th scope="row">관리번호</th>
+                                       <td>
+                                          	<c:out value="${wtlValvPsVO.pip_idn }"/>
+                                          	<input type="hidden" name="pip_idn" class="form-control" value="${wtlValvPsVO.pip_idn }">
+                                       </td>
+                                   </tr>
+                                   <tr>
+                                       <th scope="row">이상상태</th>
+                                       <td>
+                                       		<select name="cst_cde" class="form-select">
+                                       			<option value="">선택</option>
+                                       		</select>
+                                       </td>
+                                       <th scope="row">개패여부</th>
+                                       <td>
+                                       		<select name="off_cde" class="form-select">
+                                       			<option value="">선택</option>
+                                       		</select>
+                                       </td>
+                                   </tr>
+                                   <tr>
                                        <th scope="row">공사번호</th>
                                        <td>
-	                                       	<input type="text" name="cnt_num" class="form-control" value="${wtlFirePsVO.cnt_num }" maxlength="8">
+                                       		<input type="text" name="cnt_num" class="form-control" value="${wtlValvPsVO.cnt_num }">
                                        </td>
-                                   </tr>
-                                   <tr>
                                        <th scope="row">방향각</th>
-                                       <td colspan="3" >
-                                       		<input type="number" name="ang_dir" class="form-control" value="${wtlFirePsVO.ang_dir }">
+                                       <td>
+                                       		<input type="number" name="ang_dir" class="form-control" value="${wtlValvPsVO.ang_dir }">
                                        </td>
                                    </tr>
                                    <tr>
@@ -131,28 +187,28 @@
                        </div>
                        <div class="position-bottom btn-wrap justify-content-end">
                            <div>
-                           	    <button type="button" class="btn basic bi-write2 btn_save" 		onclick="updateWtlFirePs();">수정완료</button>
-                           		<button type="button" class="btn basic bi-cancel btn_cancel"	onclick="cancelUpdateWtlFirePs();">취소</button>
+                           	    <button type="button" class="btn basic bi-write2 btn_save" 		onclick="updateWtlValvPs();">수정완료</button>
+                           		<button type="button" class="btn basic bi-cancel btn_cancel"	onclick="cancelUpdateWtlValvPs();">취소</button>
                            </div>
                        </div>
                    </div>
                </div>
            </div>
            <!-- <button type="button" class="popup-close" title="닫기" onclick="cancelMode();"></button> -->
-           <button type="button" class="update-wtlFirePs-popup-close" title="닫기" onclick="cancelMode();"></button>
+           <button type="button" class="update-wtlValvPs-popup-close" title="닫기" onclick="cancelMode();"></button>
 
-<!-- 업무 > 시설관리 > 상수도시설 > 소방시설 수정하기 end -->
+<!-- 업무 > 시설관리 > 상수도시설 > 변류시설 수정하기 end -->
 
 <script type="text/javascript">
 	//jqeury
 	$(document).ready(function(){
-		//console.log("updateWtlFirePsView.jsp");
+		//console.log("updateWtlValvPsView.jsp");
 		
 		
 		//3d 일때 지도 추가 버튼 삭제 
 		if(dtmap.mod == "3D"){
-			if($("#updateWtlFirePsForm .btn-select-map").css("display") != 'none'){
-				$("#updateWtlFirePsForm .btn-select-map").hide();
+			if($("#updateWtlValvPsForm .btn-select-map").css("display") != 'none'){
+				$("#updateWtlValvPsForm .btn-select-map").hide();
 			}
 		}
         
@@ -172,16 +228,36 @@
 		//selectbox 값 세팅
 		
       	//읍면동 
-		let hjd_cde = '${wtlFirePsVO.hjd_cde }';
+		let hjd_cde = '${wtlValvPsVO.hjd_cde }';
       	getCmmCodeData("YPE001", "#rightSubPopup select[name=hjd_cde]", hjd_cde);
       	
       	//관리기관
-      	let mng_cde = '${wtlFirePsVO.mng_cde }';
+      	let mng_cde = '${wtlValvPsVO.mng_cde }';
       	getCmmCodeData("MNG-001", "#rightSubPopup select[name=mng_cde]", mng_cde);
       	
-      	//소화전형식
-      	let mof_cde = '${wtlFirePsVO.mof_cde }';
+      	//변류형식
+      	let mof_cde = '${wtlValvPsVO.mof_cde }';
       	getCmmCodeData("OGC-048", "#rightSubPopup select[name=mof_cde]", mof_cde);
+      	
+      	//제수변회전방향
+      	let sae_cde = '${wtlValvPsVO.sae_cde }';
+      	getCmmCodeData("OGC-007", "#rightSubPopup select[name=sae_cde]");		
+      	
+      	//제수변구동방법	
+      	let mth_cde = '${wtlValvPsVO.mth_cde }';
+    	getCmmCodeData("OGC-008", "#rightSubPopup select[name=mth_cde]");	
+      	
+    	//시설물형태
+      	let for_cde = '${wtlValvPsVO.for_cde }';
+    	getCmmCodeData("OGC-001", "#rightSubPopup select[name=for_cde]");		
+      	
+    	//이상상태
+      	let cst_cde = '${wtlValvPsVO.cst_cde }';
+    	getCmmCodeData("OGC-010", "#rightSubPopup select[name=cst_cde]");		
+      	
+    	//개폐번호	
+      	let off_cde = '${wtlValvPsVO.off_cde }';
+    	getCmmCodeData("OGC-011", "#rightSubPopup select[name=off_cde]");	
       	
       	///////////////////////
       	//gird 데이터를 통한 주소 조회
@@ -234,18 +310,18 @@
 		/////////////////////
 		
 		//닫기 버튼
-        $(".popup-panel .update-wtlFirePs-popup-close").on("click", function () {
-        	cancelUpdateWtlFirePs();
+        $(".popup-panel .update-wtlValvPs-popup-close").on("click", function () {
+        	cancelUpdateWtlValvPs();
     	});
 		
 	});
 	
 	
 	//수정하기 취소버튼 동작
-	function cancelUpdateWtlFirePs(){
-		//console.log("cancelUpdateWtlFirePs()");
+	function cancelUpdateWtlValvPs(){
+		//console.log("cancelUpdateWtlValvPs()");
 		
-		$(".update-wtlFirePs-popup-close").closest('.popup-panel').removeClass('opened');
+		$(".update-wtlValvPs-popup-close").closest('.popup-panel').removeClass('opened');
         // 초기화 (지도)
         dtmap.draw.dispose();
         dtmap.draw.clear();
@@ -255,7 +331,7 @@
         }
         
         var id = $("input[name=id]").val();
-    	selectWtlFirePs(id);
+    	selectWtlValvPs(id);
 	}
 
 </script>

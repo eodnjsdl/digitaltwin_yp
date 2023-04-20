@@ -140,7 +140,7 @@
 <script type="text/javascript">
 	//jqeury
 	$(document).ready(function(){
-		console.log("updateWtlPipeLmView.jsp");
+		//console.log("updateWtlPipeLmView.jsp");
         
 		// 날짜 형식 처리 예정 
         // 날짜 적용 - 지금 8자리로 되어 있어 이것 사용 (변경 예정) 
@@ -182,8 +182,8 @@
 		var gridRowId = "${gridRowId }";
 		
 		var geomData = getGeomDataForGridRowId(gridRowId);
-		console.log("geomData>>");
-		console.log(geomData);
+		//console.log("geomData>>");
+		//console.log(geomData);
 		if(geomData){
 			getAddressForPoint(geomData, "#rightSubPopup .txt-geometry-address");
 		}else{

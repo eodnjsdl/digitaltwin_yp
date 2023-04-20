@@ -6,8 +6,8 @@
 
 //jqeury
 $(document).ready(function(){
-	console.log("wtlManhPs.js");
-	console.log("상수맨홀");
+	//console.log("wtlManhPs.js");
+	//console.log("상수맨홀");
 });
 
 //functions

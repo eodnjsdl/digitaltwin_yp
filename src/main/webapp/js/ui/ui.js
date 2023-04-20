@@ -3,16 +3,12 @@ window.ui = (function () {
     function init() {
         //일반동작
         _bindEvent();
-        
         //상단영역
         _topMenuEvent();
-        
         //RIGHT 지도제어툴바영역
         _rightToolEvent();
-        
         //LEFT메뉴영역
         _leftMenuEvent();
-        
         //좌측 메뉴 >> 공간정보
         _spaceMenuEvent();
         //좌측 메뉴 >> 공간정보 활용 >> 사업공유관리 
@@ -30,8 +26,16 @@ window.ui = (function () {
         jQuery.ajaxSetup({
         	cache: false
     	});
+        // set toast option
+        _setToastOption();
     }
-    
+
+    function _setToastOption() {
+        toastr.options = {
+            "positionClass": "toast-bottom-right"
+        };
+    }
+
     //일반동작
     function _bindEvent() {
         /** popup draggable **/
@@ -441,7 +445,7 @@ window.ui = (function () {
                   //aj_facility("SewerSupplyFacility");
                 	dtmap.off('select', onFacilitySelectEventListener); //클릭 리스너 이벤트 삭제
                 	getSewerSupplyFacility("swlConnLs");		//하수도 시설 하수연결관
-                    break;
+                	break;
 
                  //시설관리 > 교통시설
                 case "transportationFacility" :
@@ -460,7 +464,7 @@ window.ui = (function () {
                 case "welfareFacility" :
                     //TODO ↓↓↓↓↓↓↓↓↓↓↓
                     WLREspitalYN = '';
-                  //aj_selectWelfareFacilityList($("#tmpForm")[0]);
+                    //aj_selectWelfareFacilityList($("#tmpForm")[0]);
                 	dtmap.off('select', onFacilitySelectEventListener); //클릭 리스너 이벤트 삭제
                 	getWelFareFaciListView();
                     break;
@@ -742,6 +746,7 @@ window.ui = (function () {
         dtmap.draw.dispose();
 
     }
+
 
     //그리기 초기화
     function _initDrawEvent() {

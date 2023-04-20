@@ -34,8 +34,16 @@ function codeArrayInit(){
         { code: "SA119", codeNm: "소화전" },
         { code: "SB003", codeNm: "하수연결관" },
         { code: "SA121", codeNm: "수압계" },
+        { code: "SA200", codeNm: "상수제수변" },
+        { code: "SA201", codeNm: "상수역지변" },
+        { code: "SA202", codeNm: "상수이토변" },
+        { code: "SA203", codeNm: "상수배기변" },
+        { code: "SA204", codeNm: "상수감압변" },
+        { code: "SA205", codeNm: "상수안전변" },
         { code: "SA991", codeNm: "신축관실" },
-      ];*/
+        { code: "SB410", codeNm: "환기구" },
+	];*/
+
 	
 	//setCmmCodeDataArray("SA-001", codeData);	//지형지물부호	SA-001 임의로 만든	-> 아래 code로 대체
 	setCmmCodeDataArray("FTR-001");				//지형지물부호  
@@ -67,6 +75,14 @@ function codeArrayInit(){
 	setCmmCodeDataArray("OGC-001");				//관리방법
 	setCmmCodeDataArray("OGC-134");				//배수지제어방법
 
+	//변류시설
+	setCmmCodeDataArray("OGC-031");				//변류형식
+	setCmmCodeDataArray("OGC-007");				//제수변회전방향
+	setCmmCodeDataArray("OGC-008");				//제수변구동방법
+	setCmmCodeDataArray("OGC-001");				//시설물형태
+	setCmmCodeDataArray("OGC-010");				//이상상태
+	setCmmCodeDataArray("OGC-011");				//개폐여부
+	
 	setCmmCodeDataArray("FCLTCD");				// 복지시설 구분
 
 	//하수도 - 하수연결관
@@ -440,10 +456,14 @@ function onFacilitySelectEventListener(e){
 				selectWtlPrgaPs(id);
 			}else if(featureType == "wtl_serv_ps"){					//상수도시설 - 배수지
 				selectWtlServPs(id);
+			}else if(featureType == "wtl_valv_ps"){					//상수도시설 - 변류시설
+				selectWtlValvPs(id);
 			}else if(featureType == "swl_conn_ls"){					//하수도시설 - 하수연결관 
 				selectSwlConnLs(id);
 			}else if(featureType == "swl_pipe_as"){					//하수도시설 - 면형하수관거 
 				selectSwlPipeAs(id);
+			}else if(featureType == "swl_vent_ps"){					// 하수도시설 - 환기구 
+				selectSwlVentPs(id);
 			}else if(featureType == "tgd_phstrn_fclty"){			// 체육시설
 				selectPhyEduFaciDetail(id);
 			}else if(featureType == "tgd_sclwlfr_fclty_status"){	// 복지시설

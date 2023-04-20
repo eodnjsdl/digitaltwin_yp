@@ -17,7 +17,7 @@
                     <option value="wtlPrgaPs">수압계</option>
                     <option value="wtlServPs">배수지</option>
                     <option value="wtlSplyLs">급수관로</option>
-                    <option value="wtlServPs">변류시설</option>
+                    <option value="wtlValvPs">변류시설</option>
                 </select>
             </div>
             <div class="tabBoxDepth2-wrap">
@@ -156,7 +156,7 @@
 <script type="text/javascript">
 	//jqeury
 	$(document).ready(function(){
-		console.log("wtlPipeLmListView.jsp");	
+		//console.log("wtlPipeLmListView.jsp");	
 		
 		//상수도 관리 메뉴 - 이벤트
 		var $container = $("#container");

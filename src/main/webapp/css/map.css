@@ -187,6 +187,7 @@ html, body {
 }
 #header .util-box .GNB > li ul {
 	margin-top: 5px;
+	display: none;
 }
 #header .util-box .GNB > li span {
 	position: relative;
@@ -414,7 +415,7 @@ html, body {
 }
 
 .map-control ul li .ctrl-btn.compass:first-child,
-.map-control ul li .ctrl-btn.compass:last-child,
+.map-control ul li .ctrl-btn.compass:last-child
 {
 	border-top-left-radius: 50%;
 	border-top-right-radius: 50%;
