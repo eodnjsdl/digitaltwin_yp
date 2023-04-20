@@ -42,8 +42,8 @@ var lastDraw = "<c:out value='${searchVO.renewableEnergyAreaDrawing}' />";
 			<div class="tabBoxDepth2-wrap">
 				<div class="tabBoxDepth2">
 					<ul>
-						<li data-tab="energyProperty" class="energyProperty on" ><button type="button" class="inner-tab">속성검색</button></li>
-						<li data-tab="energySpace" class="energySpace"><button type="button" class="inner-tab ">공간검색</button></li>
+						<li id="energy-prop" data-tab="energyProperty" class="energyProperty on" ><button type="button" class="inner-tab">속성검색</button></li>
+						<li id="energy-space" data-tab="energySpace" class="energySpace"><button type="button" class="inner-tab ">공간검색</button></li>
 					</ul>
 				</div>
 				<div class="tab-cont energyProperty on">
@@ -102,11 +102,11 @@ var lastDraw = "<c:out value='${searchVO.renewableEnergyAreaDrawing}' />";
 					<div class="space-search-group">
 						<div class="space-search-items">
 							<span class="form-radio text group">
-								<span><input type="radio" name="renewableEnergySelect" id="rChk1-1" checked="checked" value="1"><label for="rChk1-1">현재화면영역</label></span>
-								<span><input type="radio" name="renewableEnergySelect" id="rChk1-2" value="2"><label for="rChk1-2">사용자 정의</label></span>
+								<span><input type="radio" name="renewableEnergySelect" id="rChk1-1" checked="checked" value="extent"><label for="rChk1-1">현재화면영역</label></span>
+								<span><input type="radio" name="renewableEnergySelect" id="rChk1-2" value="custom"><label for="rChk1-2">사용자 정의</label></span>
 							</span>
 						</div>
-						<div class="space-search-items spaceArea">
+						<div class="space-search-items spaceArea" style="display: none;">
 							<span class="drawing-obj small">
 								<span><input type="radio" name="renewableEnergyAreaDrawing" id="aChk1" value="1"><label for="aChk1" class="obj-sm01"></label></span>
 								<span><input type="radio" name="renewableEnergyAreaDrawing" id="aChk2" value="2"><label for="aChk2" class="obj-sm02"></label></span>
@@ -120,7 +120,7 @@ var lastDraw = "<c:out value='${searchVO.renewableEnergyAreaDrawing}' />";
 						<input type="hidden" id="spitalSearch" name="spitalSearch" value='<c:out value='${searchVO.spitalSearch}' />'>
 					</div>
 					<div class="btn-wrap">
-						<div><button type="button" class="btn type01 search" id="rnenSpital" onClick="fn_select_list('spital');">조회</button></div>
+						<div><button type="button" class="btn type01 search" id="rnenSpital" onClick="fn_search_List(); setData(0);">조회</button></div>
 					</div>
 				</div>
 			</div>
@@ -149,3 +149,75 @@ var lastDraw = "<c:out value='${searchVO.renewableEnergyAreaDrawing}' />";
 <button type="button" class="popup-reset" class="초기화" onclick="bottomPopupOpen('renewableEnergy');"></button>
 <button type="button" class="popup-bottom-toggle" onclick="toggleFold(this);" title="접기"></button>				
 <!-- //업무 > 공간정보활용 > 신재생에너지 -->
+
+<script>
+
+	//속성 검색, 공간 검색 탭 제어
+	$(document).on("click", ".tabBoxDepth2-wrap .tabBoxDepth2 > ul > li > .inner-tab", function(){ 
+		$(this).each(function(){
+			$(this).parent().addClass("on").siblings().removeClass("on");
+			$("."+$(this).parent().data("tab")).addClass("on").siblings().removeClass("on");
+		});
+		
+		if($("li[data-tab=energyProperty]").hasClass("on")){	//속성검색 일때 공간 검색때 사용한 그리기 초기화
+			dtmap.draw.dispose();		//그리기 포인트 삭제
+			dtmap.draw.clear();			//그리기 초기화
+			dtmap.on('select',spaceClickListener );	//레이어 선택 핸들러
+		}else{
+			$('input[name=renewableEnergySelect]:first').prop('checked', 'checked');//공간검색>현재화면영역
+			$(".spaceArea", "#bottomPopup").hide();
+		}
+		
+	});
+
+	// 검색영역지정 변경 (현재화면영역, 사용자정의)
+	$("[name=renewableEnergySelect]").on("change", function () {
+		const node = $(this);
+		const value = node.val();
+		if (value == "extent") {
+			$(".spaceArea", "#bottomPopup").hide();
+			
+			dtmap.draw.dispose();		//그리기 포인트 삭제
+			dtmap.draw.clear();			//그리기 초기화
+			dtmap.on('select',spaceClickListener );	//레이어 선택 핸들러
+			
+		} else {
+			//레이어 선택 핸들러 해제
+			dtmap.off('select',spaceClickListener );
+			$(".spaceArea", "#bottomPopup").show();
+			$("[name=renewableEnergyAreaDrawing]:first", "#bottomPopup").trigger("click");
+		}
+	}); 
+     	
+     	
+	// 사용자 정의 검색 조건
+	$("[name=renewableEnergyAreaDrawing]", "#bottomPopup").on("click", function () {
+		const node = $(this);
+		const value = node.val();
+
+		let type;
+		switch (Number(value)) {
+			case 1:
+				type = 'Point';
+				break;
+			case 2:
+				type = 'LineString';
+				break;
+			case 3:
+				type = 'Box';
+				break;
+			case 4:
+				type = 'Circle';
+				break;
+		}
+		dtmap.draw.active({type: type, once: true})
+		//toastr.warning("that.searchDrawing(value);", "공간검색 사용자정의");
+	});
+		
+
+    //경계로부터 버퍼 영역 지정
+	$("#bufferCnt").on("change", function (event) {
+		dtmap.draw.setBuffer(Number(this.value));
+	});
+		
+</script>

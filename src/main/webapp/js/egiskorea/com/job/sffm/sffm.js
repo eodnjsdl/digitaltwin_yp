@@ -10,6 +10,9 @@ $(document.body).ready(function(){
 // 시설물 변경
 $("#safeFacilityType").change(function() {
     ui.closeSubPopup();
+    dtmap.draw.setBuffer(0);    //버퍼 영역 초기화
+    dtmap.draw.dispose();		//그리기 포인트 삭제
+    dtmap.draw.clear();			//그리기 초기화
 
     if(this.value == "lamp") {
         
@@ -46,6 +49,18 @@ function onDrawEnd(e) {
 		const wkt = format.writeGeometry(point);
 		$("#geom").val(wkt);
 	});
+}
+
+//레이어 선택 상세보기
+function spaceClickListener(e){
+	var gid ;
+	if (dtmap.mod === '3D'){
+		gid=e.properties.gid;
+	}else{
+		gid=e.property.gid;
+	}
+    fn_pageDetail(gid);
+    dtmap.vector.select(e.id);
 }
 
 

@@ -80,12 +80,12 @@
 							<div class="space-search-items">
 								<span class="form-radio text group"> <span><input
 										type="radio" name="cctvSelect" id="rChk1-1_cctv" checked=""
-										value="1"><label for="rChk1-1_cctv">현재화면영역</label></span> <span><input
-										type="radio" name="cctvSelect" id="rChk1-2_cctv" value="2"><label
+										value="extent"><label for="rChk1-1_cctv">현재화면영역</label></span> <span><input
+										type="radio" name="cctvSelect" id="rChk1-2_cctv" value="custom"><label
 										for="rChk1-2_cctv">사용자 정의</label></span>
 								</span>
 							</div>
-							<div class="space-search-items areaSrchTool">
+							<div class="space-search-items areaSrchTool" style="display: none;">
 								<span class="drawing-obj small"> 
 									<span><input type="radio" name="cctvAreaDrawing" id="aChk1_cctv" value="1"><label for="aChk1_cctv" class="obj-sm01"></label></span> <span><input
 										type="radio" name="cctvAreaDrawing" id="aChk2_cctv" value="2"><label
@@ -96,8 +96,8 @@
 										for="aChk4_cctv" class="obj-sm04"></label></span>
 								</span>
 							</div>
-							<div class="space-search-items areaSrchTool">
-								경계로부터 <span class="form-group"><input type="number" name="cctvBuffer"
+							<div class="space-search-items areaSrchTool" style="display: none;">
+								경계로부터 <span class="form-group"><input type="text" name="cctvBuffer"
 									id="cctvBuffer" class="form-control align-center" placeholder="0" value="0" step="10">
 									<sub>m</sub></span> 이내 범위
 							</div>
@@ -105,7 +105,7 @@
 						<div class="btn-wrap">
 							<div>
 								<button type="button" class="btn type01 search"
-									onclick="setData('spital');">조회</button>
+									onclick="fn_search_List(); setData();">조회</button>
 							</div>
 						</div>
 					</div>
@@ -174,12 +174,16 @@
 		if($("li[data-tab=safetyFacilityProperty]").hasClass("on")){	//속성검색 일때 공간 검색때 사용한 그리기 초기화
 			dtmap.draw.dispose();		//그리기 포인트 삭제
 			dtmap.draw.clear();			//그리기 초기화
+			dtmap.on('select',spaceClickListener );	//레이어 선택 핸들러
+		}else{
+			$('input[name=cctvSelect]:first').prop('checked', 'checked');//공간검색>현재화면영역
+			$(".areaSrchTool", "#bottomPopup").hide();
 		}
 		
 	});
 
 	// 검색영역지정 변경 (현재화면영역, 사용자정의)
-	$("[name=cctvSelect]", "#bottomPopup").on("change", function () {
+	$("[name=cctvSelect]").on("change", function () {
 	
 		const node = $(this);
 		const value = node.val();
@@ -189,8 +193,11 @@
 			//그리기, 그려진 것 초기화
 			dtmap.draw.dispose();
 			dtmap.draw.clear();
+			dtmap.on('select',spaceClickListener );	//레이어 선택 핸들러
 			
 		} else {
+			//레이어 선택 핸들러 해제
+			dtmap.off('select',spaceClickListener );
 			$(".areaSrchTool", "#bottomPopup").show();
 			$("[name=cctvAreaDrawing]:first", "#bottomPopup").trigger("click");
 		}
@@ -223,7 +230,7 @@
 		
 
      	//경계로부터 버퍼 영역 지정
-	$("#cctvBuffer", "#bottomPopup").on("keyup", function (event) {
+	$("#cctvBuffer").on("keyup", function (event) {
 		dtmap.draw.setBuffer(Number(this.value));
 	});
 		

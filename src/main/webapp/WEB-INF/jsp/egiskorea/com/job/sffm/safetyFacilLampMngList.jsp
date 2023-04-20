@@ -78,8 +78,8 @@ $(document).ready(function() {
 								<span><input type="radio" name="sffmAreaDrawing" id="aChk4_sffm" value="4"><label for="aChk4_sffm" class="obj-sm04"></label></span>
 							</span>
 						</div>
-						<div class="space-search-items">경계로부터 <span class="form-group">
-							<input type="number" id="sffmBuffer" name="sffmBuffer" class="form-control align-center" placeholder="0" value="0" step="10"> <sub>m</sub></span> 이내 범위</div>
+						<div class="space-search-items areaSrchTool" style="display: none;">경계로부터 <span class="form-group">
+							<input type="text" id="sffmBuffer" name="sffmBuffer" class="form-control align-center" placeholder="0" value="0" step="10"> <sub>m</sub></span> 이내 범위</div>
 					</div>
 					<div class="btn-wrap">
 						<div><button type="button" class="btn type01 search" onclick="fn_search_List(event); setData();">조회</button></div>
@@ -132,12 +132,16 @@ $(document).ready(function() {
 		if($("li[data-tab=safetyFacilityProperty]").hasClass("on")){	//속성검색 일때 공간 검색때 사용한 그리기 초기화
 			dtmap.draw.dispose();		//그리기 포인트 삭제
 			dtmap.draw.clear();			//그리기 초기화
+			dtmap.on('select',spaceClickListener );	//레이어 선택 핸들러
+		}else{
+			$('input[name=sffmSelect]:first').prop('checked', 'checked');//공간검색>현재화면영역
+			$(".areaSrchTool", "#bottomPopup").hide();
 		}
 		
 	});
 
 	// 검색영역지정 변경 (현재화면영역, 사용자정의)
-	$("[name=sffmSelect]", "#bottomPopup").on("change", function () {
+	$("[name=sffmSelect]").on("change", function () {
 		const node = $(this);
 		const value = node.val();
 		if (value == "extent") {
@@ -146,8 +150,11 @@ $(document).ready(function() {
 			//그리기, 그려진 것 초기화
 			dtmap.draw.dispose();
 			dtmap.draw.clear();
+			dtmap.on('select',spaceClickListener );	//레이어 선택 핸들러
 			
 		} else {
+			//레이어 선택 핸들러 해제
+			dtmap.off('select',spaceClickListener );
 			$(".areaSrchTool", "#bottomPopup").show();
 			$("[name=sffmAreaDrawing]:first", "#bottomPopup").trigger("click");
 		}
@@ -179,8 +186,8 @@ $(document).ready(function() {
 	});
 		
 
-     	//경계로부터 버퍼 영역 지정
-	$("#sffmBuffer", "#bottomPopup").on("keyup", function (event) {
+    //경계로부터 버퍼 영역 지정
+	$("#sffmBuffer").on("keyup", function (event) {
 		dtmap.draw.setBuffer(Number(this.value));
 	});
 		

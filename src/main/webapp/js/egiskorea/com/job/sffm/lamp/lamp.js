@@ -9,6 +9,7 @@ SEARCHOBJ= {
 $(document.body).ready(function(){
 	initGrid();
 	setData();
+	dtmap.on('select',spaceClickListener );
 })
 
 //가로등관리 기본그리드 생성
@@ -54,12 +55,9 @@ function initGrid(){
 //가로등관리 조회기능
 function setData(_pageNo){
 
-	_pageNo = _pageNo || 0;
-	console.log(_pageNo);
-
 	var options = {
 		typeNames: 'tgd_strtlgt_status', //WFS 레이어명
-		page : _pageNo+1,
+		page : (_pageNo||0)+1,
 		perPage : 100,
 		sortBy : 'gid',
 		sortOrder : 'DESC',
@@ -68,9 +66,9 @@ function setData(_pageNo){
 	//검색 옵션
 	if(SEARCHOBJ.propertySearch != null){//속성검색
 
-		instlDe = SEARCHOBJ.propertySearch.searchInstlDe;
-		adres = SEARCHOBJ.propertySearch.searchAdres;
-		manageNo = SEARCHOBJ.propertySearch.searchManageNo;
+		var instlDe = SEARCHOBJ.propertySearch.searchInstlDe;
+		var adres = SEARCHOBJ.propertySearch.searchAdres;
+		var manageNo = SEARCHOBJ.propertySearch.searchManageNo;
 
 		var cqlList = [];
 	
@@ -91,7 +89,6 @@ function setData(_pageNo){
         }
 	}
 	
-	console.log(options);
 
 	//조회
 	var gridList = this;
@@ -243,8 +240,8 @@ function fn_search_List(e){
 		const type = $parent.find('input[name="sffmSelect"]:checked').val();
 		
 		if (type === 'extent') {
-			 var bboxArr = dtmap.getExtent();
-			 SEARCHOBJ.spaceSearch.bbox = ol.proj.transformExtent(bboxArr,'EPSG:5179','EPSG:4326' );
+			 var bbox = dtmap.getExtent();
+			 SEARCHOBJ.spaceSearch.bbox = ol.proj.transformExtent(bbox,'EPSG:5179','EPSG:4326' );
 
 		} else {
 			if(dtmap.draw.source.getFeatures().length > 0){
@@ -256,7 +253,6 @@ function fn_search_List(e){
 		}
 	}
 
-	console.log(SEARCHOBJ);
 	
 }
 
