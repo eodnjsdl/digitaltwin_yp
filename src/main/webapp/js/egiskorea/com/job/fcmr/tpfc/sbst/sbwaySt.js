@@ -9,6 +9,9 @@
 function selectSubwayStationListView() {
     $('#bottomPopup').load('/job/fcmr/tpfc/selectSubwayStationListView.do', function () {
 	callSubwayStationGrid();
+
+	// 공간검색 옵션 초기화
+	FACILITY.spaceSearchOption = {};
     });
     
 }
@@ -214,8 +217,9 @@ function selectSubwayStationWithFilters() {
  * @returns
  */
 function onSelectSubwayStationEventListener(e) {
-    let id = e.id.split('.')[1];
+    let id = e.id;
     if (id) {
+	id = id.split('.')[1];
 	selectSubwayStationDetailView(id);
     } else {
 	toastr.error("객체 선택 오류입니다.");

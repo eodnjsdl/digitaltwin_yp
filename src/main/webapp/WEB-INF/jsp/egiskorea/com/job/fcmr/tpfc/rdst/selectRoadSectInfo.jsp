@@ -1,6 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<script>
+$(".scroll-y").mCustomScrollbar({
+    scrollbarPosition: "outside",
+});
+</script>
 <!-- 업무 > 시설관리 > 교통시설 > 도로구간 상세보기 -->
 <div class="popup-header">도로구간 상세보기</div>
 <div class="popup-body">
@@ -82,7 +87,6 @@
 			</div>
 			<div class="position-bottom btn-wrap">
 				<div>
-<!-- 				<button type="button" class="btn basic bi-edit" id="railroadTrackUpdate">수정</button>  -->
 					<button type="button" class="btn basic bi-cancel closeSub">취소</button>
 				</div>
 			</div><!-- // class="position-bottom btn-wrap" -->

@@ -9,6 +9,9 @@
 function selectSubwayTrackListView() {
     $('#bottomPopup').load('/job/fcmr/tpfc/selectSubwayTrackListView.do', function () {
 	callSubwayTrackGrid();
+
+	// 공간검색 옵션 초기화
+	FACILITY.spaceSearchOption = {};
     });
     
 }
@@ -209,8 +212,9 @@ function selectSubwayTrackWithFilters() {
  * @returns
  */
 function onSelectSubwayTrackEventListener(e) {
-    let id = e.id.split('.')[1];
+    let id = e.id;
     if (id) {
+	id = id.split('.')[1];
 	selectSubwayTrackDetailView(id);
     } else {
 	toastr.error("객체 선택 오류입니다.");

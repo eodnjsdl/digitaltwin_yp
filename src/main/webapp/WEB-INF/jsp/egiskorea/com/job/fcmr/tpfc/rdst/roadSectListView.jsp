@@ -45,6 +45,7 @@ $(document).ready(function(){
         } else {
         	if(dtmap.draw.source.getFeatures().length > 0){
          	FACILITY.spaceSearchOption.geometry = dtmap.draw.getGeometry();
+         	console.log(dtmap.draw.getGeometry());
         	}else{
         		alert("영역을 지정해 주세요.");
         		return false;
@@ -111,8 +112,8 @@ $(document).ready(function(){
 			<div class="top-search">
 				<select name="selectBoxTrfc" id="selectBoxTrfc" class="form-select facility-select">
 					<option value="roadSection" selected>도로구간</option>
-					<option value="railRoadTrack">철도선로</option>
-					<option value="railRoadStation">철도역사</option>
+					<option value="railroadTrack">철도선로</option>
+					<option value="railroadStation">철도역사</option>
 					<option value="subwayTrack">지하철선로</option>
 					<option value="subwayStation">지하철역사</option>
 					<option value="bridge">교량</option>
@@ -145,7 +146,7 @@ $(document).ready(function(){
 										<select name="emdKorNm" id="emdKorNm" class="form-select">
 											<option value="41830">전체</option>
 											<c:forEach items="${sccoEndList}" var="emdList" varStatus="status">
-												<option value="<c:out value='${emdList.emdKorNm},${emdList.emdCd}' />" <c:if test="${searchVO.emdKorNm == emdList.emdCd}">selected</c:if>>
+												<option value="<c:out value='${emdList.emdCd}' />" <c:if test="${searchVO.emdKorNm == emdList.emdCd}">selected</c:if>>
 													<c:out value="${emdList.emdKorNm}" />
 												</option>																
 											</c:forEach>

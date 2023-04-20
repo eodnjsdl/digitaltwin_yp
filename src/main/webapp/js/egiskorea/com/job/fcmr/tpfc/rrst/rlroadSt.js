@@ -9,6 +9,9 @@
 function selectRailroadStationListView() {
     $('#bottomPopup').load('/job/fcmr/tpfc/selectRailroadStationListView.do', function () {
 	callRlroadStGrid();
+	
+	// 공간검색 옵션 초기화
+	FACILITY.spaceSearchOption = {};
     });
     
 }
@@ -213,8 +216,9 @@ function selectRlroadStWithFilters() {
  * @returns
  */
 function onSelectRailroadStationEventListener(e) {
-    let id = e.id.split('.')[1];
+    let id = e.id;
     if (id) {
+	id = id.split('.')[1];
 	selectRailroadStationDetailView(id);
     } else {
 	toastr.error("객체 선택 오류입니다.");

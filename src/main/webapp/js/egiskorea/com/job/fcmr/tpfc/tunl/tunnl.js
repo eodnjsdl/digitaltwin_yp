@@ -9,6 +9,9 @@
 function selectTunnelListView() {
     $('#bottomPopup').load('/job/fcmr/tpfc/selectTunnelListView.do', function () {
 	callTunnelGrid();
+
+	// 공간검색 옵션 초기화
+	FACILITY.spaceSearchOption = {};
     });
     
 }
@@ -213,8 +216,9 @@ function selectTunnelWithFilters() {
  * @returns
  */
 function onSelectTunnelEventListener(e) {
-    let id = e.id.split('.')[1];
+    let id = e.id;
     if (id) {
+	id = id.split('.')[1];
 	selectTunnelDetailView(id);
     } else {
 	toastr.error("객체 선택 오류입니다.");

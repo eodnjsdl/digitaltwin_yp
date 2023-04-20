@@ -12,6 +12,9 @@ function selectRoadSectListView() {
     $('#bottomPopup').load('/job/fcmr/tpfc/selectRoadSectListView.do', function () {
 	callRoadSectGrid();
 	selectRoadSectionExcelListDownload();
+	
+	// 공간검색 옵션 초기화
+	FACILITY.spaceSearchOption = {};
     });
     
 }
@@ -22,7 +25,8 @@ function selectRoadSectListView() {
  */
 function callRoadSectGrid() {
     setRoadSectListGrid();
-    setRoadSectListData(0);
+//    setRoadSectListData(0);
+    getWfsRoadSectListData();
 }
 
 /**
@@ -71,12 +75,106 @@ function setRoadSectListGrid() {
     });
 }
 
+function getWfsRoadSectListData() {
+    // 읍면동 geometry 가져오기 테스트*****************************************
+    // tgd_scco_emd 읍면동 / gid, emd_cd, emd_eng_nm, emd_kor_nm, geom///emd_cd 읍면동 코드 41830250 양평읍
+    let emdCd = '';
+    let emdCdVal = $('#emdKorNm').val();
+    let cqlFilters = 'emd_cd = ' + emdCd;
+    console.log("emdCdVal : " + emdCdVal);
+    
+    // val() 값이 41830 일 때 => 양평군 일때, like 검색
+    if (emdCdVal == '41830') {
+	cqlFilters = "emd_cd like '" + emdCdVal + "%'";
+	console.log("filters : " + cqlFilters);
+    } else { // val() 값이 41830+++ 일때 읍면동 일치 검색
+	emdCd = emdCdVal;
+	console.log("emdCd : " + emdCd);
+	console.log("filters : " + cqlFilters);
+    }
+    
+    geomOptions = {
+	    typeNames: 'tgd_scco_emd',
+//	    perPage: 100,  		// 모든 읍면동 정보 가져오기 ( 임시로 100개 )
+//	    page: _pageNo + 1,
+	    sortBy : 'gid',
+	    sortOrder : 'DESC',
+	    cql : cqlFilters
+    }
+	
+    // 전체(읍면동) geometry 값 가져오는 wfs 
+    var geo = [];
+    const promiseGeo = dtmap.wfsGetFeature(geomOptions);
+    promiseGeo.then(function(data) {
+//	for (let i = 0; i < data.features.length; i++) {
+//	    const {geometry} = data.features[i].getProperties();
+//	    geo.push(...geometry);
+	    
+//	}
+	
+	console.log("geometry :::::");
+    	console.log(geo);
+    	
+    	readGeoJsonTest(data);
+    	
+//    	dtmap.vector.readGeoJson(data, function (feature) {
+//    	    let properties = feature.getProperties();
+//	    console.log("properties--------------------------");
+//	    console.log(properties);
+//	    geo.push(properties.geometry);
+//	    console.log(geo);
+//	    return {
+//	        marker: {
+//	            src: '/images/poi/roadSection_poi.png'
+//	            }
+//	        }
+	function readGeoJsonTest(json, style) {
+	    if (typeof json === 'string') {
+		json = JSON.parse(json);
+	    }
+	    
+	    const format = new ol.format.GeoJSON();
+	    let crs
+	    try {
+		crs = json.crs.properties.name;
+		if (crs.includes('urn:ogc:def:crs:EPSG::')) {
+		    crs = crs.replace('urn:ogc:def:crs:EPSG::', 'EPSG:');
+		}
+	    } catch (e) {
+		console.warn(`GeoJSON에 좌표계 정보가 없습니다. ${dtmap.crs}로 적용합니다.`)
+		crs = dtmap.crs;
+	    }
+	    const features = format.readFeatures(json, {
+		dataProjection: crs,
+		featureProjection: dtmap.crs
+	    }).map((feature) => {
+		if (feature.get("type") === "Circle") {
+		    const geometry = feature.getGeometry();
+		    feature.setGeometry(
+			    new ol.geom.Circle(
+				    geometry.getCoordinates(),
+				    feature.get("circleRadius")
+			    )
+		    );
+		}
+//		geo.push(feature.values_.geometry);
+		geo.push(feature.values_.geometry.flatCoordinates);
+		return geo;
+	    });
+	    setRoadSectListData(0, geo);
+	}
+    });
+    	
+//    	return setRoadSectListData(0, geo);
+    };
+    
+
 /**
  * 테이블 데이터 세팅
  * @param _pageNo
  * @returns
  */
-function setRoadSectListData(_pageNo) {
+function setRoadSectListData(_pageNo, geo) {
     // wfs 옵션값 담을 변수
     var options;
     
@@ -85,13 +183,8 @@ function setRoadSectListData(_pageNo) {
     if ($('.roadSectProperty').hasClass('on')) {
 	let filters = 'sig_cd = 41830 and wdr_rd_cd = 3';
 	
-//    let emdKorNm = $("#emdKorNm").val().split(',')[0];			// 읍면동
 	let roadBtVal = $("input[name=roadBtVal]").val();			// 도로폭
 	let rn = $("input[name=rn]").val();					// 도로명
-//    if (emdKorNm != '' && emdKorNm != '41830') {
-//	emdKorNm = "'" + emdKorNm + "%'";
-//	filters += ' and rbp_cn like ' + emdKorNm;
-//    }; 
 	if (roadBtVal != '') {
 	    filters += ' and road_bt = ' + roadBtVal;
 	}; 
@@ -106,7 +199,8 @@ function setRoadSectListData(_pageNo) {
 		page: _pageNo + 1,
 		sortBy : 'gid',
 		sortOrder : 'DESC',
-		cql : filters
+//		cql : filters
+		geometry : geo
 	}
 	
 	// else if 공간 검색 활성화
@@ -125,8 +219,10 @@ function setRoadSectListData(_pageNo) {
     		options.bbox 		= FACILITY.spaceSearchOption.bbox;
 	} else {
     		options.geometry 	= FACILITY.spaceSearchOption.geometry;
+    		console.log("options.geometry");
+    		console.log(options.geometry);
 	}
-		
+	dtmap.draw.dispose();	
     } else {
 	toastr.error("검색 오류");
     }
@@ -261,11 +357,11 @@ function selectRoadSectionExcelListDownload() {
  * @returns
  */
 function onSelectRoadSectEventListener(e) {
-    let id = e.id
-    console.log(e.id.split('.')[1]);
+    let id = e.id;
     if (id) {
+	id = id.split('.')[1];
 	selectRoadSectDetailView(id);
-    } else {
+    } else { 
 	toastr.error("객체 선택 오류입니다.");
 	return false;
     }

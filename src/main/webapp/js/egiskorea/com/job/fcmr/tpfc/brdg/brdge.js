@@ -9,6 +9,9 @@
 function selectBridgeListView() {
     $('#bottomPopup').load('/job/fcmr/tpfc/selectBridgeListView.do', function () {
 	callBridgeGrid();
+	
+	// 공간검색 옵션 초기화
+	FACILITY.spaceSearchOption = {};
     });
     
 }
@@ -214,8 +217,9 @@ function selectBridgeWithFilters() {
  * @returns
  */
 function onSelectBridgeEventListener(e) {
-    let id = e.id.split('.')[1];
+    let id = e.id;
     if (id) {
+	id = id.split('.')[1];
 	selectBridgeDetailView(id);
     } else {
 	toastr.error("객체 선택 오류입니다.");

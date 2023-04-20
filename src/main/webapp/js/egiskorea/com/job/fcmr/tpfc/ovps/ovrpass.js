@@ -9,6 +9,9 @@
 function selectOverpassListView() {
     $('#bottomPopup').load('/job/fcmr/tpfc/selectOverpassListView.do', function () {
 	callOverpassGrid();
+	
+	// 공간검색 옵션 초기화
+	FACILITY.spaceSearchOption = {};
     });
     
 }
@@ -211,8 +214,9 @@ function selectOverpassWithFilters() {
  * @returns
  */
 function onSelectOverpassEventListener(e) {
-    let id = e.id.split('.')[1];
+    let id = e.id;
     if (id) {
+	id = id.split('.')[1];
 	selectOverpassDetailView(id);
     } else {
 	toastr.error("객체 선택 오류입니다.");
