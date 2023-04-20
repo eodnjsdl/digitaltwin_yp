@@ -132,7 +132,7 @@
                     </div>
                 </div>
             </div>
-            <input type="hidden" id="wtiFirePsListPage" 	value="">
+            <input type="hidden" id="wtlFirePsListPage" 	value="">
         </div>
     </div>
 </div>
@@ -198,6 +198,7 @@
                 $(".space-edit-tool").empty();
             }
 			
+			clearMap();		//지도 클리어
 		});
 		
 		

@@ -69,7 +69,7 @@ function codeArrayInit(){
 	
 	//수압계
 	setCmmCodeDataArray("OGC-137");				//수압계종류
-	setCmmCodeDataArray("OGC-041");				//수압계형식
+	//setCmmCodeDataArray("OGC-041");			//수압계형식
 	
 	//배수지
 	setCmmCodeDataArray("OGC-001");				//관리방법
@@ -91,6 +91,8 @@ function codeArrayInit(){
 	setCmmCodeDataArray("OGC-056");				// 하수처리방식
 	
 	// 하수도 - 환기구
+	//setCmmCodeDataArray("OGC-003");			// 관재질
+	//setCmmCodeDataArray("OGC-001");			// 시설물형태
 	setCmmCodeDataArray("OGC-012");				// 흡출기형식
 	setCmmCodeDataArray("OGC-172");				// 흡출기재질
 	
@@ -151,7 +153,7 @@ function setCmmCodeDataArray(codeId, targetList){
 	if(FACILITY.CODEARRAY.length > 0){
 		for(var i=0; i<FACILITY.CODEARRAY.length; i++){
 			if(FACILITY.CODEARRAY[i].codeId == codeId){
-				console.log("이미 있는 코드 입니다.");
+				console.log("이미 있는 코드 입니다.("+codeId+")");
 				return;
 			}
 		}
@@ -178,7 +180,7 @@ function setCmmCodeDataArray(codeId, targetList){
     	//getCmmCodeData() 함수와 연동해서 사용시 동일 코드 일 때 중복 저장 되는 것 처리 : 둘다 비동기 방식으로 처리 하기 때문
     	for(var i=0; i<FACILITY.CODEARRAY.length; i++){
 			if(FACILITY.CODEARRAY[i].codeId == codeId){
-				console.log("이미 있는 코드 입니다.");
+				console.log("이미 있는 코드 입니다.("+codeId+")");
 				return;
 			}
 		}
@@ -315,9 +317,7 @@ function getGeomDataForGridId(id){
 	//조회된 데이터에서 geom 데이터 추출
 	var returnGeomVal = "";
 	if(detailData){
-		
 		//console.log(detailData);
-		
 		var geomType 	= detailData.geomObj.type;
 		
 		var geomCoord	= "";
@@ -326,13 +326,23 @@ function getGeomDataForGridId(id){
 		if(type == 'point'){
 			//console.log(detailData.geomObj.coordinates);
 			
-			geomCoord	= detailData.geomObj.coordinates[0] + " " + detailData.geomObj.coordinates[1];
-	    	returnGeomVal = geomType+"("+ geomCoord +")";
+			//geomCoord	= detailData.geomObj.coordinates[0] + " " + detailData.geomObj.coordinates[1];
+	    	//returnGeomVal = geomType+"("+ geomCoord +")";
+			//console.log("1>>>"+returnGeomVal);
+			/////////////
+			var geom = detailData.geomObj.coordinates;
+		    
+		    var pointGeom = new ol.geom.Point([ geom[0], geom[1] ]);
+		  
+		    const format = new ol.format.WKT();
+		    let pointWKT = format.writeGeometry(pointGeom);
+		    //console.log("pointWKT>>>"+pointWKT);
+		    returnGeomVal = pointWKT;
 			
 		}else if(type == 'multilinestring'){
 			//console.log(detailData.geomObj.coordinates);
 			
-			var c = detailData.geomObj.coordinates;
+			/*var c = detailData.geomObj.coordinates;
 			
 			var t = ""
 			for(var i=0; i<c.length; i++){
@@ -351,9 +361,32 @@ function getGeomDataForGridId(id){
 			geomCoord	= t;
 	    	
 	    	returnGeomVal = geomType+"(("+ geomCoord +"))";
+			
+	    	console.log("1>>>"+returnGeomVal);*/
+			////////////////
+	    	
+	    	var geom = detailData.geomObj.coordinates;
+		    
+		    var multilineStringGeom = new ol.geom.MultiLineString([ geom[0] ]);
+		  
+		    const format = new ol.format.WKT();
+		    let multilineStringWKT = format.writeGeometry(multilineStringGeom);
+		    //console.log("multilineStringWKT>>>"+multilineStringWKT);
+		    returnGeomVal = multilineStringWKT;
+			
+			
 		}else if(type == 'multipolygon'){
 			//console.log(detailData.geomObj.coordinates);
-			alert("multipolygon 작업중");
+			
+			var geom = detailData.geomObj.coordinates[0];
+		    
+		    var multipolygonGeom = new ol.geom.MultiPolygon([geom]);
+		  
+		    const format = new ol.format.WKT();
+		    let multipolygonWKT = format.writeGeometry(multipolygonGeom);
+			//console.log(multipolygonWKT)
+			returnGeomVal = multipolygonWKT;
+			
 		}
 		
 	}
@@ -428,10 +461,15 @@ function onFacilitySelectEventListener(e){
 				selectWtlValvPs(id);
 			}else if(featureType == "swl_conn_ls"){					//하수도시설 - 하수연결관 
 				selectSwlConnLs(id);
+<<<<<<< HEAD
 			}else if(featureType == "swl_dept_ps"){					// 하수도시설 - 하수관거심도
 				selectSwlDeptPs(id);
 			}else if(featureType == "swl_dran_ps"){					// 하수도시설 - 하수처리장
 				selectSwlDranPs(id);
+=======
+			}else if(featureType == "swl_pipe_as"){					//하수도시설 - 면형하수관거 
+				selectSwlPipeAs(id);
+>>>>>>> fac
 			}else if(featureType == "swl_vent_ps"){					// 하수도시설 - 환기구 
 				selectSwlVentPs(id);
 			}else if(featureType == "tgd_phstrn_fclty"){			// 체육시설

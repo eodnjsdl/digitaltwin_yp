@@ -155,22 +155,21 @@ public class SewerSupplyController {
         return "egiskorea/com/job/fcmr/ssfc/spia/swlPipeAsListView";
     }
 	
-	/*
-	//면형하수관거 등록 화면 조회
-	@RequestMapping(value = "/insertSwlPipeAsView.do")
-    public String insertSwlPipeAsView(
-    		@ModelAttribute("swlPipeAsVO") SwlPipeAsVO swlPipeAsVO,
-            ModelMap model) throws Exception {
-        return "egiskorea/com/job/fcmr/ssfc/ssfc/insertSwlPipeAsView";
-    }
-	
 	//면형하수관거 상세 화면 조회
 	@RequestMapping(value = "/selectSwlPipeAs.do", method = RequestMethod.POST)
     public String selectSwlPipeAs(
     		@ModelAttribute("swlPipeAsVO") SwlPipeAsVO swlPipeAsVO, String id,
     		ModelMap model) throws Exception {
 			model.addAttribute("id", id);
-        return "egiskorea/com/job/fcmr/ssfc/ssfc/selectSwlPipeAs";
+        return "egiskorea/com/job/fcmr/ssfc/spia/selectSwlPipeAs";
+    }
+		
+	//면형하수관거 등록 화면 조회
+	@RequestMapping(value = "/insertSwlPipeAsView.do")
+    public String insertSwlPipeAsView(
+    		@ModelAttribute("swlPipeAsVO") SwlPipeAsVO swlPipeAsVO,
+            ModelMap model) throws Exception {
+        return "egiskorea/com/job/fcmr/ssfc/spia/insertSwlPipeAsView";
     }
 	
 	//면형하수관거 수정 화면 조회
@@ -179,9 +178,8 @@ public class SewerSupplyController {
     		@ModelAttribute("swlPipeAsVO") SwlPipeAsVO swlPipeAsVO, String id,
     		ModelMap model) throws Exception {
 			model.addAttribute("id", id);
-        return "egiskorea/com/job/fcmr/ssfc/ssfc/updateSwlPipeAsView";
+        return "egiskorea/com/job/fcmr/ssfc/spia/updateSwlPipeAsView";
     }
-	*/
 	
 	///////
 	// 환기구
