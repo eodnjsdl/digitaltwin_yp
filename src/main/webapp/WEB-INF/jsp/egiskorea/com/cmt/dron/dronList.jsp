@@ -18,13 +18,19 @@
 
         dtmap.vector.clear();
         <c:forEach  items="${resultList}" var="item">
-            dtmap.vector.addPoint({
-                id : ${item.dronePicId},
-                coordinate : [Number('${item.xcord}'),Number('${item.ycord}')],
-                crs : 'EPSG:5179',
-                text: '${item.sj}',
-                img : './images/poi/poto_poi.png',
-            })
+        dtmap.vector.addPoint({
+            id: ${item.dronePicId},
+            coordinate: [Number('${item.xcord}'), Number('${item.ycord}')],
+            crs: 'EPSG:5179',
+            style: {
+                label: {
+                    text: '${item.sj}'
+                },
+                marker: {
+                    src: './images/poi/poto_poi.png'
+                }
+            }
+        })
         </c:forEach>
     }
 
