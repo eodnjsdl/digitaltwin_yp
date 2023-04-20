@@ -12,71 +12,73 @@ $(document).ready(function(){
 function getPhyEduFaciListView() {
 	//console.log("getPhyEduFaciListView()");
 	
-	FACILITY.spaceSearchOption = {}		// 공간검색 옵션 초기화
-	
 	ui.loadingBar("show");
 	
 	var baseContainer = "#bottomPopup";
     $(baseContainer).load('/job/fcmr/phfc/selectPhyEduFaciListView.do', function() {
 		//toastr.success("/job/fcmr/phfc/selectPhyEduFaciListView.do", "페이지🙂호🙂출🙂");
-		
-		// grid 기본 세팅
-		var $container = $("#container");
-		var $target = $container.find('#baseGridDiv [data-ax5grid="attr-grid"]');
-		$target.css('height', 'inherit');
-		
-		ax5.ui.grid.formatter["date"] = function() {
-			var date = this.value;
-			
-			return date.substr(0, 10);
-		}
-		
-		FACILITY.Ax5UiGrid = null;	// ax5uigrid 전역 변수 
-	    FACILITY.Ax5UiGrid = new ax5.ui.grid();
-	    FACILITY.Ax5UiGrid.setConfig({
-			target: $target,
-			sortable: true,
-			multipleSelect: false,
-			header: {
-				align: "center"
-			},
-			columns: [
-				{key: "gid",			label: "관리번호",		width: 80},
-				{key: "fclty_ty", 		label: "시설유형",		width: 100},
-				{key: "fclty_nm",		label: "체육시설명",	width: 200},
-				{key: "adres",			label: "주소",		width: 300},
-				{key: "fond_de",		label: "설립일자",		width: 130},
-				{key: "oper_mthd",		label: "운영방식",		width: 100},
-				{key: "cttpc_telno",	label: "문의번호",		width: 130},
-				{key: "charger_nm",		label: "담당자",		width: 100},
-				{key: "last_modf_dt",	label: "최종수정일자",	width: 130,		formatter: "date"},
-			],
-			page: {
-				navigationItemCount: 10,	// 보여지는 클릭 가능 페이지 번호
-		 		height: 30,
-				display: true,
-				firstIcon: '&lt;&lt;',
-				prevIcon: '&lt;',
-				nextIcon: '&gt;',
-				lastIcon: '&gt;&gt;',
-	            onChange: function() {
-	            	selectPhyEduFaciList(this.page.selectPage + 1);	// 페이지 이동
-	            	$('.hiddenPage').val(this.page.selectPage + 1);
-	            }
-			},
-			body: {
-				align: "center",
-				onClick: function() {
-					//this.self.select(this.dindex);
-					selectPhyEduFaciDetail(this.item.id);	// 상세보기
-				}
-			}
-		});
-	});
-	
-	selectPhyEduFaciList(1);
+    	
+    	getPhyEduFaci();
+    });
 	ui.loadingBar("hide");
 };
+
+function getPhyEduFaci() {
+	FACILITY.spaceSearchOption = {}		// 공간검색 옵션 초기화
+	
+	// grid 기본 세팅
+	var $container = $("#container");
+	var $target = $container.find('#baseGridDiv [data-ax5grid="attr-grid"]');
+	$target.css('height', 'inherit');
+	
+	ax5.ui.grid.formatter["date"] = function() {
+		var date = this.value;
+		return date.substr(0, 10);
+	}
+	
+	FACILITY.Ax5UiGrid = null;	// ax5uigrid 전역 변수 
+    FACILITY.Ax5UiGrid = new ax5.ui.grid();
+    FACILITY.Ax5UiGrid.setConfig({
+		target: $target,
+		sortable: true,
+		multipleSelect: false,
+		header: {
+			align: "center"
+		},
+		columns: [
+			{key: "gid",			label: "관리번호",		width: 80},
+			{key: "fclty_ty", 		label: "시설유형",		width: 100},
+			{key: "fclty_nm",		label: "체육시설명",	width: 200},
+			{key: "adres",			label: "주소",		width: 300},
+			{key: "fond_de",		label: "설립일자",		width: 130},
+			{key: "oper_mthd",		label: "운영방식",		width: 100},
+			{key: "cttpc_telno",	label: "문의번호",		width: 130},
+			{key: "charger_nm",		label: "담당자",		width: 100},
+			{key: "last_modf_dt",	label: "최종수정일자",	width: 130,		formatter: "date"},
+		],
+		page: {
+			navigationItemCount: 10,	// 보여지는 클릭 가능 페이지 번호
+	 		height: 30,
+			display: true,
+			firstIcon: '&lt;&lt;',
+			prevIcon: '&lt;',
+			nextIcon: '&gt;',
+			lastIcon: '&gt;&gt;',
+            onChange: function() {
+            	selectPhyEduFaciList(this.page.selectPage + 1);	// 페이지 이동
+            	$('.hiddenPage').val(this.page.selectPage + 1);
+            }
+		},
+		body: {
+			align: "center",
+			onClick: function() {
+				//this.self.select(this.dindex);
+				selectPhyEduFaciDetail(this.item.id);	// 상세보기
+			}
+		}
+	});
+	selectPhyEduFaciList(1);
+}
 
 // 체육시설 목록 조회
 function selectPhyEduFaciList(page) {

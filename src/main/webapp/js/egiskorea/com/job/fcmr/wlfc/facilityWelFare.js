@@ -12,66 +12,67 @@ $(document).ready(function(){
 function getWelFareFaciListView() {
 	//console.log("getWelFareFaciListView()");
 	
-	FACILITY.spaceSearchOption = {}		// 공간검색 옵션 초기화
-	
 	ui.loadingBar("show");
 	
 	var baseContainer = "#bottomPopup";
     $(baseContainer).load('/job/fcmr/wlfc/selectWelFareFaciListView.do', function() {
 		//toastr.success("/job/fcmr/wlfc/selectWelFareFaciListView.do", "페이지🙂호🙂출🙂");
-		
-		// grid 기본 세팅
-		var $container = $("#container");
-		var $target = $container.find('#baseGridDiv [data-ax5grid="attr-grid"]');
-		$target.css('height', 'inherit');
-		
-		// 시설구분 selectbox
-		getCmmCodeData('FCLTCD', '#lSrchOptions #welFcltySe');
-		
-		FACILITY.Ax5UiGrid = null;	// ax5uigrid 전역 변수 
-	    
-	    FACILITY.Ax5UiGrid = new ax5.ui.grid();
-		
-	    FACILITY.Ax5UiGrid.setConfig({
-			target: $target,
-			sortable: true,
-			multipleSelect: false,
-			header: {
-				align: "center"
-			},
-			columns: [
-				{key: "fclty_se_nm",	label: "시설구분",		width: 220},
-				{key: "fclty_nm",		label: "시설명",		width: 300},
-				{key: "rn_adres",		label: "주소",		width: 500},
-				{key: "cttpc_telno",	label: "전화번호",		width: 250}
-			],
-			page: {
-				navigationItemCount: 10,	// 보여지는 클릭 가능 페이지 번호
-		 		height: 30,
-				display: true,
-				firstIcon: '&lt;&lt;',
-				prevIcon: '&lt;',
-				nextIcon: '&gt;',
-				lastIcon: '&gt;&gt;',
-	            onChange: function() {
-	            	selectWelFareFaciList(this.page.selectPage + 1);
-	            	$('.hiddenPage').val(this.page.selectPage + 1);
-	            }
-			},
-			body: {
-				align: "center",
-				onClick: function() {
-					//this.self.select(this.dindex);
-					console.log(this.item);
-					selectWelFareFaciDetail(this.item.id);
-				}
-			}
-		});
-	});
-	
-	selectWelFareFaciList(1);
+    	
+    	getWelFareFaci();
+    });
 	ui.loadingBar("hide");
 };
+
+function getWelFareFaci() {
+	FACILITY.spaceSearchOption = {}		// 공간검색 옵션 초기화
+	
+	// grid 기본 세팅
+	var $container = $("#container");
+	var $target = $container.find('#baseGridDiv [data-ax5grid="attr-grid"]');
+	$target.css('height', 'inherit');
+	
+	// 시설구분 selectbox
+	getCmmCodeData('FCLTCD', '#lSrchOptions #welFcltySe');
+	
+	FACILITY.Ax5UiGrid = null;	// ax5uigrid 전역 변수 
+    FACILITY.Ax5UiGrid = new ax5.ui.grid();
+    FACILITY.Ax5UiGrid.setConfig({
+		target: $target,
+		sortable: true,
+		multipleSelect: false,
+		header: {
+			align: "center"
+		},
+		columns: [
+			{key: "fclty_se_nm",	label: "시설구분",		width: 220},
+			{key: "fclty_nm",		label: "시설명",		width: 300},
+			{key: "rn_adres",		label: "주소",		width: 500},
+			{key: "cttpc_telno",	label: "전화번호",		width: 250}
+		],
+		page: {
+			navigationItemCount: 10,	// 보여지는 클릭 가능 페이지 번호
+	 		height: 30,
+			display: true,
+			firstIcon: '&lt;&lt;',
+			prevIcon: '&lt;',
+			nextIcon: '&gt;',
+			lastIcon: '&gt;&gt;',
+            onChange: function() {
+            	selectWelFareFaciList(this.page.selectPage + 1);
+            	$('.hiddenPage').val(this.page.selectPage + 1);
+            }
+		},
+		body: {
+			align: "center",
+			onClick: function() {
+				//this.self.select(this.dindex);
+				console.log(this.item);
+				selectWelFareFaciDetail(this.item.id);
+			}
+		}
+	});
+	selectWelFareFaciList(1);
+}
 
 // 복지시설 목록 조회
 function selectWelFareFaciList(page) {
