@@ -146,7 +146,7 @@
 <script type="text/javascript">
 	//jqeury
 	$(document).ready(function(){
-		console.log("updateWtlFirePsView.jsp");
+		//console.log("updateWtlFirePsView.jsp");
 		
 		
 		//3d 일때 지도 추가 버튼 삭제 

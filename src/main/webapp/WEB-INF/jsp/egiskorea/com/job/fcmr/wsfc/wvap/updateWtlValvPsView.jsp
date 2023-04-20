@@ -202,7 +202,7 @@
 <script type="text/javascript">
 	//jqeury
 	$(document).ready(function(){
-		console.log("updateWtlValvPsView.jsp");
+		//console.log("updateWtlValvPsView.jsp");
 		
 		
 		//3d 일때 지도 추가 버튼 삭제 

@@ -145,7 +145,7 @@
 <script type="text/javascript">
 	//jqeury
 	$(document).ready(function(){
-		console.log("wtlServPsListView.jsp");
+		//console.log("wtlServPsListView.jsp");
 		
 		//이벤트 리스너 추가
 		dtmap.on('select', onFacilitySelectEventListener);

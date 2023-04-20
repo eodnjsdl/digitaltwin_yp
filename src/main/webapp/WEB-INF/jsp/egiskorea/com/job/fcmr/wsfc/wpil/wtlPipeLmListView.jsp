@@ -156,7 +156,7 @@
 <script type="text/javascript">
 	//jqeury
 	$(document).ready(function(){
-		console.log("wtlPipeLmListView.jsp");	
+		//console.log("wtlPipeLmListView.jsp");	
 		
 		//상수도 관리 메뉴 - 이벤트
 		var $container = $("#container");

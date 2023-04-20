@@ -6,8 +6,8 @@
 
 //jqeury
 $(document).ready(function(){
-	console.log("wtlPipeLm.js");
-	console.log("상수관로");
+	//console.log("wtlPipeLm.js");
+	//console.log("상수관로");
 });
 
 // 상수관로 목록 화면 조회
@@ -197,8 +197,8 @@ function selectWtlPipeLmList(page) {
 
 // 상수관로 상세정보 조회
 function selectWtlPipeLmDetail(detailData){
-	console.log("selectWtlPipeLmDetail(detailData)");
-	console.log(detailData);
+	//console.log("selectWtlPipeLmDetail(detailData)");
+	//console.log(detailData);
 
 	ui.loadingBar("show");
 	var formData = new FormData();
@@ -236,7 +236,7 @@ function selectWtlPipeLmDetail(detailData){
 
 // 상수관로 등록 화면 조회
 function insertWtlPipeLmView(){
-	console.log("insertWtlPipeLmView()");
+	//console.log("insertWtlPipeLmView()");
 	
 	// 팝업 변수 설정
 	ui.loadingBar("show");
@@ -261,8 +261,8 @@ function insertWtlPipeLmView(){
 
 // 상수관로 수정 화면 조회
 function updateWtlPipeLmView(id){
-	console.log("updateWtlPipeLmView()");
-	console.log("id>"+id);
+	//console.log("updateWtlPipeLmView()");
+	//console.log("id>"+id);
 	
 	var detailData = null;
 	if( FACILITY.Ax5UiGrid){

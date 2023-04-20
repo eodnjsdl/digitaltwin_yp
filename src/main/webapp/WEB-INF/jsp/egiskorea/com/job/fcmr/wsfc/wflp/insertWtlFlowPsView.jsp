@@ -152,7 +152,7 @@
 <script type="text/javascript">
 	//jqeury
 	$(document).ready(function(){
-		console.log("insertWtlFlowPsView.jsp");
+		//console.log("insertWtlFlowPsView.jsp");
         
 		// 날짜 형식 처리 예정 
         // 날짜 적용 - 지금 8자리로 되어 있어 이것 사용 (변경 예정) 
@@ -169,8 +169,8 @@
 		
      	// 지도에서 선택 화면 호출
         $(".btn-select-map", this).on("click", function () {
-        	console.log('지도 선택 화면');
-        	console.log(this);
+        	//console.log('지도 선택 화면');
+        	//console.log(this);
         	
         	ui.loadingBar("show");
             $('.space-edit-tool').load("/job/fcts/editView.do", () => {

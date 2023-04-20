@@ -153,7 +153,7 @@
 <script type="text/javascript">
 	//jqeury
 	$(document).ready(function(){
-		console.log("wtlFlowPsListView.jsp");
+		//console.log("wtlFlowPsListView.jsp");
 		
 		//이벤트 리스너 추가
 		dtmap.on('select', onFacilitySelectEventListener);
