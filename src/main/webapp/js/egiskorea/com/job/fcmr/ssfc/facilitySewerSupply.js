@@ -30,7 +30,7 @@ function getSewerSupplyFacility(name){
 			toastr.error("작업중", "하수맨홀");
 			return;
 		}else if(name == "swlPipeAs"){		//면형하수관거
-			toastr.error("작업중", "면형하수관거");
+			selectSwlPipeAsListView()
 			return;
 		}else if(name == "swlPipeLm"){		//하수관거
 			toastr.error("작업중", "하수관거");
@@ -74,3 +74,15 @@ function selectSwlConnLsListView(){
     });
 }
 
+//하수연결관 목록 화면 조회
+function selectSwlPipeAsListView(){
+	//console.log("selectSwlPipeAsListView()");
+	
+	ui.loadingBar("show");
+	
+	var baseContainer = "#bottomPopup";
+    $(baseContainer).load("/job/fcmr/ssfc/selectSwlPipeAsListView.do", function () {
+    	swlPipeAsListProcess();
+		ui.loadingBar("hide");
+    });
+}
