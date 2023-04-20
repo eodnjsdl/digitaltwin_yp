@@ -38,12 +38,12 @@
     <script src="/js/plugin/chart/chart.js"></script>
     <script src="/js/html2canvas.min.js" type="text/javascript"></script>
 
-    <!-- ui -->
-    <script src="/js/ui/ui.js"></script>
-
     <!-- toastr 2.1.4 -->
     <script type="text/javascript" src="/js/plugin/toastr-2.1.4/toastr.js"></script>
     <script type="text/javascript" src="/js/util/toast-confirm.js"></script>
+
+	<!-- ui -->
+	<script src="/js/ui/ui.js"></script>
 
 	<!-- ax5 grid css -->
     <link rel="stylesheet" href="/js/plugin/ax5grid/ax5grid.css">
@@ -287,14 +287,6 @@
 					</ul>
 				</li>
 			</ul>
-			<script>
-				$('.GNB li ul').slideUp();
-				$('.GNB').on('mouseenter',function(){
-					$('.GNB li ul').stop().slideDown(300);
-				}).on('mouseleave',function(){
-					$('.GNB li ul').stop().slideUp(300);
-				});
-			</script>
         </div>
     </header>
     <!-- //header -->
@@ -412,13 +404,6 @@
 							</div>
 						</div>
 					</div>
-					<script>
-						$( function() {		
-							$(".coordi-header > div").click(function(){
-								$(".coordinates").toggleClass("active");
-							});										
-						});
-					</script>
 				</div>
 				<!-- //좌표, 축적 -->
 			</div>
@@ -457,13 +442,6 @@
                 </div>
             </div>
             <button type="button" class="legend-close" title="닫기"></button>
-            <script>
-                $(document).ready(function () {
-                    $(".legend-panel .legend-close").click(function () {
-                        $(".legend-panel").removeClass("opened");
-                    });
-                });
-            </script>
         </div>
         <!-- //범례 -->
 
@@ -561,7 +539,7 @@
 								<ul class="lnb-dep2">
 									<li><button type="button" id="BusRouteInformation" class="dataPopup" data-popup="">버스노선정보</button></li>
 									<li><button type="button" id="PopulationInformation" class="dataPopup" data-popup="">인구정보</button></li>
-									<li><button type="button" id="TransportationVulnerability" id="BusRouteInformation"class="dataPopup" data-popup="">대중교통 취약분석</button></li>
+									<li><button type="button" id="TransportationVulnerability" class="dataPopup" data-popup="">대중교통 취약분석</button></li>
 								</ul>
 							</li>
 						</ul>
@@ -726,45 +704,6 @@
 				</form>
 			</div>
 			<button type="button" class="basic-close" title="닫기"></button>
-			<script>
-				$(document).ready(function(){
-					$(".basic-popup .basic-close").click(function(){
-						$(".basic-popup").hide();
-					});
-					
-					function closePop(){
-						if(document.popupForm.expiredays.checked){
-							setCookie( "popup", "hide" , 1 );
-						}
-					}
-	
-					function setCookie( cookieName, cookieValue, expireDate ){
-						var today = new Date();
-						today.setDate( today.getDate() + parseInt( expireDate ) );
-						document.cookie = cookieName + "=" + escape( cookieValue ) + "; path=/; expires=" + today.toGMTString() + ";";
-					}
-	
-					$("#popup01").on("click", function(){
-						closePop();
-						$(this).parents(".basic-popup").hide();
-					});
-	
-	
-				  if(document.cookie.indexOf("popup=hide") < 0 ){
-						$(".basic-popup").show();
-					}else{
-						$(".basic-popup").hide();				
-					}
-				  
-				  $('.basic-popup').draggable({
-						containment: "#container",
-						scroll: false,
-						start: function() {
-							$(this).css({transform: "none", top: $(this).offset().top+"px", left:$(this).offset().left+"px"});
-						}
-					});
-				});
-			</script>				
 		</div>
 		<!-- //업데이트 안내 -->
 		
@@ -797,19 +736,81 @@
 
 <!-- //wrap -->
 <script type="text/javascript">
-    dtmap.urls.set({
-        EMAP_KEY: `<spring:message code="Gis.baro2map.key"/>`
-    })
-    /**
-     * 초기 지도 선택 가능
-     * dtmap.init('2D');
-     * dtmap.init('3D');
-     */
-    dtmap.init('2D');
-    /**
-     * 초기화 UI
-     */
-    ui.init();
+
+	// check cookie
+	checkCookiePopup();
+
+	dtmap.urls.set({
+		EMAP_KEY: `<spring:message code="Gis.baro2map.key"/>`
+	});
+	/**
+	 * 초기 지도 선택 가능
+	 * dtmap.init('2D');
+	 * dtmap.init('3D');
+	 */
+	dtmap.init('2D');
+	/**
+	 * 초기화 UI
+	 */
+	ui.init();
+
+	$(document).ready(function(){
+		_setMainUIAction();
+		_setMainUIEvent();
+	})
+
+	function checkCookiePopup() {
+		if(document.cookie.indexOf("popup=hide") < 0 ){
+			$(".basic-popup").show();
+		}else{
+			$(".basic-popup").hide();
+		}
+	}
+
+	function _setMainUIAction() {
+		$('.GNB li ul').slideUp();
+		$('.GNB').on('mouseenter',function(){
+			$('.GNB li ul').stop().slideDown(300);
+		}).on('mouseleave',function(){
+			$('.GNB li ul').stop().slideUp(300);
+		});
+		// div draggable
+		$('.basic-popup').draggable({
+			containment: "#container",
+			scroll: false,
+			start: function() {
+				$(this).css({transform: "none", top: $(this).offset().top+"px", left:$(this).offset().left+"px"});
+			}
+		});
+	}
+
+	function _setMainUIEvent() {
+		$(".coordi-header > div").click(function(){
+			$(".coordinates").toggleClass("active");
+		});
+		$(".legend-panel .legend-close").click(function () {
+			$(".legend-panel").removeClass("opened");
+		});
+		$(".basic-popup .basic-close").click(function(){
+			$(".basic-popup").hide();
+		});
+		$("#popup01").on("click", function(){
+			closePop();
+			$(this).parents(".basic-popup").hide();
+		});
+	}
+
+	function closePop(){
+		if(document.popupForm.expiredays.checked){
+			setCookie( "popup", "hide" , 1 );
+		}
+	}
+
+	function setCookie( cookieName, cookieValue, expireDate ){
+		var today = new Date();
+		today.setDate( today.getDate() + parseInt( expireDate ) );
+		document.cookie = cookieName + "=" + escape( cookieValue ) + "; path=/; expires=" + today.toGMTString() + ";";
+	}
 
 </script>
 

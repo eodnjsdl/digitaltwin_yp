@@ -3,16 +3,12 @@ window.ui = (function () {
     function init() {
         //일반동작
         _bindEvent();
-        
         //상단영역
         _topMenuEvent();
-        
         //RIGHT 지도제어툴바영역
         _rightToolEvent();
-        
         //LEFT메뉴영역
         _leftMenuEvent();
-        
         //좌측 메뉴 >> 공간정보
         _spaceMenuEvent();
         //좌측 메뉴 >> 공간정보 활용 >> 사업공유관리 
@@ -30,8 +26,16 @@ window.ui = (function () {
         jQuery.ajaxSetup({
         	cache: false
     	});
+        // set toast option
+        _setToastOption();
     }
-    
+
+    function _setToastOption() {
+        toastr.options = {
+            "positionClass": "toast-bottom-right"
+        };
+    }
+
     //일반동작
     function _bindEvent() {
         /** popup draggable **/
