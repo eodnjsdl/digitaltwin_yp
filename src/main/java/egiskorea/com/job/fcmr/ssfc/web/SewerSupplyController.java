@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import egiskorea.com.job.fcmr.ssfc.service.SwlConnLsVO;
+import egiskorea.com.job.fcmr.ssfc.service.SwlDeptPsVO;
+import egiskorea.com.job.fcmr.ssfc.service.SwlDranPsVO;
 import egiskorea.com.job.fcmr.ssfc.service.SwlPipeAsVO;
 import egiskorea.com.job.fcmr.ssfc.service.SwlVentPsVO;
 
@@ -22,7 +24,7 @@ import egiskorea.com.job.fcmr.ssfc.service.SwlVentPsVO;
  *  수정일               수정자            수정내용
  *  ----------   --------   ---------------------------
  *  2023.04.14   황의현           최초 생성
- *  2023.04.19   김영주           환기구
+ *  2023.04.19   김영주           하수관거심도, 환기구
  */
 
 @Controller
@@ -68,6 +70,80 @@ public class SewerSupplyController {
         return "egiskorea/com/job/fcmr/ssfc/scol/updateSwlConnLsView";
     }
 	
+	///////////
+	// 하수관거심도
+	
+	// 하수관거심도 목록 조회
+	@RequestMapping(value = "/selectSwlDeptPsListView.do")
+	public String selectSwlDeptPsListView(
+			@ModelAttribute("swlDeptPsVO") SwlDeptPsVO swlDeptPsVO,
+			ModelMap model) throws Exception {
+		return "egiskorea/com/job/fcmr/ssfc/sdep/swlDeptPsListView";
+	}
+	
+	// 하수관거심도 상세화면 조회
+	@RequestMapping(value = "/selectSwlDeptPsDetail.do", method = RequestMethod.POST)
+	public String selectSwlDeptPsDetail(
+			@ModelAttribute("swlDeptPsVO") SwlDeptPsVO swlDeptPsVO, String id,
+			ModelMap model) throws Exception {
+		model.addAttribute("id", id);
+		return "egiskorea/com/job/fcmr/ssfc/sdep/swlDeptPsDetail";
+	}
+	
+	// 하수관거심도 등록화면 조회
+	@RequestMapping(value = "/insertSwlDeptPsView.do")
+	public String insertSwlDeptPsView(
+			@ModelAttribute("swlDeptPsVO") SwlDeptPsVO swlDeptPsVO,
+			ModelMap model) throws Exception {
+		return "egiskorea/com/job/fcmr/ssfc/sdep/insertSwlDeptPsView";
+	}
+	
+	// 하수관거심도 수정화면 조회
+	@RequestMapping(value = "/updateSwlDeptPsView.do", method = RequestMethod.POST)
+	public String updateSwlDeptPsView(
+			@ModelAttribute("swlDeptPsVO") SwlDeptPsVO swlDeptPsVO, String id,
+			ModelMap model) throws Exception {
+		model.addAttribute("id", id);
+		return "egiskorea/com/job/fcmr/ssfc/sdep/updateSwlDeptPsView";
+	}
+
+	///////////
+	// 하수처리장
+	
+	// 하수처리장 목록 조회
+	@RequestMapping(value = "/selectSwlDranPsListView.do")
+	public String selectSwlDranPsListView(
+			@ModelAttribute("swlDranPsVO") SwlDranPsVO swlDranPsVO,
+			ModelMap model) throws Exception {
+		return "egiskorea/com/job/fcmr/ssfc/sdrp/swlDranPsListView";
+	}
+	
+	// 하수처리장 상세화면 조회
+	@RequestMapping(value = "/selectSwlDranPsDetail.do", method = RequestMethod.POST)
+	public String selectSwlDranPsDetail(
+			@ModelAttribute("swlDranPsVO") SwlDranPsVO swlDranPsVO, String id,
+			ModelMap model) throws Exception {
+		model.addAttribute("id", id);
+		return "egiskorea/com/job/fcmr/ssfc/sdrp/swlDranPsDetail";
+	}
+	
+	// 하수처리장 등록화면 조회
+	@RequestMapping(value = "/insertSwlDranPsView.do")
+	public String insertSwlDranPsView(
+			@ModelAttribute("swlDranPsVO") SwlDranPsVO swlDranPsVO,
+			ModelMap model) throws Exception {
+		return "egiskorea/com/job/fcmr/ssfc/sdrp/insertSwlDranPsView";
+	}
+	
+	// 하수처리장 수정화면 조회
+	@RequestMapping(value = "/updateSwlDranPsView.do", method = RequestMethod.POST)
+	public String updateSwlDranPsView(
+			@ModelAttribute("swlDranPsVO") SwlDranPsVO swlDranPsVO, String id,
+			ModelMap model) throws Exception {
+		model.addAttribute("id", id);
+		return "egiskorea/com/job/fcmr/ssfc/sdrp/updateSwlDranPsView";
+	}
+
 	///////////
 	//면형하수관거
 	

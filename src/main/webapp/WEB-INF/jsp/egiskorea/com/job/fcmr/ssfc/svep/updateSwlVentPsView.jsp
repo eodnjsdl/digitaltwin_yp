@@ -21,7 +21,7 @@
 <script type="text/javascript">
 
 $(document).ready(function(){
-	console.log("updateSwlVentPsView.jsp");
+	//console.log("updateSwlVentPsView.jsp");
 
 	//3d 일때 지도 추가 버튼 삭제 
 	if(dtmap.mod == "3D"){

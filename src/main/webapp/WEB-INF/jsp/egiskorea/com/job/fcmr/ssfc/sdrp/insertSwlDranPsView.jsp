@@ -6,7 +6,7 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
 <style type="text/css">
-	.popup-panel.popup-sub .swlVentPs-popup-close {
+	.popup-panel.popup-sub .swlDranPs-popup-close {
 	    top: 0;
 	    right: 0;
 	    width: 39px;
@@ -21,26 +21,15 @@
 <script type="text/javascript">
 
 $(document).ready(function(){
-	//console.log("insertSwlVentPsView.jsp");
+	//console.log("insertSwlDranPsView.jsp");
 
 	//3d 일때 지도 추가 버튼 삭제 
 	if(dtmap.mod == "3D"){
-		if($("#insertSwlVentPsFrm .btn-select-map").css("display") != 'none'){
-			$("#insertSwlVentPsFrm .btn-select-map").hide();
+		if($("#insertSwlDranPsFrm .btn-select-map").css("display") != 'none'){
+			$("#insertSwlDranPsFrm .btn-select-map").hide();
 		}
 	}
 	
-	// 날짜 형식 처리 예정 
-	// 현재 db column 길이는 8~9자리 로 되어 었음 
-	$(".datepicker").datepicker({
-		showOn: "both",
-		buttonImage: "/images/icon/form-calendar.svg",
-		dateFormat: "yymmdd",
-	}); 
-       
-	// 날짜 - 10자리(yyyy-mm-dd) 적용시 사용
-	//ui.callDatePicker();
-
 	// 지도에서 선택 화면 호출
 	$(".btn-select-map", this).on("click", function () {
 		ui.loadingBar("show");
@@ -75,8 +64,8 @@ $(document).ready(function(){
 });
 
 //취소 버튼 동작
-function cancelInsertSwlVentPs() {
-	$(".swlVentPs-popup-close").closest('.popup-panel').removeClass('opened');
+function cancelInsertSwlDranPs() {
+	$(".swlDranPs-popup-close").closest('.popup-panel').removeClass('opened');
        // 초기화 (지도)
        dtmap.draw.dispose();
        dtmap.draw.clear();
@@ -88,14 +77,14 @@ function cancelInsertSwlVentPs() {
 	
 </script>
 
-<!-- 업무 > 시설관리 > 하수도시설 > 환기구 등록하기 -->
-<div class="popup-header">환기구 등록하기</div>
+<!-- 업무 > 시설관리 > 하수도시설 > 하수처리장 등록하기 -->
+<div class="popup-header">하수처리장 등록하기</div>
 <div class="popup-body">
 	<div class="sub-popup-body">
 		<div class="data-write-wrap" style="height: 100%;">
 			<div class="scroll-y">
 				<div class="data-default">
-					<form id="insertSwlVentPsFrm" method="post">
+					<form id="insertSwlDranPsFrm" method="post">
 					<table class="data-write">
 						<colgroup>
 							<col style="width: 23%;">
@@ -108,12 +97,12 @@ function cancelInsertSwlVentPs() {
 								<th scope="row">지형지물부호</th>
 								<td>
 									<select name="ftr_cde" class="form-select">
-										<option value="SB410" selected="selected">환기구</option>
+										<option value="SB200" selected="selected">하수처리장</option>
 									</select>
 								</td>
 								<th scope="row">관리번호</th>
 								<td>
-									<input type="number" name="ftr_idn" class="form-control" value="" readonly="readonly">
+									<input type="text" name="ftr_idn" class="form-control" value="" readonly="readonly">
 								</td>
 							</tr>
 							<tr>
@@ -141,41 +130,74 @@ function cancelInsertSwlVentPs() {
 								</td>
 							</tr>
 							<tr>
-								<th scope="row">환기구구경</th>
-								<td>
-									<input type="number" name="vnt_dip" class="form-control" value="">
+								<th scope="row">하수처리장명</th>
+								<td colspan="3">
+									<input type="text" name="drn_nam" class="form-control" value="">
 								</td>
-								<th scope="row">관재질</th>
+							</tr>
+							<tr>
+								<th scope="row">부지면적</th>
 								<td>
-									<select name="mop_cde" class="form-select">
+									<input type="number" name="gai_ara" class="form-control" value="">
+								</td>
+								<th scope="row">개통상태</th>
+								<td>
+									<select name="soo_cde" class="form-select">
 										<option value="">선택</option>
 									</select>
 								</td>
 							</tr>
 							<tr>
-								<th scope="row">흡출기형식</th>
+								<th scope="row">처리구역면적</th>
 								<td>
-									<select name="mof_cde" class="form-select">
+									<input type="number" name="adp_ara" class="form-control" value="">
+								</td>
+								<th scope="row">하수처리방식</th>
+								<td>
+									<select name="sbb_cde" class="form-select">
 										<option value="">선택</option>
 									</select>
 								</td>
-								<th scope="row">흡출기재질</th>
+							</tr>
+							<tr>
+								<th scope="row">청천시처리용량</th>
 								<td>
-									<select name="hmp_cde" class="form-select">
-										<option value="">선택</option>
-									</select>
+									<input type="number" name="pcc_vol" class="form-control" value="">
+								</td>
+								<th scope="row">우천시처리용량</th>
+								<td>
+									<input type="number" name="puc_vol" class="form-control" value="">
+								</td>
+							</tr>
+							<tr>
+								<th scope="row">설계유입수_수질</th>
+								<td>
+									<input type="text" name="qw1_exp" class="form-control" value="">
+								</td>
+								<th scope="row">설계유출수_수질</th>
+								<td>
+									<input type="text" name="qw2_exp" class="form-control" value="">
+								</td>
+							</tr>
+							<tr>
+								<th scope="row">차집관연장</th>
+								<td>
+									<input type="number" name="pip_len" class="form-control" value="">
+								</td>
+								<th scope="row">방류수역명</th>
+								<td>
+									<input type="text" name="dra_nam" class="form-control" value="">
 								</td>
 							</tr>
 							<tr>
 								<th scope="row">공사번호</th>
 								<td>
-									<input type="text" name="cnt_num" class="form-control" value="" maxlength="8">
+									<input type="text" name="cnt_num" class="form-control" value="">
 								</td>
 								<th scope="row">방향각</th>
 								<td>
 									<input type="number" name="ang_dir" class="form-control" value="">
 								</td>
-								
 							</tr>
 							<tr>
 								<th scope="row">위치</th>
@@ -198,13 +220,13 @@ function cancelInsertSwlVentPs() {
 			</div>
 			<div class="position-bottom btn-wrap">
 				<div>
-					<button type="button" class="btn basic bi-edit btn_add" onclick="insertSwlVentPs();">등록</button>
-					<button type="button" class="btn basic bi-cancel btn_cancel" onclick="cancelInsertSwlVentPs()">취소</button>
+					<button type="button" class="btn basic bi-edit btn_add" onclick="insertSwlDranPs();">등록</button>
+					<button type="button" class="btn basic bi-cancel btn_cancel" onclick="cancelInsertSwlDranPs()">취소</button>
 				</div>
 			</div>
 		</div>
 	</div>
 </div>
 <!-- <button type="button" class="popup-close" title="닫기" onclick="cancelMode();"></button> -->
-<button type="button" class="swlVentPs-popup-close" title="닫기" onclick="cancelInsertSwlVentPs()"></button>
-<!-- //업무 > 시설관리 > 하수도시설 > 환기구 등록하기 end -->
+<button type="button" class="swlDranPs-popup-close" title="닫기" onclick="cancelInsertSwlDranPs()"></button>
+<!-- //업무 > 시설관리 > 하수도시설 > 하수처리장 등록하기 end -->

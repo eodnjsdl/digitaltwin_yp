@@ -1,17 +1,17 @@
 /**
- * - 업무 / 시설관리 / 하수도시설 / 환기구
+ * - 업무 / 시설관리 / 하수도시설 / 하수처리장
  * 
  * @returns
  */
 
 $(document).ready(function(){
-	//console.log("swlVentPs.js");
-	//console.log("환기구");
+	console.log("swlDranPs.js");
+	console.log("하수처리장");
 });
 
-// 환기구 목록 페이지 호출
-function swlVentPsProcess() {
-	//console.log('swlVentPsProcess()');
+// 하수처리장 목록 페이지 호출
+function swlDranPsProcess() {
+	//console.log('swlDranPsProcess()');
 	
 	// grid 기본 세팅
 	var $container = $("#container");
@@ -20,9 +20,6 @@ function swlVentPsProcess() {
 	
 	// 속성검색 옵션
 	getCmmCodeData('YPE001', '#lSrchOptions select[name=hjd_cde]');		// 읍면동
-	getCmmCodeData('OGC-003', '#lSrchOptions select[name=mop_cde]');	// 관재질
-	getCmmCodeData('OGC-012', '#lSrchOptions select[name=mof_cde]');	// 흡출기형식
-	getCmmCodeData('OGC-172', '#lSrchOptions select[name=hmp_cde]');	// 흡출기재질
 	
 	FACILITY.Ax5UiGrid = null;	// ax5uigrid 전역 변수 
     FACILITY.Ax5UiGrid = new ax5.ui.grid();
@@ -34,13 +31,15 @@ function swlVentPsProcess() {
 			align: "center"
 		},
 		columns: [
-			{key: "ftr_idn",		label: "관리번호",			width: 170},
-			{key: "hjd_cde_nm", 	label: "읍면동",			width: 170},
-			{key: "ist_ymd",		label: "설치일자",			width: 170},
-			{key: "vnt_dip",		label: "환기구구경",		width: 170},
-			{key: "mop_cde_nm",		label: "관재질",			width: 210},
-			{key: "mof_cde_nm",		label: "흡출기형식",		width: 170},
-			{key: "hmp_cde_nm",		label: "흡출기재질",		width: 210}
+			{key: "ftr_idn",		label: "관리번호",			width: 130},
+			{key: "hjd_cde_nm",		label: "읍면동",			width: 110},
+			{key: "ist_ymd", 		label: "설치일자",			width: 130},
+			{key: "drn_nam",		label: "하수처리장명",		width: 280},
+			{key: "gai_ara", 		label: "부지면적",			width: 120},
+			{key: "soo_cde_nm",		label: "개통상태",			width: 130},
+			{key: "adp_ara", 		label: "처리구역면적",		width: 120},
+			{key: "sbb_cde_nm", 	label: "하수처리방식",		width: 130},
+			{key: "pcc_vol",		label: "청천시처리용량",		width: 120}
 		],
 		page: {
 			navigationItemCount: 10,	// 보여지는 클릭 가능 페이지 번호
@@ -51,7 +50,7 @@ function swlVentPsProcess() {
 			nextIcon: '&gt;',
 			lastIcon: '&gt;&gt;',
             onChange: function() {
-            	selectSwlVentPsList(this.page.selectPage + 1);	// 페이지 이동
+            	selectSwlDranPsList(this.page.selectPage + 1);	// 페이지 이동
             	$('.hiddenPage').val(this.page.selectPage + 1);
             }
 		},
@@ -60,16 +59,16 @@ function swlVentPsProcess() {
 			onClick: function() {
 				//this.self.select(this.dindex);
 				//console.log(this.item.id);
-				selectSwlVentPs(this.item.id);	// 상세보기
+				selectSwlDranPs(this.item.id);	// 상세보기
 			}
 		}
 	});
-	selectSwlVentPsList(1);
+	selectSwlDranPsList(1);
 }
 
-// 환기구 목록 조회
-function selectSwlVentPsList(page) {
-	//console.log('selectSwlVentPsList(page)');
+// 하수처리장 목록 조회
+function selectSwlDranPsList(page) {
+	//console.log('selectSwlDranPsList(page)');
 	
 	// 팝업 닫기
 	ui.closeSubPopup();
@@ -84,25 +83,17 @@ function selectSwlVentPsList(page) {
 		const filters = [];
 		
 		var hjdCde = $("#lSrchOptions select[name=hjd_cde] option:selected").val();	// 읍면동
-		var mopCde = $("#lSrchOptions select[name=mop_cde] option:selected").val();	// 관재질
-		var mofCde = $("#lSrchOptions select[name=mof_cde] option:selected").val();	// 흡출기형식
-		var hmpCde = $("#lSrchOptions select[name=hmp_cde] option:selected").val();	// 흡출기재질
+		var drnNam = $('#lSrchOptions input[name=drn_nam]').val();					// 하수처리장명
 		
 		if (hjdCde) {
 			filters.push("hjd_cde" + " = " + hjdCde);
 		}
-		if (mopCde) {
-			filters.push("mop_cde" + " = " + mopCde);
-		}
-		if (mofCde) {
-			filters.push("mof_cde" + " = " + mofCde);
-		}
-		if (hmpCde) {
-			filters.push("hmp_cde" + " = " + hmpCde);
+		if (drnNam) {
+			filters.push("drn_nam" + " like " + drnNam);
 		}
 		
 		options = {
-			typeNames	: "swl_vent_ps" + "",
+			typeNames	: "swl_dran_ps" + "",
 			perPage		: 10,
 			page		: page,
 			filter		: filters,
@@ -116,7 +107,7 @@ function selectSwlVentPsList(page) {
 		const type 		= $parent.find('input[name="rad-facility-area"]:checked').val();
 
 		options = {
-			typeNames	: 'swl_vent_ps' + "",
+			typeNames	: 'swl_dran_ps' + "",
 			perPage		: 10,
 			page		: page,
 			sortBy		: 'gid',
@@ -136,26 +127,23 @@ function selectSwlVentPsList(page) {
 		// 그리드 데이터 전처리
 		const list = [];
 		for (let i = 0; i < data.features.length; i++) {
-			// 읍면동 코드 처리
-			var hjd_cde = data.features[i].properties.hjd_cde;
-	    	data.features[i].properties.hjd_cde_nm = getCmmCodeDataArray("YPE001", hjd_cde);
-	    	// 관재질 코드 처리
-	    	var mop_cde = data.features[i].properties.mop_cde;
-	    	data.features[i].properties.mop_cde_nm = getCmmCodeDataArray("OGC-003", mop_cde);
-	    	// 흡출기형식 코드 처리
-	    	var mof_cde = data.features[i].properties.mof_cde;
-	    	data.features[i].properties.mof_cde_nm = getCmmCodeDataArray("OGC-012", mof_cde);
-	    	// 흡출기재질 코드 처리
-	    	var hmp_cde = data.features[i].properties.hmp_cde;
-	    	data.features[i].properties.hmp_cde_nm = getCmmCodeDataArray("OGC-172", hmp_cde);
 	    	// 지형지물부호 코드 처리
 	    	var ftr_cde = data.features[i].properties.ftr_cde;
 	    	data.features[i].properties.ftr_cde_nm = getCmmCodeDataArray("FTR-001", ftr_cde);
+	    	// 읍면동 코드 처리
+	    	var hjd_cde = data.features[i].properties.hjd_cde;
+	    	data.features[i].properties.hjd_cde_nm = getCmmCodeDataArray("YPE001", hjd_cde);
 	    	// 관리기관 코드 처리
 	    	var mng_cde = data.features[i].properties.mng_cde;
 	    	data.features[i].properties.mng_cde_nm = getCmmCodeDataArray("MNG-001", mng_cde);
-			
-        	// 좌표 처리
+	    	// 개통상태 코드 처리
+	    	var soo_cde = data.features[i].properties.soo_cde;
+	    	data.features[i].properties.soo_cde_nm = getCmmCodeDataArray("OGC-023", soo_cde);
+	    	// 하수처리방식 코드 처리
+	    	var sbb_cde = data.features[i].properties.sbb_cde;
+	    	data.features[i].properties.sbb_cde_nm = getCmmCodeDataArray("OGC-056", sbb_cde);
+        	
+	    	// 좌표 처리
 			data.features[i].properties.geomObj = data.features[i].geometry;
 			
         	const {id, properties} = data.features[i];
@@ -190,11 +178,11 @@ function selectSwlVentPsList(page) {
         dtmap.vector.readGeoJson(data, function(feature) {
             // 스타일 콜백 
         	let properties = feature.getProperties();
-            let ftr_idn = properties.ftr_idn;
+            let drn_nam = properties.drn_nam;
             
             return {
                 marker: {
-                    src: '/images/poi/swlVentPs_poi.png'
+                    src: '/images/poi/swlDranPs_poi.png'
                 },
                 label: {
                     text: ''
@@ -205,9 +193,9 @@ function selectSwlVentPsList(page) {
 	});
 }
 
-// 환기구 상세정보 조회
-function selectSwlVentPs(id) {
-	//console.log('selectSwlVentPs(id)');
+// 하수처리장 상세정보 조회
+function selectSwlDranPs(id) {
+	//console.log('selectSwlDranPs(id)');
 	//console.log('id >>> ' + id);
 	
 	//검색 조건
@@ -216,7 +204,7 @@ function selectSwlVentPs(id) {
 	var idArray = id.split(".");
 	
 	const typeName	= idArray[0];
-	if(typeName != "swl_vent_ps"){
+	if(typeName != "swl_dran_ps"){
 		alert("상세보기 오류");
 		return false;
 	}
@@ -231,7 +219,7 @@ function selectSwlVentPs(id) {
 	
     var options;
     options = {
-        typeNames	: 'swl_vent_ps' + "",
+        typeNames	: 'swl_dran_ps' + "",
         filter 		: filters,
     }
     
@@ -244,24 +232,21 @@ function selectSwlVentPs(id) {
     		return false;
     	}
     	
-    	// 읍면동 코드 처리
-		var hjd_cde = data.features[0].properties.hjd_cde;
-    	data.features[0].properties.hjd_cde_nm = getCmmCodeDataArray("YPE001", hjd_cde);
-    	// 관재질 코드 처리
-    	var mop_cde = data.features[0].properties.mop_cde;
-    	data.features[0].properties.mop_cde_nm = getCmmCodeDataArray("OGC-003", mop_cde);
-    	// 흡출기형식 코드 처리
-    	var mof_cde = data.features[0].properties.mof_cde;
-    	data.features[0].properties.mof_cde_nm = getCmmCodeDataArray("OGC-012", mof_cde);
-    	// 흡출기재질 코드 처리
-    	var hmp_cde = data.features[0].properties.hmp_cde;
-    	data.features[0].properties.hmp_cde_nm = getCmmCodeDataArray("OGC-172", hmp_cde);
     	// 지형지물부호 코드 처리
     	var ftr_cde = data.features[0].properties.ftr_cde;
     	data.features[0].properties.ftr_cde_nm = getCmmCodeDataArray("FTR-001", ftr_cde);
+    	// 읍면동 코드 처리
+    	var hjd_cde = data.features[0].properties.hjd_cde;
+    	data.features[0].properties.hjd_cde_nm = getCmmCodeDataArray("YPE001", hjd_cde);
     	// 관리기관 코드 처리
     	var mng_cde = data.features[0].properties.mng_cde;
     	data.features[0].properties.mng_cde_nm = getCmmCodeDataArray("MNG-001", mng_cde);
+    	// 개통상태 코드 처리
+    	var soo_cde = data.features[0].properties.soo_cde;
+    	data.features[0].properties.soo_cde_nm = getCmmCodeDataArray("OGC-023", soo_cde);
+    	// 하수처리방식 코드 처리
+    	var sbb_cde = data.features[0].properties.sbb_cde;
+    	data.features[0].properties.sbb_cde_nm = getCmmCodeDataArray("OGC-056", sbb_cde);
 		
     	// 좌표 처리
 		data.features[0].properties.geomObj = data.features[0].geometry;
@@ -269,17 +254,17 @@ function selectSwlVentPs(id) {
 		var detailData = data.features[0].properties;
     	detailData.id = id;
     	
-    	selectSwlVentPsDetail(detailData);	//상세 페이지에 데이터 전달
+    	selectSwlDranPsDetail(detailData);	//상세 페이지에 데이터 전달
     });
 }
 
-// 환기구 상세보기 페이지 호출
-function selectSwlVentPsDetail(detailData) {
-	//console.log('selectSwlVentPsDetail(detailData)');
+// 하수처리장 상세보기 페이지 호출
+function selectSwlDranPsDetail(detailData) {
+	//console.log('selectSwlDranPsDetail(detailData)');
 	//console.log('data >>> ' + detailData);
 	
 	if(!detailData && detailData == null){
-		alert("환기구 상세보기 오류");
+		alert("하수처리장 상세보기 오류");
 		return false;
 	}
 	
@@ -294,7 +279,7 @@ function selectSwlVentPsDetail(detailData) {
 	ui.loadingBar("show");
 	
 	$.ajax({
-		url:"/job/fcmr/ssfc/selectSwlVentPsDetail.do",
+		url:"/job/fcmr/ssfc/selectSwlDranPsDetail.do",
 		type: "POST",
 		data: formData,
 		dataType: 'html',
@@ -319,44 +304,36 @@ function selectSwlVentPsDetail(detailData) {
 	});
 }
 
-// 환기구 등록 페이지 호출
-function insertSwlVentPsView(){
-	//console.log("insertSwlVentPsView()");
+// 하수처리장 등록 페이지 호출
+function insertSwlDranPsView(){
+	//console.log("insertSwlDranPsView()");
 	
 	dtmap.vector.clearSelect();		// 선택 해제
 	
 	ui.loadingBar("show");
 	
-	$("#rightSubPopup").addClass("div-failcity-detail");	//날짜 css 때문	
-	
 	ui.openPopup("rightSubPopup");
 	
 	var container = "#rightSubPopup";
-	$(container).load("/job/fcmr/ssfc/insertSwlVentPsView.do", function () {
+	$(container).load("/job/fcmr/ssfc/insertSwlDranPsView.do", function () {
 		$(".scroll-y").mCustomScrollbar({
 			scrollbarPosition: "outside",
 		});
 		
-		getCmmCodeData("YPE001",  "#rightSubPopup select[name=hjd_cde]");	//읍면동
-		getCmmCodeData("MNG-001", "#rightSubPopup select[name=mng_cde]");	//관리기관
-		getCmmCodeData("OGC-003", "#rightSubPopup select[name=mop_cde]");	//관재질 코드
-		getCmmCodeData("OGC-012", "#rightSubPopup select[name=mof_cde]");	//흡출기형식 코드
-		getCmmCodeData("OGC-172", "#rightSubPopup select[name=hmp_cde]");	//흡출기재질 코드
-
 		ui.loadingBar("hide");
 	});
 }
 
-// 환기구 등록 저장
-function insertSwlVentPs() {
+// 하수처리장 등록 저장
+function insertSwlDranPs() {
 	//필수 값 체크
-	const ftr_cde = $("#insertSwlVentPsFrm select[name=ftr_cde]").val();
+	const ftr_cde = $("#insertSwlDranPsFrm select[name=ftr_cde]").val();
 	if(ftr_cde == "" || ftr_cde == null){
 		alert("지형지물부호는 필수 값입니다.");
 		return false;
 	}
 	
-	const geom = $("#insertSwlVentPsFrm input[name=geom]").val();
+	const geom = $("#insertSwlDranPsFrm input[name=geom]").val();
 	if(geom == "" || geom == null){
 		alert("위치를 등록하여 주십시오.");
 		return false;
@@ -364,7 +341,7 @@ function insertSwlVentPs() {
 
 	//항목 별 데이터 파라미터 처리	
 	var feature = new ol.Feature();
-	const params = $("#insertSwlVentPsFrm").serializeArray();
+	const params = $("#insertSwlDranPsFrm").serializeArray();
     params.forEach((param) => {
         if (param.value) {
             feature.set(param.name, param.value);
@@ -372,7 +349,7 @@ function insertSwlVentPs() {
     });
  
     //공간 정보 처리
-    const wkt = $("#insertSwlVentPsFrm input[name=geom]").val();
+    const wkt = $("#insertSwlDranPsFrm input[name=geom]").val();
     
     const formatWKT = new ol.format.WKT();
     let geometry = formatWKT.readGeometry(wkt);
@@ -382,7 +359,7 @@ function insertSwlVentPs() {
     //데이터 정리
     const format 	= new ol.format.GeoJSON();
     const geojson 	= format.writeFeature(feature);
-    const data		= {dataId: "swl_vent_ps", geojson: geojson};
+    const data		= {dataId: "swl_Dran_ps", geojson: geojson};
     
     //등록
     ui.loadingBar("show");
@@ -398,7 +375,7 @@ function insertSwlVentPs() {
             var $target = $container.find('#bottomPopup .facility-select');
             $target.trigger("change");
             
-            cancelInsertSwlVentPs();	//창닫기
+            cancelInsertSwlDranPs();	//창닫기
         } else {
             alert(`등록에 실패했습니다.`);
             console.log(result["errorMsg"]);
@@ -411,16 +388,16 @@ function insertSwlVentPs() {
     });
 }
 
-// 환기구 수정 페이지 호출
-function updateSwlVentPsView(id) {
-	//console.log("updateSwlVentPsView(id)");
+// 하수처리장 수정 페이지 호출
+function updateSwlDranPsView(id) {
+	//console.log("updateSwlDranPsView(id)");
 	//console.log('id >>> ' + id);
 	
 	//상세 정보 조회
 	var detailData = getGridDetailData(id);
 	
 	if (!detailData && detailData == null) {
-		alert("환기구 상세정보 오류");
+		alert("하수처리장 상세정보 오류");
 		return false;
 	}
 	
@@ -436,7 +413,7 @@ function updateSwlVentPsView(id) {
 	ui.loadingBar("show");
 	
     $.ajax({
-		url:"/job/fcmr/ssfc/updateSwlVentPsView.do",
+		url:"/job/fcmr/ssfc/updateSwlDranPsView.do",
 		type: "POST",
 		data: formData,
 		dataType: 'html',
@@ -445,7 +422,6 @@ function updateSwlVentPsView(id) {
 		success: function(result) {
 			//console.log(result);
 			
-			$("#rightSubPopup").addClass("div-failcity-detail");	//날짜 css 때문	
 			ui.openPopup("rightSubPopup");
 			
 			var container = "#rightSubPopup";
@@ -460,10 +436,10 @@ function updateSwlVentPsView(id) {
 	});
 }
 
-// 환기구 수정
-function updateSwlVentPs() {
+// 하수처리장 수정
+function updateSwlDranPs() {
 	//필수 값 체크
-	const geom = $("#updateSwlVentPsFrm input[name=geom]").val();
+	const geom = $("#updateSwlDranPsFrm input[name=geom]").val();
 	if(geom == "" || geom == null){
 		alert("위치를 등록하여 주십시오.");
 		return false;
@@ -471,7 +447,7 @@ function updateSwlVentPs() {
 	
 	//항목 별 데이터 파라미터 처리	
 	var feature = new ol.Feature();
-	const params = $("#updateSwlVentPsFrm").serializeArray();
+	const params = $("#updateSwlDranPsFrm").serializeArray();
     params.forEach((param) => {
         if (param.value) {
             feature.set(param.name, param.value);
@@ -479,20 +455,20 @@ function updateSwlVentPs() {
     });
  
     //공간 정보 처리
-    const wkt = $("#updateSwlVentPsFrm input[name=geom]").val();
+    const wkt = $("#updateSwlDranPsFrm input[name=geom]").val();
     
     const formatWKT = new ol.format.WKT();
     let geometry = formatWKT.readGeometry(wkt);
     feature.setGeometry(geometry);
     
 	//id값 추가 
-	const id = $("#updateSwlVentPsFrm input[name=id]").val();
+	const id = $("#updateSwlDranPsFrm input[name=id]").val();
 	feature.setId(id);
 
     //데이터 정리
     const format 	= new ol.format.GeoJSON();
     const geojson 	= format.writeFeature(feature);
-    const data		= {dataId: "swl_vent_ps", geojson: geojson};
+    const data		= {dataId: "swl_Dran_ps", geojson: geojson};
     
     //등록
     ui.loadingBar("show");
@@ -504,10 +480,10 @@ function updateSwlVentPs() {
 			alert("수정 완료 되었습니다.");
 
 			var page = $(".hiddenPage").val();
-			selectSwlVentPsList(page);
+			selectSwlDranPsList(page);
 			
-			var id = $("#updateSwlVentPsFrm input[name=id]").val();
-        	selectSwlVentPs(id);
+			var id = $("#updateSwlDranPsFrm input[name=id]").val();
+        	selectSwlDranPs(id);
         	
         	$(".popup-panel .update-swlConnLs-popup-close").trigger("click");
 		} else {
@@ -522,13 +498,13 @@ function updateSwlVentPs() {
 	});
 }
 
-// 환기구 삭제
-function deleteSwlVentPs(id) {
+// 하수처리장 삭제
+function deleteSwlDranPs(id) {
 	if (confirm("삭제하시겠습니까? (복구할 수 없습니다.)")) {
 		ui.loadingBar("show");
 
 		const formData = new FormData();
-		formData.append("dataId", 'swl_vent_ps' + "");
+		formData.append("dataId", 'swl_Dran_ps' + "");
 		formData.append("ids", id);
 
 		$.ajax({
@@ -544,8 +520,8 @@ function deleteSwlVentPs(id) {
 			if (result["result"]) {
 				alert("삭제되었습니다.");
 
-				selectSwlVentPsList(1);	//첫페이지 조회
-				closeSwlVentPsPopup();	//창닫기
+				selectSwlDranPsList(1);	//첫페이지 조회
+				closeSwlDranPsPopup();	//창닫기
 			} else {
 				alert(`삭제에 실패했습니다.`);
 				console.log(result["errorMsg"]);
@@ -559,7 +535,7 @@ function deleteSwlVentPs(id) {
 	}
 }
 
-function closeSwlVentPsPopup() {
+function closeSwlDranPsPopup() {
 	dtmap.draw.dispose();			// 마우스에 파란점 제거
 	dtmap.draw.clear();				// 지도에 파란점 제거
 	dtmap.vector.clearSelect();		// 선택 해제
@@ -568,7 +544,7 @@ function closeSwlVentPsPopup() {
 }
 
 //복지시설 엑셀 저장
-function swlVentPsExcel() {
+function swlDranPsExcel() {
 	var $container = $("#container");
     var $target = $container.find('#baseGridDiv [data-ax5grid="attr-grid-excel"]');	//가상의 ax5uigrid 공간에 처리 
     $target.css('display', 'none');
@@ -583,13 +559,9 @@ function swlVentPsExcel() {
 			align: "center"
 		},
         columns: [
-        	{key: "ftr_idn",		label: "관리번호",			width: '*'},
-			{key: "hjd_cde_nm", 	label: "읍면동",			width: '*'},
-			{key: "ist_ymd",		label: "설치일자",			width: '*'},
-			{key: "vnt_dip",		label: "환기구구경",		width: '*'},
-			{key: "mop_cde_nm",		label: "관재질",			width: '*'},
-			{key: "mof_cde_nm",		label: "흡출기형식",		width: '*'},
-			{key: "hmp_cde_nm",		label: "흡출기재질",		width: '*'}
+        	{key: "ftr_cde_nm",		label: "지형지물부호",		width: '*'},
+			{key: "pip_dep", 		label: "심도",			width: '*'},
+			{key: "ftr_idn",		label: "관리번호",			width: '*'}
 		],
 		body: {
 			align: "center"
@@ -605,26 +577,21 @@ function swlVentPsExcel() {
 		// 속성 검색
 		const filters = [];
 		
-		var hjdCde = $("#lSrchOptions select[name=hjd_cde] option:selected").val();	// 읍면동
-		var mopCde = $("#lSrchOptions select[name=mop_cde] option:selected").val();	// 관재질
-		var mofCde = $("#lSrchOptions select[name=mof_cde] option:selected").val();	// 흡출기형식
-		var hmpCde = $("#lSrchOptions select[name=hmp_cde] option:selected").val();	// 흡출기재질
+		// 관리번호
+		var ftr_idn_min 	=	$("#lSrchOptions input[name=ftr_idn_min]").val();			//관경 최소 값
+		var ftr_idn_max 	=	$("#lSrchOptions input[name=ftr_idn_max]").val();			//관경 최대 값
 		
-		if (hjdCde) {
-			filters.push("hjd_cde" + " = " + hjdCde);
-		}
-		if (mopCde) {
-			filters.push("mop_cde" + " = " + mopCde);
-		}
-		if (mofCde) {
-			filters.push("mof_cde" + " = " + mofCde);
-		}
-		if (hmpCde) {
-			filters.push("hmp_cde" + " = " + hmpCde);
+		if (ftr_idn_min && ftr_idn_max) {
+			filters.push("ftr_idn" + " >= " + ftr_idn_min);
+			filters.push("ftr_idn" + " <= " + ftr_idn_max);
+		} else if (ftr_idn_min) {
+			filters.push("ftr_idn" + " >= " + ftr_idn_min);
+		} else if (ftr_idn_max) {
+			filters.push("ftr_idn" + " <= " + ftr_idn_max);
 		}
 		
 		options = {
-			typeNames	: "swl_vent_ps" + "",
+			typeNames	: "swl_Dran_ps" + "",
 			filter		: filters,
 			sortBy		: 'gid',
 	        sortOrder	: 'DESC'
@@ -636,7 +603,7 @@ function swlVentPsExcel() {
 		const type 		= $parent.find('input[name="rad-facility-area"]:checked').val();
 
 		options = {
-			typeNames	: 'swl_vent_ps' + "",
+			typeNames	: 'swl_Dran_ps' + "",
 			sortBy		: 'gid',
 			sortOrder	: 'DESC'
 		}
@@ -654,19 +621,10 @@ function swlVentPsExcel() {
 		// 그리드 데이터 전처리
 		const list = [];
 		for (let i = 0; i < data.features.length; i++) {
-			// 읍면동 코드 처리
-			var hjd_cde = data.features[i].properties.hjd_cde;
-	    	data.features[i].properties.hjd_cde_nm = getCmmCodeDataArray("YPE001", hjd_cde);
-	    	// 관재질 코드 처리
-	    	var mop_cde = data.features[i].properties.mop_cde;
-	    	data.features[i].properties.mop_cde_nm = getCmmCodeDataArray("OGC-003", mop_cde);
-	    	// 흡출기형식 코드 처리
-	    	var mof_cde = data.features[i].properties.mof_cde;
-	    	data.features[i].properties.mof_cde_nm = getCmmCodeDataArray("OGC-012", mof_cde);
-	    	// 흡출기재질 코드 처리
-	    	var hmp_cde = data.features[i].properties.hmp_cde;
-	    	data.features[i].properties.hmp_cde_nm = getCmmCodeDataArray("OGC-172", hmp_cde);
-			
+			// 지형지물부호 코드 처리
+			var ftr_cde = data.features[i].properties.ftr_cde;
+	    	data.features[i].properties.ftr_cde_nm = getCmmCodeDataArray("FTR-001", ftr_cde);
+        	
         	// 좌표 처리
 			data.features[i].properties.geomObj = data.features[i].geometry;
 			
@@ -678,6 +636,6 @@ function swlVentPsExcel() {
         FACILITY.Ax5UiGridAll.setData(list);
         
         //엑셀 export
-		FACILITY.Ax5UiGridAll.exportExcel("EXPORT_환기구.xls");
+		FACILITY.Ax5UiGridAll.exportExcel("EXPORT_하수처리장.xls");
 	});
 }

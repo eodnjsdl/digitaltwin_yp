@@ -83,15 +83,14 @@ function codeArrayInit(){
 	setCmmCodeDataArray("OGC-010");				//이상상태
 	setCmmCodeDataArray("OGC-011");				//개폐여부
 	
-	setCmmCodeDataArray("FCLTCD");				// 복지시설 구분
-
 	//하수도 - 하수연결관
 	setCmmCodeDataArray("OGC-017");				//하수관용도
-	setCmmCodeDataArray("OGC-003");				//관재질
-	setCmmCodeDataArray("OGC-001");				//시설물형태
-
+	
+	// 하수도 - 하수처리장
+	setCmmCodeDataArray("OGC-023");				// 개통상태
+	setCmmCodeDataArray("OGC-056");				// 하수처리방식
+	
 	// 하수도 - 환기구
-	setCmmCodeDataArray("OGC-003");				// 관재질
 	setCmmCodeDataArray("OGC-012");				// 흡출기형식
 	setCmmCodeDataArray("OGC-172");				// 흡출기재질
 	
@@ -429,6 +428,10 @@ function onFacilitySelectEventListener(e){
 				selectWtlValvPs(id);
 			}else if(featureType == "swl_conn_ls"){					//하수도시설 - 하수연결관 
 				selectSwlConnLs(id);
+			}else if(featureType == "swl_dept_ps"){					// 하수도시설 - 하수관거심도
+				selectSwlDeptPs(id);
+			}else if(featureType == "swl_dran_ps"){					// 하수도시설 - 하수처리장
+				selectSwlDranPs(id);
 			}else if(featureType == "swl_vent_ps"){					// 하수도시설 - 환기구 
 				selectSwlVentPs(id);
 			}else if(featureType == "tgd_phstrn_fclty"){			// 체육시설

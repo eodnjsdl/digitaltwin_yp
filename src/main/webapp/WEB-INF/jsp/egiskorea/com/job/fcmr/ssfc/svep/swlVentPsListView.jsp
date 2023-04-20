@@ -1,16 +1,16 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" %>
 
 <!-- js -->
-<!-- <script src="/js/egiskorea/com/job/fcmr/ssfc/svep/swlVentPs.js"></script>		환기구  -->
+<script src="/js/egiskorea/com/job/fcmr/ssfc/svep/swlVentPs.js"></script> 
 
 <script>
 $(document).ready(function() {
-	console.log("swlVentPsListView.jsp");	
+	//console.log("swlVentPsListView.jsp");	
 
-	//이벤트 리스너 추가
+	// 이벤트 리스너 추가
 	dtmap.on('select', onFacilitySelectEventListener);
 	
-	//상수도 관리 메뉴 - 이벤트
+	// 하수도관리 메뉴 - 이벤트
 	var $container = $("#container");
     var $target = $container.find('#bottomPopup .facility-select');
 	
@@ -41,20 +41,20 @@ $(document).ready(function() {
 		// 지도 clear
 		clearMap();
 		
-		//등록, 상세, 수정 팝업 창 닫기
+		// 등록, 상세, 수정 팝업 창 닫기
 		if ($("#rightSubPopup").hasClass("opened")) {
 			$("#rightSubPopup").removeClass("opened");
 			$("#rightSubPopup").empty();
 		}
 		
-		//공간정보 편집도구 닫기
+		// 공간정보 편집도구 닫기
 		if($(".space-edit-tool").hasClass("opened")){
         	$(".space-edit-tool").removeClass("opened");
             $(".space-edit-tool").empty();
         }
 	});
 
-	//속성 검색, 공간 검색 탭 제어
+	// 속성 검색, 공간 검색 탭 제어
 	$(document).on("click", ".tabBoxDepth2-wrap .tabBoxDepth2 > ul > li > .inner-tab", function() {
 		$(this).each(function() {
 			$(this).parent().addClass("on").siblings().removeClass("on");
