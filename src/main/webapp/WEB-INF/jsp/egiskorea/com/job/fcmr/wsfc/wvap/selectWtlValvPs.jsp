@@ -6,7 +6,7 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
 <style type="text/css">
-	.popup-panel.popup-sub .select-wtlServPs-popup-close {
+	.popup-panel.popup-sub .select-wtlValvPs-popup-close {
 	    top: 0;
 	    right: 0;
 	    width: 39px;
@@ -18,9 +18,9 @@
 	}
 </style>
 
-<!-- 업무 > 시설관리 > 상수수도시설 > 배수지 상세보기-->
+<!-- 업무 > 시설관리 > 상수도시설 > 변류시설 상세보기-->
 
-       	<div class="popup-header">배수지 상세보기</div>
+       	<div class="popup-header">변류시설 상세보기</div>
            <div class="popup-body">
                <div class="sub-popup-body">
                    <div class="data-write-wrap" style="height: 100%;">
@@ -37,107 +37,127 @@
                                    <tr>
                                        <th scope="row">지형지물부호</th>
                                        <td>
-                                          	<c:out value="${wtlServPsVO.ftr_cde_nm }"/>
+                                          	<c:out value="${wtlValvPsVO.ftr_cde_nm }"/>
                                        </td>
                                        <th scope="row">관리번호</th>
                                        <td>
-                                       	  	<c:out value="${wtlServPsVO.ftr_idn }"/>
+                                       	  	<c:out value="${wtlValvPsVO.ftr_idn }"/>
                                        </td>
                                    </tr>
                                    <tr>
                                        <th scope="row">읍면동</th>
                                        <td>
-                                       		<c:out value="${wtlServPsVO.hjd_cde_nm }"/>
+                                       		<c:out value="${wtlValvPsVO.hjd_cde_nm }"/>
+                                       		
                                        </td>
                                        <th scope="row">도엽번호</th>
                                        <td>
-                                       		<c:out value="${wtlServPsVO.sht_num }"/>
+                                       		<c:out value="${wtlValvPsVO.sht_num }"/>
                                        </td>
                                    </tr>
                                    <tr>
                                        <th scope="row">관리기관</th>
                                        <td>
-                                       	   <c:if test="${wtlServPsVO.mng_cde_nm  != '' || wtlServPsVO.mng_cde_nm  ne null}">
-                                           		<c:out value="${wtlServPsVO.mng_cde_nm }"/>
+                                       	   <c:if test="${wtlValvPsVO.mng_cde_nm  != '' || wtlValvPsVO.mng_cde_nm  ne null}">
+                                           		<c:out value="${wtlValvPsVO.mng_cde_nm }"/>
                                            </c:if>
-                                           <c:if test="${wtlServPsVO.mng_cde_nm  == '' || wtlServPsVO.mng_cde_nm  eq null }">
-                                           		<c:out value="${wtlServPsVO.mng_cde }"/>
+                                           <c:if test="${wtlValvPsVO.mng_cde_nm  == '' || wtlValvPsVO.mng_cde_nm  eq null }">
+                                           		<c:out value="${wtlValvPsVO.mng_cde }"/>
                                            </c:if>
                                        </td>
-                                       <th scope="row">준공일자</th>
+                                       <th scope="row">설치일자</th>
                                        <td>
                                            <div class="datapicker-group">
-                                           		<c:out value="${wtlServPsVO.fns_ymd }"/>
+                                           		<c:out value="${wtlValvPsVO.ist_ymd }"/>
                                            </div>
                                        </td>
                                    </tr>
                                    <tr>
-                                       <th scope="row">배수지명</th>
+                                       <th scope="row">변류형식</th>
                                        <td>
-                                           <c:out value="${wtlServPsVO.srv_nam }"/>
+                                       		<c:out value="${wtlValvPsVO.mof_cde_nm }"/>
                                        </td>
-                                       <th scope="row">정수장명</th>
+                                       <th scope="row">관경(mm)</th>
                                        <td>
-                                           <c:out value="${wtlServPsVO.pur_nam }"/>
-                                       </td>
-                                   </tr>
-                                   <tr>
-                                       <th scope="row">부지면적</th>
-                                       <td>
-                                       		<c:out value="${wtlServPsVO.gai_ara }"/>
-                                       </td>
-                                       <th scope="row">관리방법</th>
-                                       <td>
-                                       		<c:out value="${wtlServPsVO.sag_cde }"/>
-                                       		<%-- <c:out value="${wtlServPsVO.sag_cde_nm }"/> --%>
+                                       		<c:out value="${wtlValvPsVO.std_dip }"/>
                                        </td>
                                    </tr>
                                    <tr>
-                                       <th scope="row">시설용량</th>
+                                       <th scope="row">제수변회전방향</th>
                                        <td>
-                                       		<c:out value="${wtlServPsVO.srv_vol }"/>
+                                       		<c:out value="${wtlValvPsVO.sae_cde_nm }"/>
                                        </td>
-                                       <th scope="row">최고수위</th>
+                                       <th scope="row">제수변총회전수</th>
                                        <td>
-	                                       	<c:out value="${wtlServPsVO.hgh_wal }"/>
-                                       </td>
-                                   </tr>
-                                   <tr>
-                                       <th scope="row">최저수위</th>
-                                       <td>
-                                       		<c:out value="${wtlServPsVO.low_wal }"/>
-                                       </td>
-                                       <th scope="row">배수지유입량</th>
-                                       <td>
-	                                       	<c:out value="${wtlServPsVO.isr_vol }"/>
+	                                       	<c:out value="${wtlValvPsVO.tro_cnt }"/>
                                        </td>
                                    </tr>
                                    <tr>
-                                       <th scope="row">급수지역</th>
+                                       <th scope="row">제수변현회전수</th>
                                        <td>
-	                                       	<c:out value="${wtlServPsVO.sup_are }"/>
+                                       		<c:out value="${wtlValvPsVO.cro_cnt }"/>
                                        </td>
-                                       <th scope="row">급수인구</th>
+                                       <th scope="row">제수변구동방법</th>
                                        <td>
-	                                       	<c:out value="${wtlServPsVO.sup_pop }"/>
+	                                       	<c:out value="${wtlValvPsVO.mth_cde_nm }"/>
                                        </td>
                                    </tr>
                                    <tr>
-                                       <th scope="row">배수지제어방법</th>
+                                       <th scope="row">시설물형태</th>
                                        <td>
-	                                       	<c:out value="${wtlServPsVO.scw_cde_nm }"/>
+                                       		<c:out value="${wtlValvPsVO.for_cde_nm }"/>
                                        </td>
+                                       <th scope="row">변실규격</th>
+                                       <td>
+	                                       	<c:out value="${wtlValvPsVO.val_std }"/>
+                                       </td>
+                                   </tr>
+                                   <tr>
+                                       <th scope="row">설정압력</th>
+                                       <td>
+                                       		<c:out value="${wtlValvPsVO.val_saf }"/>
+                                       </td>
+                                       <th scope="row">제작회사명</th>
+                                       <td>
+	                                       	<c:out value="${wtlValvPsVO.prc_nam }"/>
+                                       </td>
+                                   </tr>
+                                   <tr>
+                                       <th scope="row">관로지형지물부호</th>
+                                       <td>
+                                       		<c:out value="${wtlValvPsVO.pip_cde }"/>
+                                       </td>
+                                       <th scope="row">관리번호</th>
+                                       <td>
+	                                       	<c:out value="${wtlValvPsVO.pip_idn }"/>
+                                       </td>
+                                   </tr>
+                                   <tr>
+                                       <th scope="row">이상상태</th>
+                                       <td>
+                                       		<c:out value="${wtlValvPsVO.cst_cde_nm }"/>
+                                       </td>
+                                       <th scope="row">개패여부</th>
+                                       <td>
+	                                       	<c:out value="${wtlValvPsVO.off_cde_nm }"/>
+                                       </td>
+                                   </tr>
+                                   <tr>
                                        <th scope="row">공사번호</th>
                                        <td>
-	                                       	<c:out value="${wtlServPsVO.cnt_num }"/>
+	                                       	<c:out value="${wtlValvPsVO.cnt_num }"/>
+                                       </td>
+                                       <th scope="row">방향각</th>
+                                       <td>
+                                       		<c:out value="${wtlValvPsVO.ang_dir }"/>
                                        </td>
                                    </tr>
                                    <tr>
                                        <th scope="row">위치</th>
                                        <td colspan="3">
                                            <div class="form-row">
-											  <c:out value="${wtlServPsVO.geom }"/>
-                                           	  <input type="text" class="form-control txt-geometry-address" value="" readonly="readonly">
+                                           	  <c:out value="${wtlValvPsVO.geom }"/>
+                                           	  <input type="text" 	class="form-control txt-geometry-address" value="" readonly="readonly">
                                            	  <input type="hidden" 	name="geom" class="form-control" value="">
                                            </div>
                                        </td>
@@ -148,22 +168,23 @@
                        </div>
                        <div class="position-bottom btn-wrap justify-content-end">
                            <div>
-                           	   <button type="button" class="btn basic bi-edit btn_edit" 		onclick="javascript:updateWtlServPsView('<c:out value="${id }"/>')">수정</button>
-                               <button type="button" class="btn basic bi-delete2 btn_delete" 	onclick="javascript:deleteWtlServPs('<c:out value="${id }"/>')">삭제</button>  
-                               <button type="button" class="btn basic bi-cancel btn_cancel" 	onclick="javascript:cancelSelectWtlServPs();">취소</button>
+                           	   <button type="button" class="btn basic bi-edit btn_edit" 		onclick="javascript:updateWtlValvPsView('<c:out value="${id }"/>')">수정</button>
+                               <button type="button" class="btn basic bi-delete2 btn_delete" 	onclick="javascript:deleteWtlValvPs('<c:out value="${id }"/>')">삭제</button>  
+                               <button type="button" class="btn basic bi-cancel btn_cancel" 	onclick="javascript:cancelSelectWtlValvPs();">취소</button>
                            </div>
                        </div>
                    </div>
                </div>
            </div>
-           <button type="button" class="select-wtlServPs-popup-close" title="닫기"></button>
+           <!-- <button type="button" class="popup-close" title="닫기"></button> -->
+           <button type="button" class="select-wtlValvPs-popup-close" title="닫기"></button>
 
-<!-- 업무 > 시설관리 > 상수수도시설 > 배수지 상세보기 end -->
+<!-- 업무 > 시설관리 > 상수도시설 > 변류시설 상세보기 end -->
 
 <script type="text/javascript">
 	//jqeury
 	$(document).ready(function(){
-		//console.log("selectWtlServPs.jsp");
+		//console.log("selectWtlValvPs.jsp");
 		
 		//gird 데이터를 통한 주소 조회
 		var id = "${id }";
@@ -181,8 +202,8 @@
 		//이벤트
 		
 		//닫기
-		$(".popup-panel .select-wtlServPs-popup-close").on("click", function () {
-            cancelSelectWtlServPs();
+		$(".popup-panel .select-wtlValvPs-popup-close").on("click", function () {
+            cancelSelectWtlValvPs();
     	});
 		
 	});
@@ -190,10 +211,10 @@
 	//functions
 	
 	//소반시설 상세보기 취소
-	function cancelSelectWtlServPs() {
-		//console.log("cancelSelectWtlServPs()");
+	function cancelSelectWtlValvPs() {
+		//console.log("cancelSelectWtlValvPs()");
 		
-		$(".select-wtlServPs-popup-close").closest('.popup-panel').removeClass('opened');
+		$(".select-wtlValvPs-popup-close").closest('.popup-panel').removeClass('opened');
         // 초기화 (지도)
         dtmap.draw.dispose();
         dtmap.draw.clear();
@@ -204,3 +225,5 @@
 	
 
 </script>
+
+	
