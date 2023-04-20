@@ -1,20 +1,19 @@
 /**
- * - 업무 / 시설관리 / 상수도 시설 / 소방시설
+ * - 업무 / 시설관리 / 하수도 시설 / 면형하수관거
  * 
  * @returns
  */
 
 //jqeury
 $(document).ready(function(){
-	//console.log("wtlFirePs.js");
-	//console.log("소방시설");
-	
+	//console.log("swlPipeAs.js");
+	//console.log("면형하수관거");
 });
 
 //functions
 
 //초기화
-function wtlFirePsInit(){
+function swlPipeAsInit(){
 	
 	//등록, 상세, 수정 팝업 창 닫기
 	if($("#rightSubPopup").hasClass("opened")){
@@ -35,16 +34,12 @@ function wtlFirePsInit(){
 ////////////////////
 //목록 조회
 
-//소방시설 리스트 로드 이후 처리
-function wtlFirePsListProcess(){
+//면형하수관거 리스트 로드 이후 처리
+function swlPipeAsListProcess(){
 	
 	$(".scroll-y").mCustomScrollbar({
         scrollbarPosition: "outside",
     });
-    
-    //옵션 값 세팅
-	getCmmCodeData("YPE001", 	"#lSrchOptions select[name=hjd_cde]");	//읍면동	
-	getCmmCodeData("OGC-048", 	"#lSrchOptions select[name=mof_cde]");	//소화전형식	
 	
 	//grid 기본 세팅
 	var $container = $("#container");
@@ -60,25 +55,10 @@ function wtlFirePsListProcess(){
         sortable: true,
         multipleSelect: false,
         columns: [
-            //{key: "gid", 				label: "아이디",			width:200},
-            //{key: "ftr_cde", 			label: "지형지물부호code",	width:'*'},
+            {key: "gid", 				label: "아이디",			width:200},
+            {key: "ftr_cde", 			label: "지형지물부호code",	width:'*'},
             {key: "ftr_cde_nm", 		label: "지형지물부호",		width:'*'},
             {key: "ftr_idn", 			label: "관리번호",			width:'*'},
-            //{key: "hjd_cde", 			label: "읍면동code",		width:'*'},
-            {key: "hjd_cde_nm", 		label: "읍면동",			width:'*'},
-            //{key: "mng_cde", 			label: "관리기관code",		width:'*'},
-            {key: "mng_cde_nm", 		label: "관리기관",			width:'*'},
-            {key: "sht_num", 			label: "도엽번호",			width:'*'},
-            {key: "ist_ymd", 			label: "설치일자",			width:'*'},
-            {key: "hom_num", 			label: "수용가번호",		width:'*'},
-            //{key: "mof_cde", 			label: "소화전형식code",	width:'*'},
-            {key: "mof_cde_nm", 		label: "소화전형식",		width:'*'},
-            {key: "fir_dip", 			label: "소화전구경",		width:'*'},
-            {key: "std_dip", 			label: "관경",			width:'*'},
-            //{key: "sup_hit", 			label: "급수탑높이",		width:100},
-            //{key: "sys_chk", 			label: "대장초기화여",		width:100},
-            //{key: "ang_dir", 			label: "방향각",			width:100},
-            //{key: "geom", 			label: "공간정보",			width:100}
         ],
         page: {
             navigationItemCount: 10,
@@ -89,32 +69,32 @@ function wtlFirePsListProcess(){
             nextIcon: '>',
             lastIcon: '>|',
             onChange: function () {
-            	selectWtlFirePsList(this.page.selectPage+1);
+            	selectSwlPipeAsList(this.page.selectPage+1);
             }
         },
         body: {
         	onClick: function () {
         		//console.log(this);
-        		selectWtlFirePs(this.item.id);	//소방 시설 상세 페이지 로드
+        		selectSwlPipeAs(this.item.id);	//면형하수관거  상세 페이지 로드
             }
         }
 		
 	});
     
 	//목록 조회  - 1 page
-	selectWtlFirePsList(1);
+	selectSwlPipeAsList(1);
 	
 }
 
 
-//소방시설 목록 조회
-function selectWtlFirePsList(page) {
-	//console.log("selectWtlFirePsList(page)");
+//면형하수관거 목록 조회
+function selectSwlPipeAsList(page) {
+	//console.log("selectSwlPipeAsList(page)");
 	//console.log("page>>>"+page);
 	
 	//페이지 변수세팅
 	if(page){
-		$("#wtiFirePsListPage").val(page);
+		$("#swlPipeAsListPage").val(page);
 	}else{
 		alert("목록 페이지 오류");
 		return false;
@@ -130,7 +110,8 @@ function selectWtlFirePsList(page) {
 		const filters = [];
 		
 		const hjd_cde 		=	$("#lSrchOptions select[name=hjd_cde]").val();				//읍면동
-		const mof_cde 		=	$("#lSrchOptions select[name=mof_cde]").val();				//소화전형식
+		const ist_ymd 		=	$("#lSrchOptions select[name=ist_ymd]").val();				//설치년도
+		const sba_cde 		=	$("#lSrchOptions select[name=sba_cde]").val();				//하수관용도
 		const std_dip_min 	=	$("#lSrchOptions input[name=std_dip_min]").val();			//관경 최소 값
 		const std_dip_max 	=	$("#lSrchOptions input[name=std_dip_max]").val();			//관경 최대 값
 		
@@ -140,8 +121,12 @@ function selectWtlFirePsList(page) {
 			filters.push("hjd_cde" + " = " + hjd_cde); 
 		}
 		
-		if(mof_cde){
-			filters.push("mof_cde" + " = " + mof_cde);
+		if(ist_ymd){
+			filters.push("ist_ymd" + " like " + ist_ymd +"*");
+		}
+		
+		if(sba_cde){
+			filters.push("sba_cde" + " = " + sba_cde);
 		}
 		
 		if(std_dip_min && std_dip_max){
@@ -155,13 +140,12 @@ function selectWtlFirePsList(page) {
 		}
 	    
 	    options = {
-	        typeNames	: 'wtl_fire_ps' + "",
+	        typeNames	: 'swl_conn_ls' + "",
 	        filter 		: filters,
 	        perPage 	: 10,
 	        page 		: page,
 	        sortBy		: 'gid',
 	        sortOrder	: 'DESC',
-	        //sortOrder	: 'ASC'
 	    }
 		
 	}else if($(".groundwaterSpace").hasClass("on")){		//공간 검색
@@ -171,7 +155,7 @@ function selectWtlFirePsList(page) {
         const type 		= $parent.find('input[name="rad-facility-area"]:checked').val();
 
         options = {
-            typeNames: "wtl_fire_ps",
+            typeNames: "swl_conn_ls",
             perPage 	: 10,
 	        page 		: page,
 	        sortBy		: 'gid',
@@ -192,6 +176,8 @@ function selectWtlFirePsList(page) {
 	
     const promise = dtmap.wfsGetFeature(options);
     promise.then(function (data) {
+    	//console.log(data);
+    	
         //그리드 데이터 전처리
         const list = [];
         
@@ -212,25 +198,38 @@ function selectWtlFirePsList(page) {
         	var ftr_cde = data.features[i].properties.ftr_cde;
         	data.features[i].properties.ftr_cde_nm = getCmmCodeDataArray("FTR-001", ftr_cde);
         	
-        	//관리기관 코드 변경
-        	var mng_cde = data.features[i].properties.mng_cde;
-        	data.features[i].properties.mng_cde_nm = getCmmCodeDataArray("MNG-001", mng_cde);
-        	
         	//읍면동 코드 변경
         	var hjd_cde = data.features[i].properties.hjd_cde;
         	data.features[i].properties.hjd_cde_nm = getCmmCodeDataArray("YPE001", hjd_cde);
         	
-        	//소화전 형식 코드 변경
-        	var mof_cde = data.features[i].properties.mof_cde;
-        	data.features[i].properties.mof_cde_nm = getCmmCodeDataArray("OGC-048", mof_cde);
-            
+        	//관리기관 코드 변경
+        	var mng_cde = data.features[i].properties.mng_cde;
+        	data.features[i].properties.mng_cde_nm = getCmmCodeDataArray("MNG-001", mng_cde);
+        	
+        	//하수관용도 코드 변경
+        	var sba_cde = data.features[i].properties.sba_cde;
+        	data.features[i].properties.sba_cde_nm = getCmmCodeDataArray("OGC-017", sba_cde);
+        	
+        	//관재질 코드 변경
+        	var mop_cde = data.features[i].properties.mop_cde;
+        	data.features[i].properties.mop_cde_nm = getCmmCodeDataArray("OGC-003", mop_cde);
+        	
+        	//시설물형태 코드 변경
+        	var for_cde = data.features[i].properties.for_cde;
+        	data.features[i].properties.for_cde_nm = getCmmCodeDataArray("OGC-001", for_cde);
+        	
             //좌표 처리  geometry로 변수명을 정하면 기존것과 충돌 발생
         	data.features[i].properties.geomObj = data.features[i].geometry;
         	
         	const {id, properties} = data.features[i];
             list.push({...properties, ...{id: id}});
         }
+        ////////////////
         
+        const format = new ol.format.GeoJSON();
+
+        features = format.readFeatures(data);
+       
         ///////////////
         
         //gird 적용
@@ -254,31 +253,22 @@ function selectWtlFirePsList(page) {
         //지도에 GeoJSON 추가
         dtmap.vector.readGeoJson(data, function (feature) {
 
-            /**
-             * 스타일 콜백 
-             */
-        	let properties = feature.getProperties();
-            let ftr_cde = properties.ftr_cde;
-            
-            if (ftr_cde == 'SA118' ) {			//급수탑
-                return {
-                    marker: {
-                        src: '/images/poi/waterTower_poi.png'
-                    },
-                    label: {
-                        text: ''
-                    }
-                }
-            } else if (ftr_cde == 'SA119' ) {		//소화전
-                return {
-                    marker: {
-                        src: '/images/poi/hydrant_poi.png'
-                    },
-                    label: {
-                    	text: ''
-                    }
-                }
-            } 
+        	return {
+                /*fill: {
+                	color: 'rgba(46,161,255,0.68)'
+                },*/
+                stroke: {
+                    //color: '#89dfff',
+                    color: '#FF3333',
+                    width: 4
+                },
+                /*radius: 10,
+                label: {
+                    column: 'sba_cde_nm'
+                }*/
+                
+            }
+        	
         });
 
         dtmap.vector.fit();
@@ -287,12 +277,14 @@ function selectWtlFirePsList(page) {
 	
 }
 
+
+
 //////////////
 //상세정보 보회
 
-//소방시설 상세정보 조회
-function selectWtlFirePs(id){
-	//console.log("selectWtlFirePs(id)");
+//면형하수관거 상세정보 조회
+function selectSwlPipeAs(id){
+	//console.log("selectSwlPipeAs(id)");
 	//console.log(id);
 	
 	//검색 조건
@@ -302,7 +294,7 @@ function selectWtlFirePs(id){
 	//console.log(idArray);
 	const typeName	= idArray[0];
 	
-	if(typeName != "wtl_fire_ps"){
+	if(typeName != "swl_conn_ls"){
 		alert("상세보기 오류");
 		return false;
 	}
@@ -317,7 +309,7 @@ function selectWtlFirePs(id){
 	
     var options;
     options = {
-        typeNames	: 'wtl_fire_ps' + "",
+        typeNames	: 'swl_conn_ls' + "",
         filter 		: filters,
     }
     
@@ -329,42 +321,50 @@ function selectWtlFirePs(id){
     		alert("상세보기 오류")
     		return false;
     	}
-        	
+    	
     	//지형지물부호 코드 변경
     	var ftr_cde = data.features[0].properties.ftr_cde;
     	data.features[0].properties.ftr_cde_nm = getCmmCodeDataArray("FTR-001", ftr_cde);
-    	
-    	//관리기관 코드 변경
-    	var mng_cde = data.features[0].properties.mng_cde;
-    	data.features[0].properties.mng_cde_nm = getCmmCodeDataArray("MNG-001", mng_cde);
     	
     	//읍면동 코드 변경
     	var hjd_cde = data.features[0].properties.hjd_cde;
     	data.features[0].properties.hjd_cde_nm = getCmmCodeDataArray("YPE001", hjd_cde);
     	
-    	//소화전 형식 코드 변경
-    	var mof_cde = data.features[0].properties.mof_cde;
-    	data.features[0].properties.mof_cde_nm = getCmmCodeDataArray("OGC-048", mof_cde);
-        
+    	//관리기관 코드 변경
+    	var mng_cde = data.features[0].properties.mng_cde;
+    	data.features[0].properties.mng_cde_nm = getCmmCodeDataArray("MNG-001", mng_cde);
+    	
+    	//하수관용도 코드 변경
+    	var sba_cde = data.features[0].properties.sba_cde;
+    	data.features[0].properties.sba_cde_nm = getCmmCodeDataArray("OGC-017", sba_cde);
+    	
+    	//관재질 코드 변경
+    	var mop_cde = data.features[0].properties.mop_cde;
+    	data.features[0].properties.mop_cde_nm = getCmmCodeDataArray("OGC-003", mop_cde);
+    	
+    	//시설물형태 코드 변경
+    	var for_cde = data.features[0].properties.for_cde;
+    	data.features[0].properties.for_cde_nm = getCmmCodeDataArray("OGC-001", for_cde);
+    	
         //좌표 처리  geometry로 변수명을 정하면 기존것과 충돌 발생
     	data.features[0].properties.geomObj = data.features[0].geometry;
-    	
+
     	var detailData = data.features[0].properties;
     	detailData.id = id;
     	
-    	selectWtlFirePsView(detailData);	//상세 페이지에 데이터 전달
+    	selectSwlPipeAsView(detailData);	//상세 페이지에 데이터 전달
     	
     });
 
 }
 
 //상세 정보 페이지 불러 오기
-function selectWtlFirePsView(detailData){
-	//console.log("selectWtlFirePsView(detailData)");
+function selectSwlPipeAsView(detailData){
+	//console.log("selectSwlPipeAsView(detailData)");
 	//console.log(detailData);
 	
 	if(!detailData && detailData == null){
-		alert("소방시설 상세보기 오류");
+		alert("면형하수관거 상세보기 오류");
 		return false;
 	}
 	
@@ -380,7 +380,7 @@ function selectWtlFirePsView(detailData){
 	ui.loadingBar("show");
 	
 	$.ajax({
-		url:"/job/fcmr/wsfc/selectWtlFirePs.do",
+		url:"/job/fcmr/ssfc/selectSwlPipeAs.do",
 		type: "POST",
 		//data: JSON.stringify(detailData),
 		data: formData,
@@ -410,15 +410,9 @@ function selectWtlFirePsView(detailData){
 //////////////
 //등록
 
-//소방시설 등록 화면 조회
-function insertWtlFirePsView(){
-	//console.log("insertWtlFirePsView()");
-	
-	if(dtmap.mod == "3D"){
-		alert('3d 에서 사용할 수 없습니다');
-		arrangeAddBtnMode();
-		return false;
-	}
+//면형하수관거 등록 화면 조회
+function insertSwlPipeAsView(){
+	//console.log("insertSwlPipeAsView()");
 	
 	ui.loadingBar("show");
 	
@@ -427,8 +421,8 @@ function insertWtlFirePsView(){
 	ui.openPopup("rightSubPopup");
 	
 	var container = "#rightSubPopup";
-    $(container).load("/job/fcmr/wsfc/insertWtlFirePsView.do", function () {
-        //toastr.success("/job/fcmr/wsfc/insertWtlFirePsView.do", "페이지🙂호🙂출🙂");
+    $(container).load("/job/fcmr/ssfc/insertSwlPipeAsView.do", function () {
+        toastr.success("/job/fcmr/ssfc/insertSwlPipeAsView.do", "페이지🙂호🙂출🙂");
         
         $(".scroll-y").mCustomScrollbar({
             scrollbarPosition: "outside",
@@ -436,50 +430,41 @@ function insertWtlFirePsView(){
        
         getCmmCodeData("YPE001",  "#rightSubPopup select[name=hjd_cde]");	//읍면동	
         getCmmCodeData("MNG-001", "#rightSubPopup select[name=mng_cde]");	//관리기관
-		getCmmCodeData("OGC-048", "#rightSubPopup select[name=mof_cde]");	//소화전형식
+        getCmmCodeData("OGC-017", "#rightSubPopup select[name=sba_cde]");	//하수관용도 코드
+        getCmmCodeData("OGC-003", "#rightSubPopup select[name=mop_cde]");	//관재질 코드
+        getCmmCodeData("OGC-001", "#rightSubPopup select[name=for_cde]");	//시설물형태 코드
         
 		ui.loadingBar("hide");
     });
 	
 }
 
-//소방시설 등록 
-function insertWtlFirePs(){
-	//console.log("insertWtlFirePs()");
+//면형하수관거 등록 
+function insertSwlPipeAs(){
+	//console.log("insertSwlPipeAs()");
 	
 	/////////
 	//유효성 체크 
 	
 	//필수 값 체크
-	const ftr_cde = $("#insertWtlFirePsForm select[name=ftr_cde]").val();
+	const ftr_cde = $("#insertSwlPipeAsForm select[name=ftr_cde]").val();
 	if(ftr_cde == "" || ftr_cde == null){
 		alert("지형지물부호는 필수 값입니다.");
 		return false;
 	}
 	
-	const geom = $("#insertWtlFirePsForm input[name=geom]").val();
+	const geom = $("#insertSwlPipeAsForm input[name=geom]").val();
 	if(geom == "" || geom == null){
 		alert("위치를 등록하여 주십시오.");
 		return false;
 	}
-	
-	//값 체크
-	const ang_dir = $("#insertWtlFirePsForm input[name=ang_dir]").val()
-    if (ang_dir) {
-        const regexp = /^[0-9]*$/;
-        var r = regexp.test(ang_dir);
-        if(!r){
-        	alert("방향각은 정수만 입력 가능합니다.")
-        	return false;
-        }
-    }
 
 	////////////
 	// 파라미터 작업
 	
 	//항목 별 데이터 파라미터 처리	
 	var feature = new ol.Feature();
-	const params = $("#insertWtlFirePsForm").serializeArray();
+	const params = $("#insertSwlPipeAsForm").serializeArray();
     params.forEach((param) => {
         if (param.value) {
             feature.set(param.name, param.value);
@@ -487,20 +472,10 @@ function insertWtlFirePs(){
     });
  
     //공간 정보 처리
-    const wkt = $("#insertWtlFirePsForm input[name=geom]").val();
+    const wkt = $("#insertSwlPipeAsForm input[name=geom]").val();
     
     const formatWKT = new ol.format.WKT();
     let geometry = formatWKT.readGeometry(wkt);
-    
-    /*if (geometry.indexOf("multi") >= 0) {
-        if (geometry instanceof ol.geom.Point) {
-            geometry = new ol.geom.MultiPoint([geometry.getCoordinates()]);
-        } else if (geometry instanceof ol.geom.LineString) {
-            geometry = new ol.geom.MultiLineString([geometry]);
-        } else if (geometry instanceof ol.geom.Polygon) {
-            geometry = new ol.geom.MultiPolygon([geometry]);
-        }
-    }*/
     
     feature.setGeometry(geometry);
 
@@ -509,11 +484,11 @@ function insertWtlFirePs(){
     //데이터 정리
     const format 	= new ol.format.GeoJSON();
     const geojson 	= format.writeFeature(feature);
-    const data = {dataId: "wtl_fire_ps", geojson: geojson};
-    
+    const data = {dataId: "swl_conn_ls", geojson: geojson};
     
     ////////////
     //등록
+    //console.log(data);
     
     //등록 시작
     ui.loadingBar("show");
@@ -524,8 +499,8 @@ function insertWtlFirePs(){
         if (result["result"]) {
             alert("등록 되었습니다.");
             
-            selectWtlFirePsList(1);		//다시 목록 로드
-            cancelInsertWtlFirePs(); 	//창닫기
+            selectSwlPipeAsList(1);		//다시 목록 로드
+            cancelInsertSwlPipeAs(); 	//창닫기
         } else {
             alert(`등록에 실패했습니다.`);
             console.log(result["errorMsg"]);
@@ -543,9 +518,9 @@ function insertWtlFirePs(){
 ////////////
 //수정
 
-//소방시설 수정 화면 조회
-function updateWtlFirePsView(id){
-	//console.log("updateWtlFirePsView()");
+//면형하수관거 수정 화면 조회
+function updateSwlPipeAsView(id){
+	//console.log("updateSwlPipeAsView()");
 	//console.log("id>"+id);
 	
 	//상세 정보 조회
@@ -567,7 +542,7 @@ function updateWtlFirePsView(id){
 	
 	//화면 조회
 	$.ajax({
-		url:"/job/fcmr/wsfc/updateWtlFirePsView.do",
+		url:"/job/fcmr/ssfc/updateSwlPipeAsView.do",
 		type: "POST",
 		//data: JSON.stringify(detailData),
 		data: formData,
@@ -595,9 +570,9 @@ function updateWtlFirePsView(id){
 	
 }
 
-//소방시설 수정 
-function updateWtlFirePs(){
-	//console.log("updateWtlFirePs()");
+//면형하수관거 수정 
+function updateSwlPipeAs(){
+	//console.log("updateSwlPipeAs()");
 	
 	/////////
 	//유효성 체크 
@@ -608,24 +583,13 @@ function updateWtlFirePs(){
 		alert("위치를 등록하여 주십시오.");
 		return false;
 	}
-	
-	//값 체크
-	const ang_dir = $("#updateWtlFirePsForm input[name=ang_dir]").val()
-    if (ang_dir) {
-        const regexp = /^[0-9]*$/;
-        var r = regexp.test(ang_dir);
-        if(!r){
-        	alert("방향각은 정수만 입력 가능합니다.")
-        	return false;
-        }
-    }
 	 
 	///////////////
 	//업데이트 데이터 처리	- 기존 update 사용 하기 위해 파라미터 작업
 	 
 	//form 데이터 처리
 	var feature = new ol.Feature();
-	const params = $("#updateWtlFirePsForm").serializeArray();
+	const params = $("#updateSwlPipeAsForm").serializeArray();
     params.forEach((param) => {
         if (param.value) {
             feature.set(param.name, param.value);
@@ -648,8 +612,9 @@ function updateWtlFirePs(){
     //파리미터 작업
     const format 	= new ol.format.GeoJSON();
     const geojson 	= format.writeFeature(feature);
-    const data 		= {dataId: "wtl_fire_ps", geojson: geojson};
-
+    const data 		= {dataId: "swl_conn_ls", geojson: geojson};
+    console.log(data);
+    
     //수정진행
     ui.loadingBar("show");
    
@@ -659,13 +624,13 @@ function updateWtlFirePs(){
         if (result["result"]) {
             alert("수정 완료 되었습니다.");
             
-            var page = $("#wtiFirePsListPage").val();
-            selectWtlFirePsList(page);
+            var page = $("#swlPipeAsListPage").val();
+            selectSwlPipeAsList(page);
             
             var id = $("#rightSubPopup input[name=id]").val();
-        	selectWtlFirePs(id);
+        	selectSwlPipeAs(id);
         	
-        	$(".popup-panel .update-wtlFirePs-popup-close").trigger("click");
+        	$(".popup-panel .update-swlPipeAs-popup-close").trigger("click");
             
         } else {
             alert(`수정 실패했습니다.`);
@@ -683,15 +648,15 @@ function updateWtlFirePs(){
 
 
 //소방시설 삭제
-function deleteWtlFirePs(id){
-	//console.log("deleteWtlFirePs(id)");
+function deleteSwlPipeAs(id){
+	//console.log("deleteSwlPipeAs(id)");
 	//console.log(id);
 	
 	if (confirm("삭제하시겠습니까?(복구할 수 없습니다)")) {
 		
 		ui.loadingBar("show");
         const formData = new FormData();
-        formData.append("dataId", 'wtl_fire_ps' + "");
+        formData.append("dataId", 'swl_conn_ls' + "");
         formData.append("ids", id);
 
         $.ajax({
@@ -708,9 +673,9 @@ function deleteWtlFirePs(id){
                 alert("삭제 되었습니다.");
                 
                 //var page = $("#wtiFirePsListPage").val();
-                selectWtlFirePsList(1);	//첫페이지 조회
+                selectSwlPipeAsList(1);	//첫페이지 조회
                 
-                cancelSelectWtlFirePs();//창닫기
+                cancelSelectSwlPipeAs();//창닫기
                 
             } else {
                 alert(`삭제에 실패했습니다.`);
@@ -728,8 +693,8 @@ function deleteWtlFirePs(id){
 
 /////////////////////////////
 //엑셀 다운로드 
-function downloadExcelWtlFirePs() {
-	//console.log("downloadExcelWtlFirePs()");
+function downloadExcelSwlPipeAs() {
+	//console.log("downloadExcelSwlPipeAs()");
 	
 	var $container = $("#container");
     var $target = $container.find('#baseGridDiv [data-ax5grid="attr-grid-excel"]');	//가상의 ax5uigrid 공간에 처리 
@@ -744,25 +709,30 @@ function downloadExcelWtlFirePs() {
         sortable: true,
         multipleSelect: false,
         columns: [
-            //{key: "gid", 				label: "아이디",			width:200},
-            {key: "ftr_cde", 			label: "지형지물부호code",	width:'*'},
-            {key: "ftr_cde_nm", 		label: "지형지물부호",		width:'*'},
-            {key: "ftr_idn", 			label: "관리번호",			width:'*'},
-            {key: "hjd_cde", 			label: "읍면동code",		width:'*'},
+        	//{key: "gid", 				label: "아이디",			width:200},
+            //{key: "ftr_cde", 			label: "지형지물부호code",	width:'*'},
+            //{key: "ftr_cde_nm", 		label: "지형지물부호",		width:'*'},
+            //{key: "ftr_idn", 			label: "관리번호",			width:'*'},
+            //{key: "hjd_cde", 			label: "읍면동code",		width:'*'},
             {key: "hjd_cde_nm", 		label: "읍면동",			width:'*'},
             {key: "mng_cde", 			label: "관리기관code",		width:'*'},
             {key: "mng_cde_nm", 		label: "관리기관",			width:'*'},
-            {key: "sht_num", 			label: "도엽번호",			width:'*'},
+            //{key: "sht_num", 			label: "도엽번호",			width:'*'},
             {key: "ist_ymd", 			label: "설치일자",			width:'*'},
-            {key: "hom_num", 			label: "수용가번호",		width:'*'},
-            {key: "mof_cde", 			label: "소화전형식code",	width:'*'},
-            {key: "mof_cde_nm", 		label: "소화전형식",		width:'*'},
-            {key: "fir_dip", 			label: "소화전구경",		width:'*'},
+            {key: "sba_cde", 			label: "하수관용도code",	width:'*'},
+            {key: "sba_cde_nm",			label: "하수관용도",		width:'*'},
+            {key: "mop_cde", 			label: "관재질code",		width:'*'},
+            {key: "mop_cde_nm",			label: "관재질",			width:'*'},
+            {key: "for_cde", 			label: "시설물형태code",	width:'*'},
+            {key: "for_cde_nm", 		label: "시설물형태",		width:'*'},
             {key: "std_dip", 			label: "관경",			width:'*'},
-            //{key: "sup_hit", 			label: "급수탑높이",		width:100},
-            //{key: "sys_chk", 			label: "대장초기화여",		width:100},
-            //{key: "ang_dir", 			label: "방향각",			width:100},
-            //{key: "geom", 			label: "공간정보",			width:100}
+            //{key: "std_hol", 			label: "가로길이",			width:'*'},
+            //{key: "std_vel", 			label: "세로길이",			width:'*'},
+            {key: "byc_len", 			label: "연장",			width:'*'},
+            //{key: "sph_lin", 			label: "차선통로수",		width:'*'},
+            //{key: "cnt_num", 			label: "공사번호",			width:'*'},
+            //{key: "sys_chk", 			label: "대장초기화여부",		width:'*'},
+            //{key: "pip_lbl", 			label: "관라벨",			width:'*'},
         ],
 
 	});
@@ -803,7 +773,7 @@ function downloadExcelWtlFirePs() {
 		}
 	    
 	    options = {
-	        typeNames	: 'wtl_fire_ps' + "",
+	        typeNames	: 'swl_conn_ls' + "",
 	        filter 		: filters,
 	        sortBy		: 'gid',
 	        sortOrder	: 'DESC',
@@ -817,7 +787,7 @@ function downloadExcelWtlFirePs() {
         const type 		= $parent.find('input[name="rad-facility-area"]:checked').val();
 
         options = {
-            typeNames: "wtl_fire_ps",
+            typeNames: "swl_conn_ls",
 	        sortBy		: 'gid',
 	        sortOrder	: 'DESC',
         }
@@ -847,17 +817,25 @@ function downloadExcelWtlFirePs() {
         	var ftr_cde = data.features[i].properties.ftr_cde;
         	data.features[i].properties.ftr_cde_nm = getCmmCodeDataArray("FTR-001", ftr_cde);
         	
-        	//관리기관 코드 변경
-        	var mng_cde = data.features[i].properties.mng_cde;
-        	data.features[i].properties.mng_cde_nm = getCmmCodeDataArray("MNG-001", mng_cde);
-        	
         	//읍면동 코드 변경
         	var hjd_cde = data.features[i].properties.hjd_cde;
         	data.features[i].properties.hjd_cde_nm = getCmmCodeDataArray("YPE001", hjd_cde);
         	
-        	//소화전 형식 코드 변경
-        	var mof_cde = data.features[i].properties.mof_cde;
-        	data.features[i].properties.mof_cde_nm = getCmmCodeDataArray("OGC-048", mof_cde);
+        	//관리기관 코드 변경
+        	var mng_cde = data.features[i].properties.mng_cde;
+        	data.features[i].properties.mng_cde_nm = getCmmCodeDataArray("MNG-001", mng_cde);
+        	
+        	//하수관용도 코드 변경
+        	var sba_cde = data.features[i].properties.sba_cde;
+        	data.features[i].properties.sba_cde_nm = getCmmCodeDataArray("OGC-017", sba_cde);
+        	
+        	//관재질 코드 변경
+        	var mop_cde = data.features[i].properties.mop_cde;
+        	data.features[i].properties.mop_cde_nm = getCmmCodeDataArray("OGC-003", mop_cde);
+        	
+        	//시설물형태 코드 변경
+        	var for_cde = data.features[i].properties.for_cde;
+        	data.features[i].properties.for_cde_nm = getCmmCodeDataArray("OGC-001", for_cde);
             
             //좌표 처리  geometry로 변수명을 정하면 기존것과 충돌 발생
         	data.features[i].properties.geomObj = data.features[i].geometry;
@@ -872,7 +850,7 @@ function downloadExcelWtlFirePs() {
         FACILITY.Ax5UiGridAll.setData(list);
         
       	//엑셀 export
-		FACILITY.Ax5UiGridAll.exportExcel("EXPORT_소방시설.xls");
+		FACILITY.Ax5UiGridAll.exportExcel("EXPORT_면형하수관거.xls");
     });
 
 }

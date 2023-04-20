@@ -143,7 +143,7 @@
                     </div>
                 </div>
             </div>
-            <input type="text" id="swlConnLsListPage" 	value="">
+            <input type="hidden" id="swlConnLsListPage" 	value="">
         </div>
     </div>
 </div>
@@ -156,7 +156,7 @@
 <script type="text/javascript">
 	//jqeury
 	$(document).ready(function(){
-		console.log("swlConnLsListView.jsp");	
+		//console.log("swlConnLsListView.jsp");	
 		
 		//이벤트 리스너 추가
 		dtmap.on('select', onFacilitySelectEventListener);
@@ -291,7 +291,6 @@
                     break;
             }
             dtmap.draw.active({type: type, once: true})
-            $(".area-facility-buffer").val("1").trigger("keyup");
         });
 		
 
