@@ -257,63 +257,37 @@
                         onClick="location.href='/uat/uia/logoutAction.do'"></button>
             </div>
             <ul class="GNB">
-                <li>
-                    <span>정보공유</span>
-                    <ul>
-                        <li>
-                            <button type="button" id="memoInfo" data-popup="rightPopup">메모정보</button>
-                        </li>
-                        <li>
-                            <button type="button" id="potoInfo" data-popup="rightPopup">사진정보</button>
-                        </li>
-                        <li>
-                            <button type="button" id="graphicInfo" data-popup="rightPopup">그리기정보</button>
-                        </li>
-                    </ul>
-                </li>
-                <li>
-                    <span>영상/지도</span>
-                    <ul>
-                        <li>
-                            <button type="button" id="dronInfo" data-popup="rightPopup">드론영상</button>
-                        </li>
-                        <li>
-                            <button type="button" id="dwldInfo" data-popup="rightPopup">내보내기</button>
-                        </li>
-                        <li>
-                            <button type="button" id="saveMap" data-popup="rightPopup">지도저장</button>
-                        </li>
-                    </ul>
-                </li>
-                <li>
-                    <span>게시판</span>
-                    <ul>
-                        <li>
-                            <button type="button" id="notice" data-popup="bbsPopup">공지사항</button>
-                        </li>
-                        <li>
-                            <button type="button" id="qna" data-popup="bbsPopup">QnA</button>
-                        </li>
-                        <li>
-                            <button type="button" id="opqna" data-popup="bbsPopup">운영지원</button>
-                        </li>
-                    </ul>
-                </li>
-                <li>
-                    <span>지도설정</span>
-                    <ul>
-                        <li>
-                            <button type="button" id="backgroundMapInfo" data-popup="rightPopup">배경지도</button>
-                        </li>
-                        <li>
-                            <button type="button" id="화면분할" class="rightPopup">화면분할</button>
-                        </li>
-                        <li>
-                            <button type="button" id="favorites" data-popup="rightPopup">즐겨찾기</button>
-                        </li>
-                    </ul>
-                </li>
-            </ul>
+				<li>
+					<span>정보공유</span>
+					<ul>
+						<li><button type="button" id="memoInfo" data-popup="rightPopup">메모정보</button></li>
+						<li><button type="button" id="potoInfo" data-popup="rightPopup">사진정보</button></li>
+						<li><button type="button" id="graphicInfo" data-popup="rightPopup">그리기정보</button></li>
+					</ul>
+				</li>
+				<li>
+					<span>영상/지도</span>
+					<ul>
+						<li><button type="button" id="dronInfo" data-popup="rightPopup">드론영상</button></li>
+						<li><button type="button" id="dwldInfo" data-popup="rightPopup">내보내기</button></li>
+						<li><button type="button" id="saveMap" data-popup="rightPopup">지도저장</button></li>
+					</ul>
+				</li>
+				<li>
+					<span>게시판</span>
+					<ul>
+						<li><button type="button" id="notice" data-popup="bbsPopup">공지사항</button></li>
+						<li><button type="button" id="qna" data-popup="bbsPopup">QnA</button></li>
+						<li><button type="button" id="opqna" data-popup="bbsPopup">운영지원</button></li>
+					</ul>
+				</li>
+				<li>
+					<span>지도설정</span>
+					<ul id="tmnMapSetting">
+						<%-- _setMainUI() --%>
+					</ul>
+				</li>
+			</ul>
         </div>
     </header>
     <!-- //header -->
@@ -328,34 +302,30 @@
         <!-- map-aside -->
         <div id="map-aside">
             <div class="map-control">
-                <ul>
-                    <li>
-                        <button type="button" class="ctrl-btn compass" data-name="나침반"><span
-                                style="transform: rotate(0deg);"></span></button>
-                    </li>
-                    <li>
-                        <button type="button" class="ctrl-btn reset" data-name="초기화"></button>
-                        <button type="button" class="ctrl-btn globe" data-name="위치 초기화"></button>
-                    </li>
-                    <li>
-                        <button type="button" class="ctrl-btn integrated-info" data-popup="rightPopup"
-                                data-name="통합행정정보"></button>
-                        <button type="button" class="ctrl-btn building" data-popup="rightPopup"
-                                data-name="지적/건물"></button>
-                    </li>
-                    <li class="ctrl-group">
-                        <button type="button" class="ctrl-btn location" data-name="위치"></button>
-                        <button type="button" class="ctrl-btn distance" data-name="거리"></button>
-                        <button type="button" class="ctrl-btn measure" data-name="면적"></button>
-                        <button type="button" class="ctrl-btn radius" data-name="반경"></button>
-                        <button type="button" class="ctrl-btn setting" data-popup="rightPopup" data-name="설정"></button>
-                    </li>
-                    <li>
-                        <button type="button" class="ctrl-btn scaleUp" data-name="확대"></button>
-                        <button type="button" class="ctrl-btn scaleDown" data-name="축소"></button>
-                    </li>
-                </ul>
-            </div>
+			    <ul>
+			        <li>
+			        	<button type="button" class="ctrl-btn compass" data-name="나침반"><span style="transform: rotate(0deg);"></span></button>
+		        	</li>
+			        <li>
+			        	<button type="button" class="ctrl-btn reset" data-name="초기화"></button>
+			        	<button type="button" class="ctrl-btn globe" data-name="위치 초기화"></button>
+			        </li>
+			        <li>
+			        	<button type="button" class="ctrl-btn integrated-info" data-popup="rightPopup" data-name="통합행정정보"></button>
+						<button type="button" class="ctrl-btn building" data-popup="rightPopup" data-name="지적/건물"></button>
+					</li>
+			        <li class="ctrl-group">
+			            <button type="button" class="ctrl-btn location" data-name="위치"></button>
+			            <button type="button" class="ctrl-btn distance" data-name="거리"></button>
+			            <button type="button" class="ctrl-btn measure" data-name="면적"></button>
+			            <button type="button" class="ctrl-btn radius" data-name="반경"></button>
+<%--			            <button type="button" class="ctrl-btn setting" data-popup="rightPopup"  data-name="설정"></button>--%>
+			        </li>
+			        <li><button type="button" class="ctrl-btn scaleUp"  data-name="확대"></button>
+			            <button type="button" class="ctrl-btn scaleDown"  data-name="축소"></button>
+			        </li>
+			    </ul>
+			</div>
 
             <div class="map-util">
                 <div class="addrSelect">
@@ -902,51 +872,64 @@
      */
     ui.init();
 
-    $(document).ready(function () {
-        _setMainUIAction();
-        _setMainUIEvent();
-    })
+	$(document).ready(function(){
+		setMainUI();
+		_setMainUIAction();
+		_setMainUIEvent();
+	})
 
-    function checkCookiePopup() {
-        if (document.cookie.indexOf("popup=hide") < 0) {
-            $(".basic-popup").show();
-        } else {
-            $(".basic-popup").hide();
-        }
-    }
+	//set menu 2D or 3D
+	function setMainUI() {
+		var _html2D = `<li><button type="button" id="backgroundMapInfo" data-popup="rightPopup">배경지도</button></li>
+						<li><button type="button" id="화면분할" class="rightPopup">화면분할</button></li>
+						<li><button type="button" id="favorites" data-popup="rightPopup">즐겨찾기</button></li>`;
+		var _html3D = `<li><button type="button" id="backgroundMapInfo" data-popup="rightPopup">배경지도</button></li>
+						<li><button type="button" id="setting" data-popup="rightPopup">지도설정</button></li>
+						<li><button type="button" id="favorites" data-popup="rightPopup">즐겨찾기</button></li>`;
+		var mod = dtmap.mod;
+		var html =  mod == '2D' ? _html2D : _html3D;
+		$("#tmnMapSetting").html(html);
+	}
 
-    function _setMainUIAction() {
-        // $('.GNB li ul').slideUp();
-        $('.GNB').on('mouseenter', function () {
-            $('.GNB li ul').stop().slideDown(300);
-        }).on('mouseleave', function () {
-            $('.GNB li ul').stop().slideUp(300);
-        });
-        // div draggable
-        $('.basic-popup').draggable({
-            containment: "#container",
-            scroll: false,
-            start: function () {
-                $(this).css({transform: "none", top: $(this).offset().top + "px", left: $(this).offset().left + "px"});
-            }
-        });
-    }
+	function checkCookiePopup() {
+		if(document.cookie.indexOf("popup=hide") < 0 ){
+			$(".basic-popup").show();
+		}else{
+			$(".basic-popup").hide();
+		}
+	}
 
-    function _setMainUIEvent() {
-        $(".coordi-header > div").click(function () {
-            $(".coordinates").toggleClass("active");
-        });
-        $(".legend-panel .legend-close").click(function () {
-            $(".legend-panel").removeClass("opened");
-        });
-        $(".basic-popup .basic-close").click(function () {
-            $(".basic-popup").hide();
-        });
-        $("#popup01").on("click", function () {
-            closePop();
-            $(this).parents(".basic-popup").hide();
-        });
-    }
+	function _setMainUIAction() {
+		$('.GNB').on('mouseenter',function(){
+			$('.GNB li ul').stop().slideDown(300);
+		}).on('mouseleave',function(){
+			$('.GNB li ul').stop().slideUp(300);
+		});
+		// div draggable
+		$('.basic-popup').draggable({
+			containment: "#container",
+			scroll: false,
+			start: function() {
+				$(this).css({transform: "none", top: $(this).offset().top+"px", left:$(this).offset().left+"px"});
+			}
+		});
+	}
+
+	function _setMainUIEvent() {
+		$(".coordi-header > div").on("click", function(){
+			$(".coordinates").toggleClass("active");
+		});
+		$(".legend-panel .legend-close").on("click", function(){
+			$(".legend-panel").removeClass("opened");
+		});
+		$(".basic-popup .basic-close").on("click", function(){
+			$(".basic-popup").hide();
+		});
+		$("#popup01").on("click", function(){
+			closePop();
+			$(this).parents(".basic-popup").hide();
+		});
+	}
 
     function closePop() {
         if (document.popupForm.expiredays.checked) {
