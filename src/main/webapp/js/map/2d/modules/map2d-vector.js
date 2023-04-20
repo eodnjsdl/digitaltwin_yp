@@ -131,16 +131,12 @@ map2d.vector = (function () {
         if (options.id) {
             feature.setId(options.id)
         }
-        feature.set('style', {
-            marker: {
-                src: options.img
-            },
-            label: {
-                text: options.text,
-                column: options.column
-            }
-        })
-        feature.setProperties(options.properties);
+        if (options.style) {
+            feature.set('style', options.style);
+        }
+        if (options.properties) {
+            feature.setProperties(options.properties);
+        }
         _source.addFeature(feature);
     }
 
@@ -440,57 +436,18 @@ map2d.vector = (function () {
     }
 
     function readWKT(wkt, properties) {
-        if (!wkt) {
-            return;
-        }
-
-        const format = new ol.format.WKT();
-        const geometry = format.readGeometry(wkt);
-        const feature = new ol.Feature();
-        feature.setGeometry(geometry);
-
-        if (properties && typeof properties === 'object') {
-            if (properties.geometry) {
-                delete properties.geometry
-            }
-            feature.setProperties(properties, true)
-        }
+        const feature = dtmap.util.readWKT(wkt, properties);
         _source.addFeature(feature);
-
         return feature;
     }
 
+    function writeWKT() {
+        const features = _source.getFeatures();
+        return dtmap.util.writeWKT(features)
+    }
+
     function readGeoJson(json, style) {
-        if (typeof json === 'string') {
-            json = JSON.parse(json);
-        }
-
-        const format = new ol.format.GeoJSON();
-        let crs
-        try {
-            crs = json.crs.properties.name;
-            if (crs.includes('urn:ogc:def:crs:EPSG::')) {
-                crs = crs.replace('urn:ogc:def:crs:EPSG::', 'EPSG:');
-            }
-        } catch (e) {
-            console.warn(`GeoJSON에 좌표계 정보가 없습니다. ${dtmap.crs}로 적용합니다.`)
-            crs = dtmap.crs;
-        }
-        const features = format.readFeatures(json, {
-            dataProjection: crs,
-            featureProjection: dtmap.crs
-        }).map((feature) => {
-
-            // cloned.set("grphcId", grphcId);
-            if (feature.get("type") === "Circle") {
-                const geometry = feature.getGeometry();
-                feature.setGeometry(
-                    new ol.geom.Circle(
-                        geometry.getCoordinates(),
-                        feature.get("circleRadius")
-                    )
-                );
-            }
+        const features = dtmap.util.readGeoJson(json).map((feature) => {
             if (typeof style === 'function') {
                 feature.set('_style', style);
             } else {
@@ -502,19 +459,8 @@ map2d.vector = (function () {
     }
 
     function writeGeoJson() {
-        const format = new ol.format.GeoJSON();
-        const features = _source.getFeatures().map((feature) => {
-            const cloned = feature.clone();
-            const geom = cloned.getGeometry();
-            if (geom instanceof ol.geom.Circle) {
-                cloned.setGeometry(new ol.geom.Point(geom.getCenter()));
-                cloned.set('circleRadius', geom.getRadius());
-                cloned.set('type', 'Circle')
-            }
-            cloned.unset('_style', true);
-            return cloned;
-        });
-        return format.writeFeatures(features);
+        const features = _source.getFeatures();
+        return dtmap.util.writeGeoJson(features);
     }
 
     function addFeatures(features, style) {

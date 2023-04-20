@@ -131,3 +131,31 @@ function onClick(e) {
     // }
 }
 ```
+
+### 3. GeoJson / WKT <-> ol.Feature 유틸함수
+- GeoJson / WKT 데이터와 OpenLayers Feature 객체간 변화 함수
+```javascript
+/**
+ * @param {string} wkt WKT문자열
+ * @param {object} properties 속성 데이터
+ * @return {ol.Feature[]} ol.Feature 배열
+ */
+dtmap.util.readWKT(wkt, properties);
+/**
+ * @param {ol.Feature[]} features 피쳐 배열
+ * @return {string} WKT 문자열
+ */
+dtmap.util.writeWKT(features);
+
+/**
+ * @param {object|string} json GeoJson 데이터
+ * @return {ol.Feature[]} ol.Feature 배열
+ */
+dtmap.util.readGeoJson(json);
+/**
+ * @param {ol.Feature[]} features 피쳐 배열
+ * @param {object} geojson Object
+ */
+dtmap.util.writeGeoJson(features);
+
+```

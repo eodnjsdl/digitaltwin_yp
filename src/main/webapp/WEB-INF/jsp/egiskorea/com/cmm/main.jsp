@@ -42,10 +42,10 @@
     <script type="text/javascript" src="/js/plugin/toastr-2.1.4/toastr.js"></script>
     <script type="text/javascript" src="/js/util/toast-confirm.js"></script>
 
-	<!-- ui -->
-	<script src="/js/ui/ui.js"></script>
+    <!-- ui -->
+    <script src="/js/ui/ui.js"></script>
 
-	<!-- ax5 grid css -->
+    <!-- ax5 grid css -->
     <link rel="stylesheet" href="/js/plugin/ax5grid/ax5grid.css">
 
     <!-- common stylesheet -->
@@ -62,8 +62,8 @@
     <!-- ax5 grid-->
     <script src="/js/plugin/ax5grid/ax5core.min.js"></script>
     <script src="/js/plugin/ax5grid/ax5grid.min.js"></script>
-    
-	
+
+
     <!-- zoom -->
     <link href="/js/plugin/jquery-fat-zoom.js/css/zoom.css" rel="stylesheet">
     <script type="text/javascript" src="/js/plugin/jquery-fat-zoom.js/dist/zoom.js"></script>
@@ -73,7 +73,7 @@
 
     <!-- 2d -->
     <link rel="stylesheet" href="/css/map2d.css">
-	<link rel="stylesheet" href="/css/splitmap.css">
+    <link rel="stylesheet" href="/css/splitmap.css">
     <link rel="stylesheet" href="/engine/plugin/v6.7.0/ol.css">
     <script src="/engine/plugin/v6.7.0/proj4.js"></script>
     <script src="/engine/plugin/v6.7.0/ol.js"></script>
@@ -104,7 +104,7 @@
     <script src="/js/map/2d/modules/map2d-location.js"></script>
     <script src="/js/map/2d/modules/map2d-draw.js"></script>
     <script src="/js/map/2d/modules/map2d-vector.js"></script>
-	<script src="/js/map/2d/modules/map2d-multiview.js"></script>
+    <script src="/js/map/2d/modules/map2d-multiview.js"></script>
 
     <!-- 3D Map js -->
     <script src="/js/map/3d/map3d.js"></script>
@@ -166,75 +166,75 @@
     <script src="/js/egiskorea/com/job/cmt/cmt.js"></script>
     <script src="/js/egiskorea/com/job/wrpp/wrpp.js"></script>
     <script src="/js/egiskorea/com/job/swg/swg.js"></script>
-    
+
     <!-- [[업무 /시설관리 재작업]]  -->
     <script src="/js/egiskorea/com/cmm/common.js"></script> <!-- 메뉴얼 때문에 추가 uhh add... -->
-    
-	<script src="/js/egiskorea/com/job/fcmr/facilityCommon.js"></script>				<!-- 시설관리  공통 -->
-	
-	<!-- [상수도 시설] --> 
-	<script src="/js/egiskorea/com/job/fcmr/wsfc/facilityWaterSupply.js"></script>		<!--{상수도시설  공통} -->
-	<!-- {상수도 하위 메뉴}  -->	
-	<script src="/js/egiskorea/com/job/fcmr/wsfc/wpil/wtlPipeLm.js"></script>			<!-- 상수관로 -->
-	<!-- 상수관로심도 -->
-	<script src="/js/egiskorea/com/job/fcmr/wsfc/wprp/wtlPrgaPs.js"></script>			<!-- 수압계 -->
-	<script src="/js/egiskorea/com/job/fcmr/wsfc/wsep/wtlServPs.js"></script>			<!-- 배수지 -->
-	<!-- 급수관로 -->
-	<!-- 변류시설 -->
-	
-	<!-- ////////////////////////////  -->
-	
-	<!-- [하수도시설]  -->
-	<script src="/js/egiskorea/com/job/fcmr/ssfc/facilitySewerSupply.js"></script> 		<!-- {하수도시설  공통} -->
-	<script src="/js/egiskorea/com/job/fcmr/ssfc/svep/swlVentPs.js"></script>		<!-- 환기구 --> 
-	<!-- ////////////////////////////  -->
-	
-	<!-- [교통시설]  -->
-	<script src="/js/egiskorea/com/job/fcmr/tpfc/facilityTransportation.js"></script>	<!-- 교통시설  공통 -->
-	<!-- {교통 하위 메뉴}  -->	
-	<!-- 도로구간  -->
-	<script src="/js/egiskorea/com/job/fcmr/tpfc/rdst/roadSect.js"></script>			
-	<!-- 철도선로 -->
-	<script src="/js/egiskorea/com/job/fcmr/tpfc/rrtc/rlroadTc.js"></script>
-	<!-- 철도역사 -->
-	<script src="/js/egiskorea/com/job/fcmr/tpfc/rrst/rlroadSt.js"></script>
-	<!-- 지하철선로 -->
-	<script src="/js/egiskorea/com/job/fcmr/tpfc/sbtc/sbwayTc.js"></script>
-	<!-- 지하철역사 -->
-	<script src="/js/egiskorea/com/job/fcmr/tpfc/sbst/sbwaySt.js"></script>
-	<!-- 교량 -->
-	<script src="/js/egiskorea/com/job/fcmr/tpfc/brdg/brdge.js"></script>
-	<!-- 고가도로 -->
-	<script src="/js/egiskorea/com/job/fcmr/tpfc/ovps/ovrpass.js"></script>
-	<!-- 터널 -->
-	<script src="/js/egiskorea/com/job/fcmr/tpfc/tunl/tunnl.js"></script>
-	
-	<!-- ////////////////////////////  -->
-	
-	<!-- [체육시설]  -->
-	<script src="/js/egiskorea/com/job/fcmr/phfc/facilityPhysicalEducation.js"></script>
-	<!-- ////////////////////////////  -->
-	
-	<!-- [복지시설]  -->
-	<script src="/js/egiskorea/com/job/fcmr/wlfc/facilityWelFare.js"></script>
-	<!-- ////////////////////////////  -->
-	
-	<!-- [시설예약관리]  -->
-	
-	<!-- [[업무 /시설관리 재작업]] end -->
-	
+
+    <script src="/js/egiskorea/com/job/fcmr/facilityCommon.js"></script>                <!-- 시설관리  공통 -->
+
+    <!-- [상수도 시설] -->
+    <script src="/js/egiskorea/com/job/fcmr/wsfc/facilityWaterSupply.js"></script>        <!--{상수도시설  공통} -->
+    <!-- {상수도 하위 메뉴}  -->
+    <script src="/js/egiskorea/com/job/fcmr/wsfc/wpil/wtlPipeLm.js"></script>            <!-- 상수관로 -->
+    <!-- 상수관로심도 -->
+    <script src="/js/egiskorea/com/job/fcmr/wsfc/wprp/wtlPrgaPs.js"></script>            <!-- 수압계 -->
+    <script src="/js/egiskorea/com/job/fcmr/wsfc/wsep/wtlServPs.js"></script>            <!-- 배수지 -->
+    <!-- 급수관로 -->
+    <!-- 변류시설 -->
+
+    <!-- ////////////////////////////  -->
+
+    <!-- [하수도시설]  -->
+    <script src="/js/egiskorea/com/job/fcmr/ssfc/facilitySewerSupply.js"></script>        <!-- {하수도시설  공통} -->
+    <script src="/js/egiskorea/com/job/fcmr/ssfc/svep/swlVentPs.js"></script>        <!-- 환기구 -->
+    <!-- ////////////////////////////  -->
+
+    <!-- [교통시설]  -->
+    <script src="/js/egiskorea/com/job/fcmr/tpfc/facilityTransportation.js"></script>    <!-- 교통시설  공통 -->
+    <!-- {교통 하위 메뉴}  -->
+    <!-- 도로구간  -->
+    <script src="/js/egiskorea/com/job/fcmr/tpfc/rdst/roadSect.js"></script>
+    <!-- 철도선로 -->
+    <script src="/js/egiskorea/com/job/fcmr/tpfc/rrtc/rlroadTc.js"></script>
+    <!-- 철도역사 -->
+    <script src="/js/egiskorea/com/job/fcmr/tpfc/rrst/rlroadSt.js"></script>
+    <!-- 지하철선로 -->
+    <script src="/js/egiskorea/com/job/fcmr/tpfc/sbtc/sbwayTc.js"></script>
+    <!-- 지하철역사 -->
+    <script src="/js/egiskorea/com/job/fcmr/tpfc/sbst/sbwaySt.js"></script>
+    <!-- 교량 -->
+    <script src="/js/egiskorea/com/job/fcmr/tpfc/brdg/brdge.js"></script>
+    <!-- 고가도로 -->
+    <script src="/js/egiskorea/com/job/fcmr/tpfc/ovps/ovrpass.js"></script>
+    <!-- 터널 -->
+    <script src="/js/egiskorea/com/job/fcmr/tpfc/tunl/tunnl.js"></script>
+
+    <!-- ////////////////////////////  -->
+
+    <!-- [체육시설]  -->
+    <script src="/js/egiskorea/com/job/fcmr/phfc/facilityPhysicalEducation.js"></script>
+    <!-- ////////////////////////////  -->
+
+    <!-- [복지시설]  -->
+    <script src="/js/egiskorea/com/job/fcmr/wlfc/facilityWelFare.js"></script>
+    <!-- ////////////////////////////  -->
+
+    <!-- [시설예약관리]  -->
+
+    <!-- [[업무 /시설관리 재작업]] end -->
+
     <!-- 분석 -->
     <script src="/js/egiskorea/com/anls/anls.js"></script>
 
     <!-- 지적 정보 -->
     <script src="/js/egiskorea/com/geo/geographic.js"></script>
-    
+
     <!-- 레이어 -->
-	<script src="/js/egiskorea/com/sach/sach.js"></script>
+    <script src="/js/egiskorea/com/sach/sach.js"></script>
     <!-- 레이어 -->
-	<script src="/js/egiskorea/com/lyr/layer.js"></script>
-	<!-- 주제도 -->
-	<script src="/js/egiskorea/com/tm/thematicMap.js"></script>
+    <script src="/js/egiskorea/com/lyr/layer.js"></script>
+    <!-- 주제도 -->
+    <script src="/js/egiskorea/com/tm/thematicMap.js"></script>
 
 </head>
 <body class="<c:out value='${loginVO.id}'/>">
@@ -248,45 +248,72 @@
         <h1 class="logo"><a href="/index.html"><spring:message code="site.title"/></a></h1>
         <div class="util-box">
             <div class="user"><c:out value="${loginVO.name}"/>님
-                <button type="button" class="user-btn" data-popup="userInfoUdt" data-name="사용자정보" onclick="aj_userInfoPopupOpen('<c:out value="${loginVO.id}"/>')"></button>
+                <button type="button" class="user-btn" data-popup="userInfoUdt" data-name="사용자정보"
+                        onclick="aj_userInfoPopupOpen('<c:out value="${loginVO.id}"/>')"></button>
                 <button type="button" class="info-btn" data-name="도움말" onclick="window.open('/userManual.do')"></button>
-				<button type="button" class="manager-btn" data-name="관리자" onclick="window.open('/com/mngr/usr/selectGroupManageList.do')"></button>            
-            	<button type="button" class="logout-btn" data-name="로그아웃" onClick="location.href='/uat/uia/logoutAction.do'"></button>
+                <button type="button" class="manager-btn" data-name="관리자"
+                        onclick="window.open('/com/mngr/usr/selectGroupManageList.do')"></button>
+                <button type="button" class="logout-btn" data-name="로그아웃"
+                        onClick="location.href='/uat/uia/logoutAction.do'"></button>
             </div>
             <ul class="GNB">
-				<li>
-					<span>정보공유</span>
-					<ul>
-						<li><button type="button" id="memoInfo" data-popup="rightPopup">메모정보</button></li>
-						<li><button type="button" id="potoInfo" data-popup="rightPopup">사진정보</button></li>
-						<li><button type="button" id="graphicInfo" data-popup="rightPopup">그리기정보</button></li>
-					</ul>
-				</li>
-				<li>
-					<span>영상/지도</span>
-					<ul>
-						<li><button type="button" id="dronInfo" data-popup="rightPopup">드론영상</button></li>
-						<li><button type="button" id="dwldInfo" data-popup="rightPopup">내보내기</button></li>
-						<li><button type="button" id="saveMap" data-popup="rightPopup">지도저장</button></li>
-					</ul>
-				</li>
-				<li>
-					<span>게시판</span>
-					<ul>
-						<li><button type="button" id="notice" data-popup="bbsPopup">공지사항</button></li>
-						<li><button type="button" id="qna" data-popup="bbsPopup">QnA</button></li>
-						<li><button type="button" id="opqna" data-popup="bbsPopup">운영지원</button></li>
-					</ul>
-				</li>
-				<li>
-					<span>지도설정</span>
-					<ul>
-						<li><button type="button" id="backgroundMapInfo" data-popup="rightPopup">배경지도</button></li>
-						<li><button type="button" id="화면분할" class="rightPopup">화면분할</button></li>
-						<li><button type="button" id="favorites" data-popup="rightPopup">즐겨찾기</button></li>
-					</ul>
-				</li>
-			</ul>
+                <li>
+                    <span>정보공유</span>
+                    <ul>
+                        <li>
+                            <button type="button" id="memoInfo" data-popup="rightPopup">메모정보</button>
+                        </li>
+                        <li>
+                            <button type="button" id="potoInfo" data-popup="rightPopup">사진정보</button>
+                        </li>
+                        <li>
+                            <button type="button" id="graphicInfo" data-popup="rightPopup">그리기정보</button>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <span>영상/지도</span>
+                    <ul>
+                        <li>
+                            <button type="button" id="dronInfo" data-popup="rightPopup">드론영상</button>
+                        </li>
+                        <li>
+                            <button type="button" id="dwldInfo" data-popup="rightPopup">내보내기</button>
+                        </li>
+                        <li>
+                            <button type="button" id="saveMap" data-popup="rightPopup">지도저장</button>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <span>게시판</span>
+                    <ul>
+                        <li>
+                            <button type="button" id="notice" data-popup="bbsPopup">공지사항</button>
+                        </li>
+                        <li>
+                            <button type="button" id="qna" data-popup="bbsPopup">QnA</button>
+                        </li>
+                        <li>
+                            <button type="button" id="opqna" data-popup="bbsPopup">운영지원</button>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <span>지도설정</span>
+                    <ul>
+                        <li>
+                            <button type="button" id="backgroundMapInfo" data-popup="rightPopup">배경지도</button>
+                        </li>
+                        <li>
+                            <button type="button" id="화면분할" class="rightPopup">화면분할</button>
+                        </li>
+                        <li>
+                            <button type="button" id="favorites" data-popup="rightPopup">즐겨찾기</button>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
         </div>
     </header>
     <!-- //header -->
@@ -301,112 +328,126 @@
         <!-- map-aside -->
         <div id="map-aside">
             <div class="map-control">
-			    <ul>
-			        <li>
-			        	<button type="button" class="ctrl-btn compass" data-name="나침반"><span style="transform: rotate(0deg);"></span></button>
-		        	</li>
-			        <li>
-			        	<button type="button" class="ctrl-btn reset" data-name="초기화"></button>
-			        	<button type="button" class="ctrl-btn globe" data-name="위치 초기화"></button>
-			        </li>
-			        <li>
-			        	<button type="button" class="ctrl-btn integrated-info" data-popup="rightPopup" data-name="통합행정정보"></button>
-						<button type="button" class="ctrl-btn building" data-popup="rightPopup" data-name="지적/건물"></button>
-					</li>
-			        <li class="ctrl-group">
-			            <button type="button" class="ctrl-btn location" data-name="위치"></button>
-			            <button type="button" class="ctrl-btn distance" data-name="거리"></button>
-			            <button type="button" class="ctrl-btn measure" data-name="면적"></button>
-			            <button type="button" class="ctrl-btn radius" data-name="반경"></button>
-			            <button type="button" class="ctrl-btn setting" data-popup="rightPopup"  data-name="설정"></button>
-			        </li>
-			        <li><button type="button" class="ctrl-btn scaleUp"  data-name="확대"></button>
-			            <button type="button" class="ctrl-btn scaleDown"  data-name="축소"></button>
-			        </li>
-			    </ul>
-			</div>
+                <ul>
+                    <li>
+                        <button type="button" class="ctrl-btn compass" data-name="나침반"><span
+                                style="transform: rotate(0deg);"></span></button>
+                    </li>
+                    <li>
+                        <button type="button" class="ctrl-btn reset" data-name="초기화"></button>
+                        <button type="button" class="ctrl-btn globe" data-name="위치 초기화"></button>
+                    </li>
+                    <li>
+                        <button type="button" class="ctrl-btn integrated-info" data-popup="rightPopup"
+                                data-name="통합행정정보"></button>
+                        <button type="button" class="ctrl-btn building" data-popup="rightPopup"
+                                data-name="지적/건물"></button>
+                    </li>
+                    <li class="ctrl-group">
+                        <button type="button" class="ctrl-btn location" data-name="위치"></button>
+                        <button type="button" class="ctrl-btn distance" data-name="거리"></button>
+                        <button type="button" class="ctrl-btn measure" data-name="면적"></button>
+                        <button type="button" class="ctrl-btn radius" data-name="반경"></button>
+                        <button type="button" class="ctrl-btn setting" data-popup="rightPopup" data-name="설정"></button>
+                    </li>
+                    <li>
+                        <button type="button" class="ctrl-btn scaleUp" data-name="확대"></button>
+                        <button type="button" class="ctrl-btn scaleDown" data-name="축소"></button>
+                    </li>
+                </ul>
+            </div>
 
             <div class="map-util">
-				<div class="addrSelect">
-					<form action="">
-						<select name="" id="" class="form-select2">
-							<option value="">지번</option>
-							<option value="">도로명</option>
-						</select>
-						<select name="" id="" class="form-select2">
-							<option value="">행정동</option>
-							<option value="">강산면</option>
-						</select>
-						<select name="" id="" class="form-select2">
-							<option value="">법정리</option>
-							<option value="">경강로</option>
-						</select>
-						<input type="text" class="form-control" placeholder="지번 입력"> <button type="button" class="search-btn" title="검색"></button>
-					</form>
-					<form action="">
-						축척 1 :
-						<input type="text" class="form-control scale" placeholder="10000"> <button type="button" class="btn wl btn-sm type04">이동</button>
-					</form>
-				</div>
-	
-				<!-- 좌표, 축적 -->
-				<div class="coordinates">
-					<div class="coordi-header">
-						<div>
-							<span class="x">127.47609649416934</span>
-							<span class="y">37.49284379468381</span>
-						</div>
-						<button type="button" class="btn wl btn-sm type04">위치이동</button>
-					</div>
-					<div class="coordi-body">								
-						<div class="items">
-							<h2>위도,경도 (DMS)</h2>
-							<div class="row">
-								<div class="c-col">
-									<div class="dms-row">
-										<span><input type="text" class="form-control"><span class="form-text">도</span></span>
-										<span><input type="text" class="form-control"><span class="form-text">분</span></span>
-										<span><input type="text" class="form-control"><span class="form-text">초</span></span>
-										<span class="form-dash">,</span>		
-									</div>
-								</div>			
-								<div class="c-col">											
-									<div class="dms-row">
-										<span><input type="text" class="form-control"><span class="form-text">도</span></span>
-										<span><input type="text" class="form-control"><span class="form-text">분</span></span>
-										<span><input type="text" class="form-control"><span class="form-text">초</span></span>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="items">
-							<h2>위도,경도 (Degree)</h2>
-							<div class="row">
-								<div class="c-col"><input type="text" class="form-control"></div>
-								<div class="c-col"><input type="text" class="form-control"></div>
-							</div>
-						</div>
-						<div class="items">
-							<h2>사용자정의</h2>
-							<div class="row">
-								<div class="c-col">
-									<select class="form-select3" name="" id="">
-										<option value="">EPSG : 5179</option>
-										<option value="">EPSG : 5179</option>
-										<option value="">EPSG : 5179</option>
-									</select>
-								</div>
-							</div>
-							<div class="row">										
-								<div class="c-col"><input type="text" class="form-control"></div>
-								<div class="c-col"><input type="text" class="form-control"></div>
-								<div><button type="button" class="btn btn-sm type03">적용</button></div>
-							</div>
-						</div>
-					</div>
-				</div>
-				<!-- //좌표, 축적 -->
-			</div>
+                <div class="addrSelect">
+                    <form action="">
+                        <select name="" id="" class="form-select2">
+                            <option value="">지번</option>
+                            <option value="">도로명</option>
+                        </select>
+                        <select name="" id="" class="form-select2">
+                            <option value="">행정동</option>
+                            <option value="">강산면</option>
+                        </select>
+                        <select name="" id="" class="form-select2">
+                            <option value="">법정리</option>
+                            <option value="">경강로</option>
+                        </select>
+                        <input type="text" class="form-control" placeholder="지번 입력">
+                        <button type="button" class="search-btn" title="검색"></button>
+                    </form>
+                    <form action="">
+                        축척 1 :
+                        <input type="text" class="form-control scale" placeholder="10000">
+                        <button type="button" class="btn wl btn-sm type04">이동</button>
+                    </form>
+                </div>
+
+                <!-- 좌표, 축적 -->
+                <div class="coordinates">
+                    <div class="coordi-header">
+                        <div>
+                            <span class="x">127.47609649416934</span>
+                            <span class="y">37.49284379468381</span>
+                        </div>
+                        <button type="button" class="btn wl btn-sm type04">위치이동</button>
+                    </div>
+                    <div class="coordi-body">
+                        <div class="items">
+                            <h2>위도,경도 (DMS)</h2>
+                            <div class="row">
+                                <div class="c-col">
+                                    <div class="dms-row">
+                                        <span><input type="text" class="form-control"><span
+                                                class="form-text">도</span></span>
+                                        <span><input type="text" class="form-control"><span
+                                                class="form-text">분</span></span>
+                                        <span><input type="text" class="form-control"><span
+                                                class="form-text">초</span></span>
+                                        <span class="form-dash">,</span>
+                                    </div>
+                                </div>
+                                <div class="c-col">
+                                    <div class="dms-row">
+                                        <span><input type="text" class="form-control"><span
+                                                class="form-text">도</span></span>
+                                        <span><input type="text" class="form-control"><span
+                                                class="form-text">분</span></span>
+                                        <span><input type="text" class="form-control"><span
+                                                class="form-text">초</span></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="items">
+                            <h2>위도,경도 (Degree)</h2>
+                            <div class="row">
+                                <div class="c-col"><input type="text" class="form-control"></div>
+                                <div class="c-col"><input type="text" class="form-control"></div>
+                            </div>
+                        </div>
+                        <div class="items">
+                            <h2>사용자정의</h2>
+                            <div class="row">
+                                <div class="c-col">
+                                    <select class="form-select3" name="" id="">
+                                        <option value="">EPSG : 5179</option>
+                                        <option value="">EPSG : 5179</option>
+                                        <option value="">EPSG : 5179</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="c-col"><input type="text" class="form-control"></div>
+                                <div class="c-col"><input type="text" class="form-control"></div>
+                                <div>
+                                    <button type="button" class="btn btn-sm type03">적용</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- //좌표, 축적 -->
+            </div>
         </div>
         <!-- //map-aside -->
 
@@ -447,25 +488,45 @@
 
         <!-- side -->
         <div id="side">
-			<div id="lnb">
-				<ul>
-				    <li data-menu="lnb-search" class=""><button type="button" class="lnb-btn">검색</button></li>
-				    <li data-menu="lnb-layer" class=""><button type="button" class="lnb-btn">레이어</button></li>
-				    <li data-menu="lnb-theme" class=""><button type="button" class="lnb-btn">주제도</button></li>
-				    <li data-menu="lnb-space" class=""><button type="button" class="lnb-btn">공간정보</button></li>
-				    <li data-menu="lnb-facility" class=""><button type="button" class="lnb-btn">시설관리</button></li>
-				    <li data-menu="lnb-traffic" class=""><button type="button" class="lnb-btn">교통분석</button></li>
-				    <li data-menu="lnb-administrative" class=""><button type="button" class="lnb-btn">행정자산</button></li>
-				    <li data-menu="lnb-territory" class=""><button type="button" class="lnb-btn">국토조사</button></li>
-				    <li data-menu="lnb-analysis" class=""><button type="button" class="lnb-btn">분석</button></li>
-				</ul>
-				<div class="map-type">
+            <div id="lnb">
+                <ul>
+                    <li data-menu="lnb-search" class="">
+                        <button type="button" class="lnb-btn">검색</button>
+                    </li>
+                    <li data-menu="lnb-layer" class="">
+                        <button type="button" class="lnb-btn">레이어</button>
+                    </li>
+                    <li data-menu="lnb-theme" class="">
+                        <button type="button" class="lnb-btn">주제도</button>
+                    </li>
+                    <li data-menu="lnb-space" class="">
+                        <button type="button" class="lnb-btn">공간정보</button>
+                    </li>
+                    <li data-menu="lnb-facility" class="">
+                        <button type="button" class="lnb-btn">시설관리</button>
+                    </li>
+                    <li data-menu="lnb-traffic" class="">
+                        <button type="button" class="lnb-btn">교통분석</button>
+                    </li>
+                    <li data-menu="lnb-administrative" class="">
+                        <button type="button" class="lnb-btn">행정자산</button>
+                    </li>
+                    <li data-menu="lnb-territory" class="">
+                        <button type="button" class="lnb-btn">국토조사</button>
+                    </li>
+                    <li data-menu="lnb-analysis" class="">
+                        <button type="button" class="lnb-btn">분석</button>
+                    </li>
+                </ul>
+                <div class="map-type">
 				    <span class="knobs">
-				        <span><input type="radio" name="mapType" value="2D" id="mapType2D" checked=""><label for="mapType2D">2D</label></span>
-				        <span><input type="radio" name="mapType" value="3D" id="mapType3D"><label for="mapType3D">3D</label></span>
+				        <span><input type="radio" name="mapType" value="2D" id="mapType2D" checked=""><label
+                                for="mapType2D">2D</label></span>
+				        <span><input type="radio" name="mapType" value="3D" id="mapType3D"><label
+                                for="mapType3D">3D</label></span>
 				    </span>
-				</div>
-			</div>
+                </div>
+            </div>
 
             <!-- 검색 -->
             <div class="lnb-search lnb-cont">
@@ -482,170 +543,256 @@
             <div class="lnb-theme lnb-cont">
             </div>
             <!-- //주제도 -->
-	
-			<!-- 공간정보 -->
-			<div class="lnb-space lnb-cont">
-				<div class="lnb-header"><h2 class="tit">공간정보</h2></div>
-				<div class="lnb-body">
-					<div class="scroll-y">
-						<ul class="lnb-list">
-							<li><p class="lnb-dep1">공간정보활용</p>
-								<ul class="lnb-dep2">
-									<li><button id="constructionPlan" type="button" class="dataPopup" data-popup="leftPopup">사업공유관리</button></li>
-									<li><button id="undergroundWaterManagement" type="button" class="dataPopup" data-popup="bottomPopup">지하수관리</button></li>
-									<li><button id="renewableEnergy" type="button" class="dataPopup" data-popup="bottomPopup">신재생에너지</button></li>
-									<li><button id="safetyFacilitiesManagement" type="button" class="dataPopup" data-popup="bottomPopup">안전시설물관리</button></li>
-									<li><button id="inBusinessEstaInfo" type="button" class="dataPopup" data-popup="bottomPopup">관내업소정보조회</button></li>
-									<li><button id="atmospherePollution" type="button" class="dataPopup" data-popup="leftPopup">대기오염</button></li>
-								</ul>
-							</li>
-						</ul>
-					</div>
-				</div>
-				<div class="lnb-util"><button type="button" class="manualBtn" title="도움말"></button><button type="button" class="lnb-close" title="닫기"></button></div>
-			</div>
-			<!-- //공간정보 -->
-			
+
+            <!-- 공간정보 -->
+            <div class="lnb-space lnb-cont">
+                <div class="lnb-header"><h2 class="tit">공간정보</h2></div>
+                <div class="lnb-body">
+                    <div class="scroll-y">
+                        <ul class="lnb-list">
+                            <li><p class="lnb-dep1">공간정보활용</p>
+                                <ul class="lnb-dep2">
+                                    <li>
+                                        <button id="constructionPlan" type="button" class="dataPopup"
+                                                data-popup="leftPopup">사업공유관리
+                                        </button>
+                                    </li>
+                                    <li>
+                                        <button id="undergroundWaterManagement" type="button" class="dataPopup"
+                                                data-popup="bottomPopup">지하수관리
+                                        </button>
+                                    </li>
+                                    <li>
+                                        <button id="renewableEnergy" type="button" class="dataPopup"
+                                                data-popup="bottomPopup">신재생에너지
+                                        </button>
+                                    </li>
+                                    <li>
+                                        <button id="safetyFacilitiesManagement" type="button" class="dataPopup"
+                                                data-popup="bottomPopup">안전시설물관리
+                                        </button>
+                                    </li>
+                                    <li>
+                                        <button id="inBusinessEstaInfo" type="button" class="dataPopup"
+                                                data-popup="bottomPopup">관내업소정보조회
+                                        </button>
+                                    </li>
+                                    <li>
+                                        <button id="atmospherePollution" type="button" class="dataPopup"
+                                                data-popup="leftPopup">대기오염
+                                        </button>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="lnb-util">
+                    <button type="button" class="manualBtn" title="도움말"></button>
+                    <button type="button" class="lnb-close" title="닫기"></button>
+                </div>
+            </div>
+            <!-- //공간정보 -->
+
             <!-- 시설관리 -->
-			<div class="lnb-facility lnb-cont">
-				<div class="lnb-header"><h2 class="tit">시설관리</h2></div>
-				<div class="lnb-body">
-					<div class="scroll-y">
-						<ul class="lnb-list">
-							<li><p class="lnb-dep1">시설관리</p>
-								<ul class="lnb-dep2">
-									<li><button type="button" id="waterSupplyFacility" class="dataPopup" data-popup="bottomPopup">상수도시설</button></li>
-									<li><button type="button" id="sewerSupplyFacility" class="dataPopup" data-popup="bottomPopup">하수도시설</button></li>
-									<li><button type="button" id="transportationFacility" class="dataPopup" data-popup="bottomPopup">교통시설</button></li>
-									<li><button type="button" id="physicalEducationFacility" class="dataPopup" data-popup="bottomPopup">체육시설</button></li>
-									<li><button type="button" id="welfareFacility" class="dataPopup" data-popup="bottomPopup">복지시설</button></li>
-									<li><button type="button" id="faciReseMng" class="dataPopup" data-popup="leftPopup">시설예약관리</button></li>
-								</ul>
-							</li>
-						</ul>
-					</div>
-				</div>
-				<div class="lnb-util"><button type="button" class="manualBtn" title="도움말"></button><button type="button" class="lnb-close" title="닫기"></button></div>
-			</div>
+            <div class="lnb-facility lnb-cont">
+                <div class="lnb-header"><h2 class="tit">시설관리</h2></div>
+                <div class="lnb-body">
+                    <div class="scroll-y">
+                        <ul class="lnb-list">
+                            <li><p class="lnb-dep1">시설관리</p>
+                                <ul class="lnb-dep2">
+                                    <li>
+                                        <button type="button" id="waterSupplyFacility" class="dataPopup"
+                                                data-popup="bottomPopup">상수도시설
+                                        </button>
+                                    </li>
+                                    <li>
+                                        <button type="button" id="sewerSupplyFacility" class="dataPopup"
+                                                data-popup="bottomPopup">하수도시설
+                                        </button>
+                                    </li>
+                                    <li>
+                                        <button type="button" id="transportationFacility" class="dataPopup"
+                                                data-popup="bottomPopup">교통시설
+                                        </button>
+                                    </li>
+                                    <li>
+                                        <button type="button" id="physicalEducationFacility" class="dataPopup"
+                                                data-popup="bottomPopup">체육시설
+                                        </button>
+                                    </li>
+                                    <li>
+                                        <button type="button" id="welfareFacility" class="dataPopup"
+                                                data-popup="bottomPopup">복지시설
+                                        </button>
+                                    </li>
+                                    <li>
+                                        <button type="button" id="faciReseMng" class="dataPopup" data-popup="leftPopup">
+                                            시설예약관리
+                                        </button>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="lnb-util">
+                    <button type="button" class="manualBtn" title="도움말"></button>
+                    <button type="button" class="lnb-close" title="닫기"></button>
+                </div>
+            </div>
             <!-- //시설관리 -->
-            
+
             <!-- 교통분석 -->
             <div class="lnb-traffic lnb-cont">
-				<div class="lnb-header"><h2 class="tit">교통분석</h2></div>
-				<div class="lnb-body">
-					<div class="scroll-y">
-						<ul class="lnb-list">
-							<li><p class="lnb-dep1">교통분석</p>
-								<ul class="lnb-dep2">
-									<li><button type="button" id="BusRouteInformation" class="dataPopup" data-popup="">버스노선정보</button></li>
-									<li><button type="button" id="PopulationInformation" class="dataPopup" data-popup="">인구정보</button></li>
-									<li><button type="button" id="TransportationVulnerability" class="dataPopup" data-popup="">대중교통 취약분석</button></li>
-								</ul>
-							</li>
-						</ul>
-					</div>
-				</div>
-				<div class="lnb-util"><button type="button" class="manualBtn" title="도움말"></button><button type="button" class="lnb-close" title="닫기"></button></div>
-			</div>
+                <div class="lnb-header"><h2 class="tit">교통분석</h2></div>
+                <div class="lnb-body">
+                    <div class="scroll-y">
+                        <ul class="lnb-list">
+                            <li><p class="lnb-dep1">교통분석</p>
+                                <ul class="lnb-dep2">
+                                    <li>
+                                        <button type="button" id="BusRouteInformation" class="dataPopup" data-popup="">
+                                            버스노선정보
+                                        </button>
+                                    </li>
+                                    <li>
+                                        <button type="button" id="PopulationInformation" class="dataPopup"
+                                                data-popup="">인구정보
+                                        </button>
+                                    </li>
+                                    <li>
+                                        <button type="button" id="TransportationVulnerability" class="dataPopup"
+                                                data-popup="">대중교통 취약분석
+                                        </button>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="lnb-util">
+                    <button type="button" class="manualBtn" title="도움말"></button>
+                    <button type="button" class="lnb-close" title="닫기"></button>
+                </div>
+            </div>
             <!-- //교통분석 -->
-            
-			<!-- 행정자산 -->
-			<div class="lnb-administrative lnb-cont">
-				<div class="lnb-header"><h2 class="tit">행정자산</h2></div>
-				<div class="lnb-body">
-					<div class="scroll-y">
-						<ul class="lnb-list">
-							<li><p class="lnb-dep1">행정자산</p>
-								<ul class="lnb-dep2">
-									<li><button type="button" id="AdministrativeAsset" class="dataPopup" data-popup="">행정자산관리</button></li>
-									<li><button type="button" id="CoownedLand" class="dataPopup" data-popup="">공유지관리</button></li>
-									<li><button type="button" id="SurveyProperty" class="dataPopup" data-popup="bottomPopup">공유재산 실태조사</button></li>
-								</ul>
-							</li>
-						</ul>
-					</div>
-				</div>
-				<div class="lnb-util"><button type="button" class="manualBtn" title="도움말"></button><button type="button" class="lnb-close" title="닫기"></button></div>
-			</div>
-			<!-- //행정자산 -->
-			
-			<!-- 국토조사 -->
-			<div class="lnb-territory lnb-cont">
-			</div>
-			<!-- //국토조사 -->
-			
+
+            <!-- 행정자산 -->
+            <div class="lnb-administrative lnb-cont">
+                <div class="lnb-header"><h2 class="tit">행정자산</h2></div>
+                <div class="lnb-body">
+                    <div class="scroll-y">
+                        <ul class="lnb-list">
+                            <li><p class="lnb-dep1">행정자산</p>
+                                <ul class="lnb-dep2">
+                                    <li>
+                                        <button type="button" id="AdministrativeAsset" class="dataPopup" data-popup="">
+                                            행정자산관리
+                                        </button>
+                                    </li>
+                                    <li>
+                                        <button type="button" id="CoownedLand" class="dataPopup" data-popup="">공유지관리
+                                        </button>
+                                    </li>
+                                    <li>
+                                        <button type="button" id="SurveyProperty" class="dataPopup"
+                                                data-popup="bottomPopup">공유재산 실태조사
+                                        </button>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="lnb-util">
+                    <button type="button" class="manualBtn" title="도움말"></button>
+                    <button type="button" class="lnb-close" title="닫기"></button>
+                </div>
+            </div>
+            <!-- //행정자산 -->
+
+            <!-- 국토조사 -->
+            <div class="lnb-territory lnb-cont">
+            </div>
+            <!-- //국토조사 -->
+
             <!-- 분석 -->
             <div class="lnb-analysis lnb-cont">
-         		<div class="lnb-header"><h2 class="tit">분석</h2></div>
-				<div class="lnb-body"> 
-					<div class="scroll-y">
-						<ul class="lnb-list">
-							<li><p class="lnb-dep1">분석</p>
-								<ul class="lnb-dep2">
-									<li>
-			                            <button type="button" id="M_SPCE_ANLS" class="dataPopup" data-maptype="">
-			                                	공간분석
-			                            </button>
-			                        </li>
-			                        <li>
-			                            <button type="button" id="M_UNDG_FCTY_SECT" class="dataPopup" data-maptype="">
-			                                	지하시설단면
-			                            </button>
-			                        </li>
-			                        <li>
-			                            <button type="button" id="M_AI_IMAGE" class="dataPopup"  data-maptype="3D">
-			                                AI영상분석(3D)
-			                            </button>
-			                        </li>
-			                        <li>
-			                            <button type="button" id="M_ROV_ANLS" class="dataPopup"  data-maptype="3D">
-			                                 	조망권분석(3D)
-			                            </button>
-			                        </li>
-			                        <li>
-			                            <button type="button" id="M_SLOPE" class="dataPopup" data-maptype="3D">
-			                                	경사분석(3D)
-			                            </button>
-			                        </li>
-			                        <li>
-			                            <button type="button" id="M_SUHN_ANLS" class="dataPopup" data-maptype="3D">
-			                                	일조권분석(3D)
-			                            </button>
-			                        </li>
-			                        <li>
-			                            <button type="button" id="M_TPPH_SECT" class="dataPopup" data-maptype="3D">
-			                                	지형단면도(3D)
-			                            </button>
-			                        </li>
-			                        <li>
-			                            <button type="button" id="M_VSBL_ANLS" class="dataPopup" data-maptype="3D">
-			                                	가시권분석(3D)
-			                            </button>
-			                        </li>
-			                        <li>
-			                            <button type="button" id="" class="dataPopup" data-maptype="">
-			                                	편입토지분석
-			                            </button>
-			                        </li>
-			                        <li>
-			                            <button type="button" id="" class="dataPopup"  data-maptype="">
-			                                	지하시설물터파기
-			                            </button>
-			                        </li>
-								</ul>
-							</li>
-						</ul>
-					</div>
-				</div>
-				<div class="lnb-util"><button type="button" class="manualBtn" title="도움말"></button><button type="button" class="lnb-close" title="닫기"></button></div>
-			</div>
+                <div class="lnb-header"><h2 class="tit">분석</h2></div>
+                <div class="lnb-body">
+                    <div class="scroll-y">
+                        <ul class="lnb-list">
+                            <li><p class="lnb-dep1">분석</p>
+                                <ul class="lnb-dep2">
+                                    <li>
+                                        <button type="button" id="M_SPCE_ANLS" class="dataPopup" data-maptype="">
+                                            공간분석
+                                        </button>
+                                    </li>
+                                    <li>
+                                        <button type="button" id="M_UNDG_FCTY_SECT" class="dataPopup" data-maptype="">
+                                            지하시설단면
+                                        </button>
+                                    </li>
+                                    <li>
+                                        <button type="button" id="M_AI_IMAGE" class="dataPopup" data-maptype="3D">
+                                            AI영상분석(3D)
+                                        </button>
+                                    </li>
+                                    <li>
+                                        <button type="button" id="M_ROV_ANLS" class="dataPopup" data-maptype="3D">
+                                            조망권분석(3D)
+                                        </button>
+                                    </li>
+                                    <li>
+                                        <button type="button" id="M_SLOPE" class="dataPopup" data-maptype="3D">
+                                            경사분석(3D)
+                                        </button>
+                                    </li>
+                                    <li>
+                                        <button type="button" id="M_SUHN_ANLS" class="dataPopup" data-maptype="3D">
+                                            일조권분석(3D)
+                                        </button>
+                                    </li>
+                                    <li>
+                                        <button type="button" id="M_TPPH_SECT" class="dataPopup" data-maptype="3D">
+                                            지형단면도(3D)
+                                        </button>
+                                    </li>
+                                    <li>
+                                        <button type="button" id="M_VSBL_ANLS" class="dataPopup" data-maptype="3D">
+                                            가시권분석(3D)
+                                        </button>
+                                    </li>
+                                    <li>
+                                        <button type="button" id="" class="dataPopup" data-maptype="">
+                                            편입토지분석
+                                        </button>
+                                    </li>
+                                    <li>
+                                        <button type="button" id="" class="dataPopup" data-maptype="">
+                                            지하시설물터파기
+                                        </button>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="lnb-util">
+                    <button type="button" class="manualBtn" title="도움말"></button>
+                    <button type="button" class="lnb-close" title="닫기"></button>
+                </div>
+            </div>
             <!-- //분석 -->
-            
+
         </div>
         <!-- //side -->
 
-		<!-- 팝업 메뉴 전체 -->
-		<!-- 팝업 메뉴 기본틀 -->
+        <!-- 팝업 메뉴 전체 -->
+        <!-- 팝업 메뉴 기본틀 -->
         <!-- left popup-panel -->
         <div id="leftPopup" class="popup-panel popup-left">
         </div>
@@ -665,69 +812,70 @@
         <div id="bottomPopup" class="popup-panel popup-bottom">
         </div>
         <!-- //bottom popup-panel -->
-         
+
         <!-- bbs popup-panel -->
         <div id="bbsPopup" class="popup-panel popup-bbs">
         </div>
         <!-- //bbs popup-panel -->
         <!-- //팝업 메뉴 기본틀 -->
-        
+
         <!-- 팝업 메뉴 예외 틀 -->
         <!-- 사용자정보 조회 및  수정 -->
-		<div id="userInfoUdt" class="popup-panel popup-sub userInfoUdt">
+        <div id="userInfoUdt" class="popup-panel popup-sub userInfoUdt">
         </div>
         <!-- 사용자정보 조회 및  수정 -->
         <!-- //팝업 메뉴 예외 틀 -->
-        
-		<!-- //팝업 메뉴 전체 -->
+
+        <!-- //팝업 메뉴 전체 -->
 
         <!-- 사용자 매뉴얼 -->
         <!-- //사용자 매뉴얼 -->
-		
-		<!-- 업데이트 안내 -->
-		<div class="basic-popup" style="width: 500px;">
-			<div class="basic-header"><p class="tit">업데이트 안내</p></div>
-			<div class="basic-body">
-				<div class="cont">
-					<p>2022.09.19기준 업데이트 </p>
-					<ul class="list-type1">
-						<li>내용</li>
-						<li>내용내용</li>
-					</ul>
-				</div>
-			</div>
-			<div class="basic-footer">
-				<form name="popupForm">
+
+        <!-- 업데이트 안내 -->
+        <div class="basic-popup" style="width: 500px;">
+            <div class="basic-header"><p class="tit">업데이트 안내</p></div>
+            <div class="basic-body">
+                <div class="cont">
+                    <p>2022.09.19기준 업데이트 </p>
+                    <ul class="list-type1">
+                        <li>내용</li>
+                        <li>내용내용</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="basic-footer">
+                <form name="popupForm">
 					<span class="today-checkbox">
-						<input type="checkbox" name="expiredays" id="popup01"><label for="popup01">오늘 하루 팝업 더 이상 보지 않기</label>
+						<input type="checkbox" name="expiredays" id="popup01"><label
+                            for="popup01">오늘 하루 팝업 더 이상 보지 않기</label>
 					</span>
-				</form>
-			</div>
-			<button type="button" class="basic-close" title="닫기"></button>
-		</div>
-		<!-- //업데이트 안내 -->
-		
-		<!-- 팝업 가림판 -->
-		<div class="popup-overlay"></div>
-		<!-- //팝업 가림판 -->
-		
-		<!-- 마우스 오른쪽 선택 팝업 -->
-		<div class="context hide" style="top: 400px;left: 400px;">
-			<a href="" class="c01">통합행정정보</a>
-			<a href="" class="c02">지적/건물</a>
-			<a href="" class="c03">사진등록</a>
-			<a href="" class="c04">메모등록</a>
-			<a href="" class="c05">위치정보</a>
-			<a href="" class="c06">화면저장</a>
-			<a href="" class="c07">3D전환</a>
-		</div>
-		<!-- //마우스 오른쪽 선택 팝업 -->
-		
-		<!-- 업무 > 공간정보활용 > 공간정보 편집도구 -->
-		<div class="popup-panel popup-sub space-edit-tool" style="top: 80px;left: 320px;width: 385px;height: 200px;">
-		</div>
-		<!-- //업무 > 공간정보활용 > 공간정보 편집도구 -->
-		
+                </form>
+            </div>
+            <button type="button" class="basic-close" title="닫기"></button>
+        </div>
+        <!-- //업데이트 안내 -->
+
+        <!-- 팝업 가림판 -->
+        <div class="popup-overlay"></div>
+        <!-- //팝업 가림판 -->
+
+        <!-- 마우스 오른쪽 선택 팝업 -->
+        <div class="context hide" style="top: 400px;left: 400px;">
+            <a href="" class="c01">통합행정정보</a>
+            <a href="" class="c02">지적/건물</a>
+            <a href="" class="c03">사진등록</a>
+            <a href="" class="c04">메모등록</a>
+            <a href="" class="c05">위치정보</a>
+            <a href="" class="c06">화면저장</a>
+            <a href="" class="c07">3D전환</a>
+        </div>
+        <!-- //마우스 오른쪽 선택 팝업 -->
+
+        <!-- 업무 > 공간정보활용 > 공간정보 편집도구 -->
+        <div class="popup-panel popup-sub space-edit-tool" style="top: 80px;left: 320px;width: 385px;height: 200px;">
+        </div>
+        <!-- //업무 > 공간정보활용 > 공간정보 편집도구 -->
+
     </div>
     <!-- //container -->
 </div>
@@ -737,80 +885,80 @@
 <!-- //wrap -->
 <script type="text/javascript">
 
-	// check cookie
-	checkCookiePopup();
+    // check cookie
+    checkCookiePopup();
 
-	dtmap.urls.set({
-		EMAP_KEY: `<spring:message code="Gis.baro2map.key"/>`
-	});
-	/**
-	 * 초기 지도 선택 가능
-	 * dtmap.init('2D');
-	 * dtmap.init('3D');
-	 */
-	dtmap.init('2D');
-	/**
-	 * 초기화 UI
-	 */
-	ui.init();
+    dtmap.urls.set({
+        EMAP_KEY: `<spring:message code="Gis.baro2map.key"/>`
+    });
+    /**
+     * 초기 지도 선택 가능
+     * dtmap.init('2D');
+     * dtmap.init('3D');
+     */
+    dtmap.init('2D');
+    /**
+     * 초기화 UI
+     */
+    ui.init();
 
-	$(document).ready(function(){
-		_setMainUIAction();
-		_setMainUIEvent();
-	})
+    $(document).ready(function () {
+        _setMainUIAction();
+        _setMainUIEvent();
+    })
 
-	function checkCookiePopup() {
-		if(document.cookie.indexOf("popup=hide") < 0 ){
-			$(".basic-popup").show();
-		}else{
-			$(".basic-popup").hide();
-		}
-	}
+    function checkCookiePopup() {
+        if (document.cookie.indexOf("popup=hide") < 0) {
+            $(".basic-popup").show();
+        } else {
+            $(".basic-popup").hide();
+        }
+    }
 
-	function _setMainUIAction() {
-		// $('.GNB li ul').slideUp();
-		$('.GNB').on('mouseenter',function(){
-			$('.GNB li ul').stop().slideDown(300);
-		}).on('mouseleave',function(){
-			$('.GNB li ul').stop().slideUp(300);
-		});
-		// div draggable
-		$('.basic-popup').draggable({
-			containment: "#container",
-			scroll: false,
-			start: function() {
-				$(this).css({transform: "none", top: $(this).offset().top+"px", left:$(this).offset().left+"px"});
-			}
-		});
-	}
+    function _setMainUIAction() {
+        // $('.GNB li ul').slideUp();
+        $('.GNB').on('mouseenter', function () {
+            $('.GNB li ul').stop().slideDown(300);
+        }).on('mouseleave', function () {
+            $('.GNB li ul').stop().slideUp(300);
+        });
+        // div draggable
+        $('.basic-popup').draggable({
+            containment: "#container",
+            scroll: false,
+            start: function () {
+                $(this).css({transform: "none", top: $(this).offset().top + "px", left: $(this).offset().left + "px"});
+            }
+        });
+    }
 
-	function _setMainUIEvent() {
-		$(".coordi-header > div").click(function(){
-			$(".coordinates").toggleClass("active");
-		});
-		$(".legend-panel .legend-close").click(function () {
-			$(".legend-panel").removeClass("opened");
-		});
-		$(".basic-popup .basic-close").click(function(){
-			$(".basic-popup").hide();
-		});
-		$("#popup01").on("click", function(){
-			closePop();
-			$(this).parents(".basic-popup").hide();
-		});
-	}
+    function _setMainUIEvent() {
+        $(".coordi-header > div").click(function () {
+            $(".coordinates").toggleClass("active");
+        });
+        $(".legend-panel .legend-close").click(function () {
+            $(".legend-panel").removeClass("opened");
+        });
+        $(".basic-popup .basic-close").click(function () {
+            $(".basic-popup").hide();
+        });
+        $("#popup01").on("click", function () {
+            closePop();
+            $(this).parents(".basic-popup").hide();
+        });
+    }
 
-	function closePop(){
-		if(document.popupForm.expiredays.checked){
-			setCookie( "popup", "hide" , 1 );
-		}
-	}
+    function closePop() {
+        if (document.popupForm.expiredays.checked) {
+            setCookie("popup", "hide", 1);
+        }
+    }
 
-	function setCookie( cookieName, cookieValue, expireDate ){
-		var today = new Date();
-		today.setDate( today.getDate() + parseInt( expireDate ) );
-		document.cookie = cookieName + "=" + escape( cookieValue ) + "; path=/; expires=" + today.toGMTString() + ";";
-	}
+    function setCookie(cookieName, cookieValue, expireDate) {
+        var today = new Date();
+        today.setDate(today.getDate() + parseInt(expireDate));
+        document.cookie = cookieName + "=" + escape(cookieValue) + "; path=/; expires=" + today.toGMTString() + ";";
+    }
 
 </script>
 
