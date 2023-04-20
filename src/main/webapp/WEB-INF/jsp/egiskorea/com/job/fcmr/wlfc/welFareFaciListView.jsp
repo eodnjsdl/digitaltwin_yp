@@ -10,12 +10,7 @@ $(document).ready(function() {
 
 	// 초기화 버튼
 	$(".popup-reset").unbind('click').bind('click',function() {
-		$('li[data-tab=waterProperty] .inner-tab').click();	// 속성변경 클릭
-		$('input[name=rnAdres]').val('');					// 도로명주소 clear
-		$('input[name=fcltyNm]').val('');					// 시설명 clear
-		$("#welFcltySe").val('').prop('selected', true);	// 시설구분 clear
-		
-		selectWelFareFaciList(1);
+		$('#welfareFacility').trigger("click");
 	});
 	
 	// 접기/펼치기
@@ -33,11 +28,19 @@ $(document).ready(function() {
 
 	// 닫기
 	$(".popup-close").unbind('click').bind('click',function() {
+		dtmap.draw.dispose();			// 그리기 포인트 삭제
+		dtmap.draw.clear();				// 그리기 초기화
+		dtmap.vector.clearSelect();		// 선택 해제
+		dtmap.vector.clear();			// 아이콘 제거
+		
 		//등록, 상세, 수정 팝업 창 닫기
 		if ($("#rightSubPopup").hasClass("opened")) {
 			$("#rightSubPopup").removeClass("opened");
 			$("#rightSubPopup").empty();
 		}
+		
+		// 시설관리 탭 표시 제거
+		//$(".lnb-facility .lnb-body li").removeClass('on');
 	});
 
 	//속성 검색, 공간 검색 탭 제어
@@ -70,8 +73,6 @@ $(document).ready(function() {
 				return false;
 			}
 		}
-		
-		ui.closeSubPopup();		// 팝업 닫기
 		selectWelFareFaciList(1);
 	});
 

@@ -441,7 +441,7 @@ window.ui = (function () {
                   //aj_facility("SewerSupplyFacility");
                 	dtmap.off('select', onFacilitySelectEventListener); //클릭 리스너 이벤트 삭제
                 	getSewerSupplyFacility("swlConnLs");		//하수도 시설 하수연결관
-                    break;
+                	break;
 
                  //시설관리 > 교통시설
                 case "transportationFacility" :
@@ -460,7 +460,7 @@ window.ui = (function () {
                 case "welfareFacility" :
                     //TODO ↓↓↓↓↓↓↓↓↓↓↓
                     WLREspitalYN = '';
-                  //aj_selectWelfareFacilityList($("#tmpForm")[0]);
+                    //aj_selectWelfareFacilityList($("#tmpForm")[0]);
                 	dtmap.off('select', onFacilitySelectEventListener); //클릭 리스너 이벤트 삭제
                 	getWelFareFaciListView();
                     break;
@@ -742,6 +742,7 @@ window.ui = (function () {
         dtmap.draw.dispose();
 
     }
+
 
     //그리기 초기화
     function _initDrawEvent() {

@@ -22,6 +22,7 @@ import egiskorea.com.job.fcmr.ssfc.service.SwlVentPsVO;
  *  수정일               수정자            수정내용
  *  ----------   --------   ---------------------------
  *  2023.04.14   황의현           최초 생성
+ *  2023.04.19   김영주           환기구
  */
 
 @Controller
@@ -67,31 +68,6 @@ public class SewerSupplyController {
         return "egiskorea/com/job/fcmr/ssfc/scol/updateSwlConnLsView";
     }
 	
-	/////////////////////////
-		
-	
-	////////
-	// 환기구
-	
-	// 환기구 목록 조회
-	@RequestMapping(value = "/selectSwlVentPsListView.do")
-	public String selectSwlVentPsListView(
-			@ModelAttribute("swlVentPsVO") SwlVentPsVO swlVentPsVO,
-			ModelMap model) throws Exception {
-		return "egiskorea/com/job/fcmr/ssfc/svep/swlVentPsListView";
-	}
-	
-	// 환기구 상세화면 조회
-	@RequestMapping(value = "/selectSwlVentPsDetail.do", method = RequestMethod.POST)
-    public String selectSwlVentPsDetail(
-    		@ModelAttribute("swlVentPsVO") SwlVentPsVO swlVentPsVO, String id,
-    		ModelMap model) throws Exception {
-			model.addAttribute("id", id);
-        return "egiskorea/com/job/fcmr/ssfc/svep/swlVentPsDetail";
-    }
-	
-	////////////////////////
-	
 	///////////
 	//면형하수관거
 	
@@ -131,4 +107,40 @@ public class SewerSupplyController {
     }
 	*/
 	
+	///////
+	// 환기구
+
+	// 환기구 목록 조회
+	@RequestMapping(value = "/selectSwlVentPsListView.do")
+	public String selectSwlVentPsListView(
+			@ModelAttribute("swlVentPsVO") SwlVentPsVO swlVentPsVO,
+			ModelMap model) throws Exception {
+		return "egiskorea/com/job/fcmr/ssfc/svep/swlVentPsListView";
+	}
+	
+	// 환기구 상세화면 조회
+	@RequestMapping(value = "/selectSwlVentPsDetail.do", method = RequestMethod.POST)
+	public String selectSwlVentPsDetail(
+			@ModelAttribute("swlVentPsVO") SwlVentPsVO swlVentPsVO, String id,
+			ModelMap model) throws Exception {
+		model.addAttribute("id", id);
+		return "egiskorea/com/job/fcmr/ssfc/svep/swlVentPsDetail";
+	}
+	
+	// 환기구 등록화면 조회
+	@RequestMapping(value = "/insertSwlVentPsView.do")
+	public String insertSwlVentPsView(
+			@ModelAttribute("swlVentPsVO") SwlVentPsVO swlVentPsVO,
+			ModelMap model) throws Exception {
+		return "egiskorea/com/job/fcmr/ssfc/svep/insertSwlVentPsView";
+	}
+	
+	// 환기구 수정화면 조회
+	@RequestMapping(value = "/updateSwlVentPsView.do", method = RequestMethod.POST)
+	public String updateSwlVentPsView(
+			@ModelAttribute("swlVentPsVO") SwlVentPsVO swlVentPsVO, String id,
+			ModelMap model) throws Exception {
+		model.addAttribute("id", id);
+		return "egiskorea/com/job/fcmr/ssfc/svep/updateSwlVentPsView";
+	}
 }

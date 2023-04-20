@@ -16,7 +16,7 @@
 </style>
 
 <script type="text/javascript">
-//jqeury
+
 $(document).ready(function(){
 	console.log("swlVentPsDetail.jsp");
 
@@ -44,6 +44,7 @@ function cancelSwlVentPsDetail() {
 
 		dtmap.vector.clearSelect();	//선택 해제
 }
+
 </script>
 
 <!-- 업무 > 시설관리 > 하수도시설 > 환기구 상세보기-->
@@ -64,7 +65,7 @@ function cancelSwlVentPsDetail() {
 							<tr>
 								<th scope="row">지형지물부호</th>
 								<td>
-									<c:out value="${swlVentPsVO.ftr_cde}"/>
+									<c:out value="${swlVentPsVO.ftr_cde_nm}"/>
 								</td>
 								<th scope="row">관리번호</th>
 								<td>
@@ -84,7 +85,12 @@ function cancelSwlVentPsDetail() {
 							<tr>
 								<th scope="row">관리기관</th>
 								<td>
-									<c:out value="${swlVentPsVO.mng_cde}"/>
+									<c:if test="${swlVentPsVO.mng_cde_nm != '' || swlVentPsVO.mng_cde_nm ne null}">
+										<c:out value="${swlVentPsVO.mng_cde_nm }"/>
+									</c:if>
+									<c:if test="${swlVentPsVO.mng_cde_nm == '' || swlVentPsVO.mng_cde_nm eq null}">
+										<c:out value="${swlVentPsVO.mng_cde}"/>
+									</c:if>
 								</td>
 								<th scope="row">설치일자</th>
 								<td>
@@ -137,9 +143,9 @@ function cancelSwlVentPsDetail() {
 			</div>
 			<div class="position-bottom btn-wrap justify-content-end">
 				<div>
-					<button type="button" class="btn basic bi-edit btn_edit" onclick="javascript:updateWtlFirePsView('<c:out value="${id}"/>')">수정</button>
-					<button type="button" class="btn basic bi-delete2 btn_delete" onclick="javascript:deleteWtlFirePs('<c:out value="${id}"/>')">삭제</button>  
-					<button type="button" class="btn basic bi-cancel btn_cancel" onclick="javascript:cancelSelectWtlFirePs();">취소</button>
+					<button type="button" class="btn basic bi-edit btn_edit" onclick="updateSwlVentPsView('<c:out value="${id}"/>')">수정</button>
+					<button type="button" class="btn basic bi-delete2 btn_delete" onclick="deleteSwlVentPs('<c:out value="${id}"/>')">삭제</button>  
+					<button type="button" class="btn basic bi-cancel btn_cancel" onclick="closeSwlVentPsPopup();">취소</button>
 				</div>
 			</div>
 		</div>

@@ -41,7 +41,9 @@ function codeArrayInit(){
         { code: "SA204", codeNm: "상수감압변" },
         { code: "SA205", codeNm: "상수안전변" },
         { code: "SA991", codeNm: "신축관실" },
-      ];*/
+        { code: "SB410", codeNm: "환기구" },
+	];*/
+
 	
 	//setCmmCodeDataArray("SA-001", codeData);	//지형지물부호	SA-001 임의로 만든	-> 아래 code로 대체
 	setCmmCodeDataArray("FTR-001");				//지형지물부호  
@@ -427,6 +429,8 @@ function onFacilitySelectEventListener(e){
 				selectWtlValvPs(id);
 			}else if(featureType == "swl_conn_ls"){					//하수도시설 - 하수연결관 
 				selectSwlConnLs(id);
+			}else if(featureType == "swl_vent_ps"){					// 하수도시설 - 환기구 
+				selectSwlVentPs(id);
 			}else if(featureType == "tgd_phstrn_fclty"){			// 체육시설
 				selectPhyEduFaciDetail(id);
 			}else if(featureType == "tgd_sclwlfr_fclty_status"){	// 복지시설
