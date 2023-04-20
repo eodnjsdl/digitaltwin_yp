@@ -86,3 +86,16 @@ function selectSwlPipeAsListView(){
 		ui.loadingBar("hide");
     });
 }
+
+//환기구 목록 페이지 호출
+function selectSwlVentPsListView() {
+	console.log('selectSwlVentPsListView()');
+	
+	ui.loadingBar("show");
+	
+	var baseContainer = "#bottomPopup";
+    $(baseContainer).load('/job/fcmr/ssfc/selectSwlVentPsListView.do', function() {
+    	swlVentPsProcess();
+    	ui.loadingBar("hide");
+    });
+}

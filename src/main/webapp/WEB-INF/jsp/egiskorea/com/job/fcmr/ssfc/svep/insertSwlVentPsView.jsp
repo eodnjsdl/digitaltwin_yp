@@ -198,7 +198,7 @@ function cancelInsertSwlVentPs() {
 			</div>
 			<div class="position-bottom btn-wrap">
 				<div>
-					<button type="button" class="btn basic bi-edit btn_add" onclick="insertSwlVentPsView();">등록</button>
+					<button type="button" class="btn basic bi-edit btn_add" onclick="insertSwlVentPs();">등록</button>
 					<button type="button" class="btn basic bi-cancel btn_cancel" onclick="cancelInsertSwlVentPs()">취소</button>
 				</div>
 			</div>

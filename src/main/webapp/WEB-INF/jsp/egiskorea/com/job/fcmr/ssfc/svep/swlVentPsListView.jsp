@@ -20,7 +20,7 @@ $(document).ready(function() {
 
 	// 초기화 버튼
 	$(".popup-reset").unbind('click').bind('click',function(){
-		$target.trigger("change"); 
+		$target.trigger("change");
 	});
 	
 	// 접기/펼치기
@@ -38,11 +38,22 @@ $(document).ready(function() {
 
 	// 닫기
 	$(".popup-close").unbind('click').bind('click',function() {
+		dtmap.draw.dispose();			// 그리기 포인트 삭제
+		dtmap.draw.clear();				// 그리기 초기화
+		dtmap.vector.clearSelect();		// 선택 해제
+		dtmap.vector.clear();			// 아이콘 제거
+		
 		//등록, 상세, 수정 팝업 창 닫기
 		if ($("#rightSubPopup").hasClass("opened")) {
 			$("#rightSubPopup").removeClass("opened");
 			$("#rightSubPopup").empty();
 		}
+		
+		//공간정보 편집도구 닫기
+		if($(".space-edit-tool").hasClass("opened")){
+        	$(".space-edit-tool").removeClass("opened");
+            $(".space-edit-tool").empty();
+        }
 	});
 
 	//속성 검색, 공간 검색 탭 제어
@@ -75,8 +86,6 @@ $(document).ready(function() {
 				return false;
 			}
 		}
-		
-		ui.closeSubPopup();		// 팝업 닫기
 		selectSwlVentPsList(1);
 	});
 
@@ -264,8 +273,7 @@ $(document).ready(function() {
                 <div class="bbs-list-num">조회결과 : --건</div>
                 <div>
                     <button type="button" class="btn basic bi-write btn_add" onclick="insertSwlVentPsView();">등록</button>
-                    <button type="button" class="btn basic bi-excel btn_excel" onclick="downloadExcelSwlConnLs();">엑셀저장
-                    </button>
+                    <button type="button" class="btn basic bi-excel btn_excel" onclick="swlVentPsExcel();">엑셀저장</button>
                 </div>
             </div>
             <div class="bbs-list-wrap" style="height: 267px;"><!-- pagination 하단 고정을 위해 반드시 필요 -->

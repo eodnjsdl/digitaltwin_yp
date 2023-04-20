@@ -66,7 +66,7 @@ function getWelFareFaci() {
 			align: "center",
 			onClick: function() {
 				//this.self.select(this.dindex);
-				console.log(this.item);
+				//console.log(this.item);
 				selectWelFareFaciDetail(this.item.id);
 			}
 		}
@@ -197,7 +197,7 @@ function selectWelFareFaciDetail(id) {
 	//console.log("gid >>> " + gid);
 	
 	var gid;
-	console.log(typeof id)
+	
 	if (typeof id === 'number') {
 		gid = id;
 		id = "tgd_sclwlfr_fclty_status." + id;
@@ -510,7 +510,7 @@ function welFareFaciExcel() {
 			typeNames	: "tgd_sclwlfr_fclty_status" + "",
 			filter		: filters,
 			sortBy		: 'gid',
-	        sortOrder	: 'DESC'
+	        sortOrder	: 'ASC'
 		};
 	} else if ($(".waterSpace").hasClass("on")) {
 		//console.log("공간 검색 조건");
@@ -521,7 +521,7 @@ function welFareFaciExcel() {
 		options = {
 			typeNames	: 'tgd_sclwlfr_fclty_status' + "",
 			sortBy		: 'gid',
-			sortOrder	: 'DESC'
+			sortOrder	: 'ASC'
 		}
 		if (type === 'extent') {
 			options.bbox 		= FACILITY.spaceSearchOption.bbox;

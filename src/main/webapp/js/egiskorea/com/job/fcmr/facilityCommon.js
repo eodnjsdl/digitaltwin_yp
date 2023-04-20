@@ -36,7 +36,7 @@ function codeArrayInit(){
         { code: "SA121", codeNm: "수압계" },
         { code: "SA991", codeNm: "신축관실" },
         { code: "SB410", codeNm: "환기구" },
-      ];*/
+	];*/
 
 	
 	//setCmmCodeDataArray("SA-001", codeData);	//지형지물부호	SA-001 임의로 만든	-> 아래 code로 대체
