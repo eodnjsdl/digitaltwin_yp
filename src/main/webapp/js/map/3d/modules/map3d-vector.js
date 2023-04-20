@@ -223,6 +223,20 @@ map3d.vector = (function () {
         return object;
     }
 
+    function addPoint(options) {
+        const geom = new ol.geom.Point(options.coordinate);
+        const feature = new ol.Feature({
+            geometry: geom
+        });
+        if (options.id) {
+            feature.setId(options.id)
+        }
+        if (options.properties) {
+            feature.setProperties(options.properties);
+        }
+        return addFeature(feature, options.style, options.crs);
+    }
+
     function getLayerByFeatureId(id) {
         const type = _featureTypeMap.get(id);
         if (!type) {
@@ -306,6 +320,7 @@ map3d.vector = (function () {
         removeFeatureByFilter: removeFeatureByFilter,
         addFeature: addFeature,
         addFeatures: addFeatures,
+        addPoint: addPoint,
         getFeature: getFeature,
         select: select,
         clear: clear,

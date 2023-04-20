@@ -86,7 +86,7 @@
 			});
 		</script>
 	</div>
-	<div class="lnb-util"><button type="button" id="setting-close" class="lnb-close" title="닫기"></button></div>
+	<div class="lnb-util"><button type="button" class="popup-close" title="닫기"></button></div>
 				
 	<script>
 		$(document).ready(function(){
@@ -104,10 +104,10 @@
 				}
 			});
 			
-			$("#setting-close").click(function(){
-				($(this).parent().parent().parent()).stop().fadeOut(100);
-				$(".ctrl-btn").removeClass("active");									
-			});
+			// $("#setting-close").click(function(){
+			// 	($(this).parent().parent().parent()).stop().fadeOut(100);
+			// 	$(".ctrl-btn").removeClass("active");
+			// });
 		});
 	</script>
 </div>

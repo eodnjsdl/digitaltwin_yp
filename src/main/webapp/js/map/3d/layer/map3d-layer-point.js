@@ -27,7 +27,7 @@ map3d.layer.Point = (function () {
      */
     Point.prototype.add = function (options) {
         map3d.layer.Geometry.prototype.add.call(this, options);
-        const id = this.genId(options.id);
+        const id = this.genId(options.id)
         let geometry = options.geometry;
 
         if (geometry instanceof ol.geom.MultiPoint) {

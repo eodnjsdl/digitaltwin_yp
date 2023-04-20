@@ -300,56 +300,11 @@ map2d.draw = (function () {
     }
 
 
-    function writeWKT(index) {
-        const format = new ol.format.WKT();
-        let features = removePrivateProperty(_source.getFeatures());
-        if (index !== undefined) {
-            const feature = features[index];
-            if (!feature) {
-                return;
-            }
-            return format.writeFeature(feature);
-
-
-        } else {
-            features = features.map((feature) => {
-                const cloned = feature.clone();
-                const geom = cloned.getGeometry();
-                if (geom instanceof ol.geom.Circle) {
-                    cloned.setGeometry(ol.geom.Polygon.fromCircle(geom));
-                }
-                return cloned;
-            })
-
-            if (!features || features.length === 0) {
-                return;
-            }
-
-            return format.writeFeatures(features);
-        }
+    function writeWKT() {
+        const features = _source.getFeatures()
+        return dtmap.util.writeWKT(features);
     }
 
-    function removePrivateProperty(feature) {
-        if (!feature) {
-            return;
-        }
-
-        if (feature instanceof Array) {
-            const ary = [];
-            for (let i = 0; i < feature.length; i++) {
-                const f = removePrivateProperty(feature[i]);
-                if (f) {
-                    ary.push(f);
-                }
-            }
-            return ary;
-        } else {
-            const cloned = feature.clone();
-            cloned.unset('_style');
-            cloned.unset('_selected');
-            return cloned;
-        }
-    }
 
     /**
      * 도형 반환
@@ -402,49 +357,19 @@ map2d.draw = (function () {
     }
 
     function readGeoJson(json, style) {
-        if (typeof json === 'string') {
-            json = JSON.parse(json);
-        }
-
-        const format = new ol.format.GeoJSON();
-        const features = format.readFeatures(json).map((feature) => {
-
-            // cloned.set("grphcId", grphcId);
-            if (feature.get("type") === "Circle") {
-                const geometry = feature.getGeometry();
-                feature.setGeometry(
-                    new ol.geom.Circle(
-                        geometry.getCoordinates(),
-                        feature.get("circleRadius")
-                    )
-                );
-            }
-            if (style) {
-                feature.set('style', style);
-            }
-            return feature;
-        });
+        const features = dtmap.utill.readGeoJson(json)
+            .map((feature) => {
+                if (style) {
+                    feature.set('style', style);
+                }
+                return feature;
+            });
         _source.addFeatures(features);
     }
 
     function writeGeoJson() {
         let features = _source.getFeatures();
-        if (features.length === 0) {
-            return;
-        }
-
-        const format = new ol.format.GeoJSON();
-        features = features.map((feature) => {
-            const cloned = feature.clone();
-            const geom = cloned.getGeometry();
-            if (geom instanceof ol.geom.Circle) {
-                cloned.setGeometry(new ol.geom.Point(geom.getCenter()));
-                cloned.set('circleRadius', geom.getRadius());
-                cloned.set('type', 'Circle')
-            }
-            return cloned;
-        });
-        return format.writeFeatures(features);
+        return dtmap.util.writeGeoJson(features);
     }
 
     function getSnapLayer() {
