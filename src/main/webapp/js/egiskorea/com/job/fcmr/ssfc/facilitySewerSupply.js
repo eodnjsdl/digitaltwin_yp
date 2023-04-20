@@ -21,7 +21,7 @@ function getSewerSupplyFacility(name){
 			selectSwlConnLsListView();
 			return;
 		}else if(name == "swlDeptPs"){		//하수관거심도
-			toastr.error("작업중", "하수관거심도");
+			selectSwlDeptPsListView();
 			return;
 		}else if(name == "swlDranPs"){		//하수처리장
 			toastr.error("작업중", "하수처리장");

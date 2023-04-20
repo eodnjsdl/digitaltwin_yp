@@ -1,16 +1,16 @@
 /**
- * - 업무 / 시설관리 / 하수도시설 / 환기구
+ * - 업무 / 시설관리 / 하수도시설 / 하수관거심도
  * 
  * @returns
  */
 
 $(document).ready(function(){
-	console.log("swlVentPs.js");
-	console.log("환기구");
+	console.log("swlDeptPs.js");
+	console.log("하수관거심도");
 });
 
 // 환기구 목록 페이지 호출
-function swlVentPsProcess() {
+function swlDeptPsProcess() {
 	//console.log('swlVentPsProcess()');
 	
 	// grid 기본 세팅
