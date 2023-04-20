@@ -6,8 +6,8 @@
 
 //jqeury
 $(document).ready(function(){
-	console.log("wtlServPs.js");
-	console.log("배수지");
+	//console.log("wtlServPs.js");
+	//console.log("배수지");
 });
 
 //functions

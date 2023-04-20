@@ -1,7 +1,15 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" %>
 
 <!-- js -->
-<script src="/js/egiskorea/com/job/fcmr/wsfc/wflp/wtlFlowPs.js"></script>			<!-- 유량계 -->
+<script src="/js/egiskorea/com/job/fcmr/wsfc/wvap/wtlValvPs.js"></script>			<!-- 변류시설  -->
+
+<!-- style (overflow 방지) -->
+<style>
+#wtlValvPsListItems {
+    padding: 19px 20px;
+    min-height: 240px;
+}
+</style>
 
 <!-- 업무 > 공통 -->
 <div class="popup-header">상수도관리</div>
@@ -13,13 +21,13 @@
                 <select class="form-select facility-select">
                     <option value="wtlFirePs">소방시설</option>
                     <option value="wtlPipeLm">상수관로</option>
-                    <option value="wtlFlowPs" selected="selected">유량계</option>
+                    <option value="wtlFlowPs">유량계</option>
                     <option value="wtlManhPs">상수맨홀</option>
                     <option value="wtlPipePs">상수관로심도</option>
                     <option value="wtlPrgaPs">수압계</option>
                     <option value="wtlServPs">배수지</option>
                     <option value="wtlSplyLs">급수관로</option>
-                    <option value="wtlValvPs">변류시설</option>
+                    <option value="wtlValvPs" selected="selected">변류시설</option>
                 </select>
             </div>
             <div class="tabBoxDepth2-wrap">
@@ -28,12 +36,12 @@
                         <li data-tab="groundwaterProperty" class="on">
                             <button type="button" class="inner-tab">속성검색</button>
                         </li>
-                        <li data-tab="groundwaterSpace" id="srchSpace">
+                        <li data-tab="groundwaterSpace">
                             <button type="button" class="inner-tab">공간검색</button>
                         </li>
                     </ul>
                 </div>
-                <div class="tab-cont groundwaterProperty on">
+                <div class="tab-cont groundwaterProperty on" id="wtlValvPsListItems">
                     <div class="srch-default">
                         <table class="srch-tbl">
                             <colgroup>
@@ -41,7 +49,21 @@
                                 <col style="width: auto;">
                             </colgroup>
                             <tbody id="lSrchOptions">
-								<tr>  
+                            	<tr>  
+									<th scope="row">지형지물부호</th>  
+									<td>    
+										<select name="ftr_cde" class="form-select">
+											<option value="" selected="selected">선택</option>
+											<option value="SA200">상수제수변</option>
+                                       		<option value="SA201">상수역지변</option>
+                                       		<option value="SA202">상수이토변</option>
+                                       		<option value="SA203">상수배기변</option>
+                                       		<option value="SA204">상수감압변</option>
+                                       		<option value="SA205">상수안전변</option>
+										</select>  
+									</td>
+								</tr>
+                            	<tr>  
 									<th scope="row">읍면동</th>  
 									<td>    
 										<select name="hjd_cde" class="form-select">
@@ -50,19 +72,26 @@
 									</td>
 								</tr>
 								<tr>  
-									<th scope="row">유량계종류</th>  
+									<th scope="row">변류형식</th>  
 									<td>    
-										<select name="gag_cde" class="form-select">
+										<select name="mof_cde" class="form-select">
 											<option value="">선택</option>
 										</select>  
 									</td>
 								</tr>
 								<tr>  
-									<th scope="row">유량계형식</th>  
+									<th scope="row">관경</th>  
 									<td>    
-										<select name="mof_cde" class="form-select">
+										<input type="number" name="std_dip_min" class="form-control" value="" style="width:68px">    
+										<input type="number" name="std_dip_max" class="form-control" value="" onkeyup="inputKeyup()" style="width:68px">  
+									</td>
+								</tr>
+                            	<tr>  
+									<th scope="row">제수변회전방향</th>  
+									<td>    
+										<select name="sae_cde" class="form-select">
 											<option value="">선택</option>
-										</select> 
+										</select>  
 									</td>
 								</tr>
                             </tbody>
@@ -70,7 +99,7 @@
                     </div>
                     <div class="btn-wrap">
                         <div>
-                            <button type="button" class="btn type01 search facility-attribute-search" onclick="selectWtlFlowPsList(1)">조회</button>
+                            <button type="button" class="btn type01 search facility-attribute-search" onclick="selectWtlValvPsList(1)">조회</button>
                         </div>
                     </div>
                 </div>
@@ -121,59 +150,38 @@
             <div class="bbs-top">
                 <div class="bbs-list-num">조회결과 : --건</div>
                 <div>
-                    <button type="button" class="btn basic bi-write btn_add opened" onclick="insertWtlFlowPsView();">등록</button>
-                    <button type="button" class="btn basic bi-excel btn_excel" 		onclick="downloadExcelWtlFlowPs();">엑셀저장
-                    </button>
+                    <button type="button" class="btn basic bi-write btn_add opened" 	onclick="insertWtlValvPsView();">등록</button>
+                    <button type="button" class="btn basic bi-excel btn_excel" 	onclick="downloadExcelWtlValvPs();">엑셀저장</button>
                 </div>
             </div>
             <div class="bbs-list-wrap" style="height: 267px;"><!-- pagination 하단 고정을 위해 반드시 필요 -->
                 <div class="bbs-default">
-
                     <div id="baseGridDiv" style="height:inherit; display: flex;flex-direction: column">
-                        <!-- <div style="display: inline-block">
-                            <label>농업용공공관정</label>
-                        </div> -->
                         <div id="gridax5" data-ax5grid="attr-grid" data-ax5grid-config="{}" style="flex: 1"></div>
                         <div data-ax5grid="attr-grid-excel" style="diplay:none;"></div>
                     </div>
                 </div>
-                <!-- <div class="pagination">
-                </div> -->
             </div>
-            <input type="hidden" id="wtlFlowPsListPage" 	value="">
+            <input type="hidden" id="wtiValvPsListPage" 	value="">
         </div>
     </div>
 </div>
 <button type="button" class="manualBtn" title="도움말" onclick="manualTab('상수도시설')"></button>
 <button type="button" class="popup-close"
         onClick="toastr.warning('removeLayer(); cmmUtil.drawClear();', 'onclick 이벤트');" title="닫기"></button>
-<button type="button" class="popup-reset" class="초기화"></button>
+<button type="button" class="popup-reset"></button>
 <button type="button" class="popup-bottom-toggle" title="접기"></button>
 <!-- //업무 > 시설물 공통 -->
 <script type="text/javascript">
 	//jqeury
 	$(document).ready(function(){
-		//console.log("wtlFlowPsListView.jsp");
-		
+		//console.log("wtlValvPsListView.jsp");	
+		 
 		//이벤트 리스너 추가
 		dtmap.on('select', onFacilitySelectEventListener);
 		
-		if(dtmap.mod){
-			if(dtmap.mod == "2D"){
-				if($(".data-area .bbs-top .btn_add").css("display") == 'none'){
-					$(".data-area .bbs-top .btn_add").show();
-				}				
-			}else if(dtmap.mod == "3D"){
-				if($(".data-area .bbs-top .btn_add").css("display") != 'none'){
-				   $(".data-area .bbs-top .btn_add").hide();
-				}
-			}else{
-				console.log("2d/3d 모드 오류");
-			}
-		}else{
-			console.log("2d/3d 모드 오류");
-		}
-		
+		wtlValvPsInit();	//초기화
+		 
 		//////////////////
 		//하위메뉴 select box
 		
@@ -238,14 +246,15 @@
 			}
 			
 		});
+			
      	
      	// 공간 검색 조회 버튼
         $(".facility-spatial-search", "#bottomPopup").on("click", function (e) {
-        	//console.log("공간검색 조회");
-        	
-            const $parent = $(e.target).closest('.search-area');
+           	//console.log("공간검색 조회");
+			
+           	const $parent = $(e.target).closest('.search-area');
             const type = $parent.find('input[name="rad-facility-area"]:checked').val();
-
+            
             if (type === 'extent') {
             	FACILITY.spaceSearchOption.bbox 	= dtmap.getExtent();
             } else {
@@ -257,7 +266,7 @@
             	}
             }
            	
-           	selectWtlFlowPsList(1);
+           	selectWtlValvPsList(1);
 
         });
      	
@@ -269,7 +278,7 @@
             if (value == "extent") {
                 $(".space-facility-area", "#bottomPopup").hide();
                 
-              	//그리기, 그려진 것 초기화
+                //그리기, 그려진 것 초기화
                 dtmap.draw.dispose();
                 dtmap.draw.clear();
                 
@@ -301,14 +310,15 @@
                     break;
             }
             dtmap.draw.active({type: type, once: true})
-          	//toastr.warning("that.searchDrawing(value);", "공간검색 사용자정의");
+            //toastr.warning("that.searchDrawing(value);", "공간검색 사용자정의");
         });
 		
-     	
-      	//경계로부터 버퍼 영역 지정
+
+     	//경계로부터 버퍼 영역 지정
         $(".area-facility-buffer", "#bottomPopup").on("keyup", function (event) {
             dtmap.draw.setBuffer(Number(this.value));
         });
+		
 	});
 
 	//functions

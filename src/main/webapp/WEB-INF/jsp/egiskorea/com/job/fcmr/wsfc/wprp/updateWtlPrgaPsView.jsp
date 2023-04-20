@@ -163,7 +163,7 @@
 <script type="text/javascript">
 	//jqeury
 	$(document).ready(function(){
-		console.log("updateWtlPrgaPsView.jsp");
+		//console.log("updateWtlPrgaPsView.jsp");
 		
 		//3d 일때 지도 추가 버튼 삭제 
 		if(dtmap.mod == "3D"){
