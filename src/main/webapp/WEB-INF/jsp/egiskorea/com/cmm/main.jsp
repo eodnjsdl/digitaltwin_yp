@@ -178,7 +178,6 @@
 	<script src="/js/egiskorea/com/job/fcmr/wsfc/wpil/wtlPipeLm.js"></script>			<!-- 상수관로 -->
 	<!-- 상수관로심도 -->
 	<!-- 급수관로 -->
-	<!-- 변류시설 -->
 	
 	<!-- ////////////////////////////  -->
 	
