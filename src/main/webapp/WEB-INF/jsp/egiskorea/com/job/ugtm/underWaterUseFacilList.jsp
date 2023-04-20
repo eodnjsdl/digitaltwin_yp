@@ -197,8 +197,7 @@ var lastDraw = "<c:out value='${searchVO.underWaterUseFacilAreaDrawing}' />";
 			dtmap.on('select',spaceClickListener );	//레이어 선택 핸들러
 			
 		} else {
-			//레이어 선택 핸들러 해제
-			dtmap.off('select',spaceClickListener );
+			
 			$(".spaceArea", "#bottomPopup").show();
 			$("[name=underWaterUseFacilAreaDrawing]:first", "#bottomPopup").trigger("click");
 		}
@@ -225,6 +224,7 @@ var lastDraw = "<c:out value='${searchVO.underWaterUseFacilAreaDrawing}' />";
 				type = 'Circle';
 				break;
 		}
+		dtmap.off('select');
 		dtmap.draw.active({type: type, once: true})
 		//toastr.warning("that.searchDrawing(value);", "공간검색 사용자정의");
 	});

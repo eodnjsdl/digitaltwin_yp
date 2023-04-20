@@ -10,7 +10,7 @@ SEARCHOBJ= {
 $(document.body).ready(function () {
 	initGrid();
     setData(0);
-    //레이어 선택 핸들러
+    dtmap.off('select');
    dtmap.on('select',spaceClickListener );
 });
 //농업용공공관정 기본 틀 추가

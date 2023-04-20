@@ -9,6 +9,7 @@ SEARCHOBJ= {
 $(document.body).ready(function(){
 	initGrid();
 	setData();
+	dtmap.off('select');
 	dtmap.on('select',spaceClickListener );
 })
 

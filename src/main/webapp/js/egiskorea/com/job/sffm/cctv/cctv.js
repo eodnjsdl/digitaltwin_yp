@@ -11,6 +11,7 @@ $(document.body).ready(function(){
 	getCode('', 'search');
 	initGrid();
 	setData();
+	dtmap.off('select');
 	dtmap.on('select',spaceClickListener );
 	
 })
