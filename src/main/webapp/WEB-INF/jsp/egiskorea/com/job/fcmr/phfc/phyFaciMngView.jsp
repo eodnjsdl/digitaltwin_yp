@@ -143,7 +143,7 @@ function phyEduFaciGeom(e) {
 									</td>
 								</tr>
 								<tr>
-									<th scope="row">예약여부</th>
+									<th scope="row">예약가능여부</th>
 									<td>
 										<span class="form-radio text group">
 											<span><input type="radio" name="rsrv_at" id="rsrv_at_y" value="Y" checked="checked"><label for="rsrv_at_y">Y</label></span>
@@ -179,7 +179,7 @@ function phyEduFaciGeom(e) {
 									<th scope="col">No</th>
 									<th scope="col">시설명</th>
 									<th scope="col">운영시간</th>
-									<th scope="col">예약여부</th>
+									<th scope="col">예약가능여부</th>
 									<th scope="col">층(호)수</th>
 									<th scope="col">시설설명</th>
 								</tr>
