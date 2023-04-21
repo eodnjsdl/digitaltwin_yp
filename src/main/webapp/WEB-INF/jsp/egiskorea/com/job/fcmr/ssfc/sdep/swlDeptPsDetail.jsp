@@ -24,7 +24,6 @@ $(document).ready(function(){
 	var id = "${id}";
 	
 	var geomData = getGeomDataForGridId(id);
-	
 	if (geomData) {
 		getAddressForPoint(geomData, "#rightSubPopup .txt-geometry-address");
 		$("#rightSubPopup input[name=geom]").val(geomData);
@@ -36,11 +35,12 @@ $(document).ready(function(){
 //하수연결관 상세보기 취소
 function cancelSwlDeptPsDetail() {
 	$(".swlDeptPs-popup-close").closest('.popup-panel').removeClass('opened');
-		// 초기화 (지도)
-		dtmap.draw.dispose();
-		dtmap.draw.clear();
+	
+	// 초기화 (지도)
+	dtmap.draw.dispose();
+	dtmap.draw.clear();
 
-		dtmap.vector.clearSelect();	//선택 해제
+	dtmap.vector.clearSelect();	//선택 해제
 }
 
 </script>
@@ -72,7 +72,7 @@ function cancelSwlDeptPsDetail() {
 							</tr>
 							<tr>
 								<th scope="row">관리번호</th>
-								<td>
+								<td colspan="3">
 									<c:out value="${swlDeptPsVO.ftr_idn}"/>
 								</td>
 							</tr>

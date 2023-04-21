@@ -30,6 +30,17 @@ $(document).ready(function(){
 		}
 	}
 	
+	// 날짜 형식 처리 예정 
+	// 현재 db column 길이는 8~9자리 로 되어 었음 
+	$(".datepicker").datepicker({
+		showOn: "both",
+		buttonImage: "/images/icon/form-calendar.svg",
+		dateFormat: "yymmdd",
+	});
+	
+	// 날짜 - 10자리(yyyy-mm-dd) 적용시 사용
+	//ui.callDatePicker();
+	
 	// 지도에서 선택 화면 호출
 	$(".btn-select-map", this).on("click", function () {
 		ui.loadingBar("show");

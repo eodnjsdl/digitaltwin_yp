@@ -286,7 +286,7 @@ function selectSwlDranPsDetail(detailData) {
 		contentType: false,
         processData: false,
 		success: function(result) {
-			//console.log(result);
+			console.log(result);
 			
 			ui.openPopup("rightSubPopup");
 			
@@ -312,6 +312,8 @@ function insertSwlDranPsView(){
 	
 	ui.loadingBar("show");
 	
+	$("#rightSubPopup").addClass("div-failcity-detail");	//날짜 css 때문	
+	
 	ui.openPopup("rightSubPopup");
 	
 	var container = "#rightSubPopup";
@@ -320,6 +322,12 @@ function insertSwlDranPsView(){
 			scrollbarPosition: "outside",
 		});
 		
+		getCmmCodeData("FTR-001",  "#rightSubPopup select[name=ftr_cde]");	// 지형지물부호
+		getCmmCodeData("YPE001",  "#rightSubPopup select[name=hjd_cde]");	// 읍면동
+		getCmmCodeData("MNG-001", "#rightSubPopup select[name=mng_cde]");	// 관리기관
+		getCmmCodeData("OGC-023", "#rightSubPopup select[name=soo_cde]");	// 개통상태 코드
+		getCmmCodeData("OGC-056", "#rightSubPopup select[name=sbb_cde]");	// 하수처리방식 코드
+
 		ui.loadingBar("hide");
 	});
 }
@@ -359,7 +367,7 @@ function insertSwlDranPs() {
     //데이터 정리
     const format 	= new ol.format.GeoJSON();
     const geojson 	= format.writeFeature(feature);
-    const data		= {dataId: "swl_Dran_ps", geojson: geojson};
+    const data		= {dataId: "swl_dran_ps", geojson: geojson};
     
     //등록
     ui.loadingBar("show");
@@ -468,7 +476,7 @@ function updateSwlDranPs() {
     //데이터 정리
     const format 	= new ol.format.GeoJSON();
     const geojson 	= format.writeFeature(feature);
-    const data		= {dataId: "swl_Dran_ps", geojson: geojson};
+    const data		= {dataId: "swl_dran_ps", geojson: geojson};
     
     //등록
     ui.loadingBar("show");
@@ -504,7 +512,7 @@ function deleteSwlDranPs(id) {
 		ui.loadingBar("show");
 
 		const formData = new FormData();
-		formData.append("dataId", 'swl_Dran_ps' + "");
+		formData.append("dataId", 'swl_dran_ps' + "");
 		formData.append("ids", id);
 
 		$.ajax({
@@ -591,7 +599,7 @@ function swlDranPsExcel() {
 		}
 		
 		options = {
-			typeNames	: "swl_Dran_ps" + "",
+			typeNames	: "swl_dran_ps" + "",
 			filter		: filters,
 			sortBy		: 'gid',
 	        sortOrder	: 'DESC'
@@ -603,7 +611,7 @@ function swlDranPsExcel() {
 		const type 		= $parent.find('input[name="rad-facility-area"]:checked').val();
 
 		options = {
-			typeNames	: 'swl_Dran_ps' + "",
+			typeNames	: 'swl_dran_ps' + "",
 			sortBy		: 'gid',
 			sortOrder	: 'DESC'
 		}

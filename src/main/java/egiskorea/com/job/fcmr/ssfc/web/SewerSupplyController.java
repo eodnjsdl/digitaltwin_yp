@@ -83,7 +83,7 @@ public class SewerSupplyController {
 	
 	// 하수관거심도 상세화면 조회
 	@RequestMapping(value = "/selectSwlDeptPsDetail.do", method = RequestMethod.POST)
-	public String selectSwlDeptPsDetail(
+	public String selectSwlDeptPs(
 			@ModelAttribute("swlDeptPsVO") SwlDeptPsVO swlDeptPsVO, String id,
 			ModelMap model) throws Exception {
 		model.addAttribute("id", id);
@@ -120,7 +120,7 @@ public class SewerSupplyController {
 	
 	// 하수처리장 상세화면 조회
 	@RequestMapping(value = "/selectSwlDranPsDetail.do", method = RequestMethod.POST)
-	public String selectSwlDranPsDetail(
+	public String selectSwlDranPs(
 			@ModelAttribute("swlDranPsVO") SwlDranPsVO swlDranPsVO, String id,
 			ModelMap model) throws Exception {
 		model.addAttribute("id", id);
@@ -194,7 +194,7 @@ public class SewerSupplyController {
 	
 	// 환기구 상세화면 조회
 	@RequestMapping(value = "/selectSwlVentPsDetail.do", method = RequestMethod.POST)
-	public String selectSwlVentPsDetail(
+	public String selectSwlVentPs(
 			@ModelAttribute("swlVentPsVO") SwlVentPsVO swlVentPsVO, String id,
 			ModelMap model) throws Exception {
 		model.addAttribute("id", id);

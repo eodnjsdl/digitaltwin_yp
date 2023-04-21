@@ -79,7 +79,7 @@ function codeArrayInit(){
 	setCmmCodeDataArray("OGC-031");				//변류형식
 	setCmmCodeDataArray("OGC-007");				//제수변회전방향
 	setCmmCodeDataArray("OGC-008");				//제수변구동방법
-	setCmmCodeDataArray("OGC-001");				//시설물형태
+	//setCmmCodeDataArray("OGC-001");			//시설물형태
 	setCmmCodeDataArray("OGC-010");				//이상상태
 	setCmmCodeDataArray("OGC-011");				//개폐여부
 	
@@ -92,7 +92,6 @@ function codeArrayInit(){
 	
 	// 하수도 - 환기구
 	//setCmmCodeDataArray("OGC-003");			// 관재질
-	//setCmmCodeDataArray("OGC-001");			// 시설물형태
 	setCmmCodeDataArray("OGC-012");				// 흡출기형식
 	setCmmCodeDataArray("OGC-172");				// 흡출기재질
 	
@@ -461,15 +460,12 @@ function onFacilitySelectEventListener(e){
 				selectWtlValvPs(id);
 			}else if(featureType == "swl_conn_ls"){					//하수도시설 - 하수연결관 
 				selectSwlConnLs(id);
-<<<<<<< HEAD
 			}else if(featureType == "swl_dept_ps"){					// 하수도시설 - 하수관거심도
 				selectSwlDeptPs(id);
 			}else if(featureType == "swl_dran_ps"){					// 하수도시설 - 하수처리장
 				selectSwlDranPs(id);
-=======
 			}else if(featureType == "swl_pipe_as"){					//하수도시설 - 면형하수관거 
 				selectSwlPipeAs(id);
->>>>>>> fac
 			}else if(featureType == "swl_vent_ps"){					// 하수도시설 - 환기구 
 				selectSwlVentPs(id);
 			}else if(featureType == "tgd_phstrn_fclty"){			// 체육시설
@@ -481,7 +477,6 @@ function onFacilitySelectEventListener(e){
 				return false;
 			}
 		}
-		
 	}
 }
 
