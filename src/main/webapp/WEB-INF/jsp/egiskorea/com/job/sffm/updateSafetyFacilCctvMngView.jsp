@@ -113,7 +113,7 @@ $('#cctvUpdate').click(function(){
 				<div class="position-bottom btn-wrap" id="cctv-btn-div">
 					<div>
 						<button type="button" class="btn basic bi-write2" id="cctvUpdate">수정 완료</button>
-						<button type="button" class="btn basic bi-cancel closeSub" onclick='fn_pageDetail(<c:out value="${result.gid}" />)'>취소
+						<button type="button" class="btn basic bi-cancel" onclick='fn_pageDetail(<c:out value="${result.gid}" />)'>취소
 						</button>
 					</div>
 				</div>

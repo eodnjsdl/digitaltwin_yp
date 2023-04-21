@@ -136,28 +136,28 @@ function setData(_pageNo){
 
 //가로등관리 등록페이지 호출
 function fn_insert(){
-		ui.loadingBar("show");
-		ui.openPopup("rightSubPopup");
-		// $(".popup-sub").removeClass("opened").html("");
+	ui.loadingBar("show");
+	ui.openPopup("rightSubPopup");
+	// $(".popup-sub").removeClass("opened").html("");
 
-		$.ajax({
-			type : "POST",
-			url : "/job/sffm/insertSafetyFacilLampMngView.do",
-			dataType : "html",
-			processData : false,
-			contentType : false,
-			async: false,
-			success : function(returnData, status){
-				if(status == "success") {
-					$("#rightSubPopup").append(returnData);
-				}else{
-					toastr.error("관리자에게 문의 바랍니다.", "정보를 불러오지 못했습니다.");
-					return;
-				}
-			}, complete : function(){
-				ui.loadingBar("hide");
+	$.ajax({
+		type : "POST",
+		url : "/job/sffm/insertSafetyFacilLampMngView.do",
+		dataType : "html",
+		processData : false,
+		contentType : false,
+		async: false,
+		success : function(returnData, status){
+			if(status == "success") {
+				$("#rightSubPopup").append(returnData);
+			}else{
+				toastr.error("관리자에게 문의 바랍니다.", "정보를 불러오지 못했습니다.");
+				return;
 			}
-		});
+		}, complete : function(){
+			ui.loadingBar("hide");
+		}
+	});
 }
 
 //가로등관리 상세페이지 호출

@@ -11,7 +11,7 @@ $(document.body).ready(function () {
 	initGrid();
     setData(0);
     dtmap.off('select');
-   dtmap.on('select',spaceClickListener );
+    dtmap.on('select',spaceClickListener );
 });
 //농업용공공관정 기본 틀 추가
 function initGrid(){
@@ -231,6 +231,7 @@ $("#ugagExcelDownload").on("click", function(){
 
 //지도에서 선택 _ 주소 및 경위도 위치 가져오기
 function fn_getLocation() {
+	dtmap.off('select');//레이어 선택 이벤트 해제
 	dtmap.draw.active({type: 'Point', once: true});
 	dtmap.on('drawend', onDrawEnd);
 }
@@ -247,6 +248,7 @@ function onDrawEnd(e) {
 		const wkt = format.writeGeometry(point);
 		$("#geom").val(wkt);
 	});
+	dtmap.on('select',spaceClickListener );//레이어 선택 이벤트
 }
 
 //농업용공공관정 검색조회

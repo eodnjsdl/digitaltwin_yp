@@ -37,6 +37,7 @@ $("#useFacilUpdate").on("click", function(){
 			dataType: "json",
 			success :  function(returnData, status){
 				if(returnData.result == "success") {
+					
 					<%--alert("<spring:message code="success.common.update" />");--%>
 					if(lastSpitalSearch != ''){
 						setData(0); 
@@ -95,7 +96,7 @@ var years = "<c:out value="${result.devlopYear}" />";
 									<th scope="row">주소</th>
 									<td colspan="3">
 										<div class="form-row">
-											<div class="col"><input type="text" class="form-control" id="adres" name="adres" value="<c:out value="${result.adres}" />"></div> 
+											<div class="col"><input type="text" class="form-control" id="adres" name="adres" value="<c:out value="${result.adres}" />" readonly></div> 
 											<div class="col-auto"><button type="button" class="btn type01 bi-location" id="mapSelectBtn">지도에서 선택</button></div>
 											<input type="hidden" name="geom" id="geom" value="<c:out value="${result.geom}" />">
 										</div>

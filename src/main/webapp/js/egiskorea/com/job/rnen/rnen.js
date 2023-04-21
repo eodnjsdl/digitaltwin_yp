@@ -55,7 +55,6 @@ function setData(_pageNo){
 		page  : _pageNo+1,
 		perPage : 100,
 	}
-	console.log(SEARCHOBJ);
 	
 	//검색옵션
 	if(SEARCHOBJ.propertySearch != null){//속성검색
@@ -87,7 +86,6 @@ function setData(_pageNo){
         }
 	}
 	
-	console.log(options)
 	
 	//조회
 	var gridList =this;
@@ -133,6 +131,7 @@ function setData(_pageNo){
 }
 //태양광발전소 등록하기 페이지 호출
 function fn_insert(){
+
 	ui.openPopup("rightSubPopup");
 	$.ajax({
 		type : "POST",
@@ -183,6 +182,7 @@ function fn_pageDetail(gid){
 } 
 //태양광발전소 상세 > 수정페이지 열기
 function fn_update(gid){
+	
 	$("#rightSubPopup").empty();
 	
 	var formData = new FormData();
@@ -229,6 +229,7 @@ $("#rnenExcelDownload").on("click", function(){
 
 //지도에서 선택 _ 주소 및 경위도 위치 가져오기
 function fn_getLocation() {
+	dtmap.off('select');//레이어 선택 이벤트 해제
 	dtmap.draw.active({type: 'Point', once: true});
 	dtmap.on('drawend', onDrawEnd);
 }
@@ -245,6 +246,7 @@ function onDrawEnd(e) {
 		const wkt = format.writeGeometry(point);
 		$("#geom").val(wkt);
 	});
+	dtmap.on('select',spaceClickListener );
 }
 
 function fn_search_List(){
