@@ -32,7 +32,7 @@ $(document).ready(function(){
 	}
 });
 
-//하수연결관 상세보기 취소
+//하수관거심도 상세보기 취소
 function cancelSwlDeptPsDetail() {
 	$(".swlDeptPs-popup-close").closest('.popup-panel').removeClass('opened');
 	

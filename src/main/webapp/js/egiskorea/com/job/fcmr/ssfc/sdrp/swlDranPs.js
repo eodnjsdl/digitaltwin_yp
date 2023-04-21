@@ -5,8 +5,8 @@
  */
 
 $(document).ready(function(){
-	console.log("swlDranPs.js");
-	console.log("하수처리장");
+	//console.log("swlDranPs.js");
+	//console.log("하수처리장");
 });
 
 // 하수처리장 목록 페이지 호출
@@ -286,7 +286,7 @@ function selectSwlDranPsDetail(detailData) {
 		contentType: false,
         processData: false,
 		success: function(result) {
-			console.log(result);
+			//console.log(result);
 			
 			ui.openPopup("rightSubPopup");
 			

@@ -32,7 +32,7 @@ $(document).ready(function(){
 	}
 });
 
-//하수연결관 상세보기 취소
+//하수처리장 상세보기 취소
 function cancelSwlDranPsDetail() {
 	$(".swlDranPs-popup-close").closest('.popup-panel').removeClass('opened');
 	

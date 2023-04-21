@@ -230,8 +230,8 @@ function selectSwlDeptPs(id) {
 
 // 하수관거심도 상세보기 페이지 호출
 function selectSwlDeptPsDetail(detailData) {
-	console.log('selectSwlDeptPsDetail(detailData)');
-	console.log('data >>> ' + detailData);
+	//console.log('selectSwlDeptPsDetail(detailData)');
+	//console.log('data >>> ' + detailData);
 	
 	if(!detailData && detailData == null){
 		alert("하수관거심도 상세보기 오류");
