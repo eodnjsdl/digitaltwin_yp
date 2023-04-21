@@ -21,16 +21,16 @@ function getSewerSupplyFacility(name){
 			selectSwlConnLsListView();
 			return;
 		}else if(name == "swlDeptPs"){		//하수관거심도
-			toastr.error("작업중", "하수관거심도");
+			selectSwlDeptPsListView();
 			return;
 		}else if(name == "swlDranPs"){		//하수처리장
-			toastr.error("작업중", "하수처리장");
+			selectSwlDranPsListView();
 			return;
 		}else if(name == "swlManhPs"){		//하수맨홀
 			toastr.error("작업중", "하수맨홀");
 			return;
 		}else if(name == "swlPipeAs"){		//면형하수관거
-			toastr.error("작업중", "면형하수관거");
+			selectSwlPipeAsListView()
 			return;
 		}else if(name == "swlPipeLm"){		//하수관거
 			toastr.error("작업중", "하수관거");
@@ -54,7 +54,6 @@ function getSewerSupplyFacility(name){
 			alert("잘못된 호출")
 			return;
 		}
-		
 	}
 }
 
@@ -74,3 +73,54 @@ function selectSwlConnLsListView(){
     });
 }
 
+// 하수관거심도 목록 화면 조회
+function selectSwlDeptPsListView() {
+	//console.log('selectSwlDeptPsListView()');
+	
+	ui.loadingBar("show");
+	
+	var baseContainer = "#bottomPopup";
+    $(baseContainer).load('/job/fcmr/ssfc/selectSwlDeptPsListView.do', function() {
+    	swlDeptPsProcess();
+    	ui.loadingBar("hide");
+    });
+}
+
+// 하수처리장 목록 화면 조회
+function selectSwlDranPsListView() {
+	//console.log('selectSwlDranPsListView()');
+	
+	ui.loadingBar("show");
+	
+	var baseContainer = "#bottomPopup";
+    $(baseContainer).load('/job/fcmr/ssfc/selectSwlDranPsListView.do', function() {
+    	swlDranPsProcess();
+    	ui.loadingBar("hide");
+    });
+}
+
+//면형하수관거 목록 화면 조회
+function selectSwlPipeAsListView(){
+	//console.log("selectSwlPipeAsListView()");
+	
+	ui.loadingBar("show");
+	
+	var baseContainer = "#bottomPopup";
+    $(baseContainer).load("/job/fcmr/ssfc/selectSwlPipeAsListView.do", function () {
+    	swlPipeAsListProcess();
+		ui.loadingBar("hide");
+    });
+}
+
+//환기구 목록 페이지 호출
+function selectSwlVentPsListView() {
+	//console.log('selectSwlVentPsListView()');
+	
+	ui.loadingBar("show");
+	
+	var baseContainer = "#bottomPopup";
+    $(baseContainer).load('/job/fcmr/ssfc/selectSwlVentPsListView.do', function() {
+    	swlVentPsProcess();
+    	ui.loadingBar("hide");
+    });
+}

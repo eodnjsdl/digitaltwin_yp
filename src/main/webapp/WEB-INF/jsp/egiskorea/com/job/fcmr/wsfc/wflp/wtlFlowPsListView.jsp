@@ -19,7 +19,7 @@
                     <option value="wtlPrgaPs">수압계</option>
                     <option value="wtlServPs">배수지</option>
                     <option value="wtlSplyLs">급수관로</option>
-                    <option value="wtlServPs">변류시설</option>
+                    <option value="wtlValvPs">변류시설</option>
                 </select>
             </div>
             <div class="tabBoxDepth2-wrap">
@@ -153,7 +153,7 @@
 <script type="text/javascript">
 	//jqeury
 	$(document).ready(function(){
-		console.log("wtlFlowPsListView.jsp");
+		//console.log("wtlFlowPsListView.jsp");
 		
 		//이벤트 리스너 추가
 		dtmap.on('select', onFacilitySelectEventListener);

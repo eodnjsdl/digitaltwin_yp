@@ -6,8 +6,8 @@
 
 //jqeury
 $(document).ready(function(){
-	console.log("wtlPrgaPs.js");
-	console.log("수압계");
+	//console.log("wtlPrgaPs.js");
+	//console.log("수압계");
 });
 
 //functions

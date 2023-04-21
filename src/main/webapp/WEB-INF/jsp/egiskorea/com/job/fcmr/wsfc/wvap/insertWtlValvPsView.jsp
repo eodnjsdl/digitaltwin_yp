@@ -6,7 +6,7 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
 <style type="text/css">
-	.popup-panel.popup-sub .insert-wtlFirePs-popup-close {
+	.popup-panel.popup-sub .insert-wtlValvPs-popup-close {
 	    top: 0;
 	    right: 0;
 	    width: 39px;
@@ -18,13 +18,13 @@
 	}
 </style>
 
-<!-- 업무 > 시설관리 > 상수수도시설 > 소방시설 등록하기-->
-       	<div class="popup-header">소방시설 등록하기</div>
+<!-- 업무 > 시설관리 > 상수수도시설 > 변류시설 등록하기-->
+       	<div class="popup-header">변류시설 등록하기</div>
            <div class="popup-body">
                <div class="sub-popup-body">
                    <div class="data-write-wrap" style="height: 100%;">
                        <div class="scroll-y">
-                       	   <form id="insertWtlFirePsForm" method="post">
+                       	   <form id="insertWtlValvPsForm" method="post">
                            <div class="data-default">
                                <table class="data-write">
                                    <colgroup>
@@ -38,8 +38,12 @@
                                        <th scope="row">지형지물부호</th>
                                        <td>
                                           	<select name="ftr_cde" class="form-select" readonly="readonly">
-                                          		<option value="SA118">급수탑</option>
-                                          		<option value="SA119" selected="selected">소화전</option>
+                                          		<option value="SA200" selected="selected">상수제수변</option>
+                                          		<option value="SA201">상수역지변</option>
+                                          		<option value="SA202">상수이토변</option>
+                                          		<option value="SA203">상수배기변</option>
+                                          		<option value="SA204">상수감압변</option>
+                                          		<option value="SA205">상수안전변</option>
                                           	</select>
                                        </td>
                                        <th scope="row">관리번호</th>
@@ -54,49 +58,30 @@
                                        			<option value="">선택</option>
                                        		</select>	
                                        </td>
-                                       <th scope="row">관리기관</th>
-                                       <td>
-                                       	   <%-- <c:if test="${wtlFirePsVO.mng_cde_nm  != '' || wtlFirePsVO.mng_cde_nm  ne null}">
-                                           		<c:out value="${wtlFirePsVO.mng_cde_nm }"/>
-                                           </c:if>
-                                           <c:if test="${wtlFirePsVO.mng_cde_nm  == '' || wtlFirePsVO.mng_cde_nm  eq null }">
-                                           		<c:out value="${wtlFirePsVO.mng_cde }"/>
-                                           </c:if> --%>
-                                           <select name="mng_cde" class="form-select">
-                                       			<option value="">선택</option>
-                                       		</select>
-                                       </td>
-                                   </tr>
-                                   <tr>
                                        <th scope="row">도엽번호</th>
                                        <td>
                                        		<input type="text" name="sht_num" class="form-control" value="" maxlength="11">
+                                       </td>
+                                   </tr>
+                                   <tr>
+                                       <th scope="row">관리기관</th>
+                                       <td>
+                                           <select name="mng_cde" class="form-select">
+                                       			<option value="">선택</option>
+                                       		</select>
                                        </td>
                                        <th scope="row">설치일자</th>
                                        <td>
                                        	 	<input type="text" name="ist_ymd" class="form-control datepicker " value="" id="dp1680677660036">
                                        </td>
                                    </tr>
+                                   
                                    <tr>
-                                       <th scope="row">수용가번호</th>
+                                       <th scope="row">변류형식</th>
                                        <td>
-                                       		<%-- <c:if test="${wtlFirePsVO.hom_num  != '' || wtlFirePsVO.hom_num  ne null}">
-	                                       		<c:out value="${wtlFirePsVO.hom_num }"/>
-                                       		</c:if> --%>
-                                       		<input type="text" name="hom_num" class="form-control" value="" maxlength="50">
-                                       </td>
-                                       <th scope="row">소화전형식</th>
-                                       <td>
-                                           <%-- <c:out value="${wtlFirePsVO.mof_cde_nm }"/> --%>
-                                           <select name="mof_cde" class="form-select">
+                                       		<select name="mof_cde" class="form-select">
                                        			<option value="">선택</option>
-                                       	   </select>
-                                       </td>
-                                   </tr>
-                                   <tr>
-                                       <th scope="row">소화전구경(mm)</th>
-                                       <td>
-                                       		<input type="number" name="fir_dip" class="form-control" value="">
+                                       		</select>
                                        </td>
                                        <th scope="row">관경(mm)</th>
                                        <td>
@@ -104,19 +89,84 @@
                                        </td>
                                    </tr>
                                    <tr>
-                                       <th scope="row">급수탑높이</th>
+                                       <th scope="row">제수변회전방향</th>
                                        <td>
-                                       		<input type="number" name="sup_hit" class="form-control" value="" id="testt">
+                                       		<select name="sae_cde" class="form-select">
+                                       			<option value="">선택</option>
+                                       		</select>
                                        </td>
-                                       <th scope="row">공사번호</th>
+                                       <th scope="row">제수변총회전수</th>
                                        <td>
-	                                       	<input type="text" name="cnt_num" class="form-control" value="" maxlength="8">
+	                                       	<input type="number" name="tro_cnt" class="form-control" value="">
                                        </td>
                                    </tr>
                                    <tr>
+                                       <th scope="row">제수변현회전수</th>
+                                       <td>
+	                                       	<input type="number" name="cro_cnt" class="form-control" value="">
+                                       </td>
+                                       <th scope="row">제수변구동방법</th>
+                                       <td>
+                                       		<select name="mth_cde" class="form-select">
+                                       			<option value="">선택</option>
+                                       		</select>
+                                       </td>
+                                   </tr>
+                                   <tr>
+                                       <th scope="row">시설물형태</th>
+                                       <td>
+                                       		<select name="for_cde" class="form-select">
+                                       			<option value="">선택</option>
+                                       		</select>
+                                       </td>
+                                       <th scope="row">변실규격</th>
+                                       <td>
+	                                       	<input type="text" name="val_std" class="form-control" value="">
+                                       </td>
+                                   </tr>
+                                   <tr>
+                                       <th scope="row">설정압력</th>
+                                       <td>
+                                       		<input type="number" name="val_saf" class="form-control" value="">
+                                       </td>
+                                       <th scope="row">제작회사명</th>
+                                       <td>
+	                                       	<input type="text" name="prc_nam" class="form-control" value="">
+                                       </td>
+                                   </tr>
+                                   <tr>
+                                       <th scope="row">관로지형지물부호</th>
+                                       <td>
+                                          	<select name="pip_cde" class="form-select">
+                                       			<option value="SA001" selected="selected">상수관로</option>
+                                       		</select>
+                                       </td>
+                                       <th scope="row">관리번호</th>
+                                       <td>
+                                          	<input type="text" name="pip_idn" class="form-control" value="" readonly="readonly">
+                                       </td>
+                                   </tr>
+                                   <tr>
+                                       <th scope="row">이상상태</th>
+                                       <td>
+                                       		<select name="cst_cde" class="form-select">
+                                       			<option value="">선택</option>
+                                       		</select>
+                                       </td>
+                                       <th scope="row">개패여부</th>
+                                       <td>
+                                       		<select name="off_cde" class="form-select">
+                                       			<option value="">선택</option>
+                                       		</select>
+                                       </td>
+                                   </tr>
+                                   <tr>
+                                       <th scope="row">공사번호</th>
+                                       <td>
+                                       		<input type="text" name="cnt_num" class="form-control" value="">
+                                       </td>
                                        <th scope="row">방향각</th>
-                                       <td colspan="3" >
-                                       		<%-- <c:out value="${wtlFirePsVO.ang_dir }"/> --%>
+                                       <td>
                                        		<input type="number" name="ang_dir" class="form-control" value="">
                                        </td>
                                    </tr>
@@ -142,22 +192,28 @@
                        </div>
                        <div class="position-bottom btn-wrap">
                            <div>
-                           	    <button type="button" class="btn basic bi-edit btn_add" onclick="insertWtlFirePs();">등록</button>
-                           		<button type="button" class="btn basic bi-cancel btn_cancel" onclick="cancelInsertWtlFirePs()">취소</button>
+                           	    <button type="button" class="btn basic bi-edit btn_add" onclick="insertWtlValvPs();">등록</button>
+                           		<button type="button" class="btn basic bi-cancel btn_cancel" onclick="cancelInsertWtlValvPs()">취소</button>
                            </div>
                        </div>
                    </div>
                </div>
            </div>
            <!-- <button type="button" class="popup-close" title="닫기" onclick="cancelMode();"></button> -->
-           <button type="button" class="insert-wtlFirePs-popup-close" title="닫기" onclick="cancelMode();"></button>
 
-<!-- 업무 > 시설관리 > 상수수도시설 > 소방시설 등록하기 end -->
+<!-- 업무 > 시설관리 > 상수수도시설 > 변류시설 등록하기 end -->
 
 <script type="text/javascript">
 	//jqeury
 	$(document).ready(function(){
-		console.log("insertWtlFirePsView.jsp");
+		//console.log("insertWtlValvPsView.jsp");
+	
+		//3d 일때 지도 추가 버튼 삭제 
+		if(dtmap.mod == "3D"){
+			if($("#insertWtlValvPsForm .btn-select-map").css("display") != 'none'){
+				$("#insertWtlValvPsForm .btn-select-map").hide();
+			}
+		}
         
 		// 날짜 형식 처리 예정 
         // 날짜 적용 - 지금 8자리로 되어 있어 이것 사용 (변경 예정) 
@@ -217,23 +273,26 @@
      	//////////////////
      	
      	//등록창 닫기
-     	$(".popup-panel .insert-wtlFirePs-popup-close").on("click", function () {
-             cancelInsertWtlFirePs();
+     	$(".popup-panel .insert-wtlValvPs-popup-close").on("click", function () {
+             cancelInsertWtlValvPs();
      	});
      	
 	});
 	
 	//취소 버튼 동작
-	function cancelInsertWtlFirePs() {
-		//console.log("cancelInsertWtlFirePs()");
+	function cancelInsertWtlValvPs() {
+		//console.log("cancelInsertWtlValvPs()");
 		
-		$(".insert-wtlFirePs-popup-close").closest('.popup-panel').removeClass('opened');
+		$(".insert-wtlValvPs-popup-close").closest('.popup-panel').removeClass('opened');
         // 초기화 (지도)
         dtmap.draw.dispose();
         dtmap.draw.clear();
+        
+        if($(".space-edit-tool").hasClass("opened")){
+	        clearSpaceEditTool();	//공간정보 편집창 닫기
+        }
+       
 	}
 	
 
 </script>
-
-	

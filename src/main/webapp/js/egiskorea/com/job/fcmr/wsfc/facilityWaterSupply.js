@@ -34,8 +34,7 @@ function getWaterSupplyFacility(name){
 			toastr.error("작업중", "급수관로");
 			return;
 		}else if(name == "wtlValvPs"){		//변류시설
-			toastr.error("작업중", "변류시설");
-			return;
+			selectWtlValvPsListView();
 		}else{
 			alert("잘못된 호출")
 			return;
@@ -113,6 +112,20 @@ function selectWtlServPsListView(){
 	$(baseContainer).load("/job/fcmr/wsfc/selectWtlServPsListView.do", function () {
 		//toastr.success("/job/fcmr/wsfc/selectWtlServPsListView.do", "페이지🙂호🙂출🙂");
 		wtlServPsListProcess();
+		ui.loadingBar("hide");
+	});
+}
+
+//변류시설 목록 화면 조회
+function selectWtlValvPsListView(){
+	//console.log("selectWtlValvPsListView()");
+	
+	ui.loadingBar("show");
+	
+	var baseContainer = "#bottomPopup";
+	$(baseContainer).load("/job/fcmr/wsfc/selectWtlValvPsListView.do", function () {
+		//toastr.success("/job/fcmr/wsfc/selectWtlValvPsListView.do", "페이지🙂호🙂출🙂");
+		wtlValvPsListProcess();
 		ui.loadingBar("hide");
 	});
 }

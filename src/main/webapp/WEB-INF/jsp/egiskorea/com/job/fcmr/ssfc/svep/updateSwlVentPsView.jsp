@@ -6,7 +6,7 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
 <style type="text/css">
-	.popup-panel.popup-sub .update-wtlFirePs-popup-close {
+	.popup-panel.popup-sub .swlVentPs-popup-close {
 	    top: 0;
 	    right: 0;
 	    width: 39px;
@@ -18,234 +18,226 @@
 	}
 </style>
 
-<!-- 업무 > 시설관리 > 상수도시설 > 소방시설 수정하기-->
-
-       	<div class="popup-header">소방시설 수정하기</div>
-           <div class="popup-body">
-               <div class="sub-popup-body">
-                   <div class="data-write-wrap" style="height: 100%;">
-                       <div class="scroll-y">
-                       	   <form id="updateWtlFirePsForm" method="post">
-                           <div class="data-default">
-                               <table class="data-write">
-                                   <colgroup>
-                                       <col style="width: 23%;">
-                                       <col style="width: auto;">
-                                       <col style="width: 23%;">
-                                       <col style="width: auto;">
-                                   </colgroup>
-                                   <tbody>
-                                   <tr>
-                                       <th scope="row">지형지물부호</th>
-                                       <td>
-                                          	<c:out value="${wtlFirePsVO.ftr_cde_nm }"/>
-                                          	<input type="hidden" name="ftr_cde" class="form-control" value="${wtlFirePsVO.ftr_cde }">
-                                       </td>
-                                       <th scope="row">관리번호</th>
-                                       <td>
-                                       	  	<c:out value="${wtlFirePsVO.ftr_idn }"/>
-                                       	  	<input type="hidden" name="ftr_idn" class="form-control" value="${wtlFirePsVO.ftr_idn }">
-                                       </td>
-                                   </tr>
-                                   <tr>
-                                       <th scope="row">읍면동</th>
-                                       <td>
-                                       		<select name="hjd_cde" class="form-select">
-                                       			<option value="">선택</option>
-                                       		</select>	
-                                       </td>
-                                       <th scope="row">관리기관</th>
-                                       <td>
-                                           <select name="mng_cde" class="form-select">
-                                       			<option value="">선택</option>
-                                       		</select>
-                                       </td>
-                                   </tr>
-                                   <tr>
-                                       <th scope="row">도엽번호</th>
-                                       <td>
-                                       		<input type="text" name="sht_num" class="form-control" value="${wtlFirePsVO.sht_num }" maxlength="11">
-                                       </td>
-                                       <th scope="row">설치일자</th>
-                                       <td>
-                                       	 	<input type="text" name="ist_ymd" class="form-control datepicker " value="${wtlFirePsVO.ist_ymd }" id="dp1680677660036">
-                                       </td>
-                                   </tr>
-                                   <tr>
-                                       <th scope="row">수용가번호</th>
-                                       <td>
-                                       		<input type="text" name="hom_num" class="form-control" value="${wtlFirePsVO.hom_num }" maxlength="50">
-                                       </td>
-                                       <th scope="row">소화전형식</th>
-                                       <td>
-                                           <select name="mof_cde" class="form-select">
-                                       			<option value="">선택</option>
-                                       	   </select>
-                                       </td>
-                                   </tr>
-                                   <tr>
-                                       <th scope="row">소화전구경(mm)</th>
-                                       <td>
-                                       		<input type="number" name="fir_dip" class="form-control" value="${wtlFirePsVO.fir_dip }">
-                                       </td>
-                                       <th scope="row">관경(mm)</th>
-                                       <td>
-                                       		<input type="number" name="std_dip" class="form-control" value="${wtlFirePsVO.std_dip }">
-                                       </td>
-                                   </tr>
-                                   <tr>
-                                       <th scope="row">급수탑높이</th>
-                                       <td>
-                                       		<input type="number" name="sup_hit" class="form-control" value="${wtlFirePsVO.sup_hit }">
-                                       </td>
-                                       <th scope="row">공사번호</th>
-                                       <td>
-	                                       	<input type="text" name="cnt_num" class="form-control" value="${wtlFirePsVO.cnt_num }" maxlength="8">
-                                       </td>
-                                   </tr>
-                                   <tr>
-                                       <th scope="row">방향각</th>
-                                       <td colspan="3" >
-                                       		<input type="number" name="ang_dir" class="form-control" value="${wtlFirePsVO.ang_dir }">
-                                       </td>
-                                   </tr>
-                                   <tr>
-                                       <th scope="row">위치</th>
-                                       <td colspan="3">
-                                           <div class="form-row">
-                                           		<div class="col">
-                                           			<input type="text" class="form-control txt-geometry-address" value="" readonly="readonly">
-                                           		</div>                    
-                                           		<div class="col-auto">
-                                           			<button type="button" class="btn type01 bi-location btn-select-map" data-popup="space-edit-tool">지도에서 선택</button>
-                                           		</div>                  
-                                           </div>
-                                       </td>
-                                   </tr>
-                                   </tbody>
-                               </table>
-                           </div>
-                           </form>
-                           <input type="hidden" name="geom" 	value="" class="form-control">
-                           <input type="hidden" name="id" 	value="${id}">
-                       </div>
-                       <div class="position-bottom btn-wrap justify-content-end">
-                           <div>
-                           	    <button type="button" class="btn basic bi-write2 btn_save" 		onclick="updateWtlFirePs();">수정완료</button>
-                           		<button type="button" class="btn basic bi-cancel btn_cancel"	onclick="cancelUpdateWtlFirePs();">취소</button>
-                           </div>
-                       </div>
-                   </div>
-               </div>
-           </div>
-           <!-- <button type="button" class="popup-close" title="닫기" onclick="cancelMode();"></button> -->
-           <button type="button" class="update-wtlFirePs-popup-close" title="닫기" onclick="cancelMode();"></button>
-
-<!-- 업무 > 시설관리 > 상수도시설 > 소방시설 수정하기 end -->
-
 <script type="text/javascript">
-	//jqeury
-	$(document).ready(function(){
-		//console.log("updateWtlFirePsView.jsp");
-        
-		// 날짜 형식 처리 예정 
-        // 날짜 적용 - 지금 8자리로 되어 있어 이것 사용 (변경 예정) 
-		// 현재 db column 길이는 8~9자리 로 되어 었음 
-      	$(".datepicker").datepicker({
-            showOn: "both",
-            buttonImage: "/images/icon/form-calendar.svg",
-            dateFormat: "yymmdd",
-        }); 
-        
-		// 날짜 - 10자리(yyyy-mm-dd) 적용시 사용
-      	//ui.callDatePicker();
 
-		//////////////////
-		//selectbox 값 세팅
-		
-      	//읍면동 
-		let hjd_cde = '${wtlFirePsVO.hjd_cde }';
-      	getCmmCodeData("YPE001", "#rightSubPopup select[name=hjd_cde]", hjd_cde);
-      	
-      	//관리기관
-      	let mng_cde = '${wtlFirePsVO.mng_cde }';
-      	getCmmCodeData("MNG-001", "#rightSubPopup select[name=mng_cde]", mng_cde);
-      	
-      	//소화전형식
-      	let mof_cde = '${wtlFirePsVO.mof_cde }';
-      	getCmmCodeData("OGC-048", "#rightSubPopup select[name=mof_cde]", mof_cde);
-      	
-      	///////////////////////
-      	//gird 데이터를 통한 주소 조회
-		var id =  $("input[name=id]").val();
-		
-		var geomData = getGeomDataForGridId(id);
-		if(geomData){
-			getAddressForPoint(geomData, "#rightSubPopup .txt-geometry-address");
-			$("#rightSubPopup input[name=geom]").val(geomData);
-		}else{
-			console.log("상세보기 좌표 오류");
+$(document).ready(function(){
+	//console.log("updateSwlVentPsView.jsp");
+
+	//3d 일때 지도 추가 버튼 삭제 
+	if(dtmap.mod == "3D"){
+		if($("#updateSwlVentPsFrm .btn-select-map").css("display") != 'none'){
+			$("#updateSwlVentPsFrm .btn-select-map").hide();
 		}
-		
-		// 지도에서 선택
-        $(".btn-select-map", this.element).on("click", function () {
-        	//console.log( '수정화면');
-        	
-        	ui.loadingBar("show");
-            $('.space-edit-tool').load("/job/fcts/editView.do", () => {
-                
-                if(!$(".space-edit-tool").hasClass("opened")){
-                	$(".space-edit-tool").addClass("opened");
-                	$(".space-edit-tool").draggable();
-                }
-                
-               	$.getJSON(
-			        "/com/mngr/info/selectAllLayerManageList.do"
-			   	).done((response) => {
-			    	var list = response["list"];
-			    	let tag = `<option value="">시설물</option>`;
-			    	for(var i=0; i<list.length; i++){
-			    		const name 	= list[i].tblNm.toLowerCase();
-			    		const title = list[i].lyrNm;
-			    		tag += `<option value=`+name+`>`+title+`</option>`; 
-			    	}
-			    	$(".space-edit-tool select[name=edit-snap-target]").html(tag);
-			    }); 
-               	
-               	var obj = {};
-               	obj.geometryType = "point";
-               	obj.id = id;
-              
-               	geoEditBindEvents(obj);
-                
-                ui.loadingBar("hide");
-            });
-            
-        });
-		
-		/////////////////////
-		
-		//닫기 버튼
-        $(".popup-panel .update-wtlFirePs-popup-close").on("click", function () {
-        	cancelUpdateWtlFirePs();
-    	});
-		
-	});
-	
-	
-	//수정하기 취소버튼 동작
-	function cancelUpdateWtlFirePs(){
-		//console.log("cancelUpdateWtlFirePs()");
-		
-		$(".update-wtlFirePs-popup-close").closest('.popup-panel').removeClass('opened');
-        // 초기화 (지도)
-        dtmap.draw.dispose();
-        dtmap.draw.clear();
-        
-        var id = $("input[name=id]").val();
-    	selectWtlFirePs(id);
 	}
+	
+	// 날짜 형식 처리 예정 
+	// 현재 db column 길이는 8~9자리 로 되어 었음 
+	$(".datepicker").datepicker({
+		showOn: "both",
+		buttonImage: "/images/icon/form-calendar.svg",
+		dateFormat: "yymmdd",
+	}); 
+       
+	// 날짜 - 10자리(yyyy-mm-dd) 적용시 사용
+	//ui.callDatePicker();
+	
+	// selectbox 값 세팅
+	let hjd_cde = '${swlVentPsVO.hjd_cde}';
+	getCmmCodeData("YPE001", "#updateSwlVentPsFrm select[name=hjd_cde]", hjd_cde);	// 읍면동 
+	
+	let mng_cde = '${swlVentPsVO.mng_cde}';
+	getCmmCodeData("MNG-001", "#updateSwlVentPsFrm select[name=mng_cde]", mng_cde);	// 관리기관 
+	
+	let mop_cde = '${swlVentPsVO.mop_cde}';
+	getCmmCodeData("OGC-003", "#updateSwlVentPsFrm select[name=mop_cde]", mop_cde);	// 관재질 
+	
+	let mof_cde = '${swlVentPsVO.mof_cde}';
+	getCmmCodeData("OGC-012", "#updateSwlVentPsFrm select[name=mof_cde]", mof_cde);	// 흡출기형식 
+      	
+	let hmp_cde = '${swlVentPsVO.hmp_cde}';
+	getCmmCodeData("OGC-172", "#updateSwlVentPsFrm select[name=hmp_cde]", hmp_cde);	// 흡출기재질 
+    
+	//gird 데이터를 통한 주소 조회
+	var id =  $("input[name=id]").val();
+	
+	var geomData = getGeomDataForGridId(id);
+	if (geomData) {
+		getAddressForPoint(geomData, "#rightSubPopup .txt-geometry-address");
+		$("#rightSubPopup input[name=geom]").val(geomData);
+	} else {
+		console.log("상세보기 좌표 오류");
+	}
+	
+	// 지도에서 선택 화면 호출
+	$(".btn-select-map", this).on("click", function () {
+		ui.loadingBar("show");
+		
+		$('.space-edit-tool').load("/job/fcts/editView.do", () => {
+			if(!$(".space-edit-tool").hasClass("opened")) {
+				$(".space-edit-tool").addClass("opened");
+				$(".space-edit-tool").draggable();
+			}
 
+			$.getJSON(
+				"/com/mngr/info/selectAllLayerManageList.do"
+			).done((response) => {
+				var list = response["list"];
+				
+				let tag = `<option value="">시설물</option>`;
+				for(var i = 0; i < list.length; i++){
+					const name 	= list[i].tblNm.toLowerCase();
+					const title = list[i].lyrNm;
+					tag += `<option value=`+name+`>`+title+`</option>`; 
+				}
+				$(".space-edit-tool select[name=edit-snap-target]").html(tag);
+			}); 
+
+			var obj = {};
+			obj.geometryType = "point";
+			obj.id = id;
+			
+			geoEditBindEvents(obj);
+
+			ui.loadingBar("hide");
+		});
+	});
+});
+
+//취소 버튼 동작
+function cancelUpdateSwlVentPs() {
+	$(".swlVentPs-popup-close").closest('.popup-panel').removeClass('opened');
+       // 초기화 (지도)
+       dtmap.draw.dispose();
+       dtmap.draw.clear();
+       
+	if($(".space-edit-tool").hasClass("opened")) {
+		clearSpaceEditTool();	//공간정보 편집창 닫기
+	}
+	
+	var id = $("input[name=id]").val();
+	selectSwlVentPs(id);	// 상세보기로 이동
+}
+	
 </script>
 
-	
+<!-- 업무 > 시설관리 > 하수도시설 > 환기구 수정하기 -->
+<div class="popup-header">환기구 수정하기</div>
+<div class="popup-body">
+	<div class="sub-popup-body">
+		<div class="data-write-wrap" style="height: 100%;">
+			<div class="scroll-y">
+				<div class="data-default">
+					<form id="updateSwlVentPsFrm" method="post">
+					<table class="data-write">
+						<colgroup>
+							<col style="width: 23%;">
+							<col style="width: auto;">
+							<col style="width: 23%;">
+							<col style="width: auto;">
+						</colgroup>
+						<tbody>
+							<tr>
+								<th scope="row">지형지물부호</th>
+								<td>
+									<c:out value="${swlVentPsVO.ftr_cde_nm}"/>
+									<input type="hidden" name="ftr_cde" class="form-control" value="${swlVentPsVO.ftr_cde}">
+								</td>
+								<th scope="row">관리번호</th>
+								<td>
+									<c:out value="${swlVentPsVO.ftr_idn}"/>
+									<input type="hidden" name="ftr_idn" class="form-control" value="${swlVentPsVO.ftr_idn}">
+								</td>
+							</tr>
+							<tr>
+								<th scope="row">읍면동</th>
+								<td>
+									<select name="hjd_cde" class="form-select">
+										<option value="">선택</option>
+									</select>	
+								</td>
+								<th scope="row">도엽번호</th>
+								<td>
+									<input type="text" name="sht_num" class="form-control" value="${swlVentPsVO.sht_num}" maxlength="11">
+								</td>
+							</tr>
+							<tr>
+								<th scope="row">관리기관</th>
+								<td>
+									<select name="mng_cde" class="form-select">
+										<option value="">선택</option>
+									</select>
+								</td>
+								<th scope="row">설치일자</th>
+								<td>
+									<input type="text" name="ist_ymd" class="form-control datepicker" value="${swlVentPsVO.ist_ymd}">
+								</td>
+							</tr>
+							<tr>
+								<th scope="row">환기구구경</th>
+								<td>
+									<input type="number" name="vnt_dip" class="form-control" value="${swlVentPsVO.vnt_dip}">
+								</td>
+								<th scope="row">관재질</th>
+								<td>
+									<select name="mop_cde" class="form-select">
+										<option value="">선택</option>
+									</select>
+								</td>
+							</tr>
+							<tr>
+								<th scope="row">흡출기형식</th>
+								<td>
+									<select name="mof_cde" class="form-select">
+										<option value="">선택</option>
+									</select>
+								</td>
+								<th scope="row">흡출기재질</th>
+								<td>
+									<select name="hmp_cde" class="form-select">
+										<option value="">선택</option>
+									</select>
+								</td>
+							</tr>
+							<tr>
+								<th scope="row">공사번호</th>
+								<td>
+									<input type="text" name="cnt_num" class="form-control" value="${swlVentPsVO.cnt_num}" maxlength="8">
+								</td>
+								<th scope="row">방향각</th>
+								<td>
+									<input type="number" name="ang_dir" class="form-control" value="${swlVentPsVO.ang_dir}">
+								</td>
+								
+							</tr>
+							<tr>
+								<th scope="row">위치</th>
+								<td colspan="3">
+									<div class="form-row">
+										<div class="col">
+											<input type="text" class="form-control txt-geometry-address" value="" readonly="readonly">
+											<input type="hidden" name="geom" class="form-control" value="">
+											<input type="hidden" name="id" value="${id}">
+										</div>                    
+										<div class="col-auto">
+											<button type="button" class="btn type01 bi-location btn-select-map" data-popup="space-edit-tool">지도에서 선택</button>
+										</div>                  
+									</div>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+					</form>
+				</div>
+			</div>
+			<div class="position-bottom btn-wrap">
+				<div>
+					<button type="button" class="btn basic bi-write2 btn_save" onclick="updateSwlVentPs();">등록</button>
+					<button type="button" class="btn basic bi-cancel btn_cancel" onclick="cancelUpdateSwlVentPs()">취소</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- <button type="button" class="popup-close" title="닫기" onclick="cancelMode();"></button> -->
+<button type="button" class="swlVentPs-popup-close" title="닫기" onclick="cancelUpdateSwlVentPs()"></button>
+<!-- //업무 > 시설관리 > 하수도시설 > 환기구 수정하기 end -->	

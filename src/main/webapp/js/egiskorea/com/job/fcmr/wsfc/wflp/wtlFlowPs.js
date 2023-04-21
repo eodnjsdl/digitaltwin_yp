@@ -6,8 +6,8 @@
 
 //jqeury
 $(document).ready(function(){
-	console.log("wtlFlowPs.js");
-	console.log("유량계");
+	//console.log("wtlFlowPs.js");
+	//console.log("유량계");
 });
 
 //functions
@@ -261,8 +261,8 @@ function selectWtlFlowPsList(page) {
 
 //유량계 상세정보 조회
 function selectWtlFlowPs(id){
-	console.log("selectWtlFlowPs(id)");
-	console.log(id);
+	//console.log("selectWtlFlowPs(id)");
+	//console.log(id);
 	
 	//검색 조건
 	const filters = [];
@@ -333,8 +333,8 @@ function selectWtlFlowPs(id){
 
 //상세 정보 페이지 불러 오기
 function selectWtlFlowPsView(detailData){
-	console.log("selectWtlFlowPsView(detailData)");
-	console.log(detailData);
+	//console.log("selectWtlFlowPsView(detailData)");
+	//console.log(detailData);
 
 	if(!detailData && detailData == null){
 		alert("유량계 상세보기 오류");
@@ -413,7 +413,7 @@ function insertWtlFlowPsView(){
 
 //유량계 등록 
 function insertWtlFlowPs(){
-	console.log("insertWtlFlowPs()");
+	//console.log("insertWtlFlowPs()");
 	
 	/////////
 	//유효성 체크 
@@ -681,7 +681,7 @@ function deleteWtlFlowPs(id){
 /////////////////////////////
 //엑셀 다운로드 
 function downloadExcelWtlFlowPs() {
-	console.log("downloadExcelWtlFlowPs()");
+	//console.log("downloadExcelWtlFlowPs()");
 	
 	var $container = $("#container");
 	var $target = $container.find('#baseGridDiv [data-ax5grid="attr-grid-excel"]');	//가상의 ax5uigrid 공간에 처리 

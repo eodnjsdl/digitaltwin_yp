@@ -128,7 +128,7 @@
 <script type="text/javascript">
 	//jqeury
 	$(document).ready(function(){
-		console.log("selectWtlManhPs.jsp");
+		//console.log("selectWtlManhPs.jsp");
 		
 		//gird 데이터를 통한 주소 조회
 		var id = "${id }";

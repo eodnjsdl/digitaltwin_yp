@@ -114,7 +114,7 @@ function selectWtlFirePsList(page) {
 	
 	//페이지 변수세팅
 	if(page){
-		$("#wtiFirePsListPage").val(page);
+		$("#wtlFirePsListPage").val(page);
 	}else{
 		alert("목록 페이지 오류");
 		return false;
@@ -524,7 +524,11 @@ function insertWtlFirePs(){
         if (result["result"]) {
             alert("등록 되었습니다.");
             
-            selectWtlFirePsList(1);		//다시 목록 로드
+            var $container = $("#container");
+    	    var $target = $container.find('#bottomPopup .facility-select');
+    	    $target.trigger("change");
+            
+            //selectWtlFirePsList(1);		//다시 목록 로드
             cancelInsertWtlFirePs(); 	//창닫기
         } else {
             alert(`등록에 실패했습니다.`);
@@ -659,7 +663,7 @@ function updateWtlFirePs(){
         if (result["result"]) {
             alert("수정 완료 되었습니다.");
             
-            var page = $("#wtiFirePsListPage").val();
+            var page = $("#wtlFirePsListPage").val();
             selectWtlFirePsList(page);
             
             var id = $("#rightSubPopup input[name=id]").val();
@@ -707,7 +711,7 @@ function deleteWtlFirePs(id){
             if (result["result"]) {
                 alert("삭제 되었습니다.");
                 
-                //var page = $("#wtiFirePsListPage").val();
+                //var page = $("#wtlFirePsListPage").val();
                 selectWtlFirePsList(1);	//첫페이지 조회
                 
                 cancelSelectWtlFirePs();//창닫기
