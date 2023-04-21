@@ -191,9 +191,10 @@ map2d.measure = (function () {
         _source = new ol.source.Vector();
         _layer = new ol.layer.Vector({
             source: _source,
-            name: 'measureLayer',
+            title: '_measure',
             style: styleFunction,
-            zIndex: 999,
+            isDefault: true,
+            zIndex: 999
         });
         map2d.map.addLayer(_layer);
     }
