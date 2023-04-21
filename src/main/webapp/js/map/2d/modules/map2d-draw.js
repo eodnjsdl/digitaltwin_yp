@@ -20,6 +20,7 @@ map2d.draw = (function () {
     function init() {
         _source = new ol.source.Vector();
         _layer = new ol.layer.Vector({
+            title : '_draw',
             source: _source,
             zIndex: 99,
             style: map2d.vector.style,
@@ -357,7 +358,7 @@ map2d.draw = (function () {
     }
 
     function readGeoJson(json, style) {
-        const features = dtmap.utill.readGeoJson(json)
+        const features = dtmap.util.readGeoJson(json)
             .map((feature) => {
                 if (style) {
                     feature.set('style', style);
@@ -421,11 +422,12 @@ map2d.draw = (function () {
 
         if (!_snapLayer) {
             _snapLayer = new ol.layer.Vector({
+                title: '_draw_snap_' + name,
                 source: _snapSource,
                 zIndex: 998,
                 minZoom: 16,
             });
-            _snapLayer.set('name', name);
+            // _snapLayer.set('name', name);
             map2d.map.addLayer(_snapLayer);
         }
 

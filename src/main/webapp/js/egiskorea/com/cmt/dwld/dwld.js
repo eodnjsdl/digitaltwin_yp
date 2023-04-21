@@ -15,6 +15,7 @@ class DataDownlad {
     constructor() {
         this.selector = "#rightPopup";
         this.render();
+        this.wkt= null;
     }
 
     /**
@@ -103,6 +104,7 @@ class DataDownlad {
 
         // 검색 기준 변경
         $(".tabBoxDepth1 ul li", that.selector).on("click", function () {
+            dtmap.clear();
             const node = $(this);
             const id = node.attr("data-id");
             $(".data-write tbody tr.tr_toggle", that.selector).hide();
@@ -124,6 +126,7 @@ class DataDownlad {
 
         // 검색영역지정 변경 (현재화면영역, 사용자정의)
         $("[name=download-search-area]", that.selector).on("change", function () {
+            dtmap.clear();
             const node = $(this);
             const value = node.val();
             if (value == "extent") {
@@ -141,6 +144,7 @@ class DataDownlad {
 
         // 사용자 정의 검색 조건
         $("[name=download-search-drawing]", that.selector).on("click", function () {
+            dtmap.clear();
             const node = $(this);
             const value = node.val();
             // cmmUtil.spitalDraw(type);
@@ -164,11 +168,61 @@ class DataDownlad {
             // dtmap.on('drawend', that.onDrawEnd_dwld);
         });
 
-        // 지도에서 선택
+        //시설물기준 - 검색영역지정 selectBox
+        $("#facilitySelectList").on("change", function () {
+            dtmap.vector.clear();
+            const node = $(this);
+            const layer = node.val();
+            var style = {
+                fill: {
+                    color: 'rgba(255,128,128,0.68)'
+                },
+                stroke: {
+                    color: '#FF8080',
+                    width: 4
+                }
+            };
+            var promise = dtmap.wfsGetFeature({
+                typeNames: layer, //WFS 레이어명
+                bbox: dtmap.getExtent()
+            });
+            promise.then(function (data) {
+                dtmap.vector.readGeoJson(data, style);
+            });
+        });
+
+        //시설물기준 - 지도에서 선택
         $(".btn-select-map", that.selector)
             .off()
             .on("click", function () {
                 const type = $("[name=standard-search-target]", that.selector).val();
+                if (type.length !== 0) {
+                    dtmap.on("select", (event) => {
+                        var _feature = event.feature;
+                        if (_feature) {
+                            dtmap.vector.select(event.id);
+                            const format = new ol.format.WKT();
+                            const wkt =format.writeGeometry(_feature.getGeometry());
+                            that.wkt = wkt;
+                            // const gj = fm.writeFeature(event.feature);
+                            // dtmap.draw.readGeoJson(gj, {
+                            //     fill: {
+                            //         color: 'rgba(0,255,255,0.68)'
+                            //     },
+                            //     stroke: {
+                            //         color: '#00FFFF',
+                            //         width: 4
+                            //     },
+                            // });
+
+                        } else {
+                            toastr.warning("현재 화면에 검색영역이 존재하지 않습니다.");
+                        }
+                    });
+                } else {
+                    toastr.warning("검색영역을 지정해 주세요.");
+                }
+
                 // if (app2D) {
                 //   if (type) {
                 //     cmmUtil.selectFacility(type);
@@ -230,6 +284,7 @@ class DataDownlad {
      * 다운로드
      */
     download() {
+        // ui.loadingBar("show");
         const params = {};
         const type = $(".tabBoxDepth1 ul li.on", this.selector).attr("data-id");
         const searchArea = $(
@@ -242,53 +297,15 @@ class DataDownlad {
         );
         if (featureTypes.length > 0) {
             if (type == "tr_area") {
-
+                //현재화면영역
                 if (searchArea == "extent") {
                     dtmap.clear();
-                    //현재화면영역
-                    // const extent = cmmUtil.getMapExtent();
-
-                    // const geometry = cmmUtil.toSystemProjection(
-                    // cmmUtil.toPolygonFromExtent(extent)
-                    // );
-
                     params["buffer"] = $(".area-search-buffer", this.selector).val() || 0;
                     const extent = dtmap.getExtent();
                     const geometry = ol.geom.Polygon.fromExtent(extent);
                     params["wkt"] = cmmUtil.toWKT(geometry);
-
-
-                    // const promise = cmmUtil.showBufferGeometry(params["wkt"], params["buffer"]);
-                    // promise.then(function (feature) {
-                    //   console.log(feature)
-                    //   const format = new ol.format.GeoJSON();
-                    //   const geojson = format.writeFeatures(features);
-                    //   dtmap.draw.clear();
-                    //   dtmap.draw.dispose();
-                    //   dtmap.vector.clear();
-                    //
-                    //   dtmap.vector.readGeoJson(geojson, {
-                    //     stroke : {
-                    //       color: '#ff0000'
-                    //     },
-                    //     renderType: '2D'
-                    //   });
-                    //   dtmap.vector.fit();
-
-
-                    // var bf = feature;
-                    // var bfGeom = bf.getGeometry();
-                    // params["wkt"] = cmmUtil.toWKT(bfGeom);
-                    // dtmap.draw.readGeoJson(geojson)
-                    // });
-
-                    //set buffered geom
-                    // var bf = dtmap.vector.getFeature('BF');
-                    // var bfGeom = bf.getGeometry();
-
-
-                } else if (searchArea == "custom") {
-                    //사용자정의
+                }  //사용자정의
+                else if (searchArea == "custom") {
                     const wkt = dtmap.draw.writeWKT();
                     params["buffer"] = $(".area-search-buffer", this.selector).val() || 0;
                     if (wkt) {
@@ -300,9 +317,9 @@ class DataDownlad {
                 } else {
                     toastr.warning("정의되지 않은 검색영역지정 타입입니다.");
                 }
-            } else if (type == "tr_facility") {
-                //시설물기준
-                const wkt = dtmap.draw.writeWKT();
+            } //시설물기준
+            else if (type == "tr_facility") {
+                const wkt = this.wkt;
                 if (wkt) {
                     params["wkt"] = wkt;
                 } else {
@@ -325,10 +342,9 @@ class DataDownlad {
             //   cmmUtil.showBufferGeometry(params["wkt"], params["buffer"]);
             // }
 
-            ui.loadingBar("show");
-            const format = new ol.format.WKT();
-            const geometry = format.readGeometry(params["wkt"]);
-            const filter = ol.format.filter.dwithin("geom", geometry, params["buffer"], dtmap.crs);
+            // const format = new ol.format.WKT();
+            // const geometry = format.readGeometry(params["wkt"]);
+            // const filter = ol.format.filter.dwithin("geom", geometry, params["buffer"], dtmap.crs);
 
             const param = {
                 typeNames: params["dataIds"].split(","),
@@ -374,8 +390,13 @@ class DataDownlad {
             }
 
             dtmap.wfsGetFeature(param).then(function (e) {
-                dtmap.vector.readGeoJson(e);
-                ui.loadingBar("hide");
+                if (e.totalFeatures > 0) {
+                    dtmap.vector.readGeoJson(e);
+                    window.location.href = "/cmt/dwld/dataDownload.do?" + $.param(params);
+                } else {
+                    toastr.warning(`데이터가 존재하지 않습니다.`);
+                }
+
             })
 
             // util.gis.getFeature(params["dataIds"].split(","), filter, null, null, ["geom"]).done((geojson) => {
@@ -383,7 +404,6 @@ class DataDownlad {
             //   ui.loadingBar("hide");
             // });
 
-            window.location.href = "/cmt/dwld/dataDownload.do?" + $.param(params);
         } else {
             toastr.warning(`데이터를 선택하여 주세요.`);
             return;

@@ -96,6 +96,7 @@ map2d.vector = (function () {
 
         _source = new ol.source.Vector();
         _layer = new ol.layer.Vector({
+            title : '_vector',
             source: _source,
             style: styleFunction,
             isDefault: true,
