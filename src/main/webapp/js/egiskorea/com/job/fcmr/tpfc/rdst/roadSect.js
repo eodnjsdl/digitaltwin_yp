@@ -371,3 +371,14 @@ function onSelectRoadSectEventListener(e) {
 	return false;
     }
 }
+
+
+function closeView() {
+    if ($('#rightSubPopup').hasClass('opened')) {
+	dtmap.vector.clearSelect();
+	ui.closeSubPopup();
+    } else {
+	dtmap.vector.clear();
+    }
+    
+}
