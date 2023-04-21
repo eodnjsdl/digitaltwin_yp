@@ -162,5 +162,5 @@ for(var i = 0; i < 10; i++) {
 	</div>
 </div>
 <!-- <button type="button" class="popup-close" title="닫기"></button> -->
-<button type="button" class="phy-popup-close" title="닫기" onclick="selectPhyEduFaciDetail('${gid}');"></button>
+<button type="button" class="phy-popup-close" title="닫기" onclick="selectPhyEduFaciDetail(${gid});"></button>
 <!-- 업무 > 시설관리 > 체육시설 > 상세보기 > 운영정보 관리 end -->

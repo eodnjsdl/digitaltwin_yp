@@ -36,7 +36,8 @@ dtmap.wfsGetFeature({
  })
 ```
 
-## 그리기 및 편집
+## dtmap.draw
+### 1. 그리기 및 편집
 ```javascript
 //그리기 활성화
 dtmap.draw.active({
@@ -64,6 +65,83 @@ dtmap.draw.setBuffer(10); //적용
 dtmap.draw.setBuffer(0); //해제
 
 ```
+
+## dtmap.vector
+### 1. GeoJSON 피쳐추가
+```javascript
+ dtmap.vector.readGeoJson(json)
+```
+### 2. 직접 좌표 입력하여 피쳐 추가
+- #### Point 추가
+```javascript
+ dtmap.vector.addPoint({
+  id: '피쳐아이디',
+  coordinate: [127,36],
+  crs: 'EPSG:4326',
+  style: style //스타일 옵션 (벡터 스타일옵션 참고)
+})
+```
+- #### Line 추가 (미구현)
+
+- #### Polygon 추가 (미구현)
+
+### 벡터 스타일 옵션
+- 벡터 표출시 적용할 수 있는 스타일 옵션
+- `marker`, `radius` 옵션의 경우, 도형이 **Point**인 경우에만 적용됨
+- `stroke`옵션의 `startArrow`, `endArrow` 옵션의 경우, 도형이 **LineString**인 경우에만 적용됨
+- `label` 옵션의 `text`, `column` 옵션은 둘중 한개만 선택하여 적용
+```javascript
+const options = {
+    //채움색
+    fill : {
+      color : '#ff0000', //hex String | rgb String
+      opacity : 1
+    },
+    //선색
+    storke:{
+      color: 'rgb(0,139,255)',
+      opacity: 1,
+      width: 3,
+      lineDash: 'solid',
+      /* LineString일 경우만 적용 */
+      startArrow: false, //시작점 화살표
+      endArrow: false //끝점 화살표
+    },
+    //라벨
+    label : {
+      bold: false,
+      italic: false,
+      fontSize: 14,
+      fontFamily: 'sans-serif',
+      textAlign: 'center',
+      textBaseline: "bottom",
+      offsetY: 15,
+      //텍스트 채움색
+      fill: {
+        color: '#ffffff',
+        opacity: 1
+      },      
+      //텍스트 선색
+      stroke: {
+        color: '#000000',
+        opacity: 1,
+        width: 3
+      },
+      text : '텍스트 직접입력', //라벨 텍스트 문자  (text or column 중 택1)
+      column : 'title' //라벨로 출력할 피쳐의 속성명 (text or column 중 택1)
+    },
+    /* Point일 경우에만 해당되는 옵션 */
+    //Point 반지름
+    radius : 8,
+    //Point 이미지 설정
+    marker : {
+      anchor: [0.5, 1], //이미지 중심위치 (0~1 [x,y] 비율값 [0,0] 좌상단 [1,1] 우하단) 
+      scale: 1, //스케일값
+      opacity: 1 
+    }
+}
+```
+
 
 ## 지도 이벤트
 - `dtmap.on(eventType,listener)` 지도 이벤트 리스너 등록
@@ -130,4 +208,33 @@ function onClick(e) {
     //     altitude : number
     // }
 }
+```
+
+## dtmap.util
+### 1. GeoJson / WKT <-> ol.Feature 유틸함수
+- GeoJson / WKT 데이터와 OpenLayers Feature 객체간 변화 함수
+```javascript
+/**
+ * @param {string} wkt WKT문자열
+ * @param {object} properties 속성 데이터
+ * @return {ol.Feature[]} ol.Feature 배열
+ */
+dtmap.util.readWKT(wkt, properties);
+/**
+ * @param {ol.Feature[]} features 피쳐 배열
+ * @return {string} WKT 문자열
+ */
+dtmap.util.writeWKT(features);
+
+/**
+ * @param {object|string} json GeoJson 데이터
+ * @return {ol.Feature[]} ol.Feature 배열
+ */
+dtmap.util.readGeoJson(json);
+/**
+ * @param {ol.Feature[]} features 피쳐 배열
+ * @param {object} geojson Object
+ */
+dtmap.util.writeGeoJson(features);
+
 ```

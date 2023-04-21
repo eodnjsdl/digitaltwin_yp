@@ -281,8 +281,8 @@ function selectSwlConnLsList(page) {
         	}	
         );
         
-        ////////////
-        //지도 아이콘 작업
+        /////////////////
+        //지도 공간정보 표현 작업
         
         dtmap.vector.clear();
         
@@ -535,7 +535,11 @@ function insertSwlConnLs(){
         if (result["result"]) {
             alert("등록 되었습니다.");
             
-            selectSwlConnLsList(1);		//다시 목록 로드
+            var $container = $("#container");
+    	    var $target = $container.find('#bottomPopup .facility-select');
+    	    $target.trigger("change");
+            
+            //selectSwlConnLsList(1);		//다시 목록 로드
             cancelInsertSwlConnLs(); 	//창닫기
         } else {
             alert(`등록에 실패했습니다.`);
@@ -563,7 +567,7 @@ function updateSwlConnLsView(id){
 	var detailData = getGridDetailData(id);
 	
 	if(!detailData && detailData == null){
-		alert("소방시설 상세보기 오류");
+		alert("하수연결관 상세보기 오류");
 		return false;
 	}
     
@@ -683,7 +687,7 @@ function updateSwlConnLs(){
 }
 
 
-//소방시설 삭제
+//하수연결관 삭제
 function deleteSwlConnLs(id){
 	//console.log("deleteSwlConnLs(id)");
 	//console.log(id);
@@ -708,7 +712,6 @@ function deleteSwlConnLs(id){
             if (result["result"]) {
                 alert("삭제 되었습니다.");
                 
-                //var page = $("#wtiFirePsListPage").val();
                 selectSwlConnLsList(1);	//첫페이지 조회
                 
                 cancelSelectSwlConnLs();//창닫기

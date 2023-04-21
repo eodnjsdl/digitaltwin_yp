@@ -40,10 +40,14 @@ map3d.layer.Geometry = (function () {
         if (id === undefined) {
             id = this.id + "_" + this.instance.getObjectCount();
         }
-        return id;
+        return id.toString();
     }
 
     Geometry.prototype.get = function (id) {
+        if (!id) {
+            return;
+        }
+        id = id.toString();
         let list = this.instance.getObjects();
         let object;
         for (let i = 0; i < list.length; i++) {
