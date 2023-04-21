@@ -68,6 +68,7 @@
 				</li>
 			</ul>
 		</div>
+				
 		
 		<script>
 			$(function(){
@@ -85,6 +86,8 @@
 			});
 		</script>
 	</div>
+	<div class="lnb-util"><button type="button" class="popup-close" title="닫기"></button></div>
+				
 	<script>
 		$(document).ready(function(){
 
@@ -100,6 +103,11 @@
 					$(this).next(".box3").slideDown(200);
 				}
 			});
+			
+			// $("#setting-close").click(function(){
+			// 	($(this).parent().parent().parent()).stop().fadeOut(100);
+			// 	$(".ctrl-btn").removeClass("active");
+			// });
 		});
 	</script>
 </div>

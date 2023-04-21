@@ -161,5 +161,4 @@ public class RoadSectVO implements Serializable {
 		this.geom = geom;
 	}
 	
-	
 }

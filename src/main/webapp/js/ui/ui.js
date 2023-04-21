@@ -3,19 +3,12 @@ window.ui = (function () {
     function init() {
         //일반동작
         _bindEvent();
-        
         //상단영역
         _topMenuEvent();
-        
         //RIGHT 지도제어툴바영역
         _rightToolEvent();
-        
         //LEFT메뉴영역
         _leftMenuEvent();
-        
-        //지도 모드에 따라 메뉴 변경 2D/3D
-        _changeMenu();
-   
         //좌측 메뉴 >> 공간정보
         _spaceMenuEvent();
         //좌측 메뉴 >> 공간정보 활용 >> 사업공유관리 
@@ -33,8 +26,16 @@ window.ui = (function () {
         jQuery.ajaxSetup({
         	cache: false
     	});
+        // set toast option
+        _setToastOption();
     }
-    
+
+    function _setToastOption() {
+        toastr.options = {
+            "positionClass": "toast-bottom-right"
+        };
+    }
+
     //일반동작
     function _bindEvent() {
         /** popup draggable **/
@@ -45,16 +46,6 @@ window.ui = (function () {
         /** popup close button **/
         $(document).on('click', '.popup-panel .popup-close', function () {
             $(this).closest('.popup-panel').removeClass('opened');
-
-            if($(this).parent('#rightSubPopup').length != 0){
-                return; 
-            }
-
-
-            // 초기화 (지도)
-            dtmap.draw.dispose();
-            dtmap.draw.clear();
-            dtmap.vector.clear();
         });
         
 		//LEFT 메뉴 닫기 버튼
@@ -62,6 +53,29 @@ window.ui = (function () {
 			($(this).parent().parent()).stop().fadeOut(100);
 			$("#lnb li[data-menu]").removeClass("on");									
 		});
+		
+		$(document).on('click', '.lnb-dep2 button', function (e) {
+	        $(".lnb-dep2").find(".on").removeClass("on");
+	        $(this).parent().addClass("on");
+		});
+		
+		function handleCreateContextMenu(event){
+			// 기본 Context Menu가 나오지 않게 차단
+			event.preventDefault();
+			const ctxMenu = $(".context");
+			ctxMenu.removeClass("hide");
+			ctxMenu.css("top",event.pageY+'px');
+			ctxMenu.css("left",event.pageX+'px');
+		}
+	      
+		function handleClearContextMenu(event){
+			const ctxMenu = $(".context");
+			ctxMenu.addClass("hide");
+		}
+		var canvas_2d = document.getElementById("map2D");
+		// 이벤트 바인딩
+		canvas_2d.addEventListener('contextmenu', handleCreateContextMenu, false);
+		canvas_2d.addEventListener('click', handleClearContextMenu, false);
     }
 
     //상단 메뉴 
@@ -174,7 +188,6 @@ window.ui = (function () {
             toastr.success("지도에서 위치를 선택하세요. ", "통합행정정보");
             $(".map-control button").removeClass("active");
             aj_krasInfo();
-            
         });
         //지적/건물
         $mapControl.on('click', '.building', function (e) {
@@ -186,66 +199,71 @@ window.ui = (function () {
         //위치
         $mapControl.on('click', '.ctrl-btn.location', function (e) {
             let $this = $(this);
-            $("#rightPopup").removeClass("opened");
-            $(".map-control button").removeClass("active");
-            $this.toggleClass('active');
             if ($this.hasClass('active')) {
-                dtmap.location.active();
+            	$("#rightPopup").removeClass("opened");
+                $(".map-control button").removeClass("active");
+            	dtmap.clearInteraction();
             } else {
-                dtmap.clearInteraction();
+            	dtmap.location.active();
+                $(".map-control button").removeClass("active");
+                $this.toggleClass('active');
             }
         })
-
+        
         //거리측정
         $mapControl.on('click', '.ctrl-btn.distance', function (e) {
             let $this = $(this);
-            $("#rightPopup").removeClass("opened");
-            $(".map-control button").removeClass("active");
-            $this.toggleClass('active');
             if ($this.hasClass('active')) {
-                dtmap.measure.active('distance');
+            	$("#rightPopup").removeClass("opened");
+                $(".map-control button").removeClass("active");
+            	dtmap.clearInteraction();
             } else {
-                dtmap.clearInteraction();
+            	dtmap.measure.active('distance');
+                $(".map-control button").removeClass("active");
+                $this.toggleClass('active');
             }
         });
 
         //면적측정
         $mapControl.on('click', '.ctrl-btn.measure', function (e) {
             let $this = $(this);
-            $("#rightPopup").removeClass("opened");
-            $(".map-control button").removeClass("active");
-            $this.toggleClass('active');
             if ($this.hasClass('active')) {
-                dtmap.measure.active('area');
+            	 $("#rightPopup").removeClass("opened");
+                 $(".map-control button").removeClass("active");
+                 dtmap.clearInteraction();
             } else {
-                dtmap.clearInteraction();
+            	dtmap.measure.active('area');
+                $(".map-control button").removeClass("active");
+                $this.toggleClass('active');
             }
         })
 
         //반경측정
         $mapControl.on('click', '.ctrl-btn.radius', function (e) {
             let $this = $(this);
-            $("#rightPopup").removeClass("opened");
-            $(".map-control button").removeClass("active");
-            $this.toggleClass('active');
             if ($this.hasClass('active')) {
-                dtmap.measure.active('radius');
-            } else {
+            	 $("#rightPopup").removeClass("opened");
+                 $(".map-control button").removeClass("active");
                 dtmap.clearInteraction();
+            } else {
+                dtmap.measure.active('radius');
+                $(".map-control button").removeClass("active");
+                $this.toggleClass('active');
             }
         })
 
         //설정
         $mapControl.on('click', '.ctrl-btn.setting', function (e) {
-        	ui.openPopup($(this).data("popup"),"setting");
-        	aj_mapsetting();
         	let $this = $(this);
-        	$(".map-control button").removeClass("active");
-            $this.toggleClass('active');
-            if (!$this.hasClass('active')) {
+            if ($this.hasClass('active')) {
             	$("#rightPopup").removeClass("opened");
+            	$(".map-control button").removeClass("active");
             }else {
                 dtmap.clearInteraction();
+                ui.openPopup($(this).data("popup"),"setting");
+            	aj_mapsetting();
+            	$(".map-control button").removeClass("active");
+                $this.toggleClass('active');
             }
         })
         
@@ -271,10 +289,10 @@ window.ui = (function () {
         let $mapControl = $('.map-control');
         
         $leftBar.on('click', 'li', function () {
-            _changeMenu();
             ui.initPopup("");
             let $this = $(this);
             let menu = $this.attr('data-menu');
+            $(".lnb-dep2").find(".on").removeClass("on");
             $this.toggleClass("on").siblings().removeClass("on");
             $leftSide.find(".lnb-list").removeClass("on");
             if ($this.hasClass('on')) {
@@ -284,7 +302,7 @@ window.ui = (function () {
                 switch (menu) {
                     case "lnb-search" :
                         //TODO 검색 메뉴
-                        //aj_search();
+                    	aj_search();
                         break;
                     case "lnb-layer" :
                         $leftSide.find(".lnb-layer input[name='searchKeyword']").val("");
@@ -292,11 +310,11 @@ window.ui = (function () {
                         break;
                     case "lnb-theme" :
                         //TODO 주제도 메뉴
-                    	toastr.error("주제도 개발 필요");
+                    	aj_selectThematicMapList();
                         break;
                     case "lnb-territory" :
                         //TODO 국토조사
-                    	toastr.error("국토조사 개발 필요");
+                    	aj_selectAdministrationZoneList($("#tmpForm")[0]);
                         break;
                 }
             } else {
@@ -312,43 +330,24 @@ window.ui = (function () {
                     ui.loadingBar('hide');
                 })
             }
+            
             //측정기능 OFF
             $mapControl.find('.location, .distance, .measure, .radius').removeClass('active');
             dtmap.clearInteraction();
 
-            //패널 close
+            //팝업 close
             initPopup("");
             //좌측 메뉴 close
             $(".lnb-cont").css("display","none");
-
+            $("#lnb li[data-menu]").removeClass("on");
+            //마우스  오른쪽 팝업
+            $(".context").addClass("hide");
+            
+            console.log(e);
             dtmap.switchMap(e.target.value);
-            _changeMenu();
-
-        });
-    }
-    
-    //2D 3D 전환시  
-    function _changeMenu() {
-        var $container = $("#container");
-        var $buttons = $container.find("button");
-        $.each($buttons, function (k, v) {
-            var $parent = $(this).parent();
-            var mapType = $(this).data("maptype");
-            if (mapType === undefined) return;
-            $parent.css({display: "block"});
-            if (dtmap.mod === "2D") {
-                if (mapType === "3D") {
-                    $parent.css({display: "none"});
-                }
-            } else if (dtmap.mod === "3D") {
-                if (mapType === "2D") {
-                    $parent.css({display: "none"});
-                }
-            }
         });
     }
 
-    
     // 좌측 메뉴 >> 공간정보 활용
     function _spaceMenuEvent() {
         $(".lnb-space .lnb-body button").on("click", function () {
@@ -437,12 +436,15 @@ window.ui = (function () {
                 //시설관리 > 상수도시설
                 case "waterSupplyFacility" :
                     //aj_facility("WaterSupplyFacility");
+                	dtmap.off('select', onFacilitySelectEventListener); //클릭 리스너 이벤트 삭제
                     getWaterSupplyFacility("wtlFirePs");		//상수도 시설 소방시설
                     break;
 
                 //시설관리 > 하수도시설
                 case "sewerSupplyFacility" :
-                    aj_facility("SewerSupplyFacility");
+                  //aj_facility("SewerSupplyFacility");
+                	dtmap.off('select', onFacilitySelectEventListener); //클릭 리스너 이벤트 삭제
+                	getSewerSupplyFacility("swlConnLs");		//하수도 시설 하수연결관
                     break;
 
                  //시설관리 > 교통시설
@@ -454,6 +456,7 @@ window.ui = (function () {
                 //시설관리 > 체육시설
                 case "physicalEducationFacility" :
                 	//aj_selectPhysicalEducationFacilityList($("#tmpForm")[0]);
+                	dtmap.off('select', onFacilitySelectEventListener); //클릭 리스너 이벤트 삭제
                 	getPhyEduFaciListView();
                     break;
 
@@ -461,7 +464,9 @@ window.ui = (function () {
                 case "welfareFacility" :
                     //TODO ↓↓↓↓↓↓↓↓↓↓↓
                     WLREspitalYN = '';
-                    aj_selectWelfareFacilityList($("#tmpForm")[0]);
+                  //aj_selectWelfareFacilityList($("#tmpForm")[0]);
+                	dtmap.off('select', onFacilitySelectEventListener); //클릭 리스너 이벤트 삭제
+                	getWelFareFaciListView();
                     break;
 
                 //시설관리 > 시설예약관리
@@ -667,11 +672,39 @@ window.ui = (function () {
         initPopup(area);
         
         //기본 틀 크기와 다른 크기를 갖는 DIV 처리
-        if(name=="backgroundMapInfo"){_area.width = "325";_area.heigth = "807";}
-        if(name=="saveMap"){_area.width = "325";_area.heigth = "750";}
-        if(name=="krasInfo"){_area.width = "660";_area.heigth = "750";}
-        if(name=="setting"){_area.width = "250";_area.heigth = "750";_area.right="160";}
-        if(name=="apptChart"){_area.top="80";_area.width = "400";_area.heigth = "520";_area.left="870";}
+        switch (name) {
+	        case "backgroundMapInfo":
+	        	_area.width = "325";
+	        	_area.heigth = "807";
+	        	break;
+	        case "saveMap":
+	        	_area.width = "325";
+	        	_area.heigth = "750";
+	        	break;
+	        case "krasInfo":
+	        	_area.width = "660";
+	        	_area.heigth = "750";
+	        	break;
+	        case "setting":
+	        	_area.width = "250";
+	        	_area.heigth = "750";
+	        	_area.right="160";
+	        	break;
+	        case "apptChart":
+	        	_area.top="80";
+		        _area.width = "400";
+		        _area.heigth = "520";
+		        _area.left="870";
+	        	break;
+	        case "insertAdministrationZoneView":
+	        	_area.left="425";
+	        	break;	
+	        case "layerManagement":
+	        	_area.left="360";
+	        	_area.width = "550";
+	        	_area.heigth = "807";
+	        	break;	
+        }
         
     	$("#" + area).css({
             "top": _area.top + "px",
@@ -734,6 +767,11 @@ window.ui = (function () {
 
 }());
 
+function clearMap(){
+	  dtmap.draw.dispose();
+      dtmap.draw.clear();
+      dtmap.vector.clear();
+}
 
 //팝업 오픈 실행 함수 
 // 개인별 레이어 목록 호출

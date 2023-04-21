@@ -241,3 +241,4 @@ function spaceClickListener(e){
     fn_pageDetail(no, gid);
     dtmap.vector.select(e.id);
 }
+

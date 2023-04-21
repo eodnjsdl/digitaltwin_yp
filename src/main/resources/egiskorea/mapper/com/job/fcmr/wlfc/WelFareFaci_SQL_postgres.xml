@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="welFareFaciDAO">
+	<!-- 복지시설 상세 조회 -->
+	<select id="selectWelFareFaciDetail" parameterType="welFareFaciVO" resultType="welFareFaciVO">
+		SELECT 
+			GID, 
+			FCLTY_NM, 
+			RN_ADRES, 
+			LNM_ADRES, 
+			ZIP, 
+			LAT, 
+			LON, 
+			FCLTY_SE, 
+			CTTPC_TELNO, 
+			DATA_STDDE, 
+			ST_AsText(ST_Transform(GEOM, 5179)) AS GEOM,
+			ST_SETSRID(ST_GEOMFROMTEXT(#{geom}), 5179)
+		FROM TGD_SCLWLFR_FCLTY_STATUS
+		 WHERE 1=1 AND GID = #{gid}
+	</select>
+	
+	<!-- 복지시설 등록 -->
+	<insert id="insertWelFareFaci" parameterType="welFareFaciVO">
+		INSERT INTO TGD_SCLWLFR_FCLTY_STATUS
+			(GID, 
+			 FCLTY_NM,
+			 RN_ADRES,
+			 LNM_ADRES,
+			 ZIP,
+			 LAT,
+			 LON,
+			 FCLTY_SE,
+			 CTTPC_TELNO,
+			 DATA_STDDE,
+			 GEOM)
+		VALUES
+			(NEXTVAL('TGD_SCLWLFR_FCLTY_STATUS_GID_SEQ'),
+			 #{fcltyNm},
+			 #{rnAdres},
+			 #{lnmAdres},
+			 #{zip},
+			 #{lat},
+			 #{lon},
+			 #{fcltySe},
+			 #{cttpcTelno},
+			 TO_CHAR(NOW(), 'YYYY-MM-DD'), 
+			 ST_GEOMFROMTEXT(#{geom}, 5179))
+	</insert>
+	
+	<!-- 복지시설 수정 -->
+	<update id="updateWelFareFaci" parameterType="welFareFaciVO" >
+		UPDATE TGD_SCLWLFR_FCLTY_STATUS
+			SET FCLTY_NM = #{fcltyNm}, 
+				RN_ADRES = #{rnAdres}, 
+			 	LNM_ADRES = #{lnmAdres}, 
+			 	ZIP = #{zip}, 
+			 	LAT = #{lat}, 
+			 	LON = #{lon}, 
+			 	FCLTY_SE = #{fcltySe}, 
+			 	CTTPC_TELNO = #{cttpcTelno}
+				<if test="geom != null and geom !=''">
+					, GEOM = ST_SETSRID(ST_GEOMFROMTEXT(#{geom}), 5179)	
+				</if>
+			WHERE GID = #{gid}
+	</update>
+	
+	<!-- 복지시설 삭제 -->
+	<delete id="deleteWelFareFaci">
+		DELETE FROM TGD_SCLWLFR_FCLTY_STATUS WHERE GID = #{gid}
+	</delete>
+</mapper>

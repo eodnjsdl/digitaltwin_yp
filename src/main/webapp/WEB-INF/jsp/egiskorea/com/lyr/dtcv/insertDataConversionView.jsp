@@ -383,7 +383,7 @@ function fn_insert_DataConversion(form){
 							<div class="tabBoxDepth1-wrap">
 								<div class="tabBoxDepth1">
 									<ul>
-										<li><button type="button" id="layerManagement" class="inner-tab leftPopup" data-popup="left-layer-mng">목록관리</button></li>
+										<li><button type="button" id="layerManagement" class="inner-tab leftPopup" data-popup="left-layer-mng" onclick="aj_selectLayerManagementList();">목록관리</button></li>
 										<li class="on"><button type="button" id="dataConversion" class="inner-tab leftPopup" data-popup="left-layer-mng">등록관리</button></li>
 									</ul>
 								</div>
