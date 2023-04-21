@@ -357,7 +357,7 @@ map2d.draw = (function () {
     }
 
     function readGeoJson(json, style) {
-        const features = dtmap.utill.readGeoJson(json)
+        const features = dtmap.util.readGeoJson(json)
             .map((feature) => {
                 if (style) {
                     feature.set('style', style);
