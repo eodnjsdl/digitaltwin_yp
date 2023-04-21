@@ -85,8 +85,8 @@ public class WaterSupplyController {
     }
 	
 	//상세 화면 조회
-	@RequestMapping(value = "/selectWtlPipeLmDetail.do", method = RequestMethod.POST)
-	public String getWtlPipeLmDetail(
+	@RequestMapping(value = "/selectWtlPipeLm.do", method = RequestMethod.POST)
+	public String selectWtlPipeLm(
 			@ModelAttribute("wtlPipeLmVO") WtlPipeLmVO wtlPipeLmVO, String id,
 			ModelMap model) throws Exception {
 			model.addAttribute("id", id);

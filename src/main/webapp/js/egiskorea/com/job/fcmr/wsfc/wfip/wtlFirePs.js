@@ -524,7 +524,11 @@ function insertWtlFirePs(){
         if (result["result"]) {
             alert("등록 되었습니다.");
             
-            selectWtlFirePsList(1);		//다시 목록 로드
+            // 검색 후 등록
+            var $container = $("#container");
+    	    var $target = $container.find('#bottomPopup .facility-select');
+    	    $target.trigger("change");
+    	    
             cancelInsertWtlFirePs(); 	//창닫기
         } else {
             alert(`등록에 실패했습니다.`);

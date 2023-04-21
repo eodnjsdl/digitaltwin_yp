@@ -60,6 +60,20 @@ function selectWtlFirePsListView(){
     });
 }
 
+//상수관로 목록 화면 조회
+function selectWtlPipeLmListView(){
+	//console.log("selectWtlPipeLmListView()");
+	
+	ui.loadingBar("show");
+	
+	var baseContainer = "#bottomPopup";
+    $(baseContainer).load("/job/fcmr/wsfc/selectWtlPipeLmListView.do", function () {
+        //toastr.success("/job/fcmr/wsfc/selectWtlPipeLmListView.do", "페이지🙂호🙂출🙂");
+    	wtlPipeLmListProcess();
+		ui.loadingBar("hide");
+    });
+}
+
 //유량계 목록 화면 조회
 function selectWtlFlowPsListView(){
 	//console.log("selectWtlFlowPsListView()");
@@ -67,11 +81,11 @@ function selectWtlFlowPsListView(){
 	ui.loadingBar("show");
 	
 	var baseContainer = "#bottomPopup";
-    $(baseContainer).load("/job/fcmr/wsfc/selectWtlFlowPsListView.do", function () {
-        //toastr.success("/job/fcmr/wsfc/selectWtlFlowPsListView.do", "페이지🙂호🙂출🙂");
-    	wtlFlowPsListProcess();
+	$(baseContainer).load("/job/fcmr/wsfc/selectWtlFlowPsListView.do", function () {
+		//toastr.success("/job/fcmr/wsfc/selectWtlFlowPsListView.do", "페이지🙂호🙂출🙂");
+		wtlFlowPsListProcess();
 		ui.loadingBar("hide");
-    });
+	});
 }
 
 //상수맨홀 목록 화면 조회

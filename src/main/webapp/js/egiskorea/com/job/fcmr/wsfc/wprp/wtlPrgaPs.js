@@ -224,7 +224,8 @@ function selectWtlPrgaPsList(page) {
         	
         	//지형지물부호 코드 변경
         	var ftr_cde = data.features[i].properties.ftr_cde;
-        	data.features[i].properties.ftr_cde_nm = getCmmCodeDataArray("SA-001", ftr_cde);
+        	data.features[i].properties.ftr_cde_nm = getCmmCodeDataArray("FTR-001", ftr_cde);
+        	//data.features[i].properties.ftr_cde_nm = "수압계";
         	
         	//관리기관 코드 변경
         	var mng_cde = data.features[i].properties.mng_cde;
@@ -341,7 +342,8 @@ function selectWtlPrgaPs(id){
         	
     	//지형지물부호 코드 변경
     	var ftr_cde = data.features[0].properties.ftr_cde;
-    	data.features[0].properties.ftr_cde_nm = getCmmCodeDataArray("SA-001", ftr_cde);
+    	data.features[0].properties.ftr_cde_nm = getCmmCodeDataArray("FTR-001", ftr_cde);
+    	//data.features[0].properties.ftr_cde_nm = "수압계";
     	
     	//관리기관 코드 변경
     	var mng_cde = data.features[0].properties.mng_cde;
@@ -533,7 +535,11 @@ function insertWtlPrgaPs(){
         if (result["result"]) {
             alert("등록 되었습니다.");
             
-            selectWtlPrgaPsList(1);		//다시 목록 로드
+            // 검색 후 등록
+            var $container = $("#container");
+    	    var $target = $container.find('#bottomPopup .facility-select');
+    	    $target.trigger("change");
+            //selectWtlPrgaPsList(1);		//다시 목록 로드
             cancelInsertWtlPrgaPs(); 	//창닫기
         } else {
             alert(`등록에 실패했습니다.`);
@@ -862,7 +868,8 @@ function downloadExcelWtlPrgaPs() {
         	
         	//지형지물부호 코드 변경
         	var ftr_cde = data.features[i].properties.ftr_cde;
-        	data.features[i].properties.ftr_cde_nm = getCmmCodeDataArray("SA-001", ftr_cde);
+        	data.features[i].properties.ftr_cde_nm = getCmmCodeDataArray("FTR-001", ftr_cde);
+        	//data.features[i].properties.ftr_cde_nm = "수압계";
         	
         	//관리기관 코드 변경
         	var mng_cde = data.features[i].properties.mng_cde;
