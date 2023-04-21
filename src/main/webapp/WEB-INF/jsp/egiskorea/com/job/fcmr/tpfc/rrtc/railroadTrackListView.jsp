@@ -96,6 +96,11 @@ $(document).ready(function(){
     $(".area-facility-buffer", "#bottomPopup").on("keyup", function (event) {
         dtmap.draw.setBuffer(Number(this.value));
     });
+   	
+ // 엑셀 다운로드
+    $('#downloadExcelRailroadTrack').on('click', function () {
+		downloadExcelRailroadTrack();
+	});
 });
 </script>
 
@@ -108,8 +113,8 @@ $(document).ready(function(){
 			<div class="top-search">
 				<select name="selectBoxTrfc" id="selectBoxTrfc" class="form-select facility-select">
 					<option value="roadSection">도로구간</option>
-					<option value="railRoadTrack" selected>철도선로</option>
-					<option value="railRoadStation">철도역사</option>
+					<option value="railroadTrack" selected>철도선로</option>
+					<option value="railroadStation">철도역사</option>
 					<option value="subwayTrack">지하철선로</option>
 					<option value="subwayStation">지하철역사</option>
 					<option value="bridge">교량</option>
@@ -213,13 +218,14 @@ $(document).ready(function(){
             <div class="bbs-top">
                 <div class="bbs-list-num">조회결과 : <strong></strong>건</div>
                 <div>
-					<button type="button" class="btn basic bi-excel trfcExcelDownload" id="selectRoadSectionExcelList">엑셀저장</button>
+					<button type="button" class="btn basic bi-excel" id="downloadExcelRailroadTrack">엑셀저장</button>
 				</div>
             </div>
             <div class="bbs-list-wrap" style="height: 267px;">
                 <div class="bbs-default">
                 <form:form>
-                	<div data-ax5grid="rlroadTcListGrid" data-ax5grid-config="{}" style="height: 267px;"></div> 
+                	<div data-ax5grid="rlroadTcListGrid" data-ax5grid-config="{}" style="height: 267px;"></div>
+                	<div data-ax5grid="attr-grid-excel" style="display:none;"></div>  
                 </form:form>
                 </div>
             </div>
