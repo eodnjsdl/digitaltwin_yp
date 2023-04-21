@@ -6,7 +6,7 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
 <style type="text/css">
-	.popup-panel.popup-sub .swlVentPs-popup-close {
+	.popup-panel.popup-sub .swlDeptPs-popup-close {
 	    top: 0;
 	    right: 0;
 	    width: 39px;
@@ -21,26 +21,26 @@
 <script type="text/javascript">
 
 $(document).ready(function(){
-	//console.log("insertSwlVentPsView.jsp");
+	//console.log("updateSwlDeptPsView.jsp");
 
 	//3d 일때 지도 추가 버튼 삭제 
 	if(dtmap.mod == "3D"){
-		if($("#insertSwlVentPsFrm .btn-select-map").css("display") != 'none'){
-			$("#insertSwlVentPsFrm .btn-select-map").hide();
+		if($("#updateSwlDeptPsFrm .btn-select-map").css("display") != 'none'){
+			$("#updateSwlDeptPsFrm .btn-select-map").hide();
 		}
 	}
 	
-	// 날짜 형식 처리 예정 
-	// 현재 db column 길이는 8~9자리 로 되어 었음 
-	$(".datepicker").datepicker({
-		showOn: "both",
-		buttonImage: "/images/icon/form-calendar.svg",
-		dateFormat: "yymmdd",
-	}); 
-       
-	// 날짜 - 10자리(yyyy-mm-dd) 적용시 사용
-	//ui.callDatePicker();
-
+	//gird 데이터를 통한 주소 조회
+	var id =  $("input[name=id]").val();
+	
+	var geomData = getGeomDataForGridId(id);
+	if (geomData) {
+		getAddressForPoint(geomData, "#rightSubPopup .txt-geometry-address");
+		$("#rightSubPopup input[name=geom]").val(geomData);
+	} else {
+		console.log("상세보기 좌표 오류");
+	}
+	
 	// 지도에서 선택 화면 호출
 	$(".btn-select-map", this).on("click", function () {
 		ui.loadingBar("show");
@@ -67,6 +67,8 @@ $(document).ready(function(){
 
 			var obj = {};
 			obj.geometryType = "point";
+			obj.id = id;
+			
 			geoEditBindEvents(obj);
 
 			ui.loadingBar("hide");
@@ -75,8 +77,8 @@ $(document).ready(function(){
 });
 
 //취소 버튼 동작
-function cancelInsertSwlVentPs() {
-	$(".swlVentPs-popup-close").closest('.popup-panel').removeClass('opened');
+function cancelUpdateSwlDeptPs() {
+	$(".swlDeptPs-popup-close").closest('.popup-panel').removeClass('opened');
        // 초기화 (지도)
        dtmap.draw.dispose();
        dtmap.draw.clear();
@@ -84,18 +86,21 @@ function cancelInsertSwlVentPs() {
 	if($(".space-edit-tool").hasClass("opened")) {
 		clearSpaceEditTool();	//공간정보 편집창 닫기
 	}
+	
+	var id = $("input[name=id]").val();
+	selectSwlDeptPs(id);	// 상세보기로 이동
 }
 	
 </script>
 
-<!-- 업무 > 시설관리 > 하수도시설 > 환기구 등록하기 -->
-<div class="popup-header">환기구 등록하기</div>
+<!-- 업무 > 시설관리 > 하수도시설 > 하수관거심도 수정하기 -->
+<div class="popup-header">하수관거심도 수정하기</div>
 <div class="popup-body">
 	<div class="sub-popup-body">
 		<div class="data-write-wrap" style="height: 100%;">
 			<div class="scroll-y">
 				<div class="data-default">
-					<form id="insertSwlVentPsFrm" method="post">
+					<form id="updateSwlDeptPsFrm" method="post">
 					<table class="data-write">
 						<colgroup>
 							<col style="width: 23%;">
@@ -107,75 +112,20 @@ function cancelInsertSwlVentPs() {
 							<tr>
 								<th scope="row">지형지물부호</th>
 								<td>
-									<select name="ftr_cde" class="form-select">
-										<option value="SB410" selected="selected">환기구</option>
-									</select>
+									<c:out value="${swlDeptPsVO.ftr_cde_nm}"/>
+									<input type="hidden" name="ftr_cde" class="form-control" value="${swlDeptPsVO.ftr_cde}">
 								</td>
+								<th scope="row">심도</th>
+								<td>
+									<input type="number" name="pip_dep" class="form-control" value="${swlDeptPsVO.pip_dep}">
+								</td>
+							</tr>
+							<tr>
 								<th scope="row">관리번호</th>
-								<td>
-									<input type="number" name="ftr_idn" class="form-control" value="" readonly="readonly">
+								<td colspan="3">
+									<c:out value="${swlDeptPsVO.ftr_idn}"/>
+									<input type="hidden" name="ftr_idn" class="form-control" value="${swlDeptPsVO.ftr_idn}">
 								</td>
-							</tr>
-							<tr>
-								<th scope="row">읍면동</th>
-								<td>
-									<select name="hjd_cde" class="form-select">
-										<option value="">선택</option>
-									</select>	
-								</td>
-								<th scope="row">도엽번호</th>
-								<td>
-									<input type="text" name="sht_num" class="form-control" value="" maxlength="11">
-								</td>
-							</tr>
-							<tr>
-								<th scope="row">관리기관</th>
-								<td>
-									<select name="mng_cde" class="form-select">
-										<option value="">선택</option>
-									</select>
-								</td>
-								<th scope="row">설치일자</th>
-								<td>
-									<input type="text" name="ist_ymd" class="form-control datepicker" value="">
-								</td>
-							</tr>
-							<tr>
-								<th scope="row">환기구구경</th>
-								<td>
-									<input type="number" name="vnt_dip" class="form-control" value="">
-								</td>
-								<th scope="row">관재질</th>
-								<td>
-									<select name="mop_cde" class="form-select">
-										<option value="">선택</option>
-									</select>
-								</td>
-							</tr>
-							<tr>
-								<th scope="row">흡출기형식</th>
-								<td>
-									<select name="mof_cde" class="form-select">
-										<option value="">선택</option>
-									</select>
-								</td>
-								<th scope="row">흡출기재질</th>
-								<td>
-									<select name="hmp_cde" class="form-select">
-										<option value="">선택</option>
-									</select>
-								</td>
-							</tr>
-							<tr>
-								<th scope="row">공사번호</th>
-								<td>
-									<input type="text" name="cnt_num" class="form-control" value="" maxlength="8">
-								</td>
-								<th scope="row">방향각</th>
-								<td>
-									<input type="number" name="ang_dir" class="form-control" value="">
-								</td>
-								
 							</tr>
 							<tr>
 								<th scope="row">위치</th>
@@ -184,6 +134,7 @@ function cancelInsertSwlVentPs() {
 										<div class="col">
 											<input type="text" class="form-control txt-geometry-address" value="" readonly="readonly">
 											<input type="hidden" name="geom" class="form-control" value="">
+											<input type="hidden" name="id" value="${id}">
 										</div>                    
 										<div class="col-auto">
 											<button type="button" class="btn type01 bi-location btn-select-map" data-popup="space-edit-tool">지도에서 선택</button>
@@ -198,13 +149,13 @@ function cancelInsertSwlVentPs() {
 			</div>
 			<div class="position-bottom btn-wrap">
 				<div>
-					<button type="button" class="btn basic bi-edit btn_add" onclick="insertSwlVentPs();">등록</button>
-					<button type="button" class="btn basic bi-cancel btn_cancel" onclick="cancelInsertSwlVentPs()">취소</button>
+					<button type="button" class="btn basic bi-write2 btn_save" onclick="updateSwlDeptPs();">등록</button>
+					<button type="button" class="btn basic bi-cancel btn_cancel" onclick="cancelUpdateSwlDeptPs()">취소</button>
 				</div>
 			</div>
 		</div>
 	</div>
 </div>
 <!-- <button type="button" class="popup-close" title="닫기" onclick="cancelMode();"></button> -->
-<button type="button" class="swlVentPs-popup-close" title="닫기" onclick="cancelInsertSwlVentPs()"></button>
-<!-- //업무 > 시설관리 > 하수도시설 > 환기구 등록하기 end -->
+<button type="button" class="swlDeptPs-popup-close" title="닫기" onclick="cancelUpdateSwlDeptPs()"></button>
+<!-- //업무 > 시설관리 > 하수도시설 > 하수관거심도 수정하기 end -->	

@@ -6,7 +6,7 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
 <style type="text/css">
-	.popup-panel.popup-sub .swlVentPs-popup-close {
+	.popup-panel.popup-sub .swlDranPs-popup-close {
 	    top: 0;
 	    right: 0;
 	    width: 39px;
@@ -21,12 +21,12 @@
 <script type="text/javascript">
 
 $(document).ready(function(){
-	//console.log("updateSwlVentPsView.jsp");
+	//console.log("updateSwlDranPsView.jsp");
 
 	//3d 일때 지도 추가 버튼 삭제 
 	if(dtmap.mod == "3D"){
-		if($("#updateSwlVentPsFrm .btn-select-map").css("display") != 'none'){
-			$("#updateSwlVentPsFrm .btn-select-map").hide();
+		if($("#updateSwlDranPsFrm .btn-select-map").css("display") != 'none'){
+			$("#updateSwlDranPsFrm .btn-select-map").hide();
 		}
 	}
 	
@@ -36,26 +36,26 @@ $(document).ready(function(){
 		showOn: "both",
 		buttonImage: "/images/icon/form-calendar.svg",
 		dateFormat: "yymmdd",
-	}); 
-       
+	});
+	
 	// 날짜 - 10자리(yyyy-mm-dd) 적용시 사용
 	//ui.callDatePicker();
 	
 	// selectbox 값 세팅
-	let hjd_cde = '${swlVentPsVO.hjd_cde}';
-	getCmmCodeData("YPE001", "#updateSwlVentPsFrm select[name=hjd_cde]", hjd_cde);	// 읍면동 
+	let ftr_cde = '${swlDranPsVO.ftr_cde}';
+	getCmmCodeData("FTR-001", "#updateSwlDranPsFrm select[name=ftr_cde]", ftr_cde);	// 읍면동 
 	
-	let mng_cde = '${swlVentPsVO.mng_cde}';
-	getCmmCodeData("MNG-001", "#updateSwlVentPsFrm select[name=mng_cde]", mng_cde);	// 관리기관 
+	let hjd_cde = '${swlDranPsVO.hjd_cde}';
+	getCmmCodeData("YPE001", "#updateSwlDranPsFrm select[name=hjd_cde]", hjd_cde);	// 관리기관 
 	
-	let mop_cde = '${swlVentPsVO.mop_cde}';
-	getCmmCodeData("OGC-003", "#updateSwlVentPsFrm select[name=mop_cde]", mop_cde);	// 관재질 
+	let mng_cde = '${swlDranPsVO.mng_cde}';
+	getCmmCodeData("MNG-001", "#updateSwlDranPsFrm select[name=mng_cde]", mng_cde);	// 관재질 
 	
-	let mof_cde = '${swlVentPsVO.mof_cde}';
-	getCmmCodeData("OGC-012", "#updateSwlVentPsFrm select[name=mof_cde]", mof_cde);	// 흡출기형식 
+	let soo_cde = '${swlDranPsVO.soo_cde}';
+	getCmmCodeData("OGC-023", "#updateSwlDranPsFrm select[name=soo_cde]", soo_cde);	// 흡출기형식 
       	
-	let hmp_cde = '${swlVentPsVO.hmp_cde}';
-	getCmmCodeData("OGC-172", "#updateSwlVentPsFrm select[name=hmp_cde]", hmp_cde);	// 흡출기재질 
+	let sbb_cde = '${swlDranPsVO.sbb_cde}';
+	getCmmCodeData("OGC-056", "#updateSwlDranPsFrm select[name=sbb_cde]", sbb_cde);	// 흡출기재질 
     
 	//gird 데이터를 통한 주소 조회
 	var id =  $("input[name=id]").val();
@@ -94,8 +94,6 @@ $(document).ready(function(){
 
 			var obj = {};
 			obj.geometryType = "point";
-			obj.id = id;
-			
 			geoEditBindEvents(obj);
 
 			ui.loadingBar("hide");
@@ -104,8 +102,8 @@ $(document).ready(function(){
 });
 
 //취소 버튼 동작
-function cancelUpdateSwlVentPs() {
-	$(".swlVentPs-popup-close").closest('.popup-panel').removeClass('opened');
+function cancelUpdateSwlDranPs() {
+	$(".swlDranPs-popup-close").closest('.popup-panel').removeClass('opened');
        // 초기화 (지도)
        dtmap.draw.dispose();
        dtmap.draw.clear();
@@ -115,19 +113,19 @@ function cancelUpdateSwlVentPs() {
 	}
 	
 	var id = $("input[name=id]").val();
-	selectSwlVentPs(id);	// 상세보기로 이동
+	selectSwlDranPs(id);	// 상세보기로 이동
 }
 	
 </script>
 
-<!-- 업무 > 시설관리 > 하수도시설 > 환기구 수정하기 -->
-<div class="popup-header">환기구 수정하기</div>
+<!-- 업무 > 시설관리 > 하수도시설 > 하수처리장 수정하기 -->
+<div class="popup-header">하수처리장 수정하기</div>
 <div class="popup-body">
 	<div class="sub-popup-body">
 		<div class="data-write-wrap" style="height: 100%;">
 			<div class="scroll-y">
 				<div class="data-default">
-					<form id="updateSwlVentPsFrm" method="post">
+					<form id="updateSwlDranPsFrm" method="post">
 					<table class="data-write">
 						<colgroup>
 							<col style="width: 23%;">
@@ -139,13 +137,13 @@ function cancelUpdateSwlVentPs() {
 							<tr>
 								<th scope="row">지형지물부호</th>
 								<td>
-									<c:out value="${swlVentPsVO.ftr_cde_nm}"/>
-									<input type="hidden" name="ftr_cde" class="form-control" value="${swlVentPsVO.ftr_cde}">
+									<c:out value="${swlDranPsVO.ftr_cde_nm}"/>
+									<input type="hidden" name="ftr_cde" class="form-control" value="${swlDranPsVO.ftr_cde}">
 								</td>
 								<th scope="row">관리번호</th>
 								<td>
-									<c:out value="${swlVentPsVO.ftr_idn}"/>
-									<input type="hidden" name="ftr_idn" class="form-control" value="${swlVentPsVO.ftr_idn}">
+									<c:out value="${swlDranPsVO.ftr_idn}"/>
+									<input type="hidden" name="ftr_idn" class="form-control" value="${swlDranPsVO.ftr_idn}">
 								</td>
 							</tr>
 							<tr>
@@ -157,7 +155,7 @@ function cancelUpdateSwlVentPs() {
 								</td>
 								<th scope="row">도엽번호</th>
 								<td>
-									<input type="text" name="sht_num" class="form-control" value="${swlVentPsVO.sht_num}" maxlength="11">
+									<input type="text" name="sht_num" class="form-control" value="${swlDranPsVO.sht_num}" maxlength="11">
 								</td>
 							</tr>
 							<tr>
@@ -169,45 +167,78 @@ function cancelUpdateSwlVentPs() {
 								</td>
 								<th scope="row">설치일자</th>
 								<td>
-									<input type="text" name="ist_ymd" class="form-control datepicker" value="${swlVentPsVO.ist_ymd}">
+									<input type="text" name="ist_ymd" class="form-control datepicker" value="${swlDranPsVO.ist_ymd}">
 								</td>
 							</tr>
 							<tr>
-								<th scope="row">환기구구경</th>
-								<td>
-									<input type="number" name="vnt_dip" class="form-control" value="${swlVentPsVO.vnt_dip}">
+								<th scope="row">하수처리장명</th>
+								<td colspan="3">
+									<input type="text" name="drn_nam" class="form-control" value="${swlDranPsVO.drn_nam}">
 								</td>
-								<th scope="row">관재질</th>
+							</tr>
+							<tr>
+								<th scope="row">부지면적</th>
 								<td>
-									<select name="mop_cde" class="form-select">
+									<input type="number" name="gai_ara" class="form-control" value="${swlDranPsVO.gai_ara}">
+								</td>
+								<th scope="row">개통상태</th>
+								<td>
+									<select name="soo_cde" class="form-select">
 										<option value="">선택</option>
 									</select>
 								</td>
 							</tr>
 							<tr>
-								<th scope="row">흡출기형식</th>
+								<th scope="row">처리구역면적</th>
 								<td>
-									<select name="mof_cde" class="form-select">
+									<input type="number" name="adp_ara" class="form-control" value="${swlDranPsVO.adp_ara}">
+								</td>
+								<th scope="row">하수처리방식</th>
+								<td>
+									<select name="sbb_cde" class="form-select">
 										<option value="">선택</option>
 									</select>
 								</td>
-								<th scope="row">흡출기재질</th>
+							</tr>
+							<tr>
+								<th scope="row">청천시처리용량</th>
 								<td>
-									<select name="hmp_cde" class="form-select">
-										<option value="">선택</option>
-									</select>
+									<input type="number" name="pcc_vol" class="form-control" value="${swlDranPsVO.pcc_vol}">
+								</td>
+								<th scope="row">우천시처리용량</th>
+								<td>
+									<input type="number" name="puc_vol" class="form-control" value="${swlDranPsVO.puc_vol}">
+								</td>
+							</tr>
+							<tr>
+								<th scope="row">설계유입수_수질</th>
+								<td>
+									<input type="text" name="qw1_exp" class="form-control" value="${swlDranPsVO.qw1_exp}">
+								</td>
+								<th scope="row">설계유출수_수질</th>
+								<td>
+									<input type="text" name="qw2_exp" class="form-control" value="${swlDranPsVO.qw2_exp}">
+								</td>
+							</tr>
+							<tr>
+								<th scope="row">차집관연장</th>
+								<td>
+									<input type="number" name="pip_len" class="form-control" value="${swlDranPsVO.pip_len}">
+								</td>
+								<th scope="row">방류수역명</th>
+								<td>
+									<input type="text" name="dra_nam" class="form-control" value="${swlDranPsVO.dra_nam}">
 								</td>
 							</tr>
 							<tr>
 								<th scope="row">공사번호</th>
 								<td>
-									<input type="text" name="cnt_num" class="form-control" value="${swlVentPsVO.cnt_num}" maxlength="8">
+									<input type="text" name="cnt_num" class="form-control" value="${swlDranPsVO.cnt_num}">
 								</td>
 								<th scope="row">방향각</th>
 								<td>
-									<input type="number" name="ang_dir" class="form-control" value="${swlVentPsVO.ang_dir}">
+									<input type="number" name="ang_dir" class="form-control" value="${swlDranPsVO.ang_dir}">
 								</td>
-								
 							</tr>
 							<tr>
 								<th scope="row">위치</th>
@@ -231,13 +262,13 @@ function cancelUpdateSwlVentPs() {
 			</div>
 			<div class="position-bottom btn-wrap">
 				<div>
-					<button type="button" class="btn basic bi-write2 btn_save" onclick="updateSwlVentPs();">등록</button>
-					<button type="button" class="btn basic bi-cancel btn_cancel" onclick="cancelUpdateSwlVentPs()">취소</button>
+					<button type="button" class="btn basic bi-edit btn_add" onclick="updateSwlDranPs();">등록</button>
+					<button type="button" class="btn basic bi-cancel btn_cancel" onclick="cancelUpdateSwlDranPs()">취소</button>
 				</div>
 			</div>
 		</div>
 	</div>
 </div>
 <!-- <button type="button" class="popup-close" title="닫기" onclick="cancelMode();"></button> -->
-<button type="button" class="swlVentPs-popup-close" title="닫기" onclick="cancelUpdateSwlVentPs()"></button>
-<!-- //업무 > 시설관리 > 하수도시설 > 환기구 수정하기 end -->	
+<button type="button" class="swlDranPs-popup-close" title="닫기" onclick="cancelUpdateSwlDranPs()"></button>
+<!-- //업무 > 시설관리 > 하수도시설 > 하수처리장 수정하기 end -->

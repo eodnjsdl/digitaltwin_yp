@@ -28,10 +28,8 @@ $(document).ready(function() {
 
 	// 닫기
 	$(".popup-close").unbind('click').bind('click',function() {
-		dtmap.draw.dispose();			// 그리기 포인트 삭제
-		dtmap.draw.clear();				// 그리기 초기화
-		dtmap.vector.clearSelect();		// 선택 해제
-		dtmap.vector.clear();			// 아이콘 제거
+		// 지도 clear
+		clearMap();
 		
 		//등록, 상세, 수정 팝업 창 닫기
 		if ($("#rightSubPopup").hasClass("opened")) {
