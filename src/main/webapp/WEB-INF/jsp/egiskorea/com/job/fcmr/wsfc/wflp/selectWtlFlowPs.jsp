@@ -94,7 +94,7 @@
                                    <tr>
                                        <th scope="row">관로지형지물부호</th>
                                        <td>
-                                       		<c:out value="${wtlFlowPsVO.pip_cde }"/>
+                                       		<c:out value="${wtlFlowPsVO.pip_cde_nm }"/>
                                        </td>
                                        <th scope="row">관로관리번호</th>
                                        <td>

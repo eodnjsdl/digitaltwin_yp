@@ -67,20 +67,24 @@ function wtlPipeLmListProcess(){
 //            {key: "hjd_cde", 			label: "읍면동code",		width:'*'},
             {key: "hjd_cde_nm", 		label: "읍면동",			width:'*'},
 //            {key: "mng_cde", 			label: "관리기관code",		width:'*'},
-            {key: "mng_cde_nm", 		label: "관리기관",			width:'*'},
-            {key: "sht_num", 			label: "도엽번호",			width:'*'},
-            {key: "ist_ymd", 			label: "설치일자",			width:'*'},
-//            {key: "gag_cde", 			label: "유량계종류code",	width:'*'},
-            {key: "gag_cde_nm", 		label: "유량계종류",		width:'*'},
-//            {key: "mof_cde", 			label: "유량계형식code",	width:'*'},
-            {key: "mof_cde_nm", 		label: "유량계형식",		width:'*'},
+//            {key: "mng_cde_nm", 		label: "관리기관",			width:'*'},
+//            {key: "sht_num", 			label: "도엽번호",			width:'*'},
+//            {key: "ist_ymd", 			label: "설치일자",			width:'*'},
+//            {key: "saa_cde", 			label: "관용도code",		width:'*'},
+            {key: "saa_cde_nm", 		label: "관용도",			width:'*'},
+//            {key: "mop_cde", 			label: "관재질code",		width:'*'},
+            {key: "mop_cde_nm", 		label: "관재질",			width:'*'},
             {key: "std_dip", 			label: "관경",			width:'*'},
-//            {key: "prc_nam", 			label: "제작회사명",		width:100},
-//            {key: "pip_cde", 			label: "관로지형지물부호",	width:100},
-//            {key: "pip_idn", 			label: "관로관리번호",		width:100},
+            {key: "byc_len", 			label: "연장",			width:100},
+//            {key: "jht_cde", 			label: "접합종류code",		width:100},
+            {key: "jht_cde_nm", 		label: "접합종류",			width:100},
+//            {key: "low_dep", 			label: "최저깊이",			width:100},
+//            {key: "hgh_dep", 			label: "최고깊이",			width:100},
 //            {key: "cnt_num", 			label: "공사번호",			width:100},
 //            {key: "sys_chk", 			label: "대장초기화여부",	width:100},
-//            {key: "ang_dir", 			label: "방향각",			width:100},
+//            {key: "pip_lbl", 			label: "관라벨",			width:100},
+//            {key: "iqt_cde", 			label: "탐사구분",			width:100},
+//            {key: "org_idn", 			label: "기관관리번호",		width:100},
 //            {key: "geom", 			label: "공간정보",			width:100}
         ],
         page: {
@@ -133,8 +137,10 @@ function selectWtlPipeLmList(page) {
 		const filters = [];
 		
 		const hjd_cde 		=	$("#lSrchOptions select[name=hjd_cde]").val();				//읍면동
-		const gag_cde 		=	$("#lSrchOptions select[name=gag_cde]").val();				//유량계종류
-		const mof_cde 		=	$("#lSrchOptions select[name=mof_cde]").val();				//유량계형식
+		const saa_cde 		=	$("#lSrchOptions select[name=saa_cde]").val();				//관용도
+		const mop_cde 		=	$("#lSrchOptions select[name=mop_cde]").val();				//관재질
+		const std_dip_min 	=	$("#lSrchOptions input[name=std_dip_min]").val();			//관경 최소 값
+		const std_dip_max 	=	$("#lSrchOptions input[name=std_dip_max]").val();			//관경 최대 값
 		
 		let filterString = "";
 		
@@ -142,12 +148,22 @@ function selectWtlPipeLmList(page) {
 			filters.push("hjd_cde" + " = " + hjd_cde); 
 		}
 		
-		if(gag_cde){
-			filters.push("gag_cde" + " = " + gag_cde); 
+		if(saa_cde){
+			filters.push("saa_cde" + " = " + saa_cde); 
 		}
 		
-		if(mof_cde){
-			filters.push("mof_cde" + " = " + mof_cde);
+		if(mop_cde){
+			filters.push("mop_cde" + " = " + mop_cde);
+		}
+		
+		if(std_dip_min && std_dip_max){
+			//filters.push("std_dip" + " BETWEEN " + std_dip_min +" AND " + std_dip_max);
+			filters.push("std_dip" + " >= " + std_dip_min);
+			filters.push("std_dip" + " <= " + std_dip_max);
+		}else if(std_dip_min){
+			filters.push("std_dip" + " >= " + std_dip_min);
+		}else if(std_dip_max){
+			filters.push("std_dip" + " <= " + std_dip_max);
 		}
 	    
 	    options = {
@@ -217,13 +233,17 @@ function selectWtlPipeLmList(page) {
         	var hjd_cde = data.features[i].properties.hjd_cde;
         	data.features[i].properties.hjd_cde_nm = getCmmCodeDataArray("YPE001", hjd_cde);
         	
-        	//유량계 종류 코드 변경
-        	var gag_cde = data.features[i].properties.gag_cde;
-        	data.features[i].properties.gag_cde_nm = getCmmCodeDataArray("OGC-141", gag_cde);
+        	//관용도 코드 변경
+        	var saa_cde = data.features[i].properties.saa_cde;
+        	data.features[i].properties.saa_cde_nm = getCmmCodeDataArray("OGC-004", saa_cde);
         	
-        	//유량계 형식 코드 변경
-        	var mof_cde = data.features[i].properties.mof_cde;
-        	data.features[i].properties.mof_cde_nm = getCmmCodeDataArray("OGC-041", mof_cde);
+        	//관재질 코드 변경
+        	var mop_cde = data.features[i].properties.mop_cde;
+        	data.features[i].properties.mop_cde_nm = getCmmCodeDataArray("OGC-003", mop_cde);
+
+        	//접합종류 코드 변경
+        	var jht_cde = data.features[i].properties.jht_cde;
+        	data.features[i].properties.jht_cde_nm = getCmmCodeDataArray("OGC-005", jht_cde);
         	
             //좌표 처리  geometry로 변수명을 정하면 기존것과 충돌 발생
         	data.features[i].properties.geomObj = data.features[i].geometry;
@@ -341,13 +361,17 @@ function selectWtlPipeLm(id){
     	var mng_cde = data.features[0].properties.mng_cde;
     	data.features[0].properties.mng_cde_nm = getCmmCodeDataArray("MNG-001", mng_cde);
     	
-    	//유량계 종류 코드 변경
-    	var gag_cde = data.features[0].properties.gag_cde;
-    	data.features[0].properties.gag_cde_nm = getCmmCodeDataArray("OGC-141", gag_cde);
+    	//관용도 코드 변경
+    	var saa_cde = data.features[0].properties.saa_cde;
+    	data.features[0].properties.saa_cde_nm = getCmmCodeDataArray("OGC-004", saa_cde);
     	
-    	//유량계 형식 코드 변경
-    	var mof_cde = data.features[0].properties.mof_cde;
-    	data.features[0].properties.mof_cde_nm = getCmmCodeDataArray("OGC-041", mof_cde);
+    	//관재질 코드 변경
+    	var mop_cde = data.features[0].properties.mop_cde;
+    	data.features[0].properties.mop_cde_nm = getCmmCodeDataArray("OGC-003", mop_cde);
+
+    	//접합종류 코드 변경
+    	var jht_cde = data.features[0].properties.jht_cde;
+    	data.features[0].properties.jht_cde_nm = getCmmCodeDataArray("OGC-005", jht_cde);
     	
         //좌표 처리  geometry로 변수명을 정하면 기존것과 충돌 발생
     	data.features[0].properties.geomObj = data.features[0].geometry;
@@ -431,7 +455,7 @@ function insertWtlPipeLmView(){
             scrollbarPosition: "outside",
         });
        
-        getCmmCodeData("YPE001",  "#rightSubPopup select[name=hjd_cde]");		//읍면동
+        getCmmCodeData("YPE001",  "#rightSubPopup select[name=hjd_cde]");	//읍면동
     	getCmmCodeData("MNG-001", "#rightSubPopup select[name=mng_cde]");	//관리기관
 		getCmmCodeData("OGC-004", "#rightSubPopup select[name=saa_cde]");	//관용도	
 		getCmmCodeData("OGC-003", "#rightSubPopup select[name=mop_cde]");	//관재질
@@ -716,28 +740,32 @@ function downloadExcelWtlPipeLm() {
         sortable: true,
         multipleSelect: false,
         columns: [
-//            {key: "gid", 				label: "아이디",			width:200},
-            {key: "ftr_cde", 			label: "지형지물부호code",	width:'*'},
-            {key: "ftr_cde_nm", 		label: "지형지물부호",		width:'*'},
-            {key: "ftr_idn", 			label: "관리번호",			width:'*'},
-            {key: "hjd_cde", 			label: "읍면동code",		width:'*'},
-            {key: "hjd_cde_nm", 		label: "읍면동",			width:'*'},
-            {key: "mng_cde", 			label: "관리기관code",		width:'*'},
-            {key: "mng_cde_nm", 		label: "관리기관",			width:'*'},
-            {key: "sht_num", 			label: "도엽번호",			width:'*'},
-            {key: "ist_ymd", 			label: "설치일자",			width:'*'},
-            {key: "gag_cde", 			label: "유량계종류code",	width:'*'},
-            {key: "gag_cde_nm", 		label: "유량계종류",		width:'*'},
-            {key: "mof_cde", 			label: "유량계형식code",	width:'*'},
-            {key: "mof_cde_nm", 		label: "유량계형식",		width:'*'},
-            {key: "std_dip", 			label: "관경",			width:'*'},
-//            {key: "prc_nam", 			label: "제작회사명",		width:100},
-//            {key: "pip_cde", 			label: "관로지형지물부호",	width:100},
-//            {key: "pip_idn", 			label: "관로관리번호",		width:100},
-//            {key: "cnt_num", 			label: "공사번호",			width:100},
-//            {key: "sys_chk", 			label: "대장초기화여부",	width:100},
-//            {key: "ang_dir", 			label: "방향각",			width:100},
-//            {key: "geom", 				label: "공간정보",			width:100}
+//          {key: "gid", 				label: "아이디",			width:200},
+          {key: "ftr_cde", 			label: "지형지물부호code",	width:'*'},
+          {key: "ftr_cde_nm", 		label: "지형지물부호",		width:'*'},
+          {key: "ftr_idn", 			label: "관리번호",			width:'*'},
+          {key: "hjd_cde", 			label: "읍면동code",		width:'*'},
+          {key: "hjd_cde_nm", 		label: "읍면동",			width:'*'},
+//          {key: "mng_cde", 			label: "관리기관code",		width:'*'},
+//          {key: "mng_cde_nm", 		label: "관리기관",			width:'*'},
+//          {key: "sht_num", 			label: "도엽번호",			width:'*'},
+//          {key: "ist_ymd", 			label: "설치일자",			width:'*'},
+          {key: "saa_cde", 			label: "관용도code",		width:'*'},
+          {key: "saa_cde_nm", 		label: "관용도",			width:'*'},
+          {key: "mop_cde", 			label: "관재질code",		width:'*'},
+          {key: "mop_cde_nm", 		label: "관재질",			width:'*'},
+          {key: "std_dip", 			label: "관경",			width:'*'},
+          {key: "byc_len", 			label: "연장",			width:100},
+          {key: "jht_cde", 			label: "접합종류code",		width:100},
+          {key: "jht_cde_nm", 		label: "접합종류",			width:100},
+//          {key: "low_dep", 			label: "최저깊이",			width:100},
+//          {key: "hgh_dep", 			label: "최고깊이",			width:100},
+//          {key: "cnt_num", 			label: "공사번호",			width:100},
+//          {key: "sys_chk", 			label: "대장초기화여부",	width:100},
+//          {key: "pip_lbl", 			label: "관라벨",			width:100},
+//          {key: "iqt_cde", 			label: "탐사구분",			width:100},
+//          {key: "org_idn", 			label: "기관관리번호",		width:100},
+//          {key: "geom", 				label: "공간정보",			width:100}
         ],
 
 	});
@@ -753,8 +781,10 @@ function downloadExcelWtlPipeLm() {
 		const filters = [];
 		
 		const hjd_cde 		=	$("#lSrchOptions select[name=hjd_cde]").val();				//읍면동
-		const gag_cde 		=	$("#lSrchOptions select[name=gag_cde]").val();				//유량계종류
-		const mof_cde 		=	$("#lSrchOptions select[name=mof_cde]").val();				//유량계형식
+		const saa_cde 		=	$("#lSrchOptions select[name=saa_cde]").val();				//관용도
+		const mop_cde 		=	$("#lSrchOptions select[name=mop_cde]").val();				//관재질
+		const std_dip_min 	=	$("#lSrchOptions input[name=std_dip_min]").val();			//관경 최소 값
+		const std_dip_max 	=	$("#lSrchOptions input[name=std_dip_max]").val();			//관경 최대 값
 		
 		let filterString = "";
 		
@@ -762,12 +792,22 @@ function downloadExcelWtlPipeLm() {
 			filters.push("hjd_cde" + " = " + hjd_cde); 
 		}
 		
-		if(gag_cde){
-			filters.push("gag_cde" + " = " + gag_cde); 
+		if(saa_cde){
+			filters.push("saa_cde" + " = " + saa_cde); 
 		}
 		
-		if(mof_cde){
-			filters.push("mof_cde" + " = " + mof_cde);
+		if(mop_cde){
+			filters.push("mop_cde" + " = " + mop_cde);
+		}
+		
+		if(std_dip_min && std_dip_max){
+			//filters.push("std_dip" + " BETWEEN " + std_dip_min +" AND " + std_dip_max);
+			filters.push("std_dip" + " >= " + std_dip_min);
+			filters.push("std_dip" + " <= " + std_dip_max);
+		}else if(std_dip_min){
+			filters.push("std_dip" + " >= " + std_dip_min);
+		}else if(std_dip_max){
+			filters.push("std_dip" + " <= " + std_dip_max);
 		}
 	    
 	    options = {
@@ -823,13 +863,17 @@ function downloadExcelWtlPipeLm() {
         	var mng_cde = data.features[i].properties.mng_cde;
         	data.features[i].properties.mng_cde_nm = getCmmCodeDataArray("MNG-001", mng_cde);
         	
-        	//유량계 종류 코드 변경
-        	var gag_cde = data.features[i].properties.gag_cde;
-        	data.features[i].properties.gag_cde_nm = getCmmCodeDataArray("OGC-141", gag_cde);
+        	//관용도 코드 변경
+        	var saa_cde = data.features[i].properties.saa_cde;
+        	data.features[i].properties.saa_cde_nm = getCmmCodeDataArray("OGC-004", saa_cde);
         	
-        	//유량계 형식 코드 변경
-        	var mof_cde = data.features[i].properties.mof_cde;
-        	data.features[i].properties.mof_cde_nm = getCmmCodeDataArray("OGC-041", mof_cde);
+        	//관재질 코드 변경
+        	var mop_cde = data.features[i].properties.mop_cde;
+        	data.features[i].properties.mop_cde_nm = getCmmCodeDataArray("OGC-003", mop_cde);
+
+        	//접합종류 코드 변경
+        	var jht_cde = data.features[i].properties.jht_cde;
+        	data.features[i].properties.jht_cde_nm = getCmmCodeDataArray("OGC-005", jht_cde);
             
             //좌표 처리  geometry로 변수명을 정하면 기존것과 충돌 발생
         	data.features[i].properties.geomObj = data.features[i].geometry;

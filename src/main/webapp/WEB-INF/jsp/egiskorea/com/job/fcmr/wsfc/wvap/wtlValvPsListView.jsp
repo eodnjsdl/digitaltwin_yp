@@ -82,8 +82,8 @@
 								<tr>  
 									<th scope="row">관경</th>  
 									<td>    
-										<input type="number" name="std_dip_min" class="form-control" value="" style="width:68px">    
-										<input type="number" name="std_dip_max" class="form-control" value="" onkeyup="inputKeyup()" style="width:68px">  
+										<input type="number" name="std_dip_min" step="50" class="form-control" value="" style="width:68px">    
+										<input type="number" name="std_dip_max" step="50" class="form-control" value="" onkeyup="inputKeyup()" style="width:68px">  
 									</td>
 								</tr>
                             	<tr>  

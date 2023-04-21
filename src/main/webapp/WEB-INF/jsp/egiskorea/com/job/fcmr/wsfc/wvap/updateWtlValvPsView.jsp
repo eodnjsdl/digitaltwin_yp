@@ -132,7 +132,8 @@
                                    <tr>
                                        <th scope="row">관로지형지물부호</th>
                                        <td>
-                                          	<c:out value="${wtlValvPsVO.pip_cde }"/>
+                                          	<c:out value="상수관로"/>
+                                          	<%-- <c:out value="${wtlValvPsVO.pip_cde }"/> --%>
                                           	<input type="hidden" name="pip_cde" class="form-control" value="${wtlValvPsVO.pip_cde }">
                                        </td>
                                        <th scope="row">관리번호</th>

@@ -305,6 +305,10 @@ function selectWtlFlowPs(id){
     	data.features[0].properties.ftr_cde_nm = getCmmCodeDataArray("FTR-001", ftr_cde);
     	//data.features[0].properties.ftr_cde_nm = "유량계";
     	
+    	//관로관리지형지물부호 코드 변경
+    	var pip_cde = data.features[0].properties.pip_cde;
+    	data.features[0].properties.pip_cde_nm = getCmmCodeDataArray("FTR-001", pip_cde);
+    	
     	//관리기관 코드 변경
     	var mng_cde = data.features[0].properties.mng_cde;
     	data.features[0].properties.mng_cde_nm = getCmmCodeDataArray("MNG-001", mng_cde);
@@ -797,7 +801,7 @@ function downloadExcelWtlFlowPs() {
 	    //데이터 코드 변환
 	    for (let i = 0; i < data.features.length; i++) {
 	    	
-	    	//지형지물부호 코드 변경
+	    	  //지형지물부호 코드 변경
 			  var ftr_cde = data.features[i].properties.ftr_cde;
 			  data.features[i].properties.ftr_cde_nm = getCmmCodeDataArray("FTR-001", ftr_cde);
 			  //data.features[i].properties.ftr_cde_nm = "유량계";

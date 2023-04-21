@@ -205,7 +205,7 @@ function setCmmCodeDataArray(codeId, targetList){
 function getCmmCodeDataArray(codeId, code){
 	//console.log("getCmmCodeDataArray()");
 	//console.log(FACILITY.CODEARRAY);
-	
+	debugger;
 	var codeArray = FACILITY.CODEARRAY;
 	
 	if(codeArray && codeArray.length>0){

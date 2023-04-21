@@ -89,7 +89,7 @@
                                    <tr>
                                        <th scope="row">접합종류</th>
                                        <td>
-                                       		<c:out value="${wtlPipeLmVO.jht_cde }"/>
+                                       		<c:out value="${wtlPipeLmVO.jht_cde_nm }"/>
                                        </td>
                                        <th scope="row">최저깊이</th>
                                        <td>

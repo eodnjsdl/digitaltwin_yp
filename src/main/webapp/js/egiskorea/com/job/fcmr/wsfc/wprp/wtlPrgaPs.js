@@ -339,7 +339,12 @@ function selectWtlPrgaPs(id){
     		alert("상세보기 오류")
     		return false;
     	}
-        	
+        
+    	//관로지형지물부호 코드 변경
+    	var pip_cde = data.features[0].properties.pip_cde;
+    	//data.features[0].properties.pip_cde_nm = getCmmCodeDataArray("FTR-001", pip_cde);
+    	data.features[0].properties.pip_cde_nm = "상수관로";
+    	
     	//지형지물부호 코드 변경
     	var ftr_cde = data.features[0].properties.ftr_cde;
     	data.features[0].properties.ftr_cde_nm = getCmmCodeDataArray("FTR-001", ftr_cde);

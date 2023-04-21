@@ -96,7 +96,8 @@
 						<tr>
 							<th scope="row">관로지형지물부호</th>
 							<td>
-                               	<c:out value="${wtlFlowPsVO.pip_cde }"/>
+                               	<c:out value="상수관로"/>
+                               	<%-- <c:out value="${wtlFlowPsVO.pip_cde_nm }"/> --%>
                                	<input type="hidden" name="pip_cde" class="form-control" value="${wtlFlowPsVO.pip_cde }">
                             </td>
 							<th scope="row">관로관리번호</th>
@@ -173,7 +174,7 @@
 
 		//////////////////
 		//selectbox 값 세팅
-		
+      	
       	//읍면동 
         let hjd_cde = '${wtlFlowPsVO.hjd_cde }';
       	getCmmCodeData("YPE001", "#rightSubPopup select[name=hjd_cde]", hjd_cde);
