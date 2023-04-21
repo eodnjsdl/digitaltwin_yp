@@ -319,7 +319,6 @@ class DataDownlad {
                 }
             } //시설물기준
             else if (type == "tr_facility") {
-                console.log(this.wkt)
                 const wkt = this.wkt;
                 if (wkt) {
                     params["wkt"] = wkt;
