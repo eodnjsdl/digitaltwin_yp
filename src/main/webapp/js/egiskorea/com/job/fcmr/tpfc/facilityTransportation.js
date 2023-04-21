@@ -19,37 +19,30 @@ function getTransportationFacility(name) {
 	    selectRoadSectListView();
 	    break;
 	case "railroadTrack" :				// 철도선로
-	    toastr.error("엑셀다운로드 작업 필요", "철도선로");
 	    dtmap.off('select', onSelectRailroadTrackEventListener);
 	    selectRailroadTrackListView();
 	    break;
 	case "railroadStation" :			// 철도역사
-	    toastr.error("엑셀다운로드 작업 필요", "철도역사");
 	    dtmap.off('select', onSelectRailroadStationEventListener);
 	    selectRailroadStationListView();
 	    break;
 	case "subwayTrack" :				// 지하철선로
-	    toastr.error("엑셀다운로드 작업 필요", "지하철선로");
 	    dtmap.off('select', onSelectSubwayTrackEventListener);
 	    selectSubwayTrackListView();
 	    break;
 	case "subwayStation" :				// 지하철역사
-	    toastr.error("엑셀다운로드 작업 필요", "지하철역사");
 	    dtmap.off('select', onSelectSubwayStationEventListener);
 	    selectSubwayStationListView();
 	    break;
 	case "bridge" :					// 교량
-	    toastr.error("엑셀다운로드 작업 필요", "교량");
 	    dtmap.off('select', onSelectBridgeEventListener);
 	    selectBridgeListView();
 	    break;
 	case "overpass" :				// 고가도로
-	    toastr.error("엑셀다운로드 작업 필요", "고가도로");
 	    dtmap.off('select', onSelectOverpassEventListener);
 	    selectOverpassListView();
 	    break;
 	case "tunnel" :					// 터널
-	    toastr.error("엑셀다운로드 작업 필요", "터널");
 	    dtmap.off('select', onSelectTunnelEventListener);
 	    selectTunnelListView();
 	    break;

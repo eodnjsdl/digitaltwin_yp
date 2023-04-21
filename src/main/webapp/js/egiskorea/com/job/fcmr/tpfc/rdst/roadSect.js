@@ -10,11 +10,14 @@
  */
 function selectRoadSectListView() {
     $('#bottomPopup').load('/job/fcmr/tpfc/selectRoadSectListView.do', function () {
-	callRoadSectGrid();
-	selectRoadSectionExcelListDownload();
-	
 	// 공간검색 옵션 초기화
 	FACILITY.spaceSearchOption = {};
+	// 읍면동 geom정보 초기화
+	var geom = {};
+	// excel 옵션
+	var excelOptions;
+	// 그리드시작
+	callRoadSectGrid();
     });
     
 }
@@ -25,7 +28,6 @@ function selectRoadSectListView() {
  */
 function callRoadSectGrid() {
     setRoadSectListGrid();
-//    setRoadSectListData(0);
     getWfsRoadSectListData();
 }
 
@@ -57,7 +59,7 @@ function setRoadSectListGrid() {
 	        nextIcon: '»',
 	        lastIcon: '»»',
 		onChange: function () {
-		    setRoadSectListData(this.page.selectPage);
+		    setRoadSectListData(this.page.selectPage, geom);
 		}
 	},
 	columns: [
@@ -71,110 +73,64 @@ function setRoadSectListGrid() {
 	    {key: "rep_cn",		label: "종점",		width: 150},
 	    {key: "road_bt",		label: "도로폭",		width: 100},
 	    {key: "road_lt",		label: "도로길이",		width: 100}
-	],
+	]
     });
 }
 
+/**
+ * grid 테이블 데이터 설정 전
+ * wfs로 읍면동 데이터 가져오기 ---- ** 중요
+ * @returns
+ */
 function getWfsRoadSectListData() {
-    // 읍면동 geometry 가져오기 테스트*****************************************
-    // tgd_scco_emd 읍면동 / gid, emd_cd, emd_eng_nm, emd_kor_nm, geom///emd_cd 읍면동 코드 41830250 양평읍
+    // 현재 함수로 검색해야함 -> setRoadSectListData(0); ===> getWfsRoadSectListData();로 변경 
+    
+    // 읍면동 geometry 가져오기 *********
     let emdCd = '';
     let emdCdVal = $('#emdKorNm').val();
     let cqlFilters = 'emd_cd = ' + emdCd;
-    console.log("emdCdVal : " + emdCdVal);
     
     // val() 값이 41830 일 때 => 양평군 일때, like 검색
     if (emdCdVal == '41830') {
 	cqlFilters = "emd_cd like '" + emdCdVal + "%'";
-	console.log("filters : " + cqlFilters);
     } else { // val() 값이 41830+++ 일때 읍면동 일치 검색
 	emdCd = emdCdVal;
-	console.log("emdCd : " + emdCd);
-	console.log("filters : " + cqlFilters);
     }
     
     geomOptions = {
 	    typeNames: 'tgd_scco_emd',
-//	    perPage: 100,  		// 모든 읍면동 정보 가져오기 ( 임시로 100개 )
-//	    page: _pageNo + 1,
 	    sortBy : 'gid',
 	    sortOrder : 'DESC',
 	    cql : cqlFilters
     }
 	
     // 전체(읍면동) geometry 값 가져오는 wfs 
-    var geo = [];
     const promiseGeo = dtmap.wfsGetFeature(geomOptions);
     promiseGeo.then(function(data) {
-//	for (let i = 0; i < data.features.length; i++) {
-//	    const {geometry} = data.features[i].getProperties();
-//	    geo.push(...geometry);
-	    
-//	}
-	
-	console.log("geometry :::::");
-    	console.log(geo);
+	var geoArry = dtmap.util.readGeoJson(data);
     	
-    	readGeoJsonTest(data);
+    	setEmdCd(geoArry);
     	
-//    	dtmap.vector.readGeoJson(data, function (feature) {
-//    	    let properties = feature.getProperties();
-//	    console.log("properties--------------------------");
-//	    console.log(properties);
-//	    geo.push(properties.geometry);
-//	    console.log(geo);
-//	    return {
-//	        marker: {
-//	            src: '/images/poi/roadSection_poi.png'
-//	            }
-//	        }
-	function readGeoJsonTest(json, style) {
-	    if (typeof json === 'string') {
-		json = JSON.parse(json);
-	    }
-	    
-	    const format = new ol.format.GeoJSON();
-	    let crs
-	    try {
-		crs = json.crs.properties.name;
-		if (crs.includes('urn:ogc:def:crs:EPSG::')) {
-		    crs = crs.replace('urn:ogc:def:crs:EPSG::', 'EPSG:');
-		}
-	    } catch (e) {
-		console.warn(`GeoJSON에 좌표계 정보가 없습니다. ${dtmap.crs}로 적용합니다.`)
-		crs = dtmap.crs;
-	    }
-	    const features = format.readFeatures(json, {
-		dataProjection: crs,
-		featureProjection: dtmap.crs
-	    }).map((feature) => {
-		if (feature.get("type") === "Circle") {
-		    const geometry = feature.getGeometry();
-		    feature.setGeometry(
-			    new ol.geom.Circle(
-				    geometry.getCoordinates(),
-				    feature.get("circleRadius")
-			    )
-		    );
-		}
-//		geo.push(feature.values_.geometry);
-		geo.push(feature.values_.geometry.flatCoordinates);
-		return geo;
-	    });
-	    setRoadSectListData(0, geo);
-	}
+    	function setEmdCd(geoArry) {
+    	    let geoInfo = [];
+    	    // geoArry[i].values_.emd_cd => 읍면동 코드. 
+    	    for (let i = 0; i < geoArry.length; i++) {
+    		const info = {emdCd : geoArry[i].values_.emd_cd, geometry : geoArry[i].values_.geometry};
+    		geoInfo.push(info);
+    	    }
+    	    geom = geoInfo;
+    	    // return 으로 grid 세팅하는 함수에 geom 넘겨주기.
+    	    return setRoadSectListData(0, geom);
+    	}
     });
-    	
-//    	return setRoadSectListData(0, geo);
-    };
-    
+}
 
 /**
  * 테이블 데이터 세팅
- * @param _pageNo
+ * @param _pageNo, geom
  * @returns
  */
-function setRoadSectListData(_pageNo, geo) {
+function setRoadSectListData(_pageNo, geom) {
     // wfs 옵션값 담을 변수
     var options;
     
@@ -199,10 +155,37 @@ function setRoadSectListData(_pageNo, geo) {
 		page: _pageNo + 1,
 		sortBy : 'gid',
 		sortOrder : 'DESC',
-//		cql : filters
-		geometry : geo
+		cql : filters
 	}
 	
+	excelOptions = {
+		typeNames: 'tgd_sprd_manage',
+		sortBy : 'gid',
+		sortOrder : 'DESC',
+		cql : filters
+	}
+	
+	let emdCd = $('#emdKorNm').val();
+	if (emdCd != '41830') {
+	    let geo = findEmdCd(geom, emdCd); 
+	    if (geo != null) {
+		options.geometry = geo;
+		excelOptions.geometry = geo;
+	    } else {
+		toastr.error("해당 지역에 검색 결과가 없습니다. 전체 결과를 표시합니다.", "읍면동 조회");
+	    }
+	}
+	// 해당 읍면동 코드를 찾아 geometry 값 설정
+	function findEmdCd(geom, emdCd) {
+	    if (geom == null) {
+		return;
+	    }
+	    for (let i = 0; i < geom.length; i++) {
+		if (geom[i].emdCd == emdCd) {
+		    return geom[i].geometry;
+		} 
+	    }
+	}
 	// else if 공간 검색 활성화
     } else if ($('.roadSectSpace').hasClass('on')) {
 	const $parent = $(".facility-spatial-search").closest('.search-area');
@@ -215,12 +198,20 @@ function setRoadSectListData(_pageNo, geo) {
 		sortBy : 'gid',
 		sortOrder : 'DESC',
 	}
+	
+	// 엑셀 다운로드를 위한 옵션
+	excelOptions = {
+		typeNames: 'tgd_sprd_manage',
+		sortBy : 'gid',
+		sortOrder : 'DESC',
+	}
+	
 	if (type === 'extent') {
     		options.bbox 		= FACILITY.spaceSearchOption.bbox;
+    		excelOptions.bbox 	= FACILITY.spaceSearchOption.bbox;
 	} else {
     		options.geometry 	= FACILITY.spaceSearchOption.geometry;
-    		console.log("options.geometry");
-    		console.log(options.geometry);
+    		excelOptions.geometry 	= FACILITY.spaceSearchOption.geometry;
 	}
 	dtmap.draw.dispose();	
     } else {
@@ -236,6 +227,7 @@ function setRoadSectListData(_pageNo, geo) {
 	    $("#bottomPopup .bbs-list-num strong").text(data.totalFeatures);
 	} else {
 	    $("#bottomPopup .bbs-list-num strong").text('0');
+	    toastr.error("검색 결과가 없습니다.");
 	}
 	
 	var list = [];
@@ -274,7 +266,6 @@ function setRoadSectListData(_pageNo, geo) {
 	dtmap.vector.fit();
     });
 }
-
 /**
  * 테이블 데이터 상세보기
  * @param gid
@@ -318,37 +309,51 @@ function selectRoadSectDetailView(gid) {
 function selectRoadSectWithFilters() {
     $('#roadBtVal, #rn').on('keyup', function () {
 	    if (event.keyCode == 13) {
-		setRoadSectListData(0);
+		setRoadSectListData(0, geom);
 	    }
 	});
     $('.roadSect .search').on('click', function() {
-	setRoadSectListData(0);
+	setRoadSectListData(0, geom);
     });
-};
+}
 
 /**
- * 엑셀 다운로드 (전체 다운로드만 가능)
+ * 엑셀 다운로드
  * @returns
  */
-function selectRoadSectionExcelListDownload() {
-    $('#selectRoadSectExcelListDownload').on('click', function (e) {
-	let url = "/job/fcmr/tpfc/";
-	let urlName = e.target.id;
-	url += urlName + ".do";
-	let emdKorNm = $('#emdKorNm').val().split(',')[1];
-	    if (emdKorNm == null || emdKorNm == '') {
-		emdKorNm = '41830';
-	    }
+function downloadExcelRoadSect() {
+    ui.loadingBar("show");
+    // 엑셀 다운로드를 위한 grid 생성
+    var excelGrid = new ax5.ui.grid();
+	excelGrid.setConfig({
+	target: $('[data-ax5grid="attr-grid-excel"]'),
+	columns: [
+	    {key: "sig_cd",		label: "시군구",		},
+	    {key: "rds_man_no",		label: "도로구간일련번호",	},
+	    {key: "rn",			label: "도로명(한글)",	},
+	    {key: "eng_rn",		label: "도로명(영문)",	},
+	    {key: "ntfc_de",		label: "고시일자",		},
+	    {key: "wdr_rd_cd",		label: "광역도로구분",	},
+	    {key: "rbp_cn",		label: "기점",		},
+	    {key: "rep_cn",		label: "종점",		},
+	    {key: "road_bt",		label: "도로폭",		},
+	    {key: "road_lt",		label: "도로길이",		}
+	]
+    });
 	
-	$("form[name='searchFormExcel']").append('<input type="hidden" name="emdKorNm" value=' + emdKorNm + '>');
-	$("form[name='searchFormExcel']").attr('onsubmit', '');
-	$("form[name='searchFormExcel']").attr('action', url);
-	$("form[name='searchFormExcel']").submit();
-	$("form[name='searchFormExcel']").attr('action', '');
-	$("form[name='searchFormExcel'] input[name='emdKorNm']").remove();
-	
-	return false;
-    })
+    // 엑셀 그리드 데이터 추가
+    const excelPromise = dtmap.wfsGetFeature(excelOptions);
+    excelPromise.then(function(data) {
+	var list = [];
+	for (let i = 0; i < data.features.length; i++) {
+	    const {id, properties} = data.features[i];
+	    list.push({...properties, ...{id: id}});
+	}
+	excelGrid.setData(list);
+	excelGrid.exportExcel("EXPORT_도로구간.xls");
+	$('[data-ax5grid="attr-grid-excel"]').empty();
+	ui.loadingBar("hide");
+    }); 
 }
 
 /**

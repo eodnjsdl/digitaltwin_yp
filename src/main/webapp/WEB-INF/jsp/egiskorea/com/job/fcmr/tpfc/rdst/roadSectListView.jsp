@@ -45,7 +45,6 @@ $(document).ready(function(){
         } else {
         	if(dtmap.draw.source.getFeatures().length > 0){
          	FACILITY.spaceSearchOption.geometry = dtmap.draw.getGeometry();
-         	console.log(dtmap.draw.getGeometry());
         	}else{
         		alert("영역을 지정해 주세요.");
         		return false;
@@ -94,10 +93,15 @@ $(document).ready(function(){
         dtmap.draw.active({type: type, once: true});
     });
 
-   	//경계로부터 버퍼 영역 지정
+   	// 경계로부터 버퍼 영역 지정
     $(".area-facility-buffer", "#bottomPopup").on("keyup", function (event) {
         dtmap.draw.setBuffer(Number(this.value));
     });
+   	
+   	// 엑셀 다운로드
+    $('#downloadExcelRoadSect').on('click', function () {
+	    downloadExcelRoadSect();
+	});
 });
 
 
@@ -220,14 +224,14 @@ $(document).ready(function(){
             <div class="bbs-top">
                 <div class="bbs-list-num">조회결과 : <strong></strong>건</div>
                 <div>
-					<button type="button" class="btn basic bi-excel" id="selectRoadSectExcelListDownload" data-form-name="selectRoadSectionExcelList">엑셀저장</button>
-					<form:form name="searchFormExcel" id="searchFormExcel" method="post" onsubmit=""></form:form>
+					<button type="button" class="btn basic bi-excel" id="downloadExcelRoadSect">엑셀저장</button>
 				</div>
             </div>
             <div class="bbs-list-wrap" style="height: 267px;">
                 <div class="bbs-default">
                 <form:form>
-                	<div data-ax5grid="roadSectListGrid" data-ax5grid-config="{}" style="height: 267px;"></div> 
+                	<div data-ax5grid="roadSectListGrid" data-ax5grid-config="{}" style="height: 267px;"></div>
+                	<div data-ax5grid="attr-grid-excel" style="display:none;"></div>
                 </form:form>
                 </div>
             </div>
