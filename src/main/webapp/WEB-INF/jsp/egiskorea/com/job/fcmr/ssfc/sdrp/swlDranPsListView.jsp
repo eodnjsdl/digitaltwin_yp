@@ -1,12 +1,15 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" %>
 
 <!-- js -->
-<!-- <script src="/js/egiskorea/com/job/fcmr/ssfc/sdrp/swlDranPs.js"></script> -->
+<script src="/js/egiskorea/com/job/fcmr/ssfc/sdrp/swlDranPs.js"></script>
 
 <script>
 $(document).ready(function() {
 	//console.log("swlDranPsListView.jsp");	
 
+	// 2D/3D 버튼 처리
+	arrangeAddBtnMode();
+	
 	//이벤트 리스너 추가
 	dtmap.on('select', onFacilitySelectEventListener);
 	
