@@ -13,7 +13,13 @@ window.dtmap.util = (function () {
     }
 
     function zoomToAlt(zoom) {
-        return altitudes[Math.round(zoom)];
+        let z = Math.round(zoom)
+        if (z < 0) {
+            z = 0;
+        } else if (z > 19) {
+            z = 19;
+        }
+        return altitudes[19];
     }
 
     function readWKT(wkt, properties) {
