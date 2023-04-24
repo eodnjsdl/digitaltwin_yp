@@ -231,7 +231,8 @@ class DataDownlad {
      * 다운로드
      */
     download() {
-        // ui.loadingBar("show");
+        ui.loadingBar("show");
+        const that = this;
         const params = {};
         const type = $(".tabBoxDepth1 ul li.on", this.selector).attr("data-id");
         const searchArea = $(
@@ -272,6 +273,7 @@ class DataDownlad {
                         params["wkt"] = wkt;
                     } else {
                         toastr.warning("검색 영역을 지정하여 주십시오.");
+                        ui.loadingBar("hide");
                         return;
                     }
                     param.geometry = dtmap.draw.getGeometry();
@@ -283,6 +285,7 @@ class DataDownlad {
                         params["wkt"] = wkt;
                     } else {
                         toastr.warning("검색 영역을 지정하여 주십시오.");
+                        ui.loadingBar("hide");
                         return;
                     }
                     if (typeof dtmap.draw.getGeometry() !== 'undefined') {
@@ -290,6 +293,7 @@ class DataDownlad {
                     }
                 } else {
                     toastr.warning("정의되지 않은 검색영역지정 타입입니다.");
+                    ui.loadingBar("hide");
                 }
             } //시설물기준
             else if (type == "tr_facility") {
@@ -300,11 +304,13 @@ class DataDownlad {
                     param.geometry = dtmap.vector.readWKT(wkt).get('geometry');
                 } else {
                     toastr.warning("검색 기준 시설물을 선택하여 주십시오.");
+                    ui.loadingBar("hide");
                     return;
                 }
                 params["buffer"] = $(".facility-search-buffer", this.selector).val() || 0;
             } else {
                 toastr.warning("정의되지 않은 검색 기준입니다.");
+                ui.loadingBar("hide");
             }
             params["dataIds"] = featureTypes
                 .toArray()
@@ -317,15 +323,38 @@ class DataDownlad {
             dtmap.wfsGetFeature(param).then(function (e) {
                 if (e.totalFeatures > 0) {
                     dtmap.vector.readGeoJson(e);
-                    window.location.href = "/cmt/dwld/dataDownload.do?" + $.param(params);
+                    that._fileDownload(params);
                 } else {
                     // dtmap.clear();
                     toastr.warning(`데이터가 존재하지 않습니다.`);
+                    ui.loadingBar("hide");
                 }
             })
         } else {
             toastr.warning(`데이터를 선택하여 주세요.`);
+            ui.loadingBar("hide");
             return;
         }
     }
+
+    _fileDownload(params) {
+        // window.location.href = "/cmt/dwld/dataDownload.do?" + $.param(params);
+        var url = "/cmt/dwld/dataDownload.do?" + $.param(params);
+        const req = new XMLHttpRequest();
+        req.open("GET", url, true);
+        req.responseType = "arraybuffer";
+        req.onload = function() {
+            const arrayBuffer = req.response;
+            if (arrayBuffer) {
+                var blob = new Blob([arrayBuffer], { type: "application/octetstream" });
+                var link=document.createElement('a');
+                link.href=window.URL.createObjectURL(blob);
+                link.download= params.dataIds + "_" + cmmUtil.getTime() + ".zip";
+                link.click();
+                ui.loadingBar("hide");
+            }
+        };
+        req.send();
+    }
+
 }
