@@ -22,6 +22,24 @@ map3d.vector = (function () {
         fill: DEFAULT_FILL,
         stroke: DEFAULT_STROKE
     }
+    const DEFAULT_LABEL ={
+        bold: false,
+        italic: false,
+        fontSize: 14,
+        fontFamily: 'sans-serif',
+        textAlign: 'center',
+        textBaseline: "bottom",
+        offsetY: 15,
+        fill: {
+            color: '#ffffff',
+            opacity: 1
+        },
+        stroke: {
+            color: '#000000',
+            opacity: 1,
+            width: 3,
+        }
+    }
     const TYPE = {
         POINT: 'Point',
         LINE: 'Line',
@@ -287,6 +305,7 @@ map3d.vector = (function () {
             styleOpt = {...feature.get('style'), ...style, ...{}};
         }
         if (styleOpt.label) {
+            styleOpt.label = {...DEFAULT_LABEL, ...styleOpt.label};
             if (styleOpt.label.column) {
                 styleOpt.label.text = feature.get(styleOpt.label.column);
             }
