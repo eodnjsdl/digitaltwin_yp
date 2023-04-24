@@ -88,10 +88,13 @@ public class DronInfoController {
         }
         dronInfoVO.setPageUnit(10);
         dronInfoVO.setPageSize(propertyService.getInt("pageSize"));
+
         PaginationInfo paginationInfo = new PaginationInfo();
+
         paginationInfo.setCurrentPageNo(dronInfoVO.getPageIndex());
         paginationInfo.setRecordCountPerPage(dronInfoVO.getPageUnit());
         paginationInfo.setPageSize(dronInfoVO.getPageSize());
+
         dronInfoVO.setFirstIndex(paginationInfo.getFirstRecordIndex());
         dronInfoVO.setLastIndex(paginationInfo.getLastRecordIndex());
         dronInfoVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
@@ -185,13 +188,24 @@ public class DronInfoController {
             logger.info("아이디가 존재하지 않습니다");
             dronInfoVO.setEmplyrId("webmaster");
         }
-        
+
+        dronInfoVO.setPageUnit(10);
+        dronInfoVO.setPageSize(propertyService.getInt("pageSize"));
+        PaginationInfo paginationInfo = new PaginationInfo();
+        paginationInfo.setCurrentPageNo(dronInfoVO.getPageIndex());
+        paginationInfo.setRecordCountPerPage(dronInfoVO.getPageUnit());
+        paginationInfo.setPageSize(dronInfoVO.getPageSize());
+        dronInfoVO.setFirstIndex(paginationInfo.getFirstRecordIndex());
+        dronInfoVO.setLastIndex(paginationInfo.getLastRecordIndex());
+        dronInfoVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
+
 		String lastModfDt = dronInfoService.selectLastModfDt(dronInfoVO);
 		String selectSubject = dronInfoService.selectSubject(dronInfoVO);
 		dronInfoVO.setLastModfDt(lastModfDt);
 		dronInfoVO.setSj(selectSubject);
 		
         EgovMap result = dronInfoService.selectDronInfoView(dronInfoVO);
+
         FileVO fileVO = new FileVO();
         fileVO.setAtchFileId((String) result.get("atchmnflId"));
         List<FileVO> resultFile = fileService.selectFileInfs(fileVO);
