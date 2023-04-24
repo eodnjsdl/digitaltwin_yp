@@ -302,22 +302,6 @@ function selectRlroadTcWithFilters() {
 }
 
 /**
- * 객체 선택 시 상세보기
- * @param e
- * @returns
- */
-function onSelectRailroadTrackEventListener(e) {
-    let id = e.id;
-    if (id) {
-	id = id.split('.')[1];
-	selectRailroadTrackDetailView(id);
-    } else {
-	toastr.error("객체 선택 오류입니다.");
-	return false;
-    }
-}
-
-/**
  * 엑셀 다운로드
  * @returns
  */
@@ -348,4 +332,34 @@ function downloadExcelRailroadTrack() {
 	$('[data-ax5grid="attr-grid-excel"]').empty();
 	ui.loadingBar("hide");
     }); 
+}
+
+/**
+ * 객체 선택 시 상세보기
+ * @param e
+ * @returns
+ */
+function onSelectRailroadTrackEventListener(e) {
+    let id = e.id;
+    if (id) {
+	id = id.split('.')[1];
+	selectRailroadTrackDetailView(id);
+    } else {
+	toastr.error("객체 선택 오류입니다.");
+	return false;
+    }
+}
+
+/**
+ * 팝업 종료 시, vector 제거
+ * @returns
+ */
+function closeView() {
+    if ($('#rightSubPopup').hasClass('opened')) {
+	dtmap.vector.clearSelect();
+	ui.closeSubPopup();
+    } else {
+	dtmap.vector.clear();
+    }
+    
 }

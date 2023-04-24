@@ -346,3 +346,17 @@ function onSelectSubwayTrackEventListener(e) {
 	return false;
     }
 }
+
+/**
+ * 팝업 종료 시, vector 제거
+ * @returns
+ */
+function closeView() {
+    if ($('#rightSubPopup').hasClass('opened')) {
+	dtmap.vector.clearSelect();
+	ui.closeSubPopup();
+    } else {
+	dtmap.vector.clear();
+    }
+    
+}

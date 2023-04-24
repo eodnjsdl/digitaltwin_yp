@@ -329,7 +329,7 @@ function downloadExcelTunnel() {
 	    list.push({...properties, ...{id: id}});
 	}
 	excelGrid.setData(list);
-	excelGrid.exportExcel("EXPORT_도로구간.xls");
+	excelGrid.exportExcel("EXPORT_터널.xls");
 	ui.loadingBar("hide");
 	$('[data-ax5grid="attr-grid-excel"]').empty();
     }); 
@@ -349,4 +349,18 @@ function onSelectTunnelEventListener(e) {
 	toastr.error("객체 선택 오류입니다.");
 	return false;
     }
+}
+
+/**
+ * 팝업 종료 시, vector 제거
+ * @returns
+ */
+function closeView() {
+    if ($('#rightSubPopup').hasClass('opened')) {
+	dtmap.vector.clearSelect();
+	ui.closeSubPopup();
+    } else {
+	dtmap.vector.clear();
+    }
+    
 }

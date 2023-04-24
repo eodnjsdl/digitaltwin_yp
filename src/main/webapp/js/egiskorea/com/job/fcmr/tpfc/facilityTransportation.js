@@ -1,16 +1,8 @@
 /**
  * - 업무 / 시설관리 / 교통시설
- * 
- * @returns
  */
-$(document).ready(function() {
-	console.log("facilityTransportation.js");
-	console.log("교통시설");
-});
-
 // 교통시설 분기
 function getTransportationFacility(name) {
-	console.log("getTransportationFacility()");
 	$('#bottomPopup').empty();
 	
 	switch (name) {
@@ -50,10 +42,4 @@ function getTransportationFacility(name) {
 	    toastr.error("잘못된 호출입니다.", "오류");
 	    break;
 	}
-}
-
-function setScrollbar() {
-    $(".scroll-y").mCustomScrollbar({
-	scrollbarPosition:"outside"
-    });
 }
