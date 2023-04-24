@@ -4,7 +4,6 @@ map2d.multiView = (function () {
     let _mapList = [];
     let _count;
 
-
     /**
      * 다중화면 활성화 함수
      *
@@ -15,6 +14,7 @@ map2d.multiView = (function () {
             return console.warn(`${count}개 지도분할은 지원하지 않습니다.`, '지도분할은 2,3,4개 까지 지원합니다.');
         } else {
             dispose();
+            createSync();
             for (let i = 1; i < count; i++) {
                 _mapList.push(new SubMap('subMap_' + (i + 1)));
             }
@@ -26,6 +26,11 @@ map2d.multiView = (function () {
         }
     }
 
+    function createSync() {
+        const _html = `<div class="btn_sync_01"><button type="button" id="btnSync" class="btn_sync_02" value="async"></button></div>`;
+        $("#container").append(_html);
+    }
+
     function dispose() {
         for (let i = 0; i < _mapList.length; i++) {
             _mapList[i].dispose();
@@ -34,6 +39,9 @@ map2d.multiView = (function () {
         const target = map2d.map.getTarget();
         $(target).removeClass('split-main-map');
         $(target).parent().removeClass('split-map-' + _count);
+        const $target = $(".btn_sync_01");
+        if($target) $target.remove();
+        map2d.map.updateSize();
     }
 
     function syncView() {

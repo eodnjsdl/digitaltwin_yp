@@ -27,6 +27,7 @@
     text-align: center;
     background-color: #44516A;
     border-radius: 15px 15px 0px 0px;
+    cursor: pointer;
 }
 
 .popup-panel .popup-body {

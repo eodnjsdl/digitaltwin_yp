@@ -160,6 +160,8 @@
 
     <!-- 배경지도 -->
     <script src="/js/egiskorea/com/bcrn/bcrn.js"></script>
+    <!-- 화면분할 -->
+    <script src="/js/egiskorea/com/cmt/mltv/mltv.js"></script>
 
     <!-- 업무 -->
     <script src="/js/egiskorea/com/job/job.js"></script>
@@ -314,7 +316,7 @@
     <div id="container">
 
         <!-- 지도영역 -->
-        <div id="map2D" style="width: 100%; height:100%; display:none;"></div>
+        <div id="map2D" class="main-map"></div>
         <div id="map3D" style="width: 100%; height:100%; display:none; user-select:none"></div>
 
         <!-- map-aside -->
@@ -855,7 +857,7 @@
     function setMainUI() {
         //set topmenu - 지도설정
         var _html2dTop4 = `<li><button type="button" id="backgroundMapInfo" data-popup="rightPopup">배경지도</button></li>
-						<li><button type="button" id="화면분할" class="rightPopup">화면분할</button></li>
+						<li><button type="button" id="multiView" data-popup="rightPopup">화면분할</button></li>
 						<li><button type="button" id="favorites" data-popup="rightPopup">즐겨찾기</button></li>`;
         var _html3dTop4 = `<li><button type="button" id="backgroundMapInfo" data-popup="rightPopup">배경지도</button></li>
 						<li><button type="button" id="setting" data-popup="rightPopup">지도설정</button></li>

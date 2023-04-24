@@ -47,6 +47,7 @@ window.ui = (function () {
         $(document).on('click', '.popup-panel .popup-close', function () {
             _initDrawEvent();
             $(this).closest('.popup-panel').removeClass('opened');
+            if(dtmap.mod === "2D") map2d.multiView.dispose();
         });
 
         //LEFT 메뉴 닫기 버튼
@@ -150,8 +151,9 @@ window.ui = (function () {
                     aj_selectBackgroundMapInfoList();
                     break;
                 // aside menu > 화면 분할
-                case "화면분할" :
-                    toastr.success("화면 분할 기능 추가 필요")
+                case "multiView" :
+                    ui.openPopup(area, id);
+                    initMultiViewList();
                     break;
                 // aside menu > 설정 (3D 지도설정)
                 case "setting" :
@@ -682,12 +684,11 @@ window.ui = (function () {
         }
 
         initPopup(area);
-
         //기본 틀 크기와 다른 크기를 갖는 DIV 처리
         switch (name) {
             case "backgroundMapInfo":
                 _area.width = "325";
-                _area.heigth = "807";
+                _area.heigth = "510";
                 break;
             case "saveMap":
                 _area.width = "325";
@@ -715,6 +716,10 @@ window.ui = (function () {
                 _area.left = "360";
                 _area.width = "550";
                 _area.heigth = "807";
+                break;
+            case "multiView":
+                _area.width = "290";
+                _area.heigth = "110";
                 break;
         }
 
