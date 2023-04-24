@@ -80,6 +80,7 @@ $(document).ready(function() {
 						</div>
 						<div class="space-search-items areaSrchTool" style="display: none;">경계로부터 <span class="form-group">
 							<input type="text" id="sffmBuffer" name="sffmBuffer" class="form-control align-center" placeholder="0" value="0" step="10"> <sub>m</sub></span> 이내 범위</div>
+							<input type="hidden" id="spitalSearch" name="spitalSearch" value=''>
 					</div>
 					<div class="btn-wrap">
 						<div><button type="button" class="btn type01 search" onclick="fn_search_List(event); setData();">조회</button></div>
