@@ -13,28 +13,22 @@ map3d.vector = (function () {
         stroke: DEFAULT_STROKE,
         radius: 5
     }
-
-
     const DEFAULT_LINE = {
         stroke: DEFAULT_STROKE,
         width: 3,
         radius: 5
     }
-
     const DEFAULT_POLYGON = {
         fill: DEFAULT_FILL,
         stroke: DEFAULT_STROKE
     }
-
     const TYPE = {
         POINT: 'Point',
         LINE: 'Line',
         POLYGON: 'Polygon'
     }
 
-    let _pointLayer, _lineLayer, _polygonLayer;
-    const _featureTypeMap = new Map();
-
+    let _source, _pointLayer, _lineLayer, _polygonLayer;
 
     function init() {
         if (!_pointLayer) {
@@ -60,6 +54,7 @@ map3d.vector = (function () {
                 isDefault: true
             })
         }
+        _source = new ol.source.Vector();
         Module.getOption().selectColor = new Module.JSColor(255, 79, 245, 255);
     }
 
@@ -67,11 +62,7 @@ map3d.vector = (function () {
         if (!multi) {
             clearSelect();
         }
-        const layer = getLayerByFeatureId(id);
-        if (!layer) {
-            return;
-        }
-        const obj = layer.get(id);
+        const obj = getObject3D(id);
         if (!obj) {
             return;
         }
@@ -86,18 +77,35 @@ map3d.vector = (function () {
         alt = alt < 1000 ? 1000 : alt;
         camera.moveLookAt(object3d.position, camera.getTilt(), camera.getDirect(), alt);
 
+        let feature = _source.getFeatureById(id);
+        if (feature) {
+            feature.set('_selected', true);
+        }
         // layer.setHighLight(id);
     }
 
+    function getSelected() {
+        const features = _source
+            .getFeatures()
+            .filter(function (feature) {
+                return feature.get('_selected') ? feature : undefined;
+            });
+        return features;
+    }
+
+
     function clearSelect() {
         Module.getMap().clearSelectObj();
+        _source.getFeatures().forEach(function (f) {
+            f.unset('_selected');
+        });
     }
 
     function clear() {
         _pointLayer.clear();
         _lineLayer.clear();
         _polygonLayer.clear();
-        _featureTypeMap.clear();
+        _source.clear();
     }
 
     function dispose() {
@@ -157,7 +165,7 @@ map3d.vector = (function () {
             dataProjection: crs,
             featureProjection: map3d.crs
         });
-        addFeatures(features, style, map3d.crs);
+        addFeatures(features, style);
     }
 
     function readWKT(wkt, properties) {
@@ -176,16 +184,16 @@ map3d.vector = (function () {
             }
             feature.setProperties(properties, true);
         }
-        return addFeature(feature, 'EPSG:4326');
+        return addFeature(feature);
     }
 
-    function addFeatures(features, style, crs) {
+    function addFeatures(features, style) {
         for (let i = 0; i < features.length; i++) {
-            addFeature(features[i], style, crs);
+            addFeature(features[i], style);
         }
     }
 
-    function addFeature(feature, style, crs) {
+    function addFeature(feature, style) {
         const f = feature.clone();
         f.setId(feature.getId() || ol.util.getUid(feature));
 
@@ -199,9 +207,6 @@ map3d.vector = (function () {
             );
         }
         let geometry = f.getGeometry();
-        if (crs !== map3d.crs) {
-            geometry.transform(ol.proj.get(crs), ol.proj.get(map3d.crs));
-        }
         const id = f.getId();
         const param = {
             id: id,
@@ -212,33 +217,39 @@ map3d.vector = (function () {
         let object;
         if (geometry instanceof ol.geom.Point || geometry instanceof ol.geom.MultiPoint) {
             object = _pointLayer.add(param);
-            _featureTypeMap.set(id, TYPE.POINT);
+            f.set('_type', TYPE.POINT);
         } else if (geometry instanceof ol.geom.LineString || geometry instanceof ol.geom.MultiLineString) {
             object = _lineLayer.add(param);
-            _featureTypeMap.set(id, TYPE.LINE);
+            f.set('_type', TYPE.LINE);
         } else if (geometry instanceof ol.geom.Polygon || geometry instanceof ol.geom.MultiPolygon || geometry instanceof ol.geom.Circle) {
             object = _polygonLayer.add(param);
-            _featureTypeMap.set(id, TYPE.POLYGON);
+            f.set('_type', TYPE.POLYGON)
         }
+        _source.addFeature(f);
         return object;
     }
 
     function addPoint(options) {
-        const geom = new ol.geom.Point(options.coordinate);
-        const feature = new ol.Feature({
-            geometry: geom
-        });
-        if (options.id) {
-            feature.setId(options.id)
-        }
-        if (options.properties) {
-            feature.setProperties(options.properties);
-        }
+        const geom = dtmap.util.createGeometry('Point', options);
+        const feature = dtmap.util.createFeature(geom, options);
         return addFeature(feature, options.style, options.crs);
     }
 
-    function getLayerByFeatureId(id) {
-        const type = _featureTypeMap.get(id);
+    function addLine(options) {
+        const geom = new ol.geom.LineString(options.coordinates);
+        const feature = dtmap.util.createFeature(geom, options);
+        return addFeature(feature, options.style, options.crs);
+    }
+
+    function addPolygon(options) {
+        const geom = new ol.geom.Polygon(options.coordinates);
+        const feature = dtmap.util.createFeature(geom, options);
+        return addFeature(feature, options.style, options.crs);
+    }
+
+
+    function getLayerFromFeature(feature) {
+        const type = feature.get('_type');
         if (!type) {
             return;
         }
@@ -254,7 +265,12 @@ map3d.vector = (function () {
     }
 
     function getFeature(id) {
-        const layer = getLayerByFeatureId(id);
+        return _source.getFeatureById(id);
+    }
+
+    function getObject3D(id) {
+        const feature = _source.getFeatureById(id);
+        const layer = getLayerFromFeature(feature);
         if (!layer) {
             return;
         }
@@ -291,25 +307,22 @@ map3d.vector = (function () {
 
     }
 
+    function removeFeature(feature) {
+        const layer3d = getLayerFromFeature(feature);
+        if (layer3d) {
+            layer3d.removeById(feature.getId());
+            _source.removeFeature(feature);
+        }
+    }
+
     function removeFeatureByFilter(filter) {
-        let keys = []
-        _featureTypeMap.forEach(function (v, k) {
-            keys.push(k);
-        });
-        let features = [];
-        keys.filter((v) => {
-            const feature = getFeature(v);
-            if (filter(feature, feature.properties)) {
-                features.push(v);
-            }
-        })
-        //
-        features.forEach((v) => {
-            const layer = getLayerByFeatureId(v);
-            if (layer) {
-                layer.removeById(v);
-                _featureTypeMap.delete(v);
-            }
+        const features = _source
+            .getFeatures()
+            .filter(function (feature) {
+                return filter(feature);
+            });
+        features.forEach((feature) => {
+            removeFeature(feature);
         });
     }
 
@@ -317,11 +330,16 @@ map3d.vector = (function () {
         init: init,
         readWKT: readWKT,
         readGeoJson: readGeoJson,
+        removeFeature: removeFeature,
         removeFeatureByFilter: removeFeatureByFilter,
         addFeature: addFeature,
         addFeatures: addFeatures,
         addPoint: addPoint,
+        addLine: addLine,
+        addPolygon: addPolygon,
         getFeature: getFeature,
+        getObject3D: getObject3D,
+        getSelected: getSelected,
         select: select,
         clear: clear,
         clearSelect: clearSelect,
@@ -329,12 +347,5 @@ map3d.vector = (function () {
         fit: fit
     }
 
-    Object.defineProperties(module, {
-        'layer': {
-            get: function () {
-                return _layer;
-            }
-        }
-    })
     return module;
 }());

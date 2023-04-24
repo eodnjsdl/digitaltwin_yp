@@ -133,13 +133,86 @@ window.dtmap.util = (function () {
         }
     }
 
+
+    function createFeature(geometry, options) {
+        const feature = new ol.Feature({
+            geometry: geometry
+        });
+        if (options.id) {
+            feature.setId(options.id)
+        }
+        if (options.style) {
+            feature.set('style', options.style);
+        }
+        if (options.properties) {
+            feature.setProperties(options.properties);
+        }
+        return feature;
+    }
+
+    function createGeometry(type, options) {
+        let geometry;
+        if (type === 'Point') {
+            geometry = new ol.geom.Point(options.coordinates);
+        } else if (type === 'LineString') {
+            geometry = new ol.geom.LineString(options.coordinates);
+        } else if (type === 'Polygon') {
+            geometry = new ol.geom.Polygon(options.coordinates);
+        } else {
+            throw new Error(`${options.type}은 지원하지 않는 형태입니다.`);
+        }
+
+        if (options.crs) {
+            if (options.crs !== dtmap.crs) {
+                geometry.transform(options.coordinate, options.crs, dtmap.crs);
+            }
+        }
+
+        return geometry
+    }
+
+    function getBufferGeometry(geom, buffer) {
+        let result;
+        try {
+            if (buffer <= 0 || isNaN(buffer)) {
+                return geom;
+            }
+
+            if (geom instanceof ol.geom.Circle) {
+                geom = ol.geom.Polygon.fromCircle(geom);
+            }
+            const flatCoords = geom.getFlatCoordinates();
+            let isLonLat = false;//4326일 경우
+            if ((flatCoords[0] < 180 && flatCoords[0] > -180) && (flatCoords[1] < 90 && flatCoords[1] > -90)) {
+                isLonLat = true;
+                geom.transform('EPSG:4326', 'EPSG:3857');
+            }
+
+            const parser = new jsts.io.OL3Parser();
+            const jstsGeom = parser.read(geom);
+            const buffered = jstsGeom.buffer(buffer);
+            result = parser.write(buffered);
+
+            if (isLonLat) {
+                result.transform('EPSG:3857', 'EPSG:4326');
+            }
+        } catch (e) {
+            //LineString 점 1개일 경우 에러 undefined 리턴
+            result = undefined;
+        }
+        return result;
+    }
+
     let module = {
         altToZoom: altToZoom,
         zoomToAlt: zoomToAlt,
         readWKT: readWKT,
         writeWKT: writeWKT,
         readGeoJson: readGeoJson,
-        writeGeoJson: writeGeoJson
+        writeGeoJson: writeGeoJson,
+        createGeometry: createGeometry,
+        createFeature: createFeature,
+        getBufferGeometry: getBufferGeometry
     }
     return module;
 }());

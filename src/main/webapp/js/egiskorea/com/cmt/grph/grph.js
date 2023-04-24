@@ -116,7 +116,8 @@ class GraphicTool {
                         alert("그리기 정보를 가져오는 실패했습니다.");
                     });
             } else {
-                dtmap.vector.removeFeatureByFilter(function (obj, prop) {
+                dtmap.vector.removeFeatureByFilter(function (feature) {
+                    const prop = feature.getProperties();
                     return prop["grphcId"] === id
                 })
             }
