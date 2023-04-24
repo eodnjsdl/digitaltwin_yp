@@ -102,6 +102,8 @@ public interface FaciReseMngService {
 	 * @throws Exception
 	 */
 	public int dubCheckFaciReseMngRegist(FaciReseMngVO faciReseMngVO) throws Exception;
+	public int dubCheckFaciReseMngRegist2(FaciReseTemp faciReseTemp) throws Exception;
+	public int dubCheckFaciReseMngRegistMap(Map<String, Object> checkData);
 	
 	/** 
 	 * 업무 > 시설관리 > 시설예약관리 수정용 중복체크
@@ -110,4 +112,6 @@ public interface FaciReseMngService {
 	 * @throws Exception
 	 */
 	public int dubCheckFaciReseMngUpdate(FaciReseMngVO faciReseMngVO) throws Exception;
+
+	
 }

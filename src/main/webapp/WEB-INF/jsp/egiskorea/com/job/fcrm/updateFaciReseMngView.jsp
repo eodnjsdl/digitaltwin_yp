@@ -70,7 +70,7 @@ $("#fcrmUpdateBtn").on("click", function(){
 		if( dubChk == "Y" ){
 			return false;
 		} else {
-			aj_updateFaciReseMng(); 
+			//aj_updateFaciReseMng(); 
 		}
 	}
 });

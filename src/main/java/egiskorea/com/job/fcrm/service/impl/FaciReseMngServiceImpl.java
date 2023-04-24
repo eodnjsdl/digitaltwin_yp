@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import egiskorea.com.job.fcrm.service.FaciReseMng;
 import egiskorea.com.job.fcrm.service.FaciReseMngService;
 import egiskorea.com.job.fcrm.service.FaciReseMngVO;
+import egiskorea.com.job.fcrm.service.FaciReseTemp;
 import egovframework.rte.fdl.cmmn.EgovAbstractServiceImpl;
 
 /**
@@ -172,6 +173,16 @@ public class FaciReseMngServiceImpl extends EgovAbstractServiceImpl implements F
 		return faciReseMngDAO.dubCheckFaciReseMngRegist(faciReseMngVO);
 	};
 	
+	@Override
+	public int dubCheckFaciReseMngRegist2(FaciReseTemp faciReseTemp) throws Exception {
+		return faciReseMngDAO.dubCheckFaciReseMngRegist2(faciReseTemp);
+	};
+	
+	@Override
+	public int dubCheckFaciReseMngRegistMap(Map<String, Object> checkData) {
+		return faciReseMngDAO.dubCheckFaciReseMngRegistMap(checkData);
+	};
+	
 	/** 
 	 * 업무 > 시설관리 > 시설예약관리 수정용 중복체크
 	 * @param faciReseMng
@@ -181,5 +192,7 @@ public class FaciReseMngServiceImpl extends EgovAbstractServiceImpl implements F
 	@Override
 	public int dubCheckFaciReseMngUpdate(FaciReseMngVO faciReseMngVO) throws Exception {
 		return faciReseMngDAO.dubCheckFaciReseMngUpdate(faciReseMngVO);
-	};
+	}
+
+	
 }

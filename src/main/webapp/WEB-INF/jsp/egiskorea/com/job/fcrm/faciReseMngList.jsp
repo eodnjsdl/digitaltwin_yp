@@ -31,14 +31,21 @@ $('.datepickerY-M').datepicker({
 var lastSrchYM = "<c:out value='${searchVO.srchYM}' />";
 var lastPageIndex = "<c:out value='${searchVO.pageIndex}' />";
 $(document).ready(function(){
-	if (poiList != "") { //상세보기에서는 안되게 추가 수정해주기.
-		setPointLayer();
+	console.log("faciResMngList.jsp");
+	
+	//if (poiList != "") { //상세보기에서는 안되게 추가 수정해주기.
+	if(poiList){
+		if(poiList.resultCnt > 0){
+			setPointLayer();
+		}
 	}
+	
+	
 });
 </script>
 <form name="searchForm" id="searchForm" method="post" onsubmit="fn_select_list(); return false;">
-<input type="hidden" name="pageIndex" id="pageIndex" value="<c:out value='${searchVO.pageIndex}' />">
-<input type="hidden" name="srchYM" value="<c:out value='${searchVO.srchYM}' />">
+<input type="text" name="pageIndex" id="pageIndex" value="<c:out value='${searchVO.pageIndex}' />">
+<input type="text" name="srchYM" value="<c:out value='${searchVO.srchYM}' />">
 <div class="popup-header">시설예약관리</div>
 <div class="popup-body">
 	<div class="left-popup-body facility-rsve-mng-body">	

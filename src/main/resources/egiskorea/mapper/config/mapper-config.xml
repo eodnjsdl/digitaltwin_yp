@@ -171,6 +171,7 @@
 		<!-- 업무 > 시설예약관리 -->
 		<typeAlias alias="faciReseMngVO" type="egiskorea.com.job.fcrm.service.FaciReseMngVO" />
 		<typeAlias alias="faciReseMng" type="egiskorea.com.job.fcrm.service.FaciReseMng" />
+		<typeAlias alias="faciReseTemp" type="egiskorea.com.job.fcrm.service.FaciReseTemp" /><!-- uhh add... -->
 		
 		<!-- 업무 > 관내업소정보 -->
 		<typeAlias alias="inBusinessEstaInfoVO" type="egiskorea.com.job.ibbi.service.InBusinessEstaInfoVO" />

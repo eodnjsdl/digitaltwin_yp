@@ -6,8 +6,8 @@
 
 //jqeury
 $(document).ready(function(){
-	console.log("facilitySewerSupply.js");
-	console.log("하수도시설");
+	//console.log("facilitySewerSupply.js");
+	//console.log("하수도시설");
 });
 
 //functions

@@ -884,7 +884,8 @@ function aj_selectAtmospherePollutionList(form){
 // 시설예약관리
 var highChk = '';
 function aj_selectFaciReseMngList(form){
-
+	console.log("aj_selectFaciReseMngList(form)");
+	
 	ui.loadingBar("show");
 	var	formData = new FormData(form);
 

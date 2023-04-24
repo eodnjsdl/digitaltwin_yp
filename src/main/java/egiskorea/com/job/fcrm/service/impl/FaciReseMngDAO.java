@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 import egiskorea.com.cmm.service.impl.ComAbstractDAO;
 import egiskorea.com.job.fcrm.service.FaciReseMng;
 import egiskorea.com.job.fcrm.service.FaciReseMngVO;
+import egiskorea.com.job.fcrm.service.FaciReseTemp;
 import egovframework.rte.fdl.cmmn.exception.FdlException;
 /**
  * @Description 시설예약관리 DAO
@@ -128,6 +129,14 @@ public class FaciReseMngDAO extends ComAbstractDAO{
 		return (Integer)selectOne("faciReseMng.dubCheckFaciReseMngRegist", faciReseMngVO);
 	};
 	
+	public int dubCheckFaciReseMngRegist2(FaciReseTemp faciReseTemp) {
+		return (Integer)selectOne("faciReseMng.dubCheckFaciReseMngRegist2", faciReseTemp);
+	};
+	
+	public int dubCheckFaciReseMngRegistMap(Map<String, Object> checkData) {
+		return (Integer)selectOne("faciReseMng.dubCheckFaciReseMngRegistMap", checkData);
+	}
+	
 	/** 
 	 * 업무 > 시설관리 > 시설예약관리 수정용 중복체크
 	 * @param faciReseMng
@@ -136,5 +145,9 @@ public class FaciReseMngDAO extends ComAbstractDAO{
 	 */
 	public int dubCheckFaciReseMngUpdate(FaciReseMngVO faciReseMngVO) throws Exception {
 		return (Integer)selectOne("faciReseMng.dubCheckFaciReseMngUpdate", faciReseMngVO);
-	};
+	}
+
+	
+
+	
 }

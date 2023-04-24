@@ -15,6 +15,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -25,6 +26,7 @@ import egiskorea.com.job.cmss.service.TgdSccoEmdVO;
 import egiskorea.com.job.fcrm.service.FaciReseMng;
 import egiskorea.com.job.fcrm.service.FaciReseMngService;
 import egiskorea.com.job.fcrm.service.FaciReseMngVO;
+import egiskorea.com.job.fcrm.service.FaciReseTemp;
 import egovframework.com.cmm.service.EgovCmmUseService;
 import egovframework.rte.fdl.property.EgovPropertyService;
 import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
@@ -228,10 +230,16 @@ public class FaciReseMngController {
 	@RequestMapping(value = "/dubCheckFaciReseMngRegist.do")
 	public String dubCheckFaciReseMngRegist(
 			@ModelAttribute("faciReseMngVO") FaciReseMngVO faciReseMngVO) throws Exception {
-		
+			//@ModelAttribute("faciReseMng") FaciReseMng faciReseMng) throws Exception {
+			//@ModelAttribute("faciReseTemp") FaciReseTemp faciReseTemp) throws Exception {
+			//@RequestParam Map<String,Object> checkData) throws Exception {
+		//System.out.println(checkData.toString());
 		String dubCnt = Integer.toString(faciReseMngService.dubCheckFaciReseMngRegist(faciReseMngVO));
+		//String dubCnt = Integer.toString(faciReseMngService.dubCheckFaciReseMngRegist2(faciReseTemp));
+		//String dubCnt = Integer.toString(faciReseMngService.dubCheckFaciReseMngRegistMap(checkData));
 		
 		return dubCnt;
+		//return "";
 	}
 	
 	/**

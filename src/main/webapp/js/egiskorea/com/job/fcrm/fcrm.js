@@ -2,8 +2,10 @@ $(document).ready(function(){
 	ui.callDatePicker();
 });
 
-//POILsyrt를 추가해준다.
+//시설예약관리
+//POILsyrt를 추가해준다. 
 function setPointLayer(){
+	console.log("setPointLayer()");
 	var mapType = $('input:radio[name="mapType"]:checked').val();
 	if(mapType == "2D"){
 		const format = new ol.format.GeoJSON();
@@ -15,7 +17,7 @@ function setPointLayer(){
 		});
 		if(features.length > 0) {
 			const geojson = format.writeFeatures(features)
-			cmmUtil.highlightFeatures(geojson, "./images/poi/inBusinessEsta_poi.png", { notMove: true, onClick: function(feature) {
+			/*cmmUtil.highlightFeatures(geojson, "./images/poi/inBusinessEsta_poi.png", { notMove: true, onClick: function(feature) {
 				//const coordinates = feature.getGeometry().getCoordinates();
 				//const lon = coordinates[0];
 				//const lat = coordinates[1];
@@ -27,9 +29,27 @@ function setPointLayer(){
 				const rsrvsn = poi.rsrvSn;
 
 				aj_selectFaciReseMng(gid, rsrvsn, lon, lat);
-			}});
+			}});*/
+			///////////////
+			dtmap.vector.clear();
+	        
+	        //지도에 GeoJSON 추가
+	        dtmap.vector.readGeoJson(geojson, function (feature) {
+                return {
+                    marker: {
+                        src: './images/poi/inBusinessEsta_poi.png'
+                    },
+                    label: {
+                        text: ''
+                    }
+                }
+	        });
+
+	        dtmap.vector.fit();
+	        
 		} else {
-			cmmUtil.clearHighlight();
+			//cmmUtil.clearHighlight();
+			dtmap.vector.clear();
 		}
 	}else{
 		if(highChk == ''){
@@ -189,7 +209,6 @@ $(".facilNm").on("change", function(){
 
 // 등록, 수정시 예약시설 선택시 onChange 이벤트 
 $(".facilDtlNm").on("change", function(){
-	
 	var gid = $(".facilNm option:selected").val();
 	var asstnFcltySn = $(".facilDtlNm option:selected").val();
 	
@@ -227,10 +246,33 @@ $(".facilDtlNm").on("change", function(){
 			var timeVal = '0';
 			var timeSet = ':00';
 			var timeText = '시';
-			for(var i = data.resultList[0].operStrtTime.substring(0,2); i <= data.resultList[0].operEndTime.substring(0,2); i++){
+			
+			//시간 만 추출후 숫자로 변환
+			var operStrtTime 	= data.resultList[0].operStrtTime.substring(0,2);
+			var operEndTime 	= data.resultList[0].operEndTime.substring(0,2);
+			if(typeof operStrtTime == "string"){
+				operStrtTime 	= parseInt(operStrtTime, 10);
+			}
+			if(typeof operEndTime == "string"){
+				operEndTime 	= parseInt(operEndTime, 10);
+			}
+			//console.log("operStrtTime>>"+operStrtTime);
+			//console.log("operEndTime>>"+operEndTime);
+			
+			for(var i = operStrtTime; i <= operEndTime; i++){
+				
+				i += "";
+				
+				if(i.length == 1){
+					timeVal = "0"+i;
+				}else{
 					timeVal = i;
+				}
+				
 				timeHtml += "<option value=" + timeVal + timeSet + " >" + timeVal + timeText + "</option>";
 			}
+			
+			$(".timepicker").empty();
 			$(".timepicker").append(timeHtml);
 			
 		}
@@ -240,7 +282,11 @@ $(".facilDtlNm").on("change", function(){
 
 // 등록페이지호출 ajax
 function aj_insertFaciReseMngView(form){
-	loadingShowHide("show");
+	console.log("aj_insertFaciReseMngView(form)");
+	
+	//loadingShowHide("show");
+	ui.loadingBar("show");
+	
 	var formData = new FormData();
 	document.searchForm.pageIndex.value = lastPageIndex;
 	document.searchForm.srchYM.value = lastSrchYM;
@@ -269,7 +315,8 @@ function aj_insertFaciReseMngView(form){
 				return;
 			} 
 		}, complete : function(){
-			loadingShowHide("hide"); 
+			//loadingShowHide("hide");
+			ui.loadingBar("hide");
 			/*setTime();*/
 		}
 	});
@@ -277,14 +324,27 @@ function aj_insertFaciReseMngView(form){
 
 // 상세페이지 ajax
 function aj_selectFaciReseMng(param1, param2, lon, lat){
-	loadingShowHide("show");
+	console.log("aj_selectFaciReseMng(param1, param2, lon, lat)");
+	console.log(param1);
+	console.log(param2);
+	console.log(lon);
+	console.log(lat);
+	
+	//loadingShowHide("show");
+	ui.loadingBar("show");
+	
 	highChk = '';
 	$(".facility-rsve-mng-body").html("");
-	if(lon != null){
-		cmmUtil.setCameraMove(lon, lat);
-	}
+	
+	//if(lon != null){
+	//	cmmUtil.setCameraMove(lon, lat);
+	//}
 
-	fcrm_sethigh(param1, param2, lon, lat); //POI 하이라이트
+	//fcrm_sethigh(param1, param2, lon, lat); //POI 하이라이트
+	/////////////////////////
+	if(param1){
+		dtmap.vector.select(param1);	//지도에  표시
+	}
 
 	var formData = new FormData();
 	document.searchForm.pageIndex.value = lastPageIndex;
@@ -314,14 +374,20 @@ function aj_selectFaciReseMng(param1, param2, lon, lat){
 				return;
 			} 
 		}, complete : function(){
-			loadingShowHide("hide"); 
+			//loadingShowHide("hide"); 
+			ui.loadingBar("hide");
 		}
 	});
 }
 
 // 상세 > 수정페이지 ajax
 function aj_updateFaciReseMngView(param1, param2){
-	loadingShowHide("show");
+	console.log("aj_updateFaciReseMngView(param1, param2)");
+	console.log(param1);
+	console.log(param2);
+	
+	//loadingShowHide("show");
+	ui.loadingBar("show");
 	
 	var formData = new FormData();
 	
@@ -348,7 +414,8 @@ function aj_updateFaciReseMngView(param1, param2){
 				return;
 			} 
 		}, complete : function(){
-			loadingShowHide("hide"); 
+			//loadingShowHide("hide");
+			ui.loadingBar("hide");
 		}
 	});
 }
