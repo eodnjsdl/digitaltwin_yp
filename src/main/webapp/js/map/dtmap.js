@@ -276,7 +276,7 @@ window.dtmap = (function () {
             }
             ary.push(new ol.format.filter.intersects('geom', geom, options.crs || dtmap.crs));
         } else if (options.bbox) {
-            ary.push(new ol.format.filter.bbox('geom', options.bbox));
+            ary.push(new ol.format.filter.bbox('geom', options.bbox,options.crs || dtmap.crs));
         }
 
         if (ary.length === 0) {

@@ -210,5 +210,27 @@ var cmmUtil = {
         });
     },
 
+    _leadingZeros: function(n, digits) {
+        var zero = '';
+        n = n.toString();
+        if (n.length < digits) {
+            for (i = 0; i < digits - n.length; i++)
+                zero += '0';
+        }
+        return zero + n;
+    },
+
+    //현재 날짜+시간
+    getTime: function() {
+        var today = new Date();
+        var year = this._leadingZeros(today.getFullYear(), 4); // 년도
+        var month = this._leadingZeros(today.getMonth() + 1, 2);  // 월
+        var date = this._leadingZeros(today.getDate(), 2);  // 날짜
+        var hours = this._leadingZeros(today.getHours(), 2); // 시
+        var minutes = this._leadingZeros(today.getMinutes(), 2);  // 분
+        return year+month+date+hours+minutes;
+    },
+
+
 
 };

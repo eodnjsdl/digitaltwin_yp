@@ -25,8 +25,10 @@ map3d.draw = (function () {
             state = Module.MML_INPUT_RECT
         } else if (_type === 'CIRCLE') {
             state = Module.MML_INPUT_CIRCLE
+        } else if (_type === 'POLYGON') {
+            state = Module.MML_INPUT_AREA
         } else {
-            state = Module.MML_MOVE_GRAB
+            state = Module.MML_SELECT_POINT
         }
         Module.XDSetMouseState(state);
         getBufferLayer();
@@ -62,31 +64,40 @@ map3d.draw = (function () {
         return coords;
     }
 
+    function addGeometry(geom) {
+        if (geom instanceof ol.geom.Point) {
+            _type = 'POINT';
+        } else if (geom instanceof ol.geom.LineString) {
+            _type = 'LINESTRING';
+        } else if (geom instanceof ol.geom.Polygon) {
+            _type = 'POLYGON';
+        }
+        const coordinates = geom.getFlatCoordinates();
+        for (let i = 0; i < coordinates.length; i += 2) {
+            Module.getMap().addInputPoint(coordinates[i], coordinates[i + 1]);
+        }
+    }
+
     function writeGeoJson() {
         let feature = new ol.Feature({
             geometry: getGeometry()
         });
         let format = new ol.format.GeoJSON();
-
         return format.writeFeatures([feature]);
-
-
     }
 
-    function readGeoJson(json) {
-        if (typeof json === 'string') {
-            json = JSON.parse(json);
-        }
-        //TODO 필요시 개발
-        const features = json.features;
-        for (let i = 0; i < features.length; i++) {
-            const f = features[i];
-            const coordinates = f.geometry.coordinates;
-            for (let j = 0; j < coordinates.length; j++) {
-                Module.getMap().addInputPoint(coordinates[j][0], coordinates[j][1])
-            }
+    function readGeoJson(json, style) {
 
-        }
+        dtmap.util.readGeoJson(json).map((feature) => {
+            if (typeof style === 'function') {
+                feature.set('_style', style);
+            } else {
+                feature.set('style', style);
+            }
+            const geom = feature.getGeometry();
+            addGeometry(geom);
+            return feature;
+        });
     }
 
     function writeWKT() {
@@ -116,7 +127,7 @@ map3d.draw = (function () {
                 return;
             }
             geom = new ol.geom.LineString(coords);
-        } else if (_type === 'BOX' || _type === 'CIRCLE') {
+        } else if (_type === 'BOX' || _type === 'CIRCLE' || _type === 'POLYGON') {
             //polygon
             if (coords.length < 3) {
                 return;
@@ -124,30 +135,12 @@ map3d.draw = (function () {
             geom = new ol.geom.Polygon([coords]);
         }
 
-        return getBufferGeometry(geom, _buffer);
+        return dtmap.util.getBufferGeometry(geom, _buffer);
     }
 
     function setBuffer(buffer) {
         _buffer = buffer;
         drawBuffer();
-    }
-
-    function getBufferGeometry(geom, buffer) {
-        if (buffer <= 0 || isNaN(buffer)) {
-            return geom;
-        }
-
-        let buffered
-        try {
-            geom.transform('EPSG:4326', 'EPSG:3857');
-            const parser = new jsts.io.OL3Parser();
-            const jstsGeom = parser.read(geom);
-            buffered = parser.write(jstsGeom.buffer(buffer));
-            buffered.transform('EPSG:3857', 'EPSG:4326');
-        } catch (e) {
-            //LineString 점1개 일 경우 패스
-        }
-        return buffered;
     }
 
     function drawBuffer() {
@@ -274,6 +267,7 @@ map3d.draw = (function () {
         getSnapLayer: getSnapLayer,
         setSnapLayer: setSnapLayer,
         clearSnapLayer: clearSnapLayer,
+        addGeometry: addGeometry,
         clear: clear
     };
     return module;
