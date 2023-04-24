@@ -261,7 +261,7 @@ function setRoadSectListData(_pageNo, geom) {
 	            src: '/images/poi/roadSection_poi.png'
 	            },
 	            label: {
-	                text: ''
+	                text: properties.rn
 	            }
 	        }
 	});
