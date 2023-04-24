@@ -15,7 +15,7 @@ class DataDownlad {
     constructor() {
         this.selector = "#rightPopup";
         this.render();
-        this.wkt= null;
+        this.wkt = null;
     }
 
     /**
@@ -101,10 +101,10 @@ class DataDownlad {
      */
     bindEvents() {
         const that = this;
-
         // 검색 기준 변경
         $(".tabBoxDepth1 ul li", that.selector).on("click", function () {
             dtmap.clear();
+            dtmap.off('select');
             const node = $(this);
             const id = node.attr("data-id");
             $(".data-write tbody tr.tr_toggle", that.selector).hide();
@@ -114,16 +114,7 @@ class DataDownlad {
                     "change"
                 );
             }
-            // if (app2D) {
-            //   cmmUtil.drawClear();
-            // } else {
-            //   Module.XDSetMouseState(1);
-            //   if (GLOBAL.layerBox != null) {
-            //     delWfSLayer(GLOBAL.layerBox);
-            //   }
-            // }
         });
-
         // 검색영역지정 변경 (현재화면영역, 사용자정의)
         $("[name=download-search-area]", that.selector).on("change", function () {
             dtmap.clear();
@@ -141,14 +132,11 @@ class DataDownlad {
                 );
             }
         });
-
         // 사용자 정의 검색 조건
         $("[name=download-search-drawing]", that.selector).on("click", function () {
             dtmap.clear();
             const node = $(this);
             const value = node.val();
-            // cmmUtil.spitalDraw(type);
-
             let type;
             switch (Number(value)) {
                 case 1:
@@ -165,9 +153,7 @@ class DataDownlad {
                     break;
             }
             dtmap.draw.active({type: type, once: true});
-            // dtmap.on('drawend', that.onDrawEnd_dwld);
         });
-
         //시설물기준 - 검색영역지정 selectBox
         $("#facilitySelectList").on("change", function () {
             dtmap.vector.clear();
@@ -175,7 +161,7 @@ class DataDownlad {
             const layer = node.val();
             var style = {
                 fill: {
-                    color: 'rgba(255,128,128,0.68)'
+                    color: 'rgba(255,128,128,0.28)'
                 },
                 stroke: {
                     color: '#FF8080',
@@ -190,7 +176,6 @@ class DataDownlad {
                 dtmap.vector.readGeoJson(data, style);
             });
         });
-
         //시설물기준 - 지도에서 선택
         $(".btn-select-map", that.selector)
             .off()
@@ -202,19 +187,8 @@ class DataDownlad {
                         if (_feature) {
                             dtmap.vector.select(event.id);
                             const format = new ol.format.WKT();
-                            const wkt =format.writeGeometry(_feature.getGeometry());
+                            const wkt = format.writeGeometry(_feature.getGeometry());
                             that.wkt = wkt;
-                            // const gj = fm.writeFeature(event.feature);
-                            // dtmap.draw.readGeoJson(gj, {
-                            //     fill: {
-                            //         color: 'rgba(0,255,255,0.68)'
-                            //     },
-                            //     stroke: {
-                            //         color: '#00FFFF',
-                            //         width: 4
-                            //     },
-                            // });
-
                         } else {
                             toastr.warning("현재 화면에 검색영역이 존재하지 않습니다.");
                         }
@@ -222,37 +196,13 @@ class DataDownlad {
                 } else {
                     toastr.warning("검색영역을 지정해 주세요.");
                 }
-
-                // if (app2D) {
-                //   if (type) {
-                //     cmmUtil.selectFacility(type);
-                //   } else {
-                //     toastr.warning("기준 시설물을 선택하여 주십시오.");
-                //     $("[name=standard-search-target]", that.selector).focus();
-                //   }
-                // } else {
-                //   if (type) {
-                //     if (GLOBAL.layerBox != null) {
-                //       delWfSLayer(GLOBAL.layerBox);
-                //     }
-                //     Module.XDSetMouseState(6);
-                //     Module.XDRenderData();
-                //
-                //     createLayerWfS(type, GLOBAL.layerBox);
-                //   } else {
-                //     toastr.warning("기준 시설물을 선택하여 주십시오.");
-                //     $("[name=standard-search-target]", that.selector).focus();
-                //   }
-                // }
             });
-
         // 초기화
         $(".btn_reset", that.selector).on("click", function () {
             that.reset();
             dtmap.clear();
             dtmap.draw.setBuffer(0); // 버퍼해제
         });
-
         // 전체 선택 / 해제
         $("[name=download-feature-type-all]", that.selector).on(
             "change",
@@ -264,12 +214,10 @@ class DataDownlad {
                 );
             }
         );
-
         // 내보내기
         $(".btn_downlaod", that.selector).on("click", function () {
             that.download();
         });
-
         //set buffer
         $(".area-search-buffer", that.selector).on("keyup", function (event) {
             // if (event.keyCode == "13") {
@@ -277,7 +225,6 @@ class DataDownlad {
             // }
             dtmap.draw.setBuffer(Number(this.value));
         });
-
     }
 
     /**
@@ -295,6 +242,7 @@ class DataDownlad {
             "[name=download-feature-type]:checked",
             this.selector
         );
+        const param = {};
         if (featureTypes.length > 0) {
             if (type == "tr_area") {
                 //현재화면영역
@@ -304,6 +252,29 @@ class DataDownlad {
                     const extent = dtmap.getExtent();
                     const geometry = ol.geom.Polygon.fromExtent(extent);
                     params["wkt"] = cmmUtil.toWKT(geometry);
+                    const format = new ol.format.WKT();
+                    const geom = format.readGeometry(params["wkt"]);
+                    const bufferedGeom = cmmUtil.toJstsGeometry(geom).buffer(Number(params["buffer"]));
+                    const feature = new ol.Feature(cmmUtil.toOlGeometry(bufferedGeom));
+                    const format2 = new ol.format.GeoJSON();
+                    const geojson = format2.writeFeature(feature);
+                    dtmap.draw.readGeoJson(geojson, {
+                        fill: {
+                            color: 'rgba(255,128,128,0.28)'
+                        },
+                        stroke: {
+                            color: '#FF8080',
+                            width: 4
+                        },
+                    });
+                    const wkt = dtmap.draw.writeWKT();
+                    if (wkt) {
+                        params["wkt"] = wkt;
+                    } else {
+                        toastr.warning("검색 영역을 지정하여 주십시오.");
+                        return;
+                    }
+                    param.geometry = dtmap.draw.getGeometry();
                 }  //사용자정의
                 else if (searchArea == "custom") {
                     const wkt = dtmap.draw.writeWKT();
@@ -314,6 +285,9 @@ class DataDownlad {
                         toastr.warning("검색 영역을 지정하여 주십시오.");
                         return;
                     }
+                    if (typeof dtmap.draw.getGeometry() !== 'undefined') {
+                        param.geometry = dtmap.draw.getGeometry();
+                    }
                 } else {
                     toastr.warning("정의되지 않은 검색영역지정 타입입니다.");
                 }
@@ -322,6 +296,8 @@ class DataDownlad {
                 const wkt = this.wkt;
                 if (wkt) {
                     params["wkt"] = wkt;
+                    $("#facilitySelectList").trigger("change");
+                    param.geometry = dtmap.vector.readWKT(wkt).get('geometry');
                 } else {
                     toastr.warning("검색 기준 시설물을 선택하여 주십시오.");
                     return;
@@ -337,73 +313,16 @@ class DataDownlad {
                 })
                 .join();
             params["type"] = $("[name=download-type]:checked").val();
-
-            // if (params["wkt"]) {
-            //   cmmUtil.showBufferGeometry(params["wkt"], params["buffer"]);
-            // }
-
-            // const format = new ol.format.WKT();
-            // const geometry = format.readGeometry(params["wkt"]);
-            // const filter = ol.format.filter.dwithin("geom", geometry, params["buffer"], dtmap.crs);
-
-            const param = {
-                typeNames: params["dataIds"].split(","),
-            }
-            if (type === 'tr_area') {
-                if (searchArea == "extent") {
-                    // param.bbox = dtmap.getExtent();
-
-                    const format = new ol.format.WKT();
-                    const geom = format.readGeometry(params["wkt"]);
-                    const bufferedGeom = cmmUtil.toJstsGeometry(geom).buffer(Number(params["buffer"]));
-                    const feature = new ol.Feature(cmmUtil.toOlGeometry(bufferedGeom));
-
-                    const format2 = new ol.format.GeoJSON();
-                    const geojson = format2.writeFeature(feature);
-                    dtmap.draw.readGeoJson(geojson, {
-                        fill: {
-                            color: 'rgba(255,128,128,0.68)'
-                        },
-                        stroke: {
-                            color: '#FF8080',
-                            width: 4
-                        },
-                    });
-                    const wkt = dtmap.draw.writeWKT();
-                    if (wkt) {
-                        params["wkt"] = wkt;
-                    } else {
-                        toastr.warning("검색 영역을 지정하여 주십시오.");
-                        return;
-                    }
-                    param.geometry = dtmap.draw.getGeometry();
-
-                } else {
-                    if (typeof dtmap.draw.getGeometry() !== 'undefined') {
-                        param.geometry = dtmap.draw.getGeometry();
-                    }
-                }
-            } else {
-                if (typeof dtmap.draw.getGeometry() !== 'undefined') {
-                    param.geometry = dtmap.draw.getGeometry();
-                }
-            }
-
+            param.typeNames = params["dataIds"].split(",");
             dtmap.wfsGetFeature(param).then(function (e) {
                 if (e.totalFeatures > 0) {
                     dtmap.vector.readGeoJson(e);
                     window.location.href = "/cmt/dwld/dataDownload.do?" + $.param(params);
                 } else {
+                    // dtmap.clear();
                     toastr.warning(`데이터가 존재하지 않습니다.`);
                 }
-
             })
-
-            // util.gis.getFeature(params["dataIds"].split(","), filter, null, null, ["geom"]).done((geojson) => {
-            //   cmmUtil.highlightFeatures(geojson);
-            //   ui.loadingBar("hide");
-            // });
-
         } else {
             toastr.warning(`데이터를 선택하여 주세요.`);
             return;
