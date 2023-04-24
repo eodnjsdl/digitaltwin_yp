@@ -231,7 +231,7 @@ function selectSwlDeptPs(id) {
 // 하수관거심도 상세보기 페이지 호출
 function selectSwlDeptPsDetail(detailData) {
 	//console.log('selectSwlDeptPsDetail(detailData)');
-	//console.log('data >>> ' + detailData);
+	//console.log(detailData);
 	
 	if(!detailData && detailData == null){
 		alert("하수관거심도 상세보기 오류");
@@ -451,10 +451,7 @@ function updateSwlDeptPs() {
 			var page = $(".hiddenPage").val();
 			selectSwlDeptPsList(page);
 			
-			var id = $("#updateSwlDeptPsFrm input[name=id]").val();
-        	selectSwlDeptPs(id);
-        	
-        	$(".popup-panel .update-swlConnLs-popup-close").trigger("click");
+			cancelUpdateSwlDeptPs();
 		} else {
 			alert(`수정 실패했습니다.`);
 			console.log(result["errorMsg"]);
@@ -512,7 +509,7 @@ function closeSwlDeptPsPopup() {
 	ui.closeSubPopup();				// 팝업 닫기
 }
 
-//복지시설 엑셀 저장
+// 하수관거심도 엑셀 저장
 function swlDeptPsExcel() {
 	var $container = $("#container");
     var $target = $container.find('#baseGridDiv [data-ax5grid="attr-grid-excel"]');	//가상의 ax5uigrid 공간에 처리 

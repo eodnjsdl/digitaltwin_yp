@@ -12,10 +12,13 @@ $(document).ready(function(){
 
 //functions
 
-//상수도시설 분기
+//하수도시설 분기
 function getSewerSupplyFacility(name){
 	//console.log("getWaterSupplyFacility(name)");
-		
+	
+	dtmap.draw.dispose();		//그리기 포인트 삭제
+	dtmap.draw.clear();			//그리기 초기화
+	
 	if(name){
 		if(name == "swlConnLs"){			//하수연결관
 			selectSwlConnLsListView();
@@ -27,13 +30,13 @@ function getSewerSupplyFacility(name){
 			selectSwlDranPsListView();
 			return;
 		}else if(name == "swlManhPs"){		//하수맨홀
-			toastr.error("작업중", "하수맨홀");
+			selectSwlManhPsListView();
 			return;
 		}else if(name == "swlPipeAs"){		//면형하수관거
-			selectSwlPipeAsListView()
+			selectSwlPipeAsListView();
 			return;
 		}else if(name == "swlPipeLm"){		//하수관거
-			toastr.error("작업중", "하수관거");
+			selectSwlPipeLmListView();
 			return;
 		}else if(name == "swlPumpPs"){		//하수펌프장
 			toastr.error("작업중", "하수펌프장");
@@ -60,7 +63,7 @@ function getSewerSupplyFacility(name){
 //////////////////
 //목록 화면 조회
 
-//하수연결관 목록 화면 조회
+// 하수연결관 목록 화면 조회
 function selectSwlConnLsListView(){
 	//console.log("selectSwlConnLsListView()");
 	
@@ -99,6 +102,19 @@ function selectSwlDranPsListView() {
     });
 }
 
+// 하수맨홀 목록 화면 조회
+function selectSwlManhPsListView() {
+	//console.log('selectSwlManhPsListView()');
+	
+	ui.loadingBar("show");
+	
+	var baseContainer = "#bottomPopup";
+    $(baseContainer).load('/job/fcmr/ssfc/selectSwlManhPsListView.do', function() {
+    	swlManhPsProcess();
+    	ui.loadingBar("hide");
+    });
+}
+
 //면형하수관거 목록 화면 조회
 function selectSwlPipeAsListView(){
 	//console.log("selectSwlPipeAsListView()");
@@ -112,7 +128,20 @@ function selectSwlPipeAsListView(){
     });
 }
 
-//환기구 목록 페이지 호출
+// 하수관거 목록 화면 조회
+function selectSwlPipeLmListView(){
+	//console.log("selectSwlPipeLmListView()");
+	
+	ui.loadingBar("show");
+	
+	var baseContainer = "#bottomPopup";
+    $(baseContainer).load("/job/fcmr/ssfc/selectSwlPipeLmListView.do", function () {
+    	swlPipeLmProcess();
+		ui.loadingBar("hide");
+    });
+}
+
+// 환기구 목록 페이지 호출
 function selectSwlVentPsListView() {
 	//console.log('selectSwlVentPsListView()');
 	

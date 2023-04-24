@@ -9,7 +9,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import egiskorea.com.job.fcmr.ssfc.service.SwlConnLsVO;
 import egiskorea.com.job.fcmr.ssfc.service.SwlDeptPsVO;
 import egiskorea.com.job.fcmr.ssfc.service.SwlDranPsVO;
+import egiskorea.com.job.fcmr.ssfc.service.SwlManhPsVO;
 import egiskorea.com.job.fcmr.ssfc.service.SwlPipeAsVO;
+import egiskorea.com.job.fcmr.ssfc.service.SwlPipeLmVO;
 import egiskorea.com.job.fcmr.ssfc.service.SwlVentPsVO;
 
 /**
@@ -143,6 +145,43 @@ public class SewerSupplyController {
 		model.addAttribute("id", id);
 		return "egiskorea/com/job/fcmr/ssfc/sdrp/updateSwlDranPsView";
 	}
+	
+	///////////
+	// 하수맨홀
+	
+	// 하수맨홀 목록 조회
+	@RequestMapping(value = "/selectSwlManhPsListView.do")
+	public String selectSwlManhPsListView(
+			@ModelAttribute("swlManhPsVO") SwlManhPsVO swlManhPsVO,
+			ModelMap model) throws Exception {
+		return "egiskorea/com/job/fcmr/ssfc/smap/swlManhPsListView";
+	}
+	
+	// 하수맨홀 상세화면 조회
+	@RequestMapping(value = "/selectSwlManhPsDetail.do", method = RequestMethod.POST)
+	public String selectSwlManhPs(
+			@ModelAttribute("swlManhPsVO") SwlManhPsVO swlManhPsVO, String id,
+			ModelMap model) throws Exception {
+		model.addAttribute("id", id);
+		return "egiskorea/com/job/fcmr/ssfc/smap/swlManhPsDetail";
+	}
+	
+	// 하수맨홀 등록화면 조회
+	@RequestMapping(value = "/insertSwlManhPsView.do")
+	public String insertSwlManhPsView(
+			@ModelAttribute("swlManhPsVO") SwlManhPsVO swlManhPsVO,
+			ModelMap model) throws Exception {
+		return "egiskorea/com/job/fcmr/ssfc/smap/insertSwlManhPsView";
+	}
+	
+	// 하수맨홀 수정화면 조회
+	@RequestMapping(value = "/updateSwlManhPsView.do", method = RequestMethod.POST)
+	public String updateSwlManhPsView(
+			@ModelAttribute("swlManhPsVO") SwlManhPsVO swlManhPsVO, String id,
+			ModelMap model) throws Exception {
+		model.addAttribute("id", id);
+		return "egiskorea/com/job/fcmr/ssfc/smap/updateSwlManhPsView";
+	}
 
 	///////////
 	//면형하수관거
@@ -180,6 +219,43 @@ public class SewerSupplyController {
 			model.addAttribute("id", id);
         return "egiskorea/com/job/fcmr/ssfc/spia/updateSwlPipeAsView";
     }
+	
+	///////////
+	// 하수관거
+	
+	// 하수관거 목록 조회
+	@RequestMapping(value = "/selectSwlPipeLmListView.do")
+	public String selectSwlPipeLmListView(
+			@ModelAttribute("swlPipeLmVO") SwlPipeLmVO swlPipeLmVO,
+			ModelMap model) throws Exception {
+		return "egiskorea/com/job/fcmr/ssfc/spil/swlPipeLmListView";
+	}
+	
+	// 하수관거 상세화면 조회
+	@RequestMapping(value = "/selectSwlPipeLmDetail.do", method = RequestMethod.POST)
+	public String selectSwlPipeLm(
+			@ModelAttribute("swlPipeLmVO") SwlPipeLmVO swlPipeLmVO, String id,
+			ModelMap model) throws Exception {
+		model.addAttribute("id", id);
+		return "egiskorea/com/job/fcmr/ssfc/spil/swlPipeLmDetail";
+	}
+	
+	// 하수관거 등록화면 조회
+	@RequestMapping(value = "/insertSwlPipeLmView.do")
+	public String insertSwlPipeLmView(
+			@ModelAttribute("swlPipeLmVO") SwlPipeLmVO swlPipeLmVO,
+			ModelMap model) throws Exception {
+		return "egiskorea/com/job/fcmr/ssfc/spil/insertSwlPipeLmView";
+	}
+	
+	// 하수관거 수정화면 조회
+	@RequestMapping(value = "/updateSwlPipeLmView.do", method = RequestMethod.POST)
+	public String updateSwlPipeLmView(
+			@ModelAttribute("swlPipeLmVO") SwlPipeLmVO swlPipeLmVO, String id,
+			ModelMap model) throws Exception {
+		model.addAttribute("id", id);
+		return "egiskorea/com/job/fcmr/ssfc/spil/updateSwlPipeLmView";
+	}
 	
 	///////
 	// 환기구

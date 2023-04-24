@@ -84,7 +84,7 @@ function cancelSwlVentPsDetail() {
 								<th scope="row">관리기관</th>
 								<td>
 									<c:if test="${swlVentPsVO.mng_cde_nm != '' || swlVentPsVO.mng_cde_nm ne null}">
-										<c:out value="${swlVentPsVO.mng_cde_nm }"/>
+										<c:out value="${swlVentPsVO.mng_cde_nm}"/>
 									</c:if>
 									<c:if test="${swlVentPsVO.mng_cde_nm == '' || swlVentPsVO.mng_cde_nm eq null}">
 										<c:out value="${swlVentPsVO.mng_cde}"/>
