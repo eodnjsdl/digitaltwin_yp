@@ -49,6 +49,7 @@ window.ui = (function () {
         $(document).on('click', '.popup-panel .popup-close', function () {
             _initDrawEvent();
             $(this).closest('.popup-panel').removeClass('opened');
+            if(dtmap.mod === "2D") map2d.multiView.dispose();
         });
 
         //LEFT 메뉴 닫기 버튼
