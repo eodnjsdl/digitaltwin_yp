@@ -77,7 +77,6 @@ function setPointLayer(){
 	}*/
 	/////////////////
 	// 2d/3d 통합
-	const format = new ol.format.GeoJSON();
 	const features = [];
 	poiList["resultList"].forEach((item) => {
 		const feature = new ol.Feature(new ol.geom.Point([parseFloat(item["lon"]), parseFloat(item["lat"])]));
@@ -87,7 +86,9 @@ function setPointLayer(){
 		feature.set('facMenuNm', 'faciReseMng');		//시설예약관리	구분자 이벤트
 		features.push(feature);
 	});
+	
 	if(features.length > 0) {
+		const format = new ol.format.GeoJSON();
 		const geojson = format.writeFeatures(features);
 		dtmap.vector.clear();
         
@@ -160,13 +161,11 @@ $("#fcrmResetBtn").unbind('click').bind('click',function(){
 	$(".lnb-facility .lnb-body #faciReseMng").trigger("click");	//시설 예약 관리 클릭 이벤트
 });
 
-//uhh add...
-// 닫기버튼
+// 닫기버튼 추가
 $("#fcrmCloseBtn").unbind('click').bind('click',function(){
 	highChk = '';
 	clearMap();
 });
-//uhh add... end
 
 // 하이라이트
 function fcrm_sethigh(gid, rsrvSn, lon, lat) {
