@@ -273,7 +273,7 @@
                         </div>
 
                         <h4 class="cont-stit">조사자 의견</h4>
-                        <div style="padding-bottom: 5px;"><textarea name="opinion" class="form-control"><c:out
+                        <div style="padding-bottom: 5px;"><textarea name="opinion" class="form-control" readonly><c:out
                                 value="${result.opinion}"/></textarea></div>
                     </div>
                     <div class="position-bottom btn-wrap justify-content-end examinationBtn">
