@@ -91,7 +91,8 @@ function wtlValvPsListProcess(){
             {key: "val_std", 			label: "변실규격",			width:'*'},
             //{key: "val_saf", 			label: "설정압력",			width:'*'},
             //{key: "prc_nam", 			label: "제작회사명",		width:'*'},
-            //{key: "pip_cde", 			label: "관로지형지물부호",	width:'*'},
+            //{key: "pip_cde", 			label: "관로지형지물부호code",	width:'*'},
+            //{key: "pip_cde_nm", 		label: "관로지형지물부호",	width:'*'},
             //{key: "pip_idn", 			label: "관로관리번호",		width:'*'},
             //{key: "cst_cde", 			label: "이상상태code",		width:'*'},
             {key: "cst_cde_nm", 		label: "이상상태",			width:'*'},
@@ -454,7 +455,10 @@ function selectWtlValvPs(id){
     	//개폐여부 코드 변경
     	var off_cde = data.features[0].properties.off_cde;
     	data.features[0].properties.off_cde_nm = getCmmCodeDataArray("OGC-011", off_cde);
-
+    	
+    	//관로지형지물부호 변경
+    	var pip_cde = data.features[0].properties.pip_cde;
+    	data.features[0].properties.pip_cde_nm = getCmmCodeDataArray("FTR-001", pip_cde);
         
         //좌표 처리  geometry로 변수명을 정하면 기존것과 충돌 발생
     	data.features[0].properties.geomObj = data.features[0].geometry;
@@ -872,7 +876,8 @@ function downloadExcelWtlValvPs() {
             {key: "val_std", 			label: "변실규격",			width:'*'},
             //{key: "val_saf", 			label: "설정압력",			width:'*'},
             //{key: "prc_nam", 			label: "제작회사명",		width:'*'},
-            //{key: "pip_cde", 			label: "관로지형지물부호",	width:'*'},
+            //{key: "pip_cde", 			label: "관로지형지물부호code",	width:'*'},
+            //{key: "pip_cde_nm", 		label: "관로지형지물부호",	width:'*'},
             //{key: "pip_idn", 			label: "관로관리번호",		width:'*'},
             {key: "cst_cde", 			label: "이상상태code",		width:'*'},
             {key: "cst_cde_nm", 		label: "이상상태",			width:'*'},

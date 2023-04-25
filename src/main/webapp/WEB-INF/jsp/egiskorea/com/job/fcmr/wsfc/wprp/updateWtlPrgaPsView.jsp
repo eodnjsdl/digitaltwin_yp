@@ -109,8 +109,8 @@
 								</td>
 								<th scope="row">관로지형지물부호</th>
 								<td>
-	                               	<%-- c:out value="${wtlPrgaPsVO.pip_cde }"/> --%>
-	                               	<c:out value="상수관로"/>
+	                               	<span id="pip_cde_nm"></span>
+                               		<input type="hidden" name="pip_cde" class="form-control" value="${wtlPrgaPsVO.pip_cde }">
 	                            </td>
 							</tr>
 							<tr>
@@ -203,6 +203,11 @@
       	//수압계형식
       	let mof_cde = '${wtlPrgaPsVO.mof_cde }';
       	getCmmCodeData("OGC-041", "#rightSubPopup select[name=mof_cde]", mof_cde);
+      	
+     	// 관로지형지물부호 처리
+		var pip_cde = "${wtlPrgaPsVO.pip_cde}";
+		var pip_cde_nm = getCmmCodeDataArray("FTR-001", pip_cde);
+		$("#pip_cde_nm").text(pip_cde_nm);
       	
 		///////////////////////
       	//gird 데이터를 통한 주소 조회

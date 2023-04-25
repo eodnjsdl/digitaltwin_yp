@@ -125,8 +125,7 @@
                                    <tr>
                                        <th scope="row">관로지형지물부호</th>
                                        <td>
-                                       		<%-- <c:out value="${wtlValvPsVO.pip_cde }"/> --%>
-                                       		<c:out value="상수관로"/>
+                                       		<c:out value="${wtlValvPsVO.pip_cde_nm }"/>
                                        </td>
                                        <th scope="row">관리번호</th>
                                        <td>

@@ -175,7 +175,7 @@
 		// 날짜 - 10자리(yyyy-mm-dd) 적용시 사용
 	  	//ui.callDatePicker();
 	    
-	 // 지도에서 선택 화면 호출
+	 	// 지도에서 선택 화면 호출
         $(".btn-select-map", this).on("click", function () {
         	//console.log('지도 선택 화면');
         	//console.log(this);
