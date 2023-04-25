@@ -72,7 +72,7 @@ function codeArrayInit(){
 	//setCmmCodeDataArray("OGC-041");			//수압계형식
 	
 	//배수지
-	setCmmCodeDataArray("OGC-001");				//관리방법
+	setCmmCodeDataArray("OGC-042");				//관리방법
 	setCmmCodeDataArray("OGC-134");				//배수지제어방법
 
 	//변류시설
@@ -205,7 +205,7 @@ function setCmmCodeDataArray(codeId, targetList){
 function getCmmCodeDataArray(codeId, code){
 	//console.log("getCmmCodeDataArray()");
 	//console.log(FACILITY.CODEARRAY);
-	debugger;
+	
 	var codeArray = FACILITY.CODEARRAY;
 	
 	if(codeArray && codeArray.length>0){

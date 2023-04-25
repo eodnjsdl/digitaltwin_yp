@@ -44,7 +44,7 @@ function wtlServPsListProcess(){
     //옵션 값 세팅
 	getCmmCodeData("YPE001", "#lSrchOptions select[name=hjd_cde]");		//읍면동
     getCmmCodeData("MNG-001", "#lSrchOptions select[name=mng_cde]");	//관리기관
-    getCmmCodeData("OGC-001", "#lSrchOptions select[name=sag_cde]");	//관리방법	
+    getCmmCodeData("OGC-042", "#lSrchOptions select[name=sag_cde]");	//관리방법	
     getCmmCodeData("OGC-134", "#lSrchOptions select[name=scw_cde]");	//배수지제어방법	
 	
 	//grid 기본 세팅
@@ -222,11 +222,11 @@ function selectWtlServPsList(page) {
         	var hjd_cde = data.features[i].properties.hjd_cde;
         	data.features[i].properties.hjd_cde_nm = getCmmCodeDataArray("YPE001", hjd_cde);
         	
-        	//배수지종류 코드 변경
+        	//관리방법 코드 변경
         	var sag_cde = data.features[i].properties.sag_cde;
-        	data.features[i].properties.sag_cde_nm = getCmmCodeDataArray("OGC-001", sag_cde);
+        	data.features[i].properties.sag_cde_nm = getCmmCodeDataArray("OGC-042", sag_cde);
         	
-        	//배수지형식 코드 변경
+        	//배수지제어방법 코드 변경
         	var scw_cde = data.features[i].properties.scw_cde;
         	data.features[i].properties.scw_cde_nm = getCmmCodeDataArray("OGC-134", scw_cde);
             
@@ -340,11 +340,11 @@ function selectWtlServPs(id){
     	var hjd_cde = data.features[0].properties.hjd_cde;
     	data.features[0].properties.hjd_cde_nm = getCmmCodeDataArray("YPE001", hjd_cde);
     	
-    	//배수지종류 코드 변경
+    	//관리방법 코드 변경
     	var sag_cde = data.features[0].properties.sag_cde;
-    	data.features[0].properties.sag_cde_nm = getCmmCodeDataArray("OGC-001", sag_cde);
+    	data.features[0].properties.sag_cde_nm = getCmmCodeDataArray("OGC-042", sag_cde);
     	
-    	//배수지형식 코드 변경
+    	//배수지제어방법 코드 변경
     	var scw_cde = data.features[0].properties.scw_cde;
     	data.features[0].properties.scw_cde_nm = getCmmCodeDataArray("OGC-134", scw_cde);
         
@@ -438,7 +438,7 @@ function insertWtlServPsView(){
        
         getCmmCodeData("YPE001",  "#rightSubPopup select[name=hjd_cde]");	//읍면동	
         getCmmCodeData("MNG-001", "#rightSubPopup select[name=mng_cde]");	//관리기관
-        getCmmCodeData("OGC-001", "#rightSubPopup select[name=sag_cde]");	//관리방법
+        getCmmCodeData("OGC-042", "#rightSubPopup select[name=sag_cde]");	//관리방법
         getCmmCodeData("OGC-134", "#rightSubPopup select[name=scw_cde]");	//배수지제어방법
         
 		ui.loadingBar("hide");
@@ -841,11 +841,11 @@ function downloadExcelWtlServPs() {
         	var hjd_cde = data.features[i].properties.hjd_cde;
         	data.features[i].properties.hjd_cde_nm = getCmmCodeDataArray("YPE001", hjd_cde);
         	
-        	//배수지종류 코드 변경
+        	//관리방법 코드 변경
         	var sag_cde = data.features[i].properties.sag_cde;
-        	data.features[i].properties.sag_cde_nm = getCmmCodeDataArray("OGC-001", sag_cde);
+        	data.features[i].properties.sag_cde_nm = getCmmCodeDataArray("OGC-042", sag_cde);
         	
-        	//배수지형식 코드 변경
+        	//배수지제어방법 코드 변경
         	var scw_cde = data.features[i].properties.scw_cde;
         	data.features[i].properties.scw_cde_nm = getCmmCodeDataArray("OGC-134", scw_cde);
             

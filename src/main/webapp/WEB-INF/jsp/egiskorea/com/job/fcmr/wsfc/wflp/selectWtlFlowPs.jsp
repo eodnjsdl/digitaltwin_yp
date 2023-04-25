@@ -163,8 +163,6 @@
 		$(".popup-panel .select-wtlFlowPs-popup-close").on("click", function () {
             cancelSelectWtlFlowPs();
     	});
-		
-		
 	});
 	
 	//functions
