@@ -33,7 +33,7 @@ map3d.layer.Point = (function () {
         object.setPosition(new Module.JSVector3D(lon, lat, alt));
         // 수직 라인 설정
         if (style.offsetHeight) {
-            object.setPositionLine(style.offsetHeight + alt, new Module.JSColor(255, 255, 255));
+            object.setPositionLine(style.offsetHeight, new Module.JSColor(255, 255, 255));
         }
         // 텍스트 설정
         if (style.label) {
@@ -263,6 +263,9 @@ map3d.layer.Point = (function () {
     }
 
     function drawLabel(id, style, object) {
+        if(!style.label.text){
+            return;
+        }
         const fillColor = new map3d.Color(style.label.fill);
         const strokeColor = new map3d.Color(style.label.stroke);
 
