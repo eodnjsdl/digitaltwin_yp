@@ -232,10 +232,8 @@ function setRoadSectListData(_pageNo, geom) {
 	
 	var list = [];
 	for (let i = 0; i < data.features.length; i++) {
-	    // 좌표 처리  geometry로 변수명을 정하면 기존것과 충돌 발생
-	    data.features[i].properties.geomObj = data.features[i].geometry;
-	    
-	    
+	    let wfsId = data.features[i].id.split('.')[0] + '.';
+	    data.features[i].id = wfsId + data.features[i].properties.gid;
 	    const {id, properties} = data.features[i];
 	    list.push({...properties, ...{id: id}});
 	}
@@ -263,11 +261,14 @@ function setRoadSectListData(_pageNo, geom) {
 	    // --------------------------------------------------
 	    return {
 	        marker: {
-	            src: '/images/poi/roadSection_poi.png'
+	            	src: '/images/poi/roadSection_poi.png',
+	            	anchor: [0, 0], //이미지 중심위치 (0~1 [x,y] 비율값 [0,0] 좌상단 [1,1] 우하단)
 	            },
-	            label: {
-	                text: properties.rn
-	            }
+	        label: {
+	                text: properties.rn,
+	                //3D POI 수직 막대길이
+	                offsetHeight : 10
+	            },
 	        }
 	});
 	dtmap.vector.fit();
@@ -282,7 +283,7 @@ function selectRoadSectDetailView(item) {
     let gid = item.gid;
     let rdsManNo = item.rds_man_no;
     dtmap.vector.clearSelect(); 
-    dtmap.vector.select('tgd_sprd_manage.41830.' + rdsManNo);
+    dtmap.vector.select('tgd_sprd_manage.' + gid);
     ui.openPopup("rightSubPopup");
     ui.loadingBar("show");
     var formData = new FormData();

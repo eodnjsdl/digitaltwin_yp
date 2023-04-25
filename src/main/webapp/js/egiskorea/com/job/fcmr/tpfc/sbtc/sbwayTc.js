@@ -239,11 +239,14 @@ function setSubwayTrackListData(_pageNo, geom) {
 		// --------------------------------------------------
 		return {
 			marker: {
-				src: '/images/poi/subwayTrack_poi.png' 
-				},
-				label: {
-					text: properties.kor_sbr_nm
-				}
+				src: '/images/poi/subwayTrack_poi.png',
+				anchor: [0, 0] //이미지 중심위치 (0~1 [x,y] 비율값 [0,0] 좌상단 [1,1] 우하단)
+		            },
+		        label: {
+		                text: properties.rn,
+		                //3D POI 수직 막대길이
+		                offsetHeight : 10
+		            }
 			}
 	});
 	dtmap.vector.fit();
