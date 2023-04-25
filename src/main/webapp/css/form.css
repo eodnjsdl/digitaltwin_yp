@@ -34,7 +34,7 @@ input[readonly="readonly"], input[disabled="disabled"],
 
 textarea.form-control {
 	padding: 10px;
-	height: 100px;
+	height: 70px;
 	resize: none;
 }
 
