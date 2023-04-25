@@ -137,7 +137,7 @@
 <script type="text/javascript">
 	//jqeury
 	$(document).ready(function(){
-		console.log("insertWtlManhPsView.jsp");
+		//console.log("insertWtlManhPsView.jsp");
 	    
 		//3d 일때 지도 추가 버튼 삭제 
 		if(dtmap.mod == "3D"){
@@ -160,8 +160,8 @@
 		
 	 	// 지도에서 선택 화면 호출
         $(".btn-select-map", this).on("click", function () {
-        	console.log('지도 선택 화면');
-        	console.log(this);
+        	//console.log('지도 선택 화면');
+        	//console.log(this);
         	
         	ui.loadingBar("show");
             $('.space-edit-tool').load("/job/fcts/editView.do", () => {

@@ -14,6 +14,8 @@ $('.datepickerY-M').datepicker({
 	showOn: 'both',
 	buttonImage: '/images/icon/form-calendar.svg',
 	//buttonText: '클릭하시면 좌측의 텍스트박스에 달력이 열립니다. 달력은 CTRL/COMMAND+방향키로 컨트롤이 가능합니다.'
+	monthNamesShort: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'], 	//달력의 월 부분 텍스트
+    monthNames: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'], 		//달력의 월 부분 Tooltip
 	changeMonth: true,
 	changeYear: true,
 	showButtonPanel: true,
@@ -31,14 +33,26 @@ $('.datepickerY-M').datepicker({
 var lastSrchYM = "<c:out value='${searchVO.srchYM}' />";
 var lastPageIndex = "<c:out value='${searchVO.pageIndex}' />";
 $(document).ready(function(){
-	if (poiList != "") { //상세보기에서는 안되게 추가 수정해주기.
-		setPointLayer();
+	//console.log("faciResMngList.jsp");
+	
+	//if (poiList != "") { //상세보기에서는 안되게 추가 수정해주기.
+		
+	clearMap();
+	
+	if(poiList){
+		if(poiList.resultCnt > 0){
+			setPointLayer();
+		}
 	}
+	
+	//시설예약관리 이벤트 리스너 추가
+	dtmap.on('select', onFaciReseMngSelectEventListener);
+	
 });
 </script>
 <form name="searchForm" id="searchForm" method="post" onsubmit="fn_select_list(); return false;">
-<input type="hidden" name="pageIndex" id="pageIndex" value="<c:out value='${searchVO.pageIndex}' />">
-<input type="hidden" name="srchYM" value="<c:out value='${searchVO.srchYM}' />">
+<input type="text" name="pageIndex" id="pageIndex" value="<c:out value='${searchVO.pageIndex}' />">
+<input type="text" name="srchYM" value="<c:out value='${searchVO.srchYM}' />">
 <div class="popup-header">시설예약관리</div>
 <div class="popup-body">
 	<div class="left-popup-body facility-rsve-mng-body">	
@@ -101,7 +115,9 @@ $(document).ready(function(){
 </div>
 </form>
 <button type="button" class="manualBtn" title="도움말" onclick="manualTab('시설예약관리')"></button>
-<button type="button" class="popup-close" title="닫기" onClick="toastr.warning('removeLayer(); cmmUtil.drawClear();', 'onclick 이벤트');"></button>
-<button type="button" class="popup-reset" class="초기화" id="fcrmResetBtn" onClick="leftPopupOpen('faciReseMng');"></button>
+<!-- <button type="button" class="popup-close" title="닫기" onClick="toastr.warning('removeLayer(); cmmUtil.drawClear();', 'onclick 이벤트');"></button> -->
+<button type="button" class="popup-close" id="fcrmCloseBtn" title="닫기"></button>
+<!-- <button type="button" class="popup-reset" class="초기화" id="fcrmResetBtn" onClick="leftPopupOpen('faciReseMng');"></button> -->
+<button type="button" class="popup-reset" class="초기화" id="fcrmResetBtn"></button>
 <button type="button" class="popup-bottom-toggle" title="접기"></button>				
 <!-- //업무 > 시설관리 > 시설예약관리 -->

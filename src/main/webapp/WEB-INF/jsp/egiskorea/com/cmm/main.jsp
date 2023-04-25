@@ -170,60 +170,57 @@
     <script src="/js/egiskorea/com/job/swg/swg.js"></script>
 
     <!-- [[업무 /시설관리 재작업]]  -->
-    <script src="/js/egiskorea/com/cmm/common.js"></script> <!-- 메뉴얼 때문에 추가 uhh add... -->
+    <script src="/js/egiskorea/com/cmm/common.js"></script> <!-- 메뉴얼 기능이 필요해서 추가 -->
 
-    <script src="/js/egiskorea/com/job/fcmr/facilityCommon.js"></script>                <!-- 시설관리  공통 -->
+	<script src="/js/egiskorea/com/job/fcmr/facilityCommon.js"></script>				<!-- 시설관리  공통 -->
 
-    <!-- [상수도 시설] -->
-    <script src="/js/egiskorea/com/job/fcmr/wsfc/facilityWaterSupply.js"></script>        <!--{상수도시설  공통} -->
-    <!-- {상수도 하위 메뉴}  -->
-    <script src="/js/egiskorea/com/job/fcmr/wsfc/wpil/wtlPipeLm.js"></script>            <!-- 상수관로 -->
-    <!-- 상수관로심도 -->
-    <script src="/js/egiskorea/com/job/fcmr/wsfc/wprp/wtlPrgaPs.js"></script>            <!-- 수압계 -->
-    <script src="/js/egiskorea/com/job/fcmr/wsfc/wsep/wtlServPs.js"></script>            <!-- 배수지 -->
-    <!-- 급수관로 -->
-    <!-- 변류시설 -->
+	<!-- [상수도 시설] -->
+	<script src="/js/egiskorea/com/job/fcmr/wsfc/facilityWaterSupply.js"></script>		<!--{상수도시설  공통} -->
+	<!-- {상수도 하위 메뉴}  -->
+	<script src="/js/egiskorea/com/job/fcmr/wsfc/wpil/wtlPipeLm.js"></script>			<!-- 상수관로 -->
+	<!-- 상수관로심도 -->
+	<!-- 급수관로 -->
 
-    <!-- ////////////////////////////  -->
+	<!-- ////////////////////////////  -->
 
-    <!-- [하수도시설]  -->
-    <script src="/js/egiskorea/com/job/fcmr/ssfc/facilitySewerSupply.js"></script>        <!-- {하수도시설  공통} -->
-    <script src="/js/egiskorea/com/job/fcmr/ssfc/svep/swlVentPs.js"></script>        <!-- 환기구 -->
-    <!-- ////////////////////////////  -->
+	<!-- [하수도시설]  -->
+	<script src="/js/egiskorea/com/job/fcmr/ssfc/facilitySewerSupply.js"></script> 		<!-- {하수도시설  공통} -->
+	<script src="/js/egiskorea/com/job/fcmr/ssfc/sdrp/swlDranPs.js"></script>
+	<!-- ////////////////////////////  -->
 
-    <!-- [교통시설]  -->
-    <script src="/js/egiskorea/com/job/fcmr/tpfc/facilityTransportation.js"></script>    <!-- 교통시설  공통 -->
-    <!-- {교통 하위 메뉴}  -->
-    <!-- 도로구간  -->
-    <script src="/js/egiskorea/com/job/fcmr/tpfc/rdst/roadSect.js"></script>
-    <!-- 철도선로 -->
-    <script src="/js/egiskorea/com/job/fcmr/tpfc/rrtc/rlroadTc.js"></script>
-    <!-- 철도역사 -->
-    <script src="/js/egiskorea/com/job/fcmr/tpfc/rrst/rlroadSt.js"></script>
-    <!-- 지하철선로 -->
-    <script src="/js/egiskorea/com/job/fcmr/tpfc/sbtc/sbwayTc.js"></script>
-    <!-- 지하철역사 -->
-    <script src="/js/egiskorea/com/job/fcmr/tpfc/sbst/sbwaySt.js"></script>
-    <!-- 교량 -->
-    <script src="/js/egiskorea/com/job/fcmr/tpfc/brdg/brdge.js"></script>
-    <!-- 고가도로 -->
-    <script src="/js/egiskorea/com/job/fcmr/tpfc/ovps/ovrpass.js"></script>
-    <!-- 터널 -->
-    <script src="/js/egiskorea/com/job/fcmr/tpfc/tunl/tunnl.js"></script>
+	<!-- [교통시설]  -->
+	<script src="/js/egiskorea/com/job/fcmr/tpfc/facilityTransportation.js"></script>	<!-- 교통시설  공통 -->
+	<!-- {교통 하위 메뉴}  -->
+	<!-- 도로구간  -->
+	<script src="/js/egiskorea/com/job/fcmr/tpfc/rdst/roadSect.js"></script>
+	<!-- 철도선로 -->
+	<script src="/js/egiskorea/com/job/fcmr/tpfc/rrtc/rlroadTc.js"></script>
+	<!-- 철도역사 -->
+	<script src="/js/egiskorea/com/job/fcmr/tpfc/rrst/rlroadSt.js"></script>
+	<!-- 지하철선로 -->
+	<script src="/js/egiskorea/com/job/fcmr/tpfc/sbtc/sbwayTc.js"></script>
+	<!-- 지하철역사 -->
+	<script src="/js/egiskorea/com/job/fcmr/tpfc/sbst/sbwaySt.js"></script>
+	<!-- 교량 -->
+	<script src="/js/egiskorea/com/job/fcmr/tpfc/brdg/brdge.js"></script>
+	<!-- 고가도로 -->
+	<script src="/js/egiskorea/com/job/fcmr/tpfc/ovps/ovrpass.js"></script>
+	<!-- 터널 -->
+	<script src="/js/egiskorea/com/job/fcmr/tpfc/tunl/tunnl.js"></script>
 
-    <!-- ////////////////////////////  -->
+	<!-- ////////////////////////////  -->
 
-    <!-- [체육시설]  -->
-    <script src="/js/egiskorea/com/job/fcmr/phfc/facilityPhysicalEducation.js"></script>
-    <!-- ////////////////////////////  -->
+	<!-- [체육시설]  -->
+	<script src="/js/egiskorea/com/job/fcmr/phfc/facilityPhysicalEducation.js"></script>
+	<!-- ////////////////////////////  -->
 
-    <!-- [복지시설]  -->
-    <script src="/js/egiskorea/com/job/fcmr/wlfc/facilityWelFare.js"></script>
-    <!-- ////////////////////////////  -->
+	<!-- [복지시설]  -->
+	<script src="/js/egiskorea/com/job/fcmr/wlfc/facilityWelFare.js"></script>
+	<!-- ////////////////////////////  -->
 
-    <!-- [시설예약관리]  -->
+	<!-- [시설예약관리]  -->
 
-    <!-- [[업무 /시설관리 재작업]] end -->
+	<!-- [[업무 /시설관리 재작업]] end -->
 
     <!-- 분석 -->
     <script src="/js/egiskorea/com/anls/anls.js"></script>

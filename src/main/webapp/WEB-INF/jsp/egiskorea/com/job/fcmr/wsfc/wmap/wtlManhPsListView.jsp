@@ -19,7 +19,7 @@
                     <option value="wtlPrgaPs">수압계</option>
                     <option value="wtlServPs">배수지</option>
                     <option value="wtlSplyLs">급수관로</option>
-                    <option value="wtlServPs">변류시설</option>
+                    <option value="wtlValvPs">변류시설</option>
                 </select>
             </div>
             <div class="tabBoxDepth2-wrap">
@@ -280,7 +280,6 @@
             }
             dtmap.draw.active({type: type, once: true})
           	//toastr.warning("that.searchDrawing(value);", "공간검색 사용자정의");
-            $(".area-facility-buffer").val("1").trigger("keyup");
         });
 		
      	

@@ -38,7 +38,7 @@
                                        <th scope="row">지형지물부호</th>
                                        <td>
                                           	<select name="ftr_cde" class="form-select" readonly="readonly">
-                                          		<option value="SA118">급수탑</option>
+                                          		<option value="SB003" selected="selected">하수연결관</option>
                                           	</select>
                                        </td>
                                        <th scope="row">관리번호</th>
@@ -132,7 +132,7 @@
                                            <div class="form-row">
                                            		<div class="col">
                                            			<input type="text" class="form-control txt-geometry-address" value="" readonly="readonly">
-                                           			<input type="text" name="geom" class="form-control" value="">
+                                           			<input type="hidden" name="geom" class="form-control" value="">
                                            		</div>                    
                                            		<div class="col-auto">
                                            			<button type="button" class="btn type01 bi-location btn-select-map" data-popup="space-edit-tool">지도에서 선택</button>
@@ -164,7 +164,14 @@
 	//jqeury
 	$(document).ready(function(){
 		
-		console.log("insertSwlConnLsView.jsp");
+		//console.log("insertSwlConnLsView.jsp");
+		
+		//3d 일때 지도 추가 버튼 삭제 
+		if(dtmap.mod == "3D"){
+			if($("#insertSwlConnLsForm .btn-select-map").css("display") != 'none'){
+				$("#insertSwlConnLsForm .btn-select-map").hide();
+			}
+		}
         
 		// 날짜 형식 처리 예정 
         // 날짜 적용 - 지금 8자리로 되어 있어 이것 사용 (변경 예정) 

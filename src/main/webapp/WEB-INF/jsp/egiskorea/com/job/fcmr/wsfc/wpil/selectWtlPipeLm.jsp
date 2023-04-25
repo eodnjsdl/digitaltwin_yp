@@ -135,7 +135,7 @@
 <script type="text/javascript">
 	//jqeury
 	$(document).ready(function(){
-		console.log("selectWtlPipeLm.jsp");
+		//console.log("selectWtlPipeLm.jsp");
 		
 		//var geom = "${wtlFirePsVO.geom}";
 		
@@ -148,7 +148,7 @@
 		
 		//gird 데이터를 통한 주소 조회
 		var gridRowId = "${gridRowId }";
-		console.log("gridRowId는 " + gridRowId);
+		//console.log("gridRowId는 " + gridRowId);
 		var geomData = getGeomDataForGridRowId(gridRowId);
 		if(geomData){
 			getAddressForPoint(geomData, "#rightSubPopup .txt-geometry-address");

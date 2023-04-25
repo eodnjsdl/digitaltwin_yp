@@ -10,6 +10,7 @@ public class SwlVentPsVO implements Serializable {
 	
 	/** 지형지물부호 */
 	private String ftr_cde;
+	private String ftr_cde_nm;
 	
 	/** 관리번호 */
 	private int ftr_idn;
@@ -23,6 +24,7 @@ public class SwlVentPsVO implements Serializable {
 	
 	/** 관리기관 */
 	private String mng_cde;
+	private String mng_cde_nm;
 	
 	/** 설치일자 */
 	private String ist_ymd;
@@ -65,6 +67,13 @@ public class SwlVentPsVO implements Serializable {
 		this.ftr_cde = ftr_cde;
 	}
 
+	public String getFtr_cde_nm() {
+		return ftr_cde_nm;
+	}
+	public void setFtr_cde_nm(String ftr_cde_nm) {
+		this.ftr_cde_nm = ftr_cde_nm;
+	}
+	
 	public int getFtr_idn() {
 		return ftr_idn;
 	}
@@ -100,6 +109,13 @@ public class SwlVentPsVO implements Serializable {
 		this.mng_cde = mng_cde;
 	}
 
+	public String getMng_cde_nm() {
+		return mng_cde_nm;
+	}
+	public void setMng_cde_nm(String mng_cde_nm) {
+		this.mng_cde_nm = mng_cde_nm;
+	}
+	
 	public String getIst_ymd() {
 		return ist_ymd;
 	}

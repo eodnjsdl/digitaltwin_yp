@@ -28,6 +28,8 @@ window.ui = (function () {
         });
         // set toast option
         _setToastOption();
+
+        _selectEvent();	//지도 선택 이벤트 초기화
     }
 
     function _setToastOption() {
@@ -47,7 +49,6 @@ window.ui = (function () {
         $(document).on('click', '.popup-panel .popup-close', function () {
             _initDrawEvent();
             $(this).closest('.popup-panel').removeClass('opened');
-            if(dtmap.mod === "2D") map2d.multiView.dispose();
         });
 
         //LEFT 메뉴 닫기 버튼
@@ -443,6 +444,7 @@ window.ui = (function () {
             var name = $(this).attr("id");
             var area = $(this).data("popup");
             ui.openPopup(area);
+            _selectEvent();	//지도 선택 이벤트 초기화
             switch (name) {
                 //시설관리 > 상수도시설
                 case "waterSupplyFacility" :

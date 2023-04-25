@@ -6,7 +6,7 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
 <style type="text/css">
-	.popup-panel.popup-sub .update-wtlFirePs-popup-close {
+	.popup-panel.popup-sub .update-swlConnLs-popup-close {
 	    top: 0;
 	    right: 0;
 	    width: 39px;
@@ -18,14 +18,14 @@
 	}
 </style>
 
-<!-- 업무 > 시설관리 > 상수도시설 > 소방시설 수정하기-->
+<!-- 업무 > 시설관리 > 하수도시설 > 하수연결관 수정하기-->
 
-       	<div class="popup-header">소방시설 수정하기</div>
+       	<div class="popup-header">하수연결관 수정하기</div>
            <div class="popup-body">
                <div class="sub-popup-body">
                    <div class="data-write-wrap" style="height: 100%;">
                        <div class="scroll-y">
-                       	   <form id="updateWtlFirePsForm" method="post">
+                       	   <form id="updateSwlConnLsForm" method="post">
                            <div class="data-default">
                                <table class="data-write">
                                    <colgroup>
@@ -38,13 +38,13 @@
                                    <tr>
                                        <th scope="row">지형지물부호</th>
                                        <td>
-                                          	<c:out value="${wtlFirePsVO.ftr_cde_nm }"/>
-                                          	<input type="hidden" name="ftr_cde" class="form-control" value="${wtlFirePsVO.ftr_cde }">
+                                          	<c:out value="${swlConnLsVO.ftr_cde_nm }"/>
+                                          	<input type="hidden" name="ftr_cde" class="form-control" value="${swlConnLsVO.ftr_cde }">
                                        </td>
                                        <th scope="row">관리번호</th>
                                        <td>
-                                       	  	<c:out value="${wtlFirePsVO.ftr_idn }"/>
-                                       	  	<input type="hidden" name="ftr_idn" class="form-control" value="${wtlFirePsVO.ftr_idn }">
+                                       	  	<c:out value="${swlConnLsVO.ftr_idn }"/>
+                                       	  	<input type="hidden" name="ftr_idn" class="form-control" value="${swlConnLsVO.ftr_idn }">
                                        </td>
                                    </tr>
                                    <tr>
@@ -64,49 +64,67 @@
                                    <tr>
                                        <th scope="row">도엽번호</th>
                                        <td>
-                                       		<input type="text" name="sht_num" class="form-control" value="${wtlFirePsVO.sht_num }" maxlength="11">
+                                       		<input type="text" name="sht_num" class="form-control" value="${swlConnLsVO.sht_num }" maxlength="11">
                                        </td>
                                        <th scope="row">설치일자</th>
                                        <td>
-                                       	 	<input type="text" name="ist_ymd" class="form-control datepicker " value="${wtlFirePsVO.ist_ymd }" id="dp1680677660036">
+                                       	 	<input type="text" name="ist_ymd" class="form-control datepicker " value="${swlConnLsVO.ist_ymd }" id="dp1680677660036">
                                        </td>
                                    </tr>
                                    <tr>
-                                       <th scope="row">수용가번호</th>
+                                       <th scope="row">하수관용도</th>
                                        <td>
-                                       		<input type="text" name="hom_num" class="form-control" value="${wtlFirePsVO.hom_num }" maxlength="50">
-                                       </td>
-                                       <th scope="row">소화전형식</th>
-                                       <td>
-                                           <select name="mof_cde" class="form-select">
+                                       		<select name="sba_cde" class="form-select">
                                        			<option value="">선택</option>
-                                       	   </select>
+                                       		</select>	
+                                       </td>
+                                       <th scope="row">관재질</th>
+                                       <td>
+                                       		<select name="mop_cde" class="form-select">
+                                       			<option value="">선택</option>
+                                       		</select>	
                                        </td>
                                    </tr>
                                    <tr>
-                                       <th scope="row">소화전구경(mm)</th>
+                                       <th scope="row">시설물형태</th>
                                        <td>
-                                       		<input type="number" name="fir_dip" class="form-control" value="${wtlFirePsVO.fir_dip }">
+                                       		<select name="for_cde" class="form-select">
+                                       			<option value="">선택</option>
+                                       		</select>	
                                        </td>
-                                       <th scope="row">관경(mm)</th>
+                                       <th scope="row">관경</th>
                                        <td>
-                                       		<input type="number" name="std_dip" class="form-control" value="${wtlFirePsVO.std_dip }">
+                                       		<input type="number" name="std_dip" class="form-control" value="${swlConnLsVO.std_dip }">
                                        </td>
                                    </tr>
                                    <tr>
-                                       <th scope="row">급수탑높이</th>
+                                       <th scope="row">가로길이</th>
                                        <td>
-                                       		<input type="number" name="sup_hit" class="form-control" value="${wtlFirePsVO.sup_hit }">
+                                       		<input type="number" name="std_hol" class="form-control" value="${swlConnLsVO.std_hol }">
                                        </td>
+                                       <th scope="row">세로길이</th>
+                                       <td>
+	                                       	<input type="number" name="std_vel" class="form-control" value="${swlConnLsVO.std_vel }">
+                                       </td>
+                                   </tr>
+                                   <tr>
+                                       <th scope="row">연장</th>
+                                       <td>
+                                       		<input type="number" name="byc_len" class="form-control" value="${swlConnLsVO.byc_len }">
+                                       </td>
+                                       <th scope="row">차선통로수</th>
+                                       <td>
+	                                       	<input type="number" name="sph_lin" class="form-control" value="${swlConnLsVO.sph_lin }">
+                                       </td>
+                                   </tr>
+                                   <tr>
                                        <th scope="row">공사번호</th>
                                        <td>
-	                                       	<input type="text" name="cnt_num" class="form-control" value="${wtlFirePsVO.cnt_num }" maxlength="8">
+                                       		<input type="text" name="cnt_num" class="form-control" value="${swlConnLsVO.cnt_num }" maxlength="8">
                                        </td>
-                                   </tr>
-                                   <tr>
-                                       <th scope="row">방향각</th>
-                                       <td colspan="3" >
-                                       		<input type="number" name="ang_dir" class="form-control" value="${wtlFirePsVO.ang_dir }">
+                                       <th scope="row">관라벨</th>
+                                       <td>
+	                                       	<input type="text" name="pip_lbl" class="form-control" value="${swlConnLsVO.pip_lbl }" maxlength="28">
                                        </td>
                                    </tr>
                                    <tr>
@@ -126,27 +144,35 @@
                                </table>
                            </div>
                            </form>
-                           <input type="hidden" name="geom" 	value="" class="form-control">
+                           <input type="hidden" name="geom" value="" class="form-control">
                            <input type="hidden" name="id" 	value="${id}">
                        </div>
                        <div class="position-bottom btn-wrap justify-content-end">
                            <div>
-                           	    <button type="button" class="btn basic bi-write2 btn_save" 		onclick="updateWtlFirePs();">수정완료</button>
-                           		<button type="button" class="btn basic bi-cancel btn_cancel"	onclick="cancelUpdateWtlFirePs();">취소</button>
+                           	    <button type="button" class="btn basic bi-write2 btn_save" 		onclick="updateSwlConnLs();">수정완료</button>
+                           		<button type="button" class="btn basic bi-cancel btn_cancel"	onclick="cancelUpdateSwlConnLs();">취소</button>
                            </div>
                        </div>
                    </div>
                </div>
            </div>
            <!-- <button type="button" class="popup-close" title="닫기" onclick="cancelMode();"></button> -->
-           <button type="button" class="update-wtlFirePs-popup-close" title="닫기" onclick="cancelMode();"></button>
+           <button type="button" class="update-swlConnLs-popup-close" title="닫기" onclick="cancelMode();"></button>
 
 <!-- 업무 > 시설관리 > 상수도시설 > 소방시설 수정하기 end -->
 
 <script type="text/javascript">
 	//jqeury
 	$(document).ready(function(){
-		//console.log("updateWtlFirePsView.jsp");
+		console.log("updateSwlConnLsView.jsp");
+		
+		
+		//3d 일때 지도 추가 버튼 삭제 
+		if(dtmap.mod == "3D"){
+			if($("#updateSwlConnLsForm .btn-select-map").css("display") != 'none'){
+				$("#updateSwlConnLsForm .btn-select-map").hide();
+			}
+		}
         
 		// 날짜 형식 처리 예정 
         // 날짜 적용 - 지금 8자리로 되어 있어 이것 사용 (변경 예정) 
@@ -164,16 +190,24 @@
 		//selectbox 값 세팅
 		
       	//읍면동 
-		let hjd_cde = '${wtlFirePsVO.hjd_cde }';
+		let hjd_cde = '${swlConnLsVO.hjd_cde }';
       	getCmmCodeData("YPE001", "#rightSubPopup select[name=hjd_cde]", hjd_cde);
       	
       	//관리기관
-      	let mng_cde = '${wtlFirePsVO.mng_cde }';
+      	let mng_cde = '${swlConnLsVO.mng_cde }';
       	getCmmCodeData("MNG-001", "#rightSubPopup select[name=mng_cde]", mng_cde);
       	
-      	//소화전형식
-      	let mof_cde = '${wtlFirePsVO.mof_cde }';
-      	getCmmCodeData("OGC-048", "#rightSubPopup select[name=mof_cde]", mof_cde);
+      	//하수관용도
+      	let sba_cde = '${swlConnLsVO.sba_cde }';
+      	getCmmCodeData("OGC-017", "#rightSubPopup select[name=sba_cde]", sba_cde);
+      	
+      	//관재질
+      	let mop_cde = '${swlConnLsVO.mop_cde }';
+      	getCmmCodeData("OGC-003", "#rightSubPopup select[name=mop_cde]", mop_cde);
+      	
+      	//시설물형태
+      	let for_cde = '${swlConnLsVO.for_cde }';
+      	getCmmCodeData("OGC-001", "#rightSubPopup select[name=for_cde]", for_cde);
       	
       	///////////////////////
       	//gird 데이터를 통한 주소 조회
@@ -193,6 +227,11 @@
         	
         	ui.loadingBar("show");
             $('.space-edit-tool').load("/job/fcts/editView.do", () => {
+            	
+            	//선, 면 데이터면 좌표 입력 창 암보이게 수정
+                if (!(this.geometryType == "point" || this.geometryType == "multipoint")) {
+		           	$(".tr_coordinate", this.selector).hide();
+		        }
                 
                 if(!$(".space-edit-tool").hasClass("opened")){
                 	$(".space-edit-tool").addClass("opened");
@@ -213,7 +252,7 @@
 			    }); 
                	
                	var obj = {};
-               	obj.geometryType = "point";
+               	obj.geometryType = "multilinestring";
                	obj.id = id;
               
                	geoEditBindEvents(obj);
@@ -226,18 +265,18 @@
 		/////////////////////
 		
 		//닫기 버튼
-        $(".popup-panel .update-wtlFirePs-popup-close").on("click", function () {
-        	cancelUpdateWtlFirePs();
+        $(".popup-panel .update-swlConnLs-popup-close").on("click", function () {
+        	cancelUpdateSwlConnLs();
     	});
 		
 	});
 	
 	
 	//수정하기 취소버튼 동작
-	function cancelUpdateWtlFirePs(){
-		//console.log("cancelUpdateWtlFirePs()");
+	function cancelUpdateSwlConnLs(){
+		//console.log("cancelUpdateSwlConnLs()");
 		
-		$(".update-wtlFirePs-popup-close").closest('.popup-panel').removeClass('opened');
+		$(".update-swlConnLs-popup-close").closest('.popup-panel').removeClass('opened');
         // 초기화 (지도)
         dtmap.draw.dispose();
         dtmap.draw.clear();
@@ -247,7 +286,7 @@
         }
         
         var id = $("input[name=id]").val();
-    	selectWtlFirePs(id);
+    	selectSwlConnLs(id);
 	}
 
 </script>

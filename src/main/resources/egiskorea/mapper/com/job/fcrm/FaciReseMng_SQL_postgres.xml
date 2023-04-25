@@ -162,7 +162,22 @@
 			AND ASSTN_FCLTY_SN = #{asstnFcltySn}
 			AND GID = #{gid}
 			AND RSRV_DE = #{rsrvDe}
-		
+	</select>
+	<select id="dubCheckFaciReseMngUpdate2" parameterType="faciReseMngChkVO" resultType="java.lang.Integer">
+		/* SQL_ID: FaciReseMng_SQL_postgres.xml.dubCheckFaciReseMngUpdate2 시설예약관리 수정용 중복체크*/
+		SELECT COUNT(*) 
+		FROM TBD_FCLTY_RSRV_MANAGE 
+		WHERE 1=1
+			AND (RSRV_STRT_TM BETWEEN #{rsrvStrtTm} AND #{rsrvEndTm} OR RSRV_END_TM BETWEEN #{rsrvStrtTm} AND #{rsrvEndTm})
+			AND ASSTN_FCLTY_SN = #{asstnFcltySn}
+			AND GID = #{gid}
+			AND RSRV_DE = #{rsrvDe}
+			<if test="rsvctmNm != null and rsvctmNm != ''">
+				AND rsvctm_nm != #{rsvctmNm}
+			</if>
+			<if test="rsvctmCttpc != null and rsvctmCttpc != ''">
+				AND rsvctm_cttpc != #{rsvctmCttpc}
+			</if>
 	</select>
 	
 </mapper>

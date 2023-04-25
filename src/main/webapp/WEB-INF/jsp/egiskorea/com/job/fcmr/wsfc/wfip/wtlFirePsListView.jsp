@@ -19,7 +19,7 @@
                     <option value="wtlPrgaPs">수압계</option>
                     <option value="wtlServPs">배수지</option>
                     <option value="wtlSplyLs">급수관로</option>
-                    <option value="wtlServPs">변류시설</option>
+                    <option value="wtlValvPs">변류시설</option>
                 </select>
             </div>
             <div class="tabBoxDepth2-wrap">
@@ -132,7 +132,7 @@
                     </div>
                 </div>
             </div>
-            <input type="hidden" id="wtiFirePsListPage" 	value="">
+            <input type="hidden" id="wtlFirePsListPage" 	value="">
         </div>
     </div>
 </div>
@@ -198,6 +198,7 @@
                 $(".space-edit-tool").empty();
             }
 			
+			clearMap();		//지도 클리어
 		});
 		
 		
@@ -220,12 +221,15 @@
      	
      	// 공간 검색 조회 버튼
         $(".facility-spatial-search", "#bottomPopup").on("click", function (e) {
-           	//console.log("공간검색 조회");
+           	console.log("공간검색 조회");
 			
            	const $parent = $(e.target).closest('.search-area');
             const type = $parent.find('input[name="rad-facility-area"]:checked').val();
             
             if (type === 'extent') {
+            	console.log("현재화면영역");
+            	console.log(dtmap.getExtent());
+            	console.log("모드>>>"+dtmap.mod);
             	FACILITY.spaceSearchOption.bbox 	= dtmap.getExtent();
             } else {
             	if(dtmap.draw.source.getFeatures().length > 0){
