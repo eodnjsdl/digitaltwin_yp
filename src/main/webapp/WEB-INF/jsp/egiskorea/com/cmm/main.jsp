@@ -168,7 +168,7 @@
     <script src="/js/egiskorea/com/job/swg/swg.js"></script>
 
     <!-- [[업무 /시설관리 재작업]]  -->
-    <script src="/js/egiskorea/com/cmm/common.js"></script> <!-- 메뉴얼 때문에 추가 uhh add... -->
+    <script src="/js/egiskorea/com/cmm/common.js"></script> <!-- 메뉴얼 기능이 필요해서 추가 -->
     
 	<script src="/js/egiskorea/com/job/fcmr/facilityCommon.js"></script>				<!-- 시설관리  공통 -->
 	

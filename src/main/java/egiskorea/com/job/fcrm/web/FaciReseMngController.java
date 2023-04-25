@@ -1,8 +1,5 @@
 package egiskorea.com.job.fcrm.web;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
@@ -10,11 +7,9 @@ import javax.annotation.Resource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -23,6 +18,7 @@ import com.google.gson.Gson;
 import egiskorea.com.job.cmss.service.CommonnessSpaceSearchService;
 import egiskorea.com.job.cmss.service.TgdSccoEmdVO;
 import egiskorea.com.job.fcrm.service.FaciReseMng;
+import egiskorea.com.job.fcrm.service.FaciReseMngChkVO;
 import egiskorea.com.job.fcrm.service.FaciReseMngService;
 import egiskorea.com.job.fcrm.service.FaciReseMngVO;
 import egovframework.com.cmm.service.EgovCmmUseService;
@@ -244,9 +240,11 @@ public class FaciReseMngController {
 	@ResponseBody
 	@RequestMapping(value = "/dubCheckFaciReseMngUpdate.do")
 	public String dubCheckFaciReseMngUpdate(
-			@ModelAttribute("faciReseMngVO") FaciReseMngVO faciReseMngVO) throws Exception {
+			//@ModelAttribute("faciReseMngVO") FaciReseMngVO faciReseMngVO) throws Exception {
+			@ModelAttribute("faciReseMngChkVO") FaciReseMngChkVO faciReseMngChkVO) throws Exception {
 		
-		String dubCnt = Integer.toString(faciReseMngService.dubCheckFaciReseMngUpdate(faciReseMngVO));
+		//String dubCnt = Integer.toString(faciReseMngService.dubCheckFaciReseMngUpdate(faciReseMngVO));
+		String dubCnt = Integer.toString(faciReseMngService.dubCheckFaciReseMngUpdate2(faciReseMngChkVO));
 		
 		return dubCnt;
 	}

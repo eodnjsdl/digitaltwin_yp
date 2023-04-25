@@ -9,6 +9,7 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 
 import egiskorea.com.job.fcrm.service.FaciReseMng;
+import egiskorea.com.job.fcrm.service.FaciReseMngChkVO;
 import egiskorea.com.job.fcrm.service.FaciReseMngService;
 import egiskorea.com.job.fcrm.service.FaciReseMngVO;
 import egovframework.rte.fdl.cmmn.EgovAbstractServiceImpl;
@@ -181,5 +182,11 @@ public class FaciReseMngServiceImpl extends EgovAbstractServiceImpl implements F
 	@Override
 	public int dubCheckFaciReseMngUpdate(FaciReseMngVO faciReseMngVO) throws Exception {
 		return faciReseMngDAO.dubCheckFaciReseMngUpdate(faciReseMngVO);
-	};
+	}
+
+	@Override
+	public int dubCheckFaciReseMngUpdate2(FaciReseMngChkVO faciReseMngChkVO) throws Exception {
+		return faciReseMngDAO.dubCheckFaciReseMngUpdate2(faciReseMngChkVO);
+	}
+	
 }

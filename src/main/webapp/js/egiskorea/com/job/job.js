@@ -884,7 +884,7 @@ function aj_selectAtmospherePollutionList(form){
 // 시설예약관리
 var highChk = '';
 function aj_selectFaciReseMngList(form){
-
+	
 	ui.loadingBar("show");
 	var	formData = new FormData(form);
 
@@ -897,7 +897,7 @@ function aj_selectFaciReseMngList(form){
 		var srchYM = nowYear+"-"+nowMonth
 		formData.append('srchYM', srchYM);
 	}
-
+	
 	$.ajax({
 		type : "POST",
 		url : "/job/fcrm/selectFaciReseMngList.do",
@@ -912,6 +912,7 @@ function aj_selectFaciReseMngList(form){
 				$(".scroll-y").mCustomScrollbar({
 					scrollbarPosition:"outside"
 				});
+				
 			}else{
 				toastr.error("관리자에게 문의 바랍니다.", "정보를 불러오지 못했습니다.");
 				return;
@@ -1039,4 +1040,71 @@ function aj_selectPbprtAccdtList() {
 			ui.loadingBar("hide");
 		}
 	});
+}
+
+//시설예약관리 - 지도 아이콘(객체) 클릭시 이벤트
+function onFaciReseMngSelectEventListener(e){
+	//console.log("onFaciReseMngSelectEventListener(e)");
+	//console.log(e);
+	if(e){
+		
+		//[참고 자료]
+		//2D 이벤트 데이터
+	    // {
+	    //     id : 'wtl_fire_ps.8',        // 피쳐 아이디
+	    //     feature : ol.Feature,        // ol Feature 객체
+	    //     geometry : ol.geom.Geometry, //ol geometry 객체
+	    //     property : {}                // 속성정보
+	    // }
+	    //3D 이벤트 데이터
+	    // {
+	    //     id : 'wtl_fire_ps.8',        // 피쳐 아이디
+	    //     object : JSObejct3D,         // JSObejct3D 객체
+	    //     property : {}                // 속성정보
+	    // }
+		
+		if(dtmap.mod == "2D"){
+			//console.log("2d");
+			
+			if(e.property.facMenuNm){
+				var facMenuNm = e.property.facMenuNm;
+				if(facMenuNm != "faciReseMng"){
+					console.log("facMenuNm>>>"+facMenuNm);
+					console.log("시설예약관리 에러");
+					return false;
+				}
+			}else{
+				console.log("이벤트 콜백 에러");
+				return false;
+			}
+		    
+		    var gid = e.id;
+		    var rsrvsn = e.property.rsrvsn;
+		    aj_selectFaciReseMng(gid, rsrvsn);
+			
+		}else if(dtmap.mod == "3D"){
+			//console.log("3d");
+			
+			if(e.properties.facMenuNm){
+				var facMenuNm = e.properties.facMenuNm;
+				if(facMenuNm != "faciReseMng"){
+					console.log("facMenuNm>>>"+facMenuNm);
+					console.log("시설예약관리 에러");
+					return false;
+				}
+			}else{
+				console.log("이벤트 콜백 에러");
+				return false;
+			}
+			
+			var gid = e.id;
+		    var rsrvsn = e.properties.rsrvsn;
+		    aj_selectFaciReseMng(gid, rsrvsn);
+			
+		}else{
+			console.log("2D/3D 오류");
+			return false;
+		}
+		
+	}
 }
