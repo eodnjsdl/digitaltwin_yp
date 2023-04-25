@@ -208,7 +208,7 @@ function cancelUpdateSwlSpotPs() {
 								</td>
 							</tr>
 							<tr>
-								<th scope="row">평균수위</th>
+								<th scope="row">물받이깊이</th>
 								<td>
 									<input type="number" name="spt_dep" class="form-control" min="0" value="${swlSpotPsVO.spt_dep}">
 								</td>

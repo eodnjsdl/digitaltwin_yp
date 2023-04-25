@@ -128,7 +128,7 @@ function cancelSwlSpotPsDetail() {
 								</td>
 							</tr>
 							<tr>
-								<th scope="row">평균수위</th>
+								<th scope="row">물받이깊이</th>
 								<td>
 									<c:out value="${swlSpotPsVO.spt_dep}"/>
 								</td>
