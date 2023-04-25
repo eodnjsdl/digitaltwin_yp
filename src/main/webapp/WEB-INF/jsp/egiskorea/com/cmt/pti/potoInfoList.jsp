@@ -5,6 +5,68 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <script>
+
+    $(document).ready(function () {
+        eventBindByPotoInfoList();
+        initLayerByPotoInfoList();
+    });
+
+    function eventBindByPotoInfoList() {
+        dtmap.off('select');
+        dtmap.on('select', selectPotoPoi);
+    }
+
+    function initLayerByPotoInfoList() {
+        const ids = [];
+        const wkts = [];
+        const sj = [];
+        <c:forEach  items="${resultList}" var="item">
+        ids.push("${item.phtoId}");
+        wkts.push("${item.wkt}");
+        sj.push("${item.sj}");
+        </c:forEach>
+        const reader = new ol.format.WKT();
+        const features = [];
+        wkts.forEach((wkt, index) => {
+            if (wkt) {
+                const feature = new ol.Feature(reader.readGeometry(wkt));
+                feature.setId(ids[index]);
+                feature.setProperties({"sj": sj[index]});
+                features.push(feature);
+            }
+        });
+        if (features.length > 0) {
+            const format = new ol.format.GeoJSON();
+            const geojson = format.writeFeatures(features);
+            dtmap.draw.clear();
+            dtmap.draw.dispose();
+            dtmap.vector.clear();
+            //지도에 GeoJSON 추가
+            dtmap.vector.readGeoJson(geojson, function (feature) {
+                return {
+                    marker: {
+                        src: '/images/poi/poto_poi.png'
+                    },
+                    label: {
+                        text: feature.get("sj")
+                    }
+                }
+            });
+        }
+    }
+
+    function selectPotoPoi(event) {
+        if (event) {
+            var id = event.id; //피쳐 아이디
+            if(id){
+                dtmap.vector.select(id);
+                selectPotoInfoView(id);
+            }
+        } else {
+            toastr.warning("현재 화면에 검색영역이 존재하지 않습니다.");
+        }
+    }
+
     // 사진정보 목록 조회
     function fn_select_poto_list() {
         document.searchFormPoto.pageIndex.value = 1;
@@ -31,102 +93,6 @@
         ui.openPopup("rightPopup");
         aj_selectPotoInfoView(id, $("#searchFormPoto")[0]);
     }
-
-    $(function () {
-
-        const ids = [];
-        const wkts = [];
-        const sj = [];
-        <c:forEach  items="${resultList}" var="item">
-        ids.push("${item.phtoId}");
-        wkts.push("${item.wkt}");
-        sj.push("${item.sj}");
-        </c:forEach>
-        const reader = new ol.format.WKT();
-        const features = [];
-        wkts.forEach((wkt, index) => {
-            if (wkt) {
-                const feature = new ol.Feature(reader.readGeometry(wkt));
-                feature.setId(ids[index]);
-                feature.setProperties({"sj": sj[index]});
-                features.push(feature);
-            }
-        });
-        if (features.length > 0) {
-            const format = new ol.format.GeoJSON();
-            const geojson = format.writeFeatures(features);
-
-            dtmap.draw.clear();
-            dtmap.draw.dispose();
-            dtmap.vector.clear();
-            //지도에 GeoJSON 추가
-            dtmap.vector.readGeoJson(geojson, function (feature) {
-                return {
-                    marker: {
-                        src: '/images/poi/poto_poi.png'
-                    },
-                    label: {
-                        text: feature.get("sj")
-                    }
-                }
-            });
-            toastr.warning("POI 클릭 이벤트 세팅")
-            // cmmUtil.highlightFeatures(geojson, "/images/poi/memo_poi.png", {
-            //     onClick: function (feature) {
-            //         selectMemoInfoView(feature.getId());
-            //     }
-            // });
-        }
-
-
-        <%--if (app2D) {--%>
-        <%--    const ids = [];--%>
-        <%--    const wkts = [];--%>
-        <%--    <c:forEach  items="${resultList}" var="item">--%>
-        <%--    ids.push("${item.phtoId}");--%>
-        <%--    wkts.push("${item.wkt}");--%>
-        <%--    </c:forEach>--%>
-        <%--    const reader = new ol.format.WKT();--%>
-        <%--    const features = [];--%>
-        <%--    wkts.forEach((wkt, index) => {--%>
-        <%--        if (wkt) {--%>
-        <%--            const feature = new ol.Feature(reader.readGeometry(wkt));--%>
-        <%--            feature.setId(ids[index]);--%>
-        <%--            features.push(feature);--%>
-        <%--        }--%>
-        <%--    });--%>
-        <%--    if (features.length > 0) {--%>
-        <%--        const format = new ol.format.GeoJSON();--%>
-        <%--        const geojson = format.writeFeatures(features);--%>
-        <%--        cmmUtil.highlightFeatures(geojson, "/images/poi/poto_poi.png", {--%>
-        <%--            onClick: function (feature) {--%>
-        <%--                selectPotoInfoView(feature.getId());--%>
-        <%--            }--%>
-        <%--        });--%>
-        <%--    }--%>
-        <%--} else {--%>
-        <%--    var list = ${gsonResultList};--%>
-
-        <%--    var layerList = new Module.JSLayerList(true);--%>
-        <%--    var Layer = layerList.createLayer("POI_img", Module.ELT_3DPOINT);--%>
-        <%--    for (var i = 0; i < list.length; i++) {--%>
-        <%--        if (list[i].wkt) {--%>
-        <%--            var pointX = parseFloat(list[i].wkt.split(" ")[0].split("(")[1])--%>
-        <%--            var pointY = parseFloat(list[i].wkt.split(" ")[1].split(")")[0])--%>
-        <%--            //5179 -> 4326--%>
-        <%--            var position = TransformCoordinate(pointX, pointY, 26, 13);--%>
-
-        <%--            var alt = Module.getMap().getTerrHeightFast(position.x, position.y);--%>
-
-        <%--            createImagePoi(position.x, position.y, alt, "/images/poi/poto_poi.png", i, Layer)--%>
-        <%--            GLOBAL.layerBox = "POI_img"--%>
-        <%--        }--%>
-
-        <%--    }--%>
-        <%--}--%>
-
-    });
-
 
 </script>
 <!-- top > 사진정보 -->

@@ -80,10 +80,7 @@ map2d.vector = (function () {
         stroke: {
             color: '#000000',
             opacity: 1,
-            width: 3,
-            lineDash: 'solid',
-            startArrow: false,
-            endArrow: false
+            width: 3
         }
     }
 

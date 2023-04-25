@@ -20,6 +20,12 @@ map3d.layer.Polygon = (function () {
      * @returns {XDWorld.JSLayer}
      */
     Polygon.prototype.createInstance = function () {
+        //라벨레이어 추가
+        this.labelLayer = map3d.userLayers.createObjectLayer({
+            name: this.id + '_label',
+            type: Module.ELT_POLYHEDRON
+        });
+
         return map3d.userLayers.createObjectLayer({
             name: this.id,
             type: Module.ELT_PLANE
@@ -99,6 +105,19 @@ map3d.layer.Polygon = (function () {
 
         this.instance.addObject(object, 0);
 
+        if (style.label) {
+            this.createLabel({
+                id: id,
+                coordinates: dtmap.util.centroid(geometry),
+                style: {
+                    label: style.label,
+                    marker: style.marker,
+                    offsetHeight: style.label.offsetHeight
+                }
+            })
+        }
+
+
         // const lineObject = Module.createLineString(id + '_LINE');
         // // 라인 설정
         // lineObject.setPartCoordinates(vertex, parts);
@@ -149,6 +168,18 @@ map3d.layer.Polygon = (function () {
             },
         });
         this.instance.addObject(object, 0);
+
+        if (style.label) {
+            this.createLabel({
+                id: id,
+                coordinates: dtmap.util.centroid(geometry),
+                style: {
+                    label: style.label,
+                    marker: style.marker,
+                    offsetHeight: style.label.offsetHeight
+                }
+            })
+        }
 
         return object;
 

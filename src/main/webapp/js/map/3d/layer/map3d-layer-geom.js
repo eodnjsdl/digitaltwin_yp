@@ -12,7 +12,6 @@ map3d.layer.Geometry = (function () {
 
     map3d.inherits(Geometry, map3d.layer.Layer);
 
-
     /**
      *
      * @param options
@@ -68,6 +67,10 @@ map3d.layer.Geometry = (function () {
         this.instance.removeAll();
         this.tree.clear();
         this.properties = {};
+        //라벨 삭제
+        if (this.labelLayer) {
+            this.labelLayer.removeAll();
+        }
     }
 
 
@@ -91,6 +94,20 @@ map3d.layer.Geometry = (function () {
     Geometry.prototype.removeById = function (id) {
         this.instance.removeAtKey(id);
         this.properties[id] = undefined;
+        //라벨삭제
+        if (this.labelLayer) {
+            this.labelLayer.removeAtKey(id + '_label');
+        }
+    }
+
+    Geometry.prototype.createLabel = function (options) {
+        if (!this.labelLayer) {
+            return;
+        }
+        options.id = options.id + '_label';
+        const object = map3d.layer.Point.prototype.createPoint.call(this, options);
+        this.instance.setMaxDistance(map3d.config.maxDistance);
+        this.labelLayer.addObject(object,0);
     }
 
     function flatDeep(arr, depth = 1) {

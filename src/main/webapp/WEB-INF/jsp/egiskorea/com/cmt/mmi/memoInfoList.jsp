@@ -19,7 +19,7 @@
             ui.openPopup("rightPopup");
             aj_insertMemoInfoView($("#searchFormMemo")[0]);
         });
-        dtmap.off('select', selectMemoPoi);
+        dtmap.off('select');
         dtmap.on('select', selectMemoPoi);
     }
 

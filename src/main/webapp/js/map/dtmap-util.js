@@ -1,6 +1,6 @@
 window.dtmap = window.dtmap || {};
 window.dtmap.util = (function () {
-
+    const jstsParser = new jsts.io.OL3Parser();
 
     const altitudes = [3261870, 3261870, 3261870, 3261870, 3261870, 3261870, 3261870, 2258000, 976670, 564200, 267000, 145500, 70100, 35280, 17750, 8950, 4350, 2150, 1100, 600]
 
@@ -13,7 +13,13 @@ window.dtmap.util = (function () {
     }
 
     function zoomToAlt(zoom) {
-        return altitudes[Math.round(zoom)];
+        let z = Math.round(zoom)
+        if (z < 0) {
+            z = 0;
+        } else if (z > 19) {
+            z = 19;
+        }
+        return altitudes[19];
     }
 
     function readWKT(wkt, properties) {
@@ -188,10 +194,9 @@ window.dtmap.util = (function () {
                 geom.transform('EPSG:4326', 'EPSG:3857');
             }
 
-            const parser = new jsts.io.OL3Parser();
-            const jstsGeom = parser.read(geom);
+            const jstsGeom = jstsParser.read(geom);
             const buffered = jstsGeom.buffer(buffer);
-            result = parser.write(buffered);
+            result = jstsParser.write(buffered);
 
             if (isLonLat) {
                 result.transform('EPSG:3857', 'EPSG:4326');
@@ -203,6 +208,14 @@ window.dtmap.util = (function () {
         return result;
     }
 
+    function centroid(geom) {
+        const jstsGeom = jstsParser.read(geom);
+        const result = jstsGeom.getCentroid();
+        const coordinates = result.getCoordinates();
+        return [coordinates[0].x, coordinates[0].y];
+
+    }
+
     let module = {
         altToZoom: altToZoom,
         zoomToAlt: zoomToAlt,
@@ -212,7 +225,8 @@ window.dtmap.util = (function () {
         writeGeoJson: writeGeoJson,
         createGeometry: createGeometry,
         createFeature: createFeature,
-        getBufferGeometry: getBufferGeometry
+        getBufferGeometry: getBufferGeometry,
+        centroid: centroid
     }
     return module;
 }());
