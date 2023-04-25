@@ -90,6 +90,7 @@ dtmap.draw.setBuffer(0); //해제
 - `marker`, `radius` 옵션의 경우, 도형이 **Point**인 경우에만 적용됨
 - `stroke`옵션의 `startArrow`, `endArrow` 옵션의 경우, 도형이 **LineString**인 경우에만 적용됨
 - `label` 옵션의 `text`, `column` 옵션은 둘중 한개만 선택하여 적용
+- `offsetHeight` : 3D POI의 수직막대 길이 설정
 ```javascript
 const options = {
     //채움색
@@ -138,7 +139,9 @@ const options = {
       anchor: [0.5, 1], //이미지 중심위치 (0~1 [x,y] 비율값 [0,0] 좌상단 [1,1] 우하단) 
       scale: 1, //스케일값
       opacity: 1 
-    }
+    },
+    //3D POI 수직 막대길이
+    offsetHeight : 10
 }
 ```
 
