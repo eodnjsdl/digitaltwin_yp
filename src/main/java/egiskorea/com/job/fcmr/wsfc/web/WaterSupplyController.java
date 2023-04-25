@@ -10,6 +10,7 @@ import egiskorea.com.job.fcmr.wsfc.service.WtlFirePsVO;
 import egiskorea.com.job.fcmr.wsfc.service.WtlFlowPsVO;
 import egiskorea.com.job.fcmr.wsfc.service.WtlManhPsVO;
 import egiskorea.com.job.fcmr.wsfc.service.WtlPipeLmVO;
+import egiskorea.com.job.fcmr.wsfc.service.WtlPipePsVO;
 import egiskorea.com.job.fcmr.wsfc.service.WtlPrgaPsVO;
 import egiskorea.com.job.fcmr.wsfc.service.WtlServPsVO;
 import egiskorea.com.job.fcmr.wsfc.service.WtlValvPsVO;
@@ -186,6 +187,40 @@ public class WaterSupplyController {
 	
 	//////////
 	//상수관로심도
+	
+	//목록 화면 호출
+	@RequestMapping(value = "/selectWtlPipePsListView.do")
+    public String selectWtlPipePsListView(
+            @ModelAttribute("wtlPipePsVO") WtlPipePsVO wtlPipePsVO,
+            ModelMap model) throws Exception {
+        return "egiskorea/com/job/fcmr/wsfc/wpip/wtlPipePsListView";
+    }
+	
+	//상세 화면 조회
+	@RequestMapping(value = "/selectWtlPipePs.do", method = RequestMethod.POST)
+	public String selectWtlPipePs(
+			@ModelAttribute("wtlPipePsVO") WtlPipePsVO wtlPipePsVO, String id,
+			ModelMap model) throws Exception {
+			model.addAttribute("id", id);
+		return "egiskorea/com/job/fcmr/wsfc/wpip/selectWtlPipePs";
+	}
+	
+	//등록 화면 조회
+	@RequestMapping(value = "/insertWtlPipePsView.do")
+	public String insertWtlPipePsView(
+			@ModelAttribute("wtlPipePsVO") WtlPipePsVO wtlPipePsVO,
+			ModelMap model) throws Exception {
+		return "egiskorea/com/job/fcmr/wsfc/wpip/insertWtlPipePsView";
+	}
+	
+	//수정 화면 조회
+	@RequestMapping(value = "/updateWtlPipePsView.do", method = RequestMethod.POST)
+	public String updateWtlPipePsView(
+			@ModelAttribute("wtlPipePsVO") WtlPipePsVO wtlPipePsVO, String id,
+			ModelMap model) throws Exception {
+			model.addAttribute("id", id);
+		return "egiskorea/com/job/fcmr/wsfc/wpip/updateWtlPipePsView";
+	}
 	
 	////////
 	//수압계

@@ -210,7 +210,7 @@
 	
 	//functions
 	
-	//소반시설 상세보기 취소
+	//변류시설 상세보기 취소
 	function cancelSelectWtlValvPs() {
 		//console.log("cancelSelectWtlValvPs()");
 		

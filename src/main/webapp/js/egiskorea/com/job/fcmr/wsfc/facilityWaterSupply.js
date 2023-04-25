@@ -24,8 +24,7 @@ function getWaterSupplyFacility(name){
 		}else if(name == "wtlManhPs"){		//상수맨홀
 			selectWtlManhPsListView();
 		}else if(name == "wtlPipePs"){		//상수관로심도
-			toastr.error("작업중", "상수관로심도");
-			return;
+			selectWtlPipePsListView();
 		}else if(name == "wtlPrgaPs"){		//수압계
 			selectWtlPrgaPsListView();
 		}else if(name == "wtlServPs"){		//배수지
@@ -98,6 +97,20 @@ function selectWtlManhPsListView(){
 	$(baseContainer).load("/job/fcmr/wsfc/selectWtlManhPsListView.do", function () {
 		//toastr.success("/job/fcmr/wsfc/selectWtlManhPsListView.do", "페이지🙂호🙂출🙂");
 		wtlManhPsListProcess();
+		ui.loadingBar("hide");
+	});
+}
+
+//상수관로심도 목록 화면 조회
+function selectWtlPipePsListView(){
+	//console.log("selectWtlPipePsListView()");
+	
+	ui.loadingBar("show");
+	
+	var baseContainer = "#bottomPopup";
+	$(baseContainer).load("/job/fcmr/wsfc/selectWtlPipePsListView.do", function () {
+		//toastr.success("/job/fcmr/wsfc/selectWtlPipePsListView.do", "페이지🙂호🙂출🙂");
+		wtlPipePsListProcess();
 		ui.loadingBar("hide");
 	});
 }

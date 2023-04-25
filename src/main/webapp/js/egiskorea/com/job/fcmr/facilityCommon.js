@@ -452,6 +452,8 @@ function onFacilitySelectEventListener(e){
 				selectWtlFlowPs(id);
 			}else if(featureType == "wtl_manh_ps"){					//상수도시설 - 상수맨홀
 				selectWtlManhPs(id);
+			}else if(featureType == "wtl_pipe_ps"){					//상수도시설 - 상수관로심도
+				selectWtlPipePs(id);
 			}else if(featureType == "wtl_prga_ps"){					//상수도시설 - 수압계
 				selectWtlPrgaPs(id);
 			}else if(featureType == "wtl_serv_ps"){					//상수도시설 - 배수지
