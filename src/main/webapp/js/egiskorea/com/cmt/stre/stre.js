@@ -31,10 +31,10 @@ class MapStore {
     		success : function(returnData, status){
     			if(status == "success") {
     				$("#rightPopup").html(returnData);
-    			}else{ 
+    			}else{
     				toastr.error("관리자에게 문의 바랍니다.", "정보를 불러오지 못했습니다.");
     				return;
-    			} 
+    			}
     		}
     	});
     }
@@ -106,12 +106,12 @@ class MapStore {
             link.click();
         } else if (type == "saveMapPDF") {
             const src = $(".saveMap-thumb img").attr("src");
-            const pdf = new jspdf.jsPDF("p", "mm", "a4");
+            const pdf = new jspdf.jsPDF("p", "mm", "a4"); //세로 p / 가로 l
             pdf.addFileToVFS('malgun.ttf', _fonts);  //_fonts 변수는 Base64 형태로 변환된 내용입니다.
             pdf.addFont('malgun.ttf', 'malgun', 'normal');
             pdf.setFont('malgun');
-            pdf.addImage('/images/pdf_logo.jpg', "JPEG", 50, 3, 20, 20);
-            pdf.text(75, 15, '스마트IN양평플랫폼');
+            pdf.addImage('/images/pdf_logo.jpg', "JPEG", 10, 3, 30, 20);
+            pdf.text(75, 15, '스마트시티 IN 양평 플랫폼');
             const imageHeight = Math.floor(190 / this.width * this.height);
             //console.log(imageHeight);
             pdf.addImage(src, "JPEG", 10, 30, 190, imageHeight);
