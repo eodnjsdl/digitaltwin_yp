@@ -55,6 +55,8 @@ window.ui = (function () {
         $(".lnb-util .lnb-close").click(function () {
             ($(this).parent().parent()).stop().fadeOut(100);
             $("#lnb li[data-menu]").removeClass("on");
+            _initDrawEvent();
+            if(dtmap.mod === "2D") map2d.multiView.dispose();
         });
 
         $(document).on('click', '.lnb-dep2 button', function (e) {
@@ -322,8 +324,8 @@ window.ui = (function () {
                         //TODO 주제도 메뉴
                         aj_selectThematicMapList();
                         break;
+                        //국토조사
                     case "lnb-territory" :
-                        //TODO 국토조사
                         aj_selectAdministrationZoneList($("#tmpForm")[0]);
                         break;
                 }
@@ -712,7 +714,9 @@ window.ui = (function () {
                 _area.left = "870";
                 break;
             case "insertAdministrationZoneView":
-                _area.left = "425";
+                _area.left = "80";
+                _area.width = "550";
+                _area.heigth = "807";
                 break;
             case "layerManagement":
                 _area.left = "360";
@@ -723,6 +727,12 @@ window.ui = (function () {
                 _area.width = "290";
                 _area.heigth = "110";
                 break;
+            case "emiInfo":
+                _area.top = "80";
+                _area.width = "550";
+                _area.heigth = "807";
+                break;
+
         }
 
         $("#" + area).css({
@@ -741,7 +751,7 @@ window.ui = (function () {
     function initPopup(area) {
         var arrAllPopupTy = ["leftPopup", "rightSubPopup", "rightPopup", "bottomPopup", "bbsPopup"];
         var arrPopupTy = [];
-        //서브일떄만 부모 뺴고 초기화
+        //서브일때만 부모 빼고 초기화
         if (area.includes("left")) {
             arrPopupTy = ["bottomPopup", "rightSubPopup", "rightPopup", "bbsPopup"];
         } else if (area.includes("right")) {
@@ -765,6 +775,13 @@ window.ui = (function () {
 
     //그리기 초기화
     function _initDrawEvent() {
+        dtmap.clear();
+    }
+
+    //지도 선택 이벤트 초기화
+    function _selectEvent() {
+        dtmap.off('select', onFacilitySelectEventListener); 	//시설관리(시설예약관리제외)선택 리스너 이벤트 삭제
+        dtmap.off('select', onFaciReseMngSelectEventListener); 	//시설예약관리 선택 이벤트 리스너 삭제
         dtmap.clear();
     }
 

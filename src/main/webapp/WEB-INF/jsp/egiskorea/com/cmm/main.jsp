@@ -736,9 +736,14 @@
         <!-- 팝업 메뉴 전체 -->
         <!-- 팝업 메뉴 기본틀 -->
         <!-- left popup-panel -->
-        <div id="leftPopup" class="popup-panel popup-left">
+        <div id="leftPopup" class="popup-panel popup-left popup-draggable">
         </div>
         <!-- //left popup-panel -->
+
+        <!-- left-sub popup-panel -->
+        <div id="leftSubPopup" class="popup-panel popup-sub popup-draggable">
+        </div>
+        <!-- //left-sub popup-panel -->
 
         <!-- right popup-panel -->
         <div id="rightPopup" class="popup-panel popup-right popup-draggable">
@@ -803,13 +808,13 @@
 
         <!-- 마우스 오른쪽 선택 팝업 -->
         <div class="context hide" style="top: 400px;left: 400px;">
-            <a href="" class="c01">통합행정정보</a>
-            <a href="" class="c02">지적/건물</a>
-            <a href="" class="c03">사진등록</a>
-            <a href="" class="c04">메모등록</a>
-            <a href="" class="c05">위치정보</a>
-            <a href="" class="c06">화면저장</a>
-            <a href="" class="c07">3D전환</a>
+            <a href="#" class="c01">통합행정정보</a>
+            <a href="#" class="c02">지적/건물</a>
+            <a href="#" class="c03">사진등록</a>
+            <a href="#" class="c04">메모등록</a>
+            <a href="#" class="c05">위치정보</a>
+            <a href="#" class="c06">화면저장</a>
+            <a href="#" class="c07">3D전환</a>
         </div>
         <!-- //마우스 오른쪽 선택 팝업 -->
 
