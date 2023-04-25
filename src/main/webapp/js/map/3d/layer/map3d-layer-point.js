@@ -20,6 +20,39 @@ map3d.layer.Point = (function () {
             type: Module.ELT_POLYHEDRON
         });
     }
+    Point.prototype.createPoint = function (options) {
+        const id = options.id;
+        const coordinates = options.coordinates;
+        const style = options.style || {};
+        const lon = coordinates[0];
+        const lat = coordinates[1];
+
+        const object = Module.createPoint(id);
+        // z값 구해서 넣기
+        const alt = Module.getMap().getTerrHeightFast(Number(lon), Number(lat));
+        object.setPosition(new Module.JSVector3D(lon, lat, alt));
+        // 수직 라인 설정
+        if (style.offsetHeight) {
+            object.setPositionLine(style.offsetHeight, new Module.JSColor(255, 255, 255));
+        }
+        // 텍스트 설정
+        if (style.label) {
+            drawLabel(id, style, object);
+        }
+
+        if (style.marker) {
+            // 이미지 형태
+            drawMarker(id, style, object);
+        } else if (style.text) {
+            //텍스트
+            drawText(id, style, object);
+        } else if (style.fill || style.stroke) {
+            // 원형
+            drawVector(id, style, object);
+        }
+        this.setProperties(object, options.properties);
+        return object;
+    };
 
     /**
      *
@@ -37,36 +70,40 @@ map3d.layer.Point = (function () {
         }
 
         const coordinates = geometry.getCoordinates();
-        const style = options.style || {};
-        const lon = coordinates[0];
-        const lat = coordinates[1];
+        const object = this.createPoint({...options, coordinates});
 
-        const object = Module.createPoint(id);
-        // z값 구해서 넣기
-        const alt = Module.getMap().getTerrHeightFast(Number(lon), Number(lat));
-        object.setPosition(new Module.JSVector3D(lon, lat, alt));
-        // Polygon 수직 라인 설정
-        object.setPositionLine(30.0 + alt, new Module.JSColor(255, 255, 255));
-        // 텍스트 설정
-        if (style.label) {
-            object.setText(String(style.label.text));
-        }
 
-        if (style.marker) {
-            // 이미지 형태
-            drawMarker(id, style, object);
-        } else if (style.text) {
-            //텍스트
-            drawText(id, style, object);
-        } else {
-            // 원형
-            drawVector(id, style, object);
-        }
+        // const style = options.style || {};
+        // const lon = coordinates[0];
+        // const lat = coordinates[1];
+        //
+        // const object = Module.createPoint(id);
+        // // z값 구해서 넣기
+        // const alt = Module.getMap().getTerrHeightFast(Number(lon), Number(lat));
+        // object.setPosition(new Module.JSVector3D(lon, lat, alt));
+        // // Polygon 수직 라인 설정
+        // object.setPositionLine(30.0 + alt, new Module.JSColor(255, 255, 255));
+        // // 텍스트 설정
+        // if (style.label) {
+        //     object.setText(String(style.label.text));
+        // }
+        //
+        // if (style.marker) {
+        //     // 이미지 형태
+        //     drawMarker(id, style, object);
+        // } else if (style.text) {
+        //     //텍스트
+        //     drawText(id, style, object);
+        // } else {
+        //     // 원형
+        //     drawVector(id, style, object);
+        // }
+        // this.setProperties(object, options.properties);
+
         //프로퍼티 설정
         this.instance.setMaxDistance(map3d.config.maxDistance);
         this.instance.addObject(object, 0);
 
-        this.setProperties(object, options.properties);
 
         return object;
 
@@ -225,6 +262,16 @@ map3d.layer.Point = (function () {
         object.setText(style.text.text);
     }
 
+    function drawLabel(id, style, object) {
+        if(!style.label.text){
+            return;
+        }
+        const fillColor = new map3d.Color(style.label.fill);
+        const strokeColor = new map3d.Color(style.label.stroke);
+
+        object.setFontStyle(style.label.fontFamily, style.label.fontSize, style.label.bold ? 800 : 300, fillColor.toJSColor(), strokeColor.toJSColor());
+        object.setText(style.label.text);
+    }
 
     return Point;
 }());

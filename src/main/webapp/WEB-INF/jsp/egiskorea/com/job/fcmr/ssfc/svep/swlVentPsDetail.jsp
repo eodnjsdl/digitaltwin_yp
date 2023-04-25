@@ -18,13 +18,12 @@
 <script type="text/javascript">
 
 $(document).ready(function(){
-	console.log("swlVentPsDetail.jsp");
+	//console.log("swlVentPsDetail.jsp");
 
 	//gird 데이터를 통한 주소 조회
 	var id = "${id}";
 	
 	var geomData = getGeomDataForGridId(id);
-	//console.log(geomData);
 	if (geomData) {
 		getAddressForPoint(geomData, "#rightSubPopup .txt-geometry-address");
 		$("#rightSubPopup input[name=geom]").val(geomData);
@@ -35,14 +34,13 @@ $(document).ready(function(){
 
 //하수연결관 상세보기 취소
 function cancelSwlVentPsDetail() {
-	//console.log("cancelSelectSwlConnLs()");
-	
 	$(".swlVentPs-popup-close").closest('.popup-panel').removeClass('opened');
-		// 초기화 (지도)
-		dtmap.draw.dispose();
-		dtmap.draw.clear();
+	
+	// 초기화 (지도)
+	dtmap.draw.dispose();
+	dtmap.draw.clear();
 
-		dtmap.vector.clearSelect();	//선택 해제
+	dtmap.vector.clearSelect();	//선택 해제
 }
 
 </script>

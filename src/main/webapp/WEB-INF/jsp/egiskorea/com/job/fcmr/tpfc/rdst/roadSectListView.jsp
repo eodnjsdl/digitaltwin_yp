@@ -93,10 +93,15 @@ $(document).ready(function(){
         dtmap.draw.active({type: type, once: true});
     });
 
-   	//경계로부터 버퍼 영역 지정
+   	// 경계로부터 버퍼 영역 지정
     $(".area-facility-buffer", "#bottomPopup").on("keyup", function (event) {
         dtmap.draw.setBuffer(Number(this.value));
     });
+   	
+   	// 엑셀 다운로드
+    $('#downloadExcelRoadSect').on('click', function () {
+	    downloadExcelRoadSect();
+	});
 });
 
 
@@ -111,8 +116,8 @@ $(document).ready(function(){
 			<div class="top-search">
 				<select name="selectBoxTrfc" id="selectBoxTrfc" class="form-select facility-select">
 					<option value="roadSection" selected>도로구간</option>
-					<option value="railRoadTrack">철도선로</option>
-					<option value="railRoadStation">철도역사</option>
+					<option value="railroadTrack">철도선로</option>
+					<option value="railroadStation">철도역사</option>
 					<option value="subwayTrack">지하철선로</option>
 					<option value="subwayStation">지하철역사</option>
 					<option value="bridge">교량</option>
@@ -145,7 +150,7 @@ $(document).ready(function(){
 										<select name="emdKorNm" id="emdKorNm" class="form-select">
 											<option value="41830">전체</option>
 											<c:forEach items="${sccoEndList}" var="emdList" varStatus="status">
-												<option value="<c:out value='${emdList.emdKorNm},${emdList.emdCd}' />" <c:if test="${searchVO.emdKorNm == emdList.emdCd}">selected</c:if>>
+												<option value="<c:out value='${emdList.emdCd}' />" <c:if test="${searchVO.emdKorNm == emdList.emdCd}">selected</c:if>>
 													<c:out value="${emdList.emdKorNm}" />
 												</option>																
 											</c:forEach>
@@ -219,14 +224,14 @@ $(document).ready(function(){
             <div class="bbs-top">
                 <div class="bbs-list-num">조회결과 : <strong></strong>건</div>
                 <div>
-					<button type="button" class="btn basic bi-excel" id="selectRoadSectExcelListDownload" data-form-name="selectRoadSectionExcelList">엑셀저장</button>
-					<form:form name="searchFormExcel" id="searchFormExcel" method="post" onsubmit=""></form:form>
+					<button type="button" class="btn basic bi-excel" id="downloadExcelRoadSect">엑셀저장</button>
 				</div>
             </div>
             <div class="bbs-list-wrap" style="height: 267px;">
                 <div class="bbs-default">
                 <form:form>
-                	<div data-ax5grid="roadSectListGrid" data-ax5grid-config="{}" style="height: 267px;"></div> 
+                	<div data-ax5grid="roadSectListGrid" data-ax5grid-config="{}" style="height: 267px;"></div>
+                	<div data-ax5grid="attr-grid-excel" style="display:none;"></div>
                 </form:form>
                 </div>
             </div>

@@ -13,12 +13,14 @@
 
     function eventBindByMemoInfoList() {
         // 메모정보 등록페이지 이동
-        $(".top-memo-body .bi-write").on("click", function () {
+        $(".top-memo-body .bi-write").off("click").on("click", function () {
             $(this).addClass("active");
             // rightPopupOpen('insertMemoInfo', $("#searchFormMemo")[0]);
             ui.openPopup("rightPopup");
             aj_insertMemoInfoView($("#searchFormMemo")[0]);
         });
+        dtmap.off('select');
+        dtmap.on('select', selectMemoPoi);
     }
 
     // 메모정보 목록 조회
@@ -85,8 +87,21 @@
                     }
                 }
             });
-            toastr.warning("POI 클릭 이벤트 세팅")
         }
+    }
+
+
+    function selectMemoPoi(event) {
+        if (event) {
+            var id = event.id; //피쳐 아이디
+            if(id){
+                dtmap.vector.select(id);
+                selectMemoInfoView(id);
+            }
+        } else {
+            toastr.warning("현재 화면에 검색영역이 존재하지 않습니다.");
+        }
+
     }
 
 </script>
