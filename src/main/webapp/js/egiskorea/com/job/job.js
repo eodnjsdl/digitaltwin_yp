@@ -1098,6 +1098,7 @@ function onFaciReseMngSelectEventListener(e){
 			}
 			
 			var gid = e.id;
+			gid = gid.replace("faciReseMng","");
 		    var rsrvsn = e.properties.rsrvsn;
 		    aj_selectFaciReseMng(gid, rsrvsn);
 			
