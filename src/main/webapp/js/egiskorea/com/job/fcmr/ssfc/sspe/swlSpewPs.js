@@ -1,17 +1,17 @@
 /**
- * - 업무 / 시설관리 / 하수도시설 / 하수맨홀
+ * - 업무 / 시설관리 / 하수도시설 / 토구
  * 
  * @returns
  */
 
 $(document).ready(function(){
-	//console.log("swlManhPs.js");
-	//console.log("하수맨홀");
+	//console.log("swlSpewPs.js");
+	//console.log("토구");
 });
 
-// 하수맨홀 목록 페이지 호출
-function swlManhPsProcess() {
-	//console.log('swlManhPsProcess()');
+// 토구 목록 페이지 호출
+function swlSpewPsProcess() {
+	//console.log('swlSpewPsProcess()');
 	
 	// grid 기본 세팅
 	var $container = $("#container");
@@ -20,9 +20,8 @@ function swlManhPsProcess() {
 	
 	// 속성검색 옵션
 	getCmmCodeData('YPE001', '#lSrchOptions select[name=hjd_cde]');		// 읍면동
-	getCmmCodeData('OGC-013', '#lSrchOptions select[name=smu_cde]');	// 하수맨홀용도
+	getCmmCodeData('OGC-145', '#lSrchOptions select[name=vmt_cde]');	// 토구용도
 	getCmmCodeData('OGC-001', '#lSrchOptions select[name=for_cde]');	// 시설물형태
-	getCmmCodeData('OGC-002', '#lSrchOptions select[name=som_cde]');	// 맨홀종류
 	
 	FACILITY.Ax5UiGrid = null;	// ax5uigrid 전역 변수 
     FACILITY.Ax5UiGrid = new ax5.ui.grid();
@@ -34,17 +33,15 @@ function swlManhPsProcess() {
 			align: "center"
 		},
 		columns: [
-			{key: "ftr_idn",		label: "관리번호",			width: 150},
-			{key: "hjd_cde_nm",		label: "읍면동",			width: 120},
-			{key: "ist_ymd", 		label: "설치일자",			width: 150},
-			{key: "smu_cde_nm",		label: "하수맨홀용도",		width: 110},
-			{key: "for_cde_nm",		label: "시설물형태",		width: 100},
-			{key: "man_dip",		label: "하수맨홀구경",		width: 110},
-			{key: "ivt_cde_nm", 	label: "인버트유무",		width: 100},
-			{key: "lad_cde_nm", 	label: "사다리설치유무",		width: 120},
-			{key: "mos_hsl",		label: "하수맨홀고도",		width: 110},
-			{key: "lms_hsl",		label: "하수맨홀저고",		width: 110},
-			{key: "cst_cde_nm",		label: "이상상태",			width: 100}
+			{key: "ftr_idn",		label: "관리번호",			width: 170},
+			{key: "hjd_cde_nm",		label: "읍면동",			width: 130},
+			{key: "ist_ymd", 		label: "설치일자",			width: 160},
+			{key: "vmt_cde_nm",		label: "토구용도",			width: 130},
+			{key: "for_cde_nm",		label: "시설물형태",		width: 130},
+			{key: "spw_dip",		label: "원형토구내경",		width: 130},
+			{key: "spw_hol",		label: "각형토구가로길이",	width: 150},
+			{key: "spw_vel",		label: "각형토구세로길이",	width: 150},
+			{key: "spw_hsl", 		label: "토구표고",			width: 130}
 		],
 		page: {
 			navigationItemCount: 10,	// 보여지는 클릭 가능 페이지 번호
@@ -55,7 +52,7 @@ function swlManhPsProcess() {
 			nextIcon: '&gt;',
 			lastIcon: '&gt;&gt;',
             onChange: function() {
-            	selectSwlManhPsList(this.page.selectPage + 1);	// 페이지 이동
+            	selectSwlSpewPsList(this.page.selectPage + 1);	// 페이지 이동
             	$('.hiddenPage').val(this.page.selectPage + 1);
             }
 		},
@@ -64,16 +61,16 @@ function swlManhPsProcess() {
 			onClick: function() {
 				//this.self.select(this.dindex);
 				//console.log(this.item.id);
-				selectSwlManhPs(this.item.id);	// 상세보기
+				selectSwlSpewPs(this.item.id);	// 상세보기
 			}
 		}
 	});
-	selectSwlManhPsList(1);
+	selectSwlSpewPsList(1);
 }
 
-// 하수맨홀 목록 조회
-function selectSwlManhPsList(page) {
-	//console.log('selectSwlManhPsList(page)');
+// 토구 목록 조회
+function selectSwlSpewPsList(page) {
+	//console.log('selectSwlSpewPsList(page)');
 	
 	// 팝업 닫기
 	ui.closeSubPopup();
@@ -88,25 +85,21 @@ function selectSwlManhPsList(page) {
 		const filters = [];
 		
 		var hjdCde = $("#lSrchOptions select[name=hjd_cde] option:selected").val();	// 읍면동
-		var smuCde = $("#lSrchOptions select[name=smu_cde] option:selected").val();	// 하수맨홀용도
+		var vmtCde = $("#lSrchOptions select[name=vmt_cde] option:selected").val();	// 토구용도
 		var forCde = $("#lSrchOptions select[name=for_cde] option:selected").val();	// 시설물형태
-		var somCde = $("#lSrchOptions select[name=som_cde] option:selected").val();	// 맨홀종류
 		
 		if (hjdCde) {
 			filters.push("hjd_cde" + " = " + hjdCde);
 		}
-		if (smuCde) {
-			filters.push("smu_cde" + " = " + smuCde);
+		if (vmtCde) {
+			filters.push("vmt_cde" + " = " + vmtCde);
 		}
 		if (forCde) {
 			filters.push("for_cde" + " = " + forCde);
 		}
-		if (somCde) {
-			filters.push("som_cde" + " = " + somCde);
-		}
 		
 		options = {
-			typeNames	: "swl_manh_ps" + "",
+			typeNames	: "swl_spew_ps" + "",
 			perPage		: 10,
 			page		: page,
 			filter		: filters,
@@ -120,7 +113,7 @@ function selectSwlManhPsList(page) {
 		const type 		= $parent.find('input[name="rad-facility-area"]:checked').val();
 
 		options = {
-			typeNames	: 'swl_manh_ps' + "",
+			typeNames	: 'swl_spew_ps' + "",
 			perPage		: 10,
 			page		: page,
 			sortBy		: 'gid',
@@ -149,27 +142,18 @@ function selectSwlManhPsList(page) {
 	    	// 관리기관 코드 처리
 	    	var mng_cde = data.features[i].properties.mng_cde;
 	    	data.features[i].properties.mng_cde_nm = getCmmCodeDataArray("MNG-001", mng_cde);
-	    	// 하수맨홀용도 코드 처리
-	    	var smu_cde = data.features[i].properties.smu_cde;
-	    	data.features[i].properties.smu_cde_nm = getCmmCodeDataArray("OGC-013", smu_cde);
+	    	// 토구용도 코드 처리
+	    	var vmt_cde = data.features[i].properties.vmt_cde;
+	    	data.features[i].properties.vmt_cde_nm = getCmmCodeDataArray("OGC-145", vmt_cde);
 	    	// 시설물형태 코드 처리
 	    	var for_cde = data.features[i].properties.for_cde;
 	    	data.features[i].properties.for_cde_nm = getCmmCodeDataArray("OGC-001", for_cde);
-	    	// 맨홀종류 코드 처리
-	    	var som_cde = data.features[i].properties.som_cde;
-	    	data.features[i].properties.som_cde_nm = getCmmCodeDataArray("OGC-002", som_cde);
-	    	// 뚜껑재질 코드 처리
-	    	var sbc_cde = data.features[i].properties.sbc_cde;
-	    	data.features[i].properties.sbc_cde_nm = getCmmCodeDataArray("OGC-014", sbc_cde);
-	    	// 인버트유무 코드 처리
-	    	var ivt_cde = data.features[i].properties.ivt_cde;
-	    	data.features[i].properties.ivt_cde_nm = getCmmCodeDataArray("OGC-015", ivt_cde);
-	    	// 사다리설치유무 코드 처리
-	    	var lad_cde = data.features[i].properties.lad_cde;
-	    	data.features[i].properties.lad_cde_nm = getCmmCodeDataArray("OGC-016", lad_cde);
-	    	// 이상상태 코드 처리
-	    	var cst_cde = data.features[i].properties.cst_cde;
-	    	data.features[i].properties.cst_cde_nm = getCmmCodeDataArray("OGC-010", cst_cde);
+	    	// 배수구역지형지물부호 코드 처리
+	    	var dra_cde = data.features[i].properties.dra_cde;
+	    	data.features[i].properties.dra_cde_nm = getCmmCodeDataArray("FTR-001", dra_cde);
+	    	// 처리구역지형지물부호 코드 처리
+	    	var dsp_cde = data.features[i].properties.dsp_cde;
+	    	data.features[i].properties.dsp_cde_nm = getCmmCodeDataArray("FTR-001", dsp_cde);
 			
 	    	// 좌표 처리
 			data.features[i].properties.geomObj = data.features[i].geometry;
@@ -209,7 +193,7 @@ function selectSwlManhPsList(page) {
             
             return {
                 marker: {
-                    src: '/images/poi/swlManhPs_poi.png'
+                    src: '/images/poi/swlSpewPs_poi.png'
                 },
                 label: {
                     text: ''
@@ -220,9 +204,9 @@ function selectSwlManhPsList(page) {
 	});
 }
 
-// 하수맨홀 상세정보 조회
-function selectSwlManhPs(id) {
-	//console.log('selectSwlManhPs(id)');
+// 토구 상세정보 조회
+function selectSwlSpewPs(id) {
+	//console.log('selectSwlSpewPs(id)');
 	//console.log('id >>> ' + id);
 	
 	//검색 조건
@@ -231,7 +215,7 @@ function selectSwlManhPs(id) {
 	var idArray = id.split(".");
 	
 	const typeName	= idArray[0];
-	if(typeName != "swl_manh_ps"){
+	if(typeName != "swl_spew_ps"){
 		alert("상세보기 오류");
 		return false;
 	}
@@ -246,7 +230,7 @@ function selectSwlManhPs(id) {
 	
     var options;
     options = {
-        typeNames	: 'swl_manh_ps' + "",
+        typeNames	: 'swl_spew_ps' + "",
         filter 		: filters,
     }
     
@@ -268,27 +252,18 @@ function selectSwlManhPs(id) {
     	// 관리기관 코드 처리
     	var mng_cde = data.features[0].properties.mng_cde;
     	data.features[0].properties.mng_cde_nm = getCmmCodeDataArray("MNG-001", mng_cde);
-    	// 하수맨홀용도 코드 처리
-    	var smu_cde = data.features[0].properties.smu_cde;
-    	data.features[0].properties.smu_cde_nm = getCmmCodeDataArray("OGC-013", smu_cde);
+    	// 토구용도 코드 처리
+    	var vmt_cde = data.features[0].properties.vmt_cde;
+    	data.features[0].properties.vmt_cde_nm = getCmmCodeDataArray("OGC-145", vmt_cde);
     	// 시설물형태 코드 처리
     	var for_cde = data.features[0].properties.for_cde;
     	data.features[0].properties.for_cde_nm = getCmmCodeDataArray("OGC-001", for_cde);
-    	// 맨홀종류 코드 처리
-    	var som_cde = data.features[0].properties.som_cde;
-    	data.features[0].properties.som_cde_nm = getCmmCodeDataArray("OGC-002", som_cde);
-    	// 뚜껑재질 코드 처리
-    	var sbc_cde = data.features[0].properties.sbc_cde;
-    	data.features[0].properties.sbc_cde_nm = getCmmCodeDataArray("OGC-014", sbc_cde);
-    	// 인버트유무 코드 처리
-    	var ivt_cde = data.features[0].properties.ivt_cde;
-    	data.features[0].properties.ivt_cde_nm = getCmmCodeDataArray("OGC-015", ivt_cde);
-    	// 사다리설치유무 코드 처리
-    	var lad_cde = data.features[0].properties.lad_cde;
-    	data.features[0].properties.lad_cde_nm = getCmmCodeDataArray("OGC-016", lad_cde);
-    	// 이상상태 코드 처리
-    	var cst_cde = data.features[0].properties.cst_cde;
-    	data.features[0].properties.cst_cde_nm = getCmmCodeDataArray("OGC-010", cst_cde);
+    	// 배수구역지형지물부호 코드 처리
+    	var dra_cde = data.features[0].properties.dra_cde;
+    	data.features[0].properties.dra_cde_nm = getCmmCodeDataArray("FTR-001", dra_cde);
+    	// 처리구역지형지물부호 코드 처리
+    	var dsp_cde = data.features[0].properties.dsp_cde;
+    	data.features[0].properties.dsp_cde_nm = getCmmCodeDataArray("FTR-001", dsp_cde);
 		
     	// 좌표 처리
 		data.features[0].properties.geomObj = data.features[0].geometry;
@@ -296,17 +271,17 @@ function selectSwlManhPs(id) {
 		var detailData = data.features[0].properties;
     	detailData.id = id;
     	
-    	selectSwlManhPsDetail(detailData);	//상세 페이지에 데이터 전달
+    	selectSwlSpewPsDetail(detailData);	//상세 페이지에 데이터 전달
     });
 }
 
-// 하수맨홀 상세보기 페이지 호출
-function selectSwlManhPsDetail(detailData) {
-	//console.log('selectSwlManhPsDetail(detailData)');
+// 토구 상세보기 페이지 호출
+function selectSwlSpewPsDetail(detailData) {
+	//console.log('selectSwlSpewPsDetail(detailData)');
 	//console.log(detailData);
 	
 	if(!detailData && detailData == null){
-		alert("하수맨홀 상세보기 오류");
+		alert("토구 상세보기 오류");
 		return false;
 	}
 	
@@ -321,7 +296,7 @@ function selectSwlManhPsDetail(detailData) {
 	ui.loadingBar("show");
 	
 	$.ajax({
-		url:"/job/fcmr/ssfc/selectSwlManhPsDetail.do",
+		url:"/job/fcmr/ssfc/selectSwlSpewPsDetail.do",
 		type: "POST",
 		data: formData,
 		dataType: 'html',
@@ -346,9 +321,9 @@ function selectSwlManhPsDetail(detailData) {
 	});
 }
 
-// 하수맨홀 등록 페이지 호출
-function insertSwlManhPsView(){
-	//console.log("insertSwlManhPsView()");
+// 토구 등록 페이지 호출
+function insertSwlSpewPsView(){
+	//console.log("insertSwlSpewPsView()");
 	
 	dtmap.vector.clearSelect();		// 선택 해제
 	
@@ -359,42 +334,49 @@ function insertSwlManhPsView(){
 	ui.openPopup("rightSubPopup");
 	
 	var container = "#rightSubPopup";
-	$(container).load("/job/fcmr/ssfc/insertSwlManhPsView.do", function () {
+	$(container).load("/job/fcmr/ssfc/insertSwlSpewPsView.do", function () {
 		$(".scroll-y").mCustomScrollbar({
 			scrollbarPosition: "outside",
 		});
 		
 		getCmmCodeData("YPE001",  "#rightSubPopup select[name=hjd_cde]");	// 읍면동
 		getCmmCodeData("MNG-001", "#rightSubPopup select[name=mng_cde]");	// 관리기관
-		getCmmCodeData("OGC-013", "#rightSubPopup select[name=smu_cde]");	// 하수맨홀용도 코드
+		getCmmCodeData("OGC-145", "#rightSubPopup select[name=vmt_cde]");	// 토구용도 코드
 		getCmmCodeData("OGC-001", "#rightSubPopup select[name=for_cde]");	// 시설물형태 코드
-		getCmmCodeData("OGC-002", "#rightSubPopup select[name=som_cde]");	// 맨홀종류 코드
-		getCmmCodeData("OGC-014", "#rightSubPopup select[name=sbc_cde]");	// 뚜껑재질 코드
-		getCmmCodeData("OGC-015", "#rightSubPopup select[name=ivt_cde]");	// 인버트유무 코드
-		getCmmCodeData("OGC-016", "#rightSubPopup select[name=lad_cde]");	// 사다리설치유무 코드
-		getCmmCodeData("OGC-010", "#rightSubPopup select[name=cst_cde]");	// 이상상태 코드
 
 		ui.loadingBar("hide");
 	});
 }
 
-// 하수맨홀 등록 저장
-function insertSwlManhPs() {
+// 토구 등록 저장
+function insertSwlSpewPs() {
 	//필수 값 체크
-	const ftr_cde = $("#insertSwlManhPsFrm select[name=ftr_cde]").val();
+	const ftr_cde = $("#insertSwlSpewPsFrm select[name=ftr_cde]").val();
 	if(ftr_cde == "" || ftr_cde == null){
 		alert("지형지물부호는 필수 값입니다.");
 		return false;
 	}
 	
-	const geom = $("#insertSwlManhPsFrm input[name=geom]").val();
+	const dra_cde = $("#insertSwlSpewPsFrm select[name=dra_cde]").val();
+	if(dra_cde == "" || dra_cde == null){
+		alert("배수구역지형지물부호는 필수 값입니다.");
+		return false;
+	}
+	
+	const dsp_cde = $("#insertSwlSpewPsFrm select[name=dsp_cde]").val();
+	if(dsp_cde == "" || dsp_cde == null){
+		alert("처리구역지형지물부호는 필수 값입니다.");
+		return false;
+	}
+	
+	const geom = $("#insertSwlSpewPsFrm input[name=geom]").val();
 	if(geom == "" || geom == null){
 		alert("위치를 등록하여 주십시오.");
 		return false;
 	}
 	
 	//값 체크
-	const ang_dir = $("#insertSwlManhPsFrm input[name=ang_dir]").val()
+	const ang_dir = $("#insertSwlSpewPsFrm input[name=ang_dir]").val()
     if (ang_dir) {
         const regexp = /^[0-9]*$/;
         var r = regexp.test(ang_dir);
@@ -406,7 +388,7 @@ function insertSwlManhPs() {
 
 	//항목 별 데이터 파라미터 처리	
 	var feature = new ol.Feature();
-	const params = $("#insertSwlManhPsFrm").serializeArray();
+	const params = $("#insertSwlSpewPsFrm").serializeArray();
     params.forEach((param) => {
         if (param.value) {
             feature.set(param.name, param.value);
@@ -414,7 +396,7 @@ function insertSwlManhPs() {
     });
  
     //공간 정보 처리
-    const wkt = $("#insertSwlManhPsFrm input[name=geom]").val();
+    const wkt = $("#insertSwlSpewPsFrm input[name=geom]").val();
     
     const formatWKT = new ol.format.WKT();
     let geometry = formatWKT.readGeometry(wkt);
@@ -424,7 +406,7 @@ function insertSwlManhPs() {
     //데이터 정리
     const format 	= new ol.format.GeoJSON();
     const geojson 	= format.writeFeature(feature);
-    const data		= {dataId: "swl_manh_ps", geojson: geojson};
+    const data		= {dataId: "swl_spew_ps", geojson: geojson};
     
     //등록
     ui.loadingBar("show");
@@ -440,7 +422,7 @@ function insertSwlManhPs() {
             var $target = $container.find('#bottomPopup .facility-select');
             $target.trigger("change");
             
-            cancelInsertSwlManhPs();	//창닫기
+            cancelInsertSwlSpewPs();	//창닫기
         } else {
             alert(`등록에 실패했습니다.`);
             console.log(result["errorMsg"]);
@@ -453,15 +435,15 @@ function insertSwlManhPs() {
     });
 }
 
-// 하수맨홀 수정 페이지 호출
-function updateSwlManhPsView(id) {
-	//console.log("updateSwlManhPsView(id)");
+// 토구 수정 페이지 호출
+function updateSwlSpewPsView(id) {
+	//console.log("updateSwlSpewPsView(id)");
 	//console.log('id >>> ' + id);
 	
 	//상세 정보 조회
 	var detailData = getGridDetailData(id);
 	if (!detailData && detailData == null) {
-		alert("하수맨홀 상세정보 오류");
+		alert("토구 상세정보 오류");
 		return false;
 	}
 	
@@ -476,7 +458,7 @@ function updateSwlManhPsView(id) {
 	ui.loadingBar("show");
 	
     $.ajax({
-		url:"/job/fcmr/ssfc/updateSwlManhPsView.do",
+		url:"/job/fcmr/ssfc/updateSwlSpewPsView.do",
 		type: "POST",
 		data: formData,
 		dataType: 'html',
@@ -500,17 +482,29 @@ function updateSwlManhPsView(id) {
 	});
 }
 
-// 하수맨홀 수정
-function updateSwlManhPs() {
+// 토구 수정
+function updateSwlSpewPs() {
 	//필수 값 체크
-	const geom = $("#updateSwlManhPsFrm input[name=geom]").val();
+	const geom = $("#updateSwlSpewPsFrm input[name=geom]").val();
 	if(geom == "" || geom == null){
 		alert("위치를 등록하여 주십시오.");
 		return false;
 	}
 	
+	const dra_cde = $("#updateSwlSpewPsFrm select[name=dra_cde]").val();
+	if(dra_cde == "" || dra_cde == null){
+		alert("배수구역지형지물부호는 필수 값입니다.");
+		return false;
+	}
+	
+	const dsp_cde = $("#updateSwlSpewPsFrm select[name=dsp_cde]").val();
+	if(dsp_cde == "" || dsp_cde == null){
+		alert("처리구역지형지물부호는 필수 값입니다.");
+		return false;
+	}
+	
 	//값 체크
-	const ang_dir = $("#updateSwlManhPsFrm input[name=ang_dir]").val()
+	const ang_dir = $("#updateSwlSpewPsFrm input[name=ang_dir]").val()
     if (ang_dir) {
         const regexp = /^[0-9]*$/;
         var r = regexp.test(ang_dir);
@@ -522,7 +516,7 @@ function updateSwlManhPs() {
 	
 	//항목 별 데이터 파라미터 처리	
 	var feature = new ol.Feature();
-	const params = $("#updateSwlManhPsFrm").serializeArray();
+	const params = $("#updateSwlSpewPsFrm").serializeArray();
     params.forEach((param) => {
         if (param.value) {
             feature.set(param.name, param.value);
@@ -530,20 +524,20 @@ function updateSwlManhPs() {
     });
  
     //공간 정보 처리
-    const wkt = $("#updateSwlManhPsFrm input[name=geom]").val();
+    const wkt = $("#updateSwlSpewPsFrm input[name=geom]").val();
     
     const formatWKT = new ol.format.WKT();
     let geometry = formatWKT.readGeometry(wkt);
     feature.setGeometry(geometry);
     
 	//id값 추가 
-	const id = $("#updateSwlManhPsFrm input[name=id]").val();
+	const id = $("#updateSwlSpewPsFrm input[name=id]").val();
 	feature.setId(id);
 
     //데이터 정리
     const format 	= new ol.format.GeoJSON();
     const geojson 	= format.writeFeature(feature);
-    const data		= {dataId: "swl_manh_ps", geojson: geojson};
+    const data		= {dataId: "swl_spew_ps", geojson: geojson};
     
     //등록
     ui.loadingBar("show");
@@ -555,9 +549,9 @@ function updateSwlManhPs() {
 			alert("수정 완료 되었습니다.");
 
 			var page = $(".hiddenPage").val();
-			selectSwlManhPsList(page);
+			selectSwlSpewPsList(page);
 			
-			cancelUpdateSwlManhPs();
+			cancelUpdateSwlSpewPs();
 		} else {
 			alert(`수정 실패했습니다.`);
 			console.log(result["errorMsg"]);
@@ -570,13 +564,13 @@ function updateSwlManhPs() {
 	});
 }
 
-// 하수맨홀 삭제
-function deleteSwlManhPs(id) {
+// 토구 삭제
+function deleteSwlSpewPs(id) {
 	if (confirm("삭제하시겠습니까? (복구할 수 없습니다.)")) {
 		ui.loadingBar("show");
 
 		const formData = new FormData();
-		formData.append("dataId", 'swl_manh_ps' + "");
+		formData.append("dataId", 'swl_spew_ps' + "");
 		formData.append("ids", id);
 
 		$.ajax({
@@ -592,8 +586,8 @@ function deleteSwlManhPs(id) {
 			if (result["result"]) {
 				alert("삭제되었습니다.");
 
-				selectSwlManhPsList(1);	//첫페이지 조회
-				closeSwlManhPsPopup();	//창닫기
+				selectSwlSpewPsList(1);	//첫페이지 조회
+				closeSwlSpewPsPopup();	//창닫기
 			} else {
 				alert(`삭제에 실패했습니다.`);
 				console.log(result["errorMsg"]);
@@ -607,7 +601,7 @@ function deleteSwlManhPs(id) {
 	}
 }
 
-function closeSwlManhPsPopup() {
+function closeSwlSpewPsPopup() {
 	dtmap.draw.dispose();			// 마우스에 파란점 제거
 	dtmap.draw.clear();				// 지도에 파란점 제거
 	dtmap.vector.clearSelect();		// 선택 해제
@@ -615,8 +609,8 @@ function closeSwlManhPsPopup() {
 	ui.closeSubPopup();				// 팝업 닫기
 }
 
-// 하수맨홀 엑셀 저장
-function swlManhPsExcel() {
+// 토구 엑셀 저장
+function swlSpewPsExcel() {
 	var $container = $("#container");
     var $target = $container.find('#baseGridDiv [data-ax5grid="attr-grid-excel"]');	//가상의 ax5uigrid 공간에 처리 
     $target.css('display', 'none');
@@ -634,14 +628,12 @@ function swlManhPsExcel() {
         	{key: "ftr_idn",		label: "관리번호",			width: '*'},
 			{key: "hjd_cde_nm",		label: "읍면동",			width: '*'},
 			{key: "ist_ymd", 		label: "설치일자",			width: '*'},
-			{key: "smu_cde_nm",		label: "하수맨홀용도",		width: '*'},
+			{key: "vmt_cde_nm",		label: "토구용도",			width: '*'},
 			{key: "for_cde_nm",		label: "시설물형태",		width: '*'},
-			{key: "man_dip",		label: "하수맨홀구경",		width: '*'},
-			{key: "ivt_cde_nm", 	label: "인버트유무",		width: '*'},
-			{key: "lad_cde_nm", 	label: "사다리설치유무",		width: '*'},
-			{key: "mos_hsl",		label: "하수맨홀고도",		width: '*'},
-			{key: "lms_hsl",		label: "하수맨홀저고",		width: '*'},
-			{key: "cst_cde_nm",		label: "이상상태",			width: '*'}
+			{key: "spw_dip",		label: "원형토구내경",		width: '*'},
+			{key: "spw_hol",		label: "각형토구가로길이",	width: '*'},
+			{key: "spw_vel",		label: "각형토구세로길이",	width: '*'},
+			{key: "spw_hsl", 		label: "토구표고",			width: '*'}
 		],
 		body: {
 			align: "center"
@@ -658,25 +650,21 @@ function swlManhPsExcel() {
 		const filters = [];
 		
 		var hjdCde = $("#lSrchOptions select[name=hjd_cde] option:selected").val();	// 읍면동
-		var smuCde = $("#lSrchOptions select[name=smu_cde] option:selected").val();	// 하수맨홀용도
+		var vmtCde = $("#lSrchOptions select[name=vmt_cde] option:selected").val();	// 토구용도
 		var forCde = $("#lSrchOptions select[name=for_cde] option:selected").val();	// 시설물형태
-		var somCde = $("#lSrchOptions select[name=som_cde] option:selected").val();	// 맨홀종류
 		
 		if (hjdCde) {
 			filters.push("hjd_cde" + " = " + hjdCde);
 		}
-		if (smuCde) {
-			filters.push("smu_cde" + " = " + smuCde);
+		if (vmtCde) {
+			filters.push("vmt_cde" + " = " + vmtCde);
 		}
 		if (forCde) {
 			filters.push("for_cde" + " = " + forCde);
 		}
-		if (somCde) {
-			filters.push("som_cde" + " = " + somCde);
-		}
 		
 		options = {
-			typeNames	: "swl_manh_ps" + "",
+			typeNames	: "swl_spew_ps" + "",
 			filter		: filters,
 			sortBy		: 'gid',
 	        sortOrder	: 'DESC'
@@ -688,7 +676,7 @@ function swlManhPsExcel() {
 		const type 		= $parent.find('input[name="rad-facility-area"]:checked').val();
 
 		options = {
-			typeNames	: 'swl_manh_ps' + "",
+			typeNames	: 'swl_spew_ps' + "",
 			sortBy		: 'gid',
 			sortOrder	: 'DESC'
 		}
@@ -715,27 +703,18 @@ function swlManhPsExcel() {
 	    	// 관리기관 코드 처리
 	    	var mng_cde = data.features[i].properties.mng_cde;
 	    	data.features[i].properties.mng_cde_nm = getCmmCodeDataArray("MNG-001", mng_cde);
-	    	// 하수맨홀용도 코드 처리
-	    	var smu_cde = data.features[i].properties.smu_cde;
-	    	data.features[i].properties.smu_cde_nm = getCmmCodeDataArray("OGC-013", smu_cde);
+	    	// 토구용도 코드 처리
+	    	var vmt_cde = data.features[i].properties.vmt_cde;
+	    	data.features[i].properties.vmt_cde_nm = getCmmCodeDataArray("OGC-145", vmt_cde);
 	    	// 시설물형태 코드 처리
 	    	var for_cde = data.features[i].properties.for_cde;
 	    	data.features[i].properties.for_cde_nm = getCmmCodeDataArray("OGC-001", for_cde);
-	    	// 맨홀종류 코드 처리
-	    	var som_cde = data.features[i].properties.som_cde;
-	    	data.features[i].properties.som_cde_nm = getCmmCodeDataArray("OGC-002", som_cde);
-	    	// 뚜껑재질 코드 처리
-	    	var sbc_cde = data.features[i].properties.sbc_cde;
-	    	data.features[i].properties.sbc_cde_nm = getCmmCodeDataArray("OGC-014", sbc_cde);
-	    	// 인버트유무 코드 처리
-	    	var ivt_cde = data.features[i].properties.ivt_cde;
-	    	data.features[i].properties.ivt_cde_nm = getCmmCodeDataArray("OGC-015", ivt_cde);
-	    	// 사다리설치유무 코드 처리
-	    	var lad_cde = data.features[i].properties.lad_cde;
-	    	data.features[i].properties.lad_cde_nm = getCmmCodeDataArray("OGC-016", lad_cde);
-	    	// 이상상태 코드 처리
-	    	var cst_cde = data.features[i].properties.cst_cde;
-	    	data.features[i].properties.cst_cde_nm = getCmmCodeDataArray("OGC-010", cst_cde);
+	    	// 배수구역지형지물부호 코드 처리
+	    	var dra_cde = data.features[i].properties.dra_cde;
+	    	data.features[i].properties.dra_cde_nm = getCmmCodeDataArray("FTR-001", dra_cde);
+	    	// 처리구역지형지물부호 코드 처리
+	    	var dsp_cde = data.features[i].properties.dsp_cde;
+	    	data.features[i].properties.dsp_cde_nm = getCmmCodeDataArray("FTR-001", dsp_cde);
         	
         	// 좌표 처리
 			data.features[i].properties.geomObj = data.features[i].geometry;
@@ -748,6 +727,6 @@ function swlManhPsExcel() {
         FACILITY.Ax5UiGridAll.setData(list);
         
         //엑셀 export
-		FACILITY.Ax5UiGridAll.exportExcel("EXPORT_하수맨홀.xls");
+		FACILITY.Ax5UiGridAll.exportExcel("EXPORT_토구.xls");
 	});
 }

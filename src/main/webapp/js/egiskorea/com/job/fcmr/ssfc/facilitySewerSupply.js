@@ -39,16 +39,16 @@ function getSewerSupplyFacility(name){
 			selectSwlPipeLmListView();
 			return;
 		}else if(name == "swlPumpPs"){		//하수펌프장
-			toastr.error("작업중", "하수펌프장");
+			selectSwlPumpPsListView();
 			return;
 		}else if(name == "swlSideLs"){		//측구
-			toastr.error("작업중", "측구");
+			selectSwlSideLsListView();
 			return;
 		}else if(name == "swlSpewPs"){		//토구
-			toastr.error("작업중", "토구");
+			selectSwlSpewPsListView();
 			return;
 		}else if(name == "swlSpotPs"){		//물받이
-			toastr.error("작업중", "물받이");
+			selectSwlSpotPsListView();
 			return;
 		}else if(name == "swlVentPs"){		//환기구
 			selectSwlVentPsListView();
@@ -138,6 +138,58 @@ function selectSwlPipeLmListView(){
     $(baseContainer).load("/job/fcmr/ssfc/selectSwlPipeLmListView.do", function () {
     	swlPipeLmProcess();
 		ui.loadingBar("hide");
+    });
+}
+
+// 하수펌프장 목록 화면 조회
+function selectSwlPumpPsListView() {
+	//console.log('selectSwlPumpPsListView()');
+	
+	ui.loadingBar("show");
+	
+	var baseContainer = "#bottomPopup";
+    $(baseContainer).load('/job/fcmr/ssfc/selectSwlPumpPsListView.do', function() {
+    	swlPumpPsProcess();
+    	ui.loadingBar("hide");
+    });
+}
+
+// 측구 목록 화면 조회
+function selectSwlSideLsListView() {
+	//console.log('selectSwlSideLsListView()');
+	
+	ui.loadingBar("show");
+	
+	var baseContainer = "#bottomPopup";
+    $(baseContainer).load('/job/fcmr/ssfc/selectSwlSideLsListView.do', function() {
+    	swlSideLsProcess();
+    	ui.loadingBar("hide");
+    });
+}
+
+// 토구 목록 화면 조회
+function selectSwlSpewPsListView() {
+	//console.log('selectSwlSpewPsListView()');
+	
+	ui.loadingBar("show");
+	
+	var baseContainer = "#bottomPopup";
+    $(baseContainer).load('/job/fcmr/ssfc/selectSwlSpewPsListView.do', function() {
+    	swlSpewPsProcess();
+    	ui.loadingBar("hide");
+    });
+}
+
+// 물받이 목록 화면 조회
+function selectSwlSpotPsListView() {
+	//console.log('selectSwlSpotPsListView()');
+	
+	ui.loadingBar("show");
+	
+	var baseContainer = "#bottomPopup";
+    $(baseContainer).load('/job/fcmr/ssfc/selectSwlSpotPsListView.do', function() {
+    	swlSpotPsProcess();
+    	ui.loadingBar("hide");
     });
 }
 

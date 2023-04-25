@@ -336,9 +336,9 @@ function cancelUpdateSwlPipeLm() {
 					</form>
 				</div>
 			</div>
-			<div class="position-bottom btn-wrap">
+			<div class="position-bottom btn-wrap justify-content-end">
 				<div>
-					<button type="button" class="btn basic bi-edit btn_add" onclick="updateSwlPipeLm();">등록</button>
+					<button type="button" class="btn basic bi-write2 btn_save" onclick="updateSwlPipeLm();">수정완료</button>
 					<button type="button" class="btn basic bi-cancel btn_cancel" onclick="cancelUpdateSwlPipeLm()">취소</button>
 				</div>
 			</div>

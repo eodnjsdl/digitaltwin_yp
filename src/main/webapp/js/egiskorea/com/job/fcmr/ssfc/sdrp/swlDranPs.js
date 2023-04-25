@@ -34,7 +34,7 @@ function swlDranPsProcess() {
 			{key: "ftr_idn",		label: "관리번호",			width: 130},
 			{key: "hjd_cde_nm",		label: "읍면동",			width: 110},
 			{key: "ist_ymd", 		label: "설치일자",			width: 130},
-			{key: "drn_nam",		label: "하수처리장명",		width: 280},
+			{key: "drn_nam",		label: "하수처리장명",		width: 290},
 			{key: "gai_ara", 		label: "부지면적",			width: 120},
 			{key: "soo_cde_nm",		label: "개통상태",			width: 130},
 			{key: "adp_ara", 		label: "처리구역면적",		width: 120},

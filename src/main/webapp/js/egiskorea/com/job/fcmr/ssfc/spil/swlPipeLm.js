@@ -35,7 +35,7 @@ function swlPipeLmProcess() {
 		columns: [
 			{key: "hjd_cde_nm",		label: "읍면동",			width: 100},
 			{key: "ist_ymd", 		label: "설치일자",			width: 100},
-			{key: "sba_cde_nm",		label: "하수관용도",		width: 120},
+			{key: "sba_cde_nm",		label: "하수관용도",		width: 130},
 			{key: "mop_cde_nm",		label: "관재질",			width: 150},
 			{key: "lit_cde_nm",		label: "규모",			width: 100},
 			{key: "for_cde_nm", 	label: "시설물형태",		width: 100},

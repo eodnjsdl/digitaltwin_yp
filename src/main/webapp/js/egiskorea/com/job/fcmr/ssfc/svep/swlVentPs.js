@@ -39,7 +39,7 @@ function swlVentPsProcess() {
 			{key: "ist_ymd",		label: "설치일자",			width: 170},
 			{key: "vnt_dip",		label: "환기구구경",		width: 170},
 			{key: "mop_cde_nm",		label: "관재질",			width: 210},
-			{key: "mof_cde_nm",		label: "흡출기형식",		width: 170},
+			{key: "mof_cde_nm",		label: "흡출기형식",		width: 180},
 			{key: "hmp_cde_nm",		label: "흡출기재질",		width: 210}
 		],
 		page: {

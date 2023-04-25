@@ -6,7 +6,7 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
 <style type="text/css">
-	.popup-panel.popup-sub .swlManhPs-popup-close {
+	.popup-panel.popup-sub .swlSpotPs-popup-close {
 	    top: 0;
 	    right: 0;
 	    width: 39px;
@@ -21,12 +21,12 @@
 <script type="text/javascript">
 
 $(document).ready(function(){
-	//console.log("updateSwlManhPsView.jsp");
+	//console.log("updateSwlSpotPsView.jsp");
 
 	//3d 일때 지도 추가 버튼 삭제 
 	if(dtmap.mod == "3D"){
-		if($("#updateSwlManhPsFrm .btn-select-map").css("display") != 'none'){
-			$("#updateSwlManhPsFrm .btn-select-map").hide();
+		if($("#updateSwlSpotPsFrm .btn-select-map").css("display") != 'none'){
+			$("#updateSwlSpotPsFrm .btn-select-map").hide();
 		}
 	}
 	
@@ -42,33 +42,24 @@ $(document).ready(function(){
 	//ui.callDatePicker();
 	
 	// selectbox 값 세팅
-	let hjd_cde = '${swlManhPsVO.hjd_cde}';
-	getCmmCodeData("YPE001", "#updateSwlManhPsFrm select[name=hjd_cde]", hjd_cde);	// 읍면동 
+	let hjd_cde = '${swlSpotPsVO.hjd_cde}';
+	getCmmCodeData("YPE001", "#updateSwlSpotPsFrm select[name=hjd_cde]", hjd_cde);	// 읍면동 
 	
-	let mng_cde = '${swlManhPsVO.mng_cde}';
-	getCmmCodeData("MNG-001", "#updateSwlManhPsFrm select[name=mng_cde]", mng_cde);	// 관리기관 
+	let mng_cde = '${swlSpotPsVO.mng_cde}';
+	getCmmCodeData("MNG-001", "#updateSwlSpotPsFrm select[name=mng_cde]", mng_cde);	// 관리기관 
 	
-	let smu_cde = '${swlManhPsVO.smu_cde}';
-	getCmmCodeData("OGC-013", "#updateSwlManhPsFrm select[name=smu_cde]", smu_cde);	// 하수맨홀용도 
+	let sbd_cde = '${swlSpotPsVO.sbd_cde}';
+	getCmmCodeData("OGC-043", "#updateSwlSpotPsFrm select[name=sbd_cde]", sbd_cde);	// 물받이용도 
       	
-	let for_cde = '${swlManhPsVO.for_cde}';
-	getCmmCodeData("OGC-001", "#updateSwlManhPsFrm select[name=for_cde]", for_cde);	// 시설물형태 
+	let for_cde = '${swlSpotPsVO.for_cde}';
+	getCmmCodeData("OGC-001", "#updateSwlSpotPsFrm select[name=for_cde]", for_cde);	// 시설물형태 
     
-	let som_cde = '${swlManhPsVO.som_cde}';
-	getCmmCodeData("OGC-002", "#updateSwlManhPsFrm select[name=som_cde]", som_cde);	// 맨홀종류 
+	let cov_cde = '${swlSpotPsVO.cov_cde}';
+	getCmmCodeData("OGC-133", "#updateSwlSpotPsFrm select[name=cov_cde]", cov_cde);	// 물받이뚜껑형태 
 	
-	let sbc_cde = '${swlManhPsVO.sbc_cde}';
-	getCmmCodeData("OGC-014", "#updateSwlManhPsFrm select[name=sbc_cde]", sbc_cde);	// 뚜껑재질 
+	let mop_cde = '${swlSpotPsVO.mop_cde}';
+	getCmmCodeData("OGC-044", "#updateSwlSpotPsFrm select[name=mop_cde]", mop_cde);	// 관재질 
       	
-	let ivt_cde = '${swlManhPsVO.ivt_cde}';
-	getCmmCodeData("OGC-015", "#updateSwlManhPsFrm select[name=ivt_cde]", ivt_cde);	// 인버트유무 
-	
-	let lad_cde = '${swlManhPsVO.lad_cde}';
-	getCmmCodeData("OGC-016", "#updateSwlManhPsFrm select[name=lad_cde]", lad_cde);	// 사다리설치유무 
-      	
-	let cst_cde = '${swlManhPsVO.cst_cde}';
-	getCmmCodeData("OGC-010", "#updateSwlManhPsFrm select[name=cst_cde]", cst_cde);	// 이상상태 
-    
 	//gird 데이터를 통한 주소 조회
 	var id =  $("input[name=id]").val();
 	
@@ -114,8 +105,8 @@ $(document).ready(function(){
 });
 
 //취소 버튼 동작
-function cancelUpdateSwlManhPs() {
-	$(".swlManhPs-popup-close").closest('.popup-panel').removeClass('opened');
+function cancelUpdateSwlSpotPs() {
+	$(".swlSpotPs-popup-close").closest('.popup-panel').removeClass('opened');
        // 초기화 (지도)
        dtmap.draw.dispose();
        dtmap.draw.clear();
@@ -125,19 +116,19 @@ function cancelUpdateSwlManhPs() {
 	}
 	
 	var id = $("input[name=id]").val();
-	selectSwlManhPs(id);	// 상세보기로 이동
+	selectSwlSpotPs(id);	// 상세보기로 이동
 }
 	
 </script>
 
-<!-- 업무 > 시설관리 > 하수도시설 > 하수맨홀 수정하기 -->
-<div class="popup-header">하수맨홀 수정하기</div>
+<!-- 업무 > 시설관리 > 하수도시설 > 물받이 수정하기 -->
+<div class="popup-header">물받이 수정하기</div>
 <div class="popup-body">
 	<div class="sub-popup-body">
 		<div class="data-write-wrap" style="height: 100%;">
 			<div class="scroll-y">
 				<div class="data-default">
-					<form id="updateSwlManhPsFrm" method="post">
+					<form id="updateSwlSpotPsFrm" method="post">
 					<table class="data-write">
 						<colgroup>
 							<col style="width: 23%;">
@@ -149,13 +140,13 @@ function cancelUpdateSwlManhPs() {
 							<tr>
 								<th scope="row">지형지물부호</th>
 								<td>
-									<c:out value="${swlManhPsVO.ftr_cde_nm}"/>
-									<input type="hidden" name="ftr_cde" class="form-control" value="${swlManhPsVO.ftr_cde}">
+									<c:out value="${swlSpotPsVO.ftr_cde_nm}"/>
+									<input type="hidden" name="ftr_cde" class="form-control" value="${swlSpotPsVO.ftr_cde}">
 								</td>
 								<th scope="row">관리번호</th>
 								<td>
-									<c:out value="${swlManhPsVO.ftr_idn}"/>
-									<input type="hidden" name="ftr_idn" class="form-control" value="${swlManhPsVO.ftr_idn}">
+									<c:out value="${swlSpotPsVO.ftr_idn}"/>
+									<input type="hidden" name="ftr_idn" class="form-control" value="${swlSpotPsVO.ftr_idn}">
 								</td>
 							</tr>
 							<tr>
@@ -167,7 +158,7 @@ function cancelUpdateSwlManhPs() {
 								</td>
 								<th scope="row">도엽번호</th>
 								<td>
-									<input type="text" name="sht_num" class="form-control" value="${swlManhPsVO.sht_num}" maxlength="11">
+									<input type="text" name="sht_num" class="form-control" value="${swlSpotPsVO.sht_num}" maxlength="11">
 								</td>
 							</tr>
 							<tr>
@@ -179,17 +170,17 @@ function cancelUpdateSwlManhPs() {
 								</td>
 								<th scope="row">설치일자</th>
 								<td>
-									<input type="text" name="ist_ymd" class="form-control datepicker" value="${swlManhPsVO.ist_ymd}">
+									<input type="text" name="ist_ymd" class="form-control datepicker" value="${swlSpotPsVO.ist_ymd}">
 								</td>
 							</tr>
 							<tr>
 								<th scope="row">최종준설일자</th>
 								<td>
-									<input type="text" name="ecn_ymd" class="form-control datepicker" value="">
+									<input type="text" name="ecn_ymd" class="form-control datepicker" value="${swlSpotPsVO.ecn_ymd}">
 								</td>
-								<th scope="row">하수맨홀용도</th>
+								<th scope="row">물받이용도</th>
 								<td>
-									<select name="smu_cde" class="form-select">
+									<select name="sbd_cde" class="form-select">
 										<option value="">선택</option>
 									</select>
 								</td>
@@ -201,75 +192,49 @@ function cancelUpdateSwlManhPs() {
 										<option value="">선택</option>
 									</select>
 								</td>
-								<th scope="row">맨홀종류</th>
+								<th scope="row">원형물받이내경</th>
 								<td>
-									<select name="som_cde" class="form-select">
+									<input type="number" name="spt_dip" class="form-control" value="${swlSpotPsVO.spt_dip}">
+								</td>
+							</tr>
+							<tr>
+								<th scope="row">각형물받이가로길이</th>
+								<td>
+									<input type="number" name="spt_hol" class="form-control" value="${swlSpotPsVO.spt_hol}">
+								</td>
+								<th scope="row">각형물받이세로길이</th>
+								<td>
+									<input type="number" name="spt_vel" class="form-control" value="${swlSpotPsVO.spt_vel}">
+								</td>
+							</tr>
+							<tr>
+								<th scope="row">평균수위</th>
+								<td>
+									<input type="number" name="spt_dep" class="form-control" min="0" value="${swlSpotPsVO.spt_dep}">
+								</td>
+								<th scope="row">물받이뚜껑형태</th>
+								<td>
+									<select name="cov_cde" class="form-select">
 										<option value="">선택</option>
 									</select>
 								</td>
 							</tr>
 							<tr>
-								<th scope="row">하수맨홀구경</th>
+								<th scope="row">관재질</th>
 								<td>
-									<input type="number" name="man_dip" class="form-control" value="${swlManhPsVO.man_dip}">
-								</td>
-								<th scope="row">하수맨홀가로</th>
-								<td>
-									<input type="number" name="man_hol" class="form-control" value="${swlManhPsVO.man_hol}">
-								</td>
-							</tr>
-							<tr>
-								<th scope="row">하수맨홀세로</th>
-								<td>
-									<input type="number" name="man_vel" class="form-control" value="${swlManhPsVO.man_vel}">
-								</td>
-								<th scope="row">뚜껑재질</th>
-								<td>
-									<select name="sbc_cde" class="form-select">
-										<option value="">선택</option>
-									</select>
-								</td>
-							</tr>
-							<tr>
-								<th scope="row">인버트유무</th>
-								<td>
-									<select name="ivt_cde" class="form-select">
-										<option value="">선택</option>
-									</select>
-								</td>
-								<th scope="row">사다리설치유무</th>
-								<td>
-									<select name="lad_cde" class="form-select">
-										<option value="">선택</option>
-									</select>
-								</td>
-							</tr>
-							<tr>
-								<th scope="row">하수맨홀고도</th>
-								<td>
-									<input type="number" name="mos_hsl" class="form-control" value="${swlManhPsVO.mos_hsl}">
-								</td>
-								<th scope="row">하수맨홀저고</th>
-								<td>
-									<input type="number" name="lms_hsl" class="form-control" value="${swlManhPsVO.lms_hsl}">
-								</td>
-							</tr>
-							<tr>
-								<th scope="row">이상상태</th>
-								<td>
-									<select name="cst_cde" class="form-select">
+									<select name="mop_cde" class="form-select">
 										<option value="">선택</option>
 									</select>
 								</td>
 								<th scope="row">공사번호</th>
 								<td>
-									<input type="text" name="cnt_num" class="form-control" value="${swlManhPsVO.cnt_num}" maxlength="50">
+									<input type="text" name="cnt_num" class="form-control" value="${swlSpotPsVO.cnt_num}" maxlength="8">
 								</td>
 							</tr>
 							<tr>
 								<th scope="row">방향각</th>
 								<td colspan="3">
-									<input type="number" name="ang_dir" class="form-control" min="0" value="${swlManhPsVO.ang_dir}">
+									<input type="number" name="ang_dir" class="form-control" min="0" value="${swlSpotPsVO.ang_dir}">
 								</td>
 							</tr>
 							<tr>
@@ -294,13 +259,13 @@ function cancelUpdateSwlManhPs() {
 			</div>
 			<div class="position-bottom btn-wrap justify-content-end">
 				<div>
-					<button type="button" class="btn basic bi-write2 btn_save" onclick="updateSwlManhPs();">수정완료</button>
-					<button type="button" class="btn basic bi-cancel btn_cancel" onclick="cancelUpdateSwlManhPs()">취소</button>
+					<button type="button" class="btn basic bi-write2 btn_save" onclick="updateSwlSpotPs();">수정완료</button>
+					<button type="button" class="btn basic bi-cancel btn_cancel" onclick="cancelUpdateSwlSpotPs()">취소</button>
 				</div>
 			</div>
 		</div>
 	</div>
 </div>
 <!-- <button type="button" class="popup-close" title="닫기" onclick="cancelMode();"></button> -->
-<button type="button" class="swlManhPs-popup-close" title="닫기" onclick="cancelUpdateSwlManhPs()"></button>
-<!-- //업무 > 시설관리 > 하수도시설 > 하수맨홀 수정하기 end -->
+<button type="button" class="swlSpotPs-popup-close" title="닫기" onclick="cancelUpdateSwlSpotPs()"></button>
+<!-- //업무 > 시설관리 > 하수도시설 > 물받이 수정하기 end -->
