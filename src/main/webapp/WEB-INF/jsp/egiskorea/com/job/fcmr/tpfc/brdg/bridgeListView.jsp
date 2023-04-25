@@ -7,6 +7,7 @@ $(document).ready(function(){
 	dtmap.draw.clear();
 
 	//이벤트 리스너 추가 - 객체 선택
+	dtmap.off('select');
 	dtmap.on('select', onSelectBridgeEventListener);
     
 	// 교통시설 메뉴 - 이벤트

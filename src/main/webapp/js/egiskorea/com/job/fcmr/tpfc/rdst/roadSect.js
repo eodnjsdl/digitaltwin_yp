@@ -232,6 +232,10 @@ function setRoadSectListData(_pageNo, geom) {
 	
 	var list = [];
 	for (let i = 0; i < data.features.length; i++) {
+	    // 좌표 처리  geometry로 변수명을 정하면 기존것과 충돌 발생
+	    data.features[i].properties.geomObj = data.features[i].geometry;
+	    
+	    
 	    const {id, properties} = data.features[i];
 	    list.push({...properties, ...{id: id}});
 	}
@@ -255,6 +259,7 @@ function setRoadSectListData(_pageNo, geom) {
 //	    	그 외는 아래처럼 처리
 //	    let getGid = properties.gid;
 //	    feature.setId('wfs name.' + getGid);
+	    
 	    // --------------------------------------------------
 	    return {
 	        marker: {
@@ -276,7 +281,6 @@ function setRoadSectListData(_pageNo, geom) {
 function selectRoadSectDetailView(item) {
     let gid = item.gid;
     let rdsManNo = item.rds_man_no;
-    
     dtmap.vector.clearSelect(); 
     dtmap.vector.select('tgd_sprd_manage.41830.' + rdsManNo);
     ui.openPopup("rightSubPopup");

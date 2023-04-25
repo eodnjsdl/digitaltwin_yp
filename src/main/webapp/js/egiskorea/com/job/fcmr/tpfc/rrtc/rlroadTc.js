@@ -212,6 +212,9 @@ function setRailroadTrackListData(_pageNo, geom) {
 	
 	var list = [];
 	for (let i = 0; i < data.features.length; i++) {
+	 // 좌표 처리  geometry로 변수명을 정하면 기존것과 충돌 발생
+	    data.features[i].properties.geomObj = data.features[i].geometry;
+	    
 	    const {id, properties} = data.features[i];
 	    list.push({...properties, ...{id: id}});
 	}
@@ -254,7 +257,6 @@ function setRailroadTrackListData(_pageNo, geom) {
  */
 function selectRailroadTrackDetailView(gid) {
     dtmap.vector.clearSelect(); 
-    dtmap.vector.select('tgd_sprl_rlway.' + gid);
     
     ui.openPopup("rightSubPopup");
     ui.loadingBar("show");
@@ -275,6 +277,7 @@ function selectRailroadTrackDetailView(gid) {
 	success : function(data, status) {
 	    if (status == "success") {		
 		$("#rightSubPopup").append(data);
+		dtmap.vector.select('tgd_sprl_rlway.' + gid);
 	    } else { 
 		toastr.error("ERROR!");
 		return;
