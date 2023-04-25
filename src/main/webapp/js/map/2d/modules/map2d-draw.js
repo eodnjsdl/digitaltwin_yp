@@ -453,7 +453,7 @@ map2d.draw = (function () {
         }
         const feature = new ol.Feature(geom);
         if (style) {
-            feature.set('_style', style);
+            feature.set('style', style);
         }
 
         _source.addFeature(feature);

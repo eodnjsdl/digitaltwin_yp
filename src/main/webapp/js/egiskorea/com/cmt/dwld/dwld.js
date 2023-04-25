@@ -252,7 +252,6 @@ class DataDownlad {
         );
         let geometry, wkt;
         if (featureTypes.length > 0) {
-            dtmap.draw.clear();
             if (type === "tr_area") {
                 //현재화면영역
                 if (searchArea === "extent") {
