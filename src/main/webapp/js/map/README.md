@@ -81,10 +81,24 @@ dtmap.draw.setBuffer(0); //해제
   style: style //스타일 옵션 (벡터 스타일옵션 참고)
 })
 ```
-- #### Line 추가 (미구현)
-
-- #### Polygon 추가 (미구현)
-
+- #### Line 추가 
+```javascript
+ dtmap.vector.addLine({
+  id: '피쳐아이디',
+  coordinate: [[127,36],[127.12,36.12],...],
+  crs: 'EPSG:4326',
+  style: style //스타일 옵션 (벡터 스타일옵션 참고)
+})
+```
+- #### Polygon 추가 
+```javascript
+ dtmap.vector.addPolygon({
+  id: '피쳐아이디',
+  coordinate: [[[127,36],[127.12,36.12],...]],
+  crs: 'EPSG:4326',
+  style: style //스타일 옵션 (벡터 스타일옵션 참고)
+})
+```
 ### 벡터 스타일 옵션
 - 벡터 표출시 적용할 수 있는 스타일 옵션
 - `marker`, `radius` 옵션의 경우, 도형이 **Point**인 경우에만 적용됨
