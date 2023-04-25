@@ -14,6 +14,12 @@ map3d.layer.Line = (function () {
      * @returns {XDWorld.JSLayer}
      */
     Line.prototype.createInstance = function () {
+        //라벨레이어 추가
+        this.labelLayer = map3d.userLayers.createObjectLayer({
+            name: this.id + '_label',
+            type: Module.ELT_POLYHEDRON
+        });
+
         return map3d.userLayers.createObjectLayer({
             name: this.id,
             type: Module.ELT_3DLINE
@@ -40,14 +46,14 @@ map3d.layer.Line = (function () {
             //임시로 첫 라인만 그리도록 처리
             geometry = geometry.getLineString(0);
         }
-        const coordinates = computeHeight(geometry.getCoordinates());
+
         const style = options.style;
-        const type = style.renderType || '3D'
+        const type = style.renderType || '2D'
         let object;
-        if (type.toUpperCase() === '3D') {
-            object = addPipe.call(this, id, coordinates, style);
+        if (type.toUpperCase() === 'PIPE') {
+            object = addPipe.call(this, id, geometry, style);
         } else {
-            object = addLine.call(this, id, coordinates, style);
+            object = addLine.call(this, id, geometry, style);
         }
         if (!object) {
             return console.warn('map3d.layer.Line', 'Line 추가 실패');
@@ -58,8 +64,8 @@ map3d.layer.Line = (function () {
     }
 
 
-    function addPipe(id, coordinates, style) {
-
+    function addPipe(id, geometry, style) {
+        const coordinates = computeHeight(geometry.getCoordinates());
         const vec3Array = new Module.Collection();
 
         for (let i = 0; i < coordinates.length; i++) {
@@ -98,10 +104,23 @@ map3d.layer.Line = (function () {
 
         // 간소화 출력 거리 설정
         // object.setSimplifyRange(object.getExtent() * 2.0);
+
+        if (style.label) {
+            this.createLabel({
+                id: id,
+                coordinates: geometry.getCoordinateAt(0.5),
+                style: {
+                    label: style.label,
+                    marker: style.marker,
+                    offsetHeight: style.label.offsetHeight
+                }
+            })
+        }
         return object;
     }
 
-    function addLine(id, coordinates, style) {
+    function addLine(id, geometry, style) {
+        const coordinates = computeHeight(geometry.getCoordinates());
         const stroke = new map3d.Color(style.stroke);
 
         const object = Module.createLineString(id);
@@ -131,6 +150,17 @@ map3d.layer.Line = (function () {
             object.SetLineType(3);
         }
 
+        if (style.label) {
+            this.createLabel({
+                id: id,
+                coordinates: geometry.getCoordinateAt(0.5),
+                style: {
+                    label: style.label,
+                    marker: style.marker,
+                    offsetHeight: style.label.offsetHeight
+                }
+            })
+        }
 
         this.instance.addObject(object, 0);
         return object;

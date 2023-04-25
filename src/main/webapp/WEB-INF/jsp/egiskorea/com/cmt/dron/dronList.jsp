@@ -20,7 +20,7 @@
         <c:forEach  items="${resultList}" var="item">
         dtmap.vector.addPoint({
             id: ${item.dronePicId},
-            coordinate: [Number('${item.xcord}'), Number('${item.ycord}')],
+            coordinates: [Number('${item.xcord}'), Number('${item.ycord}')],
             crs: 'EPSG:5179',
             style: {
                 label: {
@@ -43,6 +43,21 @@
             ui.openPopup("rightPopup");
             aj_insertDronInfoView($("#searchFormDronList")[0]);
         });
+        dtmap.off('select');
+        dtmap.on('select', selectDronPoi);
+    }
+
+    function selectDronPoi(event) {
+        if (event) {
+            var id = event.id; //피쳐 아이디
+            if(id){
+                dtmap.vector.select(id);
+                selectDronInfoView(id);
+            }
+        } else {
+            toastr.warning("현재 화면에 검색영역이 존재하지 않습니다.");
+        }
+
     }
 
     // 드론정보 목록 조회
@@ -60,7 +75,6 @@
     //드론정보 상세조회
     function selectDronInfoView(id) {
 //         rightPopupOpen('selectDronInfoView');
-        ui.openPopup("rightPopup");
         aj_selectDronInfoView(id, $("#searchFormDronList")[0]);
     }
 

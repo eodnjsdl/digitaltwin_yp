@@ -20,7 +20,7 @@ map2d.draw = (function () {
     function init() {
         _source = new ol.source.Vector();
         _layer = new ol.layer.Vector({
-            title : '_draw',
+            title: '_draw',
             source: _source,
             zIndex: 99,
             style: map2d.vector.style,
@@ -340,21 +340,10 @@ map2d.draw = (function () {
             feature.unset(ORI_GEOM_KEY);
         } else {
             const geom = feature.get(ORI_GEOM_KEY) || feature.getGeometry();
-            const buffered = getBufferGeom(geom, _buffer);
+            const buffered = dtmap.util.getBufferGeometry(geom, _buffer);
             feature.set(ORI_GEOM_KEY, geom);
             feature.setGeometry(buffered);
         }
-    }
-
-    function getBufferGeom(geom, buffer) {
-        if (geom instanceof ol.geom.Circle) {
-            geom = ol.geom.Polygon.fromCircle(geom);
-        }
-
-        const parser = new jsts.io.OL3Parser();
-        const jstsGeom = parser.read(geom);
-        const buffered = jstsGeom.buffer(buffer);
-        return parser.write(buffered);
     }
 
     function readGeoJson(json, style) {
@@ -458,6 +447,18 @@ map2d.draw = (function () {
         }
     }
 
+    function addGeometry(geom, style) {
+        if (!geom) {
+            return;
+        }
+        const feature = new ol.Feature(geom);
+        if (style) {
+            feature.set('style', style);
+        }
+
+        _source.addFeature(feature);
+    }
+
     let module = {
         init: init,
         active: active,
@@ -471,6 +472,7 @@ map2d.draw = (function () {
         setSnapLayer: setSnapLayer,
         clearSnapLayer: clearSnapLayer,
         addFeatures: addFeatures,
+        addGeometry: addGeometry,
         clear: clear
     }
 

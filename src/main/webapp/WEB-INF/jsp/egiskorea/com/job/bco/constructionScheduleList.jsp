@@ -50,7 +50,7 @@
         let poi = poiListSchedule.resultList[i];
         dtmap.vector.addPoint({
             id: poi.cntrkPrrngId,
-            coordinate: [Number(poi.lon), Number(poi.lat)],
+            coordinates: [Number(poi.lon), Number(poi.lat)],
             crs: 'EPSG:5179',
             properties: poi,
             style: {

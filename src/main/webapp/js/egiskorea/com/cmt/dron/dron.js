@@ -1,8 +1,7 @@
 // 드론영상 목록 호출
-function aj_selectDronInfo(param1){
+function aj_selectDronInfo(frm){
     ui.loadingBar("show");
-
-    var formData = new FormData(param1);
+    var formData = new FormData(frm);
     $.ajax({
         type : "POST",
         url : "/cmt/dron/selectDronList.do",
@@ -19,6 +18,8 @@ function aj_selectDronInfo(param1){
                 });
                 $("input:checkbox[id='rChk3-2']").prop("checked", true);
             } else{
+                toastr.error("관리자에게 문의 바랍니다.", "정보를 불러오지 못했습니다.");
+                return;
             }
         }, complete : function(){
             ui.loadingBar("hide");
@@ -87,7 +88,7 @@ function aj_insertDronInfo(frm){
 
 
 // 드론정보 상세조회 화면 호출
-function aj_selectDronInfoView(id,frm ){
+function aj_selectDronInfoView(id,frm){
     ui.loadingBar("show");
     var formData = new FormData(frm);
     if(id!=null){
@@ -113,8 +114,6 @@ function aj_selectDronInfoView(id,frm ){
         }
     });
 }
-
-
 
 // 드론정보 수정화면 호출
 function aj_updateDronInfoView(id,frm){
@@ -146,24 +145,9 @@ function aj_updateDronInfoView(id,frm){
 // 사진정보 수정
 function aj_updateDronInfo(frm){
     var formData = new FormData(frm);
-    // var updateFileCn = new Array();
-    // var updateFileSn = new Array();
-    // var insertFileCn = new Array();
-    // formData.delete("updateFileCn");
-
-    // var fileSn = $("#fileSnByUpdateDron").value;
-    // updateFileSn.push(fileSn);
-
     for (let i = 0; i < inputFileList.length; i++) {
         formData.append("images"+i, inputFileList[i]);
     }
-    // for(var i=0; i<insertFileCn.length; ++i) {
-    //     formData.append("insertFileCn", insertFileCn[i]);
-    // }
-    //formData.append("insertFileCn", insertFileCn);
-    // formData.append("updateFileCn", updateFileCn);
-    // formData.append("updateFileSn", updateFileSn);
-
     ui.loadingBar("show");
     $.ajax({
         type : "POST",
