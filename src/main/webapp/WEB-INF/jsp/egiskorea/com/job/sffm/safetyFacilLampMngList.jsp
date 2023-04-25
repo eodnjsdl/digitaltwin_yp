@@ -134,9 +134,11 @@ $(document).ready(function() {
 			dtmap.draw.dispose();		//그리기 포인트 삭제
 			dtmap.draw.clear();			//그리기 초기화
 			dtmap.on('select',spaceClickListener );	//레이어 선택 핸들러
+			$('#spitalSearch').val(''); 	//공간검색 초기화
 		}else{
 			$('input[name=sffmSelect]:first').prop('checked', 'checked');//공간검색>현재화면영역
 			$(".areaSrchTool", "#bottomPopup").hide();
+			$('.safetyFacilityProperty input').val(''); 	//속성검색초기화
 		}
 		
 	});

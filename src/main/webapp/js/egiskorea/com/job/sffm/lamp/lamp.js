@@ -239,22 +239,57 @@ function fn_search_List(e){
 		SEARCHOBJ.spaceSearch = {};
 		const $parent = $('#bottomPopup').find('.search-area')
 		const type = $parent.find('input[name="sffmSelect"]:checked').val();
+
+		
 		
 		if (type === 'extent') {
 			 var bbox = dtmap.getExtent();
 			 SEARCHOBJ.spaceSearch.bbox = ol.proj.transformExtent(bbox,'EPSG:5179','EPSG:4326' );
 
+
 		} else {
 			if(dtmap.draw.source.getFeatures().length > 0){
 				SEARCHOBJ.spaceSearch.geometry = dtmap.draw.getGeometry();
+				
 			}else{
 				alert("영역지정 안되었습니다");
 				return false;
 			}
 		}
+		setSpatial(type);
 	}
 
-	
+
+}
+
+function setSpatial(type){
+	let geom;
+	var geoWKTstr;
+	if (type === 'extent') {
+		let minX = SEARCHOBJ.spaceSearch.bbox[0];
+		let minY = SEARCHOBJ.spaceSearch.bbox[1];
+		let maxX = SEARCHOBJ.spaceSearch.bbox[2];
+		let maxY = SEARCHOBJ.spaceSearch.bbox[3];
+
+		var geoWKTstr = "POLYGON(("+minX+" "+minY+", "+minX+" "+maxY+", "+maxX+" "+maxY+", "+maxX+" "+minY+", "+minX+" "+minY+"))";
+
+	}else{
+
+		if(SEARCHOBJ.spaceSearch.geometry.getType() == 'Circle'){
+			geom = new ol.geom.Polygon.fromCircle(SEARCHOBJ.spaceSearch.geometry);
+		}else{
+			geom = SEARCHOBJ.spaceSearch.geometry;
+		}
+
+		var writer = new ol.format.WKT();
+		geoWKTstr = writer.writeGeometry(geom, {
+			dataProjection: 'EPSG:4326',
+			featureProjection: 'EPSG:5179',
+		})
+
+	}
+		$('#spitalSearch').val(geoWKTstr);
+
 }
 
 
@@ -262,6 +297,11 @@ function fn_search_List(e){
 $("#lampExcelDownload").on("click", function(){
 	let formName = this.dataset.formName;
 
+	let formData = new FormData($('#searchForm')[0]);
+	for (let key of formData.keys()) {
+		console.log(key, ":", formData.get(key));
+	}
+	formData.set('sffmBuffer', '0');
 	let url = '/job/sffm/' + formName + 'Download.do';
 	
 	$("form[name='"+ formName + "']").attr('onsubmit', '');

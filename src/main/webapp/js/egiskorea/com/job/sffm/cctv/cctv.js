@@ -272,15 +272,43 @@ function fn_search_List(){
 			}
 		}
 
+		setSpatial(type);
 	}
+}
 
-	console.log(SEARCHOBJ);
-	
+function setSpatial(type){
+	let geom;
+	var geoWKTstr;
+	if (type === 'extent') {
+		let minX = SEARCHOBJ.spaceSearch.bbox[0];
+		let minY = SEARCHOBJ.spaceSearch.bbox[1];
+		let maxX = SEARCHOBJ.spaceSearch.bbox[2];
+		let maxY = SEARCHOBJ.spaceSearch.bbox[3];
+
+		var geoWKTstr = "POLYGON(("+minX+" "+minY+", "+minX+" "+maxY+", "+maxX+" "+maxY+", "+maxX+" "+minY+", "+minX+" "+minY+"))";
+
+	}else{
+
+		if(SEARCHOBJ.spaceSearch.geometry.getType() == 'Circle'){
+			geom = new ol.geom.Polygon.fromCircle(SEARCHOBJ.spaceSearch.geometry);
+		}else{
+			geom = SEARCHOBJ.spaceSearch.geometry;
+		}
+		
+		var writer = new ol.format.WKT();
+		var geoWKTstr = writer.writeGeometry(geom)
+
+	}
+		$('#spitalSearch').val(geoWKTstr);
+
 }
 
 //cctv 엑셀다운로드 버튼
 $("#cctvExcelDownload").on("click", function(){
 	let formName = this.dataset.formName;
+	let formData = new FormData($('#searchForm')[0]);
+
+	formData.set('cctvBuffer', '0');
 
 	let url = '/job/cctv/' + formName + 'Download.do';
 	

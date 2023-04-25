@@ -97,8 +97,8 @@
 								</span>
 							</div>
 							<div class="space-search-items areaSrchTool" style="display: none;">
-								경계로부터 <span class="form-group"><input type="text" name="cctvBuffer"
-									id="cctvBuffer" class="form-control align-center" placeholder="0" value="0" step="10">
+								경계로부터 <span class="form-group"><input type="text" name="cctvBuffer" id="cctvBuffer" class="form-control align-center" placeholder="0" value="0" step="10">
+									<input type="hidden" id="spitalSearch" name="spitalSearch" value=''>
 									<sub>m</sub></span> 이내 범위
 							</div>
 						</div>
@@ -175,9 +175,13 @@
 			dtmap.draw.dispose();		//그리기 포인트 삭제
 			dtmap.draw.clear();			//그리기 초기화
 			dtmap.on('select',spaceClickListener );	//레이어 선택 핸들러
+			$('#spitalSearch').val('');	//공간검색 초기화
 		}else{
 			$('input[name=cctvSelect]:first').prop('checked', 'checked');//공간검색>현재화면영역
 			$(".areaSrchTool", "#bottomPopup").hide();
+			//속성검색 초기화
+			$('.safetyFacilityProperty input').val('');	
+			$('.safetyFacilityProperty select>option[name=전체]').prop('selected', true);	
 		}
 		
 	});
