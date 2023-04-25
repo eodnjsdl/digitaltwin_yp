@@ -179,6 +179,10 @@
 	height: 40px;
 }
 
+.bbs-list tbody tr {
+	cursor: pointer;
+}
+
 .bbs-list tbody tr:hover th, .bbs-list tbody tr:hover td,
 .bbs-list tbody tr.active th, .bbs-list tbody tr.active td {
 	background-color: #E6E8ED;

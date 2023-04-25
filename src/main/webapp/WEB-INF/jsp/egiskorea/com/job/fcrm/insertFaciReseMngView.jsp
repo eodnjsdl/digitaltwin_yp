@@ -8,13 +8,19 @@
 <script>
 // 시설예약관리 등록하기 버튼
 $("#faciRegistBtn").on("click", function(){
-	var form = $("#insertFaciReseMngForm")[0];
-	var formData = new FormData(form);
-	
-	if($("#asstnFcltySn").val() == '선택해주세요' || $("#gid").val() == '') {
+	//console.log("faciRegistBtn");
+	//if($("#asstnFcltySn").val() == '선택해주세요' || $("#gid").val() == '') {
+	if($("#asstnFcltySn").val() == '' || $("#gid").val() == '') {
 		alert("예약할 시설을 선택해주세요!");
 		return false;
 	}
+	
+	//예약가능여부 추가
+	if($(".rsrvAt").text().trim() == '불가능' || $(".rsrvAt").text() == '') {
+		alert("현 시설은 예약이 불가능 합니다.");
+		return false;
+	}
+	
 	if($(".rsvctmInfo").val() == '') {
 		alert("예약자 정보를 입력하세요!");
 		return false;
@@ -29,8 +35,13 @@ $("#faciRegistBtn").on("click", function(){
 	}
 	
 	if(confirm("<spring:message code="common.regist.msg" />")){	//등록하시겠습니까?
+		
 		// 예약중복체크
-		let dubChk = 'N';
+		//let dubChk = 'N';
+		
+		var form = $("#insertFaciReseMngForm")[0];
+		var formData = new FormData(form);
+		
 		$.ajax({
 			type : "POST",
 			url  : "/job/fcrm/dubCheckFaciReseMngRegist.do",
@@ -40,17 +51,24 @@ $("#faciRegistBtn").on("click", function(){
 			contentType : false,
 			dataType : "json",
 			success : function(data){
+				
 				if( data >= '1' ) {
-					dubChk = 'Y'
+					//dubChk = 'Y'
 					alert("이미 예약이 완료된 시간이 포함되어있습니다.");
+			   	}else{
+			   		aj_registFaciReseMng(); 
 			   	}
-			}
+			},
+			error : function(request, status, error) {
+				console.log("code: " + request.status + "\n" + "message: " + request.responseText + "\n" + "error: " + error);
+			},
 		});
-		if( dubChk == "Y" ){
-			return false;
-		} else {
-			aj_registFaciReseMng(); 
-		}
+		
+		//if( dubChk == "Y" ){
+		//	return false;
+		//} else {
+		//	aj_registFaciReseMng(); 
+		//} 
 	}
 });
 
@@ -198,7 +216,7 @@ var lastSrchYMDtl = "<c:out value='${faciReseMngVO.srchYM}' />";
             </div>
             <form:form name="searchDtlForm" id="searchDtlForm">
             	<input type="hidden" name="srchYM" id="srchYM" value="<c:out value='${faciReseMngVO.srchYM}' />">
-            	<input type="hidden" name="pageIndex" id="pageIndex" value="">
+            	<input type="hidden" name="pageIndex" id="pageIndex" value="<c:out value='${faciReseMngVO.pageIndex}' />">
             </form:form> 
 	    </form:form>
         </div>

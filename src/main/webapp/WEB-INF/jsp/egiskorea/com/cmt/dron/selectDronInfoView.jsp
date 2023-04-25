@@ -11,17 +11,21 @@
         initUIByDronInfoView();
         bindEventDronInfoView()
         callImage();
-        // refreshLayerByDron();
+        refreshLayerByDron();
         moveBySelectDronInfoView();
 
     });
 
     function refreshLayerByDron() {
+        dtmap.draw.clear();
+        dtmap.draw.dispose();
         dtmap.vector.clear();
+        dtmap.vector.clearSelect();
+
         <c:forEach  items="${resultList}" var="item">
         dtmap.vector.addPoint({
             id: ${item.dronePicId},
-            coordinate: [Number('${item.xcord}'), Number('${item.ycord}')],
+            coordinates: [Number('${item.xcord}'), Number('${item.ycord}')],
             crs: 'EPSG:5179',
             style: {
                 label: {
@@ -41,7 +45,7 @@
         const pointY = ${result.ycord};
         dtmap.vector.addPoint({
             id: id,
-            coordinate: [Number(pointX), Number(pointY)],
+            coordinates: [Number(pointX), Number(pointY)],
             crs: 'EPSG:5179',
             img: './images/poi/poto_poi.png'
         });

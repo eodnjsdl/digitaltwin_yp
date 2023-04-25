@@ -80,10 +80,7 @@ map2d.vector = (function () {
         stroke: {
             color: '#000000',
             opacity: 1,
-            width: 3,
-            lineDash: 'solid',
-            startArrow: false,
-            endArrow: false
+            width: 3
         }
     }
 
@@ -96,7 +93,7 @@ map2d.vector = (function () {
 
         _source = new ol.source.Vector();
         _layer = new ol.layer.Vector({
-            title : '_vector',
+            title: '_vector',
             source: _source,
             style: styleFunction,
             isDefault: true,
@@ -110,37 +107,47 @@ map2d.vector = (function () {
     /**
      * Point 추가
      * @param options
-     * @param {number} [options.id]
      * @param {number[]} options.coordinate
-     * @param {string} options.crs
-     * @param {string} [options.text]
-     * @param {string} [options.column]
-     * @param {string} [options.img]
+     * @param {number} [options.id]
+     * @param {string} [options.crs]
+     * @param {StyleOption} [options.style]
      * @param {object} [options.properties]
      */
     function addPoint(options) {
-        if (options.crs) {
-            if (options.crs !== map2d.crs) {
-                options.coordinate = ol.proj.transform(options.coordinate, options.crs, map2d.crs);
-            }
-        }
-
-        const geom = new ol.geom.Point(options.coordinate);
-        const feature = new ol.Feature({
-            geometry: geom
-        });
-        if (options.id) {
-            feature.setId(options.id)
-        }
-        if (options.style) {
-            feature.set('style', options.style);
-        }
-        if (options.properties) {
-            feature.setProperties(options.properties);
-        }
+        const geom = dtmap.util.createGeometry('Point', options);
+        const feature = dtmap.util.createFeature(geom, options);
         _source.addFeature(feature);
     }
 
+    /**
+     * Line 추가
+     * @param options
+     * @param {number[]} options.coordinate
+     * @param {number} [options.id]
+     * @param {string} [options.crs]
+     * @param {StyleOption} [options.style]
+     * @param {object} [options.properties]
+     */
+    function addLine(options) {
+        const geom = dtmap.util.createGeometry('LineString', options);
+        const feature = dtmap.util.createFeature(geom, options);
+        _source.addFeature(feature);
+    }
+
+    /**
+     * Polygon 추가
+     * @param options
+     * @param {number[]} options.coordinate
+     * @param {number} [options.id]
+     * @param {string} [options.crs]
+     * @param {StyleOption} [options.style]
+     * @param {object} [options.properties]
+     */
+    function addPolygon(options) {
+        const geom = dtmap.util.createGeometry('Polygon', options);
+        const feature = dtmap.util.createFeature(geom, options);
+        _source.addFeature(feature);
+    }
 
     /**
      * 피쳐 선택
@@ -161,6 +168,15 @@ map2d.vector = (function () {
             feature.set('_selected', true);
             map2d.view.setCenter(center);
         }
+    }
+
+    function getSelected() {
+        const features = _source
+            .getFeatures()
+            .filter(function (feature) {
+                return feature.get('_selected') ? feature : undefined;
+            });
+        return features;
     }
 
     function getFeature(id) {
@@ -484,7 +500,7 @@ map2d.vector = (function () {
         const features = _source
             .getFeatures()
             .filter(function (feature) {
-                return filter(feature, feature.getProperties());
+                return filter(feature);
             });
         features.forEach((feature) => {
             _source.removeFeature(feature);
@@ -494,6 +510,8 @@ map2d.vector = (function () {
     let module = {
         init: init,
         addPoint: addPoint,
+        addLine: addLine,
+        addPolygon: addPolygon,
         addFeature: addFeature,
         addFeatures: addFeatures,
         clear: clear,
@@ -505,7 +523,9 @@ map2d.vector = (function () {
         select: select,
         writeGeoJson: writeGeoJson,
         removeFeatureByFilter: removeFeatureByFilter,
-        getFeature: getFeature
+        getFeature: getFeature,
+        getSelected: getSelected
+
     }
 
     Object.defineProperties(module, {

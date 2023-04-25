@@ -110,4 +110,7 @@ public interface FaciReseMngService {
 	 * @throws Exception
 	 */
 	public int dubCheckFaciReseMngUpdate(FaciReseMngVO faciReseMngVO) throws Exception;
+
+	public int dubCheckFaciReseMngUpdate2(FaciReseMngChkVO faciReseMngChkVO) throws Exception;
+	
 }
