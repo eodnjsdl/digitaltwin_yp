@@ -414,7 +414,6 @@ function updateSwlDranPsView(id) {
 	
 	//상세 정보 조회
 	var detailData = getGridDetailData(id);
-	
 	if (!detailData && detailData == null) {
 		alert("하수처리장 상세정보 오류");
 		return false;
@@ -422,7 +421,6 @@ function updateSwlDranPsView(id) {
 	
 	//파라미터 처리
     var formData = new FormData();
-	
 	for (var key in detailData) {
 		if (detailData[key]) {	//null 값이나 빈칸은 제외, 여기서 id 값 까지 포함되서 파라미터 완성
 			formData.append(key, detailData[key]);
@@ -442,6 +440,7 @@ function updateSwlDranPsView(id) {
 			//console.log(result);
 			
 			ui.openPopup("rightSubPopup");
+			$("#rightSubPopup").addClass("div-failcity-detail");	//날짜 css 때문	
 			
 			var container = "#rightSubPopup";
 			$(container).html(result);

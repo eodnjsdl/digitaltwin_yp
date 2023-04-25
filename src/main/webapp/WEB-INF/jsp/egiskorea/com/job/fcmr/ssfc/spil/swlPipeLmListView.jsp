@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" %>
 
 <!-- js -->
-<script src="/js/egiskorea/com/job/fcmr/ssfc/smap/swlPipeLm.js"></script>
+<script src="/js/egiskorea/com/job/fcmr/ssfc/spil/swlPipeLm.js"></script>
 
 <script>
 $(document).ready(function() {

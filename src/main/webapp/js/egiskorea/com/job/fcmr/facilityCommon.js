@@ -72,7 +72,7 @@ function codeArrayInit(){
 	//setCmmCodeDataArray("OGC-041");			//수압계형식
 	
 	//배수지
-	setCmmCodeDataArray("OGC-001");				//관리방법 -> 042
+	setCmmCodeDataArray("OGC-001");				//관리방법
 	setCmmCodeDataArray("OGC-134");				//배수지제어방법
 
 	//변류시설
@@ -93,7 +93,7 @@ function codeArrayInit(){
 	// 하수도 - 하수맨홀
 	setCmmCodeDataArray("OGC-013");				// 하수맨홀용도
 	//setCmmCodeDataArray("OGC-001");			// 시설물형태
-	//setCmmCodeDataArray("OGC-002");			// 맨홀종류
+	//setCmmCodeDataArray("OGC-012");			// 맨홀종류 -> 002
 	setCmmCodeDataArray("OGC-014");				// 뚜껑재질
 	setCmmCodeDataArray("OGC-015");				// 인버트유무
 	setCmmCodeDataArray("OGC-016");				// 사다리설치유무
