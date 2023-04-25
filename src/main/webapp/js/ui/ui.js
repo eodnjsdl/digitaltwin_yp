@@ -28,6 +28,8 @@ window.ui = (function () {
     	});
         // set toast option
         _setToastOption();
+        
+        _selectEvent();	//지도 선택 이벤트 초기화
     }
 
     function _setToastOption() {
@@ -432,18 +434,17 @@ window.ui = (function () {
         	var name = $(this).attr("id");
             var area = $(this).data("popup");
             ui.openPopup(area);
+            _selectEvent();	//지도 선택 이벤트 초기화
             switch (name) {
                 //시설관리 > 상수도시설
                 case "waterSupplyFacility" :
                     //aj_facility("WaterSupplyFacility");
-                	dtmap.off('select', onFacilitySelectEventListener); //클릭 리스너 이벤트 삭제
                     getWaterSupplyFacility("wtlFirePs");		//상수도 시설 소방시설
                     break;
 
                 //시설관리 > 하수도시설
                 case "sewerSupplyFacility" :
                   //aj_facility("SewerSupplyFacility");
-                	dtmap.off('select', onFacilitySelectEventListener); //클릭 리스너 이벤트 삭제
                 	getSewerSupplyFacility("swlConnLs");		//하수도 시설 하수연결관
                 	break;
 
@@ -456,7 +457,6 @@ window.ui = (function () {
                 //시설관리 > 체육시설
                 case "physicalEducationFacility" :
                 	//aj_selectPhysicalEducationFacilityList($("#tmpForm")[0]);
-                	dtmap.off('select', onFacilitySelectEventListener); //클릭 리스너 이벤트 삭제
                 	getPhyEduFaciListView();
                     break;
 
@@ -465,7 +465,6 @@ window.ui = (function () {
                     //TODO ↓↓↓↓↓↓↓↓↓↓↓
                     WLREspitalYN = '';
                     //aj_selectWelfareFacilityList($("#tmpForm")[0]);
-                	dtmap.off('select', onFacilitySelectEventListener); //클릭 리스너 이벤트 삭제
                 	getWelFareFaciListView();
                     break;
 
@@ -753,6 +752,12 @@ window.ui = (function () {
         dtmap.off('drawend');
         dtmap.vector.clear();
         dtmap.draw.clear();
+    }
+    
+    //지도 선택 이벤트 초기화
+    function _selectEvent() {
+    	dtmap.off('select', onFacilitySelectEventListener); 	//시설관리(시설예약관리제외)선택 리스너 이벤트 삭제	
+    	dtmap.off('select', onFaciReseMngSelectEventListener); 	//시설예약관리 선택 이벤트 리스너 삭제	 
     }
 
     const module = {

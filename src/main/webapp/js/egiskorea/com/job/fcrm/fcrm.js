@@ -5,8 +5,8 @@ $(document).ready(function(){
 //시설예약관리
 //POILsyrt를 추가해준다. 
 function setPointLayer(){
-	console.log("setPointLayer()");
-	var mapType = $('input:radio[name="mapType"]:checked').val();
+	//console.log("setPointLayer()");
+	/*var mapType = $('input:radio[name="mapType"]:checked').val();
 	if(mapType == "2D"){
 		const format = new ol.format.GeoJSON();
 		const features = [];
@@ -17,7 +17,7 @@ function setPointLayer(){
 		});
 		if(features.length > 0) {
 			const geojson = format.writeFeatures(features)
-			/*cmmUtil.highlightFeatures(geojson, "./images/poi/inBusinessEsta_poi.png", { notMove: true, onClick: function(feature) {
+			cmmUtil.highlightFeatures(geojson, "./images/poi/inBusinessEsta_poi.png", { notMove: true, onClick: function(feature) {
 				//const coordinates = feature.getGeometry().getCoordinates();
 				//const lon = coordinates[0];
 				//const lat = coordinates[1];
@@ -29,27 +29,9 @@ function setPointLayer(){
 				const rsrvsn = poi.rsrvSn;
 
 				aj_selectFaciReseMng(gid, rsrvsn, lon, lat);
-			}});*/
-			///////////////
-			dtmap.vector.clear();
-	        
-	        //지도에 GeoJSON 추가
-	        dtmap.vector.readGeoJson(geojson, function (feature) {
-                return {
-                    marker: {
-                        src: './images/poi/inBusinessEsta_poi.png'
-                    },
-                    label: {
-                        text: ''
-                    }
-                }
-	        });
-
-	        dtmap.vector.fit();
-	        
+			}});
 		} else {
-			//cmmUtil.clearHighlight();
-			dtmap.vector.clear();
+			cmmUtil.clearHighlight();
 		}
 	}else{
 		if(highChk == ''){
@@ -92,7 +74,41 @@ function setPointLayer(){
 			// 마우스 상태 설정
 			Module.XDSetMouseState(Module.MML_SELECT_POINT);
 		 }
+	}*/
+	/////////////////
+	// 2d/3d 통합
+	const format = new ol.format.GeoJSON();
+	const features = [];
+	poiList["resultList"].forEach((item) => {
+		const feature = new ol.Feature(new ol.geom.Point([parseFloat(item["lon"]), parseFloat(item["lat"])]));
+		feature.setId(item["gid"]);
+		//console.log(">>>>"+item["rsrvSn"]);
+		feature.set('rsrvsn', item["rsrvSn"]);			//rsrvsn 추가 / 아이콘 클릭시 상세보기 에 사용
+		feature.set('facMenuNm', 'faciReseMng');		//시설예약관리	구분자 이벤트
+		features.push(feature);
+	});
+	if(features.length > 0) {
+		const geojson = format.writeFeatures(features);
+		dtmap.vector.clear();
+        
+        //지도에 GeoJSON 추가
+        dtmap.vector.readGeoJson(geojson, function (feature) {
+            return {
+                marker: {
+                    src: './images/poi/inBusinessEsta_poi.png'
+                },
+                label: {
+                    text: ''
+                }
+            }
+        });
+
+        dtmap.vector.fit();
+		
+	} else {
+		dtmap.vector.clear();
 	}
+	
 }
 
 //페이지네이션
@@ -140,8 +156,17 @@ $("a[name='fcrmDtl']").unbind('click').bind('click',function(){
 // 리셋버튼
 $("#fcrmResetBtn").unbind('click').bind('click',function(){
 	highChk = 'yes';
-	leftPopupOpen('faciReseMng');
-})
+	//leftPopupOpen('faciReseMng');
+	$(".lnb-facility .lnb-body #faciReseMng").trigger("click");	//시설 예약 관리 클릭 이벤트
+});
+
+//uhh add...
+// 닫기버튼
+$("#fcrmCloseBtn").unbind('click').bind('click',function(){
+	highChk = '';
+	clearMap();
+});
+//uhh add... end
 
 // 하이라이트
 function fcrm_sethigh(gid, rsrvSn, lon, lat) {
@@ -178,6 +203,12 @@ function fcrm_sethigh(gid, rsrvSn, lon, lat) {
 $(".facilNm").on("change", function(){
 	var gid = $(".facilNm option:selected").val();
 	
+	if(!gid){	//gid 없으면 예약 시설도 초기화
+		alert("초기화")
+		$(".facilDtlNm").html('<option value="">시설명을 선택하세요</option>');
+		return false;
+	}
+	
 	var formData = new FormData();
 	formData.append("gid", gid);
 	
@@ -196,7 +227,8 @@ $(".facilNm").on("change", function(){
 			$(".fcltyDtl").empty();
 			$(".facilDtlNm").empty();
 			
-			var facilDtlListHtml = '<option>선택해주세요</option>';
+			//var facilDtlListHtml = '<option>선택해주세요</option>';
+			var facilDtlListHtml = '<option value="">시설명을 선택하세요</option>';
 			
 			for(var i=0; i < data.resultList.length; i++){
 				facilDtlListHtml += '<option value="' + data.resultList[i].asstnFcltySn + '">' + data.resultList[i].asstnFcltyNm + '</option>';
@@ -282,7 +314,6 @@ $(".facilDtlNm").on("change", function(){
 
 // 등록페이지호출 ajax
 function aj_insertFaciReseMngView(form){
-	console.log("aj_insertFaciReseMngView(form)");
 	
 	//loadingShowHide("show");
 	ui.loadingBar("show");
@@ -291,11 +322,15 @@ function aj_insertFaciReseMngView(form){
 	document.searchForm.pageIndex.value = lastPageIndex;
 	document.searchForm.srchYM.value = lastSrchYM;
 	formData.append('srchYM', lastSrchYM);
+	
 	$.ajax({
 		type : "POST",
 		url : "/job/fcrm/insertFaciReseMngView.do",
+		data: formData,
 		dataType : "html",
 		async: false,
+		processData : false,
+		contentType : false,
 		success : function(returnData, status){
 			if(status == "success") {		
 				$(".facility-rsve-mng-body").html(returnData);
@@ -324,11 +359,11 @@ function aj_insertFaciReseMngView(form){
 
 // 상세페이지 ajax
 function aj_selectFaciReseMng(param1, param2, lon, lat){
-	console.log("aj_selectFaciReseMng(param1, param2, lon, lat)");
-	console.log(param1);
-	console.log(param2);
-	console.log(lon);
-	console.log(lat);
+	//console.log("aj_selectFaciReseMng(param1, param2, lon, lat)");
+	//console.log(param1);
+	//console.log(param2);
+	//console.log(lon);
+	//console.log(lat);
 	
 	//loadingShowHide("show");
 	ui.loadingBar("show");
@@ -348,7 +383,7 @@ function aj_selectFaciReseMng(param1, param2, lon, lat){
 
 	var formData = new FormData();
 	document.searchForm.pageIndex.value = lastPageIndex;
-	document.searchForm.srchYM.value = lastSrchYM;
+	document.searchForm.srchYM.value 	= lastSrchYM;
 	
 	formData.append('gid', param1);
 	formData.append('rsrvSn', param2);
@@ -382,9 +417,9 @@ function aj_selectFaciReseMng(param1, param2, lon, lat){
 
 // 상세 > 수정페이지 ajax
 function aj_updateFaciReseMngView(param1, param2){
-	console.log("aj_updateFaciReseMngView(param1, param2)");
-	console.log(param1);
-	console.log(param2);
+	//console.log("aj_updateFaciReseMngView(param1, param2)");
+	//console.log(param1);
+	//console.log(param2);
 	
 	//loadingShowHide("show");
 	ui.loadingBar("show");

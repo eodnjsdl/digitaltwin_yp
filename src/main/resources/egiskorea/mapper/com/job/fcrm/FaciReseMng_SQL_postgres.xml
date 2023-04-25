@@ -151,40 +151,33 @@
 			AND GID = #{gid}
 	</select>
 	
-	<select id="dubCheckFaciReseMngRegist2" parameterType="faciReseTemp" resultType="java.lang.Integer">
-		/* dubCheckFaciReseMngRegist2 시설예약관리 등록용 중복체크 */
-		SELECT COUNT(*) 
-		FROM TBD_FCLTY_RSRV_MANAGE 
-		WHERE RSRV_DE = #{rsrvDe}
-			AND (RSRV_STRT_TM BETWEEN #{rsrvStrtTm} AND #{rsrvEndTm} OR RSRV_END_TM BETWEEN #{rsrvStrtTm} AND #{rsrvEndTm})
-			AND ASSTN_FCLTY_SN = #{asstnFcltySn}
-			AND GID = #{gid}
-	</select>
-	
-	<select id="dubCheckFaciReseMngRegistMap" parameterType="egovMap" resultType="java.lang.Integer">
-		/* dubCheckFaciReseMngRegistMap 시설예약관리 등록용 중복체크 */
-		SELECT COUNT(*) 
-		FROM TBD_FCLTY_RSRV_MANAGE 
-		WHERE RSRV_DE = #{rsrvDe}
-			AND (RSRV_STRT_TM BETWEEN #{rsrvStrtTm} AND #{rsrvEndTm} OR RSRV_END_TM BETWEEN #{rsrvStrtTm} AND #{rsrvEndTm})
-			AND ASSTN_FCLTY_SN = CAST(#{asstnFcltySn} AS INTEGER)
-			AND GID = CAST(#{gid} AS INTEGER)
-	</select>
-	
 	<!-- 시설예약관리 수정용 중복체크 -->
 	<select id="dubCheckFaciReseMngUpdate" parameterType="faciReseMngVO" resultType="java.lang.Integer">
 		/* SQL_ID: 전영후_FaciReseMng_SQL_postgres.xml.dubCheckFaciReseMngUpdate 시설예약관리 수정용 중복체크*/
 		SELECT COUNT(*) 
 		FROM TBD_FCLTY_RSRV_MANAGE 
-		<!-- WHERE RSRV_STRT_TM NOT IN (select rsrv_strt_tm from tbd_fclty_rsrv_manage where rsrv_de = #{rsrvDe} and rsrv_strt_tm = #{rsrvStrtTm2} and rsrv_end_tm = #{rsrvEndTm2})
-			AND RSRV_END_TM NOT IN (select rsrv_strt_tm from tbd_fclty_rsrv_manage where rsrv_de = #{rsrvDe} and rsrv_strt_tm = #{rsrvStrtTm2} and rsrv_end_tm = #{rsrvEndTm2}) -->
-		WHERE RSRV_STRT_TM IN (select rsrv_strt_tm from tbd_fclty_rsrv_manage where rsrv_de = #{rsrvDe} and rsrv_strt_tm = #{rsrvStrtTm2} and rsrv_end_tm = #{rsrvEndTm2})
-			AND RSRV_END_TM IN (select rsrv_strt_tm from tbd_fclty_rsrv_manage where rsrv_de = #{rsrvDe} and rsrv_strt_tm = #{rsrvStrtTm2} and rsrv_end_tm = #{rsrvEndTm2})
+		WHERE RSRV_STRT_TM NOT IN (select rsrv_strt_tm from tbd_fclty_rsrv_manage where rsrv_de = #{rsrvDe} and rsrv_strt_tm = #{rsrvStrtTm2} and rsrv_end_tm = #{rsrvEndTm2})
+			AND RSRV_END_TM NOT IN (select rsrv_strt_tm from tbd_fclty_rsrv_manage where rsrv_de = #{rsrvDe} and rsrv_strt_tm = #{rsrvStrtTm2} and rsrv_end_tm = #{rsrvEndTm2})
 			AND (RSRV_STRT_TM BETWEEN #{rsrvStrtTm} AND #{rsrvEndTm} OR RSRV_END_TM BETWEEN #{rsrvStrtTm} AND #{rsrvEndTm})
 			AND ASSTN_FCLTY_SN = #{asstnFcltySn}
 			AND GID = #{gid}
 			AND RSRV_DE = #{rsrvDe}
-		
+	</select>
+	<select id="dubCheckFaciReseMngUpdate2" parameterType="faciReseMngChkVO" resultType="java.lang.Integer">
+		/* SQL_ID: FaciReseMng_SQL_postgres.xml.dubCheckFaciReseMngUpdate2 시설예약관리 수정용 중복체크*/
+		SELECT COUNT(*) 
+		FROM TBD_FCLTY_RSRV_MANAGE 
+		WHERE 1=1
+			AND (RSRV_STRT_TM BETWEEN #{rsrvStrtTm} AND #{rsrvEndTm} OR RSRV_END_TM BETWEEN #{rsrvStrtTm} AND #{rsrvEndTm})
+			AND ASSTN_FCLTY_SN = #{asstnFcltySn}
+			AND GID = #{gid}
+			AND RSRV_DE = #{rsrvDe}
+			<if test="rsvctmNm != null and rsvctmNm != ''">
+				AND rsvctm_nm != #{rsvctmNm}
+			</if>
+			<if test="rsvctmCttpc != null and rsvctmCttpc != ''">
+				AND rsvctm_cttpc != #{rsvctmCttpc}
+			</if>
 	</select>
 	
 </mapper>

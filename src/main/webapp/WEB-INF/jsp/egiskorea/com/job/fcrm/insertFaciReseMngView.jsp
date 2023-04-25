@@ -8,14 +8,15 @@
 <script>
 // 시설예약관리 등록하기 버튼
 $("#faciRegistBtn").on("click", function(){
-	
-	if($("#asstnFcltySn").val() == '선택해주세요' || $("#gid").val() == '') {
+	//console.log("faciRegistBtn");
+	//if($("#asstnFcltySn").val() == '선택해주세요' || $("#gid").val() == '') {
+	if($("#asstnFcltySn").val() == '' || $("#gid").val() == '') {
 		alert("예약할 시설을 선택해주세요!");
 		return false;
 	}
 	
 	//예약가능여부 추가
-	if($(".rsrvAt").text() == '불가능' || $(".rsrvAt").text() == '') {
+	if($(".rsrvAt").text().trim() == '불가능' || $(".rsrvAt").text() == '') {
 		alert("현 시설은 예약이 불가능 합니다.");
 		return false;
 	}
@@ -55,7 +56,7 @@ $("#faciRegistBtn").on("click", function(){
 					//dubChk = 'Y'
 					alert("이미 예약이 완료된 시간이 포함되어있습니다.");
 			   	}else{
-			   		//aj_registFaciReseMng(); 
+			   		aj_registFaciReseMng(); 
 			   	}
 			},
 			error : function(request, status, error) {
@@ -213,10 +214,10 @@ var lastSrchYMDtl = "<c:out value='${faciReseMngVO.srchYM}' />";
                     </tbody>
                 </table>
             </div>
-           <%--  <form:form name="searchDtlForm" id="searchDtlForm"> --%>
-            	<%-- <input type="text" name="srchYM" id="srchYM" value="<c:out value='${faciReseMngVO.srchYM}' />"> --%>
-            	<!-- <input type="text" name="pageIndex" id="pageIndex" value=""> -->
-            <%-- </form:form> --%> 
+            <form:form name="searchDtlForm" id="searchDtlForm">
+            	<input type="hidden" name="srchYM" id="srchYM" value="<c:out value='${faciReseMngVO.srchYM}' />">
+            	<input type="hidden" name="pageIndex" id="pageIndex" value="<c:out value='${faciReseMngVO.pageIndex}' />">
+            </form:form> 
 	    </form:form>
         </div>
 
