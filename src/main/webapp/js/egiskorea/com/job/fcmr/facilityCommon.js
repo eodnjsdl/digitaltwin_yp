@@ -90,6 +90,40 @@ function codeArrayInit(){
 	setCmmCodeDataArray("OGC-023");				// 개통상태
 	setCmmCodeDataArray("OGC-056");				// 하수처리방식
 	
+	// 하수도 - 하수맨홀
+	setCmmCodeDataArray("OGC-013");				// 하수맨홀용도
+	//setCmmCodeDataArray("OGC-001");			// 시설물형태
+	//setCmmCodeDataArray("OGC-002");			// 맨홀종류
+	setCmmCodeDataArray("OGC-014");				// 뚜껑재질
+	setCmmCodeDataArray("OGC-015");				// 인버트유무
+	setCmmCodeDataArray("OGC-016");				// 사다리설치유무
+	//setCmmCodeDataArray("OGC-010");			// 이상상태
+	
+	// 하수도 - 하수관거
+	//setCmmCodeDataArray("OGC-017");			// 하수관용도
+	//setCmmCodeDataArray("OGC-003");			// 관재질
+	setCmmCodeDataArray("OGC-018");				// 규모
+	//setCmmCodeDataArray("OGC-001");			// 시설물형태
+	//setCmmCodeDataArray("FTR-001");			// 시점맨홀지형지물부호
+	//setCmmCodeDataArray("FTR-001");			// 종점맨홀지형지물부호
+
+	// 하수도 - 하수펌프장
+	//setCmmCodeDataArray("OGC-023");			// 개통상태
+	setCmmCodeDataArray("OGC-055");				// 펌프장용도
+	
+	// 하수도 - 측구
+	setCmmCodeDataArray("OGC-054");				// 촉구구분
+	//setCmmCodeDataArray("OGC-003");			// 관재질
+	
+	// 하수도 - 토구
+	setCmmCodeDataArray("OGC-145");				// 토구용도
+	
+	// 하수도 - 물받이
+	setCmmCodeDataArray("OGC-043");				// 물받이용도
+	//setCmmCodeDataArray("OGC-001");			// 시설물형태
+	setCmmCodeDataArray("OGC-133");				// 물받이뚜껑형태
+	setCmmCodeDataArray("OGC-044");				// 관재질
+	
 	// 하수도 - 환기구
 	//setCmmCodeDataArray("OGC-003");			// 관재질
 	setCmmCodeDataArray("OGC-012");				// 흡출기형식
@@ -466,8 +500,20 @@ function onFacilitySelectEventListener(e){
 				selectSwlDeptPs(id);
 			}else if(featureType == "swl_dran_ps"){					// 하수도시설 - 하수처리장
 				selectSwlDranPs(id);
+			}else if(featureType == "swl_manh_ps"){					// 하수도시설 - 하수맨홀
+				selectSwlManhPs(id);
 			}else if(featureType == "swl_pipe_as"){					//하수도시설 - 면형하수관거 
 				selectSwlPipeAs(id);
+			}else if(featureType == "swl_pipe_lm"){					// 하수도시설 - 하수관거 
+				selectSwlPipeLm(id);
+			}else if(featureType == "swl_pump_ps"){					// 하수도시설 - 하수펌프장 
+				selectSwlPumpPs(id);
+			}else if(featureType == "swl_side_ls"){					// 하수도시설 - 측구 
+				selectSwlSideLs(id);
+			}else if(featureType == "swl_spew_ps"){					// 하수도시설 - 토구 
+				selectSwlSpewPs(id);
+			}else if(featureType == "swl_spot_ps"){					// 하수도시설 - 물받이 
+				selectSwlSpotPs(id);
 			}else if(featureType == "swl_vent_ps"){					// 하수도시설 - 환기구 
 				selectSwlVentPs(id);
 			}else if(featureType == "tgd_phstrn_fclty"){			// 체육시설

@@ -239,11 +239,14 @@ function setBridgeListData(_pageNo, geom) {
 		// --------------------------------------------------
 		return {
 			marker: {
-				src: '/images/poi/bridge_poi.png' 
-				},
-				label: {
-					text: properties.kor_bri_nm
-				}
+				src: '/images/poi/bridge_poi.png',
+				anchor: [0, 0] //이미지 중심위치 (0~1 [x,y] 비율값 [0,0] 좌상단 [1,1] 우하단)
+		            },
+		        label: {
+		                text: properties.rn,
+		                //3D POI 수직 막대길이
+		                offsetHeight : 10
+		            }
 			}
 	});
 	dtmap.vector.fit();
@@ -349,4 +352,18 @@ function onSelectBridgeEventListener(e) {
 	toastr.error("객체 선택 오류입니다.");
 	return false;
     }
+}
+
+/**
+ * 팝업 종료 시, vector 제거
+ * @returns
+ */
+function closeView() {
+    if ($('#rightSubPopup').hasClass('opened')) {
+	dtmap.vector.clearSelect();
+	ui.closeSubPopup();
+    } else {
+	dtmap.vector.clear();
+    }
+    
 }

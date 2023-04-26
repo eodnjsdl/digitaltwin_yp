@@ -28,14 +28,15 @@ public interface TrnsportFaciService {
 	 * @return
 	 */
 	public RoadSectVO selectRoadSect(RoadSectVO roadSectVO);
-	/**
-	 * 도로구간 - 엑셀다운로드
-	 * @param request
-	 * @param response
-	 * @param roadSectVO
-	 */
-	public void selectRoadSectExcelListDownload(HttpServletRequest request, HttpServletResponse response,
-			RoadSectVO roadSectVO) throws Exception;
+	
+//	/**
+//	 * 도로구간 - 엑셀다운로드
+//	 * @param request
+//	 * @param response
+//	 * @param roadSectVO
+//	 */
+//	public void selectRoadSectExcelListDownload(HttpServletRequest request, HttpServletResponse response,
+//			RoadSectVO roadSectVO) throws Exception;
 	
 	// ---------- 철도선로 ----------
 	

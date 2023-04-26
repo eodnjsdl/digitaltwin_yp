@@ -13,7 +13,7 @@ public class SwlVentPsVO implements Serializable {
 	private String ftr_cde_nm;
 	
 	/** 관리번호 */
-	private int ftr_idn;
+	private String ftr_idn;
 	
 	/** 읍면동 */
 	private String hjd_cde;
@@ -30,7 +30,7 @@ public class SwlVentPsVO implements Serializable {
 	private String ist_ymd;
 	
 	/** 환기구구경 */
-	private int vnt_dip;
+	private String vnt_dip;
 	
 	/** 관재질 */
 	private String mop_cde;
@@ -51,7 +51,7 @@ public class SwlVentPsVO implements Serializable {
 	private String sys_chk;
 	
 	/** 방향각 */
-	private int ang_dir;
+	private String ang_dir;
 
 	public int getGid() {
 		return gid;
@@ -74,10 +74,10 @@ public class SwlVentPsVO implements Serializable {
 		this.ftr_cde_nm = ftr_cde_nm;
 	}
 	
-	public int getFtr_idn() {
+	public String getFtr_idn() {
 		return ftr_idn;
 	}
-	public void setFtr_idn(int ftr_idn) {
+	public void setFtr_idn(String ftr_idn) {
 		this.ftr_idn = ftr_idn;
 	}
 
@@ -123,10 +123,10 @@ public class SwlVentPsVO implements Serializable {
 		this.ist_ymd = ist_ymd;
 	}
 
-	public int getVnt_dip() {
+	public String getVnt_dip() {
 		return vnt_dip;
 	}
-	public void setVnt_dip(int vnt_dip) {
+	public void setVnt_dip(String vnt_dip) {
 		this.vnt_dip = vnt_dip;
 	}
 
@@ -186,10 +186,10 @@ public class SwlVentPsVO implements Serializable {
 		this.sys_chk = sys_chk;
 	}
 
-	public int getAng_dir() {
+	public String getAng_dir() {
 		return ang_dir;
 	}
-	public void setAng_dir(int ang_dir) {
+	public void setAng_dir(String ang_dir) {
 		this.ang_dir = ang_dir;
 	}
 }

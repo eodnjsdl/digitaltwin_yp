@@ -10,7 +10,7 @@ $(document).ready(function(){
 function fn_download_excelData(form, pnu){
 	if(pnu == "all"){
 		if(form.code2.value == ""){
-			alert("전체 조사정보 저장은 데이터 건수가 많아 이용할 수 없습니다.\n리 단위로 조사정보를 저장해주십시요.");
+			toastr.warning("데이터 건수가 많아 이용할 수 없습니다.\n리 단위로 조사정보를 저장해주십시요.");
 			return false;
 		}else{
 			form.pnu.value = "";			
@@ -18,21 +18,15 @@ function fn_download_excelData(form, pnu){
 	}else{
 		form.pnu.value = pnu;
 	}
-	
 	document.cookie = "fileDownload=TRUE";
-	loadingShowHide("show");
-	 	
+	ui.loadingBar("show");
 	form.action = "/geo/emi/selectExaminationInfoListDownload.do";
 	form.submit();
-	
 	var downloadTimer = setInterval(function() {
-        var token = getCookie("fileDownload");
-        
+        var token = cmmUtil.getCookie("fileDownload");
         if(token == "FALSE") {
         	clearInterval(downloadTimer);
-        	loadingShowHide("hide");
+			ui.loadingBar("hide");
         }
     }, 1000 );
 }
-
-
