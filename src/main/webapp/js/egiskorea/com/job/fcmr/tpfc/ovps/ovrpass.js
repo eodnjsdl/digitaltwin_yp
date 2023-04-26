@@ -246,6 +246,7 @@ function setOverpassListData(_pageNo, geom) {
 		                //3D POI 수직 막대길이
 		                offsetHeight : 10
 		            }
+
 			}
 	});
 	dtmap.vector.fit();

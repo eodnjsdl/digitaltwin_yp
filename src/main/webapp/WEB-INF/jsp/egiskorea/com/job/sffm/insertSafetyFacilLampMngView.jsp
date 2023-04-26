@@ -25,13 +25,14 @@ $('#lampRegist').on('click', function(){
 		alert("지도에서 선택하여 주소를 입력해주세요!");
 		return;
 	}
-	if($('#geom').val() == ''){
-		alert("지도 위치를 선택해주세요!");
-		return;
-	}
+
+ 	let regEx = /^[0-9]+$/;
 	if($('#strtlgt-cnt').val() == ''){
 		alert("가로등수를 입력해주세요!");
 		return;
+	}else if(!regEx.test($('#strtlgt-cnt').val())){
+		alert("가로등수를 숫자로 입력해주세요!");
+		return
 	}
 	
 	formData.append('alt', "1");
@@ -85,13 +86,13 @@ $('#lampRegist').on('click', function(){
 									<th scope="row">관리번호</th>
 									<td><input type="text" class="form-control" id="manage-no" name="manageNo" maxlength="19"></td>
 									<th scope="row">설치일자</th>
-									<td><div class="datapicker-group"><input type="text" class="datepicker" id="instl-de" name="instlDe" maxlength="11"></div></td>
+									<td><div class="datapicker-group"><input type="text" class="datepicker" id="instl-de" readonly name="instlDe" maxlength="11"></div></td>
 								</tr>
 								<tr>
 									<th scope="row">주소</th>
 									<td colspan="3">
 										<div class="form-row">
-											<div class="col"><input type="text" class="form-control" id="adres" name="adres" maxlength="65"></div>
+											<div class="col"><input type="text" class="form-control" id="adres" name="adres" maxlength="65" readonly></div>
 											<div class="col" style="display: none;"><input type="text" class="form-control" id="location" readonly placeholder="경도, 위도"></div> 
 											<div class="col-auto"><button type="button" class="btn type01 bi-location" id="mapSelectBtn" onclick="fn_getLocation()">지도에서 선택</button></div>
 											<input type="hidden" name="geom" id="geom">

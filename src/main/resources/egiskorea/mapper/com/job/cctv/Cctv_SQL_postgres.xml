@@ -89,7 +89,12 @@
 	
 	<!-- 안전시설물관리 엑셀 -->
 	<select id="selectSffmCctvFacilExcelList" parameterType="SafetyFacilCctvMngVO" resultType="SafetyFacilCctvMng">
-		SELECT *
+		SELECT
+			 GID, GBN, label, DEVICEID, CHANNEL, PTZ_YN, TALK_YN, NET_YN, LAT, LON, 
+			 PRESET1, PRESET2, PRESET3,PRESET4, PRESET5, PRESET6, PRESET7, PRESET8, 
+			 PRESET9, PRESET10, PRESET11, PRESET12, PRESET13, PRESET14, PRESET15, PRESET16, 
+			 PRESET17, PRESET18, PRESET19,PRESET20, ANGLE, LGSR_ADR, NEW_ADR, IP_ADR, ISTL_YY, 
+			 CHAN_YY, st_transform(GEOM, 4326)
 		 FROM TGD_CCTV_STATUS_NEW
 		 WHERE    1=1
 		<if test="@egovframework.com.cmm.util.EgovMybaitsUtil@isNotEmpty(searchLabel)">
@@ -103,7 +108,7 @@
 		</if>
 		
 		<if test="@egovframework.com.cmm.util.EgovMybaitsUtil@isNotEmpty(spitalSearch)">
-			AND ST_INTERSECTS(ST_BUFFER(ST_GEOMFROMTEXT(#{spitalSearch}, 4326), #{sffmBuffer}), ST_TRANSFORM(GEOM, 4326)) = true
+			AND ST_INTERSECTS(ST_BUFFER(ST_GEOMFROMTEXT(#{spitalSearch}, 5179), #{cctvBuffer}), ST_TRANSFORM(GEOM, 5179)) = true
 		</if>
 		ORDER BY GID ASC
 	</select>

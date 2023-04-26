@@ -4,6 +4,10 @@ $(document).ready(function(){
 
 // 지하수관리 셀렉트박스 체인지 함수
 $("#changeBox").change(function(){
+	dtmap.draw.setBuffer(0);    //버퍼 영역 초기화
+    dtmap.draw.dispose();		//그리기 포인트 삭제
+    dtmap.draw.clear();			//그리기 초기화
+
 	// 열려있던 우측서브팝업창 닫기
 	$("#rightSubPopup").removeClass("opened").html("");
 	var thisValue = $(this).val();
@@ -158,4 +162,16 @@ var setYear = function(){
 	} else {
 		$("#devlopYear").val(year);
 	}
+}
+
+//레이어 선택 상세보기
+function spaceClickListener(e){
+	var gid ;
+	if (dtmap.mod === '3D'){
+		gid=e.properties.gid;
+	}else{
+		gid=e.property.gid;
+	}
+    fn_pageDetail(gid);
+    dtmap.vector.select(e.id);
 }
