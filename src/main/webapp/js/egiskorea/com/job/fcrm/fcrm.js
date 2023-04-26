@@ -96,8 +96,8 @@ function setPointLayer(){
 		const format = new ol.format.GeoJSON();
 		const geojson = format.writeFeatures(features);
 		
-		console.log("geojson>>");
-		console.log(geojson);
+		//console.log("geojson>>");
+		//console.log(geojson);
 		
 		dtmap.vector.clear();
         //지도에 GeoJSON 추가
