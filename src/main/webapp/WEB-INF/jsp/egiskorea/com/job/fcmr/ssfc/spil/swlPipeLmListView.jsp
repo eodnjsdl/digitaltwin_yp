@@ -204,7 +204,7 @@ $(document).ready(function() {
 								<tr>  
 									<th scope="row">관경</th>  
 									<td>    
-										<input type="number" name="std_dip_min" class="form-control" value="" step="50" style="width:68px">    
+										<input type="number" name="std_dip_min" class="form-control" value="" step="50" onkeypress="if( event.keyCode == 13 ){ selectSwlPipeLmList(1);}" style="width:68px">    
 										<input type="number" name="std_dip_max" class="form-control" value="" step="50" onkeypress="if( event.keyCode == 13 ){ selectSwlPipeLmList(1);}" style="width:68px">  
 									</td>
 								</tr>

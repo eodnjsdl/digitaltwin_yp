@@ -178,7 +178,7 @@ $(document).ready(function() {
                             	<tr>  
 									<th scope="row">관리번호</th>  
 									<td>
-										<input type="number" name="ftr_idn_min" class="form-control" value="" style="width:68px">
+										<input type="number" name="ftr_idn_min" class="form-control" value="" onkeypress="if( event.keyCode == 13 ){ selectSwlDeptPsList(1);}" style="width:68px">
 										<input type="number" name="ftr_idn_max" class="form-control" value="" onkeypress="if( event.keyCode == 13 ){ selectSwlDeptPsList(1);}" style="width:68px">
 									</td>
 								</tr>
