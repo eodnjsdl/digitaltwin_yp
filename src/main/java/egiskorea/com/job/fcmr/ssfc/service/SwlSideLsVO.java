@@ -3,8 +3,8 @@ package egiskorea.com.job.fcmr.ssfc.service;
 import java.io.Serializable;
 
 @SuppressWarnings("serial")
-public class SwlVentPsVO implements Serializable {
-	
+public class SwlSideLsVO implements Serializable {
+
 	/** GID */
 	private int gid;
 	
@@ -19,39 +19,41 @@ public class SwlVentPsVO implements Serializable {
 	private String hjd_cde;
 	private String hjd_cde_nm;
 	
-	/** 도엽번호 */
-	private String sht_num;
-	
 	/** 관리기관 */
 	private String mng_cde;
 	private String mng_cde_nm;
 	
+	/** 도엽번호 */
+	private String sht_num;
+	
 	/** 설치일자 */
 	private String ist_ymd;
 	
-	/** 환기구구경 */
-	private String vnt_dip;
+	/** 촉구구분 */
+	private String aeg_cde;
+	private String aeg_cde_nm;
+	
+	/** 연장 */
+	private String byc_len;
+	
+	/** 가로길이 */
+	private String std_hol;
+	
+	/** 세로길이 */
+	private String std_vel;
+	
+	/** 차선통로수 */
+	private String sph_lin;
 	
 	/** 관재질 */
 	private String mop_cde;
 	private String mop_cde_nm;
-	
-	/** 흡출기형식 */
-	private String mof_cde;
-	private String mof_cde_nm;
-	
-	/** 흡출기재질 */
-	private String hmp_cde;
-	private String hmp_cde_nm;
 	
 	/** 공사번호 */
 	private String cnt_num;
 	
 	/** 대장초기화여부 */
 	private String sys_chk;
-	
-	/** 방향각 */
-	private String ang_dir;
 
 	public int getGid() {
 		return gid;
@@ -73,7 +75,7 @@ public class SwlVentPsVO implements Serializable {
 	public void setFtr_cde_nm(String ftr_cde_nm) {
 		this.ftr_cde_nm = ftr_cde_nm;
 	}
-	
+
 	public String getFtr_idn() {
 		return ftr_idn;
 	}
@@ -95,13 +97,6 @@ public class SwlVentPsVO implements Serializable {
 		this.hjd_cde_nm = hjd_cde_nm;
 	}
 
-	public String getSht_num() {
-		return sht_num;
-	}
-	public void setSht_num(String sht_num) {
-		this.sht_num = sht_num;
-	}
-
 	public String getMng_cde() {
 		return mng_cde;
 	}
@@ -115,7 +110,14 @@ public class SwlVentPsVO implements Serializable {
 	public void setMng_cde_nm(String mng_cde_nm) {
 		this.mng_cde_nm = mng_cde_nm;
 	}
-	
+
+	public String getSht_num() {
+		return sht_num;
+	}
+	public void setSht_num(String sht_num) {
+		this.sht_num = sht_num;
+	}
+
 	public String getIst_ymd() {
 		return ist_ymd;
 	}
@@ -123,11 +125,46 @@ public class SwlVentPsVO implements Serializable {
 		this.ist_ymd = ist_ymd;
 	}
 
-	public String getVnt_dip() {
-		return vnt_dip;
+	public String getAeg_cde() {
+		return aeg_cde;
 	}
-	public void setVnt_dip(String vnt_dip) {
-		this.vnt_dip = vnt_dip;
+	public void setAeg_cde(String aeg_cde) {
+		this.aeg_cde = aeg_cde;
+	}
+
+	public String getAeg_cde_nm() {
+		return aeg_cde_nm;
+	}
+	public void setAeg_cde_nm(String aeg_cde_nm) {
+		this.aeg_cde_nm = aeg_cde_nm;
+	}
+
+	public String getByc_len() {
+		return byc_len;
+	}
+	public void setByc_len(String byc_len) {
+		this.byc_len = byc_len;
+	}
+
+	public String getStd_hol() {
+		return std_hol;
+	}
+	public void setStd_hol(String std_hol) {
+		this.std_hol = std_hol;
+	}
+
+	public String getStd_vel() {
+		return std_vel;
+	}
+	public void setStd_vel(String std_vel) {
+		this.std_vel = std_vel;
+	}
+
+	public String getSph_lin() {
+		return sph_lin;
+	}
+	public void setSph_lin(String sph_lin) {
+		this.sph_lin = sph_lin;
 	}
 
 	public String getMop_cde() {
@@ -144,34 +181,6 @@ public class SwlVentPsVO implements Serializable {
 		this.mop_cde_nm = mop_cde_nm;
 	}
 
-	public String getMof_cde() {
-		return mof_cde;
-	}
-	public void setMof_cde(String mof_cde) {
-		this.mof_cde = mof_cde;
-	}
-
-	public String getMof_cde_nm() {
-		return mof_cde_nm;
-	}
-	public void setMof_cde_nm(String mof_cde_nm) {
-		this.mof_cde_nm = mof_cde_nm;
-	}
-
-	public String getHmp_cde() {
-		return hmp_cde;
-	}
-	public void setHmp_cde(String hmp_cde) {
-		this.hmp_cde = hmp_cde;
-	}
-
-	public String getHmp_cde_nm() {
-		return hmp_cde_nm;
-	}
-	public void setHmp_cde_nm(String hmp_cde_nm) {
-		this.hmp_cde_nm = hmp_cde_nm;
-	}
-
 	public String getCnt_num() {
 		return cnt_num;
 	}
@@ -184,12 +193,5 @@ public class SwlVentPsVO implements Serializable {
 	}
 	public void setSys_chk(String sys_chk) {
 		this.sys_chk = sys_chk;
-	}
-
-	public String getAng_dir() {
-		return ang_dir;
-	}
-	public void setAng_dir(String ang_dir) {
-		this.ang_dir = ang_dir;
 	}
 }

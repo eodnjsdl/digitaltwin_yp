@@ -1,17 +1,17 @@
 /**
- * - 업무 / 시설관리 / 하수도시설 / 하수처리장
+ * - 업무 / 시설관리 / 하수도시설 / 토구
  * 
  * @returns
  */
 
 $(document).ready(function(){
-	//console.log("swlDranPs.js");
-	//console.log("하수처리장");
+	//console.log("swlSpewPs.js");
+	//console.log("토구");
 });
 
-// 하수처리장 목록 페이지 호출
-function swlDranPsProcess() {
-	//console.log('swlDranPsProcess()');
+// 토구 목록 페이지 호출
+function swlSpewPsProcess() {
+	//console.log('swlSpewPsProcess()');
 	
 	// grid 기본 세팅
 	var $container = $("#container");
@@ -20,6 +20,8 @@ function swlDranPsProcess() {
 	
 	// 속성검색 옵션
 	getCmmCodeData('YPE001', '#lSrchOptions select[name=hjd_cde]');		// 읍면동
+	getCmmCodeData('OGC-145', '#lSrchOptions select[name=vmt_cde]');	// 토구용도
+	getCmmCodeData('OGC-001', '#lSrchOptions select[name=for_cde]');	// 시설물형태
 	
 	FACILITY.Ax5UiGrid = null;	// ax5uigrid 전역 변수 
     FACILITY.Ax5UiGrid = new ax5.ui.grid();
@@ -31,15 +33,15 @@ function swlDranPsProcess() {
 			align: "center"
 		},
 		columns: [
-			{key: "ftr_idn",		label: "관리번호",			width: 130},
-			{key: "hjd_cde_nm",		label: "읍면동",			width: 110},
-			{key: "ist_ymd", 		label: "설치일자",			width: 130},
-			{key: "drn_nam",		label: "하수처리장명",		width: 290},
-			{key: "gai_ara", 		label: "부지면적",			width: 120},
-			{key: "soo_cde_nm",		label: "개통상태",			width: 130},
-			{key: "adp_ara", 		label: "처리구역면적",		width: 120},
-			{key: "sbb_cde_nm", 	label: "하수처리방식",		width: 130},
-			{key: "pcc_vol",		label: "청천시처리용량",		width: 120}
+			{key: "ftr_idn",		label: "관리번호",			width: 170},
+			{key: "hjd_cde_nm",		label: "읍면동",			width: 130},
+			{key: "ist_ymd", 		label: "설치일자",			width: 160},
+			{key: "vmt_cde_nm",		label: "토구용도",			width: 130},
+			{key: "for_cde_nm",		label: "시설물형태",		width: 130},
+			{key: "spw_dip",		label: "원형토구내경",		width: 130},
+			{key: "spw_hol",		label: "각형토구가로길이",	width: 150},
+			{key: "spw_vel",		label: "각형토구세로길이",	width: 150},
+			{key: "spw_hsl", 		label: "토구표고",			width: 130}
 		],
 		page: {
 			navigationItemCount: 10,	// 보여지는 클릭 가능 페이지 번호
@@ -50,7 +52,7 @@ function swlDranPsProcess() {
 			nextIcon: '&gt;',
 			lastIcon: '&gt;&gt;',
             onChange: function() {
-            	selectSwlDranPsList(this.page.selectPage + 1);	// 페이지 이동
+            	selectSwlSpewPsList(this.page.selectPage + 1);	// 페이지 이동
             	$('.hiddenPage').val(this.page.selectPage + 1);
             }
 		},
@@ -59,16 +61,16 @@ function swlDranPsProcess() {
 			onClick: function() {
 				//this.self.select(this.dindex);
 				//console.log(this.item.id);
-				selectSwlDranPs(this.item.id);	// 상세보기
+				selectSwlSpewPs(this.item.id);	// 상세보기
 			}
 		}
 	});
-	selectSwlDranPsList(1);
+	selectSwlSpewPsList(1);
 }
 
-// 하수처리장 목록 조회
-function selectSwlDranPsList(page) {
-	//console.log('selectSwlDranPsList(page)');
+// 토구 목록 조회
+function selectSwlSpewPsList(page) {
+	//console.log('selectSwlSpewPsList(page)');
 	
 	// 팝업 닫기
 	ui.closeSubPopup();
@@ -83,17 +85,21 @@ function selectSwlDranPsList(page) {
 		const filters = [];
 		
 		var hjdCde = $("#lSrchOptions select[name=hjd_cde] option:selected").val();	// 읍면동
-		var drnNam = $('#lSrchOptions input[name=drn_nam]').val();					// 하수처리장명
+		var vmtCde = $("#lSrchOptions select[name=vmt_cde] option:selected").val();	// 토구용도
+		var forCde = $("#lSrchOptions select[name=for_cde] option:selected").val();	// 시설물형태
 		
 		if (hjdCde) {
 			filters.push("hjd_cde" + " = " + hjdCde);
 		}
-		if (drnNam) {
-			filters.push("drn_nam" + " like " + drnNam);
+		if (vmtCde) {
+			filters.push("vmt_cde" + " = " + vmtCde);
+		}
+		if (forCde) {
+			filters.push("for_cde" + " = " + forCde);
 		}
 		
 		options = {
-			typeNames	: "swl_dran_ps" + "",
+			typeNames	: "swl_spew_ps" + "",
 			perPage		: 10,
 			page		: page,
 			filter		: filters,
@@ -107,7 +113,7 @@ function selectSwlDranPsList(page) {
 		const type 		= $parent.find('input[name="rad-facility-area"]:checked').val();
 
 		options = {
-			typeNames	: 'swl_dran_ps' + "",
+			typeNames	: 'swl_spew_ps' + "",
 			perPage		: 10,
 			page		: page,
 			sortBy		: 'gid',
@@ -127,7 +133,7 @@ function selectSwlDranPsList(page) {
 		// 그리드 데이터 전처리
 		const list = [];
 		for (let i = 0; i < data.features.length; i++) {
-	    	// 지형지물부호 코드 처리
+			// 지형지물부호 코드 처리
 	    	var ftr_cde = data.features[i].properties.ftr_cde;
 	    	data.features[i].properties.ftr_cde_nm = getCmmCodeDataArray("FTR-001", ftr_cde);
 	    	// 읍면동 코드 처리
@@ -136,13 +142,19 @@ function selectSwlDranPsList(page) {
 	    	// 관리기관 코드 처리
 	    	var mng_cde = data.features[i].properties.mng_cde;
 	    	data.features[i].properties.mng_cde_nm = getCmmCodeDataArray("MNG-001", mng_cde);
-	    	// 개통상태 코드 처리
-	    	var soo_cde = data.features[i].properties.soo_cde;
-	    	data.features[i].properties.soo_cde_nm = getCmmCodeDataArray("OGC-023", soo_cde);
-	    	// 하수처리방식 코드 처리
-	    	var sbb_cde = data.features[i].properties.sbb_cde;
-	    	data.features[i].properties.sbb_cde_nm = getCmmCodeDataArray("OGC-056", sbb_cde);
-        	
+	    	// 토구용도 코드 처리
+	    	var vmt_cde = data.features[i].properties.vmt_cde;
+	    	data.features[i].properties.vmt_cde_nm = getCmmCodeDataArray("OGC-145", vmt_cde);
+	    	// 시설물형태 코드 처리
+	    	var for_cde = data.features[i].properties.for_cde;
+	    	data.features[i].properties.for_cde_nm = getCmmCodeDataArray("OGC-001", for_cde);
+	    	// 배수구역지형지물부호 코드 처리
+	    	var dra_cde = data.features[i].properties.dra_cde;
+	    	data.features[i].properties.dra_cde_nm = getCmmCodeDataArray("FTR-001", dra_cde);
+	    	// 처리구역지형지물부호 코드 처리
+	    	var dsp_cde = data.features[i].properties.dsp_cde;
+	    	data.features[i].properties.dsp_cde_nm = getCmmCodeDataArray("FTR-001", dsp_cde);
+			
 	    	// 좌표 처리
 			data.features[i].properties.geomObj = data.features[i].geometry;
 			
@@ -178,11 +190,10 @@ function selectSwlDranPsList(page) {
         dtmap.vector.readGeoJson(data, function(feature) {
             // 스타일 콜백 
         	let properties = feature.getProperties();
-            let drn_nam = properties.drn_nam;
             
             return {
                 marker: {
-                    src: '/images/poi/swlDranPs_poi.png'
+                    src: '/images/poi/swlSpewPs_poi.png'
                 },
                 label: {
                     text: ''
@@ -193,9 +204,9 @@ function selectSwlDranPsList(page) {
 	});
 }
 
-// 하수처리장 상세정보 조회
-function selectSwlDranPs(id) {
-	//console.log('selectSwlDranPs(id)');
+// 토구 상세정보 조회
+function selectSwlSpewPs(id) {
+	//console.log('selectSwlSpewPs(id)');
 	//console.log('id >>> ' + id);
 	
 	//검색 조건
@@ -204,7 +215,7 @@ function selectSwlDranPs(id) {
 	var idArray = id.split(".");
 	
 	const typeName	= idArray[0];
-	if(typeName != "swl_dran_ps"){
+	if(typeName != "swl_spew_ps"){
 		alert("상세보기 오류");
 		return false;
 	}
@@ -219,7 +230,7 @@ function selectSwlDranPs(id) {
 	
     var options;
     options = {
-        typeNames	: 'swl_dran_ps' + "",
+        typeNames	: 'swl_spew_ps' + "",
         filter 		: filters,
     }
     
@@ -241,12 +252,18 @@ function selectSwlDranPs(id) {
     	// 관리기관 코드 처리
     	var mng_cde = data.features[0].properties.mng_cde;
     	data.features[0].properties.mng_cde_nm = getCmmCodeDataArray("MNG-001", mng_cde);
-    	// 개통상태 코드 처리
-    	var soo_cde = data.features[0].properties.soo_cde;
-    	data.features[0].properties.soo_cde_nm = getCmmCodeDataArray("OGC-023", soo_cde);
-    	// 하수처리방식 코드 처리
-    	var sbb_cde = data.features[0].properties.sbb_cde;
-    	data.features[0].properties.sbb_cde_nm = getCmmCodeDataArray("OGC-056", sbb_cde);
+    	// 토구용도 코드 처리
+    	var vmt_cde = data.features[0].properties.vmt_cde;
+    	data.features[0].properties.vmt_cde_nm = getCmmCodeDataArray("OGC-145", vmt_cde);
+    	// 시설물형태 코드 처리
+    	var for_cde = data.features[0].properties.for_cde;
+    	data.features[0].properties.for_cde_nm = getCmmCodeDataArray("OGC-001", for_cde);
+    	// 배수구역지형지물부호 코드 처리
+    	var dra_cde = data.features[0].properties.dra_cde;
+    	data.features[0].properties.dra_cde_nm = getCmmCodeDataArray("FTR-001", dra_cde);
+    	// 처리구역지형지물부호 코드 처리
+    	var dsp_cde = data.features[0].properties.dsp_cde;
+    	data.features[0].properties.dsp_cde_nm = getCmmCodeDataArray("FTR-001", dsp_cde);
 		
     	// 좌표 처리
 		data.features[0].properties.geomObj = data.features[0].geometry;
@@ -254,17 +271,17 @@ function selectSwlDranPs(id) {
 		var detailData = data.features[0].properties;
     	detailData.id = id;
     	
-    	selectSwlDranPsDetail(detailData);	//상세 페이지에 데이터 전달
+    	selectSwlSpewPsDetail(detailData);	//상세 페이지에 데이터 전달
     });
 }
 
-// 하수처리장 상세보기 페이지 호출
-function selectSwlDranPsDetail(detailData) {
-	//console.log('selectSwlDranPsDetail(detailData)');
+// 토구 상세보기 페이지 호출
+function selectSwlSpewPsDetail(detailData) {
+	//console.log('selectSwlSpewPsDetail(detailData)');
 	//console.log(detailData);
 	
 	if(!detailData && detailData == null){
-		alert("하수처리장 상세보기 오류");
+		alert("토구 상세보기 오류");
 		return false;
 	}
 	
@@ -279,7 +296,7 @@ function selectSwlDranPsDetail(detailData) {
 	ui.loadingBar("show");
 	
 	$.ajax({
-		url:"/job/fcmr/ssfc/selectSwlDranPsDetail.do",
+		url:"/job/fcmr/ssfc/selectSwlSpewPsDetail.do",
 		type: "POST",
 		data: formData,
 		dataType: 'html',
@@ -304,9 +321,9 @@ function selectSwlDranPsDetail(detailData) {
 	});
 }
 
-// 하수처리장 등록 페이지 호출
-function insertSwlDranPsView(){
-	//console.log("insertSwlDranPsView()");
+// 토구 등록 페이지 호출
+function insertSwlSpewPsView(){
+	//console.log("insertSwlSpewPsView()");
 	
 	dtmap.vector.clearSelect();		// 선택 해제
 	
@@ -317,38 +334,49 @@ function insertSwlDranPsView(){
 	ui.openPopup("rightSubPopup");
 	
 	var container = "#rightSubPopup";
-	$(container).load("/job/fcmr/ssfc/insertSwlDranPsView.do", function () {
+	$(container).load("/job/fcmr/ssfc/insertSwlSpewPsView.do", function () {
 		$(".scroll-y").mCustomScrollbar({
 			scrollbarPosition: "outside",
 		});
 		
-		getCmmCodeData("FTR-001", "#rightSubPopup select[name=ftr_cde]");	// 지형지물부호
 		getCmmCodeData("YPE001",  "#rightSubPopup select[name=hjd_cde]");	// 읍면동
 		getCmmCodeData("MNG-001", "#rightSubPopup select[name=mng_cde]");	// 관리기관
-		getCmmCodeData("OGC-023", "#rightSubPopup select[name=soo_cde]");	// 개통상태 코드
-		getCmmCodeData("OGC-056", "#rightSubPopup select[name=sbb_cde]");	// 하수처리방식 코드
+		getCmmCodeData("OGC-145", "#rightSubPopup select[name=vmt_cde]");	// 토구용도 코드
+		getCmmCodeData("OGC-001", "#rightSubPopup select[name=for_cde]");	// 시설물형태 코드
 
 		ui.loadingBar("hide");
 	});
 }
 
-// 하수처리장 등록 저장
-function insertSwlDranPs() {
+// 토구 등록 저장
+function insertSwlSpewPs() {
 	//필수 값 체크
-	const ftr_cde = $("#insertSwlDranPsFrm select[name=ftr_cde]").val();
+	const ftr_cde = $("#insertSwlSpewPsFrm select[name=ftr_cde]").val();
 	if(ftr_cde == "" || ftr_cde == null){
 		alert("지형지물부호는 필수 값입니다.");
 		return false;
 	}
 	
-	const geom = $("#insertSwlDranPsFrm input[name=geom]").val();
+	const dra_cde = $("#insertSwlSpewPsFrm select[name=dra_cde]").val();
+	if(dra_cde == "" || dra_cde == null){
+		alert("배수구역지형지물부호는 필수 값입니다.");
+		return false;
+	}
+	
+	const dsp_cde = $("#insertSwlSpewPsFrm select[name=dsp_cde]").val();
+	if(dsp_cde == "" || dsp_cde == null){
+		alert("처리구역지형지물부호는 필수 값입니다.");
+		return false;
+	}
+	
+	const geom = $("#insertSwlSpewPsFrm input[name=geom]").val();
 	if(geom == "" || geom == null){
 		alert("위치를 등록하여 주십시오.");
 		return false;
 	}
 	
 	//값 체크
-	const ang_dir = $("#insertSwlDranPsFrm input[name=ang_dir]").val()
+	const ang_dir = $("#insertSwlSpewPsFrm input[name=ang_dir]").val()
     if (ang_dir) {
         const regexp = /^[0-9]*$/;
         var r = regexp.test(ang_dir);
@@ -360,7 +388,7 @@ function insertSwlDranPs() {
 
 	//항목 별 데이터 파라미터 처리	
 	var feature = new ol.Feature();
-	const params = $("#insertSwlDranPsFrm").serializeArray();
+	const params = $("#insertSwlSpewPsFrm").serializeArray();
     params.forEach((param) => {
         if (param.value) {
             feature.set(param.name, param.value);
@@ -368,7 +396,7 @@ function insertSwlDranPs() {
     });
  
     //공간 정보 처리
-    const wkt = $("#insertSwlDranPsFrm input[name=geom]").val();
+    const wkt = $("#insertSwlSpewPsFrm input[name=geom]").val();
     
     const formatWKT = new ol.format.WKT();
     let geometry = formatWKT.readGeometry(wkt);
@@ -378,7 +406,7 @@ function insertSwlDranPs() {
     //데이터 정리
     const format 	= new ol.format.GeoJSON();
     const geojson 	= format.writeFeature(feature);
-    const data		= {dataId: "swl_dran_ps", geojson: geojson};
+    const data		= {dataId: "swl_spew_ps", geojson: geojson};
     
     //등록
     ui.loadingBar("show");
@@ -394,7 +422,7 @@ function insertSwlDranPs() {
             var $target = $container.find('#bottomPopup .facility-select');
             $target.trigger("change");
             
-            cancelInsertSwlDranPs();	//창닫기
+            cancelInsertSwlSpewPs();	//창닫기
         } else {
             alert(`등록에 실패했습니다.`);
             console.log(result["errorMsg"]);
@@ -407,15 +435,15 @@ function insertSwlDranPs() {
     });
 }
 
-// 하수처리장 수정 페이지 호출
-function updateSwlDranPsView(id) {
-	//console.log("updateSwlDranPsView(id)");
+// 토구 수정 페이지 호출
+function updateSwlSpewPsView(id) {
+	//console.log("updateSwlSpewPsView(id)");
 	//console.log('id >>> ' + id);
 	
 	//상세 정보 조회
 	var detailData = getGridDetailData(id);
 	if (!detailData && detailData == null) {
-		alert("하수처리장 상세정보 오류");
+		alert("토구 상세정보 오류");
 		return false;
 	}
 	
@@ -430,7 +458,7 @@ function updateSwlDranPsView(id) {
 	ui.loadingBar("show");
 	
     $.ajax({
-		url:"/job/fcmr/ssfc/updateSwlDranPsView.do",
+		url:"/job/fcmr/ssfc/updateSwlSpewPsView.do",
 		type: "POST",
 		data: formData,
 		dataType: 'html',
@@ -454,17 +482,29 @@ function updateSwlDranPsView(id) {
 	});
 }
 
-// 하수처리장 수정
-function updateSwlDranPs() {
+// 토구 수정
+function updateSwlSpewPs() {
 	//필수 값 체크
-	const geom = $("#updateSwlDranPsFrm input[name=geom]").val();
+	const geom = $("#updateSwlSpewPsFrm input[name=geom]").val();
 	if(geom == "" || geom == null){
 		alert("위치를 등록하여 주십시오.");
 		return false;
 	}
 	
+	const dra_cde = $("#updateSwlSpewPsFrm select[name=dra_cde]").val();
+	if(dra_cde == "" || dra_cde == null){
+		alert("배수구역지형지물부호는 필수 값입니다.");
+		return false;
+	}
+	
+	const dsp_cde = $("#updateSwlSpewPsFrm select[name=dsp_cde]").val();
+	if(dsp_cde == "" || dsp_cde == null){
+		alert("처리구역지형지물부호는 필수 값입니다.");
+		return false;
+	}
+	
 	//값 체크
-	const ang_dir = $("#updateSwlDranPsFrm input[name=ang_dir]").val()
+	const ang_dir = $("#updateSwlSpewPsFrm input[name=ang_dir]").val()
     if (ang_dir) {
         const regexp = /^[0-9]*$/;
         var r = regexp.test(ang_dir);
@@ -476,7 +516,7 @@ function updateSwlDranPs() {
 	
 	//항목 별 데이터 파라미터 처리	
 	var feature = new ol.Feature();
-	const params = $("#updateSwlDranPsFrm").serializeArray();
+	const params = $("#updateSwlSpewPsFrm").serializeArray();
     params.forEach((param) => {
         if (param.value) {
             feature.set(param.name, param.value);
@@ -484,20 +524,20 @@ function updateSwlDranPs() {
     });
  
     //공간 정보 처리
-    const wkt = $("#updateSwlDranPsFrm input[name=geom]").val();
+    const wkt = $("#updateSwlSpewPsFrm input[name=geom]").val();
     
     const formatWKT = new ol.format.WKT();
     let geometry = formatWKT.readGeometry(wkt);
     feature.setGeometry(geometry);
     
 	//id값 추가 
-	const id = $("#updateSwlDranPsFrm input[name=id]").val();
+	const id = $("#updateSwlSpewPsFrm input[name=id]").val();
 	feature.setId(id);
 
     //데이터 정리
     const format 	= new ol.format.GeoJSON();
     const geojson 	= format.writeFeature(feature);
-    const data		= {dataId: "swl_dran_ps", geojson: geojson};
+    const data		= {dataId: "swl_spew_ps", geojson: geojson};
     
     //등록
     ui.loadingBar("show");
@@ -509,9 +549,9 @@ function updateSwlDranPs() {
 			alert("수정 완료 되었습니다.");
 
 			var page = $(".hiddenPage").val();
-			selectSwlDranPsList(page);
+			selectSwlSpewPsList(page);
 			
-			cancelUpdateSwlDranPs();
+			cancelUpdateSwlSpewPs();
 		} else {
 			alert(`수정 실패했습니다.`);
 			console.log(result["errorMsg"]);
@@ -524,13 +564,13 @@ function updateSwlDranPs() {
 	});
 }
 
-// 하수처리장 삭제
-function deleteSwlDranPs(id) {
+// 토구 삭제
+function deleteSwlSpewPs(id) {
 	if (confirm("삭제하시겠습니까? (복구할 수 없습니다.)")) {
 		ui.loadingBar("show");
 
 		const formData = new FormData();
-		formData.append("dataId", 'swl_dran_ps' + "");
+		formData.append("dataId", 'swl_spew_ps' + "");
 		formData.append("ids", id);
 
 		$.ajax({
@@ -546,8 +586,8 @@ function deleteSwlDranPs(id) {
 			if (result["result"]) {
 				alert("삭제되었습니다.");
 
-				selectSwlDranPsList(1);	//첫페이지 조회
-				closeSwlDranPsPopup();	//창닫기
+				selectSwlSpewPsList(1);	//첫페이지 조회
+				closeSwlSpewPsPopup();	//창닫기
 			} else {
 				alert(`삭제에 실패했습니다.`);
 				console.log(result["errorMsg"]);
@@ -561,7 +601,7 @@ function deleteSwlDranPs(id) {
 	}
 }
 
-function closeSwlDranPsPopup() {
+function closeSwlSpewPsPopup() {
 	dtmap.draw.dispose();			// 마우스에 파란점 제거
 	dtmap.draw.clear();				// 지도에 파란점 제거
 	dtmap.vector.clearSelect();		// 선택 해제
@@ -569,8 +609,8 @@ function closeSwlDranPsPopup() {
 	ui.closeSubPopup();				// 팝업 닫기
 }
 
-// 하수처리장 엑셀 저장
-function swlDranPsExcel() {
+// 토구 엑셀 저장
+function swlSpewPsExcel() {
 	var $container = $("#container");
     var $target = $container.find('#baseGridDiv [data-ax5grid="attr-grid-excel"]');	//가상의 ax5uigrid 공간에 처리 
     $target.css('display', 'none');
@@ -588,12 +628,12 @@ function swlDranPsExcel() {
         	{key: "ftr_idn",		label: "관리번호",			width: '*'},
 			{key: "hjd_cde_nm",		label: "읍면동",			width: '*'},
 			{key: "ist_ymd", 		label: "설치일자",			width: '*'},
-			{key: "drn_nam",		label: "하수처리장명",		width: '*'},
-			{key: "gai_ara", 		label: "부지면적",			width: '*'},
-			{key: "soo_cde_nm",		label: "개통상태",			width: '*'},
-			{key: "adp_ara", 		label: "처리구역면적",		width: '*'},
-			{key: "sbb_cde_nm", 	label: "하수처리방식",		width: '*'},
-			{key: "pcc_vol",		label: "청천시처리용량",		width: '*'}
+			{key: "vmt_cde_nm",		label: "토구용도",			width: '*'},
+			{key: "for_cde_nm",		label: "시설물형태",		width: '*'},
+			{key: "spw_dip",		label: "원형토구내경",		width: '*'},
+			{key: "spw_hol",		label: "각형토구가로길이",	width: '*'},
+			{key: "spw_vel",		label: "각형토구세로길이",	width: '*'},
+			{key: "spw_hsl", 		label: "토구표고",			width: '*'}
 		],
 		body: {
 			align: "center"
@@ -610,17 +650,21 @@ function swlDranPsExcel() {
 		const filters = [];
 		
 		var hjdCde = $("#lSrchOptions select[name=hjd_cde] option:selected").val();	// 읍면동
-		var drnNam = $('#lSrchOptions input[name=drn_nam]').val();					// 하수처리장명
+		var vmtCde = $("#lSrchOptions select[name=vmt_cde] option:selected").val();	// 토구용도
+		var forCde = $("#lSrchOptions select[name=for_cde] option:selected").val();	// 시설물형태
 		
 		if (hjdCde) {
 			filters.push("hjd_cde" + " = " + hjdCde);
 		}
-		if (drnNam) {
-			filters.push("drn_nam" + " like " + drnNam);
+		if (vmtCde) {
+			filters.push("vmt_cde" + " = " + vmtCde);
+		}
+		if (forCde) {
+			filters.push("for_cde" + " = " + forCde);
 		}
 		
 		options = {
-			typeNames	: "swl_dran_ps" + "",
+			typeNames	: "swl_spew_ps" + "",
 			filter		: filters,
 			sortBy		: 'gid',
 	        sortOrder	: 'DESC'
@@ -632,7 +676,7 @@ function swlDranPsExcel() {
 		const type 		= $parent.find('input[name="rad-facility-area"]:checked').val();
 
 		options = {
-			typeNames	: 'swl_dran_ps' + "",
+			typeNames	: 'swl_spew_ps' + "",
 			sortBy		: 'gid',
 			sortOrder	: 'DESC'
 		}
@@ -659,12 +703,18 @@ function swlDranPsExcel() {
 	    	// 관리기관 코드 처리
 	    	var mng_cde = data.features[i].properties.mng_cde;
 	    	data.features[i].properties.mng_cde_nm = getCmmCodeDataArray("MNG-001", mng_cde);
-	    	// 개통상태 코드 처리
-	    	var soo_cde = data.features[i].properties.soo_cde;
-	    	data.features[i].properties.soo_cde_nm = getCmmCodeDataArray("OGC-023", soo_cde);
-	    	// 하수처리방식 코드 처리
-	    	var sbb_cde = data.features[i].properties.sbb_cde;
-	    	data.features[i].properties.sbb_cde_nm = getCmmCodeDataArray("OGC-056", sbb_cde);
+	    	// 토구용도 코드 처리
+	    	var vmt_cde = data.features[i].properties.vmt_cde;
+	    	data.features[i].properties.vmt_cde_nm = getCmmCodeDataArray("OGC-145", vmt_cde);
+	    	// 시설물형태 코드 처리
+	    	var for_cde = data.features[i].properties.for_cde;
+	    	data.features[i].properties.for_cde_nm = getCmmCodeDataArray("OGC-001", for_cde);
+	    	// 배수구역지형지물부호 코드 처리
+	    	var dra_cde = data.features[i].properties.dra_cde;
+	    	data.features[i].properties.dra_cde_nm = getCmmCodeDataArray("FTR-001", dra_cde);
+	    	// 처리구역지형지물부호 코드 처리
+	    	var dsp_cde = data.features[i].properties.dsp_cde;
+	    	data.features[i].properties.dsp_cde_nm = getCmmCodeDataArray("FTR-001", dsp_cde);
         	
         	// 좌표 처리
 			data.features[i].properties.geomObj = data.features[i].geometry;
@@ -677,6 +727,6 @@ function swlDranPsExcel() {
         FACILITY.Ax5UiGridAll.setData(list);
         
         //엑셀 export
-		FACILITY.Ax5UiGridAll.exportExcel("EXPORT_하수처리장.xls");
+		FACILITY.Ax5UiGridAll.exportExcel("EXPORT_토구.xls");
 	});
 }

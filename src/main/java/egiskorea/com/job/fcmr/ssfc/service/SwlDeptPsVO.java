@@ -13,10 +13,10 @@ public class SwlDeptPsVO implements Serializable {
 	private String ftr_cde_nm;
 	
 	/** 심도 */
-	private int pip_dep;
+	private String pip_dep;
 	
 	/** 관리번호 */
-	private int ftr_idn;
+	private String ftr_idn;
 
 	public int getGid() {
 		return gid;
@@ -39,17 +39,17 @@ public class SwlDeptPsVO implements Serializable {
 		this.ftr_cde_nm = ftr_cde_nm;
 	}
 
-	public int getPip_dep() {
+	public String getPip_dep() {
 		return pip_dep;
 	}
-	public void setPip_dep(int pip_dep) {
+	public void setPip_dep(String pip_dep) {
 		this.pip_dep = pip_dep;
 	}
 
-	public int getFtr_idn() {
+	public String getFtr_idn() {
 		return ftr_idn;
 	}
-	public void setFtr_idn(int ftr_idn) {
+	public void setFtr_idn(String ftr_idn) {
 		this.ftr_idn = ftr_idn;
 	}
 }

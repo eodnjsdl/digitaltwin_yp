@@ -39,7 +39,7 @@ function swlVentPsProcess() {
 			{key: "ist_ymd",		label: "설치일자",			width: 170},
 			{key: "vnt_dip",		label: "환기구구경",		width: 170},
 			{key: "mop_cde_nm",		label: "관재질",			width: 210},
-			{key: "mof_cde_nm",		label: "흡출기형식",		width: 170},
+			{key: "mof_cde_nm",		label: "흡출기형식",		width: 180},
 			{key: "hmp_cde_nm",		label: "흡출기재질",		width: 210}
 		],
 		page: {
@@ -276,7 +276,7 @@ function selectSwlVentPs(id) {
 // 환기구 상세보기 페이지 호출
 function selectSwlVentPsDetail(detailData) {
 	//console.log('selectSwlVentPsDetail(detailData)');
-	//console.log('data >>> ' + detailData);
+	//console.log(detailData);
 	
 	if(!detailData && detailData == null){
 		alert("환기구 상세보기 오류");
@@ -361,6 +361,17 @@ function insertSwlVentPs() {
 		alert("위치를 등록하여 주십시오.");
 		return false;
 	}
+	
+	//값 체크
+	const ang_dir = $("#insertSwlVentPsFrm input[name=ang_dir]").val()
+    if (ang_dir) {
+        const regexp = /^[0-9]*$/;
+        var r = regexp.test(ang_dir);
+        if(!r){
+        	alert("방향각은 정수만 입력 가능합니다.")
+        	return false;
+        }
+    }
 
 	//항목 별 데이터 파라미터 처리	
 	var feature = new ol.Feature();
@@ -418,7 +429,6 @@ function updateSwlVentPsView(id) {
 	
 	//상세 정보 조회
 	var detailData = getGridDetailData(id);
-	
 	if (!detailData && detailData == null) {
 		alert("환기구 상세정보 오류");
 		return false;
@@ -426,7 +436,6 @@ function updateSwlVentPsView(id) {
 	
 	//파라미터 처리
     var formData = new FormData();
-	
 	for (var key in detailData) {
 		if (detailData[key]) {	//null 값이나 빈칸은 제외, 여기서 id 값 까지 포함되서 파라미터 완성
 			formData.append(key, detailData[key]);
@@ -445,8 +454,8 @@ function updateSwlVentPsView(id) {
 		success: function(result) {
 			//console.log(result);
 			
-			$("#rightSubPopup").addClass("div-failcity-detail");	//날짜 css 때문	
 			ui.openPopup("rightSubPopup");
+			$("#rightSubPopup").addClass("div-failcity-detail");	//날짜 css 때문	
 			
 			var container = "#rightSubPopup";
 			$(container).html(result);
@@ -468,6 +477,17 @@ function updateSwlVentPs() {
 		alert("위치를 등록하여 주십시오.");
 		return false;
 	}
+	
+	//값 체크
+	const ang_dir = $("#updateSwlVentPsFrm input[name=ang_dir]").val()
+    if (ang_dir) {
+        const regexp = /^[0-9]*$/;
+        var r = regexp.test(ang_dir);
+        if(!r){
+        	alert("방향각은 정수만 입력 가능합니다.")
+        	return false;
+        }
+    }
 	
 	//항목 별 데이터 파라미터 처리	
 	var feature = new ol.Feature();
@@ -506,10 +526,7 @@ function updateSwlVentPs() {
 			var page = $(".hiddenPage").val();
 			selectSwlVentPsList(page);
 			
-			var id = $("#updateSwlVentPsFrm input[name=id]").val();
-        	selectSwlVentPs(id);
-        	
-        	$(".popup-panel .update-swlConnLs-popup-close").trigger("click");
+        	cancelUpdateSwlVentPs();
 		} else {
 			alert(`수정 실패했습니다.`);
 			console.log(result["errorMsg"]);
@@ -567,7 +584,7 @@ function closeSwlVentPsPopup() {
 	ui.closeSubPopup();				// 팝업 닫기
 }
 
-//복지시설 엑셀 저장
+// 환기구 엑셀 저장
 function swlVentPsExcel() {
 	var $container = $("#container");
     var $target = $container.find('#baseGridDiv [data-ax5grid="attr-grid-excel"]');	//가상의 ax5uigrid 공간에 처리 

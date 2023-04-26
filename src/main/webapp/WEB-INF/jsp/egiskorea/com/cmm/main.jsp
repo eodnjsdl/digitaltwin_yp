@@ -185,7 +185,6 @@
 
 	<!-- [하수도시설]  -->
 	<script src="/js/egiskorea/com/job/fcmr/ssfc/facilitySewerSupply.js"></script> 		<!-- {하수도시설  공통} -->
-	<script src="/js/egiskorea/com/job/fcmr/ssfc/sdrp/swlDranPs.js"></script>
 	<!-- ////////////////////////////  -->
 
 	<!-- [교통시설]  -->

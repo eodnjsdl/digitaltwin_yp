@@ -231,7 +231,7 @@ function selectSwlDeptPs(id) {
 // 하수관거심도 상세보기 페이지 호출
 function selectSwlDeptPsDetail(detailData) {
 	//console.log('selectSwlDeptPsDetail(detailData)');
-	//console.log('data >>> ' + detailData);
+	//console.log(detailData);
 	
 	if(!detailData && detailData == null){
 		alert("하수관거심도 상세보기 오류");
@@ -364,7 +364,6 @@ function updateSwlDeptPsView(id) {
 	
 	//상세 정보 조회
 	var detailData = getGridDetailData(id);
-	
 	if (!detailData && detailData == null) {
 		alert("하수관거심도 상세정보 오류");
 		return false;
@@ -372,7 +371,6 @@ function updateSwlDeptPsView(id) {
 	
 	//파라미터 처리
     var formData = new FormData();
-	
 	for (var key in detailData) {
 		if (detailData[key]) {	//null 값이나 빈칸은 제외, 여기서 id 값 까지 포함되서 파라미터 완성
 			formData.append(key, detailData[key]);
@@ -451,10 +449,7 @@ function updateSwlDeptPs() {
 			var page = $(".hiddenPage").val();
 			selectSwlDeptPsList(page);
 			
-			var id = $("#updateSwlDeptPsFrm input[name=id]").val();
-        	selectSwlDeptPs(id);
-        	
-        	$(".popup-panel .update-swlConnLs-popup-close").trigger("click");
+			cancelUpdateSwlDeptPs();
 		} else {
 			alert(`수정 실패했습니다.`);
 			console.log(result["errorMsg"]);
@@ -512,7 +507,7 @@ function closeSwlDeptPsPopup() {
 	ui.closeSubPopup();				// 팝업 닫기
 }
 
-//복지시설 엑셀 저장
+// 하수관거심도 엑셀 저장
 function swlDeptPsExcel() {
 	var $container = $("#container");
     var $target = $container.find('#baseGridDiv [data-ax5grid="attr-grid-excel"]');	//가상의 ax5uigrid 공간에 처리 

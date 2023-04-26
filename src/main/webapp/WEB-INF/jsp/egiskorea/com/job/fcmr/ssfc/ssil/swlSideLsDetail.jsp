@@ -3,7 +3,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <style type="text/css">
-	.popup-panel.popup-sub .swlVentPs-popup-close {
+	.popup-panel.popup-sub .swlSideLs-popup-close {
 	    top: 0;
 	    right: 0;
 	    width: 39px;
@@ -18,7 +18,7 @@
 <script type="text/javascript">
 
 $(document).ready(function(){
-	//console.log("swlVentPsDetail.jsp");
+	//console.log("swlSideLsDetail.jsp");
 
 	//gird 데이터를 통한 주소 조회
 	var id = "${id}";
@@ -32,9 +32,9 @@ $(document).ready(function(){
 	}
 });
 
-//하수연결관 상세보기 취소
-function cancelSwlVentPsDetail() {
-	$(".swlVentPs-popup-close").closest('.popup-panel').removeClass('opened');
+//측구 상세보기 취소
+function cancelSwlSideLsDetail() {
+	$(".swlSideLs-popup-close").closest('.popup-panel').removeClass('opened');
 	
 	// 초기화 (지도)
 	dtmap.draw.dispose();
@@ -45,8 +45,8 @@ function cancelSwlVentPsDetail() {
 
 </script>
 
-<!-- 업무 > 시설관리 > 하수도시설 > 환기구 상세보기-->
-<div class="popup-header">환기구 상세보기</div>
+<!-- 업무 > 시설관리 > 하수도시설 > 측구 상세보기-->
+<div class="popup-header">측구 상세보기</div>
 <div class="popup-body">
 	<div class="sub-popup-body">
 		<div class="data-write-wrap" style="height: 100%;">
@@ -63,67 +63,73 @@ function cancelSwlVentPsDetail() {
 							<tr>
 								<th scope="row">지형지물부호</th>
 								<td>
-									<c:out value="${swlVentPsVO.ftr_cde_nm}"/>
+									<c:out value="${swlSideLsVO.ftr_cde_nm}"/>
 								</td>
 								<th scope="row">관리번호</th>
 								<td>
-									<c:out value="${swlVentPsVO.ftr_idn}"/>
+									<c:out value="${swlSideLsVO.ftr_idn}"/>
 								</td>
 							</tr>
 							<tr>
 								<th scope="row">읍면동</th>
 								<td>
-									<c:out value="${swlVentPsVO.hjd_cde_nm}"/>
+									<c:out value="${swlSideLsVO.hjd_cde_nm}"/>
 								</td>
-								<th scope="row">도엽번호</th>
+								<th scope="row">관리기관</th>
 								<td>
-									<c:out value="${swlVentPsVO.sht_num}"/>
+									<c:if test="${swlSideLsVO.mng_cde_nm != '' || swlSideLsVO.mng_cde_nm ne null}">
+										<c:out value="${swlSideLsVO.mng_cde_nm}"/>
+									</c:if>
+									<c:if test="${swlSideLsVO.mng_cde_nm == '' || swlSideLsVO.mng_cde_nm eq null}">
+										<c:out value="${swlSideLsVO.mng_cde}"/>
+									</c:if>
 								</td>
 							</tr>
 							<tr>
-								<th scope="row">관리기관</th>
+								<th scope="row">도엽번호</th>
 								<td>
-									<c:if test="${swlVentPsVO.mng_cde_nm != '' || swlVentPsVO.mng_cde_nm ne null}">
-										<c:out value="${swlVentPsVO.mng_cde_nm}"/>
-									</c:if>
-									<c:if test="${swlVentPsVO.mng_cde_nm == '' || swlVentPsVO.mng_cde_nm eq null}">
-										<c:out value="${swlVentPsVO.mng_cde}"/>
-									</c:if>
+									<c:out value="${swlSideLsVO.sht_num}"/>
 								</td>
 								<th scope="row">설치일자</th>
 								<td>
-									<fmt:parseDate value="${swlVentPsVO.ist_ymd}" var="dateFmt" pattern="yyyyMMdd"/>
+									<fmt:parseDate value="${swlSideLsVO.ist_ymd}" var="dateFmt" pattern="yyyyMMdd"/>
 									<fmt:formatDate value="${dateFmt}"  pattern="yyyy-MM-dd"/>
 								</td>
 							</tr>
 							<tr>
-								<th scope="row">환기구구경</th>
+								<th scope="row">촉구구분</th>
 								<td>
-									<c:out value="${swlVentPsVO.vnt_dip}"/>
+									<c:out value="${swlSideLsVO.aeg_cde_nm}"/>
 								</td>
-								<th scope="row">관재질</th>
+								<th scope="row">연장</th>
 								<td>
-									<c:out value="${swlVentPsVO.mop_cde_nm}"/>
+									<c:out value="${swlSideLsVO.byc_len}"/>
 								</td>
 							</tr>
 							<tr>
-								<th scope="row">흡출기형식</th>
+								<th scope="row">가로길이</th>
 								<td>
-									<c:out value="${swlVentPsVO.mof_cde_nm}"/>
+									<c:out value="${swlSideLsVO.std_hol}"/>
 								</td>
-								<th scope="row">흡출기재질</th>
+								<th scope="row">세로길이</th>
 								<td>
-									<c:out value="${swlVentPsVO.hmp_cde_nm}"/>
+									<c:out value="${swlSideLsVO.std_vel}"/>
+								</td>
+							</tr>
+							<tr>
+								<th scope="row">차선통로수</th>
+								<td>
+									<c:out value="${swlSideLsVO.sph_lin}"/>
+								</td>
+								<th scope="row">관재질</th>
+								<td>
+									<c:out value="${swlSideLsVO.mop_cde_nm}"/>
 								</td>
 							</tr>
 							<tr>
 								<th scope="row">공사번호</th>
-								<td>
-									<c:out value="${swlVentPsVO.cnt_num}"/>
-								</td>
-								<th scope="row">방향각</th>
-								<td>
-									<c:out value="${swlVentPsVO.ang_dir}"/>
+								<td colspan="3">
+									<c:out value="${swlSideLsVO.cnt_num}"/>
 								</td>
 							</tr>
 							<tr>
@@ -141,14 +147,14 @@ function cancelSwlVentPsDetail() {
 			</div>
 			<div class="position-bottom btn-wrap justify-content-end">
 				<div>
-					<button type="button" class="btn basic bi-edit btn_edit" onclick="updateSwlVentPsView('<c:out value="${id}"/>')">수정</button>
-					<button type="button" class="btn basic bi-delete2 btn_delete" onclick="deleteSwlVentPs('<c:out value="${id}"/>')">삭제</button>  
-					<button type="button" class="btn basic bi-cancel btn_cancel" onclick="closeSwlVentPsPopup();">취소</button>
+					<button type="button" class="btn basic bi-edit btn_edit" onclick="updateSwlSideLsView('<c:out value="${id}"/>')">수정</button>
+					<button type="button" class="btn basic bi-delete2 btn_delete" onclick="deleteSwlSideLs('<c:out value="${id}"/>')">삭제</button>  
+					<button type="button" class="btn basic bi-cancel btn_cancel" onclick="closeSwlSideLsPopup();">취소</button>
 				</div>
 			</div>
 		</div>
 	</div>
 </div>
 <!-- <button type="button" class="popup-close" title="닫기"></button> -->
-<button type="button" class="swlVentPs-popup-close" title="닫기" onclick="closeSwlVentPsPopup();"></button>
-<!-- //업무 > 시설관리 > 하수도시설 > 환기구 상세보기 end -->
+<button type="button" class="swlSideLs-popup-close" title="닫기" onclick="closeSwlSideLsPopup();"></button>
+<!-- //업무 > 시설관리 > 하수도시설 > 측구 상세보기 end -->
