@@ -7,6 +7,7 @@ $(document).ready(function(){
 	dtmap.draw.clear();
 
 	//이벤트 리스너 추가 - 객체 선택
+	dtmap.off('select');
 	dtmap.on('select', onSelectOverpassEventListener);
 	
 	// 교통시설 메뉴 - 이벤트
@@ -43,12 +44,18 @@ $(document).ready(function(){
         if (type === 'extent') {
         	FACILITY.spaceSearchOption.bbox 	= dtmap.getExtent();
         } else {
-        	if(dtmap.draw.source.getFeatures().length > 0){
-         	FACILITY.spaceSearchOption.geometry = dtmap.draw.getGeometry();
-        	}else{
-        		alert("영역을 지정해 주세요.");
-        		return false;
+        	//console.log("모드>>>"+dtmap.mod);
+        	if(dtmap.mod == "2D"){
+        		if(dtmap.draw.source.getFeatures().length > 0){	//임시로 그려진 형태체크
+        			FACILITY.spaceSearchOption.geometry = dtmap.draw.getGeometry();
+        		}else{
+        			alert("영역지정 안되었습니다");
+        			return false;
+        		}
+        	}else if(dtmap.mod == "3D"){		
+        		FACILITY.spaceSearchOption.geometry = dtmap.draw.getGeometry();
         	}
+        	
         }
         setOverpassListData(0);
     });
@@ -235,7 +242,7 @@ $(document).ready(function(){
 	</div>
 </div>
 <button type="button" class="manualBtn" title="도움말" onclick="manualTab('교통시설')"></button>
-<button type="button" class="popup-close" title="닫기" onclick="removeLayer()"></button>
+<button type="button" class="popup-close" title="닫기" onclick="closeView(); removeLayer();"></button>
 <button type="button" class="popup-reset" class="초기화" onclick="getTransportationFacility('overpass')"></button>
 <button type="button" class="popup-bottom-toggle" title="접기"></button>				
 <!-- //업무 > 시설관리 > 교통시설 > 고가도로 -->

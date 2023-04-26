@@ -34,7 +34,7 @@ function swlDranPsProcess() {
 			{key: "ftr_idn",		label: "관리번호",			width: 130},
 			{key: "hjd_cde_nm",		label: "읍면동",			width: 110},
 			{key: "ist_ymd", 		label: "설치일자",			width: 130},
-			{key: "drn_nam",		label: "하수처리장명",		width: 280},
+			{key: "drn_nam",		label: "하수처리장명",		width: 290},
 			{key: "gai_ara", 		label: "부지면적",			width: 120},
 			{key: "soo_cde_nm",		label: "개통상태",			width: 130},
 			{key: "adp_ara", 		label: "처리구역면적",		width: 120},
@@ -261,7 +261,7 @@ function selectSwlDranPs(id) {
 // 하수처리장 상세보기 페이지 호출
 function selectSwlDranPsDetail(detailData) {
 	//console.log('selectSwlDranPsDetail(detailData)');
-	//console.log('data >>> ' + detailData);
+	//console.log(detailData);
 	
 	if(!detailData && detailData == null){
 		alert("하수처리장 상세보기 오류");
@@ -322,7 +322,7 @@ function insertSwlDranPsView(){
 			scrollbarPosition: "outside",
 		});
 		
-		getCmmCodeData("FTR-001",  "#rightSubPopup select[name=ftr_cde]");	// 지형지물부호
+		getCmmCodeData("FTR-001", "#rightSubPopup select[name=ftr_cde]");	// 지형지물부호
 		getCmmCodeData("YPE001",  "#rightSubPopup select[name=hjd_cde]");	// 읍면동
 		getCmmCodeData("MNG-001", "#rightSubPopup select[name=mng_cde]");	// 관리기관
 		getCmmCodeData("OGC-023", "#rightSubPopup select[name=soo_cde]");	// 개통상태 코드
@@ -346,6 +346,17 @@ function insertSwlDranPs() {
 		alert("위치를 등록하여 주십시오.");
 		return false;
 	}
+	
+	//값 체크
+	const ang_dir = $("#insertSwlDranPsFrm input[name=ang_dir]").val()
+    if (ang_dir) {
+        const regexp = /^[0-9]*$/;
+        var r = regexp.test(ang_dir);
+        if(!r){
+        	alert("방향각은 정수만 입력 가능합니다.")
+        	return false;
+        }
+    }
 
 	//항목 별 데이터 파라미터 처리	
 	var feature = new ol.Feature();
@@ -403,7 +414,6 @@ function updateSwlDranPsView(id) {
 	
 	//상세 정보 조회
 	var detailData = getGridDetailData(id);
-	
 	if (!detailData && detailData == null) {
 		alert("하수처리장 상세정보 오류");
 		return false;
@@ -411,7 +421,6 @@ function updateSwlDranPsView(id) {
 	
 	//파라미터 처리
     var formData = new FormData();
-	
 	for (var key in detailData) {
 		if (detailData[key]) {	//null 값이나 빈칸은 제외, 여기서 id 값 까지 포함되서 파라미터 완성
 			formData.append(key, detailData[key]);
@@ -431,6 +440,7 @@ function updateSwlDranPsView(id) {
 			//console.log(result);
 			
 			ui.openPopup("rightSubPopup");
+			$("#rightSubPopup").addClass("div-failcity-detail");	//날짜 css 때문	
 			
 			var container = "#rightSubPopup";
 			$(container).html(result);
@@ -452,6 +462,17 @@ function updateSwlDranPs() {
 		alert("위치를 등록하여 주십시오.");
 		return false;
 	}
+	
+	//값 체크
+	const ang_dir = $("#updateSwlDranPsFrm input[name=ang_dir]").val()
+    if (ang_dir) {
+        const regexp = /^[0-9]*$/;
+        var r = regexp.test(ang_dir);
+        if(!r){
+        	alert("방향각은 정수만 입력 가능합니다.")
+        	return false;
+        }
+    }
 	
 	//항목 별 데이터 파라미터 처리	
 	var feature = new ol.Feature();
@@ -490,10 +511,7 @@ function updateSwlDranPs() {
 			var page = $(".hiddenPage").val();
 			selectSwlDranPsList(page);
 			
-			var id = $("#updateSwlDranPsFrm input[name=id]").val();
-        	selectSwlDranPs(id);
-        	
-        	$(".popup-panel .update-swlConnLs-popup-close").trigger("click");
+			cancelUpdateSwlDranPs();
 		} else {
 			alert(`수정 실패했습니다.`);
 			console.log(result["errorMsg"]);
@@ -551,7 +569,7 @@ function closeSwlDranPsPopup() {
 	ui.closeSubPopup();				// 팝업 닫기
 }
 
-//복지시설 엑셀 저장
+// 하수처리장 엑셀 저장
 function swlDranPsExcel() {
 	var $container = $("#container");
     var $target = $container.find('#baseGridDiv [data-ax5grid="attr-grid-excel"]');	//가상의 ax5uigrid 공간에 처리 
@@ -567,9 +585,15 @@ function swlDranPsExcel() {
 			align: "center"
 		},
         columns: [
-        	{key: "ftr_cde_nm",		label: "지형지물부호",		width: '*'},
-			{key: "pip_dep", 		label: "심도",			width: '*'},
-			{key: "ftr_idn",		label: "관리번호",			width: '*'}
+        	{key: "ftr_idn",		label: "관리번호",			width: '*'},
+			{key: "hjd_cde_nm",		label: "읍면동",			width: '*'},
+			{key: "ist_ymd", 		label: "설치일자",			width: '*'},
+			{key: "drn_nam",		label: "하수처리장명",		width: '*'},
+			{key: "gai_ara", 		label: "부지면적",			width: '*'},
+			{key: "soo_cde_nm",		label: "개통상태",			width: '*'},
+			{key: "adp_ara", 		label: "처리구역면적",		width: '*'},
+			{key: "sbb_cde_nm", 	label: "하수처리방식",		width: '*'},
+			{key: "pcc_vol",		label: "청천시처리용량",		width: '*'}
 		],
 		body: {
 			align: "center"
@@ -585,17 +609,14 @@ function swlDranPsExcel() {
 		// 속성 검색
 		const filters = [];
 		
-		// 관리번호
-		var ftr_idn_min 	=	$("#lSrchOptions input[name=ftr_idn_min]").val();			//관경 최소 값
-		var ftr_idn_max 	=	$("#lSrchOptions input[name=ftr_idn_max]").val();			//관경 최대 값
+		var hjdCde = $("#lSrchOptions select[name=hjd_cde] option:selected").val();	// 읍면동
+		var drnNam = $('#lSrchOptions input[name=drn_nam]').val();					// 하수처리장명
 		
-		if (ftr_idn_min && ftr_idn_max) {
-			filters.push("ftr_idn" + " >= " + ftr_idn_min);
-			filters.push("ftr_idn" + " <= " + ftr_idn_max);
-		} else if (ftr_idn_min) {
-			filters.push("ftr_idn" + " >= " + ftr_idn_min);
-		} else if (ftr_idn_max) {
-			filters.push("ftr_idn" + " <= " + ftr_idn_max);
+		if (hjdCde) {
+			filters.push("hjd_cde" + " = " + hjdCde);
+		}
+		if (drnNam) {
+			filters.push("drn_nam" + " like " + drnNam);
 		}
 		
 		options = {
@@ -630,8 +651,20 @@ function swlDranPsExcel() {
 		const list = [];
 		for (let i = 0; i < data.features.length; i++) {
 			// 지형지물부호 코드 처리
-			var ftr_cde = data.features[i].properties.ftr_cde;
+	    	var ftr_cde = data.features[i].properties.ftr_cde;
 	    	data.features[i].properties.ftr_cde_nm = getCmmCodeDataArray("FTR-001", ftr_cde);
+	    	// 읍면동 코드 처리
+	    	var hjd_cde = data.features[i].properties.hjd_cde;
+	    	data.features[i].properties.hjd_cde_nm = getCmmCodeDataArray("YPE001", hjd_cde);
+	    	// 관리기관 코드 처리
+	    	var mng_cde = data.features[i].properties.mng_cde;
+	    	data.features[i].properties.mng_cde_nm = getCmmCodeDataArray("MNG-001", mng_cde);
+	    	// 개통상태 코드 처리
+	    	var soo_cde = data.features[i].properties.soo_cde;
+	    	data.features[i].properties.soo_cde_nm = getCmmCodeDataArray("OGC-023", soo_cde);
+	    	// 하수처리방식 코드 처리
+	    	var sbb_cde = data.features[i].properties.sbb_cde;
+	    	data.features[i].properties.sbb_cde_nm = getCmmCodeDataArray("OGC-056", sbb_cde);
         	
         	// 좌표 처리
 			data.features[i].properties.geomObj = data.features[i].geometry;

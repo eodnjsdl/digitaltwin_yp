@@ -1,12 +1,15 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" %>
 
 <!-- js -->
-<!-- <script src="/js/egiskorea/com/job/fcmr/ssfc/sdrp/swlDranPs.js"></script> -->
+<script src="/js/egiskorea/com/job/fcmr/ssfc/sdrp/swlDranPs.js"></script>
 
 <script>
 $(document).ready(function() {
 	//console.log("swlDranPsListView.jsp");	
 
+	// 2D/3D 버튼 처리
+	arrangeAddBtnMode();
+	
 	//이벤트 리스너 추가
 	dtmap.on('select', onFacilitySelectEventListener);
 	
@@ -75,14 +78,20 @@ $(document).ready(function() {
 		const type = $parent.find('input[name="rad-facility-area"]:checked').val();
 		
 		if (type === 'extent') {
-			FACILITY.spaceSearchOption.bbox = dtmap.getExtent();
+			FACILITY.spaceSearchOption.bbox 	= dtmap.getExtent();
 		} else {
-			if (dtmap.draw.source.getFeatures().length > 0) {
+			//console.log("모드>>>"+dtmap.mod);
+			if(dtmap.mod == "2D"){
+				if(dtmap.draw.source.getFeatures().length > 0){	//임시로 그려진 형태체크
+					FACILITY.spaceSearchOption.geometry = dtmap.draw.getGeometry();
+				}else{
+					alert("영역지정 안되었습니다");
+					return false;
+				}
+			}else if(dtmap.mod == "3D"){		
 				FACILITY.spaceSearchOption.geometry = dtmap.draw.getGeometry();
-			} else {
-				alert("영역지정 안되었습니다");
-				return false;
 			}
+			
 		}
 		selectSwlDranPsList(1);
 	});
@@ -252,7 +261,7 @@ $(document).ready(function() {
                 <div class="bbs-list-num">조회결과 : --건</div>
                 <div>
                     <button type="button" class="btn basic bi-write btn_add" onclick="insertSwlDranPsView();">등록</button>
-                    <button type="button" class="btn basic bi-excel btn_excel" onclick="SwlDranPsExcel();">엑셀저장</button>
+                    <button type="button" class="btn basic bi-excel btn_excel" onclick="swlDranPsExcel();">엑셀저장</button>
                 </div>
             </div>
             <div class="bbs-list-wrap" style="height: 267px;"><!-- pagination 하단 고정을 위해 반드시 필요 -->

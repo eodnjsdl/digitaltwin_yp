@@ -86,12 +86,12 @@ $(".scroll-y").mCustomScrollbar({
 				</div>
 			<div class="position-bottom btn-wrap" style="position:relative; margin: 0.5rem 0;">
 				<div>
-					<button type="button" class="btn basic bi-cancel closeSub">취소</button>
+					<button type="button" class="btn basic bi-cancel" onClick="closeView()">취소</button>
 				</div>
 			</div><!-- // class="position-bottom btn-wrap" -->
 			</div>
 		</div>
 	</div>
 </div>
-<button type="button" class="popup-close" title="닫기" onClick="cancelMode();"></button>				
+<button type="button" class="popup-close" title="닫기" onClick="closeView()"></button>				
 <!-- 업무 > 시설관리 > 교통시설 > 도로구간 상세보기 end -->
