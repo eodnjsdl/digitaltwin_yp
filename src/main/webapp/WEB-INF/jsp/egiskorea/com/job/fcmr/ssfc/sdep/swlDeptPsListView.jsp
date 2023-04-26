@@ -18,6 +18,8 @@ $(document).ready(function() {
     var $target = $container.find('#bottomPopup .facility-select');
 	
 	$target.on('change', function() {
+		dtmap.draw.clear();
+		dtmap.draw.setBuffer(0);
 		getSewerSupplyFacility(this.value);
 	});
 

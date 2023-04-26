@@ -8,7 +8,6 @@
 $(document).ready(function(){
 	//console.log("wtlFirePs.js");
 	//console.log("소방시설");
-	
 });
 
 //functions
