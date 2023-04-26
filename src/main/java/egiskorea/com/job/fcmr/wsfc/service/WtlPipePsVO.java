@@ -18,19 +18,19 @@ public class WtlPipePsVO implements Serializable{
 	/** pip_dep 심도 */
 	private double pip_dep;
 	
-	/** sun_cde  */
+	/** sun_cde 코드 */
 	private String sun_cde;
 	
-	/** ins_ymd 일자 */
+	/** ins_ymd 측량일 */
 	private String ins_ymd;
 	
-	/** ins_usr 일자 */
+	/** ins_usr 측량자 */
 	private String ins_usr;
 	
-	/** mod_ymd 일자 */
+	/** mod_ymd 수정일 */
 	private String mod_ymd;
 	
-	/** mod_usr 일자 */
+	/** mod_usr 수정자 */
 	private String mod_usr;
 	
 	/** geom 공간정보 */

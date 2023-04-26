@@ -13,6 +13,7 @@ import egiskorea.com.job.fcmr.wsfc.service.WtlPipeLmVO;
 import egiskorea.com.job.fcmr.wsfc.service.WtlPipePsVO;
 import egiskorea.com.job.fcmr.wsfc.service.WtlPrgaPsVO;
 import egiskorea.com.job.fcmr.wsfc.service.WtlServPsVO;
+import egiskorea.com.job.fcmr.wsfc.service.WtlSplyLsVO;
 import egiskorea.com.job.fcmr.wsfc.service.WtlValvPsVO;
 
 /**
@@ -27,7 +28,7 @@ import egiskorea.com.job.fcmr.wsfc.service.WtlValvPsVO;
  *  수정일               수정자            수정내용
  *  ----------   --------   ---------------------------
  *  2023.04.04   황의현           최초 생성
- *  2023.04.06   장현승           유량계, 상수맨홀, 수압계, 배수지
+ *  2023.04.26   장현승           2차 수정
  */
 
 @Controller
@@ -298,6 +299,40 @@ public class WaterSupplyController {
 	
 	////////
 	//급수관로
+	
+	//목록 화면 호출
+		@RequestMapping(value = "/selectWtlSplyLsListView.do")
+	    public String selectWtlSplyLsList(
+	            @ModelAttribute("wtlSplyLsVO") WtlSplyLsVO wtlSplyLsVO,
+	            ModelMap model) throws Exception {
+	        return "egiskorea/com/job/fcmr/wsfc/wspl/wtlSplyLsListView";
+	    }
+		
+		//상세 화면 조회
+		@RequestMapping(value = "/selectWtlSplyLs.do", method = RequestMethod.POST)
+		public String selectWtlSplyLs(
+				@ModelAttribute("wtlSplyLsVO") WtlSplyLsVO wtlSplyLsVO, String id,
+				ModelMap model) throws Exception {
+				model.addAttribute("id", id);
+			return "egiskorea/com/job/fcmr/wsfc/wspl/selectWtlSplyLs";
+		}
+		
+		//등록 화면 조회
+		@RequestMapping(value = "/insertWtlSplyLsView.do")
+		public String insertWtlSplyLsView(
+				@ModelAttribute("wtlSplyLsVO") WtlSplyLsVO wtlSplyLsVO,
+				ModelMap model) throws Exception {
+			return "egiskorea/com/job/fcmr/wsfc/wspl/insertWtlSplyLsView";
+		}
+		
+		//수정 화면 조회
+		@RequestMapping(value = "/updateWtlSplyLsView.do", method = RequestMethod.POST)
+		public String updateWtlSplyLsView(
+				@ModelAttribute("wtlSplyLsVO") WtlSplyLsVO wtlSplyLsVO, String id,
+				ModelMap model) throws Exception {
+				model.addAttribute("id", id);
+			return "egiskorea/com/job/fcmr/wsfc/wspl/updateWtlSplyLsView";
+		}
 	
 	////////
 	//변류시설
