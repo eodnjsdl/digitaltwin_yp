@@ -43,14 +43,14 @@ public class TrnsportFaciDAO extends ComAbstractDAO {
 		return selectOne("transportationFacility.selectRoadSection", roadSectVO);
 	}
 	
-	/**
-	 * 교통시설 도로구간 엑셀 다운로드
-	 * @param roadSectVO
-	 * @return
-	 */
-	public List<?> selectRoadSectExcelListDownload(RoadSectVO roadSectVO) {
-		return selectList("transportationFacility.selectRoadSectionExcelList", roadSectVO);
-	}
+//	/**
+//	 * 교통시설 도로구간 엑셀 다운로드
+//	 * @param roadSectVO
+//	 * @return
+//	 */
+//	public List<?> selectRoadSectExcelListDownload(RoadSectVO roadSectVO) {
+//		return selectList("transportationFacility.selectRoadSectionExcelList", roadSectVO);
+//	}
 	
 	// -------- 철도선로 --------
 	
