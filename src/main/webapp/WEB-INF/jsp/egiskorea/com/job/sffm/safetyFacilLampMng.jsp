@@ -105,6 +105,6 @@ function fn_delete(gid){
 			</div>							
 		</div>
 	</div>
-	<button type="button" class="popup-close" title="닫기" onclick="cancelMode();"></button>				
+	<button type="button" class="popup-close" title="닫기"></button>				
 </div>
 <!-- //업무 > 공간정보활용 > 안전시설물관리 > 가로등관리 등록하기 -->
