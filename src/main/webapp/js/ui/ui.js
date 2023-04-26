@@ -54,6 +54,9 @@ window.ui = (function () {
 
         //LEFT 메뉴 닫기 버튼
         $(".lnb-util .lnb-close").click(function () {
+        	//console.log(".lnb-util .lnb-close");
+        	$(".popup-close").trigger("click");	//시설관리 하위 메뉴 팝업 닫기 버튼 동작
+        	
             ($(this).parent().parent()).stop().fadeOut(100);
             $("#lnb li[data-menu]").removeClass("on");
             _initDrawEvent();
