@@ -173,7 +173,7 @@ function cancelInsertSwlVentPs() {
 								</td>
 								<th scope="row">방향각</th>
 								<td>
-									<input type="number" name="ang_dir" class="form-control" value="">
+									<input type="number" name="ang_dir" class="form-control" min="0" value="">
 								</td>
 								
 							</tr>

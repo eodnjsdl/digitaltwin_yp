@@ -1,9 +1,20 @@
-SEARCHOBJ = null;
+/**
+ * 관내업소정보조회 js
+ */
+
+SEARCHOBJ= {
+	propertySearch: null,
+	spaceSearch:null,
+};
 
 $(document.body).ready(function () {
 	initGrid();
-    setData(0);       
+    setData(0);
+    dtmap.off('select');
+   dtmap.on('select',spaceClickListener );
 });
+
+
 //관내업소정보조회 기본 틀 추가
 function initGrid(){
 	this.target = new ax5.ui.grid();
@@ -43,28 +54,43 @@ function initGrid(){
 }
 //관내업소정보조회 조회 기능
 function setData(_pageNo){
-	
-	var lc_all_adr ='', opnn_svc_nm = '',  bplc_nm = '';
 
-	if(SEARCHOBJ != null){
-		lc_all_adr = SEARCHOBJ.searchLcAllAdr;
-		opnn_svc_nm = SEARCHOBJ.searchOpnnSvcNm;
-		bplc_nm = SEARCHOBJ.searchBplcNm;
-	}
-
-	var cqlList = [];
-
-	if(lc_all_adr!=''){cqlList.push("lc_all_adr like "+lc_all_adr+" ")}
-	if(opnn_svc_nm!=''){cqlList.push("opnn_svc_nm = "+opnn_svc_nm+" ")}
-	if(bplc_nm!=''){cqlList.push("bplc_nm like "+bplc_nm+" ")}
-	
-	var gridList =this;	
-	const promise = dtmap.wfsGetFeature({
+	options={
 		typeNames: 'yp_bssh_info', //WFS 레이어명
 		page  : _pageNo+1,
 		perPage : 100,
 		filter : cqlList
-	});
+	};
+
+	//검색옵션
+	if(SEARCHOBJ.propertySearch != null){//속성검색
+		var lc_all_adr = SEARCHOBJ.propertySearch.searchLcAllAdr;
+		var opnn_svc_nm = SEARCHOBJ.propertySearch.searchOpnnSvcNm;
+		var bplc_nm = SEARCHOBJ.propertySearch.searchBplcNm;
+
+		var cqlList = [];
+
+		if(lc_all_adr!=''){cqlList.push("lc_all_adr like "+lc_all_adr+" ")}
+		if(opnn_svc_nm!=''){cqlList.push("opnn_svc_nm = "+opnn_svc_nm+" ")}
+		if(bplc_nm!=''){cqlList.push("bplc_nm like "+bplc_nm+" ")}
+	
+		options.filter = cqlList;
+
+	}else if(SEARCHOBJ.spaceSearch != null){//공간검색
+
+		const $parent 	= $(".search-area");
+        const type 		= $parent.find('input[name="inBusinessEstaInfoSelect"]:checked').val();
+        if (type === 'extent') {
+        	options.bbox = SEARCHOBJ.spaceSearch.bbox;
+        } else {
+        	options.geometry = SEARCHOBJ.spaceSearch.geometry;
+        }
+	}
+	
+
+	//조회
+	var gridList =this;	
+	const promise = dtmap.wfsGetFeature(options);
 	promise.then(function (data) {
 
 		$(".bbs-list-num").empty();
@@ -106,10 +132,8 @@ function setData(_pageNo){
 //관내업소정보조회 상세보기
 function fn_pageDetail(no, gid){
 	dtmap.vector.clearSelect() 
-	console.log('yp_bssh_info.'+gid);
 	dtmap.vector.select('yp_bssh_info.'+gid);
 	ui.openPopup("rightSubPopup");
-	var container = "#rightSubPopup";
 
 	var formData = new FormData();
 	if(no != ''){
@@ -171,10 +195,50 @@ function readGeoJSON(data) {
 
 //관내업소정보조회 검색조회
 function fn_search_List(){
-	SEARCHOBJ = {};
-	SEARCHOBJ.searchLcAllAdr= $("#emdKorNm").val() || '';
-	SEARCHOBJ.searchOpnnSvcNm = $("#opnnSvcNmSearch").val() || '';
-	SEARCHOBJ.searchBplcNm = $("#bplcNmSearch").val() || '';
 	
+	SEARCHOBJ.propertySearch = null;
+	SEARCHOBJ.spaceSearch = null;
+
+	if($('#ibbi-prop').hasClass('on')){
+		SEARCHOBJ.propertySearch = {};
+		SEARCHOBJ.propertySearch.searchLcAllAdr= $("#emdKorNm").val() || '';
+		SEARCHOBJ.propertySearch.searchOpnnSvcNm = $("#opnnSvcNmSearch").val() || '';
+		SEARCHOBJ.propertySearch.searchBplcNm = $("#bplcNmSearch").val() || '';
+	}else if($('#ibbi-space').hasClass('on')){
+		SEARCHOBJ.spaceSearch = {};
+		const $parent = $('#bottomPopup').find('.search-area')
+		const type = $parent.find('input[name="inBusinessEstaInfoSelect"]:checked').val();
+		
+		if (type === 'extent') {
+			 var bbox = dtmap.getExtent();
+			 SEARCHOBJ.spaceSearch.bbox = bbox;
+
+		} else {
+			if(dtmap.draw.source.getFeatures().length > 0){
+				SEARCHOBJ.spaceSearch.geometry = dtmap.draw.getGeometry();
+			}else{
+				alert("영역지정 안되었습니다");
+				return false;
+			}
+		}
+
+	}
+	
+}
+
+//레이어 선택 상세보기
+function spaceClickListener(e){
+	var gid ;
+	var no;
+	
+	if (dtmap.mod === '3D'){
+		gid=e.properties.gid;
+		no = e.properties.no
+	}else{
+		gid=e.property.gid;
+		no = e.property.no
+	}
+    fn_pageDetail(no, gid);
+    dtmap.vector.select(e.id);
 }
 

@@ -1,19 +1,22 @@
 /**
  * 안전시설물관리 > 가로등관리 js
  */
-SEARCHOBJ= null;
+SEARCHOBJ= {
+	propertySearch: null,
+	spaceSearch:null,
+};
 
 $(document.body).ready(function(){
 	initGrid();
 	setData();
+	dtmap.off('select');
+	dtmap.on('select',spaceClickListener );
 })
 
 //가로등관리 기본그리드 생성
 function initGrid(){
 	this.target = new ax5.ui.grid();
-	// var $container = $("#container");
-	// var $target = $container.find('#sampleGridDiv [data-ax5grid="attr-grid"]')
-	// $target.css('height', 'inherit');
+	
 	this.target.setConfig({
 		target: $('[data-ax5grid="attr-grid"]'),
 		sortable: true, // 모든 컬럼에 정렬 아이콘 표시
@@ -53,32 +56,46 @@ function initGrid(){
 //가로등관리 조회기능
 function setData(_pageNo){
 
-	var instlDe='', adres='', manageNo=''; 
-
-	if(SEARCHOBJ != null){
-		instlDe = SEARCHOBJ.searchInstlDe;
-		adres = SEARCHOBJ.searchAdres;
-		manageNo = SEARCHOBJ.searchManageNo;
-
-	}
-	var cqlList = [];
-
-	if(instlDe.trim().length >= 1){cqlList.push("instl_de"+" like "+instlDe);}
-	if(adres.trim().length >= 1){cqlList.push("adres"+" like "+adres);}
-	if(manageNo.trim().length >=1){cqlList.push("manage_no"+" like "+manageNo);}
-	
-	var gridList = this;
-	const promise = dtmap.wfsGetFeature({
+	var options = {
 		typeNames: 'tgd_strtlgt_status', //WFS 레이어명
-		page : _pageNo+1,
+		page : (_pageNo||0)+1,
 		perPage : 100,
 		sortBy : 'gid',
 		sortOrder : 'DESC',
-		filter : cqlList
-	});
+	}
+
+	//검색 옵션
+	if(SEARCHOBJ.propertySearch != null){//속성검색
+
+		var instlDe = SEARCHOBJ.propertySearch.searchInstlDe;
+		var adres = SEARCHOBJ.propertySearch.searchAdres;
+		var manageNo = SEARCHOBJ.propertySearch.searchManageNo;
+
+		var cqlList = [];
+	
+		if(instlDe.trim().length >= 1){cqlList.push("instl_de"+" like "+instlDe);}
+		if(adres.trim().length >= 1){cqlList.push("adres"+" like "+adres);}
+		if(manageNo.trim().length >=1){cqlList.push("manage_no"+" like "+manageNo);}
+
+		options.filter = cqlList;
+
+	}else if(SEARCHOBJ.spaceSearch != null){//공간검색
+
+		const $parent 	= $(".search-area");
+        const type 		= $parent.find('input[name="sffmSelect"]:checked').val();
+        if (type === 'extent') {
+        	options.bbox = SEARCHOBJ.spaceSearch.bbox;
+        } else {
+        	options.geometry = SEARCHOBJ.spaceSearch.geometry;
+        }
+	}
+	
+
+	//조회
+	var gridList = this;
+	const promise = dtmap.wfsGetFeature(options);
 
 	promise.then(function(data){
-		toastr.success("지도 BBOX 이동");
 		$("#bottomPopup").find(".bbs-list-num strong").text(data.totalFeatures);
 		var list = [];
 		for(i =0;i<data.features.length;i++){
@@ -116,33 +133,34 @@ function setData(_pageNo){
 	})
 
 }
-//가로등관리 등록페이지 열기
-function fn_insert(){
-		ui.loadingBar("show");
-		ui.openPopup("rightSubPopup");
-		// $(".popup-sub").removeClass("opened").html("");
 
-		$.ajax({
-			type : "POST",
-			url : "/job/sffm/insertSafetyFacilLampMngView.do",
-			dataType : "html",
-			processData : false,
-			contentType : false,
-			async: false,
-			success : function(returnData, status){
-				if(status == "success") {
-					$("#rightSubPopup").append(returnData);
-				}else{
-					toastr.error("관리자에게 문의 바랍니다.", "정보를 불러오지 못했습니다.");
-					return;
-				}
-			}, complete : function(){
-				ui.loadingBar("hide");
+//가로등관리 등록페이지 호출
+function fn_insert(){
+	ui.loadingBar("show");
+	ui.openPopup("rightSubPopup");
+	// $(".popup-sub").removeClass("opened").html("");
+
+	$.ajax({
+		type : "POST",
+		url : "/job/sffm/insertSafetyFacilLampMngView.do",
+		dataType : "html",
+		processData : false,
+		contentType : false,
+		async: false,
+		success : function(returnData, status){
+			if(status == "success") {
+				$("#rightSubPopup").append(returnData);
+			}else{
+				toastr.error("관리자에게 문의 바랍니다.", "정보를 불러오지 못했습니다.");
+				return;
 			}
-		});
+		}, complete : function(){
+			ui.loadingBar("hide");
+		}
+	});
 }
 
-//가로등관리 상세페이지
+//가로등관리 상세페이지 호출
 function fn_pageDetail(gid){
 	dtmap.vector.clearSelect(); 
 	dtmap.vector.select('tgd_strtlgt_status.'+gid);
@@ -173,6 +191,7 @@ function fn_pageDetail(gid){
 	});
 }
 
+//가로등관리 수정페이지 호출
 function fn_update(gid){
 
 	$("#rightSubPopup").empty();
@@ -205,15 +224,72 @@ function fn_update(gid){
 	});
 }
 
-//가로등 검색조회
-function fn_search_List(){
-	SEARCHOBJ = {};
-
-	SEARCHOBJ.searchManageNo= $('#sffm-search-manage-no').val() || '';
-	SEARCHOBJ.searchInstlDe = $('#sffm-search-instl-de').val() || '';
-	SEARCHOBJ.searchAdres = $('#sffm-search-adres').val() || '';
-
+//가로등 검색 조회 버튼
+function fn_search_List(e){
 	
+	SEARCHOBJ.propertySearch = null;
+	SEARCHOBJ.spaceSearch = null;
+	if($('#sffm-prop').hasClass('on')){
+
+		SEARCHOBJ.propertySearch={};
+		SEARCHOBJ.propertySearch.searchManageNo= $('#sffm-search-manage-no').val() || '';
+		SEARCHOBJ.propertySearch.searchInstlDe = $('#sffm-search-instl-de').val() || '';
+		SEARCHOBJ.propertySearch.searchAdres = $('#sffm-search-adres').val() || '';
+	}else if($('#sffm-space').hasClass('on')){
+		SEARCHOBJ.spaceSearch = {};
+		const $parent = $('#bottomPopup').find('.search-area')
+		const type = $parent.find('input[name="sffmSelect"]:checked').val();
+
+		
+		
+		if (type === 'extent') {
+			 var bbox = dtmap.getExtent();
+			 SEARCHOBJ.spaceSearch.bbox = ol.proj.transformExtent(bbox,'EPSG:5179','EPSG:4326' );
+
+
+		} else {
+			if(dtmap.draw.source.getFeatures().length > 0){
+				SEARCHOBJ.spaceSearch.geometry = dtmap.draw.getGeometry();
+				
+			}else{
+				alert("영역지정 안되었습니다");
+				return false;
+			}
+		}
+		setSpatial(type);
+	}
+
+
+}
+
+function setSpatial(type){
+	let geom;
+	var geoWKTstr;
+	if (type === 'extent') {
+		let minX = SEARCHOBJ.spaceSearch.bbox[0];
+		let minY = SEARCHOBJ.spaceSearch.bbox[1];
+		let maxX = SEARCHOBJ.spaceSearch.bbox[2];
+		let maxY = SEARCHOBJ.spaceSearch.bbox[3];
+
+		var geoWKTstr = "POLYGON(("+minX+" "+minY+", "+minX+" "+maxY+", "+maxX+" "+maxY+", "+maxX+" "+minY+", "+minX+" "+minY+"))";
+
+	}else{
+
+		if(SEARCHOBJ.spaceSearch.geometry.getType() == 'Circle'){
+			geom = new ol.geom.Polygon.fromCircle(SEARCHOBJ.spaceSearch.geometry);
+		}else{
+			geom = SEARCHOBJ.spaceSearch.geometry;
+		}
+
+		var writer = new ol.format.WKT();
+		geoWKTstr = writer.writeGeometry(geom, {
+			dataProjection: 'EPSG:4326',
+			featureProjection: 'EPSG:5179',
+		})
+
+	}
+		$('#spitalSearch').val(geoWKTstr);
+
 }
 
 
@@ -221,6 +297,11 @@ function fn_search_List(){
 $("#lampExcelDownload").on("click", function(){
 	let formName = this.dataset.formName;
 
+	let formData = new FormData($('#searchForm')[0]);
+	for (let key of formData.keys()) {
+		console.log(key, ":", formData.get(key));
+	}
+	formData.set('sffmBuffer', '0');
 	let url = '/job/sffm/' + formName + 'Download.do';
 	
 	$("form[name='"+ formName + "']").attr('onsubmit', '');
@@ -230,7 +311,7 @@ $("#lampExcelDownload").on("click", function(){
 	$("form[name='"+ formName + "']").attr('action', '');
 });
 
-function readGeoJSON(data) {
+/*function readGeoJSON(data) {
     if (!data.crs || !data.features || data.features.length === 0) {
         return;
     }
@@ -243,4 +324,4 @@ function readGeoJSON(data) {
         dataProjection: crs,
         featureProjection: map2d.map.getView().getProjection()
     });
-}
+}*/

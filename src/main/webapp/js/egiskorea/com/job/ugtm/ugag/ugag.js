@@ -1,8 +1,17 @@
-SEARCHOBJ= null;
+/**
+ * 지하수관리 > 농업용공공관정 js
+ */
+
+SEARCHOBJ= {
+	propertySearch: null,
+	spaceSearch:null,
+};
 
 $(document.body).ready(function () {
 	initGrid();
-    setData(0);       
+    setData(0);
+    dtmap.off('select');
+    dtmap.on('select',spaceClickListener );
 });
 //농업용공공관정 기본 틀 추가
 function initGrid(){
@@ -48,35 +57,42 @@ function initGrid(){
 }
 //농업용공공관정 조회기능
 function setData(_pageNo){
-	// var adres = $("#emdKorNm").val();
-	// var manage_se = $("#manageSeSearch").val();
-	// var detail_prpos_se = $("#detailPrposSeSearch").val();
-	// var fclts_sttus = $("#fcltsSttusSearch").val();
 
-	var adres='', manage_se='', detail_prpos_se='', fclts_sttus='';
-
-	if(SEARCHOBJ != null){
-		adres = SEARCHOBJ.searchEmdKorNm;
-		manage_se = SEARCHOBJ.searchManageSeSearch;
-		detail_prpos_se = SEARCHOBJ.searchDetailPrposSeSearch;
-		fclts_sttus = SEARCHOBJ.searchFcltsSttusSearch;
-
-	}
-	
-	var cqlList = [];
-	
-	if(adres!=''){cqlList.push("adres like "+adres+" ")}
-	if(manage_se!=''){cqlList.push("manage_se = "+manage_se+" ")}
-	if(detail_prpos_se!=''){cqlList.push("detail_prpos_se = "+detail_prpos_se+" ")}
-	if(fclts_sttus!=''){cqlList.push("fclts_sttus = "+fclts_sttus+" ")}
-	
-	var gridList =this;
-	const promise = dtmap.wfsGetFeature({
+	options = {
 		typeNames: 'tgd_agr_public_tbwll', //WFS 레이어명
 		page  : _pageNo+1,
 		perPage : 100,
-		filter : cqlList
-	});
+	}
+
+	//검색옵션
+	if(SEARCHOBJ.propertySearch != null){//속성검색
+		var adres = SEARCHOBJ.propertySearch.searchEmdKorNm;
+		var manage_se = SEARCHOBJ.propertySearch.searchManageSeSearch;
+		var detail_prpos_se = SEARCHOBJ.propertySearch.searchDetailPrposSeSearch;
+		var fclts_sttus = SEARCHOBJ.propertySearch.searchFcltsSttusSearch;
+
+		var cqlList = [];
+		if(adres!=''){cqlList.push("adres like "+adres+" ")}
+		if(manage_se!=''){cqlList.push("manage_se = "+manage_se+" ")}
+		if(detail_prpos_se!=''){cqlList.push("detail_prpos_se = "+detail_prpos_se+" ")}
+		if(fclts_sttus!=''){cqlList.push("fclts_sttus = "+fclts_sttus+" ")}
+	
+		options.filter = cqlList;
+
+	}else if(SEARCHOBJ.spaceSearch != null){//공간검색
+
+		const $parent 	= $(".search-area");
+        const type 		= $parent.find('input[name="underWaterAgriSelect"]:checked').val();
+        if (type === 'extent') {
+        	options.bbox = SEARCHOBJ.spaceSearch.bbox;
+        } else {
+        	options.geometry = SEARCHOBJ.spaceSearch.geometry;
+        }
+	}
+
+	//조회
+	var gridList =this;
+	const promise = dtmap.wfsGetFeature(options);
 	promise.then(function (data) {
 		
 		$(".bbs-list-num").empty();
@@ -215,6 +231,7 @@ $("#ugagExcelDownload").on("click", function(){
 
 //지도에서 선택 _ 주소 및 경위도 위치 가져오기
 function fn_getLocation() {
+	dtmap.off('select');//레이어 선택 이벤트 해제
 	dtmap.draw.active({type: 'Point', once: true});
 	dtmap.on('drawend', onDrawEnd);
 }
@@ -231,15 +248,37 @@ function onDrawEnd(e) {
 		const wkt = format.writeGeometry(point);
 		$("#geom").val(wkt);
 	});
+	dtmap.on('select',spaceClickListener );//레이어 선택 이벤트
 }
 
 //농업용공공관정 검색조회
 function fn_search_List(){
-	SEARCHOBJ = {};
+	SEARCHOBJ.propertySearch = null;
+	SEARCHOBJ.spaceSearch = null;
 
-	SEARCHOBJ.searchEmdKorNm= $('#emdKorNm').val() || '';
-	SEARCHOBJ.searchManageSeSearch = $('#manageSeSearch').val() || '';
-	SEARCHOBJ.searchDetailPrposSeSearch = $('#detailPrposSeSearch').val() || '';
-	SEARCHOBJ.searchFcltsSttusSearch = $('#fcltsSttusSearch').val() || '';
+	if($('#ugag-prop').hasClass('on')){
+		SEARCHOBJ.propertySearch = {};
+		SEARCHOBJ.propertySearch.searchEmdKorNm= $('#emdKorNm').val() || '';
+		SEARCHOBJ.propertySearch.searchManageSeSearch = $('#manageSeSearch').val() || '';
+		SEARCHOBJ.propertySearch.searchDetailPrposSeSearch = $('#detailPrposSeSearch').val() || '';
+		SEARCHOBJ.propertySearch.searchFcltsSttusSearch = $('#fcltsSttusSearch').val() || '';
+	}else if($('#ugag-space').hasClass('on')){
+		SEARCHOBJ.spaceSearch = {};
+		const $parent = $('#bottomPopup').find('.search-area')
+		const type = $parent.find('input[name="underWaterAgriSelect"]:checked').val();
+		
+		if (type === 'extent') {
+			 var bbox = dtmap.getExtent();
+			 SEARCHOBJ.spaceSearch.bbox = bbox;
 
+		} else {
+			if(dtmap.draw.source.getFeatures().length > 0){
+				SEARCHOBJ.spaceSearch.geometry = dtmap.draw.getGeometry();
+			}else{
+				alert("영역지정 안되었습니다");
+				return false;
+			}
+		}
+
+	}
 }

@@ -13,7 +13,7 @@ public class SwlDranPsVO implements Serializable {
 	private String ftr_cde_nm;
 	
 	/** 관리번호 */
-	private int ftr_idn;
+	private String ftr_idn;
 	
 	/** 읍면동 */
 	private String hjd_cde;
@@ -33,24 +33,24 @@ public class SwlDranPsVO implements Serializable {
 	private String drn_nam;
 	
 	/** 부지면적 */
-	private int gai_ara;
+	private String gai_ara;
 	
 	/** 개통상태 */
 	private String soo_cde;
 	private String soo_cde_nm;
 	
 	/** 처리구역면적 */
-	private int adp_ara;
+	private String adp_ara;
 	
 	/** 하수처리방식 */
 	private String sbb_cde;
 	private String sbb_cde_nm;
 	
 	/** 청천시처리용량 */
-	private int pcc_vol;
+	private String pcc_vol;
 	
 	/** 우천시처리용량 */
-	private int puc_vol;
+	private String puc_vol;
 	
 	/** 설계유입수_수질 */
 	private String qw1_exp;
@@ -59,7 +59,7 @@ public class SwlDranPsVO implements Serializable {
 	private String qw2_exp;
 	
 	/** 차집관연장 */
-	private int pip_len;
+	private String pip_len;
 	
 	/** 방류수역명 */
 	private String dra_nam;
@@ -71,7 +71,7 @@ public class SwlDranPsVO implements Serializable {
 	private String sys_chk;
 	
 	/** 방향각 */
-	private int ang_dir;
+	private String ang_dir;
 
 	public int getGid() {
 		return gid;
@@ -94,10 +94,10 @@ public class SwlDranPsVO implements Serializable {
 		this.ftr_cde_nm = ftr_cde_nm;
 	}
 
-	public int getFtr_idn() {
+	public String getFtr_idn() {
 		return ftr_idn;
 	}
-	public void setFtr_idn(int ftr_idn) {
+	public void setFtr_idn(String ftr_idn) {
 		this.ftr_idn = ftr_idn;
 	}
 
@@ -150,10 +150,10 @@ public class SwlDranPsVO implements Serializable {
 		this.drn_nam = drn_nam;
 	}
 
-	public int getGai_ara() {
+	public String getGai_ara() {
 		return gai_ara;
 	}
-	public void setGai_ara(int gai_ara) {
+	public void setGai_ara(String gai_ara) {
 		this.gai_ara = gai_ara;
 	}
 
@@ -171,10 +171,10 @@ public class SwlDranPsVO implements Serializable {
 		this.soo_cde_nm = soo_cde_nm;
 	}
 
-	public int getAdp_ara() {
+	public String getAdp_ara() {
 		return adp_ara;
 	}
-	public void setAdp_ara(int adp_ara) {
+	public void setAdp_ara(String adp_ara) {
 		this.adp_ara = adp_ara;
 	}
 
@@ -192,17 +192,17 @@ public class SwlDranPsVO implements Serializable {
 		this.sbb_cde_nm = sbb_cde_nm;
 	}
 
-	public int getPcc_vol() {
+	public String getPcc_vol() {
 		return pcc_vol;
 	}
-	public void setPcc_vol(int pcc_vol) {
+	public void setPcc_vol(String pcc_vol) {
 		this.pcc_vol = pcc_vol;
 	}
 
-	public int getPuc_vol() {
+	public String getPuc_vol() {
 		return puc_vol;
 	}
-	public void setPuc_vol(int puc_vol) {
+	public void setPuc_vol(String puc_vol) {
 		this.puc_vol = puc_vol;
 	}
 
@@ -220,10 +220,10 @@ public class SwlDranPsVO implements Serializable {
 		this.qw2_exp = qw2_exp;
 	}
 
-	public int getPip_len() {
+	public String getPip_len() {
 		return pip_len;
 	}
-	public void setPip_len(int pip_len) {
+	public void setPip_len(String pip_len) {
 		this.pip_len = pip_len;
 	}
 
@@ -248,10 +248,10 @@ public class SwlDranPsVO implements Serializable {
 		this.sys_chk = sys_chk;
 	}
 
-	public int getAng_dir() {
+	public String getAng_dir() {
 		return ang_dir;
 	}
-	public void setAng_dir(int ang_dir) {
+	public void setAng_dir(String ang_dir) {
 		this.ang_dir = ang_dir;
 	}
 }

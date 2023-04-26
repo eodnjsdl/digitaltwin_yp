@@ -1,9 +1,20 @@
-SEARCHOBJ= null;
+/**
+ * 지하수관리 > 지하수이용시설 js
+ */
+
+SEARCHOBJ= {
+	propertySearch: null,
+	spaceSearch:null,
+};
 
 $(document.body).ready(function () {
 	initGrid();
-    setData(0);       
+    setData(0);
+    dtmap.off('select');
+   	dtmap.on('select',spaceClickListener );
 });
+
+
 //지하수이용시설 기본 틀 추가
 function initGrid(){
 	this.target = new ax5.ui.grid();
@@ -48,36 +59,44 @@ function initGrid(){
 }
 //지하수이용시설 조회 기능
 function setData(_pageNo){
-	// var adres = $("#emdKorNm").val();
-	// var allvl_bsrck_se = $("#allvlBsrckSeSearch").val();
-	// var prpos_se = $("#prposSeSearch").val();
-	// var detail_prpos_se = $("#detailPrposSeSearch").val();
 
-	var adres='', allvl_bsrck_se='', prpos_se='', detail_prpos_se='';
-
-	if(SEARCHOBJ != null){
-		adres = SEARCHOBJ.searchEmdKorNm;
-		allvl_bsrck_se = SEARCHOBJ.searchAllvlBsrckSeSearch
-		prpos_se = SEARCHOBJ.searchPrposSeSearch;
-		detail_prpos_se = SEARCHOBJ.searchDetailPrposSeSearch;
-
-	}
-	
-	var cqlList = [];
-	
-	if(adres!=''){cqlList.push("adres like "+adres+" ")}
-	if(allvl_bsrck_se!=''){cqlList.push("allvl_bsrck_se = "+allvl_bsrck_se+" ")}
-	if(prpos_se!=''){cqlList.push("prpos_se = "+prpos_se+" ")}
-	if(detail_prpos_se!=''){cqlList.push("detail_prpos_se = "+detail_prpos_se+" ")}
-
-	
-	var gridList =this;
-	const promise = dtmap.wfsGetFeature({
+	options={
 		typeNames: 'tgd_ugrwtr_utlztn_fclty', //WFS 레이어명
 		page  : _pageNo+1,
 		perPage : 100,
 		filter : cqlList
-	});
+	}
+
+	//검색옵션
+	if(SEARCHOBJ.propertySearch != null){//속성검색
+		var adres = SEARCHOBJ.propertySearch.searchEmdKorNm;
+		var allvl_bsrck_se = SEARCHOBJ.propertySearch.searchAllvlBsrckSeSearch
+		var prpos_se = SEARCHOBJ.propertySearch.searchPrposSeSearch;
+		var detail_prpos_se = SEARCHOBJ.propertySearch.searchDetailPrposSeSearch;
+
+		var cqlList = [];
+	
+		if(adres!=''){cqlList.push("adres like "+adres+" ")}
+		if(allvl_bsrck_se!=''){cqlList.push("allvl_bsrck_se = "+allvl_bsrck_se+" ")}
+		if(prpos_se!=''){cqlList.push("prpos_se = "+prpos_se+" ")}
+		if(detail_prpos_se!=''){cqlList.push("detail_prpos_se = "+detail_prpos_se+" ")}
+	
+		options.filter = cqlList;
+
+	}else if(SEARCHOBJ.spaceSearch != null){//공간검색
+
+		const $parent 	= $(".search-area");
+        const type 		= $parent.find('input[name="underWaterUseFacilSelect"]:checked').val();
+        if (type === 'extent') {
+        	options.bbox = SEARCHOBJ.spaceSearch.bbox;
+        } else {
+        	options.geometry = SEARCHOBJ.spaceSearch.geometry;
+        }
+	}
+	
+	//조회
+	var gridList =this;
+	const promise = dtmap.wfsGetFeature(options);
 	promise.then(function (data) {
 		
 		$(".bbs-list-num").empty();
@@ -221,6 +240,7 @@ $("#ugufExcelDownload").on("click", function(){
 
 //지도에서 선택 _ 주소 및 경위도 위치 가져오기
 function fn_getLocation() {
+	dtmap.off('select');//레이어 선택 이벤트 해제
 	dtmap.draw.active({type: 'Point', once: true});
 	dtmap.on('drawend', onDrawEnd);
 }
@@ -237,15 +257,41 @@ function onDrawEnd(e) {
 		const wkt = format.writeGeometry(point);
 		$("#geom").val(wkt);
 	});
+	dtmap.on('select',spaceClickListener );
 }
 
 //지하수이용시설 검색조회
 function fn_search_List(){
-	SEARCHOBJ = {};
 
-	SEARCHOBJ.searchEmdKorNm= $('#emdKorNm').val() || '';
-	SEARCHOBJ.searchAllvlBsrckSeSearch= $('#allvlBsrckSeSearch').val() || '';
-	SEARCHOBJ.searchPrposSeSearch = $('#prposSeSearch').val() || '';
-	SEARCHOBJ.searchDetailPrposSeSearch = $('#detailPrposSeSearch').val() || '';
+	SEARCHOBJ.propertySearch = null;
+	SEARCHOBJ.spaceSearch = null;
 
+	if($('#uguf-prop').hasClass('on')){
+		SEARCHOBJ.propertySearch = {};
+
+		SEARCHOBJ.propertySearch.searchEmdKorNm= $('#emdKorNm').val() || '';
+		SEARCHOBJ.propertySearch.searchAllvlBsrckSeSearch= $('#allvlBsrckSeSearch').val() || '';
+		SEARCHOBJ.propertySearch.searchPrposSeSearch = $('#prposSeSearch').val() || '';
+		SEARCHOBJ.propertySearch.searchDetailPrposSeSearch = $('#detailPrposSeSearch').val() || '';
+
+	}else if($('#uguf-space').hasClass('on')){
+		SEARCHOBJ.spaceSearch = {};
+		const $parent = $('#bottomPopup').find('.search-area')
+		const type = $parent.find('input[name="underWaterUseFacilSelect"]:checked').val();
+		
+		if (type === 'extent') {
+			 var bbox = dtmap.getExtent();
+			 SEARCHOBJ.spaceSearch.bbox = bbox;
+
+		} else {
+			if(dtmap.draw.source.getFeatures().length > 0){
+				SEARCHOBJ.spaceSearch.geometry = dtmap.draw.getGeometry();
+			}else{
+				alert("영역지정 안되었습니다");
+				return false;
+			}
+		}
+
+	}
 }
+

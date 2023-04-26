@@ -84,7 +84,7 @@ function cancelSwlDranPsDetail() {
 								<th scope="row">관리기관</th>
 								<td>
 									<c:if test="${swlDranPsVO.mng_cde_nm != '' || swlDranPsVO.mng_cde_nm ne null}">
-										<c:out value="${swlDranPsVO.mng_cde_nm }"/>
+										<c:out value="${swlDranPsVO.mng_cde_nm}"/>
 									</c:if>
 									<c:if test="${swlDranPsVO.mng_cde_nm == '' || swlDranPsVO.mng_cde_nm eq null}">
 										<c:out value="${swlDranPsVO.mng_cde}"/>

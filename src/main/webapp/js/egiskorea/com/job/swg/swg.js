@@ -554,7 +554,8 @@ class SwlManhPs extends Facility {
         search: true,
         align: "",
         type: "code",
-        code: "OGC-012",
+        //code: "OGC-012",
+        code: "OGC-002",	// 공통코드와 상이
       },
       {
         column: "man_dip",
@@ -830,7 +831,8 @@ class SwlPipeLm extends Facility {
       },
       {
         column: "sph_lin",
-        title: "평균구배",
+        //title: "평균구배",
+        title: "차선통로수",	// db와 상이
         visible: false,
         align: "",
         type: "number",
@@ -1358,7 +1360,8 @@ class SwlSpewPs extends Facility {
 
       {
         column: "riv_nam",
-        title: "세로길이",
+        //title: "세로길이",
+        title: "하천명",	// db와 상이
         visible: false,
         align: "",
         type: "text",
@@ -1379,10 +1382,12 @@ class SwlSpewPs extends Facility {
 
         type: "code",
         codeData: [{ value: "SB310", text: "배수구역" }],
-        default: "SA310",
+        //default: "SA310",
+        default: "SB310",	// 코드 상이
       },
       {
-        column: "dra_cde",
+        //column: "dra_cde",
+        column: "dra_idn",	// db와 상이
         title: "배수구역관리번호",
         visible: false,
         align: "",
@@ -1398,10 +1403,12 @@ class SwlSpewPs extends Facility {
 
         type: "code",
         codeData: [{ value: "SB300", text: "처리구역" }],
-        default: "SA300",
+        //default: "SA300",
+        default: "SB300",	// 코드 상이
       },
       {
-        column: "dsp_cde",
+        //column: "dsp_cde",
+        column: "dra_idn",	// db와 상이
         title: "처리구역관리번호",
         visible: false,
         align: "",
@@ -1547,7 +1554,8 @@ class SwlSpotPs extends Facility {
 
       {
         column: "spt_dep",
-        title: "평균수위",
+        //title: "평균수위",
+        title: "물받이깊이",	// db와 상이
         visible: false,
         align: "",
         type: "number",
@@ -1561,7 +1569,8 @@ class SwlSpotPs extends Facility {
         align: "",
         search: true,
         type: "code",
-        code: "OGC-0133",
+        //code: "OGC-0133",
+        code: "OGC-133",	// 공통코드와 상이
       },
       {
         column: "mop_cde",
