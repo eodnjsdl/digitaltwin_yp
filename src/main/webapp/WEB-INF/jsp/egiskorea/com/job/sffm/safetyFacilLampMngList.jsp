@@ -108,6 +108,7 @@ $(document).ready(function() {
             <div class="bbs-list-wrap" style="height: 267px;"><!-- pagination 하단 고정을 위해 반드시 필요 -->
                 <div class="bbs-default">
                         <div id="gridax5" data-ax5grid="attr-grid" data-ax5grid-config="{}" style="height: 267px;"></div>
+						<div data-ax5grid="attr-grid-excel" style="diplay:none;"></div>
                 </div>
             </div>
         </div>

@@ -240,12 +240,9 @@ function fn_search_List(e){
 		const $parent = $('#bottomPopup').find('.search-area')
 		const type = $parent.find('input[name="sffmSelect"]:checked').val();
 
-		
-		
 		if (type === 'extent') {
 			 var bbox = dtmap.getExtent();
 			 SEARCHOBJ.spaceSearch.bbox = ol.proj.transformExtent(bbox,'EPSG:5179','EPSG:4326' );
-
 
 		} else {
 			if(dtmap.draw.source.getFeatures().length > 0){
@@ -262,7 +259,8 @@ function fn_search_List(e){
 
 }
 
-function setSpatial(type){
+/*function setSpatial(type){
+	console.log('dk')
 	let geom;
 	var geoWKTstr;
 	if (type === 'extent') {
@@ -290,12 +288,111 @@ function setSpatial(type){
 	}
 		$('#spitalSearch').val(geoWKTstr);
 
-}
+}*/
 
 
 //가로등엑셀다운로드 버튼
 $("#lampExcelDownload").on("click", function(){
-	let formName = this.dataset.formName;
+
+	var $container = $("#container");
+    var $target = $container.find('[data-ax5grid="attr-grid-excel"]');	//가상의 ax5uigrid 공간에 처리 
+    // $target.css('display', 'none');
+    
+	this.gridAll = new ax5.ui.grid();
+	this.gridAll.setConfig({
+		target:  $target,
+		sortable: true,
+		multipleSelect: false,
+		header: {
+			align: "center"
+		},
+		columns: [
+			{key: "gid",			label: "GID",			width: '*'},
+			{key: "manageNo",		label: "관리번호",		width: '*'},
+			{key: "adres", 		label: "주소",		width: '*'},
+			{key: "instlDe",		label: "설치일자",			width: '*'},
+			{key: "strtlgtCnt",			label: "가로등수",			width: '*'},
+			{key: "lat",			label: "위도",			width: '*'},
+			{key: "lon",			label: "경도",			width: '*'},
+			{key: "stdde",		label: "기준일",			width: '*'},
+			{key: "geom",		label: "GEOMETRY",			width: '*'},
+			{key: "alttd",		label: "고도",		width: '*'},
+		],
+		body: {
+			align: "center"
+		}
+	})
+
+    // 검색 조건
+	
+	var options = {
+		typeNames: 'tgd_strtlgt_status', //WFS 레이어명
+		sortBy : 'gid',
+		sortOrder : 'DESC',
+	}
+	
+	//검색 옵션
+	if(SEARCHOBJ.propertySearch != null){//속성검색
+
+		var instlDe = SEARCHOBJ.propertySearch.searchInstlDe;
+		var adres = SEARCHOBJ.propertySearch.searchAdres;
+		var manageNo = SEARCHOBJ.propertySearch.searchManageNo;
+
+		var cqlList = [];
+
+		if(instlDe.trim().length >= 1){cqlList.push("instl_de"+" like "+instlDe);}
+		if(adres.trim().length >= 1){cqlList.push("adres"+" like "+adres);}
+		if(manageNo.trim().length >=1){cqlList.push("manage_no"+" like "+manageNo);}
+
+		options.filter = cqlList;
+
+	}else if(SEARCHOBJ.spaceSearch != null){//공간검색
+
+		const $parent 	= $(".search-area");
+		const type 		= $parent.find('input[name="sffmSelect"]:checked').val();
+		if (type === 'extent') {
+			options.bbox = SEARCHOBJ.spaceSearch.bbox;
+		} else {
+			options.geometry = SEARCHOBJ.spaceSearch.geometry;
+		}
+	}
+	
+	// 엑셀파일 날짜_시간
+	var today = new Date(); 
+	let year = dateNum(today.getFullYear());		// 년도
+	let month = dateNum(today.getMonth() + 1, 2);	// 월
+	let date = dateNum(today.getDate(), 2);			// 날짜
+	let hours = dateNum(today.getHours(), 2);		// 시
+	let minutes = dateNum(today.getMinutes(), 2);	// 분
+	let seconds = dateNum(today.getSeconds(), 2);	// 초
+
+	var todayDate = year+month+date+'_'+hours+minutes+seconds;
+	var gridList = this;
+	const promise = dtmap.wfsGetFeature(options);
+	promise.then(function(data) {
+		// 그리드 데이터 전처리
+		const list = [];
+		for (let i = 0; i < data.features.length; i++) {
+        	// 좌표 처리
+			data.features[i].properties.geomObj = data.features[i].geometry;
+			
+			// GEOMETRY 처리
+			data.features[i].properties.geomText = data.features[i].geometry.type + ' (' + data.features[i].geometry.coordinates[0] + ' ' + data.features[i].geometry.coordinates[1] + ')';
+			
+        	const {id, properties} = data.features[i];
+			list.push({...properties, ...{id: id}});
+		}
+		
+		// gird 적용
+        gridList.gridAll.setData(list);
+        
+        //엑셀 export
+		gridList.gridAll.exportExcel("가로등관리_" + todayDate + ".xls");
+	});
+
+
+
+/*	let formName = this.dataset.formName;
 
 	let formData = new FormData($('#searchForm')[0]);
 	for (let key of formData.keys()) {
@@ -308,7 +405,7 @@ $("#lampExcelDownload").on("click", function(){
 	$("form[name='"+ formName + "']").attr('action', url);
 	$("form[name='"+ formName + "']").submit();
 	$("form[name='"+ formName + "']").attr('onsubmit', 'fn_select_list(); return false;');
-	$("form[name='"+ formName + "']").attr('action', '');
+	$("form[name='"+ formName + "']").attr('action', '');*/
 });
 
 /*function readGeoJSON(data) {

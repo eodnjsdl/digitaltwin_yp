@@ -129,6 +129,9 @@ function setData(_pageNo){
 		        }
 		});
 		dtmap.vector.fit();
+
+		
+		gridList.target.exportExcel(" 테스트.xls");
   })
 }
 //농업용공공관정 등록페이지 열기
@@ -213,13 +216,9 @@ function fn_update(gid){
 //농업용공공관정 엑셀다운로드 버튼
 $("#ugagExcelDownload").on("click", function(){
 	let formName = this.dataset.formName;
-	document.getElementById("searchForm").emdKorNm.value = lastEmdKorNm;
-	document.getElementById("searchForm").manageSeSearch.value = lastManageSeSearch;
-	document.getElementById("searchForm").detailPrposSeSearch.value = lastDetailPrposSeSearch;
-	document.getElementById("searchForm").fcltsSttusSearch.value = lastFcltsSttusSearch;
-	document.getElementById("searchForm").spitalSearch.value = lastSpitalSearch;
-	document.getElementById("searchForm").bufferCnt.value = lastBufferCnt;
-	
+	let formData = new FormData($('#searchForm')[0]);
+	formData.set('bufferCnt', '0');
+
 	let url = '/job/ugtm/' + formName + 'Download.do';
 	
 	$("form[name='"+ formName + "']").attr('onsubmit', '');
@@ -279,6 +278,34 @@ function fn_search_List(){
 				return false;
 			}
 		}
+		setSpatial(type);
+	}
+}
+
+function setSpatial(type){
+	let geom;
+	var geoWKTstr;
+	if (type === 'extent') {
+		let minX = SEARCHOBJ.spaceSearch.bbox[0];
+		let minY = SEARCHOBJ.spaceSearch.bbox[1];
+		let maxX = SEARCHOBJ.spaceSearch.bbox[2];
+		let maxY = SEARCHOBJ.spaceSearch.bbox[3];
+
+		var geoWKTstr = "POLYGON(("+minX+" "+minY+", "+minX+" "+maxY+", "+maxX+" "+maxY+", "+maxX+" "+minY+", "+minX+" "+minY+"))";
+
+	}else{
+
+		if(SEARCHOBJ.spaceSearch.geometry.getType() == 'Circle'){
+			geom = new ol.geom.Polygon.fromCircle(SEARCHOBJ.spaceSearch.geometry);
+		}else{
+			geom = SEARCHOBJ.spaceSearch.geometry;
+		}
+		
+		var writer = new ol.format.WKT();
+		var geoWKTstr = writer.writeGeometry(geom)
 
 	}
+		console.log(geom)
+		$('#spitalSearch').val(geoWKTstr);
+
 }
