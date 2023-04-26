@@ -88,8 +88,7 @@
                                        </td>
                                        <th scope="row">관리방법</th>
                                        <td>
-                                       		<c:out value="${wtlServPsVO.sag_cde }"/>
-                                       		<%-- <c:out value="${wtlServPsVO.sag_cde_nm }"/> --%>
+                                       		<c:out value="${wtlServPsVO.sag_cde_nm }"/>
                                        </td>
                                    </tr>
                                    <tr>
