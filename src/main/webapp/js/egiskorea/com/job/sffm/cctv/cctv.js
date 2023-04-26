@@ -401,5 +401,5 @@ $("#cctvExcelDownload").on("click", function(){
 	});
 });
 
-
+}
 
