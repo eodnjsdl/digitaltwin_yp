@@ -37,7 +37,7 @@
                                    <tr>
                                        <th scope="row">지형지물부호</th>
                                        <td>
-                                          	<c:out value="${swlConnLsVO.ftr_cde }"/>
+                                          	<c:out value="${swlConnLsVO.ftr_cde_nm }"/>
                                        </td>
                                        <th scope="row">관리번호</th>
                                        <td>
@@ -153,7 +153,7 @@
 <script type="text/javascript">
 	//jqeury
 	$(document).ready(function(){
-		console.log("selectSwlConnLs.jsp");
+		//console.log("selectSwlConnLs.jsp");
 		
 		//gird 데이터를 통한 주소 조회
 		var id = "${id }";

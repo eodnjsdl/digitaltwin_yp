@@ -19,7 +19,7 @@
                     <option value="wtlPrgaPs">수압계</option>
                     <option value="wtlServPs">배수지</option>
                     <option value="wtlSplyLs">급수관로</option>
-                    <option value="wtlServPs">변류시설</option>
+                    <option value="wtlValvPs">변류시설</option>
                 </select>
             </div>
             <div class="tabBoxDepth2-wrap">
@@ -146,14 +146,14 @@
 </div>
 <button type="button" class="manualBtn" title="도움말" onclick="manualTab('상수도시설')"></button>
 <button type="button" class="popup-close"
-        onClick="toastr.warning('removeLayer(); cmmUtil.drawClear();', 'onclick 이벤트');" title="닫기"></button>
+        onClick="clearMap();', 'onclick 이벤트');" title="닫기"></button>
 <button type="button" class="popup-reset" class="초기화"></button>
 <button type="button" class="popup-bottom-toggle" title="접기"></button>
 <!-- //업무 > 시설물 공통 -->
 <script type="text/javascript">
 	//jqeury
 	$(document).ready(function(){
-		console.log("wtlFlowPsListView.jsp");
+		//console.log("wtlFlowPsListView.jsp");
 		
 		//이벤트 리스너 추가
 		dtmap.on('select', onFacilitySelectEventListener);
@@ -249,12 +249,18 @@
             if (type === 'extent') {
             	FACILITY.spaceSearchOption.bbox 	= dtmap.getExtent();
             } else {
-            	if(dtmap.draw.source.getFeatures().length > 0){
-	            	FACILITY.spaceSearchOption.geometry = dtmap.draw.getGeometry();
-            	}else{
-            		alert("영역지정 안되었습니다");
-            		return false;
+            	//console.log("모드>>>"+dtmap.mod);
+            	if(dtmap.mod == "2D"){
+            		if(dtmap.draw.source.getFeatures().length > 0){	//임시로 그려진 형태체크
+            			FACILITY.spaceSearchOption.geometry = dtmap.draw.getGeometry();
+            		}else{
+            			alert("영역지정 안되었습니다");
+            			return false;
+            		}
+            	}else if(dtmap.mod == "3D"){		
+            		FACILITY.spaceSearchOption.geometry = dtmap.draw.getGeometry();
             	}
+            	
             }
            	
            	selectWtlFlowPsList(1);
@@ -302,7 +308,6 @@
             }
             dtmap.draw.active({type: type, once: true})
           	//toastr.warning("that.searchDrawing(value);", "공간검색 사용자정의");
-            $(".area-facility-buffer").val("1").trigger("keyup");
         });
 		
      	

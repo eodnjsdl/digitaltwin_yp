@@ -2,9 +2,11 @@ $(document).ready(function(){
 	ui.callDatePicker();
 });
 
-//POILsyrt를 추가해준다.
+//시설예약관리
+//POILsyrt를 추가해준다. 
 function setPointLayer(){
-	var mapType = $('input:radio[name="mapType"]:checked').val();
+	//console.log("setPointLayer()");
+	/*var mapType = $('input:radio[name="mapType"]:checked').val();
 	if(mapType == "2D"){
 		const format = new ol.format.GeoJSON();
 		const features = [];
@@ -72,7 +74,50 @@ function setPointLayer(){
 			// 마우스 상태 설정
 			Module.XDSetMouseState(Module.MML_SELECT_POINT);
 		 }
+	}*/
+	/////////////////
+	// 2d/3d 통합
+	const features = [];
+	poiList["resultList"].forEach((item) => {
+		const feature = new ol.Feature(new ol.geom.Point([parseFloat(item["lon"]), parseFloat(item["lat"])]));
+		//feature.setId(item["gid"]);
+		if(dtmap.mod == "2D"){
+			feature.setId(item["gid"]);
+		}else if(dtmap.mod == "3D"){
+			feature.setId("faciReseMng"+item["gid"]);
+		}
+		//console.log(">>>>"+item["rsrvSn"]);
+		feature.set('rsrvsn', item["rsrvSn"]);			//rsrvsn 추가 / 아이콘 클릭시 상세보기 에 사용
+		feature.set('facMenuNm', 'faciReseMng');		//시설예약관리	구분자 이벤트
+		features.push(feature);
+	});
+	
+	if(features.length > 0) {
+		const format = new ol.format.GeoJSON();
+		const geojson = format.writeFeatures(features);
+		
+		//console.log("geojson>>");
+		//console.log(geojson);
+		
+		dtmap.vector.clear();
+        //지도에 GeoJSON 추가
+        dtmap.vector.readGeoJson(geojson, function (feature) {
+            return {
+                marker: {
+                    src: './images/poi/inBusinessEsta_poi.png'
+                },
+                label: {
+                    text: ''
+                }
+            }
+        });
+
+        dtmap.vector.fit();
+		
+	} else {
+		dtmap.vector.clear();
 	}
+	
 }
 
 //페이지네이션
@@ -120,8 +165,15 @@ $("a[name='fcrmDtl']").unbind('click').bind('click',function(){
 // 리셋버튼
 $("#fcrmResetBtn").unbind('click').bind('click',function(){
 	highChk = 'yes';
-	leftPopupOpen('faciReseMng');
-})
+	//leftPopupOpen('faciReseMng');
+	$(".lnb-facility .lnb-body #faciReseMng").trigger("click");	//시설 예약 관리 클릭 이벤트
+});
+
+// 닫기버튼 추가
+$("#fcrmCloseBtn").unbind('click').bind('click',function(){
+	highChk = '';
+	clearMap();
+});
 
 // 하이라이트
 function fcrm_sethigh(gid, rsrvSn, lon, lat) {
@@ -158,6 +210,12 @@ function fcrm_sethigh(gid, rsrvSn, lon, lat) {
 $(".facilNm").on("change", function(){
 	var gid = $(".facilNm option:selected").val();
 	
+	if(!gid){	//gid 없으면 예약 시설도 초기화
+		alert("초기화")
+		$(".facilDtlNm").html('<option value="">시설명을 선택하세요</option>');
+		return false;
+	}
+	
 	var formData = new FormData();
 	formData.append("gid", gid);
 	
@@ -176,7 +234,8 @@ $(".facilNm").on("change", function(){
 			$(".fcltyDtl").empty();
 			$(".facilDtlNm").empty();
 			
-			var facilDtlListHtml = '<option>선택해주세요</option>';
+			//var facilDtlListHtml = '<option>선택해주세요</option>';
+			var facilDtlListHtml = '<option value="">시설명을 선택하세요</option>';
 			
 			for(var i=0; i < data.resultList.length; i++){
 				facilDtlListHtml += '<option value="' + data.resultList[i].asstnFcltySn + '">' + data.resultList[i].asstnFcltyNm + '</option>';
@@ -189,7 +248,6 @@ $(".facilNm").on("change", function(){
 
 // 등록, 수정시 예약시설 선택시 onChange 이벤트 
 $(".facilDtlNm").on("change", function(){
-	
 	var gid = $(".facilNm option:selected").val();
 	var asstnFcltySn = $(".facilDtlNm option:selected").val();
 	
@@ -227,10 +285,33 @@ $(".facilDtlNm").on("change", function(){
 			var timeVal = '0';
 			var timeSet = ':00';
 			var timeText = '시';
-			for(var i = data.resultList[0].operStrtTime.substring(0,2); i <= data.resultList[0].operEndTime.substring(0,2); i++){
+			
+			//시간 만 추출후 숫자로 변환
+			var operStrtTime 	= data.resultList[0].operStrtTime.substring(0,2);
+			var operEndTime 	= data.resultList[0].operEndTime.substring(0,2);
+			if(typeof operStrtTime == "string"){
+				operStrtTime 	= parseInt(operStrtTime, 10);
+			}
+			if(typeof operEndTime == "string"){
+				operEndTime 	= parseInt(operEndTime, 10);
+			}
+			//console.log("operStrtTime>>"+operStrtTime);
+			//console.log("operEndTime>>"+operEndTime);
+			
+			for(var i = operStrtTime; i <= operEndTime; i++){
+				
+				i += "";
+				
+				if(i.length == 1){
+					timeVal = "0"+i;
+				}else{
 					timeVal = i;
+				}
+				
 				timeHtml += "<option value=" + timeVal + timeSet + " >" + timeVal + timeText + "</option>";
 			}
+			
+			$(".timepicker").empty();
 			$(".timepicker").append(timeHtml);
 			
 		}
@@ -240,16 +321,23 @@ $(".facilDtlNm").on("change", function(){
 
 // 등록페이지호출 ajax
 function aj_insertFaciReseMngView(form){
-	loadingShowHide("show");
+	
+	//loadingShowHide("show");
+	ui.loadingBar("show");
+	
 	var formData = new FormData();
 	document.searchForm.pageIndex.value = lastPageIndex;
 	document.searchForm.srchYM.value = lastSrchYM;
 	formData.append('srchYM', lastSrchYM);
+	
 	$.ajax({
 		type : "POST",
 		url : "/job/fcrm/insertFaciReseMngView.do",
+		data: formData,
 		dataType : "html",
 		async: false,
+		processData : false,
+		contentType : false,
 		success : function(returnData, status){
 			if(status == "success") {		
 				$(".facility-rsve-mng-body").html(returnData);
@@ -269,7 +357,8 @@ function aj_insertFaciReseMngView(form){
 				return;
 			} 
 		}, complete : function(){
-			loadingShowHide("hide"); 
+			//loadingShowHide("hide");
+			ui.loadingBar("hide");
 			/*setTime();*/
 		}
 	});
@@ -277,18 +366,38 @@ function aj_insertFaciReseMngView(form){
 
 // 상세페이지 ajax
 function aj_selectFaciReseMng(param1, param2, lon, lat){
-	loadingShowHide("show");
+	//console.log("aj_selectFaciReseMng(param1, param2, lon, lat)");
+	//console.log(param1);
+	//console.log(param2);
+	//console.log(lon);
+	//console.log(lat);
+	
+	//loadingShowHide("show");
+	ui.loadingBar("show");
+	
 	highChk = '';
 	$(".facility-rsve-mng-body").html("");
-	if(lon != null){
-		cmmUtil.setCameraMove(lon, lat);
-	}
+	
+	//if(lon != null){
+	//	cmmUtil.setCameraMove(lon, lat);
+	//}
 
-	fcrm_sethigh(param1, param2, lon, lat); //POI 하이라이트
+	//fcrm_sethigh(param1, param2, lon, lat); //POI 하이라이트
+	/////////////////////////
+	if(param1){
+		//dtmap.vector.select(param1);	//지도에  표시
+		///////
+		if(dtmap.mod == "2D"){	//uhh add...
+			dtmap.vector.select(param1);
+		}else if(dtmap.mod == "3D"){
+			var coord = "faciReseMng"+param1;
+			dtmap.vector.select(coord);	//지도에  표시
+		}
+	}
 
 	var formData = new FormData();
 	document.searchForm.pageIndex.value = lastPageIndex;
-	document.searchForm.srchYM.value = lastSrchYM;
+	document.searchForm.srchYM.value 	= lastSrchYM;
 	
 	formData.append('gid', param1);
 	formData.append('rsrvSn', param2);
@@ -314,14 +423,20 @@ function aj_selectFaciReseMng(param1, param2, lon, lat){
 				return;
 			} 
 		}, complete : function(){
-			loadingShowHide("hide"); 
+			//loadingShowHide("hide"); 
+			ui.loadingBar("hide");
 		}
 	});
 }
 
 // 상세 > 수정페이지 ajax
 function aj_updateFaciReseMngView(param1, param2){
-	loadingShowHide("show");
+	//console.log("aj_updateFaciReseMngView(param1, param2)");
+	//console.log(param1);
+	//console.log(param2);
+	
+	//loadingShowHide("show");
+	ui.loadingBar("show");
 	
 	var formData = new FormData();
 	
@@ -348,7 +463,8 @@ function aj_updateFaciReseMngView(param1, param2){
 				return;
 			} 
 		}, complete : function(){
-			loadingShowHide("hide"); 
+			//loadingShowHide("hide");
+			ui.loadingBar("hide");
 		}
 	});
 }

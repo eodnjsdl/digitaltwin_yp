@@ -14,6 +14,9 @@ $(document).ready(function(){
 function getWaterSupplyFacility(name){
 	//console.log("getWaterSupplyFacility(name)");
 		
+	dtmap.draw.dispose();		//그리기 포인트 삭제
+	dtmap.draw.clear();			//그리기 초기화
+	
 	if(name){
 		if(name == "wtlFirePs"){			//소방시설
 			selectWtlFirePsListView();
@@ -24,18 +27,15 @@ function getWaterSupplyFacility(name){
 		}else if(name == "wtlManhPs"){		//상수맨홀
 			selectWtlManhPsListView();
 		}else if(name == "wtlPipePs"){		//상수관로심도
-			toastr.error("작업중", "상수관로심도");
-			return;
+			selectWtlPipePsListView();
 		}else if(name == "wtlPrgaPs"){		//수압계
 			selectWtlPrgaPsListView();
 		}else if(name == "wtlServPs"){		//배수지
 			selectWtlServPsListView();
 		}else if(name == "wtlSplyLs"){		//급수관로
-			toastr.error("작업중", "급수관로");
-			return;
+			selectWtlSplyLsListView();
 		}else if(name == "wtlValvPs"){		//변류시설
-			toastr.error("작업중", "변류시설");
-			return;
+			selectWtlValvPsListView();
 		}else{
 			alert("잘못된 호출")
 			return;
@@ -61,6 +61,20 @@ function selectWtlFirePsListView(){
     });
 }
 
+//상수관로 목록 화면 조회
+function selectWtlPipeLmListView(){
+	//console.log("selectWtlPipeLmListView()");
+	
+	ui.loadingBar("show");
+	
+	var baseContainer = "#bottomPopup";
+    $(baseContainer).load("/job/fcmr/wsfc/selectWtlPipeLmListView.do", function () {
+        //toastr.success("/job/fcmr/wsfc/selectWtlPipeLmListView.do", "페이지🙂호🙂출🙂");
+    	wtlPipeLmListProcess();
+		ui.loadingBar("hide");
+    });
+}
+
 //유량계 목록 화면 조회
 function selectWtlFlowPsListView(){
 	//console.log("selectWtlFlowPsListView()");
@@ -68,11 +82,11 @@ function selectWtlFlowPsListView(){
 	ui.loadingBar("show");
 	
 	var baseContainer = "#bottomPopup";
-    $(baseContainer).load("/job/fcmr/wsfc/selectWtlFlowPsListView.do", function () {
-        //toastr.success("/job/fcmr/wsfc/selectWtlFlowPsListView.do", "페이지🙂호🙂출🙂");
-    	wtlFlowPsListProcess();
+	$(baseContainer).load("/job/fcmr/wsfc/selectWtlFlowPsListView.do", function () {
+		//toastr.success("/job/fcmr/wsfc/selectWtlFlowPsListView.do", "페이지🙂호🙂출🙂");
+		wtlFlowPsListProcess();
 		ui.loadingBar("hide");
-    });
+	});
 }
 
 //상수맨홀 목록 화면 조회
@@ -89,6 +103,20 @@ function selectWtlManhPsListView(){
 	});
 }
 
+//상수관로심도 목록 화면 조회
+function selectWtlPipePsListView(){
+	//console.log("selectWtlPipePsListView()");
+	
+	ui.loadingBar("show");
+	
+	var baseContainer = "#bottomPopup";
+	$(baseContainer).load("/job/fcmr/wsfc/selectWtlPipePsListView.do", function () {
+		//toastr.success("/job/fcmr/wsfc/selectWtlPipePsListView.do", "페이지🙂호🙂출🙂");
+		wtlPipePsListProcess();
+		ui.loadingBar("hide");
+	});
+}
+
 //수압계 목록 화면 조회
 function selectWtlPrgaPsListView(){
 	//console.log("selectWtlPrgaPsListView()");
@@ -99,6 +127,48 @@ function selectWtlPrgaPsListView(){
 	$(baseContainer).load("/job/fcmr/wsfc/selectWtlPrgaPsListView.do", function () {
 		//toastr.success("/job/fcmr/wsfc/selectWtlPrgaPsListView.do", "페이지🙂호🙂출🙂");
 		wtlPrgaPsListProcess();
+		ui.loadingBar("hide");
+	});
+}
+
+//배수지 목록 화면 조회
+function selectWtlServPsListView(){
+	//console.log("selectWtlServPsListView()");
+	
+	ui.loadingBar("show");
+	
+	var baseContainer = "#bottomPopup";
+	$(baseContainer).load("/job/fcmr/wsfc/selectWtlServPsListView.do", function () {
+		//toastr.success("/job/fcmr/wsfc/selectWtlServPsListView.do", "페이지🙂호🙂출🙂");
+		wtlServPsListProcess();
+		ui.loadingBar("hide");
+	});
+}
+
+//급수관로 목록 화면 조회
+function selectWtlSplyLsListView(){
+	//console.log("selectWtlSplyLsListView()");
+	
+	ui.loadingBar("show");
+	
+	var baseContainer = "#bottomPopup";
+	$(baseContainer).load("/job/fcmr/wsfc/selectWtlSplyLsListView.do", function () {
+		//toastr.success("/job/fcmr/wsfc/selectWtlSplyLsListView.do", "페이지🙂호🙂출🙂");
+		wtlSplyLsListProcess();
+		ui.loadingBar("hide");
+	});
+}
+
+//변류시설 목록 화면 조회
+function selectWtlValvPsListView(){
+	//console.log("selectWtlValvPsListView()");
+	
+	ui.loadingBar("show");
+	
+	var baseContainer = "#bottomPopup";
+	$(baseContainer).load("/job/fcmr/wsfc/selectWtlValvPsListView.do", function () {
+		//toastr.success("/job/fcmr/wsfc/selectWtlValvPsListView.do", "페이지🙂호🙂출🙂");
+		wtlValvPsListProcess();
 		ui.loadingBar("hide");
 	});
 }

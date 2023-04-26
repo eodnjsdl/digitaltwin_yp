@@ -6,8 +6,8 @@
 
 //jqeury
 $(document).ready(function(){
-	console.log("wtlFlowPs.js");
-	console.log("유량계");
+	//console.log("wtlFlowPs.js");
+	//console.log("유량계");
 });
 
 //functions
@@ -187,7 +187,8 @@ function selectWtlFlowPsList(page) {
         	
         	//지형지물부호 코드 변경
         	var ftr_cde = data.features[i].properties.ftr_cde;
-        	data.features[i].properties.ftr_cde_nm = getCmmCodeDataArray("SA-001", ftr_cde);
+        	data.features[i].properties.ftr_cde_nm = getCmmCodeDataArray("FTR-001", ftr_cde);
+        	//data.features[i].properties.ftr_cde_nm = "유량계";
         	
         	//관리기관 코드 변경
         	var mng_cde = data.features[i].properties.mng_cde;
@@ -261,8 +262,8 @@ function selectWtlFlowPsList(page) {
 
 //유량계 상세정보 조회
 function selectWtlFlowPs(id){
-	console.log("selectWtlFlowPs(id)");
-	console.log(id);
+	//console.log("selectWtlFlowPs(id)");
+	//console.log(id);
 	
 	//검색 조건
 	const filters = [];
@@ -301,7 +302,12 @@ function selectWtlFlowPs(id){
         	
     	//지형지물부호 코드 변경
     	var ftr_cde = data.features[0].properties.ftr_cde;
-    	data.features[0].properties.ftr_cde_nm = getCmmCodeDataArray("SA-001", ftr_cde);
+    	data.features[0].properties.ftr_cde_nm = getCmmCodeDataArray("FTR-001", ftr_cde);
+    	//data.features[0].properties.ftr_cde_nm = "유량계";
+    	
+    	//관로관리지형지물부호 코드 변경
+    	var pip_cde = data.features[0].properties.pip_cde;
+    	data.features[0].properties.pip_cde_nm = getCmmCodeDataArray("FTR-001", pip_cde);
     	
     	//관리기관 코드 변경
     	var mng_cde = data.features[0].properties.mng_cde;
@@ -333,8 +339,8 @@ function selectWtlFlowPs(id){
 
 //상세 정보 페이지 불러 오기
 function selectWtlFlowPsView(detailData){
-	console.log("selectWtlFlowPsView(detailData)");
-	console.log(detailData);
+	//console.log("selectWtlFlowPsView(detailData)");
+	//console.log(detailData);
 
 	if(!detailData && detailData == null){
 		alert("유량계 상세보기 오류");
@@ -413,7 +419,7 @@ function insertWtlFlowPsView(){
 
 //유량계 등록 
 function insertWtlFlowPs(){
-	console.log("insertWtlFlowPs()");
+	//console.log("insertWtlFlowPs()");
 	
 	/////////
 	//유효성 체크 
@@ -487,7 +493,11 @@ function insertWtlFlowPs(){
         if (result["result"]) {
             alert("등록 되었습니다.");
             
-            selectWtlFlowPsList(1);		//다시 목록 로드
+            // 검색 후 등록
+            var $container = $("#container");
+    	    var $target = $container.find('#bottomPopup .facility-select');
+    	    $target.trigger("change");
+            //selectWtlFlowPsList(1);		//다시 목록 로드
             cancelInsertWtlFlowPs(); 	//창닫기
         } else {
             alert(`등록에 실패했습니다.`);
@@ -681,7 +691,7 @@ function deleteWtlFlowPs(id){
 /////////////////////////////
 //엑셀 다운로드 
 function downloadExcelWtlFlowPs() {
-	console.log("downloadExcelWtlFlowPs()");
+	//console.log("downloadExcelWtlFlowPs()");
 	
 	var $container = $("#container");
 	var $target = $container.find('#baseGridDiv [data-ax5grid="attr-grid-excel"]');	//가상의 ax5uigrid 공간에 처리 
@@ -791,9 +801,10 @@ function downloadExcelWtlFlowPs() {
 	    //데이터 코드 변환
 	    for (let i = 0; i < data.features.length; i++) {
 	    	
-	    	//지형지물부호 코드 변경
+	    	  //지형지물부호 코드 변경
 			  var ftr_cde = data.features[i].properties.ftr_cde;
-			  data.features[i].properties.ftr_cde_nm = getCmmCodeDataArray("SA-001", ftr_cde);
+			  data.features[i].properties.ftr_cde_nm = getCmmCodeDataArray("FTR-001", ftr_cde);
+			  //data.features[i].properties.ftr_cde_nm = "유량계";
 			  
 			  //관리기관 코드 변경
 			  var mng_cde = data.features[i].properties.mng_cde;

@@ -14,7 +14,7 @@ $(document).ready(function() {
 });
 </script>
 <!-- 업무 > 공간정보활용 > 안전시설물관리 -->
-<form:form name="selectSffmLampFacilExcelList" id="searchForm" method="post" onsubmit="fn_select_list(); return false;">
+
 <!-- <div class="popup-panel popup-bottom work-01-03" style="left: 320px;width: 1600px;height: 378px;"> -->	
 <div class="popup-header">안전시설물관리</div>
 <div class="popup-body">
@@ -115,7 +115,6 @@ $(document).ready(function() {
 
 	</div>
 </div>
-</form:form>
 <button type="button" class="manualBtn" title="도움말" onclick="manualTab('안전시설물관리')"></button>
 <button type="button" class="popup-close" title="닫기" onClick="toastr.warning('SFFM.removeCmmPOI();', 'onclick 이벤트');"></button>
 <button type="button" class="popup-reset" class="초기화" onclick="bottomPopupOpen('safetyFacilitiesManagement');"></button>

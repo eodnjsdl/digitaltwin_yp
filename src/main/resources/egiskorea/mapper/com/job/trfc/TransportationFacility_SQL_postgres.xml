@@ -128,7 +128,8 @@
 	</select>
 	
 	<!-- 도로구간 엑셀 다운로드 -->
-	<select id="selectRoadSectionExcelList" parameterType="roadSectionVO" resultType="roadSection">
+	<!-- <select id="selectRoadSectionExcelList" parameterType="roadSectionVO" resultType="roadSection"> -->
+	<select id="selectRoadSectionExcelList" parameterType="RoadSectVO" resultType="RoadSectVO">
 		SELECT TSM.RDS_MAN_NO,											/* 도로구간일련번호 */
 			   TSM.RN,													/* 도로명 */
 			   TSM.ENG_RN,												/* 영문도로명 */
@@ -175,9 +176,9 @@
 		   AND TSM.RN LIKE '%' || #{rn} || '%'
 		 </if>
 		 <!-- 공간 검색 -->
-		 <if test="@egovframework.com.cmm.util.EgovMybaitsUtil@isNotEmpty(spatialSearch)">
+		 <!-- <if test="@egovframework.com.cmm.util.EgovMybaitsUtil@isNotEmpty(spatialSearch)">
 			AND ST_INTERSECTS(ST_BUFFER(ST_GEOMFROMTEXT(#{spatialSearch}, 4326), (#{bufferCnt} * 0.00001)), ST_TRANSFORM(TSM.GEOM, 4326)) = true
-		</if>
+		</if> -->
 		 
 	</select>
 	

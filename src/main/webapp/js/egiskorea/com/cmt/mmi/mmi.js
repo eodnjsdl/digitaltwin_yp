@@ -50,19 +50,6 @@ function aj_selectMemoLocation() {
 	dtmap.on('drawend', _onDrawEnd_memo);
 }
 
-// function reverseMemoGeo(poinx,pointy){
-// 	cmmUtil.reverseGeocoding(poinx, pointy).done((result)=>{
-//
-// 		$("#loc_memo").val(result["address"]);
-// 		const format = new ol.format.WKT();
-// 		const point = new ol.geom.Point([poinx, pointy]);
-// 		const wkt = format.writeGeometry(point);
-// 		$("#wkt").val(wkt);
-//
-// 	});
-// }
-
-
 // 메모정보 등록화면 호출
 function aj_insertMemoInfoView(frm){
 	ui.loadingBar("show");

@@ -1,9 +1,11 @@
 package egiskorea.com.job.fcmr.tpfc.web;
 
+import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -91,6 +93,24 @@ public class TrnsportFaciController {
 		
 		return "egiskorea/com/job/fcmr/tpfc/rdst/selectRoadSectInfo";
 	}
+	
+//	/**
+//	 * 교통 시설 > 도로구간 - 엑셀 다운로드
+//	 * @param roadSectVO
+//	 * @param request
+//	 * @param response
+//	 * @param mode
+//	 * @throws Exception
+//	 */
+//	@RequestMapping(value = "/selectRoadSectExcelListDownload.do")
+//	public void selectRoadSectExcelListDownload(
+//			@ModelAttribute("roadSectVO") RoadSectVO roadSectVO,
+//			HttpServletRequest request,
+//			HttpServletResponse response,
+//			ModelMap mode) throws Exception {
+//		
+//		trnsportFaciService.selectRoadSectExcelListDownload(request, response, roadSectVO);
+//	}
 	
 	// -------- 철도선로 --------  
 	

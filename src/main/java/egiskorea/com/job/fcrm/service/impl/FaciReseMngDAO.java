@@ -1,14 +1,13 @@
 package egiskorea.com.job.fcrm.service.impl;
 
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.stereotype.Repository;
 
 import egiskorea.com.cmm.service.impl.ComAbstractDAO;
 import egiskorea.com.job.fcrm.service.FaciReseMng;
+import egiskorea.com.job.fcrm.service.FaciReseMngChkVO;
 import egiskorea.com.job.fcrm.service.FaciReseMngVO;
-import egovframework.rte.fdl.cmmn.exception.FdlException;
 /**
  * @Description 시설예약관리 DAO
  * @author 플랫폼개발부문 DT플랫폼 이푸름
@@ -136,5 +135,10 @@ public class FaciReseMngDAO extends ComAbstractDAO{
 	 */
 	public int dubCheckFaciReseMngUpdate(FaciReseMngVO faciReseMngVO) throws Exception {
 		return (Integer)selectOne("faciReseMng.dubCheckFaciReseMngUpdate", faciReseMngVO);
-	};
+	}
+
+	public int dubCheckFaciReseMngUpdate2(FaciReseMngChkVO faciReseMngChkVO) {
+		return (Integer)selectOne("faciReseMng.dubCheckFaciReseMngUpdate2", faciReseMngChkVO);
+	}
+	
 }

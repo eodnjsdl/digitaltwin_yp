@@ -4,7 +4,10 @@
 <mapper namespace="dronInfo">
     <select id="selectDronInfoList" resultType="egovMap">
         SELECT PI.*,TO_CHAR(PI.potogrf_de,'YYYY-MM-DD') AS grf_de, TO_CHAR(PI.FRST_REGIST_DT, 'YYYY-MM-DD') AS REG_DT, TO_CHAR(PI.LAST_MODF_DT , 'YYYY-MM-DD') AS MODF_DT,
-        CEI.USER_NM
+        CEI.USER_NM,
+		${pageIndex} AS PAGE_INDEX,
+		${pageUnit} AS PAGE_UNIT,
+		${pageSize} AS PAGE_SIZE
         FROM TBD_DRONE_PIC_INFO PI
         LEFT OUTER JOIN COMTNEMPLYRINFO CEI
         ON PI.EMPLYR_ID = CEI.EMPLYR_ID

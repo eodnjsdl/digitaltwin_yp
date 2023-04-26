@@ -10,8 +10,11 @@ import egiskorea.com.job.fcmr.wsfc.service.WtlFirePsVO;
 import egiskorea.com.job.fcmr.wsfc.service.WtlFlowPsVO;
 import egiskorea.com.job.fcmr.wsfc.service.WtlManhPsVO;
 import egiskorea.com.job.fcmr.wsfc.service.WtlPipeLmVO;
+import egiskorea.com.job.fcmr.wsfc.service.WtlPipePsVO;
 import egiskorea.com.job.fcmr.wsfc.service.WtlPrgaPsVO;
 import egiskorea.com.job.fcmr.wsfc.service.WtlServPsVO;
+import egiskorea.com.job.fcmr.wsfc.service.WtlSplyLsVO;
+import egiskorea.com.job.fcmr.wsfc.service.WtlValvPsVO;
 
 /**
  * @Description 시설관리/상수도시설
@@ -25,7 +28,7 @@ import egiskorea.com.job.fcmr.wsfc.service.WtlServPsVO;
  *  수정일               수정자            수정내용
  *  ----------   --------   ---------------------------
  *  2023.04.04   황의현           최초 생성
- *  2023.04.06   장현승           상수관로, 유량계
+ *  2023.04.26   장현승           2차 수정
  */
 
 @Controller
@@ -84,8 +87,8 @@ public class WaterSupplyController {
     }
 	
 	//상세 화면 조회
-	@RequestMapping(value = "/selectWtlPipeLmDetail.do", method = RequestMethod.POST)
-	public String getWtlPipeLmDetail(
+	@RequestMapping(value = "/selectWtlPipeLm.do", method = RequestMethod.POST)
+	public String selectWtlPipeLm(
 			@ModelAttribute("wtlPipeLmVO") WtlPipeLmVO wtlPipeLmVO, String id,
 			ModelMap model) throws Exception {
 			model.addAttribute("id", id);
@@ -186,6 +189,40 @@ public class WaterSupplyController {
 	//////////
 	//상수관로심도
 	
+	//목록 화면 호출
+	@RequestMapping(value = "/selectWtlPipePsListView.do")
+    public String selectWtlPipePsListView(
+            @ModelAttribute("wtlPipePsVO") WtlPipePsVO wtlPipePsVO,
+            ModelMap model) throws Exception {
+        return "egiskorea/com/job/fcmr/wsfc/wpip/wtlPipePsListView";
+    }
+	
+	//상세 화면 조회
+	@RequestMapping(value = "/selectWtlPipePs.do", method = RequestMethod.POST)
+	public String selectWtlPipePs(
+			@ModelAttribute("wtlPipePsVO") WtlPipePsVO wtlPipePsVO, String id,
+			ModelMap model) throws Exception {
+			model.addAttribute("id", id);
+		return "egiskorea/com/job/fcmr/wsfc/wpip/selectWtlPipePs";
+	}
+	
+	//등록 화면 조회
+	@RequestMapping(value = "/insertWtlPipePsView.do")
+	public String insertWtlPipePsView(
+			@ModelAttribute("wtlPipePsVO") WtlPipePsVO wtlPipePsVO,
+			ModelMap model) throws Exception {
+		return "egiskorea/com/job/fcmr/wsfc/wpip/insertWtlPipePsView";
+	}
+	
+	//수정 화면 조회
+	@RequestMapping(value = "/updateWtlPipePsView.do", method = RequestMethod.POST)
+	public String updateWtlPipePsView(
+			@ModelAttribute("wtlPipePsVO") WtlPipePsVO wtlPipePsVO, String id,
+			ModelMap model) throws Exception {
+			model.addAttribute("id", id);
+		return "egiskorea/com/job/fcmr/wsfc/wpip/updateWtlPipePsView";
+	}
+	
 	////////
 	//수압계
 	
@@ -228,15 +265,15 @@ public class WaterSupplyController {
 	
 	//목록 화면 호출
 	@RequestMapping(value = "/selectWtlServPsListView.do")
-    public String selectWtlServPsList(
+    public String selectWtlServPsListView(
             @ModelAttribute("wtlServPsVO") WtlServPsVO wtlServPsVO,
             ModelMap model) throws Exception {
         return "egiskorea/com/job/fcmr/wsfc/wsep/wtlServPsListView";
     }
 	
 	//상세 화면 조회
-	@RequestMapping(value = "/selectWtlServPsDetail.do", method = RequestMethod.POST)
-	public String getWtlServPsDetail(
+	@RequestMapping(value = "/selectWtlServPs.do", method = RequestMethod.POST)
+	public String selectWtlServPs(
 			@ModelAttribute("wtlServPsVO") WtlServPsVO wtlServPsVO, String id,
 			ModelMap model) throws Exception {
 			model.addAttribute("id", id);
@@ -263,7 +300,75 @@ public class WaterSupplyController {
 	////////
 	//급수관로
 	
+	//목록 화면 호출
+		@RequestMapping(value = "/selectWtlSplyLsListView.do")
+	    public String selectWtlSplyLsList(
+	            @ModelAttribute("wtlSplyLsVO") WtlSplyLsVO wtlSplyLsVO,
+	            ModelMap model) throws Exception {
+	        return "egiskorea/com/job/fcmr/wsfc/wspl/wtlSplyLsListView";
+	    }
+		
+		//상세 화면 조회
+		@RequestMapping(value = "/selectWtlSplyLs.do", method = RequestMethod.POST)
+		public String selectWtlSplyLs(
+				@ModelAttribute("wtlSplyLsVO") WtlSplyLsVO wtlSplyLsVO, String id,
+				ModelMap model) throws Exception {
+				model.addAttribute("id", id);
+			return "egiskorea/com/job/fcmr/wsfc/wspl/selectWtlSplyLs";
+		}
+		
+		//등록 화면 조회
+		@RequestMapping(value = "/insertWtlSplyLsView.do")
+		public String insertWtlSplyLsView(
+				@ModelAttribute("wtlSplyLsVO") WtlSplyLsVO wtlSplyLsVO,
+				ModelMap model) throws Exception {
+			return "egiskorea/com/job/fcmr/wsfc/wspl/insertWtlSplyLsView";
+		}
+		
+		//수정 화면 조회
+		@RequestMapping(value = "/updateWtlSplyLsView.do", method = RequestMethod.POST)
+		public String updateWtlSplyLsView(
+				@ModelAttribute("wtlSplyLsVO") WtlSplyLsVO wtlSplyLsVO, String id,
+				ModelMap model) throws Exception {
+				model.addAttribute("id", id);
+			return "egiskorea/com/job/fcmr/wsfc/wspl/updateWtlSplyLsView";
+		}
+	
 	////////
 	//변류시설
+	
+	//목록 화면 호출
+	@RequestMapping(value = "/selectWtlValvPsListView.do")
+    public String selectWtlValvPsListView(
+            @ModelAttribute("wtlValvPsVO") WtlValvPsVO wtlValvPsVO,
+            ModelMap model) throws Exception {
+        return "egiskorea/com/job/fcmr/wsfc/wvap/wtlValvPsListView";
+    }
+	
+	//상세 화면 조회
+	@RequestMapping(value = "/selectWtlValvPs.do", method = RequestMethod.POST)
+    public String selectWtlValvPs(
+    		@ModelAttribute("wtlValvPsVO") WtlValvPsVO wtlValvPsVO, String id,
+    		ModelMap model) throws Exception {
+			model.addAttribute("id", id);
+        return "egiskorea/com/job/fcmr/wsfc/wvap/selectWtlValvPs";
+    }
+	
+	//등록 화면 조회
+	@RequestMapping(value = "/insertWtlValvPsView.do")
+    public String insertWtlValvPsView(
+            @ModelAttribute("wtlValvPsVO") WtlValvPsVO wtlValvPsVO,
+            ModelMap model) throws Exception {
+        return "egiskorea/com/job/fcmr/wsfc/wvap/insertWtlValvPsView";
+    }
+	
+	//수정 화면 조회
+	@RequestMapping(value = "/updateWtlValvPsView.do", method = RequestMethod.POST)
+    public String updateWtlValvPsView(
+    		@ModelAttribute("wtlValvPsVO") WtlValvPsVO wtlValvPsVO, String id,
+    		ModelMap model) throws Exception {
+			model.addAttribute("id", id);
+        return "egiskorea/com/job/fcmr/wsfc/wvap/updateWtlValvPsView";
+    }
     
 }

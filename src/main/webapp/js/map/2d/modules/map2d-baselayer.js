@@ -111,7 +111,7 @@ map2d.baseLayer = (function () {
     function createLayer(name) {
         let opt = LAYER_OPT[name];
         return new ol.layer.Tile({
-            name: name,
+            title: name,
             visible: opt.visible,
             extent: map2d.config.extent,
             source: new ol.source.WMTS(opt.source),
@@ -121,7 +121,7 @@ map2d.baseLayer = (function () {
     function setLayer(name) {
         let layers = _layerGroup.getLayersArray();
         layers.map((v) => {
-            if (v.get('name') === name) {
+            if (v.get('title') === name) {
                 _current = name;
                 v.setVisible(true);
             } else {

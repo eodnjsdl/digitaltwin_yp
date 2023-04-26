@@ -259,17 +259,19 @@ function fn_search_List(){
 		const type = $parent.find('input[name="cctvSelect"]:checked').val();
 		
 		if (type === 'extent') {
-			 var bbox = dtmap.getExtent();
-			 SEARCHOBJ.spaceSearch.bbox = bbox;
+			SEARCHOBJ.spaceSearch.bbox = dtmap.getExtent();
 
 		} else {
-			if(dtmap.draw.source.getFeatures().length > 0){
+			if(dtmap.mod == '2D'){
+				if(dtmap.draw.source.getFeatures().length > 0){
+					SEARCHOBJ.spaceSearch.geometry = dtmap.draw.getGeometry();
+				}else{
+					alert("영역지정 안되었습니다");
+					return false;
+				}
+			}else if(dtmap.mod == '3D'){
 				SEARCHOBJ.spaceSearch.geometry = dtmap.draw.getGeometry();
-			}else{
-				alert("영역지정 안되었습니다");
-				return false;
 			}
-		}
 
 	}
 }

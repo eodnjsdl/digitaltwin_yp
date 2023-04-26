@@ -20,10 +20,12 @@
  */
 .split-map-2 .split-main-map {
     height: 100%;
+    border-right: 3px solid #5fd272;
 }
 
 .split-map-2 .split-sub-map {
     height: 100%;
+    left: 50%;
 }
 
 /**
@@ -31,6 +33,7 @@
  */
 .split-map-3 .split-main-map {
     height: 100%;
+    border-right: 3px solid #5fd272;
 }
 
 .split-map-3 .split-sub-map {
@@ -40,6 +43,7 @@
 .split-map-3 .split-sub-map:nth-child(2) {
     right: 0;
     top: 0;
+    border-bottom: 3px solid #5fd272;
 }
 
 .split-map-3 .split-sub-map:nth-child(3) {
@@ -52,20 +56,44 @@
  */
 .split-map-4 .split-main-map,
 .split-map-4 .split-sub-map {
-    height: 50%;
+    height: 50% !important;
 }
 
 .split-map-4 .split-sub-map:nth-child(2) {
     right: 0;
     top: 0;
+    border-left: 3px solid #5fd272;
 }
 
 .split-map-4 .split-sub-map:nth-child(3) {
     left: 0;
     bottom: 0;
+    border-top: 3px solid #5fd272;
 }
 
 .split-map-4 .split-sub-map:nth-child(4) {
     right: 0;
     bottom: 0;
+    border-left: 3px solid #5fd272;
+    border-top: 3px solid #5fd272;
+}
+
+.btn_sync_01 {
+    width: 51px;
+    height: 59px;
+    position: absolute;
+    z-index: 5;
+    top: calc(50% - 27px);
+    left: calc(50% - 26px);
+    display: inline-block;
+}
+
+.btn_sync_02 {
+    width: 51px;
+    height: 59px;
+    display: inline-block;
+    background: url(/images/poi/nomal_poi.png)center 50% no-repeat;
+    border: none;
+    text-indent: -5000px;
+    cursor: pointer;
 }

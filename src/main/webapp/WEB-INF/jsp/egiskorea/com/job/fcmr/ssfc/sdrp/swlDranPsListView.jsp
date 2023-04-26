@@ -1,13 +1,16 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" %>
 
 <!-- js -->
-<!-- <script src="/js/egiskorea/com/job/fcmr/ssfc/sdrp/swlDranPs.js"></script> -->
+<script src="/js/egiskorea/com/job/fcmr/ssfc/sdrp/swlDranPs.js"></script>
 
 <script>
 $(document).ready(function() {
 	//console.log("swlDranPsListView.jsp");	
 
-	//이벤트 리스너 추가
+	// 2D/3D 버튼 처리
+	arrangeAddBtnMode();
+	
+	// 이벤트 리스너 추가
 	dtmap.on('select', onFacilitySelectEventListener);
 	
 	// 하수도관리 메뉴 - 이벤트
@@ -41,29 +44,29 @@ $(document).ready(function() {
 		// 지도 clear
 		clearMap();
 		
-		//등록, 상세, 수정 팝업 창 닫기
+		// 등록, 상세, 수정 팝업 창 닫기
 		if ($("#rightSubPopup").hasClass("opened")) {
 			$("#rightSubPopup").removeClass("opened");
 			$("#rightSubPopup").empty();
 		}
 		
-		//공간정보 편집도구 닫기
+		// 공간정보 편집도구 닫기
 		if($(".space-edit-tool").hasClass("opened")){
         	$(".space-edit-tool").removeClass("opened");
             $(".space-edit-tool").empty();
         }
 	});
 
-	//속성 검색, 공간 검색 탭 제어
+	// 속성 검색, 공간 검색 탭 제어
 	$(document).on("click", ".tabBoxDepth2-wrap .tabBoxDepth2 > ul > li > .inner-tab", function() {
 		$(this).each(function() {
 			$(this).parent().addClass("on").siblings().removeClass("on");
 			$("."+$(this).parent().data("tab")).addClass("on").siblings().removeClass("on");
 		});
 		
-		if ($("li[data-tab=groundwaterProperty]").hasClass("on")) {	//속성검색 일때 공간 검색때 사용한 그리기 초기화
-			dtmap.draw.dispose();	//그리기 포인트 삭제
-			dtmap.draw.clear();		//그리기 초기화
+		if ($("li[data-tab=groundwaterProperty]").hasClass("on")) {	// 속성검색 일때 공간 검색때 사용한 그리기 초기화
+			dtmap.draw.dispose();	// 그리기 포인트 삭제
+			dtmap.draw.clear();		// 그리기 초기화
 		}
 	});
 	
@@ -75,13 +78,18 @@ $(document).ready(function() {
 		const type = $parent.find('input[name="rad-facility-area"]:checked').val();
 		
 		if (type === 'extent') {
-			FACILITY.spaceSearchOption.bbox = dtmap.getExtent();
+			FACILITY.spaceSearchOption.bbox 	= dtmap.getExtent();
 		} else {
-			if (dtmap.draw.source.getFeatures().length > 0) {
+			//console.log("모드>>>"+dtmap.mod);
+			if(dtmap.mod == "2D"){
+				if(dtmap.draw.source.getFeatures().length > 0){	// 임시로 그려진 형태체크
+					FACILITY.spaceSearchOption.geometry = dtmap.draw.getGeometry();
+				}else{
+					alert("영역지정 안되었습니다");
+					return false;
+				}
+			}else if(dtmap.mod == "3D"){		
 				FACILITY.spaceSearchOption.geometry = dtmap.draw.getGeometry();
-			} else {
-				alert("영역지정 안되었습니다");
-				return false;
 			}
 		}
 		selectSwlDranPsList(1);
@@ -95,8 +103,8 @@ $(document).ready(function() {
 		if (value == "extent") {
 			$(".space-facility-area", "#bottomPopup").hide();
 			
-			dtmap.draw.dispose();		//그리기 포인트 삭제
-			dtmap.draw.clear();			//그리기 초기화
+			dtmap.draw.dispose();		// 그리기 포인트 삭제
+			dtmap.draw.clear();			// 그리기 초기화
 		} else {
 			$(".space-facility-area", "#bottomPopup").show();
 			$("[name=rad-facility-drawing]:first", "#bottomPopup").trigger("click");
@@ -126,7 +134,7 @@ $(document).ready(function() {
 		dtmap.draw.active({type: type, once: true});
 	});
 
-	//경계로부터 버퍼 영역 지정
+	// 경계로부터 버퍼 영역 지정
 	$(".area-facility-buffer", "#bottomPopup").on("keyup", function(event) {
 		dtmap.draw.setBuffer(Number(this.value));
 	});
@@ -252,7 +260,7 @@ $(document).ready(function() {
                 <div class="bbs-list-num">조회결과 : --건</div>
                 <div>
                     <button type="button" class="btn basic bi-write btn_add" onclick="insertSwlDranPsView();">등록</button>
-                    <button type="button" class="btn basic bi-excel btn_excel" onclick="SwlDranPsExcel();">엑셀저장</button>
+                    <button type="button" class="btn basic bi-excel btn_excel" onclick="swlDranPsExcel();">엑셀저장</button>
                 </div>
             </div>
             <div class="bbs-list-wrap" style="height: 267px;"><!-- pagination 하단 고정을 위해 반드시 필요 -->

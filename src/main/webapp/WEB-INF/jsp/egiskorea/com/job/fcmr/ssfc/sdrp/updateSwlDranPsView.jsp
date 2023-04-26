@@ -179,7 +179,7 @@ function cancelUpdateSwlDranPs() {
 							<tr>
 								<th scope="row">부지면적</th>
 								<td>
-									<input type="number" name="gai_ara" class="form-control" value="${swlDranPsVO.gai_ara}">
+									<input type="number" name="gai_ara" class="form-control" min="0" value="${swlDranPsVO.gai_ara}">
 								</td>
 								<th scope="row">개통상태</th>
 								<td>
@@ -233,11 +233,11 @@ function cancelUpdateSwlDranPs() {
 							<tr>
 								<th scope="row">공사번호</th>
 								<td>
-									<input type="text" name="cnt_num" class="form-control" value="${swlDranPsVO.cnt_num}">
+									<input type="text" name="cnt_num" class="form-control" value="${swlDranPsVO.cnt_num}" maxlength="50">
 								</td>
 								<th scope="row">방향각</th>
 								<td>
-									<input type="number" name="ang_dir" class="form-control" value="${swlDranPsVO.ang_dir}">
+									<input type="number" name="ang_dir" class="form-control" min="0" value="${swlDranPsVO.ang_dir}">
 								</td>
 							</tr>
 							<tr>
@@ -260,9 +260,9 @@ function cancelUpdateSwlDranPs() {
 					</form>
 				</div>
 			</div>
-			<div class="position-bottom btn-wrap">
+			<div class="position-bottom btn-wrap justify-content-end">
 				<div>
-					<button type="button" class="btn basic bi-edit btn_add" onclick="updateSwlDranPs();">등록</button>
+					<button type="button" class="btn basic bi-write2 btn_save" onclick="updateSwlDranPs();">수정완료</button>
 					<button type="button" class="btn basic bi-cancel btn_cancel" onclick="cancelUpdateSwlDranPs()">취소</button>
 				</div>
 			</div>

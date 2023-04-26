@@ -125,7 +125,7 @@
                                    <tr>
                                        <th scope="row">관로지형지물부호</th>
                                        <td>
-                                       		<c:out value="${wtlValvPsVO.pip_cde }"/>
+                                       		<c:out value="${wtlValvPsVO.pip_cde_nm }"/>
                                        </td>
                                        <th scope="row">관리번호</th>
                                        <td>
@@ -210,7 +210,7 @@
 	
 	//functions
 	
-	//소반시설 상세보기 취소
+	//변류시설 상세보기 취소
 	function cancelSelectWtlValvPs() {
 		//console.log("cancelSelectWtlValvPs()");
 		

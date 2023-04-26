@@ -94,7 +94,7 @@
                                    <tr>
                                        <th scope="row">관로지형지물부호</th>
                                        <td>
-                                       		<c:out value="${wtlFlowPsVO.pip_cde }"/>
+                                       		<c:out value="${wtlFlowPsVO.pip_cde_nm }"/>
                                        </td>
                                        <th scope="row">관로관리번호</th>
                                        <td>
@@ -142,7 +142,7 @@
 <script type="text/javascript">
 	//jqeury
 	$(document).ready(function(){
-		console.log("selectWtlFlowPs.jsp");
+		//console.log("selectWtlFlowPs.jsp");
 		
 		//gird 데이터를 통한 주소 조회
 		var id = "${id }";
@@ -163,8 +163,6 @@
 		$(".popup-panel .select-wtlFlowPs-popup-close").on("click", function () {
             cancelSelectWtlFlowPs();
     	});
-		
-		
 	});
 	
 	//functions

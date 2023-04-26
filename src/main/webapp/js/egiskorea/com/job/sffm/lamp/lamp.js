@@ -226,7 +226,7 @@ function fn_update(gid){
 
 //가로등 검색 조회 버튼
 function fn_search_List(e){
-	
+	console.log('skd');
 	SEARCHOBJ.propertySearch = null;
 	SEARCHOBJ.spaceSearch = null;
 	if($('#sffm-prop').hasClass('on')){
@@ -242,15 +242,24 @@ function fn_search_List(e){
 
 		if (type === 'extent') {
 			 var bbox = dtmap.getExtent();
-			 SEARCHOBJ.spaceSearch.bbox = ol.proj.transformExtent(bbox,'EPSG:5179','EPSG:4326' );
+			 if(dtmap.mod == '2D'){
+				 SEARCHOBJ.spaceSearch.bbox = ol.proj.transformExtent(bbox,'EPSG:5179','EPSG:4326' );
+			 }else{
+				SEARCHOBJ.spaceSearch.bbox = bbox;
+			 }
 
 		} else {
-			if(dtmap.draw.source.getFeatures().length > 0){
+			if(dtmap.mod == '2D'){
+
+				if(dtmap.draw.source.getFeatures().length > 0){
+					SEARCHOBJ.spaceSearch.geometry = dtmap.draw.getGeometry();
+				}else{
+					alert("영역지정 안되었습니다");
+					return false;
+				}
+
+			}else if(dtmap.mod == '3D'){
 				SEARCHOBJ.spaceSearch.geometry = dtmap.draw.getGeometry();
-				
-			}else{
-				alert("영역지정 안되었습니다");
-				return false;
 			}
 		}
 	}

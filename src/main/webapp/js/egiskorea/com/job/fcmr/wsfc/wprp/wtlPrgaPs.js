@@ -6,8 +6,8 @@
 
 //jqeury
 $(document).ready(function(){
-	console.log("wtlPrgaPs.js");
-	console.log("수압계");
+	//console.log("wtlPrgaPs.js");
+	//console.log("수압계");
 });
 
 //functions
@@ -224,7 +224,8 @@ function selectWtlPrgaPsList(page) {
         	
         	//지형지물부호 코드 변경
         	var ftr_cde = data.features[i].properties.ftr_cde;
-        	data.features[i].properties.ftr_cde_nm = getCmmCodeDataArray("SA-001", ftr_cde);
+        	data.features[i].properties.ftr_cde_nm = getCmmCodeDataArray("FTR-001", ftr_cde);
+        	//data.features[i].properties.ftr_cde_nm = "수압계";
         	
         	//관리기관 코드 변경
         	var mng_cde = data.features[i].properties.mng_cde;
@@ -338,10 +339,16 @@ function selectWtlPrgaPs(id){
     		alert("상세보기 오류")
     		return false;
     	}
-        	
+        
+    	//관로지형지물부호 코드 변경
+    	var pip_cde = data.features[0].properties.pip_cde;
+    	//data.features[0].properties.pip_cde_nm = getCmmCodeDataArray("FTR-001", pip_cde);
+    	data.features[0].properties.pip_cde_nm = "상수관로";
+    	
     	//지형지물부호 코드 변경
     	var ftr_cde = data.features[0].properties.ftr_cde;
-    	data.features[0].properties.ftr_cde_nm = getCmmCodeDataArray("SA-001", ftr_cde);
+    	data.features[0].properties.ftr_cde_nm = getCmmCodeDataArray("FTR-001", ftr_cde);
+    	//data.features[0].properties.ftr_cde_nm = "수압계";
     	
     	//관리기관 코드 변경
     	var mng_cde = data.features[0].properties.mng_cde;
@@ -447,7 +454,7 @@ function insertWtlPrgaPsView(){
             scrollbarPosition: "outside",
         });
        
-        getCmmCodeData("YPE001", "#rightSubPopup select[name=hjd_cde]");		//읍면동
+        getCmmCodeData("YPE001", "#rightSubPopup select[name=hjd_cde]");	//읍면동
         getCmmCodeData("MNG-001", "#rightSubPopup select[name=mng_cde]");	//관리기관
         getCmmCodeData("OGC-137", "#rightSubPopup select[name=pga_cde]");	//수압계종류
         getCmmCodeData("OGC-041", "#rightSubPopup select[name=mof_cde]");	//수압계형식
@@ -473,7 +480,7 @@ function insertWtlPrgaPs(){
 	
 	const pip_cde = $("#insertWtlPrgaPsForm select[name=pip_cde]").val();
 	if(pip_cde == "" || pip_cde == null){
-		alert("지형지물부호는 필수 값입니다.");
+		alert("관로지형지물부호는 필수 값입니다.");
 		return false;
 	}
 	
@@ -533,7 +540,11 @@ function insertWtlPrgaPs(){
         if (result["result"]) {
             alert("등록 되었습니다.");
             
-            selectWtlPrgaPsList(1);		//다시 목록 로드
+            // 검색 후 등록
+            var $container = $("#container");
+    	    var $target = $container.find('#bottomPopup .facility-select');
+    	    $target.trigger("change");
+            //selectWtlPrgaPsList(1);		//다시 목록 로드
             cancelInsertWtlPrgaPs(); 	//창닫기
         } else {
             alert(`등록에 실패했습니다.`);
@@ -618,15 +629,9 @@ function updateWtlPrgaPs(){
 		return false;
 	}
 	
-	const pip_cde = $("#insertWtlPrgaPsForm select[name=pip_cde]").val();
+	const pip_cde = $("#updateWtlPrgaPsForm select[name=pip_cde]").val();
 	if(pip_cde == "" || pip_cde == null){
 		alert("지형지물부호는 필수 값입니다.");
-		return false;
-	}
-	
-	const geom = $("#insertWtlPrgaPsForm input[name=geom]").val();
-	if(geom == "" || geom == null){
-		alert("위치를 등록하여 주십시오.");
 		return false;
 	}
 	 
@@ -755,7 +760,7 @@ function downloadExcelWtlPrgaPs() {
         multipleSelect: false,
         columns: [
 //            {key: "gid", 				label: "아이디",			width:200},
-            {key: "ftr_cde", 			label: "지형지물부호code",	width:'*'},
+//            {key: "ftr_cde", 			label: "지형지물부호code",	width:'*'},
 //            {key: "ftr_cde_nm", 		label: "지형지물부호",		width:'*'},
             {key: "ftr_idn", 			label: "관리번호",			width:'*'},
             {key: "hjd_cde", 			label: "읍면동code",		width:'*'},
@@ -868,7 +873,8 @@ function downloadExcelWtlPrgaPs() {
         	
         	//지형지물부호 코드 변경
         	var ftr_cde = data.features[i].properties.ftr_cde;
-        	data.features[i].properties.ftr_cde_nm = getCmmCodeDataArray("SA-001", ftr_cde);
+        	data.features[i].properties.ftr_cde_nm = getCmmCodeDataArray("FTR-001", ftr_cde);
+        	//data.features[i].properties.ftr_cde_nm = "수압계";
         	
         	//관리기관 코드 변경
         	var mng_cde = data.features[i].properties.mng_cde;

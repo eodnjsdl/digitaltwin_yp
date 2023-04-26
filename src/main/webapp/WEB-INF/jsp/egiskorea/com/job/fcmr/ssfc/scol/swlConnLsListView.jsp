@@ -143,7 +143,7 @@
                     </div>
                 </div>
             </div>
-            <input type="text" id="swlConnLsListPage" 	value="">
+            <input type="hidden" id="swlConnLsListPage" 	value="">
         </div>
     </div>
 </div>
@@ -156,7 +156,7 @@
 <script type="text/javascript">
 	//jqeury
 	$(document).ready(function(){
-		console.log("swlConnLsListView.jsp");	
+		//console.log("swlConnLsListView.jsp");	
 		
 		//이벤트 리스너 추가
 		dtmap.on('select', onFacilitySelectEventListener);
@@ -209,6 +209,7 @@
                 $(".space-edit-tool").empty();
             }
 			
+			clearMap();		//지도 클리어
 		});
 		
 		
@@ -239,12 +240,18 @@
             if (type === 'extent') {
             	FACILITY.spaceSearchOption.bbox 	= dtmap.getExtent();
             } else {
-            	if(dtmap.draw.source.getFeatures().length > 0){
-	            	FACILITY.spaceSearchOption.geometry = dtmap.draw.getGeometry();
-            	}else{
-            		alert("영역지정 안되었습니다");
-            		return false;
+            	//console.log("모드>>>"+dtmap.mod);
+            	if(dtmap.mod == "2D"){
+            		if(dtmap.draw.source.getFeatures().length > 0){	//임시로 그려진 형태체크
+            			FACILITY.spaceSearchOption.geometry = dtmap.draw.getGeometry();
+            		}else{
+            			alert("영역지정 안되었습니다");
+            			return false;
+            		}
+            	}else if(dtmap.mod == "3D"){		
+            		FACILITY.spaceSearchOption.geometry = dtmap.draw.getGeometry();
             	}
+            	
             }
            	
            	selectSwlConnLsList(1);
@@ -291,7 +298,6 @@
                     break;
             }
             dtmap.draw.active({type: type, once: true})
-            $(".area-facility-buffer").val("1").trigger("keyup");
         });
 		
 

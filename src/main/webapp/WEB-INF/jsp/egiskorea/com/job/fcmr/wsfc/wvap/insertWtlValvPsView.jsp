@@ -199,7 +199,7 @@
                    </div>
                </div>
            </div>
-           <!-- <button type="button" class="popup-close" title="닫기" onclick="cancelMode();"></button> -->
+           <button type="button" class="insert-wtlValvPs-popup-close" title="닫기" onclick="cancelMode();"></button>
 
 <!-- 업무 > 시설관리 > 상수수도시설 > 변류시설 등록하기 end -->
 

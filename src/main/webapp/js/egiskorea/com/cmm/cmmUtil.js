@@ -122,12 +122,9 @@ var cmmUtil = {
         } else {
             return null;
         }
-
-
         const yMap = app2D.getYMap();
         const module = yMap.getModule("highlight");
         const features = module.getFeatures("sky");
-
         if (features.length > 0) {
             const feature = features[0];
             let geometry = feature.getGeometry().clone();
@@ -208,6 +205,72 @@ var cmmUtil = {
             $(".zoom-overlay").remove();
             $(".webmaster").removeClass("zoom-overlay-transitioning zoom-overlay-open");
         });
+    },
+
+    _leadingZeros: function (n, digits) {
+        var zero = '';
+        n = n.toString();
+        if (n.length < digits) {
+            for (i = 0; i < digits - n.length; i++)
+                zero += '0';
+        }
+        return zero + n;
+    },
+
+    //현재 날짜+시간
+    getTime: function () {
+        var today = new Date();
+        var year = this._leadingZeros(today.getFullYear(), 4); // 년도
+        var month = this._leadingZeros(today.getMonth() + 1, 2);  // 월
+        var date = this._leadingZeros(today.getDate(), 2);  // 날짜
+        var hours = this._leadingZeros(today.getHours(), 2); // 시
+        var minutes = this._leadingZeros(today.getMinutes(), 2);  // 분
+        return year + month + date + hours + minutes;
+    },
+
+    // 쿠키 조회
+    getCookie: function (cookie_name) {
+        var x, y;
+        var val = document.cookie.split(';');
+        for (var i = 0; i < val.length; i++) {
+            x = val[i].substr(0, val[i].indexOf('='));
+            y = val[i].substr(val[i].indexOf('=') + 1);
+            x = x.replace(/^\s+|\s+$/g, '');
+            if (x == cookie_name) {
+                return y;
+            }
+        }
+    },
+
+    commonnessCodeList: function (code, target) {
+        if (code == "") {
+            $("#" + target).html("<option value=\"\">리선택</option>");
+        } else {
+            ui.loadingBar("show");
+            $.ajax({
+                type: "POST",
+                url: "/com/cmm/commonnessCodeList.do",
+                data: {
+                    "code": code,
+                    "codeId": "YPLI",
+                    "returnType": "select",
+                    "addClass": "dataManageRi"
+                },
+                dataType: "html",
+                async: false,
+                success: function (returnData, status) {
+                    if (status == "success") {
+                        $("#" + target).html("");
+                        $("#" + target).append("<option value=\"\">리선택</option>").append(returnData);
+                    } else {
+                        toastr.error("관리자에게 문의 바랍니다.", "정보를 불러오지 못했습니다.");
+                        return;
+                    }
+                }, complete: function () {
+                    ui.loadingBar("hide");
+                }
+            });
+        }
     },
 
 
