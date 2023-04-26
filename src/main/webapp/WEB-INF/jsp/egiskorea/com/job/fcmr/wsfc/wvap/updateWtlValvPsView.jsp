@@ -132,8 +132,8 @@
                                    <tr>
                                        <th scope="row">관로지형지물부호</th>
                                        <td>
-                                          	<c:out value="${wtlValvPsVO.pip_cde }"/>
-                                          	<input type="hidden" name="pip_cde" class="form-control" value="${wtlValvPsVO.pip_cde }">
+                                          	<span id="pip_cde_nm"></span>
+                               				<input type="hidden" name="pip_cde" class="form-control" value="${wtlValvPsVO.pip_cde }">
                                        </td>
                                        <th scope="row">관리번호</th>
                                        <td>
@@ -257,7 +257,12 @@
       	
     	//개폐번호	
       	let off_cde = '${wtlValvPsVO.off_cde }';
-    	getCmmCodeData("OGC-011", "#rightSubPopup select[name=off_cde]");	
+    	getCmmCodeData("OGC-011", "#rightSubPopup select[name=off_cde]");
+    	
+    	// 관로지형지물부호 처리
+		var pip_cde = "${wtlValvPsVO.pip_cde}";
+		var pip_cde_nm = getCmmCodeDataArray("FTR-001", pip_cde);
+		$("#pip_cde_nm").text(pip_cde_nm);
       	
       	///////////////////////
       	//gird 데이터를 통한 주소 조회
