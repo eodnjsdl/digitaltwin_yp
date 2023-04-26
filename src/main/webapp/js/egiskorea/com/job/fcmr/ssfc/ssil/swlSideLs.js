@@ -55,7 +55,7 @@ function swlSideLsProcess() {
 		body: {
 			align: "center",
 			onClick: function() {
-				//this.self.select(this.dindex);
+				this.self.select(this.dindex);
 				//console.log(this.item.id);
 				selectSwlSideLs(this.item.id);	// 상세보기
 			}

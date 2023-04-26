@@ -68,7 +68,6 @@ public class WtlValvPsVO implements Serializable{
 	
 	/** pip_cde 관로지형지물부호 */
 	private String pip_cde;
-
 	private String pip_cde_nm;
 	
 	/** pip_idn 관로관리번호 */
@@ -311,7 +310,6 @@ public class WtlValvPsVO implements Serializable{
 
 	public void setPip_cde_nm(String pip_cde_nm) {
 		this.pip_cde_nm = pip_cde_nm;
-
 	}
 
 	public String getPip_idn() {

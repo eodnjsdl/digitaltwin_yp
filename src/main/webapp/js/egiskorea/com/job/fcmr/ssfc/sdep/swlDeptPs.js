@@ -48,7 +48,7 @@ function swlDeptPsProcess() {
 		body: {
 			align: "center",
 			onClick: function() {
-				//this.self.select(this.dindex);
+				this.self.select(this.dindex);
 				//console.log(this.item.id);
 				selectSwlDeptPs(this.item.id);	// 상세보기
 			}
@@ -231,7 +231,6 @@ function selectSwlDeptPs(id) {
 // 하수관거심도 상세보기 페이지 호출
 function selectSwlDeptPsDetail(detailData) {
 	//console.log('selectSwlDeptPsDetail(detailData)');
-
 	//console.log(detailData);
 	
 	if(!detailData && detailData == null){

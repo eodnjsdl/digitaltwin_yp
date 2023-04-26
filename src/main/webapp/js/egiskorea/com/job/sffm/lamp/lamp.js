@@ -226,7 +226,6 @@ function fn_update(gid){
 
 //가로등 검색 조회 버튼
 function fn_search_List(e){
-	console.log('skd');
 	SEARCHOBJ.propertySearch = null;
 	SEARCHOBJ.spaceSearch = null;
 	if($('#sffm-prop').hasClass('on')){

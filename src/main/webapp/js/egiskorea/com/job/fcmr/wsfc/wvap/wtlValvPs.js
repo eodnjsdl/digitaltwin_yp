@@ -119,6 +119,7 @@ function wtlValvPsListProcess(){
         body: {
         	onClick: function () {
         		//console.log(this);
+        		this.self.select(this.dindex);	//행 선택 되게 수정
         		selectWtlValvPs(this.item.id);	//소방 시설 상세 페이지 로드
             }
         }
@@ -981,7 +982,7 @@ function downloadExcelWtlValvPs() {
         	//지형지물부호 코드 변경
         	var ftr_cde = data.features[i].properties.ftr_cde;
         	data.features[i].properties.ftr_cde_nm = getCmmCodeDataArray("FTR-001", ftr_cde);
-
+        	
         	//관리기관 코드 변경
         	var mng_cde = data.features[i].properties.mng_cde;
         	data.features[i].properties.mng_cde_nm = getCmmCodeDataArray("MNG-001", mng_cde);
