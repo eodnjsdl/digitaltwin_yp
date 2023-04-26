@@ -221,23 +221,26 @@
      	
      	// 공간 검색 조회 버튼
         $(".facility-spatial-search", "#bottomPopup").on("click", function (e) {
-           	console.log("공간검색 조회");
+           	//console.log("공간검색 조회");
 			
            	const $parent = $(e.target).closest('.search-area');
             const type = $parent.find('input[name="rad-facility-area"]:checked').val();
             
             if (type === 'extent') {
-            	console.log("현재화면영역");
-            	console.log(dtmap.getExtent());
-            	console.log("모드>>>"+dtmap.mod);
             	FACILITY.spaceSearchOption.bbox 	= dtmap.getExtent();
             } else {
-            	if(dtmap.draw.source.getFeatures().length > 0){
-	            	FACILITY.spaceSearchOption.geometry = dtmap.draw.getGeometry();
-            	}else{
-            		alert("영역지정 안되었습니다");
-            		return false;
+            	//console.log("모드>>>"+dtmap.mod);
+            	if(dtmap.mod == "2D"){
+            		if(dtmap.draw.source.getFeatures().length > 0){	//임시로 그려진 형태체크
+    	            	FACILITY.spaceSearchOption.geometry = dtmap.draw.getGeometry();
+                	}else{
+                		alert("영역지정 안되었습니다");
+                		return false;
+                	}
+            	}else if(dtmap.mod == "3D"){		
+            		FACILITY.spaceSearchOption.geometry = dtmap.draw.getGeometry();
             	}
+            	
             }
            	
            	selectWtlFirePsList(1);
