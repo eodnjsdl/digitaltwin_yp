@@ -283,7 +283,6 @@ function selectRoadSectDetailView(item) {
     let gid = item.gid;
     let rdsManNo = item.rds_man_no;
     dtmap.vector.clearSelect(); 
-    dtmap.vector.select('tgd_sprd_manage.' + gid);
     ui.openPopup("rightSubPopup");
     ui.loadingBar("show");
     var formData = new FormData();
@@ -303,6 +302,7 @@ function selectRoadSectDetailView(item) {
 	success : function(data, status) {
 	    if (status == "success") {		
 		$("#rightSubPopup").append(data);
+		dtmap.vector.select('tgd_sprd_manage.' + gid);
 	    } else { 
 		toastr.error("ERROR!");
 		return;
