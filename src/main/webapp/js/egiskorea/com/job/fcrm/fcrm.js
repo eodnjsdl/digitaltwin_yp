@@ -80,7 +80,12 @@ function setPointLayer(){
 	const features = [];
 	poiList["resultList"].forEach((item) => {
 		const feature = new ol.Feature(new ol.geom.Point([parseFloat(item["lon"]), parseFloat(item["lat"])]));
-		feature.setId(item["gid"]);
+		//feature.setId(item["gid"]);
+		if(dtmap.mod == "2D"){
+			feature.setId(item["gid"]);
+		}else if(dtmap.mod == "3D"){
+			feature.setId("faciReseMng"+item["gid"]);
+		}
 		//console.log(">>>>"+item["rsrvSn"]);
 		feature.set('rsrvsn', item["rsrvSn"]);			//rsrvsn 추가 / 아이콘 클릭시 상세보기 에 사용
 		feature.set('facMenuNm', 'faciReseMng');		//시설예약관리	구분자 이벤트
@@ -90,8 +95,11 @@ function setPointLayer(){
 	if(features.length > 0) {
 		const format = new ol.format.GeoJSON();
 		const geojson = format.writeFeatures(features);
+		
+		//console.log("geojson>>");
+		//console.log(geojson);
+		
 		dtmap.vector.clear();
-        
         //지도에 GeoJSON 추가
         dtmap.vector.readGeoJson(geojson, function (feature) {
             return {
@@ -377,7 +385,14 @@ function aj_selectFaciReseMng(param1, param2, lon, lat){
 	//fcrm_sethigh(param1, param2, lon, lat); //POI 하이라이트
 	/////////////////////////
 	if(param1){
-		dtmap.vector.select(param1);	//지도에  표시
+		//dtmap.vector.select(param1);	//지도에  표시
+		///////
+		if(dtmap.mod == "2D"){	//uhh add...
+			dtmap.vector.select(param1);
+		}else if(dtmap.mod == "3D"){
+			var coord = "faciReseMng"+param1;
+			dtmap.vector.select(coord);	//지도에  표시
+		}
 	}
 
 	var formData = new FormData();
