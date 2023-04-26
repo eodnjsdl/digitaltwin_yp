@@ -751,6 +751,13 @@ function downloadExcelWtlPipePs() {
         	var ftr_cde = data.features[i].properties.ftr_cde;
         	data.features[i].properties.ftr_cde_nm = getCmmCodeDataArray("FTR-001", ftr_cde);
            
+        	// 0값 처리
+        	var pip_dep = data.features[i].properties.pip_dep;
+        	if(pip_dep == 0){
+        		data.features[i].properties.pip_dep = String(data.features[i].properties.pip_dep);
+        		data.features[i].properties.pip_dep = "0.0";
+        	}
+        	
             //좌표 처리  geometry로 변수명을 정하면 기존것과 충돌 발생
         	data.features[i].properties.geomObj = data.features[i].geometry;
         	
