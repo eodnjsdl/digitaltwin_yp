@@ -57,7 +57,7 @@ function swlPumpPsProcess() {
 		body: {
 			align: "center",
 			onClick: function() {
-				//this.self.select(this.dindex);
+				this.self.select(this.dindex);
 				//console.log(this.item.id);
 				selectSwlPumpPs(this.item.id);	// 상세보기
 			}

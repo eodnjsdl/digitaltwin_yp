@@ -84,6 +84,7 @@ function selectWtlPipeLmListView(){
 	        body: {
 	        	// 데이터 행의 click 이벤트를 정의
 	        	onClick: function () {
+	        		this.self.select(this.dindex);	//행 선택 되게 수정
 	        		selectWtlPipeLmDetail(this.item);	// 상수관로 상세 페이지 로드
 	            }
 	        }
