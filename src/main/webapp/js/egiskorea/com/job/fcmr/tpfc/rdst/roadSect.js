@@ -251,14 +251,6 @@ function setRoadSectListData(_pageNo, geom) {
 	dtmap.vector.clear();
 	dtmap.vector.readGeoJson(data, function (feature) {
 	    let properties = feature.getProperties();
-	    // properties에 id 값이 랜덤으로 생성되서, gid와 동일하게 변경해줌
-	    // wfs. + gid
-//	    	도로구간 - wfs.+41830(양평군).rdsManNo;
-//	    	그 외는 아래처럼 처리
-//	    let getGid = properties.gid;
-//	    feature.setId('wfs name.' + getGid);
-	    
-	    // --------------------------------------------------
 	    return {
 	        marker: {
 	            	src: '/images/poi/roadSection_poi.png',

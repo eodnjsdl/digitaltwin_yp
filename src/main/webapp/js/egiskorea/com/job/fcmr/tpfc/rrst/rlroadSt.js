@@ -232,11 +232,6 @@ function setRailroadStationListData(_pageNo, geom) {
 	dtmap.vector.clear();
 	dtmap.vector.readGeoJson(data, function (feature) {
 	    let properties = feature.getProperties();
-	    // properties에 id 값이 랜덤으로 생성되서, gid와 동일하게 변경해줌
-	    // wfs. + gid
-//	    let getGid = properties.gid;
-//	    feature.setId('tgd_sprl_statn.' + getGid);
-	    // --------------------------------------------------
 	    return {
 	        marker: {
 	            	src: '/images/poi/railroadStation_poi.png'
@@ -261,7 +256,6 @@ function setRailroadStationListData(_pageNo, geom) {
  */
 function selectRailroadStationDetailView(gid) {
     dtmap.vector.clearSelect(); 
-    dtmap.vector.select('tgd_sprl_statn.' + gid);
     
     ui.openPopup("rightSubPopup");
     ui.loadingBar("show");
@@ -282,6 +276,7 @@ function selectRailroadStationDetailView(gid) {
 	success : function(data, status) {
 	    if (status == "success") {		
 		$("#rightSubPopup").append(data);
+		dtmap.vector.select('tgd_sprl_statn.' + gid);
 	    } else { 
 		toastr.error("ERROR!");
 		return;
