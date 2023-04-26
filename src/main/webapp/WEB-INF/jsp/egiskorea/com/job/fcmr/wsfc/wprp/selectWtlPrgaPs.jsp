@@ -108,7 +108,7 @@
                                        </td>
                                        <th scope="row">관로지형지물부호</th>
                                        <td>
-	                                       	<c:out value="${wtlPrgaPsVO.pip_cde }"/>
+	                                       	<c:out value="${wtlPrgaPsVO.pip_cde_nm }"/>
                                        </td>
                                    </tr>
                                    <tr>
