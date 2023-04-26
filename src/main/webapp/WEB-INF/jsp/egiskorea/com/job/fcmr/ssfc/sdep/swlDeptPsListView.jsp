@@ -10,7 +10,7 @@ $(document).ready(function() {
 	// 2D/3D 버튼 처리
 	arrangeAddBtnMode();
 	
-	//이벤트 리스너 추가
+	// 이벤트 리스너 추가
 	dtmap.on('select', onFacilitySelectEventListener);
 	
 	// 하수도관리 메뉴 - 이벤트
@@ -46,29 +46,29 @@ $(document).ready(function() {
 		// 지도 clear
 		clearMap();
 		
-		//등록, 상세, 수정 팝업 창 닫기
+		// 등록, 상세, 수정 팝업 창 닫기
 		if ($("#rightSubPopup").hasClass("opened")) {
 			$("#rightSubPopup").removeClass("opened");
 			$("#rightSubPopup").empty();
 		}
 		
-		//공간정보 편집도구 닫기
+		// 공간정보 편집도구 닫기
 		if($(".space-edit-tool").hasClass("opened")){
         	$(".space-edit-tool").removeClass("opened");
             $(".space-edit-tool").empty();
         }
 	});
 
-	//속성 검색, 공간 검색 탭 제어
+	// 속성 검색, 공간 검색 탭 제어
 	$(document).on("click", ".tabBoxDepth2-wrap .tabBoxDepth2 > ul > li > .inner-tab", function() {
 		$(this).each(function() {
 			$(this).parent().addClass("on").siblings().removeClass("on");
 			$("."+$(this).parent().data("tab")).addClass("on").siblings().removeClass("on");
 		});
 		
-		if ($("li[data-tab=groundwaterProperty]").hasClass("on")) {	//속성검색 일때 공간 검색때 사용한 그리기 초기화
-			dtmap.draw.dispose();	//그리기 포인트 삭제
-			dtmap.draw.clear();		//그리기 초기화
+		if ($("li[data-tab=groundwaterProperty]").hasClass("on")) {	// 속성검색 일때 공간 검색때 사용한 그리기 초기화
+			dtmap.draw.dispose();	// 그리기 포인트 삭제
+			dtmap.draw.clear();		// 그리기 초기화
 		}
 	});
 	
@@ -82,7 +82,7 @@ $(document).ready(function() {
 		} else {
 			//console.log("모드>>>"+dtmap.mod);
 			if(dtmap.mod == "2D"){
-				if(dtmap.draw.source.getFeatures().length > 0){	//임시로 그려진 형태체크
+				if(dtmap.draw.source.getFeatures().length > 0){	// 임시로 그려진 형태체크
 					FACILITY.spaceSearchOption.geometry = dtmap.draw.getGeometry();
 				}else{
 					alert("영역지정 안되었습니다");
@@ -91,7 +91,6 @@ $(document).ready(function() {
 			}else if(dtmap.mod == "3D"){		
 				FACILITY.spaceSearchOption.geometry = dtmap.draw.getGeometry();
 			}
-			
 		}
 		selectSwlDeptPsList(1);
 	});
@@ -135,7 +134,7 @@ $(document).ready(function() {
 		dtmap.draw.active({type: type, once: true});
 	});
 
-	//경계로부터 버퍼 영역 지정
+	// 경계로부터 버퍼 영역 지정
 	$(".area-facility-buffer", "#bottomPopup").on("keyup", function(event) {
 		dtmap.draw.setBuffer(Number(this.value));
 	});
@@ -186,7 +185,7 @@ $(document).ready(function() {
                             	<tr>  
 									<th scope="row">관리번호</th>  
 									<td>
-										<input type="number" name="ftr_idn_min" class="form-control" value="" style="width:68px">
+										<input type="number" name="ftr_idn_min" class="form-control" value="" onkeypress="if( event.keyCode == 13 ){ selectSwlDeptPsList(1);}" style="width:68px">
 										<input type="number" name="ftr_idn_max" class="form-control" value="" onkeypress="if( event.keyCode == 13 ){ selectSwlDeptPsList(1);}" style="width:68px">
 									</td>
 								</tr>

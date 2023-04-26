@@ -342,7 +342,7 @@ public class SafetyFacilitiesMngController {
 		safetyFacilLampMngVO.setSffmBuffer(Double.parseDouble(request.getParameter("sffmBuffer")) * 0.00001);
 		
 		Map<String, Object> map = safetyFacilitiesMngService.selectSafetyFacilLampMngList(safetyFacilLampMngVO);
-		excelResultMap = safetyFacilitiesMngService.sffmExcelDown(safetyFacilLampMngVO);
+//		excelResultMap = safetyFacilitiesMngService.sffmExcelDown(safetyFacilLampMngVO);
 		
 		int totCnt = Integer.parseInt((String)map.get("resultCnt"));
 		  

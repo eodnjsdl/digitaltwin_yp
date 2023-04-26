@@ -66,9 +66,9 @@ $(document).ready(function() {
 			$("."+$(this).parent().data("tab")).addClass("on").siblings().removeClass("on");
 		});
 		
-		if ($("li[data-tab=groundwaterProperty]").hasClass("on")) {	//속성검색 일때 공간 검색때 사용한 그리기 초기화
-			dtmap.draw.dispose();	//그리기 포인트 삭제
-			dtmap.draw.clear();		//그리기 초기화
+		if ($("li[data-tab=groundwaterProperty]").hasClass("on")) {	// 속성검색 일때 공간 검색때 사용한 그리기 초기화
+			dtmap.draw.dispose();	// 그리기 포인트 삭제
+			dtmap.draw.clear();		// 그리기 초기화
 		}
 	});
 	
@@ -84,7 +84,7 @@ $(document).ready(function() {
 		} else {
 			//console.log("모드>>>"+dtmap.mod);
 			if(dtmap.mod == "2D"){
-				if(dtmap.draw.source.getFeatures().length > 0){	//임시로 그려진 형태체크
+				if(dtmap.draw.source.getFeatures().length > 0){	// 임시로 그려진 형태체크
 					FACILITY.spaceSearchOption.geometry = dtmap.draw.getGeometry();
 				}else{
 					alert("영역지정 안되었습니다");
@@ -93,7 +93,6 @@ $(document).ready(function() {
 			}else if(dtmap.mod == "3D"){		
 				FACILITY.spaceSearchOption.geometry = dtmap.draw.getGeometry();
 			}
-			
 		}
 		selectSwlVentPsList(1);
 	});
@@ -106,8 +105,8 @@ $(document).ready(function() {
 		if (value == "extent") {
 			$(".space-facility-area", "#bottomPopup").hide();
 			
-			dtmap.draw.dispose();		//그리기 포인트 삭제
-			dtmap.draw.clear();			//그리기 초기화
+			dtmap.draw.dispose();		// 그리기 포인트 삭제
+			dtmap.draw.clear();			// 그리기 초기화
 		} else {
 			$(".space-facility-area", "#bottomPopup").show();
 			$("[name=rad-facility-drawing]:first", "#bottomPopup").trigger("click");
@@ -137,7 +136,7 @@ $(document).ready(function() {
 		dtmap.draw.active({type: type, once: true});
 	});
 
-	//경계로부터 버퍼 영역 지정
+	// 경계로부터 버퍼 영역 지정
 	$(".area-facility-buffer", "#bottomPopup").on("keyup", function(event) {
 		dtmap.draw.setBuffer(Number(this.value));
 	});
