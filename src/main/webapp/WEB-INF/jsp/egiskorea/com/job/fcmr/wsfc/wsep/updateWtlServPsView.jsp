@@ -202,7 +202,7 @@
       	
       	//관리방법
       	let sag_cde = '${wtlServPsVO.sag_cde }';
-      	getCmmCodeData("OGC-001", "#rightSubPopup select[name=sag_cde]", sag_cde);
+      	getCmmCodeData("OGC-042", "#rightSubPopup select[name=sag_cde]", sag_cde);
       	
       	//배수지제어방법
       	let scw_cde = '${wtlServPsVO.scw_cde }';

@@ -3,8 +3,8 @@ package egiskorea.com.job.fcmr.wsfc.service;
 import java.io.Serializable;
 
 @SuppressWarnings("serial")
-public class WtlFlowPsVO implements Serializable{
-
+public class WtlSplyLsVO implements Serializable{
+	
 	/** gid 아이디 */
 	private int gid;
 	
@@ -29,42 +29,57 @@ public class WtlFlowPsVO implements Serializable{
 	/** ist_ymd 설치일자 */
 	private String ist_ymd;
 	
-	/** gag_cde 유량계종류 */
-	private String gag_cde;
-	private String gag_cde_nm;
+	/** saa_cde 관용도 */
+	private String saa_cde;
+	private String saa_cde_nm;
 	
-	/** mof_cde 유량계형식 */
-	private String mof_cde;
-	private String mof_cde_nm;
+	/** mop_cde 관재질 */
+	private String mop_cde;
+	private String mop_cde_nm;
 
 	/** std_dip 관경 */
 	private String std_dip;
 	
-	/** prc_nam 제작회사명 */
-	private String prc_nam;
+	/** byc_len 연장 */
+	private String byc_len;
 	
-	/** pip_cde 관로지형지물부호 */
-	private String pip_cde;
-	private String pip_cde_nm;
+	/** jht_cde 접합종류 */
+	private String jht_cde;
+	private String jht_cde_nm;
 	
-	/** pip_idn 관로관리번호 */
-	private String pip_idn;
+	/** low_dep 최저깊이 */
+	private String low_dep;
+	
+	/** hgh_dep 최고깊이 */
+	private String hgh_dep;
 	
 	/** cnt_num 공사번호 */
 	private String cnt_num;
 	
 	/** sys_chk 대장초기화여부 */
 	private String sys_chk;
-
-	/** ang_dir 방향각 */
-	private String ang_dir;
 	
-	/** org_idn 기관관리번호 */
-	private String org_idn;
+	/** pip_lbl 관라벨 */
+	private String pip_lbl;
+
+	/** sun_cde 코드 */
+	private String sun_cde;
+	
+	/** ins_ymd 측량일 */
+	private String ins_ymd;
+	
+	/** ins_usr 측량자 */
+	private String ins_usr;
+	
+	/** mod_ymd 수정일 */
+	private String mod_ymd;
+	
+	/** mod_usr 수정자 */
+	private String mod_usr;
 	
 	/** geom 공간정보 */
 	private String geom;
-	
+
 	public int getGid() {
 		return gid;
 	}
@@ -145,36 +160,36 @@ public class WtlFlowPsVO implements Serializable{
 		this.ist_ymd = ist_ymd;
 	}
 
-	public String getGag_cde() {
-		return gag_cde;
+	public String getSaa_cde() {
+		return saa_cde;
 	}
 
-	public void setGag_cde(String gag_cde) {
-		this.gag_cde = gag_cde;
+	public void setSaa_cde(String saa_cde) {
+		this.saa_cde = saa_cde;
 	}
 
-	public String getGag_cde_nm() {
-		return gag_cde_nm;
+	public String getSaa_cde_nm() {
+		return saa_cde_nm;
 	}
 
-	public void setGag_cde_nm(String gag_cde_nm) {
-		this.gag_cde_nm = gag_cde_nm;
+	public void setSaa_cde_nm(String saa_cde_nm) {
+		this.saa_cde_nm = saa_cde_nm;
 	}
 
-	public String getMof_cde() {
-		return mof_cde;
+	public String getMop_cde() {
+		return mop_cde;
 	}
 
-	public void setMof_cde(String mof_cde) {
-		this.mof_cde = mof_cde;
+	public void setMop_cde(String mop_cde) {
+		this.mop_cde = mop_cde;
 	}
 
-	public String getMof_cde_nm() {
-		return mof_cde_nm;
+	public String getMop_cde_nm() {
+		return mop_cde_nm;
 	}
 
-	public void setMof_cde_nm(String mof_cde_nm) {
-		this.mof_cde_nm = mof_cde_nm;
+	public void setMop_cde_nm(String mop_cde_nm) {
+		this.mop_cde_nm = mop_cde_nm;
 	}
 
 	public String getStd_dip() {
@@ -185,36 +200,44 @@ public class WtlFlowPsVO implements Serializable{
 		this.std_dip = std_dip;
 	}
 
-	public String getPrc_nam() {
-		return prc_nam;
+	public String getByc_len() {
+		return byc_len;
 	}
 
-	public void setPrc_nam(String prc_nam) {
-		this.prc_nam = prc_nam;
+	public void setByc_len(String byc_len) {
+		this.byc_len = byc_len;
 	}
 
-	public String getPip_cde() {
-		return pip_cde;
+	public String getJht_cde() {
+		return jht_cde;
 	}
 
-	public void setPip_cde(String pip_cde) {
-		this.pip_cde = pip_cde;
-	}
-	
-	public String getPip_cde_nm() {
-		return pip_cde_nm;
+	public void setJht_cde(String jht_cde) {
+		this.jht_cde = jht_cde;
 	}
 
-	public void setPip_cde_nm(String pip_cde_nm) {
-		this.pip_cde_nm = pip_cde_nm;
+	public String getJht_cde_nm() {
+		return jht_cde_nm;
 	}
 
-	public String getPip_idn() {
-		return pip_idn;
+	public void setJht_cde_nm(String jht_cde_nm) {
+		this.jht_cde_nm = jht_cde_nm;
 	}
 
-	public void setPip_idn(String pip_idn) {
-		this.pip_idn = pip_idn;
+	public String getLow_dep() {
+		return low_dep;
+	}
+
+	public void setLow_dep(String low_dep) {
+		this.low_dep = low_dep;
+	}
+
+	public String getHgh_dep() {
+		return hgh_dep;
+	}
+
+	public void setHgh_dep(String hgh_dep) {
+		this.hgh_dep = hgh_dep;
 	}
 
 	public String getCnt_num() {
@@ -232,21 +255,53 @@ public class WtlFlowPsVO implements Serializable{
 	public void setSys_chk(String sys_chk) {
 		this.sys_chk = sys_chk;
 	}
-
-	public String getAng_dir() {
-		return ang_dir;
+	
+	public String getPip_lbl() {
+		return pip_lbl;
 	}
 
-	public void setAng_dir(String ang_dir) {
-		this.ang_dir = ang_dir;
+	public void setPip_lbl(String pip_lbl) {
+		this.pip_lbl = pip_lbl;
 	}
 
-	public String getOrg_idn() {
-		return org_idn;
+	public String getSun_cde() {
+		return sun_cde;
 	}
 
-	public void setOrg_idn(String org_idn) {
-		this.org_idn = org_idn;
+	public void setSun_cde(String sun_cde) {
+		this.sun_cde = sun_cde;
+	}
+
+	public String getIns_ymd() {
+		return ins_ymd;
+	}
+
+	public void setIns_ymd(String ins_ymd) {
+		this.ins_ymd = ins_ymd;
+	}
+
+	public String getIns_usr() {
+		return ins_usr;
+	}
+
+	public void setIns_usr(String ins_usr) {
+		this.ins_usr = ins_usr;
+	}
+
+	public String getMod_ymd() {
+		return mod_ymd;
+	}
+
+	public void setMod_ymd(String mod_ymd) {
+		this.mod_ymd = mod_ymd;
+	}
+
+	public String getMod_usr() {
+		return mod_usr;
+	}
+
+	public void setMod_usr(String mod_usr) {
+		this.mod_usr = mod_usr;
 	}
 
 	public String getGeom() {
@@ -256,5 +311,5 @@ public class WtlFlowPsVO implements Serializable{
 	public void setGeom(String geom) {
 		this.geom = geom;
 	}
-
+	
 }

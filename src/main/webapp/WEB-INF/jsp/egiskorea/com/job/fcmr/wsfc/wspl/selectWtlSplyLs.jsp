@@ -6,7 +6,7 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
 <style type="text/css">
-	.popup-panel.popup-sub .select-wtlFlowPs-popup-close {
+	.popup-panel.popup-sub .select-wtlSplyLs-popup-close {
 	    top: 0;
 	    right: 0;
 	    width: 39px;
@@ -18,9 +18,9 @@
 	}
 </style>
 
-<!-- 업무 > 시설관리 > 상수수도시설 > 유량계 상세보기-->
+<!-- 업무 > 시설관리 > 상수수도시설 > 급수관로 상세보기-->
 
-       	<div class="popup-header">유량계 상세보기</div>
+       	<div class="popup-header">급수관로 상세보기</div>
            <div class="popup-body">
                <div class="sub-popup-body">
                    <div class="data-write-wrap" style="height: 100%;">
@@ -37,85 +37,85 @@
                                    <tr>
                                        <th scope="row">지형지물부호</th>
                                        <td>
-                                          	<c:out value="${wtlFlowPsVO.ftr_cde_nm }"/>
+                                          	<c:out value="${wtlSplyLsVO.ftr_cde_nm }"/>
                                        </td>
                                        <th scope="row">관리번호</th>
                                        <td>
-                                       	  	<c:out value="${wtlFlowPsVO.ftr_idn }"/>
+                                       	  	<c:out value="${wtlSplyLsVO.ftr_idn }"/>
                                        </td>
                                    </tr>
                                    <tr>
                                        <th scope="row">읍면동</th>
                                        <td>
-                                       		<c:out value="${wtlFlowPsVO.hjd_cde_nm }"/>
+                                       		<c:out value="${wtlSplyLsVO.hjd_cde_nm }"/>
                                        </td>
-                                       <th scope="row">관리기관</th>
+                                       <th scope="row">도엽번호</th>
                                        <td>
-                                       	   <c:if test="${wtlFlowPsVO.mng_cde_nm  != '' || wtlFlowPsVO.mng_cde_nm  ne null}">
-                                           		<c:out value="${wtlFlowPsVO.mng_cde_nm }"/>
-                                           </c:if>
-                                           <c:if test="${wtlFlowPsVO.mng_cde_nm  == '' || wtlFlowPsVO.mng_cde_nm  eq null }">
-                                           		<c:out value="${wtlFlowPsVO.mng_cde }"/>
-                                           </c:if>
+											<c:out value="${wtlSplyLsVO.sht_num }"/>
                                        </td>
                                    </tr>
                                    <tr>
-                                       <th scope="row">도엽번호</th>
+                                       <th scope="row">관리기관</th>
                                        <td>
-                                       		<c:out value="${wtlFlowPsVO.sht_num }"/>
+                                       		<c:out value="${wtlSplyLsVO.mng_cde }"/>
                                        </td>
                                        <th scope="row">설치일자</th>
                                        <td>
                                            <div class="datapicker-group">
-                                           		<c:out value="${wtlFlowPsVO.ist_ymd }"/>
+                                           		<c:out value="${wtlSplyLsVO.ist_ymd }"/>
                                            </div>
                                        </td>
                                    </tr>
                                    <tr>
-                                       <th scope="row">유량계종류</th>
+                                       <th scope="row">관용도</th>
                                        <td>
-                                           <c:out value="${wtlFlowPsVO.gag_cde_nm }"/>
+                                           <c:out value="${wtlSplyLsVO.saa_cde_nm }"/>
                                        </td>
-                                       <th scope="row">유량계형식</th>
+                                       <th scope="row">관재질</th>
                                        <td>
-                                           <c:out value="${wtlFlowPsVO.mof_cde_nm }"/>
+                                           <c:out value="${wtlSplyLsVO.mop_cde_nm }"/>
                                        </td>
                                    </tr>
                                    <tr>
                                        <th scope="row">관경(mm)</th>
                                        <td>
-                                       		<c:out value="${wtlFlowPsVO.std_dip }"/>
+                                       		<c:out value="${wtlSplyLsVO.std_dip }"/>
                                        </td>
-                                       <th scope="row">제작회사명</th>
+                                       <th scope="row">연장</th>
                                        <td>
-                                       		<c:out value="${wtlFlowPsVO.prc_nam }"/>
+                                       		<c:out value="${wtlSplyLsVO.byc_len }"/>
                                        </td>
                                    </tr>
                                    <tr>
-                                       <th scope="row">관로지형지물부호</th>
+                                       <th scope="row">접합종류</th>
                                        <td>
-                                       		<c:out value="${wtlFlowPsVO.pip_cde_nm }"/>
+                                       		<c:out value="${wtlSplyLsVO.jht_cde_nm }"/>
                                        </td>
-                                       <th scope="row">관로관리번호</th>
+                                       <th scope="row">최저깊이</th>
                                        <td>
-	                                       	<c:out value="${wtlFlowPsVO.pip_idn }"/>
+	                                       	<c:out value="${wtlSplyLsVO.low_dep }"/>
                                        </td>
                                    </tr>
                                    <tr>
+                                       <th scope="row">최고깊이</th>
+                                       <td>
+                                       		<c:out value="${wtlSplyLsVO.hgh_dep }"/>
+                                       </td>
                                        <th scope="row">공사번호</th>
                                        <td>
-	                                       	<c:out value="${wtlFlowPsVO.cnt_num }"/>
+	                                       	<c:out value="${wtlSplyLsVO.cnt_num }"/>
                                        </td>
-                                       <th scope="row">방향각</th>
-                                       <td>
-	                                       	<c:out value="${wtlFlowPsVO.ang_dir }"/>
+                                   </tr>
+                                   <tr>
+                                       <th scope="row">관라벨</th>
+                                       <td colspan="3">
+	                                       	<c:out value="${wtlSplyLsVO.pip_lbl }"/>
                                        </td>
                                    </tr>
                                    <tr>
                                        <th scope="row">위치</th>
                                        <td colspan="3">
                                            <div class="form-row">
-											  <c:out value="${wtlFlowPsVO.geom }"/>
                                            	  <input type="text" 	class="form-control txt-geometry-address" value="" readonly="readonly">
                                            	  <input type="hidden" 	name="geom" class="form-control" value="">
                                            </div>
@@ -127,22 +127,22 @@
                        </div>
                        <div class="position-bottom btn-wrap justify-content-end">
                            <div>
-                           	   <button type="button" class="btn basic bi-edit btn_edit" 		onclick="javascript:updateWtlFlowPsView('<c:out value="${id }"/>')">수정</button>
-                               <button type="button" class="btn basic bi-delete2 btn_delete" 	onclick="javascript:deleteWtlFlowPs('<c:out value="${id }"/>')">삭제</button>  
-                               <button type="button" class="btn basic bi-cancel btn_cancel" 	onclick="javascript:cancelSelectWtlFlowPs();">취소</button>
+                           	   <button type="button" class="btn basic bi-edit btn_edit" 		onclick="javascript:updateWtlSplyLsView('<c:out value="${id }"/>')">수정</button>
+                               <button type="button" class="btn basic bi-delete2 btn_delete" 	onclick="javascript:deleteWtlSplyLs('<c:out value="${id }"/>')">삭제</button>  
+                               <button type="button" class="btn basic bi-cancel btn_cancel" 	onclick="javascript:cancelSelectWtlSplyLs();">취소</button>
                            </div>
                        </div>
                    </div>
                </div>
            </div>
-           <button type="button" class="select-wtlFlowPs-popup-close" title="닫기"></button>
+           <button type="button" class="select-wtlSplyLs-popup-close" title="닫기"></button>
 
-<!-- 업무 > 시설관리 > 상수수도시설 > 유량계 상세보기 end -->
+<!-- 업무 > 시설관리 > 상수수도시설 > 급수관로 상세보기 end -->
 
 <script type="text/javascript">
 	//jqeury
 	$(document).ready(function(){
-		//console.log("selectWtlFlowPs.jsp");
+		//console.log("selectWtlSplyLs.jsp");
 		
 		//gird 데이터를 통한 주소 조회
 		var id = "${id }";
@@ -160,18 +160,19 @@
 		//이벤트
 		
 		//닫기
-		$(".popup-panel .select-wtlFlowPs-popup-close").on("click", function () {
-            cancelSelectWtlFlowPs();
+		$(".popup-panel .select-wtlSplyLs-popup-close").on("click", function () {
+            cancelSelectWtlSplyLs();
     	});
+		
 	});
 	
 	//functions
 	
-	//유량계 상세보기 취소
-	function cancelSelectWtlFlowPs() {
-		//console.log("cancelSelectWtlFlowPs()");
+	//하수연결관 상세보기 취소
+	function cancelSelectWtlSplyLs() {
+		//console.log("cancelSelectWtlSplyLs()");
 		
-		$(".select-wtlFlowPs-popup-close").closest('.popup-panel').removeClass('opened');
+		$(".select-wtlSplyLs-popup-close").closest('.popup-panel').removeClass('opened');
         // 초기화 (지도)
         dtmap.draw.dispose();
         dtmap.draw.clear();

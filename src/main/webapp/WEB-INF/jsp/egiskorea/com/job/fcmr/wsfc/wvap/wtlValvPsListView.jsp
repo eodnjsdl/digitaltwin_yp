@@ -82,8 +82,8 @@
 								<tr>  
 									<th scope="row">관경</th>  
 									<td>    
-										<input type="number" name="std_dip_min" class="form-control" value="" style="width:68px">    
-										<input type="number" name="std_dip_max" class="form-control" value="" onkeyup="inputKeyup()" style="width:68px">  
+										<input type="number" name="std_dip_min" step="50" class="form-control" value="" style="width:68px">    
+										<input type="number" name="std_dip_max" step="50" class="form-control" value="" onkeyup="inputKeyup()" style="width:68px">  
 									</td>
 								</tr>
                             	<tr>  
@@ -168,7 +168,7 @@
 </div>
 <button type="button" class="manualBtn" title="도움말" onclick="manualTab('상수도시설')"></button>
 <button type="button" class="popup-close"
-        onClick="toastr.warning('removeLayer(); cmmUtil.drawClear();', 'onclick 이벤트');" title="닫기"></button>
+        onClick="clearMap();" title="닫기"></button>
 <button type="button" class="popup-reset"></button>
 <button type="button" class="popup-bottom-toggle" title="접기"></button>
 <!-- //업무 > 시설물 공통 -->

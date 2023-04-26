@@ -4,8 +4,8 @@
  * @returns
  */
 $(document).ready(function(){
-	console.log("facilityPhysicalEducation.js");
-	console.log("체육시설");
+	//console.log("facilityPhysicalEducation.js");
+	//console.log("체육시설");
 });
 
 // 체육시설 옵션 설정

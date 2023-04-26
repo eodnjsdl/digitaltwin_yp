@@ -72,14 +72,14 @@ function codeArrayInit(){
 	//setCmmCodeDataArray("OGC-041");			//수압계형식
 	
 	//배수지
-	setCmmCodeDataArray("OGC-001");				//관리방법
+	setCmmCodeDataArray("OGC-042");				//관리방법
 	setCmmCodeDataArray("OGC-134");				//배수지제어방법
 
 	//변류시설
 	setCmmCodeDataArray("OGC-031");				//변류형식
 	setCmmCodeDataArray("OGC-007");				//제수변회전방향
 	setCmmCodeDataArray("OGC-008");				//제수변구동방법
-	//setCmmCodeDataArray("OGC-001");			//시설물형태
+	setCmmCodeDataArray("OGC-001");				//시설물형태
 	setCmmCodeDataArray("OGC-010");				//이상상태
 	setCmmCodeDataArray("OGC-011");				//개폐여부
 	
@@ -481,15 +481,19 @@ function onFacilitySelectEventListener(e){
 			if(featureType == "wtl_fire_ps"){						//상수도시설 - 소방시설
 				selectWtlFirePs(id);
 			}else if(featureType == "wtl_pipe_lm"){					//상수도시설 - 상수관로
-				toastr.error("지도 객체 클릭 작업중", "상수도시설 - 상수관로");
+				selectWtlPipeLm(id);
 			}else if(featureType == "wtl_flow_ps"){					//상수도시설 - 유량계
 				selectWtlFlowPs(id);
 			}else if(featureType == "wtl_manh_ps"){					//상수도시설 - 상수맨홀
 				selectWtlManhPs(id);
+			}else if(featureType == "wtl_pipe_ps"){					//상수도시설 - 상수관로심도
+				selectWtlPipePs(id);
 			}else if(featureType == "wtl_prga_ps"){					//상수도시설 - 수압계
 				selectWtlPrgaPs(id);
 			}else if(featureType == "wtl_serv_ps"){					//상수도시설 - 배수지
 				selectWtlServPs(id);
+			}else if(featureType == "wtl_sply_ls"){					//상수도시설 - 급수관로
+				selectWtlSplyLs(id);
 			}else if(featureType == "wtl_valv_ps"){					//상수도시설 - 변류시설
 				selectWtlValvPs(id);
 			}else if(featureType == "swl_conn_ls"){					//하수도시설 - 하수연결관 

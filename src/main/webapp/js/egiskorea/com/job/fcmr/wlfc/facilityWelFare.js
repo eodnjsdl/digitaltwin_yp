@@ -4,8 +4,8 @@
  * @returns
  */
 $(document).ready(function(){
-	console.log("facilityWelFare.js");
-	console.log("복지시설");
+	//console.log("facilityWelFare.js");
+	//console.log("복지시설");
 });
 
 // 복지시설 옵션 설정
