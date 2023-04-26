@@ -269,7 +269,7 @@
             	}else if(dtmap.mod == "3D"){		
             		FACILITY.spaceSearchOption.geometry = dtmap.draw.getGeometry();
             	}
-            	
+
             }
            	
            	selectWtlValvPsList(1);

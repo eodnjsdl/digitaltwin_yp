@@ -84,7 +84,6 @@ function setData(_pageNo){
 	}
 
 	//검색옵션
-
 	if(SEARCHOBJ.propertySearch != null){//속성검색
 		var gbn = SEARCHOBJ.propertySearch.searchGbn;
 		var deviceid = SEARCHOBJ.propertySearch.searchDeviceId;
@@ -260,64 +259,147 @@ function fn_search_List(){
 		const type = $parent.find('input[name="cctvSelect"]:checked').val();
 		
 		if (type === 'extent') {
-			 var bbox = dtmap.getExtent();
-			 SEARCHOBJ.spaceSearch.bbox = bbox;
+			SEARCHOBJ.spaceSearch.bbox = dtmap.getExtent();
 
 		} else {
-			if(dtmap.draw.source.getFeatures().length > 0){
+			if(dtmap.mod == '2D'){
+				if(dtmap.draw.source.getFeatures().length > 0){
+					SEARCHOBJ.spaceSearch.geometry = dtmap.draw.getGeometry();
+				}else{
+					alert("영역지정 안되었습니다");
+					return false;
+				}
+			}else if(dtmap.mod == '3D'){
 				SEARCHOBJ.spaceSearch.geometry = dtmap.draw.getGeometry();
-			}else{
-				alert("영역지정 안되었습니다");
-				return false;
 			}
-		}
 
-		setSpatial(type);
 	}
 }
 
-function setSpatial(type){
-	let geom;
-	var geoWKTstr;
-	if (type === 'extent') {
-		let minX = SEARCHOBJ.spaceSearch.bbox[0];
-		let minY = SEARCHOBJ.spaceSearch.bbox[1];
-		let maxX = SEARCHOBJ.spaceSearch.bbox[2];
-		let maxY = SEARCHOBJ.spaceSearch.bbox[3];
-
-		var geoWKTstr = "POLYGON(("+minX+" "+minY+", "+minX+" "+maxY+", "+maxX+" "+maxY+", "+maxX+" "+minY+", "+minX+" "+minY+"))";
-
-	}else{
-
-		if(SEARCHOBJ.spaceSearch.geometry.getType() == 'Circle'){
-			geom = new ol.geom.Polygon.fromCircle(SEARCHOBJ.spaceSearch.geometry);
-		}else{
-			geom = SEARCHOBJ.spaceSearch.geometry;
-		}
-		
-		var writer = new ol.format.WKT();
-		var geoWKTstr = writer.writeGeometry(geom)
-
-	}
-		$('#spitalSearch').val(geoWKTstr);
-
-}
 
 //cctv 엑셀다운로드 버튼
 $("#cctvExcelDownload").on("click", function(){
-	let formName = this.dataset.formName;
-	let formData = new FormData($('#searchForm')[0]);
+	var $container = $("#container");
+    var $target = $container.find('[data-ax5grid="attr-grid-excel"]');	//가상의 ax5uigrid 공간에 처리 
+    // $target.css('display', 'none');
+    
+	this.gridAll = new ax5.ui.grid();
+	this.gridAll.setConfig({
+		target:  $target,
+		sortable: true,
+		multipleSelect: false,
+		header: {
+			align: "center"
+		},
+		columns: [
+			{key: "gid",			label: "GID",			width: '*'},
+			{key: "gbn",			label: "구분",			width: '*'},
+			{key: "label", 			label: "명칭",			width: '*'},
+			{key: "deviceid",		label: "기기",			width: '*'},
+			{key: "channel",		label: "channel",		width: '*'},
+			{key: "ptz_yn",			label: "ptz_yn",		width: '*'},
+			{key: "talk_yn",			label: "talk_yn",		width: '*'},
+			{key: "net_yn",			label: "net_yn",		width: '*'},
+			{key: "lon",			label: "위도",			width: '*'},
+			{key: "lat",			label: "경도",			width: '*'},
+			{key: "preset1",		label: "preset1",		width: '*'},
+			{key: "preset2",		label: "preset2",		width: '*'},
+			{key: "preset3", 		label: "preset3",		width: '*'},
+			{key: "preset4",		label: "preset4",		width: '*'},
+			{key: "preset5",		label: "preset5",		width: '*'},
+			{key: "preset6",		label: "preset6",		width: '*'},
+			{key: "preset7",		label: "preset7",		width: '*'},
+			{key: "preset8",		label: "preset8",		width: '*'},
+			{key: "preset9",		label: "preset9",		width: '*'},
+			{key: "preset10",		label: "preset10",		width: '*'},
+			{key: "preset11",		label: "preset11",		width: '*'},
+			{key: "preset12",		label: "preset12",		width: '*'},
+			{key: "preset13", 		label: "preset13",		width: '*'},
+			{key: "preset14",		label: "preset14",		width: '*'},
+			{key: "preset15",		label: "preset15",		width: '*'},
+			{key: "preset16",		label: "preset16",		width: '*'},
+			{key: "preset17",		label: "preset17",		width: '*'},
+			{key: "preset18",		label: "preset18",		width: '*'},
+			{key: "preset19",		label: "preset19",		width: '*'},
+			{key: "preset20",		label: "preset20",		width: '*'},
+			{key: "angle",			label: "angle",			width: '*'},
+			{key: "lgsr_adr",		label: "주소",			width: '*'},
+			{key: "new_adr", 		label: "new_adr",		width: '*'},
+			{key: "ip_adr",			label: "ip_adr",		width: '*'},
+			{key: "instl_yy",		label: "istl_yy",		width: '*'},
+			{key: "chan_yy",			label: "chan_yy",		width: '*'},
+			{key: "geomText",			label: "geom",			width: '*'},
 
-	formData.set('cctvBuffer', '0');
+		],
+		body: {
+			align: "center"
+		}
+	})
 
-	let url = '/job/cctv/' + formName + 'Download.do';
+    // 검색 조건
+	var options = {
+		typeNames: 'tgd_cctv_status_new', //WFS 레이어명
+		sortBy : 'gid',
+		sortOrder : 'DESC',
+	}
 	
-	$("form[name='"+ formName + "']").attr('onsubmit', '');
-	$("form[name='"+ formName + "']").attr('action', url);
-	$("form[name='"+ formName + "']").submit();
-	$("form[name='"+ formName + "']").attr('onsubmit', 'fn_select_list(); return false;');
-	$("form[name='"+ formName + "']").attr('action', '');
+	//검색 옵션
+	if(SEARCHOBJ.propertySearch != null){//속성검색
+		var gbn = SEARCHOBJ.propertySearch.searchGbn;
+		var deviceid = SEARCHOBJ.propertySearch.searchDeviceId;
+		var label = SEARCHOBJ.propertySearch.searchLabel;
+
+		var cqlList = [];
+		if(gbn.trim().length >=1){cqlList.push("gbn like "+gbn+" ");}
+		if(deviceid.trim().length >=1){cqlList.push("deviceid like "+deviceid+" ");}
+		if(label.trim().length >=1){cqlList.push("label like "+label+" ");}
+	
+		options.filter = cqlList;
+
+	}else if(SEARCHOBJ.spaceSearch != null){//공간검색
+
+		const $parent 	= $(".search-area");
+        const type 		= $parent.find('input[name="cctvSelect"]:checked').val();
+        if (type === 'extent') {
+        	options.bbox = SEARCHOBJ.spaceSearch.bbox;
+        } else {
+        	options.geometry = SEARCHOBJ.spaceSearch.geometry;
+        }
+	}
+	
+	// 엑셀파일 날짜_시간
+	var today = new Date(); 
+	let year = dateNum(today.getFullYear());		// 년도
+	let month = dateNum(today.getMonth() + 1, 2);	// 월
+	let date = dateNum(today.getDate(), 2);			// 날짜
+	let hours = dateNum(today.getHours(), 2);		// 시
+	let minutes = dateNum(today.getMinutes(), 2);	// 분
+	let seconds = dateNum(today.getSeconds(), 2);	// 초
+
+	var todayDate = year+month+date+'_'+hours+minutes+seconds;
+	var gridList = this;
+	const promise = dtmap.wfsGetFeature(options);
+	promise.then(function(data) {
+		// 그리드 데이터 전처리
+		const list = [];
+		for (let i = 0; i < data.features.length; i++) {
+        	// 좌표 처리
+			data.features[i].properties.geomObj = data.features[i].geometry;
+			
+			// GEOMETRY 처리
+			data.features[i].properties.geomText = data.features[i].geometry.type + ' (' + data.features[i].geometry.coordinates[0] + ' ' + data.features[i].geometry.coordinates[1] + ')';
+			
+        	const {id, properties} = data.features[i];
+			list.push({...properties, ...{id: id}});
+		}
+		
+		// gird 적용
+        gridList.gridAll.setData(list);
+        
+        //엑셀 export
+		gridList.gridAll.exportExcel("cctv관리" + todayDate + ".xls");
+	});
 });
 
-
+}
 

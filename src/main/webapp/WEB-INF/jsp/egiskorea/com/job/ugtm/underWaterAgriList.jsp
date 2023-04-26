@@ -153,6 +153,7 @@ var lastDraw = "<c:out value='${searchVO.underWaterAgriAreaDrawing}' />";
 				<div class="bbs-default">
 					<div data-ax5grid="bbs-grid"  data-ax5grid-config="{}" style="height: 267px;">
 					</div>
+					<div data-ax5grid="attr-grid-excel" style="diplay:none;"></div>
 				</div>
 			</div>
 		</div>
@@ -178,9 +179,13 @@ var lastDraw = "<c:out value='${searchVO.underWaterAgriAreaDrawing}' />";
 			dtmap.draw.dispose();		//그리기 포인트 삭제
 			dtmap.draw.clear();			//그리기 초기화
 			dtmap.on('select',spaceClickListener );	//레이어 선택 핸들러
+			$('#spitalSearch').val('');	//공간검색 초기화
 		}else{
 			$('input[name=underWaterAgriSelect]:first').prop('checked', 'checked');//공간검색>현재화면영역
 			$(".spaceArea", "#bottomPopup").hide();
+
+			//속성검색 초기화
+			$('.groundwaterProperty select>option[value=""]').prop('selected', true);	
 		}
 		
 	});

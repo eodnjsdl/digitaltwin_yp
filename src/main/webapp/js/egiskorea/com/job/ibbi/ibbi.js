@@ -161,20 +161,122 @@ function fn_pageDetail(no, gid){
 }
 //관내업소정보조회 엑셀다운로드
 $("#ibbiExcelDownload").on("click", function(){
-	let formName = this.dataset.formName;
-	document.getElementById("searchForm").emdKorNm.value = lastEmdKorNm;
-	document.getElementById("searchForm").opnnSvcNmSearch.value = lastOpnnSvcNmSearch;
-	document.getElementById("searchForm").bplcNmSearch.value = lastBplcNmSearch;
-	document.getElementById("searchForm").spitalSearch.value = lastSpitalSearch;
-	document.getElementById("searchForm").bufferCnt.value = lastBufferCnt;
+	var $container = $("#container");
+	var $target = $container.find('[data-ax5grid="attr-grid-excel"]');	//가상의 ax5uigrid 공간에 처리 
+	$target.css('display', 'none');
+
+	this.gridAll = new ax5.ui.grid();
+	this.gridAll.setConfig({
+		target:  $target,
+		sortable: true,
+		multipleSelect: false,
+		header: {
+			align: "center"
+		},
+		columns: [
+			{key: "gid",			label: "GID",			width: '*'},
+			{key: "no", 	label: "번호",			width: '*'},
+			{key: "pnu", 	label: "행정구역코드",			width: '*'},
+			{key: "opnn_svc_nm", 	label: "개방서비스명",			width: '*'},
+			{key: "opnn_svc_id", 	label: "개방서비스ID",			width: '*'},
+			{key: "opnn_gm_grp_cd", 	label: "개방자치단체코드",			width: '*'},
+        	{key: "mng_no", 		label: "관리번호",			width: '*'},
+        	{key: "aupm_de", 		label: "인허가일자",			width: '*'},
+        	{key: "aupm_canl_de", 		label: "인허가취소일자",			width: '*'},
+        	{key: "bsn_stae_se_cd", 		label: "영업상태구분코드",			width: '*'},
+        	{key: "bsn_stae_nm", 		label: "영업상태명",			width: '*'},
+        	{key: "deal_bsn_stae_cd", 		label: "상세영업상태코드",			width: '*'},
+        	{key: "deal_bsn_stae_nm", 		label: "상세영업상태명",			width: '*'},
+        	{key: "cbiz_de", 		label: "폐업일자",			width: '*'},
+        	{key: "sobs_de", 		label: "휴업일자",			width: '*'},
+        	{key: "sobs_end_de", 		label: "휴업종료일자",			width: '*'},
+        	{key: "relc_de", 		label: "재개업일자",			width: '*'},
+        	{key: "lc_tlp", 		label: "소재지전화",			width: '*'},
+        	{key: "lc_ar", 		label: "소재지면적",			width: '*'},
+        	{key: "lc_zip", 		label: "소재지우편번호",			width: '*'},
+        	{key: "lc_all_adr", 		label: "소재지전체주소",			width: '*'},
+        	{key: "rdn_all_adr", 		label: "도로명전체주소",			width: '*'},
+        	{key: "rdn_zip", 		label: "도로명우편번호",			width: '*'},
+        	{key: "bplc_nm", 		label: "사업장명",			width: '*'},
+        	{key: "last_updt_pnttm", 		label: "최종수정시점",			width: '*'},
+        	{key: "data_updt_se", 		label: "데이터갱신구분",			width: '*'},
+        	{key: "data_updt_de", 		label: "데이터갱신일자",			width: '*'},
+        	{key: "bsn_stae_nm", 	label: "영업상태",			width: '*'},
+        	{key: "bizc_se_nm", 	label: "업태구분명",			width: '*'},
+        	{key: "lon", 		label: "위도",			width: '*'},
+        	{key: "lat", 		label: "경도",			width: '*'},
+        	{key: "geomText", 		label: "GEOMETRY",			width: '*'},
+		],
+		body: {
+			align: "center"
+		}
+	})
+
+	options={
+		typeNames: 'yp_bssh_info', //WFS 레이어명
+		sortBy : 'gid',
+		sortOrder : 'DESC',
+	};
+
+	//검색옵션
+	if(SEARCHOBJ.propertySearch != null){//속성검색
+		var lc_all_adr = SEARCHOBJ.propertySearch.searchLcAllAdr;
+		var opnn_svc_nm = SEARCHOBJ.propertySearch.searchOpnnSvcNm;
+		var bplc_nm = SEARCHOBJ.propertySearch.searchBplcNm;
+
+		var cqlList = [];
+
+		if(lc_all_adr!=''){cqlList.push("lc_all_adr like "+lc_all_adr+" ")}
+		if(opnn_svc_nm!=''){cqlList.push("opnn_svc_nm = "+opnn_svc_nm+" ")}
+		if(bplc_nm!=''){cqlList.push("bplc_nm like "+bplc_nm+" ")}
 	
-	let url = '/job/ibbi/' + formName + 'Download.do';
+		options.filter = cqlList;
+
+	}else if(SEARCHOBJ.spaceSearch != null){//공간검색
+
+		const $parent 	= $(".search-area");
+        const type 		= $parent.find('input[name="inBusinessEstaInfoSelect"]:checked').val();
+        if (type === 'extent') {
+        	options.bbox = SEARCHOBJ.spaceSearch.bbox;
+        } else {
+        	options.geometry = SEARCHOBJ.spaceSearch.geometry;
+        }
+	}
+
 	
-	$("form[name='"+ formName + "']").attr('onsubmit', '');
-	$("form[name='"+ formName + "']").attr('action', url);
-	$("form[name='"+ formName + "']").submit();
-	$("form[name='"+ formName + "']").attr('onsubmit', 'fn_select_list(); return false;'); 
-	$("form[name='"+ formName + "']").attr('action', '');
+
+	// 엑셀파일 날짜_시간
+	var today = new Date(); 
+	let year = dateNum(today.getFullYear());		// 년도
+	let month = dateNum(today.getMonth() + 1, 2);	// 월
+	let date = dateNum(today.getDate(), 2);			// 날짜
+	let hours = dateNum(today.getHours(), 2);		// 시
+	let minutes = dateNum(today.getMinutes(), 2);	// 분
+	let seconds = dateNum(today.getSeconds(), 2);	// 초
+
+	var todayDate = year+month+date+'_'+hours+minutes+seconds;
+	var gridList = this;
+	const promise = dtmap.wfsGetFeature(options);
+	promise.then(function(data) {
+		// 그리드 데이터 전처리
+		const list = [];
+		for (let i = 0; i < data.features.length; i++) {
+			// 좌표 처리
+			data.features[i].properties.geomObj = data.features[i].geometry;
+			
+			// GEOMETRY 처리
+			data.features[i].properties.geomText = data.features[i].geometry.type + ' (' + data.features[i].geometry.coordinates[0] + ' ' + data.features[i].geometry.coordinates[1] + ')';
+			
+			const {id, properties} = data.features[i];
+			list.push({...properties, ...{id: id}});
+		}
+		
+		// gird 적용
+		gridList.gridAll.setData(list);
+		
+		//엑셀 export
+		gridList.gridAll.exportExcel("관내업소정보조회_" + todayDate + ".xls");
+	});
 
 });
 
@@ -210,15 +312,17 @@ function fn_search_List(){
 		const type = $parent.find('input[name="inBusinessEstaInfoSelect"]:checked').val();
 		
 		if (type === 'extent') {
-			 var bbox = dtmap.getExtent();
-			 SEARCHOBJ.spaceSearch.bbox = bbox;
-
+			SEARCHOBJ.spaceSearch.bbox = dtmap.getExtent();
 		} else {
-			if(dtmap.draw.source.getFeatures().length > 0){
+			if(dtmap.mod == '2D'){
+				if(dtmap.draw.source.getFeatures().length > 0){
+					SEARCHOBJ.spaceSearch.geometry = dtmap.draw.getGeometry();
+				}else{
+					alert("영역지정 안되었습니다");
+					return false;
+				}
+			}else if(dtmap.mod == '3D'){
 				SEARCHOBJ.spaceSearch.geometry = dtmap.draw.getGeometry();
-			}else{
-				alert("영역지정 안되었습니다");
-				return false;
 			}
 		}
 

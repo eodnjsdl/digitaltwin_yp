@@ -64,7 +64,6 @@ function setData(_pageNo){
 		typeNames: 'tgd_ugrwtr_utlztn_fclty', //WFS 레이어명
 		page  : _pageNo+1,
 		perPage : 100,
-		filter : cqlList
 	}
 
 	//검색옵션
@@ -221,21 +220,110 @@ function fn_update(gid){
 }
 //지하수이용시설 엑셀다운로드 버튼
 $("#ugufExcelDownload").on("click", function(){
-	let formName = this.dataset.formName;
-	document.getElementById("searchForm").emdKorNm.value = lastEmdKorNm;
-	document.getElementById("searchForm").allvlBsrckSeSearch.value = lastAllvlBsrckSeSearch;
-	document.getElementById("searchForm").prposSeSearch.value = lastPrposSeSearch;
-	document.getElementById("searchForm").detailPrposSeSearch.value = lastDetailPrposSeSearch;
-	document.getElementById("searchForm").spitalSearch.value = lastSpitalSearch;
-	document.getElementById("searchForm").bufferCnt.value = lastBufferCnt;
+	var $container = $("#container");
+	var $target = $container.find('[data-ax5grid="attr-grid-excel"]');	//가상의 ax5uigrid 공간에 처리 
+	$target.css('display', 'none');
+
+	this.gridAll = new ax5.ui.grid();
+	this.gridAll.setConfig({
+		target:  $target,
+		sortable: true,
+		multipleSelect: false,
+		header: {
+			align: "center"
+		},
+		columns: [
+			{key: "gid",			label: "GID",			width: '*'},
+			{key: "manage_se",			label: "관리구분",			width: '*'},
+			{key: "adres",			label: "주소",			width: '*'},
+			{key: "al", 			label: "표고",			width: '*'},
+			{key: "devlop_year",		label: "개발년도",			width: '*'},
+			{key: "allvl_bsrck_se",		label: "충적암반구분",			width: '*'},
+			{key: "public_pvtesbl_se",		label: "공공사설구분",		width: '*'},
+			{key: "prmisn_sttemnt_se",			label: "허가신고구분",		width: '*'},
+			{key: "prmisn_sttemnt_no",			label: "허가신고번호",		width: '*'},
+			{key: "prpos_se",			label: "용도구분",		width: '*'},
+			{key: "detail_prpos_se",			label: "세부용도구분",		width: '*'},
+			{key: "calbr",			label: "구경",			width: '*'},
+			{key: "dph",			label: "심도",			width: '*'},
+			{key: "wp_qty",		label: "양수량",		width: '*'},
+			{key: "yr_use_qty",		label: "연사용량",		width: '*'},
+			{key: "dscrgpp_calbr", 		label: "토출관구경",		width: '*'},
+			{key: "pump_hrspw",		label: "펌프마력",		width: '*'},
+			{key: "geomText",		label: "GEOMETRY",		width: '*'},
+		],
+		body: {
+			align: "center"
+		}
+	})
+
+	// 검색 조건
+	options={
+		typeNames: 'tgd_ugrwtr_utlztn_fclty', //WFS 레이어명
+		sortBy : 'gid',
+		sortOrder : 'DESC',
+	}
+
+	//검색옵션
+	if(SEARCHOBJ.propertySearch != null){//속성검색
+		var adres = SEARCHOBJ.propertySearch.searchEmdKorNm;
+		var allvl_bsrck_se = SEARCHOBJ.propertySearch.searchAllvlBsrckSeSearch
+		var prpos_se = SEARCHOBJ.propertySearch.searchPrposSeSearch;
+		var detail_prpos_se = SEARCHOBJ.propertySearch.searchDetailPrposSeSearch;
+
+		var cqlList = [];
 	
-	let url = '/job/ugtm/' + formName + 'Download.do';
+		if(adres!=''){cqlList.push("adres like "+adres+" ")}
+		if(allvl_bsrck_se!=''){cqlList.push("allvl_bsrck_se = "+allvl_bsrck_se+" ")}
+		if(prpos_se!=''){cqlList.push("prpos_se = "+prpos_se+" ")}
+		if(detail_prpos_se!=''){cqlList.push("detail_prpos_se = "+detail_prpos_se+" ")}
 	
-	$("form[name='"+ formName + "']").attr('onsubmit', '');
-	$("form[name='"+ formName + "']").attr('action', url);
-	$("form[name='"+ formName + "']").submit();
-	$("form[name='"+ formName + "']").attr('onsubmit', 'fn_select_list(); return false;');
-	$("form[name='"+ formName + "']").attr('action', '');
+		options.filter = cqlList;
+
+	}else if(SEARCHOBJ.spaceSearch != null){//공간검색
+
+		const $parent 	= $(".search-area");
+        const type 		= $parent.find('input[name="underWaterUseFacilSelect"]:checked').val();
+        if (type === 'extent') {
+        	options.bbox = SEARCHOBJ.spaceSearch.bbox;
+        } else {
+        	options.geometry = SEARCHOBJ.spaceSearch.geometry;
+        }
+	}
+
+
+	// 엑셀파일 날짜_시간
+	var today = new Date(); 
+	let year = dateNum(today.getFullYear());		// 년도
+	let month = dateNum(today.getMonth() + 1, 2);	// 월
+	let date = dateNum(today.getDate(), 2);			// 날짜
+	let hours = dateNum(today.getHours(), 2);		// 시
+	let minutes = dateNum(today.getMinutes(), 2);	// 분
+	let seconds = dateNum(today.getSeconds(), 2);	// 초
+
+	var todayDate = year+month+date+'_'+hours+minutes+seconds;
+	var gridList = this;
+	const promise = dtmap.wfsGetFeature(options);
+	promise.then(function(data) {
+		// 그리드 데이터 전처리
+		const list = [];
+		for (let i = 0; i < data.features.length; i++) {
+			// 좌표 처리
+			data.features[i].properties.geomObj = data.features[i].geometry;
+			
+			// GEOMETRY 처리
+			data.features[i].properties.geomText = data.features[i].geometry.type + ' (' + data.features[i].geometry.coordinates[0] + ' ' + data.features[i].geometry.coordinates[1] + ')';
+			
+			const {id, properties} = data.features[i];
+			list.push({...properties, ...{id: id}});
+		}
+		
+		// gird 적용
+		gridList.gridAll.setData(list);
+		
+		//엑셀 export
+		gridList.gridAll.exportExcel("지하수이용시설_" + todayDate + ".xls");
+	});
 });
 
 //지도에서 선택 _ 주소 및 경위도 위치 가져오기
@@ -280,15 +368,18 @@ function fn_search_List(){
 		const type = $parent.find('input[name="underWaterUseFacilSelect"]:checked').val();
 		
 		if (type === 'extent') {
-			 var bbox = dtmap.getExtent();
-			 SEARCHOBJ.spaceSearch.bbox = bbox;
+			SEARCHOBJ.spaceSearch.bbox = dtmap.getExtent();
 
 		} else {
-			if(dtmap.draw.source.getFeatures().length > 0){
+			if(dtmap.mod == '2D'){
+				if(dtmap.draw.source.getFeatures().length > 0){
+					SEARCHOBJ.spaceSearch.geometry = dtmap.draw.getGeometry();
+				}else{
+					alert("영역지정 안되었습니다");
+					return false;
+				}
+			}else if(dtmap.mod == '3D'){
 				SEARCHOBJ.spaceSearch.geometry = dtmap.draw.getGeometry();
-			}else{
-				alert("영역지정 안되었습니다");
-				return false;
 			}
 		}
 

@@ -226,7 +226,6 @@ function fn_update(gid){
 
 //가로등 검색 조회 버튼
 function fn_search_List(e){
-	
 	SEARCHOBJ.propertySearch = null;
 	SEARCHOBJ.spaceSearch = null;
 	if($('#sffm-prop').hasClass('on')){
@@ -240,75 +239,132 @@ function fn_search_List(e){
 		const $parent = $('#bottomPopup').find('.search-area')
 		const type = $parent.find('input[name="sffmSelect"]:checked').val();
 
-		
-		
 		if (type === 'extent') {
 			 var bbox = dtmap.getExtent();
-			 SEARCHOBJ.spaceSearch.bbox = ol.proj.transformExtent(bbox,'EPSG:5179','EPSG:4326' );
-
+			 if(dtmap.mod == '2D'){
+				 SEARCHOBJ.spaceSearch.bbox = ol.proj.transformExtent(bbox,'EPSG:5179','EPSG:4326' );
+			 }else{
+				SEARCHOBJ.spaceSearch.bbox = bbox;
+			 }
 
 		} else {
-			if(dtmap.draw.source.getFeatures().length > 0){
+			if(dtmap.mod == '2D'){
+
+				if(dtmap.draw.source.getFeatures().length > 0){
+					SEARCHOBJ.spaceSearch.geometry = dtmap.draw.getGeometry();
+				}else{
+					alert("영역지정 안되었습니다");
+					return false;
+				}
+
+			}else if(dtmap.mod == '3D'){
 				SEARCHOBJ.spaceSearch.geometry = dtmap.draw.getGeometry();
-				
-			}else{
-				alert("영역지정 안되었습니다");
-				return false;
 			}
 		}
-		setSpatial(type);
 	}
 
 
 }
-
-function setSpatial(type){
-	let geom;
-	var geoWKTstr;
-	if (type === 'extent') {
-		let minX = SEARCHOBJ.spaceSearch.bbox[0];
-		let minY = SEARCHOBJ.spaceSearch.bbox[1];
-		let maxX = SEARCHOBJ.spaceSearch.bbox[2];
-		let maxY = SEARCHOBJ.spaceSearch.bbox[3];
-
-		var geoWKTstr = "POLYGON(("+minX+" "+minY+", "+minX+" "+maxY+", "+maxX+" "+maxY+", "+maxX+" "+minY+", "+minX+" "+minY+"))";
-
-	}else{
-
-		if(SEARCHOBJ.spaceSearch.geometry.getType() == 'Circle'){
-			geom = new ol.geom.Polygon.fromCircle(SEARCHOBJ.spaceSearch.geometry);
-		}else{
-			geom = SEARCHOBJ.spaceSearch.geometry;
-		}
-
-		var writer = new ol.format.WKT();
-		geoWKTstr = writer.writeGeometry(geom, {
-			dataProjection: 'EPSG:4326',
-			featureProjection: 'EPSG:5179',
-		})
-
-	}
-		$('#spitalSearch').val(geoWKTstr);
-
-}
-
 
 //가로등엑셀다운로드 버튼
 $("#lampExcelDownload").on("click", function(){
-	let formName = this.dataset.formName;
 
-	let formData = new FormData($('#searchForm')[0]);
-	for (let key of formData.keys()) {
-		console.log(key, ":", formData.get(key));
-	}
-	formData.set('sffmBuffer', '0');
-	let url = '/job/sffm/' + formName + 'Download.do';
+	var $container = $("#container");
+    var $target = $container.find('[data-ax5grid="attr-grid-excel"]');	//가상의 ax5uigrid 공간에 처리 
+    // $target.css('display', 'none');
+    
+	this.gridAll = new ax5.ui.grid();
+	this.gridAll.setConfig({
+		target:  $target,
+		sortable: true,
+		multipleSelect: false,
+		header: {
+			align: "center"
+		},
+		columns: [
+			{key: "gid",			label: "GID",			width: '*'},
+			{key: "manage_no",		label: "관리번호",		width: '*'},
+			{key: "adres", 		label: "주소",		width: '*'},
+			{key: "instl_de",		label: "설치일자",			width: '*'},
+			{key: "strtlgt_cnt",			label: "가로등수",			width: '*'},
+			{key: "lat",			label: "위도",			width: '*'},
+			{key: "lon",			label: "경도",			width: '*'},
+			{key: "stdde",		label: "기준일",			width: '*'},
+			{key: "geomText",		label: "GEOMETRY",			width: '*'},
+			{key: "alttd",		label: "고도",		width: '*'},
+		],
+		body: {
+			align: "center"
+		}
+	})
+
+    // 검색 조건
 	
-	$("form[name='"+ formName + "']").attr('onsubmit', '');
-	$("form[name='"+ formName + "']").attr('action', url);
-	$("form[name='"+ formName + "']").submit();
-	$("form[name='"+ formName + "']").attr('onsubmit', 'fn_select_list(); return false;');
-	$("form[name='"+ formName + "']").attr('action', '');
+	var options = {
+		typeNames: 'tgd_strtlgt_status', //WFS 레이어명
+		sortBy : 'gid',
+		sortOrder : 'DESC',
+	}
+	
+	//검색 옵션
+	if(SEARCHOBJ.propertySearch != null){//속성검색
+
+		var instlDe = SEARCHOBJ.propertySearch.searchInstlDe;
+		var adres = SEARCHOBJ.propertySearch.searchAdres;
+		var manageNo = SEARCHOBJ.propertySearch.searchManageNo;
+
+		var cqlList = [];
+
+		if(instlDe.trim().length >= 1){cqlList.push("instl_de"+" like "+instlDe);}
+		if(adres.trim().length >= 1){cqlList.push("adres"+" like "+adres);}
+		if(manageNo.trim().length >=1){cqlList.push("manage_no"+" like "+manageNo);}
+
+		options.filter = cqlList;
+
+	}else if(SEARCHOBJ.spaceSearch != null){//공간검색
+
+		const $parent 	= $(".search-area");
+		const type 		= $parent.find('input[name="sffmSelect"]:checked').val();
+		if (type === 'extent') {
+			options.bbox = SEARCHOBJ.spaceSearch.bbox;
+		} else {
+			options.geometry = SEARCHOBJ.spaceSearch.geometry;
+		}
+	}
+	
+	// 엑셀파일 날짜_시간
+	var today = new Date(); 
+	let year = dateNum(today.getFullYear());		// 년도
+	let month = dateNum(today.getMonth() + 1, 2);	// 월
+	let date = dateNum(today.getDate(), 2);			// 날짜
+	let hours = dateNum(today.getHours(), 2);		// 시
+	let minutes = dateNum(today.getMinutes(), 2);	// 분
+	let seconds = dateNum(today.getSeconds(), 2);	// 초
+
+	var todayDate = year+month+date+'_'+hours+minutes+seconds;
+	var gridList = this;
+	const promise = dtmap.wfsGetFeature(options);
+	promise.then(function(data) {
+		// 그리드 데이터 전처리
+		const list = [];
+		for (let i = 0; i < data.features.length; i++) {
+        	// 좌표 처리
+			data.features[i].properties.geomObj = data.features[i].geometry;
+			
+			// GEOMETRY 처리
+			data.features[i].properties.geomText = data.features[i].geometry.type + ' (' + data.features[i].geometry.coordinates[0] + ' ' + data.features[i].geometry.coordinates[1] + ')';
+			
+        	const {id, properties} = data.features[i];
+			list.push({...properties, ...{id: id}});
+		}
+		
+		// gird 적용
+        gridList.gridAll.setData(list);
+        
+        //엑셀 export
+		gridList.gridAll.exportExcel("가로등관리_" + todayDate + ".xls");
+	});
+
 });
 
 /*function readGeoJSON(data) {
