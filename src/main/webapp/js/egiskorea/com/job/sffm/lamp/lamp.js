@@ -253,43 +253,10 @@ function fn_search_List(e){
 				return false;
 			}
 		}
-		setSpatial(type);
 	}
 
 
 }
-
-/*function setSpatial(type){
-	console.log('dk')
-	let geom;
-	var geoWKTstr;
-	if (type === 'extent') {
-		let minX = SEARCHOBJ.spaceSearch.bbox[0];
-		let minY = SEARCHOBJ.spaceSearch.bbox[1];
-		let maxX = SEARCHOBJ.spaceSearch.bbox[2];
-		let maxY = SEARCHOBJ.spaceSearch.bbox[3];
-
-		var geoWKTstr = "POLYGON(("+minX+" "+minY+", "+minX+" "+maxY+", "+maxX+" "+maxY+", "+maxX+" "+minY+", "+minX+" "+minY+"))";
-
-	}else{
-
-		if(SEARCHOBJ.spaceSearch.geometry.getType() == 'Circle'){
-			geom = new ol.geom.Polygon.fromCircle(SEARCHOBJ.spaceSearch.geometry);
-		}else{
-			geom = SEARCHOBJ.spaceSearch.geometry;
-		}
-
-		var writer = new ol.format.WKT();
-		geoWKTstr = writer.writeGeometry(geom, {
-			dataProjection: 'EPSG:4326',
-			featureProjection: 'EPSG:5179',
-		})
-
-	}
-		$('#spitalSearch').val(geoWKTstr);
-
-}*/
-
 
 //가로등엑셀다운로드 버튼
 $("#lampExcelDownload").on("click", function(){
@@ -308,14 +275,14 @@ $("#lampExcelDownload").on("click", function(){
 		},
 		columns: [
 			{key: "gid",			label: "GID",			width: '*'},
-			{key: "manageNo",		label: "관리번호",		width: '*'},
+			{key: "manage_no",		label: "관리번호",		width: '*'},
 			{key: "adres", 		label: "주소",		width: '*'},
-			{key: "instlDe",		label: "설치일자",			width: '*'},
-			{key: "strtlgtCnt",			label: "가로등수",			width: '*'},
+			{key: "instl_de",		label: "설치일자",			width: '*'},
+			{key: "strtlgt_cnt",			label: "가로등수",			width: '*'},
 			{key: "lat",			label: "위도",			width: '*'},
 			{key: "lon",			label: "경도",			width: '*'},
 			{key: "stdde",		label: "기준일",			width: '*'},
-			{key: "geom",		label: "GEOMETRY",			width: '*'},
+			{key: "geomText",		label: "GEOMETRY",			width: '*'},
 			{key: "alttd",		label: "고도",		width: '*'},
 		],
 		body: {
@@ -390,22 +357,6 @@ $("#lampExcelDownload").on("click", function(){
 		gridList.gridAll.exportExcel("가로등관리_" + todayDate + ".xls");
 	});
 
-
-
-/*	let formName = this.dataset.formName;
-
-	let formData = new FormData($('#searchForm')[0]);
-	for (let key of formData.keys()) {
-		console.log(key, ":", formData.get(key));
-	}
-	formData.set('sffmBuffer', '0');
-	let url = '/job/sffm/' + formName + 'Download.do';
-	
-	$("form[name='"+ formName + "']").attr('onsubmit', '');
-	$("form[name='"+ formName + "']").attr('action', url);
-	$("form[name='"+ formName + "']").submit();
-	$("form[name='"+ formName + "']").attr('onsubmit', 'fn_select_list(); return false;');
-	$("form[name='"+ formName + "']").attr('action', '');*/
 });
 
 /*function readGeoJSON(data) {

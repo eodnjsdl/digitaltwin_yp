@@ -138,6 +138,7 @@ var lastDraw = "<c:out value='${searchVO.renewableEnergyAreaDrawing}' />";
 				<div class="bbs-default">
 					<div data-ax5grid="bbs-grid"  data-ax5grid-config="{}" style="height: 267px;">
 					</div>
+					<div data-ax5grid="attr-grid-excel" style="diplay:none;"></div>
 				</div>
 			</div>
 		</div>

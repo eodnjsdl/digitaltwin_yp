@@ -209,22 +209,103 @@ function fn_update(gid){
 }
 //신재생에너지 엑셀다운로드 버튼
 $("#rnenExcelDownload").on("click", function(){
-	let formName = this.dataset.formName;
-	document.getElementById("searchForm").emdKorNm.value = lastEmdKorNm;
-	document.getElementById("searchForm").bsnsSeSearch.value = lastBsnsSeSearch;
-	document.getElementById("searchForm").prmisnVolmASearch.value = lastPrmisnVolmASearch;
-	document.getElementById("searchForm").prmisnVolmBSearch.value = lastPrmisnVolmBSearch;
-	document.getElementById("searchForm").elcpwstnNmSearch.value = lastElcpwstnNmSearch;
-	document.getElementById("searchForm").spitalSearch.value = lastSpitalSearch;
-	document.getElementById("searchForm").bufferCnt.value = lastBufferCnt;
+	var $container = $("#container");
+	var $target = $container.find('[data-ax5grid="attr-grid-excel"]');	//가상의 ax5uigrid 공간에 처리 
+	$target.css('display', 'none');
+
+	this.gridAll = new ax5.ui.grid();
+	this.gridAll.setConfig({
+		target:  $target,
+		sortable: true,
+		multipleSelect: false,
+		header: {
+			align: "center"
+		},
+		columns: [
+			{key: "gid",			label: "GID",			width: '*'},
+			{key: "eltgnr_se", label: "발전기구분",			width: '*'},
+			{key: "elcpwstn_nm", label: "발전소명",			width: '*'},
+			{key: "eqp_lc", label: "설치위치",			width: '*'},
+			{key: "prmisn_volm", label: "허가용량",			width: '*'},
+			{key: "bsns_se", label: "사업구분",			width: '*'},
+			{key: "bsns_se", label: "사업구분",			width: '*'},
+			{key: "geomText", label: "GEOMETRY",			width: '*'},
+		],
+		body: {
+			align: "center"
+		}
+	})
+
+	options ={
+		typeNames: 'tgd_elcty_bsns_prmisn', //WFS 레이어명
+		sortBy : 'gid',
+		sortOrder : 'DESC',
+	}
 	
-	let url = '/job/rnen/' + formName + 'Download.do';
+	//검색옵션
+	if(SEARCHOBJ.propertySearch != null){//속성검색
+		var eqp_lc = SEARCHOBJ.propertySearch.searchEmdKorNm;
+		var bsns_se = SEARCHOBJ.propertySearch.searchBsnsSeSearch;
+		var prmisn_volm_min = SEARCHOBJ.propertySearch.searchPrmisnVolmASearch;
+		var prmisn_volm_max = SEARCHOBJ.propertySearch.searchPrmisnVolmBSearch;
+		var elcpwstn_nm = SEARCHOBJ.propertySearch.searchElcpwstnNmSearch;
+
+
+		var cqlList = [];
 	
-	$("form[name='"+ formName + "']").attr('onsubmit', '');
-	$("form[name='"+ formName + "']").attr('action', url);
-	$("form[name='"+ formName + "']").submit();
-	$("form[name='"+ formName + "']").attr('onsubmit', 'fn_select_list(); return false;'); 
-	$("form[name='"+ formName + "']").attr('action', '');
+		if(eqp_lc!=''){cqlList.push("eqp_lc like "+eqp_lc+" ")}
+		if(bsns_se!=''){cqlList.push("bsns_se = "+bsns_se+" ")}
+		if(prmisn_volm_min!=''){cqlList.push("prmisn_volm > "+prmisn_volm_min+" ")}
+		if(prmisn_volm_max!=''){cqlList.push("prmisn_volm < "+prmisn_volm_max+" ")}
+		if(elcpwstn_nm!=''){cqlList.push("elcpwstn_nm like "+elcpwstn_nm+" ")}
+	
+		options.filter = cqlList;
+
+	}else if(SEARCHOBJ.spaceSearch != null){//공간검색
+
+		const $parent 	= $(".search-area");
+        const type 		= $parent.find('input[name="renewableEnergySelect"]:checked').val();
+        if (type === 'extent') {
+        	options.bbox = SEARCHOBJ.spaceSearch.bbox;
+        } else {
+        	options.geometry = SEARCHOBJ.spaceSearch.geometry;
+        }
+	}
+
+	
+
+	// 엑셀파일 날짜_시간
+	var today = new Date(); 
+	let year = dateNum(today.getFullYear());		// 년도
+	let month = dateNum(today.getMonth() + 1, 2);	// 월
+	let date = dateNum(today.getDate(), 2);			// 날짜
+	let hours = dateNum(today.getHours(), 2);		// 시
+	let minutes = dateNum(today.getMinutes(), 2);	// 분
+	let seconds = dateNum(today.getSeconds(), 2);	// 초
+
+	var todayDate = year+month+date+'_'+hours+minutes+seconds;
+	var gridList = this;
+	const promise = dtmap.wfsGetFeature(options);
+	promise.then(function(data) {
+		// 그리드 데이터 전처리
+		const list = [];
+		for (let i = 0; i < data.features.length; i++) {
+			// 좌표 처리
+			data.features[i].properties.geomObj = data.features[i].geometry;
+			
+			// GEOMETRY 처리
+			data.features[i].properties.geomText = data.features[i].geometry.type + ' (' + data.features[i].geometry.coordinates[0] + ' ' + data.features[i].geometry.coordinates[1] + ')';
+			
+			const {id, properties} = data.features[i];
+			list.push({...properties, ...{id: id}});
+		}
+		
+		// gird 적용
+		gridList.gridAll.setData(list);
+		
+		//엑셀 export
+		gridList.gridAll.exportExcel("태양광발전소_" + todayDate + ".xls");
+	});
 });
 
 //지도에서 선택 _ 주소 및 경위도 위치 가져오기

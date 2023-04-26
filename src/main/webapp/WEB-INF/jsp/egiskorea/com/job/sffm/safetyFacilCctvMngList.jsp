@@ -145,7 +145,8 @@
 				<div class="bbs-default">
 					<div id="sampleGridDiv" style="height:inherit; display: flex;flex-direction: column">
                         <div id="gridax5" data-ax5grid="attr-grid" data-ax5grid-config="{}" style="flex: 1"></div>
-                    </div>
+						<div data-ax5grid="attr-grid-excel" style="diplay:none;"></div>
+					</div>
 				</div>
 
 				<div class="pagination">

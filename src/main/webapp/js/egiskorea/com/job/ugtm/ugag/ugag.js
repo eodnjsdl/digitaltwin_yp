@@ -130,8 +130,6 @@ function setData(_pageNo){
 		});
 		dtmap.vector.fit();
 
-		
-		gridList.target.exportExcel(" 테스트.xls");
   })
 }
 //농업용공공관정 등록페이지 열기
@@ -215,17 +213,108 @@ function fn_update(gid){
 }
 //농업용공공관정 엑셀다운로드 버튼
 $("#ugagExcelDownload").on("click", function(){
-	let formName = this.dataset.formName;
-	let formData = new FormData($('#searchForm')[0]);
-	formData.set('bufferCnt', '0');
+	var $container = $("#container");
+    var $target = $container.find('[data-ax5grid="attr-grid-excel"]');	//가상의 ax5uigrid 공간에 처리 
+    $target.css('display', 'none');
+    
+	this.gridAll = new ax5.ui.grid();
+	this.gridAll.setConfig({
+		target:  $target,
+		sortable: true,
+		multipleSelect: false,
+		header: {
+			align: "center"
+		},
+		columns: [
+			{key: "gid",			label: "GID",			width: '*'},
+			{key: "manage_se",			label: "관리구분",			width: '*'},
+			{key: "adres",			label: "주소",			width: '*'},
+			{key: "fclty_nm", 			label: "시설명",			width: '*'},
+			{key: "devlop_year",		label: "개발년도",			width: '*'},
+			{key: "manage_instt_nm",		label: "관리기관명",		width: '*'},
+			{key: "prpos_se",			label: "용도구분",		width: '*'},
+			{key: "detail_prpos_se",			label: "세부용도구분",		width: '*'},
+			{key: "calbr",			label: "구경",		width: '*'},
+			{key: "dph",			label: "심도",			width: '*'},
+			{key: "wp_ablty",			label: "양수능력",			width: '*'},
+			{key: "dscrgpp_calbr",		label: "토출관구경",		width: '*'},
+			{key: "pump_stle_se",		label: "펌프형태구분",		width: '*'},
+			{key: "pump_hrspw", 		label: "펌프마력",		width: '*'},
+			{key: "fclts_sttus",		label: "시설물상태",		width: '*'},
+			{key: "fclts_chck_de",		label: "시설물점검일자",		width: '*'},
+			{key: "geomText",		label: "GEOMETRY",		width: '*'},
+		],
+		body: {
+			align: "center"
+		}
+	})
 
-	let url = '/job/ugtm/' + formName + 'Download.do';
+    // 검색 조건
+	options = {
+		typeNames: 'tgd_agr_public_tbwll', //WFS 레이어명
+		sortBy : 'gid',
+		sortOrder : 'DESC',
+	}
 	
-	$("form[name='"+ formName + "']").attr('onsubmit', '');
-	$("form[name='"+ formName + "']").attr('action', url);
-	$("form[name='"+ formName + "']").submit();
-	$("form[name='"+ formName + "']").attr('onsubmit', 'fn_select_list(); return false;');
-	$("form[name='"+ formName + "']").attr('action', '');
+	//검색 옵션
+	if(SEARCHOBJ.propertySearch != null){//속성검색
+		var adres = SEARCHOBJ.propertySearch.searchEmdKorNm;
+		var manage_se = SEARCHOBJ.propertySearch.searchManageSeSearch;
+		var detail_prpos_se = SEARCHOBJ.propertySearch.searchDetailPrposSeSearch;
+		var fclts_sttus = SEARCHOBJ.propertySearch.searchFcltsSttusSearch;
+
+		var cqlList = [];
+		if(adres!=''){cqlList.push("adres like "+adres+" ")}
+		if(manage_se!=''){cqlList.push("manage_se = "+manage_se+" ")}
+		if(detail_prpos_se!=''){cqlList.push("detail_prpos_se = "+detail_prpos_se+" ")}
+		if(fclts_sttus!=''){cqlList.push("fclts_sttus = "+fclts_sttus+" ")}
+	
+		options.filter = cqlList;
+
+	}else if(SEARCHOBJ.spaceSearch != null){//공간검색
+
+		const $parent 	= $(".search-area");
+        const type 		= $parent.find('input[name="underWaterAgriSelect"]:checked').val();
+        if (type === 'extent') {
+        	options.bbox = SEARCHOBJ.spaceSearch.bbox;
+        } else {
+        	options.geometry = SEARCHOBJ.spaceSearch.geometry;
+        }
+	}
+
+	
+	// 엑셀파일 날짜_시간
+	var today = new Date(); 
+	let year = dateNum(today.getFullYear());		// 년도
+	let month = dateNum(today.getMonth() + 1, 2);	// 월
+	let date = dateNum(today.getDate(), 2);			// 날짜
+	let hours = dateNum(today.getHours(), 2);		// 시
+	let minutes = dateNum(today.getMinutes(), 2);	// 분
+	let seconds = dateNum(today.getSeconds(), 2);	// 초
+
+	var todayDate = year+month+date+'_'+hours+minutes+seconds;
+	var gridList = this;
+	const promise = dtmap.wfsGetFeature(options);
+	promise.then(function(data) {
+		// 그리드 데이터 전처리
+		const list = [];
+		for (let i = 0; i < data.features.length; i++) {
+        	// 좌표 처리
+			data.features[i].properties.geomObj = data.features[i].geometry;
+			
+			// GEOMETRY 처리
+			data.features[i].properties.geomText = data.features[i].geometry.type + ' (' + data.features[i].geometry.coordinates[0] + ' ' + data.features[i].geometry.coordinates[1] + ')';
+			
+        	const {id, properties} = data.features[i];
+			list.push({...properties, ...{id: id}});
+		}
+		
+		// gird 적용
+        gridList.gridAll.setData(list);
+        
+        //엑셀 export
+		gridList.gridAll.exportExcel("농업용공공관정관리_" + todayDate + ".xls");
+	});
 });
 
 //지도에서 선택 _ 주소 및 경위도 위치 가져오기
@@ -278,34 +367,6 @@ function fn_search_List(){
 				return false;
 			}
 		}
-		setSpatial(type);
 	}
 }
 
-function setSpatial(type){
-	let geom;
-	var geoWKTstr;
-	if (type === 'extent') {
-		let minX = SEARCHOBJ.spaceSearch.bbox[0];
-		let minY = SEARCHOBJ.spaceSearch.bbox[1];
-		let maxX = SEARCHOBJ.spaceSearch.bbox[2];
-		let maxY = SEARCHOBJ.spaceSearch.bbox[3];
-
-		var geoWKTstr = "POLYGON(("+minX+" "+minY+", "+minX+" "+maxY+", "+maxX+" "+maxY+", "+maxX+" "+minY+", "+minX+" "+minY+"))";
-
-	}else{
-
-		if(SEARCHOBJ.spaceSearch.geometry.getType() == 'Circle'){
-			geom = new ol.geom.Polygon.fromCircle(SEARCHOBJ.spaceSearch.geometry);
-		}else{
-			geom = SEARCHOBJ.spaceSearch.geometry;
-		}
-		
-		var writer = new ol.format.WKT();
-		var geoWKTstr = writer.writeGeometry(geom)
-
-	}
-		console.log(geom)
-		$('#spitalSearch').val(geoWKTstr);
-
-}
