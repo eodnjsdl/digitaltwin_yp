@@ -247,8 +247,8 @@ function selectSwlPipeAsList(page) {
 
 //면형하수관거 상세정보 조회
 function selectSwlPipeAs(id){
-	console.log("selectSwlPipeAs(id)");
-	console.log(id);
+	//console.log("selectSwlPipeAs(id)");
+	//console.log(id);
 	
 	//검색 조건
 	const filters = [];

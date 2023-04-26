@@ -62,14 +62,20 @@ $(document).ready(function() {
 		const type = $parent.find('input[name="rad-facility-area"]:checked').val();
 		
 		if (type === 'extent') {
-			FACILITY.spaceSearchOption.bbox = dtmap.getExtent();
+			FACILITY.spaceSearchOption.bbox 	= dtmap.getExtent();
 		} else {
-			if (dtmap.draw.source.getFeatures().length > 0) {
+			//console.log("모드>>>"+dtmap.mod);
+			if(dtmap.mod == "2D"){
+				if(dtmap.draw.source.getFeatures().length > 0){	//임시로 그려진 형태체크
+					FACILITY.spaceSearchOption.geometry = dtmap.draw.getGeometry();
+				}else{
+					alert("영역지정 안되었습니다");
+					return false;
+				}
+			}else if(dtmap.mod == "3D"){		
 				FACILITY.spaceSearchOption.geometry = dtmap.draw.getGeometry();
-			} else {
-				alert("영역지정 안되었습니다");
-				return false;
 			}
+			
 		}
 		selectPhyEduFaciList(1);
 	});

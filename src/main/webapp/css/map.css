@@ -542,6 +542,7 @@ html, body {
 	cursor: pointer;
 	-webkit-transition: background .2s;
 	transition: background .2s;
+	margin-bottom:0;
 }
 
 .map-type input[type="radio"]:checked + label {
