@@ -242,6 +242,6 @@ $(document).ready(function(){
 </div>
 <button type="button" class="manualBtn" title="도움말" onclick="manualTab('교통시설')"></button>
 <button type="button" class="popup-close" title="닫기" onclick="closeView(); removeLayer();"></button>
-<button type="button" class="popup-reset" class="초기화" onclick="getTransportationFacility('railRoadStation')"></button>
+<button type="button" class="popup-reset" class="초기화" onclick="getTransportationFacility('railroadStation')"></button>
 <button type="button" class="popup-bottom-toggle" title="접기"></button>				
 <!-- //업무 > 시설관리 > 교통시설 > 철도역사 -->
