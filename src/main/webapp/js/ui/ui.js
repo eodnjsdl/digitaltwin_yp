@@ -771,13 +771,15 @@ window.ui = (function () {
         $.each(arrPopupTy, function (key, value) {
             $("#" + value).removeClass("opened").html("");
         });
-        //초기화
+        //그리기 초기화
         _initDrawEvent();
     }
 
     //그리기 초기화
     function _initDrawEvent() {
-        dtmap.clear();
+        dtmap.off('drawend');
+        // dtmap.vector.clear();
+        dtmap.draw.clear();
     }
 
     //지도 선택 이벤트 초기화

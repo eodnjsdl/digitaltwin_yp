@@ -36,12 +36,11 @@
 
     <!-- chart.js -->
     <script src="/js/plugin/chart/chart.js"></script>
-    <script src="/js/html2canvas.min.js" type="text/javascript"></script>
-
+    <!-- toastr 2.1.4 stylesheet -->
+    <link rel="stylesheet" type="text/css" href="/js/plugin/toastr-2.1.4/toastr.css">
     <!-- toastr 2.1.4 -->
     <script type="text/javascript" src="/js/plugin/toastr-2.1.4/toastr.js"></script>
     <script type="text/javascript" src="/js/util/toast-confirm.js"></script>
-
     <!-- ui -->
     <script src="/js/ui/ui.js"></script>
 
@@ -52,8 +51,6 @@
     <link rel="stylesheet" href="/css/com/common.css">
     <link rel="stylesheet" href="/css/map.css">
 
-    <!-- toastr 2.1.4 stylesheet -->
-    <link rel="stylesheet" type="text/css" href="/js/plugin/toastr-2.1.4/toastr.css">
 
     <!-- jspdf 6.7.0 -->
     <script src="/engine/plugin/v6.7.0/jspdf.umd.min.js"></script>
@@ -74,19 +71,18 @@
     <!-- 2d -->
     <link rel="stylesheet" href="/css/map2d.css">
     <link rel="stylesheet" href="/css/splitmap.css">
-    <link rel="stylesheet" href="/engine/plugin/v6.7.0/ol.css">
-    <script src="/engine/plugin/v6.7.0/proj4.js"></script>
-    <script src="/engine/plugin/v6.7.0/ol.js"></script>
-    <script src="/engine/plugin/v6.7.0/jsts.min.js"></script>
-
 
     <script src="/engine/dt_info.js"></script>
 
     <!-- DTMAP Plugin -->
-    <script src="/js/plugin/lodash/lodash.min.js"></script>
-    <script src="/js/plugin/html2canvas/html2canvas.min.js"></script>
-    <script src="/js/plugin/eventEmitter/EventEmitter.min.js"></script>
-    <script src="/js/plugin/rbush/rbush.min.js"></script>
+    <link rel="stylesheet" href="/js/map/lib/openlayers/ol.css">
+    <script src="/js/map/lib/proj4/proj4.js"></script>
+    <script src="/js/map/lib/openlayers/ol.js"></script>
+    <script src="/js/map/lib/jsts/jsts.min.js"></script>
+    <script src="/js/map/lib/lodash/lodash.min.js"></script>
+    <script src="/js/map/lib/html2canvas/html2canvas.min.js"></script>
+    <script src="/js/map/lib/eventEmitter/EventEmitter.min.js"></script>
+    <script src="/js/map/lib/rbush/rbush.min.js"></script>
 
     <!-- DTMAP -->
     <script src="/js/map/dtmap.js"></script>
@@ -176,10 +172,6 @@
 
 	<!-- [상수도 시설] -->
 	<script src="/js/egiskorea/com/job/fcmr/wsfc/facilityWaterSupply.js"></script>		<!--{상수도시설  공통} -->
-
-	<!-- {상수도 하위 메뉴}  -->	
-	<!-- 급수관로 -->
-
 	<!-- ////////////////////////////  -->
 
 	<!-- [하수도시설]  -->

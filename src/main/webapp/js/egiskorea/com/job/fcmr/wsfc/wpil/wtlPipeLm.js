@@ -20,7 +20,7 @@ function wtlPipeLmInit(){
 		$("#rightSubPopup").removeClass("opened");
 		$("#rightSubPopup").empty();
 	}
-	
+
 	//공간정보 편집도구 닫기
 	if($(".space-edit-tool").hasClass("opened")){
     	$(".space-edit-tool").removeClass("opened");
@@ -39,6 +39,7 @@ function wtlPipeLmListProcess(){
 	
 	$(".scroll-y").mCustomScrollbar({
         scrollbarPosition: "outside",
+
     });
     
     //옵션 값 세팅

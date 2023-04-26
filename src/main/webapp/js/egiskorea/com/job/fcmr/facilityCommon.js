@@ -79,7 +79,7 @@ function codeArrayInit(){
 	setCmmCodeDataArray("OGC-031");				//변류형식
 	setCmmCodeDataArray("OGC-007");				//제수변회전방향
 	setCmmCodeDataArray("OGC-008");				//제수변구동방법
-	//setCmmCodeDataArray("OGC-001");			//시설물형태
+	setCmmCodeDataArray("OGC-001");				//시설물형태
 	setCmmCodeDataArray("OGC-010");				//이상상태
 	setCmmCodeDataArray("OGC-011");				//개폐여부
 	
@@ -492,6 +492,8 @@ function onFacilitySelectEventListener(e){
 				selectWtlPrgaPs(id);
 			}else if(featureType == "wtl_serv_ps"){					//상수도시설 - 배수지
 				selectWtlServPs(id);
+			}else if(featureType == "wtl_sply_ls"){					//상수도시설 - 급수관로
+				selectWtlSplyLs(id);
 			}else if(featureType == "wtl_valv_ps"){					//상수도시설 - 변류시설
 				selectWtlValvPs(id);
 			}else if(featureType == "swl_conn_ls"){					//하수도시설 - 하수연결관 

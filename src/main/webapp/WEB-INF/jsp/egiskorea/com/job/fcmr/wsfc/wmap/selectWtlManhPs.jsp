@@ -78,7 +78,7 @@
                                        </td>
                                        <th scope="row">맨홀종류</th>
                                        <td>
-                                           <c:out value="${wtlManhPsVO.som_cde }"/>
+                                           <c:out value="${wtlManhPsVO.som_cde_nm }"/>
                                        </td>
                                    </tr>
                                    <tr>
