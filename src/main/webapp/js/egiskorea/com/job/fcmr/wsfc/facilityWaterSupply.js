@@ -14,6 +14,9 @@ $(document).ready(function(){
 function getWaterSupplyFacility(name){
 	//console.log("getWaterSupplyFacility(name)");
 		
+	dtmap.draw.dispose();		//그리기 포인트 삭제
+	dtmap.draw.clear();			//그리기 초기화
+	
 	if(name){
 		if(name == "wtlFirePs"){			//소방시설
 			selectWtlFirePsListView();
