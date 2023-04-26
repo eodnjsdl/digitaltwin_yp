@@ -24,15 +24,13 @@ function getWaterSupplyFacility(name){
 		}else if(name == "wtlManhPs"){		//상수맨홀
 			selectWtlManhPsListView();
 		}else if(name == "wtlPipePs"){		//상수관로심도
-			toastr.error("작업중", "상수관로심도");
-			return;
+			selectWtlPipePsListView();
 		}else if(name == "wtlPrgaPs"){		//수압계
 			selectWtlPrgaPsListView();
 		}else if(name == "wtlServPs"){		//배수지
 			selectWtlServPsListView();
 		}else if(name == "wtlSplyLs"){		//급수관로
-			toastr.error("작업중", "급수관로");
-			return;
+			selectWtlSplyLsListView();
 		}else if(name == "wtlValvPs"){		//변류시설
 			selectWtlValvPsListView();
 		}else{
@@ -60,6 +58,20 @@ function selectWtlFirePsListView(){
     });
 }
 
+//상수관로 목록 화면 조회
+function selectWtlPipeLmListView(){
+	//console.log("selectWtlPipeLmListView()");
+	
+	ui.loadingBar("show");
+	
+	var baseContainer = "#bottomPopup";
+    $(baseContainer).load("/job/fcmr/wsfc/selectWtlPipeLmListView.do", function () {
+        //toastr.success("/job/fcmr/wsfc/selectWtlPipeLmListView.do", "페이지🙂호🙂출🙂");
+    	wtlPipeLmListProcess();
+		ui.loadingBar("hide");
+    });
+}
+
 //유량계 목록 화면 조회
 function selectWtlFlowPsListView(){
 	//console.log("selectWtlFlowPsListView()");
@@ -67,11 +79,11 @@ function selectWtlFlowPsListView(){
 	ui.loadingBar("show");
 	
 	var baseContainer = "#bottomPopup";
-    $(baseContainer).load("/job/fcmr/wsfc/selectWtlFlowPsListView.do", function () {
-        //toastr.success("/job/fcmr/wsfc/selectWtlFlowPsListView.do", "페이지🙂호🙂출🙂");
-    	wtlFlowPsListProcess();
+	$(baseContainer).load("/job/fcmr/wsfc/selectWtlFlowPsListView.do", function () {
+		//toastr.success("/job/fcmr/wsfc/selectWtlFlowPsListView.do", "페이지🙂호🙂출🙂");
+		wtlFlowPsListProcess();
 		ui.loadingBar("hide");
-    });
+	});
 }
 
 //상수맨홀 목록 화면 조회
@@ -84,6 +96,20 @@ function selectWtlManhPsListView(){
 	$(baseContainer).load("/job/fcmr/wsfc/selectWtlManhPsListView.do", function () {
 		//toastr.success("/job/fcmr/wsfc/selectWtlManhPsListView.do", "페이지🙂호🙂출🙂");
 		wtlManhPsListProcess();
+		ui.loadingBar("hide");
+	});
+}
+
+//상수관로심도 목록 화면 조회
+function selectWtlPipePsListView(){
+	//console.log("selectWtlPipePsListView()");
+	
+	ui.loadingBar("show");
+	
+	var baseContainer = "#bottomPopup";
+	$(baseContainer).load("/job/fcmr/wsfc/selectWtlPipePsListView.do", function () {
+		//toastr.success("/job/fcmr/wsfc/selectWtlPipePsListView.do", "페이지🙂호🙂출🙂");
+		wtlPipePsListProcess();
 		ui.loadingBar("hide");
 	});
 }
@@ -112,6 +138,20 @@ function selectWtlServPsListView(){
 	$(baseContainer).load("/job/fcmr/wsfc/selectWtlServPsListView.do", function () {
 		//toastr.success("/job/fcmr/wsfc/selectWtlServPsListView.do", "페이지🙂호🙂출🙂");
 		wtlServPsListProcess();
+		ui.loadingBar("hide");
+	});
+}
+
+//급수관로 목록 화면 조회
+function selectWtlSplyLsListView(){
+	//console.log("selectWtlSplyLsListView()");
+	
+	ui.loadingBar("show");
+	
+	var baseContainer = "#bottomPopup";
+	$(baseContainer).load("/job/fcmr/wsfc/selectWtlSplyLsListView.do", function () {
+		//toastr.success("/job/fcmr/wsfc/selectWtlSplyLsListView.do", "페이지🙂호🙂출🙂");
+		wtlSplyLsListProcess();
 		ui.loadingBar("hide");
 	});
 }

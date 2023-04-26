@@ -6,7 +6,7 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
 <style type="text/css">
-	.popup-panel.popup-sub .update-wtlPipeLm-popup-close {
+	.popup-panel.popup-sub .update-wtlSplyLs-popup-close {
 	    top: 0;
 	    right: 0;
 	    width: 39px;
@@ -18,13 +18,13 @@
 	}
 </style>
 
-<!-- 업무 > 시설관리 > 상수도시설 > 상수관로 수정하기 -->
-<div class="popup-header">상수관로 수정하기</div>
+<!-- 업무 > 시설관리 > 상수도시설 > 급수관로 수정하기 -->
+<div class="popup-header">급수관로 수정하기</div>
 <div class="popup-body">
 	<div class="sub-popup-body">
 		<div class="data-write-wrap" style="height: 100%;">
 			<div class="scroll-y">
-				<form id="updateWtlPipeLmForm" method="post">
+				<form id="updateWtlSplyLsForm" method="post">
 				<div class="data-default">
 					<table class="data-write">
 						<colgroup>
@@ -37,11 +37,11 @@
 							<tr>
 	                            <th scope="row">지형지물부호</th>
 	                            <td>
-	                               	<c:out value="${wtlPipeLmVO.ftr_cde_nm }"/>
+	                               	<c:out value="${wtlSplyLsVO.ftr_cde_nm }"/>
 	                            </td>
 	                            <th scope="row">관리번호</th>
 	                            <td>
-	                           	  	<c:out value="${wtlPipeLmVO.ftr_idn }"/>
+	                           	  	<c:out value="${wtlSplyLsVO.ftr_idn }"/>
 	                            </td>
 							</tr>
 							<tr>
@@ -53,7 +53,7 @@
 								</td>
 								<th scope="row">도엽번호</th>
 								<td>
-									<input type="text" name="sht_num" class="form-control" value="${wtlPipeLmVO.sht_num }" maxlength="11">
+									<input type="text" name="sht_num" class="form-control" value="${wtlSplyLsVO.sht_num }" maxlength="11">
 								</td>
 							</tr>
 							<tr>
@@ -65,7 +65,7 @@
 								</td>
 								<th scope="row">설치일자</th>
 								<td>
-								    <input type="text" name="ist_ymd" class="form-control datepicker " value="${wtlPipeLmVO.ist_ymd }" id="dp1680677660036">
+								    <input type="text" name="ist_ymd" class="form-control datepicker " value="${wtlSplyLsVO.ist_ymd }" id="dp1680677660036">
 								</td>
 							</tr>
 							<tr>
@@ -85,11 +85,11 @@
 							<tr>
 								<th scope="row">관경(mm)</th>
 								<td>
-									<input type="number" name="std_dip" class="form-control" value="${wtlPipeLmVO.std_dip }">
+									<input type="number" name="std_dip" class="form-control" value="${wtlSplyLsVO.std_dip }">
 								</td>
 								<th scope="row">연장</th>
 								<td>
-									<input type="number" name="byc_len" class="form-control" value="${wtlPipeLmVO.byc_len }">
+									<input type="number" name="byc_len" class="form-control" value="${wtlSplyLsVO.byc_len }">
 								</td>
 							</tr>
 							<tr>
@@ -101,27 +101,23 @@
 								</td>
 								<th scope="row">최저깊이</th>
 								<td>
-									<input type="number" name="low_dep" class="form-control" value="${wtlPipeLmVO.low_dep }">
+									<input type="number" name="low_dep" class="form-control" value="${wtlSplyLsVO.low_dep }">
 								</td>
 							</tr>
 							<tr>
 								<th scope="row">최고깊이</th>
 								<td>
-									<input type="number" name="hgh_dep" class="form-control" value="${wtlPipeLmVO.hgh_dep }">
+									<input type="number" name="hgh_dep" class="form-control" value="${wtlSplyLsVO.hgh_dep }">
 								</td>
 								<th scope="row">공사번호</th>
 								<td>
-									<input type="text" name="cnt_num" class="form-control" value="${wtlPipeLmVO.cnt_num }">
+									<input type="text" name="cnt_num" class="form-control" value="${wtlSplyLsVO.cnt_num }">
 								</td>
 							</tr>
 							<tr>
-								<th scope="row">탐사구분</th>
-								<td>
-									<input type="text" name="iqt_cde" class="form-control" value="${wtlPipeLmVO.iqt_cde }">
-								</td>
 								<th scope="row">관라벨</th>
-								<td>
-									<input type="text" name="org_idn" class="form-control" value="${wtlPipeLmVO.pip_lbl }">
+								<td colspan="3">
+									<input type="text" name="org_idn" class="form-control" value="${wtlSplyLsVO.pip_lbl }">
 								</td>
 							</tr>
 							<tr>
@@ -146,21 +142,21 @@
 			</div>
 			<div class="position-bottom btn-wrap justify-content-end">
 				<div>
-	           	    <button type="button" class="btn basic bi-write2 btn_save" 		onclick="updateWtlPipeLm();">수정완료</button>
-	           		<button type="button" class="btn basic bi-cancel btn_cancel"	onclick="cancelUpdateWtlPipeLm();">취소</button>
+	           	    <button type="button" class="btn basic bi-write2 btn_save" 		onclick="updateWtlSplyLs();">수정완료</button>
+	           		<button type="button" class="btn basic bi-cancel btn_cancel"	onclick="cancelUpdateWtlSplyLs();">취소</button>
 	           </div>
 			</div>
 		</div>
 	</div>
 </div>
-<button type="button" class="update-wtlPipeLm-popup-close" title="닫기" onclick="cancelMode();"></button>
+<button type="button" class="update-wtlSplyLs-popup-close" title="닫기" onclick="cancelMode();"></button>
 
-<!-- 업무 > 시설관리 > 상수도시설 > 상수관로 수정하기 end -->
+<!-- 업무 > 시설관리 > 상수도시설 > 급수관로 수정하기 end -->
 
 <script type="text/javascript">
 	//jqeury
 	$(document).ready(function(){
-		//console.log("updateWtlPipeLmView.jsp");
+		//console.log("updateWtlSplyLsView.jsp");
         
 		// 날짜 형식 처리 예정 
         // 날짜 적용 - 지금 8자리로 되어 있어 이것 사용 (변경 예정) 
@@ -178,23 +174,23 @@
 		//selectbox 값 세팅
 		
       	//읍면동 
-		let hjd_cde = '${wtlPipeLmVO.hjd_cde }';
+		let hjd_cde = '${wtlSplyLsVO.hjd_cde }';
       	getCmmCodeData("YPE001", "#rightSubPopup select[name=hjd_cde]", hjd_cde);
       	
       	//관리기관
-      	let mng_cde = '${wtlPipeLmVO.mng_cde }';
+      	let mng_cde = '${wtlSplyLsVO.mng_cde }';
       	getCmmCodeData("MNG-001", "#rightSubPopup select[name=mng_cde]", mng_cde);
       	
       	//관용도
-      	let saa_cde = '${wtlPipeLmVO.saa_cde }';
+      	let saa_cde = '${wtlSplyLsVO.saa_cde }';
       	getCmmCodeData("OGC-004", "#rightSubPopup select[name=saa_cde]", saa_cde);
       	
       	//관재질
-      	let mop_cde = '${wtlPipeLmVO.mop_cde }';
+      	let mop_cde = '${wtlSplyLsVO.mop_cde }';
 		getCmmCodeData("OGC-003", "#rightSubPopup select[name=mop_cde]", mop_cde);
 		
       	//접합종류
-      	let jht_cde = '${wtlPipeLmVO.jht_cde }';
+      	let jht_cde = '${wtlSplyLsVO.jht_cde }';
 		getCmmCodeData("OGC-005", "#rightSubPopup select[name=jht_cde]", jht_cde);
       	
 		///////////////////////
@@ -253,7 +249,7 @@
 		/////////////////////
 		
 		//닫기 버튼
-        $(".popup-panel .update-wtlPipeLm-popup-close").on("click", function () {
+        $(".popup-panel .update-wtlSplyLs-popup-close").on("click", function () {
         	cancelUpdateWtlPipeLm();
     	});
 		
@@ -261,10 +257,10 @@
 	
 	
 	//수정하기 취소버튼 동작
-	function cancelUpdateWtlPipeLm(){
-		//console.log("cancelUpdateWtlPipeLm()");
+	function cancelUpdateWtlSplyLs(){
+		//console.log("cancelUpdateWtlSplyLs()");
 		
-		$(".update-wtlPipeLm-popup-close").closest('.popup-panel').removeClass('opened');
+		$(".update-wtlSplyLs-popup-close").closest('.popup-panel').removeClass('opened');
         // 초기화 (지도)
         dtmap.draw.dispose();
         dtmap.draw.clear();
@@ -274,7 +270,7 @@
         }
         
         var id = $("input[name=id]").val();
-    	selectWtlPipeLm(id);
+    	selectWtlSplyLs(id);
 	}
 
 </script>

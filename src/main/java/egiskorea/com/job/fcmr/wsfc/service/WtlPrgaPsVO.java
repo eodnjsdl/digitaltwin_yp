@@ -54,6 +54,7 @@ public class WtlPrgaPsVO {
 	
 	/** pip_cde 관로지형지물부호 */
 	private String pip_cde;
+	private String pip_cde_nm;
 	
 	/** pip_idn 관로관리번호 */
 	private String pip_idn;
@@ -239,6 +240,14 @@ public class WtlPrgaPsVO {
 
 	public void setPip_cde(String pip_cde) {
 		this.pip_cde = pip_cde;
+	}
+	
+	public String getPip_cde_nm() {
+		return pip_cde_nm;
+	}
+
+	public void setPip_cde_nm(String pip_cde_nm) {
+		this.pip_cde_nm = pip_cde_nm;
 	}
 
 	public String getPip_idn() {

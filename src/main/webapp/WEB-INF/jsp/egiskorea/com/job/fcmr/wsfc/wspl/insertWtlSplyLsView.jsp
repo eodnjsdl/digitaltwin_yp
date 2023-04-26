@@ -6,7 +6,7 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
 <style type="text/css">
-	.popup-panel.popup-sub .insert-wtlPipeLm-popup-close {
+	.popup-panel.popup-sub .insert-wtlSplyLs-popup-close {
 	    top: 0;
 	    right: 0;
 	    width: 39px;
@@ -25,7 +25,7 @@
                <div class="sub-popup-body">
                    <div class="data-write-wrap" style="height: 100%;">
                        <div class="scroll-y">
-                           <form id="insertWtlPipeLmForm" method="post">
+                           <form id="insertWtlSplyLsForm" method="post">
                            <div class="data-default">
 								<table class="data-write">
 									<colgroup>
@@ -118,12 +118,8 @@
 											</td>
 										</tr>
 										<tr>
-											<th scope="row">탐사구분</th>
-											<td>
-												<input type="text" name="iqt_cde" class="form-control" value="">
-											</td>
 											<th scope="row">관라벨</th>
-											<td>
+											<td colspan="3">
 												<input type="text" name="org_idn" class="form-control" value="">
 											</td>
 										</tr>
@@ -148,14 +144,14 @@
                        </div>
                        <div class="position-bottom btn-wrap">
                            <div>
-                           	    <button type="button" class="btn basic bi-edit btn_add" onclick="insertWtlPipeLm();">등록</button>
-                           		<button type="button" class="btn basic bi-cancel btn_cancel" onclick="cancelInsertWtlPipeLm()">취소</button>
+                           	    <button type="button" class="btn basic bi-edit btn_add" onclick="insertWtlSplyLs();">등록</button>
+                           		<button type="button" class="btn basic bi-cancel btn_cancel" onclick="cancelInsertWtlSplyLs()">취소</button>
                            </div>
                        </div>
                    </div>
                </div>
            </div>
-           <button type="button" class="insert-wtlPipeLm-popup-close" title="닫기" onclick="cancelMode();"></button>
+           <button type="button" class="insert-wtlSplyLs-popup-close" title="닫기" onclick="cancelMode();"></button>
 
 <!-- 업무 > 시설관리 > 상수수도시설 > 상수관로 등록하기 end -->
 
@@ -221,17 +217,17 @@
      	//////////////////
      	
      	//등록창 닫기
-     	$(".popup-panel .insert-wtlPipeLm-popup-close").on("click", function () {
-             cancelInsertWtlPipeLm();
+     	$(".popup-panel .insert-wtlSplyLs-popup-close").on("click", function () {
+             cancelInsertWtlSplyLs();
      	});
      	
 	});
 	
 	//취소 버튼 동작
-	function cancelInsertWtlPipeLm() {
-		//console.log("cancelInsertWtlPipeLm()");
+	function cancelInsertWtlSplyLs() {
+		//console.log("cancelInsertWtlSplyLs()");
 		
-		$(".insert-wtlPipeLm-popup-close").closest('.popup-panel').removeClass('opened');
+		$(".insert-wtlSplyLs-popup-close").closest('.popup-panel').removeClass('opened');
         // 초기화 (지도)
         dtmap.draw.dispose();
         dtmap.draw.clear();

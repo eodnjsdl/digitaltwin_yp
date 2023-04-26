@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" %>
 
 <!-- js -->
-<script src="/js/egiskorea/com/job/fcmr/wsfc/wsep/wtlServPs.js"></script>			<!-- 배수지 -->
+<script src="/js/egiskorea/com/job/fcmr/wsfc/wpip/wtlPipePs.js"></script>			<!-- 상수관로심도  -->
 
 <!-- 업무 > 공통 -->
 <div class="popup-header">상수도관리</div>
@@ -15,9 +15,9 @@
                     <option value="wtlPipeLm">상수관로</option>
                     <option value="wtlFlowPs">유량계</option>
                     <option value="wtlManhPs">상수맨홀</option>
-                    <option value="wtlPipePs">상수관로심도</option>
+                    <option value="wtlPipePs" selected="selected">상수관로심도</option>
                     <option value="wtlPrgaPs">수압계</option>
-                    <option value="wtlServPs" selected="selected">배수지</option>
+                    <option value="wtlServPs">배수지</option>
                     <option value="wtlSplyLs">급수관로</option>
                     <option value="wtlValvPs">변류시설</option>
                 </select>
@@ -33,7 +33,7 @@
                         </li>
                     </ul>
                 </div>
-                <div class="tab-cont groundwaterProperty on">
+                <div class="tab-cont groundwaterProperty on" id="wtlPipePsListItems">
                     <div class="srch-default">
                         <table class="srch-tbl">
                             <colgroup>
@@ -42,25 +42,10 @@
                             </colgroup>
                             <tbody id="lSrchOptions">
 								<tr>  
-									<th scope="row">읍면동</th>  
+									<th scope="row">관리번호</th>  
 									<td>    
-										<select name="hjd_cde" class="form-select">
-											<option value="">선택</option>
-										</select>  
-									</td>
-								</tr>
-								<tr>  
-									<th scope="row">배수지명</th>  
-									<td>    
-										<input type="text" name="srv_nam" class="form-control" value="">    
-									</td>
-								</tr>
-								<tr>  
-									<th scope="row">관리방법</th>  
-									<td>    
-										<select name="sag_cde" class="form-select">
-											<option value="">선택</option>
-										</select> 
+										<input type="number" name="ftr_idn_min" step="1" class="form-control" value="" style="width:68px">    
+										<input type="number" name="ftr_idn_max" step="1" class="form-control" value="" onkeyup="inputKeyup()" style="width:68px">  
 									</td>
 								</tr>
                             </tbody>
@@ -68,7 +53,7 @@
                     </div>
                     <div class="btn-wrap">
                         <div>
-                            <button type="button" class="btn type01 search facility-attribute-search" onclick="selectWtlServPsList(1)">조회</button>
+                            <button type="button" class="btn type01 search facility-attribute-search" onclick="selectWtlPipePsList(1)">조회</button>
                         </div>
                     </div>
                 </div>
@@ -119,9 +104,8 @@
             <div class="bbs-top">
                 <div class="bbs-list-num">조회결과 : --건</div>
                 <div>
-                    <button type="button" class="btn basic bi-write btn_add" onclick="insertWtlServPsView();">등록</button>
-                    <button type="button" class="btn basic bi-excel btn_excel" onclick="downloadExcelWtlServPs();">엑셀저장
-                    </button>
+                    <button type="button" class="btn basic bi-write btn_add opened" 	onclick="insertWtlPipePsView();">등록</button>
+                    <button type="button" class="btn basic bi-excel btn_excel" 	onclick="downloadExcelWtlPipePs();">엑셀저장</button>
                 </div>
             </div>
             <div class="bbs-list-wrap" style="height: 267px;"><!-- pagination 하단 고정을 위해 반드시 필요 -->
@@ -132,25 +116,25 @@
                     </div>
                 </div>
             </div>
-            <input type="hidden" id="wtlServPsListPage" 	value="">
+            <input type="hidden" id="wtlPipePsListPage" 	value="">
         </div>
     </div>
 </div>
 <button type="button" class="manualBtn" title="도움말" onclick="manualTab('상수도시설')"></button>
 <button type="button" class="popup-close"
         onClick="clearMap();" title="닫기"></button>
-<button type="button" class="popup-reset" class="초기화"></button>
+<button type="button" class="popup-reset"></button>
 <button type="button" class="popup-bottom-toggle" title="접기"></button>
 <!-- //업무 > 시설물 공통 -->
 <script type="text/javascript">
 	//jqeury
 	$(document).ready(function(){
-		//console.log("wtlServPsListView.jsp");
-		
+		//console.log("wtlPipePsListView.jsp");	
+		 
 		//이벤트 리스너 추가
 		dtmap.on('select', onFacilitySelectEventListener);
 		
-		wtlServPsInit();	//초기화
+		wtlPipePsInit();	//초기화
 		 
 		//////////////////
 		//하위메뉴 select box
@@ -231,18 +215,18 @@
             	//console.log("모드>>>"+dtmap.mod);
             	if(dtmap.mod == "2D"){
             		if(dtmap.draw.source.getFeatures().length > 0){	//임시로 그려진 형태체크
-            			FACILITY.spaceSearchOption.geometry = dtmap.draw.getGeometry();
-            		}else{
-            			alert("영역지정 안되었습니다");
-            			return false;
-            		}
+    	            	FACILITY.spaceSearchOption.geometry = dtmap.draw.getGeometry();
+                	}else{
+                		alert("영역지정 안되었습니다");
+                		return false;
+                	}
             	}else if(dtmap.mod == "3D"){		
             		FACILITY.spaceSearchOption.geometry = dtmap.draw.getGeometry();
             	}
             	
             }
            	
-           	selectWtlServPsList(1);
+           	selectWtlPipePsList(1);
 
         });
      	

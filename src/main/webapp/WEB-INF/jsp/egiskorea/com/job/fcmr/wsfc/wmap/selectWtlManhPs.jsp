@@ -78,13 +78,13 @@
                                        </td>
                                        <th scope="row">맨홀종류</th>
                                        <td>
-                                           <c:out value="${wtlManhPsVO.som_cde }"/>
+                                           <c:out value="${wtlManhPsVO.som_cde_nm }"/>
                                        </td>
                                    </tr>
                                    <tr>
                                        <th scope="row">맨홀형태</th>
                                        <td>
-                                       		<c:out value="${wtlManhPsVO.mhs_cde }"/>
+                                       		<c:out value="${wtlManhPsVO.mhs_cde_nm }"/>
                                        </td>
                                        <th scope="row">공사번호</th>
                                        <td>
