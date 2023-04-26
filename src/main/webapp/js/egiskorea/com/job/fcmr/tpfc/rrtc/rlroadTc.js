@@ -46,7 +46,8 @@ function setRailroadTrackListGrid() {
 	body: {
 		align: "center",
 		onClick: function() {
-			selectRailroadTrackDetailView(this.item.gid);
+//			selectRailroadTrackDetailView(this.item.gid);
+			selectRailroadTrackDetail(this.item.gid);
 		}
 	},
 	page: {
@@ -212,6 +213,8 @@ function setRailroadTrackListData(_pageNo, geom) {
 	
 	var list = [];
 	for (let i = 0; i < data.features.length; i++) {
+	  //좌표 처리  geometry로 변수명을 정하면 기존것과 충돌 발생
+    	data.features[i].properties.geomObj = data.features[i].geometry;
 	    const {id, properties} = data.features[i];
 	    list.push({...properties, ...{id: id}});
 	}
@@ -236,25 +239,62 @@ function setRailroadTrackListData(_pageNo, geom) {
 	    // --------------------------------------------------
 	    return {
 	        marker: {
-	            src: '/images/poi/railroadTrack_poi.png'
+	            	src: '/images/poi/railroadTrack_poi.png',
+	            	anchor: [0, 0] //이미지 중심위치 (0~1 [x,y] 비율값 [0,0] 좌상단 [1,1] 우하단)
 	            },
-	            label: {
-	                text: properties.kor_rlr_nm
+	        label: {
+	                text: properties.rn,
+	                //3D POI 수직 막대길이
+	                offsetHeight : 10
 	            }
-	        }
+	    }
 	});
 	dtmap.vector.fit();
     });
 }
 
 /**
- * 테이블 데이터 상세보기
+ * 상세보기 데이터 불러오기
  * @param gid
  * @returns
  */
-function selectRailroadTrackDetailView(gid) {
+function selectRailroadTrackDetail(gid) {
+const filters = 'gid = ' + gid;
+    
+    var options;
+    options = {
+	    typeNames : 'tgd_sprl_rlway',
+	    cql : filters
+    }
+    
+    const promise = dtmap.wfsGetFeature(options);
+    promise.then(function (data) {
+	if (data.features.length != 1) {
+	    toastr.error("상세보기 오류");
+	    return false;
+	}
+	
+	//좌표 처리  geometry로 변수명을 정하면 기존것과 충돌 발생
+    	data.features[0].properties.geomObj = data.features[0].geometry;
+    	
+    	let detailData = data.features[0].properties;
+    	let id = data.features[0].id.split('.')[0] + '.';
+    	detailData.id = id + gid;
+    	
+    	selectRailroadTrackDetailView(detailData);
+    	
+	});
+}
+    
+/**
+ * 테이블 데이터 상세보기 페이지 불러오기
+ * @param gid
+ * @returns
+ */
+function selectRailroadTrackDetailView(detailData) {
+    let gid = detailData.gid;
+    
     dtmap.vector.clearSelect(); 
-    dtmap.vector.select('tgd_sprl_rlway.' + gid);
     
     ui.openPopup("rightSubPopup");
     ui.loadingBar("show");
@@ -275,6 +315,7 @@ function selectRailroadTrackDetailView(gid) {
 	success : function(data, status) {
 	    if (status == "success") {		
 		$("#rightSubPopup").append(data);
+		dtmap.vector.select('tgd_sprl_rlway.' + gid);
 	    } else { 
 		toastr.error("ERROR!");
 		return;
@@ -299,22 +340,6 @@ function selectRlroadTcWithFilters() {
     $('.rlroadTc .search').on('click', function() {
 	setRailroadTrackListData(0, geom);
     });
-}
-
-/**
- * 객체 선택 시 상세보기
- * @param e
- * @returns
- */
-function onSelectRailroadTrackEventListener(e) {
-    let id = e.id;
-    if (id) {
-	id = id.split('.')[1];
-	selectRailroadTrackDetailView(id);
-    } else {
-	toastr.error("객체 선택 오류입니다.");
-	return false;
-    }
 }
 
 /**
@@ -348,4 +373,34 @@ function downloadExcelRailroadTrack() {
 	$('[data-ax5grid="attr-grid-excel"]').empty();
 	ui.loadingBar("hide");
     }); 
+}
+
+/**
+ * 객체 선택 시 상세보기
+ * @param e
+ * @returns
+ */
+function onSelectRailroadTrackEventListener(e) {
+    let id = e.id;
+    if (id) {
+	id = id.split('.')[1];
+	selectRailroadTrackDetailView(id);
+    } else {
+	toastr.error("객체 선택 오류입니다.");
+	return false;
+    }
+}
+
+/**
+ * 팝업 종료 시, vector 제거
+ * @returns
+ */
+function closeView() {
+    if ($('#rightSubPopup').hasClass('opened')) {
+	dtmap.vector.clearSelect();
+	ui.closeSubPopup();
+    } else {
+	dtmap.vector.clear();
+    }
+    
 }

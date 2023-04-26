@@ -149,7 +149,7 @@ function cancelInsertSwlDranPs() {
 							<tr>
 								<th scope="row">부지면적</th>
 								<td>
-									<input type="number" name="gai_ara" class="form-control" value="">
+									<input type="number" name="gai_ara" class="form-control" min="0" value="">
 								</td>
 								<th scope="row">개통상태</th>
 								<td>
@@ -203,11 +203,11 @@ function cancelInsertSwlDranPs() {
 							<tr>
 								<th scope="row">공사번호</th>
 								<td>
-									<input type="text" name="cnt_num" class="form-control" value="">
+									<input type="text" name="cnt_num" class="form-control" value="" maxlength="50">
 								</td>
 								<th scope="row">방향각</th>
 								<td>
-									<input type="number" name="ang_dir" class="form-control" value="">
+									<input type="number" name="ang_dir" class="form-control" min="0" value="">
 								</td>
 							</tr>
 							<tr>

@@ -213,6 +213,8 @@ function setRailroadStationListData(_pageNo, geom) {
 	
 	var list = [];
 	for (let i = 0; i < data.features.length; i++) {
+	    let wfsId = data.features[i].id.split('.')[0] + '.';
+	    data.features[i].id = wfsId + data.features[i].properties.gid;
 	    const {id, properties} = data.features[i];
 	    list.push({...properties, ...{id: id}});
 	}
@@ -232,16 +234,22 @@ function setRailroadStationListData(_pageNo, geom) {
 	    let properties = feature.getProperties();
 	    // properties에 id 값이 랜덤으로 생성되서, gid와 동일하게 변경해줌
 	    // wfs. + gid
-	    let getGid = properties.gid;
-	    feature.setId('tgd_sprl_statn.' + getGid);
+//	    let getGid = properties.gid;
+//	    feature.setId('tgd_sprl_statn.' + getGid);
 	    // --------------------------------------------------
 	    return {
 	        marker: {
-	            src: '/images/poi/railroadStation_poi.png'
+	            	src: '/images/poi/railroadStation_poi.png',
+	            	anchor: [0, 0], //이미지 중심위치 (0~1 [x,y] 비율값 [0,0] 좌상단 [1,1] 우하단) 
+	            	scale: 1, //스케일값
+	            	opacity: 1 
 	            },
-	            label: {
-	                text: properties.kor_sta_nm
-	            }
+	        label: {
+	                text: properties.kor_sta_nm,
+	                //3D POI 수직 막대길이
+	                offsetHeight : 10
+	            },
+	            radius: 15
 	        }
 	});
 	dtmap.vector.fit();
@@ -349,4 +357,18 @@ function onSelectRailroadStationEventListener(e) {
 	toastr.error("객체 선택 오류입니다.");
 	return false;
     }
+}
+
+/**
+ * 팝업 종료 시, vector 제거
+ * @returns
+ */
+function closeView() {
+    if ($('#rightSubPopup').hasClass('opened')) {
+	dtmap.vector.clearSelect();
+	ui.closeSubPopup();
+    } else {
+	dtmap.vector.clear();
+    }
+    
 }

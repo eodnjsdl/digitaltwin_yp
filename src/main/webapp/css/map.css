@@ -31,7 +31,7 @@ html, body {
 	justify-content: space-between;
 	position: absolute;
 	left: 10px;
-	right: 20px;	
+	right: 20px;
 	z-index: 10;
 }
 
@@ -237,8 +237,10 @@ html, body {
 	overflow: hidden;
 }
 
-#map {
+.main-map {
 	height: 100%;
+	width: 100%;
+	display:none;
 }
 
 #map-aside .map-tool {
@@ -276,7 +278,7 @@ html, body {
 #map-aside .tool-btn {
 	display: block;
 	width: 80px;
-	height: 40px;	
+	height: 40px;
 	background-color: #CFD4DC;
 	background-position: 50% 50%;
 	background-repeat: no-repeat;
@@ -472,7 +474,7 @@ html, body {
 	width: 100%;
 	height: 100%;
 	background: url(/images/map/ctrl-compass.svg) no-repeat 50% 50%;
-	
+
 }
 
 .map-control ul li .ctrl-btn + .ctrl-btn {
@@ -508,14 +510,14 @@ html, body {
 	height: 40px;
 	border-radius: 0 20px 20px 0;
 	background: white;
-	box-shadow: 0px 0px 6px #000;	
+	box-shadow: 0px 0px 6px #000;
 }
 .map-type .knobs > span {
 	width: 40px;
 }
 
 .map-type input[type="radio"] {
-	position: absolute;	
+	position: absolute;
 	margin: -1px;
 	padding: 0;
 	width: 1px;
@@ -739,7 +741,7 @@ html, body {
 	bottom: 0;
 	padding: 0;
 	color: #fff;
-	font-size: 11px;	
+	font-size: 11px;
 }
 
 /*------------------------------------------------------------------------------
@@ -752,7 +754,7 @@ html, body {
 	bottom: 60px;
 	width: 305px;
 	border: 1px solid rgba(255, 255, 255, 0.5);
-	background-color: rgba(255, 255, 255, 0.3);	
+	background-color: rgba(255, 255, 255, 0.3);
 	box-shadow: 0px 0px 6px #000000;
 	-webkit-backdrop-filter: blur(50px);
 	backdrop-filter: blur(50px);
@@ -824,7 +826,7 @@ html, body {
 
 .context a {
 	display: block;
-	padding: 5px 10px;	
+	padding: 5px 10px;
 	color: #44516A;
 	font-size: 12px;
 	background-color: #FFFFFF;

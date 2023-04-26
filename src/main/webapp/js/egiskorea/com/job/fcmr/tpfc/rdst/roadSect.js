@@ -48,7 +48,7 @@ function setRoadSectListGrid() {
 	body: {
 		align: "center",
 		onClick: function() {
-		    selectRoadSectDetailView(this.item.gid);
+		    selectRoadSectDetailView(this.item);
 		}
 	},
 	page: {
@@ -64,13 +64,13 @@ function setRoadSectListGrid() {
 	},
 	columns: [
 	    {key: "sig_cd",		label: "시군구",		width: 100},
-	    {key: "rds_man_no",		label: "도로구간일련번호",	width: 100},
+	    {key: "rds_man_no",		label: "도로구간일련번호",	width: 130},
 	    {key: "rn",			label: "도로명(한글)",	width: 100},
 	    {key: "eng_rn",		label: "도로명(영문)",	width: 180},
 	    {key: "ntfc_de",		label: "고시일자",		width: 100},
 	    {key: "wdr_rd_cd",		label: "광역도로구분",	width: 100},
-	    {key: "rbp_cn",		label: "기점",		width: 150},
-	    {key: "rep_cn",		label: "종점",		width: 150},
+	    {key: "rbp_cn",		label: "기점",		width: 170},
+	    {key: "rep_cn",		label: "종점",		width: 170},
 	    {key: "road_bt",		label: "도로폭",		width: 100},
 	    {key: "road_lt",		label: "도로길이",		width: 100}
 	]
@@ -232,6 +232,8 @@ function setRoadSectListData(_pageNo, geom) {
 	
 	var list = [];
 	for (let i = 0; i < data.features.length; i++) {
+	    let wfsId = data.features[i].id.split('.')[0] + '.';
+	    data.features[i].id = wfsId + data.features[i].properties.gid;
 	    const {id, properties} = data.features[i];
 	    list.push({...properties, ...{id: id}});
 	}
@@ -251,16 +253,22 @@ function setRoadSectListData(_pageNo, geom) {
 	    let properties = feature.getProperties();
 	    // properties에 id 값이 랜덤으로 생성되서, gid와 동일하게 변경해줌
 	    // wfs. + gid
-	    let getGid = properties.gid;
-	    feature.setId('tgd_sprd_manage.' + getGid);
+//	    	도로구간 - wfs.+41830(양평군).rdsManNo;
+//	    	그 외는 아래처럼 처리
+//	    let getGid = properties.gid;
+//	    feature.setId('wfs name.' + getGid);
+	    
 	    // --------------------------------------------------
 	    return {
 	        marker: {
-	            src: '/images/poi/roadSection_poi.png'
+	            	src: '/images/poi/roadSection_poi.png',
+	            	anchor: [0, 0], //이미지 중심위치 (0~1 [x,y] 비율값 [0,0] 좌상단 [1,1] 우하단)
 	            },
-	            label: {
-	                text: properties.rn
-	            }
+	        label: {
+	                text: properties.rn,
+	                //3D POI 수직 막대길이
+	                offsetHeight : 10
+	            },
 	        }
 	});
 	dtmap.vector.fit();
@@ -268,10 +276,12 @@ function setRoadSectListData(_pageNo, geom) {
 }
 /**
  * 테이블 데이터 상세보기
- * @param gid
+ * @param item
  * @returns
  */
-function selectRoadSectDetailView(gid) {
+function selectRoadSectDetailView(item) {
+    let gid = item.gid;
+    let rdsManNo = item.rds_man_no;
     dtmap.vector.clearSelect(); 
     dtmap.vector.select('tgd_sprd_manage.' + gid);
     ui.openPopup("rightSubPopup");
@@ -362,12 +372,25 @@ function downloadExcelRoadSect() {
  * @returns
  */
 function onSelectRoadSectEventListener(e) {
-    let id = e.id;
-    if (id) {
-	id = id.split('.')[1];
-	selectRoadSectDetailView(id);
+    let item = e.property;
+    if (item) {
+	selectRoadSectDetailView(item);
     } else { 
 	toastr.error("객체 선택 오류입니다.");
 	return false;
     }
+}
+
+/**
+ * 팝업 종료 시, vector 제거
+ * @returns
+ */
+function closeView() {
+    if ($('#rightSubPopup').hasClass('opened')) {
+	dtmap.vector.clearSelect();
+	ui.closeSubPopup();
+    } else {
+	dtmap.vector.clear();
+    }
+    
 }
