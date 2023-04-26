@@ -3,8 +3,8 @@ package egiskorea.com.job.fcmr.ssfc.service;
 import java.io.Serializable;
 
 @SuppressWarnings("serial")
-public class SwlDranPsVO implements Serializable {
-	
+public class SwlPumpPsVO implements Serializable {
+
 	/** GID */
 	private int gid;
 	
@@ -19,18 +19,18 @@ public class SwlDranPsVO implements Serializable {
 	private String hjd_cde;
 	private String hjd_cde_nm;
 	
-	/** 도엽번호 */
-	private String sht_num;
-	
 	/** 관리기관 */
 	private String mng_cde;
 	private String mng_cde_nm;
 	
+	/** 도엽번호 */
+	private String sht_num;
+	
 	/** 설치일자 */
 	private String ist_ymd;
 	
-	/** 하수처리장명 */
-	private String drn_nam;
+	/** 하수펌프장명 */
+	private String pmp_nam;
 	
 	/** 부지면적 */
 	private String gai_ara;
@@ -39,35 +39,35 @@ public class SwlDranPsVO implements Serializable {
 	private String soo_cde;
 	private String soo_cde_nm;
 	
-	/** 처리구역면적 */
-	private String adp_ara;
+	/** 펌프장용도 */
+	private String sbe_cde;
+	private String sbe_cde_nm;
 	
-	/** 하수처리방식 */
-	private String sbb_cde;
-	private String sbb_cde_nm;
+	/** 일일처리용량 */
+	private String day_vol;
 	
-	/** 청천시처리용량 */
-	private String pcc_vol;
+	/** 최대저수용량 */
+	private String max_vol;
 	
-	/** 우천시처리용량 */
-	private String puc_vol;
+	/** 표고 */
+	private String stp_hsl;
 	
-	/** 설계유입수_수질 */
-	private String qw1_exp;
+	/** 수위 */
+	private String pmp_wal;
 	
-	/** 설계유출수_수질 */
-	private String qw2_exp;
+	/** 청천시_오수양수능력 */
+	private String cos_vol;
 	
-	/** 차집관연장 */
-	private String pip_len;
+	/** 우천시_오수양수능력 */
+	private String uos_vol;
 	
-	/** 방류수역명 */
-	private String dra_nam;
+	/** 우수양수능력 */
+	private String usu_vol;
 	
 	/** 공사번호 */
 	private String cnt_num;
 	
-	/** 개통상태 */
+	/** 대장초기화여부 */
 	private String sys_chk;
 	
 	/** 방향각 */
@@ -115,13 +115,6 @@ public class SwlDranPsVO implements Serializable {
 		this.hjd_cde_nm = hjd_cde_nm;
 	}
 
-	public String getSht_num() {
-		return sht_num;
-	}
-	public void setSht_num(String sht_num) {
-		this.sht_num = sht_num;
-	}
-
 	public String getMng_cde() {
 		return mng_cde;
 	}
@@ -136,6 +129,13 @@ public class SwlDranPsVO implements Serializable {
 		this.mng_cde_nm = mng_cde_nm;
 	}
 
+	public String getSht_num() {
+		return sht_num;
+	}
+	public void setSht_num(String sht_num) {
+		this.sht_num = sht_num;
+	}
+
 	public String getIst_ymd() {
 		return ist_ymd;
 	}
@@ -143,11 +143,11 @@ public class SwlDranPsVO implements Serializable {
 		this.ist_ymd = ist_ymd;
 	}
 
-	public String getDrn_nam() {
-		return drn_nam;
+	public String getPmp_nam() {
+		return pmp_nam;
 	}
-	public void setDrn_nam(String drn_nam) {
-		this.drn_nam = drn_nam;
+	public void setPmp_nam(String pmp_nam) {
+		this.pmp_nam = pmp_nam;
 	}
 
 	public String getGai_ara() {
@@ -171,67 +171,67 @@ public class SwlDranPsVO implements Serializable {
 		this.soo_cde_nm = soo_cde_nm;
 	}
 
-	public String getAdp_ara() {
-		return adp_ara;
+	public String getSbe_cde() {
+		return sbe_cde;
 	}
-	public void setAdp_ara(String adp_ara) {
-		this.adp_ara = adp_ara;
-	}
-
-	public String getSbb_cde() {
-		return sbb_cde;
-	}
-	public void setSbb_cde(String sbb_cde) {
-		this.sbb_cde = sbb_cde;
+	public void setSbe_cde(String sbe_cde) {
+		this.sbe_cde = sbe_cde;
 	}
 
-	public String getSbb_cde_nm() {
-		return sbb_cde_nm;
+	public String getSbe_cde_nm() {
+		return sbe_cde_nm;
 	}
-	public void setSbb_cde_nm(String sbb_cde_nm) {
-		this.sbb_cde_nm = sbb_cde_nm;
-	}
-
-	public String getPcc_vol() {
-		return pcc_vol;
-	}
-	public void setPcc_vol(String pcc_vol) {
-		this.pcc_vol = pcc_vol;
+	public void setSbe_cde_nm(String sbe_cde_nm) {
+		this.sbe_cde_nm = sbe_cde_nm;
 	}
 
-	public String getPuc_vol() {
-		return puc_vol;
+	public String getDay_vol() {
+		return day_vol;
 	}
-	public void setPuc_vol(String puc_vol) {
-		this.puc_vol = puc_vol;
-	}
-
-	public String getQw1_exp() {
-		return qw1_exp;
-	}
-	public void setQw1_exp(String qw1_exp) {
-		this.qw1_exp = qw1_exp;
+	public void setDay_vol(String day_vol) {
+		this.day_vol = day_vol;
 	}
 
-	public String getQw2_exp() {
-		return qw2_exp;
+	public String getMax_vol() {
+		return max_vol;
 	}
-	public void setQw2_exp(String qw2_exp) {
-		this.qw2_exp = qw2_exp;
-	}
-
-	public String getPip_len() {
-		return pip_len;
-	}
-	public void setPip_len(String pip_len) {
-		this.pip_len = pip_len;
+	public void setMax_vol(String max_vol) {
+		this.max_vol = max_vol;
 	}
 
-	public String getDra_nam() {
-		return dra_nam;
+	public String getStp_hsl() {
+		return stp_hsl;
 	}
-	public void setDra_nam(String dra_nam) {
-		this.dra_nam = dra_nam;
+	public void setStp_hsl(String stp_hsl) {
+		this.stp_hsl = stp_hsl;
+	}
+
+	public String getPmp_wal() {
+		return pmp_wal;
+	}
+	public void setPmp_wal(String pmp_wal) {
+		this.pmp_wal = pmp_wal;
+	}
+
+	public String getCos_vol() {
+		return cos_vol;
+	}
+	public void setCos_vol(String cos_vol) {
+		this.cos_vol = cos_vol;
+	}
+
+	public String getUos_vol() {
+		return uos_vol;
+	}
+	public void setUos_vol(String uos_vol) {
+		this.uos_vol = uos_vol;
+	}
+
+	public String getUsu_vol() {
+		return usu_vol;
+	}
+	public void setUsu_vol(String usu_vol) {
+		this.usu_vol = usu_vol;
 	}
 
 	public String getCnt_num() {

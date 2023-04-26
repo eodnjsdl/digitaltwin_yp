@@ -6,7 +6,7 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
 <style type="text/css">
-	.popup-panel.popup-sub .swlDranPs-popup-close {
+	.popup-panel.popup-sub .swlSpewPs-popup-close {
 	    top: 0;
 	    right: 0;
 	    width: 39px;
@@ -21,12 +21,12 @@
 <script type="text/javascript">
 
 $(document).ready(function(){
-	//console.log("updateSwlDranPsView.jsp");
+	//console.log("updateSwlSpewPsView.jsp");
 
 	//3d 일때 지도 추가 버튼 삭제 
 	if(dtmap.mod == "3D"){
-		if($("#updateSwlDranPsFrm .btn-select-map").css("display") != 'none'){
-			$("#updateSwlDranPsFrm .btn-select-map").hide();
+		if($("#updateSwlSpewPsFrm .btn-select-map").css("display") != 'none'){
+			$("#updateSwlSpewPsFrm .btn-select-map").hide();
 		}
 	}
 	
@@ -42,21 +42,18 @@ $(document).ready(function(){
 	//ui.callDatePicker();
 	
 	// selectbox 값 세팅
-	let ftr_cde = '${swlDranPsVO.ftr_cde}';
-	getCmmCodeData("FTR-001", "#updateSwlDranPsFrm select[name=ftr_cde]", ftr_cde);	// 읍면동 
+	let hjd_cde = '${swlSpewPsVO.hjd_cde}';
+	getCmmCodeData("YPE001", "#updateSwlSpewPsFrm select[name=hjd_cde]", hjd_cde);	// 읍면동 
 	
-	let hjd_cde = '${swlDranPsVO.hjd_cde}';
-	getCmmCodeData("YPE001", "#updateSwlDranPsFrm select[name=hjd_cde]", hjd_cde);	// 관리기관 
+	let mng_cde = '${swlSpewPsVO.mng_cde}';
+	getCmmCodeData("MNG-001", "#updateSwlSpewPsFrm select[name=mng_cde]", mng_cde);	// 관리기관 
 	
-	let mng_cde = '${swlDranPsVO.mng_cde}';
-	getCmmCodeData("MNG-001", "#updateSwlDranPsFrm select[name=mng_cde]", mng_cde);	// 관재질 
+	let vmt_cde = '${swlSpewPsVO.vmt_cde}';
+	getCmmCodeData("OGC-145", "#updateSwlSpewPsFrm select[name=vmt_cde]", vmt_cde);	// 토구용도 
 	
-	let soo_cde = '${swlDranPsVO.soo_cde}';
-	getCmmCodeData("OGC-023", "#updateSwlDranPsFrm select[name=soo_cde]", soo_cde);	// 흡출기형식 
+	let for_cde = '${swlSpewPsVO.for_cde}';
+	getCmmCodeData("OGC-001", "#updateSwlSpewPsFrm select[name=for_cde]", for_cde);	// 시설물형태 
       	
-	let sbb_cde = '${swlDranPsVO.sbb_cde}';
-	getCmmCodeData("OGC-056", "#updateSwlDranPsFrm select[name=sbb_cde]", sbb_cde);	// 흡출기재질 
-    
 	//gird 데이터를 통한 주소 조회
 	var id =  $("input[name=id]").val();
 	
@@ -102,8 +99,8 @@ $(document).ready(function(){
 });
 
 //취소 버튼 동작
-function cancelUpdateSwlDranPs() {
-	$(".swlDranPs-popup-close").closest('.popup-panel').removeClass('opened');
+function cancelUpdateSwlSpewPs() {
+	$(".swlSpewPs-popup-close").closest('.popup-panel').removeClass('opened');
        // 초기화 (지도)
        dtmap.draw.dispose();
        dtmap.draw.clear();
@@ -113,19 +110,19 @@ function cancelUpdateSwlDranPs() {
 	}
 	
 	var id = $("input[name=id]").val();
-	selectSwlDranPs(id);	// 상세보기로 이동
+	selectSwlSpewPs(id);	// 상세보기로 이동
 }
 	
 </script>
 
-<!-- 업무 > 시설관리 > 하수도시설 > 하수처리장 수정하기 -->
-<div class="popup-header">하수처리장 수정하기</div>
+<!-- 업무 > 시설관리 > 하수도시설 > 토구 수정하기 -->
+<div class="popup-header">토구 수정하기</div>
 <div class="popup-body">
 	<div class="sub-popup-body">
 		<div class="data-write-wrap" style="height: 100%;">
 			<div class="scroll-y">
 				<div class="data-default">
-					<form id="updateSwlDranPsFrm" method="post">
+					<form id="updateSwlSpewPsFrm" method="post">
 					<table class="data-write">
 						<colgroup>
 							<col style="width: 23%;">
@@ -137,13 +134,13 @@ function cancelUpdateSwlDranPs() {
 							<tr>
 								<th scope="row">지형지물부호</th>
 								<td>
-									<c:out value="${swlDranPsVO.ftr_cde_nm}"/>
-									<input type="hidden" name="ftr_cde" class="form-control" value="${swlDranPsVO.ftr_cde}">
+									<c:out value="${swlSpewPsVO.ftr_cde_nm}"/>
+									<input type="hidden" name="ftr_cde" class="form-control" value="${swlSpewPsVO.ftr_cde}">
 								</td>
 								<th scope="row">관리번호</th>
 								<td>
-									<c:out value="${swlDranPsVO.ftr_idn}"/>
-									<input type="hidden" name="ftr_idn" class="form-control" value="${swlDranPsVO.ftr_idn}">
+									<c:out value="${swlSpewPsVO.ftr_idn}"/>
+									<input type="hidden" name="ftr_idn" class="form-control" value="${swlSpewPsVO.ftr_idn}">
 								</td>
 							</tr>
 							<tr>
@@ -155,7 +152,7 @@ function cancelUpdateSwlDranPs() {
 								</td>
 								<th scope="row">도엽번호</th>
 								<td>
-									<input type="text" name="sht_num" class="form-control" value="${swlDranPsVO.sht_num}" maxlength="11">
+									<input type="text" name="sht_num" class="form-control" value="${swlSpewPsVO.sht_num}" maxlength="11">
 								</td>
 							</tr>
 							<tr>
@@ -167,77 +164,91 @@ function cancelUpdateSwlDranPs() {
 								</td>
 								<th scope="row">설치일자</th>
 								<td>
-									<input type="text" name="ist_ymd" class="form-control datepicker" value="${swlDranPsVO.ist_ymd}">
+									<input type="text" name="ist_ymd" class="form-control datepicker" value="${swlSpewPsVO.ist_ymd}">
 								</td>
 							</tr>
 							<tr>
-								<th scope="row">하수처리장명</th>
-								<td colspan="3">
-									<input type="text" name="drn_nam" class="form-control" value="${swlDranPsVO.drn_nam}">
-								</td>
-							</tr>
-							<tr>
-								<th scope="row">부지면적</th>
+								<th scope="row">토구용도</th>
 								<td>
-									<input type="number" name="gai_ara" class="form-control" min="0" value="${swlDranPsVO.gai_ara}">
+									<select name="vmt_cde" class="form-select">
+										<option value="">선택</option>
+									</select>
 								</td>
-								<th scope="row">개통상태</th>
+								<th scope="row">시설물형태</th>
 								<td>
-									<select name="soo_cde" class="form-select">
+									<select name="for_cde" class="form-select">
 										<option value="">선택</option>
 									</select>
 								</td>
 							</tr>
 							<tr>
-								<th scope="row">처리구역면적</th>
+								<th scope="row">원형토구내경</th>
 								<td>
-									<input type="number" name="adp_ara" class="form-control" value="${swlDranPsVO.adp_ara}">
+									<input type="number" name="spw_dip" class="form-control" value="${swlSpewPsVO.spw_dip}">
 								</td>
-								<th scope="row">하수처리방식</th>
+								<th scope="row">각형토구가로길이</th>
 								<td>
-									<select name="sbb_cde" class="form-select">
-										<option value="">선택</option>
+									<input type="number" name="spw_hol" class="form-control" value="${swlSpewPsVO.spw_hol}">
+								</td>
+							</tr>
+							<tr>
+								<th scope="row">각형토구세로길이</th>
+								<td>
+									<input type="number" name="spw_vel" class="form-control" value="${swlSpewPsVO.spw_vel}">
+								</td>
+								<th scope="row">토구표고</th>
+								<td>
+									<input type="number" name="spw_hsl" class="form-control" min="0" value="${swlSpewPsVO.spw_hsl}">
+								</td>
+							</tr>
+							<tr>
+								<th scope="row">평균수위</th>
+								<td>
+									<input type="number" name="spw_wal" class="form-control" min="0" value="${swlSpewPsVO.spw_wal}">
+								</td>
+								<th scope="row">하천명</th>
+								<td>
+									<input type="text" name="riv_nam" class="form-control" value="${swlSpewPsVO.riv_nam}">
+								</td>
+							</tr>
+							<tr>
+								<th scope="row">계획방류량</th>
+								<td>
+									<input type="number" name="spw_saf" class="form-control" min="0" value="${swlSpewPsVO.spw_saf}">
+								</td>
+								<th scope="row">배수구역지형지물부호</th>
+								<td>
+									<select name="dra_cde" class="form-select">
+										<option value="SB310">배수구역</option>
 									</select>
 								</td>
 							</tr>
 							<tr>
-								<th scope="row">청천시처리용량</th>
+								<th scope="row">배수구역관리번호</th>
 								<td>
-									<input type="number" name="pcc_vol" class="form-control" value="${swlDranPsVO.pcc_vol}">
+									<input type="number" name="dra_idn" class="form-control" value="${swlSpewPsVO.dra_idn}">
 								</td>
-								<th scope="row">우천시처리용량</th>
+								<th scope="row">처리구역지형지물부호</th>
 								<td>
-									<input type="number" name="puc_vol" class="form-control" value="${swlDranPsVO.puc_vol}">
-								</td>
-							</tr>
-							<tr>
-								<th scope="row">설계유입수_수질</th>
-								<td>
-									<input type="text" name="qw1_exp" class="form-control" value="${swlDranPsVO.qw1_exp}">
-								</td>
-								<th scope="row">설계유출수_수질</th>
-								<td>
-									<input type="text" name="qw2_exp" class="form-control" value="${swlDranPsVO.qw2_exp}">
+									<select name="dsp_cde" class="form-select">
+										<option value="SB300">처리구역</option>
+									</select>
 								</td>
 							</tr>
 							<tr>
-								<th scope="row">차집관연장</th>
+								<th scope="row">처리구역관리번호</th>
 								<td>
-									<input type="number" name="pip_len" class="form-control" value="${swlDranPsVO.pip_len}">
+									<input type="number" name="dsp_idn" class="form-control" value="${swlSpewPsVO.dsp_idn}">
 								</td>
-								<th scope="row">방류수역명</th>
-								<td>
-									<input type="text" name="dra_nam" class="form-control" value="${swlDranPsVO.dra_nam}">
-								</td>
-							</tr>
-							<tr>
 								<th scope="row">공사번호</th>
 								<td>
-									<input type="text" name="cnt_num" class="form-control" value="${swlDranPsVO.cnt_num}" maxlength="50">
+									<input type="text" name="cnt_num" class="form-control" value="${swlSpewPsVO.cnt_num}" maxlength="8">
 								</td>
+							</tr>
+							<tr>
 								<th scope="row">방향각</th>
-								<td>
-									<input type="number" name="ang_dir" class="form-control" min="0" value="${swlDranPsVO.ang_dir}">
+								<td colspan="3">
+									<input type="number" name="ang_dir" class="form-control" min="0" value="${swlSpewPsVO.ang_dir}">
 								</td>
 							</tr>
 							<tr>
@@ -262,13 +273,13 @@ function cancelUpdateSwlDranPs() {
 			</div>
 			<div class="position-bottom btn-wrap justify-content-end">
 				<div>
-					<button type="button" class="btn basic bi-write2 btn_save" onclick="updateSwlDranPs();">수정완료</button>
-					<button type="button" class="btn basic bi-cancel btn_cancel" onclick="cancelUpdateSwlDranPs()">취소</button>
+					<button type="button" class="btn basic bi-write2 btn_save" onclick="updateSwlSpewPs();">수정완료</button>
+					<button type="button" class="btn basic bi-cancel btn_cancel" onclick="cancelUpdateSwlSpewPs()">취소</button>
 				</div>
 			</div>
 		</div>
 	</div>
 </div>
 <!-- <button type="button" class="popup-close" title="닫기" onclick="cancelMode();"></button> -->
-<button type="button" class="swlDranPs-popup-close" title="닫기" onclick="cancelUpdateSwlDranPs()"></button>
-<!-- //업무 > 시설관리 > 하수도시설 > 하수처리장 수정하기 end -->
+<button type="button" class="swlSpewPs-popup-close" title="닫기" onclick="cancelUpdateSwlSpewPs()"></button>
+<!-- //업무 > 시설관리 > 하수도시설 > 토구 수정하기 end -->

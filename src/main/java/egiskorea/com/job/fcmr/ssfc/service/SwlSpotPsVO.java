@@ -3,8 +3,8 @@ package egiskorea.com.job.fcmr.ssfc.service;
 import java.io.Serializable;
 
 @SuppressWarnings("serial")
-public class SwlVentPsVO implements Serializable {
-	
+public class SwlSpotPsVO implements Serializable {
+
 	/** GID */
 	private int gid;
 	
@@ -29,20 +29,36 @@ public class SwlVentPsVO implements Serializable {
 	/** 설치일자 */
 	private String ist_ymd;
 	
-	/** 환기구구경 */
-	private String vnt_dip;
+	/** 최종준설일자 */
+	private String ecn_ymd;
+	
+	/** 물받이용도 */
+	private String sbd_cde;
+	private String sbd_cde_nm;
+	
+	/** 시설물형태 */
+	private String for_cde;
+	private String for_cde_nm;
+	
+	/** 원형물받이내경 */
+	private String spt_dip;
+	
+	/** 각형물받이가로길이 */
+	private String spt_hol;
+	
+	/** 각형물받이세로길이 */
+	private String spt_vel;
+	
+	/** 평균수위 */
+	private String spt_dep;
+	
+	/** 물받이뚜껑형태 */
+	private String cov_cde;
+	private String cov_cde_nm;
 	
 	/** 관재질 */
 	private String mop_cde;
 	private String mop_cde_nm;
-	
-	/** 흡출기형식 */
-	private String mof_cde;
-	private String mof_cde_nm;
-	
-	/** 흡출기재질 */
-	private String hmp_cde;
-	private String hmp_cde_nm;
 	
 	/** 공사번호 */
 	private String cnt_num;
@@ -73,7 +89,7 @@ public class SwlVentPsVO implements Serializable {
 	public void setFtr_cde_nm(String ftr_cde_nm) {
 		this.ftr_cde_nm = ftr_cde_nm;
 	}
-	
+
 	public String getFtr_idn() {
 		return ftr_idn;
 	}
@@ -115,7 +131,7 @@ public class SwlVentPsVO implements Serializable {
 	public void setMng_cde_nm(String mng_cde_nm) {
 		this.mng_cde_nm = mng_cde_nm;
 	}
-	
+
 	public String getIst_ymd() {
 		return ist_ymd;
 	}
@@ -123,11 +139,81 @@ public class SwlVentPsVO implements Serializable {
 		this.ist_ymd = ist_ymd;
 	}
 
-	public String getVnt_dip() {
-		return vnt_dip;
+	public String getEcn_ymd() {
+		return ecn_ymd;
 	}
-	public void setVnt_dip(String vnt_dip) {
-		this.vnt_dip = vnt_dip;
+	public void setEcn_ymd(String ecn_ymd) {
+		this.ecn_ymd = ecn_ymd;
+	}
+
+	public String getSbd_cde() {
+		return sbd_cde;
+	}
+	public void setSbd_cde(String sbd_cde) {
+		this.sbd_cde = sbd_cde;
+	}
+
+	public String getSbd_cde_nm() {
+		return sbd_cde_nm;
+	}
+	public void setSbd_cde_nm(String sbd_cde_nm) {
+		this.sbd_cde_nm = sbd_cde_nm;
+	}
+
+	public String getFor_cde() {
+		return for_cde;
+	}
+	public void setFor_cde(String for_cde) {
+		this.for_cde = for_cde;
+	}
+
+	public String getFor_cde_nm() {
+		return for_cde_nm;
+	}
+	public void setFor_cde_nm(String for_cde_nm) {
+		this.for_cde_nm = for_cde_nm;
+	}
+
+	public String getSpt_dip() {
+		return spt_dip;
+	}
+	public void setSpt_dip(String spt_dip) {
+		this.spt_dip = spt_dip;
+	}
+
+	public String getSpt_hol() {
+		return spt_hol;
+	}
+	public void setSpt_hol(String spt_hol) {
+		this.spt_hol = spt_hol;
+	}
+
+	public String getSpt_vel() {
+		return spt_vel;
+	}
+	public void setSpt_vel(String spt_vel) {
+		this.spt_vel = spt_vel;
+	}
+
+	public String getSpt_dep() {
+		return spt_dep;
+	}
+	public void setSpt_dep(String spt_dep) {
+		this.spt_dep = spt_dep;
+	}
+
+	public String getCov_cde() {
+		return cov_cde;
+	}
+	public void setCov_cde(String cov_cde) {
+		this.cov_cde = cov_cde;
+	}
+
+	public String getCov_cde_nm() {
+		return cov_cde_nm;
+	}
+	public void setCov_cde_nm(String cov_cde_nm) {
+		this.cov_cde_nm = cov_cde_nm;
 	}
 
 	public String getMop_cde() {
@@ -142,34 +228,6 @@ public class SwlVentPsVO implements Serializable {
 	}
 	public void setMop_cde_nm(String mop_cde_nm) {
 		this.mop_cde_nm = mop_cde_nm;
-	}
-
-	public String getMof_cde() {
-		return mof_cde;
-	}
-	public void setMof_cde(String mof_cde) {
-		this.mof_cde = mof_cde;
-	}
-
-	public String getMof_cde_nm() {
-		return mof_cde_nm;
-	}
-	public void setMof_cde_nm(String mof_cde_nm) {
-		this.mof_cde_nm = mof_cde_nm;
-	}
-
-	public String getHmp_cde() {
-		return hmp_cde;
-	}
-	public void setHmp_cde(String hmp_cde) {
-		this.hmp_cde = hmp_cde;
-	}
-
-	public String getHmp_cde_nm() {
-		return hmp_cde_nm;
-	}
-	public void setHmp_cde_nm(String hmp_cde_nm) {
-		this.hmp_cde_nm = hmp_cde_nm;
 	}
 
 	public String getCnt_num() {

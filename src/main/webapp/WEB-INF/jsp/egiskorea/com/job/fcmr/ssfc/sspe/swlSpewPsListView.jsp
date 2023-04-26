@@ -1,16 +1,16 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" %>
 
 <!-- js -->
-<script src="/js/egiskorea/com/job/fcmr/ssfc/svep/swlVentPs.js"></script> 
+<script src="/js/egiskorea/com/job/fcmr/ssfc/sspe/swlSpewPs.js"></script>
 
 <script>
 $(document).ready(function() {
-	//console.log("swlVentPsListView.jsp");	
+	//console.log("swlSpewPsListView.jsp");	
 
 	// 2D/3D 버튼 처리
 	arrangeAddBtnMode();
 	
-	// 이벤트 리스너 추가
+	//이벤트 리스너 추가
 	dtmap.on('select', onFacilitySelectEventListener);
 	
 	// 하수도관리 메뉴 - 이벤트
@@ -44,20 +44,20 @@ $(document).ready(function() {
 		// 지도 clear
 		clearMap();
 		
-		// 등록, 상세, 수정 팝업 창 닫기
+		//등록, 상세, 수정 팝업 창 닫기
 		if ($("#rightSubPopup").hasClass("opened")) {
 			$("#rightSubPopup").removeClass("opened");
 			$("#rightSubPopup").empty();
 		}
 		
-		// 공간정보 편집도구 닫기
+		//공간정보 편집도구 닫기
 		if($(".space-edit-tool").hasClass("opened")){
         	$(".space-edit-tool").removeClass("opened");
             $(".space-edit-tool").empty();
         }
 	});
 
-	// 속성 검색, 공간 검색 탭 제어
+	//속성 검색, 공간 검색 탭 제어
 	$(document).on("click", ".tabBoxDepth2-wrap .tabBoxDepth2 > ul > li > .inner-tab", function() {
 		$(this).each(function() {
 			$(this).parent().addClass("on").siblings().removeClass("on");
@@ -87,7 +87,7 @@ $(document).ready(function() {
 				return false;
 			}
 		}
-		selectSwlVentPsList(1);
+		selectSwlSpewPsList(1);
 	});
 
 	// 검색영역지정 변경 (현재화면영역, 사용자정의)
@@ -137,7 +137,7 @@ $(document).ready(function() {
 
 </script>
 
-<!-- 업무 > 시설관리 > 하수도시설 > 환기구 -->
+<!-- 업무 > 시설관리 > 하수도시설 > 토구 -->
 <div class="popup-header">하수도관리</div>
 <div class="popup-body">
     <div class="bottom-popup-body bottom-popup-group">
@@ -153,9 +153,9 @@ $(document).ready(function() {
                     <option value="swlPipeLm">하수관거</option>
                     <option value="swlPumpPs">하수펌프장</option>
                     <option value="swlSideLs">측구</option>
-                    <option value="swlSpewPs">토구</option>
+                    <option value="swlSpewPs" selected="selected">토구</option>
                     <option value="swlSpotPs">물받이</option>
-                    <option value="swlVentPs" selected="selected">환기구</option>
+                    <option value="swlVentPs">환기구</option>
                 </select>
             </div>
             <div class="tabBoxDepth2-wrap">
@@ -186,27 +186,19 @@ $(document).ready(function() {
 									</td>
 								</tr>
 								<tr>  
-									<th scope="row">관재질</th>  
+									<th scope="row">토구용도</th>  
 									<td>    
-										<select name="mop_cde" class="form-select">
+										<select name="vmt_cde" class="form-select">
 											<option value="">전체</option>
 										</select>  
 									</td>
 								</tr>
 								<tr>  
-									<th scope="row">흡출기형식</th>  
+									<th scope="row">시설물형태</th>  
 									<td>    
-										<select name="mof_cde" class="form-select">
+										<select name="for_cde" class="form-select">
 											<option value="">전체</option>
 										</select>  
-									</td>
-								</tr>
-								<tr>  
-									<th scope="row">흡출기재질</th>  
-									<td>    
-										<select name="hmp_cde" class="form-select">
-											<option value="">전체</option>
-										</select>
 									</td>
 								</tr>
                             </tbody>
@@ -214,7 +206,7 @@ $(document).ready(function() {
                     </div>
                     <div class="btn-wrap">
                         <div>
-                            <button type="button" class="btn type01 search facility-attribute-search" onclick="selectSwlVentPsList(1)">조회</button>
+                            <button type="button" class="btn type01 search facility-attribute-search" onclick="selectSwlSpewPsList(1)">조회</button>
                         </div>
                     </div>
                 </div>
@@ -273,8 +265,8 @@ $(document).ready(function() {
             <div class="bbs-top">
                 <div class="bbs-list-num">조회결과 : --건</div>
                 <div>
-                    <button type="button" class="btn basic bi-write btn_add" onclick="insertSwlVentPsView();">등록</button>
-                    <button type="button" class="btn basic bi-excel btn_excel" onclick="swlVentPsExcel();">엑셀저장</button>
+                    <button type="button" class="btn basic bi-write btn_add" onclick="insertSwlSpewPsView();">등록</button>
+                    <button type="button" class="btn basic bi-excel btn_excel" onclick="swlSpewPsExcel();">엑셀저장</button>
                 </div>
             </div>
             <div class="bbs-list-wrap" style="height: 267px;"><!-- pagination 하단 고정을 위해 반드시 필요 -->
@@ -289,8 +281,8 @@ $(document).ready(function() {
         </div>
     </div>
 </div>
-<button type="button" class="manualBtn" title="도움말" onclick="manualTab('환기구')"></button>
+<button type="button" class="manualBtn" title="도움말" onclick="manualTab('토구')"></button>
 <button type="button" class="popup-close" title="닫기"></button>
 <button type="button" class="popup-reset" title="초기화"></button>
 <button type="button" class="popup-bottom-toggle" title="접기"></button>
-<!-- //업무 > 시설관리 > 하수도시설 > 환기구 end -->
+<!-- //업무 > 시설관리 > 하수도시설 > 토구 end -->

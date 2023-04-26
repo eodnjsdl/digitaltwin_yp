@@ -6,7 +6,7 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
 <style type="text/css">
-	.popup-panel.popup-sub .swlDranPs-popup-close {
+	.popup-panel.popup-sub .swlSpotPs-popup-close {
 	    top: 0;
 	    right: 0;
 	    width: 39px;
@@ -21,12 +21,12 @@
 <script type="text/javascript">
 
 $(document).ready(function(){
-	//console.log("insertSwlDranPsView.jsp");
+	//console.log("insertSwlSpotPsView.jsp");
 
 	//3d 일때 지도 추가 버튼 삭제 
 	if(dtmap.mod == "3D"){
-		if($("#insertSwlDranPsFrm .btn-select-map").css("display") != 'none'){
-			$("#insertSwlDranPsFrm .btn-select-map").hide();
+		if($("#insertSwlSpotPsFrm .btn-select-map").css("display") != 'none'){
+			$("#insertSwlSpotPsFrm .btn-select-map").hide();
 		}
 	}
 	
@@ -75,8 +75,8 @@ $(document).ready(function(){
 });
 
 //취소 버튼 동작
-function cancelInsertSwlDranPs() {
-	$(".swlDranPs-popup-close").closest('.popup-panel').removeClass('opened');
+function cancelInsertSwlSpotPs() {
+	$(".swlSpotPs-popup-close").closest('.popup-panel').removeClass('opened');
        // 초기화 (지도)
        dtmap.draw.dispose();
        dtmap.draw.clear();
@@ -88,14 +88,14 @@ function cancelInsertSwlDranPs() {
 	
 </script>
 
-<!-- 업무 > 시설관리 > 하수도시설 > 하수처리장 등록하기 -->
-<div class="popup-header">하수처리장 등록하기</div>
+<!-- 업무 > 시설관리 > 하수도시설 > 물받이 등록하기 -->
+<div class="popup-header">물받이 등록하기</div>
 <div class="popup-body">
 	<div class="sub-popup-body">
 		<div class="data-write-wrap" style="height: 100%;">
 			<div class="scroll-y">
 				<div class="data-default">
-					<form id="insertSwlDranPsFrm" method="post">
+					<form id="insertSwlSpotPsFrm" method="post">
 					<table class="data-write">
 						<colgroup>
 							<col style="width: 23%;">
@@ -108,7 +108,7 @@ function cancelInsertSwlDranPs() {
 								<th scope="row">지형지물부호</th>
 								<td>
 									<select name="ftr_cde" class="form-select">
-										<option value="SB200" selected="selected">하수처리장</option>
+										<option value="SB102" selected="selected">물받이</option>
 									</select>
 								</td>
 								<th scope="row">관리번호</th>
@@ -141,72 +141,66 @@ function cancelInsertSwlDranPs() {
 								</td>
 							</tr>
 							<tr>
-								<th scope="row">하수처리장명</th>
-								<td colspan="3">
-									<input type="text" name="drn_nam" class="form-control" value="">
-								</td>
-							</tr>
-							<tr>
-								<th scope="row">부지면적</th>
+								<th scope="row">최종준설일자</th>
 								<td>
-									<input type="number" name="gai_ara" class="form-control" min="0" value="">
+									<input type="text" name="ecn_ymd" class="form-control datepicker" value="">
 								</td>
-								<th scope="row">개통상태</th>
+								<th scope="row">물받이용도</th>
 								<td>
-									<select name="soo_cde" class="form-select">
+									<select name="sbd_cde" class="form-select">
 										<option value="">선택</option>
 									</select>
 								</td>
 							</tr>
 							<tr>
-								<th scope="row">처리구역면적</th>
+								<th scope="row">시설물형태</th>
 								<td>
-									<input type="number" name="adp_ara" class="form-control" value="">
+									<select name="for_cde" class="form-select">
+										<option value="">선택</option>
+									</select>
 								</td>
-								<th scope="row">하수처리방식</th>
+								<th scope="row">원형물받이내경</th>
 								<td>
-									<select name="sbb_cde" class="form-select">
+									<input type="number" name="spt_dip" class="form-control" value="">
+								</td>
+							</tr>
+							<tr>
+								<th scope="row">각형물받이가로길이</th>
+								<td>
+									<input type="number" name="spt_hol" class="form-control" value="">
+								</td>
+								<th scope="row">각형물받이세로길이</th>
+								<td>
+									<input type="number" name="spt_vel" class="form-control" value="">
+								</td>
+							</tr>
+							<tr>
+								<th scope="row">물받이깊이</th>
+								<td>
+									<input type="number" name="spt_dep" class="form-control" min="0" value="">
+								</td>
+								<th scope="row">물받이뚜껑형태</th>
+								<td>
+									<select name="cov_cde" class="form-select">
 										<option value="">선택</option>
 									</select>
 								</td>
 							</tr>
 							<tr>
-								<th scope="row">청천시처리용량</th>
+								<th scope="row">관재질</th>
 								<td>
-									<input type="number" name="pcc_vol" class="form-control" value="">
+									<select name="mop_cde" class="form-select">
+										<option value="">선택</option>
+									</select>
 								</td>
-								<th scope="row">우천시처리용량</th>
-								<td>
-									<input type="number" name="puc_vol" class="form-control" value="">
-								</td>
-							</tr>
-							<tr>
-								<th scope="row">설계유입수_수질</th>
-								<td>
-									<input type="text" name="qw1_exp" class="form-control" value="">
-								</td>
-								<th scope="row">설계유출수_수질</th>
-								<td>
-									<input type="text" name="qw2_exp" class="form-control" value="">
-								</td>
-							</tr>
-							<tr>
-								<th scope="row">차집관연장</th>
-								<td>
-									<input type="number" name="pip_len" class="form-control" value="">
-								</td>
-								<th scope="row">방류수역명</th>
-								<td>
-									<input type="text" name="dra_nam" class="form-control" value="">
-								</td>
-							</tr>
-							<tr>
 								<th scope="row">공사번호</th>
 								<td>
-									<input type="text" name="cnt_num" class="form-control" value="" maxlength="50">
+									<input type="text" name="cnt_num" class="form-control" value="" maxlength="8">
 								</td>
+							</tr>
+							<tr>
 								<th scope="row">방향각</th>
-								<td>
+								<td colspan="3">
 									<input type="number" name="ang_dir" class="form-control" min="0" value="">
 								</td>
 							</tr>
@@ -231,13 +225,13 @@ function cancelInsertSwlDranPs() {
 			</div>
 			<div class="position-bottom btn-wrap">
 				<div>
-					<button type="button" class="btn basic bi-edit btn_add" onclick="insertSwlDranPs();">등록</button>
-					<button type="button" class="btn basic bi-cancel btn_cancel" onclick="cancelInsertSwlDranPs()">취소</button>
+					<button type="button" class="btn basic bi-edit btn_add" onclick="insertSwlSpotPs();">등록</button>
+					<button type="button" class="btn basic bi-cancel btn_cancel" onclick="cancelInsertSwlSpotPs()">취소</button>
 				</div>
 			</div>
 		</div>
 	</div>
 </div>
 <!-- <button type="button" class="popup-close" title="닫기" onclick="cancelMode();"></button> -->
-<button type="button" class="swlDranPs-popup-close" title="닫기" onclick="cancelInsertSwlDranPs()"></button>
-<!-- //업무 > 시설관리 > 하수도시설 > 하수처리장 등록하기 end -->
+<button type="button" class="swlSpotPs-popup-close" title="닫기" onclick="cancelInsertSwlSpotPs()"></button>
+<!-- //업무 > 시설관리 > 하수도시설 > 물받이 등록하기 end -->
