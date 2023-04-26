@@ -7,7 +7,7 @@ function getTransportationFacility(name) {
 	
 	switch (name) {
 	case "roadSection" : 				// 도로구간
-//	    dtmap.off('select', onSelectRoadSectEventListener);
+	    dtmap.off('select', onSelectRoadSectEventListener);
 	    selectRoadSectListView();
 	    break;
 	case "railroadTrack" :				// 철도선로
@@ -44,13 +44,13 @@ function getTransportationFacility(name) {
 	}
 }
 
-function onFacilityTpfcSelectEventListener(e) {
-    if (e) {
-	let id = e.id;
-	
-	if (id) {
-	    selectRoadSectDetailView(id);
-	}
-    }
-    
+function onFacilityTpfcSelectEventListener() {
+    dtmap.off('select', onSelectRoadSectEventListener);
+    dtmap.off('select', onSelectRailroadTrackEventListener);
+    dtmap.off('select', onSelectRailroadStationEventListener);
+    dtmap.off('select', onSelectSubwayTrackEventListener);
+    dtmap.off('select', onSelectSubwayStationEventListener);
+    dtmap.off('select', onSelectBridgeEventListener);
+    dtmap.off('select', onSelectOverpassEventListener);
+    dtmap.off('select', onSelectTunnelEventListener);
 }

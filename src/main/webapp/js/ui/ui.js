@@ -466,7 +466,7 @@ window.ui = (function () {
                 //시설관리 > 교통시설
                 case "transportationFacility" :
                     //aj_selectTransportationFacilityList($("#tmpForm")[0]);
-                    dtmap.off('select', onFacilityTpfcSelectEventListener); //클릭 리스너 이벤트 삭제
+                    onFacilityTpfcSelectEventListener();
                     getTransportationFacility("roadSection");	// 교통시설 - 도로구간
                     break;
 
