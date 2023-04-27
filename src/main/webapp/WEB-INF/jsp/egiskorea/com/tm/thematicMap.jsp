@@ -258,7 +258,12 @@
                     _removeThemeLayerId(layerNm);
                 }
 
-
+                dtmap.showLayer({
+                    id: layerNm,
+                    type: 'WMS',
+                    visible: checked,
+                    layerNm: layerNm
+                });
                 // if (mapType == '3D') { //3D 지도일 경우
                 //     var layerList = new Module.JSLayerList(false); //레이어 리스트 조회
                 //     var layerId = 'TM_LAYER_' + layerNm.replace('digitaltwin:', '').toUpperCase(); //layerId 생성
@@ -318,7 +323,12 @@
             }
 
             console.log(layerNm);
-
+            dtmap.showLayer({
+                id: layerNm,
+                type: 'WMS',
+                visible: checked,
+                layerNm: layerNm
+            });
             // if (mapType == '3D') { //3D 지도일 경우
             //     var layerList = new Module.JSLayerList(false); //레이어 리스트 조회
             //     var layerId = 'TM_LAYER_' + layerNm.replace('digitaltwin:', '').toUpperCase(); //layerId 생성
