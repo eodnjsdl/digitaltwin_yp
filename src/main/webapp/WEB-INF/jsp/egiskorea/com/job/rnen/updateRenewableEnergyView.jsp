@@ -36,6 +36,7 @@ $("#energyUpdate").on("click", function(){
 			dataType: "json",
 			success : function(returnData, status){
 				if(returnData.result == "success") {
+					
 					alert("<spring:message code="success.common.update" />");
 					if(lastSpitalSearch != ''){
 						setData(0); 
@@ -97,7 +98,7 @@ $("#energyUpdate").on("click", function(){
 									<th scope="row">주소</th>
 									<td colspan="3">
 										<div class="form-row">
-											<div class="col"><input type="text" class="form-control" id="eqpLc" name="eqpLc" value="<c:out value="${result.eqpLc}" />"></div> 
+											<div class="col"><input type="text" class="form-control" id="eqpLc" name="eqpLc" value="<c:out value="${result.eqpLc}" />" readonly></div> 
 											<div class="col-auto"><button type="button" class="btn type01 bi-location" id="mapSelectBtn">지도에서 선택</button></div>
 											<input type="hidden" id="geom" name="geom" value="<c:out value="${result.geom}" />">
 										</div>

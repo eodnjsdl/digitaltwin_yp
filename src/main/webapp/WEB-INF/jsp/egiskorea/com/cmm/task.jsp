@@ -32,11 +32,7 @@ $(document).ready(function(){
 											<li><button type="button" id="faciReseMng" class="leftPopup" data-popup="faciReseMng">시설예약관리</button></li>
 										</ul>
 									</li>
-									<li><p class="lnb-dep1">공유지관리</p>
-										<ul class="lnb-dep2">
-											<li><button type="button" id="pbprtAccdt" class="bottomPopup" data-popup="pbprtAccdt">공유재산 실태조사</button></li>
-										</ul>
-									</li>
+
 									<li><p class="lnb-dep1">sample</p>
 										<ul class="lnb-dep2">
 											<li><button type="button" id="workSample" class="bottomPopup" data-popup="workSample">샘플</button></li>

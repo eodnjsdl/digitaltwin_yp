@@ -15,7 +15,6 @@ import javax.servlet.http.HttpServletResponse;
  *  수정일                    수정자               수정내용
  *  ----------   --------   ---------------------------
  *  2023.04.05   김영주           최초 생성
- *  2023.04.14   백승석           전체조회 및 상세조회 생성
  */
 
 public interface TrnsportFaciService {

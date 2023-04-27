@@ -1,9 +1,19 @@
-SEARCHOBJ = null;
+/**
+ * 신재생에너지 js
+ */
+
+SEARCHOBJ= {
+	propertySearch: null,
+	spaceSearch:null,
+};
 
 $(document.body).ready(function () {
 	initGrid();
-    setData(0);       
+    setData(0);
+    dtmap.off('select');
+   dtmap.on('select',spaceClickListener );
 });
+
 //태양광발전소 기본 틀 추가
 function initGrid(){
 	this.target = new ax5.ui.grid();
@@ -39,40 +49,47 @@ function initGrid(){
 }
 //태양광발전소 조회 기능
 function setData(_pageNo){
-	// var eqp_lc = $("#emdKorNm").val();
-	// var bsns_se = $("#bsnsSeSearch").val();
-	// var prmisn_volm_min = $("#prmisnVolmASearch").val();
-	// var prmisn_volm_max = $("#prmisnVolmBSearch").val();
-	// var elcpwstn_nm = $("#elcpwstnNmSearch").val();
 
-
-	var eqp_lc = '' , bsns_se = '', prmisn_volm_min = '', prmisn_volm_max = '', elcpwstn_nm = '';
-
-	if(SEARCHOBJ != null){
-		eqp_lc = SEARCHOBJ.searchEmdKorNm;
-		bsns_se = SEARCHOBJ.searchBsnsSeSearch;
-		prmisn_volm_min = SEARCHOBJ.searchPrmisnVolmASearch;
-		prmisn_volm_max = SEARCHOBJ.searchPrmisnVolmBSearch;
-		elcpwstn_nm = SEARCHOBJ.searchElcpwstnNmSearch;
-
-	}
-
-	
-	var cqlList = [];
-	
-	if(eqp_lc!=''){cqlList.push("eqp_lc like "+eqp_lc+" ")}
-	if(bsns_se!=''){cqlList.push("bsns_se = "+bsns_se+" ")}
-	if(prmisn_volm_min!=''){cqlList.push("prmisn_volm > "+prmisn_volm_min+" ")}
-	if(prmisn_volm_max!=''){cqlList.push("prmisn_volm < "+prmisn_volm_max+" ")}
-	if(elcpwstn_nm!=''){cqlList.push("elcpwstn_nm like "+elcpwstn_nm+" ")}
-	
-	var gridList =this;
-	const promise = dtmap.wfsGetFeature({
+	options ={
 		typeNames: 'tgd_elcty_bsns_prmisn', //WFS 레이어명
 		page  : _pageNo+1,
 		perPage : 100,
-		filter : cqlList
-	});
+	}
+	
+	//검색옵션
+	if(SEARCHOBJ.propertySearch != null){//속성검색
+		var eqp_lc = SEARCHOBJ.propertySearch.searchEmdKorNm;
+		var bsns_se = SEARCHOBJ.propertySearch.searchBsnsSeSearch;
+		var prmisn_volm_min = SEARCHOBJ.propertySearch.searchPrmisnVolmASearch;
+		var prmisn_volm_max = SEARCHOBJ.propertySearch.searchPrmisnVolmBSearch;
+		var elcpwstn_nm = SEARCHOBJ.propertySearch.searchElcpwstnNmSearch;
+
+
+		var cqlList = [];
+	
+		if(eqp_lc!=''){cqlList.push("eqp_lc like "+eqp_lc+" ")}
+		if(bsns_se!=''){cqlList.push("bsns_se = "+bsns_se+" ")}
+		if(prmisn_volm_min!=''){cqlList.push("prmisn_volm > "+prmisn_volm_min+" ")}
+		if(prmisn_volm_max!=''){cqlList.push("prmisn_volm < "+prmisn_volm_max+" ")}
+		if(elcpwstn_nm!=''){cqlList.push("elcpwstn_nm like "+elcpwstn_nm+" ")}
+	
+		options.filter = cqlList;
+
+	}else if(SEARCHOBJ.spaceSearch != null){//공간검색
+
+		const $parent 	= $(".search-area");
+        const type 		= $parent.find('input[name="renewableEnergySelect"]:checked').val();
+        if (type === 'extent') {
+        	options.bbox = SEARCHOBJ.spaceSearch.bbox;
+        } else {
+        	options.geometry = SEARCHOBJ.spaceSearch.geometry;
+        }
+	}
+	
+	
+	//조회
+	var gridList =this;
+	const promise = dtmap.wfsGetFeature(options);
 	promise.then(function (data) {
 
 	$(".bbs-list-num").empty();
@@ -114,6 +131,7 @@ function setData(_pageNo){
 }
 //태양광발전소 등록하기 페이지 호출
 function fn_insert(){
+
 	ui.openPopup("rightSubPopup");
 	$.ajax({
 		type : "POST",
@@ -164,6 +182,7 @@ function fn_pageDetail(gid){
 } 
 //태양광발전소 상세 > 수정페이지 열기
 function fn_update(gid){
+	
 	$("#rightSubPopup").empty();
 	
 	var formData = new FormData();
@@ -190,26 +209,108 @@ function fn_update(gid){
 }
 //신재생에너지 엑셀다운로드 버튼
 $("#rnenExcelDownload").on("click", function(){
-	let formName = this.dataset.formName;
-	document.getElementById("searchForm").emdKorNm.value = lastEmdKorNm;
-	document.getElementById("searchForm").bsnsSeSearch.value = lastBsnsSeSearch;
-	document.getElementById("searchForm").prmisnVolmASearch.value = lastPrmisnVolmASearch;
-	document.getElementById("searchForm").prmisnVolmBSearch.value = lastPrmisnVolmBSearch;
-	document.getElementById("searchForm").elcpwstnNmSearch.value = lastElcpwstnNmSearch;
-	document.getElementById("searchForm").spitalSearch.value = lastSpitalSearch;
-	document.getElementById("searchForm").bufferCnt.value = lastBufferCnt;
+	var $container = $("#container");
+	var $target = $container.find('[data-ax5grid="attr-grid-excel"]');	//가상의 ax5uigrid 공간에 처리 
+	$target.css('display', 'none');
+
+	this.gridAll = new ax5.ui.grid();
+	this.gridAll.setConfig({
+		target:  $target,
+		sortable: true,
+		multipleSelect: false,
+		header: {
+			align: "center"
+		},
+		columns: [
+			{key: "gid",			label: "GID",			width: '*'},
+			{key: "eltgnr_se", label: "발전기구분",			width: '*'},
+			{key: "elcpwstn_nm", label: "발전소명",			width: '*'},
+			{key: "eqp_lc", label: "설치위치",			width: '*'},
+			{key: "prmisn_volm", label: "허가용량",			width: '*'},
+			{key: "bsns_se", label: "사업구분",			width: '*'},
+			{key: "bsns_se", label: "사업구분",			width: '*'},
+			{key: "geomText", label: "GEOMETRY",			width: '*'},
+		],
+		body: {
+			align: "center"
+		}
+	})
+
+	options ={
+		typeNames: 'tgd_elcty_bsns_prmisn', //WFS 레이어명
+		sortBy : 'gid',
+		sortOrder : 'DESC',
+	}
 	
-	let url = '/job/rnen/' + formName + 'Download.do';
+	//검색옵션
+	if(SEARCHOBJ.propertySearch != null){//속성검색
+		var eqp_lc = SEARCHOBJ.propertySearch.searchEmdKorNm;
+		var bsns_se = SEARCHOBJ.propertySearch.searchBsnsSeSearch;
+		var prmisn_volm_min = SEARCHOBJ.propertySearch.searchPrmisnVolmASearch;
+		var prmisn_volm_max = SEARCHOBJ.propertySearch.searchPrmisnVolmBSearch;
+		var elcpwstn_nm = SEARCHOBJ.propertySearch.searchElcpwstnNmSearch;
+
+
+		var cqlList = [];
 	
-	$("form[name='"+ formName + "']").attr('onsubmit', '');
-	$("form[name='"+ formName + "']").attr('action', url);
-	$("form[name='"+ formName + "']").submit();
-	$("form[name='"+ formName + "']").attr('onsubmit', 'fn_select_list(); return false;'); 
-	$("form[name='"+ formName + "']").attr('action', '');
+		if(eqp_lc!=''){cqlList.push("eqp_lc like "+eqp_lc+" ")}
+		if(bsns_se!=''){cqlList.push("bsns_se = "+bsns_se+" ")}
+		if(prmisn_volm_min!=''){cqlList.push("prmisn_volm > "+prmisn_volm_min+" ")}
+		if(prmisn_volm_max!=''){cqlList.push("prmisn_volm < "+prmisn_volm_max+" ")}
+		if(elcpwstn_nm!=''){cqlList.push("elcpwstn_nm like "+elcpwstn_nm+" ")}
+	
+		options.filter = cqlList;
+
+	}else if(SEARCHOBJ.spaceSearch != null){//공간검색
+
+		const $parent 	= $(".search-area");
+        const type 		= $parent.find('input[name="renewableEnergySelect"]:checked').val();
+        if (type === 'extent') {
+        	options.bbox = SEARCHOBJ.spaceSearch.bbox;
+        } else {
+        	options.geometry = SEARCHOBJ.spaceSearch.geometry;
+        }
+	}
+
+	
+
+	// 엑셀파일 날짜_시간
+	var today = new Date(); 
+	let year = dateNum(today.getFullYear());		// 년도
+	let month = dateNum(today.getMonth() + 1, 2);	// 월
+	let date = dateNum(today.getDate(), 2);			// 날짜
+	let hours = dateNum(today.getHours(), 2);		// 시
+	let minutes = dateNum(today.getMinutes(), 2);	// 분
+	let seconds = dateNum(today.getSeconds(), 2);	// 초
+
+	var todayDate = year+month+date+'_'+hours+minutes+seconds;
+	var gridList = this;
+	const promise = dtmap.wfsGetFeature(options);
+	promise.then(function(data) {
+		// 그리드 데이터 전처리
+		const list = [];
+		for (let i = 0; i < data.features.length; i++) {
+			// 좌표 처리
+			data.features[i].properties.geomObj = data.features[i].geometry;
+			
+			// GEOMETRY 처리
+			data.features[i].properties.geomText = data.features[i].geometry.type + ' (' + data.features[i].geometry.coordinates[0] + ' ' + data.features[i].geometry.coordinates[1] + ')';
+			
+			const {id, properties} = data.features[i];
+			list.push({...properties, ...{id: id}});
+		}
+		
+		// gird 적용
+		gridList.gridAll.setData(list);
+		
+		//엑셀 export
+		gridList.gridAll.exportExcel("태양광발전소_" + todayDate + ".xls");
+	});
 });
 
 //지도에서 선택 _ 주소 및 경위도 위치 가져오기
 function fn_getLocation() {
+	dtmap.off('select');//레이어 선택 이벤트 해제
 	dtmap.draw.active({type: 'Point', once: true});
 	dtmap.on('drawend', onDrawEnd);
 }
@@ -226,15 +327,54 @@ function onDrawEnd(e) {
 		const wkt = format.writeGeometry(point);
 		$("#geom").val(wkt);
 	});
+	dtmap.on('select',spaceClickListener );
 }
 
 function fn_search_List(){
-	SEARCHOBJ = {};
 
-	SEARCHOBJ.searchEmdKorNm= $('#emdKorNm').val() || '';
-	SEARCHOBJ.searchBsnsSeSearch = $('#bsnsSeSearch').val() || '';
-	SEARCHOBJ.searchPrmisnVolmASearch = $('#prmisnVolmASearch').val() || '';
-	SEARCHOBJ.searchPrmisnVolmBSearch = $('#prmisnVolmBSearch').val() || '';
-	SEARCHOBJ.searchElcpwstnNmSearch = $('#elcpwstnNmSearch').val() || '';
-	
+	SEARCHOBJ.propertySearch = null;
+	SEARCHOBJ.spaceSearch = null;
+
+	if($('#energy-prop').hasClass('on')){
+		SEARCHOBJ.propertySearch = {};
+		
+		SEARCHOBJ.propertySearch.searchEmdKorNm= $('#emdKorNm').val() || '';
+		SEARCHOBJ.propertySearch.searchBsnsSeSearch = $('#bsnsSeSearch').val() || '';
+		SEARCHOBJ.propertySearch.searchPrmisnVolmASearch = $('#prmisnVolmASearch').val() || '';
+		SEARCHOBJ.propertySearch.searchPrmisnVolmBSearch = $('#prmisnVolmBSearch').val() || '';
+		SEARCHOBJ.propertySearch.searchElcpwstnNmSearch = $('#elcpwstnNmSearch').val() || '';
+	}else if($('#energy-space').hasClass('on')){
+		SEARCHOBJ.spaceSearch = {};
+		const $parent = $('#bottomPopup').find('.search-area')
+		const type = $parent.find('input[name="renewableEnergySelect"]:checked').val();
+		
+		if (type === 'extent') {
+			SEARCHOBJ.spaceSearch.bbox = dtmap.getExtent();
+		} else {
+			if(dtmap.mod == '2D'){
+				if(dtmap.draw.source.getFeatures().length > 0){
+					SEARCHOBJ.spaceSearch.geometry = dtmap.draw.getGeometry();
+				}else{
+					alert("영역지정 안되었습니다");
+					return false;
+				}
+			}else if(dtmap.mod == '3D'){
+				SEARCHOBJ.spaceSearch.geometry = dtmap.draw.getGeometry();
+			}
+		}
+
+	}
+
+}
+
+//레이어 선택 상세보기
+function spaceClickListener(e){
+	var gid ;
+	if (dtmap.mod === '3D'){
+		gid=e.properties.gid;
+	}else{
+		gid=e.property.gid;
+	}
+    fn_pageDetail(gid);
+    dtmap.vector.select(e.id);
 }

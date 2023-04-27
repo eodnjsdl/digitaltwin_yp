@@ -44,6 +44,7 @@ $(document).ready(function(){
         if (type === 'extent') {
         	FACILITY.spaceSearchOption.bbox 	= dtmap.getExtent();
         } else {
+
         	//console.log("모드>>>"+dtmap.mod);
         	if(dtmap.mod == "2D"){
         		if(dtmap.draw.source.getFeatures().length > 0){	//임시로 그려진 형태체크

@@ -47,6 +47,7 @@ function reverseUaiGeo(pointx, pointy) {
 	var transCoord = proj4(dtmap.crs, "EPSG:4326", [pointx,pointy]);
     var pnu = aj_getPnuByLonLat(transCoord[0], transCoord[1]);
     if (pnu != "") {
+        dtmap.vector.clear();
         var landRegister = getLandRegisterByPnu(pnu);
         landRegister.landRegister ?
             dtmap.vector.readWKT(landRegister.landRegister.geometry,  landRegister.landRegister)

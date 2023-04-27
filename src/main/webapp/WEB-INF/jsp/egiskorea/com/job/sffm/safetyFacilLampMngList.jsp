@@ -4,6 +4,7 @@
 <%@ taglib prefix="ui" uri="http://egovframework.gov/ctl/ui" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
+<script src="/js/map-ui.js"></script>
 <script src="/js/egiskorea/com/job/sffm//lamp/lamp.js"></script>
 <script src="/js/egiskorea/com/job/sffm/sffm.js"></script>
 <%--<script src="/js/egiskorea/com/cmm/cmmUtil.js"></script>--%>
@@ -13,7 +14,7 @@ $(document).ready(function() {
 });
 </script>
 <!-- 업무 > 공간정보활용 > 안전시설물관리 -->
-<form:form name="selectSffmLampFacilExcelList" id="searchForm" method="post" onsubmit="fn_select_list(); return false;">
+
 <!-- <div class="popup-panel popup-bottom work-01-03" style="left: 320px;width: 1600px;height: 378px;"> -->	
 <div class="popup-header">안전시설물관리</div>
 <div class="popup-body">
@@ -65,11 +66,11 @@ $(document).ready(function() {
 					<div class="space-search-group">
 						<div class="space-search-items">
 							<span class="form-radio text group">
-								<span><input type="radio" name="sffmSelect" id="rChk1-1_sffm" checked="" value="1"><label for="rChk1-1_sffm">현재화면영역</label></span>
-								<span><input type="radio" name="sffmSelect" id="rChk1-2_sffm" value="2"><label for="rChk1-2_sffm">사용자 정의</label></span>
+								<span><input type="radio" name="sffmSelect" id="rChk1-1_sffm" checked="checked" value="extent"><label for="rChk1-1_sffm">현재화면영역</label></span>
+								<span><input type="radio" name="sffmSelect" id="rChk1-2_sffm" value="custom"><label for="rChk1-2_sffm">사용자 정의</label></span>
 							</span>
 						</div>
-						<div class="space-search-items areaSrchTool">
+						<div class="space-search-items areaSrchTool" style="display: none;">
 							<span class="drawing-obj small">
 								<span><input type="radio" name="sffmAreaDrawing" id="aChk1_sffm" value="1"><label for="aChk1_sffm" class="obj-sm01"></label></span>
 								<span><input type="radio" name="sffmAreaDrawing" id="aChk2_sffm" value="2"><label for="aChk2_sffm" class="obj-sm02"></label></span>
@@ -77,10 +78,12 @@ $(document).ready(function() {
 								<span><input type="radio" name="sffmAreaDrawing" id="aChk4_sffm" value="4"><label for="aChk4_sffm" class="obj-sm04"></label></span>
 							</span>
 						</div>
-						<div class="space-search-items areaSrchTool">경계로부터 <span class="form-group"><input type="number" id="sffmBuffer" name="sffmBuffer" class="form-control align-center" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" value="0" placeholder="0" onkeypress="if( event.keyCode == 13 ){ SFFM.fn_select_sffm_list('spital'); }"> <sub>m</sub></span> 이내 범위</div>
+						<div class="space-search-items areaSrchTool" style="display: none;">경계로부터 <span class="form-group">
+							<input type="text" id="sffmBuffer" name="sffmBuffer" class="form-control align-center" placeholder="0" value="0" step="10"> <sub>m</sub></span> 이내 범위</div>
+							<input type="hidden" id="spitalSearch" name="spitalSearch" value=''>
 					</div>
 					<div class="btn-wrap">
-						<div><button type="button" class="btn type01 search" onclick="setData();">조회</button></div>
+						<div><button type="button" class="btn type01 search" onclick="fn_search_List(event); setData();">조회</button></div>
 					</div>
 				</div>
 			</div>
@@ -105,15 +108,91 @@ $(document).ready(function() {
             <div class="bbs-list-wrap" style="height: 267px;"><!-- pagination 하단 고정을 위해 반드시 필요 -->
                 <div class="bbs-default">
                         <div id="gridax5" data-ax5grid="attr-grid" data-ax5grid-config="{}" style="height: 267px;"></div>
+						<div data-ax5grid="attr-grid-excel" style="diplay:none;"></div>
                 </div>
             </div>
         </div>
 
 	</div>
 </div>
-</form:form>
 <button type="button" class="manualBtn" title="도움말" onclick="manualTab('안전시설물관리')"></button>
 <button type="button" class="popup-close" title="닫기" onClick="toastr.warning('SFFM.removeCmmPOI();', 'onclick 이벤트');"></button>
 <button type="button" class="popup-reset" class="초기화" onclick="bottomPopupOpen('safetyFacilitiesManagement');"></button>
 <button type="button" class="popup-bottom-toggle" onclick="toggleFold(this);" title="접기"></button>
 <!-- //안전시설물관리 -->
+
+<script>
+
+	//속성 검색, 공간 검색 탭 제어
+	$(document).on("click", ".tabBoxDepth2-wrap .tabBoxDepth2 > ul > li > .inner-tab", function(){ 
+		$(this).each(function(){
+			$(this).parent().addClass("on").siblings().removeClass("on");
+			$("."+$(this).parent().data("tab")).addClass("on").siblings().removeClass("on");
+		});
+		
+		if($("li[data-tab=safetyFacilityProperty]").hasClass("on")){	//속성검색 일때 공간 검색때 사용한 그리기 초기화
+			dtmap.draw.dispose();		//그리기 포인트 삭제
+			dtmap.draw.clear();			//그리기 초기화
+			dtmap.on('select',spaceClickListener );	//레이어 선택 핸들러
+			$('#spitalSearch').val(''); 	//공간검색 초기화
+		}else{
+			$('input[name=sffmSelect]:first').prop('checked', 'checked');//공간검색>현재화면영역
+			$(".areaSrchTool", "#bottomPopup").hide();
+			$('.safetyFacilityProperty input').val(''); 	//속성검색초기화
+		}
+		
+	});
+
+	// 검색영역지정 변경 (현재화면영역, 사용자정의)
+	$("[name=sffmSelect]").on("change", function () {
+		const node = $(this);
+		const value = node.val();
+		if (value == "extent") {
+			$(".areaSrchTool", "#bottomPopup").hide();
+			
+			//그리기, 그려진 것 초기화
+			dtmap.draw.dispose();
+			dtmap.draw.clear();
+			dtmap.on('select',spaceClickListener );	//레이어 선택 핸들러
+			
+		} else {
+			$(".areaSrchTool", "#bottomPopup").show();
+			$("[name=sffmAreaDrawing]:first", "#bottomPopup").trigger("click");
+		}
+	}); 
+     	
+     	
+	// 사용자 정의 검색 조건
+	$("[name=sffmAreaDrawing]", "#bottomPopup").on("click", function () {
+		const node = $(this);
+		const value = node.val();
+
+		let type;
+		switch (Number(value)) {
+			case 1:
+				type = 'Point';
+				break;
+			case 2:
+				type = 'LineString';
+				break;
+			case 3:
+				type = 'Box';
+				break;
+			case 4:
+				type = 'Circle';
+				break;
+		}
+		dtmap.off('select');
+		dtmap.draw.active({type: type, once: true})
+		//toastr.warning("that.searchDrawing(value);", "공간검색 사용자정의");
+	});
+		
+
+    //경계로부터 버퍼 영역 지정
+	$("#sffmBuffer").on("keyup", function (event) {
+		dtmap.draw.setBuffer(Number(this.value));
+	});
+		
+
+
+</script>

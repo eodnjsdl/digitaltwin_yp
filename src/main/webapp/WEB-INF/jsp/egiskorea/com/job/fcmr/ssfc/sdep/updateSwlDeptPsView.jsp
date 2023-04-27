@@ -147,6 +147,7 @@ function cancelUpdateSwlDeptPs() {
 					</form>
 				</div>
 			</div>
+
 			<div class="position-bottom btn-wrap justify-content-end">
 				<div>
 					<button type="button" class="btn basic bi-write2 btn_save" onclick="updateSwlDeptPs();">수정완료</button>

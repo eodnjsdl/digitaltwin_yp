@@ -47,7 +47,7 @@ window.ui = (function () {
         });
         /** popup close button **/
         $(document).on('click', '.popup-panel .popup-close', function () {
-            _initDrawEvent();
+            dtmap.clear();
             $(this).closest('.popup-panel').removeClass('opened');
             if(dtmap.mod === "2D") map2d.multiView.dispose();
         });
