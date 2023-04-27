@@ -159,7 +159,8 @@ function _onDrawEnd_ldbdInfo(e) {
     var totalCnt = 0;
     var ldStyle = {
         fill: {
-            color: 'rgba(255,0,0,0.68)'
+            color: '#ff0000',
+            opacity : 0.6
         },
         stroke: {
             color: '#FF0000',
@@ -167,11 +168,13 @@ function _onDrawEnd_ldbdInfo(e) {
         },
         label: {
             column: 'jibun'
-        }
+        },
+        renderType: '3D'
     };
     var bdStyle = {
         fill: {
-            color: 'rgba(0,0,255,0.68)'
+            color: '#0000ff',
+            opacity : 0.6
         },
         stroke: {
             color: '#0000FF',
@@ -179,7 +182,8 @@ function _onDrawEnd_ldbdInfo(e) {
         },
         label: {
             column: 'buld_nm'
-        }
+        },
+        renderType: '3D'
     };
     ui.openPopup("rightPopup");
     loadHtml();
@@ -192,6 +196,7 @@ function _onDrawEnd_ldbdInfo(e) {
             );
         });
     });
+    dtmap.draw.dispose();
 }
 
 function aj_ldbdInfo() {
