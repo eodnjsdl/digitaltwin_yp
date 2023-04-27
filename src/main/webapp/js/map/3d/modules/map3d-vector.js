@@ -224,12 +224,12 @@ map3d.vector = (function () {
                 )
             );
         }
-        let geometry = f.getGeometry();
-        const id = f.getId();
+        const styleOpt = getStyleOption(f, style);
+        const geometry = f.getGeometry();
         const param = {
-            id: id,
+            id: f.getId(),
             geometry: geometry,
-            style: getStyleOption(f, style),
+            style: styleOpt,
             properties: f.getProperties(),
         }
         let object;

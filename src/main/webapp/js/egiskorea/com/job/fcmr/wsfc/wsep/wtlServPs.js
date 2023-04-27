@@ -103,7 +103,7 @@ function wtlServPsListProcess(){
         body: {
         	onClick: function () {
         		//console.log(this);
-        		this.self.select(this.dindex);	//행 선택 되게 수정
+        		//this.self.select(this.dindex);	//행 선택 되게 수정
         		selectWtlServPs(this.item.id);	//소방 시설 상세 페이지 로드
             }
         }

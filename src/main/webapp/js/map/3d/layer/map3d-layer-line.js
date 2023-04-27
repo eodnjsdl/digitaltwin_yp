@@ -16,7 +16,7 @@ map3d.layer.Line = (function () {
     Line.prototype.createInstance = function () {
         //라벨레이어 추가
         this.labelLayer = map3d.userLayers.createObjectLayer({
-            name: this.id + '_label',
+            name: this.id + ':Label',
             type: Module.ELT_POLYHEDRON
         });
 

@@ -1,8 +1,17 @@
-SEARCHOBJ= null;
+/**
+ * 지하수관리 > 농업용공공관정 js
+ */
+
+SEARCHOBJ= {
+	propertySearch: null,
+	spaceSearch:null,
+};
 
 $(document.body).ready(function () {
 	initGrid();
-    setData(0);       
+    setData(0);
+    dtmap.off('select');
+    dtmap.on('select',spaceClickListener );
 });
 //농업용공공관정 기본 틀 추가
 function initGrid(){
@@ -48,35 +57,42 @@ function initGrid(){
 }
 //농업용공공관정 조회기능
 function setData(_pageNo){
-	// var adres = $("#emdKorNm").val();
-	// var manage_se = $("#manageSeSearch").val();
-	// var detail_prpos_se = $("#detailPrposSeSearch").val();
-	// var fclts_sttus = $("#fcltsSttusSearch").val();
 
-	var adres='', manage_se='', detail_prpos_se='', fclts_sttus='';
-
-	if(SEARCHOBJ != null){
-		adres = SEARCHOBJ.searchEmdKorNm;
-		manage_se = SEARCHOBJ.searchManageSeSearch;
-		detail_prpos_se = SEARCHOBJ.searchDetailPrposSeSearch;
-		fclts_sttus = SEARCHOBJ.searchFcltsSttusSearch;
-
-	}
-	
-	var cqlList = [];
-	
-	if(adres!=''){cqlList.push("adres like "+adres+" ")}
-	if(manage_se!=''){cqlList.push("manage_se = "+manage_se+" ")}
-	if(detail_prpos_se!=''){cqlList.push("detail_prpos_se = "+detail_prpos_se+" ")}
-	if(fclts_sttus!=''){cqlList.push("fclts_sttus = "+fclts_sttus+" ")}
-	
-	var gridList =this;
-	const promise = dtmap.wfsGetFeature({
+	options = {
 		typeNames: 'tgd_agr_public_tbwll', //WFS 레이어명
 		page  : _pageNo+1,
 		perPage : 100,
-		filter : cqlList
-	});
+	}
+
+	//검색옵션
+	if(SEARCHOBJ.propertySearch != null){//속성검색
+		var adres = SEARCHOBJ.propertySearch.searchEmdKorNm;
+		var manage_se = SEARCHOBJ.propertySearch.searchManageSeSearch;
+		var detail_prpos_se = SEARCHOBJ.propertySearch.searchDetailPrposSeSearch;
+		var fclts_sttus = SEARCHOBJ.propertySearch.searchFcltsSttusSearch;
+
+		var cqlList = [];
+		if(adres!=''){cqlList.push("adres like "+adres+" ")}
+		if(manage_se!=''){cqlList.push("manage_se = "+manage_se+" ")}
+		if(detail_prpos_se!=''){cqlList.push("detail_prpos_se = "+detail_prpos_se+" ")}
+		if(fclts_sttus!=''){cqlList.push("fclts_sttus = "+fclts_sttus+" ")}
+	
+		options.filter = cqlList;
+
+	}else if(SEARCHOBJ.spaceSearch != null){//공간검색
+
+		const $parent 	= $(".search-area");
+        const type 		= $parent.find('input[name="underWaterAgriSelect"]:checked').val();
+        if (type === 'extent') {
+        	options.bbox = SEARCHOBJ.spaceSearch.bbox;
+        } else {
+        	options.geometry = SEARCHOBJ.spaceSearch.geometry;
+        }
+	}
+
+	//조회
+	var gridList =this;
+	const promise = dtmap.wfsGetFeature(options);
 	promise.then(function (data) {
 		
 		$(".bbs-list-num").empty();
@@ -113,6 +129,7 @@ function setData(_pageNo){
 		        }
 		});
 		dtmap.vector.fit();
+
   })
 }
 //농업용공공관정 등록페이지 열기
@@ -196,25 +213,113 @@ function fn_update(gid){
 }
 //농업용공공관정 엑셀다운로드 버튼
 $("#ugagExcelDownload").on("click", function(){
-	let formName = this.dataset.formName;
-	document.getElementById("searchForm").emdKorNm.value = lastEmdKorNm;
-	document.getElementById("searchForm").manageSeSearch.value = lastManageSeSearch;
-	document.getElementById("searchForm").detailPrposSeSearch.value = lastDetailPrposSeSearch;
-	document.getElementById("searchForm").fcltsSttusSearch.value = lastFcltsSttusSearch;
-	document.getElementById("searchForm").spitalSearch.value = lastSpitalSearch;
-	document.getElementById("searchForm").bufferCnt.value = lastBufferCnt;
+	var $container = $("#container");
+    var $target = $container.find('[data-ax5grid="attr-grid-excel"]');	//가상의 ax5uigrid 공간에 처리 
+    $target.css('display', 'none');
+    
+	this.gridAll = new ax5.ui.grid();
+	this.gridAll.setConfig({
+		target:  $target,
+		sortable: true,
+		multipleSelect: false,
+		header: {
+			align: "center"
+		},
+		columns: [
+			{key: "gid",			label: "GID",			width: '*'},
+			{key: "manage_se",			label: "관리구분",			width: '*'},
+			{key: "adres",			label: "주소",			width: '*'},
+			{key: "fclty_nm", 			label: "시설명",			width: '*'},
+			{key: "devlop_year",		label: "개발년도",			width: '*'},
+			{key: "manage_instt_nm",		label: "관리기관명",		width: '*'},
+			{key: "prpos_se",			label: "용도구분",		width: '*'},
+			{key: "detail_prpos_se",			label: "세부용도구분",		width: '*'},
+			{key: "calbr",			label: "구경",		width: '*'},
+			{key: "dph",			label: "심도",			width: '*'},
+			{key: "wp_ablty",			label: "양수능력",			width: '*'},
+			{key: "dscrgpp_calbr",		label: "토출관구경",		width: '*'},
+			{key: "pump_stle_se",		label: "펌프형태구분",		width: '*'},
+			{key: "pump_hrspw", 		label: "펌프마력",		width: '*'},
+			{key: "fclts_sttus",		label: "시설물상태",		width: '*'},
+			{key: "fclts_chck_de",		label: "시설물점검일자",		width: '*'},
+			{key: "geomText",		label: "GEOMETRY",		width: '*'},
+		],
+		body: {
+			align: "center"
+		}
+	})
+
+    // 검색 조건
+	options = {
+		typeNames: 'tgd_agr_public_tbwll', //WFS 레이어명
+		sortBy : 'gid',
+		sortOrder : 'DESC',
+	}
 	
-	let url = '/job/ugtm/' + formName + 'Download.do';
+	//검색 옵션
+	if(SEARCHOBJ.propertySearch != null){//속성검색
+		var adres = SEARCHOBJ.propertySearch.searchEmdKorNm;
+		var manage_se = SEARCHOBJ.propertySearch.searchManageSeSearch;
+		var detail_prpos_se = SEARCHOBJ.propertySearch.searchDetailPrposSeSearch;
+		var fclts_sttus = SEARCHOBJ.propertySearch.searchFcltsSttusSearch;
+
+		var cqlList = [];
+		if(adres!=''){cqlList.push("adres like "+adres+" ")}
+		if(manage_se!=''){cqlList.push("manage_se = "+manage_se+" ")}
+		if(detail_prpos_se!=''){cqlList.push("detail_prpos_se = "+detail_prpos_se+" ")}
+		if(fclts_sttus!=''){cqlList.push("fclts_sttus = "+fclts_sttus+" ")}
 	
-	$("form[name='"+ formName + "']").attr('onsubmit', '');
-	$("form[name='"+ formName + "']").attr('action', url);
-	$("form[name='"+ formName + "']").submit();
-	$("form[name='"+ formName + "']").attr('onsubmit', 'fn_select_list(); return false;');
-	$("form[name='"+ formName + "']").attr('action', '');
+		options.filter = cqlList;
+
+	}else if(SEARCHOBJ.spaceSearch != null){//공간검색
+
+		const $parent 	= $(".search-area");
+        const type 		= $parent.find('input[name="underWaterAgriSelect"]:checked').val();
+        if (type === 'extent') {
+        	options.bbox = SEARCHOBJ.spaceSearch.bbox;
+        } else {
+        	options.geometry = SEARCHOBJ.spaceSearch.geometry;
+        }
+	}
+
+	
+	// 엑셀파일 날짜_시간
+	var today = new Date(); 
+	let year = dateNum(today.getFullYear());		// 년도
+	let month = dateNum(today.getMonth() + 1, 2);	// 월
+	let date = dateNum(today.getDate(), 2);			// 날짜
+	let hours = dateNum(today.getHours(), 2);		// 시
+	let minutes = dateNum(today.getMinutes(), 2);	// 분
+	let seconds = dateNum(today.getSeconds(), 2);	// 초
+
+	var todayDate = year+month+date+'_'+hours+minutes+seconds;
+	var gridList = this;
+	const promise = dtmap.wfsGetFeature(options);
+	promise.then(function(data) {
+		// 그리드 데이터 전처리
+		const list = [];
+		for (let i = 0; i < data.features.length; i++) {
+        	// 좌표 처리
+			data.features[i].properties.geomObj = data.features[i].geometry;
+			
+			// GEOMETRY 처리
+			data.features[i].properties.geomText = data.features[i].geometry.type + ' (' + data.features[i].geometry.coordinates[0] + ' ' + data.features[i].geometry.coordinates[1] + ')';
+			
+        	const {id, properties} = data.features[i];
+			list.push({...properties, ...{id: id}});
+		}
+		
+		// gird 적용
+        gridList.gridAll.setData(list);
+        
+        //엑셀 export
+		gridList.gridAll.exportExcel("농업용공공관정관리_" + todayDate + ".xls");
+	});
 });
 
 //지도에서 선택 _ 주소 및 경위도 위치 가져오기
 function fn_getLocation() {
+	dtmap.off('select');//레이어 선택 이벤트 해제
 	dtmap.draw.active({type: 'Point', once: true});
 	dtmap.on('drawend', onDrawEnd);
 }
@@ -231,15 +336,39 @@ function onDrawEnd(e) {
 		const wkt = format.writeGeometry(point);
 		$("#geom").val(wkt);
 	});
+	dtmap.on('select',spaceClickListener );//레이어 선택 이벤트
 }
 
 //농업용공공관정 검색조회
 function fn_search_List(){
-	SEARCHOBJ = {};
+	SEARCHOBJ.propertySearch = null;
+	SEARCHOBJ.spaceSearch = null;
 
-	SEARCHOBJ.searchEmdKorNm= $('#emdKorNm').val() || '';
-	SEARCHOBJ.searchManageSeSearch = $('#manageSeSearch').val() || '';
-	SEARCHOBJ.searchDetailPrposSeSearch = $('#detailPrposSeSearch').val() || '';
-	SEARCHOBJ.searchFcltsSttusSearch = $('#fcltsSttusSearch').val() || '';
-
+	if($('#ugag-prop').hasClass('on')){
+		SEARCHOBJ.propertySearch = {};
+		SEARCHOBJ.propertySearch.searchEmdKorNm= $('#emdKorNm').val() || '';
+		SEARCHOBJ.propertySearch.searchManageSeSearch = $('#manageSeSearch').val() || '';
+		SEARCHOBJ.propertySearch.searchDetailPrposSeSearch = $('#detailPrposSeSearch').val() || '';
+		SEARCHOBJ.propertySearch.searchFcltsSttusSearch = $('#fcltsSttusSearch').val() || '';
+	}else if($('#ugag-space').hasClass('on')){
+		SEARCHOBJ.spaceSearch = {};
+		const $parent = $('#bottomPopup').find('.search-area')
+		const type = $parent.find('input[name="underWaterAgriSelect"]:checked').val();
+		
+		if (type === 'extent') {
+			SEARCHOBJ.spaceSearch.bbox = dtmap.getExtent();
+		} else {
+			if(dtmap.mod == '2D'){
+				if(dtmap.draw.source.getFeatures().length > 0){
+					SEARCHOBJ.spaceSearch.geometry = dtmap.draw.getGeometry();
+				}else{
+					alert("영역지정 안되었습니다");
+					return false;
+				}
+			}else if(dtmap.mod == '3D'){
+				SEARCHOBJ.spaceSearch.geometry = dtmap.draw.getGeometry();
+			}
+		}
+	}
 }
+

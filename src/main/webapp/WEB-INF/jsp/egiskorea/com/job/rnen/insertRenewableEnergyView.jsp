@@ -95,7 +95,7 @@ $("#energyRegist").on("click", function(){
 									<th scope="row">주소</th>
 									<td colspan="3">
 										<div class="form-row">
-											<div class="col"><input type="text" class="form-control" id="eqpLc" name="eqpLc"></div> 
+											<div class="col"><input type="text" class="form-control" id="eqpLc" name="eqpLc" readonly></div> 
 											<div class="col-auto"><button type="button" class="btn type01 bi-location" id="mapSelectBtn" onclick="fn_getLocation()">지도에서 선택</button></div>
 											<input type="hidden" name="geom" id="geom">
 										</div>

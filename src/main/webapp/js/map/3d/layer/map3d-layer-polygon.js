@@ -22,7 +22,7 @@ map3d.layer.Polygon = (function () {
     Polygon.prototype.createInstance = function () {
         //라벨레이어 추가
         this.labelLayer = map3d.userLayers.createObjectLayer({
-            name: this.id + '_label',
+            name: this.id + ':Label',
             type: Module.ELT_POLYHEDRON
         });
 
@@ -47,7 +47,7 @@ map3d.layer.Polygon = (function () {
         const id = this.genId(options.id);
         let geometry = options.geometry;
         const style = options.style;
-        const type = style.renderType || '3D'
+        const type = style.renderType || '2D'
         let object
 
         if (geometry instanceof ol.geom.Circle) {

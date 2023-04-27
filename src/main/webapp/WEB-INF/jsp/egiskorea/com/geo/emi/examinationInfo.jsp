@@ -38,6 +38,7 @@
         });
     }
     function initByExaminationInfo() {
+        dtmap.vector.clear();
         var landRegister = getLandRegisterByPnu("<c:out value='${result.pnu}' />");
         landRegister.landRegister ?
             (

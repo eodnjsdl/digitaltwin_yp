@@ -65,7 +65,7 @@ function getWelFareFaci() {
 		body: {
 			align: "center",
 			onClick: function() {
-				this.self.select(this.dindex);
+				//this.self.select(this.dindex);
 				//console.log(this.item);
 				selectWelFareFaciDetail(this.item.id);
 			}

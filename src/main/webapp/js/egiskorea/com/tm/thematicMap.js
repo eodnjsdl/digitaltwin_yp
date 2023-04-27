@@ -13,6 +13,9 @@
  *  2022.03.10		이준호	최초 생성
  */
 
+let themeLayer = {};
+themeLayer.layerIds = [];
+
 function aj_selectThematicMapList() {
     var searchKeyword = $(".lnb-theme input[name='searchKeyword']").val();
 
@@ -28,17 +31,6 @@ function aj_selectThematicMapList() {
             if (status == "success") {
                 $(".lnb-theme").html(returnData);
                 $(".lnb-theme input[name='searchKeyword']").val(searchKeyword);
-
-                if (!$(".lnb-theme .scroll-y").hasClass("mCustomScrollbar")) {
-                    $(".scroll-y").mCustomScrollbar({
-                        scrollbarPosition:"outside"
-                    });
-                }
-        		//LEFT 메뉴 닫기 버튼
-        		$(".lnb-util .lnb-close").click(function(){
-        			($(this).parent().parent()).stop().fadeOut(100);
-        			$("#lnb li[data-menu]").removeClass("on");									
-        		});
             } else {
                 toastr.error("관리자에게 문의 바랍니다.", "정보를 불러오지 못했습니다.");
                 return false;
