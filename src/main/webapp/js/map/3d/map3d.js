@@ -86,6 +86,9 @@ window.map3d = (function () {
     }
 
     function onClick(e) {
+
+        Module.XDRenderData()//임시
+
         if (e.button !== 0) {
             return;
         }
@@ -105,21 +108,29 @@ window.map3d = (function () {
     }
 
     function onSelectObject(e) {
-        const layer = map3d.layer.getByName(e.layerName);
+        let layerNm = e.layerName;
+        let id = e.objKey;
+        const hasLabel = layerNm.endsWith(':Label');
+        if (hasLabel) {
+            layerNm = layerNm.substr(0, layerNm.indexOf(':Label'));
+            id = id.substr(0, id.indexOf(':Label'));
+        }
+
+        const layer = map3d.layer.getByName(layerNm);
         if (!layer) {
             return;
         }
         let data;
         if (layer instanceof map3d.layer.Geometry) {
-            const object = layer.get(e.objKey);
+            const object = layer.get(id);
             data = {
-                id: e.objKey,
+                id: id,
                 ...object
             }
         } else {
-            const object = layer.instance.keyAtObject(e.objKey)
+            const object = layer.instance.keyAtObject(id)
             data = {
-                id: e.objKey,
+                id: id,
                 object: object
             }
         }
