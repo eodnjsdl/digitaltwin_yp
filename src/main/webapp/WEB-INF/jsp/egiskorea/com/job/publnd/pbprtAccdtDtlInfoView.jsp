@@ -74,7 +74,7 @@ function selectPbprtAccdtWrinvstg(publndNo) {
 										</tr>
 										<tr>
 											<th scope="row">주민등록번호</th>
-											<td><input type="number" id="rrno" name="rrno" maxlength="13" value="<c:out value="${pbprtAccdtDtlInfoList.rrno}"/>" placeholder="숫자만입력하세요." class="form-control pbprtAccdtInput"/></td>
+											<td><input type="text" id="rrno" name="rrno" maxlength="13" value="<c:out value="${pbprtAccdtDtlInfoList.rrno}"/>" placeholder="숫자만입력하세요." class="form-control pbprtAccdtInput"/></td>
 											<th scope="row">대부료 발송 여부</th>
 											<td>
 												<select id="loanmnSndngYn" name="loanmnSndngYn" class="form-select pbprtAccdtInput">

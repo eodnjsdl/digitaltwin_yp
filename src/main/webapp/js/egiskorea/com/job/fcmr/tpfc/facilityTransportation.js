@@ -4,7 +4,7 @@
 // 교통시설 분기
 function getTransportationFacility(name) {
 	$('#bottomPopup').empty();
-	
+	onFacilityTpfcSelectEventListener();
 	switch (name) {
 	case "roadSection" : 				// 도로구간
 	    selectRoadSectListView();
