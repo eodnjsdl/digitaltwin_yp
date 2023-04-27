@@ -34,8 +34,8 @@ map3d.layer.WMS = (function () {
     WMS.prototype.createInstance = function (options) {
         let {store, table} = options;
         let opt = Object.assign({}, {
-            url: dtmap.urls.xdGeoUrl + "/wms?",
-            layer: store + ':' + table,
+            url: dtmap.urls.xdGeoServer + "/wms?",
+            layer: options.layerNm,
             minimumlevel: options.minimumlevel,
             maximumlevel: options.maximumlevel,
             tileSize: options.tileSize,
