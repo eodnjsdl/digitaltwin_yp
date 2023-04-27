@@ -26,6 +26,13 @@ $(document).ready(function(){
 
 	//시설구분 selectbox
 	getCmmCodeData('FCLTCD', '#upWelFareFaciTbl #wel_fclty_se', fcltySe);
+	
+	//3d 일때 지도 추가 버튼 삭제 
+	if(dtmap.mod == "3D"){
+		if($("#upWelFareFaciFrm .btn-select-map").css("display") != 'none'){
+			$("#upWelFareFaciFrm .btn-select-map").hide();
+		}
+	}
 });
 
 //geom 값 넣기

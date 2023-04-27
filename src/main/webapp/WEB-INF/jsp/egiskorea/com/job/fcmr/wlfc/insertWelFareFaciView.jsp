@@ -21,6 +21,15 @@ $(".scroll-y").mCustomScrollbar({
 	scrollbarPosition: "outside"
 });
 
+$(document).ready(function(){
+	//3d 일때 지도 추가 버튼 삭제 
+	if(dtmap.mod == "3D"){
+		if($("#inWelFareFaciFrm .btn-select-map").css("display") != 'none'){
+			$("#inWelFareFaciFrm .btn-select-map").hide();
+		}
+	}
+});
+
 //geom 값 넣기
 function welMapClick() {
 	dtmap.draw.active({type: 'Point', once: true});
