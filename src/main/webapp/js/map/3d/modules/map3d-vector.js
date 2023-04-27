@@ -134,11 +134,7 @@ map3d.vector = (function () {
     }
 
     function getExtent() {
-        const extent = [Infinity, Infinity, -Infinity, -Infinity];
-        ol.extent.extend(extent, _pointLayer.getExtent());
-        ol.extent.extend(extent, _lineLayer.getExtent());
-        ol.extent.extend(extent, _polygonLayer.getExtent());
-        return extent;
+        return _source.getExtent();
     }
 
     function fit() {

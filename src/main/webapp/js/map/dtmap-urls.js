@@ -12,7 +12,7 @@ dtmap.urls = (function () {
     let urls = {
         BASE: url,
         xdServer: url + '/xdServer',
-        xdGeoServer: url + '/gis',
+        xdGeoServer: 'http://localhost:8080/gis',
         xdGeoUrl: url + '/geoUrl',
         emapBase: url + '/extEmap/openapi/Gettile.do',
         emapAirProxy: url + '/extEmap/openapi/proxy/proxyTile.jsp',

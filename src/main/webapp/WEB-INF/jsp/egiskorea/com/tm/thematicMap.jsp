@@ -189,6 +189,12 @@
             var $tmChk = $('.tm-chk');
             $tmChk.each(function (index, item) {
                 var layerNm = item.dataset.layer_nm; //주제도 레이어명
+                dtmap.showLayer({
+                    id: layerNm,
+                    type: 'WMS',
+                    visible: false,
+                    layerNm: layerNm
+                });
 
                 // if (mapType == '3D') { //3d
                 //     var layerList = new Module.JSLayerList(false); //레이어 리스트 조회
