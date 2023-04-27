@@ -49,7 +49,7 @@ window.ui = (function () {
         $(document).on('click', '.popup-panel .popup-close', function () {
             dtmap.clear();
             $(this).closest('.popup-panel').removeClass('opened');
-            if(dtmap.mod === "2D") map2d.multiView.dispose();
+            if (dtmap.mod === "2D") map2d.multiView.dispose();
         });
 
         //LEFT 메뉴 닫기 버튼
@@ -57,7 +57,7 @@ window.ui = (function () {
             ($(this).parent().parent()).stop().fadeOut(100);
             $("#lnb li[data-menu]").removeClass("on");
             _initDrawEvent();
-            if(dtmap.mod === "2D") map2d.multiView.dispose();
+            if (dtmap.mod === "2D") map2d.multiView.dispose();
         });
 
         $(document).on('click', '.lnb-dep2 button', function (e) {
@@ -325,7 +325,7 @@ window.ui = (function () {
                         //TODO 주제도 메뉴
                         aj_selectThematicMapList();
                         break;
-                        //국토조사
+                    //국토조사
                     case "lnb-territory" :
                         aj_selectAdministrationZoneList($("#tmpForm")[0]);
                         break;
@@ -731,6 +731,10 @@ window.ui = (function () {
             case "emiInfo":
                 _area.top = "80";
                 _area.width = "550";
+                _area.heigth = "807";
+                break;
+            case "layerInfo":
+                _area.width = "515";
                 _area.heigth = "807";
                 break;
 

@@ -221,6 +221,7 @@
     <script src="/js/egiskorea/com/sach/sach.js"></script>
     <!-- 레이어 -->
     <script src="/js/egiskorea/com/lyr/layer.js"></script>
+    <script src="/js/egiskorea/com/lyr/lyr.js"></script>
     <!-- 주제도 -->
     <script src="/js/egiskorea/com/tm/thematicMap.js"></script>
 
