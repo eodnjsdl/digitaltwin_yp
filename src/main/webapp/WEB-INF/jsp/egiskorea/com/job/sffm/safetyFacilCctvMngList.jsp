@@ -80,12 +80,12 @@
 							<div class="space-search-items">
 								<span class="form-radio text group"> <span><input
 										type="radio" name="cctvSelect" id="rChk1-1_cctv" checked=""
-										value="1"><label for="rChk1-1_cctv">현재화면영역</label></span> <span><input
-										type="radio" name="cctvSelect" id="rChk1-2_cctv" value="2"><label
+										value="extent"><label for="rChk1-1_cctv">현재화면영역</label></span> <span><input
+										type="radio" name="cctvSelect" id="rChk1-2_cctv" value="custom"><label
 										for="rChk1-2_cctv">사용자 정의</label></span>
 								</span>
 							</div>
-							<div class="space-search-items areaSrchTool">
+							<div class="space-search-items areaSrchTool" style="display: none;">
 								<span class="drawing-obj small"> 
 									<span><input type="radio" name="cctvAreaDrawing" id="aChk1_cctv" value="1"><label for="aChk1_cctv" class="obj-sm01"></label></span> <span><input
 										type="radio" name="cctvAreaDrawing" id="aChk2_cctv" value="2"><label
@@ -96,18 +96,16 @@
 										for="aChk4_cctv" class="obj-sm04"></label></span>
 								</span>
 							</div>
-							<div class="space-search-items areaSrchTool">
-								경계로부터 <span class="form-group"><input type="number" name="cctvBuffer
-									id="cctvBuffer" class="form-control align-center" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" value="0"
-									value="0" placeholder="0"
-									onkeypress="if( event.keyCode == 13 ){ fn_select_cctv_list('spital'); }">
+							<div class="space-search-items areaSrchTool" style="display: none;">
+								경계로부터 <span class="form-group"><input type="text" name="cctvBuffer" id="cctvBuffer" class="form-control align-center" placeholder="0" value="0" step="10">
+									<input type="hidden" id="spitalSearch" name="spitalSearch" value=''>
 									<sub>m</sub></span> 이내 범위
 							</div>
 						</div>
 						<div class="btn-wrap">
 							<div>
 								<button type="button" class="btn type01 search"
-									onclick="setData('spital');">조회</button>
+									onclick="fn_search_List(); setData();">조회</button>
 							</div>
 						</div>
 					</div>
@@ -147,7 +145,8 @@
 				<div class="bbs-default">
 					<div id="sampleGridDiv" style="height:inherit; display: flex;flex-direction: column">
                         <div id="gridax5" data-ax5grid="attr-grid" data-ax5grid-config="{}" style="flex: 1"></div>
-                    </div>
+						<div data-ax5grid="attr-grid-excel" style="diplay:none;"></div>
+					</div>
 				</div>
 
 				<div class="pagination">
@@ -163,3 +162,82 @@
 <button type="button" class="popup-reset" class="초기화" onclick="bottomPopupOpen('safetyFacilitiesCctv');"></button>
 <button type="button" class="popup-bottom-toggle" onclick="toggleFold(this);" title="접기"></button>
 <!-- //안전시설물관리 -->
+
+<script>
+
+	//속성 검색, 공간 검색 탭 제어
+	$(document).on("click", ".tabBoxDepth2-wrap .tabBoxDepth2 > ul > li > .inner-tab", function(){ 
+		$(this).each(function(){
+			$(this).parent().addClass("on").siblings().removeClass("on");
+			$("."+$(this).parent().data("tab")).addClass("on").siblings().removeClass("on");
+		});
+		
+		if($("li[data-tab=safetyFacilityProperty]").hasClass("on")){	//속성검색 일때 공간 검색때 사용한 그리기 초기화
+			dtmap.draw.dispose();		//그리기 포인트 삭제
+			dtmap.draw.clear();			//그리기 초기화
+			dtmap.on('select',spaceClickListener );	//레이어 선택 핸들러
+			$('#spitalSearch').val('');	//공간검색 초기화
+		}else{
+			$('input[name=cctvSelect]:first').prop('checked', 'checked');//공간검색>현재화면영역
+			$(".areaSrchTool", "#bottomPopup").hide();
+			//속성검색 초기화
+			$('.safetyFacilityProperty input').val('');	
+			$('.safetyFacilityProperty select>option[name=전체]').prop('selected', true);	
+		}
+		
+	});
+
+	// 검색영역지정 변경 (현재화면영역, 사용자정의)
+	$("[name=cctvSelect]").on("change", function () {
+	
+		const node = $(this);
+		const value = node.val();
+		if (value == "extent") {
+			$(".areaSrchTool", "#bottomPopup").hide();
+			
+			//그리기, 그려진 것 초기화
+			dtmap.draw.dispose();
+			dtmap.draw.clear();
+			dtmap.on('select',spaceClickListener );	//레이어 선택 핸들러
+			
+		} else {
+			$(".areaSrchTool", "#bottomPopup").show();
+			$("[name=cctvAreaDrawing]:first", "#bottomPopup").trigger("click");
+		}
+	}); 
+     	
+     	
+	// 사용자 정의 검색 조건
+	$("[name=cctvAreaDrawing]", "#bottomPopup").on("click", function () {
+		const node = $(this);
+		const value = node.val();
+
+		let type;
+		switch (Number(value)) {
+			case 1:
+				type = 'Point';
+				break;
+			case 2:
+				type = 'LineString';
+				break;
+			case 3:
+				type = 'Box';
+				break;
+			case 4:
+				type = 'Circle';
+				break;
+		}
+		dtmap.off('select');
+		dtmap.draw.active({type: type, once: true})
+		//toastr.warning("that.searchDrawing(value);", "공간검색 사용자정의");
+	});
+		
+
+     	//경계로부터 버퍼 영역 지정
+	$("#cctvBuffer").on("keyup", function (event) {
+		dtmap.draw.setBuffer(Number(this.value));
+	});
+		
+
+
+</script>

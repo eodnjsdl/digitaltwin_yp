@@ -563,6 +563,7 @@ function createSatlitImageLine() {
 	}
 	
 	function reverseUaiGeoForPublnd(pointx, pointy) {
+		dtmap.vector.clear();
 	    // var vPosition = new Module.JSVector2D(pointx, pointy);
 	    // 좌표변환 실행
 	    // var vResult = Module.getProjection().convertProjection(26, vPosition, 13); // 5179 -> 4326

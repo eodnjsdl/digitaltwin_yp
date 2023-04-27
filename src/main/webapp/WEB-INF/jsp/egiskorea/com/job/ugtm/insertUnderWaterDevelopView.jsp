@@ -38,6 +38,7 @@ $("#devRegist").on("click", function(){
 			dataType: "json",
 			success :  function(returnData, status){
 				if(returnData.result == "success") {
+					
 					$("#rightSubPopup").removeClass("opened").html("");
 					initGrid();
 					setData(0); 
@@ -93,7 +94,7 @@ var years = "";
 									<th scope="row">주소</th>
 									<td colspan="3">
 										<div class="form-row">
-											<div class="col"><input type="text" class="form-control" id="adres" name="adres"></div> 
+											<div class="col"><input type="text" class="form-control" id="adres" name="adres" readonly></div> 
 											<div class="col-auto"><button type="button" class="btn type01 bi-location" id="mapSelectBtn" onclick="fn_getLocation()">지도에서 선택</button></div>
 											<input type="hidden" name="geom" id="geom">
 										</div>

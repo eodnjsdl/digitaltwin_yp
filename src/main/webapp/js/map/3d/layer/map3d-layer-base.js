@@ -4,15 +4,14 @@ map3d.layer.Layer = (function () {
 
 
     function Layer(options) {
-        let {id, layerNm, table, store, visible, isBase} = options;
+        let {id, layerNm, title, visible, isDefault} = options;
         this.id = id;
+        this.title = title;
         this.layerNm = layerNm;
-        this.table = table;
-        this.store = store;
         this.visible = visible;
         this.minLevel = 0;
         this.maxLevel = 15;
-        this.isDefault = options.isDefault;
+        this.isDefault = isDefault;
         this.instance = this.createInstance(options);
     }
 

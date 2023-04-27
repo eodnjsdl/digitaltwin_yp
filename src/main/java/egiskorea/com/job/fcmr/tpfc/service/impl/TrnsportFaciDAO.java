@@ -26,11 +26,11 @@ import egiskorea.com.job.fcmr.tpfc.service.TunnlVO;
  *  수정일                    수정자               수정내용
  *  ----------   --------   ---------------------------
  *  2023.04.05   김영주           최초 생성
- *  2023.04.14   백승석           전체조회 및 상세조회 생성
  */
 
 @Repository("trnsportFaciDAO")
 public class TrnsportFaciDAO extends ComAbstractDAO {
+
 	
 	// -------- 도로구간 --------
 	
@@ -121,5 +121,4 @@ public class TrnsportFaciDAO extends ComAbstractDAO {
 		return selectOne("transportationFacility.selectTunnel", tunnlVO);
 	}
 
-	
 }
