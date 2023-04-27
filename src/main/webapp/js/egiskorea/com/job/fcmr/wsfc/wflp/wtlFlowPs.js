@@ -79,7 +79,7 @@ function wtlFlowPsListProcess(){
         body: {
         	onClick: function () {
         		//console.log(this);
-        		this.self.select(this.dindex);	//행 선택 되게 수정
+        		//this.self.select(this.dindex);	//행 선택 되게 수정
         		selectWtlFlowPs(this.item.id);	//유량계 상세 페이지 로드
             }
         }

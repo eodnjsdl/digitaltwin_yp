@@ -75,7 +75,7 @@ function swlPipeAsListProcess(){
         body: {
         	onClick: function () {
         		//console.log(this);
-        		this.self.select(this.dindex);	//행 선택 되게 수정
+        		//this.self.select(this.dindex);	//행 선택 되게 수정
         		selectSwlPipeAs(this.item.id);	//면형하수관거  상세 페이지 로드
             }
         }

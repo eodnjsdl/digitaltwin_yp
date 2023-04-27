@@ -111,7 +111,7 @@ function swlConnLsListProcess(){
         body: {
         	onClick: function () {
         		//console.log(this);
-        		this.self.select(this.dindex);	//행 선택 되게 수정
+        		//this.self.select(this.dindex);	//행 선택 되게 수정
         		selectSwlConnLs(this.item.id);	//하수연결관  상세 페이지 로드
             }
         }
