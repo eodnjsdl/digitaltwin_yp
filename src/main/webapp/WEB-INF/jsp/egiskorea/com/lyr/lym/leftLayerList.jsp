@@ -229,7 +229,7 @@
         }
 
         dtmap.showLayer({
-            id: id,
+            id: dataId,
             type: type,
             visible: false
         });
