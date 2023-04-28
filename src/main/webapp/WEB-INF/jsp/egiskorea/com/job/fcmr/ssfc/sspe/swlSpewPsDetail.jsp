@@ -41,6 +41,8 @@ function cancelSwlSpewPsDetail() {
 	dtmap.draw.clear();
 
 	dtmap.vector.clearSelect();	//선택 해제
+	
+	FACILITY.Ax5UiGrid.clearSelect();	//그리드 선택 해제
 }
 
 </script>
