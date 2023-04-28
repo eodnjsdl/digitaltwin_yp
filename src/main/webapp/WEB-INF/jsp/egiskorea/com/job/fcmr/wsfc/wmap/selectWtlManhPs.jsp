@@ -155,7 +155,7 @@
 	
 	//functions
 	
-	//유량계 상세보기 취소
+	//상수맨홀 상세보기 취소
 	function cancelSelectWtlManhPs() {
 		//console.log("cancelSelectWtlManhPs()");
 		
@@ -165,5 +165,7 @@
         dtmap.draw.clear();
         
         dtmap.vector.clearSelect();	//선택 해제
+        
+        FACILITY.Ax5UiGrid.clearSelect();	//그리드 선택 해제
 	}
 </script>
