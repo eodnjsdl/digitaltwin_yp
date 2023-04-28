@@ -363,6 +363,11 @@ window.ui = (function () {
             dtmap.switchMap(e.target.value);
 
             setMainUI();
+            
+            //상/하수도 공간정보 편집도구 창 닫기
+            if($(".space-edit-tool").hasClass("opened")){	
+            	$(".space-edit-tool").removeClass("opened");
+            }
         });
     }
 
