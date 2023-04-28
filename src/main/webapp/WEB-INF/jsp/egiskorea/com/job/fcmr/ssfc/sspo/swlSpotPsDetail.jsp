@@ -40,8 +40,7 @@ function cancelSwlSpotPsDetail() {
 	dtmap.draw.dispose();
 	dtmap.draw.clear();
 
-	dtmap.vector.clearSelect();	//선택 해제
-	
+	dtmap.vector.clearSelect();			//선택 해제
 	FACILITY.Ax5UiGrid.clearSelect();	//그리드 선택 해제
 }
 
@@ -172,12 +171,12 @@ function cancelSwlSpotPsDetail() {
 				<div>
 					<button type="button" class="btn basic bi-edit btn_edit" onclick="updateSwlSpotPsView('<c:out value="${id}"/>')">수정</button>
 					<button type="button" class="btn basic bi-delete2 btn_delete" onclick="deleteSwlSpotPs('<c:out value="${id}"/>')">삭제</button>  
-					<button type="button" class="btn basic bi-cancel btn_cancel" onclick="closeSwlSpotPsPopup();">취소</button>
+					<button type="button" class="btn basic bi-cancel btn_cancel" onclick="cancelSwlSpotPsDetail();">취소</button>
 				</div>
 			</div>
 		</div>
 	</div>
 </div>
 <!-- <button type="button" class="popup-close" title="닫기"></button> -->
-<button type="button" class="swlSpotPs-popup-close" title="닫기" onclick="closeSwlSpotPsPopup();"></button>
+<button type="button" class="swlSpotPs-popup-close" title="닫기" onclick="cancelSwlSpotPsDetail();"></button>
 <!-- //업무 > 시설관리 > 하수도시설 > 물받이 상세보기 end -->

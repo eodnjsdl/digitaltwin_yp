@@ -654,14 +654,6 @@ function deleteSwlSpewPs(id) {
 	}
 }
 
-function closeSwlSpewPsPopup() {
-	dtmap.draw.dispose();			// 마우스에 파란점 제거
-	dtmap.draw.clear();				// 지도에 파란점 제거
-	dtmap.vector.clearSelect();		// 선택 해제
-	
-	ui.closeSubPopup();				// 팝업 닫기
-}
-
 // 토구 엑셀 저장
 function swlSpewPsExcel() {
 	var $container = $("#container");
