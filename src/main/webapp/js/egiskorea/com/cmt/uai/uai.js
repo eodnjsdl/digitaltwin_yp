@@ -11,6 +11,7 @@ function _onDrawEnd_krasInfo(e) {
     var geom = e.geometry;
     var coord = geom.getFlatCoordinates();
     reverseUaiGeo(parseFloat(coord[0]), parseFloat(coord[1]));
+    dtmap.draw.dispose();
 }
 
 function aj_krasInfo() {
@@ -22,13 +23,13 @@ function aj_krasInfo() {
     // if (!is3dInit) {
     //     ui.loadingBar('show')
     //     call3D(false);
-	//
+    //
     //     is3dInit = true;
     // }
     // ;
     // if (app2D) {
     //     cmmUtil.resetMap();
-	//
+    //
     //     const yMap = app2D.getYMap();
     //     const select = yMap.getModule("select");
     //     select.on("Point", "drawend", (event) => {
@@ -44,14 +45,27 @@ function reverseUaiGeo(pointx, pointy) {
     // var vPosition = new Module.JSVector2D(pointx, pointy);
     // 좌표변환 실행
     // var vResult = Module.getProjection().convertProjection(26, vPosition, 13); // 5179 -> 4326
-	var transCoord = proj4(dtmap.crs, "EPSG:4326", [pointx,pointy]);
+    var transCoord = proj4(dtmap.crs, "EPSG:4326", [pointx, pointy]);
     var pnu = aj_getPnuByLonLat(transCoord[0], transCoord[1]);
     if (pnu != "") {
         dtmap.vector.clear();
         var landRegister = getLandRegisterByPnu(pnu);
-        landRegister.landRegister ?
-            dtmap.vector.readWKT(landRegister.landRegister.geometry,  landRegister.landRegister)
-            : toastr.error("geometry 값이 존재하지 않습니다.");
+        if (landRegister.landRegister) {
+            const feature = dtmap.util.readWKT(landRegister.landRegister.geometry, landRegister.landRegister);
+            dtmap.vector.addFeature(feature,{
+                fill: {
+                    color: 'rgba(255,0,0)',
+                    opacity : 0.6
+                },
+                stroke: {
+                    color: '#FF0000',
+                    width: 4
+                },
+                renderType: '3D'
+            })
+        } else {
+            toastr.error("geometry 값이 존재하지 않습니다.");
+        }
         // rightPopupOpen("landRegister", pnu, null, true);
         ui.openPopup("rightPopup", "krasInfo");
         aj_selectLandRegister(pnu);
