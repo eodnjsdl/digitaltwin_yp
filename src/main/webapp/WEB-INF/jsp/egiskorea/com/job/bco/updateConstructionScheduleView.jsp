@@ -9,12 +9,15 @@
 <script src="/js/egiskorea/com/job/bco/cws.js"></script>
 
 <script type="text/javascript">
+var cws = {
+		insertVisible : true,
+}
 // 캘릭더 이벤트 
 ui.callDatePicker();
 
 // 공사예정 활용여부 체크
 var rePnrsAt = "<c:out value='${nomalList.pnrsAt}'></c:out>";
-
+console.log(rePnrsAt);
 if(rePnrsAt == "N"){
 	$("#rChk1_2").prop('checked', true);		
 }else {
@@ -124,7 +127,7 @@ $("#btnCwsOdeUpdate").unbind('click').bind('click',function(){
 				visibleUpdate = true;
 			}	
 		}
-		destroy("startPoint");
+		//destroy("startPoint");
 		
 		var dtlCodeArray = {};
 		var count = 0;
@@ -243,7 +246,7 @@ $("#btnCwsOdeUpdate").unbind('click').bind('click',function(){
 							<td>
 								<div class="form-row">
 									<div class="col"><input type="text" class="form-control"id="cntrkLcAdresNomal" name="cntrkLcAdres" value="<c:out value='${nomalList.cntrkLcAdres}' />" readonly></div> 
-									<div class="col-auto"><button type="button" class="btn type01 bi-location" id="getPositionNomalUp">지도에서 선택</button></div>
+									<div class="col-auto"><button type="button" class="btn type01 bi-location" id="getPositionNomal">지도에서 선택</button></div>
 								</div>
 							</td>
 						</tr>
@@ -292,8 +295,8 @@ $("#btnCwsOdeUpdate").unbind('click').bind('click',function(){
 							<th scope="row">공사위치</th>
 							<td colspan="3">
 								<div class="form-row">
-									<div class="col"><input type="text" class="form-control" id="odrCntrkLcAdres" name="cntrkLcAdres" readonly></div> 
-									<div class="col-auto"><button type="button" class="btn type01 bi-location" id="updateGetPositionLocation">지도에서 선택</button></div>
+									<div class="col"><input type="text" class="form-control" id="cntrkLcAdres" name="cntrkLcAdres" readonly></div> 
+									<div class="col-auto"><button type="button" class="btn type01 bi-location" id="getPositionLocation">지도에서 선택</button></div>
 								</div>
 							</td>
 						</tr>

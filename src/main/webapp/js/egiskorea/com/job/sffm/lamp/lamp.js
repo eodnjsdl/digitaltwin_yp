@@ -367,7 +367,7 @@ $("#lampExcelDownload").on("click", function(){
 
 });
 
-/*function readGeoJSON(data) {
+function readGeoJSON(data) {
     if (!data.crs || !data.features || data.features.length === 0) {
         return;
     }
@@ -380,4 +380,4 @@ $("#lampExcelDownload").on("click", function(){
         dataProjection: crs,
         featureProjection: map2d.map.getView().getProjection()
     });
-}*/
+}
