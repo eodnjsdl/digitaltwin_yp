@@ -55,7 +55,7 @@ map3d.layer.Geometry = (function () {
                 break;
             }
         }
-        return {object: object, properties: this.properties[id]};
+        return {object: object, property: this.properties[id]};
     }
 
     Geometry.prototype.getExtent = function () {
