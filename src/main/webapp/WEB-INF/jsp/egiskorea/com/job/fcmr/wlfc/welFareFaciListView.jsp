@@ -3,7 +3,10 @@
 <script>
 
 $(document).ready(function() {
-	//console.log("phyEduFaciListView.jsp");	
+	//console.log("phyEduFaciListView.jsp");
+	
+	// 2D/3D 버튼 처리
+	arrangeAddBtnMode();
 
 	// 이벤트 리스너 추가
 	dtmap.on('select', onFacilitySelectEventListener);

@@ -387,7 +387,7 @@ function aj_selectFaciReseMng(param1, param2, lon, lat){
 	if(param1){
 		//dtmap.vector.select(param1);	//지도에  표시
 		///////
-		if(dtmap.mod == "2D"){	//uhh add...
+		if(dtmap.mod == "2D"){	
 			dtmap.vector.select(param1);
 		}else if(dtmap.mod == "3D"){
 			var coord = "faciReseMng"+param1;

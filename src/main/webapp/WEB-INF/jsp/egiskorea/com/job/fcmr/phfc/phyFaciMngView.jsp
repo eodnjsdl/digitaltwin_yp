@@ -75,7 +75,7 @@ function phyEduFaciGeom(e) {
 										<input type="text" class="form-control" id="asstn_fclty_nm" name="asstn_fclty_nm" style="width: 74%;margin-right: 2px;">
 										<input type="hidden"  name="geom" id="geom" style="width: 74%;margin-right: 2px;">
 										<input type="hidden" name="gid" id="gid" value="${gid}">
-										<button type="button" class="btn type01 bi-location" id="" onclick="phyMapClick();">지도에서 선택</button>
+										<button type="button" class="btn type01 bi-location btn-select-map" id="" onclick="phyMapClick();">지도에서 선택</button>
 									</td>
 								</tr>
 								<tr>

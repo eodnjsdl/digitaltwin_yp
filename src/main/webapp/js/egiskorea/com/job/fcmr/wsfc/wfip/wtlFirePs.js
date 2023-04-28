@@ -23,13 +23,13 @@ function wtlFirePsInit(){
 	
 	//공간정보 편집도구 닫기
 	if($(".space-edit-tool").hasClass("opened")){
-		clearSpaceEditTool();
+        clearSpaceEditTool();	//공간정보 편집창 닫기
     }
 	
 	arrangeAddBtnMode();	//등록 버튼 제어
 
 	FACILITY.Ax5UiGrid.focus(-1);	//grid 선택창 초기화
-	
+
 }
 
 
@@ -314,6 +314,11 @@ function selectWtlFirePs(id){
 	//console.log("selectWtlFirePs(id)");
 	//console.log(id);
 	
+	//공간정보 편집도구 닫기
+	if($(".space-edit-tool").hasClass("opened")){
+        clearSpaceEditTool();	//공간정보 편집창 닫기
+    }
+	
 	//검색 조건
 	const filters = [];
 	
@@ -470,6 +475,11 @@ function insertWtlFirePsView(){
     dtmap.vector.clearSelect();	//선택 해제
    
     FACILITY.Ax5UiGrid.clearSelect();	//그리드 선택 해제
+    
+    //공간정보 편집도구 닫기
+	if($(".space-edit-tool").hasClass("opened")){
+        clearSpaceEditTool();	//공간정보 편집창 닫기
+    }
     /////////////////
 	
 	
@@ -725,7 +735,7 @@ function updateWtlFirePs(){
             
             var page = $("#wtlFirePsListPage").val();
             selectWtlFirePsList(page);
-                        
+            
             selectWtlFirePs(id);	//list함수에서 초기화로 인해 name=id 값은 조회 안됨
                     	
         	$(".popup-panel .update-wtlFirePs-popup-close").trigger("click");
