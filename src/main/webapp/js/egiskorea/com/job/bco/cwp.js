@@ -27,7 +27,25 @@ $(document).ready(function(){ // 실행할 기능을 정의해주세요.
 	// 지도 클릭위치 좌표값 획득 이벤트 처리
 	$("#getPositionLocation").unbind('click').bind('click',function(){
 		// cmmUtil.getPositionGeom(positionCallback);
+		dtmap.draw.active({type: 'Point', once: true});
+		dtmap.on('drawend', onDrawEnd);
 	});
+
+	function onDrawEnd(e) {
+		dtmap.draw.dispose();
+		var geom = e.geometry;
+		const position = geom.getFlatCoordinates();
+		
+		var xObj = parseFloat(position[0]);
+		var yObj = parseFloat(position[1]);
+		cmmUtil.reverseGeocoding(xObj, yObj).done((result)=>{
+			$("#cntrkLcAdres").val("경기도 양평군 "+result["address"]);
+			const format = new ol.format.WKT();
+			const point = new ol.geom.Point([xObj, yObj]);
+			const wkt = format.writeGeometry(point);
+			$("#geom").val(wkt);
+		});
+	}
 
 	// 공사계획 상세페이지 에서 취소버튼 이벤트 처리
 	$("#btnCpCancel").unbind('click').bind('click',function(){

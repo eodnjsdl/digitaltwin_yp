@@ -8,6 +8,42 @@
 <script src="/js/egiskorea/com/job/ibbi/ibbi.js"></script>
 <%--<script src="/js/egiskorea/com/cmm/cmmUtil.js"></script>--%>
 <script type="text/javascript">
+$(document).ready(function() {
+	ui.callDatePicker();
+	// 이벤트 리스너 추가
+	dtmap.on('select', onFacilitySelectEventListener);
+
+	// 초기화 버튼
+	$(".popup-reset").unbind('click').bind('click',function() {
+		$('#inBusinessEstaInfo').trigger("click");
+	});
+	
+	// 접기/펼치기
+	$(".popup-bottom-toggle", "#bottomPopup").on("click", function() {
+		const node = $(this);
+		const divNode = node.closest("div.popup-panel");
+		if (divNode.is(".fold")) {
+			node.attr("title", "펼치기");
+			divNode.removeClass("fold");
+		} else {
+			node.attr("title", "접기");
+			divNode.addClass("fold");
+		}
+	});
+
+	// 닫기
+	$(".popup-close").unbind('click').bind('click',function() {
+		// 지도 clear
+		clearMap();
+		
+		// 등록, 상세, 수정 팝업 창 닫기
+		if ($("#rightSubPopup").hasClass("opened")) {
+			$("#rightSubPopup").removeClass("opened");
+			$("#rightSubPopup").empty();
+		}
+	});
+});
+
 $(".spaceArea").hide();
 var lastEmdKorNm = "<c:out value='${searchVO.emdKorNm}' />";
 var lastOpnnSvcNmSearch = "<c:out value='${searchVO.opnnSvcNmSearch}' />";
@@ -19,7 +55,6 @@ var lastSelect = "<c:out value='${searchVO.inBusinessEstaInfoSelect}' />";
 var lastDraw = "<c:out value='${searchVO.inBusinessEstaInfoAreaDrawing}' />";
 
 </script>
-<form name="selectInBusinessEstaInfoExcelList" id="searchForm" method="post" onsubmit="fn_select_list(); return false;">
 <input type="hidden" name="pageIndex" id="pageIndex" value="<c:out value='${searchVO.pageIndex}' />">
 <div class="popup-header">관내업소정보조회</div>
 <div class="popup-body">
@@ -125,11 +160,10 @@ var lastDraw = "<c:out value='${searchVO.inBusinessEstaInfoAreaDrawing}' />";
 		</div>
 	</div>
 </div>
-</form>
 <button type="button" class="manualBtn" title="도움말" onclick="manualTab('관내업소정보조회')"></button>
-<button type="button" class="popup-close" title="닫기" onClick="toastr.warning('removeLayer(); cmmUtil.drawClear();', 'onclick 이벤트');"></button>
-<button type="button" class="popup-reset" class="초기화" onclick="bottomPopupOpen('inBusinessEstaInfo');"></button>
-<button type="button" class="popup-bottom-toggle" title="접기" onclick="toggleFold(this);"></button>				
+<button type="button" class="popup-close" title="닫기" ></button>
+<button type="button" class="popup-reset" class="초기화"></button>
+<button type="button" class="popup-bottom-toggle" title="접기"></button>				
 <script>
 
 	//속성 검색, 공간 검색 탭 제어

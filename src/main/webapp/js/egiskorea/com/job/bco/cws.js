@@ -114,24 +114,45 @@ $(document).ready(function(){
 		$("#innerConstructionPlan").remove();
 	});
 
-	// 공사 예정 정보 > 등록페이지 > 차수별 공사정보 > 지도 에서 선택 처리 이벤트(좌표값 획득, poi마커 표출)
+	// 공사 예정 정보 > 등록페이지 > 기본정보 > 지도 에서 선택 처리 이벤트(좌표값 획득, poi마커 표출)
 	$("#getPositionNomal").unbind('click').bind('click',function(){
 		//destroy();
 		// cmmUtil.getPositionGeom(positionNomalCallback);
+		dtmap.draw.active({type: 'Point', once: true});
+		dtmap.on('drawend', onDrawEndNormal);
+
 	});
 
-	// 공사 예정 정보 > 수정페이지 > 차수별 공사정보 > 지도 에서 선택 처리 이벤트(좌표값 획득, poi마커 표출)
-	$("#getPositionNomalUp").unbind('click').bind('click',function(){
-		//destroy();
-		// cmmUtil.getPositionGeom(positionNomalUpCallback);
-	});
+	function onDrawEndNormal(e) {
+		dtmap.draw.dispose();
+		var geom = e.geometry;
+		const position = geom.getFlatCoordinates();
+		var modPosition;
+		if(dtmap.mod=='2D'){
+			modPosition = position;
+		}else{
+			modPosition = ol.proj.transform([position[0],position[1]],'EPSG:4326','EPSG:5179');
+		}
+		var xObj = parseFloat(position[0]);
+		var yObj = parseFloat(position[1]);
+		cmmUtil.reverseGeocoding(xObj, yObj).done((result)=>{
+			$("#cntrkLcAdresNomal").val("경기도 양평군 "+result["address"]);
+			const format = new ol.format.WKT();
+			const point = new ol.geom.Point([parseFloat(modPosition[0]), parseFloat(modPosition[1])]);
+			const wkt = format.writeGeometry(point);
+			$("#geom").val(wkt);
+		});
+	}
 
 	// 공사 예정 정보 > 등록페이지 > 차수별 공사정보 > 지도 에서 선택 처리 이벤트(좌표값 획득, poi마커 표출)
 	$("#getPositionLocation").unbind('click').bind('click',function(){
-		if(cws.insertVisible){
+		if(cws.insertVisible){ //기본정보 등록여부
 			//destroy();
 			if($("#rChk1_1").is(":checked")){
 				// cmmUtil.getPositionGeom(positionCallback);
+				dtmap.draw.active({type: 'Point', once: true});
+				dtmap.on('drawend', onDrawEnd);
+
 			}else{
 				// cmmUtil.drawLine(positionCallback);
 				//alert("구간 기능 개발중");
@@ -141,17 +162,45 @@ $(document).ready(function(){
 		}
 	});
 
-	// 공사 예정 정보 > 수정페이지 > 지도 에서 선택 처리 이벤트(좌표값 획득, poi마커 표출)
-	$("#updateGetPositionLocation").unbind('click').bind('click',function(){
-		destroy("startPoint");
-		if($("#rChk2_1").is(":checked")){
-			// cmmUtil.getPositionGeom(updatePositionCallback);
+	function onDrawEnd(e) {
+		dtmap.draw.dispose();
+		var geom = e.geometry;
+		const position = geom.getFlatCoordinates();
+		var modPosition;
+		if(dtmap.mod=='2D'){
+			modPosition = position;
 		}else{
-			//alert("구간 기능 개발중");
-			// cmmUtil.drawLine(updatePositionCallback);
+			modPosition = ol.proj.transform([position[0],position[1]],'EPSG:4326','EPSG:5179');
 		}
+		var xObj = parseFloat(position[0]);
+		var yObj = parseFloat(position[1]);
+		cmmUtil.reverseGeocoding(xObj, yObj).done((result)=>{
+			$("#cntrkLcAdres").val("경기도 양평군 "+result["address"]);
+			const format = new ol.format.WKT();
+			const point = new ol.geom.Point([parseFloat(modPosition[0]), parseFloat(modPosition[1])]);
+			const wkt = format.writeGeometry(point);
+			$("#geom").val(wkt);
+		});
+	}
 
-	});
+	// 공사 예정 정보 > 수정페이지 > 차수별 공사정보 > 지도 에서 선택 처리 이벤트(좌표값 획득, poi마커 표출)
+	/*$("#getPositionNomalUp").unbind('click').bind('click',function(){
+		//destroy();
+		// cmmUtil.getPositionGeom(positionNomalUpCallback);
+	});*/
+
+
+	// 공사 예정 정보 > 수정페이지 > 지도 에서 선택 처리 이벤트(좌표값 획득, poi마커 표출)
+	// $("#updateGetPositionLocation").unbind('click').bind('click',function(){
+	// 	destroy("startPoint");
+	// 	if($("#rChk2_1").is(":checked")){
+	// 		// cmmUtil.getPositionGeom(updatePositionCallback);
+	// 	}else{
+	// 		//alert("구간 기능 개발중");
+	// 		// cmmUtil.drawLine(updatePositionCallback);
+	// 	}
+
+	// });
 
 
 

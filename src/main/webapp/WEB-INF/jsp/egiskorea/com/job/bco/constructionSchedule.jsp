@@ -58,7 +58,6 @@ $("#odrDelete").unbind('click').bind('click',function(){
 //공사예정 정보 > 상세페이지 > 차수정보 삭제 버튼 이벤트 처리
 $("#btnCwsDelete").unbind('click').bind('click',function(){	
 	if(confirm("<spring:message code="common.delete.msg" />")){
-		destroy();
 		aj_deleteConstructionSchedule($(this).data("cwsid"), "odrDtlPage");
 	}
 });

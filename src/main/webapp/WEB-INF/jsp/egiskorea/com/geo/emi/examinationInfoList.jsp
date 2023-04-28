@@ -38,6 +38,7 @@
     }
 
     function initByExaminationInfoList() {
+        dtmap.vector.clear();
         var landRegister = getLandRegisterByPnu("<c:out value='${searchVO.code2}' />");
         landRegister.landRegister ?
             (

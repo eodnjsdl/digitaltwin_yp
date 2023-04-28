@@ -168,7 +168,7 @@
 	
 	//functions
 	
-	//소반시설 상세보기 취소
+	//소방시설 상세보기 취소
 	function cancelSelectWtlFirePs() {
 		//console.log("cancelSelectWtlFirePs()");
 		
@@ -178,9 +178,10 @@
         dtmap.draw.clear();
         
         dtmap.vector.clearSelect();	//선택 해제
+       
+        FACILITY.Ax5UiGrid.clearSelect();	//그리드 선택 해제
+        
 	}
-	
-	
 
 </script>
 

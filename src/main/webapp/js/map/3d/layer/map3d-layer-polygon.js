@@ -22,7 +22,7 @@ map3d.layer.Polygon = (function () {
     Polygon.prototype.createInstance = function () {
         //라벨레이어 추가
         this.labelLayer = map3d.userLayers.createObjectLayer({
-            name: this.id + '_label',
+            name: this.id + ':Label',
             type: Module.ELT_POLYHEDRON
         });
 
@@ -47,7 +47,7 @@ map3d.layer.Polygon = (function () {
         const id = this.genId(options.id);
         let geometry = options.geometry;
         const style = options.style;
-        const type = style.renderType || '3D'
+        const type = style.renderType || '2D'
         let object
 
         if (geometry instanceof ol.geom.Circle) {
@@ -84,10 +84,10 @@ map3d.layer.Polygon = (function () {
         if (geometry instanceof ol.geom.MultiPolygon) {
             const polygons = geometry.getPolygons();
             for (let i = 0; i < polygons.length; i++) {
-                computeVertexPart(polygons[i], vertex, parts);
+                computeVertexPart(polygons[i], vertex, parts, style.renderType);
             }
         } else {
-            computeVertexPart(geometry, vertex, parts);
+            computeVertexPart(geometry, vertex, parts, style.renderType);
         }
 
         const object = Module.createColorPolygon(id);
@@ -195,13 +195,14 @@ map3d.layer.Polygon = (function () {
                 let alt = 0
                 if (renderType === '3D') {
                     alt = Module.getMap().getTerrHeightFast(xy[0], xy[1]);
+                    alt += map3d.config.vertclPynHeight;
                 }
-                vertex.push(new Module.JSVector3D(xy[0], xy[1], alt + map3d.config.vertclPynHeight))
+                vertex.push(new Module.JSVector3D(xy[0], xy[1], alt))
             }
             if (part.add) {
                 part.add(coord.length);
             } else {
-                part.push(coord.length-1);
+                part.push(coord.length - 1);
             }
         }
     }

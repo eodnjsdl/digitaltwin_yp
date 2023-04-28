@@ -134,11 +134,7 @@ map3d.vector = (function () {
     }
 
     function getExtent() {
-        const extent = [Infinity, Infinity, -Infinity, -Infinity];
-        ol.extent.extend(extent, _pointLayer.getExtent());
-        ol.extent.extend(extent, _lineLayer.getExtent());
-        ol.extent.extend(extent, _polygonLayer.getExtent());
-        return extent;
+        return _source.getExtent();
     }
 
     function fit() {
@@ -224,12 +220,12 @@ map3d.vector = (function () {
                 )
             );
         }
-        let geometry = f.getGeometry();
-        const id = f.getId();
+        const styleOpt = getStyleOption(f, style);
+        const geometry = f.getGeometry();
         const param = {
-            id: id,
+            id: f.getId(),
             geometry: geometry,
-            style: getStyleOption(f, style),
+            style: styleOpt,
             properties: f.getProperties(),
         }
         let object;

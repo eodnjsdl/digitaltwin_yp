@@ -35,9 +35,14 @@ function onDrawEnd(e) {
 	dtmap.draw.dispose();
 	var geom = e.geometry;
 	const position = geom.getFlatCoordinates();
-    var transformedPosition = ol.proj.transform([position[0],position[1]],'EPSG:5179','EPSG:4326');
-    $('#lon').val(transformedPosition[0].toFixed(7));
-    $('#lat').val(transformedPosition[1].toFixed(7));
+    var modPosition;
+    if(dtmap.mod=='2D'){
+        modPosition = ol.proj.transform([position[0],position[1]],'EPSG:5179','EPSG:4326');
+    }else{
+        modPosition = position;
+    }
+    $('#lon').val(modPosition[0].toFixed(7));
+    $('#lat').val(modPosition[1].toFixed(7));
 	var xObj = parseFloat(position[0]);
 	var yObj = parseFloat(position[1]);
 	cmmUtil.reverseGeocoding(xObj, yObj).done((result)=>{

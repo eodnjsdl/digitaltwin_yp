@@ -86,10 +86,6 @@ var M_UNDG_FCTY_SECT = {
      * 소멸자
      */
     destroy() {
-        // if (app2D) {
-        //   const yMap = app2D.getYMap();
-        //   yMap.getModule("highlight").reset();
-        // }
         this.features = null;
         this.geometry = null;
         this.data = null;
@@ -129,7 +125,6 @@ var M_UNDG_FCTY_SECT = {
      * 단면위치 설정
      */
     select() {
-
         toastr.warning("지도에 분석할 두 지점을 선택하세요.");
         dtmap.draw.clear();
         dtmap.draw.active({
@@ -138,38 +133,6 @@ var M_UNDG_FCTY_SECT = {
         });
         dtmap.off('drawend', this.drawend);
         dtmap.on('drawend', this.drawend);
-
-        // if (app2D) {
-        // const yMap = app2D.getYMap();
-        // const select = yMap.getModule("select");
-        //
-        // select
-        //   .once("LineString", "drawend", true, { maxPoints: 2 })
-        //   .done((evt) => {
-        //     const feature = evt.feature;
-        //     const geometry = evt.feature.getGeometry();
-        //     if (geometry.getLength() < 10) {
-        //       toastr.warning("지하시설물횡단면은 10m 이상부터 분석 가능합니다.");
-        //     } else if (geometry.getLength() > 1000) {
-        //       toastr.warning("지하시설물횡단면은 최대 1km 까지 분석 가능합니다.");
-        //     } else {
-        //       yMap.getModule("highlight").clearSource("sky");
-        //       yMap.getModule("highlight").addFeature("sky", feature.clone());
-        //       this.analysis();
-        //     }
-        //   });
-        // } else {
-        // if (new Module.JSLayerList(true).nameAtLayer("COLOR_POLYGONS")) {
-        //   new Module.JSLayerList(true).nameAtLayer("COLOR_POLYGONS").removeAll();
-        // }
-
-        // if(new Module.JSLayerList(true).nameAtLayer("Line_Option")) {
-        // 	new Module.JSLayerList(true).nameAtLayer("Line_Option").removeAll();
-        // }
-
-        // cmmUtil.drawClear();
-        // Module.XDSetMouseState(Module.MML_INPUT_LINE);
-        // }
     },
 
     /**
@@ -177,53 +140,7 @@ var M_UNDG_FCTY_SECT = {
      */
     analysis(geometry) {
         this.geometry = geometry;
-        // if (app2D) {
-        //   const yMap = app2D.getYMap();
-        //   const features = yMap.getModule("highlight").getFeatures("sky");
-        //   if (features.length > 0) {
-        //     const feature = features[0];
-        //     this.geometry = feature.getGeometry();
-        //   } else {
-        //     toastr.warning(
-        //       "단면 위치가 설정되지 않았습니다. 단면 위치를 설정하여 주십시오."
-        //     );
-        //   }
-        // } else {
-        //   let startPoint = TransformCoordinate(
-        //     Module.getMap().getInputPoints().get(0).Longitude,
-        //     Module.getMap().getInputPoints().get(0).Latitude,
-        //     13,
-        //     26
-        //   );
-        //   let endPoint = TransformCoordinate(
-        //     Module.getMap().getInputPoints().get(1).Longitude,
-        //     Module.getMap().getInputPoints().get(1).Latitude,
-        //     13,
-        //     26
-        //   );
-        //   let wkt = `LINESTRING(${startPoint.x} ${startPoint.y}, ${endPoint.x} ${endPoint.y})`;
-        //   Module.getMap().clearInputPoint();
-        //
-        //   const format = new ol.format.WKT();
-        //   this.geometry = format.readGeometry(wkt);
-        // }
-
-        // if (this.geometry) {
-        //   const filter = ol.format.filter.intersects("geom", this.geometry);
-        //   const featureTypes = [];
-        //   for (const [key, value] of Object.entries(this.facs)) {
-        //     featureTypes.push(key);
-        //   }
-        //
-        //   util.gis.getFeature(featureTypes, filter).done((geojson) => {
-        //     const format = new ol.format.GeoJSON();
-        //     this.features = format.readFeatures(geojson);
-        //     this.renderChart();
-        //     this.renderLegend();
-        //   });
-        // }
         if (this.geometry) {
-
             const featureTypes = [];
             for (const [key, value] of Object.entries(this.facs)) {
                 featureTypes.push(key);
@@ -233,7 +150,6 @@ var M_UNDG_FCTY_SECT = {
                 geometry: this.geometry,
                 crs: 'EPSG:5179'
             }).then((e) => {
-                debugger
                 const format = new ol.format.GeoJSON();
                 this.features = format.readFeatures(e);
                 this.renderChart();
@@ -385,26 +301,6 @@ var M_UNDG_FCTY_SECT = {
                 zIndex: 9999
 
             }, 'EPSG:5179')
-            // if (app2D) {
-            //   const yMap = app2D.getYMap();
-            //   yMap.getModule("highlight").clearSource("orange");
-            //   yMap.getModule("highlight").addFeature("orange", new ol.Feature(geom));
-            // } else {
-            //   if (new Module.JSLayerList(true).nameAtLayer("Line_Option").getObjectCount() == 1) {
-            //     let loc = TransformCoordinate(
-            //       geom.getCoordinates()[0],
-            //       geom.getCoordinates()[1],
-            //       26,
-            //       13
-            //     );
-            //     let center = new Module.JSVector3D(
-            //       loc.x,
-            //       loc.y,
-            //       Module.getMap().getTerrHeightFast(loc.x, loc.y) + 2
-            //     );
-            //     createCirclePolygon(center, 5, 30);
-            //   }
-            // }
         }
     },
 

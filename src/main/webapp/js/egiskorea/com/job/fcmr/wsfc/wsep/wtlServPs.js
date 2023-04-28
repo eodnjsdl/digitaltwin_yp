@@ -23,11 +23,12 @@ function wtlServPsInit(){
 	
 	//공간정보 편집도구 닫기
 	if($(".space-edit-tool").hasClass("opened")){
-    	$(".space-edit-tool").removeClass("opened");
-        $(".space-edit-tool").empty();
+		clearSpaceEditTool();
     }
 	
-	arrangeAddBtnMode();	//등록 버튼
+	arrangeAddBtnMode();	//등록 버튼 제어
+
+	FACILITY.Ax5UiGrid.focus(-1);	//grid 선택창 초기화
 }
 
 
@@ -103,7 +104,11 @@ function wtlServPsListProcess(){
         body: {
         	onClick: function () {
         		//console.log(this);
-        		this.self.select(this.dindex);	//행 선택 되게 수정
+        		//this.self.select(this.dindex);	//행 선택 되게 수정
+        		//공간정보 편집도구 닫기
+            	if($(".space-edit-tool").hasClass("opened")){
+            		clearSpaceEditTool();
+                }
         		selectWtlServPs(this.item.id);	//소방 시설 상세 페이지 로드
             }
         }
@@ -120,6 +125,18 @@ function wtlServPsListProcess(){
 function selectWtlServPsList(page) {
 	//console.log("selectWtlServPsList(page)");
 	//console.log("page>>>"+page);
+	
+	wtlServPsInit();	//초기화
+	
+	//공간 검색 / 사용자 정의 일 경우 이외에는  그리기 영역 지우기
+	if($(".groundwaterSpace").hasClass("on")){
+		const geomSrchType = $(".facility-spatial-search").closest('.search-area').find('input[name="rad-facility-area"]:checked').val();
+		//console.log(geomSrchType);
+		if(geomSrchType != "custom"){
+			dtmap.draw.dispose();		//그리기 포인트 삭제
+			dtmap.draw.clear();			//그리기 영역 초기화
+		}
+	}
 	
 	//페이지 변수세팅
 	if(page){
@@ -399,6 +416,24 @@ function selectWtlServPsView(detailData){
 			$(container).html(result);
 			
 			dtmap.vector.select(detailData.id);	//지도에  표시
+			
+			//그리드에 행전체 선택되게 수정
+			//console.log(detailData);
+			var gid = detailData.gid;
+			var gridList = FACILITY.Ax5UiGrid.list;
+			
+			for(var i=0; i<gridList.length; i++){
+				//console.log(gridList[i]);
+				var grid = gridList[i];
+				if(gid == grid.gid){
+					var dindex = grid.__index;
+					FACILITY.Ax5UiGrid.clearSelect();
+					FACILITY.Ax5UiGrid.focus(dindex);		
+					//[참고 사항]
+					//FACILITY.Ax5UiGrid.focus(-1); 	: 포커스 해제
+					//FACILITY.Ax5UiGrid.select(숫자); 	: 사용해도 되는데 스크롤 이동이 안됨
+				}
+			}
 		}
 		,error: function(request,status,error){
 			console.log("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
@@ -416,12 +451,25 @@ function selectWtlServPsView(detailData){
 //배수지 등록 화면 조회
 function insertWtlServPsView(){
 	//console.log("insertWtlServPsView()");
-	
+	//공간정보 편집도구 닫기
+	if($(".space-edit-tool").hasClass("opened")){
+		clearSpaceEditTool();
+    }
 	if(dtmap.mod == "3D"){
 		alert('3d 에서 사용할 수 없습니다');
 		arrangeAddBtnMode();
 		return false;
 	}
+	
+	////////////////////
+	// 초기화 (지도)
+    dtmap.draw.dispose();
+    dtmap.draw.clear();
+    
+    dtmap.vector.clearSelect();	//선택 해제
+   
+    FACILITY.Ax5UiGrid.clearSelect();	//그리드 선택 해제
+    /////////////////
 	
 	ui.loadingBar("show");
 	
@@ -521,7 +569,7 @@ function insertWtlServPs(){
             var $container = $("#container");
     	    var $target = $container.find('#bottomPopup .facility-select');
     	    $target.trigger("change");
-            //selectWtlServPsList(1);		//다시 목록 로드
+           
             cancelInsertWtlServPs(); 	//창닫기
         } else {
             alert(`등록에 실패했습니다.`);
@@ -623,6 +671,13 @@ function updateWtlServPs(){
     const formatWKT = new ol.format.WKT();
     let geometry = formatWKT.readGeometry(wkt);
     
+    //3d일때는 wfs 조회시 위경도 좌표계로 오기 때문에 변경해줘서 업데이트 진행
+    //만약 공간정보 feature 넣지 않으면 공간정보데이터 빈값으로 업데이트진행
+    if(dtmap.mod == "3D"){	
+    	const geometry5179 = geometry.transform("EPSG:4326", "EPSG:5179")
+    	geometry = geometry5179;
+    }
+    
     feature.setGeometry(geometry);
     
     //id값 추가 
@@ -648,7 +703,6 @@ function updateWtlServPs(){
             var page = $("#wtlServPsListPage").val();
             selectWtlServPsList(page);
             
-            var id = $("#rightSubPopup input[name=id]").val();
         	selectWtlServPs(id);
         	
         	$(".popup-panel .update-wtlServPs-popup-close").trigger("click");

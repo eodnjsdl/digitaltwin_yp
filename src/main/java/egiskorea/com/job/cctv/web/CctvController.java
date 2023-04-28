@@ -73,35 +73,6 @@ public class CctvController {
 			@ModelAttribute("searchVO") SafetyFacilCctvMngVO safetyFacilCctvMngVO,
 			ModelMap model, HttpServletRequest request) throws Exception{
 	
-	/*	safetyFacilCctvMngVO.setPageUnit(10);
-		safetyFacilCctvMngVO.setPageSize(propertyService.getInt("pageSize"));
-		
-		PaginationInfo paginationInfo = new PaginationInfo();
-		
-		paginationInfo.setCurrentPageNo(safetyFacilCctvMngVO.getPageIndex());
-		paginationInfo.setRecordCountPerPage(safetyFacilCctvMngVO.getPageUnit());
-		paginationInfo.setPageSize(safetyFacilCctvMngVO.getPageSize());
-
-		safetyFacilCctvMngVO.setFirstIndex(paginationInfo.getFirstRecordIndex());
-		safetyFacilCctvMngVO.setLastIndex(paginationInfo.getLastRecordIndex());
-		safetyFacilCctvMngVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
-		
-		safetyFacilCctvMngVO.setSearchDeviceid(request.getParameter("searchDeviceid"));
-		safetyFacilCctvMngVO.setSearchGbn(request.getParameter("searchGbn"));
-		safetyFacilCctvMngVO.setSearchLabel(request.getParameter("searchLabel"));
-		safetyFacilCctvMngVO.setSpitalSearch(request.getParameter("spitalSearch"));
-		safetyFacilCctvMngVO.setCctvBuffer(Double.parseDouble(request.getParameter("cctvBuffer")) * 0.00001);
-		
-		Map<String, Object> map = cctvService.selectCctvList(safetyFacilCctvMngVO);
-		
-		int totCnt = Integer.parseInt((String)map.get("resultCnt"));
-		  
-		paginationInfo.setTotalRecordCount(totCnt);
-		
-		model.addAttribute("resultList", map.get("resultList"));
-		model.addAttribute("resultCnt", map.get("resultCnt"));
-		model.addAttribute("paginationInfo", paginationInfo);*/
-		
 		return "egiskorea/com/job/sffm/safetyFacilCctvMngList";
 	}
 	

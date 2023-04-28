@@ -72,19 +72,18 @@ map2d.layer = (function () {
     }
 
     function createWMS(options) {
-        let {id, store, table} = options;
-        var wmsParams = {
-            'VERSION': '1.1.0',
-            'LAYERS': store + ':' + table
-        }
-        var layer = new ol.layer.Image({
+        const {id, title, layerNm} = options;
+        const layer = new ol.layer.Image({
             id: id,
-            title: table,
+            title: title,
             zIndex: options.zIndex || 1,
             // extent: ol.proj.transformExtent(extent, bbox.crs.$, gis.map.Instance.getView().getProjection()),
             source: new ol.source.ImageWMS({
                 url: '/gis/wms',
-                params: wmsParams,
+                params: {
+                    version: '1.1.0',
+                    layers: layerNm
+                },
                 // projection: ol.proj.get(e.srs),
                 ratio: 1,
                 crossOrigin: 'anonymous',

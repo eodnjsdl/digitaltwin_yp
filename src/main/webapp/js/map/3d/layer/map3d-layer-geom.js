@@ -55,7 +55,7 @@ map3d.layer.Geometry = (function () {
                 break;
             }
         }
-        return {object: object, properties: this.properties[id]};
+        return {object: object, property: this.properties[id]};
     }
 
     Geometry.prototype.getExtent = function () {
@@ -96,7 +96,7 @@ map3d.layer.Geometry = (function () {
         this.properties[id] = undefined;
         //라벨삭제
         if (this.labelLayer) {
-            this.labelLayer.removeAtKey(id + '_label');
+            this.labelLayer.removeAtKey(id + ':Label');
         }
     }
 
@@ -104,7 +104,7 @@ map3d.layer.Geometry = (function () {
         if (!this.labelLayer) {
             return;
         }
-        options.id = options.id + '_label';
+        options.id = options.id + ':Label';
         const object = map3d.layer.Point.prototype.createPoint.call(this, options);
         this.instance.setMaxDistance(map3d.config.maxDistance);
         this.labelLayer.addObject(object,0);
