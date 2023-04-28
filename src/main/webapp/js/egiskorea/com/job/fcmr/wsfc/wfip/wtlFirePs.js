@@ -24,19 +24,12 @@ function wtlFirePsInit(){
 	
 	//공간정보 편집도구 닫기
 	if($(".space-edit-tool").hasClass("opened")){
-    	$(".space-edit-tool").removeClass("opened");
-        $(".space-edit-tool").empty();
+        clearSpaceEditTool();	//공간정보 편집창 닫기
     }
 	
 	arrangeAddBtnMode();	//등록 버튼 제어
 
-
 	FACILITY.Ax5UiGrid.focus(-1);	//grid 선택창 초기화
-	
-	if($(".space-edit-tool").hasClass("opened")){
-        clearSpaceEditTool();	//공간정보 편집창 닫기
-    }
-	
 }
 
 

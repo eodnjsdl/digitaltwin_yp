@@ -106,15 +106,13 @@ function welFareFaciGeom(e) {
 								<td colspan="3">
 									<div class="form-row">
 										<div class="col">
-											<input type="text" class="form-control" id="wel_lnm_adres" name="lnmAdres" maxlength="200" value="<c:out value="${result.lnmAdres}"></c:out>" style="width: 270px;">
+											<input type="text" class="form-control" id="wel_lnm_adres" name="lnmAdres" maxlength="200" value="<c:out value="${result.lnmAdres}"></c:out>" readonly="readonly">
 										</div>
-										<div class="col">
-											<input type="hidden" class="form-control" id="wel_lon" name="lon" placeholder="경도" value="<c:out value="${result.lon}"></c:out>">
-											<input type="hidden" class="form-control" id="wel_lat" name="lat" placeholder="위도" value="<c:out value="${result.lat}"></c:out>">
-										</div> 
 										<div class="col-auto">
-											<button type="button" class="btn type01 bi-location" onclick="welMapClick();">지도에서 선택</button>
+											<button type="button" class="btn type01 bi-location btn-select-map" onclick="welMapClick();">지도에서 선택</button>
 										</div>
+										<input type="hidden" class="form-control" id="wel_lon" name="lon" placeholder="경도" value="<c:out value="${result.lon}"></c:out>">
+										<input type="hidden" class="form-control" id="wel_lat" name="lat" placeholder="위도" value="<c:out value="${result.lat}"></c:out>">
 										<input type="hidden" name="geom" id="geom" value="<c:out value="${result.geom}"></c:out>" />
 										<input type="hidden" name="gid" id="gid" value="<c:out value="${result.gid}"></c:out>" />
 									</div>
