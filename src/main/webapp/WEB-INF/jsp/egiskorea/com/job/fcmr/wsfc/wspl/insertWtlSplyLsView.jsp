@@ -18,9 +18,9 @@
 	}
 </style>
 
-<!-- 업무 > 시설관리 > 상수수도시설 > 상수관로 등록하기-->
+<!-- 업무 > 시설관리 > 상수수도시설 > 급수관로 등록하기-->
 
-       	<div class="popup-header">상수관로 등록하기</div>
+       	<div class="popup-header">급수관로 등록하기</div>
            <div class="popup-body">
                <div class="sub-popup-body">
                    <div class="data-write-wrap" style="height: 100%;">
@@ -39,7 +39,7 @@
 											<th scope="row">지형지물부호</th>
 											<td>
 	                                          	<select name="ftr_cde" class="form-select">
-	                                          		<option value="SA001" selected="selected">상수관로</option>
+	                                          		<option value="SA001" selected="selected">급수관로</option>
 	                                          	</select>
 	                                       	</td>
 											<th scope="row">관리번호</th>
@@ -153,7 +153,7 @@
            </div>
            <button type="button" class="insert-wtlSplyLs-popup-close" title="닫기" onclick="cancelMode();"></button>
 
-<!-- 업무 > 시설관리 > 상수수도시설 > 상수관로 등록하기 end -->
+<!-- 업무 > 시설관리 > 상수수도시설 > 급수관로 등록하기 end -->
 
 <script type="text/javascript">
 	//jqeury

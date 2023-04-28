@@ -8,7 +8,6 @@
 $(document).ready(function(){
 	//console.log("wtlFirePs.js");
 	//console.log("소방시설");
-	
 });
 
 //functions
@@ -24,19 +23,13 @@ function wtlFirePsInit(){
 	
 	//공간정보 편집도구 닫기
 	if($(".space-edit-tool").hasClass("opened")){
-    	$(".space-edit-tool").removeClass("opened");
-        $(".space-edit-tool").empty();
+        clearSpaceEditTool();	//공간정보 편집창 닫기
     }
 	
 	arrangeAddBtnMode();	//등록 버튼 제어
 
-
 	FACILITY.Ax5UiGrid.focus(-1);	//grid 선택창 초기화
-	
-	if($(".space-edit-tool").hasClass("opened")){
-        clearSpaceEditTool();	//공간정보 편집창 닫기
-    }
-	
+
 }
 
 
@@ -104,6 +97,11 @@ function wtlFirePsListProcess(){
         	onClick: function () {
         		//console.log(this);
         		//this.self.select(this.dindex);	//행 선택 되게 수정
+                
+                //공간정보 편집도구 닫기
+            	if($(".space-edit-tool").hasClass("opened")){
+            		clearSpaceEditTool();
+                }
         		selectWtlFirePs(this.item.id);	//소방 시설 상세 페이지 로드
             }
         }
@@ -316,6 +314,11 @@ function selectWtlFirePs(id){
 	//console.log("selectWtlFirePs(id)");
 	//console.log(id);
 	
+	//공간정보 편집도구 닫기
+	if($(".space-edit-tool").hasClass("opened")){
+        clearSpaceEditTool();	//공간정보 편집창 닫기
+    }
+	
 	//검색 조건
 	const filters = [];
 	
@@ -453,7 +456,11 @@ function selectWtlFirePsView(detailData){
 //소방시설 등록 화면 조회
 function insertWtlFirePsView(){
 	//console.log("insertWtlFirePsView()");
-	
+    
+    //공간정보 편집도구 닫기
+	if($(".space-edit-tool").hasClass("opened")){
+		clearSpaceEditTool();
+    }
 	if(dtmap.mod == "3D"){
 		alert('3d 에서 사용할 수 없습니다');
 		arrangeAddBtnMode();
@@ -468,6 +475,11 @@ function insertWtlFirePsView(){
     dtmap.vector.clearSelect();	//선택 해제
    
     FACILITY.Ax5UiGrid.clearSelect();	//그리드 선택 해제
+    
+    //공간정보 편집도구 닫기
+	if($(".space-edit-tool").hasClass("opened")){
+        clearSpaceEditTool();	//공간정보 편집창 닫기
+    }
     /////////////////
 	
 	
@@ -723,7 +735,7 @@ function updateWtlFirePs(){
             
             var page = $("#wtlFirePsListPage").val();
             selectWtlFirePsList(page);
-                        
+            
             selectWtlFirePs(id);	//list함수에서 초기화로 인해 name=id 값은 조회 안됨
                     	
         	$(".popup-panel .update-wtlFirePs-popup-close").trigger("click");

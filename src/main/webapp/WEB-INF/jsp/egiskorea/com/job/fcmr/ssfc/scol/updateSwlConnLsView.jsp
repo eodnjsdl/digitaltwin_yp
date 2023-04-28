@@ -164,7 +164,7 @@
 <script type="text/javascript">
 	//jqeury
 	$(document).ready(function(){
-		console.log("updateSwlConnLsView.jsp");
+		//console.log("updateSwlConnLsView.jsp");
 		
 		
 		//3d 일때 지도 추가 버튼 삭제 
