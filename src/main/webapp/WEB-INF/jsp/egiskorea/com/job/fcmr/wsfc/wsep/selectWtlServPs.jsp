@@ -188,7 +188,7 @@
 	
 	//functions
 	
-	//소반시설 상세보기 취소
+	//배수지 상세보기 취소
 	function cancelSelectWtlServPs() {
 		//console.log("cancelSelectWtlServPs()");
 		
@@ -198,6 +198,8 @@
         dtmap.draw.clear();
         
         dtmap.vector.clearSelect();	//선택 해제
+        
+        FACILITY.Ax5UiGrid.clearSelect();	//그리드 선택 해제
 	}
 	
 	

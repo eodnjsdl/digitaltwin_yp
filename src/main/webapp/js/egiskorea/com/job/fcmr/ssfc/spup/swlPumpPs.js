@@ -57,7 +57,7 @@ function swlPumpPsProcess() {
 		body: {
 			align: "center",
 			onClick: function() {
-				this.self.select(this.dindex);
+				//this.self.select(this.dindex);
 				//console.log(this.item.id);
 				selectSwlPumpPs(this.item.id);	// 상세보기
 			}
@@ -72,6 +72,19 @@ function selectSwlPumpPsList(page) {
 	
 	// 팝업 닫기
 	ui.closeSubPopup();
+	
+	//grid 선택창 초기화
+	FACILITY.Ax5UiGrid.clearSelect();
+
+	//공간 검색 / 사용자 정의 일 경우 이외에는  그리기 영역 지우기
+	if($(".groundwaterSpace").hasClass("on")){
+		const geomSrchType = $(".facility-spatial-search").closest('.search-area').find('input[name="rad-facility-area"]:checked').val();
+		//console.log(geomSrchType);
+		if(geomSrchType != "custom"){
+			dtmap.draw.dispose();		//그리기 포인트 삭제
+			dtmap.draw.clear();			//그리기 영역 초기화
+		}
+	}
 	
 	// 검색 조건
 	var options;
@@ -262,6 +275,11 @@ function selectSwlPumpPsDetail(detailData) {
 	//console.log('selectSwlPumpPsDetail(detailData)');
 	//console.log(detailData);
 	
+	//공간정보 편집도구 닫기
+	if($(".space-edit-tool").hasClass("opened")){
+		clearSpaceEditTool();	//공간정보 편집창 닫기
+    }
+	
 	if(!detailData && detailData == null){
 		alert("하수펌프장 상세보기 오류");
 		return false;
@@ -292,6 +310,20 @@ function selectSwlPumpPsDetail(detailData) {
 			var container = "#rightSubPopup";
 			$(container).html(result);
 			
+			//그리드에 행전체 선택되게 수정
+			var gid = detailData.gid;
+			var gridList = FACILITY.Ax5UiGrid.list;
+			
+			for (var i = 0; i < gridList.length; i++) {
+				//console.log(gridList[i]);
+				var grid = gridList[i];
+				if (gid == grid.gid) {
+					var dindex = grid.__index;
+					FACILITY.Ax5UiGrid.clearSelect();
+					FACILITY.Ax5UiGrid.focus(dindex);		
+				}
+			}
+			
 			dtmap.vector.select(detailData.id);	//지도에  표시
 		},
 		error : function(request,status,error) {
@@ -307,7 +339,22 @@ function selectSwlPumpPsDetail(detailData) {
 function insertSwlPumpPsView(){
 	//console.log("insertSwlPumpPsView()");
 	
-	dtmap.vector.clearSelect();		// 선택 해제
+	if(dtmap.mod == "3D"){
+		alert('3d 에서 사용할 수 없습니다');
+		arrangeAddBtnMode();
+		return false;
+	}
+	
+	// 초기화
+	dtmap.draw.dispose();				// 마우스에 파란점 제거
+	dtmap.draw.clear();					// 지도에 파란점 제거
+	dtmap.vector.clearSelect();			// 선택 해제
+	FACILITY.Ax5UiGrid.clearSelect();	// 그리드 선택 해제
+	
+	//공간정보 편집도구 닫기
+	if($(".space-edit-tool").hasClass("opened")){
+		clearSpaceEditTool();	//공간정보 편집창 닫기
+    }
 	
 	ui.loadingBar("show");
 	
@@ -367,7 +414,6 @@ function insertSwlPumpPs() {
  
     //공간 정보 처리
     const wkt = $("#insertSwlPumpPsFrm input[name=geom]").val();
-    
     const formatWKT = new ol.format.WKT();
     let geometry = formatWKT.readGeometry(wkt);
     
@@ -483,9 +529,16 @@ function updateSwlPumpPs() {
  
     //공간 정보 처리
     const wkt = $("#updateSwlPumpPsFrm input[name=geom]").val();
-    
     const formatWKT = new ol.format.WKT();
     let geometry = formatWKT.readGeometry(wkt);
+    
+	//3d일때는 wfs 조회시 위경도 좌표계로 오기 때문에 변경해줘서 업데이트 진행
+	//만약 공간정보 feature 넣지 않으면 공간정보데이터 빈값으로 업데이트진행
+	if(dtmap.mod == "3D"){	
+		const geometry5179 = geometry.transform("EPSG:4326", "EPSG:5179");
+		geometry = geometry5179;
+	}
+	
     feature.setGeometry(geometry);
     
 	//id값 추가 
@@ -509,7 +562,7 @@ function updateSwlPumpPs() {
 			var page = $(".hiddenPage").val();
 			selectSwlPumpPsList(page);
 			
-			cancelUpdateSwlPumpPs();
+			cancelUpdateSwlPumpPs();	// 상세보기로 이동
 		} else {
 			alert(`수정 실패했습니다.`);
 			console.log(result["errorMsg"]);
@@ -557,14 +610,6 @@ function deleteSwlPumpPs(id) {
 			ui.loadingBar("hide");
 		});
 	}
-}
-
-function closeSwlPumpPsPopup() {
-	dtmap.draw.dispose();			// 마우스에 파란점 제거
-	dtmap.draw.clear();				// 지도에 파란점 제거
-	dtmap.vector.clearSelect();		// 선택 해제
-	
-	ui.closeSubPopup();				// 팝업 닫기
 }
 
 // 하수펌프장 엑셀 저장

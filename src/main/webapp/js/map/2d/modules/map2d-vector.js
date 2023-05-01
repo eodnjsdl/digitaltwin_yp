@@ -489,7 +489,7 @@ map2d.vector = (function () {
         _source.addFeatures(features)
     }
 
-    function addFeature(feature, style, crs) {
+    function addFeature(feature, style) {
         if (style) {
             feature.set('style', style);
         }

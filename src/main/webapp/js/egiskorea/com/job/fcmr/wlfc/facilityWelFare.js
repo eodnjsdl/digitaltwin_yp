@@ -24,7 +24,7 @@ function getWelFareFaciListView() {
 };
 
 function getWelFareFaci() {
-	FACILITY.spaceSearchOption = {}		// 공간검색 옵션 초기화
+	//FACILITY.spaceSearchOption = {}		// 공간검색 옵션 초기화
 	
 	// grid 기본 세팅
 	var $container = $("#container");
@@ -65,7 +65,7 @@ function getWelFareFaci() {
 		body: {
 			align: "center",
 			onClick: function() {
-				this.self.select(this.dindex);
+				//this.self.select(this.dindex);
 				//console.log(this.item);
 				selectWelFareFaciDetail(this.item.id);
 			}
@@ -81,6 +81,19 @@ function selectWelFareFaciList(page) {
 	
 	// 팝업 닫기
 	ui.closeSubPopup();
+	
+	//grid 선택창 초기화
+	FACILITY.Ax5UiGrid.clearSelect();
+	
+	//공간 검색 / 사용자 정의 일 경우 이외에는  그리기 영역 지우기
+	if($(".waterSpace").hasClass("on")){
+		const geomSrchType = $(".facility-spatial-search").closest('.search-area').find('input[name="rad-facility-area"]:checked').val();
+		//console.log(geomSrchType);
+		if(geomSrchType != "custom"){
+			dtmap.draw.dispose();		//그리기 포인트 삭제
+			dtmap.draw.clear();			//그리기 영역 초기화
+		}
+	}
 	
 	// 검색 조건
 	var options;
@@ -205,6 +218,18 @@ function selectWelFareFaciDetail(id) {
 		var idArray = id.split(".");
 		gid = idArray[1];
 	}
+	
+	//그리드에 행전체 선택되게 수정
+	var gridList = FACILITY.Ax5UiGrid.list;
+	for (var i = 0; i < gridList.length; i++) {
+		//console.log(gridList[i]);
+		var grid = gridList[i];
+		if (gid == grid.gid) {
+			var dindex = grid.__index;
+			FACILITY.Ax5UiGrid.clearSelect();
+			FACILITY.Ax5UiGrid.focus(dindex);		
+		}
+	}
 
 	ui.openPopup("rightSubPopup");
 	
@@ -223,6 +248,18 @@ function selectWelFareFaciDetail(id) {
 // 복지시설 등록하기
 function insertWelFareFaciView() {
 	//console.log("insertWelFareFaci()");
+	
+	if(dtmap.mod == "3D"){
+		alert('3d 에서 사용할 수 없습니다');
+		arrangeAddBtnMode();
+		return false;
+	}
+	
+	// 초기화
+	dtmap.draw.dispose();				// 마우스에 파란점 제거
+	dtmap.draw.clear();					// 지도에 파란점 제거
+	dtmap.vector.clearSelect();			// 선택 해제
+	FACILITY.Ax5UiGrid.clearSelect();	// 그리드 선택 해제
 	
 	ui.openPopup("rightSubPopup");
 	
@@ -444,12 +481,14 @@ function deleteWelFareFaci(gid) {
 
 // 복지시설 popup창 닫기
 function closeWelFarePopup(){
-	dtmap.vector.clearSelect();		//선택 해제
+	dtmap.vector.clearSelect();			//선택 해제
 	
-	dtmap.draw.dispose();			// 마우스에 파란점 제거
-	dtmap.draw.clear();				// 지도에 파란점 제거
+	dtmap.draw.dispose();				// 마우스에 파란점 제거
+	dtmap.draw.clear();					// 지도에 파란점 제거
 	
-	ui.closeSubPopup();				// 팝업 닫기
+	ui.closeSubPopup();					// 팝업 닫기
+	
+	FACILITY.Ax5UiGrid.clearSelect();	//그리드 선택 해제
 }
 
 // 복지시설 엑셀 저장

@@ -29,6 +29,13 @@ $(document).ready(function(){
 	
 	var chrgDeptNm = '${result.chrgDeptNm}';
 	$("#phyEduFaciTbl #chrg_dept_nm").val(chrgDeptNm).prop("selected", true);
+	
+	//3d 일때 지도 추가 버튼 삭제 
+	if(dtmap.mod == "3D"){
+		if($("#phyEduFaciTbl .btn-select-map").css("display") != 'none'){
+			$("#phyEduFaciTbl .btn-select-map").hide();
+		}
+	}
 });
 
 //geom 값 넣기
@@ -69,14 +76,14 @@ function phyEduFaciGeom(e) {
 							<tbody>
 								<tr>
 									<th scope="row">시설명</th>
-									<td colspan="3"><input type="text" name="fcltyNm" class="form-control sporInput" value="<c:out value="${result.fcltyNm}"></c:out>"/></td>										
+									<td colspan="3"><input type="text" name="fcltyNm" class="form-control" value="<c:out value="${result.fcltyNm}"></c:out>"/></td>										
 								</tr>
 								<tr>
 									<th scope="row">주소</th>
 									<td colspan="3">
 										<div class="form-row">
-											<div class="col"><input type="text" name="adres" class="form-control sporInput"  value="<c:out value="${result.adres}"></c:out>" readonly="readonly"/></div> 
-											<div class="col-auto"><button type="button" class="btn type01 bi-location" id="mapSelectBtn" onclick="phyMapClick();">지도에서 선택</button></div>
+											<div class="col"><input type="text" name="adres" class="form-control"  value="<c:out value="${result.adres}"></c:out>" readonly="readonly"/></div> 
+											<div class="col-auto"><button type="button" class="btn type01 bi-location btn-select-map" id="mapSelectBtn" onclick="phyMapClick();">지도에서 선택</button></div>
 											<input type="hidden" name="geom" id="geom" value="<c:out value="${result.geom}"></c:out>"/>
 											<input type="hidden" name="gid" id="gid" value="<c:out value="${result.gid}"></c:out>" />
 										</div> 

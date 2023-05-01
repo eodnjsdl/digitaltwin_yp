@@ -252,5 +252,5 @@
     </div>
 </div>
 <button type="button" class="popup-close" title="닫기"></button>
-<button type="button" class="popup-left-toggle" title="접기"></button>
+<%--<button type="button" class="popup-left-toggle" title="접기"></button>--%>
 <!-- //국토정보관리 > 등록하기 -->
