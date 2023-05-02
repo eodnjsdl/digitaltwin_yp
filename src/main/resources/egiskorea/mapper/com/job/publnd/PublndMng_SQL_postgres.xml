@@ -53,6 +53,7 @@
 					) pm
 			inner join comtccmmndetailcode c on (c.code_id = 'J0200' and c.code = pm.ldcg_cd)
 			order by pm.publnd_no
+            limit 10 offset #{pageNo}
 	</select>
 	
 	<!-- 공유재산 실태조사 목록 조회 개수 -->

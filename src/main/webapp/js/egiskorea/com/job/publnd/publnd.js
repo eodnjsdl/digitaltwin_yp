@@ -53,6 +53,10 @@ function initGrid() {
 		page: {
 			navigationItemCount: 9,
 			display: true,
+			firstIcon: '««',
+		        prevIcon: '«',
+		        nextIcon: '»',
+		        lastIcon: '»»',
 			onChange: function () {
 				setData(this.page.selectPage);
 			}
@@ -168,11 +172,9 @@ function fn_insertView() {
 		success : function(returnData, status){
 			if(status == "success") {		
 				$("#rightSubPopup").append(returnData);
-				
 				$(".scroll-y").mCustomScrollbar({
 					scrollbarPosition:"outside"
 				});
-			
 			}else{ 
 				toastr.error("ERROR!");
 				return;
@@ -201,7 +203,6 @@ function fn_update(publndNo) {
 			success : function(data) {
 				if (data.status == 'success') {
 					toastr.success("정상적으로 수정되었습니다.");
-					
 					$('.pbprtAccdtInput').val('');
 					$("#rightSubPopup").empty();
 					ui.closeSubPopup("rightSubPopup");
@@ -239,12 +240,8 @@ function insertPbprtAccdtInfo() {
 					toastr.success("정상적으로 등록되었습니다.");
 					newPublndNo = data.newPublndNo;
 					$('.pbprtAccdtInput').val('');
-//					cancelPutPbprtAccdtPopup();
-//					bottomPopupOpen('pbprtAccdt');
-					
 					resetGrid();
 					fn_pageDetail(newPublndNo);
-					
 					ui.loadingBar("hide");
 				} else {
 					toastr.error('ERROR!');
@@ -252,7 +249,6 @@ function insertPbprtAccdtInfo() {
 					return;
 				}
 			}, complete : function(){
-//				bottomPopupOpen('pbprtAccdt');
 				ui.loadingBar("hide");
 			}
 		});
@@ -269,15 +265,6 @@ function numberMaxLengthCheck(number) {
 		number.value = number.value.slice(0, number.maxLength);
 	}
 }
-
-///**
-// * 공유재산 실태조사서 새창
-// * @param publndNo
-// * @returns
-// */
-//function selectPbprtAccdtWrinvstg(publndNo) {
-//	window.open('/job/publnd/selectPbprtAccdtWrinvstg.do?publndNo=' + publndNo, 'wrinvstg','width=1000, height=800');
-//}
 
 /**
  * 공유재산 실태조사 정보 삭제(del_yn값변경)
@@ -298,8 +285,6 @@ function updatePbprtAccdtInfoDel(publndNo) {
 					toastr.success("정상적으로 삭제되었습니다.");
 					
 					$('.pbprtAccdtInput').val('');
-//					cancelPutPbprtAccdtPopup();
-//					bottomPopupOpen('pbprtAccdt');
 					resetGrid();
 					ui.closeSubPopup("rightSubPopup");
 					ui.loadingBar("hide");
@@ -474,25 +459,9 @@ function selectPbprtAccdtExcelForm() {
  */
 function createSatlitImage() {
 	
-  // 2D
-//  if (app2D) {
-  if (_cur_mode == '2D') {
-	$('#satlitPhotoSave').addClass('satlit');
-    const yMap = app2D.getYMap();
-    yMap.exportImage().done((data, width, height) => {
-      $(".saveMap-satlit-thumb img").attr("src", data);
-      this.width = width;
-      this.height = height;
-    });
-  } else {
-      // create canvas Image
-
 	var captureCanvas = null;		// 캡쳐 이미지 저장 캔버스
 	
-	var canvasRect = Module.canvas.getBoundingClientRect();
 	var canvasStyle = "display:none;";
-	canvasStyle += "position:fixed;left:"+canvasRect.left+";top:"+canvasRect.top+";zIndex:90;";
-	
 	var eParent = document.body;
 	var copyCanvas = document.createElement("canvas");
 	copyCanvas.style = canvasStyle;
@@ -508,7 +477,6 @@ function createSatlitImage() {
 	
 	var dataUrl = copyCanvas.toDataURL();
 	$(".saveMap-satlit-thumb img").attr("src", dataUrl);
-  }
 
 	setTimeout(() => {
 		if (confirm('현재 화면으로 저장하시겠습니까?')) {
@@ -529,77 +497,95 @@ function createSatlitImage() {
  */
 function createSatlitImageLine() {
 	let pnu;
-	var msgTxt = "화면에서 지적을 선택해주세요.";
-	toastr.success(msgTxt);
-	
-//	if(!is3dInit){
-//	if (_cur_mode != '2D') {
-//		ui.loadingbar('show')
-//		call3D(false);				
-//		
-//		is3dInit = true;
-//	};
-//	if (app2D) {
 	if (dtmap.mod == '2D') {
-		dtmap.init();
-        dtmap.draw.active({type: 'Point', once: true});
-        dtmap.on('drawend', _onDrawEnd_publndMap);
+	    dtmap.init();
+	    dtmap.draw.active({type: 'Point', once: true});
+	    dtmap.on('drawend', _onDrawEnd_publndMap);
         
-//	    const yMap = app2D.getYMap();
-//	    const select = yMap.getModule("select");
-//	    select.on("Point", "drawend", (event) => {
-//	        const feature = event.feature;
-//	        const geometry = cmmUtil.toMapProjection(feature.getGeometry());
-//	        const position = geometry.getCoordinates();
-//	        reverseUaiGeo(parseFloat(position[0]), parseFloat(position[1]));
-//	    }, true);
-        function _onDrawEnd_publndMap(e) {
-            var geom = e.geometry;
-            var coord = geom.getFlatCoordinates();
-            reverseUaiGeoForPublnd(parseFloat(coord[0]), parseFloat(coord[1]));
-        }
+            
+            
 	} else {
 		$('#satlitPhotoSave').addClass('active');
 	}
 	
 	function reverseUaiGeoForPublnd(pointx, pointy) {
 		dtmap.vector.clear();
-	    // var vPosition = new Module.JSVector2D(pointx, pointy);
-	    // 좌표변환 실행
-	    // var vResult = Module.getProjection().convertProjection(26, vPosition, 13); // 5179 -> 4326
 	    var transCoord = proj4(dtmap.crs, "EPSG:4326", [pointx,pointy]);
 	    var pnu = aj_getPnuByLonLat(transCoord[0], transCoord[1]);
         var landRegister = getLandRegisterByPnu(pnu);
-//	        landRegister.landRegister ?
-//	            dtmap.vector.readWKT(landRegister.landRegister.geometry,  landRegister.landRegister)
-//	            : toastr.error("geometry 값이 존재하지 않습니다.");
-	        // rightPopupOpen("landRegister", pnu, null, true);
-//	        ui.openPopup("rightPopup", "krasInfo");
-//	        aj_selectLandRegister(pnu);
          dtmap.vector.readWKT(landRegister.landRegister.geometry,  landRegister.landRegister);
-         cmmUtil.highlightGeometry(landRegister.landRegister.geometry);
          createSatlitImage();
 	}
-	
-//	function reverseUaiGeo(pointx, pointy) {
-//		var vPosition = new Module.JSVector2D(pointx, pointy);
-//		
-//		// 좌표변환 실행
-//		var vResult = Module.getProjection().convertProjection(26, vPosition, 13); // 5179 -> 4326
-//		
-//		pnu = aj_getPnuByLonLat(vResult.x, vResult.y);
-//		
-//		if(pnu != ""){
-//			var landRegister = getLandRegisterByPnu(pnu);
-//			cmmUtil.highlightGeometry(landRegister.landRegister.geometry);
-//			setTimeout(() => {
-//				createSatlitImage();
-//				app2D.getYMap().defaultInteractions();
-//			}, 500);
-//		}
-//	}
 };
-//================================================================================
+
+function createImageLine() {
+    var msgTxt = "화면에서 지적을 선택해주세요.";
+    toastr.success(msgTxt);
+    
+    dtmap.vector.clear();
+    dtmap.draw.active({type: 'Point', once: true});
+    dtmap.once('drawend', _onDrawEnd_publndMap);
+    
+}
+
+function _onDrawEnd_publndMap(e) {
+    console.log("ㅇㅇㅇ");
+    var geom = e.geometry;
+    var publndLayer = "digitaltwin:lsmd_cont_ldreg_41830";
+//    var publndStyle = {
+//	        fill: {
+//	            opacity : 0.6
+//	        },
+//	        stroke: {
+//	            width: 4
+//	        },
+//	        renderType: '3D'
+//	    };
+//    , publndStyle
+    setPublndLayer(geom, publndLayer).then(function() {
+	setTimeout(() => {
+	    dtmap.toImage().then(function(data){
+        	$(".saveMap-satlit-thumb img").attr("src", data);
+            });
+	    $(".saveMap-satlit-thumb img").on('change', function() {
+		saveCurrentImage();
+	    });
+	}, 1000);
+        dtmap.draw.dispose();
+        
+        
+    });
+}
+
+function setPublndLayer(geom, layerNm) {
+    var deferred = $.Deferred();
+    var promise = dtmap.wfsGetFeature({
+        typeNames: layerNm, //WFS 레이어명
+        geometry: geom
+    });
+    promise.then(function (data) {
+	let id = data.features[0].id;
+        dtmap.vector.readGeoJson(data);
+        dtmap.vector.select(id);
+        setLdbdList(geom, data, layerNm);
+        deferred.resolve(data);
+    });
+    return deferred;
+}
+
+function saveCurrentImage() {
+    if (confirm('현재 화면으로 저장하시겠습니까?')) {
+	const src = $(".saveMap-satlit-thumb img").attr("src");
+	let link = document.createElement("a");
+	link.download = "map.png";
+	link.href = src;
+	link.click();
+	link.remove();
+    }
+}
+
+
+// 구조화 전 ========================================================================
 
 /**
  * 공유재산 실태조사 정보 상세보기
