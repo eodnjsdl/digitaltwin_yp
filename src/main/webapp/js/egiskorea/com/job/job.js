@@ -1085,8 +1085,10 @@ function onFaciReseMngSelectEventListener(e){
 		}else if(dtmap.mod == "3D"){
 			//console.log("3d");
 			
-			if(e.properties.facMenuNm){
-				var facMenuNm = e.properties.facMenuNm;
+			//if(e.properties.facMenuNm){
+			//	var facMenuNm = e.properties.facMenuNm;
+			if(e.property.facMenuNm){
+				var facMenuNm = e.property.facMenuNm;
 				if(facMenuNm != "faciReseMng"){
 					console.log("facMenuNm>>>"+facMenuNm);
 					console.log("시설예약관리 에러");
@@ -1099,7 +1101,8 @@ function onFaciReseMngSelectEventListener(e){
 			
 			var gid = e.id;
 			gid = gid.replace("faciReseMng","");
-		    var rsrvsn = e.properties.rsrvsn;
+		    //var rsrvsn = e.properties.rsrvsn;
+		    var rsrvsn = e.property.rsrvsn;
 		    aj_selectFaciReseMng(gid, rsrvsn);
 			
 		}else{
