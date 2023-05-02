@@ -173,8 +173,23 @@ function fn_pageDetail(gid){
 		async: false,
 		success : function(returnData, status){
 			if(status == "success") {	
-				toastr.success("단일 선택 POI 하이라트 및 지도이동");
 				$("#rightSubPopup").append(returnData);
+				//그리드에 행전체 선택되게 수정
+				var gridGid = gid;
+				var gridList = window.target.list;
+				
+				for(var i=0; i<gridList.length; i++){
+					//console.log(gridList[i]);
+					var grid = gridList[i];
+					if(gridGid == grid.gid){
+						var dindex = grid.__index;
+						window.target.clearSelect();
+						window.target.focus(dindex);		
+						//[참고 사항]
+						//FACILITY.Ax5UiGrid.focus(-1); 	: 포커스 해제
+						//FACILITY.Ax5UiGrid.select(숫자); 	: 사용해도 되는데 스크롤 이동이 안됨
+					}
+				}
 			}else{
 				toastr.error("관리자에게 문의 바랍니다.", "정보를 불러오지 못했습니다.");
 				return;
