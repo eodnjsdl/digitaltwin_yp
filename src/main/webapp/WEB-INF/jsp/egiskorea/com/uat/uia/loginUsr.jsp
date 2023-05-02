@@ -37,6 +37,9 @@
 				$(this).css({transform: "none", top: $(this).offset().top+"px", left:$(this).offset().left+"px"});
 			}
 		});
+		$(".system-popup .system-close, .system-popup .bi-check").click(function(){
+			$(".system-popup").hide();
+		});
 		
 		var popupCount = $(".system-popup").length;
 		
@@ -148,7 +151,7 @@
 				if(status == "success") {
 					$("#dialog-findId").html(returnData);
 				}else{ 
-					toastr.error("관리자에게 문의 바랍니다.", "정보를 불러오지 못했습니다.");
+                    toastr.error("관리자에게 문의 바랍니다.", "정보를 불러오지 못했습니다.");
 					return;
 				} 
 			}, complete : function(){
@@ -166,13 +169,14 @@
 				if(status == "success") {
 					$("#dialog-findPw").html(returnData);
 				}else{ 
-					toastr.error("관리자에게 문의 바랍니다.", "정보를 불러오지 못했습니다.");
-					return;
+                    toastr.error("관리자에게 문의 바랍니다.", "정보를 불러오지 못했습니다.");
+                    return;
 				} 
 			}, complete : function(){
 			}
 		});
 	}
+	
 	<c:if test="${!empty resultMsg}">alert("<spring:message code="${resultMsg}" />");</c:if>
 
 	</script>
@@ -210,25 +214,7 @@
 		<div class="popup-panel" id="dialog-findPw" title="비밀번호 초기화">
 		</div>
 		
-		<!-- 시스템 이용 안내 -->
-		<c:forEach var="resultInfo" items="${result}" varStatus="status">
-			<div class="system-popup" id="system-popup-${status.index}">
-				<div class="system-header"><p class="tit"><c:out value="${resultInfo.nttSj}" escapeXml="false"/></p></div>
-				<div class="system-body">
-					<div class="cont">
-						<div>
-							<p>
-								<c:out value="${fn:replace(resultInfo.nttCn , crlf , '<br/>')}" escapeXml="false"/>
-							</p>
-						</div>
-						<div class="btn-wrap"><button type="button" class="btn basic bi-check">확인</button></div>
-					</div>
-				</div>
-				<button type="button" class="system-close" title="닫기"></button>
-			</div>
-		</c:forEach>
-		
-		<!-- 시스템 이용 안내 -->
+		<%-- <!-- 시스템 이용 안내 -->
 		<div class="system-popup">
 			<div class="system-header"><p class="tit">시스템 이용 안내</p></div>
 			<div class="system-body">
@@ -262,23 +248,25 @@
 				</div>
 			</div>
 			<button type="button" class="system-close" title="닫기"></button>
-		</div>
-		<!-- //시스템 이용 안내 -->
-
-		<script>
-			$(document).ready(function(){
-				$('.system-popup').draggable({
-					containment: "#wrap",
-					scroll: false,
-					start: function() {
-						$(this).css({transform: "none", top: $(this).offset().top+"px", left:$(this).offset().left+"px"});
-					}
-				});
-				$(".system-popup .system-close, .system-popup .bi-check").click(function(){
-					$(".system-popup").hide();
-				});
-			});
-		</script>
+		</div> --%>
+		
+		 <!-- 시스템 이용 안내 -->
+		<c:forEach var="resultInfo" items="${result}" varStatus="status">
+			<div class="system-popup" id="system-popup-${status.index}">
+				<div class="system-header"><p class="tit"><c:out value="${resultInfo.nttSj}" escapeXml="false"/></p></div>
+				<div class="system-body">
+					<div class="cont">
+						<div>
+							<p>
+								<c:out value="${fn:replace(resultInfo.nttCn , crlf , '<br/>')}" escapeXml="false"/>
+							</p>
+						</div>
+						<div class="btn-wrap"><button type="button" class="btn basic bi-check">확인</button></div>
+					</div>
+				</div>
+				<button type="button" class="system-close" title="닫기"></button>
+			</div>
+		</c:forEach>
 		
 		<!-- footer -->
 		<footer id="footer">
