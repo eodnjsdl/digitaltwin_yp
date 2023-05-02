@@ -31,15 +31,15 @@ function swlDranPsProcess() {
 			align: "center"
 		},
 		columns: [
-			{key: "ftr_idn",		label: "관리번호",			width: 130},
-			{key: "hjd_cde_nm",		label: "읍면동",			width: 110},
-			{key: "ist_ymd", 		label: "설치일자",			width: 130},
-			{key: "drn_nam",		label: "하수처리장명",		width: 290},
-			{key: "gai_ara", 		label: "부지면적",			width: 120},
-			{key: "soo_cde_nm",		label: "개통상태",			width: 130},
-			{key: "adp_ara", 		label: "처리구역면적",		width: 120},
-			{key: "sbb_cde_nm", 	label: "하수처리방식",		width: 130},
-			{key: "pcc_vol",		label: "청천시처리용량",		width: 120}
+			{key: "ftr_idn",		label: "관리번호",			width: '*'},
+			{key: "hjd_cde_nm",		label: "읍면동",			width: '*'},
+			{key: "ist_ymd", 		label: "설치일자",			width: '*'},
+			{key: "drn_nam",		label: "하수처리장명",		width: '*'},
+			{key: "gai_ara", 		label: "부지면적",			width: '*'},
+			{key: "soo_cde_nm",		label: "개통상태",			width: '*'},
+			{key: "adp_ara", 		label: "처리구역면적",		width: '*'},
+			{key: "sbb_cde_nm", 	label: "하수처리방식",		width: '*'},
+			{key: "pcc_vol",		label: "청천시처리용량",		width: '*'}
 		],
 		page: {
 			navigationItemCount: 10,	// 보여지는 클릭 가능 페이지 번호

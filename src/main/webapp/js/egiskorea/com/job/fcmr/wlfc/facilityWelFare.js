@@ -44,10 +44,10 @@ function getWelFareFaci() {
 			align: "center"
 		},
 		columns: [
-			{key: "fclty_se_nm",	label: "시설구분",		width: 220},
-			{key: "fclty_nm",		label: "시설명",		width: 300},
-			{key: "rn_adres",		label: "주소",		width: 500},
-			{key: "cttpc_telno",	label: "전화번호",		width: 250}
+			{key: "fclty_se_nm",	label: "시설구분",		width: '*'},
+			{key: "fclty_nm",		label: "시설명",		width: '*'},
+			{key: "rn_adres",		label: "주소",		width: '*'},
+			{key: "cttpc_telno",	label: "전화번호",		width: '*'}
 		],
 		page: {
 			navigationItemCount: 10,	// 보여지는 클릭 가능 페이지 번호

@@ -36,6 +36,7 @@ function getPhyEduFaci() {
 	
 	ax5.ui.grid.formatter["date"] = function() {
 		var date = this.value;
+		
 		return date.substr(0, 10);
 	}
 	
@@ -49,15 +50,15 @@ function getPhyEduFaci() {
 			align: "center"
 		},
 		columns: [
-			{key: "gid",			label: "관리번호",		width: 80},
-			{key: "fclty_ty", 		label: "시설유형",		width: 100},
-			{key: "fclty_nm",		label: "체육시설명",	width: 200},
-			{key: "adres",			label: "주소",		width: 300},
-			{key: "fond_de",		label: "설립일자",		width: 130},
-			{key: "oper_mthd",		label: "운영방식",		width: 100},
-			{key: "cttpc_telno",	label: "문의번호",		width: 130},
-			{key: "chrg_dept_nm",	label: "담당부서",		width: 100},
-			{key: "last_modf_dt",	label: "최종수정일자",	width: 130}
+			{key: "gid",			label: "관리번호",		width: '*'},
+			{key: "fclty_ty", 		label: "시설유형",		width: '*'},
+			{key: "fclty_nm",		label: "체육시설명",	width: '*'},
+			{key: "adres",			label: "주소",		width: '*'},
+			{key: "fond_de",		label: "설립일자",		width: '*'},
+			{key: "oper_mthd",		label: "운영방식",		width: '*'},
+			{key: "cttpc_telno",	label: "문의번호",		width: '*'},
+			{key: "chrg_dept_nm",	label: "담당부서",		width: '*'},
+			{key: "last_modf_dt",	label: "최종수정일자",	width: '*',		formatter: 'date'}
 		],
 		page: {
 			navigationItemCount: 10,	// 보여지는 클릭 가능 페이지 번호

@@ -32,12 +32,12 @@ function swlSideLsProcess() {
 			align: "center"
 		},
 		columns: [
-			{key: "ftr_idn",		label: "관리번호",			width: 210},
-			{key: "hjd_cde_nm",		label: "읍면동",			width: 170},
-			{key: "ist_ymd", 		label: "설치일자",			width: 190},
-			{key: "aeg_cde_nm",		label: "촉구구분",			width: 270},
-			{key: "byc_len",		label: "연장",			width: 170},
-			{key: "mop_cde_nm",		label: "관재질",			width: 270}
+			{key: "ftr_idn",		label: "관리번호",			width: '*'},
+			{key: "hjd_cde_nm",		label: "읍면동",			width: '*'},
+			{key: "ist_ymd", 		label: "설치일자",			width: '*'},
+			{key: "aeg_cde_nm",		label: "촉구구분",			width: '*'},
+			{key: "byc_len",		label: "연장",			width: '*'},
+			{key: "mop_cde_nm",		label: "관재질",			width: '*'}
 		],
 		page: {
 			navigationItemCount: 10,	// 보여지는 클릭 가능 페이지 번호

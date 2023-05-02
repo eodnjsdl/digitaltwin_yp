@@ -33,14 +33,14 @@ function swlSpotPsProcess() {
 			align: "center"
 		},
 		columns: [
-			{key: "ftr_idn",		label: "관리번호",			width: 180},
-			{key: "hjd_cde_nm",		label: "읍면동",			width: 180},
-			{key: "ist_ymd", 		label: "설치일자",			width: 180},
-			{key: "sbd_cde_nm",		label: "물받이용도",		width: 170},
-			{key: "for_cde_nm",		label: "시설물형태",		width: 130},
-			{key: "cov_cde_nm",		label: "물받이뚜껑형태",		width: 180},
-			{key: "mop_cde_nm",		label: "관재질",			width: 130},
-			{key: "ang_dir", 		label: "방향각",			width: 130}
+			{key: "ftr_idn",		label: "관리번호",			width: '*'},
+			{key: "hjd_cde_nm",		label: "읍면동",			width: '*'},
+			{key: "ist_ymd", 		label: "설치일자",			width: '*'},
+			{key: "sbd_cde_nm",		label: "물받이용도",		width: '*'},
+			{key: "for_cde_nm",		label: "시설물형태",		width: '*'},
+			{key: "cov_cde_nm",		label: "물받이뚜껑형태",		width: '*'},
+			{key: "mop_cde_nm",		label: "관재질",			width: '*'},
+			{key: "ang_dir", 		label: "방향각",			width: '*'}
 		],
 		page: {
 			navigationItemCount: 10,	// 보여지는 클릭 가능 페이지 번호
