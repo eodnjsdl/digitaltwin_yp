@@ -5,7 +5,7 @@
 	<bean name="propertiesService" class="egovframework.rte.fdl.property.impl.EgovPropertyServiceImpl" destroy-method="destroy">
 		<property name="properties">
 			<map>
-	            <entry key="pageUnit" value="11"/>
+	            <entry key="pageUnit" value="10"/>
 	            <entry key="pageSize" value="5"/>
 			</map>
 		</property>
@@ -14,7 +14,7 @@
 	<bean name="propertiesServiceNotice" class="egovframework.rte.fdl.property.impl.EgovPropertyServiceImpl" destroy-method="destroy">
 		<property name="properties">
 			<map>
-	            <entry key="pageUnit" value="13"/>
+	            <entry key="pageUnit" value="10"/>
 	            <entry key="pageSize" value="5"/>
 			</map>
 		</property>
