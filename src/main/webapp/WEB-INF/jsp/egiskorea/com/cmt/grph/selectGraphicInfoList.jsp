@@ -105,7 +105,7 @@
                                 </colgroup>
                                 <tbody>
                                 <c:forEach items="${resultList}" var="result" varStatus="status">
-                                    <tr>
+                                    <tr class="graphic_a" data-graphic-id="<c:out value="${result.grphcId}" />">
                                         <td>
                                             <span class="form-checkbox"><span><input type="checkbox"
                                                                                      class="graphic_check"
@@ -113,8 +113,8 @@
                                                                                      data-graphic-id="<c:out value="${result.grphcId}" />"><label
                                                     for="graphic_check_<c:out value="${result.grphcId}" />"></label></span></span>
                                         </td>
-                                        <td class="subject align-left"><a href="javascript:void(0);" class="graphic_a"
-                                                                          data-graphic-id="<c:out value="${result.grphcId}" />"><c:out
+                                        <td class="subject align-left"><a href="javascript:void(0);"
+                                                                          ><c:out
                                                 value="${result.sj}"/></a></td>
                                         <td><c:out value="${result.register}"/></td>
                                         <td><c:out value="${result.lastModfDt}"/></td>

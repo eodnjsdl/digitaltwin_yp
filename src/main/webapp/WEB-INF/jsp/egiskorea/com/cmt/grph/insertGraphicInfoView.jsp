@@ -62,7 +62,7 @@
 			</table>
 		</div>
 		
-		<div class="tabBoxDepth2-wrap marT20">
+		<div class="tabBoxDepth2-wrap marT15">
 			<div class="tabBoxDepth2">
 				<ul>
 					<li data-tab="drawingTabPoint" class="on"><button type="button" class="inner-tab">점</button></li>

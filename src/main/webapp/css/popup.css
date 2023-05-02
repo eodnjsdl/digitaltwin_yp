@@ -189,7 +189,6 @@
 .popup-panel.popup-bottom {
     top: auto;
     bottom: 50px;
-    padding-top: 40px;
     background-color: transparent;
     box-shadow: none;
     border-radius: 0;
@@ -199,55 +198,56 @@
 
 .popup-panel.popup-bottom.fold {
     top: auto !important;
-    bottom: -338px;
+    bottom: -330px;
 }
 
 .popup-panel.popup-bottom .popup-header {
     padding: 0 75px 0 35px;
     height: 40px;
     line-height: 40px;
-    width: 275px;
+    width: 295px;
     text-align: left;
     z-index: 5;
+    top: -40px;
 }
 
-.popup-panel.popup-bottom::before {
-    content: '';
-    display: block;
-    position: absolute;
-    top: -6px;
-    left: -6px;
-    width: 320px;
-    height: 46px;
-    background: transparent url(/yp_dt/images/etc/bottom-popup-header.png) no-repeat 50% 50%;
-    z-index: 1;
-}
+/*.popup-panel.popup-bottom::before {*/
+/*    content: '';*/
+/*    display: block;*/
+/*    position: absolute;*/
+/*    top: -46px;*/
+/*    left: -6px;*/
+/*    width: 320px;*/
+/*    height: 46px;*/
+/*    background: transparent url(/yp_dt/images/etc/bottom-popup-header.png) no-repeat 50% 50%;*/
+/*    z-index: 1;*/
+/*}*/
 
 .popup-panel.popup-bottom .popup-body {
-    top: 40px;
+    top: 0px;
     background-color: #fff;
     box-shadow: 0px 0px 6px #000;
-    border-radius: 0 0 15px 15px;
+    border-radius: 0 15px 15px 15px;
 }
 
 .popup-panel.popup-bottom .popup-close {
-    top: 8px;
+    top: -30px;
     left: 264px;
 }
 
 .popup-panel.popup-bottom .popup-reset {
-    top: 8px;
+    top: -30px;
     left: 239px;
 }
 
 .popup-panel.popup-bottom .manualBtn {
-    top: 8px;
+    top: -30px;
     left: 212px;
 }
 
 .popup-panel.popup-bottom .popup-bottom-toggle {
     position: absolute;
-    top: 8px;
+    top: -30px;
     left: 9px;
     width: 22px;
     height: 22px;
