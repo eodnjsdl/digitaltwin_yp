@@ -42,17 +42,17 @@
 	
 <script type="text/javaScript">
 $( function() {	
-	
-	$(".map-board .bbs-btn").click(function(){
-		$(this).addClass("active");
-		$(".popup-overlay").show();
-	});
-
 	$(".popup-bbs .popup-close").click(function(){
-		$(".map-board .bbs-btn").removeClass("active");
 		$(".popup-overlay").hide();
 	});
+	$(".scroll-y", this.selector).mCustomScrollbar({
+	    scrollbarPosition: "outside",
+	});
 	
+});
+
+$(".scroll-y", this.selector).mCustomScrollbar({
+    scrollbarPosition: "outside",
 });
 
 function aj_updateOpQnaView(){
@@ -75,7 +75,7 @@ function aj_updateOpQnaView(){
 		async: false,
 		success : function(returnData, status){
 			if(status == "success") {
-				$("#opqna").html(returnData);
+				$("#bbsPopup").html(returnData);
 			}else{ 
 				toastr.error("관리자에게 문의 바랍니다.", "정보를 불러오지 못했습니다.");
 				return;
@@ -100,7 +100,7 @@ function aj_deleteOpQna(){
 			async: false,
 			success : function(returnData, status){
 				if(status == "success") {
-					$("#opqna").html(returnData);
+					$("#bbsPopup").html(returnData);
 				}else{ 
 					toastr.error("관리자에게 문의 바랍니다.", "정보를 불러오지 못했습니다.");
 					return;
@@ -130,7 +130,7 @@ function aj_insertOpQnaAnswer(){
 		async: false,
 		success : function(returnData, status){
 			if(status == "success") {
-				$("#opqna").html(returnData);
+				$("#bbsPopup").html(returnData);
 			}else{ 
 				toastr.error("관리자에게 문의 바랍니다.", "정보를 불러오지 못했습니다.");
 				return;
@@ -157,7 +157,7 @@ function aj_updateOpQnaAnswerView(){
 		async: false,
 		success : function(returnData, status){
 			if(status == "success") {
-				$("#opqna").html(returnData);
+				$("#bbsPopup").html(returnData);
 			}else{ 
 				toastr.error("관리자에게 문의 바랍니다.", "정보를 불러오지 못했습니다.");
 				return;
@@ -185,7 +185,7 @@ function aj_deleteOpQnaAnswer(){
 			async: false,
 			success : function(returnData, status){
 				if(status == "success") {
-					$("#opqna").html(returnData);
+					$("#bbsPopup").html(returnData);
 				}else{ 
 					toastr.error("관리자에게 문의 바랍니다.", "정보를 불러오지 못했습니다.");
 					return;
@@ -206,7 +206,7 @@ function aj_deleteOpQnaAnswer(){
 					<div class="popup-header" style="background-image: url(/images/etc/popup-title-board.svg)">운영지원</div>
 					<div class="popup-body">
 						<div class="bbs-popup-body">
-							<div class="scroll-y" style="height: 654px;">
+							<div class="scroll-y" style="height: 520px;">
 								<div class="bbs-detail-default">
 									<table class="bbs-detail">
 										<colgroup>
@@ -231,7 +231,7 @@ function aj_deleteOpQnaAnswer(){
 											<tr>
 												<th scope="row">내용</th>
 												<td colspan="3">
-													<div class="cont" style="height: 349px;">
+													<div class="cont">
 														<div class="scroll-y">
 															<c:out value="${fn:replace(result.qestnCn , LF , BR)}" escapeXml="false"/>
 														</div>

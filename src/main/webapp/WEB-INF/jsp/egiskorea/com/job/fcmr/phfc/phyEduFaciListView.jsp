@@ -170,7 +170,12 @@ $(document).ready(function() {
 									</td>
 								</tr>
 								<tr>
-									<td colspan="2"><input type="text" class="form-control" id="phyAdres" name="adres" onkeypress="if( event.keyCode == 13 ){ selectPhyEduFaciList(1);}" placeholder="읍면동"></td>
+									<th scope="row">읍면동</th> 
+									<td>    
+										<select name="adres" id="phyAdres" class="form-select">
+											<option value="">전체</option>
+										</select>  
+									</td>
 								</tr>
 								<tr>
 									<td colspan="2"><input type="text" class="form-control" id="phyFcltyNm" name="fcltyNm" onkeypress="if( event.keyCode == 13 ){ selectPhyEduFaciList(1);}" placeholder="시설명"></td>

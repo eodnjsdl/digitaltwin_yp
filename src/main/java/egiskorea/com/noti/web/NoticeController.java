@@ -8,6 +8,8 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -61,7 +63,6 @@ public class NoticeController {
     @Resource(name = "EgovBBSSatisfactionService")
     private EgovBBSSatisfactionService bbsSatisfactionService;
     
-    
     /**
      * @Description 공지사항 리스트  (웹)
      * @Author 플랫폼개발부문 DT솔루션 정상혁
@@ -93,7 +94,7 @@ public class NoticeController {
 		
 		boardVO.setPageUnit(propertyService.getInt("pageUnit"));
 		boardVO.setPageSize(propertyService.getInt("pageSize"));
-	
+		
 		PaginationInfo paginationInfo = new PaginationInfo();
 		
 		//공지사항 추
@@ -101,7 +102,7 @@ public class NoticeController {
 		int totntl = noticeList.size();
 		
 		paginationInfo.setCurrentPageNo(boardVO.getPageIndex());
-		paginationInfo.setRecordCountPerPage(boardVO.getPageUnit() + (2 - totntl));
+		paginationInfo.setRecordCountPerPage(boardVO.getPageUnit());
 		paginationInfo.setPageSize(boardVO.getPageSize());
 	
 		boardVO.setFirstIndex(paginationInfo.getFirstRecordIndex());

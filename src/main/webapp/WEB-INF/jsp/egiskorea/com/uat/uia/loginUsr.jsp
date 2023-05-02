@@ -190,7 +190,7 @@
 				<input name="userSe" type="hidden" value="USR"/>
 				<input type="hidden" id="message" name="message" value="<c:out value='${message}'/>">
 				<div class="items"><label for="id" class="form-label">ID</label><input type="text" name="id" id="id" class="form-control" maxlength="20" placeholder="아이디"></div>
-				<div class="items"><label for="password" class="form-label">PASSWORD</label><input type="password" name="password" id="password" class="form-control" maxlength="20" placeholder="비밀번호"></div>
+				<div class="items"><label for="password" class="form-label">PW</label><input type="password" name="password" id="password" class="form-control" maxlength="20" placeholder="비밀번호"></div>
 				<div class="align-right"><span class="form-checkbox"><input type="checkbox" name="checkId" id="checkId" onclick="javascript:saveid(document.loginForm);"><label for="checkId">아이디저장</label></span></div>
 				<div><button type="submit" class="btn login-btn">로그인</button></div>
 				<div class="util">

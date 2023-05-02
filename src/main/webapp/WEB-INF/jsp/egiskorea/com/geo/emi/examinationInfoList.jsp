@@ -128,12 +128,12 @@
 
     function fn_left_select_list_sub() {
         document.searchFormLeft.pageIndex.value = 1;
-        aj_selectExaminationInfoList($("#searchFormLeft")[0].code2.value, "");
+        aj_selectExaminationInfoList($("#searchFormLeft")[0], "");
     }
 
     function fn_left_select_linkPage(pageNo) {
         document.searchFormLeft.pageIndex.value = pageNo;
-        aj_selectExaminationInfoList($("#searchFormLeft")[0].code2.value, "");
+        aj_selectExaminationInfoList($("#searchFormLeft")[0], "");
     }
 
     function fn_left_select_detail(pnu) {
@@ -156,7 +156,7 @@
                         if (status == "success") {
                             if (removeLine(returnData) == "ok") {
                                 toastr.success("정상적으로 삭제되었습니다.");
-                                aj_selectExaminationInfoList($("#searchFormLeft")[0].code2.value, "");
+                                aj_selectExaminationInfoList($("#searchFormLeft")[0], "");
                             } else {
                                 toastr.warning("삭제에 실패했습니다.");
                             }

@@ -229,7 +229,7 @@ function cancelUpdateSwlVentPs() {
 					</form>
 				</div>
 			</div>
-			<div class="position-bottom justify-content-end">
+			<div class="position-bottom btn-wrap justify-content-end">
 				<div>
 					<button type="button" class="btn basic bi-write2 btn_save" onclick="updateSwlVentPs();">수정완료</button>
 					<button type="button" class="btn basic bi-cancel btn_cancel" onclick="cancelUpdateSwlVentPs()">취소</button>

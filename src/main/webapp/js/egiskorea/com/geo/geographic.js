@@ -118,10 +118,10 @@ function aj_insertAdministrationZoneView(){
 }
 
 // 조사정보 목록 호출
-function aj_selectExaminationInfoList(param1, param2){
+function aj_selectExaminationInfoList(frm, param1, param2){
 	ui.loadingBar("show");
 	ui.openPopup("leftPopup","insertAdministrationZoneView");
-	var formData = new FormData();
+	var formData = new FormData(frm);
 	if(param1 != ''){
 		formData.append("code2", param1);
 	}

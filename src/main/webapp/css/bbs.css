@@ -945,3 +945,19 @@
 .pagination.type01 .last {
 	width: 20px;
 }
+
+.bbs-detail .cont{
+	height: 300px;
+}
+
+.bbs-detail #qestnCn{
+	height: 255px;
+}
+
+.bbs-write .cont{
+	height: 330px;
+}
+
+.bbs-write #qestnCn{
+	height: 285px;
+}

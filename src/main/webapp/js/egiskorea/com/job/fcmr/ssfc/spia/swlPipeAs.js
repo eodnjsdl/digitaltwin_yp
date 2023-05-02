@@ -357,8 +357,6 @@ function selectSwlPipeAsView(detailData){
 			var container = "#rightSubPopup";
 			$(container).html(result);
 			
-			dtmap.vector.select(detailData.id);	//지도에  표시
-			
 			//그리드에 행전체 선택되게 수정
 			var gid = detailData.gid;
 			var gridList = FACILITY.Ax5UiGrid.list;
@@ -375,6 +373,8 @@ function selectSwlPipeAsView(detailData){
 					//FACILITY.Ax5UiGrid.select(숫자); 	: 사용해도 되는데 스크롤 이동이 안됨
 				}
 			}
+			
+			dtmap.vector.select(detailData.id);	//지도에  표시
 		}
 		,error: function(request,status,error){
 			console.log("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);

@@ -67,6 +67,10 @@ window.ui = (function () {
             $(".lnb-dep2").find(".on").removeClass("on");
             $(this).parent().addClass("on");
         });
+        
+        $(".scroll-y", this.selector).mCustomScrollbar({
+            scrollbarPosition: "outside",
+        });
 
         function handleCreateContextMenu(event) {
             // 기본 Context Menu가 나오지 않게 차단
@@ -143,12 +147,12 @@ window.ui = (function () {
                 // aside menu > QnA
                 case "qna" :
                     ui.openPopup(area);
-                    aj_selectQnaList(1);
+                    aj_selectQnaList();
                     break;
                 // aside menu > 운영지원
                 case "opqna" :
                     ui.openPopup(area);
-                    aj_selectOpQnaList(1);
+                    aj_selectOpQnaList();
                     break;
 
                 //지도설정
@@ -660,7 +664,7 @@ window.ui = (function () {
                 _area.top = "unset";
                 _area.right = "unset";
                 _area.left = "320";
-                _area.width = "1600";
+                //_area.width = "1600";	//가로길이 수정위해 주석
                 _area.heigth = "378";
                 break;
             //우측
