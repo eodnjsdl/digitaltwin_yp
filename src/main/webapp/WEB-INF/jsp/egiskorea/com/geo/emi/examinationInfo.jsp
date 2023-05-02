@@ -66,7 +66,7 @@
                         if (removeLine(returnData) == "ok") {
                             toastr.success("<spring:message code="success.common.delete" />");
                             ui.closeSubPopup();
-                            aj_selectExaminationInfoList($("#searchFormLeft")[0].code2.value, "");
+                            aj_selectExaminationInfoList($("#searchFormLeft")[0], "");
                         } else {
                             toastr.success("<spring:message code="fail.common.delete" />");
                         }
