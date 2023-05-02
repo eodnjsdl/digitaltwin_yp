@@ -532,6 +532,7 @@ function _onDrawEnd_publndMap(e) {
     console.log("ㅇㅇㅇ");
     var geom = e.geometry;
     var publndLayer = "digitaltwin:lsmd_cont_ldreg_41830";
+//    var publndLayer = "tgd_spbd_buld";
 //    var publndStyle = {
 //	        fill: {
 //	            opacity : 0.6
