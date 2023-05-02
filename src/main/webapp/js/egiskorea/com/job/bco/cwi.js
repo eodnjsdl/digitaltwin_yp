@@ -100,7 +100,7 @@ $(document).ready(function(){
 	$("#getInquiryPosition").unbind('click').bind('click',function(){
 		// cmmUtil.getPositionGeom(inquiryPositionCallback);
 		// 생성된어 있는 PolygonLayer 레이어가 있을때 지워주기
-		destroy("Polygon");
+		//destroy("Polygon");
 	});
 	
 	// 공사정보조회 > 상세 페이지 > 차수정보 클릭시 지도 이동 처리
@@ -632,7 +632,7 @@ function aj_selectConstructionInquiryOderInfo(cntrkPrrngId, orderId){
 }
 
 function removeInquiryPage(){
-	destroy('All'); 	
+	//destroy('All'); 	
 	// 페이지 초기화
 	leftPopupOpen('constructionInquiry');
 }
