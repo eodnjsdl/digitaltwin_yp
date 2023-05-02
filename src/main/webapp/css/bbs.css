@@ -945,3 +945,11 @@
 .pagination.type01 .last {
 	width: 20px;
 }
+
+#bbsPopup .cont{
+	height: 300px;
+}
+
+#qestnCn{
+	height: 255px;
+}

@@ -41,17 +41,13 @@ $( function() {
 	var maxFileNum = 3;
 	var multi_selector = new MultiSelector( document.getElementById( 'egovComFileList' ), maxFileNum );
 	multi_selector.addElement( document.getElementById( 'egovComFileUploader' ) );
-	
-	$(".map-board .bbs-btn").click(function(){
-		$(this).addClass("active");
-		$(".popup-overlay").show();
-	});
 
 	$(".popup-bbs .popup-close").click(function(){
-		$(".map-board .bbs-btn").removeClass("active");
 		$(".popup-overlay").hide();
 	});
-	
+	$(".scroll-y", this.selector).mCustomScrollbar({
+	    scrollbarPosition: "outside",
+	});
 });
 
 function aj_updateOpQna(){
@@ -141,7 +137,7 @@ function aj_selectOpQna(qaId, pageIndex, searchCnd, searchWrd){
 					<div class="popup-header" style="background-image: url(/images/etc/popup-title-board.svg)">운영지원</div>
 					<div class="popup-body">
 						<div class="bbs-popup-body">
-							<div class="scroll-y" style="height: 654px;">
+							<div class="scroll-y" style="height: 520px;">
 								<h3 class="cont-tit marT0">운영지원 수정하기</h3>
 								<div class="bbs-write-default">
 									<table class="bbs-write">
@@ -162,7 +158,7 @@ function aj_selectOpQna(qaId, pageIndex, searchCnd, searchWrd){
 												<th scope="row">내용</th>
 												<td>
 													<div class="cont">
-														<form:textarea path="qestnCn" id="qestnCn" cssClass="form-control" cols="300" rows="20" style="height: 467px;" />
+														<form:textarea path="qestnCn" id="qestnCn" cssClass="form-control" cols="300" rows="20" />
 													</div>
 												</td>
 											</tr>

@@ -10,17 +10,13 @@
 <script type="text/javaScript">
 
 $( function() {	
-	$(".map-board .bbs-btn").click(function(){
-		$(this).addClass("active");
-		$(".popup-overlay").show();
-	});
-
 	$(".popup-bbs .popup-close").click(function(){
-		$(".map-board .bbs-btn").removeClass("active");
 		$(".popup-overlay").hide();
 	});
 });
-
+$(".scroll-y", this.selector).mCustomScrollbar({
+    scrollbarPosition: "outside",
+});
 
 function fnSearch(){
 	$.ajax({
@@ -198,7 +194,7 @@ function aj_pagination(pageIndex) {
 											
 											<c:forEach var="resultInfo" items="${resultList}" varStatus="status">
 											<tr>
-												<td><c:out value="${(searchVO.pageIndex-1) * 13 + status.count}"/></td>
+												<td><c:out value="${(searchVO.pageIndex-1) * 10 + status.count}"/></td>
 												<td class="subject">
 													<a href="javascript:aj_selectQna('<c:out value="${resultInfo.qaId}"/>')" class="subject">
 		    											<c:out value='${fn:substring(resultInfo.qestnSj, 0, 70)}' escapeXml="false"/>
