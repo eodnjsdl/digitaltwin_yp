@@ -57,7 +57,7 @@ function getPhyEduFaci() {
 			{key: "oper_mthd",		label: "운영방식",		width: 100},
 			{key: "cttpc_telno",	label: "문의번호",		width: 130},
 			{key: "chrg_dept_nm",	label: "담당부서",		width: 100},
-			{key: "last_modf_dt",	label: "최종수정일자",	width: 130,		formatter: "date"},
+			{key: "last_modf_dt",	label: "최종수정일자",	width: 130}
 		],
 		page: {
 			navigationItemCount: 10,	// 보여지는 클릭 가능 페이지 번호
@@ -113,22 +113,25 @@ function selectPhyEduFaciList(page) {
 		//속성 검색
 		const filters = [];
 		
-		var adres = $('#lSrchOptions input[name=adres]').val();					// 읍면동
-		var fcltyNm = $('#lSrchOptions input[name=fcltyNm]').val();				// 시설명
 		var fcltyTy = $("#lSrchOptions #phyFcltyTy option:selected").val();		// 시설구분
 		var operMthd = $("#lSrchOptions #phyOperMthd option:selected").val();	// 운영방식
+		var adres = $('#lSrchOptions #phyAdres option:selected').text();		// 읍면동
+		if (adres == '전체') {
+			adres = $('#lSrchOptions #phyAdres option:selected').val();
+		}
+		var fcltyNm = $('#lSrchOptions input[name=fcltyNm]').val();				// 시설명
 		
-		if (adres) {
-			filters.push("adres" + " like " + adres);
-		}
-		if (fcltyNm) {
-			filters.push("fclty_nm" + " like " + fcltyNm);
-		}
 		if (fcltyTy) {
 			filters.push("fclty_ty" + " = " + fcltyTy);
 		}
 		if (operMthd) {
 			filters.push("oper_mthd" + " = " + operMthd);
+		}
+		if (adres) {
+			filters.push("adres" + " like " + adres);
+		}
+		if (fcltyNm) {
+			filters.push("fclty_nm" + " like " + fcltyNm);
 		}
 		
 		options = {
@@ -233,23 +236,23 @@ function selectPhyEduFaciDetail(id) {
 		gid = idArray[1];
 	}
 	
-	//그리드에 행전체 선택되게 수정
-	var gridList = FACILITY.Ax5UiGrid.list;
-	for (var i = 0; i < gridList.length; i++) {
-		//console.log(gridList[i]);
-		var grid = gridList[i];
-		if (gid == grid.gid) {
-			var dindex = grid.__index;
-			FACILITY.Ax5UiGrid.clearSelect();
-			FACILITY.Ax5UiGrid.focus(dindex);		
-		}
-	}
-	
 	ui.openPopup("rightSubPopup");
 	
 	var container = "#rightSubPopup";
 	$(container).load("/job/fcmr/phfc/selectPhyEduFaciDetail.do", { gid: gid }, function() {
 		//toastr.success("/job/fcmr/phfc/selectPhyEduFaciDetail.do", "페이지🙂호🙂출🙂");
+		
+		//그리드에 행전체 선택되게 수정
+		var gridList = FACILITY.Ax5UiGrid.list;
+		for (var i = 0; i < gridList.length; i++) {
+			//console.log(gridList[i]);
+			var grid = gridList[i];
+			if (gid == grid.gid) {
+				var dindex = grid.__index;
+				FACILITY.Ax5UiGrid.clearSelect();
+				FACILITY.Ax5UiGrid.focus(dindex);
+			}
+		}
 		
 		dtmap.vector.select(id);		// 지도에 표시
 		
@@ -410,10 +413,10 @@ function insertPhyEduFaci() {
 					closePhyEduFaciPopup();
 					
 					$('li[data-tab=waterProperty] .inner-tab').click();				// 속성검색
-					$('#lSrchOptions input[name=adres]').val('');					// 읍면동 clear
-					$('#lSrchOptions input[name=fcltyNm]').val('');					// 시설명 clear
 					$("#lSrchOptions #phyFcltyTy").val('').prop('selected', true);	// 시설구분 clear
 					$("#lSrchOptions #phyOperMthd").val('').prop('selected', true);	// 운영방식 clear
+					$('#lSrchOptions #phyAdres').val('').prop('selected', true);;	// 읍면동 clear
+					$('#lSrchOptions input[name=fcltyNm]').val('');					// 시설명 clear
 					
 					selectPhyEduFaciList(1);
 				},
@@ -1054,7 +1057,7 @@ function phyEduFaciExcel() {
 			{key: "chrg_dept_nm",		label: "담당부서",			width: '*'},
 			{key: "charger_nm",			label: "담당자",			width: '*'},
 			{key: "cttpc_telno",		label: "문의번호",			width: '*'},
-			{key: "fclty_sumry",		label: "시설개요",			width: '*'},
+			{key: "fclty_sumry",		label: "시설개요",			width: '*'}
 		],
 		body: {
 			align: "center"
@@ -1068,10 +1071,13 @@ function phyEduFaciExcel() {
 		//속성 검색
 		const filters = [];
 		
-		var adres = $('#lSrchOptions input[name=adres]').val();					// 읍면동
-		var fcltyNm = $('#lSrchOptions input[name=fcltyNm]').val();				// 시설명
 		var fcltyTy = $("#lSrchOptions #phyFcltyTy option:selected").val();		// 시설구분
 		var operMthd = $("#lSrchOptions #phyOperMthd option:selected").val();	// 운영방식
+		var adres = $('#lSrchOptions #phyAdres option:selected').text();		// 읍면동
+		if (adres == '전체') {
+			adres = $('#lSrchOptions #phyAdres option:selected').val();
+		}
+		var fcltyNm = $('#lSrchOptions input[name=fcltyNm]').val();				// 시설명
 		
 		if (adres) {
 			filters.push("adres" + " like " + adres);
