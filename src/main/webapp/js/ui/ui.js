@@ -34,7 +34,7 @@ window.ui = (function () {
 
     function _setToastOption() {
         toastr.options = {
-            "positionClass": "toast-bottom-right"
+            "positionClass": "toast-top-center"
         };
     }
 

@@ -29,7 +29,8 @@ class Search {
 
         // 검색 초기화
         $(".lnb-search .lnb-resetBtn").on("click", function () {
-            cmmUtil.resetMap();
+            // cmmUtil.resetMap();
+            dtmap.clear();
             that.unity.reset();
             that.address.reset();
             that.spatial.reset();
@@ -39,7 +40,8 @@ class Search {
         $(".lnb-search .lnb-close").on("click", function () {
             $(".lnb-search").stop().fadeOut(100);
             $("#lnb li[data-menu]").removeClass("on");
-            cmmUtil.resetMap();
+            // cmmUtil.resetMap();
+            dtmap.clear();
         });
     }
 }
@@ -105,7 +107,6 @@ class UnitySearch {
             if (that.params["nm"]) {
                 const form = $("#excel_form", that.selector)[0];
                 $(".hidden-total-keyword", form).val(that.params["nm"]);
-
                 form.setAttribute(
                     "action",
                     "/sach/Unty/selectUntyExcelListDownload.do"
@@ -164,13 +165,11 @@ class UnitySearch {
                 return tag;
             });
             $(".search-list", this.selector).html(tags.join(""));
-
             new Paging(`${this.selector} .pagination`, this.params, (page) => {
                 this.params["page"] = page;
                 this.params["pageIndex"] = page + 1;
                 this.searchTotal();
             });
-
             $(".search-empty", this.selector).hide();
             $(".searchResult-wrap", this.selector).show();
         }
@@ -303,11 +302,7 @@ class AddressSearch {
             const node = $(this);
             node.siblings().removeClass("active");
             node.addClass("active");
-
-            console.log('검색 목록 클릭');
-
             const sn = parseInt(node.attr("data-sn"));
-
             that.showFeature(sn);
         });
     }
@@ -432,9 +427,7 @@ class AddressSearch {
         } else {
             pnu += "____";
         }
-
         this.params["pnu"] = pnu;
-
         ui.loadingBar("show");
         $.post("/sach/adr/searchAddress.do", this.params)
             .done((response) => {
@@ -492,7 +485,6 @@ class AddressSearch {
         this.params["total"] = totalFeatures;
         this.list = result["resultList"];
         $(".bbs-list-num strong", this.selector).text(totalFeatures);
-
         if (totalFeatures == 0) {
             $(".search-empty", this.selector).show();
             $(".searchResult-wrap", this.selector).hide();
@@ -526,7 +518,6 @@ class AddressSearch {
                 return tag;
             });
             $(".search-list", this.selector).html(tags.join(""));
-
             new Paging(`${this.selector} .pagination`, this.params, (page) => {
                 this.params["page"] = page;
                 this.params["pageIndex"] = page + 1;
@@ -536,7 +527,6 @@ class AddressSearch {
                     this.searchRoadAddress();
                 }
             });
-
             $(".search-empty", this.selector).hide();
             $(".searchResult-wrap", this.selector).show();
         }
@@ -549,7 +539,7 @@ class AddressSearch {
     showFeature(sn) {
         const wkt = this.list[sn]["wkt"];
         let text = ``;
-        if(this.list[sn]["rn"]) {
+        if (this.list[sn]["rn"]) {
             text += this.list[sn]["rn"] + ` `;
             text += this.list[sn]["buldMnnm"];
             text += parseInt(this.list[sn]["buldSlno"])
@@ -575,7 +565,6 @@ class AddressSearch {
         const pointX = geometry.flatCoordinates[0];
         const pointY = geometry.flatCoordinates[1];
         dtmap.vector.clear();
-        //지도에 GeoJSON 추가
         dtmap.vector.readGeoJson(geojson, function (feature) {
             return {
                 marker: {
@@ -608,6 +597,15 @@ class SpatialSearch {
         this.loadSearchTarget();
         this.bindEvents();
         $("[name=rad-search-area]:checked", this.selector).trigger("change");
+        this.drawStyle = {
+            fill: {
+                color: 'rgba(255,128,128,0.28)'
+            },
+            stroke: {
+                color: '#FF8080',
+                width: 4
+            },
+        }
     }
 
     /**
@@ -645,9 +643,22 @@ class SpatialSearch {
      */
     bindEvents() {
         const that = this;
+        // 검색 기준 변경
+        $(".tabBoxDepth2 ul li", that.selector).on("click", function () {
+            dtmap.clear();
+            dtmap.off('select');
+            // const node = $(this);
+            // const id = node.attr("data-id");
+            var totalFeatures = 0;
+            that.params["total"] = totalFeatures;
+            $(".bbs-list-num strong", this.selector).text(totalFeatures);
+            $(".search-empty", this.selector).show();
+            $(".searchResult-wrap", this.selector).hide();
+        });
 
         // 검색영역지정 변경 (현재화면영역, 사용자정의)
         $("[name=rad-search-area]", that.selector).on("change", function (event) {
+            dtmap.clear();
             const node = $(this);
             const value = node.val();
             if (value == "extent") {
@@ -660,50 +671,90 @@ class SpatialSearch {
 
         // 사용자 정의 검색 조건
         $("[name=rad-search-drawing]", that.selector).on("click", function () {
+            // const node = $(this);
+            // const type = node.val();
+            // cmmUtil.spitalDraw(type);
+            dtmap.clear();
             const node = $(this);
-            const type = node.val();
-
-            cmmUtil.spitalDraw(type);
+            const value = node.val();
+            let type;
+            switch (Number(value)) {
+                case 1:
+                    type = 'Point';
+                    break;
+                case 2:
+                    type = 'LineString';
+                    break;
+                case 3:
+                    type = 'Box';
+                    break;
+                case 4:
+                    type = 'Circle';
+                    break;
+            }
+            dtmap.draw.active({type: type, once: true});
         });
 
-        // 공간검색 기준 시설물 선택
-        $(".btn-select-map", that.selector).on("click", function () {
-            var type = $("[name=standard-search-target]", that.selector).val();
-            if (mapType == "2D") {
-                if (type) {
-                    toastr.warning("기준시설물 지도상에 선택후 검색을 클릭 하세요.");
-                    cmmUtil.selectFacility(type);
-                } else {
-                    toastr.warning("기준 시설물을 선택하여 주십시오.");
-                    $("[name=standard-search-target]", that.selector).focus();
-                }
+        //시설물기준 - 검색영역지정 selectBox
+        $("#standard-search-target").on("change", function () {
+            dtmap.clear();
+            const node = $(this);
+            const layer = node.val();
+            var promise = dtmap.wfsGetFeature({
+                typeNames: layer, //WFS 레이어명
+                bbox: dtmap.getExtent()
+            });
+            promise.then(function (data) {
+                dtmap.vector.readGeoJson(data, that.drawStyle);
+            });
+        });
+
+        // 공간검색 시설물기준 - 지도에서 선택
+        $(".btn-select-map", that.selector).off().on("click", function () {
+            $("#standard-search-target").trigger("change");
+            const type = $("[name=standard-search-target]", that.selector).val();
+            if (type.length !== 0) {
+                dtmap.off('select', that.onFacSelect);
+                dtmap.on("select", that.onFacSelect);
             } else {
-                if (type) {
-                    if (GLOBAL.layerBox != null) {
-                        delWfSLayer(GLOBAL.layerBox);
-                    }
-                    var layerList = new Module.JSLayerList(true);
-                    var layer = layerList.nameAtLayer("BUFFER_POLYGON_LAYER");
-                    if (layer != null) {
-                        layer.removeAll();
-                    }
-
-                    Module.XDSetMouseState(6);
-                    Module.XDRenderData();
-
-                    createLayerWfS(type, GLOBAL.layerBox);
-                } else {
-                    toastr.warning("기준 시설물을 선택하여 주십시오.");
-                    $("[name=standard-search-target]", that.selector).focus();
-                }
+                toastr.warning("검색영역을 지정해 주세요.");
             }
+            // if (mapType == "2D") {
+            //     if (type) {
+            //         toastr.warning("기준시설물 지도상에 선택후 검색을 클릭 하세요.");
+            //         cmmUtil.selectFacility(type);
+            //     } else {
+            //         toastr.warning("기준 시설물을 선택하여 주십시오.");
+            //         $("[name=standard-search-target]", that.selector).focus();
+            //     }
+            // } else {
+            //     if (type) {
+            //         if (GLOBAL.layerBox != null) {
+            //             delWfSLayer(GLOBAL.layerBox);
+            //         }
+            //         var layerList = new Module.JSLayerList(true);
+            //         var layer = layerList.nameAtLayer("BUFFER_POLYGON_LAYER");
+            //         if (layer != null) {
+            //             layer.removeAll();
+            //         }
+            //
+            //         Module.XDSetMouseState(6);
+            //         Module.XDRenderData();
+            //
+            //         createLayerWfS(type, GLOBAL.layerBox);
+            //     } else {
+            //         toastr.warning("기준 시설물을 선택하여 주십시오.");
+            //         $("[name=standard-search-target]", that.selector).focus();
+            //     }
+            // }
         });
 
         // 영역기준 검색
         $(".areaSearchArea .search", that.selector).on("click", function () {
             that.searchArea();
         });
-        $(".area-search-buffer", that.selector).on("keydown", function (event) {
+        $(".area-search-buffer", that.selector).on("keyup", function (event) {
+            dtmap.draw.setBuffer(Number(this.value));
             if (event.keyCode == "13") {
                 $(".areaSearchArea .search", that.selector).trigger("click");
             }
@@ -714,6 +765,7 @@ class SpatialSearch {
             that.searchFacility();
         });
         $(".facility-search-buffer", that.selector).on("keydown", function (event) {
+            dtmap.draw.setBuffer(Number(this.value));
             if (event.keyCode == "13") {
                 $(".addrSearchfacility .search", that.selector).trigger("click");
             }
@@ -724,10 +776,20 @@ class SpatialSearch {
             const node = $(this);
             node.siblings().removeClass("active");
             node.addClass("active");
-
             const id = node.attr("data-id");
             that.showFeature(id);
         });
+    }
+
+    /**
+     * 선택 이벤트
+     */
+    onFacSelect(e) {
+        if (e.id) {
+            dtmap.vector.select(e.id);
+        } else {
+            toastr.warning("현재 화면에 검색영역이 존재하지 않습니다.");
+        }
     }
 
     /**
@@ -748,7 +810,7 @@ class SpatialSearch {
                 this.search();
             } else {
                 $("[name=rad-search-drawing]:first", this.selector).trigger("click");
-                toastr.warning("검색 영역을 지정하여 주십시오.");
+                toastr.warning("검색영역을 선택하여 주십시오.");
             }
         } else {
             toastr.warning("검색대상을 선택하여 주십시오.");
@@ -769,20 +831,26 @@ class SpatialSearch {
         ).val();
         let geometry = null;
         if (searchAreaType == "extent") {
-            const extent = cmmUtil.getMapExtent();
-            geometry = cmmUtil.toSystemProjection(
-                cmmUtil.toPolygonFromExtent(extent)
-            );
+            // const extent = cmmUtil.getMapExtent();
+            // geometry = cmmUtil.toSystemProjection(
+            //     cmmUtil.toPolygonFromExtent(extent)
+            // );
+            const extent = dtmap.getExtent();
+            geometry = ol.geom.Polygon.fromExtent(extent);
+            geometry = dtmap.util.getBufferGeometry(geometry, buffer);
+
         } else if (searchAreaType == "custom") {
-            const wkt = cmmUtil.getSelectFeatureWKT();
-            if (wkt) {
-                geometry = format.readGeometry(wkt);
-            }
+            // const wkt = cmmUtil.getSelectFeatureWKT();
+            // if (wkt) {
+            //     geometry = format.readGeometry(wkt);
+            // }
+            geometry = dtmap.draw.getGeometry();
+            // wkt = dtmap.draw.writeWKT();
         }
         if (geometry) {
-            const wkt = format.writeGeometry(geometry);
-            cmmUtil.showBufferGeometry(wkt, buffer);
-            return ol.format.filter.dwithin("geom", geometry, buffer, store.getPrj());
+            // const wkt = format.writeGeometry(geometry);
+            // cmmUtil.showBufferGeometry(wkt, buffer);
+            return ol.format.filter.dwithin("geom", geometry, buffer, dtmap.crs);
         } else {
             return null;
         }
@@ -792,6 +860,7 @@ class SpatialSearch {
      * 시설물 검색
      */
     searchFacility() {
+        dtmap.off('select', this.onFacSelect);
         const featureType = $("[name=facility-search-target]", this.selector).val();
         if (featureType) {
             const filter = this.getFacilityFilter();
@@ -806,7 +875,7 @@ class SpatialSearch {
                 ).text();
                 this.search();
             } else {
-                toastr.warning("기준 시설물을 선택하여 주십시오.");
+                toastr.error("기준 시설물을 지도에서 선택해 주세요.");
             }
         } else {
             toastr.warning("검색대상을 선택하여 주십시오.");
@@ -819,16 +888,32 @@ class SpatialSearch {
      * @returns {ol.format.filter.dwithin} 검색조건
      */
     getFacilityFilter() {
+
+        const format = new ol.format.WKT();
         let buffer = $(".facility-search-buffer", this.selector).val();
-        const wkt = cmmUtil.getSelectFeatureWKT();
         let geometry = null;
-        if (wkt) {
-            const format = new ol.format.WKT();
-            geometry = format.readGeometry(wkt);
-            cmmUtil.showBufferGeometry(wkt, buffer);
+
+        const selected = dtmap.vector.getSelected();
+        if (selected && selected.length > 0) {
+            const feature = selected[0];
+            geometry = feature.getGeometry();
+            geometry = dtmap.util.getBufferGeometry(geometry, buffer);
+            dtmap.draw.addGeometry(geometry, this.drawStyle);
+        } else {
+            // toastr.warning("검색 기준 시설물을 선택하여 주십시오.");
+            ui.loadingBar("hide");
+            return;
         }
+        // let buffer = $(".facility-search-buffer", this.selector).val();
+        // const wkt = cmmUtil.getSelectFeatureWKT();
+        // let geometry = null;
+        // if (wkt) {
+        //     const format = new ol.format.WKT();
+        //     geometry = format.readGeometry(wkt);
+        //     cmmUtil.showBufferGeometry(wkt, buffer);
+        // }
         if (geometry) {
-            return ol.format.filter.dwithin("geom", geometry, buffer, store.getPrj());
+            return ol.format.filter.dwithin("geom", geometry, buffer, dtmap.crs);
         } else {
             return null;
         }
@@ -843,245 +928,44 @@ class SpatialSearch {
         const filter = this.params["filter"];
         const listSize = this.params["listSize"];
         const page = this.params["page"];
-        loadingShowHide("show");
-        util.gis
-            .getFeature([featureType], filter, listSize, page)
-            .done((geojson) => {
-                const format = new ol.format.GeoJSON();
-                this.features = format.readFeatures(geojson);
-                this.features.forEach((feature) => {
-                    feature.setGeometry(
-                        cmmUtil.toMapProjection(feature.getGeometry().clone())
-                    );
-                    //          if(mapType == "3D"){
-                    //        	 var geoxy = feature.getGeometry().flatCoordinates
-                    //      	 	createImagePoi()
-                    //          }
-                });
-                this.createResults(geojson["totalFeatures"], this.features);
+        ui.loadingBar("show");
+        let param = {
+            typeNames: "digitaltwin:" + featureType,
+            // filter : filter,
+            page: page + 1,
+            perPage: listSize,
+            sortBy: "gid"
+        };
+        const geometry = filter.geometry.clone();
+        param.geometry = geometry;
+        let totalFeatures = 0;
+        var that = this;
+        dtmap.wfsGetFeature(param).then(function (e) {
+            that.features = e.features;
+            dtmap.vector.clear();
+            if (e.features.length === 0) {
+                toastr.warning('검색결과가 없습니다.');
+            }
+            dtmap.vector.readGeoJson(e, function (feature) {
 
-                cmmUtil.clearHighlight();
+                let text = feature.get("label") ||
+                    feature.get("ftr_idn") ||
+                    feature.get("gid");
 
-                let icons = null;
-                let icon = null;
-                if (featureType == "swl_dept_ps") {
-                    icon = "/images/poi/swlDeptPs_poi.png";
-                } else if (featureType == "swl_dran_ps") {
-                    icon = "./images/poi/swlDranPs_poi.png";
-                } else if (featureType == "swl_manh_ps") {
-                    icon = "./images/poi/swlManhPs_poi.png";
-                } else if (featureType == "swl_pump_ps") {
-                    icon = "./images/poi/swlPumpPs_poi.png";
-                } else if (featureType == "swl_spew_ps") {
-                    icon = "./images/poi/swlSpewPs_poi.png";
-                } else if (featureType == "swl_spot_ps") {
-                    icon = "./images/poi/swlSpotPs_poi.png";
-                } else if (featureType == "swl_vent_ps") {
-                    icon = "./images/poi/swlVentPs_poi.png";
-                } else if (featureType == "wtl_fire_ps") {
-                    icons = [
-                        {
-                            ftrCde: "SA118",
-                            icon: "./images/poi/waterTower_poi.png",
-                        },
-                        {
-                            ftrCde: "SA119",
-                            icon: "./images/poi/hydrant_poi.png",
-                        },
-                    ];
-                } else if (featureType == "wtl_manh_ps") {
-                    icons = [
-                        {ftrCde: "SA100", icon: "./images/poi/wtlManhPs_poi.png"},
-                        {ftrCde: "SA991", icon: "./images/poi/expansionJoint_poi.png"},
-                    ];
-                } else if (featureType == "wtl_prga_ps") {
-                    icon = "./images/poi/wtlPrgaPs_poi.png";
-                } else if (featureType == "wtl_serv_ps") {
-                    icon = "./images/poi/wtlServPs_poi.png";
-                } else if (featureType == "wtl_valv_ps") {
-                    icons = [
-                        {ftrCde: "SA200", icon: "./images/poi/stopValve_poi.png"},
-                        {ftrCde: "SA201", icon: "./images/poi/nonreturnValve_poi.png"},
-                        {ftrCde: "SA202", icon: "./images/poi/drainValve_poi.png"},
-                        {ftrCde: "SA203", icon: "./images/poi/exhaustValve_poi.png"},
-                        {ftrCde: "SA204", icon: "./images/poi/prsRelifValve_poi.png"},
-                        {ftrCde: "SA205", icon: "./images/poi/safetyValve_poi.png"},
-                    ];
-                } else if (featureType == "tgd_sprd_manage") {
-                    icon = "./images/poi/roadSection_poi.png";
-                } else if (featureType == "tgd_sprl_rlway") {
-                    icon = "./images/poi/railroadTrack_poi.png";
-                } else if (featureType == "tgd_sprl_statn") {
-                    icon = "./images/poi/railroadStation_poi.png";
-                } else if (featureType == "tgd_spsb_rlway") {
-                    icon = "./images/poi/subwayTrack_poi.png";
-                } else if (featureType == "tgd_spsb_statn") {
-                    icon = "./images/poi/subwayStation_poi.png";
-                } else if (featureType == "tgd_spot_bridge") {
-                    icon = "./images/poi/bridge_poi.png";
-                } else if (featureType == "tgd_spot_overpass") {
-                    icon = "./images/poi/overpass_poi.png";
-                } else if (featureType == "tgd_spot_tunnel") {
-                    icon = "./images/poi/tunnel_poi.png";
-                } else if (featureType == "tgd_cctv_status") {
-                    icon = "./images/poi/cctv_poi.png";
-                }
-
-                if (icons != null) {
-                    icons.forEach((icon) => {
-                        const arr = [];
-                        this.features.forEach((feature) => {
-                            if (feature.get("ftr_cde") == icon["ftrCde"]) {
-                                arr.push(feature);
-                            }
-                        });
-                        if (arr.length > 0) {
-                            cmmUtil.highlightFeatures(
-                                format.writeFeatures(arr),
-                                icon["icon"],
-                                {
-                                    notClear: true,
-                                    onClick: (feature) => {
-                                        this.showFeature(feature.getId());
-                                        //                    console.log(feature);
-                                    },
-                                }
-                            );
-                        }
-                    });
-                } else if (icon != null) {
-                    cmmUtil.highlightFeatures(geojson, icon, {
-                        notClear: true,
-                        onClick: (feature) => {
-                            this.showFeature(feature.getId());
-                            //              console.log(feature);
-                        },
-                    });
-                } else {
-                    cmmUtil.highlightFeatures(geojson, "./images/poi/icon1.png", {
-                        onClick: (feature) => {
-                            this.showFeature(feature.getId());
-                            //              console.log(feature);
-                        },
-                    });
-                }
-
-                // 3D에서 사용자 영역 그리기 도구 마우스 상태 변경을 위해 추가
-                if (!app2D) {
-                    if ($("li[data-tab=areaSearchArea]").hasClass("on")) {
-                        //검색-공간검색-영역기준
-
-                        Module.XDSetMouseState(1);
-                    }
-                    if ($("li[data-tab=addrSearchfacility]").hasClass("on")) {
-                        //검색-공간검색-시설물기준
-
-                        var selectData = GLOBAL.selectObjectData;
-                        var type = selectData.features[0].geometry.type;
-                        var radius = $(".facility-search-buffer").val();
-                        var layerName = GLOBAL.SelectObject.split("-")[1];
-
-                        if (radius != "0") {
-                            // 폴리곤을 저장할 레이어 반환
-                            var map = Module.getMap();
-                            var line2D = new Module.JSVec2Array();
-                            var polygonLine3D = new Module.JSVec3Array();
-                            var polygonLine;
-
-                            var layerList = new Module.JSLayerList(true);
-                            var layer = layerList.nameAtLayer("BUFFER_POLYGON_LAYER");
-                            if (layer == null) {
-                                layer = layerList.createLayer(
-                                    "BUFFER_POLYGON_LAYER",
-                                    Module.ELT_PLANE
-                                );
-                            } else {
-                                layer.removeAll();
-                            }
-                            if (type == "Point") {
-                                var geom = selectData.features[0].geometry.coordinates;
-
-                                let center = new Module.JSVector3D(
-                                    parseFloat(geom[0]),
-                                    parseFloat(geom[1]),
-                                    Module.getMap().getTerrHeightFast(
-                                        parseFloat(geom[0]),
-                                        parseFloat(geom[1])
-                                    ) + 2
-                                );
-                                createCirclePolygon(center, radius, 100);
-
-                                return false;
-                            } else if (type == "MultiLineString") {
-                                var geom = selectData.features[0].geometry.coordinates[0];
-
-                                for (var i = 0; i < geom.length; i++) {
-                                    line2D.push(
-                                        new Module.JSVector2D(
-                                            parseFloat(geom[i][0]),
-                                            parseFloat(geom[i][1])
-                                        )
-                                    );
-                                }
-
-                                // 라인의 거리 100m 버퍼 폴리곤 좌표 반환
-                                polygonLine = map.getLineBuffer(line2D, parseFloat(radius));
-                            } else if (type == "MultiPolygon") {
-                                var geom = selectData.features[0].geometry.coordinates[0];
-                                for (var i = 0; i < geom[0].length; i++) {
-                                    line2D.push(
-                                        new Module.JSVector2D(
-                                            parseFloat(geom[0][i][0]),
-                                            parseFloat(geom[0][i][1])
-                                        )
-                                    );
-                                }
-
-                                // 라인의 거리 100m 버퍼 폴리곤 좌표 반환
-                                polygonLine = map.getLineBuffer(line2D, parseFloat(radius));
-                            }
-                            // 폴리곤 생성을 위해 3D 좌표로 변환
-
-                            for (var i = 0; i < polygonLine.count(); i++) {
-                                var z = Module.getMap().getTerrHeightFast(
-                                    polygonLine.get(i).x,
-                                    polygonLine.get(i).y
-                                );
-                                polygonLine3D.push(
-                                    new Module.JSVector3D(
-                                        polygonLine.get(i).x,
-                                        polygonLine.get(i).y,
-                                        z + 3
-                                    )
-                                );
-                            }
-
-                            // 폴리곤 생성
-                            var polygon = Module.createPolygon("BUFFER_POLYGON");
-
-                            // 폴리곤 색상 설정
-                            var polygonStyle = new Module.JSPolygonStyle();
-                            polygonStyle.setFill(true);
-                            polygonStyle.setFillColor(new Module.JSColor(80, 255, 228, 0));
-                            polygonStyle.setOutLine(true);
-                            polygonStyle.setOutLineWidth(3.2);
-                            polygonStyle.setOutLineColor(
-                                new Module.JSColor(100, 255, 228, 0)
-                            );
-                            polygon.setStyle(polygonStyle);
-
-                            // 폴리곤 형상 설정
-                            var part = new Module.Collection();
-                            part.add(polygonLine3D.count());
-                            polygon.setPartCoordinates(polygonLine3D, part);
-
-                            // 레이어에 추가
-                            layer.addObject(polygon, 0);
-                        }
+                return {
+                    stroke: {
+                        color: '#ff0000'
+                    },
+                    label: {
+                        text: text.toString()
                     }
                 }
             });
-        loadingShowHide("hide");
+            // dtmap.vector.fit();
+            that.createResults(e.totalFeatures, that.features);
+        });
+        dtmap.vector.clearSelect();
+        ui.loadingBar("hide");
     }
 
     /**
@@ -1099,20 +983,21 @@ class SpatialSearch {
         } else {
             let tag = ``;
             features.forEach((feature) => {
-                const properties = feature.getProperties();
+                // const properties = feature.getProperties();
+                const properties = feature.properties;
                 let facility = this.facility.find((item) => {
                     const name = item["tblNm"].toLowerCase();
-                    return feature.getId().startsWith(name);
+                    // return feature.getId().startsWith(name);
+                    return feature.id.startsWith(name);
                 });
 
                 if (facility) {
                     const text =
-                        properties[facility["lblField"]] ||
+                        properties["label"] ||
+                        // properties[facility["lblField"]] ||
                         properties["ftr_idn"] ||
-                        properties["gid"] ||
-                        properties["label"]
-                    ;
-                    tag += `<li data-id="${feature.getId()}" ><a href="javascript:void(0);">[${
+                        properties["gid"];
+                    tag += `<li data-id="${feature.id}" ><a href="javascript:void(0);">[${
                         this.params["title"]
                     }] ${text}</a></li>`;
                 } else {
@@ -1138,10 +1023,10 @@ class SpatialSearch {
      * @param {string} id 아이디
      */
     showFeature(id) {
-        const findFeature = this.features.find((feature) => feature.getId() == id);
-        const format = new ol.format.WKT();
-        const wkt = format.writeGeometry(findFeature.getGeometry());
-        console.log('wkk ', wkt);
-        cmmUtil.moveGeometry(wkt);
+        const findFeature = this.features.find((feature) => feature.id == id);
+        dtmap.vector.select(findFeature.id);
+        // const format = new ol.format.WKT();
+        // const wkt = format.writeGeometry(findFeature.geometry);
+        // cmmUtil.moveGeometry(wkt);
     }
 }
