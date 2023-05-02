@@ -149,10 +149,18 @@ function geoEditBindEvents(obj) {
                 point.transform("EPSG:4326", "EPSG:5179")
             );
             
-            console.log(wkt);
-            // cmmUtil.addEditGeometry(wkt);
-            
-            toastr.warning("cmmUtil.addEditGeometry(wkt);", "객체 추가");
+            //console.log(wkt);
+
+            //임시 공간에 포인트 WKT 저장
+            $(".pointTempGeomWKT").val(wkt);
+
+            //화면에 임시 포인트(점) 표시
+            /*dtmap.vector.addPoint({
+        	  id: 'tempPoint',
+        	  coordinates: [x, y],
+        	  crs: 'EPSG:4326',
+        	});*/
+           
         } else {
             if (!xNode.val()) {
                 xNode.focus();
