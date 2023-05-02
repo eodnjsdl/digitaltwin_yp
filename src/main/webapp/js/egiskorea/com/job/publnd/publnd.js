@@ -547,10 +547,8 @@ function _onDrawEnd_publndMap(e) {
 	setTimeout(() => {
 	    dtmap.toImage().then(function(data){
         	$(".saveMap-satlit-thumb img").attr("src", data);
+        	saveCurrentImage();
             });
-	    $(".saveMap-satlit-thumb img").on('change', function() {
-		saveCurrentImage();
-	    });
 	}, 1000);
         dtmap.draw.dispose();
         
@@ -575,8 +573,8 @@ function setPublndLayer(geom, layerNm) {
 }
 
 function saveCurrentImage() {
+    let src = $(".saveMap-satlit-thumb img").attr("src");
     if (confirm('현재 화면으로 저장하시겠습니까?')) {
-	const src = $(".saveMap-satlit-thumb img").attr("src");
 	let link = document.createElement("a");
 	link.download = "map.png";
 	link.href = src;
