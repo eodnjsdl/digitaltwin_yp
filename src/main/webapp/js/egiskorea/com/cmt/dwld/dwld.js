@@ -178,9 +178,9 @@ class DataDownlad {
             });
         });
         //시설물기준 - 지도에서 선택
-        $(".btn-select-map", that.selector)
-            .off()
-            .on("click", function () {
+        $(".btn-select-map", that.selector).off().on("click", function () {
+                dtmap.clear();
+                $("#facilitySelectList").trigger("change");
                 const type = $("[name=standard-search-target]", that.selector).val();
                 if (type.length !== 0) {
                     dtmap.off('select', that.onFacSelect);
@@ -238,7 +238,7 @@ class DataDownlad {
      * 다운로드
      */
     download() {
-        // ui.loadingBar("show");
+        ui.loadingBar("show");
         const that = this;
         const downParam = {};
         const type = $(".tabBoxDepth1 ul li.on", this.selector).attr("data-id");
@@ -255,6 +255,7 @@ class DataDownlad {
             if (type === "tr_area") {
                 //현재화면영역
                 if (searchArea === "extent") {
+                    dtmap.clear();
                     const buffer = Number($(".area-search-buffer", this.selector).val() || 0);
                     const extent = dtmap.getExtent();
                     geometry = ol.geom.Polygon.fromExtent(extent);
@@ -264,6 +265,12 @@ class DataDownlad {
 
                 }  //사용자정의
                 else if (searchArea === "custom") {
+                    if(dtmap.vector.writeGeoJson()) {
+                        dtmap.clear();
+                        toastr.warning("새로운 검색영역을 지정해주세요.");
+                        ui.loadingBar("hide");
+                        return;
+                    }
                     geometry = dtmap.draw.getGeometry();
                     wkt = dtmap.draw.writeWKT();
                 } else {
@@ -282,7 +289,7 @@ class DataDownlad {
                     wkt = dtmap.draw.writeWKT()
                     $("#facilitySelectList").trigger("change");
                 } else {
-                    toastr.warning("검색 기준 시설물을 선택하여 주십시오.");
+                    toastr.error("지도에서 시설물을 선택해 주세요.");
                     ui.loadingBar("hide");
                     return;
                 }
@@ -294,7 +301,8 @@ class DataDownlad {
             if (wkt) {
                 downParam["wkt"] = wkt;
             } else {
-                toastr.warning("검색 영역을 지정하여 주십시오.");
+                toastr.warning("검색영역을 지정하여 주십시오.");
+                ui.loadingBar("hide");
                 return;
             }
 
@@ -326,6 +334,7 @@ class DataDownlad {
     }
 
     _fileDownload(params) {
+        const that = this;
         // window.location.href = "/cmt/dwld/dataDownload.do?" + $.param(params);
         var url = "/cmt/dwld/dataDownload.do?" + $.param(params);
         const req = new XMLHttpRequest();
@@ -340,9 +349,15 @@ class DataDownlad {
                 link.download = params.dataIds + "_" + cmmUtil.getTime() + ".zip";
                 link.click();
                 ui.loadingBar("hide");
+                that._disposeDrawGraphics();
             }
         };
         req.send();
+    }
+
+    _disposeDrawGraphics() {
+        dtmap.draw.dispose();
+        $('.drawing-obj span input:checked').prop("checked", false);
     }
 
 }

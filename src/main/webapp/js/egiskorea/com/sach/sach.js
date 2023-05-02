@@ -189,9 +189,6 @@ class UnitySearch {
         features.push(feature);
         const format = new ol.format.GeoJSON();
         const geojson = format.writeFeatures(features);
-        const geometry = reader.readGeometry(wkt);
-        const pointX = geometry.flatCoordinates[0];
-        const pointY = geometry.flatCoordinates[1];
         dtmap.vector.clear();
         //지도에 GeoJSON 추가
         dtmap.vector.readGeoJson(geojson, function (feature) {
@@ -561,9 +558,6 @@ class AddressSearch {
         features.push(feature);
         const format = new ol.format.GeoJSON();
         const geojson = format.writeFeatures(features);
-        const geometry = reader.readGeometry(wkt);
-        const pointX = geometry.flatCoordinates[0];
-        const pointY = geometry.flatCoordinates[1];
         dtmap.vector.clear();
         dtmap.vector.readGeoJson(geojson, function (feature) {
             return {
@@ -875,7 +869,7 @@ class SpatialSearch {
                 ).text();
                 this.search();
             } else {
-                toastr.error("기준 시설물을 지도에서 선택해 주세요.");
+                toastr.error("지도에서 시설물을 선택해 주세요.");
             }
         } else {
             toastr.warning("검색대상을 선택하여 주십시오.");
