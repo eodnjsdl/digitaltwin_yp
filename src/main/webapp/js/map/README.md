@@ -76,7 +76,7 @@ dtmap.draw.setBuffer(0); //해제
 ```javascript
  dtmap.vector.addPoint({
   id: '피쳐아이디',
-  coordinate: [127,36],
+  coordinates: [127,36],
   crs: 'EPSG:4326',
   style: style //스타일 옵션 (벡터 스타일옵션 참고)
 })
@@ -85,7 +85,7 @@ dtmap.draw.setBuffer(0); //해제
 ```javascript
  dtmap.vector.addLine({
   id: '피쳐아이디',
-  coordinate: [[127,36],[127.12,36.12],...],
+  coordinates: [[127,36],[127.12,36.12],...],
   crs: 'EPSG:4326',
   style: style //스타일 옵션 (벡터 스타일옵션 참고)
 })
@@ -94,7 +94,7 @@ dtmap.draw.setBuffer(0); //해제
 ```javascript
  dtmap.vector.addPolygon({
   id: '피쳐아이디',
-  coordinate: [[[127,36],[127.12,36.12],...]],
+  coordinates: [[[127,36],[127.12,36.12],...]],
   crs: 'EPSG:4326',
   style: style //스타일 옵션 (벡터 스타일옵션 참고)
 })

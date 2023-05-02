@@ -660,7 +660,7 @@ window.ui = (function () {
                 _area.top = "unset";
                 _area.right = "unset";
                 _area.left = "320";
-                _area.width = "1600";
+                //_area.width = "1600";	//가로길이 수정위해 주석
                 _area.heigth = "378";
                 break;
             //우측
