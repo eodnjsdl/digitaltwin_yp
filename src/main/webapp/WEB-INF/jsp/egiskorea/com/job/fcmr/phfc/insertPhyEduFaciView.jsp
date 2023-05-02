@@ -94,11 +94,10 @@ function phyEduFaciGeom(e) {
 								<tr>
 									<th scope="row">시설유형</th>
 									<td>
-										<!-- <select name="fcltyTy" id="fclty_ty" class="form-select">
+										<select name="fcltyTy" id="fclty_ty" class="form-select">
 											<option value=""></option>
 											<option value="체육시설">체육시설</option>
-										</select> -->
-										<input type="text" name="fcltyTy" id="fclty_ty" class="form-control" value="<c:out value="${result.fcltyTy}"></c:out>" />
+										</select>
 									</td>
 									<th scope="row">운영방식</th>
 									<td>
@@ -149,11 +148,10 @@ function phyEduFaciGeom(e) {
 									<td colspan="3">
 										<div class="form-row">
 											<div class="col">
-												<!-- <select name="chrgDeptNm" id="chrg_dept_nm" class="form-select">
+												<select name="chrgDeptNm" id="chrg_dept_nm" class="form-select">
 													<option value=""></option>
 													<option value="국토토지과">국토토지과</option>
-												</select> -->
-												<input type="text" name="chrgDeptNm" id="chrg_dept_nm" class="form-control" value="<c:out value="${result.chrgDeptNm}"></c:out>" />
+												</select>
 											</div>
 											<div class="col"><input type="text" name="chargerNm" class="form-control" value="<c:out value="${result.chargerNm}"></c:out>"/></div>
 											<div class="col"><input type="text" name="cttpcTelno" class="form-control" value="<c:out value="${result.cttpcTelno}"></c:out>"/></div>
