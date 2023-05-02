@@ -14,10 +14,10 @@ var cwp = {
 }
 
 $(document).ready(function(){ // 실행할 기능을 정의해주세요.
-	/*loadScript('/js/egiskorea/com/cmm/cmmUtil.js');*/
-	// 달력
-	//ui.callDatePicker();
-	//callSelectOptions();
+
+	//오브젝트 클릭 이벤트 처리 
+    dtmap.off('select');
+    dtmap.on('select',spaceClickListener );
 
 	// 공사 계획정보 등록 화면 이동 이벤트 처리
 	$("#cwpRegist").unbind('click').bind('click',function(){
@@ -27,25 +27,10 @@ $(document).ready(function(){ // 실행할 기능을 정의해주세요.
 	// 지도 클릭위치 좌표값 획득 이벤트 처리
 	$("#getPositionLocation").unbind('click').bind('click',function(){
 		// cmmUtil.getPositionGeom(positionCallback);
+		dtmap.off('select');
 		dtmap.draw.active({type: 'Point', once: true});
 		dtmap.on('drawend', onDrawEnd);
 	});
-
-	function onDrawEnd(e) {
-		dtmap.draw.dispose();
-		var geom = e.geometry;
-		const position = geom.getFlatCoordinates();
-		
-		var xObj = parseFloat(position[0]);
-		var yObj = parseFloat(position[1]);
-		cmmUtil.reverseGeocoding(xObj, yObj).done((result)=>{
-			$("#cntrkLcAdres").val("경기도 양평군 "+result["address"]);
-			const format = new ol.format.WKT();
-			const point = new ol.geom.Point([xObj, yObj]);
-			const wkt = format.writeGeometry(point);
-			$("#geom").val(wkt);
-		});
-	}
 
 	// 공사계획 상세페이지 에서 취소버튼 이벤트 처리
 	$("#btnCpCancel").unbind('click').bind('click',function(){
@@ -111,6 +96,23 @@ $(document).ready(function(){ // 실행할 기능을 정의해주세요.
 		}
 	}
 });
+// 지도 클릭위치 좌표값 획득 이벤트
+function onDrawEnd(e) {
+	dtmap.draw.dispose();
+	var geom = e.geometry;
+	const position = geom.getFlatCoordinates();
+	
+	var xObj = parseFloat(position[0]);
+	var yObj = parseFloat(position[1]);
+	cmmUtil.reverseGeocoding(xObj, yObj).done((result)=>{
+		$("#cntrkLcAdres").val("경기도 양평군 "+result["address"]);
+		const format = new ol.format.WKT();
+		const point = new ol.geom.Point([xObj, yObj]);
+		const wkt = format.writeGeometry(point);
+		$("#geom").val(wkt);
+	});
+	dtmap.on('select',spaceClickListener );
+}
 
 //TODO GIS
 //POILsyrt를 추가해준다.
@@ -207,7 +209,6 @@ function callSelectOptions(){
 function aj_selectConstructionPlan(keyId){
 	poiListPlan = '';
 	ui.loadingBar("show");
-	dtmap.vector.select(keyId);
 	var form = $("#searchPlanForm")[0];
 	var formData = new FormData(form);
 
@@ -228,7 +229,7 @@ function aj_selectConstructionPlan(keyId){
 		formData.set('cntrkNm', reCntrkNmDtl);
 		formData.set('pageIndex', rePageIndexDtl);
 	}
-	formData.append('cntrkPlnId', keyId);
+	formData.append('cntrkPlnId', keyId);	
 
 	$.ajax({
 		type : "POST",
@@ -460,68 +461,11 @@ function fn_select_list(){
 
 // 페이징 처리
 function fn_selectPlan_linkPage(pageNo){
-	// 조회영역에 있는 값들 가져오기
-/*	cwp.inPlnYear = $("#plnYear").val();
-	cwp.inPlnQu = $("#plnQu").val();
-	cwp.inCntrkTy = $("#cntrkTy").val();
-	cwp.inChpsnPsitn = $("#chpsnPsitn").val();
-	cwp.inCntrkLcAdres = $("#cntrkLcAdres").val();
-	cwp.inCntrkNm = $("#cntrkNm").val();*/
-	// document.searchPlanForm.pageIndex.value = pageNo;			// 선택한 페이지 번호
-	// document.searchPlanForm.plnYear.value = rePlnYear;			// 검색된(초기 null) 년도;
-	// document.searchPlanForm.plnQu.value = rePlnQu;				// 검색된(초기 null) 분기;
-	// document.searchPlanForm.cntrkTy.value = reCntrkTy;			// 검색된(초기 null) 공사유형;
-	// document.searchPlanForm.chpsnPsitn.value = reChpsnPsitn;	// 검색된(초기 null) 집행부서;
-	// document.searchPlanForm.cntrkLcAdres.value = reCntrkLcAdres;// 검색된(초기 null) 읍명동;
-	// document.searchPlanForm.cntrkNm.value = reCntrkNm;			// 검색된(초기 null) 공사명;
 
 	document.searchPlanForm.pageIndex.value = pageNo;		// 선택한 페이지 번호
 	aj_selectConstructionPlanList($("#searchPlanForm")[0]);
 }
 
-//POILayer를 추가해준다.
-/*function setPointLayerCwp(){
-	alert("공사계획정보 poi표출 영역");
-	var mapType = $('input:radio[name="mapType"]:checked').val();
-	if(mapType == "2D"){
-		const format = new ol.format.GeoJSON();
-		const features = [];
-		poiList["resultList"].forEach((item) => {
-			features.push(new ol.Feature(new ol.geom.Point([parseFloat(item["lon"]), parseFloat(item["lat"])])));
-		});
-		if(features.length > 0) {
-			const geojson = format.writeFeatures(features)
-			cmmUtil.highlightFeatures(geojson, "./images/poi/constructionPlan_poi.png", { notMove: true });
-		} else {
-			cmmUtil.clearHighlight();
-		}
-	}else{
-		// POI 오브젝트를 추가 할 레이어 생성
-		var layerList = new Module.JSLayerList(true);
-		// 생성된어 있는 POI 레이어가 있을때 지워주기
-		if(GLOBAL.LayerId.PoiLayerId != null){
-			layerList.nameAtLayer(GLOBAL.LayerId.PoiLayerId).removeAll();
-			GLOBAL.LayerId.PoiLayerId = null;
-			Module.XDRenderData();
-		}
-		GLOBAL.LayerId.PoiLayerId = "TBD_CNTRK_PLN_INFO";
-		GLOBAL.PoiLayer = layerList.createLayer(GLOBAL.LayerId.PoiLayerId, Module.ELT_3DPOINT);
-		for(var i = 0; i < poiList.resultList.length; i++){
-			var pointX = Number(poiList.resultList[i].lon); //x 좌표
-			var pointY = Number(poiList.resultList[i].lat); //y 좌표
-			var position = TransformCoordinate(pointX, pointY, 26, 13);
-			var options = {
-					layer : GLOBAL.PoiLayer,
-					lon : position.x,
-					lat : position.y,
-					text : poiList.resultList[i].cntrkNm,
-					markerImage : "./images/poi/constructionPlan_poi.png", // 해당 마커 이미지 Url
-					lineColor : new Module.JSColor(0, 0, 255)
-			}
-			createLinePoi2(options);
-		}
-	}
-}	*/
 
 
 //공사계획정보 호출
@@ -563,34 +507,16 @@ function aj_selectConstructionPlanListPage(form){
 	});
 }
 
-//TODO GIS
-// 설정되어 있는 정보값들을 초기화 한다.
-// function destroy(){
-// 	var mapType = $('input:radio[name="mapType"]:checked').val();
-//     if (mapType == "2D") {
-//
-//     }else{
-//         // POI 오브젝트를 추가 할 레이어 생성
-//         var layerList = new Module.JSLayerList(true);
-//         debugger;
-//         // 생성된어 있는 POI 레이어가 있을때 지워주기
-//         if (GLOBAL.LayerId.PoiLayerId != null) {
-//           var layer = layerList.nameAtLayer(GLOBAL.LayerId.PoiLayerId);
-//           if (layer != null) {
-//           	//layerList.delLayerAtName(GLOBAL.LayerId.PoiLayerId);
-//           	layerList.nameAtLayer(GLOBAL.LayerId.PoiLayerId).removeAll();
-//           	GLOBAL.LayerId.PoiLayerId = null;
-//           }
-//
-//           Module.XDRenderData();
-//         }
-//     	if(GLOBAL.StartPoint){
-//     		GLOBAL.StartPoint = false;
-//     		removePoint(GLOBAL.NomalIcon);
-//     	}
-//     	// 생성된어 있는 POI, Line, Polygon 레이어가 있을때 지워주기
-//     	//removeLayer3D();
-//     }
-//
-// }
+//레이어 선택 상세보기
+function spaceClickListener(e){
+	var gid ;
+	if (dtmap.mod === '3D'){
+		gid=e.id;
+	}else{
+		gid=e.id;
+	}
+	aj_selectConstructionPlan(gid);
+    dtmap.vector.select(e.id);
+}
+
 
