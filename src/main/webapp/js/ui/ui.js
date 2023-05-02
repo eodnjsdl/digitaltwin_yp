@@ -665,7 +665,7 @@ window.ui = (function () {
                 _area.right = "unset";
                 _area.left = "320";
                 //_area.width = "1600";	//가로길이 수정위해 주석
-                _area.heigth = "378";
+                _area.heigth = "330";
                 break;
             //우측
             case "rightPopup" :

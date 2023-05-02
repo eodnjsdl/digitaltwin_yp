@@ -560,7 +560,7 @@ html, body {
 	position: absolute;
 	right: 20px;
 	bottom: 0;
-	z-index: 200;
+	z-index: 401;
 }
 .map-util > div {
 	height: 40px;
