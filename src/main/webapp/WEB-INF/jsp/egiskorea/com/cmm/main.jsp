@@ -746,7 +746,7 @@
         <!-- //right-sub popup-panel -->
 
         <!-- bottom popup-panel -->
-        <div id="bottomPopup" class="popup-panel popup-bottom">
+        <div id="bottomPopup" class="popup-panel popup-bottom" style="width: calc(100% - 391px);">
         </div>
         <!-- //bottom popup-panel -->
 
