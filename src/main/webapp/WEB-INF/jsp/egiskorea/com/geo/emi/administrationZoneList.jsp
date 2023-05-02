@@ -112,7 +112,7 @@
     <div class="territory-list-wrap">
         <ul class="territory-list">
             <c:forEach items="${resultList}" var="result" varStatus="status">
-                <li><a href="javascript:aj_selectExaminationInfoList('<c:out value="${result.code2}" />','1')"
+                <li><a href="javascript:clickTerritory('<c:out value="${result.code2}" />','1')"
                        data-popup="territory-detail"><span class="tit"><c:out value="${result.code1Nm}"/> <c:out
                         value="${result.code2Nm}"/> 조사데이터</span><span class="writer"><c:out
                         value="${result.userNm}"/></span><span class="date"><c:out
@@ -140,6 +140,9 @@
     <button type="button" class="lnb-close" title="닫기"></button>
 </div>
 <script>
+    function clickTerritory(p1, p2) {
+        aj_selectExaminationInfoList($("#tmpForm")[0], p1, p2);
+    }
     $(document).ready(function () {
         $(".lnb-territory .bi-write").click(function () {
             $(this).addClass("active");
