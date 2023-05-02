@@ -16,6 +16,7 @@
 </style>
 
 <script>
+
 $(".scroll-y").mCustomScrollbar({
 	scrollbarPosition: "outside"
 });
@@ -62,6 +63,7 @@ function phyEduFaciGeom(e) {
 		$("#phyEduFaciTbl input[name=geom]").val(wkt);
 	});
 }
+
 </script>
 
 <!-- 업무 > 시설관리 > 체육시설 > 등록하기 / 수정하기 -->
@@ -107,7 +109,10 @@ function phyEduFaciGeom(e) {
 								</tr>
 								<tr>
 									<th scope="row">건립비용(백만원)</th>
-									<td><input type="number" name="ercCt" min="0" class="form-control align-left" value="<c:out value="${result.ercCt}"></c:out>"/></td>
+									<td>
+										<fmt:parseNumber value="${result.ercCt}" var="ercCt"/>
+										<input type="number" name="ercCt" min="0" class="form-control align-left" value="<c:out value="${ercCt}"></c:out>"/>
+									</td>
 									<th scope="row">설립일자</th>
 									<td><div class="datapicker-group">
 											<input type="text" name="fondDe" class="datepicker" id="spor_datepicker" value="<c:out value="${result.fondDe}"></c:out>" style="font-size: 12px;"/>
@@ -116,15 +121,27 @@ function phyEduFaciGeom(e) {
 								</tr>
 								<tr>
 									<th scope="row">건물면적(㎡)</th>
-									<td><input type="number" name="buldSize" min="0" class="form-control align-left" value="<c:out value="${result.buldSize}"></c:out>"/></td>
+									<td>
+										<fmt:parseNumber value="${result.buldSize}" var="buldSize"/>
+										<input type="number" name="buldSize" min="0" class="form-control align-left" value="<c:out value="${buldSize}"></c:out>"/>
+									</td>
 									<th scope="row">토지면적(㎡)</th>
-									<td><input type="number" name="ladSize" min="0" class="form-control align-left" value="<c:out value="${result.ladSize}"></c:out>"/></td>
+									<td>
+										<fmt:parseNumber value="${result.ladSize}" var="ladSize"/>
+										<input type="number" name="ladSize" min="0" class="form-control align-left" value="<c:out value="${ladSize}"></c:out>"/>
+									</td>
 								</tr>
 								<tr>
 									<th scope="row">관리인원(명)</th>
-									<td><input type="number" name="manageNmpr" min="0" class="form-control align-left" value="<c:out value="${result.manageNmpr}"></c:out>"/></td>
+									<td>
+										<fmt:parseNumber value="${result.manageNmpr}" var="manageNmpr"/>
+										<input type="number" name="manageNmpr" min="0" class="form-control align-left" value="<c:out value="${manageNmpr}"></c:out>"/>
+									</td>
 									<th scope="row">연간이용인원(명)</th>
-									<td><input type="number" name="fyerUtlztnNmpr" min="0" class="form-control align-left" value="<c:out value="${result.fyerUtlztnNmpr}"></c:out>"/></td>
+									<td>
+										<fmt:parseNumber value="${result.fyerUtlztnNmpr}" var="manageNmpr"/>
+										<input type="number" name="fyerUtlztnNmpr" min="0" class="form-control align-left" value="<c:out value="${fyerUtlztnNmpr}"></c:out>"/>
+									</td>
 								</tr>											
 								<tr>
 									<th scope="row">담당자</th>

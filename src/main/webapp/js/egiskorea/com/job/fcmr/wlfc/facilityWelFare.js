@@ -219,23 +219,23 @@ function selectWelFareFaciDetail(id) {
 		gid = idArray[1];
 	}
 	
-	//그리드에 행전체 선택되게 수정
-	var gridList = FACILITY.Ax5UiGrid.list;
-	for (var i = 0; i < gridList.length; i++) {
-		//console.log(gridList[i]);
-		var grid = gridList[i];
-		if (gid == grid.gid) {
-			var dindex = grid.__index;
-			FACILITY.Ax5UiGrid.clearSelect();
-			FACILITY.Ax5UiGrid.focus(dindex);		
-		}
-	}
-
 	ui.openPopup("rightSubPopup");
 	
 	var container = "#rightSubPopup";
 	$(container).load("/job/fcmr/wlfc/selectWelFareFaciDetail.do", { gid: gid }, function() {
 		//toastr.success("/job/fcmr/wlfc/selectWelFareFaciDetail.do", "페이지🙂호🙂출🙂");
+		
+		//그리드에 행전체 선택되게 수정
+		var gridList = FACILITY.Ax5UiGrid.list;
+		for (var i = 0; i < gridList.length; i++) {
+			//console.log(gridList[i]);
+			var grid = gridList[i];
+			if (gid == grid.gid) {
+				var dindex = grid.__index;
+				FACILITY.Ax5UiGrid.clearSelect();
+				FACILITY.Ax5UiGrid.focus(dindex);
+			}
+		}
 		
 		dtmap.vector.select(id);		// 지도에 표시
 		
