@@ -946,10 +946,18 @@
 	width: 20px;
 }
 
-#bbsPopup .cont{
+.bbs-detail .cont{
 	height: 300px;
 }
 
-#qestnCn{
+.bbs-detail #qestnCn{
 	height: 255px;
+}
+
+.bbs-write .cont{
+	height: 330px;
+}
+
+.bbs-write #qestnCn{
+	height: 285px;
 }
