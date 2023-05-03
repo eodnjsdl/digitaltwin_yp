@@ -40,7 +40,7 @@
 										<tr>
 											<th scope="row">내용</th>
 											<td colspan="3">
-												<div class="cont" style="height: 496px;">
+												<div class="cont" style="height: 370px;">
 													<div class="scroll-y">
 														<c:out value="${fn:replace(result.nttCn , LF , BR)}" escapeXml="false" />
 													</div>
@@ -70,14 +70,11 @@
 					<button type="button" class="popup-close" title="닫기"></button>
 					<script>
 						$( function() {	
-							$(".map-board .bbs-btn").click(function(){
-								$(this).addClass("active");
-								$(".popup-overlay").show();
-							});
-
 							$(".popup-bbs .popup-close").click(function(){
-								$(".map-board .bbs-btn").removeClass("active");
 								$(".popup-overlay").hide();
+							});
+							$(".scroll-y", this.selector).mCustomScrollbar({
+							    scrollbarPosition: "outside",
 							});
 						});
 					</script>

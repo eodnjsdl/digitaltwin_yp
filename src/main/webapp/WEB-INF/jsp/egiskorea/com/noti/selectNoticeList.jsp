@@ -11,7 +11,9 @@
 
 
 <script type="text/javaScript">
-
+$(".scroll-y", this.selector).mCustomScrollbar({
+    scrollbarPosition: "outside",
+});
 //상세보기
 function aj_selectNotice(nttId){
 	
@@ -204,13 +206,7 @@ function aj_pagination(pageIndex) {
 					<button type="button" class="popup-close" title="닫기"></button>
 					<script>
 						$( function() {	
-							$(".map-board .bbs-btn").click(function(){
-								$(this).addClass("active");
-								$(".popup-overlay").show();
-							});
-
 							$(".popup-bbs .popup-close").click(function(){
-								$(".map-board .bbs-btn").removeClass("active");
 								$(".popup-overlay").hide();
 							});
 						});
