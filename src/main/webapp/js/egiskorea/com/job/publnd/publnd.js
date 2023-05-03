@@ -505,7 +505,7 @@ function _onDrawEnd_publndMap(e) {
     setPublndLayer(geom, publndLayer).then(function() {
 	setTimeout(() => {
 	    dtmap.toImage().then(function(data){
-        	$(".saveMap-satlit-thumb img").attr("src", data);
+        	$(".saveMap-satlit-thumb #thumbImg").attr("src", data);
         	saveCurrentImage();
             });
 	}, 1000);
@@ -540,7 +540,8 @@ function setPublndLayer(geom, layerNm) {
  * @returns
  */
 function saveCurrentImage() {
-    let src = $(".saveMap-satlit-thumb img").attr("src");
+    let src = $(".saveMap-satlit-thumb #thumbImg").attr("src");
+//    imageResize(src);
     if (confirm('현재 화면으로 저장하시겠습니까?')) {
 	let link = document.createElement("a");
 	link.download = "map.png";
@@ -548,4 +549,17 @@ function saveCurrentImage() {
 	link.click();
 	link.remove();
     }
+}
+
+function imageResize(src) {
+    console.log("tetest")
+//    let img = new Image();
+    let img = document.createElement("img");
+    img.src = src;
+    var canvas = document.createElement('canvas')
+    var ctx = canvas.getContext('2d');
+    canvas.width = 600;
+    canvas.height = 600;
+    ctx.drawImage(img, 0, 0, 600, 600);
+    $(".saveMap-satlit-thumb #thumbImg").attr("src", canvas.toDataURL());
 }

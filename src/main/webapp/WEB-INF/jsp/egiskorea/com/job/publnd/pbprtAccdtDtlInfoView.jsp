@@ -127,7 +127,7 @@ $('.modifyBtton .bi-cancel').on('click', function () {ui.closeSubPopup();});
 								</table>
 								<input type="hidden" name="publndNo" value="<c:out value="${pbprtAccdtDtlInfoList.publndNo}"/>">
 								<div class="saveMap-satlit-thumb">
-									<img src="">
+									<img id="thumbImg" src="">
 								</div>
 							</form>
 						</div>
