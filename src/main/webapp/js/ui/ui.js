@@ -336,6 +336,9 @@ window.ui = (function () {
             } else {
                 $leftSide.find('.lnb-cont').stop().fadeOut(100);
             }
+            
+            clearMap();	//맵에 있는 오브젝트 클리어
+            
         });
 
         // 2D/3D 버튼
