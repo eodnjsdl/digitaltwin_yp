@@ -35,7 +35,7 @@
  					</select>
 					<button type="button" onclick="fn_insertView();" class="btn basic bi-write">등록</button>
 					<button type="button" onclick="selectPbprtAccdtExcelUploadView()" class="btn basic bi-excel pbprtAccdtExcelUpload">엑셀업로드</button>
-					<button type="button" class="btn basic bi-excel pbprtAccdtExcelDownload" id="getPbprtAccdtExcelList" onclick="downloadPbprtAccdtExcel();return false;">엑셀다운로드</button>
+					<button type="button" class="btn basic bi-excel pbprtAccdtExcelDownload" id="getPbprtAccdtExcelList">엑셀다운로드</button>
 					<form:form name="searchFormExcel" id="searchFormExcel" method="post" onsubmit=""></form:form>
 				</div>
 			</div>
@@ -43,6 +43,7 @@
 				<div class="bbs-default">
 				<form:form>
 					<div data-ax5grid="pbprtAccdtGrid" data-ax5grid-config="{}" style="height: 267px;"></div>
+					<div data-ax5grid="attr-grid-excel" style="display:none;"></div>
 				</form:form>
 				</div>
 			</div>

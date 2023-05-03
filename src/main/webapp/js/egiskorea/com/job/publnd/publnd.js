@@ -12,6 +12,10 @@ $(document.body).ready(function() {
 	dtmap.init();
 	initGrid();
 	setData(0);
+	
+	$('#getPbprtAccdtExcelList').on('click', function() {
+	    downloadPbprtAccdtExcelList();
+	});
 })
 
 /**
@@ -78,7 +82,7 @@ function initGrid() {
 			{key: "rm", 			label: "비고",			width: 100},
 			{key: "nhtSndng", 		label: "고지서 발송",		width: 100},
 			{key: "atchPapers", 		label: "첨부 서류",		width: 150},
-			{key: "cnfirmMatter", 		label: "확인 사항",		width: 100},
+			{key: "cnfirmMatter", 		label: "확인 사항",		width: 100}
 		],
 	});
 }
@@ -308,52 +312,86 @@ function updatePbprtAccdtInfoDel(publndNo) {
  * @returns
  */
 function updatePbprtAccdtInfo(publndNo) {
-	if (confirm('수정 하시겠습니까?')) {
-		let formData = $('#dataRegistForm').serialize();
-		
-		ui.loadingBar("show");
-		$.ajax({
-			data : formData,
-			type : 'post',
-			url : '/job/publnd/updatePbprtAccdtInfo.do',
-			dataType: 'json',	// ModelAndView return 값을 json으로 받기 위해서 추가.
-			success : function(data) {
-				if (data.status == 'success') {
-					toastr.success("정상적으로 수정되었습니다.");
-					
-					$('.pbprtAccdtInput').val('');
-					resetGrid();
-					ui.loadingBar("hide");
-				} else {
-					toastr.error('ERROR!');
-					ui.loadingBar("hide");
-					return;
-				}
-			}, complete : function(){
-				ui.loadingBar("hide");
-			}
+    if (confirm('수정 하시겠습니까?')) {
+	let formData = $('#dataRegistForm').serialize();
+	ui.loadingBar("show");
+	$.ajax({
+		data : formData,
+		type : 'post',
+		url : '/job/publnd/updatePbprtAccdtInfo.do',
+		dataType: 'json',	// ModelAndView return 값을 json으로 받기 위해서 추가.
+		success : function(data) {
+		    if (data.status == 'success') {
+			toastr.success("정상적으로 수정되었습니다.");
+			$('.pbprtAccdtInput').val('');
+			resetGrid();
+			ui.loadingBar("hide");
+		    } else {
+			toastr.error('ERROR!');
+			ui.loadingBar("hide");
+			return;
+		    }
+		}, complete : function() {
+		    ui.loadingBar("hide");
+		}
 		});
 	}
-	
 }
 
 /**
  * 엑셀 연도별 / 전체 다운로드
  * @returns
  */
-function downloadPbprtAccdtExcel() {
-	let url = "/job/publnd/downloadPbprtAccdtExcelList.do";
-	let year = $('#year').val();
-	
-	$("form[name='searchFormExcel']").append('<input type="hidden" name="year" value=' + year + '>');
-	$("form[name='searchFormExcel']").attr('onsubmit', '');
-	$("form[name='searchFormExcel']").attr('action', url);
-	$("form[name='searchFormExcel']").submit();
-	$("form[name='searchFormExcel']").attr('action', '');
-	$("form[name='searchFormExcel'] input[name='year']").remove();
+function downloadPbprtAccdtExcelList() {
+    ui.loadingBar("show");
+    // 엑셀 다운로드를 위한 grid 생성
+    var excelGrid = new ax5.ui.grid();
+	excelGrid.setConfig({
+	target: $('[data-ax5grid="attr-grid-excel"]'),
+	columns: [
+	    	{key: "ctrtYmd", 		label: "계약(갱신)일",		},
+		{key: "cntrctpd", 		label: "계약기간",			},
+		{key: "locplc", 		label: "소재지",			},
+		{key: "ldcgCd", 		label: "지목",			},
+		{key: "ar", 			label: "면적",			},
+		{key: "loanAr", 		label: "대부 면적",		},
+		{key: "loanPrpos", 		label: "대부 용도",		},
+		{key: "rrno", 			label: "주민등록번호",		},
+		{key: "loanmnSndngYn", 		label: "대부료 발송 여부",		},
+		{key: "nm", 			label: "성명",			},
+		{key: "addr", 			label: "주소",			},
+		{key: "zip", 			label: "우편번호",			},
+		{key: "cttpc", 			label: "연락처",			},
+		{key: "rm", 			label: "비고",			},
+		{key: "nhtSndng", 		label: "고지서 발송",		},
+		{key: "atchPapers", 		label: "첨부 서류",		},
+		{key: "cnfirmMatter", 		label: "확인 사항"			}
+	]
+    });
 
-	return false;
+	var list = [];
+	let yearOption = $('select#year').val();
+	$.ajax({
+		data : { "yearOption" : yearOption },
+		url : "/job/publnd/selectPbprtAccdtPgeList.do",
+		type : 'post',
+		dataType: "json",
+		success : function(data) {
+			for(i = 0; i < data.pbprtAccdtList.length; i++) {
+				list.push(data.pbprtAccdtList[i]);
+			}
+			excelGrid.setData(list);
+			if (yearOption != 'allYear') {
+			    excelGrid.exportExcel("공유지관리_공유재산 실태조사_" + yearOption + ".xls");
+			} else {
+			    excelGrid.exportExcel("공유지관리_공유재산 실태조사.xls");
+			}
+			$('[data-ax5grid="attr-grid-excel"]').empty();
+			ui.loadingBar("hide");
+		}
+	});
 }
+
 
 /**
  * 공유재산 실태조사 엑셀 업로드 화면 호출 ajax

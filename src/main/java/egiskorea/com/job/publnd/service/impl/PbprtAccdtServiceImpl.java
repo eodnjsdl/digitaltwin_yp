@@ -137,60 +137,60 @@ public class PbprtAccdtServiceImpl extends EgovAbstractServiceImpl implements Pb
 		return modify;
 	}
 
-	@Override
-	public List<?> selectPbprtAccdtExcelList(HttpServletRequest request, HttpServletResponse response, String year) throws Exception {
-		
-		List<?> excelVO = null;
-		
-		Map<String, Object> yearValue = new HashMap<String, Object>();
-		yearValue.put("year", year);
-		
-		excelVO = cmmnDao.selectList("publndMng.selectPbprtAccdtExcelList", yearValue);
-		
-		String[] titleArr = new String[18];
-		titleArr[0] = "계약일자";
-		titleArr[1] = "계약기간";
-		titleArr[2] = "소재지";
-		titleArr[3] = "지목코드";
-		titleArr[4] = "면적";
-		titleArr[5] = "대부면적";
-		titleArr[6] = "대부용도";
-		titleArr[7] = "주민등록번호";
-		titleArr[8] = "대부료발송여부";
-		titleArr[9] = "성명";
-		titleArr[10] = "주소";
-		titleArr[11] = "우편번호";
-		titleArr[12] = "연락처";
-		titleArr[13] = "비고";
-		titleArr[14] = "고지서발송";
-		titleArr[15] = "첨부서류";
-		titleArr[16] = "확인사항";
-		titleArr[17] = "등록연도";
-		
-		String[] voTitleArr = new String[18];
-		voTitleArr[0] = "ctrtYmd";
-		voTitleArr[1] = "cntrctpd";
-		voTitleArr[2] = "locplc";
-		voTitleArr[3] = "ldcgCd";
-		voTitleArr[4] = "ar";
-		voTitleArr[5] = "loanAr";
-		voTitleArr[6] = "loanPrpos";
-		voTitleArr[7] = "rrno";
-		voTitleArr[8] = "loanmnSndngYn";
-		voTitleArr[9] = "nm";
-		voTitleArr[10] = "addr";
-		voTitleArr[11] = "zip";
-		voTitleArr[12] = "cttpc";
-		voTitleArr[13] = "rm";
-		voTitleArr[14] = "nhtSndng";
-		voTitleArr[15] = "atchPapers";
-		voTitleArr[16] = "cnfirmMatter";
-		voTitleArr[17] = "year";
-		
-		ExcelView.excelDownload(request, response,  "공유지관리_공유재산 실태조사_", titleArr, voTitleArr, excelVO);
-		
-		return excelVO;
-	}
+//	@Override
+//	public List<?> selectPbprtAccdtExcelList(HttpServletRequest request, HttpServletResponse response, String year) throws Exception {
+//		
+//		List<?> excelVO = null;
+//		
+//		Map<String, Object> yearValue = new HashMap<String, Object>();
+//		yearValue.put("year", year);
+//		
+//		excelVO = cmmnDao.selectList("publndMng.selectPbprtAccdtExcelList", yearValue);
+//		
+//		String[] titleArr = new String[18];
+//		titleArr[0] = "계약일자";
+//		titleArr[1] = "계약기간";
+//		titleArr[2] = "소재지";
+//		titleArr[3] = "지목코드";
+//		titleArr[4] = "면적";
+//		titleArr[5] = "대부면적";
+//		titleArr[6] = "대부용도";
+//		titleArr[7] = "주민등록번호";
+//		titleArr[8] = "대부료발송여부";
+//		titleArr[9] = "성명";
+//		titleArr[10] = "주소";
+//		titleArr[11] = "우편번호";
+//		titleArr[12] = "연락처";
+//		titleArr[13] = "비고";
+//		titleArr[14] = "고지서발송";
+//		titleArr[15] = "첨부서류";
+//		titleArr[16] = "확인사항";
+//		titleArr[17] = "등록연도";
+//		
+//		String[] voTitleArr = new String[18];
+//		voTitleArr[0] = "ctrtYmd";
+//		voTitleArr[1] = "cntrctpd";
+//		voTitleArr[2] = "locplc";
+//		voTitleArr[3] = "ldcgCd";
+//		voTitleArr[4] = "ar";
+//		voTitleArr[5] = "loanAr";
+//		voTitleArr[6] = "loanPrpos";
+//		voTitleArr[7] = "rrno";
+//		voTitleArr[8] = "loanmnSndngYn";
+//		voTitleArr[9] = "nm";
+//		voTitleArr[10] = "addr";
+//		voTitleArr[11] = "zip";
+//		voTitleArr[12] = "cttpc";
+//		voTitleArr[13] = "rm";
+//		voTitleArr[14] = "nhtSndng";
+//		voTitleArr[15] = "atchPapers";
+//		voTitleArr[16] = "cnfirmMatter";
+//		voTitleArr[17] = "year";
+//		
+//		ExcelView.excelDownload(request, response,  "공유지관리_공유재산 실태조사_", titleArr, voTitleArr, excelVO);
+//		
+//		return excelVO;
+//	}
 
 	@Override
 	public List<String> selectPbprtAccdtYearList() {
