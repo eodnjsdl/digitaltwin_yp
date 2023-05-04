@@ -186,7 +186,7 @@ var rePageIndexDtl = "<c:out value='${searchVO.pageIndex}'></c:out>";
 						<td colspan="3">
 							<div class="form-row">
 								<div class="col">
-									<input type="text" class="form-control" name="cntrkLcAdres" id="odrCntrkLcAdres" readonly>
+									<input type="text" class="form-control" name="cntrkLcAdres" id="cntrkLcAdres" readonly>
 								</div> 
 							</div>
 						</td>
