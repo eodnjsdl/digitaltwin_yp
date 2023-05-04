@@ -6,11 +6,11 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 
 <!-- 공사계획 정보 -->
-<script src="/js/egiskorea/com/job/bco/cwp.js"></script>
+<%--<script src="/js/egiskorea/com/job/bco/cwp.js"></script>--%>
 <!-- 공사예정정보 -->
 <script src="/js/egiskorea/com/job/bco/cws.js"></script>
 <!-- 공사정보 조회 -->
-<script src="/js/egiskorea/com/job/bco/cwi.js"></script>
+<%--<script src="/js/egiskorea/com/job/bco/cwi.js"></script>--%>
 
 <%--<script src="/js/egiskorea/com/cmm/cmmUtil.js"></script>--%>
 
