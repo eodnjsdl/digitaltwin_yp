@@ -34,7 +34,7 @@
     
     // 공사예정 정보 poi표출 리스트
     var poiListSchedule = ${poiList};
-    
+
     // 공사예정 정보 poi표출 리스트(상세에서 예외처리시 필요)
     var poiListScheduleDtl = '';
     
@@ -283,6 +283,5 @@
 <button type="button" class="manualBtn" title="도움말" onclick="manualTab('사업공유관리')"></button>
 <button type="button" class="popup-close" title="닫기" onclick="removeLayer(); destroy();"></button>
 <button type="button" class="popup-reset" class="초기화" onclick="removeSchedulePage()"></button>
-<button type="button" class="popup-left-toggle" title="접기"></button>
 <!-- </div> -->
 <!-- //업무 > 공간정보활용 > 사업공유관리 -->		
