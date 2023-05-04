@@ -74,6 +74,7 @@ $(document).ready(function(){
 	$("tr[name='tdCwsDtl']").unbind('click').bind('click',function(){
 		// cmmUtil.setPoiHighlight(poiScheduleInfo.layerId, $(this).data('cwsid'));
 		// cmmUtil.setCameraMove($(this).data('lon'), $(this).data('lat'));
+	
 		aj_selectConstructionSchedule($(this).data('cwsid'));
 
 	});
@@ -455,14 +456,10 @@ function setDtlOrderInfo(type){
 		// 등록된 셀렉트값 지정
 		$("select[name='cntrkDtls']").val(orderInfo.cntrkDtls).prop("selected", true);
 
-
-
 		// 공사내역 칸수 조절
-		$("th[name='thRow']").attr('rowspan',codeDtlList.length);
 		$("td[name='tdRow']").attr('rowspan',codeDtlList.length);
 
 		// 상세코드값 지우기
-		$('th[name="thFastRow"]').empty();
 		$('td[name="tdFastRow"]').empty();
 		$('tr[name="odrRowCode"]').remove();
 

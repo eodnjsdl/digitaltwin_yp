@@ -18,36 +18,36 @@
 
     // ui.callDatePicker();
 
-    var rePlnYear = "<c:out value='${searchVO.plnYear}'></c:out>";
+    var rePlnYear = "<c:out value='${searchVO.plnYear}'></c:out>"||'';
     // 시기 - 분기
-    var rePlnQu = "<c:out value='${searchVO.plnQu}'></c:out>";
+    var rePlnQu = "<c:out value='${searchVO.plnQu}'></c:out>"||'';
     // 유형 - 공사유형(전체)
-    var reCntrkTy = "<c:out value='${searchVO.cntrkTy}'></c:out>";
+    var reCntrkTy = "<c:out value='${searchVO.cntrkTy}'></c:out>"||'';
     // 유형 - 집행부서(전체)
-    var reChpsnPsitn = "<c:out value='${searchVO.chpsnPsitn}'></c:out>";
+    var reChpsnPsitn = "<c:out value='${searchVO.chpsnPsitn}'></c:out>"||'';
     // 유형 - 읍명동(전체)
-    var reCntrkLcAdres = "<c:out value='${searchVO.cntrkLcAdres}'></c:out>";
+    var reCntrkLcAdres = "<c:out value='${searchVO.cntrkLcAdres}'></c:out>"||'';
     // 유형 - 공사명
-    var reCntrkNm = "<c:out value='${searchVO.cntrkNm}'></c:out>";
+    var reCntrkNm = "<c:out value='${searchVO.cntrkNm}'></c:out>"||'';
     // 유형 - 담당자
-    var reChpsnNm = "<c:out value='${searchVO.chpsnNm}'></c:out>";
+    var reChpsnNm = "<c:out value='${searchVO.chpsnNm}'></c:out>"||'';
 
     // 공간조회 - 년도
-    var rePlnYearSp = "<c:out value='${searchVO.plnYearSp}'></c:out>";
+    var rePlnYearSp = "<c:out value='${searchVO.plnYearSp}'></c:out>"||'';
     // 공간조회 - 분기
-    var rePlnQuSp = "<c:out value='${searchVO.plnQuSp}'></c:out>";
+    var rePlnQuSp = "<c:out value='${searchVO.plnQuSp}'></c:out>"||'';
     // 공간조회 - 위치
-    var reCntrkLcAdresSp = "<c:out value='${searchVO.cntrkLcAdresSp}'></c:out>";
+    var reCntrkLcAdresSp = "<c:out value='${searchVO.cntrkLcAdresSp}'></c:out>"||'';
 
     // 공간조회 - 반경
-    var reRadius = "<c:out value='${searchVO.radius}'></c:out>";
+    var reRadius = "<c:out value='${searchVO.radius}'></c:out>"||'';
 
-    var geomSp = "<c:out value='${searchVO.geomSp}'></c:out>";
+    var geomSp = "<c:out value='${searchVO.geomSp}'></c:out>"||'';
 
     // 페이징 번호
-    var rePageIndex = "<c:out value='${searchVO.pageIndex}'></c:out>";
+    var rePageIndex = "<c:out value='${searchVO.pageIndex}'></c:out>"||'';
 
-    var rePageType = "<c:out value='${searchVO.pageType}'></c:out>";
+    var rePageType = "<c:out value='${searchVO.pageType}'></c:out>"||'';
     // 마커표출 리스트
     var poiListInquiry = ${poiList};
 

@@ -80,15 +80,21 @@ function onDrawEnd(e) {
 	dtmap.draw.dispose();
 	var geom = e.geometry;
 	const position = geom.getFlatCoordinates();
-	
+	var modPosition;
+    if(dtmap.mod=='2D'){
+        modPosition = position;
+    }else{
+        modPosition = ol.proj.transform([position[0],position[1]],'EPSG:4326','EPSG:5179');
+    }
+	console.log(modPosition);
 	var xObj = parseFloat(position[0]);
 	var yObj = parseFloat(position[1]);
 	cmmUtil.reverseGeocoding(xObj, yObj).done((result)=>{
 		$("#cntrkLcAdresSp").val("경기도 양평군 "+result["address"]);
 		const format = new ol.format.WKT();
-		const point = new ol.geom.Point([xObj, yObj]);
+		const point = new ol.geom.Point([ parseFloat(modPosition[0]), parseFloat(modPosition[1])]);
 		const wkt = format.writeGeometry(point);
-		// $("#geom").val(wkt);
+		$("#geomSp").val(wkt);
 	});
 	dtmap.on('select',spaceClickListener );
 }
@@ -466,6 +472,7 @@ function aj_selectConstructionInquirySpaceList(form){
 
 //공사정보 조회 > 상세 표출(공사정보 조회 상세 페이지)
 function aj_selectConstructionInquiry(keyId){
+	dtmap.vector.select(keyId);
 	ui.loadingBar("show");
 	var formData = new FormData();
 	formData.append('cntrkPrrngId', keyId);
@@ -557,6 +564,5 @@ function spaceClickListener(e){
 		gid=e.id;
 	}
 	aj_selectConstructionInquiry(gid);
-    dtmap.vector.select(e.id);
 }
 

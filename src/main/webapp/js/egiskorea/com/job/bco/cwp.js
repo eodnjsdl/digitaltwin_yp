@@ -179,6 +179,7 @@ function callSelectOptions(){
 
 // 공사 계획정보 상세정보 조회하기
 function aj_selectConstructionPlan(keyId){
+	dtmap.vector.select(keyId);
 	poiListPlan = '';
 	ui.loadingBar("show");
 	var form = $("#searchPlanForm")[0];
@@ -488,7 +489,6 @@ function spaceClickListener(e){
 		gid=e.id;
 	}
 	aj_selectConstructionPlan(gid);
-    dtmap.vector.select(e.id);
 }
 
 
