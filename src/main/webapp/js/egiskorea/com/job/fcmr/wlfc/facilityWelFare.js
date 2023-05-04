@@ -44,10 +44,10 @@ function getWelFareFaci() {
 			align: "center"
 		},
 		columns: [
-			{key: "fclty_se_nm",	label: "시설구분",		width: '*'},
-			{key: "fclty_nm",		label: "시설명",		width: '*'},
-			{key: "rn_adres",		label: "주소",		width: '*'},
-			{key: "cttpc_telno",	label: "전화번호",		width: '*'}
+			{key: "fclty_se_nm",	label: "시설구분",		width: 270},
+			{key: "fclty_nm",		label: "시설명",		width: 350},
+			{key: "rn_adres",		label: "주소",		width: 350},
+			{key: "cttpc_telno",	label: "전화번호",		width: 240}
 		],
 		page: {
 			navigationItemCount: 10,	// 보여지는 클릭 가능 페이지 번호
@@ -209,8 +209,9 @@ function selectWelFareFaciDetail(id) {
 	//console.log("selectWelFareFaciDetail(gid)");
 	//console.log("gid >>> " + gid);
 	
-	var gid;
+	dtmap.draw.dispose();		//그리기 포인트 삭제
 	
+	var gid;
 	if (typeof id === 'number') {
 		gid = id;
 		id = "tgd_sclwlfr_fclty_status." + id;
@@ -282,6 +283,12 @@ function insertWelFareFaci() {
 	if (fclty_nm == '') {
 		alert('시설명을 입력해주세요.');
 		$('#inWelFareFaciTbl input[name=fcltyNm]').focus();
+		return false;
+	}
+	
+	var fclty_Se = $('#inWelFareFaciTbl select[name=fcltySe] option:selected');
+	if (fclty_Se.val() == '') {
+		alert('시설구분을 선택해주세요.');
 		return false;
 	}
 	

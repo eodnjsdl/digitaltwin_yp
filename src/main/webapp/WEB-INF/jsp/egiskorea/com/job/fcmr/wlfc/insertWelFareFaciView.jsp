@@ -85,6 +85,7 @@ function welFareFaciGeom(e) {
 								<th scope="row">시설구분</th>
 								<td>
 									<select class="form-control" id="wel_fclty_se" name="fcltySe">
+										<option value="">선택</option>
 									</select>
 								</td>
 								<th scope="row">전화번호</th>
@@ -119,8 +120,8 @@ function welFareFaciGeom(e) {
 			</div>
 			<div class="position-bottom btn-wrap">
 				<div>
-					<button type="button" class="btn basic bi-save" onclick="insertWelFareFaci()">저장</button> 
-					<button type="button" class="btn basic bi-cancel" onclick="closeWelFarePopup();">취소</button>
+					<button type="button" class="btn basic bi-edit btn_add" onclick="insertWelFareFaci()">등록</button> 
+					<button type="button" class="btn basic bi-cancel btn_cancel" onclick="closeWelFarePopup();">취소</button>
 				</div>
 			</div>
 		</div>							

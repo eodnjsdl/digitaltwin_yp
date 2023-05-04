@@ -24,7 +24,6 @@ $(".scroll-y").mCustomScrollbar({
 //체육시설 시설정보 목록 페이징
 function test(pageNo) {
 	var gid = $('#gid').val();
-	
 	phyFaciMngViewPaging(pageNo, gid);
 }
 

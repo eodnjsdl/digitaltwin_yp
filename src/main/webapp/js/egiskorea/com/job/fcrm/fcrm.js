@@ -273,10 +273,10 @@ $(".facilDtlNm").on("change", function(){
 			if(data.resultList[0].operEndTime == null){ $(".operEndTime").append(''); } else { $(".operEndTime").append(data.resultList[0].operEndTime); }
 			if(data.resultList[0].rsrvAt == null){ 
 				$(".rsrvAt").append(''); 
-			} else if(data.resultList[0].rsrvAt == 'N') { 
-				$(".rsrvAt").append('가능'); 
+			} else if(data.resultList[0].rsrvAt != 'N') { 
+				$(".rsrvAt").append('가능');
 			} else {
-				$(".rsrvAt").append('불가능'); 
+				$(".rsrvAt").append('불가능');
 			}
 			if(data.resultList[0].hoCnt == null){ $(".hoCnt").append(''); } else { $(".hoCnt").append(data.resultList[0].hoCnt + '층'); } 
 			if(data.resultList[0].fcltyDtl == null){ $(".fcltyDtl").append(''); } else { $(".fcltyDtl").append(data.resultList[0].fcltyDtl); }

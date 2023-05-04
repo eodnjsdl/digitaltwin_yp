@@ -56,7 +56,84 @@ $(".scroll-y").mCustomScrollbar({
 							<tr>
 								<th scope="row">시설유형</th>
 								<td>
-									<c:out value="${result.fcltyTy}"></c:out>
+									<c:set var="fcltyTy" value="${result.fcltyTy}" />
+									<c:choose>
+										<c:when test='${fcltyTy eq "ALSFC01"}'>
+											게이트볼장								
+										</c:when>
+										<c:when test='${fcltyTy eq "ALSFC02"}'>
+											국궁장								
+										</c:when>
+										<c:when test='${fcltyTy eq "ALSFC03"}'>
+											그라운드골프장								
+										</c:when>
+										<c:when test='${fcltyTy eq "ALSFC04"}'>
+											농구장								
+										</c:when>
+										<c:when test='${fcltyTy eq "ALSFC05"}'>
+											다목적강당								
+										</c:when>
+										<c:when test='${fcltyTy eq "ALSFC06"}'>
+											다목적운동장								
+										</c:when>
+										<c:when test='${fcltyTy eq "ALSFC07"}'>
+											다목적체육관								
+										</c:when>
+										<c:when test='${fcltyTy eq "ALSFC08"}'>
+											배드민턴장								
+										</c:when>
+										<c:when test='${fcltyTy eq "ALSFC09"}'>
+											볼링장								
+										</c:when>
+										<c:when test='${fcltyTy eq "ALSFC10"}'>
+											생활체육관								
+										</c:when>
+										<c:when test='${fcltyTy eq "ALSFC11"}'>
+											수영장								
+										</c:when>
+										<c:when test='${fcltyTy eq "ALSFC12"}'>
+											스쿼시장								
+										</c:when>
+										<c:when test='${fcltyTy eq "ALSFC13"}'>
+											씨름장								
+										</c:when>
+										<c:when test='${fcltyTy eq "ALSFC14"}'>
+											야구장								
+										</c:when>
+										<c:when test='${fcltyTy eq "ALSFC15"}'>
+											육상경기장								
+										</c:when>
+										<c:when test='${fcltyTy eq "ALSFC16"}'>
+											인공암벽장								
+										</c:when>
+										<c:when test='${fcltyTy eq "ALSFC17"}'>
+											인라인스케이트장								
+										</c:when>
+										<c:when test='${fcltyTy eq "ALSFC18"}'>
+											족구장								
+										</c:when>
+										<c:when test='${fcltyTy eq "ALSFC19"}'>
+											체육관								
+										</c:when>
+										<c:when test='${fcltyTy eq "ALSFC20"}'>
+											축구장								
+										</c:when>
+										<c:when test='${fcltyTy eq "ALSFC21"}'>
+											탁구장								
+										</c:when>
+										<c:when test='${fcltyTy eq "ALSFC22"}'>
+											테니스장								
+										</c:when>
+										<c:when test='${fcltyTy eq "ALSFC23"}'>
+											파크골프장								
+										</c:when>
+										<c:when test='${fcltyTy eq "ALSFC24"}'>
+											풋살장								
+										</c:when>
+										<c:otherwise>
+											${result.fcltyTy}
+										</c:otherwise>
+									</c:choose>
 								</td>
 								<th scope="row">운영방식</th>
 								<td>

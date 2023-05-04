@@ -516,7 +516,7 @@ function insertSwlConnLsView(){
 	
 	var container = "#rightSubPopup";
     $(container).load("/job/fcmr/ssfc/insertSwlConnLsView.do", function () {
-        toastr.success("/job/fcmr/ssfc/insertSwlConnLsView.do", "페이지🙂호🙂출🙂");
+        //toastr.success("/job/fcmr/ssfc/insertSwlConnLsView.do", "페이지🙂호🙂출🙂");
         
         $(".scroll-y").mCustomScrollbar({
             scrollbarPosition: "outside",

@@ -123,10 +123,10 @@ function welFareFaciGeom(e) {
 				</form>
 				</div>
 			</div>
-			<div class="position-bottom btn-wrap">
+			<div class="position-bottom btn-wrap justify-content-end">
 				<div>
-					<button type="button" class="btn basic bi-save" onclick="updateWelFareFaci(<c:out value="${result.gid}"/>)">저장</button> 
-					<button type="button" class="btn basic bi-cancel" onclick="setTimeout(function(){ selectWelFareFaciDetail(<c:out value="${result.gid}"/>) });" >취소</button>
+					<button type="button" class="btn basic bi-write2 btn_save" onclick="updateWelFareFaci(<c:out value="${result.gid}"/>);">수정완료</button>
+					<button type="button" class="btn basic bi-cancel btn_cancel" onclick="setTimeout(function(){ selectWelFareFaciDetail(<c:out value="${result.gid}"/>) });">취소</button>
 				</div>
 			</div>
 		</div>							

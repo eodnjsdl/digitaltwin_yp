@@ -129,9 +129,11 @@ function codeArrayInit(){
 	setCmmCodeDataArray("OGC-012");				// 흡출기형식
 	setCmmCodeDataArray("OGC-172");				// 흡출기재질
 	
+	// 체육시설 - 시설유형
+	setCmmCodeDataArray("ALSFCTY");				// 시설구분
+	
 	// 복지시설 - 시설구분
 	setCmmCodeDataArray("FCLTCD");				// 시설구분
-
 }
 
 ///////////////////////////
