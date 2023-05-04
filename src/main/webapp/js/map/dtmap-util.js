@@ -170,7 +170,7 @@ window.dtmap.util = (function () {
 
         if (options.crs) {
             if (options.crs !== dtmap.crs) {
-                geometry.transform(options.coordinate, options.crs, dtmap.crs);
+                geometry.transform(options.crs, dtmap.crs);
             }
         }
 

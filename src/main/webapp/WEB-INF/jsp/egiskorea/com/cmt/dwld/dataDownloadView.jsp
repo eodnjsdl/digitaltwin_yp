@@ -79,7 +79,7 @@
                         <thead>
                             <tr>
                                 <th scope="col">
-                                    <span class="form-checkbox"><span><input type="checkbox" name="download-feature-type-all" id="download-feature-type-all"><label for="download-feature-type-all"></label></span></span>
+<%--                                    <span class="form-checkbox"><span><input type="checkbox" name="download-feature-type-all" id="download-feature-type-all"><label for="download-feature-type-all"></label></span></span>--%>
                                 </th>
                                 <th scope="col">데이터명</th>
                             </tr>

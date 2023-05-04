@@ -34,7 +34,7 @@ window.ui = (function () {
 
     function _setToastOption() {
         toastr.options = {
-            "positionClass": "toast-bottom-right"
+            "positionClass": "toast-top-center"
         };
     }
 
@@ -340,6 +340,9 @@ window.ui = (function () {
             } else {
                 $leftSide.find('.lnb-cont').stop().fadeOut(100);
             }
+            
+            clearMap();	//맵에 있는 오브젝트 클리어
+            
         });
 
         // 2D/3D 버튼
@@ -665,7 +668,7 @@ window.ui = (function () {
                 _area.right = "unset";
                 _area.left = "320";
                 //_area.width = "1600";	//가로길이 수정위해 주석
-                _area.heigth = "378";
+                _area.heigth = "330";
                 break;
             //우측
             case "rightPopup" :

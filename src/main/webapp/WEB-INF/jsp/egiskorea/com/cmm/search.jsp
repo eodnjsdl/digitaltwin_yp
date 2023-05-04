@@ -195,10 +195,10 @@
 																<div class="space-search-group">
 																	<div class="space-search-items form-row">
 																		<div class="col">
-																			<select name="standard-search-target" class="form-select">
+																			<select id="standard-search-target" name="standard-search-target" class="form-select">
 																			</select>
 																		</div> 
-																		<div class="col-auto"><button type="button" class="btn btn-xsm type06 btn-select-map">선택</button></div>
+																		<div class="col-auto"><button type="button" class="btn btn-xsm type06 btn-select-map">지도에서 선택</button></div>
 																	</div>
 																	<div class="space-search-items">경계로부터 <span class="form-group"><input type="text" class="form-control align-center facility-search-buffer" placeholder="0" value="0"> <sub>m</sub></span> 이내 범위</div>
 																</div>
