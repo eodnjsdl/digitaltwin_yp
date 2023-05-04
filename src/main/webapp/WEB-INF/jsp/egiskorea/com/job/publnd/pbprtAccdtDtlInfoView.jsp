@@ -18,6 +18,10 @@ function selectPbprtAccdtWrinvstg(publndNo) {
 	window.open('/job/publnd/selectPbprtAccdtWrinvstg.do?publndNo=' + publndNo, 'wrinvstg','width=1000, height=800');
 }
 
+$('.btn#satlitPhotoSave').on('click', function() {
+    createImage();
+});
+
 // 취소 버튼(닫기)
 $('.modifyBtton .bi-cancel').on('click', function () {ui.closeSubPopup();});
 </script>
@@ -121,7 +125,7 @@ $('.modifyBtton .bi-cancel').on('click', function () {ui.closeSubPopup();});
 											<th scope="row">등록 연도</th>
 											<td><input type="text" id="year" name="year" maxlength="4" value="<c:out value="${pbprtAccdtDtlInfoList.year}"/>" class="form-control pbprtAccdtInput" disabled/></td>
 											<th scope="row">위성 사진 저장</th>
-											<td><button type="button" class="btn type01 bi-location" id="satlitPhotoSave" onclick="createImageLine()">현재 위치 저장</button></td>
+											<td><button type="button" class="btn type01 bi-location" id="satlitPhotoSave">현재 위치 저장</button></td>
 										</tr>
 									</tbody>
 								</table>

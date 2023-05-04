@@ -485,7 +485,7 @@ function selectPbprtAccdtExcelForm() {
  * png 이미지 생성 전, 지적 선택하기
  * @returns
  */
-function createImageLine() {
+function createImage() {
     var msgTxt = "화면에서 지적을 선택해주세요.";
     toastr.success(msgTxt);
     
@@ -503,12 +503,12 @@ function _onDrawEnd_publndMap(e) {
     var geom = e.geometry;
     var publndLayer = "digitaltwin:lsmd_cont_ldreg_41830";
     setPublndLayer(geom, publndLayer).then(function() {
-	setTimeout(() => {
-	    dtmap.toImage().then(function(data){
-        	$(".saveMap-satlit-thumb #thumbImg").attr("src", data);
-        	saveCurrentImage();
-            });
-	}, 1000);
+	toImageResize().then(function(data) {
+	    $(".saveMap-satlit-thumb #thumbImg").attr("src", data);
+	    setTimeout(() => {
+		saveCurrentImage();
+	    }, 800);
+	});
         dtmap.draw.dispose();
     });
 }
@@ -541,7 +541,6 @@ function setPublndLayer(geom, layerNm) {
  */
 function saveCurrentImage() {
     let src = $(".saveMap-satlit-thumb #thumbImg").attr("src");
-//    imageResize(src);
     if (confirm('현재 화면으로 저장하시겠습니까?')) {
 	let link = document.createElement("a");
 	link.download = "map.png";
@@ -551,15 +550,26 @@ function saveCurrentImage() {
     }
 }
 
-function imageResize(src) {
-    console.log("tetest")
-//    let img = new Image();
-    let img = document.createElement("img");
-    img.src = src;
-    var canvas = document.createElement('canvas')
-    var ctx = canvas.getContext('2d');
-    canvas.width = 600;
-    canvas.height = 600;
-    ctx.drawImage(img, 0, 0, 600, 600);
-    $(".saveMap-satlit-thumb #thumbImg").attr("src", canvas.toDataURL());
+/**
+ * png 사이즈 조정
+ * @returns
+ */
+function toImageResize() {
+    let element;
+    if (dtmap.mod == '2D') {
+	element = document.querySelector("#map2D canvas");
+    } else if (dtmap.mod == '3D') {
+	element = document.querySelector("#map3D canvas");
+    }
+    let options = {
+	    x : 650,
+	    y : 200,
+	    width : 600,
+	    height : 600
+    };
+    const promise = $.Deferred();
+    html2canvas(element, options).then(canvas => {
+	promise.resolve(canvas.toDataURL());
+    });
+    return promise;
 }
