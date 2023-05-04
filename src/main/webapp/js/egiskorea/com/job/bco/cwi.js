@@ -88,7 +88,7 @@ function onDrawEnd(e) {
 		const format = new ol.format.WKT();
 		const point = new ol.geom.Point([xObj, yObj]);
 		const wkt = format.writeGeometry(point);
-		// $("#geom").val(wkt);
+		$("#geomSp").val(wkt);
 	});
 	dtmap.on('select',spaceClickListener );
 }

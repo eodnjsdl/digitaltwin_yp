@@ -45,6 +45,7 @@
     //Poi 추가
     dtmap.vector.clear();
     for (let i = 0; i < poiListPlan.resultList.length; i++) {
+        console.log(poiListPlan);
         let poi = poiListPlan.resultList[i];
         dtmap.vector.addPoint({
             id: poi.cntrkPlnId,
