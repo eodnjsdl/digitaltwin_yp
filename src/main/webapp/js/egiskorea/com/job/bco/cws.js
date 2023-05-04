@@ -74,6 +74,7 @@ $(document).ready(function(){
 	$("tr[name='tdCwsDtl']").unbind('click').bind('click',function(){
 		// cmmUtil.setPoiHighlight(poiScheduleInfo.layerId, $(this).data('cwsid'));
 		// cmmUtil.setCameraMove($(this).data('lon'), $(this).data('lat'));
+	
 		aj_selectConstructionSchedule($(this).data('cwsid'));
 
 	});
