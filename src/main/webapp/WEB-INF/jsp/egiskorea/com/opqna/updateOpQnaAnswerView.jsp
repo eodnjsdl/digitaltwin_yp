@@ -42,14 +42,11 @@
 	
 <script type="text/javaScript">
 $( function() {	
-	$(".map-board .bbs-btn").click(function(){
-		$(this).addClass("active");
-		$(".popup-overlay").show();
-	});
-
 	$(".popup-bbs .popup-close").click(function(){
-		$(".map-board .bbs-btn").removeClass("active");
 		$(".popup-overlay").hide();
+	});
+	$(".scroll-y", this.selector).mCustomScrollbar({
+	    scrollbarPosition: "outside",
 	});
 });
 
@@ -117,7 +114,7 @@ function aj_selectOpQna(){
 					<div class="popup-header" style="background-image: url(/images/etc/popup-title-board.svg)">운영지원</div>
 					<div class="popup-body">
 						<div class="bbs-popup-body">
-							<div class="scroll-y" style="height: 654px;">
+							<div class="scroll-y" style="height: 520px;">
 								<div class="bbs-detail-default">
 									<table class="bbs-detail">
 										<colgroup>
@@ -142,7 +139,7 @@ function aj_selectOpQna(){
 											<tr>
 												<th scope="row">내용</th>
 												<td colspan="3">
-													<div class="cont" style="height: 349px;">
+													<div class="cont">
 														<div class="scroll-y">
 															<c:out value="${fn:replace(result.qestnCn , crlf , '<br/>')}" escapeXml="false" />
 														</div>

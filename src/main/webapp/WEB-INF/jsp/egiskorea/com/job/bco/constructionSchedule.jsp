@@ -17,7 +17,7 @@ var rePnrsAt = "<c:out value='${nomalList.pnrsAt}'></c:out>";
 if(rePnrsAt == "Y"){
 	$("#rChk1_1").prop('checked', true);	
 }else if(rePnrsAt == "N"){
-	$("#rChk1_2").prop('checked', true);
+	$("#rChk1_2").prop('checked', true); 
 }
 
 

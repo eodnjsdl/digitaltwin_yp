@@ -8,53 +8,13 @@
 <!-- 공사계획 정보 -->
 <script src="/js/egiskorea/com/job/bco/cwp.js"></script>
 <!-- 공사예정정보 -->
-<script src="/js/egiskorea/com/job/bco/cws.js"></script>
+<!--<script src="/js/egiskorea/com/job/bco/cws.js"></script>-->
 <!-- 공사정보 조회 -->
-<script src="/js/egiskorea/com/job/bco/cwi.js"></script>
+<!--<script src="/js/egiskorea/com/job/bco/cwi.js"></script>-->
 
 <%--<script src="/js/egiskorea/com/cmm/cmmUtil.js"></script>--%>
 
 <script type="text/javascript">
-
-    /* $( function() {
-
-        var dateFormat = "yy-mm-dd",
-                // 시작 갤린더
-                from = $("#srchStrtDate").datepicker({
-                    defaultDate: "+1w",
-                    changeMonth: true,
-                    showOn: "both"
-                }).on( "change", function() {
-                    to.datepicker( "option", "minDate", getDate( this ) );
-                }),
-                // 종료 갤린더
-                to = $("#srchEndDate" ).datepicker({
-                    defaultDate: "+1w",
-                    changeMonth: true,
-                    showOn: "both"
-                }).on( "change", function() {
-                    from.datepicker( "option", "maxDate", getDate( this ) );
-                });
-
-        if("<c:out value="${standardYear.qltyImntBegDe}"/>" != ""){
-			to.datepicker('option','minDate', new Date("<c:out value="${standardYear.qltyImntBegDe}"/>"));
-		}
-		if("<c:out value="${standardYear.qltyImntEndDe}"/>" != ""){
-			from.datepicker('option','maxDate', new Date("<c:out value="${standardYear.qltyImntEndDe}"/>"));
-		}
-
-		function getDate( element ) {
-			var date;
-			try {
-				date = $.datepicker.parseDate( dateFormat, element.value );
-			} catch( error ) {
-				date = null;
-			}
-
-			return date;
-		}
-
-	}); */
     var rePageChk = true;
     // 시기 - 년도
     var rePlnYear = "<c:out value='${searchVO.plnYear}'></c:out>";

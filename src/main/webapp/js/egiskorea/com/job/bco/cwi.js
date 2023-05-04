@@ -31,7 +31,7 @@ $(document).ready(function(){
 	$("tr[name='tdCwiDtl']").unbind('click').bind('click',function(){
 		// cmmUtil.setCameraMove($(this).data('lon'), $(this).data('lat')); //lon Lat 값에 따라 화면 이동
 		// cmmUtil.setPoiHighlight(cwp.layerId, $(this).data('cpi'));
-		aj_selectConstructionInquiry($(this).data('cpi'));
+		aj_selectConstructionInquiry($(this).data('cwiid'));
 	});
 	
 	
@@ -61,9 +61,9 @@ $(document).ready(function(){
 	
 	// 공사정보 조회(공간조회) > 지도에서 선택 이벤트 처리
 	$("#getInquiryPosition").unbind('click').bind('click',function(){
-		// cmmUtil.getPositionGeom(inquiryPositionCallback);
-		// 생성된어 있는 PolygonLayer 레이어가 있을때 지워주기
-		//destroy("Polygon");
+		dtmap.off('select');
+		dtmap.draw.active({type: 'Point', once: true});
+		dtmap.on('drawend', onDrawEnd);
 	});
 	
 	// 공사정보조회 > 상세 페이지 > 차수정보 클릭시 지도 이동 처리
@@ -75,6 +75,23 @@ $(document).ready(function(){
 
 	
 });
+// 지도 클릭위치 좌표값 획득 이벤트
+function onDrawEnd(e) {
+	dtmap.draw.dispose();
+	var geom = e.geometry;
+	const position = geom.getFlatCoordinates();
+	
+	var xObj = parseFloat(position[0]);
+	var yObj = parseFloat(position[1]);
+	cmmUtil.reverseGeocoding(xObj, yObj).done((result)=>{
+		$("#cntrkLcAdresSp").val("경기도 양평군 "+result["address"]);
+		const format = new ol.format.WKT();
+		const point = new ol.geom.Point([xObj, yObj]);
+		const wkt = format.writeGeometry(point);
+		// $("#geom").val(wkt);
+	});
+	dtmap.on('select',spaceClickListener );
+}
 
 // 차수정보 관련된 POILayer 를 추가해준다.
 function orderListLayer(){

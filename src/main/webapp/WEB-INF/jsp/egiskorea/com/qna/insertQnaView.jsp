@@ -16,15 +16,12 @@ $( function() {
 	var maxFileNum = 3;
 	var multi_selector = new MultiSelector( document.getElementById( 'egovComFileList' ), maxFileNum );
 	multi_selector.addElement( document.getElementById( 'egovComFileUploader' ) );
-	
-	$(".map-board .bbs-btn").click(function(){
-		$(this).addClass("active");
-		$(".popup-overlay").show();
-	});
 
 	$(".popup-bbs .popup-close").click(function(){
-		$(".map-board .bbs-btn").removeClass("active");
 		$(".popup-overlay").hide();
+	});
+	$(".scroll-y", this.selector).mCustomScrollbar({
+	    scrollbarPosition: "outside",
 	});
 });
 
@@ -104,7 +101,7 @@ function fnInsertForm(form) {
 											<th scope="row">내용</th>
 											<td>
 												<div class="cont">
-													<form:textarea path="qestnCn" id="qestnCn" cssClass="form-control" cols="300" rows="20" style="height: 467px;" />
+													<form:textarea path="qestnCn" id="qestnCn" cssClass="form-control" cols="300" rows="20"/>
 												</div>
 											</td>
 										</tr>

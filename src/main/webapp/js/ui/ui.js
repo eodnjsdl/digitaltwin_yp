@@ -34,7 +34,7 @@ window.ui = (function () {
 
     function _setToastOption() {
         toastr.options = {
-            "positionClass": "toast-bottom-right"
+            "positionClass": "toast-top-center"
         };
     }
 
@@ -66,6 +66,10 @@ window.ui = (function () {
         $(document).on('click', '.lnb-dep2 button', function (e) {
             $(".lnb-dep2").find(".on").removeClass("on");
             $(this).parent().addClass("on");
+        });
+        
+        $(".scroll-y", this.selector).mCustomScrollbar({
+            scrollbarPosition: "outside",
         });
 
         function handleCreateContextMenu(event) {
@@ -143,12 +147,12 @@ window.ui = (function () {
                 // aside menu > QnA
                 case "qna" :
                     ui.openPopup(area);
-                    aj_selectQnaList(1);
+                    aj_selectQnaList();
                     break;
                 // aside menu > 운영지원
                 case "opqna" :
                     ui.openPopup(area);
-                    aj_selectOpQnaList(1);
+                    aj_selectOpQnaList();
                     break;
 
                 //지도설정
@@ -336,6 +340,9 @@ window.ui = (function () {
             } else {
                 $leftSide.find('.lnb-cont').stop().fadeOut(100);
             }
+            
+            clearMap();	//맵에 있는 오브젝트 클리어
+            
         });
 
         // 2D/3D 버튼
@@ -660,8 +667,8 @@ window.ui = (function () {
                 _area.top = "unset";
                 _area.right = "unset";
                 _area.left = "320";
-                _area.width = "1600";
-                _area.heigth = "378";
+                //_area.width = "1600";	//가로길이 수정위해 주석
+                _area.heigth = "330";
                 break;
             //우측
             case "rightPopup" :

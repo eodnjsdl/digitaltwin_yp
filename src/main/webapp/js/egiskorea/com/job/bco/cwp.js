@@ -15,7 +15,7 @@ var cwp = {
 
 $(document).ready(function(){ // 실행할 기능을 정의해주세요.
 
-	//오브젝트 클릭 이벤트 처리 
+	//레이어 선택 이벤트 처리 
     dtmap.off('select');
     dtmap.on('select',spaceClickListener );
 
@@ -63,12 +63,6 @@ $(document).ready(function(){ // 실행할 기능을 정의해주세요.
 		aj_updateConstructionPlanView($(this).data('cwpid'));
 	});
 
-	// 등록하기 이벤트 처리
-	/*$("#btnCpInsert").unbind('click').bind('click',function(){
-		aj_insertConstructionPlan($("#insertForm")[0]);
-	});*/
-
-
 	// 조회버튼 이벤트 처리
 	$("button[name='cplSearch']").unbind('click').bind('click',function(){
 		document.searchPlanForm.pageIndex.value = "1";			// 선택한 페이지 번호
@@ -83,7 +77,7 @@ $(document).ready(function(){ // 실행할 기능을 정의해주세요.
 	});
 
 	// poi 표출 리스트 확인후 값이 있을때 poi생성
-	if(Number(poiListPlan.resultCnt) != 0){
+	/*if(Number(poiListPlan.resultCnt) != 0){
 
 		//cmmUtil.setPointLayer(poiListPlan.resultList, cwp.layerTextKey, cwp.layerId, cwp.imgUrl);
 		if(poiListPlan != ''){
@@ -94,7 +88,7 @@ $(document).ready(function(){ // 실행할 기능을 정의해주세요.
 				// aj_selectConstructionPlan(`${feature.getId()}`);
 			// });
 		}
-	}
+	}*/
 });
 // 지도 클릭위치 좌표값 획득 이벤트
 function onDrawEnd(e) {
@@ -180,28 +174,6 @@ function callSelectOptions(){
 		$("#plnQu").append('<option value="'+plnQuValue+'">'+plnQuValue+'</option>');
 	}
 
-	// 검색/수정시 셀렉트박스 값 유지를위한 처리 내용
-	// 시기 - 년도
-
-	if(rePlnYear != ""){
-		$("#plnYear").val(rePlnYear);
-	}
-	// 시기 - 분기
-	if(rePlnQu != ""){
-		$("#plnQu").val(rePlnQu);
-	}
-	// 유형 - 공사유형(전체)
-	if(reCntrkTy != ""){
-		$("#cntrkTy").val(reCntrkTy).prop("selected", true);
-	}
-	// 유형 - 집행부서(전체)
-	if(reChpsnPsitn != ""){
-		$("#chpsnPsitn").val(reChpsnPsitn);
-	}
-	// 유형 - 읍명동(전체)
-	if(reCntrkLcAdres != ""){
-		$("#cntrkLcAdres").val(reCntrkLcAdres);
-	}
 }
 
 
@@ -469,7 +441,7 @@ function fn_selectPlan_linkPage(pageNo){
 
 
 //공사계획정보 호출
-function aj_selectConstructionPlanListPage(form){
+/*function aj_selectConstructionPlanListPage(form){
 	ui.loadingBar("show");
 	var	formData = new FormData(form);
 
@@ -505,7 +477,7 @@ function aj_selectConstructionPlanListPage(form){
 			ui.loadingBar("hide");
 		}
 	});
-}
+}*/
 
 //레이어 선택 상세보기
 function spaceClickListener(e){
