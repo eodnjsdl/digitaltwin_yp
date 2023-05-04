@@ -340,6 +340,5 @@
 <button type="button" class="manualBtn" title="도움말" onclick="manualTab('사업공유관리')"></button>
 <button type="button" class="popup-close" title="닫기" onclick="removeLayer(); /*destroy();*/"></button>
 <button type="button" class="popup-reset" class="초기화" onclick="removeInquiryPage()"></button>
-<button type="button" class="popup-left-toggle" title="접기"></button>
 <!-- </div> -->
 <!-- //업무 > 공간정보활용 > 사업공유관리 -->		

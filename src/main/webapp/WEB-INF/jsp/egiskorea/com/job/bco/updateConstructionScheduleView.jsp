@@ -279,7 +279,11 @@ $("#btnCwsOdeUpdate").unbind('click').bind('click',function(){
 						<tr>
 							<th scope="row">공사차수</th>
 							<td colspan="3">
-								<select name="cntrkOdr" id="updateCntrkOdr" class="form-select w-auto" data-cntrkPrrngId="<c:out value='${nomalList.cntrkPrrngId}' />"></select>
+								<select name="cntrkOdr" id="updateCntrkOdr" class="form-select w-auto" data-cntrkPrrngId="<c:out value='${nomalList.cntrkPrrngId}' />">
+									<c:forEach items="${orderList}" var="ordList" varStatus="status">
+										<option value="<c:out value='${ordList.cntrkOdr}' />"><c:out value="${ordList.cntrkOdr}차" /></option>																
+									</c:forEach>	
+								</select>
 							</td>
 						</tr>
 						<tr>

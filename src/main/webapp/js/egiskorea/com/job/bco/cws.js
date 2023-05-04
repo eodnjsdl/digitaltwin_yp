@@ -334,10 +334,10 @@ function updataDefaultOptions(){
 	}
 	$("#cntrkOdr").append(html);
 
-	for(var i=1; i <= Number(reCntrkOdr); i++){
+	/*for(var i=1; i <= Number(reCntrkOdr); i++){
 		html2 += "<option value='"+[i]+"'>"+[i]+"차</option>";
 	}
-	$("#updataOdrForm select[name='cntrkOdr']").append(html2);
+	$("#updataOdrForm select[name='cntrkOdr']").append(html2);*/
 
 	// 입력된 차수정보 선택 처리 )
 	if(reCntrkOdr != ""){
@@ -445,7 +445,7 @@ function setDtlOrderInfo(type){
 			$("#rChk2_2").prop('checked', true);
 		}
 
-		$("#odrCntrkLcAdres").val(orderInfo.cntrkLcAdres);				// 공사 위치 주소
+		$("#cntrkLcAdres").val(orderInfo.cntrkLcAdres);				// 공사 위치 주소
 		$("#cntrkBeginDe").val(orderInfo.cntrkBeginDe);					// 공사 시작날짜
 		$("#cntrkEndDe").val(orderInfo.cntrkEndDe);						// 공사 종료날짜
 
@@ -886,7 +886,7 @@ function aj_updateConstructionScheduleView(keyId){
 					scrollbarPosition:"outside"
 				});
 				//cmmUtil.setOdrLayers(poiScheduleInfo.ordLayerId, poiScheduleInfo.LineLayerId, poiScheduleInfo.imgUrl, orderListInfo);
-				aj_selectConstructionScheduleOderInfo();
+				
 			}else{
 				toastr.error("관리자에게 문의 바랍니다.", "정보를 불러오지 못했습니다.");
 				return;
