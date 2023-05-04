@@ -84,7 +84,8 @@
                     },
                     label: {
                         text: feature.get("sj")
-                    }
+                    },
+                    renderType:'3D'
                 }
             });
         }

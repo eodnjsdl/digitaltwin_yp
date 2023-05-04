@@ -35,8 +35,6 @@
 	<script src="/js/plugin/colorPicker/jquery.minicolors.min.js"></script>
 	<link rel="stylesheet" href="/js/plugin/colorPicker/jquery.minicolors.css">
 	
-	<script src="/js/map-ui.js"></script>
-	
 	<link rel="stylesheet" href="/css/com/common.css">
 	<link rel="stylesheet" href="/css/map.css">
 	<link rel="stylesheet" href="/css/map2d.css">
@@ -44,16 +42,14 @@
 	
 <script type="text/javaScript">
 $( function() {	
-	$(".map-board .bbs-btn").click(function(){
-		$(this).addClass("active");
-		$(".popup-overlay").show();
-	});
-
 	$(".popup-bbs .popup-close").click(function(){
-		$(".map-board .bbs-btn").removeClass("active");
 		$(".popup-overlay").hide();
 	});
 	
+});
+
+$(".scroll-y", this.selector).mCustomScrollbar({
+    scrollbarPosition: "outside",
 });
 
 function aj_updateQnaView(){
@@ -76,7 +72,7 @@ function aj_updateQnaView(){
 		async: false,
 		success : function(returnData, status){
 			if(status == "success") {
-				$("#qna").html(returnData);
+				$("#bbsPopup").html(returnData);
 			}else{ 
 				toastr.error("관리자에게 문의 바랍니다.", "정보를 불러오지 못했습니다.");
 				return;
@@ -101,7 +97,7 @@ function aj_deleteQna(){
 			async: false,
 			success : function(returnData, status){
 				if(status == "success") {
-					$("#qna").html(returnData);
+					$("#bbsPopup").html(returnData);
 				}else{ 
 					toastr.error("관리자에게 문의 바랍니다.", "정보를 불러오지 못했습니다.");
 					return;
@@ -131,7 +127,7 @@ function aj_insertQnaAnswer(){
 		async: false,
 		success : function(returnData, status){
 			if(status == "success") {
-				$("#qna").html(returnData);
+				$("#bbsPopup").html(returnData);
 			}else{ 
 				toastr.error("관리자에게 문의 바랍니다.", "정보를 불러오지 못했습니다.");
 				return;
@@ -158,7 +154,7 @@ function aj_updateQnaAnswerView(){
 		async: false,
 		success : function(returnData, status){
 			if(status == "success") {
-				$("#qna").html(returnData);
+				$("#bbsPopup").html(returnData);
 			}else{ 
 				toastr.error("관리자에게 문의 바랍니다.", "정보를 불러오지 못했습니다.");
 				return;
@@ -186,7 +182,7 @@ function aj_deleteQnaAnswer(){
 			async: false,
 			success : function(returnData, status){
 				if(status == "success") {
-					$("#qna").html(returnData);
+					$("#bbsPopup").html(returnData);
 				}else{ 
 					toastr.error("관리자에게 문의 바랍니다.", "정보를 불러오지 못했습니다.");
 					return;
@@ -208,7 +204,7 @@ function aj_deleteQnaAnswer(){
 					<div class="popup-header">Q&A</div>
 					<div class="popup-body">
 						<div class="bbs-popup-body">
-							<div class="scroll-y" style="height: 654px;">
+							<div class="scroll-y" style="height: 520px;">
 								<div class="bbs-detail-default">
 									<table class="bbs-detail">
 										<colgroup>
@@ -233,7 +229,7 @@ function aj_deleteQnaAnswer(){
 											<tr>
 												<th scope="row">내용</th>
 												<td colspan="3">
-													<div class="cont" style="height: 349px;">
+													<div class="cont">
 														<div class="scroll-y">
 															<c:out value="${fn:replace(result.qestnCn , LF , BR)}" escapeXml="false" />
 														</div>
