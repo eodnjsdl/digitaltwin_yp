@@ -37,8 +37,7 @@
    			}
    			
    			aj_insertConstructionScheduleNomal($("#insertNomalForm")[0]);
-   			
-   			destroy();
+   		
    		}
    	});
 	

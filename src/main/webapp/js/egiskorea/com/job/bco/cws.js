@@ -17,12 +17,10 @@ var poiScheduleInfo = {
 
 // 이벤트 등록
 $(document).ready(function(){
-	//TODO GIS
-	// 레이어 생성
-	// var layerList = new Module.JSLayerList(true);
-	// GLOBAL.PoiLayer = layerList.createLayer(poiScheduleInfo.ordLayerId, Module.ELT_3DPOINT);
-	// layerList.createLayer(poiScheduleInfo.LineLayerId, Module.ELT_3DLINE);
-	/*loadScript('/js/egiskorea/com/cmm/cmmUtil.js');*/
+	//오브젝트 클릭 이벤트 처리 
+    dtmap.off('select');
+    dtmap.on('select',spaceClickListener );
+
 
 	// 공사 예정 정보 > 조회버튼 클릭 이벤트
 	$("button[name='cwsSearch']").unbind('click').bind('click',function(){
@@ -76,6 +74,7 @@ $(document).ready(function(){
 	$("tr[name='tdCwsDtl']").unbind('click').bind('click',function(){
 		// cmmUtil.setPoiHighlight(poiScheduleInfo.layerId, $(this).data('cwsid'));
 		// cmmUtil.setCameraMove($(this).data('lon'), $(this).data('lat'));
+	
 		aj_selectConstructionSchedule($(this).data('cwsid'));
 
 	});
@@ -114,24 +113,46 @@ $(document).ready(function(){
 		$("#innerConstructionPlan").remove();
 	});
 
-	// 공사 예정 정보 > 등록페이지 > 차수별 공사정보 > 지도 에서 선택 처리 이벤트(좌표값 획득, poi마커 표출)
+	// 공사 예정 정보 > 등록페이지 > 기본정보 > 지도 에서 선택 처리 이벤트(좌표값 획득, poi마커 표출)
 	$("#getPositionNomal").unbind('click').bind('click',function(){
-		//destroy();
-		// cmmUtil.getPositionGeom(positionNomalCallback);
+		dtmap.off('select');
+		dtmap.draw.active({type: 'Point', once: true});
+		dtmap.on('drawend', onDrawEndNormal);
+
 	});
 
-	// 공사 예정 정보 > 수정페이지 > 차수별 공사정보 > 지도 에서 선택 처리 이벤트(좌표값 획득, poi마커 표출)
-	$("#getPositionNomalUp").unbind('click').bind('click',function(){
-		//destroy();
-		// cmmUtil.getPositionGeom(positionNomalUpCallback);
-	});
+	function onDrawEndNormal(e) {
+		dtmap.draw.dispose();
+		var geom = e.geometry;
+		const position = geom.getFlatCoordinates();
+		var modPosition;
+		if(dtmap.mod=='2D'){
+			modPosition = position;
+		}else{
+			modPosition = ol.proj.transform([position[0],position[1]],'EPSG:4326','EPSG:5179');
+		}
+		var xObj = parseFloat(position[0]);
+		var yObj = parseFloat(position[1]);
+		cmmUtil.reverseGeocoding(xObj, yObj).done((result)=>{
+			$("#cntrkLcAdresNomal").val("경기도 양평군 "+result["address"]);
+			const format = new ol.format.WKT();
+			const point = new ol.geom.Point([parseFloat(modPosition[0]), parseFloat(modPosition[1])]);
+			const wkt = format.writeGeometry(point);
+			$("#geom").val(wkt);
+		});
+		dtmap.on('select',spaceClickListener );
+	}
 
 	// 공사 예정 정보 > 등록페이지 > 차수별 공사정보 > 지도 에서 선택 처리 이벤트(좌표값 획득, poi마커 표출)
 	$("#getPositionLocation").unbind('click').bind('click',function(){
-		if(cws.insertVisible){
+		dtmap.off('select');
+		if(cws.insertVisible){ //기본정보 등록여부
 			//destroy();
 			if($("#rChk1_1").is(":checked")){
 				// cmmUtil.getPositionGeom(positionCallback);
+				dtmap.draw.active({type: 'Point', once: true});
+				dtmap.on('drawend', onDrawEnd);
+
 			}else{
 				// cmmUtil.drawLine(positionCallback);
 				//alert("구간 기능 개발중");
@@ -141,19 +162,27 @@ $(document).ready(function(){
 		}
 	});
 
-	// 공사 예정 정보 > 수정페이지 > 지도 에서 선택 처리 이벤트(좌표값 획득, poi마커 표출)
-	$("#updateGetPositionLocation").unbind('click').bind('click',function(){
-		destroy("startPoint");
-		if($("#rChk2_1").is(":checked")){
-			// cmmUtil.getPositionGeom(updatePositionCallback);
+	function onDrawEnd(e) {
+		dtmap.draw.dispose();
+		var geom = e.geometry;
+		const position = geom.getFlatCoordinates();
+		var modPosition;
+		if(dtmap.mod=='2D'){
+			modPosition = position;
 		}else{
-			//alert("구간 기능 개발중");
-			// cmmUtil.drawLine(updatePositionCallback);
+			modPosition = ol.proj.transform([position[0],position[1]],'EPSG:4326','EPSG:5179');
 		}
-
-	});
-
-
+		var xObj = parseFloat(position[0]);
+		var yObj = parseFloat(position[1]);
+		cmmUtil.reverseGeocoding(xObj, yObj).done((result)=>{
+			$("#cntrkLcAdres").val("경기도 양평군 "+result["address"]);
+			const format = new ol.format.WKT();
+			const point = new ol.geom.Point([parseFloat(modPosition[0]), parseFloat(modPosition[1])]);
+			const wkt = format.writeGeometry(point);
+			$("#geom").val(wkt);
+		});
+		dtmap.on('select',spaceClickListener );
+	}
 
 	// 공사 예정 정보 > 상세페이지 > 수정페이지 이동 처리 이벤트
 	$("#btnCwsUpdate").unbind('click').bind('click',function(){
@@ -214,19 +243,6 @@ $(document).ready(function(){
 
 	});
 
-
-	// 공사 예정 정보 > 수정페이지 > 차수정보 변경 이벤트
-/*	$("#updataNomalForm select[name='cntrkOdr']").unbind('change').bind('change',function(){
-		var html = '';
-		for(var i=1; i <= Number($(this).val()); i++ ){
-			html += "<option value='"+[i]+"'>"+[i]+"차</option>"
-		}
-
-		$("#updataOdrForm select[name='cntrkOdr']").empty();
-		$("#updataOdrForm select[name='cntrkOdr']").append(html);
-
-	});*/
-
 	// 공사 예정 정보 > 수정 페이지 > 공사내역 셀렉트박스 변경 이벤트
 	$("#updataOdrForm select[name='cntrkDtls']").unbind('change').bind('change',function(){
 		aj_selectConstructionScheduleDtlCode($(this).val());
@@ -238,77 +254,13 @@ $(document).ready(function(){
 	});
 
 
-	// poi 표출 리스트 확인후 값이 있을때 poi생성
-	// if(Number(poiListSchedule.resultCnt) != 0){
-		//cmmUtil.setPointLayer(poiListSchedule.resultList, poiScheduleInfo.layerTextKey, poiScheduleInfo.layerId, poiScheduleInfo.imgUrl);
-		// if(poiListSchedule != ''){
-			//setPointLayer();
-			// cmmUtil.setPointLayer(poiListSchedule.resultList, poiScheduleInfo.layerId, "cntrkPrrngId", "cntrkNm", poiScheduleInfo.imgUrl, (feature) => {
-				//$(`.bbs-list tr[data-cwsid='${feature.getId()}']`).trigger('click');
-				// aj_selectConstructionSchedule(`${feature.getId()}`);
-			// });
-		// }
-	// }
-
 });
 
-//TODO GIS
-//POILsyrt를 추가해준다.
-// function setPointLayer(){
-// 	var mapType = $('input:radio[name="mapType"]:checked').val();
-// 	if(mapType == "2D"){
-// 		//alert("2D환경 POI마커는 개발중입니다!");
-// 	}else{
-// 		// POI 오브젝트를 추가 할 레이어 생성
-// 		var layerList = new Module.JSLayerList(true);
-//
-// 		// 생성된어 있는 POI 레이어가 있을때 지워주기
-// 		if(GLOBAL.LayerId.PoiLayerId != null){
-// 			layerList.nameAtLayer(GLOBAL.LayerId.PoiLayerId).removeAll();
-// 			GLOBAL.LayerId.PoiLayerId = null;
-// 			Module.XDRenderData();
-// 		}
-//
-// 		// POI 레이어 이름은 각 해당 테이블명
-// 		GLOBAL.LayerId.PoiLayerId = poiScheduleInfo.layerId;
-// 		GLOBAL.PoiLayer = layerList.createLayer(GLOBAL.LayerId.PoiLayerId, Module.ELT_3DPOINT);
-//
-// 		// POI 설정
-// 		for(var i = 0; i < poiListSchedule.resultList.length; i++){
-// 			var pointX = Number(poiListSchedule.resultList[i].lon); //x 좌표
-// 			var pointY = Number(poiListSchedule.resultList[i].lat); //y 좌표
-// 			var position = TransformCoordinate(pointX, pointY, 26, 13);
-// 			var options = {
-// 					layer : GLOBAL.PoiLayer,
-// 					lon : position.x,
-// 					lat : position.y,
-// 					text : poiListSchedule.resultList[i].cntrkNm,
-// 					markerImage : poiScheduleInfo.imgUrl, // 해당 마커 이미지 Url
-// 					lineColor : new Module.JSColor(0, 0, 255)
-// 			}
-// 			createLinePoi2(options);
-// 		}
-// 	}
-// }
 
 //페이징 처리
 function fn_selectSchedule_linkPage(pageNo){
-	// 조회영역에 있는 값들 가져오기
-/*	cwp.inPlnYear = $("#plnYear").val();
-	cwp.inPlnQu = $("#plnQu").val();
-	cwp.inCntrkTy = $("#cntrkTy").val();
-	cwp.inChpsnPsitn = $("#chpsnPsitn").val();
-	cwp.inCntrkLcAdres = $("#cntrkLcAdres").val();
-	cwp.inCntrkNm = $("#cntrkNm").val();*/
 
 	document.searchScheduleForm.pageIndex.value = pageNo;			// 선택한 페이지 번호
-	// document.searchScheduleForm.plnYear.value = rePlnYear;			// 검색된(초기 null) 년도;
-	// document.searchScheduleForm.plnQu.value = rePlnQu;				// 검색된(초기 null) 분기;
-	// document.searchScheduleForm.cntrkTy.value = reCntrkTy;			// 검색된(초기 null) 공사유형;
-	// document.searchScheduleForm.chpsnPsitn.value = reChpsnPsitn;	// 검색된(초기 null) 집행부서;
-	// document.searchScheduleForm.cntrkLcAdres.value = reCntrkLcAdres;// 검색된(초기 null) 읍명동;
-	// document.searchScheduleForm.cntrkNm.value = reCntrkNm;			// 검색된(초기 null) 공사명;
-
 	aj_selectConstructionScheduleList($("#searchScheduleForm")[0]);
 }
 
@@ -382,10 +334,10 @@ function updataDefaultOptions(){
 	}
 	$("#cntrkOdr").append(html);
 
-	for(var i=1; i <= Number(reCntrkOdr); i++){
+	/*for(var i=1; i <= Number(reCntrkOdr); i++){
 		html2 += "<option value='"+[i]+"'>"+[i]+"차</option>";
 	}
-	$("#updataOdrForm select[name='cntrkOdr']").append(html2);
+	$("#updataOdrForm select[name='cntrkOdr']").append(html2);*/
 
 	// 입력된 차수정보 선택 처리 )
 	if(reCntrkOdr != ""){
@@ -493,7 +445,7 @@ function setDtlOrderInfo(type){
 			$("#rChk2_2").prop('checked', true);
 		}
 
-		$("#odrCntrkLcAdres").val(orderInfo.cntrkLcAdres);				// 공사 위치 주소
+		$("#cntrkLcAdres").val(orderInfo.cntrkLcAdres);				// 공사 위치 주소
 		$("#cntrkBeginDe").val(orderInfo.cntrkBeginDe);					// 공사 시작날짜
 		$("#cntrkEndDe").val(orderInfo.cntrkEndDe);						// 공사 종료날짜
 
@@ -504,14 +456,10 @@ function setDtlOrderInfo(type){
 		// 등록된 셀렉트값 지정
 		$("select[name='cntrkDtls']").val(orderInfo.cntrkDtls).prop("selected", true);
 
-
-
 		// 공사내역 칸수 조절
-		$("th[name='thRow']").attr('rowspan',codeDtlList.length);
 		$("td[name='tdRow']").attr('rowspan',codeDtlList.length);
 
 		// 상세코드값 지우기
-		$('th[name="thFastRow"]').empty();
 		$('td[name="tdFastRow"]').empty();
 		$('tr[name="odrRowCode"]').remove();
 
@@ -729,7 +677,7 @@ function setInsertOdrInfo(data, pageType){
 
 /******************************************************** 아작스 호출 영역 ************************************************************/
 // 공사예정 정보 > 리스트 표출(공사 예정 정보 리스트 페이지)
-function aj_selectConstructionScheduleList(form){
+/*function aj_selectConstructionScheduleList(form){
 
 	ui.loadingBar("show");
 	var	formData = new FormData(form);
@@ -756,7 +704,7 @@ function aj_selectConstructionScheduleList(form){
 			ui.loadingBar("hide");
 		}
 	});
-}
+}*/
 // --------------------------------------------------------- 상세 --------------------------------------------------
 //공사예정 정보 > 상세정보페이지 이동 (상세 내역 조회하기)
 function aj_selectConstructionSchedule(keyId){
@@ -766,13 +714,7 @@ function aj_selectConstructionSchedule(keyId){
 	ui.loadingBar("show");
 	var formData = new FormData();
 	formData.append('cntrkPrrngId', keyId);
-/*	formData.append('plnYear', rePlnYear);
-	formData.append('plnQu', rePlnQu);
-	formData.append('cntrkTy', reCntrkTy);
-	formData.append('chpsnPsitn', reChpsnPsitn);
-	formData.append('cntrkLcAdres', reCntrkLcAdres);
-	formData.append('cntrkNm', reCntrkNm);
-	formData.append('pageIndex', rePageIndex);*/
+
 	if(rePageChk){
 		formData.append('plnYear', rePlnYear);
 		formData.append('plnQu', rePlnQu);
@@ -824,7 +766,6 @@ function aj_selectConstructionSchedule(keyId){
 	});
 }
 
-// 공사예정 정보 > 상세정보페이지 > 차수정보 조회 처리
 // 공사예정 정보 > 수정정보페이지 > 차수정보 조회 처리
 function aj_selectConstructionScheduleOderInfo(cntrkPrrngId, orderId, type){
 
@@ -945,7 +886,7 @@ function aj_updateConstructionScheduleView(keyId){
 					scrollbarPosition:"outside"
 				});
 				//cmmUtil.setOdrLayers(poiScheduleInfo.ordLayerId, poiScheduleInfo.LineLayerId, poiScheduleInfo.imgUrl, orderListInfo);
-
+				
 			}else{
 				toastr.error("관리자에게 문의 바랍니다.", "정보를 불러오지 못했습니다.");
 				return;
@@ -1160,7 +1101,6 @@ function aj_insertConstructionScheduleNomal(form){
 	})
 }
 
-//공사예정 정보 > 등록페이지 > 차수정보 등록 처리, 등록 되어있는 차수정보 조회
 //공사예정 정보 > 수정페이지 > 차수정보 등록 처리, 등록 되어있는 차수정보 조회
 function aj_insertConstructionScheduleOdr(form, type){
 	//ui.loadingBar("show");
@@ -1207,7 +1147,6 @@ function aj_insertConstructionScheduleOdr(form, type){
 	});
 }
 
-//공사예정 정보 > 등록페이지 > 차수정보 등록 처리, 등록 되어있는 차수정보 조회
 //공사예정 정보 > 수정페이지 > 차수정보 등록 처리, 등록 되어있는 차수정보 조회
 function aj_insertConstructionScheduleOdr2(dtlCodeArray, type){
 
@@ -1273,63 +1212,14 @@ function removeSchedulePage(){
 	leftPopupOpen('constructionSchedule');
 }
 
-//TODO GIS
-//설정되어 있는 정보값들을 초기화 한다.
-// function destroy(type){
-// 	var mapType = $('input:radio[name="mapType"]:checked').val();
-// 	if (mapType == "2D") {
-//
-// 	}else{
-//
-// 		// 레이어 생성
-// 	    var layerList = new Module.JSLayerList(true);
-// 	    cmmUtil.drawClear();
-// 	    if(GLOBAL.StartPoint){
-//  			GLOBAL.StartPoint = false;
-//  			removePoint(GLOBAL.NomalIcon);
-//  		}
-// 	    // 지도에서 선택 레이어 삭제처리
-// 	    if( type == "startPoint"){
-// 	    	 Module.XDRenderData();
-// 	    	return false;
-// 	    }
-//
-// 		// 차수 라인레이어 삭제
-// 		if(GLOBAL.LayerId.LineLayerId != null){
-// 		 	var layer = layerList.nameAtLayer(GLOBAL.LayerId.LineLayerId);
-// 		 	if(layer.getObjectCount() > 0){
-// 		 		layer.removeAll();
-// 				GLOBAL.LayerId.LineLayerId = null;
-// 			}
-//
-// 		}
-//
-// 		// 차수 정보 poi 삭제
-// 		if(GLOBAL.LayerId.LowPoiLayerId != null){
-// 		 	var layer = layerList.nameAtLayer(GLOBAL.LayerId.LowPoiLayerId);
-// 		 	if(layer.getObjectCount() > 0){
-// 		 		layer.removeAll();
-// 				GLOBAL.LayerId.LowPoiLayerId = null;
-// 			}
-// 		}
-// 		 // 지도에서 선택 레이어 삭제처리
-// 	    if( type == "lowPoint"){
-// 	    	Module.XDRenderData();
-// 	    	return false;
-// 	    }
-// 		// 공사예정정보 기본 정보 리스트 poi 삭제
-// 		if(GLOBAL.LayerId.PoiLayerId != null){
-// 		 	var layer = layerList.nameAtLayer(GLOBAL.LayerId.PoiLayerId);
-// 		 	if(layer.getObjectCount() > 0){
-// 		 		layer.removeAll();
-// 				GLOBAL.LayerId.PoiLayerId = null;
-// 			}
-// 		}
-// 		Module.XDRenderData();
-//
-//
-//
-// 		// 생성된어 있는 POI, Line, Polygon 레이어가 있을때 지워주기
-// 		//removeLayer3D();
-// 	}
-// }
+//레이어 선택 상세보기
+function spaceClickListener(e){
+	var gid ;
+	if (dtmap.mod === '3D'){
+		gid=e.id;
+	}else{
+		gid=e.id;
+	}
+	aj_selectConstructionSchedule(gid);
+    dtmap.vector.select(e.id);
+}

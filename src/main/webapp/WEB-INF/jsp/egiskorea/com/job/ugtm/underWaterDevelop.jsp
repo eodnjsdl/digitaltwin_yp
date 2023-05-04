@@ -32,6 +32,14 @@ function fn_deleteUnderWaterDevelop(gid){
 		});
 	}
 }
+// 닫기
+$("#rightSubPopup .popup-close").unbind('click').bind('click',function() {
+	// 등록, 상세, 수정 팝업 창 닫기
+	if ($("#rightSubPopup").hasClass("opened")) {
+		$("#rightSubPopup").removeClass("opened");
+		$("#rightSubPopup").empty();
+	}
+});
 </script>
 
 	<div class="popup-header">지하수개발 상세보기</div>

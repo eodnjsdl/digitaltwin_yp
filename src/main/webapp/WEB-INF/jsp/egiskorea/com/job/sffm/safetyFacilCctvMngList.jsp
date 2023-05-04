@@ -7,9 +7,43 @@
 <script src="/js/egiskorea/com/job/sffm/cctv/cctv.js"></script>
 <script src="/js/egiskorea/com/job/sffm/sffm.js"></script>
 <%--<script src="/js/egiskorea/com/cmm/cmmUtil.js"></script>--%>
+<script>
+	$(document).ready(function() {
+		ui.callDatePicker();
+		// 이벤트 리스너 추가
+		dtmap.on('select', onFacilitySelectEventListener);
+	
+		// 초기화 버튼
+		$(".popup-reset").unbind('click').bind('click',function() {
+			$('#safetyFacilitiesManagement').trigger("click");
+		});
+		
+		// 접기/펼치기
+		$(".popup-bottom-toggle", "#bottomPopup").on("click", function() {
+			const node = $(this);
+			const divNode = node.closest("div.popup-panel");
+			if (divNode.is(".fold")) {
+				node.attr("title", "펼치기");
+				divNode.removeClass("fold");
+			} else {
+				node.attr("title", "접기");
+				divNode.addClass("fold");
+			}
+		});
+	
+		// 닫기
+		$(".popup-close").unbind('click').bind('click',function() {
+			
+			// 등록, 상세, 수정 팝업 창 닫기
+			if ($("#rightSubPopup").hasClass("opened")) {
+				$("#rightSubPopup").removeClass("opened");
+				$("#rightSubPopup").empty();
+			}
+		});
+	});
+	</script>
 <!-- 업무 > 공간정보활용 > 안전시설물관리 -->
 <!-- <div class="popup-panel popup-bottom work-01-03" style="left: 320px;width: 1600px;height: 378px;"> -->
-<form:form name="selectSffmCctvFacilExcelList" id="searchForm" method="post" onsubmit="fn_select_list(); return false;">
 <div class="popup-header">안전시설물관리</div>
 <div class="popup-body">
 	<div class="bottom-popup-group">
@@ -21,7 +55,6 @@
 					<option value="cctv" selected="selected">CCTV관리</option>
 				</select>
 			</div>
-			<form:form name="searchForm" id="searchForm" method="post">
 				<input type="hidden" name="pageIndex" id="pageIndex"
 					value="<c:out value='${searchVO.pageIndex}' />">
 				<input type="hidden" name="bufferArea" id="bufferArea" value="<c:out value='${searchVO.bufferArea}' />">
@@ -110,7 +143,6 @@
 						</div>
 					</div>
 				</div>
-			</form:form>
 		</div>
 		<!-- //검색영역 -->
 		<div class="items data-area">
@@ -156,11 +188,10 @@
 		</div>
 	</div>
 </div>
-</form:form>
 <button type="button" class="manualBtn" title="도움말" onclick="manualTab('안전시설물관리')"></button>
 <button type="button" class="popup-close" title="닫기"></button>
-<button type="button" class="popup-reset" class="초기화" onclick="bottomPopupOpen('safetyFacilitiesCctv');"></button>
-<button type="button" class="popup-bottom-toggle" onclick="toggleFold(this);" title="접기"></button>
+<button type="button" class="popup-reset" class="초기화" ></button>
+<button type="button" class="popup-bottom-toggle" title="접기"></button>
 <!-- //안전시설물관리 -->
 
 <script>

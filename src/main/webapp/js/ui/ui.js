@@ -432,12 +432,12 @@ window.ui = (function () {
 
                 // 업무 > 사업공유관리 > 공사계획정보
                 case "constructionPlan" :
-                    aj_selectConstructionPlanList($("#tmpForm")[0]);
+                    aj_selectConstructionPlanList();
                     break;
 
                 // 업무 > 사업공유관리 > 공사예정정보
                 case "constructionSchedule"        :
-                    aj_selectConstructionScheduleList($("#tmpForm")[0]);
+                    aj_selectConstructionScheduleList();
                     break;
 
                 // 업무 > 사업공유관리 > 공사정보조회
