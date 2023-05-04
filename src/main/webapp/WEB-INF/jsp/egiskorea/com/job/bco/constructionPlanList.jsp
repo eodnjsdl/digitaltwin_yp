@@ -46,8 +46,9 @@
     dtmap.vector.clear();
     for (let i = 0; i < poiListPlan.resultList.length; i++) {
         let poi = poiListPlan.resultList[i];
+        var poi_id = ""+poi.cntrkPlnId;
         dtmap.vector.addPoint({
-            id: poi.cntrkPlnId,
+            id: poi_id,
             coordinates: [Number(poi.lon), Number(poi.lat)],
             crs: 'EPSG:5179',
             properties: poi,
