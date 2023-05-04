@@ -17,19 +17,14 @@ var rePnrsAt = "<c:out value='${nomalList.pnrsAt}'></c:out>";
 
 //차수 조회내용(초기 1차 내용)
 var orderInfoInquiry = ${orderInfo};
-
 //차수 리스트 내용
 var orderListInquiry = ${orderListInfo};
-
 //공통 공사내역 코드 내용
 var codeList = ${codeList};
-
 // 공통 공사내역 상세코드 내용
 var codeDtlList = ${codeDtlList};
-
 //공통 공사내역 상세코드 내용
 var dtlListCode = ${dtlListCode};
-
 
 
 </script>

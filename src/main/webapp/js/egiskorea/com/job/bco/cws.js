@@ -114,8 +114,7 @@ $(document).ready(function(){
 
 	// 공사 예정 정보 > 등록페이지 > 기본정보 > 지도 에서 선택 처리 이벤트(좌표값 획득, poi마커 표출)
 	$("#getPositionNomal").unbind('click').bind('click',function(){
-		//destroy();
-		// cmmUtil.getPositionGeom(positionNomalCallback);
+		dtmap.off('select');
 		dtmap.draw.active({type: 'Point', once: true});
 		dtmap.on('drawend', onDrawEndNormal);
 
@@ -140,10 +139,12 @@ $(document).ready(function(){
 			const wkt = format.writeGeometry(point);
 			$("#geom").val(wkt);
 		});
+		dtmap.on('select',spaceClickListener );
 	}
 
 	// 공사 예정 정보 > 등록페이지 > 차수별 공사정보 > 지도 에서 선택 처리 이벤트(좌표값 획득, poi마커 표출)
 	$("#getPositionLocation").unbind('click').bind('click',function(){
+		dtmap.off('select');
 		if(cws.insertVisible){ //기본정보 등록여부
 			//destroy();
 			if($("#rChk1_1").is(":checked")){
@@ -179,6 +180,7 @@ $(document).ready(function(){
 			const wkt = format.writeGeometry(point);
 			$("#geom").val(wkt);
 		});
+		dtmap.on('select',spaceClickListener );
 	}
 
 	// 공사 예정 정보 > 상세페이지 > 수정페이지 이동 처리 이벤트
@@ -678,7 +680,7 @@ function setInsertOdrInfo(data, pageType){
 
 /******************************************************** 아작스 호출 영역 ************************************************************/
 // 공사예정 정보 > 리스트 표출(공사 예정 정보 리스트 페이지)
-function aj_selectConstructionScheduleList(form){
+/*function aj_selectConstructionScheduleList(form){
 
 	ui.loadingBar("show");
 	var	formData = new FormData(form);
@@ -705,7 +707,7 @@ function aj_selectConstructionScheduleList(form){
 			ui.loadingBar("hide");
 		}
 	});
-}
+}*/
 // --------------------------------------------------------- 상세 --------------------------------------------------
 //공사예정 정보 > 상세정보페이지 이동 (상세 내역 조회하기)
 function aj_selectConstructionSchedule(keyId){
@@ -767,7 +769,6 @@ function aj_selectConstructionSchedule(keyId){
 	});
 }
 
-// 공사예정 정보 > 상세정보페이지 > 차수정보 조회 처리
 // 공사예정 정보 > 수정정보페이지 > 차수정보 조회 처리
 function aj_selectConstructionScheduleOderInfo(cntrkPrrngId, orderId, type){
 
@@ -888,7 +889,7 @@ function aj_updateConstructionScheduleView(keyId){
 					scrollbarPosition:"outside"
 				});
 				//cmmUtil.setOdrLayers(poiScheduleInfo.ordLayerId, poiScheduleInfo.LineLayerId, poiScheduleInfo.imgUrl, orderListInfo);
-
+				aj_selectConstructionScheduleOderInfo();
 			}else{
 				toastr.error("관리자에게 문의 바랍니다.", "정보를 불러오지 못했습니다.");
 				return;
@@ -1103,7 +1104,6 @@ function aj_insertConstructionScheduleNomal(form){
 	})
 }
 
-//공사예정 정보 > 등록페이지 > 차수정보 등록 처리, 등록 되어있는 차수정보 조회
 //공사예정 정보 > 수정페이지 > 차수정보 등록 처리, 등록 되어있는 차수정보 조회
 function aj_insertConstructionScheduleOdr(form, type){
 	//ui.loadingBar("show");
@@ -1150,7 +1150,6 @@ function aj_insertConstructionScheduleOdr(form, type){
 	});
 }
 
-//공사예정 정보 > 등록페이지 > 차수정보 등록 처리, 등록 되어있는 차수정보 조회
 //공사예정 정보 > 수정페이지 > 차수정보 등록 처리, 등록 되어있는 차수정보 조회
 function aj_insertConstructionScheduleOdr2(dtlCodeArray, type){
 
@@ -1218,7 +1217,6 @@ function removeSchedulePage(){
 
 //레이어 선택 상세보기
 function spaceClickListener(e){
-	console.log('여기야');
 	var gid ;
 	if (dtmap.mod === '3D'){
 		gid=e.id;
