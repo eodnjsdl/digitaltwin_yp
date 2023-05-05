@@ -65,7 +65,8 @@ window.dtmap = (function () {
             //2D->3D 위치 동기화
             let center = map2d.getCenter();
             center = ol.proj.transform(center, map2d.crs, map3d.crs);
-            map3d.setCenter(center, dtmap.util.zoomToAlt(map2d.view.getZoom()));
+            center[2] = dtmap.util.zoomToAlt(map2d.view.getZoom());
+            map3d.setCenter(center);
 
         } else {
             _cur_mode = '2D'
@@ -109,8 +110,8 @@ window.dtmap = (function () {
      * 중심점 설정하기
      * @param {number[]} center [x,y]
      */
-    function setCenter(center) {
-        call('setCenter', center);
+    function setCenter(center, options) {
+        call('setCenter', center, options);
     }
 
     /**
@@ -268,7 +269,7 @@ window.dtmap = (function () {
             }
             ary.push(new ol.format.filter.intersects('geom', geom, options.crs || dtmap.crs));
         } else if (options.bbox) {
-            ary.push(new ol.format.filter.bbox('geom', options.bbox,options.crs || dtmap.crs));
+            ary.push(new ol.format.filter.bbox('geom', options.bbox, options.crs || dtmap.crs));
         }
 
         if (ary.length === 0) {
@@ -449,7 +450,7 @@ window.dtmap = (function () {
      */
     function toImage(options) {
         const promise = $.Deferred();
-        html2canvas(getMap().container,options).then(canvas => {
+        html2canvas(getMap().container, options).then(canvas => {
             promise.resolve(canvas.toDataURL());
         });
         return promise;

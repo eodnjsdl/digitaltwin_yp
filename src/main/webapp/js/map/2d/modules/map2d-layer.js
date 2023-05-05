@@ -81,13 +81,38 @@ map2d.layer = (function () {
             source: new ol.source.ImageWMS({
                 url: '/gis/wms',
                 params: {
-                    version: '1.1.0',
-                    layers: layerNm
+                    VERSION: '1.1.1',
+                    LAYERS: layerNm,
+                    SLD: options.sld,
+                    SLD_BODY: options.sldBody
                 },
                 // projection: ol.proj.get(e.srs),
                 ratio: 1,
                 crossOrigin: 'anonymous',
                 serverType: 'geoserver',
+                imageLoadFunction: function (tile, src) {
+                    const index = src.indexOf("SLD_BODY");
+                    if (index >= 0) {
+                        const sldBody = src.substring(index, src.indexOf("&", index));
+                        const imageSrc = src.replace(sldBody, "");
+                        const body = decodeURIComponent(sldBody.replace("SLD_BODY=", ""));
+                        fetch(imageSrc, {
+                            method: "POST",
+                            body: body,
+                        })
+                            .then((response) => {
+                                if (response.ok) {
+                                    return response.blob();
+                                }
+                            })
+                            .then(function (blob) {
+                                const objectUrl = URL.createObjectURL(blob);
+                                tile.getImage().src = objectUrl;
+                            });
+                    } else {
+                        tile.getImage().src = src;
+                    }
+                }
             }),
         });
         return layer;
@@ -108,11 +133,16 @@ map2d.layer = (function () {
         }
     }
 
+    function refresh() {
+
+    }
+
     let module = {
         addLayer: addLayer,
         removeLayer: removeLayer,
         setVisible: setVisible,
         clear: clear,
+        refresh: refresh,
         getById: getById
     }
     return module;

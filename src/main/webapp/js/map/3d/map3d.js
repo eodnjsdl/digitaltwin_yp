@@ -5,6 +5,9 @@ window.map3d = (function () {
     let _container;
     let _camera;
     let _curInteraction;
+    let _beforeMouse;
+    let _isMouseDown = false;
+    let _isDrag = false;
 
     function init() {
         if (_isInit) {
@@ -77,34 +80,70 @@ window.map3d = (function () {
             ``
             //이벤트리스너 등록
             const canvas = _container.getElementsByTagName('canvas').canvas
-            _container.addEventListener('click', onClick);
+            // _container.addEventListener('click', onClick);
             // _container.addEventListener('contextmenu', onClick);
+            canvas.addEventListener('mousedown', onMouseDown);
+            canvas.addEventListener('mouseup', onMouseUp);
+            canvas.addEventListener('mousemove', onMouseMove);
             canvas.addEventListener('Fire_EventSelectedObject', onSelectObject);
+            canvas.addEventListener('Fire_EventCameraMoveEnd', onCameraMoveEnd);
+
         })
 
         return _isLoaded;
     }
 
-    function onClick(e) {
+    function onMouseDown(e) {
+        _isMouseDown = true;
+        _beforeMouse = e;
 
         Module.XDRenderData()//임시
-
-        if (e.button !== 0) {
-            return;
-        }
-        const screenPosition = new Module.JSVector2D(e.x, e.y);
-        // 화면->지도 좌표 변환
-        const mapPosition = Module.getMap().ScreenToMapPointEX(screenPosition);
-        dtmap.trigger('click', {
-            pixel: [e.x, e.y],
-            coordinates: [mapPosition.Longitude, mapPosition.Latitude],
-            altitude: mapPosition.Altitude,
-            origin: e
-        });
+        dtmap.trigger('mousedown', e);
     }
 
-    function onContextmenu(e) {
-        dtmap.trigger('contextmenu', e);
+    function onMouseUp(e) {
+        _isMouseDown = false;
+        dtmap.trigger('mouseup', e);
+        if (_isDrag) {
+            //drag end
+            _isDrag = false;
+            //Fire_EventCameraMoveEnd 이벤트는 rotate 일때 발생안해서 직접구현
+            const position = _camera.getLocation();
+            dtmap.trigger('moveend', {
+                coordinates: [position.Longitude, position.Latitude],
+                altitude: position.Altitude,
+                zoom: dtmap.util.altToZoom(position.Altitude),
+                originalEvent: e
+            });
+        } else {
+            //click end
+            if (e.button === 0) {
+                //left click event
+                const screenPosition = new Module.JSVector2D(e.x, e.y);
+                // 화면->지도 좌표 변환
+                const mapPosition = Module.getMap().ScreenToMapPointEX(screenPosition);
+                dtmap.trigger('click', {
+                    pixel: [e.x, e.y],
+                    coordinates: [mapPosition.Longitude, mapPosition.Latitude],
+                    altitude: mapPosition.Altitude,
+                    originalEvent: e
+                });
+            } else {
+                //right click event
+                if (Math.abs(_beforeMouse.x - e.x) < 2 && Math.abs(_beforeMouse.y - e.y) < 2) {
+                    dtmap.trigger('contextmenu', {
+                        originalEvent: e
+                    });
+                }
+            }
+        }
+    }
+
+    function onMouseMove(e) {
+        if (_isMouseDown) {
+            //drag
+            _isDrag = true;
+        }
     }
 
     function onSelectObject(e) {
@@ -135,6 +174,16 @@ window.map3d = (function () {
             }
         }
         dtmap.trigger('select', data)
+    }
+
+    function onCameraMoveEnd(e) {
+        const position = _camera.getLocation();
+        dtmap.trigger('moveend', {
+            coordinates: [position.Longitude, position.Latitude],
+            altitude: position.Altitude,
+            zoom: dtmap.util.altToZoom(position.Altitude),
+            originalEvent: e
+        });
     }
 
     // 지도 세팅 정보 불러오기
@@ -256,10 +305,18 @@ window.map3d = (function () {
      * @param center
      * @param altitude
      */
-    function setCenter(center, altitude) {
+    function setCenter(center, options) {
+        options = options || {};
+        let altitude = center[2];
+        if (!altitude) {
+            altitude = _camera.getLocation().Altitude;
+        }
+
+        const angle = options.angle || 30;
+        const dis = Math.abs(altitude / Math.sin((angle * Math.PI / 180)))
         const alt = Module.getMap().getTerrHeightFast(center[0], center[1]);
         let centerVec = new Module.JSVector3D(center[0], center[1], alt);
-        _camera.moveLookAt(centerVec, 30, 0, altitude * 1.6);
+        _camera.moveLookAt(centerVec, angle, 0, dis);
     }
 
     /**
@@ -346,7 +403,7 @@ window.map3d = (function () {
         clearInteraction();
         map3d.vector.clear();
         map3d.draw.clear();
-        map3d.layer.clear();
+        // map3d.layer.clear();
         $('.ctrl-group>button').removeClass('active');
     }
 

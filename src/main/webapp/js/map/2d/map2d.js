@@ -45,20 +45,35 @@ window.map2d = (function () {
             zoom: config.zoom,
             minZoom: config.minZoom,
             maxZoom: config.maxZoom,
+            // resolutions: [
+            //     70.5556966669489,
+            //     35.27784833347445,
+            //     17.638924166737226,
+            //     7.05556966669489,
+            //     3.527784833347445,
+            //     0.17638924166737224,
+            //     0.07055569666694889,
+            //     0.03527784833347444,
+            //     0.01763892416673722,
+            //     0.00705556966669489
+            // ],
             constrainResolution: true,
         });
         _map = new ol.Map({
             target: _container,
             layers: [],
             interactions: defaultInteractions(),
-            controls: [],
+            controls: [new ol.control.ScaleLine()],
             view: _view,
         });
         initModules();
         _isInit = true;
         _map.on('click', onClick);
-        _map.on('dblclick', onClick);
-        _map.on('contextmenu', onContextmenu)
+        _map.on('dblclick', onDblClick);
+        _map.on('contextmenu', onContextmenu);
+        _map.on('moveend', onMoveEnd);
+        _container.addEventListener('mousedown', onMouseDown);
+        _container.addEventListener('mouseup', onMouseUp);
     }
 
     function onClick(e) {
@@ -69,7 +84,8 @@ window.map2d = (function () {
                 id: feature.getId(),
                 property: feature.getProperties(),
                 geometry: feature.getGeometry(),
-                feature: feature
+                feature: feature,
+                originalEvent: e.originalEvent
             });
         }
 
@@ -80,7 +96,25 @@ window.map2d = (function () {
     }
 
     function onContextmenu(e) {
-        dtmap.trigger('dblclick', e);
+        dtmap.trigger('contextmenu', e);
+    }
+
+    function onMoveEnd(e) {
+        dtmap.trigger('moveend', {
+            coordinates: _view.getCenter(),
+            resolution: _view.getResolution(),
+            altitude: dtmap.util.zoomToAlt(_view.getZoom()),
+            zoom: _view.getZoom(),
+            originalEvent: e
+        });
+    }
+
+    function onMouseDown(e) {
+        dtmap.trigger('mousedown', e);
+    }
+
+    function onMouseUp(e) {
+        dtmap.trigger('mouseup', e);
     }
 
     function initModules() {
@@ -116,10 +150,17 @@ window.map2d = (function () {
         return _view.getCenter();
     }
 
-    function setCenter(center, zoom) {
+    function setCenter(center, options) {
         _view.setCenter(center);
-        if (zoom) {
-            _view.setZoom(zoom);
+        if (options.zoom) {
+            _view.setZoom(options.zoom);
+        }
+        if (options.resolution) {
+            _view.setResolution(options.resolution)
+        }
+        if (options.scale) {
+            let r = dtmap.util.scaleToResolution(options.scale);
+            _view.setResolution(r);
         }
     }
 
@@ -129,6 +170,14 @@ window.map2d = (function () {
 
     function setExtent(extent) {
         _view.fit(extent);
+    }
+
+    function getResolution() {
+        return _view.getResolution();
+    }
+
+    function setResolution(resolution) {
+        return _view.setResolution(resolution);
     }
 
     /**
@@ -151,7 +200,7 @@ window.map2d = (function () {
         clearInteraction();
         map2d.vector.clear();
         map2d.draw.clear();
-        map2d.layer.clear();
+        // map2d.layer.clear();
         $('.ctrl-group>button').removeClass('active');
     }
 
@@ -213,13 +262,15 @@ window.map2d = (function () {
         setCenter: setCenter,
         getExtent: getExtent,
         setExtent: setExtent,
+        getResolution: getResolution,
+        setResolution: setResolution,
         showLayer: showLayer,
         clear: clear,
         goHome: goHome,
         setBaseLayer: setBaseLayer,
         setInteraction: setInteraction,
         clearInteraction: clearInteraction,
-        defaultInteractions : defaultInteractions
+        defaultInteractions: defaultInteractions
     }
     Object.defineProperties(module, {
         'map': {
