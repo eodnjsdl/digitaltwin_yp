@@ -687,13 +687,15 @@
 }
 
 .building-list-item .building-list .dep2 li a:hover {
+    color: #1C77FF;
     text-decoration: underline;
 }
 
-.building-list-item .building-list .dep2 li .active {
+.building-list-item .building-list li .active {
     color: #1C77FF;
-    font-weight: 700;
+    font-weight: bold;
     text-decoration: underline;
+    background: #E6F8FF;
 }
 
 .building-data-item {

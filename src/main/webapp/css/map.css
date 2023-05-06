@@ -42,7 +42,7 @@ html, body {
 
 #header .logo a {
 	display: block;
-	height: 100%;
+	height: 84%;
 	background: url(/images/common/logo.png) no-repeat 50% 0;
 	text-indent: -9999px;
 }

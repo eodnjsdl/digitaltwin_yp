@@ -340,7 +340,6 @@ window.ui = (function () {
         });
         //지적/건물
         $mapControl.on('click', '.building', function (e) {
-            toastr.success("지도에서 위치를 선택하세요. ", "지적/건물");
             $(".map-control button").removeClass("active");
             aj_ldbdInfo();
         });
