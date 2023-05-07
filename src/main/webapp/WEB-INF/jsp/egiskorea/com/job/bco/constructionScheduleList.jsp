@@ -6,50 +6,49 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 
 <!-- 공사계획 정보 -->
-<script src="/js/egiskorea/com/job/bco/cwp.js"></script>
-<!-- 공사예정정보 -->
-<script src="/js/egiskorea/com/job/bco/cws.js"></script>
+<!-- <script src="/js/egiskorea/com/job/bco/cwp.js"></script> -->
 <!-- 공사정보 조회 -->
-<script src="/js/egiskorea/com/job/bco/cwi.js"></script>
+<!-- <script src="/js/egiskorea/com/job/bco/cwi.js"></script> -->
 
 <%--<script src="/js/egiskorea/com/cmm/cmmUtil.js"></script>--%>
 
 <script type="text/javascript">
-
+    
     var rePageChk = true;
     //ui.callDatePicker();
     // 시기 - 년도
-    var rePlnYear = "<c:out value='${searchVO.plnYear}'></c:out>";
+    var rePlnYear = "<c:out value='${searchVO.plnYear}'></c:out>"||'';
     // 시기 - 분기
-    var rePlnQu = "<c:out value='${searchVO.plnQu}'></c:out>";
+    var rePlnQu = "<c:out value='${searchVO.plnQu}'></c:out>"||'';
     // 유형 - 공사유형(전체)
-    var reCntrkTy = "<c:out value='${searchVO.cntrkTy}'></c:out>";
+    var reCntrkTy = "<c:out value='${searchVO.cntrkTy}'></c:out>"||'';
     // 유형 - 집행부서(전체)
-    var reChpsnPsitn = "<c:out value='${searchVO.chpsnPsitn}'></c:out>";
+    var reChpsnPsitn = "<c:out value='${searchVO.chpsnPsitn}'></c:out>"||'';
     // 유형 - 읍명동(전체)
-    var reCntrkLcAdres = "<c:out value='${searchVO.cntrkLcAdres}'></c:out>";
+    var reCntrkLcAdres = "<c:out value='${searchVO.cntrkLcAdres}'></c:out>"||'';
     // 유형 - 공사명
-    var reCntrkNm = "<c:out value='${searchVO.cntrkNm}'></c:out>";
-
+    var reCntrkNm = "<c:out value='${searchVO.cntrkNm}'></c:out>"||'';
+    
     // 페이지 인덱스
-    var rePageIndex = "<c:out value='${searchVO.pageIndex}'></c:out>";
-
+    var rePageIndex = "<c:out value='${searchVO.pageIndex}'></c:out>"||'';
+    
     // 공사예정 정보 poi표출 리스트
     var poiListSchedule = ${poiList};
 
     // 공사예정 정보 poi표출 리스트(상세에서 예외처리시 필요)
     var poiListScheduleDtl = '';
-
+    
     // 년도 분기 값 세팅
     callSelectOptions();
-
-
+    
+    
     //Poi 추가
     dtmap.vector.clear();
     for (let i = 0; i < poiListSchedule.resultList.length; i++) {
         let poi = poiListSchedule.resultList[i];
+        var poi_id =""+ poi.cntrkPrrngId;
         dtmap.vector.addPoint({
-            id: poi.cntrkPrrngId,
+            id: poi_id,
             coordinates: [Number(poi.lon), Number(poi.lat)],
             crs: 'EPSG:5179',
             properties: poi,
@@ -65,17 +64,19 @@
     }
     dtmap.vector.fit();
 </script>
+<!-- 공사예정정보 -->
+<script src="/js/egiskorea/com/job/bco/cws.js"></script>
 
 
 <!-- 업무 > 공간정보활용 > 사업공유관리 -->
 <!-- <div class="popup-panel popup-left work-01-01" style="left: 320px;width: 515px;height: 807px;"> -->
-<div class="popup-header">사업공유관리</div>
-<div class="popup-body">
-    <div class="left-popup-body">
-        <div class="tabBoxDepth1-wrap">
-            <div class="tabBoxDepth1">
-                <ul>
-                    <li data-tab="constructionPlan">
+    <div class="popup-header">사업공유관리</div>
+    <div class="popup-body">
+        <div class="left-popup-body">
+            <div class="tabBoxDepth1-wrap">
+                <div class="tabBoxDepth1">
+                    <ul>
+                        <li data-tab="constructionPlan">
                         <button id="constructionPlan" type="button" class="inner-tab leftPopup"
                                 data-tab="constructionPlan">공사계획정보
                         </button>
@@ -282,6 +283,5 @@
 <button type="button" class="manualBtn" title="도움말" onclick="manualTab('사업공유관리')"></button>
 <button type="button" class="popup-close" title="닫기" onclick="removeLayer(); destroy();"></button>
 <button type="button" class="popup-reset" class="초기화" onclick="removeSchedulePage()"></button>
-<button type="button" class="popup-left-toggle" title="접기"></button>
 <!-- </div> -->
 <!-- //업무 > 공간정보활용 > 사업공유관리 -->		

@@ -32,6 +32,14 @@ if(confirm("<spring:message code="common.delete.msg" />")){
 	});
 }
 }
+// 닫기
+$("#rightSubPopup .popup-close").unbind('click').bind('click',function() {
+	// 등록, 상세, 수정 팝업 창 닫기
+	if ($("#rightSubPopup").hasClass("opened")) {
+		$("#rightSubPopup").removeClass("opened");
+		$("#rightSubPopup").empty();
+	}
+});
 </script>
 
 <%--<div class="popup-panel popup-sub opened" style="bottom: 398px;right: 70px;width: 550px;height: 445px;" id="selectSafetyFacilCctvMng">--%>

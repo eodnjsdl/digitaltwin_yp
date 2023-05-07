@@ -5,6 +5,16 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="ui" uri="http://egovframework.gov/ctl/ui"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<script>
+// 닫기
+$("#rightSubPopup .popup-close").unbind('click').bind('click',function() {
+	// 등록, 상세, 수정 팝업 창 닫기
+	if ($("#rightSubPopup").hasClass("opened")) {
+		$("#rightSubPopup").removeClass("opened");
+		$("#rightSubPopup").empty();
+	}
+});
+</script>
 	<div class="popup-header">관내업소정보조회 상세보기</div>
 	<div class="popup-body">
 		<div class="sub-popup-body">

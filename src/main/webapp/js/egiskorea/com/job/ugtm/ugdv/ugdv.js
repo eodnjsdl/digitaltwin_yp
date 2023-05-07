@@ -63,6 +63,8 @@ function setData(_pageNo){
 		typeNames: 'tgd_ugrwtr_devlop', //WFS 레이어명
 		page  : _pageNo+1,
 		perPage : 100,
+		sortBy : 'gid',
+		sortOrder : 'DESC',
 	}
 
 
@@ -178,8 +180,20 @@ function fn_pageDetail(gid){
 		async: false,
 		success : function(returnData, status){
 			if(status == "success") {		
-				toastr.success("단일 선택 POI 하이라트 및 지도이동");
 				$("#rightSubPopup").append(returnData);
+				//그리드에 행전체 선택되게 수정
+				var gridGid = gid;
+				var gridList = window.target.list;
+			
+				for(var i=0; i<gridList.length; i++){
+					//console.log(gridList[i]);
+					var grid = gridList[i];
+					if(gridGid == grid.gid){
+						var dindex = grid.__index;
+						window.target.clearSelect();
+						window.target.focus(dindex);		
+					}
+				}
 			}else{ 
 				toastr.error("관리자에게 문의 바랍니다.", "정보를 불러오지 못했습니다.");
 				return;
@@ -333,12 +347,18 @@ function onDrawEnd(e) {
 	dtmap.draw.dispose();
 	var geom = e.geometry;
 	const position = geom.getFlatCoordinates();
+	var modPosition;
+	if(dtmap.mod=='2D'){
+        modPosition = position;
+    }else{
+        modPosition = ol.proj.transform([position[0],position[1]],'EPSG:4326','EPSG:5179');
+    }
 	var xObj = parseFloat(position[0]);
 	var yObj = parseFloat(position[1]);
 	cmmUtil.reverseGeocoding(xObj, yObj).done((result)=>{
 		$("#adres").val("경기도 양평군 "+result["address"]);
 		const format = new ol.format.WKT();
-		const point = new ol.geom.Point([xObj, yObj]);
+		const point = new ol.geom.Point([parseFloat(modPosition[0]), parseFloat(modPosition[1])]);
 		const wkt = format.writeGeometry(point);
 		$("#geom").val(wkt);
 	});

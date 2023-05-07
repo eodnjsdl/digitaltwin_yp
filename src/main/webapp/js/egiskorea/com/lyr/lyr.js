@@ -10,7 +10,7 @@ const layerStyle = {
     this.layerName = layerName;
     const findLayer = store.facility
       .getData()
-      .find((layer) => layer["tblNm"] == layerName);
+      .find((layer) => layer["tblNm"] === layerName);
     if (findLayer) {
       this.type = findLayer["lyrDtlKnd"];
       if (findLayer["styleInfo"]) {
@@ -38,13 +38,13 @@ const layerStyle = {
    */
   initUi: function () {
     $(".toggle_style").hide();
-    if (this.type == "P") {
+    if (this.type === "P") {
       $(".style_point").show();
-    } else if (this.type == "L") {
+    } else if (this.type === "L") {
       $("#style_stroke_checkbox").prop("checked", true);
       $("#style_stroke_checkbox").prop("disabled", true);
       $(".style_stroke").show();
-    } else if (this.type == "A") {
+    } else if (this.type === "A") {
       $("#style_stroke_checkbox").prop("disabled", false);
       $(".style_stroke").show();
       $(".style_fill").show();
@@ -130,7 +130,7 @@ const layerStyle = {
     const tags = this.style.rules.map((rule, index) => {
       let tag = ``;
       tag += `<tr>`;
-      if (this.type == "P") {
+      if (this.type === "P") {
         if (
           rule["point"] &&
           rule["point"]["graphic"] &&
@@ -144,16 +144,24 @@ const layerStyle = {
         } else {
           tag += `  <td><span class="layer-symbol"><img src="./images/poi/icon1.png" style="width:29px;height:29px;" /></span></td>`;
         }
-      } else if (this.type == "L") {
+      } else if (this.type === "L") {
         const stroke = rule["line"]["stroke"];
         const strokeColor = stroke["stroke"] || "#ff0000";
         tag += `  <td><span class="layer-symbol stroke" style="background-color:${strokeColor};"></span></td>`;
-      } else if (this.type == "A") {
-        const stroke = rule["polygon"]["stroke"] || {};
-        const strokeColor = stroke["stroke"] || "#ff0000";
-        const fill = rule["polygon"]["fill"] || {};
-        const fillColor = fill["fill"] || "#ffffff";
-        tag += `  <td><span class="layer-symbol rectangle" style="background-color:${fillColor};border:1px solid ${strokeColor};border-radius:1px;"></span></td>`;
+      } else if (this.type === "A") {
+
+        if (rule["polygon"] !== undefined) {
+          const stroke = rule["polygon"]["stroke"] || {};
+          const strokeColor = stroke["stroke"] || "#ff0000";
+          const fill = rule["polygon"]["fill"] || {};
+          const fillColor = fill["fill"] || "#ffffff";
+          tag += `  <td><span class="layer-symbol rectangle" style="background-color:${fillColor};border:1px solid ${strokeColor};border-radius:1px;"></span></td>`;
+        }
+        if (rule["line"] !== undefined) {
+          const stroke = rule["line"]["stroke"];
+          const strokeColor = stroke["stroke"] || "#ff0000";
+          tag += `  <td><span class="layer-symbol stroke" style="background-color:${strokeColor};"></span></td>`;
+        }
       } else {
         console.log(`지원되지 않는 공간 타입입니다.`);
       }
@@ -282,7 +290,7 @@ const layerStyle = {
           : 6;
         const maxZoom = this.rule["minScale"]
           ? util.sld.getZoomFromMinScale(this.rule["minScale"])
-          : 19;
+          : 22;
         const values = [minZoom, maxZoom];
         $(".style-scale").slider("values", values);
         $(".value-num").val(values.join("-"));
@@ -330,7 +338,7 @@ const layerStyle = {
     const selector = $(".layerStyle");
     for (const [key, value] of Object.entries(obj)) {
       $(`[name=${key}]`, selector).closest("div.items").show();
-      if (key == "stroke" || key == "fill") {
+      if (key === "stroke" || key === "fill") {
         $(`[name=${key}]`, selector).minicolors("value", value);
       } else {
         if ($(`[name=${key}]`, selector).length > 0) {

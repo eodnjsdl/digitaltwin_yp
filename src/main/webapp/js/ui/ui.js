@@ -54,9 +54,9 @@ window.ui = (function () {
 
         //LEFT 메뉴 닫기 버튼
         $(".lnb-util .lnb-close").click(function () {
-        	//console.log(".lnb-util .lnb-close");
-        	$(".popup-close").trigger("click");	//시설관리 하위 메뉴 팝업 닫기 버튼 동작
-        	
+            //console.log(".lnb-util .lnb-close");
+            $(".popup-close").trigger("click");	//시설관리 하위 메뉴 팝업 닫기 버튼 동작
+
             ($(this).parent().parent()).stop().fadeOut(100);
             $("#lnb li[data-menu]").removeClass("on");
             _initDrawEvent();
@@ -67,13 +67,70 @@ window.ui = (function () {
             $(".lnb-dep2").find(".on").removeClass("on");
             $(this).parent().addClass("on");
         });
-        
+
         $(".scroll-y", this.selector).mCustomScrollbar({
             scrollbarPosition: "outside",
         });
 
-        function handleCreateContextMenu(event) {
+        //축척/고도 버튼
+        $('.btn-scale-submit').on('click', function () {
+            const $this = $(this);
+            const $form = $this.closest('form');
+            const $scale = $form.find('.scale')
+            const type = $scale.data('type');
+            const center = dtmap.getCenter();
+            if (type === 'scale') {
+                dtmap.setCenter(center, {
+                    scale: Number($scale.val())
+                })
+            } else {
+                center[2] = Number($scale.val());
+                dtmap.setCenter(center);
+            }
+
+
+        });
+
+        //사용자 정의 좌표
+        $('.coord-transform select').on('focus', function () {
+            const $this = $(this);
+            $this.data('pre', $this.val());
+        }).on('change', function (e) {
+            const $this = $(this);
+            const beforeCrs = $this.data('pre');
+            const crs = $this.val();
+            const $item = $this.closest('.items');
+            const x = Number($item.find('input[name="transform-x"]').val());
+            const y = Number($item.find('input[name="transform-y"]').val());
+            if (isNaN(x) || isNaN(y)) {
+                return;
+            }
+
+            const coord = ol.proj.transform([x, y], beforeCrs, crs);
+            $item.find('input[name="transform-x"]').val(coord[0]);
+            $item.find('input[name="transform-y"]').val(coord[1]);
+
+        });
+
+        //위치이동 버튼
+        $('.btn-transform-submit').on('click', function () {
+            const $this = $(this);
+            const $item = $this.closest('.items');
+            const crs = $item.find('select[name="transform-select"]').val();
+            const x = Number($item.find('input[name="transform-x"]').val());
+            const y = Number($item.find('input[name="transform-y"]').val());
+            let coord = [x, y];
+            if (crs !== dtmap.crs) {
+                coord = ol.proj.transform(coord, crs, dtmap.crs);
+            }
+
+            dtmap.setCenter(coord);
+
+        });
+
+        function handleCreateContextMenu(e) {
             // 기본 Context Menu가 나오지 않게 차단
+            const event = e.originalEvent;
             event.preventDefault();
             const ctxMenu = $(".context");
             ctxMenu.removeClass("hide");
@@ -81,15 +138,87 @@ window.ui = (function () {
             ctxMenu.css("left", event.pageX + 'px');
         }
 
-        function handleClearContextMenu(event) {
+        function handleClearContextMenu(e) {
             const ctxMenu = $(".context");
             ctxMenu.addClass("hide");
         }
 
-        var canvas_2d = document.getElementById("map2D");
+        function handleMoveEnd(e) {
+            updateNavigation(e);
+        }
+
+        function updateNavigation(e) {
+            const $div = $('#map-aside');
+            const $addr = $div.find('.addrSelect');
+            if (e.resolution) {
+                //축척인경우
+                const scale = dtmap.util.resolutionToScale(e.resolution, dtmap.crs);
+                $addr.find('.scale-label').html('축척 1 :');
+                $addr.find('.scale').data('type', 'scale');
+                $addr.find('.scale').val(formatScale(scale));
+            } else {
+                //높이인경우
+                $addr.find('.scale-label').html('고도 :');
+                $addr.find('.scale').data('type', 'alt');
+                $addr.find('.scale').val(e.altitude);
+            }
+
+            //좌표값
+            const $coord = $div.find('.coordinates');
+
+            const lonlat = ol.proj.transform(e.coordinates, dtmap.crs, 'EPSG:4326');
+            const dmsX = convertDDToDMS(lonlat[0]);
+            const dmsY = convertDDToDMS(lonlat[1]);
+
+            const $header = $coord.find('.coordi-header');
+            $header.find('.x').html(lonlat[0]);
+            $header.find('.y').html(lonlat[1]);
+
+            const $dmsX = $coord.find('.dms-x');
+            $dmsX.find('input[name="dms-x-deg"]').val(dmsX.deg);
+            $dmsX.find('input[name="dms-x-min"]').val(dmsX.min);
+            $dmsX.find('input[name="dms-x-sec"]').val(dmsX.sec);
+
+            const $dmsY = $coord.find('.dms-y');
+            $dmsY.find('input[name="dms-y-deg"]').val(dmsY.deg);
+            $dmsY.find('input[name="dms-y-min"]').val(dmsY.min);
+            $dmsY.find('input[name="dms-y-sec"]').val(dmsY.sec);
+
+            $coord.find('input[name="degree-x"]').val(lonlat[0]);
+            $coord.find('input[name="degree-y"]').val(lonlat[1]);
+
+            //사용자정의 좌표값 없을경우 입력
+            const $transformX = $div.find('input[name="transform-x"]');
+            const $transformY = $div.find('input[name="transform-y"]');
+            if (!$transformX.val() || !$transformY.val()) {
+                $div.find('select[name="transform-select"]').val('EPSG:4326');
+                $transformX.val(lonlat[0]);
+                $transformY.val(lonlat[1]);
+            }
+
+        }
+
+        function convertDDToDMS(D, lng) {
+            return {
+                deg: 0 | (D < 0 ? (D = -D) : D),
+                min: 0 | (((D += 1e-9) % 1) * 60),
+                sec: (0 | (((D * 60) % 1) * 6000)) / 100,
+            };
+        }
+
+        function formatScale(d) {
+            if (d > 100)
+                d = Math.round(d / 100) * 100;
+            else
+                d = Math.round(d);
+            return d
+        }
+
         // 이벤트 바인딩
-        canvas_2d.addEventListener('contextmenu', handleCreateContextMenu, false);
-        canvas_2d.addEventListener('click', handleClearContextMenu, false);
+        dtmap.on('contextmenu', handleCreateContextMenu);
+        dtmap.on('mousedown', handleClearContextMenu);
+        dtmap.on('moveend', handleMoveEnd);
+
     }
 
     //상단 메뉴 
@@ -211,7 +340,6 @@ window.ui = (function () {
         });
         //지적/건물
         $mapControl.on('click', '.building', function (e) {
-            toastr.success("지도에서 위치를 선택하세요. ", "지적/건물");
             $(".map-control button").removeClass("active");
             aj_ldbdInfo();
         });
@@ -340,9 +468,9 @@ window.ui = (function () {
             } else {
                 $leftSide.find('.lnb-cont').stop().fadeOut(100);
             }
-            
+
             clearMap();	//맵에 있는 오브젝트 클리어
-            
+
         });
 
         // 2D/3D 버튼
@@ -366,14 +494,13 @@ window.ui = (function () {
             //마우스  오른쪽 팝업
             $(".context").addClass("hide");
 
-            console.log(e);
             dtmap.switchMap(e.target.value);
 
             setMainUI();
-            
+
             //상/하수도 공간정보 편집도구 창 닫기
-            if($(".space-edit-tool").hasClass("opened")){	
-            	$(".space-edit-tool").removeClass("opened");
+            if ($(".space-edit-tool").hasClass("opened")) {
+                $(".space-edit-tool").removeClass("opened");
             }
         });
     }
@@ -432,12 +559,12 @@ window.ui = (function () {
 
                 // 업무 > 사업공유관리 > 공사계획정보
                 case "constructionPlan" :
-                    aj_selectConstructionPlanList($("#tmpForm")[0]);
+                    aj_selectConstructionPlanList();
                     break;
 
                 // 업무 > 사업공유관리 > 공사예정정보
                 case "constructionSchedule"        :
-                    aj_selectConstructionScheduleList($("#tmpForm")[0]);
+                    aj_selectConstructionScheduleList();
                     break;
 
                 // 업무 > 사업공유관리 > 공사정보조회
@@ -749,6 +876,7 @@ window.ui = (function () {
                 _area.heigth = "807";
                 break;
             case "layerInfo":
+                _area.left = "360";
                 _area.width = "515";
                 _area.heigth = "807";
                 break;

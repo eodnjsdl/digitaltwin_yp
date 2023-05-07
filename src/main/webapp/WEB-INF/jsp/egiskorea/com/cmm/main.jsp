@@ -340,26 +340,26 @@
 
             <div class="map-util">
                 <div class="addrSelect">
-                    <form action="">
-                        <select name="" id="" class="form-select2">
+                    <form action="#">
+                        <select name=""  class="form-select2">
                             <option value="">지번</option>
                             <option value="">도로명</option>
                         </select>
-                        <select name="" id="" class="form-select2">
+                        <select name=""  class="form-select2">
                             <option value="">행정동</option>
                             <option value="">강산면</option>
                         </select>
-                        <select name="" id="" class="form-select2">
+                        <select name=""  class="form-select2">
                             <option value="">법정리</option>
                             <option value="">경강로</option>
                         </select>
                         <input type="text" class="form-control" placeholder="지번 입력">
                         <button type="button" class="search-btn" title="검색"></button>
                     </form>
-                    <form action="">
-                        축척 1 :
+                    <form action="#">
+                        <span class="scale-label">축척 1 :</span>
                         <input type="text" class="form-control scale" placeholder="10000">
-                        <button type="button" class="btn wl btn-sm type04">이동</button>
+                        <button type="button" class="btn wl btn-sm type04 btn-scale-submit">이동</button>
                     </form>
                 </div>
 
@@ -370,30 +370,30 @@
                             <span class="x">127.47609649416934</span>
                             <span class="y">37.49284379468381</span>
                         </div>
-                        <button type="button" class="btn wl btn-sm type04">위치이동</button>
+<%--                        <button type="button" class="btn wl btn-sm type04">위치이동</button>--%>
                     </div>
                     <div class="coordi-body">
                         <div class="items">
                             <h2>위도,경도 (DMS)</h2>
                             <div class="row">
                                 <div class="c-col">
-                                    <div class="dms-row">
-                                        <span><input type="text" class="form-control"><span
+                                    <div class="dms-row dms-x">
+                                        <span><input type="text" class="form-control" name="dms-x-deg"><span
                                                 class="form-text">도</span></span>
-                                        <span><input type="text" class="form-control"><span
+                                        <span><input type="text" class="form-control" name="dms-x-min"><span
                                                 class="form-text">분</span></span>
-                                        <span><input type="text" class="form-control"><span
+                                        <span><input type="text" class="form-control" name="dms-x-sec"><span
                                                 class="form-text">초</span></span>
                                         <span class="form-dash">,</span>
                                     </div>
                                 </div>
                                 <div class="c-col">
-                                    <div class="dms-row">
-                                        <span><input type="text" class="form-control"><span
+                                    <div class="dms-row dms-y">
+                                        <span><input type="text" class="form-control" name="dms-y-deg"><span
                                                 class="form-text">도</span></span>
-                                        <span><input type="text" class="form-control"><span
+                                        <span><input type="text" class="form-control" name="dms-y-min"><span
                                                 class="form-text">분</span></span>
-                                        <span><input type="text" class="form-control"><span
+                                        <span><input type="text" class="form-control" name="dms-y-sec"><span
                                                 class="form-text">초</span></span>
                                     </div>
                                 </div>
@@ -402,26 +402,27 @@
                         <div class="items">
                             <h2>위도,경도 (Degree)</h2>
                             <div class="row">
-                                <div class="c-col"><input type="text" class="form-control"></div>
-                                <div class="c-col"><input type="text" class="form-control"></div>
+                                <div class="c-col"><input type="text" class="form-control" name="degree-x"></div>
+                                <div class="c-col"><input type="text" class="form-control" name="degree-y"></div>
                             </div>
                         </div>
-                        <div class="items">
+                        <div class="items coord-transform">
                             <h2>사용자정의</h2>
                             <div class="row">
                                 <div class="c-col">
-                                    <select class="form-select3" name="" id="">
-                                        <option value="">EPSG : 5179</option>
-                                        <option value="">EPSG : 5179</option>
-                                        <option value="">EPSG : 5179</option>
+                                    <select class="form-select3" name="transform-select">
+                                        <option value="EPSG:4326">EPSG : 4326</option>
+                                        <option value="EPSG:3857">EPSG : 3857</option>
+                                        <option value="EPSG:5179">EPSG : 5179</option>
+                                        <option value="EPSG:5186">EPSG : 5186</option>
                                     </select>
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="c-col"><input type="text" class="form-control"></div>
-                                <div class="c-col"><input type="text" class="form-control"></div>
+                                <div class="c-col"><input type="text" class="form-control" name="transform-x"></div>
+                                <div class="c-col"><input type="text" class="form-control" name="transform-y"></div>
                                 <div>
-                                    <button type="button" class="btn btn-sm type03">적용</button>
+                                    <button type="button" class="btn btn-sm type03 btn-transform-submit">위치이동</button>
                                 </div>
                             </div>
                         </div>
@@ -868,12 +869,12 @@
                                             지하시설단면
                                         </button>
                                     </li><li>
-                                        <button type="button" id="" class="dataPopup" data-maptype="">
+                                        <button type="button"  class="dataPopup" data-maptype="">
                                             편입토지분석
                                         </button>
                                     </li>
                                     <li>
-                                        <button type="button" id="" class="dataPopup" data-maptype="">
+                                        <button type="button"  class="dataPopup" data-maptype="">
                                             지하시설물터파기
                                         </button>
                                     </li>`;

@@ -22,7 +22,7 @@ map3d.vector = (function () {
         fill: DEFAULT_FILL,
         stroke: DEFAULT_STROKE
     }
-    const DEFAULT_LABEL ={
+    const DEFAULT_LABEL = {
         bold: false,
         italic: false,
         fontSize: 14,
@@ -298,10 +298,10 @@ map3d.vector = (function () {
         if (style && typeof style === 'function') {
             styleOpt = style(feature);
         } else {
-            styleOpt = {...feature.get('style'), ...style, ...{}};
+            styleOpt = _.merge({}, feature.get('style'), style);
         }
         if (styleOpt.label) {
-            styleOpt.label = {...DEFAULT_LABEL, ...styleOpt.label};
+            styleOpt.label = _.merge({}, DEFAULT_LABEL, styleOpt.label);
             if (styleOpt.label.column) {
                 styleOpt.label.text = feature.get(styleOpt.label.column);
             }
@@ -309,13 +309,13 @@ map3d.vector = (function () {
         const geometry = feature.getGeometry();
         if (geometry instanceof ol.geom.Point || geometry instanceof ol.geom.MultiPoint) {
             if (!styleOpt.marker) {
-                styleOpt = {...DEFAULT_POINT, ...styleOpt};
+                styleOpt = _.merge({}, DEFAULT_POINT, styleOpt);
             }
         } else if (geometry instanceof ol.geom.LineString || geometry instanceof ol.geom.MultiLineString) {
-            styleOpt = {...DEFAULT_LINE, ...styleOpt};
+            styleOpt = _.merge({}, DEFAULT_LINE, styleOpt);
 
         } else if (geometry instanceof ol.geom.Polygon || geometry instanceof ol.geom.MultiPolygon || geometry instanceof ol.geom.Circle) {
-            styleOpt = {...DEFAULT_POLYGON, ...styleOpt};
+            styleOpt = _.merge({}, DEFAULT_POLYGON, styleOpt);
 
         }
         return styleOpt;

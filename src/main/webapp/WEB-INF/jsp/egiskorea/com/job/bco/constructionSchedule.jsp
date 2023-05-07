@@ -17,7 +17,7 @@ var rePnrsAt = "<c:out value='${nomalList.pnrsAt}'></c:out>";
 if(rePnrsAt == "Y"){
 	$("#rChk1_1").prop('checked', true);	
 }else if(rePnrsAt == "N"){
-	$("#rChk1_2").prop('checked', true);
+	$("#rChk1_2").prop('checked', true); 
 }
 
 
@@ -58,7 +58,6 @@ $("#odrDelete").unbind('click').bind('click',function(){
 //공사예정 정보 > 상세페이지 > 차수정보 삭제 버튼 이벤트 처리
 $("#btnCwsDelete").unbind('click').bind('click',function(){	
 	if(confirm("<spring:message code="common.delete.msg" />")){
-		destroy();
 		aj_deleteConstructionSchedule($(this).data("cwsid"), "odrDtlPage");
 	}
 });
@@ -187,7 +186,7 @@ var rePageIndexDtl = "<c:out value='${searchVO.pageIndex}'></c:out>";
 						<td colspan="3">
 							<div class="form-row">
 								<div class="col">
-									<input type="text" class="form-control" name="cntrkLcAdres" id="odrCntrkLcAdres" readonly>
+									<input type="text" class="form-control" name="cntrkLcAdres" id="cntrkLcAdres" readonly>
 								</div> 
 							</div>
 						</td>

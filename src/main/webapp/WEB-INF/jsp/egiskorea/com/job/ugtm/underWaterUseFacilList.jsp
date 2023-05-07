@@ -8,6 +8,7 @@
 <script src="/js/egiskorea/com/job/ugtm/uguf/uguf.js"></script>
 <%--<script src="/js/egiskorea/com/cmm/cmmUtil.js"></script>--%>
 <script>
+	
 $(".spaceArea").hide();
 var lastEmdKorNm = "<c:out value='${searchVO.emdKorNm}' />";
 var lastAllvlBsrckSeSearch = "<c:out value='${searchVO.allvlBsrckSeSearch}' />";
@@ -19,13 +20,40 @@ var lastBufferCnt = "<c:out value='${searchVO.bufferCnt}' />";
 var lastSelect = "<c:out value='${searchVO.underWaterUseFacilSelect}' />";
 var lastDraw = "<c:out value='${searchVO.underWaterUseFacilAreaDrawing}' />";
 
-// $(".popup-reset").unbind('click').bind('click',function(){
-// 	ugufUi = '';
-// 	cmmUtil.drawClear();
-// 	bottomPopupOpen('undergroundWaterUseFacility');
-// });
+$(document).ready(function() {
+	ui.callDatePicker();
+	// 이벤트 리스너 추가
+	dtmap.on('select', onFacilitySelectEventListener);
+
+	// 초기화 버튼
+	$(".popup-reset").unbind('click').bind('click',function() {
+		$('#undergroundWaterManagement').trigger("click");
+	});
+	
+	// 접기/펼치기
+	$(".popup-bottom-toggle", "#bottomPopup").on("click", function() {
+		const node = $(this);
+		const divNode = node.closest("div.popup-panel");
+		if (divNode.is(".fold")) {
+			node.attr("title", "펼치기");
+			divNode.removeClass("fold");
+		} else {
+			node.attr("title", "접기");
+			divNode.addClass("fold");
+		}
+	});
+
+	// 닫기
+	$(".popup-close").unbind('click').bind('click',function() {
+		
+		// 등록, 상세, 수정 팝업 창 닫기
+		if ($("#rightSubPopup").hasClass("opened")) {
+			$("#rightSubPopup").removeClass("opened");
+			$("#rightSubPopup").empty();
+		}
+	});
+});
 </script>
-<form:form name="selectUnderWaterUseFacilExcelList" id="searchForm" method="post" onsubmit="fn_select_list(); return false;">
 <input type="hidden" name="pageIndex" id="pageIndex" value="<c:out value='${searchVO.pageIndex}' />">
 <div class="popup-header">지하수관리</div>
 <div class="popup-body">
@@ -153,17 +181,15 @@ var lastDraw = "<c:out value='${searchVO.underWaterUseFacilAreaDrawing}' />";
 				<div class="bbs-default">
 					<div data-ax5grid="bbs-grid"  data-ax5grid-config="{}" style="height: 267px;">
 					</div>
-					<div data-ax5grid="attr-grid-excel" style="diplay:none;"></div>
 				</div>
 			</div>
 		</div>
 	</div>
 </div>
-</form:form>
 <button type="button" class="manualBtn" title="도움말" onclick="manualTab('지하수관리')"></button>
-<button type="button" class="popup-close" title="닫기" onClick="toastr.warning('removeLayer(); cmmUtil.drawClear();', 'onclick 이벤트');"></button>
-<button type="button" class="popup-reset" class="초기화" onclick="bottomPopupOpen('undergroundWaterUseFacility');"></button>
-<button type="button" class="popup-bottom-toggle" onclick="toggleFold(this);" title="접기"></button>					
+<button type="button" class="popup-close" title="닫기" ></button>
+<button type="button" class="popup-reset" class="초기화"></button>
+<button type="button" class="popup-bottom-toggle" title="접기"></button>					
 <!-- </div> -->
 
 <script>
