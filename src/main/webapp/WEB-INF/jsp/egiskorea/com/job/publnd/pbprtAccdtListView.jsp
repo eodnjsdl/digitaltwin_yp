@@ -51,6 +51,6 @@
 	</div>
 </div>
 <button type="button" class="manualBtn" title="도움말" onclick="manualTab()"></button>
-<button type="button" class="popup-close" title="닫기" onclick="removeLayer();"></button><!-- destroy(); 소멸자 -->
+<button type="button" class="popup-close" title="닫기" onclick="closeView(); removeLayer();"></button><!-- destroy(); 소멸자 -->
 <button type="button" class="popup-reset" class="초기화" onclick="resetGrid();"></button>
 <button type="button" class="popup-bottom-toggle" title="접기" onclick="toggleFold(this);"></button>				

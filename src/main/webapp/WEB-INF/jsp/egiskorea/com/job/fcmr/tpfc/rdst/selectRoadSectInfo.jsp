@@ -5,6 +5,10 @@
 $(".scroll-y").mCustomScrollbar({
     scrollbarPosition: "outside",
 });
+
+$('.popup-close').on('click', function() {
+    closeView();   
+});
 </script>
 <!-- 업무 > 시설관리 > 교통시설 > 도로구간 상세보기 -->
 <div class="popup-header">도로구간 상세보기</div>
@@ -93,5 +97,5 @@ $(".scroll-y").mCustomScrollbar({
 		</div>
 	</div>
 </div>
-<button type="button" class="popup-close" title="닫기" onClick="closeView()"></button>				
+<button type="button" class="popup-close" title="닫기"></button>				
 <!-- 업무 > 시설관리 > 교통시설 > 도로구간 상세보기 end -->

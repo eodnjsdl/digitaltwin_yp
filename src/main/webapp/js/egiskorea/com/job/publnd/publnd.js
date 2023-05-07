@@ -561,15 +561,22 @@ function toImageResize() {
     } else if (dtmap.mod == '3D') {
 	element = document.querySelector("#map3D canvas");
     }
+    // 사용자가 클릭 한 곳 중심으로 '600x600' 사이즈 이미지 옵션
     let options = {
 	    x : 650,
 	    y : 200,
 	    width : 600,
 	    height : 600
     };
-    const promise = $.Deferred();
-    html2canvas(element, options).then(canvas => {
-	promise.resolve(canvas.toDataURL());
-    });
-    return promise;
+    
+    let imageSrc = dtmap.toImage(options);
+    
+    return imageSrc;
+    
+    // dtmap.toImage()에 parameter 'options' 추가됨
+//    const promise = $.Deferred();
+//    html2canvas(element, options).then(canvas => {
+//	promise.resolve(canvas.toDataURL());
+//    });
+//    return promise;
 }
