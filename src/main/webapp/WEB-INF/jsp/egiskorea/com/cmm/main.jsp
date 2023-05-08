@@ -805,7 +805,7 @@
             <a href="#" class="c03">사진등록</a>
             <a href="#" class="c04">메모등록</a>
             <a href="#" class="c05">위치정보</a>
-            <a href="#" class="c06">화면저장</a>
+            <a href="#" class="c06">지도저장</a>
             <a href="#" class="c07">3D전환</a>
         </div>
         <!-- //마우스 오른쪽 선택 팝업 -->
