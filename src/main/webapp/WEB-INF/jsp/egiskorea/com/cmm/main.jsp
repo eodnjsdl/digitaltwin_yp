@@ -166,49 +166,49 @@
     <!-- [[업무 /시설관리 재작업]]  -->
     <script src="/js/egiskorea/com/cmm/common.js"></script> <!-- 메뉴얼 기능이 필요해서 추가 -->
 
-	<script src="/js/egiskorea/com/job/fcmr/facilityCommon.js"></script>				<!-- 시설관리  공통 -->
+    <script src="/js/egiskorea/com/job/fcmr/facilityCommon.js"></script>                <!-- 시설관리  공통 -->
 
-	<!-- [상수도 시설] -->
-	<script src="/js/egiskorea/com/job/fcmr/wsfc/facilityWaterSupply.js"></script>		<!--{상수도시설  공통} -->
-	<!-- ////////////////////////////  -->
+    <!-- [상수도 시설] -->
+    <script src="/js/egiskorea/com/job/fcmr/wsfc/facilityWaterSupply.js"></script>        <!--{상수도시설  공통} -->
+    <!-- ////////////////////////////  -->
 
-	<!-- [하수도시설]  -->
-	<script src="/js/egiskorea/com/job/fcmr/ssfc/facilitySewerSupply.js"></script> 		<!-- {하수도시설  공통} -->
-	<!-- ////////////////////////////  -->
+    <!-- [하수도시설]  -->
+    <script src="/js/egiskorea/com/job/fcmr/ssfc/facilitySewerSupply.js"></script>        <!-- {하수도시설  공통} -->
+    <!-- ////////////////////////////  -->
 
-	<!-- [교통시설]  -->
-	<script src="/js/egiskorea/com/job/fcmr/tpfc/facilityTransportation.js"></script>	<!-- 교통시설  공통 -->
-	<!-- {교통 하위 메뉴}  -->
-	<!-- 도로구간  -->
-	<script src="/js/egiskorea/com/job/fcmr/tpfc/rdst/roadSect.js"></script>
-	<!-- 철도선로 -->
-	<script src="/js/egiskorea/com/job/fcmr/tpfc/rrtc/rlroadTc.js"></script>
-	<!-- 철도역사 -->
-	<script src="/js/egiskorea/com/job/fcmr/tpfc/rrst/rlroadSt.js"></script>
-	<!-- 지하철선로 -->
-	<script src="/js/egiskorea/com/job/fcmr/tpfc/sbtc/sbwayTc.js"></script>
-	<!-- 지하철역사 -->
-	<script src="/js/egiskorea/com/job/fcmr/tpfc/sbst/sbwaySt.js"></script>
-	<!-- 교량 -->
-	<script src="/js/egiskorea/com/job/fcmr/tpfc/brdg/brdge.js"></script>
-	<!-- 고가도로 -->
-	<script src="/js/egiskorea/com/job/fcmr/tpfc/ovps/ovrpass.js"></script>
-	<!-- 터널 -->
-	<script src="/js/egiskorea/com/job/fcmr/tpfc/tunl/tunnl.js"></script>
+    <!-- [교통시설]  -->
+    <script src="/js/egiskorea/com/job/fcmr/tpfc/facilityTransportation.js"></script>    <!-- 교통시설  공통 -->
+    <!-- {교통 하위 메뉴}  -->
+    <!-- 도로구간  -->
+    <script src="/js/egiskorea/com/job/fcmr/tpfc/rdst/roadSect.js"></script>
+    <!-- 철도선로 -->
+    <script src="/js/egiskorea/com/job/fcmr/tpfc/rrtc/rlroadTc.js"></script>
+    <!-- 철도역사 -->
+    <script src="/js/egiskorea/com/job/fcmr/tpfc/rrst/rlroadSt.js"></script>
+    <!-- 지하철선로 -->
+    <script src="/js/egiskorea/com/job/fcmr/tpfc/sbtc/sbwayTc.js"></script>
+    <!-- 지하철역사 -->
+    <script src="/js/egiskorea/com/job/fcmr/tpfc/sbst/sbwaySt.js"></script>
+    <!-- 교량 -->
+    <script src="/js/egiskorea/com/job/fcmr/tpfc/brdg/brdge.js"></script>
+    <!-- 고가도로 -->
+    <script src="/js/egiskorea/com/job/fcmr/tpfc/ovps/ovrpass.js"></script>
+    <!-- 터널 -->
+    <script src="/js/egiskorea/com/job/fcmr/tpfc/tunl/tunnl.js"></script>
 
-	<!-- ////////////////////////////  -->
+    <!-- ////////////////////////////  -->
 
-	<!-- [체육시설]  -->
-	<script src="/js/egiskorea/com/job/fcmr/phfc/facilityPhysicalEducation.js"></script>
-	<!-- ////////////////////////////  -->
+    <!-- [체육시설]  -->
+    <script src="/js/egiskorea/com/job/fcmr/phfc/facilityPhysicalEducation.js"></script>
+    <!-- ////////////////////////////  -->
 
-	<!-- [복지시설]  -->
-	<script src="/js/egiskorea/com/job/fcmr/wlfc/facilityWelFare.js"></script>
-	<!-- ////////////////////////////  -->
+    <!-- [복지시설]  -->
+    <script src="/js/egiskorea/com/job/fcmr/wlfc/facilityWelFare.js"></script>
+    <!-- ////////////////////////////  -->
 
-	<!-- [시설예약관리]  -->
+    <!-- [시설예약관리]  -->
 
-	<!-- [[업무 /시설관리 재작업]] end -->
+    <!-- [[업무 /시설관리 재작업]] end -->
 
     <!-- 분석 -->
     <script src="/js/egiskorea/com/anls/anls.js"></script>
@@ -339,27 +339,29 @@
 
             <div class="map-util">
                 <div class="addrSelect">
-                    <form action="#">
-                        <select name=""  class="form-select2">
-                            <option value="">지번</option>
-                            <option value="">도로명</option>
+                    <div class="addr-search">
+                        <select name="type" class="form-select2">
+                            <option value="jibun">지번</option>
+                            <option value="road">도로명</option>
                         </select>
-                        <select name=""  class="form-select2">
+                        <select name="emd" class="form-select2">
                             <option value="">행정동</option>
                             <option value="">강산면</option>
                         </select>
-                        <select name=""  class="form-select2">
+                        <select name="li" class="form-select2">
                             <option value="">법정리</option>
                             <option value="">경강로</option>
                         </select>
-                        <input type="text" class="form-control" placeholder="지번 입력">
+                        <label>산</label>
+                        <input type="checkbox" class="form-control" name="mntn" style="width:14px"/>
+                        <input type="text" class="form-control" placeholder="지번 입력" name="search-text">
                         <button type="button" class="search-btn" title="검색"></button>
-                    </form>
-                    <form action="#">
+                    </div>
+                    <div class="map-scale">
                         <span class="scale-label">축척 1 :</span>
                         <input type="text" class="form-control scale" placeholder="10000">
                         <button type="button" class="btn wl btn-sm type04 btn-scale-submit">이동</button>
-                    </form>
+                    </div>
                 </div>
 
                 <!-- 좌표, 축적 -->
@@ -369,7 +371,7 @@
                             <span class="x">127.47609649416934</span>
                             <span class="y">37.49284379468381</span>
                         </div>
-<%--                        <button type="button" class="btn wl btn-sm type04">위치이동</button>--%>
+                        <%--                        <button type="button" class="btn wl btn-sm type04">위치이동</button>--%>
                     </div>
                     <div class="coordi-body">
                         <div class="items">

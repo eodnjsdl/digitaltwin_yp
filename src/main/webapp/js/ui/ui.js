@@ -21,6 +21,8 @@ window.ui = (function () {
         _administrativeMenuEvent();
         //좌측 메뉴 >> 분석
         _analysisMenuEvent();
+        //하단 좌표 네비게이션
+        _bottomNavigationEvent();
 
         //제이쿼리 캐시 제거
         jQuery.ajaxSetup({
@@ -72,152 +74,6 @@ window.ui = (function () {
             scrollbarPosition: "outside",
         });
 
-        //축척/고도 버튼
-        $('.btn-scale-submit').on('click', function () {
-            const $this = $(this);
-            const $form = $this.closest('form');
-            const $scale = $form.find('.scale')
-            const type = $scale.data('type');
-            const center = dtmap.getCenter();
-            if (type === 'scale') {
-                dtmap.setCenter(center, {
-                    scale: Number($scale.val())
-                })
-            } else {
-                center[2] = Number($scale.val());
-                dtmap.setCenter(center);
-            }
-
-
-        });
-
-        //사용자 정의 좌표
-        $('.coord-transform select').on('focus', function () {
-            const $this = $(this);
-            $this.data('pre', $this.val());
-        }).on('change', function (e) {
-            const $this = $(this);
-            const beforeCrs = $this.data('pre');
-            const crs = $this.val();
-            const $item = $this.closest('.items');
-            const x = Number($item.find('input[name="transform-x"]').val());
-            const y = Number($item.find('input[name="transform-y"]').val());
-            if (isNaN(x) || isNaN(y)) {
-                return;
-            }
-
-            const coord = ol.proj.transform([x, y], beforeCrs, crs);
-            $item.find('input[name="transform-x"]').val(coord[0]);
-            $item.find('input[name="transform-y"]').val(coord[1]);
-
-        });
-
-        //위치이동 버튼
-        $('.btn-transform-submit').on('click', function () {
-            const $this = $(this);
-            const $item = $this.closest('.items');
-            const crs = $item.find('select[name="transform-select"]').val();
-            const x = Number($item.find('input[name="transform-x"]').val());
-            const y = Number($item.find('input[name="transform-y"]').val());
-            let coord = [x, y];
-            if (crs !== dtmap.crs) {
-                coord = ol.proj.transform(coord, crs, dtmap.crs);
-            }
-
-            dtmap.setCenter(coord);
-
-        });
-
-        function handleCreateContextMenu(e) {
-            // 기본 Context Menu가 나오지 않게 차단
-            const event = e.originalEvent;
-            event.preventDefault();
-            const ctxMenu = $(".context");
-            ctxMenu.removeClass("hide");
-            ctxMenu.css("top", event.pageY + 'px');
-            ctxMenu.css("left", event.pageX + 'px');
-        }
-
-        function handleClearContextMenu(e) {
-            const ctxMenu = $(".context");
-            ctxMenu.addClass("hide");
-        }
-
-        function handleMoveEnd(e) {
-            updateNavigation(e);
-        }
-
-        function updateNavigation(e) {
-            const $div = $('#map-aside');
-            const $addr = $div.find('.addrSelect');
-            if (e.resolution) {
-                //축척인경우
-                const scale = dtmap.util.resolutionToScale(e.resolution, dtmap.crs);
-                $addr.find('.scale-label').html('축척 1 :');
-                $addr.find('.scale').data('type', 'scale');
-                $addr.find('.scale').val(formatScale(scale));
-            } else {
-                //높이인경우
-                $addr.find('.scale-label').html('고도 :');
-                $addr.find('.scale').data('type', 'alt');
-                $addr.find('.scale').val(e.altitude);
-            }
-
-            //좌표값
-            const $coord = $div.find('.coordinates');
-
-            const lonlat = ol.proj.transform(e.coordinates, dtmap.crs, 'EPSG:4326');
-            const dmsX = convertDDToDMS(lonlat[0]);
-            const dmsY = convertDDToDMS(lonlat[1]);
-
-            const $header = $coord.find('.coordi-header');
-            $header.find('.x').html(lonlat[0]);
-            $header.find('.y').html(lonlat[1]);
-
-            const $dmsX = $coord.find('.dms-x');
-            $dmsX.find('input[name="dms-x-deg"]').val(dmsX.deg);
-            $dmsX.find('input[name="dms-x-min"]').val(dmsX.min);
-            $dmsX.find('input[name="dms-x-sec"]').val(dmsX.sec);
-
-            const $dmsY = $coord.find('.dms-y');
-            $dmsY.find('input[name="dms-y-deg"]').val(dmsY.deg);
-            $dmsY.find('input[name="dms-y-min"]').val(dmsY.min);
-            $dmsY.find('input[name="dms-y-sec"]').val(dmsY.sec);
-
-            $coord.find('input[name="degree-x"]').val(lonlat[0]);
-            $coord.find('input[name="degree-y"]').val(lonlat[1]);
-
-            //사용자정의 좌표값 없을경우 입력
-            const $transformX = $div.find('input[name="transform-x"]');
-            const $transformY = $div.find('input[name="transform-y"]');
-            if (!$transformX.val() || !$transformY.val()) {
-                $div.find('select[name="transform-select"]').val('EPSG:4326');
-                $transformX.val(lonlat[0]);
-                $transformY.val(lonlat[1]);
-            }
-
-        }
-
-        function convertDDToDMS(D, lng) {
-            return {
-                deg: 0 | (D < 0 ? (D = -D) : D),
-                min: 0 | (((D += 1e-9) % 1) * 60),
-                sec: (0 | (((D * 60) % 1) * 6000)) / 100,
-            };
-        }
-
-        function formatScale(d) {
-            if (d > 100)
-                d = Math.round(d / 100) * 100;
-            else
-                d = Math.round(d);
-            return d
-        }
-
-        // 이벤트 바인딩
-        dtmap.on('contextmenu', handleCreateContextMenu);
-        dtmap.on('mousedown', handleClearContextMenu);
-        dtmap.on('moveend', handleMoveEnd);
 
     }
 
@@ -935,6 +791,366 @@ window.ui = (function () {
         dtmap.clear();
     }
 
+    /**
+     * 하단 주소/좌표 네비게이션
+     */
+    function _bottomNavigationEvent() {
+        const $div = $('.map-util');
+        const $address = $div.find('.addrSelect');
+        const $coodinates = $div.find('.coordinates');
+
+        //읍면동 선택
+        $address.find('select[name="emd"]').on('change', function (e, selectNm) {
+            const $this = $(this);
+            const $div = $this.closest('.addr-search');
+            const $li = $div.find('select[name="li"]');
+            const emdCd = $this.val();
+            const type = $div.find('select[name="type"]').val();
+            if (type === "jibun") {
+                dtmap.wfsGetFeature({
+                    typeNames: 'tgd_scco_li',
+                    filter: `li_cd like ${emdCd}`
+                }).then((data) => {
+                    try {
+                        const format = new ol.format.GeoJSON();
+                        const features = format.readFeatures(data);
+                        const sorted = util.array.sort(features, "li_kor_nm");
+                        const tags = sorted.map((feature) => {
+                            return `<option value="${feature.get("li_cd")}" name="${feature.get("li_kor_nm")}">${feature.get("li_kor_nm")}</option>`;
+                        });
+                        $li.html(
+                            `<option value="">선택</option>${tags.join("")}`
+                        );
+                        if (selectNm && selectNm !== '') {
+                            //트리거에서 넘어온 데이터가 있을경우
+                            const v = $li.find(`option[name="${selectNm}"]`).val();
+                            if (v) {
+                                $li.val(v);
+                            }
+                        }
+                    } catch (error) {
+                        toastr.error(`리 을 가져오는데 실패했습니다.`);
+                    }
+                });
+            } else if (type === "road") {
+                dtmap.wfsGetFeature({
+                    typeNames: 'tgd_sprd_rn',
+                    filter: `emd_cd = ${emdCd}`
+                }).then((data) => {
+                    try {
+                        const format = new ol.format.GeoJSON();
+                        const features = format.readFeatures(data);
+                        const sorted = util.array.sort(features, "rn");
+                        const tags = sorted.map((feature) => {
+                            return `<option value="${feature.get("rn_cd")}" name="${feature.get("rn")}">${feature.get("rn")}</option>`;
+                        });
+                        $li.html(
+                            `<option value="">선택</option>${tags.join("")}`
+                        );
+                        if (selectNm && selectNm !== '') {
+                            //트리거에서 넘어온 데이터가 있을경우
+                            const v = $li.find(`option[name="${selectNm}"]`).val();
+                            if (v) {
+                                $li.val(v);
+                            }
+                        }
+                    } catch (error) {
+                        toastr.error(`도로명을 가져오는데 실패했습니다.`);
+                    }
+                });
+            } else {
+                toastr.error(`지원되지 않는 주소 검색 타입입니다.`);
+                return;
+            }
+
+
+        });
+        //축척/고도 버튼
+        $address.find('.btn-scale-submit').on('click', function () {
+            const $this = $(this);
+            const $div = $this.closest('.map-scale');
+            const $scale = $div.find('.scale')
+            const type = $scale.data('type');
+            const center = dtmap.getCenter();
+            if (type === 'scale') {
+                dtmap.setCenter(center, {
+                    scale: Number($scale.val())
+                })
+            } else {
+                center[2] = Number($scale.val());
+                dtmap.setCenter(center);
+            }
+        });
+        $address.find('.scale').on('keyup', function (e) {
+            if (e.keyCode === 13) {
+                $address.find('.btn-scale-submit').trigger('click');
+            }
+        });
+        //검색 버튼
+        $address.find('.search-btn').on('click', function () {
+            const $this = $(this);
+            const $div = $this.closest('.addr-search');
+            const type = $div.find('select[name="type"]').val();
+            const text = $address.find('input[name="search-text"]').val();
+            const emdCd = $address.find('select[name="emd"]').val();
+            const liCd = $address.find('select[name="li"]').val();
+            let typeNames;
+            let filter;
+            let labelColumn;
+            if (!text) {
+                if (liCd) {
+                    typeNames = 'tgd_scco_li'
+                    labelColumn = 'li_kor_nm';
+                    filter = `li_cd = ${liCd}`
+                } else {
+                    typeNames = 'tgd_scco_emd'
+                    labelColumn = 'emd_kor_nm';
+                    filter = `emd_cd = ${emdCd}`
+                }
+            } else {
+                const mntn = $address.find('input[name="mntn"]').is(":checked") ? "2" : "1";
+                const split = text.trim().split("-");
+                const mnnm = split[0];
+                const slno = split[1];
+
+                if (type === 'jibun') {
+                    typeNames = 'digitaltwin:lsmd_cont_ldreg_41830';
+                    labelColumn = 'jibun';
+                    let pnu = "";
+                    if (liCd) {
+                        pnu += liCd;
+                    } else {
+                        pnu += emdCd + "..";
+                    }
+                    pnu += mntn;
+                    pnu += mnnm.padStart(4, "0");
+                    pnu += slno ? slno.padStart(4, "0") : "....";
+                    filter = `pnu like ${pnu}`;
+
+                } else {
+                    typeNames = 'digitaltwin:tgd_spbd_buld';
+                    labelColumn = 'rn';
+                    filter = [];
+                    if (liCd) {
+                        filter.push(`rn_cd = ${liCd}`);
+                    } else {
+                        filter.push(`emd_cd = ${emdCd.substring(5, 8)}`);
+                    }
+                    if (mnnm) {
+                        filter.push(`buld_mnnm = ${parseInt(mnnm, 10)}`);
+                    }
+                    if (slno) {
+                        filter.push(`buld_slno = ${parseInt(slno, 10)}`);
+                    }
+                }
+
+            }
+            dtmap.wfsGetFeature({
+                typeNames: typeNames,
+                filter: filter
+            }).then(function (data) {
+                try {
+                    if (data.features.length === 0) {
+                        toastr.warning('주소 검색 결과가 없습니다.')
+                    }
+
+                    dtmap.vector.removeFeatureByFilter(function (f) {
+                        if (f.get('_search')) {
+                            return f;
+                        }
+                    })
+                    dtmap.vector.readGeoJson(data, function (f) {
+                        f.set('_search', true);
+                        return {
+                            fill: {
+                                color: '#ffffff',
+                                opacity: 0.2
+                            },
+                            stroke: {
+                                color: '#ff157d',
+                                width: 3
+                            },
+                            label: {
+                                column: labelColumn
+                            }
+                        }
+                    });
+                    dtmap.vector.fit();
+                } catch (e) {
+                    toastr.error('주소 검색에 실패했습니다.')
+                }
+            })
+        });
+        $address.find('input[name="search-text"]').on('keyup', function (e) {
+            if (e.keyCode === 13) {
+                $address.find('.search-btn').trigger('click');
+            }
+        });
+        //사용자 정의 좌표
+        $coodinates.find('.coord-transform select')
+            .on('focus', function () {
+                const $this = $(this);
+                $this.data('pre', $this.val());
+            })
+            .on('change', function (e) {
+                const $this = $(this);
+                const beforeCrs = $this.data('pre');
+                const crs = $this.val();
+                const $item = $this.closest('.items');
+                const x = Number($item.find('input[name="transform-x"]').val());
+                const y = Number($item.find('input[name="transform-y"]').val());
+                if (isNaN(x) || isNaN(y)) {
+                    return;
+                }
+
+                const coord = ol.proj.transform([x, y], beforeCrs, crs);
+                $item.find('input[name="transform-x"]').val(coord[0]);
+                $item.find('input[name="transform-y"]').val(coord[1]);
+
+            });
+
+        //위치이동 버튼
+        $coodinates.find('.btn-transform-submit').on('click', function () {
+            const $this = $(this);
+            const $item = $this.closest('.items');
+            const crs = $item.find('select[name="transform-select"]').val();
+            const x = Number($item.find('input[name="transform-x"]').val());
+            const y = Number($item.find('input[name="transform-y"]').val());
+            let coord = [x, y];
+            if (crs !== dtmap.crs) {
+                coord = ol.proj.transform(coord, crs, dtmap.crs);
+            }
+
+            dtmap.setCenter(coord);
+
+        });
+
+
+        //지도 이벤트 바인딩
+        dtmap.on('contextmenu', handleCreateContextMenu);
+        dtmap.on('mousedown', handleClearContextMenu);
+        dtmap.on('moveend', handleMoveEnd);
+
+        //읍면동 select 초기화
+        store.emd.getData().done((features) => {
+            const sorted = util.array.sort(features, "emd_kor_nm");
+            const tags = sorted.map((feature) => {
+                return `<option value="${feature.get("emd_cd")}" name="${feature.get("emd_kor_nm")}">
+                            ${feature.get("emd_kor_nm")}
+                        </option>`;
+            });
+            $address.find('select[name="emd"]').html(tags.join(""));
+            $address.find('select[name="emd"]').trigger("change");
+        });
+    }
+
+    function handleCreateContextMenu(e) {
+        // 기본 Context Menu가 나오지 않게 차단
+        const event = e.originalEvent;
+        event.preventDefault();
+        const ctxMenu = $(".context");
+        ctxMenu.removeClass("hide");
+        ctxMenu.css("top", event.pageY + 'px');
+        ctxMenu.css("left", event.pageX + 'px');
+    }
+
+    function handleClearContextMenu(e) {
+        const ctxMenu = $(".context");
+        ctxMenu.addClass("hide");
+    }
+
+    function handleMoveEnd(e) {
+        updateNavigation(e);
+        updateAddress(e);
+    }
+
+    function updateNavigation(e) {
+        const $div = $('#map-aside');
+        const $addr = $div.find('.addrSelect');
+        if (e.resolution) {
+            //축척인경우
+            const scale = dtmap.util.resolutionToScale(e.resolution, dtmap.crs);
+            $addr.find('.scale-label').html('축척 1 :');
+            $addr.find('.scale').data('type', 'scale');
+            $addr.find('.scale').val(formatScale(scale));
+        } else {
+            //높이인경우
+            $addr.find('.scale-label').html('고도 :');
+            $addr.find('.scale').data('type', 'alt');
+            $addr.find('.scale').val(e.altitude);
+        }
+
+        //좌표값
+        const $coord = $div.find('.coordinates');
+
+        const lonlat = ol.proj.transform(e.coordinates, dtmap.crs, 'EPSG:4326');
+        const lon = lonlat[0].toFixed(8);
+        const lat = lonlat[1].toFixed(8);
+        const dmsX = convertDDToDMS(lonlat[0]);
+        const dmsY = convertDDToDMS(lonlat[1]);
+
+        const $header = $coord.find('.coordi-header');
+        $header.find('.x').html(lon);
+        $header.find('.y').html(lat);
+
+        const $dmsX = $coord.find('.dms-x');
+        $dmsX.find('input[name="dms-x-deg"]').val(dmsX.deg);
+        $dmsX.find('input[name="dms-x-min"]').val(dmsX.min);
+        $dmsX.find('input[name="dms-x-sec"]').val(dmsX.sec);
+
+        const $dmsY = $coord.find('.dms-y');
+        $dmsY.find('input[name="dms-y-deg"]').val(dmsY.deg);
+        $dmsY.find('input[name="dms-y-min"]').val(dmsY.min);
+        $dmsY.find('input[name="dms-y-sec"]').val(dmsY.sec);
+
+        $coord.find('input[name="degree-x"]').val(lon);
+        $coord.find('input[name="degree-y"]').val(lat);
+
+        //사용자정의 좌표값 없을경우 입력
+        const $transformX = $div.find('input[name="transform-x"]');
+        const $transformY = $div.find('input[name="transform-y"]');
+        if (!$transformX.val() || !$transformY.val()) {
+            $div.find('select[name="transform-select"]').val('EPSG:4326');
+            $transformX.val(lon);
+            $transformY.val(lat);
+        }
+
+    }
+
+    function updateAddress(e) {
+        cmmUtil.reverseGeocoding(...e.coordinates)
+            .done((data) => {
+                const $div = $('.addrSelect');
+                const $emd = $div.find('select[name="emd"]')
+                const type = $div.find('select[name="type"]').val();
+                let selectLi;
+                if (type === 'road') {
+                    selectLi = data.rn;
+                } else {
+                    selectLi = data.liKorNm;
+                    $div.find('select[name="type"]').val('jibun');
+                }
+                $emd.val($emd.find(`option[name="${data.emdKorNm}"]`).val()).trigger('change', selectLi);
+            })
+    }
+
+    function convertDDToDMS(D, lng) {
+        return {
+            deg: 0 | (D < 0 ? (D = -D) : D),
+            min: 0 | (((D += 1e-9) % 1) * 60),
+            sec: (0 | (((D * 60) % 1) * 6000)) / 100,
+        };
+    }
+
+    function formatScale(d) {
+        if (d > 100)
+            d = Math.round(d / 100) * 100;
+        else
+            d = Math.round(d);
+        return d
+    }
+
+
     const module = {
         init: init,
         loadingBar: loadingBar,
@@ -957,7 +1173,7 @@ function clearMap() {
 //팝업 오픈 실행 함수 
 // 개인별 레이어 목록 호출
 function aj_selectLayerList(mode, reset = false) {
-    var searchKeyword = mode == "left"
+    var searchKeyword = mode === "left"
         ? $(".lnb-layer input[name='searchKeyword']").val()
         : $("#rightPopup input[name='searchKeyword']").val();
 
@@ -972,11 +1188,11 @@ function aj_selectLayerList(mode, reset = false) {
         dataType: "html",
         async: false,
         success: function (returnData, status) {
-            if (status == "success") {
-                if (mode == "left") { // 좌측 메뉴 선택 시
+            if (status === "success") {
+                if (mode === "left") { // 좌측 메뉴 선택 시
                     $(".lnb-layer").html(returnData);
                     $(".lnb-layer input[name='searchKeyword']").val(searchKeyword);
-                } else if (mode == "top") { // 상단 메뉴 선택 시
+                } else if (mode === "top") { // 상단 메뉴 선택 시
                     $("#rightPopup").html(returnData);
                     $("#rightPopup input[name='searchKeyword']").val(searchKeyword);
                 }
@@ -1010,7 +1226,7 @@ function aj_userInfoPopupOpen(id) {
         dataType: "html",
         async: false,
         success: function (returnData, status) {
-            if (status == "success") {
+            if (status === "success") {
                 $("#userInfoUdt").html(returnData);
             } else {
                 toastr.error("관리자에게 문의 바랍니다.", "정보를 불러오지 못했습니다.");
@@ -1035,7 +1251,7 @@ function aj_selectNoticeList(pageIndex, searchCnd, searchWrd) {
         dataType: "html",
         async: false,
         success: function (returnData, status) {
-            if (status == "success") {
+            if (status === "success") {
                 $("#bbsPopup").html(returnData);
             } else {
                 toastr.error("관리자에게 문의 바랍니다.", "정보를 불러오지 못했습니다.");
@@ -1060,7 +1276,7 @@ function aj_selectQnaList(pageIndex, searchCnd, searchWrd) {
         dataType: "html",
         async: false,
         success: function (returnData, status) {
-            if (status == "success") {
+            if (status === "success") {
                 $("#bbsPopup").html(returnData);
             } else {
                 toastr.error("관리자에게 문의 바랍니다.", "정보를 불러오지 못했습니다.");
@@ -1085,7 +1301,7 @@ function aj_selectOpQnaList(pageIndex, searchCnd, searchWrd) {
         dataType: "html",
         async: false,
         success: function (returnData, status) {
-            if (status == "success") {
+            if (status === "success") {
                 $("#bbsPopup").html(returnData);
             } else {
                 toastr.error("관리자에게 문의 바랍니다.", "정보를 불러오지 못했습니다.");
@@ -1104,7 +1320,7 @@ function aj_mapsetting() {
         dataType: "html",
         async: false,
         success: function (returnData, status) {
-            if (status == "success") {
+            if (status === "success") {
                 $("#rightPopup").html(returnData);
             } else {
                 toastr.error("관리자에게 문의 바랍니다.", "정보를 불러오지 못했습니다.");

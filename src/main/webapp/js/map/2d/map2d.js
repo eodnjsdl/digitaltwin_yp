@@ -63,7 +63,9 @@ window.map2d = (function () {
             target: _container,
             layers: [],
             interactions: defaultInteractions(),
-            controls: [new ol.control.ScaleLine()],
+            controls: [
+            //    new ol.control.ScaleLine()
+            ],
             view: _view,
         });
         initModules();
