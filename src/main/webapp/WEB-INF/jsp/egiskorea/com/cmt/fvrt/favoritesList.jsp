@@ -27,7 +27,7 @@
             if (dtmap.mod === "2D") {
                 $(this).addClass("active");
                 // rightPopupOpen('insertFavorites', $("#searchFormFavorites")[0]);
-                ui.openPopup("rightPopup");
+                ui.openPopup("rightPopup", "favorites");
                 aj_insertFavoritesView($("#searchFormFavorites")[0]);
             } else {
                 return toastr.warning("해당 기능은 2D에서 가능합니다.");
@@ -111,7 +111,7 @@
                 </div>
             </div>
         </form:form>
-        <div class="bbs-list-wrap" style="height: 586px;"><!-- pagination 하단 고정을 위해 반드시 필요 -->
+        <div class="bbs-list-wrap" style="height: 505px;"><!-- pagination 하단 고정을 위해 반드시 필요 -->
             <div class="bbs-default">
                 <div class="bbs-list-head">
                     <table class="bbs-list">

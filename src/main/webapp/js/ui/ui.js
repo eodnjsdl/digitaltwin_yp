@@ -736,6 +736,11 @@ window.ui = (function () {
                 _area.width = "515";
                 _area.heigth = "807";
                 break;
+            case "favorites":
+                _area.width = "465";
+                _area.heigth = "730";
+                break;
+
 
         }
 

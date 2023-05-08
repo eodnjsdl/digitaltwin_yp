@@ -26,7 +26,7 @@
         $(".btn-wrap .bi-list").on("click", function(){
             $(this).addClass("active");
             //rightPopupOpen('favorites');
-            ui.openPopup("rightPopup");
+            ui.openPopup("rightPopup", "favorites");
             aj_selectFavoritesList($("#tmpForm")[0]);
         });
 
@@ -97,7 +97,7 @@
                     </tr>
                     <tr>
                         <td colspan="4">
-                            <div class="cont" style="height: 500px;">
+                            <div class="cont" style="height: 310px;">
                                 <div class="btn-wrap justify-content-end marT0 marB5">
                                 </div>
                                 <div class="bookmark-basic"><img src="data:image:jpg;base64,<c:out value="${imgSrc}" />" alt=""></div>

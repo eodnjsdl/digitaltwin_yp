@@ -104,7 +104,7 @@
                     </tr>
                     <tr>
                         <td colspan="2">
-                            <div class="cont" style="height: 500px;">
+                            <div class="cont" style="height: 310px;">
                                 <div class="btn-wrap justify-content-end marT0 marB5">
                                     <button type="button" class="btn basic bi-save">현재위치 저장</button>
                                 </div>
