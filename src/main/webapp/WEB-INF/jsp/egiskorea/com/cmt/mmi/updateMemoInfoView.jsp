@@ -120,7 +120,7 @@
                         <tr>
                             <td colspan="4">
                                 <div class="cont">
-                                    <textarea name="memoCn" id="" class="form-control" style="height: 370px;"><c:out value="${result.memoCn}" /></textarea>
+                                    <textarea name="memoCn" id="" class="form-control" style="height: 100%;"><c:out value="${result.memoCn}" /></textarea>
                                 </div>
                             </td>
                         </tr>

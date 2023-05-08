@@ -60,10 +60,9 @@
     <script src="/js/plugin/ax5grid/ax5core.min.js"></script>
     <script src="/js/plugin/ax5grid/ax5grid.min.js"></script>
 
-
-    <!-- zoom -->
-    <link href="/js/plugin/jquery-fat-zoom.js/css/zoom.css" rel="stylesheet">
-    <script type="text/javascript" src="/js/plugin/jquery-fat-zoom.js/dist/zoom.js"></script>
+    <!-- lightbox2-2.11.4 -->
+    <link href="/js/plugin/lightbox2-2.11.4/dist/css/lightbox.css" rel="stylesheet">
+    <script type="text/javascript" src="/js/plugin/lightbox2-2.11.4/dist/js/lightbox.js"></script>
 
     <!-- font 맑은고딕: stre.js (지도저장기능 수행 시) -->
     <script src="/engine/plugin/v6.7.0/malgun.js"></script>

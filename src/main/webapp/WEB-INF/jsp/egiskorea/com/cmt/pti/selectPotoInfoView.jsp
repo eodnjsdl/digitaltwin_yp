@@ -49,11 +49,6 @@
             link.href = src;
             link.click();
         });
-        // 사진 click
-        // $(".swiper-wrapper img").on("click", function (e) {
-        //     var src = e.target.src;
-        //     cmmUtil.zoomInImage(src) ;
-        // });
     }
 
     //사진정보 게시글 이동
@@ -206,8 +201,10 @@
                                     <c:forEach var="resultFile" items="${resultFile}" varStatus="status">
                                         <div class="swiper-slide">
                                             <div class="thumb">
-                                                <img src='<c:url value='/cmm/fms/getImage.do'/>?atchFileId=<c:out value="${resultFile.atchFileId}"/>&fileSn=<c:out value="${resultFile.fileSn}"/>&streFileNm= <c:out value="${resultFile.streFileNm}"/>'
-                                                     alt="파일이미지" />
+                                                <a href='<c:url value='/cmm/fms/getImage.do'/>?atchFileId=<c:out value="${resultFile.atchFileId}"/>&fileSn=<c:out value="${resultFile.fileSn}"/>&streFileNm= <c:out value="${resultFile.streFileNm}"/>' data-lightbox='infoImages' data-title=''>
+                                                    <img src='<c:url value='/cmm/fms/getImage.do'/>?atchFileId=<c:out value="${resultFile.atchFileId}"/>&fileSn=<c:out value="${resultFile.fileSn}"/>&streFileNm= <c:out value="${resultFile.streFileNm}"/>'
+                                                         alt='파일이미지' />
+                                                </a>
                                                 <input type="hidden" name="orignlFileNm"
                                                        value="<c:out value="${resultFile.orignlFileNm}" />">
                                             </div>

@@ -85,7 +85,7 @@
                     <tr>
                         <td colspan="4">
                             <div class="cont">
-                                <textarea name="memoCn" id="" class="form-control" style="height: 395px;"></textarea>
+                                <textarea name="memoCn" id="" class="form-control" style="height: 100%;"></textarea>
                             </div>
                         </td>
                     </tr>
