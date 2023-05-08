@@ -9,6 +9,9 @@
  * @returns
  */
 function selectRoadSectListView() {
+	// 팝업 닫기
+	ui.closeSubPopup();
+	
     $('#bottomPopup').load('/job/fcmr/tpfc/selectRoadSectListView.do', function () {
 	// 공간검색 옵션 초기화
 	FACILITY.spaceSearchOption = {};
@@ -36,8 +39,9 @@ function callRoadSectGrid() {
  * @returns
  */
 function setRoadSectListGrid() {
-    this.target = new ax5.ui.grid();
-    this.target.setConfig({
+	FACILITY.Ax5UiGrid = null;	// ax5uigrid 전역 변수 
+	FACILITY.Ax5UiGrid = new ax5.ui.grid();
+	FACILITY.Ax5UiGrid.setConfig({
 	target: $('[data-ax5grid="roadSectListGrid"]'),
 	showLineNumber: true,
 	sortable: true,
@@ -63,16 +67,16 @@ function setRoadSectListGrid() {
 		}
 	},
 	columns: [
-	    {key: "sig_cd",		label: "시군구",		width: 100},
-	    {key: "rds_man_no",		label: "도로구간일련번호",	width: 130},
-	    {key: "rn",			label: "도로명(한글)",	width: 100},
-	    {key: "eng_rn",		label: "도로명(영문)",	width: 180},
-	    {key: "ntfc_de",		label: "고시일자",		width: 100},
-	    {key: "wdr_rd_cd",		label: "광역도로구분",	width: 100},
-	    {key: "rbp_cn",		label: "기점",		width: 170},
-	    {key: "rep_cn",		label: "종점",		width: 170},
-	    {key: "road_bt",		label: "도로폭",		width: 100},
-	    {key: "road_lt",		label: "도로길이",		width: 100}
+	    {key: "sig_cd",			label: "시군구",				width: "*"},
+	    {key: "rds_man_no",		label: "도로구간일련번호",		width: "*"},
+	    {key: "rn",				label: "도로명(한글)",			width: "*"},
+	    {key: "eng_rn",			label: "도로명(영문)",			width: "*"},
+	    {key: "ntfc_de",		label: "고시일자",				width: "*"},
+	    {key: "wdr_rd_cd",		label: "광역도로구분",			width: "*"},
+	    {key: "rbp_cn",			label: "기점",				width: "*"},
+	    {key: "rep_cn",			label: "종점",				width: "*"},
+	    {key: "road_bt",		label: "도로폭",				width: "*"},
+	    {key: "road_lt",		label: "도로길이",				width: "*"}
 	]
     });
 }
@@ -131,6 +135,12 @@ function getWfsRoadSectListData() {
  * @returns
  */
 function setRoadSectListData(_pageNo, geom) {
+	// 팝업 닫기
+	ui.closeSubPopup();
+	
+	//grid 선택창 초기화
+	FACILITY.Ax5UiGrid.focus(-1);
+	
     // wfs 옵션값 담을 변수
     var options;
     
@@ -219,7 +229,6 @@ function setRoadSectListData(_pageNo, geom) {
     }
 /////////////////////////////////////////////////////////////////////////////////////////
     // 그리드 데이터
-    var gridList = this;
     const promise = dtmap.wfsGetFeature(options);
     promise.then(function(data) {
 	$('.bbs-list-num strong').empty();
@@ -238,7 +247,7 @@ function setRoadSectListData(_pageNo, geom) {
 	    list.push({...properties, ...{id: id}});
 	}
 
-	gridList.target.setData({
+	FACILITY.Ax5UiGrid.setData({
 	    list: list,
 	    page: {
 		currentPage: _pageNo || 0,
@@ -303,6 +312,19 @@ function selectRoadSectDetailView(item) {
 	success : function(data, status) {
 	    if (status == "success") {		
 		$("#rightSubPopup").append(data);
+		
+		var gridList = FACILITY.Ax5UiGrid.list;
+		
+		for (var i = 0; i < gridList.length; i++) {
+			//console.log(gridList[i]);
+			var grid = gridList[i];
+			if (gid == grid.gid) {
+				var dindex = grid.__index;
+				FACILITY.Ax5UiGrid.clearSelect();
+				FACILITY.Ax5UiGrid.focus(dindex);		
+			}
+		}
+		
 	    } else { 
 		toastr.error("ERROR!");
 		return;
@@ -338,16 +360,16 @@ function downloadExcelRoadSect() {
 	excelGrid.setConfig({
 	target: $('[data-ax5grid="attr-grid-excel"]'),
 	columns: [
-	    {key: "sig_cd",		label: "시군구",		},
+	    {key: "sig_cd",			label: "시군구",			},
 	    {key: "rds_man_no",		label: "도로구간일련번호",	},
-	    {key: "rn",			label: "도로명(한글)",	},
-	    {key: "eng_rn",		label: "도로명(영문)",	},
-	    {key: "ntfc_de",		label: "고시일자",		},
-	    {key: "wdr_rd_cd",		label: "광역도로구분",	},
-	    {key: "rbp_cn",		label: "기점",		},
-	    {key: "rep_cn",		label: "종점",		},
-	    {key: "road_bt",		label: "도로폭",		},
-	    {key: "road_lt",		label: "도로길이",		}
+	    {key: "rn",				label: "도로명(한글)",		},
+	    {key: "eng_rn",			label: "도로명(영문)",		},
+	    {key: "ntfc_de",		label: "고시일자",			},
+	    {key: "wdr_rd_cd",		label: "광역도로구분",		},
+	    {key: "rbp_cn",			label: "기점",			},
+	    {key: "rep_cn",			label: "종점",			},
+	    {key: "road_bt",		label: "도로폭",			},
+	    {key: "road_lt",		label: "도로길이",			}
 	]
     });
 	
@@ -386,11 +408,18 @@ function onSelectRoadSectEventListener(e) {
  * @returns
  */
 function closeView() {
-    if ($('#rightSubPopup').hasClass('opened')) {
-	dtmap.vector.clearSelect();
-	ui.closeSubPopup();
-    } else {
-	dtmap.vector.clear();
-    }
-    
+//    if ($('#rightSubPopup').hasClass('opened')) {
+//	dtmap.vector.clearSelect();
+//	ui.closeSubPopup();
+//    } else {
+//	dtmap.vector.clear();
+//    }
+	// 지도 clear
+	clearMap();
+	
+	// 등록, 상세, 수정 팝업 창 닫기
+	if ($("#rightSubPopup").hasClass("opened")) {
+		$("#rightSubPopup").removeClass("opened");
+		$("#rightSubPopup").empty();
+	}
 }

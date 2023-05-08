@@ -118,7 +118,7 @@ $(document).ready(function(){
 		<!-- 검색영역 -->
 		<div class="items search-area">
 			<div class="top-search">
-				<select name="selectBoxTrfc" id="selectBoxTrfc" class="form-select facility-select">
+				<select class="form-select facility-select">
 					<option value="roadSection">도로구간</option>
 					<option value="railroadTrack" selected>철도선로</option>
 					<option value="railroadStation">철도역사</option>

@@ -43,3 +43,26 @@ function getTransportationFacility(name) {
 	    break;
 	}
 }
+
+/**
+ * 팝업 종료 시, vector 제거
+ * @returns
+ */
+function closeView() {
+	// 지도 clear
+	clearMap();
+	
+	// 등록, 상세, 수정 팝업 창 닫기
+	if ($("#rightSubPopup").hasClass("opened")) {
+		$("#rightSubPopup").removeClass("opened");
+		$("#rightSubPopup").empty();
+	}
+}
+
+function cancleView() {
+	ui.closeSubPopup();
+	
+	dtmap.vector.clearSelect();
+	
+	FACILITY.Ax5UiGrid.clearSelect();	//그리드 선택 해제
+}

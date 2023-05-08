@@ -3,19 +3,6 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
-<style type="text/css">
-	.popup-panel.popup-sub .phy-popup-close {
-	    top: 0;
-	    right: 0;
-	    width: 39px;
-	    height: 39px;
-	    border-left: 1px solid #44516A;
-	    background: url(/images/icon/popup-close2.svg) no-repeat 50% 50%;
-	    border-top-right-radius: 10px;
-	    position: absolute;
-	}
-</style>
-
 <script>
 $(".scroll-y").mCustomScrollbar({
 	scrollbarPosition: "outside"
@@ -234,5 +221,5 @@ function phyEduFaciGeom(e) {
 	</div>
 </div>
 <!-- <button type="button" class="popup-close" title="닫기"></button> -->
-<button type="button" class="phy-popup-close" title="닫기" onclick="selectPhyEduFaciDetail(${gid});"></button>
+<button type="button" class="sub-popup-close" title="닫기" onclick="selectPhyEduFaciDetail(${gid});"></button>
 <!-- 업무 > 시설관리 > 체육시설 > 상세보기 > 시설정보 관리 end -->

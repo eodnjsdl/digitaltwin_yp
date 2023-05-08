@@ -342,7 +342,6 @@ window.ui = (function () {
             }
             
             clearMap();	//맵에 있는 오브젝트 클리어
-            
         });
 
         // 2D/3D 버튼
@@ -824,6 +823,8 @@ function clearMap() {
     dtmap.draw.dispose();
     dtmap.draw.clear();
     dtmap.vector.clear();
+    
+    $(".lnb-dep2").find(".on").removeClass("on");
 }
 
 //팝업 오픈 실행 함수 

@@ -65,7 +65,7 @@ function selectSwlDeptPsList(page) {
 	ui.closeSubPopup();
 	
 	//grid 선택창 초기화
-	FACILITY.Ax5UiGrid.clearSelect();
+	FACILITY.Ax5UiGrid.focus(-1);
 	
 	//공간정보 편집도구 닫기
 	if($(".space-edit-tool").hasClass("opened")){

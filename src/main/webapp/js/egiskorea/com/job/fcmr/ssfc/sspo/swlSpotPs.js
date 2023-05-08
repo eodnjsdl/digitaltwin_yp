@@ -75,7 +75,7 @@ function selectSwlSpotPsList(page) {
 	ui.closeSubPopup();
 	
 	//grid 선택창 초기화
-	FACILITY.Ax5UiGrid.clearSelect();
+	FACILITY.Ax5UiGrid.focus(-1);
 	
 	//공간 검색 / 사용자 정의 일 경우 이외에는  그리기 영역 지우기
 	if($(".groundwaterSpace").hasClass("on")){
