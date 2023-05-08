@@ -80,7 +80,7 @@
             aj_selectDronInfo($("#tmpForm")[0]);
         });
         $(".bi-download").on("click", function () {
-            const src = $("#droneImgArea").children('img').attr("src")
+            const src = $("#droneImgArea a img").attr("src")
             const fileNm = $("#droneImgArea").children()[1].value;
             var link = document.createElement("a");
             link.download = fileNm;
@@ -181,9 +181,12 @@
                                     <c:when test="${fn:toLowerCase(name) eq 'png' || fn:toLowerCase(name) eq 'jpg' || fn:toLowerCase(name) eq 'gif' || fn:toLowerCase(name) eq 'jfif'}">
                                         <div class="attach-group">
                                             <div id="droneImgArea">
-                                                <img id="droneImg"
-                                                     src='<c:url value='/cmm/fms/getImage.do'/>?atchFileId=<c:out value="${resultFile.atchFileId}"/>&fileSn=<c:out value="${resultFile.fileSn}"/>&streFileNm= <c:out value="${resultFile.streFileNm}"/>'
-                                                     alt="파일이미지"/>
+                                                <a href='<c:url value='/cmm/fms/getImage.do'/>?atchFileId=<c:out value="${resultFile.atchFileId}"/>&fileSn=<c:out value="${resultFile.fileSn}"/>&streFileNm= <c:out value="${resultFile.streFileNm}"/>'
+                                                   data-lightbox='infoImages' data-title=''>
+                                                    <img id="droneImg"
+                                                         src='<c:url value='/cmm/fms/getImage.do'/>?atchFileId=<c:out value="${resultFile.atchFileId}"/>&fileSn=<c:out value="${resultFile.fileSn}"/>&streFileNm= <c:out value="${resultFile.streFileNm}"/>'
+                                                         alt='파일이미지'/>
+                                                </a>
                                                 <input type="hidden" name="orignlFileNm"
                                                        value="<c:out value="${resultFile.orignlFileNm}" />">
                                             </div>
