@@ -799,7 +799,7 @@
         <!-- //팝업 가림판 -->
 
         <!-- 마우스 오른쪽 선택 팝업 -->
-        <div class="context hide" style="top: 400px;left: 400px;">
+        <div id="contextMenu" class="context hide" style="top: 400px;left: 400px;">
             <a href="#" class="c01">통합행정정보</a>
             <a href="#" class="c02">지적/건물</a>
             <a href="#" class="c03">사진등록</a>

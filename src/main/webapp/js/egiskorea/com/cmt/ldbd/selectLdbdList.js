@@ -201,7 +201,54 @@ function _onDrawEnd_ldbdInfo(e) {
     dtmap.draw.dispose();
 }
 
+function _onContext_ldbdInfo(geom){
+    var ldLayer = "digitaltwin:lsmd_cont_ldreg_41830";
+    var bdLayer = "tgd_spbd_buld";
+    var totalCnt = 0;
+    var ldStyle = {
+        fill: {
+            color: '#FFC080',
+            opacity: 0.6
+        },
+        stroke: {
+            color: '#FF8000',
+            width: 4
+        },
+        label: {
+            column: 'jibun'
+        },
+        renderType: '3D'
+    };
+    var bdStyle = {
+        fill: {
+            color: '#90C0E8',
+            opacity: 0.6
+        },
+        stroke: {
+            color: '#2080D0',
+            width: 4
+        },
+        label: {
+            column: 'buld_nm'
+        },
+        renderType: '3D'
+    };
+    ui.openPopup("rightPopup");
+    loadHtml();
+    setLdbdLayer(geom, ldLayer, ldStyle).done(function (data) { //지적
+        totalCnt += data.totalFeatures;
+        setLdbdLayer(geom, bdLayer, bdStyle).done(function (data) {  //건물
+            totalCnt += data.totalFeatures;
+            $("#totalcount", ".ldbdList").html(
+                `총 검색결과 (<strong >${totalCnt}건</strong>)`
+            );
+        });
+    });
+    dtmap.draw.dispose();
+}
+
 function aj_ldbdInfo() {
+    dtmap.off('drawend', _onDrawEnd_ldbdInfo);
     dtmap.vector.clear();
     if (map2d.view.getZoom() < 19) {
         toastr.success("그리기: Point", "지도에서 위치를 클릭하세요. ");

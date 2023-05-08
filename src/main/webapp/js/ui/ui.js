@@ -1057,6 +1057,57 @@ window.ui = (function () {
         ctxMenu.removeClass("hide");
         ctxMenu.css("top", event.pageY + 'px');
         ctxMenu.css("left", event.pageX + 'px');
+        _contextEvent(e);
+    }
+
+    //우클릭 메뉴 선택 이벤트
+    function _contextEvent(e) {
+        var coor = e.coordinate;
+        const geom = new ol.geom.Point(coor);
+        // 통합 행정 정보
+        $("#contextMenu .c01").off("click").on("click", function () {
+            reverseUaiGeo(parseFloat(coor[0]), parseFloat(coor[1]));
+            const ctxMenu = $(".context");
+            ctxMenu.addClass("hide");
+        });
+        // 지적/건물
+        $("#contextMenu .c02").off("click").on("click", function () {
+            dtmap.vector.clear();
+            _onContext_ldbdInfo(geom);
+            const ctxMenu = $(".context");
+            ctxMenu.addClass("hide");
+        });
+        //사진등록
+        $("#contextMenu .c03").off("click").on("click", function () {
+            ui.openPopup("rightPopup");
+            aj_insertPotoInfoView($("#searchFormPoto")[0]);
+            _onContext_photo(geom);
+            const ctxMenu = $(".context");
+            ctxMenu.addClass("hide");
+        });
+        //메모등록
+        $("#contextMenu .c04").off("click").on("click", function () {
+            ui.openPopup("rightPopup");
+            aj_insertMemoInfoView($("#searchFormMemo")[0]);
+            _onContext_memo(geom);
+            const ctxMenu = $(".context");
+            ctxMenu.addClass("hide");
+        });
+        //위치정보
+        $("#contextMenu .c05").off("click").on("click", function () {
+            const ctxMenu = $(".context");
+            ctxMenu.addClass("hide");
+        });
+        //화면저장
+        $("#contextMenu .c06").off("click").on("click", function () {
+            const ctxMenu = $(".context");
+            ctxMenu.addClass("hide");
+        });
+        //3D전환
+        $("#contextMenu .c07").off("click").on("click", function () {
+            const ctxMenu = $(".context");
+            ctxMenu.addClass("hide");
+        });
     }
 
     function handleClearContextMenu(e) {
