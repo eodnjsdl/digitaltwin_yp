@@ -8,10 +8,14 @@ map2d.location = (function () {
      * @param e
      */
     function onMapClick(e) {
-        const lonlat = ol.proj.transform(e.coordinate, map2d.crs, 'EPSG:4326');
-        reverseGeocoding(e.coordinate).done((result) => {
+        atCoordinate(e.coordinate);
+    }
+
+    function atCoordinate(coord) {
+        const lonlat = ol.proj.transform(coord, map2d.crs, 'EPSG:4326');
+        reverseGeocoding(coord).done((result) => {
             let html = printHTML(lonlat, result);
-            addOverlay(e.coordinate, html);
+            addOverlay(coord, html);
         })
     }
 
@@ -129,6 +133,7 @@ map2d.location = (function () {
         active: active,
         clear: clear,
         dispose: dispose,
+        atCoordinate: atCoordinate,
     };
     return module;
 

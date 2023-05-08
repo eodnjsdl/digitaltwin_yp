@@ -1097,6 +1097,7 @@ window.ui = (function () {
         $("#contextMenu .c05").off("click").on("click", function () {
             const ctxMenu = $(".context");
             ctxMenu.addClass("hide");
+            dtmap.location.atCoordinate(coor);
         });
         //화면저장
         $("#contextMenu .c06").off("click").on("click", function () {
@@ -1139,7 +1140,7 @@ window.ui = (function () {
         //좌표값
         const $coord = $div.find('.coordinates');
 
-        const lonlat = ol.proj.transform(e.coordinates, dtmap.crs, 'EPSG:4326');
+        const lonlat = ol.proj.transform(e.coordinate, dtmap.crs, 'EPSG:4326');
         const lon = lonlat[0].toFixed(8);
         const lat = lonlat[1].toFixed(8);
         const dmsX = convertDDToDMS(lonlat[0]);
@@ -1174,7 +1175,7 @@ window.ui = (function () {
     }
 
     function updateAddress(e) {
-        cmmUtil.reverseGeocoding(...e.coordinates)
+        cmmUtil.reverseGeocoding(...e.coordinate)
             .done((data) => {
                 const $div = $('.addrSelect');
                 const $emd = $div.find('select[name="emd"]')

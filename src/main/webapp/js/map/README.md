@@ -214,13 +214,13 @@ dtmap.on('click', onClick);
 function onClick(e) {
     //2D 이벤트 데이터
     // {
-    //     coordinates : [x,y],
+    //     coordinate : [x,y],
     //     pixel : [x,y]        
     // }
 
     //3D 이벤트 데이터
     // {
-    //     coordinates : [x,y],
+    //     coordinate : [x,y],
     //     pixel : [x,y],
     //     altitude : number
     // }

@@ -103,7 +103,7 @@ window.map2d = (function () {
 
     function onMoveEnd(e) {
         dtmap.trigger('moveend', {
-            coordinates: _view.getCenter(),
+            coordinate: _view.getCenter(),
             resolution: _view.getResolution(),
             altitude: dtmap.util.zoomToAlt(_view.getZoom()),
             zoom: _view.getZoom(),
