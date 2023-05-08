@@ -117,23 +117,22 @@ window.map3d = (function () {
             });
         } else {
             //click end
+            //click event
+            const screenPosition = new Module.JSVector2D(e.x, e.y);
+            // 화면->지도 좌표 변환
+            const mapPosition = Module.getMap().ScreenToMapPointEX(screenPosition);
+            const data = {
+                pixel: [e.x, e.y],
+                coordinates: [mapPosition.Longitude, mapPosition.Latitude],
+                altitude: mapPosition.Altitude,
+                originalEvent: e
+            }
             if (e.button === 0) {
-                //left click event
-                const screenPosition = new Module.JSVector2D(e.x, e.y);
-                // 화면->지도 좌표 변환
-                const mapPosition = Module.getMap().ScreenToMapPointEX(screenPosition);
-                dtmap.trigger('click', {
-                    pixel: [e.x, e.y],
-                    coordinates: [mapPosition.Longitude, mapPosition.Latitude],
-                    altitude: mapPosition.Altitude,
-                    originalEvent: e
-                });
+                dtmap.trigger('click', data);
             } else {
                 //right click event
                 if (Math.abs(_beforeMouse.x - e.x) < 2 && Math.abs(_beforeMouse.y - e.y) < 2) {
-                    dtmap.trigger('contextmenu', {
-                        originalEvent: e
-                    });
+                    dtmap.trigger('contextmenu', data);
                 }
             }
         }
