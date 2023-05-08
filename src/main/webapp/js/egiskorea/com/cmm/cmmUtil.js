@@ -193,20 +193,6 @@ var cmmUtil = {
         return format.write(geometry);
     },
 
-    //이미지 확대
-    zoomInImage: function (src) {
-        var html = "";
-        html += "<img src='" + src + "' id='zoomActionImg' alt='이미지' data-action='zoom'/>"
-        $("#wrap").append(html);
-        $("#zoomActionImg").click();
-        $("#zoomActionImg").on("click", function () {
-            $(".zoom-img-wrap").remove();
-            $("#zoomActionImg").remove();
-            $(".zoom-overlay").remove();
-            $(".webmaster").removeClass("zoom-overlay-transitioning zoom-overlay-open");
-        });
-    },
-
     _leadingZeros: function (n, digits) {
         var zero = '';
         n = n.toString();

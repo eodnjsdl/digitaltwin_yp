@@ -154,10 +154,10 @@ function aj_pagination(pageIndex) {
 										</colgroup>
 										<tbody>
 											<c:forEach items="${noticeList}" var="noticeInfo" varStatus="status">
-												<tr>
+												<tr onclick="aj_selectNotice('<c:out value='${noticeInfo.nttId}'/>');">
 													<td><img src="<c:url value='/images/egovframework/com/cop/bbs/icon_notice.png'/>" alt="notice"></td>
 													<td class="subject fixed">
-														<a href="#" onclick="aj_selectNotice('<c:out value='${noticeInfo.nttId}'/>');">${noticeInfo.nttSj}</a>
+														<a href="#">${noticeInfo.nttSj}</a>
 													</td>
 													<td>
 														<%-- <c:if test="${not empty noticeInfo.atchFileId}">
@@ -171,10 +171,10 @@ function aj_pagination(pageIndex) {
 											</c:forEach>
 											
 											<c:forEach var="resultInfo" items="${resultList}" varStatus="status">
-												<tr>
+												<tr onclick="aj_selectNotice('<c:out value='${resultInfo.nttId}'/>');">
 													<td><c:out value="${(searchVO.pageIndex-1) * (13 - fn:length(noticeList)) + status.count}"/></td>
 													<td class="subject">
-														<a href="#" onclick="aj_selectNotice('<c:out value='${resultInfo.nttId}'/>');"><c:out value='${resultInfo.nttSj}' escapeXml="false"/></a>
+														<a href="#"><c:out value='${resultInfo.nttSj}' escapeXml="false"/></a>
 													</td>
 													<td>
 														<%-- <c:if test="${not empty resultInfo.atchFileId}">

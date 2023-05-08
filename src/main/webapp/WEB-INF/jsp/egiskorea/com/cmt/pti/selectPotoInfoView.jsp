@@ -49,11 +49,6 @@
             link.href = src;
             link.click();
         });
-        // 사진 click
-        // $(".swiper-wrapper img").on("click", function (e) {
-        //     var src = e.target.src;
-        //     cmmUtil.zoomInImage(src) ;
-        // });
     }
 
     //사진정보 게시글 이동
@@ -206,8 +201,11 @@
                                     <c:forEach var="resultFile" items="${resultFile}" varStatus="status">
                                         <div class="swiper-slide">
                                             <div class="thumb">
-                                                <img src='<c:url value='/cmm/fms/getImage.do'/>?atchFileId=<c:out value="${resultFile.atchFileId}"/>&fileSn=<c:out value="${resultFile.fileSn}"/>&streFileNm= <c:out value="${resultFile.streFileNm}"/>'
-                                                     alt="파일이미지" />
+                                                <a href='<c:url value='/cmm/fms/getImage.do'/>?atchFileId=<c:out value="${resultFile.atchFileId}"/>&fileSn=<c:out value="${resultFile.fileSn}"/>&streFileNm= <c:out value="${resultFile.streFileNm}"/>'
+                                                   data-lightbox='infoImages' data-title=''>
+                                                    <img src='<c:url value='/cmm/fms/getImage.do'/>?atchFileId=<c:out value="${resultFile.atchFileId}"/>&fileSn=<c:out value="${resultFile.fileSn}"/>&streFileNm= <c:out value="${resultFile.streFileNm}"/>'
+                                                         alt='파일이미지'/>
+                                                </a>
                                                 <input type="hidden" name="orignlFileNm"
                                                        value="<c:out value="${resultFile.orignlFileNm}" />">
                                             </div>
@@ -249,7 +247,8 @@
             <c:if test="${null ne result.prevSj}">
                 <div class="items">
                     <div class="term">이전</div>
-                    <div class="desc" style="cursor: pointer;" onclick="javascript:selectPotoInfoView('<c:out value="${result.prevPotoId}" />');">
+                    <div class="desc" style="cursor: pointer;"
+                         onclick="javascript:selectPotoInfoView('<c:out value="${result.prevPotoId}"/>');">
                         <a><c:out value="${result.prevSj}"/></a>
                     </div>
                 </div>
@@ -257,7 +256,8 @@
             <c:if test="${null ne result.nextSj}">
                 <div class="items">
                     <div class="term">다음</div>
-                    <div class="desc" style="cursor: pointer;" onclick="javascript:selectPotoInfoView('<c:out value="${result.nextPotoId}" />');">
+                    <div class="desc" style="cursor: pointer;"
+                         onclick="javascript:selectPotoInfoView('<c:out value="${result.nextPotoId}"/>');">
                         <a><c:out value="${result.nextSj}"/></a>
                     </div>
                 </div>

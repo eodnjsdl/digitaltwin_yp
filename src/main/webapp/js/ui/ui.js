@@ -235,30 +235,30 @@ window.ui = (function () {
                 // aside menu > 메모정보
                 case "memoInfo" :
                     //위치에 맞는 팝업 오픈
-                    ui.openPopup(area);
+                    ui.openPopup(area, id);
                     //메뉴별 실행 함수 실행
                     aj_selectMemoInfoList($("#tmpForm")[0]);
                     break;
                 // aside menu > 사진정보
                 case "potoInfo" :
-                    ui.openPopup(area);
+                    ui.openPopup(area, id);
                     aj_selectPotoInfoList($("#tmpForm")[0]);
                     break;
                 // aside menu > 그리기도구
                 case "graphicInfo" :
-                    ui.openPopup(area);
+                    ui.openPopup(area, id);
                     aj_selectGraphicInfoList();
                     break;
 
                 //영상/지도
                 // aside menu > 드론영상
                 case "dronInfo" :
-                    ui.openPopup(area);
+                    ui.openPopup(area, id);
                     aj_selectDronInfo($("#tmpForm")[0]);
                     break;
                 // aside menu > 내보내기
                 case "dwldInfo" :
-                    ui.openPopup(area);
+                    ui.openPopup(area, id);
                     aj_dataDownload();
                     break;
                 // aside menu > 지도저장
@@ -270,17 +270,17 @@ window.ui = (function () {
                 //게시판
                 // aside menu > 게시판
                 case "notice" :
-                    ui.openPopup(area);
+                    ui.openPopup(area, id);
                     aj_selectNoticeList();
                     break;
                 // aside menu > QnA
                 case "qna" :
-                    ui.openPopup(area);
+                    ui.openPopup(area, id);
                     aj_selectQnaList();
                     break;
                 // aside menu > 운영지원
                 case "opqna" :
-                    ui.openPopup(area);
+                    ui.openPopup(area, id);
                     aj_selectOpQnaList();
                     break;
 
@@ -302,7 +302,7 @@ window.ui = (function () {
                     break;
                 // aside menu > 즐겨찾기
                 case "favorites" :
-                    ui.openPopup(area);
+                    ui.openPopup(area, id);
                     aj_selectFavoritesList($("#tmpForm")[0]);
                     break;
             }
@@ -839,7 +839,7 @@ window.ui = (function () {
                 break;
             case "saveMap":
                 _area.width = "325";
-                _area.heigth = "750";
+                _area.heigth = "610";
                 break;
             case "krasInfo":
                 _area.width = "660";
