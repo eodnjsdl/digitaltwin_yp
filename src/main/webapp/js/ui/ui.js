@@ -1102,14 +1102,13 @@ window.ui = (function () {
         //화면저장
         $("#contextMenu .c06").off("click").on("click", function () {
             ui.openPopup("rightPopup", "saveMap");
-            aj_selectMemoInfoList($("#tmpForm")[0]);
-            var _stre = new MapStore();
-            _stre.createImage();
+            aj_saveMap();
             const ctxMenu = $(".context");
             ctxMenu.addClass("hide");
         });
         //3D전환
         $("#contextMenu .c07").off("click").on("click", function () {
+            dtmap.switchMap();
             const ctxMenu = $(".context");
             ctxMenu.addClass("hide");
         });
