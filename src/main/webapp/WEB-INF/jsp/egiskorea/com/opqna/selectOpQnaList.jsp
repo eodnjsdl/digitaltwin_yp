@@ -194,10 +194,10 @@ function aj_pagination(pageIndex) {
 											</c:if>	
 											
 											<c:forEach var="resultInfo" items="${resultList}" varStatus="status">
-											<tr>
+											<tr onclick="aj_selectOpQna('<c:out value='${resultInfo.qaId}'/>');">
 												<td><c:out value="${(searchVO.pageIndex-1) * 10 + status.count}"/></td>
 												<td class="subject">
-													<a href="javascript:aj_selectOpQna('<c:out value="${resultInfo.qaId}"/>')" class="subject">
+													<a href="#" class="subject">
 		    											<c:out value='${fn:substring(resultInfo.qestnSj, 0, 70)}' escapeXml="false"/>
 		  		  										<c:if test="${resultInfo.qnaProcessSttusCode eq '3'}" >
 		    												<!-- <img src="/images/icon/bbs-badge-completion.svg" class="bbs-badge" alt="완료"> -->

@@ -839,7 +839,7 @@ window.ui = (function () {
                 break;
             case "saveMap":
                 _area.width = "325";
-                _area.heigth = "750";
+                _area.heigth = "610";
                 break;
             case "krasInfo":
                 _area.width = "660";
