@@ -94,7 +94,7 @@ map2d.location = (function () {
                 deferred.resolve(result);
             })
             .fail(() => {
-                alert("주소 정보를 가져오는데 실패했습니다.");
+                console.error("주소 정보를 가져오는데 실패했습니다.");
             });
         return deferred;
     }
