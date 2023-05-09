@@ -355,8 +355,8 @@ function spaceClickListener(e){
 	var no;
 	
 	if (dtmap.mod === '3D'){
-		gid=e.properties.gid;
-		no = e.properties.no
+		gid=e.property.gid;
+		no = e.property.no
 	}else{
 		gid=e.property.gid;
 		no = e.property.no
