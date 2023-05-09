@@ -1,6 +1,5 @@
 <!-- 분석 > 국공유지AI분석 -->
-<div class="small-popup small-left opened" style="width: 440px;height: 807px;">
-	
+<script src="/appModule/M_AI_IMAGE/M_AI_IMAGE.js"></script>
 	<div class="popup-header">AI영상분석</div>
 	<div class="popup-body ai-analysis-body">
 		<div class="">
@@ -33,7 +32,12 @@
 			</span>
 			
 		</div>
-		<div class="btn-wrap"><div><button type="button" class="btn basic bi-loading" id="startAianalysBtn">분석</button></div></div>
+		<div class="btn-wrap">
+			<div>
+				<button type="button" class="btn basic bi-loading" id="startAianalysBtn">분석</button>
+				<button type="button" class="btn basic bi-loading" id="startAianalysAdvanc">분석(고도화)</button>
+			</div>
+		</div>
 		<div class="data-default scroll-y" style="height: 535px;" id="aiImageReslt">
 			<table class="data-list">
 				<colgroup>
@@ -77,7 +81,6 @@
 		</div>
 	</div>
 	<button type="button" class="manualBtn" title="도움말" onclick="manualTab('AI영상분석(3D)')"></button>
-	<button type="button" class="popup-toggle" title="접기"></button>
+	<button type="button" class="popup-close" title="닫기"></button>
 
-</div>
 <!-- //분석 > 국공유지AI분석 -->

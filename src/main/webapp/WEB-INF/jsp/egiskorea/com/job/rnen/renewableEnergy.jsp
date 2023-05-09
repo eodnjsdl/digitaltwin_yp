@@ -32,6 +32,14 @@ function fn_deleteRenewableEnergy(gid){
 		});
 	}
 }
+// 닫기
+$("#rightSubPopup .popup-close").unbind('click').bind('click',function() {
+	// 등록, 상세, 수정 팝업 창 닫기
+	if ($("#rightSubPopup").hasClass("opened")) {
+		$("#rightSubPopup").removeClass("opened");
+		$("#rightSubPopup").empty();
+	}
+});
 </script>
 
 <!-- 업무 > 공간정보활용 > 신재생에너지 > 태양광발전소 상세조회 -->

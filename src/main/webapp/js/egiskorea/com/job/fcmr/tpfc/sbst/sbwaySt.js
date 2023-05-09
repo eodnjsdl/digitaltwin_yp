@@ -123,7 +123,7 @@ function getWfsSubwayStationListData() {
  * @returns
  */
 function setSubwayStationListData(_pageNo, geom) {
-    
+    dtmap.on('select', onSelectSubwayStationEventListener);
     var gridList = this;
     // wfs 옵션값 담을 변수
     var options;
@@ -214,6 +214,10 @@ function setSubwayStationListData(_pageNo, geom) {
 	
 	var list = [];
 	for (let i = 0; i < data.features.length; i++) {
+	    // properties에 id 값이 랜덤으로 생성되서, gid와 동일하게 변경해줌
+	    // wfs. + gid
+	    let wfsId = data.features[i].id.split('.')[0] + '.';
+	    data.features[i].id = wfsId + data.features[i].properties.gid;
 	    const {id, properties} = data.features[i];
 	    list.push({...properties, ...{id: id}});
 	}
@@ -231,18 +235,13 @@ function setSubwayStationListData(_pageNo, geom) {
 	dtmap.vector.clear();
 	dtmap.vector.readGeoJson(data, function (feature) {
 		let properties = feature.getProperties();
-		// properties에 id 값이 랜덤으로 생성되서, gid와 동일하게 변경해줌
-		// wfs. + gid
-		let getGid = properties.gid;
-		feature.setId('tgd_spsb_statn.' + getGid);					
-		// --------------------------------------------------
 		return {
 			marker: {
 				src: '/images/poi/subwayStation_poi.png',
 				anchor: [0, 0] //이미지 중심위치 (0~1 [x,y] 비율값 [0,0] 좌상단 [1,1] 우하단)
 		            },
 		        label: {
-		                text: properties.rn,
+		                text: properties.kor_sub_nm,
 		                //3D POI 수직 막대길이
 		                offsetHeight : 10
 		            }
@@ -259,7 +258,6 @@ function setSubwayStationListData(_pageNo, geom) {
  */
 function selectSubwayStationDetailView(gid) {
     dtmap.vector.clearSelect();
-    dtmap.vector.select('tgd_spsb_statn.' + gid);
     
     ui.openPopup("rightSubPopup");
     ui.loadingBar("show");
@@ -280,6 +278,7 @@ function selectSubwayStationDetailView(gid) {
 	success : function(data, status) {
 	    if (status == "success") {		
 		$("#rightSubPopup").append(data);
+		dtmap.vector.select('tgd_spsb_statn.' + gid);
 	    } else { 
 		toastr.error("ERROR!");
 		return;

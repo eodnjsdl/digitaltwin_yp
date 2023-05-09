@@ -1026,7 +1026,7 @@
 					<button type="button" class="manualBtn" title="도움말" onclick="manualTab('대기오염')"></button>
 					<button type="button" class="popup-close" title="닫기"></button>
 					<button type="button" class="popup-reset" class="초기화"></button>
-					<button type="button" class="popup-left-toggle" title="접기"></button>					
+<%--					<button type="button" class="popup-left-toggle" title="접기"></button>					--%>
 				</div>
 				<!-- //업무 > 공간정보활용 > 대기오염 -->
 

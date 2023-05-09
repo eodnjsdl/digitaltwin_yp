@@ -8,7 +8,6 @@ $(document).ready(function(){
 
 	//이벤트 리스너 추가 - 객체 선택
 	dtmap.off('select');
-	dtmap.on('select', onSelectTunnelEventListener);
 	
 	// 교통시설 메뉴 - 이벤트
 	var $container = $("#container");
@@ -39,12 +38,9 @@ $(document).ready(function(){
        	const $parent = $(e.target).closest('.search-area');
         const type = $parent.find('input[name="rad-facility-area"]:checked').val();
         
-        console.log(type);
-        
         if (type === 'extent') {
         	FACILITY.spaceSearchOption.bbox 	= dtmap.getExtent();
         } else {
-        	//console.log("모드>>>"+dtmap.mod);
         	if(dtmap.mod == "2D"){
         		if(dtmap.draw.source.getFeatures().length > 0){	//임시로 그려진 형태체크
         			FACILITY.spaceSearchOption.geometry = dtmap.draw.getGeometry();
@@ -81,7 +77,7 @@ $(document).ready(function(){
     $("[name=rad-facility-drawing]", "#bottomPopup").on("click", function () {
         const node = $(this);
         const value = node.val();
-
+		dtmap.off('select');
         let type;
         switch (Number(value)) {
             case 1:

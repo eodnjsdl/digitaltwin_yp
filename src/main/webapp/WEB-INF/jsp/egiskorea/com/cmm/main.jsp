@@ -60,10 +60,9 @@
     <script src="/js/plugin/ax5grid/ax5core.min.js"></script>
     <script src="/js/plugin/ax5grid/ax5grid.min.js"></script>
 
-
-    <!-- zoom -->
-    <link href="/js/plugin/jquery-fat-zoom.js/css/zoom.css" rel="stylesheet">
-    <script type="text/javascript" src="/js/plugin/jquery-fat-zoom.js/dist/zoom.js"></script>
+    <!-- lightbox2-2.11.4 -->
+    <link href="/js/plugin/lightbox2-2.11.4/dist/css/lightbox.css" rel="stylesheet">
+    <script type="text/javascript" src="/js/plugin/lightbox2-2.11.4/dist/js/lightbox.js"></script>
 
     <!-- font 맑은고딕: stre.js (지도저장기능 수행 시) -->
     <script src="/engine/plugin/v6.7.0/malgun.js"></script>
@@ -167,49 +166,49 @@
     <!-- [[업무 /시설관리 재작업]]  -->
     <script src="/js/egiskorea/com/cmm/common.js"></script> <!-- 메뉴얼 기능이 필요해서 추가 -->
 
-	<script src="/js/egiskorea/com/job/fcmr/facilityCommon.js"></script>				<!-- 시설관리  공통 -->
+    <script src="/js/egiskorea/com/job/fcmr/facilityCommon.js"></script>                <!-- 시설관리  공통 -->
 
-	<!-- [상수도 시설] -->
-	<script src="/js/egiskorea/com/job/fcmr/wsfc/facilityWaterSupply.js"></script>		<!--{상수도시설  공통} -->
-	<!-- ////////////////////////////  -->
+    <!-- [상수도 시설] -->
+    <script src="/js/egiskorea/com/job/fcmr/wsfc/facilityWaterSupply.js"></script>        <!--{상수도시설  공통} -->
+    <!-- ////////////////////////////  -->
 
-	<!-- [하수도시설]  -->
-	<script src="/js/egiskorea/com/job/fcmr/ssfc/facilitySewerSupply.js"></script> 		<!-- {하수도시설  공통} -->
-	<!-- ////////////////////////////  -->
+    <!-- [하수도시설]  -->
+    <script src="/js/egiskorea/com/job/fcmr/ssfc/facilitySewerSupply.js"></script>        <!-- {하수도시설  공통} -->
+    <!-- ////////////////////////////  -->
 
-	<!-- [교통시설]  -->
-	<script src="/js/egiskorea/com/job/fcmr/tpfc/facilityTransportation.js"></script>	<!-- 교통시설  공통 -->
-	<!-- {교통 하위 메뉴}  -->
-	<!-- 도로구간  -->
-	<script src="/js/egiskorea/com/job/fcmr/tpfc/rdst/roadSect.js"></script>
-	<!-- 철도선로 -->
-	<script src="/js/egiskorea/com/job/fcmr/tpfc/rrtc/rlroadTc.js"></script>
-	<!-- 철도역사 -->
-	<script src="/js/egiskorea/com/job/fcmr/tpfc/rrst/rlroadSt.js"></script>
-	<!-- 지하철선로 -->
-	<script src="/js/egiskorea/com/job/fcmr/tpfc/sbtc/sbwayTc.js"></script>
-	<!-- 지하철역사 -->
-	<script src="/js/egiskorea/com/job/fcmr/tpfc/sbst/sbwaySt.js"></script>
-	<!-- 교량 -->
-	<script src="/js/egiskorea/com/job/fcmr/tpfc/brdg/brdge.js"></script>
-	<!-- 고가도로 -->
-	<script src="/js/egiskorea/com/job/fcmr/tpfc/ovps/ovrpass.js"></script>
-	<!-- 터널 -->
-	<script src="/js/egiskorea/com/job/fcmr/tpfc/tunl/tunnl.js"></script>
+    <!-- [교통시설]  -->
+    <script src="/js/egiskorea/com/job/fcmr/tpfc/facilityTransportation.js"></script>    <!-- 교통시설  공통 -->
+    <!-- {교통 하위 메뉴}  -->
+    <!-- 도로구간  -->
+    <script src="/js/egiskorea/com/job/fcmr/tpfc/rdst/roadSect.js"></script>
+    <!-- 철도선로 -->
+    <script src="/js/egiskorea/com/job/fcmr/tpfc/rrtc/rlroadTc.js"></script>
+    <!-- 철도역사 -->
+    <script src="/js/egiskorea/com/job/fcmr/tpfc/rrst/rlroadSt.js"></script>
+    <!-- 지하철선로 -->
+    <script src="/js/egiskorea/com/job/fcmr/tpfc/sbtc/sbwayTc.js"></script>
+    <!-- 지하철역사 -->
+    <script src="/js/egiskorea/com/job/fcmr/tpfc/sbst/sbwaySt.js"></script>
+    <!-- 교량 -->
+    <script src="/js/egiskorea/com/job/fcmr/tpfc/brdg/brdge.js"></script>
+    <!-- 고가도로 -->
+    <script src="/js/egiskorea/com/job/fcmr/tpfc/ovps/ovrpass.js"></script>
+    <!-- 터널 -->
+    <script src="/js/egiskorea/com/job/fcmr/tpfc/tunl/tunnl.js"></script>
 
-	<!-- ////////////////////////////  -->
+    <!-- ////////////////////////////  -->
 
-	<!-- [체육시설]  -->
-	<script src="/js/egiskorea/com/job/fcmr/phfc/facilityPhysicalEducation.js"></script>
-	<!-- ////////////////////////////  -->
+    <!-- [체육시설]  -->
+    <script src="/js/egiskorea/com/job/fcmr/phfc/facilityPhysicalEducation.js"></script>
+    <!-- ////////////////////////////  -->
 
-	<!-- [복지시설]  -->
-	<script src="/js/egiskorea/com/job/fcmr/wlfc/facilityWelFare.js"></script>
-	<!-- ////////////////////////////  -->
+    <!-- [복지시설]  -->
+    <script src="/js/egiskorea/com/job/fcmr/wlfc/facilityWelFare.js"></script>
+    <!-- ////////////////////////////  -->
 
-	<!-- [시설예약관리]  -->
+    <!-- [시설예약관리]  -->
 
-	<!-- [[업무 /시설관리 재작업]] end -->
+    <!-- [[업무 /시설관리 재작업]] end -->
 
     <!-- 분석 -->
     <script src="/js/egiskorea/com/anls/anls.js"></script>
@@ -340,27 +339,29 @@
 
             <div class="map-util">
                 <div class="addrSelect">
-                    <form action="">
-                        <select name="" id="" class="form-select2">
-                            <option value="">지번</option>
-                            <option value="">도로명</option>
+                    <div class="addr-search">
+                        <select name="type" class="form-select2">
+                            <option value="jibun">지번</option>
+                            <option value="road">도로명</option>
                         </select>
-                        <select name="" id="" class="form-select2">
+                        <select name="emd" class="form-select2">
                             <option value="">행정동</option>
                             <option value="">강산면</option>
                         </select>
-                        <select name="" id="" class="form-select2">
+                        <select name="li" class="form-select2">
                             <option value="">법정리</option>
                             <option value="">경강로</option>
                         </select>
-                        <input type="text" class="form-control" placeholder="지번 입력">
+                        <label>산</label>
+                        <input type="checkbox" class="form-control" name="mntn" style="width:14px"/>
+                        <input type="text" class="form-control" placeholder="지번 입력" name="search-text">
                         <button type="button" class="search-btn" title="검색"></button>
-                    </form>
-                    <form action="">
-                        축척 1 :
+                    </div>
+                    <div class="map-scale">
+                        <span class="scale-label">축척 1 :</span>
                         <input type="text" class="form-control scale" placeholder="10000">
-                        <button type="button" class="btn wl btn-sm type04">이동</button>
-                    </form>
+                        <button type="button" class="btn wl btn-sm type04 btn-scale-submit">이동</button>
+                    </div>
                 </div>
 
                 <!-- 좌표, 축적 -->
@@ -370,30 +371,30 @@
                             <span class="x">127.47609649416934</span>
                             <span class="y">37.49284379468381</span>
                         </div>
-                        <button type="button" class="btn wl btn-sm type04">위치이동</button>
+                        <%--                        <button type="button" class="btn wl btn-sm type04">위치이동</button>--%>
                     </div>
                     <div class="coordi-body">
                         <div class="items">
                             <h2>위도,경도 (DMS)</h2>
                             <div class="row">
                                 <div class="c-col">
-                                    <div class="dms-row">
-                                        <span><input type="text" class="form-control"><span
+                                    <div class="dms-row dms-x">
+                                        <span><input type="text" class="form-control" name="dms-x-deg"><span
                                                 class="form-text">도</span></span>
-                                        <span><input type="text" class="form-control"><span
+                                        <span><input type="text" class="form-control" name="dms-x-min"><span
                                                 class="form-text">분</span></span>
-                                        <span><input type="text" class="form-control"><span
+                                        <span><input type="text" class="form-control" name="dms-x-sec"><span
                                                 class="form-text">초</span></span>
                                         <span class="form-dash">,</span>
                                     </div>
                                 </div>
                                 <div class="c-col">
-                                    <div class="dms-row">
-                                        <span><input type="text" class="form-control"><span
+                                    <div class="dms-row dms-y">
+                                        <span><input type="text" class="form-control" name="dms-y-deg"><span
                                                 class="form-text">도</span></span>
-                                        <span><input type="text" class="form-control"><span
+                                        <span><input type="text" class="form-control" name="dms-y-min"><span
                                                 class="form-text">분</span></span>
-                                        <span><input type="text" class="form-control"><span
+                                        <span><input type="text" class="form-control" name="dms-y-sec"><span
                                                 class="form-text">초</span></span>
                                     </div>
                                 </div>
@@ -402,26 +403,27 @@
                         <div class="items">
                             <h2>위도,경도 (Degree)</h2>
                             <div class="row">
-                                <div class="c-col"><input type="text" class="form-control"></div>
-                                <div class="c-col"><input type="text" class="form-control"></div>
+                                <div class="c-col"><input type="text" class="form-control" name="degree-x"></div>
+                                <div class="c-col"><input type="text" class="form-control" name="degree-y"></div>
                             </div>
                         </div>
-                        <div class="items">
+                        <div class="items coord-transform">
                             <h2>사용자정의</h2>
                             <div class="row">
                                 <div class="c-col">
-                                    <select class="form-select3" name="" id="">
-                                        <option value="">EPSG : 5179</option>
-                                        <option value="">EPSG : 5179</option>
-                                        <option value="">EPSG : 5179</option>
+                                    <select class="form-select3" name="transform-select">
+                                        <option value="EPSG:4326">EPSG : 4326</option>
+                                        <option value="EPSG:3857">EPSG : 3857</option>
+                                        <option value="EPSG:5179">EPSG : 5179</option>
+                                        <option value="EPSG:5186">EPSG : 5186</option>
                                     </select>
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="c-col"><input type="text" class="form-control"></div>
-                                <div class="c-col"><input type="text" class="form-control"></div>
+                                <div class="c-col"><input type="text" class="form-control" name="transform-x"></div>
+                                <div class="c-col"><input type="text" class="form-control" name="transform-y"></div>
                                 <div>
-                                    <button type="button" class="btn btn-sm type03">적용</button>
+                                    <button type="button" class="btn btn-sm type03 btn-transform-submit">위치이동</button>
                                 </div>
                             </div>
                         </div>
@@ -797,13 +799,13 @@
         <!-- //팝업 가림판 -->
 
         <!-- 마우스 오른쪽 선택 팝업 -->
-        <div class="context hide" style="top: 400px;left: 400px;">
+        <div id="contextMenu" class="context hide" style="top: 400px;left: 400px;">
             <a href="#" class="c01">통합행정정보</a>
             <a href="#" class="c02">지적/건물</a>
             <a href="#" class="c03">사진등록</a>
             <a href="#" class="c04">메모등록</a>
             <a href="#" class="c05">위치정보</a>
-            <a href="#" class="c06">화면저장</a>
+            <a href="#" class="c06">지도저장</a>
             <a href="#" class="c07">3D전환</a>
         </div>
         <!-- //마우스 오른쪽 선택 팝업 -->
@@ -868,15 +870,11 @@
                                             지하시설단면
                                         </button>
                                     </li><li>
-                                        <button type="button" id="" class="dataPopup" data-maptype="">
+                                        <button type="button"  id="M_PRCL_ANLS" class="dataPopup" data-maptype="">
                                             편입토지분석
                                         </button>
                                     </li>
-                                    <li>
-                                        <button type="button" id="" class="dataPopup" data-maptype="">
-                                            지하시설물터파기
-                                        </button>
-                                    </li>`;
+                                    `;
         var _html3dLnb9 = `<li>
                                         <button type="button" id="M_AI_IMAGE" class="dataPopup" data-maptype="3D">
                                             AI영상분석(3D)
@@ -906,8 +904,15 @@
                                         <button type="button" id="M_VSBL_ANLS" class="dataPopup" data-maptype="3D">
                                             가시권분석(3D)
                                         </button>
-                                    </li>`;
-        var html2 = mod == '2D' ? _html2dLnb9 : _html3dLnb9;
+                                    </li>
+                                    <li>
+                                        <button type="button" id="M_DGUF_ANLS" class="dataPopup" data-maptype="">
+                                            지하시설물터파기(3D)
+                                        </button>
+                                    </li>
+                                    `;
+        // var html2 = mod == '2D' ? _html2dLnb9 : _html3dLnb9;
+        var html2 = _html2dLnb9 + _html3dLnb9;
         $("#lnbAnalysis").html(html2);
     }
 

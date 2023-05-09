@@ -13,6 +13,9 @@ map3d.layer.Layer = (function () {
         this.maxLevel = 15;
         this.isDefault = isDefault;
         this.instance = this.createInstance(options);
+        if (this.instance.setMaxDistance) {
+            this.instance.setMaxDistance(map3d.config.maxDistance);
+        }
     }
 
     Layer.prototype.createInstance = function () {

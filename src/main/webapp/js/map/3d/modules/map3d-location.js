@@ -28,12 +28,28 @@ map3d.location = (function () {
     }
 
     function onMouseDown(e) {
-        // 화면좌표 변환
-        var position = Module.getMap().ScreenToMapPointEX(new Module.JSVector2D(e.x, e.y));
+        atPixel([e.x, e.y]);
+    }
 
-        var x = position.Longitude;
-        var y = position.Latitude;
-        var result = proj4("EPSG:4326", "EPSG:5179", [x, y]);
+    function atPixel(pixel) {
+        // 화면좌표 변환
+        const position = Module.getMap().ScreenToMapPointEX(new Module.JSVector2D(pixel[0], pixel[1]));
+        creatOverlay(position);
+    }
+
+    function atCoordinate(xy) {
+        const position = new Module.JSVector3D(
+            xy[0],
+            xy[1],
+            Module.getMap().getLonLatHeight(xy[0], xy[1])
+        )
+        creatOverlay(position);
+    }
+
+    function creatOverlay(position) {
+        const x = position.Longitude;
+        const y = position.Latitude;
+        const result = proj4("EPSG:4326", "EPSG:5179", [x, y]);
 
         let overlayObj = map3d.overlay.getById(OVERLAY_ID);
         if (overlayObj) {
@@ -110,7 +126,7 @@ map3d.location = (function () {
                 deferred.resolve(result);
             })
             .fail(() => {
-                alert("주소 정보를 가져오는데 실패했습니다.");
+                console.error("주소 정보를 가져오는데 실패했습니다.");
             });
         return deferred;
     }
@@ -118,7 +134,9 @@ map3d.location = (function () {
     let module = {
         init: init,
         active: active,
-        dispose: dispose
+        dispose: dispose,
+        atPixel: atPixel,
+        atCoordinate: atCoordinate
     };
     return module;
 

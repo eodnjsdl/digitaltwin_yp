@@ -6,33 +6,28 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 
 <!-- 공사예정정보 -->
-<script src="/js/egiskorea/com/job/bco/cwi.js"></script>
 
 <script src="/js/egiskorea/com/cmm/cmmUtil.js"></script>
 
 <script type="text/javascript">
-ui.callDatePicker();
-
-var rePnrsAt = "<c:out value='${nomalList.pnrsAt}'></c:out>";
-
-//차수 조회내용(초기 1차 내용)
-var orderInfoInquiry = ${orderInfo};
-
-//차수 리스트 내용
-var orderListInquiry = ${orderListInfo};
-
-//공통 공사내역 코드 내용
-var codeList = ${codeList};
-
-// 공통 공사내역 상세코드 내용
-var codeDtlList = ${codeDtlList};
-
-//공통 공사내역 상세코드 내용
-var dtlListCode = ${dtlListCode};
-
-
-
+	ui.callDatePicker();
+	
+	var rePnrsAt = "<c:out value='${nomalList.pnrsAt}'></c:out>";
+	
+	//차수 조회내용(초기 1차 내용)
+	var orderInfoInquiry = ${orderInfo};
+	//차수 리스트 내용
+	var orderListInquiry = ${orderListInfo};
+	//공통 공사내역 코드 내용
+	var codeList = ${codeList};
+	// 공통 공사내역 상세코드 내용
+	var codeDtlList = ${codeDtlList};
+	//공통 공사내역 상세코드 내용
+	var dtlListCode = ${dtlListCode};
+	
+	
 </script>
+	<script src="/js/egiskorea/com/job/bco/cwi.js"></script>
 <!-- 공사예정정보 -->
 	<p class="cont-tit">공사예정정보 상세</p>
 	<div class="scroll-y" id="innerConstructionPL">

@@ -15,6 +15,7 @@ class MapStore {
         this.height = 1080;
         this.render();
         this.bindEvents();
+        this.createImage();
     }
 
     /**
@@ -90,6 +91,7 @@ class MapStore {
         // }
         dtmap.toImage().then(function(data){
             $(".saveMap-thumb img").attr("src", data);
+            toastr.success("현재 지도화면이 갱신되었습니다.");
         });
     }
 

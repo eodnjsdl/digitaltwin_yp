@@ -7,7 +7,7 @@ $(document).ready(function () {
 
 function bindEvents() {
     //click 지적
-    $("#rightPopup").on("click", ".land_buld_jijuk li", {}, function () {
+    $("#rightPopup").on("click", ".land_buld_jijuk li", {}, function (e) {
         $("#emd,#jibun,#jimok,#road,#buildnm,#build-bon,#build-bu").html("");
         var html = "";
         const node = $(this);
@@ -47,11 +47,11 @@ function bindEvents() {
         html += '    </td>                         ';
         html += '  </tr>                           ';
         $("#build_item", ".ldbdList").html(html);
-        _moveLdbd();
+        _moveLdbd(e);
     });
 
     //click 건물
-    $("#rightPopup").on("click", "#build li", {}, function () {
+    $("#rightPopup").on("click", "#build li", {}, function (e) {
         $("#emd,#jibun,#jimok,#road,#buildnm,#build-bon,#build-bu").html("");
         var html = "";
         const node = $(this);
@@ -118,7 +118,7 @@ function bindEvents() {
         html += '    </td>                         ';
         html += '  </tr>                           ';
         $("#build_item", ".ldbdList").html(html);
-        _moveLdbd();
+        _moveLdbd(e);
     });
 
     //click 위치이동
@@ -129,17 +129,18 @@ function bindEvents() {
 
 }
 
-function _moveLdbd() {
-    var feature;
+function _moveLdbd(e) {
+
+    var gid;
     var layer;
-    if ($("#build li").attr('class') === "active") {
-        feature = $("#build").data("feature");
+    if ($("#buildFirstLi li").hasClass("active")) {
+        gid = e.target.dataset.gid;
         layer = 'tgd_spbd_buld';
     } else {
-        feature = $("#jijuk").data("feature");
+        gid = e.target.dataset.id;
         layer = 'digitaltwin:lsmd_cont_ldreg_41830';
     }
-    var gid = feature.properties.gid;
+    // var gid = feature.get("gid");
     var cql = '';
     cql += "gid=" + gid + "";
     var promise = dtmap.wfsGetFeature({
@@ -153,17 +154,18 @@ function _moveLdbd() {
 }
 
 function _onDrawEnd_ldbdInfo(e) {
-    var geom = e.geometry;
+    var geom = dtmap.draw.getGeometry();
+    // var geom = e.geometry;
     var ldLayer = "digitaltwin:lsmd_cont_ldreg_41830";
     var bdLayer = "tgd_spbd_buld";
     var totalCnt = 0;
     var ldStyle = {
         fill: {
-            color: '#ff0000',
-            opacity : 0.6
+            color: '#FFC080',
+            opacity: 0.6
         },
         stroke: {
-            color: '#FF0000',
+            color: '#FF8000',
             width: 4
         },
         label: {
@@ -173,11 +175,11 @@ function _onDrawEnd_ldbdInfo(e) {
     };
     var bdStyle = {
         fill: {
-            color: '#0000ff',
-            opacity : 0.6
+            color: '#90C0E8',
+            opacity: 0.6
         },
         stroke: {
-            color: '#0000FF',
+            color: '#2080D0',
             width: 4
         },
         label: {
@@ -192,7 +194,53 @@ function _onDrawEnd_ldbdInfo(e) {
         setLdbdLayer(geom, bdLayer, bdStyle).done(function (data) {  //건물
             totalCnt += data.totalFeatures;
             $("#totalcount", ".ldbdList").html(
-                `검색결과 (<strong >${totalCnt}건</strong>)`
+                `총 검색결과 (<strong >${totalCnt}건</strong>)`
+            );
+        });
+    });
+    dtmap.draw.dispose();
+}
+
+function _onContext_ldbdInfo(geom){
+    var ldLayer = "digitaltwin:lsmd_cont_ldreg_41830";
+    var bdLayer = "tgd_spbd_buld";
+    var totalCnt = 0;
+    var ldStyle = {
+        fill: {
+            color: '#FFC080',
+            opacity: 0.6
+        },
+        stroke: {
+            color: '#FF8000',
+            width: 4
+        },
+        label: {
+            column: 'jibun'
+        },
+        renderType: '3D'
+    };
+    var bdStyle = {
+        fill: {
+            color: '#90C0E8',
+            opacity: 0.6
+        },
+        stroke: {
+            color: '#2080D0',
+            width: 4
+        },
+        label: {
+            column: 'buld_nm'
+        },
+        renderType: '3D'
+    };
+    ui.openPopup("rightPopup");
+    loadHtml();
+    setLdbdLayer(geom, ldLayer, ldStyle).done(function (data) { //지적
+        totalCnt += data.totalFeatures;
+        setLdbdLayer(geom, bdLayer, bdStyle).done(function (data) {  //건물
+            totalCnt += data.totalFeatures;
+            $("#totalcount", ".ldbdList").html(
+                `총 검색결과 (<strong >${totalCnt}건</strong>)`
             );
         });
     });
@@ -200,8 +248,15 @@ function _onDrawEnd_ldbdInfo(e) {
 }
 
 function aj_ldbdInfo() {
+    dtmap.off('drawend', _onDrawEnd_ldbdInfo);
     dtmap.vector.clear();
-    dtmap.draw.active({type: 'Point', once: true});
+    if (map2d.view.getZoom() < 19) {
+        toastr.success("그리기: Point", "지도에서 위치를 클릭하세요. ");
+        dtmap.draw.active({type: 'Point', once: true});
+    } else if (map2d.view.getZoom() >= 19) {
+        toastr.success("그리기: Box", "지도에서 도형을 그려주세요. ");
+        dtmap.draw.active({type: 'Box', once: true});
+    }
     dtmap.once('drawend', _onDrawEnd_ldbdInfo);
 }
 
@@ -220,48 +275,77 @@ function setLdbdLayer(geom, layerNm, style) {
 }
 
 function setLdbdList(geom, data, layerNm) {
-    const position = geom.getCoordinates();
-    var position_5174 = proj4(dtmap.crs, "EPSG:5174", [position[0], position[1]]); //5179좌표에서 5174로 변경
-    var xObj = {'_5174': position_5174[0], '_5179': position[0]};
-    var yObj = {'_5174': position_5174[1], '_5179': position[1]};
-    let tag = ``;
     let addr;
     let road;
-    let totalFeatures = data.totalFeatures;
-    let properties;
-    cmmUtil.reverseGeocoding5174(xObj, yObj).done((result) => {
-        addr = result.emdKorNm + " " + result.liKorNm;
-        road = result.roadAddress;
-        for (let i = 0; i < data.features.length; i++) {
-            properties = data.features[i].properties;
+    let tag = ``;
+    let features = dtmap.util.readGeoJson(data);
+    let totalFeatures = features.length;
+    var promises = [];
+    var _result = [];
+    for (let i = 0; i < totalFeatures; i++) {
+        const position = dtmap.util.centroid(features[i].getGeometry())
+        var position_5174 = proj4(dtmap.crs, "EPSG:5174", [position[0], position[1]]); //5179좌표에서 5174로 변경
+        var xObj = {'_5174': position_5174[0], '_5179': position[0]};
+        var yObj = {'_5174': position_5174[1], '_5179': position[1]};
+        var request = cmmUtil.reverseGeocoding5174(xObj, yObj).done((result) => {
+            _result.push({
+                'result': result,
+                'properties': data.features[i].properties,
+                'feature': features[i]
+            });
+        });
+        promises.push(request);
+    }
+    $.when.apply($, promises).done(function (e) {
+        if (_result.length === 0) return;
+        $.each(_result, function (k, v) {
+            var is_last_item = (k == (_result.length - 1));
+            addr = v.result.emdKorNm + " " + v.result.liKorNm;
+            road = v.result.roadAddress;
             if (layerNm === "digitaltwin:lsmd_cont_ldreg_41830") {
-                var jimok = properties.jibun.charAt(properties.jibun.length - 1); //열
-                var jibun = properties.jibun.slice(0, -1); //문자
-                tag += `<li><p class="tit" id="jijukcount">`;
-                tag += `<span id="jijuk">`;
-                tag += `지적 (<strong >${totalFeatures}건</strong>)</span></p>`;
-                tag += `<ul class="dep2 land_buld_jijuk" id="jijuk"><li data-id="${properties.gid}" data-pnu="${properties.pnu}" data-bbox="${properties.bbox}" data-jibun="${jibun}" data-jimok="${jimok}" data-addr="${addr}" data-road="${road}"><a href="javascript:void(0);" >${jibun}</a></li></ul>`;
-                $(".building-list", ".ldbdList").append(tag);
-                $("#jijuk").data("feature", data.features[i]);
+                var jimok = v.properties.jibun.charAt(v.properties.jibun.length - 1); //열
+                var jibun = v.properties.jibun.slice(0, -1); //문자
+                if (k === 0) {
+                    tag += `<li id="jijukFirstLi">`;
+                    tag += `<p class="tit" id="jijukcount">`;
+                    tag += `<span>`;
+                    tag += `지적 (<strong >${totalFeatures}건</strong>)</span></p>`;
+                    tag += `<ul class="dep2 land_buld_jijuk" id="jijuk">`;
+                }
+                tag += `<li data-id="${v.properties.gid}" data-pnu="${v.properties.pnu}"
+                            data-bbox="${v.properties.bbox}" data-jibun="${jibun}"
+                            data-jimok="${jimok}" data-addr="${addr}" data-road="${road}">
+                            <a href="javascript:void(0);" data-id="${v.properties.gid}">${jibun}</a></li>`;
+                if (is_last_item) tag += `</li></ul>`;
+                $("#jijuk").data("feature", v.feature);
             } else if (layerNm === "tgd_spbd_buld") {
-                var lnbrMnnm = result.lnbrMnnm;
-                if (result.lnbrMnnm) {
+                var lnbrMnnm = v.result.lnbrMnnm;
+                if (v.result.lnbrMnnm) {
                     lnbrMnnm = lnbrMnnm.replaceAll('0', '');
                 }
-                var lnbrSlno = result.lnbrSlno;
-                if (result.lnbrSlno) {
+                var lnbrSlno = v.result.lnbrSlno;
+                if (v.result.lnbrSlno) {
                     lnbrSlno = lnbrSlno.replaceAll('0', '');
                 }
                 var jibun = lnbrMnnm + "-" + lnbrSlno;
-                tag += `<li><p class="tit" id="buildcount">`;
-                tag += `<span id="build">`;
-                tag += `건물 (<strong >${totalFeatures}건</strong>)</span></p>`;
-                tag += `<ul class="dep2" id="build"><li data-id="${properties.bsi_int_sn}" data-buld_mnnm="${properties.buld_mnnm}" data-buld_nm_dc="${properties.buld_nm_dc}" data-lnbr_slno="${properties.lnbr_slno}"  data-buld_nm="${properties.buld_nm}" data-addr="${addr}" data-jibun="${jibun}" data-road="${road}"><a href="javascript:void(0);" >${properties.buld_mnnm}-${properties.lnbr_slno}</a></li></ul>`;
-                $(".building-list", ".ldbdList").append(tag);
-                $("#build").data("feature", data.features[i]);
+                if (k === 0) {
+                    tag += `<li id="buildFirstLi">`;
+                    tag += `<p class="tit" id="buildcount">`;
+                    tag += `<span>`;
+                    tag += `건물 (<strong >${totalFeatures}건</strong>)</span></p>`;
+                    tag += `<ul class="dep2" id="build">`;
+                }
+                tag += `<li data-id="${v.properties.bsi_int_sn}" data-gid="${v.properties.gid}" data-buld_mnnm="${v.properties.buld_mnnm}" 
+                            data-buld_nm_dc="${v.properties.buld_nm_dc}" data-lnbr_slno="${v.properties.lnbr_slno}"  
+                            data-buld_nm="${v.properties.buld_nm}" data-addr="${addr}" data-jibun="${jibun}" 
+                            data-road="${road}"><a href="javascript:void(0);" data-gid="${v.properties.gid}">
+                            ${v.properties.buld_mnnm}-${v.properties.lnbr_slno}</a></li>`;
+                if (is_last_item) tag += `</li></ul>`;
+                $("#build").data("feature", v.feature);
             }
-        }
-    });
+        });
+        $(".building-list", ".ldbdList").append(tag);
+    })
 }
 
 function loadHtml(totalCnt) {

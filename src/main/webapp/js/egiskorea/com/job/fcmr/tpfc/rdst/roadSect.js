@@ -131,6 +131,7 @@ function getWfsRoadSectListData() {
  * @returns
  */
 function setRoadSectListData(_pageNo, geom) {
+    dtmap.on('select', onSelectRoadSectEventListener);
     // wfs 옵션값 담을 변수
     var options;
     
@@ -251,19 +252,11 @@ function setRoadSectListData(_pageNo, geom) {
 	dtmap.vector.clear();
 	dtmap.vector.readGeoJson(data, function (feature) {
 	    let properties = feature.getProperties();
-	    // properties에 id 값이 랜덤으로 생성되서, gid와 동일하게 변경해줌
-	    // wfs. + gid
-//	    	도로구간 - wfs.+41830(양평군).rdsManNo;
-//	    	그 외는 아래처럼 처리
-//	    let getGid = properties.gid;
-//	    feature.setId('wfs name.' + getGid);
-	    
-	    // --------------------------------------------------
 	    return {
-	        marker: {
-	            	src: '/images/poi/roadSection_poi.png',
-	            	anchor: [0, 0], //이미지 중심위치 (0~1 [x,y] 비율값 [0,0] 좌상단 [1,1] 우하단)
-	            },
+	        // marker: {
+	        //     	src: '/images/poi/roadSection_poi.png',
+	        //     	anchor: [0, 0], //이미지 중심위치 (0~1 [x,y] 비율값 [0,0] 좌상단 [1,1] 우하단)
+	        //     },
 	        label: {
 	                text: properties.rn,
 	                //3D POI 수직 막대길이
@@ -283,7 +276,6 @@ function selectRoadSectDetailView(item) {
     let gid = item.gid;
     let rdsManNo = item.rds_man_no;
     dtmap.vector.clearSelect(); 
-    dtmap.vector.select('tgd_sprd_manage.' + gid);
     ui.openPopup("rightSubPopup");
     ui.loadingBar("show");
     var formData = new FormData();
@@ -303,6 +295,7 @@ function selectRoadSectDetailView(item) {
 	success : function(data, status) {
 	    if (status == "success") {		
 		$("#rightSubPopup").append(data);
+		dtmap.vector.select('tgd_sprd_manage.' + gid);
 	    } else { 
 		toastr.error("ERROR!");
 		return;

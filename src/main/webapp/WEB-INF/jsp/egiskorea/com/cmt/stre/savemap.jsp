@@ -5,7 +5,9 @@
 
     <div class="tool-popup-body">
         <h3 class="cont-txt marT0">현재 지도화면을 저장합니다.</h3>
-        <div class="saveMap-thumb"><img src="/images/thumb02.jpg" alt=""></div>
+        <div class="saveMap-thumb">
+            <img src="" alt="">
+        </div>
         <div class="btn-wrap">
             <div>
                 <button type="button" class="btn basic bi-png">PNG생성</button>

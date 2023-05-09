@@ -17,6 +17,13 @@
 function selectPbprtAccdtWrinvstg(publndNo) {
 	window.open('/job/publnd/selectPbprtAccdtWrinvstg.do?publndNo=' + publndNo, 'wrinvstg','width=1000, height=800');
 }
+
+$('.btn#satlitPhotoSave').on('click', function() {
+    createImage();
+});
+
+// 취소 버튼(닫기)
+$('.modifyBtton .bi-cancel').on('click', function () {ui.closeSubPopup();});
 </script>
 <body>
 	<!-- 업무 > 공유지관리 > 공유재산 실태조사 상세정보  -->
@@ -74,7 +81,7 @@ function selectPbprtAccdtWrinvstg(publndNo) {
 										</tr>
 										<tr>
 											<th scope="row">주민등록번호</th>
-											<td><input type="number" id="rrno" name="rrno" maxlength="13" value="<c:out value="${pbprtAccdtDtlInfoList.rrno}"/>" placeholder="숫자만입력하세요." class="form-control pbprtAccdtInput"/></td>
+											<td><input type="text" id="rrno" name="rrno" maxlength="13" value="<c:out value="${pbprtAccdtDtlInfoList.rrno}"/>" placeholder="숫자만입력하세요." class="form-control pbprtAccdtInput"/></td>
 											<th scope="row">대부료 발송 여부</th>
 											<td>
 												<select id="loanmnSndngYn" name="loanmnSndngYn" class="form-select pbprtAccdtInput">
@@ -118,13 +125,13 @@ function selectPbprtAccdtWrinvstg(publndNo) {
 											<th scope="row">등록 연도</th>
 											<td><input type="text" id="year" name="year" maxlength="4" value="<c:out value="${pbprtAccdtDtlInfoList.year}"/>" class="form-control pbprtAccdtInput" disabled/></td>
 											<th scope="row">위성 사진 저장</th>
-											<td><button type="button" class="btn type01 bi-location" id="satlitPhotoSave" onclick="createSatlitImageLine()" disabled>현재 위치 저장</button></td>
+											<td><button type="button" class="btn type01 bi-location" id="satlitPhotoSave">현재 위치 저장</button></td>
 										</tr>
 									</tbody>
 								</table>
 								<input type="hidden" name="publndNo" value="<c:out value="${pbprtAccdtDtlInfoList.publndNo}"/>">
 								<div class="saveMap-satlit-thumb">
-									<img src="">
+									<img id="thumbImg" src="">
 								</div>
 							</form>
 						</div>
@@ -135,7 +142,7 @@ function selectPbprtAccdtWrinvstg(publndNo) {
 						</div>
 						<div class="modifyBtton">
 							<button type="button" class="btn basic bi-write2" onclick="fn_update(${pbprtAccdtDtlInfoList.publndNo})">수정</button> 
-							<button type="button" class="btn basic bi-cancel closeSub">취소</button>
+							<button type="button" class="btn basic bi-cancel">취소</button>
 						</div>
 						<div class="deleteBtton">
 							<button type="button" class="btn basic bi-delete" onclick="updatePbprtAccdtInfoDel(${pbprtAccdtDtlInfoList.publndNo})">삭제</button>
@@ -144,6 +151,6 @@ function selectPbprtAccdtWrinvstg(publndNo) {
 				</div>
 			</div>
 		</div>
-	<button type="button" class="popup-close closeSub" title="닫기"></button>				
+	<button type="button" class="popup-close" title="닫기"></button>				
 </body>
 </html>

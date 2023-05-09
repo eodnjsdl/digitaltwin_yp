@@ -7,6 +7,40 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <script src="/js/egiskorea/com/job/rnen/rnen.js"></script>
 <script type="text/javascript">
+$(document).ready(function() {
+	ui.callDatePicker();
+	// 이벤트 리스너 추가
+	dtmap.on('select', onFacilitySelectEventListener);
+
+	// 초기화 버튼
+	$(".popup-reset").unbind('click').bind('click',function() {
+		$('#renewableEnergy').trigger("click");
+	});
+	
+	// 접기/펼치기
+	$(".popup-bottom-toggle", "#bottomPopup").on("click", function() {
+		const node = $(this);
+		const divNode = node.closest("div.popup-panel");
+		if (divNode.is(".fold")) {
+			node.attr("title", "펼치기");
+			divNode.removeClass("fold");
+		} else {
+			node.attr("title", "접기");
+			divNode.addClass("fold");
+		}
+	});
+
+	// 닫기
+	$(".popup-close").unbind('click').bind('click',function() {
+		
+		// 등록, 상세, 수정 팝업 창 닫기
+		if ($("#rightSubPopup").hasClass("opened")) {
+			$("#rightSubPopup").removeClass("opened");
+			$("#rightSubPopup").empty();
+		}
+	});
+});
+
 $(".spaceArea").hide();
 var lastEmdKorNm = "<c:out value='${searchVO.emdKorNm}' />";
 var lastBsnsSeSearch = "<c:out value='${searchVO.bsnsSeSearch}' />";
@@ -19,14 +53,8 @@ var lastBufferCnt = "<c:out value='${searchVO.bufferCnt}' />";
 var lastSelect = "<c:out value='${searchVO.renewableEnergySelect}' />";
 var lastDraw = "<c:out value='${searchVO.renewableEnergyAreaDrawing}' />";
 
-// $(".popup-reset").unbind('click').bind('click',function(){
-// 	rnenUi = '';
-// 	// cmmUtil.drawClear();
-// 	bottomPopupOpen('renewableEnergy');
-// });
 
 </script>
-<form name="selectRenewableEnergyExcelList" id="searchForm" method="post" onsubmit="fn_select_list(); return false;">
 <input type="hidden" name="pageIndex" id="pageIndex" value="<c:out value='${searchVO.pageIndex}' />">
 <input type="hidden" name="bufferArea" id="bufferArea" value="<c:out value='${searchVO.bufferArea}' />">
 <div class="popup-header">신재생에너지</div>
@@ -144,11 +172,10 @@ var lastDraw = "<c:out value='${searchVO.renewableEnergyAreaDrawing}' />";
 		</div>
 	</div>
 </div>
-</form>
 <button type="button" class="manualBtn" title="도움말" onclick="manualTab('신재생에너지')"></button>
-<button type="button" class="popup-close" title="닫기" onClick="toastr.warning('removeLayer(); cmmUtil.drawClear();', 'onclick 이벤트');"></button>
-<button type="button" class="popup-reset" class="초기화" onclick="bottomPopupOpen('renewableEnergy');"></button>
-<button type="button" class="popup-bottom-toggle" onclick="toggleFold(this);" title="접기"></button>				
+<button type="button" class="popup-close" title="닫기"></button>
+<button type="button" class="popup-reset" class="초기화"></button>
+<button type="button" class="popup-bottom-toggle" title="접기"></button>				
 <!-- //업무 > 공간정보활용 > 신재생에너지 -->
 
 <script>

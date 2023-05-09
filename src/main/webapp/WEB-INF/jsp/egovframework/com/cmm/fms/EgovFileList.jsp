@@ -29,8 +29,12 @@
 
 <script type="text/javascript">
 
-	function fn_egov_downFile(atchFileId, fileSn){
-		window.open("<c:url value='/cmm/fms/FileDown.do?atchFileId="+atchFileId+"&fileSn="+fileSn+"'/>");
+	function fn_egov_downFile(atchFileId, fileSn, fileNm){
+		const src = '<c:url value='/cmm/fms/FileDown.do'/>?atchFileId=' + atchFileId + '&fileSn=' + fileSn;
+		var link = document.createElement("a");
+		link.download = fileNm;
+		link.href = src;
+		link.click();
 	}
 
 	function fn_egov_deleteFile(atchFileId, fileSn, delTrName) {
@@ -114,7 +118,7 @@
 					<img src="<c:url value='/images/egovframework/com/cmm/btn/btn_del.png' />" class="cursor" onClick="fn_egov_deleteFile('<c:out value="${fileVO.atchFileId}"/>','<c:out value="${fileVO.fileSn}"/>','egov_file_view_table_tr_${status.count}');" alt="<spring:message code="title.attachedFileDelete" />">
 				</c:when>
 				<c:otherwise>
-					<a href="javascript:fn_egov_downFile('<c:out value="${fileVO.atchFileId}"/>','<c:out value="${fileVO.fileSn}"/>')">
+					<a href="javascript:fn_egov_downFile('<c:out value="${fileVO.atchFileId}"/>','<c:out value="${fileVO.fileSn}"/>','<c:out value="${fileVO.orignlFileNm}"/>')">
 					<c:out value="${fileVO.orignlFileNm}"/>&nbsp;[<c:out value="${fileVO.fileMg}"/>&nbsp;byte]
 					</a>
 				</c:otherwise>
