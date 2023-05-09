@@ -429,8 +429,7 @@ var M_AI_IMAGE = {
                 processData: false,
                 contentType: false,
                 success: function (result) {
-            	
-			var totalCnt=  result.response.length;				
+            		dtmap.vector.clear();
 			
 			if(result.response.length == 0){
 				alert("분석결과값이 없습니다. 화면조정후 다시 시도하세요.")
@@ -438,47 +437,44 @@ var M_AI_IMAGE = {
 				return false;
 			}
 			if(result.response.length > 0) {
+			    var totalCnt=  result.response.length;				
 				console.log("test");
 				console.log(result.response);
 				var detections;
 				var screenCoord = [];
 				for (var j = 0; j < result.response.length; j++) {
 					detections = result.response[j].detections.split(', ');
-					console.log("detections : " + detections);
+//					console.log("detections : " + detections);
 					screenCoord.push(detections);
 				}
 				console.log(screenCoord);
-				var analCoord = [];
 				for (var i = 0, j = 0; i < screenCoord.length; i++) {
+				    var analCoord = [];
 				    for (var j = 0; j < screenCoord[i].length; j++){
 					var coord = screenCoord[i][j].split(' ');
-					coord[1] = Module.canvas.height - coord[1];
+//					coord[0] = Module.canvas.width - coord[0];
+//					coord[1] = Module.canvas.height - coord[1];
+					analCoord.push(coord);
 				    }
-				    analCoord.push(coord);
-				    M_AI_IMAGE.analysis.getScreenMapCoord(analCoord)
+//				    console.log(analCoord);
+				    M_AI_IMAGE.analysis.getScreenMapCoord(analCoord);
 				}
-				console.log(analCoord);
-//				for (var k = 0; k < analCoord.length; k++) {
-//				    console.log("analCoord[" + k + "] : " + analCoord[k]);
-////				    M_AI_IMAGE.analysis.getLine(coordinates[k]);
-//				}
-				
 			}
-			console.log("analCoord : " + analCoord);
 			ui.loadingBar("hide");
                 }
             });
 
         },
         getScreenMapCoord: function (coord) {
+            var coordinates = [];
             for (var i = 0; i < coord.length; i++) {
 		    var pos = Module.getMap().ScreenToMapPointEX(new Module.JSVector2D(parseFloat(coord[i][0]), parseFloat(coord[i][1])));
-		    console.log(pos.Longitude + ", " + pos.Latitude);
-		    coord.push([pos.Longitude, pos.Latitude]);
+//		    console.log(pos.Longitude + ", " + pos.Latitude);
+		    coordinates.push([pos.Longitude, pos.Latitude]);
 		}
 		dtmap.vector.addLine({
 		    id: 'test',
-		    coordinates: coord,
+		    coordinates: coordinates,
 		    crs: 'EPSG:4326',
 		    style: {
 			radius : 8,
