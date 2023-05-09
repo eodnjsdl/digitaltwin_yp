@@ -123,7 +123,7 @@ function getWfsTunnelListData() {
  * @returns
  */
 function setTunnelListData(_pageNo, geom) {
-    
+    dtmap.on('select', onSelectTunnelEventListener);
     var gridList = this;
     
     // wfs 옵션값 담을 변수

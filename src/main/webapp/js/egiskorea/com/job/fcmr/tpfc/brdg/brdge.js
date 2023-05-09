@@ -123,6 +123,7 @@ function getWfsBridgeListData() {
  * @returns
  */
 function setBridgeListData(_pageNo, geom) {
+    dtmap.on('select', onSelectBridgeEventListener);
     var gridList = this;
     
     // wfs 옵션값 담을 변수

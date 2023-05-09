@@ -123,6 +123,7 @@ function getWfsOverpassListData() {
  * @returns
  */
 function setOverpassListData(_pageNo, geom) {
+    dtmap.on('select', onSelectOverpassEventListener);
     var gridList = this;
     // wfs 옵션값
     var options;

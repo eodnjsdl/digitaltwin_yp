@@ -131,6 +131,7 @@ function getWfsRoadSectListData() {
  * @returns
  */
 function setRoadSectListData(_pageNo, geom) {
+    dtmap.on('select', onSelectRoadSectEventListener);
     // wfs 옵션값 담을 변수
     var options;
     

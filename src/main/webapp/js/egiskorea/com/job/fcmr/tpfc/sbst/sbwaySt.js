@@ -123,7 +123,7 @@ function getWfsSubwayStationListData() {
  * @returns
  */
 function setSubwayStationListData(_pageNo, geom) {
-    
+    dtmap.on('select', onSelectSubwayStationEventListener);
     var gridList = this;
     // wfs 옵션값 담을 변수
     var options;

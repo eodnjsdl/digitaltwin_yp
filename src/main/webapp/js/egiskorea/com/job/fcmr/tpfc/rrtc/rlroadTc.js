@@ -122,7 +122,7 @@ function getWfsRailroadTrackListData() {
  * @returns
  */
 function setRailroadTrackListData(_pageNo, geom) {
-    
+    dtmap.on('select', onSelectRailroadStationEventListener);
     var gridList = this;
     
     // wfs 옵션값 담을 변수

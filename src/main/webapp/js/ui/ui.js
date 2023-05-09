@@ -548,7 +548,8 @@ window.ui = (function () {
             switch (name) {
                 // 분석 > AI영상분석(3D)
                 case "M_AI_IMAGE" :
-                    toastr.error("AI영상분석(3D)");
+                    getAiSpceAnalsView();
+                    toastr.success("AI영상분석(3D)");
                     break;
                 // 분석 > 조망권분석(3D)
                 case "M_ROV_ANLS" :
