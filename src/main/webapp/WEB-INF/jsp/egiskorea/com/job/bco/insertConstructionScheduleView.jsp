@@ -224,7 +224,7 @@
 			<div style="height: 50px;"><button type="button" class="btn btn-sm type03" style="top:10px; float:right; width:60px; height:30px;" id="btnCwsNomalInsert" name="btnCwsNomalInsert">적용</button></div>
 		</form:form>
 		<p class="cont-stit">차수별 공사정보</p>
-		<div class="data-default">
+		<div class="data-default" id="OdrInfo">
 			<form:form name="insertOdrForm" id="insertOdrForm" method="post" commandName="insertOdrForm">
 				<table class="data-write">
 					<colgroup>
@@ -244,8 +244,8 @@
 							<th scope="row">공사구간</th>
 							<td colspan="3">
 								<span class="form-radio text group">
-									<span><input type="radio" name="test" id="rChk1_1" checked=""><label for="rChk1_1">위치</label></span>
-									<span><input type="radio" name="test" id="rChk1_2"><label for="rChk1_2">구간</label></span>
+									<span><input type="radio" name="test" id="rChk1_1" checked="" value="position"><label for="rChk1_1">위치</label></span>
+									<span><input type="radio" name="test" id="rChk1_2" value="section"><label for="rChk1_2">구간</label></span>
 								</span>
 							</td>
 						</tr>
