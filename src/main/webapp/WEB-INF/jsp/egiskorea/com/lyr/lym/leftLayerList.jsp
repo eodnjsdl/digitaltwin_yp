@@ -202,6 +202,10 @@
                     console.warn('3D지도에서만 사용 가능합니다.');
                     toastr.warning("3D지도에서만 사용 가능합니다.");
                 }
+                const findLayer = store.facility
+                    .getData()
+                    .find((layer) => layer["tblNm"] === layerNm.split(':')[1]);
+
                 dtmap.showLayer({
                     id: layerId,
                     type: type,
@@ -209,6 +213,9 @@
                     title: title,
                     visible: visible,
                     shpType: shpType,
+                    // sld : 'http://124.49.110.155:8080/lyr/lyi/sld?lyrId='+layerId
+                    sldBody : findLayer.styleInfo
+
                 });
                 console.log('[레이어]', layerNm, visible ? 'on' : 'off')
             }

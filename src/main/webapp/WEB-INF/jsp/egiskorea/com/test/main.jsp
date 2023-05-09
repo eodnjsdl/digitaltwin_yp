@@ -1801,7 +1801,7 @@
 						</div>
 					</div>
 					<button type="button" class="popup-close" title="닫기"></button>
-					<button type="button" class="popup-left-toggle" title="접기"></button>
+<%--					<button type="button" class="popup-left-toggle" title="접기"></button>--%>
 					<script>
 						$( function() {	
 							//symbol 클릭 시 active
@@ -2341,7 +2341,7 @@
 					</div>
 					<button type="button" class="popup-close" title="닫기"></button>
 					<button type="button" class="popup-reset" class="초기화"></button>
-					<button type="button" class="popup-left-toggle" title="접기"></button>					
+<%--					<button type="button" class="popup-left-toggle" title="접기"></button>					--%>
 				</div>
 				<!-- //업무 > 공간정보활용 > 사업공유관리 -->		
 				
@@ -3405,7 +3405,7 @@
 					</div>
 					<button type="button" class="popup-close" title="닫기"></button>
 					<button type="button" class="popup-reset" class="초기화"></button>
-					<button type="button" class="popup-left-toggle" title="접기"></button>					
+<%--					<button type="button" class="popup-left-toggle" title="접기"></button>					--%>
 				</div>
 				<!-- //업무 > 공간정보활용 > 대기오염 -->
 
