@@ -577,13 +577,13 @@ html, body {
 	justify-content: space-between;
 	color: white;
 	font-weight: 500;
-	width: 640px;
+	width: 710px;
 	border-right: 1px solid #ffffff1f;
 }
 .map-util .addrSelect select {height: 24px;}
 .map-util .addrSelect .form-select2 {
 	margin: 0 2px;
-	width: auto;
+	width: 100px;
 }
 .map-util .addrSelect .form-control {
 	margin: 0 2px;

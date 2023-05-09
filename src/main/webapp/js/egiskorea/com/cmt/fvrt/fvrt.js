@@ -120,7 +120,7 @@ function aj_insertFavorites(frm) {
                 if (returnData.result == "success") {
                     toastr.success("즐겨찾기를 성공적으로 등록하였습니다.");
                     // rightPopupOpen('favorites');
-                    ui.openPopup("rightPopup");
+                    ui.openPopup("rightPopup", "favorites");
                     aj_selectFavoritesList($("#tmpForm")[0]);
                 } else if (returnData.result == "fail") {
                     toastr.error("즐겨찾기를 등록하는데 실패하였습니다.");
@@ -173,7 +173,7 @@ function aj_updateFavorites(frm) {
                 if (returnData.result == "success") {
                     toastr.success("즐겨찾기를 성공적으로 수정하였습니다.");
                     // rightPopupOpen('favorites');
-                    ui.openPopup("rightPopup");
+                    ui.openPopup("rightPopup", "favorites");
                     aj_selectFavoritesList($("#tmpForm")[0]);
                     aj_selectFavoritesInfoView(null, this.frm);
                 } else if (returnData.result == "fail") {

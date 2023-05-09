@@ -44,7 +44,7 @@ var cmmUtil = {
                 deferred.resolve(result);
             })
             .fail(() => {
-                alert("주소 정보를 가져오는데 실패했습니다.");
+                toastr.error("주소 정보를 가져오는데 실패했습니다.");
             });
         return deferred;
     },
@@ -96,7 +96,7 @@ var cmmUtil = {
                 deferred.resolve(result);
             })
             .fail(() => {
-                alert("주소 정보를 가져오는데 실패했습니다.");
+                toastr.error("주소 정보를 가져오는데 실패했습니다.");
             });
         return deferred;
     },

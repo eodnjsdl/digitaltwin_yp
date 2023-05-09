@@ -110,30 +110,29 @@ window.map3d = (function () {
             //Fire_EventCameraMoveEnd 이벤트는 rotate 일때 발생안해서 직접구현
             const position = _camera.getLocation();
             dtmap.trigger('moveend', {
-                coordinates: [position.Longitude, position.Latitude],
+                coordinate: [position.Longitude, position.Latitude],
                 altitude: position.Altitude,
                 zoom: dtmap.util.altToZoom(position.Altitude),
                 originalEvent: e
             });
         } else {
             //click end
+            //click event
+            const screenPosition = new Module.JSVector2D(e.x, e.y);
+            // 화면->지도 좌표 변환
+            const mapPosition = Module.getMap().ScreenToMapPointEX(screenPosition);
+            const data = {
+                pixel: [e.x, e.y],
+                coordinate: [mapPosition.Longitude, mapPosition.Latitude],
+                altitude: mapPosition.Altitude,
+                originalEvent: e
+            }
             if (e.button === 0) {
-                //left click event
-                const screenPosition = new Module.JSVector2D(e.x, e.y);
-                // 화면->지도 좌표 변환
-                const mapPosition = Module.getMap().ScreenToMapPointEX(screenPosition);
-                dtmap.trigger('click', {
-                    pixel: [e.x, e.y],
-                    coordinates: [mapPosition.Longitude, mapPosition.Latitude],
-                    altitude: mapPosition.Altitude,
-                    originalEvent: e
-                });
+                dtmap.trigger('click', data);
             } else {
                 //right click event
                 if (Math.abs(_beforeMouse.x - e.x) < 2 && Math.abs(_beforeMouse.y - e.y) < 2) {
-                    dtmap.trigger('contextmenu', {
-                        originalEvent: e
-                    });
+                    dtmap.trigger('contextmenu', data);
                 }
             }
         }
@@ -179,7 +178,7 @@ window.map3d = (function () {
     function onCameraMoveEnd(e) {
         const position = _camera.getLocation();
         dtmap.trigger('moveend', {
-            coordinates: [position.Longitude, position.Latitude],
+            coordinate: [position.Longitude, position.Latitude],
             altitude: position.Altitude,
             zoom: dtmap.util.altToZoom(position.Altitude),
             originalEvent: e

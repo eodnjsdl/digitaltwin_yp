@@ -565,4 +565,4 @@ function fn_insert_DataConversion(form){
 						</form:form>
 					</div>
 					<button type="button" class="popup-close" title="닫기"></button>
-					<button type="button" class="popup-left-toggle" title="접기"></button>						
+<%--					<button type="button" class="popup-left-toggle" title="접기"></button>--%>

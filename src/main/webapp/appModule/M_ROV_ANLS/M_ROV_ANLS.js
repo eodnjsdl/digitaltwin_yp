@@ -102,8 +102,8 @@ function registerJomangPoint(e) {
     var jNum = M_ROV_ANLS.jNum
     if (M_ROV_ANLS.Map == null || M_ROV_ANLS.Layer == null) return;
 
-    var lon = e.coordinates[0];
-    var lat = e.coordinates[1];
+    var lon = e.coordinate[0];
+    var lat = e.coordinate[1];
     var alt = e.altitude;
     var image = getCircle(4);
     var layerName = "analyJomang";

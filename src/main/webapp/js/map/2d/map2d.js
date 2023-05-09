@@ -63,7 +63,9 @@ window.map2d = (function () {
             target: _container,
             layers: [],
             interactions: defaultInteractions(),
-            controls: [new ol.control.ScaleLine()],
+            controls: [
+            //    new ol.control.ScaleLine()
+            ],
             view: _view,
         });
         initModules();
@@ -101,7 +103,7 @@ window.map2d = (function () {
 
     function onMoveEnd(e) {
         dtmap.trigger('moveend', {
-            coordinates: _view.getCenter(),
+            coordinate: _view.getCenter(),
             resolution: _view.getResolution(),
             altitude: dtmap.util.zoomToAlt(_view.getZoom()),
             zoom: _view.getZoom(),
