@@ -50,6 +50,7 @@ window.ui = (function () {
             dtmap.clear();
             $(this).closest('.popup-panel').removeClass('opened');
             if (dtmap.mod === "2D") map2d.multiView.dispose();
+            $(".lnb-dep2").find(".on").removeClass("on");
         });
 
         //LEFT 메뉴 닫기 버튼
