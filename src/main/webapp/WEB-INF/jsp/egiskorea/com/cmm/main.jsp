@@ -870,15 +870,11 @@
                                             지하시설단면
                                         </button>
                                     </li><li>
-                                        <button type="button"  class="dataPopup" data-maptype="">
+                                        <button type="button"  id="M_PRCL_ANLS" class="dataPopup" data-maptype="">
                                             편입토지분석
                                         </button>
                                     </li>
-                                    <li>
-                                        <button type="button"  class="dataPopup" data-maptype="">
-                                            지하시설물터파기
-                                        </button>
-                                    </li>`;
+                                    `;
         var _html3dLnb9 = `<li>
                                         <button type="button" id="M_AI_IMAGE" class="dataPopup" data-maptype="3D">
                                             AI영상분석(3D)
@@ -908,8 +904,15 @@
                                         <button type="button" id="M_VSBL_ANLS" class="dataPopup" data-maptype="3D">
                                             가시권분석(3D)
                                         </button>
-                                    </li>`;
-        var html2 = mod == '2D' ? _html2dLnb9 : _html3dLnb9;
+                                    </li>
+                                    <li>
+                                        <button type="button" id="M_DGUF_ANLS" class="dataPopup" data-maptype="">
+                                            지하시설물터파기(3D)
+                                        </button>
+                                    </li>
+                                    `;
+        // var html2 = mod == '2D' ? _html2dLnb9 : _html3dLnb9;
+        var html2 = _html2dLnb9 + _html3dLnb9;
         $("#lnbAnalysis").html(html2);
     }
 
