@@ -33,6 +33,10 @@ function initGrid(){
         page: {
             navigationItemCount: 9,
             display: true,
+			firstIcon: '|<',
+			prevIcon: '<',
+			nextIcon: '>',
+			lastIcon: '>|',
             onChange: function () {
                 setData(this.page.selectPage);
             }
