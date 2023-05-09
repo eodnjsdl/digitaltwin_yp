@@ -406,9 +406,8 @@ var M_AI_IMAGE = {
             ctx.drawImage(Module.canvas, 0, 0);
             //img 바이너리
             var dataUrl = Module.canvas.toDataURL("image/png");
-
+            
             var imgFile = M_AI_IMAGE.UTIL.dataURLtoFile(dataUrl, 'hello.png');
-
             var formData = new FormData();
             formData.append("file", imgFile);
             formData.append("return_type", "json");
@@ -431,36 +430,35 @@ var M_AI_IMAGE = {
                 success: function (result) {
             		dtmap.vector.clear();
 			
-			if(result.response.length == 0){
-				alert("분석결과값이 없습니다. 화면조정후 다시 시도하세요.")
-				loadingShowHide("hide");
+			if(result.response.length == 0 || result.response.length == undefined){
+				toastr.error("분석결과값이 없습니다. 화면조정후 다시 시도하세요.");
+				ui.loadingBar("hide");
 				return false;
 			}
 			if(result.response.length > 0) {
-			    var totalCnt=  result.response.length;				
-				console.log("test");
-				console.log(result.response);
-				var detections;
-				var screenCoord = [];
-				for (var j = 0; j < result.response.length; j++) {
-					detections = result.response[j].detections.split(', ');
-//					console.log("detections : " + detections);
-					screenCoord.push(detections);
+			    var totalCnt=  result.response.length;
+			    console.log("result");
+			    console.log(result.response);
+			    var detections;
+			    var screenCoord = [];
+			    for (var j = 0; j < result.response.length; j++) {
+				detections = result.response[j].detections.split(', ');
+//				console.log("detections : " + detections);
+				screenCoord.push(detections);
+			    }
+			    for (var i = 0, j = 0; i < screenCoord.length; i++) {
+				var analCoord = [];
+				for (var j = 0; j < screenCoord[i].length; j++){
+				    var coord = screenCoord[i][j].split(' ');
+//				    coord[0] = Module.canvas.width - coord[0];
+//				    coord[1] = Module.canvas.height - coord[1];
+				    analCoord.push(coord);
 				}
-				console.log(screenCoord);
-				for (var i = 0, j = 0; i < screenCoord.length; i++) {
-				    var analCoord = [];
-				    for (var j = 0; j < screenCoord[i].length; j++){
-					var coord = screenCoord[i][j].split(' ');
-//					coord[0] = Module.canvas.width - coord[0];
-//					coord[1] = Module.canvas.height - coord[1];
-					analCoord.push(coord);
-				    }
-//				    console.log(analCoord);
-				    M_AI_IMAGE.analysis.getScreenMapCoord(analCoord);
-				}
+//			    console.log(analCoord);
+			    M_AI_IMAGE.analysis.getScreenMapCoord(analCoord);
+			    }
 			}
-			ui.loadingBar("hide");
+		ui.loadingBar("hide");
                 }
             });
 
