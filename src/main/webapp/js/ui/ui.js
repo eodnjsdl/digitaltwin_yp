@@ -381,6 +381,11 @@ window.ui = (function () {
     // 좌측 메뉴 >> 공간정보 활용
     function _spaceMenuEvent() {
         $(".lnb-space .lnb-body").on("click", "button", function () {
+            dtmap.draw.dispose();		//그리기 포인트 삭제
+			dtmap.draw.clear();			//그리기 초기화
+            dtmap.off('select');
+			dtmap.on('select',spaceClickListener );	//레이어 선택 핸들러
+
             var name = $(this).attr("id");
             var area = $(this).data("popup");
             ui.openPopup(area);
