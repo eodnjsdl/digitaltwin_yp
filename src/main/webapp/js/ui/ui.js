@@ -546,6 +546,18 @@ window.ui = (function () {
             var area = $(this).data("popup"); //팝업 위치명 넣어주세요  ex)rightPopup
             //ui.openPopup(area);
             switch (name) {
+                // 분석 > 공간분석
+                case "M_SPCE_ANLS" :
+                    toastr.error("공간분석");
+                    break;
+                // 분석 > 지하시설단면도
+                case "M_UNDG_FCTY_SECT" :
+                    toastr.error("지하시설단면도");
+                    break;
+                // 분석 > 편입토지분석
+                case "M_PRCL_ANLS" :
+                    toastr.error("편입토지분석");
+                    break;
                 // 분석 > AI영상분석(3D)
                 case "M_AI_IMAGE" :
                     toastr.error("AI영상분석(3D)");
@@ -558,10 +570,6 @@ window.ui = (function () {
                 case "M_SLOPE" :
                     toastr.error("경사분석(3D)");
                     break;
-                // 분석 > 공간분석
-                case "M_SPCE_ANLS" :
-                    toastr.error("공간분석");
-                    break;
                 // 분석 > 일조권분석(3D)
                 case "M_SUHN_ANLS" :
                     toastr.error("일조권분석(3D)");
@@ -570,13 +578,13 @@ window.ui = (function () {
                 case "M_TPPH_SECT" :
                     toastr.error("지형단면도분석(3D)");
                     break;
-                // 분석 > 지하시설단면도
-                case "M_UNDG_FCTY_SECT" :
-                    toastr.error("지하시설단면도");
-                    break;
                 // 분석 > 가시권분석(3D)
                 case "M_VSBL_ANLS" :
                     toastr.error("가시권분석(3D)");
+                    break;
+                // 분석 > 지하시설물터파기(3D)
+                case "M_DGUF_ANLS" :
+                    toastr.error("지하시설물터파기");
                     break;
             }
         });
