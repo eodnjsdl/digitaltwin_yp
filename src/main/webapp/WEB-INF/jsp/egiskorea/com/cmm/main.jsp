@@ -709,7 +709,56 @@
                         <ul class="lnb-list">
                             <li><p class="lnb-dep1">분석</p>
                                 <ul id="lnbAnalysis" class="lnb-dep2">
-                                    <%-- _setMainUI() --%>
+                                    <li>
+                                        <button type="button" id="M_SPCE_ANLS" class="dataPopup" data-maptype="">
+                                            공간분석
+                                        </button>
+                                    </li>
+                                    <li>
+                                        <button type="button" id="M_UNDG_FCTY_SECT" class="dataPopup" data-maptype="">
+                                            지하시설단면
+                                        </button>
+                                    </li>
+                                    <li>
+                                        <button type="button" id="M_PRCL_ANLS" class="dataPopup" data-maptype="">
+                                            편입토지분석
+                                        </button>
+                                    </li>
+                                    <li>
+                                        <button type="button" id="M_AI_IMAGE" class="dataPopup" data-maptype="3D">
+                                            AI영상분석(3D)
+                                        </button>
+                                    </li>
+                                    <li>
+                                        <button type="button" id="M_ROV_ANLS" class="dataPopup" data-maptype="3D">
+                                            조망권분석(3D)
+                                        </button>
+                                    </li>
+                                    <li>
+                                        <button type="button" id="M_SLOPE" class="dataPopup" data-maptype="3D">
+                                            경사분석(3D)
+                                        </button>
+                                    </li>
+                                    <li>
+                                        <button type="button" id="M_SUHN_ANLS" class="dataPopup" data-maptype="3D">
+                                            일조권분석(3D)
+                                        </button>
+                                    </li>
+                                    <li>
+                                        <button type="button" id="M_TPPH_SECT" class="dataPopup" data-maptype="3D">
+                                            지형단면도(3D)
+                                        </button>
+                                    </li>
+                                    <li>
+                                        <button type="button" id="M_VSBL_ANLS" class="dataPopup" data-maptype="3D">
+                                            가시권분석(3D)
+                                        </button>
+                                    </li>
+                                    <li>
+                                        <button type="button" id="M_DGUF_ANLS" class="dataPopup" data-maptype="3D">
+                                            지하시설물터파기(3D)
+                                        </button>
+                                    </li>
                                 </ul>
                             </li>
                         </ul>
@@ -857,67 +906,12 @@
 						<li><button type="button" id="setting" data-popup="rightPopup">지도설정</button></li>
 						<li><button type="button" id="favorites" data-popup="rightPopup">즐겨찾기</button></li>`;
         var mod = dtmap.mod;
-        var html1 = mod == '2D' ? _html2dTop4 : _html3dTop4;
+        var html1 = mod === '2D' ? _html2dTop4 : _html3dTop4;
         $("#tmnMapSetting").html(html1);
-        //set lnbmenu - analysis
-        var _html2dLnb9 = `<li>
-                                        <button type="button" id="M_SPCE_ANLS" class="dataPopup" data-maptype="">
-                                            공간분석
-                                        </button>
-                                    </li>
-                                    <li>
-                                        <button type="button" id="M_UNDG_FCTY_SECT" class="dataPopup" data-maptype="">
-                                            지하시설단면
-                                        </button>
-                                    </li><li>
-                                        <button type="button"  id="M_PRCL_ANLS" class="dataPopup" data-maptype="">
-                                            편입토지분석
-                                        </button>
-                                    </li>
-                                    `;
-        var _html3dLnb9 = `<li>
-                                        <button type="button" id="M_AI_IMAGE" class="dataPopup" data-maptype="3D">
-                                            AI영상분석(3D)
-                                        </button>
-                                    </li>
-                                    <li>
-                                        <button type="button" id="M_ROV_ANLS" class="dataPopup" data-maptype="3D">
-                                            조망권분석(3D)
-                                        </button>
-                                    </li>
-                                    <li>
-                                        <button type="button" id="M_SLOPE" class="dataPopup" data-maptype="3D">
-                                            경사분석(3D)
-                                        </button>
-                                    </li>
-                                    <li>
-                                        <button type="button" id="M_SUHN_ANLS" class="dataPopup" data-maptype="3D">
-                                            일조권분석(3D)
-                                        </button>
-                                    </li>
-                                    <li>
-                                        <button type="button" id="M_TPPH_SECT" class="dataPopup" data-maptype="3D">
-                                            지형단면도(3D)
-                                        </button>
-                                    </li>
-                                    <li>
-                                        <button type="button" id="M_VSBL_ANLS" class="dataPopup" data-maptype="3D">
-                                            가시권분석(3D)
-                                        </button>
-                                    </li>
-                                    <li>
-                                        <button type="button" id="M_DGUF_ANLS" class="dataPopup" data-maptype="">
-                                            지하시설물터파기(3D)
-                                        </button>
-                                    </li>
-                                    `;
-        // var html2 = mod == '2D' ? _html2dLnb9 : _html3dLnb9;
-        var html2 = _html2dLnb9 + _html3dLnb9;
-        $("#lnbAnalysis").html(html2);
 
         //컨텍스트메뉴 변경
         var _mapTy = "";
-        mod == '2D' ? _mapTy = "3D전환" : _mapTy = "2D전환";
+        mod === '2D' ? _mapTy = "3D전환" : _mapTy = "2D전환";
         $("#contextMenu .c07")[0].text = _mapTy;
     }
 
