@@ -241,9 +241,9 @@ function selectSwlPipeAsList(page) {
                     width: 4
                 },
                 radius: 10,
-                /*label: {
+                label: {
                     column: 'ftr_cde_nm'
-                }*/
+                }
             }
         	
         });

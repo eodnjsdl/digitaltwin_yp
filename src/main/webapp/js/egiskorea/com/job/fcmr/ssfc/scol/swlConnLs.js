@@ -312,10 +312,10 @@ function selectSwlConnLsList(page) {
                     color: '#FF3333',
                     width: 4
                 },
-                /*radius: 10,
+                radius: 10,
                 label: {
                     column: 'sba_cde_nm'
-                }*/
+                }
                 
             }
         	
