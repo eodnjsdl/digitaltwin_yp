@@ -7,6 +7,10 @@
 $(document).ready(() => {
     cameraMove();
 })
+/**
+ * 카메라 위치 조정 (북방향, 90도각)
+ * @returns
+ */
 function cameraMove() {
     let getLocation = map3d.camera.getLocation();
     let location = {
