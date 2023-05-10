@@ -1005,7 +1005,7 @@ function cancelMode(){
 	// 	Module.XDSetMouseState(6);
 	// }, 100);
 
-	toastr.warning("객체 선택 해제하기", "객체 선택 해제하기");
+	//toastr.warning("객체 선택 해제하기", "객체 선택 해제하기");
 
 }
 
