@@ -313,12 +313,7 @@ function selectWtlFirePsList(page) {
 function selectWtlFirePs(id){
 	//console.log("selectWtlFirePs(id)");
 	//console.log(id);
-	
-	//공간정보 편집도구 닫기
-	if($(".space-edit-tool").hasClass("opened")){
-        clearSpaceEditTool();	//공간정보 편집창 닫기
-    }
-	
+
 	//검색 조건
 	const filters = [];
 	

@@ -221,12 +221,14 @@ function selectSwlPipeLmList(page) {
         // 지도에 GeoJSON 추가
         dtmap.vector.readGeoJson(data, function(feature) {
             // 스타일 콜백 
-        	let properties = feature.getProperties();
-            
             return {
             	stroke: {
                     color: '#FF3333',
                     width: 4
+                },
+                radius: 10,
+                label: {
+                	column: 'sba_cde_nm'
                 }
             }
         });
@@ -643,8 +645,8 @@ function deleteSwlPipeLm(id) {
 			if (result["result"]) {
 				alert("삭제되었습니다.");
 
-				selectSwlPipeLmList(1);	//첫페이지 조회
-				closeSwlPipeLmPopup();	//창닫기
+				selectSwlPipeLmList(1);		//첫페이지 조회
+				cancelSwlPipeLmDetail();	//창닫기
 			} else {
 				alert(`삭제에 실패했습니다.`);
 				console.log(result["errorMsg"]);

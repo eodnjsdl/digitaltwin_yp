@@ -190,16 +190,10 @@ function selectSwlDranPsList(page) {
         // 지도에 GeoJSON 추가
         dtmap.vector.readGeoJson(data, function(feature) {
             // 스타일 콜백 
-        	let properties = feature.getProperties();
-            let drn_nam = properties.drn_nam;
-            
             return {
                 marker: {
                     src: '/images/poi/swlDranPs_poi.png'
                 },
-                label: {
-                    text: ''
-                }
             }
         });
         dtmap.vector.fit();
@@ -599,8 +593,8 @@ function deleteSwlDranPs(id) {
 			if (result["result"]) {
 				alert("삭제되었습니다.");
 
-				selectSwlDranPsList(1);	//첫페이지 조회
-				closeSwlDranPsPopup();	//창닫기
+				selectSwlDranPsList(1);		//첫페이지 조회
+				cancelSwlDranPsDetail();	//창닫기
 			} else {
 				alert(`삭제에 실패했습니다.`);
 				console.log(result["errorMsg"]);

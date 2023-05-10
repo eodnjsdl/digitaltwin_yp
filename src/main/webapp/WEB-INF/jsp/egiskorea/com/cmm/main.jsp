@@ -636,7 +636,7 @@
                             <li><p class="lnb-dep1">교통분석</p>
                                 <ul class="lnb-dep2">
                                     <li>
-                                        <button type="button" id="BusRouteInformation" class="dataPopup" data-popup="">
+                                        <button type="button" id="BusRouteInformation" class="dataPopup" data-popup="bottomPopup">
                                             버스노선정보
                                         </button>
                                     </li>
