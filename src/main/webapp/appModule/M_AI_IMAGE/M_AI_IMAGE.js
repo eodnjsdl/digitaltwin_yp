@@ -4,6 +4,23 @@
  * LAST UPDATE : 2022.1.24
  * COMMENT :
  */
+$(document).ready(() => {
+    cameraMove();
+})
+/**
+ * 카메라 위치 조정 (북방향, 90도각)
+ * @returns
+ */
+function cameraMove() {
+    let getLocation = map3d.camera.getLocation();
+    let location = {
+	    lon : getLocation.Longitude,
+	    lat : getLocation.Latitude,
+	    alt : getLocation.Altitude,
+    }
+    let centerVec = new Module.JSVector3D(location.lon, location.lat, location.alt);
+    map3d.camera.move(centerVec, 90, 0, 800);
+}
 var M_AI_IMAGE = {
     global: {
         test: null,
@@ -296,12 +313,16 @@ var M_AI_IMAGE = {
 	$("#startAianalysBtn").on('click',function(e){
 		chooseUrl = 0;
 		M_AI_IMAGE.analysis.start();
-	})
+	});
 	
 	$("#startAianalysAdvanc").on('click', function(e) {
 		chooseUrl = 1;
 		M_AI_IMAGE.analysis.start();
-	})
+	});
+	
+	$("#resetMapDirection").on('click', function(e) {
+	    cameraMove();
+	});
 
         $("#resetAianalysBtn").on('click', function (e) {
             M_AI_IMAGE.analysis.reset();

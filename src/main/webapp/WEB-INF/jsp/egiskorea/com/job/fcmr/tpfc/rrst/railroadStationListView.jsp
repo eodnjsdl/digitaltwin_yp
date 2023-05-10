@@ -77,7 +77,7 @@ $(document).ready(function(){
     $("[name=rad-facility-drawing]", "#bottomPopup").on("click", function () {
         const node = $(this);
         const value = node.val();
-
+        dtmap.off('select');
         let type;
         switch (Number(value)) {
             case 1:
