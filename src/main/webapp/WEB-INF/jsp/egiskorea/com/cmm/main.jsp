@@ -891,7 +891,7 @@
     ui.init();
 
     $(document).ready(function () {
-        // setMainUI();
+        setMainUI();
         _setMainUIAction();
         _setMainUIEvent();
     })
