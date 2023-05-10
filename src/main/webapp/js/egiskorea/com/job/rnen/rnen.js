@@ -398,7 +398,7 @@ function fn_search_List(){
 function spaceClickListener(e){
 	var gid ;
 	if (dtmap.mod === '3D'){
-		gid=e.properties.gid;
+		gid=e.property.gid;
 	}else{
 		gid=e.property.gid;
 	}
