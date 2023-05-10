@@ -190,15 +190,10 @@ function selectSwlPumpPsList(page) {
         // 지도에 GeoJSON 추가
         dtmap.vector.readGeoJson(data, function(feature) {
             // 스타일 콜백 
-        	let properties = feature.getProperties();
-            
             return {
                 marker: {
                     src: '/images/poi/swlPumpPs_poi.png'
                 },
-                label: {
-                    text: ''
-                }
             }
         });
         dtmap.vector.fit();

@@ -221,12 +221,14 @@ function selectSwlPipeLmList(page) {
         // 지도에 GeoJSON 추가
         dtmap.vector.readGeoJson(data, function(feature) {
             // 스타일 콜백 
-        	let properties = feature.getProperties();
-            
             return {
             	stroke: {
                     color: '#FF3333',
                     width: 4
+                },
+                radius: 10,
+                label: {
+                	column: 'sba_cde_nm'
                 }
             }
         });
