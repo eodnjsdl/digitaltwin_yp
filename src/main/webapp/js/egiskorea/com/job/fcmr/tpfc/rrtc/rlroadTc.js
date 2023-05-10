@@ -51,7 +51,6 @@ function setRailroadTrackListGrid() {
 		align: "center",
 		onClick: function() {
 			selectRailroadTrackDetailView(this.item.gid);
-//			selectRailroadTrackDetail(this.item.gid);
 		}
 	},
 	page: {
@@ -132,7 +131,7 @@ function setRailroadTrackListData(_pageNo, geom) {
 	//grid 선택창 초기화
 	FACILITY.Ax5UiGrid.focus(-1);
 	
-    dtmap.on('select', onSelectRailroadStationEventListener);
+    dtmap.on('select', onSelectRailroadTrackEventListener);
     
     // wfs 옵션값 담을 변수
     var options;
@@ -226,7 +225,7 @@ function setRailroadTrackListData(_pageNo, geom) {
 	    // wfs. + gid
 	    let wfsId = data.features[i].id.split('.')[0] + '.';
 	    data.features[i].id = wfsId + data.features[i].properties.gid;
-	  //좌표 처리  geometry로 변수명을 정하면 기존것과 충돌 발생
+	    //좌표 처리  geometry로 변수명을 정하면 기존것과 충돌 발생
     	data.features[i].properties.geomObj = data.features[i].geometry;
 	    const {id, properties} = data.features[i];
 	    list.push({...properties, ...{id: id}});

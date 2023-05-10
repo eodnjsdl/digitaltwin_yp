@@ -84,12 +84,12 @@ $(".scroll-y").mCustomScrollbar({
 						</tbody>
 					</table>
 				</div>
-				<div class="position-bottom btn-wrap">
-					<div>
-						<button type="button" class="btn basic bi-cancel" onClick="cancleView()">취소</button>
-					</div>
-				</div><!-- // class="position-bottom btn-wrap" -->
 			</div>
+			<div class="position-bottom btn-wrap">
+				<div>
+					<button type="button" class="btn basic bi-cancel" onClick="cancleView()">취소</button>
+				</div>
+			</div><!-- // class="position-bottom btn-wrap" -->
 		</div>
 	</div>
 </div>

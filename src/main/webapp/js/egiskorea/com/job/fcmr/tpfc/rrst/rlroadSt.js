@@ -133,6 +133,8 @@ function setRailroadStationListData(_pageNo, geom) {
 	//grid 선택창 초기화
 	FACILITY.Ax5UiGrid.focus(-1);
 	
+	dtmap.on('select', onSelectRailroadStationEventListener);
+	
     // wfs 옵션값 담을 변수
     var options;
     
