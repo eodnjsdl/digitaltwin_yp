@@ -302,6 +302,18 @@ var M_AI_IMAGE = {
 		chooseUrl = 1;
 		M_AI_IMAGE.analysis.start();
 	})
+	
+	$("#resetMapDirection").on('click', function(e) {
+	    	map3d.camera.setDirect(0);
+	    	let location = {
+	    		Longitude : map3d.camera.getLocation().Longitude,
+	    		Latitude : map3d.camera.getLocation().Latitude,
+	    		Altitude : map3d.camera.getLocation().Altitude
+	    	}
+	    	console.log(location);
+	    	
+	    	
+	})
 
         $("#resetAianalysBtn").on('click', function (e) {
             M_AI_IMAGE.analysis.reset();
