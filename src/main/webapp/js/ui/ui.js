@@ -1065,7 +1065,7 @@ window.ui = (function () {
         // 기본 Context Menu가 나오지 않게 차단
         const event = e.originalEvent;
         event.preventDefault();
-        const ctxMenu = $(".context");
+        const ctxMenu = $("#contextMenu");
         ctxMenu.removeClass("hide");
         ctxMenu.css("top", event.pageY + 'px');
         ctxMenu.css("left", event.pageX + 'px');
@@ -1079,14 +1079,14 @@ window.ui = (function () {
         // 통합 행정 정보
         $("#contextMenu .c01").off("click").on("click", function () {
             reverseUaiGeo(parseFloat(coor[0]), parseFloat(coor[1]));
-            const ctxMenu = $(".context");
+            const ctxMenu = $("#contextMenu");
             ctxMenu.addClass("hide");
         });
         // 지적/건물
         $("#contextMenu .c02").off("click").on("click", function () {
             dtmap.vector.clear();
             _onContext_ldbdInfo(geom);
-            const ctxMenu = $(".context");
+            const ctxMenu = $("#contextMenu");
             ctxMenu.addClass("hide");
         });
         //사진등록
@@ -1094,7 +1094,7 @@ window.ui = (function () {
             ui.openPopup("rightPopup");
             aj_insertPotoInfoView($("#searchFormPoto")[0]);
             _onContext_photo(geom);
-            const ctxMenu = $(".context");
+            const ctxMenu = $("#contextMenu");
             ctxMenu.addClass("hide");
         });
         //메모등록
@@ -1102,12 +1102,12 @@ window.ui = (function () {
             ui.openPopup("rightPopup");
             aj_insertMemoInfoView($("#searchFormMemo")[0]);
             _onContext_memo(geom);
-            const ctxMenu = $(".context");
+            const ctxMenu = $("#contextMenu");
             ctxMenu.addClass("hide");
         });
         //위치정보
         $("#contextMenu .c05").off("click").on("click", function () {
-            const ctxMenu = $(".context");
+            const ctxMenu = $("#contextMenu");
             ctxMenu.addClass("hide");
             dtmap.location.atCoordinate(coor);
         });
@@ -1115,19 +1115,21 @@ window.ui = (function () {
         $("#contextMenu .c06").off("click").on("click", function () {
             ui.openPopup("rightPopup", "saveMap");
             aj_saveMap();
-            const ctxMenu = $(".context");
+            const ctxMenu = $("#contextMenu");
             ctxMenu.addClass("hide");
         });
-        //3D전환
+        //2D/3D전환
         $("#contextMenu .c07").off("click").on("click", function () {
-            dtmap.switchMap();
-            const ctxMenu = $(".context");
+            var _mapTy = "";
+            dtmap.mod == '2D' ? _mapTy = "mapType3D" : _mapTy = "mapType2D";
+            $("#" + _mapTy).trigger("click");
+            const ctxMenu = $("#contextMenu");
             ctxMenu.addClass("hide");
         });
     }
 
     function handleClearContextMenu(e) {
-        const ctxMenu = $(".context");
+        const ctxMenu = $("#contextMenu");
         ctxMenu.addClass("hide");
     }
 

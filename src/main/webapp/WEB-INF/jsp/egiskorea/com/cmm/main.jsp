@@ -914,6 +914,11 @@
         // var html2 = mod == '2D' ? _html2dLnb9 : _html3dLnb9;
         var html2 = _html2dLnb9 + _html3dLnb9;
         $("#lnbAnalysis").html(html2);
+
+        //컨텍스트메뉴 변경
+        var _mapTy = "";
+        mod == '2D' ? _mapTy = "3D전환" : _mapTy = "2D전환";
+        $("#contextMenu .c07")[0].text = _mapTy;
     }
 
     function checkCookiePopup() {
