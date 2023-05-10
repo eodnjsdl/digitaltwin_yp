@@ -159,7 +159,6 @@ const options = {
 }
 ```
 
-
 ## 지도 이벤트
 - `dtmap.on(eventType,listener)` 지도 이벤트 리스너 등록
 - `dtmpa.off(eventType,listener)` 지도 이벤트 리스너 삭제 
@@ -254,4 +253,24 @@ dtmap.util.readGeoJson(json);
  */
 dtmap.util.writeGeoJson(features);
 
+```
+
+
+## 화면좌표 <-> 지리좌표
+### 1. dtmap.getCoordinateFromPixel(pixel)
+- 픽셀좌표 -> 지리좌표
+```javascript
+dtmap.getCoordinateFromPixel([256,256])
+//return [997807.1859371968, 1944007.0682623633] //2D
+//return [127.4612355768713, 37.507434759010906, 69.31937682256103] //3D
+```
+
+### 2. dtmap.getPixelFromCoordinate(coordinate)
+- 지리좌표 -> 픽셀좌표
+- 3D의 경우 `[x,y]` 또는 `[x,y,z]`로 입력 받으나, `z값`에 따라 화면 좌표가 달라질 수 있음.
+```javascript
+dtmap.getPixelFromCoordinate([997807.1859371968, 1944007.0682623633]) //2D
+dtmap.getPixelFromCoordinate([127.4612355768713, 37.507434759010906, 69.31937682256103]) //3D
+// 3D의 경우 [127.4612355768713, 37.507434759010906, 69.31937682256103] 와 [127.4612355768713, 37.507434759010906, 0]의 화면좌표는 서로다름.
+//retrun [256,256]
 ```
