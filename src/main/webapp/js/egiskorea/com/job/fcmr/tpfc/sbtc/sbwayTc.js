@@ -7,6 +7,9 @@
  * @returns
  */
 function selectSubwayTrackListView() {
+	// 팝업 닫기
+	ui.closeSubPopup();
+	
     $('#bottomPopup').load('/job/fcmr/tpfc/selectSubwayTrackListView.do', function () {
 	// 읍면동 geom정보 초기화
 	var geom = {};
@@ -34,8 +37,9 @@ function callSubwayTrackGrid() {
  * @returns
  */
 function setSubwayTrackListGrid() {
-    this.target = new ax5.ui.grid();
-    this.target.setConfig({
+	FACILITY.Ax5UiGrid = null;	// ax5uigrid 전역 변수 
+	FACILITY.Ax5UiGrid = new ax5.ui.grid();
+	FACILITY.Ax5UiGrid.setConfig({
 	target: $('[data-ax5grid="subwayTrackListGrid"]'),
 	showLineNumber: true,
 	sortable: true,
@@ -61,10 +65,10 @@ function setSubwayTrackListGrid() {
 		}
 	},
 	columns: [
-	    {key: "sig_cd",		label: "시군구코드",		width: 250},
-	    {key: "kor_sbr_nm",		label: "지하철노선명(한글)",		width: 250},
-	    {key: "opert_de",		label: "작업일시",			width: 250},
-	    {key: "sub_rlw_sn",		label: "지하철노선 일련번호",		width: 250}
+	    {key: "sig_cd",			label: "시군구코드",			width: "*"},
+	    {key: "kor_sbr_nm",		label: "지하철노선명(한글)",		width: "*"},
+	    {key: "opert_de",		label: "작업일시",				width: "*"},
+	    {key: "sub_rlw_sn",		label: "지하철노선 일련번호",		width: "*"}
 	],
     });
 }
@@ -123,8 +127,13 @@ function getWfsSubwayTrackListData() {
  * @returns
  */
 function setSubwayTrackListData(_pageNo, geom) {
+	// 팝업 닫기
+	ui.closeSubPopup();
+	
+	//grid 선택창 초기화
+	FACILITY.Ax5UiGrid.focus(-1);
+	
     dtmap.on('select', onSelectSubwayTrackEventListener);
-    var gridList = this;
     
     // wfs 옵션값 담을 변수
     var options;
@@ -223,7 +232,7 @@ function setSubwayTrackListData(_pageNo, geom) {
 	    list.push({...properties, ...{id: id}});
 	}
 
-	gridList.target.setData({
+	FACILITY.Ax5UiGrid.setData({
 	    list: list,
 	    page: {
 		currentPage: _pageNo || 0,
@@ -269,22 +278,34 @@ function selectSubwayTrackDetailView(gid) {
     }
 	
     $.ajax({
-	data : formData,
-	type : "POST",
-	url : '/job/fcmr/tpfc/selectSubwayTrackInfo.do',
-	dataType : "html",
-	processData : false,
-	contentType : false,
-	async: false,
-	success : function(data, status) {
-	    if (status == "success") {		
-		$("#rightSubPopup").append(data);
-		dtmap.vector.select('tgd_spsb_rlway.' + gid);
-	    } else { 
-		toastr.error("ERROR!");
-		return;
-	    } 
-	}
+		data : formData,
+		type : "POST",
+		url : '/job/fcmr/tpfc/selectSubwayTrackInfo.do',
+		dataType : "html",
+		processData : false,
+		contentType : false,
+		async: false,
+		success : function(data, status) {
+		    if (status == "success") {		
+				$("#rightSubPopup").append(data);
+				
+				var gridList = FACILITY.Ax5UiGrid.list;
+				for (var i = 0; i < gridList.length; i++) {
+					//console.log(gridList[i]);
+					var grid = gridList[i];
+					if (gid == grid.gid) {
+						var dindex = grid.__index;
+						FACILITY.Ax5UiGrid.clearSelect();
+						FACILITY.Ax5UiGrid.focus(dindex);		
+					}
+				}
+				
+				dtmap.vector.select('tgd_spsb_rlway.' + gid);
+		    } else { 
+				toastr.error("ERROR!");
+				return;
+		    } 
+		}
     });
     ui.loadingBar("hide");
 }
@@ -311,9 +332,9 @@ function downloadExcelSubwayTrack() {
 	excelGrid.setConfig({
 	target: $('[data-ax5grid="attr-grid-excel"]'),
 	columns: [
-	    {key: "sig_cd",		label: "시군구코드",		},
+	    {key: "sig_cd",			label: "시군구코드",			},
 	    {key: "kor_sbr_nm",		label: "지하철노선명(한글)",		},
-	    {key: "opert_de",		label: "작업일시",			},
+	    {key: "opert_de",		label: "작업일시",				},
 	    {key: "sub_rlw_sn",		label: "지하철노선 일련번호",		}
 	]
     });
@@ -354,11 +375,18 @@ function onSelectSubwayTrackEventListener(e) {
  * @returns
  */
 function closeView() {
-    if ($('#rightSubPopup').hasClass('opened')) {
-	dtmap.vector.clearSelect();
-	ui.closeSubPopup();
-    } else {
-	dtmap.vector.clear();
-    }
-    
+//    if ($('#rightSubPopup').hasClass('opened')) {
+//	dtmap.vector.clearSelect();
+//	ui.closeSubPopup();
+//    } else {
+//	dtmap.vector.clear();
+//    }
+	// 지도 clear
+	clearMap();
+	
+	// 등록, 상세, 수정 팝업 창 닫기
+	if ($("#rightSubPopup").hasClass("opened")) {
+		$("#rightSubPopup").removeClass("opened");
+		$("#rightSubPopup").empty();
+	}
 }

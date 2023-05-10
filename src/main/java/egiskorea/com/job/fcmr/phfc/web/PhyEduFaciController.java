@@ -126,7 +126,7 @@ public class PhyEduFaciController {
      * 
      * @param SportsVO
      * @param model
-     * @return "egiskorea/com/job/fcmr/phfc/insertPhyEduFaciView"
+     * @return "egiskorea/com/job/fcmr/phfc/updatePhyEduFaciView"
      * @throws Exception
      */
 	@RequestMapping(value = "/updatePhyEduFaciView.do")
@@ -134,7 +134,7 @@ public class PhyEduFaciController {
 			@ModelAttribute("SportsVO") SportsVO sportsVO, ModelMap model) throws Exception {
 		SportsVO result = phyEduFaciService.selectPhyEduFaciDetail(sportsVO);
 		model.addAttribute("result", result);
-		return "egiskorea/com/job/fcmr/phfc/insertPhyEduFaciView";
+		return "egiskorea/com/job/fcmr/phfc/updatePhyEduFaciView";
 	}
 	
 	/**

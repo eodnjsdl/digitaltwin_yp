@@ -338,6 +338,8 @@ function _onDrawEnd_polygonGeom(e){
 //공간정보 편집도구
 function clearSpaceEditTool(){
     
+	dtmap.draw.dispose();		//그리기 포인트 삭제
+	
     //스냅레이어 클리어
     dtmap.draw.clearSnapLayer();
     

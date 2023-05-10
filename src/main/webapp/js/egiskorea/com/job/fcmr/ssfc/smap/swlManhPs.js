@@ -34,17 +34,17 @@ function swlManhPsProcess() {
 			align: "center"
 		},
 		columns: [
-			{key: "ftr_idn",		label: "관리번호",			width: 150},
-			{key: "hjd_cde_nm",		label: "읍면동",			width: 120},
-			{key: "ist_ymd", 		label: "설치일자",			width: 150},
-			{key: "smu_cde_nm",		label: "하수맨홀용도",		width: 110},
-			{key: "for_cde_nm",		label: "시설물형태",		width: 100},
-			{key: "man_dip",		label: "하수맨홀구경",		width: 110},
-			{key: "ivt_cde_nm", 	label: "인버트유무",		width: 100},
-			{key: "lad_cde_nm", 	label: "사다리설치유무",		width: 120},
-			{key: "mos_hsl",		label: "하수맨홀고도",		width: 110},
-			{key: "lms_hsl",		label: "하수맨홀저고",		width: 110},
-			{key: "cst_cde_nm",		label: "이상상태",			width: 100}
+			{key: "ftr_idn",		label: "관리번호",			width: '*'},
+			{key: "hjd_cde_nm",		label: "읍면동",			width: '*'},
+			{key: "ist_ymd", 		label: "설치일자",			width: '*'},
+			{key: "smu_cde_nm",		label: "하수맨홀용도",		width: '*'},
+			{key: "for_cde_nm",		label: "시설물형태",		width: '*'},
+			{key: "man_dip",		label: "하수맨홀구경",		width: '*'},
+			{key: "ivt_cde_nm", 	label: "인버트유무",		width: '*'},
+			{key: "lad_cde_nm", 	label: "사다리설치유무",		width: '*'},
+			{key: "mos_hsl",		label: "하수맨홀고도",		width: '*'},
+			{key: "lms_hsl",		label: "하수맨홀저고",		width: '*'},
+			{key: "cst_cde_nm",		label: "이상상태",			width: '*'}
 		],
 		page: {
 			navigationItemCount: 10,	// 보여지는 클릭 가능 페이지 번호
@@ -79,7 +79,7 @@ function selectSwlManhPsList(page) {
 	ui.closeSubPopup();
 	
 	//grid 선택창 초기화
-	FACILITY.Ax5UiGrid.clearSelect();
+	FACILITY.Ax5UiGrid.focus(-1);
 	
 	//공간 검색 / 사용자 정의 일 경우 이외에는  그리기 영역 지우기
 	if($(".groundwaterSpace").hasClass("on")){

@@ -7,6 +7,9 @@
  * @returns
  */
 function selectRailroadTrackListView() {
+	// 팝업 닫기
+	ui.closeSubPopup();
+	
     $('#bottomPopup').load('/job/fcmr/tpfc/selectRailroadTrackListView.do', function () {
 	// 읍면동 geom정보 초기화
 	var geom = {};
@@ -34,8 +37,9 @@ function callRlroadTcGrid() {
  * @returns
  */
 function setRailroadTrackListGrid() {
-    this.target = new ax5.ui.grid();
-    this.target.setConfig({
+	FACILITY.Ax5UiGrid = null;	// ax5uigrid 전역 변수 
+	FACILITY.Ax5UiGrid = new ax5.ui.grid();
+	FACILITY.Ax5UiGrid.setConfig({
 	target: $('[data-ax5grid="rlroadTcListGrid"]'),
 	showLineNumber: true,
 	sortable: true,
@@ -47,7 +51,6 @@ function setRailroadTrackListGrid() {
 		align: "center",
 		onClick: function() {
 			selectRailroadTrackDetailView(this.item.gid);
-//			selectRailroadTrackDetail(this.item.gid);
 		}
 	},
 	page: {
@@ -62,10 +65,10 @@ function setRailroadTrackListGrid() {
 		}
 	},
 	columns: [
-	    {key: "sig_cd",		label: "시군구코드",		width: 250},
-	    {key: "kor_rlr_nm",		label: "철도노선명(한글)",		width: 250},
-	    {key: "opert_de",		label: "작업일시",			width: 250},
-	    {key: "rlr_rlw_sn",		label: "철도선로 일련번호",		width: 250}
+	    {key: "sig_cd",			label: "시군구코드",			width: "*"},
+	    {key: "kor_rlr_nm",		label: "철도노선명(한글)",		width: "*"},
+	    {key: "opert_de",		label: "작업일시",				width: "*"},
+	    {key: "rlr_rlw_sn",		label: "철도선로 일련번호",		width: "*"}
 	],
     });
 }
@@ -122,8 +125,13 @@ function getWfsRailroadTrackListData() {
  * @returns
  */
 function setRailroadTrackListData(_pageNo, geom) {
-    dtmap.on('select', onSelectRailroadStationEventListener);
-    var gridList = this;
+	// 팝업 닫기
+	ui.closeSubPopup();
+	
+	//grid 선택창 초기화
+	FACILITY.Ax5UiGrid.focus(-1);
+	
+    dtmap.on('select', onSelectRailroadTrackEventListener);
     
     // wfs 옵션값 담을 변수
     var options;
@@ -217,13 +225,13 @@ function setRailroadTrackListData(_pageNo, geom) {
 	    // wfs. + gid
 	    let wfsId = data.features[i].id.split('.')[0] + '.';
 	    data.features[i].id = wfsId + data.features[i].properties.gid;
-	  //좌표 처리  geometry로 변수명을 정하면 기존것과 충돌 발생
+	    //좌표 처리  geometry로 변수명을 정하면 기존것과 충돌 발생
     	data.features[i].properties.geomObj = data.features[i].geometry;
 	    const {id, properties} = data.features[i];
 	    list.push({...properties, ...{id: id}});
 	}
 
-	gridList.target.setData({
+	FACILITY.Ax5UiGrid.setData({
 	    list: list,
 	    page: {
 		currentPage: _pageNo || 0,
@@ -304,22 +312,34 @@ function selectRailroadTrackDetailView(gid) {
     }
 	
     $.ajax({
-	data : formData,
-	type : "POST",
-	url : '/job/fcmr/tpfc/selectRailroadTrackInfo.do',
-	dataType : "html",
-	processData : false,
-	contentType : false,
-	async: false,
-	success : function(data, status) {
-	    if (status == "success") {		
-		$("#rightSubPopup").append(data);
-		dtmap.vector.select('tgd_sprl_rlway.' + gid);
-	    } else { 
-		toastr.error("ERROR!");
-		return;
-	    } 
-	}
+		data : formData,
+		type : "POST",
+		url : '/job/fcmr/tpfc/selectRailroadTrackInfo.do',
+		dataType : "html",
+		processData : false,
+		contentType : false,
+		async: false,
+		success : function(data, status) {
+		    if (status == "success") {		
+				$("#rightSubPopup").append(data);
+				
+				var gridList = FACILITY.Ax5UiGrid.list;
+				for (var i = 0; i < gridList.length; i++) {
+					//console.log(gridList[i]);
+					var grid = gridList[i];
+					if (gid == grid.gid) {
+						var dindex = grid.__index;
+						FACILITY.Ax5UiGrid.clearSelect();
+						FACILITY.Ax5UiGrid.focus(dindex);		
+					}
+				}
+				
+				dtmap.vector.select('tgd_sprl_rlway.' + gid);
+		    } else { 
+				toastr.error("ERROR!");
+				return;
+		    } 
+		}
     });
     
     ui.loadingBar("hide");
@@ -352,10 +372,10 @@ function downloadExcelRailroadTrack() {
 	excelGrid.setConfig({
 	target: $('[data-ax5grid="attr-grid-excel"]'),
 	columns: [
-	    {key: "sig_cd",		label: "시군구코드",		},
-	    {key: "kor_rlr_nm",		label: "철도노선명(한글)",		},
+	    {key: "sig_cd",			label: "시군구코드",		},
+	    {key: "kor_rlr_nm",		label: "철도노선명(한글)",	},
 	    {key: "opert_de",		label: "작업일시",			},
-	    {key: "rlr_rlw_sn",		label: "철도선로 일련번호",		}
+	    {key: "rlr_rlw_sn",		label: "철도선로 일련번호",	}
 	]
     });
 	
@@ -395,11 +415,18 @@ function onSelectRailroadTrackEventListener(e) {
  * @returns
  */
 function closeView() {
-    if ($('#rightSubPopup').hasClass('opened')) {
-	dtmap.vector.clearSelect();
-	ui.closeSubPopup();
-    } else {
-	dtmap.vector.clear();
-    }
-    
+//    if ($('#rightSubPopup').hasClass('opened')) {
+//	dtmap.vector.clearSelect();
+//	ui.closeSubPopup();
+//    } else {
+//	dtmap.vector.clear();
+//    }
+	// 지도 clear
+	clearMap();
+	
+	// 등록, 상세, 수정 팝업 창 닫기
+	if ($("#rightSubPopup").hasClass("opened")) {
+		$("#rightSubPopup").removeClass("opened");
+		$("#rightSubPopup").empty();
+	}
 }

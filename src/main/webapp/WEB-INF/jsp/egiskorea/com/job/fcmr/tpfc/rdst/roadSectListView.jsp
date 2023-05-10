@@ -11,7 +11,7 @@ $(document).ready(function(){
 	
 	// 교통시설 메뉴 - 이벤트
 	var $container = $("#container");
-    var $target = $container.find('#bottomPopup #selectBoxTrfc');
+    var $target = $container.find('#bottomPopup .facility-select');
 	
 	$target.on('change', function() {
 		getTransportationFacility(this.value);
@@ -117,7 +117,7 @@ $(document).ready(function(){
 		<!-- 검색영역 -->
 		<div class="items search-area">
 			<div class="top-search">
-				<select name="selectBoxTrfc" id="selectBoxTrfc" class="form-select facility-select">
+				<select class="form-select facility-select">
 					<option value="roadSection" selected>도로구간</option>
 					<option value="railroadTrack">철도선로</option>
 					<option value="railroadStation">철도역사</option>

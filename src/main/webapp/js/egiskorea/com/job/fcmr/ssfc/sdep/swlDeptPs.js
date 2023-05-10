@@ -28,9 +28,9 @@ function swlDeptPsProcess() {
 			align: "center"
 		},
 		columns: [
-			{key: "ftr_cde_nm",		label: "지형지물부호",		width: 450},
-			{key: "pip_dep", 		label: "심도",			width: 370},
-			{key: "ftr_idn",		label: "관리번호",			width: 450}
+			{key: "ftr_cde_nm",		label: "지형지물부호",		width: '*'},
+			{key: "pip_dep", 		label: "심도",			width: '*'},
+			{key: "ftr_idn",		label: "관리번호",			width: '*'}
 		],
 		page: {
 			navigationItemCount: 10,	// 보여지는 클릭 가능 페이지 번호
@@ -65,7 +65,7 @@ function selectSwlDeptPsList(page) {
 	ui.closeSubPopup();
 	
 	//grid 선택창 초기화
-	FACILITY.Ax5UiGrid.clearSelect();
+	FACILITY.Ax5UiGrid.focus(-1);
 	
 	//공간정보 편집도구 닫기
 	if($(".space-edit-tool").hasClass("opened")){

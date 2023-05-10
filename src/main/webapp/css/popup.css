@@ -64,6 +64,17 @@
     z-index: 5;
 }
 
+.popup-panel .sub-popup-close {
+	top: 0;
+	right: 0;
+	width: 39px;
+	height: 39px;
+	border-left: 1px solid #44516A;
+	background: url(/images/icon/popup-close2.svg) no-repeat 50% 50%;
+	border-top-right-radius: 10px;
+	position: absolute;
+}
+
 .popup-panel .popup-reset {
     position: absolute;
     top: 4px;

@@ -7,6 +7,9 @@
  * @returns
  */
 function selectRailroadStationListView() {
+	// 팝업 닫기
+	ui.closeSubPopup();
+	
     $('#bottomPopup').load('/job/fcmr/tpfc/selectRailroadStationListView.do', function () {
 	// 공간검색 옵션 초기화
 	FACILITY.spaceSearchOption = {};
@@ -34,8 +37,9 @@ function callRlroadStGrid() {
  * @returns
  */
 function setRailroadStationListGrid() {
-    this.target = new ax5.ui.grid();
-    this.target.setConfig({
+	FACILITY.Ax5UiGrid = null;	// ax5uigrid 전역 변수 
+	FACILITY.Ax5UiGrid = new ax5.ui.grid();
+	FACILITY.Ax5UiGrid.setConfig({
 	target: $('[data-ax5grid="rlroadStListGrid"]'),
 	showLineNumber: true,
 	sortable: true,
@@ -61,10 +65,10 @@ function setRailroadStationListGrid() {
 		}
 	},
 	columns: [
-	    {key: "sig_cd",		label: "시군구코드",		width: 250},
-	    {key: "kor_sta_nm",		label: "철도역사명(한글)",		width: 250},
-	    {key: "opert_de",		label: "작업일시",			width: 250},
-	    {key: "rlr_sta_sn",		label: "철도역사 일련번호",		width: 250}
+	    {key: "sig_cd",			label: "시군구코드",			width: "*"},
+	    {key: "kor_sta_nm",		label: "철도역사명(한글)",		width: "*"},
+	    {key: "opert_de",		label: "작업일시",				width: "*"},
+	    {key: "rlr_sta_sn",		label: "철도역사 일련번호",		width: "*"}
 	],
     });
 }
@@ -123,7 +127,14 @@ function getWfsRailroadStationData() {
  * @returns
  */
 function setRailroadStationListData(_pageNo, geom) {
-    var gridList = this;
+	// 팝업 닫기
+	ui.closeSubPopup();
+	
+	//grid 선택창 초기화
+	FACILITY.Ax5UiGrid.focus(-1);
+	
+	dtmap.on('select', onSelectRailroadStationEventListener);
+	
     // wfs 옵션값 담을 변수
     var options;
     
@@ -219,7 +230,7 @@ function setRailroadStationListData(_pageNo, geom) {
 	    list.push({...properties, ...{id: id}});
 	}
 
-	gridList.target.setData({
+	FACILITY.Ax5UiGrid.setData({
 	    list: list,
 	    page: {
 		currentPage: _pageNo || 0,
@@ -266,22 +277,34 @@ function selectRailroadStationDetailView(gid) {
     }
 	
     $.ajax({
-	data : formData,
-	type : "POST",
-	url : '/job/fcmr/tpfc/selectRailroadStationInfo.do',
-	dataType : "html",
-	processData : false,
-	contentType : false,
-	async: false,
-	success : function(data, status) {
-	    if (status == "success") {		
-		$("#rightSubPopup").append(data);
-		dtmap.vector.select('tgd_sprl_statn.' + gid);
-	    } else { 
-		toastr.error("ERROR!");
-		return;
-	    } 
-	}
+		data : formData,
+		type : "POST",
+		url : '/job/fcmr/tpfc/selectRailroadStationInfo.do',
+		dataType : "html",
+		processData : false,
+		contentType : false,
+		async: false,
+		success : function(data, status) {
+		    if (status == "success") {		
+				$("#rightSubPopup").append(data);
+				
+				var gridList = FACILITY.Ax5UiGrid.list;
+				for (var i = 0; i < gridList.length; i++) {
+					//console.log(gridList[i]);
+					var grid = gridList[i];
+					if (gid == grid.gid) {
+						var dindex = grid.__index;
+						FACILITY.Ax5UiGrid.clearSelect();
+						FACILITY.Ax5UiGrid.focus(dindex);		
+					}
+				}
+				
+				dtmap.vector.select('tgd_sprl_statn.' + gid);
+		    } else { 
+				toastr.error("ERROR!");
+				return;
+		    } 
+		}
     });
     
     ui.loadingBar("hide");
@@ -313,10 +336,10 @@ function downloadExcelRailroadStation() {
 	excelGrid.setConfig({
 	target: $('[data-ax5grid="attr-grid-excel"]'),
 	columns: [
-	    {key: "sig_cd",		label: "시군구코드",		},
-	    {key: "kor_sta_nm",		label: "철도역사명(한글)",		},
+	    {key: "sig_cd",			label: "시군구코드",		},
+	    {key: "kor_sta_nm",		label: "철도역사명(한글)",	},
 	    {key: "opert_de",		label: "작업일시",			},
-	    {key: "rlr_sta_sn",		label: "철도역사 일련번호",		}
+	    {key: "rlr_sta_sn",		label: "철도역사 일련번호",	}
 	]
     });
 	
@@ -356,11 +379,18 @@ function onSelectRailroadStationEventListener(e) {
  * @returns
  */
 function closeView() {
-    if ($('#rightSubPopup').hasClass('opened')) {
-	dtmap.vector.clearSelect();
-	ui.closeSubPopup();
-    } else {
-	dtmap.vector.clear();
-    }
-    
+//    if ($('#rightSubPopup').hasClass('opened')) {
+//	dtmap.vector.clearSelect();
+//	ui.closeSubPopup();
+//    } else {
+//	dtmap.vector.clear();
+//    }
+	// 지도 clear
+	clearMap();
+	
+	// 등록, 상세, 수정 팝업 창 닫기
+	if ($("#rightSubPopup").hasClass("opened")) {
+		$("#rightSubPopup").removeClass("opened");
+		$("#rightSubPopup").empty();
+	}
 }
