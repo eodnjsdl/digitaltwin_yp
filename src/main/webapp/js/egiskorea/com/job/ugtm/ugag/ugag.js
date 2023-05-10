@@ -140,6 +140,8 @@ function setData(_pageNo){
 }
 //농업용공공관정 등록페이지 열기
 function fn_insert(){
+	dtmap.vector.clearSelect(); //선택 해제
+	window.target.clearSelect(); //그리드 선택 해제
 	ui.openPopup("rightSubPopup");
 	$.ajax({
 		type : "POST",

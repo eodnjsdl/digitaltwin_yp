@@ -53,6 +53,14 @@ $("#useFacilRegist").on("click", function(){
 	}
 	
 });
+$("#rightSubPopup .popup-close").unbind('click').bind('click',function() {
+
+	// 등록, 상세, 수정 팝업 창 닫기
+	if ($("#rightSubPopup").hasClass("opened")) {
+		$("#rightSubPopup").removeClass("opened");
+		$("#rightSubPopup").empty();
+	}
+});
 
 var years = "";
 
