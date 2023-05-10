@@ -456,6 +456,14 @@ window.dtmap = (function () {
         return promise;
     }
 
+    function getCoordinateFromPixel(pixel) {
+        return call('getCoordinateFromPixel', pixel);
+    }
+
+    function getPixelFromCoordinate(coord) {
+        return call('getPixelFromCoordinate', coord);
+    }
+
     const module = {
         init: init,
         goHome: goHome,
@@ -474,7 +482,10 @@ window.dtmap = (function () {
         once: once,
         off: off,
         trigger: trigger,
-        toImage: toImage
+        toImage: toImage,
+        getCoordinateFromPixel: getCoordinateFromPixel,
+        getPixelFromCoordinate: getPixelFromCoordinate
+
     }
 
     Object.defineProperties(module, {

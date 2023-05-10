@@ -450,8 +450,25 @@ window.map3d = (function () {
 
     }
 
-    function getLayer(name) {
+    function getCoordinateFromPixel(pixel) {
+        if (!pixel) {
+            return;
+        }
+        const coord = Module.getMap().ScreenToMapPointEX(new Module.JSVector2D(...pixel));
+        if (coord) {
+            return [coord.Longitude, coord.Latitude, coord.Altitude];
+        }
+    }
 
+    function getPixelFromCoordinate(coord) {
+        if (!coord) {
+            return;
+        }
+        if (coord.length < 3) {
+            coord[2] = 0;
+        }
+        const pixel = Module.getMap().MapToScreenPointEX(new Module.JSVector3D(...coord));
+        return [pixel.x, pixel.y];
     }
 
     const module = {
@@ -471,7 +488,9 @@ window.map3d = (function () {
         clearInteraction: clearInteraction,
         clear: clear,
         goHome: goHome,
-        setBaseLayer: setBaseLayer
+        setBaseLayer: setBaseLayer,
+        getCoordinateFromPixel: getCoordinateFromPixel,
+        getPixelFromCoordinate: getPixelFromCoordinate
     }
 
     Object.defineProperties(module, {
