@@ -266,7 +266,7 @@ $("#btnCwsOdeUpdate").unbind('click').bind('click',function(){
 		</div>
 
 		<p class="cont-stit">차수별 공사정보</p>
-		<div class="data-default">
+		<div class="data-default" id="OdrInfo">
 			<form:form name="updataOdrForm" id="updataOdrForm" method="post" commandName="updataOdrForm">
 				<table class="data-write">
 					<colgroup>
@@ -290,8 +290,8 @@ $("#btnCwsOdeUpdate").unbind('click').bind('click',function(){
 							<th scope="row">공사구간</th>
 							<td colspan="3">
 								<span class="form-radio text group">
-									<span><input type="radio" name="rChk2" id="rChk2_1" ><label for="rChk2_1">위치</label></span>
-									<span><input type="radio" name="rChk2" id="rChk2_2" ><label for="rChk2_2">구간</label></span>
+									<span><input type="radio" name="rChk2" id="rChk2_1" value="position"><label for="rChk2_1">위치</label></span>
+									<span><input type="radio" name="rChk2" id="rChk2_2" value="section"><label for="rChk2_2">구간</label></span>
 								</span>
 							</td>
 						</tr>
