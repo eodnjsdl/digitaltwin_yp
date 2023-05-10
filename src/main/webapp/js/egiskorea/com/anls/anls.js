@@ -162,14 +162,4 @@ jQuery.loadCSS = function (url, callback) {
 }
 
 
-function getAiSpceAnalsView() {
-    ui.loadingBar("show");
-    var baseContainer = "#leftPopup";
-    ui.openPopup("leftPopup");
-    $(baseContainer).load('/appModule/M_AI_IMAGE/M_AI_IMAGE.html', function () {
-        M_AI_IMAGE.init();
-        ui.loadingBar("hide");
-    });
-};
-
 
