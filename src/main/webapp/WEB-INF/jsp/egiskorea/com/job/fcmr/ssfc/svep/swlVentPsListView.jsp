@@ -296,7 +296,7 @@ $(document).ready(function() {
         </div>
     </div>
 </div>
-<button type="button" class="manualBtn" title="도움말" onclick="manualTab('환기구')"></button>
+<button type="button" class="manualBtn" title="도움말" onclick="manualTab('하수도시설')"></button>
 <button type="button" class="popup-close" title="닫기"></button>
 <button type="button" class="popup-reset" title="초기화"></button>
 <button type="button" class="popup-bottom-toggle" title="접기"></button>

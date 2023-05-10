@@ -33,15 +33,15 @@ function swlSpewPsProcess() {
 			align: "center"
 		},
 		columns: [
-			{key: "ftr_idn",		label: "관리번호",			width: 170},
-			{key: "hjd_cde_nm",		label: "읍면동",			width: 130},
-			{key: "ist_ymd", 		label: "설치일자",			width: 160},
-			{key: "vmt_cde_nm",		label: "토구용도",			width: 130},
-			{key: "for_cde_nm",		label: "시설물형태",		width: 130},
-			{key: "spw_dip",		label: "원형토구내경",		width: 130},
-			{key: "spw_hol",		label: "각형토구가로길이",	width: 150},
-			{key: "spw_vel",		label: "각형토구세로길이",	width: 150},
-			{key: "spw_hsl", 		label: "토구표고",			width: 130}
+			{key: "ftr_idn",		label: "관리번호",			width: '*'},
+			{key: "hjd_cde_nm",		label: "읍면동",			width: '*'},
+			{key: "ist_ymd", 		label: "설치일자",			width: '*'},
+			{key: "vmt_cde_nm",		label: "토구용도",			width: '*'},
+			{key: "for_cde_nm",		label: "시설물형태",		width: '*'},
+			{key: "spw_dip",		label: "원형토구내경",		width: '*'},
+			{key: "spw_hol",		label: "각형토구가로길이",	width: '*'},
+			{key: "spw_vel",		label: "각형토구세로길이",	width: '*'},
+			{key: "spw_hsl", 		label: "토구표고",			width: '*'}
 		],
 		page: {
 			navigationItemCount: 10,	// 보여지는 클릭 가능 페이지 번호
@@ -76,7 +76,7 @@ function selectSwlSpewPsList(page) {
 	ui.closeSubPopup();
 	
 	//grid 선택창 초기화
-	FACILITY.Ax5UiGrid.clearSelect();
+	FACILITY.Ax5UiGrid.focus(-1);
 	
 	//공간 검색 / 사용자 정의 일 경우 이외에는  그리기 영역 지우기
 	if($(".groundwaterSpace").hasClass("on")){

@@ -34,13 +34,13 @@ function swlVentPsProcess() {
 			align: "center"
 		},
 		columns: [
-			{key: "ftr_idn",		label: "관리번호",			width: 170},
-			{key: "hjd_cde_nm", 	label: "읍면동",			width: 170},
-			{key: "ist_ymd",		label: "설치일자",			width: 170},
-			{key: "vnt_dip",		label: "환기구구경",		width: 170},
-			{key: "mop_cde_nm",		label: "관재질",			width: 210},
-			{key: "mof_cde_nm",		label: "흡출기형식",		width: 180},
-			{key: "hmp_cde_nm",		label: "흡출기재질",		width: 210}
+			{key: "ftr_idn",		label: "관리번호",			width: '*'},
+			{key: "hjd_cde_nm", 	label: "읍면동",			width: '*'},
+			{key: "ist_ymd",		label: "설치일자",			width: '*'},
+			{key: "vnt_dip",		label: "환기구구경",		width: '*'},
+			{key: "mop_cde_nm",		label: "관재질",			width: '*'},
+			{key: "mof_cde_nm",		label: "흡출기형식",		width: '*'},
+			{key: "hmp_cde_nm",		label: "흡출기재질",		width: '*'}
 		],
 		page: {
 			navigationItemCount: 10,	// 보여지는 클릭 가능 페이지 번호
@@ -75,7 +75,7 @@ function selectSwlVentPsList(page) {
 	ui.closeSubPopup();
 	
 	//grid 선택창 초기화
-	FACILITY.Ax5UiGrid.clearSelect();
+	FACILITY.Ax5UiGrid.focus(-1);
 	
 	//공간 검색 / 사용자 정의 일 경우 이외에는  그리기 영역 지우기
 	if($(".groundwaterSpace").hasClass("on")){
