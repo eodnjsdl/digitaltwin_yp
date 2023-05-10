@@ -133,6 +133,8 @@ function setBridgeListData(_pageNo, geom) {
 	//grid 선택창 초기화
 	FACILITY.Ax5UiGrid.focus(-1);
 	
+    dtmap.on('select', onSelectBridgeEventListener);
+
     // wfs 옵션값 담을 변수
     var options;
     if ($('.bridgeProperty').hasClass('on')) {
@@ -210,7 +212,7 @@ function setBridgeListData(_pageNo, geom) {
     }
     
     
- // 철도역사 - wms -> sortBy, orderBy, clq(sig_cd = 41830 -- 양평군) 필수
+	// 철도역사 - wms -> sortBy, orderBy, clq(sig_cd = 41830 -- 양평군) 필수
     const promise = dtmap.wfsGetFeature(options);
     promise.then(function(data) {
 	$('.bbs-list-num strong').empty();
@@ -223,6 +225,10 @@ function setBridgeListData(_pageNo, geom) {
 	
 	var list = [];
 	for (let i = 0; i < data.features.length; i++) {
+	    // properties에 id 값이 랜덤으로 생성되서, gid와 동일하게 변경해줌
+	    // wfs. + gid
+	    let wfsId = data.features[i].id.split('.')[0] + '.';
+	    data.features[i].id = wfsId + data.features[i].properties.gid;
 	    const {id, properties} = data.features[i];
 	    list.push({...properties, ...{id: id}});
 	}
@@ -240,18 +246,13 @@ function setBridgeListData(_pageNo, geom) {
 	dtmap.vector.clear();
 	dtmap.vector.readGeoJson(data, function (feature) {
 		let properties = feature.getProperties();
-		// properties에 id 값이 랜덤으로 생성되서, gid와 동일하게 변경해줌
-		// wfs. + gid
-		let getGid = properties.gid;
-		feature.setId('tgd_spot_bridge.' + getGid);					
-		// --------------------------------------------------
 		return {
 			marker: {
 				src: '/images/poi/bridge_poi.png',
 				anchor: [0, 0] //이미지 중심위치 (0~1 [x,y] 비율값 [0,0] 좌상단 [1,1] 우하단)
 		            },
 		        label: {
-		                text: properties.rn,
+		                text: properties.kor_bri_nm,
 		                //3D POI 수직 막대길이
 		                offsetHeight : 10
 		            }
@@ -268,45 +269,44 @@ function setBridgeListData(_pageNo, geom) {
  */
 function selectBridgeDetailView(gid) {
     dtmap.vector.clearSelect();
-    dtmap.vector.select('tgd_spot_bridge.' + gid);
     
     ui.openPopup("rightSubPopup");
     ui.loadingBar("show");
     var formData = new FormData();
 	
     if (gid != '') {
-	formData.append('gid', gid);
+    	formData.append('gid', gid);
     }
 	
     $.ajax({
-	data : formData,
-	type : "POST",
-	url : '/job/fcmr/tpfc/selectBridgeInfo.do',
-	dataType : "html",
-	processData : false,
-	contentType : false,
-	async: false,
-	success : function(data, status) {
-	    if (status == "success") {		
-		$("#rightSubPopup").append(data);
-		
-		var gridList = FACILITY.Ax5UiGrid.list;
-		
-		for (var i = 0; i < gridList.length; i++) {
-			//console.log(gridList[i]);
-			var grid = gridList[i];
-			if (gid == grid.gid) {
-				var dindex = grid.__index;
-				FACILITY.Ax5UiGrid.clearSelect();
-				FACILITY.Ax5UiGrid.focus(dindex);		
-			}
+		data : formData,
+		type : "POST",
+		url : '/job/fcmr/tpfc/selectBridgeInfo.do',
+		dataType : "html",
+		processData : false,
+		contentType : false,
+		async: false,
+		success : function(data, status) {
+		    if (status == "success") {		
+		    	$("#rightSubPopup").append(data);
+	
+				var gridList = FACILITY.Ax5UiGrid.list;
+				for (var i = 0; i < gridList.length; i++) {
+					//console.log(gridList[i]);
+					var grid = gridList[i];
+					if (gid == grid.gid) {
+						var dindex = grid.__index;
+						FACILITY.Ax5UiGrid.clearSelect();
+						FACILITY.Ax5UiGrid.focus(dindex);		
+					}
+				}
+				
+				dtmap.vector.select('tgd_spot_bridge.' + gid);
+		    } else { 
+				toastr.error("ERROR!");
+				return;
+		    } 
 		}
-		
-	    } else { 
-		toastr.error("ERROR!");
-		return;
-	    } 
-	}
     });
     ui.loadingBar("hide");
 }

@@ -8,7 +8,6 @@ $(document).ready(function(){
     
 	//이벤트 리스너 추가 - 객체 선택
 	dtmap.off('select');
-	dtmap.on('select', onSelectRoadSectEventListener);
 	
 	// 교통시설 메뉴 - 이벤트
 	var $container = $("#container");
@@ -35,11 +34,8 @@ $(document).ready(function(){
 	
 	// 공간 검색 조회 버튼
     $(".facility-spatial-search", "#bottomPopup").on("click", function (e) {
-		
        	const $parent = $(e.target).closest('.search-area');
         const type = $parent.find('input[name="rad-facility-area"]:checked').val();
-        
-        console.log(type);
         
         if (type === 'extent') {
         	FACILITY.spaceSearchOption.bbox 	= dtmap.getExtent();
@@ -49,7 +45,7 @@ $(document).ready(function(){
         		if(dtmap.draw.source.getFeatures().length > 0){	//임시로 그려진 형태체크
         			FACILITY.spaceSearchOption.geometry = dtmap.draw.getGeometry();
         		}else{
-        			alert("영역지정 안되었습니다");
+        			toastr.error("영역을 선택해주세요");
         			return false;
         		}
         	}else if(dtmap.mod == "3D"){		
@@ -81,7 +77,7 @@ $(document).ready(function(){
     $("[name=rad-facility-drawing]", "#bottomPopup").on("click", function () {
         const node = $(this);
         const value = node.val();
-
+		dtmap.off('select');
         let type;
         switch (Number(value)) {
             case 1:

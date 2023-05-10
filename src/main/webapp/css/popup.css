@@ -698,13 +698,15 @@
 }
 
 .building-list-item .building-list .dep2 li a:hover {
+    color: #1C77FF;
     text-decoration: underline;
 }
 
-.building-list-item .building-list .dep2 li .active {
+.building-list-item .building-list li .active {
     color: #1C77FF;
-    font-weight: 700;
+    font-weight: bold;
     text-decoration: underline;
+    background: #E6F8FF;
 }
 
 .building-data-item {
@@ -782,6 +784,7 @@
     margin-bottom: 5px;
     max-height: 230px;
     overflow: hidden;
+    height: 154px;
 }
 
 .saveMap-thumb + .btn-wrap {
@@ -1481,7 +1484,7 @@
 
 .ai-video-box {
     padding: 4px 10px;
-    height: 146px;
+    height: 172px;
     background-color: #E5E7EA;
     border-radius: 5px;
 }

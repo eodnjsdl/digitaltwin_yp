@@ -8,7 +8,6 @@ $(document).ready(function(){
 
 	//이벤트 리스너 추가 - 객체 선택
 	dtmap.off('select');
-	dtmap.on('select', onSelectRailroadStationEventListener);
     
 	// 교통시설 메뉴 - 이벤트
 	var $container = $("#container");
@@ -39,17 +38,14 @@ $(document).ready(function(){
        	const $parent = $(e.target).closest('.search-area');
         const type = $parent.find('input[name="rad-facility-area"]:checked').val();
         
-        console.log(type);
-        
         if (type === 'extent') {
         	FACILITY.spaceSearchOption.bbox 	= dtmap.getExtent();
         } else {
-        	//console.log("모드>>>"+dtmap.mod);
         	if(dtmap.mod == "2D"){
         		if(dtmap.draw.source.getFeatures().length > 0){	//임시로 그려진 형태체크
         			FACILITY.spaceSearchOption.geometry = dtmap.draw.getGeometry();
         		}else{
-        			alert("영역지정 안되었습니다");
+        		    toastr.error("영역을 선택해주세요");
         			return false;
         		}
         	}else if(dtmap.mod == "3D"){		
@@ -242,6 +238,6 @@ $(document).ready(function(){
 </div>
 <button type="button" class="manualBtn" title="도움말" onclick="manualTab('교통시설')"></button>
 <button type="button" class="popup-close" title="닫기" onclick="closeView(); removeLayer();"></button>
-<button type="button" class="popup-reset" class="초기화" onclick="getTransportationFacility('railRoadStation')"></button>
+<button type="button" class="popup-reset" class="초기화" onclick="getTransportationFacility('railroadStation')"></button>
 <button type="button" class="popup-bottom-toggle" title="접기"></button>				
 <!-- //업무 > 시설관리 > 교통시설 > 철도역사 -->

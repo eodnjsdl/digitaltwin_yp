@@ -50,8 +50,8 @@ function setRailroadTrackListGrid() {
 	body: {
 		align: "center",
 		onClick: function() {
-//			selectRailroadTrackDetailView(this.item.gid);
-			selectRailroadTrackDetail(this.item.gid);
+			selectRailroadTrackDetailView(this.item.gid);
+//			selectRailroadTrackDetail(this.item.gid);
 		}
 	},
 	page: {
@@ -131,6 +131,8 @@ function setRailroadTrackListData(_pageNo, geom) {
 	
 	//grid 선택창 초기화
 	FACILITY.Ax5UiGrid.focus(-1);
+	
+    dtmap.on('select', onSelectRailroadStationEventListener);
     
     // wfs 옵션값 담을 변수
     var options;
@@ -220,6 +222,10 @@ function setRailroadTrackListData(_pageNo, geom) {
 	
 	var list = [];
 	for (let i = 0; i < data.features.length; i++) {
+	    // properties에 id 값이 랜덤으로 생성되서, gid와 동일하게 변경해줌
+	    // wfs. + gid
+	    let wfsId = data.features[i].id.split('.')[0] + '.';
+	    data.features[i].id = wfsId + data.features[i].properties.gid;
 	  //좌표 처리  geometry로 변수명을 정하면 기존것과 충돌 발생
     	data.features[i].properties.geomObj = data.features[i].geometry;
 	    const {id, properties} = data.features[i];
@@ -239,18 +245,13 @@ function setRailroadTrackListData(_pageNo, geom) {
 	dtmap.vector.clear();
 	dtmap.vector.readGeoJson(data, function (feature) {
 	    let properties = feature.getProperties();
-	    // properties에 id 값이 랜덤으로 생성되서, gid와 동일하게 변경해줌
-	    // wfs. + gid
-	    let getGid = properties.gid;
-	    feature.setId('tgd_sprl_rlway.' + getGid);
-	    // --------------------------------------------------
 	    return {
 	        marker: {
 	            	src: '/images/poi/railroadTrack_poi.png',
 	            	anchor: [0, 0] //이미지 중심위치 (0~1 [x,y] 비율값 [0,0] 좌상단 [1,1] 우하단)
 	            },
 	        label: {
-	                text: properties.rn,
+	                text: properties.kor_rlr_nm,
 	                //3D POI 수직 막대길이
 	                offsetHeight : 10
 	            }
@@ -260,46 +261,46 @@ function setRailroadTrackListData(_pageNo, geom) {
     });
 }
 
-/**
- * 상세보기 데이터 불러오기
- * @param gid
- * @returns
- */
-function selectRailroadTrackDetail(gid) {
-const filters = 'gid = ' + gid;
-    
-    var options;
-    options = {
-	    typeNames : 'tgd_sprl_rlway',
-	    cql : filters
-    }
-    
-    const promise = dtmap.wfsGetFeature(options);
-    promise.then(function (data) {
-	if (data.features.length != 1) {
-	    toastr.error("상세보기 오류");
-	    return false;
-	}
-	
-	//좌표 처리  geometry로 변수명을 정하면 기존것과 충돌 발생
-    	data.features[0].properties.geomObj = data.features[0].geometry;
-    	
-    	let detailData = data.features[0].properties;
-    	let id = data.features[0].id.split('.')[0] + '.';
-    	detailData.id = id + gid;
-    	
-    	selectRailroadTrackDetailView(detailData);
-    	
-	});
-}
+///**
+// * 상세보기 데이터 불러오기
+// * @param gid
+// * @returns
+// */
+//function selectRailroadTrackDetail(gid) {
+//const filters = 'gid = ' + gid;
+//    
+//    var options;
+//    options = {
+//	    typeNames : 'tgd_sprl_rlway',
+//	    cql : filters
+//    }
+//    
+//    const promise = dtmap.wfsGetFeature(options);
+//    promise.then(function (data) {
+//	if (data.features.length != 1) {
+//	    toastr.error("상세보기 오류");
+//	    return false;
+//	}
+//	
+//	//좌표 처리  geometry로 변수명을 정하면 기존것과 충돌 발생
+//    	data.features[0].properties.geomObj = data.features[0].geometry;
+//    	
+//    	let detailData = data.features[0].properties;
+//    	let id = data.features[0].id.split('.')[0] + '.';
+//    	detailData.id = id + gid;
+//    	
+//    	selectRailroadTrackDetailView(detailData);
+//    	
+//	});
+//}
     
 /**
  * 테이블 데이터 상세보기 페이지 불러오기
  * @param gid
  * @returns
  */
-function selectRailroadTrackDetailView(detailData) {
-    let gid = detailData.gid;
+function selectRailroadTrackDetailView(gid) {
+//    let gid = detailData.gid;
     
     dtmap.vector.clearSelect(); 
     
@@ -312,35 +313,34 @@ function selectRailroadTrackDetailView(detailData) {
     }
 	
     $.ajax({
-	data : formData,
-	type : "POST",
-	url : '/job/fcmr/tpfc/selectRailroadTrackInfo.do',
-	dataType : "html",
-	processData : false,
-	contentType : false,
-	async: false,
-	success : function(data, status) {
-	    if (status == "success") {		
-		$("#rightSubPopup").append(data);
-		dtmap.vector.select('tgd_sprl_rlway.' + gid);
-		
-		var gridList = FACILITY.Ax5UiGrid.list;
-		
-		for (var i = 0; i < gridList.length; i++) {
-			//console.log(gridList[i]);
-			var grid = gridList[i];
-			if (gid == grid.gid) {
-				var dindex = grid.__index;
-				FACILITY.Ax5UiGrid.clearSelect();
-				FACILITY.Ax5UiGrid.focus(dindex);		
-			}
+		data : formData,
+		type : "POST",
+		url : '/job/fcmr/tpfc/selectRailroadTrackInfo.do',
+		dataType : "html",
+		processData : false,
+		contentType : false,
+		async: false,
+		success : function(data, status) {
+		    if (status == "success") {		
+				$("#rightSubPopup").append(data);
+				
+				var gridList = FACILITY.Ax5UiGrid.list;
+				for (var i = 0; i < gridList.length; i++) {
+					//console.log(gridList[i]);
+					var grid = gridList[i];
+					if (gid == grid.gid) {
+						var dindex = grid.__index;
+						FACILITY.Ax5UiGrid.clearSelect();
+						FACILITY.Ax5UiGrid.focus(dindex);		
+					}
+				}
+				
+				dtmap.vector.select('tgd_sprl_rlway.' + gid);
+		    } else { 
+				toastr.error("ERROR!");
+				return;
+		    } 
 		}
-		
-	    } else { 
-		toastr.error("ERROR!");
-		return;
-	    } 
-	}
     });
     
     ui.loadingBar("hide");

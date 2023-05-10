@@ -54,11 +54,11 @@ function reverseUaiGeo(pointx, pointy) {
             const feature = dtmap.util.readWKT(landRegister.landRegister.geometry, landRegister.landRegister);
             dtmap.vector.addFeature(feature,{
                 fill: {
-                    color: 'rgba(255,0,0)',
-                    opacity : 0.6
+                    color: '#FFC080',
+                    opacity: 0.6
                 },
                 stroke: {
-                    color: '#FF0000',
+                    color: '#FF8000',
                     width: 4
                 },
                 renderType: '3D'

@@ -53,9 +53,9 @@
 								</div>
 							</div>
 
-							<div class="position-bottom btn-wrap">
-								<div><button type="button" class="btn basic bi-location2">위치이동</button></div>
-							</div>
+<%--							<div class="position-bottom btn-wrap">--%>
+<%--								<div><button type="button" class="btn basic bi-location2">위치이동</button></div>--%>
+<%--							</div>--%>
 						</div>
 
 					</div>

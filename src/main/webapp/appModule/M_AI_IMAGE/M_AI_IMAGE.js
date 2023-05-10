@@ -4,7 +4,6 @@
  * LAST UPDATE : 2022.1.24
  * COMMENT :
  */
-
 var M_AI_IMAGE = {
     global: {
         test: null,
@@ -293,10 +292,16 @@ var M_AI_IMAGE = {
 
     init: function () {
 
-        //분석 시작 이벤트
-        $("#startAianalysBtn").on('click', function (e) {
-            M_AI_IMAGE.analysis.start();
-        })
+	//분석 시작 이벤트
+	$("#startAianalysBtn").on('click',function(e){
+		chooseUrl = 0;
+		M_AI_IMAGE.analysis.start();
+	})
+	
+	$("#startAianalysAdvanc").on('click', function(e) {
+		chooseUrl = 1;
+		M_AI_IMAGE.analysis.start();
+	})
 
         $("#resetAianalysBtn").on('click', function (e) {
             M_AI_IMAGE.analysis.reset();
@@ -401,40 +406,79 @@ var M_AI_IMAGE = {
             ctx.drawImage(Module.canvas, 0, 0);
             //img 바이너리
             var dataUrl = Module.canvas.toDataURL("image/png");
-
+            
             var imgFile = M_AI_IMAGE.UTIL.dataURLtoFile(dataUrl, 'hello.png');
-
             var formData = new FormData();
             formData.append("file", imgFile);
             formData.append("return_type", "json");
             formData.append("detect_type", detect_type);
 
+            // ai분석 url - 일반, 고도화
+            var aiUrl = ["http://203.228.54.47/detectai", "http://49.247.20.149:5002/detectai"];
+            let selectedUrl = aiUrl[chooseUrl];
+		
             $.ajax({
-                url: "http://203.228.54.47/detectai",
-//				url:"http://10.20.30.81/detectai", // LX 실서버
-//				url:"http://10.165.2.30/detectai", // 양평 실서버
+//		url:"http://203.228.54.47/detectai",
+		url: selectedUrl,
+//		url:"http://10.20.30.81/detectai", // LX 실서버
+//		url:"http://10.165.2.30/detectai", // 양평 실서버
                 type: "POST",
                 dataType: "json",
                 data: formData,
                 processData: false,
                 contentType: false,
                 success: function (result) {
-
-                    console.log(result)
-                    var totalCnt = result.response.length;
-
-                    if (result.response.length == 0) {
-                        toastr.warning("분석결과값이 없습니다. 화면조정후 다시 시도하세요.")
-                        ui.loadingBar("hide");
-                        return false;
-                    }
-                    if (result.response.length > 0) {
-
-                        M_AI_IMAGE.analysis.markupMachineDetectResult(copyCanvas.width, copyCanvas.height, result);
-                    }
+            		dtmap.vector.clear();
+			
+			if(result.response.length == 0 || result.response.length == undefined){
+				toastr.error("분석결과값이 없습니다. 화면조정후 다시 시도하세요.");
+				ui.loadingBar("hide");
+				return false;
+			}
+			if(result.response.length > 0) {
+			    var totalCnt=  result.response.length;
+			    console.log("result");
+			    console.log(result.response);
+			    var detections;
+			    var screenCoord = [];
+			    for (var j = 0; j < result.response.length; j++) {
+				detections = result.response[j].detections.split(', ');
+//				console.log("detections : " + detections);
+				screenCoord.push(detections);
+			    }
+			    for (var i = 0, j = 0; i < screenCoord.length; i++) {
+				var analCoord = [];
+				for (var j = 0; j < screenCoord[i].length; j++){
+				    var coord = screenCoord[i][j].split(' ');
+//				    coord[0] = Module.canvas.width - coord[0];
+//				    coord[1] = Module.canvas.height - coord[1];
+				    analCoord.push(coord);
+				}
+//			    console.log(analCoord);
+			    M_AI_IMAGE.analysis.getScreenMapCoord(analCoord);
+			    }
+			}
+		ui.loadingBar("hide");
                 }
             });
 
+        },
+        getScreenMapCoord: function (coord) {
+            var coordinates = [];
+            for (var i = 0; i < coord.length; i++) {
+		    var pos = Module.getMap().ScreenToMapPointEX(new Module.JSVector2D(parseFloat(coord[i][0]), parseFloat(coord[i][1])));
+//		    console.log(pos.Longitude + ", " + pos.Latitude);
+		    coordinates.push([pos.Longitude, pos.Latitude]);
+		}
+		dtmap.vector.addLine({
+		    id: 'test',
+		    coordinates: coordinates,
+		    crs: 'EPSG:4326',
+		    style: {
+			radius : 8,
+			offsetHeight : 10
+		    }
+		});  
         },
         markupMachineDetectResult: async function (_imageWidth, _imageHeight, _result, _complateCallback) {
 

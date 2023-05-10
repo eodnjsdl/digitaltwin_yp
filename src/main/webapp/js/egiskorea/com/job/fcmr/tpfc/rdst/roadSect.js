@@ -141,6 +141,8 @@ function setRoadSectListData(_pageNo, geom) {
 	//grid 선택창 초기화
 	FACILITY.Ax5UiGrid.focus(-1);
 	
+    dtmap.on('select', onSelectRoadSectEventListener);
+    
     // wfs 옵션값 담을 변수
     var options;
     
@@ -198,7 +200,7 @@ function setRoadSectListData(_pageNo, geom) {
 	}
 	// else if 공간 검색 활성화
     } else if ($('.roadSectSpace').hasClass('on')) {
-	const $parent = $(".facility-spatial-search").closest('.search-area');
+    	const $parent = $(".facility-spatial-search").closest('.search-area');
         const type = $parent.find('input[name="rad-facility-area"]:checked').val();
 	
 	options = {
@@ -260,19 +262,11 @@ function setRoadSectListData(_pageNo, geom) {
 	dtmap.vector.clear();
 	dtmap.vector.readGeoJson(data, function (feature) {
 	    let properties = feature.getProperties();
-	    // properties에 id 값이 랜덤으로 생성되서, gid와 동일하게 변경해줌
-	    // wfs. + gid
-//	    	도로구간 - wfs.+41830(양평군).rdsManNo;
-//	    	그 외는 아래처럼 처리
-//	    let getGid = properties.gid;
-//	    feature.setId('wfs name.' + getGid);
-	    
-	    // --------------------------------------------------
 	    return {
-	        marker: {
-	            	src: '/images/poi/roadSection_poi.png',
-	            	anchor: [0, 0], //이미지 중심위치 (0~1 [x,y] 비율값 [0,0] 좌상단 [1,1] 우하단)
-	            },
+	        // marker: {
+	        //     	src: '/images/poi/roadSection_poi.png',
+	        //     	anchor: [0, 0], //이미지 중심위치 (0~1 [x,y] 비율값 [0,0] 좌상단 [1,1] 우하단)
+	        //     },
 	        label: {
 	                text: properties.rn,
 	                //3D POI 수직 막대길이
@@ -292,7 +286,6 @@ function selectRoadSectDetailView(item) {
     let gid = item.gid;
     let rdsManNo = item.rds_man_no;
     dtmap.vector.clearSelect(); 
-    dtmap.vector.select('tgd_sprd_manage.' + gid);
     ui.openPopup("rightSubPopup");
     ui.loadingBar("show");
     var formData = new FormData();
@@ -302,34 +295,34 @@ function selectRoadSectDetailView(item) {
     }
 	
     $.ajax({
-	data : formData,
-	type : "POST",
-	url : '/job/fcmr/tpfc/selectRoadSectDtlInfo.do',
-	dataType : "html",
-	processData : false,
-	contentType : false,
-	async: false,
-	success : function(data, status) {
-	    if (status == "success") {		
-		$("#rightSubPopup").append(data);
-		
-		var gridList = FACILITY.Ax5UiGrid.list;
-		
-		for (var i = 0; i < gridList.length; i++) {
-			//console.log(gridList[i]);
-			var grid = gridList[i];
-			if (gid == grid.gid) {
-				var dindex = grid.__index;
-				FACILITY.Ax5UiGrid.clearSelect();
-				FACILITY.Ax5UiGrid.focus(dindex);		
-			}
+		data : formData,
+		type : "POST",
+		url : '/job/fcmr/tpfc/selectRoadSectDtlInfo.do',
+		dataType : "html",
+		processData : false,
+		contentType : false,
+		async: false,
+		success : function(data, status) {
+		    if (status == "success") {		
+				$("#rightSubPopup").append(data);
+				
+				var gridList = FACILITY.Ax5UiGrid.list;
+				for (var i = 0; i < gridList.length; i++) {
+					//console.log(gridList[i]);
+					var grid = gridList[i];
+					if (gid == grid.gid) {
+						var dindex = grid.__index;
+						FACILITY.Ax5UiGrid.clearSelect();
+						FACILITY.Ax5UiGrid.focus(dindex);		
+					}
+				}
+				
+				dtmap.vector.select('tgd_sprd_manage.' + gid);
+		    } else { 
+				toastr.error("ERROR!");
+				return;
+		    } 
 		}
-		
-	    } else { 
-		toastr.error("ERROR!");
-		return;
-	    } 
-	}
     });
     ui.loadingBar("hide");
 }

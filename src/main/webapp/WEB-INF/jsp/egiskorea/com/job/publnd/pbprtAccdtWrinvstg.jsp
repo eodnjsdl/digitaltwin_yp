@@ -110,7 +110,7 @@
 							<tr>
 								<td id="loanPosblYn" class="fontSj">대부가능여부</td>
 								<td id="loanPosblYnValue">
-									<input type="text" name="loanPosblYn" value=<c:out value="${pbprtInfo.loanPosblYn }"/>">
+									<input type="text" name="loanPosblYn" value="${pbprtInfo.loanPosblYn }">
 								</td>
 							</tr>
 						</tbody>

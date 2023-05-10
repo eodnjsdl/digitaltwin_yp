@@ -8,53 +8,13 @@
 <!-- 공사계획 정보 -->
 <script src="/js/egiskorea/com/job/bco/cwp.js"></script>
 <!-- 공사예정정보 -->
-<script src="/js/egiskorea/com/job/bco/cws.js"></script>
+<%--<script src="/js/egiskorea/com/job/bco/cws.js"></script>--%>
 <!-- 공사정보 조회 -->
-<script src="/js/egiskorea/com/job/bco/cwi.js"></script>
+<%--<script src="/js/egiskorea/com/job/bco/cwi.js"></script>--%>
 
 <%--<script src="/js/egiskorea/com/cmm/cmmUtil.js"></script>--%>
 
 <script type="text/javascript">
-
-    /* $( function() {
-
-        var dateFormat = "yy-mm-dd",
-                // 시작 갤린더
-                from = $("#srchStrtDate").datepicker({
-                    defaultDate: "+1w",
-                    changeMonth: true,
-                    showOn: "both"
-                }).on( "change", function() {
-                    to.datepicker( "option", "minDate", getDate( this ) );
-                }),
-                // 종료 갤린더
-                to = $("#srchEndDate" ).datepicker({
-                    defaultDate: "+1w",
-                    changeMonth: true,
-                    showOn: "both"
-                }).on( "change", function() {
-                    from.datepicker( "option", "maxDate", getDate( this ) );
-                });
-
-        if("<c:out value="${standardYear.qltyImntBegDe}"/>" != ""){
-			to.datepicker('option','minDate', new Date("<c:out value="${standardYear.qltyImntBegDe}"/>"));
-		}
-		if("<c:out value="${standardYear.qltyImntEndDe}"/>" != ""){
-			from.datepicker('option','maxDate', new Date("<c:out value="${standardYear.qltyImntEndDe}"/>"));
-		}
-
-		function getDate( element ) {
-			var date;
-			try {
-				date = $.datepicker.parseDate( dateFormat, element.value );
-			} catch( error ) {
-				date = null;
-			}
-
-			return date;
-		}
-
-	}); */
     var rePageChk = true;
     // 시기 - 년도
     var rePlnYear = "<c:out value='${searchVO.plnYear}'></c:out>";
@@ -86,8 +46,9 @@
     dtmap.vector.clear();
     for (let i = 0; i < poiListPlan.resultList.length; i++) {
         let poi = poiListPlan.resultList[i];
+        var poi_id = ""+poi.cntrkPlnId;
         dtmap.vector.addPoint({
-            id: poi.cntrkPlnId,
+            id: poi_id,
             coordinates: [Number(poi.lon), Number(poi.lat)],
             crs: 'EPSG:5179',
             properties: poi,
@@ -302,6 +263,5 @@
 <button type="button" class="manualBtn" title="도움말" onclick="manualTab('사업공유관리')"></button>
 <button type="button" class="popup-close" title="닫기" onclick="removeLayer(); destroy();"></button>
 <button type="button" class="popup-reset" class="초기화" onclick="leftPopupOpen('constructionPlan')"></button>
-<button type="button" class="popup-left-toggle" title="접기"></button>
 <!-- </div> -->
 <!-- //업무 > 공간정보활용 > 사업공유관리 -->

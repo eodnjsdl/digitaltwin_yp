@@ -153,6 +153,11 @@ map3d.layer = (function () {
         }
     }
 
+    function refresh() {
+
+    }
+
+
     let module = {
         init: init,
         addLayer: addLayer,
@@ -160,6 +165,7 @@ map3d.layer = (function () {
         setVisible: setVisible,
         getById: getById,
         getByName: getByName,
+        refresh: refresh,
         clear: clear
     }
 

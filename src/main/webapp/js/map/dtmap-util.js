@@ -19,7 +19,7 @@ window.dtmap.util = (function () {
         } else if (z > 19) {
             z = 19;
         }
-        return altitudes[19];
+        return altitudes[z];
     }
 
     function readWKT(wkt, properties) {
@@ -216,6 +216,30 @@ window.dtmap.util = (function () {
 
     }
 
+    const DOTS_PER_INCH = 72;
+    const INCHES_PER_METRE = 39.37;
+
+    function getProjection(crs) {
+        if (!crs) {
+            crs = dtmap.crs
+        }
+        return ol.proj.get(crs);
+    }
+
+    function scaleToResolution(scale, crs) {
+        const unit = getProjection(crs).getUnits();
+        return scale / inchesPerUnit(unit) / DOTS_PER_INCH;
+    }
+
+    function resolutionToScale(resolution, crs) {
+        const unit = getProjection(crs).getUnits();
+        return resolution * inchesPerUnit(unit) * DOTS_PER_INCH;
+    }
+
+    function inchesPerUnit(unit) {
+        return ol.proj.Units.METERS_PER_UNIT[unit] * INCHES_PER_METRE;
+    }
+
     let module = {
         altToZoom: altToZoom,
         zoomToAlt: zoomToAlt,
@@ -226,6 +250,8 @@ window.dtmap.util = (function () {
         createGeometry: createGeometry,
         createFeature: createFeature,
         getBufferGeometry: getBufferGeometry,
+        resolutionToScale: resolutionToScale,
+        scaleToResolution: scaleToResolution,
         centroid: centroid
     }
     return module;

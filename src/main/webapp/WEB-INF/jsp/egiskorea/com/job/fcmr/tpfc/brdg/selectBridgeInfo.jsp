@@ -36,7 +36,6 @@
 			</div><!-- // scroll-y -->
 			<div class="position-bottom btn-wrap">
 				<div>
-<!-- 				<button type="button" class="btn basic bi-edit" id="bridgeUpdate">수정</button>  -->
 					<button type="button" class="btn basic bi-cancel" onClick="cancleView()">취소</button>
 				</div>
 			</div><!-- // class="position-bottom btn-wrap" -->

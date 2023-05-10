@@ -211,22 +211,22 @@ public class PublndMngController {
 		return mav;
 	}
 	
-	/**
-	 * 공유재산 실태조사 엑셀 다운로드
-	 * @param pbprtAccdtVO
-	 * @param request
-	 * @param response
-	 * @param model
-	 * @throws Exception
-	 */
-	@RequestMapping(value = "/downloadPbprtAccdtExcelList.do")
-	public void downloadRoadSectionExcelList(
-			HttpServletRequest request,
-			HttpServletResponse response,
-			ModelMap mode, String year) throws Exception{
-		
-		pbprtAccdtService.selectPbprtAccdtExcelList(request, response, year);
-	}
+//	/**
+//	 * 공유재산 실태조사 엑셀 다운로드
+//	 * @param pbprtAccdtVO
+//	 * @param request
+//	 * @param response
+//	 * @param model
+//	 * @throws Exception
+//	 */
+//	@RequestMapping(value = "/downloadPbprtAccdtExcelList.do")
+//	public void downloadRoadSectionExcelList(
+//			HttpServletRequest request,
+//			HttpServletResponse response,
+//			ModelMap mode, String year) throws Exception{
+//		
+//		pbprtAccdtService.selectPbprtAccdtExcelList(request, response, year);
+//	}
 	
 	/**
 	 * 공유재산 실태조사 엑셀 업로드 양식 다운로드

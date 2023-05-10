@@ -241,17 +241,9 @@ function setRailroadStationListData(_pageNo, geom) {
 	dtmap.vector.clear();
 	dtmap.vector.readGeoJson(data, function (feature) {
 	    let properties = feature.getProperties();
-	    // properties에 id 값이 랜덤으로 생성되서, gid와 동일하게 변경해줌
-	    // wfs. + gid
-//	    let getGid = properties.gid;
-//	    feature.setId('tgd_sprl_statn.' + getGid);
-	    // --------------------------------------------------
 	    return {
 	        marker: {
-	            	src: '/images/poi/railroadStation_poi.png',
-	            	anchor: [0, 0], //이미지 중심위치 (0~1 [x,y] 비율값 [0,0] 좌상단 [1,1] 우하단) 
-	            	scale: 1, //스케일값
-	            	opacity: 1 
+	            	src: '/images/poi/railroadStation_poi.png'
 	            },
 	        label: {
 	                text: properties.kor_sta_nm,
@@ -273,7 +265,6 @@ function setRailroadStationListData(_pageNo, geom) {
  */
 function selectRailroadStationDetailView(gid) {
     dtmap.vector.clearSelect(); 
-    dtmap.vector.select('tgd_sprl_statn.' + gid);
     
     ui.openPopup("rightSubPopup");
     ui.loadingBar("show");
@@ -284,34 +275,34 @@ function selectRailroadStationDetailView(gid) {
     }
 	
     $.ajax({
-	data : formData,
-	type : "POST",
-	url : '/job/fcmr/tpfc/selectRailroadStationInfo.do',
-	dataType : "html",
-	processData : false,
-	contentType : false,
-	async: false,
-	success : function(data, status) {
-	    if (status == "success") {		
-		$("#rightSubPopup").append(data);
-		
-		var gridList = FACILITY.Ax5UiGrid.list;
-		
-		for (var i = 0; i < gridList.length; i++) {
-			//console.log(gridList[i]);
-			var grid = gridList[i];
-			if (gid == grid.gid) {
-				var dindex = grid.__index;
-				FACILITY.Ax5UiGrid.clearSelect();
-				FACILITY.Ax5UiGrid.focus(dindex);		
-			}
+		data : formData,
+		type : "POST",
+		url : '/job/fcmr/tpfc/selectRailroadStationInfo.do',
+		dataType : "html",
+		processData : false,
+		contentType : false,
+		async: false,
+		success : function(data, status) {
+		    if (status == "success") {		
+				$("#rightSubPopup").append(data);
+				
+				var gridList = FACILITY.Ax5UiGrid.list;
+				for (var i = 0; i < gridList.length; i++) {
+					//console.log(gridList[i]);
+					var grid = gridList[i];
+					if (gid == grid.gid) {
+						var dindex = grid.__index;
+						FACILITY.Ax5UiGrid.clearSelect();
+						FACILITY.Ax5UiGrid.focus(dindex);		
+					}
+				}
+				
+				dtmap.vector.select('tgd_sprl_statn.' + gid);
+		    } else { 
+				toastr.error("ERROR!");
+				return;
+		    } 
 		}
-		
-	    } else { 
-		toastr.error("ERROR!");
-		return;
-	    } 
-	}
     });
     
     ui.loadingBar("hide");

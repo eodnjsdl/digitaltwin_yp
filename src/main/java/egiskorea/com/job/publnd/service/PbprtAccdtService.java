@@ -42,7 +42,7 @@ public interface PbprtAccdtService {
 	public int updatePbprtAccdtInfo(PbprtAccdtVO pbprtAccdtVO) throws Exception;
 	
 	/** 공유재산 실태조사 엑셀 다운로드 */
-	public List<?> selectPbprtAccdtExcelList(HttpServletRequest request, HttpServletResponse response, String year) throws Exception;
+//	public List<?> selectPbprtAccdtExcelList(HttpServletRequest request, HttpServletResponse response, String year) throws Exception;
 	
 	/** 공유재산 실태조사 엑셀 다운로드 연도별 목록 조회*/
 	public List<String> selectPbprtAccdtYearList();

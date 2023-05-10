@@ -43,6 +43,21 @@ function _onDrawEnd_memo(e) {
 	});
 }
 
+function _onContext_memo(geom) {
+	dtmap.draw.dispose();
+	const position = geom.getFlatCoordinates();
+	var xObj = parseFloat(position[0]);
+	var yObj = parseFloat(position[1]);
+	cmmUtil.reverseGeocoding(xObj, yObj).done((result)=>{
+		$("#loc_memo").val(result["address"]);
+		const format = new ol.format.WKT();
+		const point = new ol.geom.Point([xObj, yObj]);
+		const wkt = format.writeGeometry(point);
+		$("#wkt").val(wkt);
+		toastr.success(result["address"], "위치가 등록되었습니다.");
+	});
+}
+
 // 메모 지도에서 선택
 function aj_selectMemoLocation() {
 	// cmmUtil.getPosition(reverseMemoGeo);

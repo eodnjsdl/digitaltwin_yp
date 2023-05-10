@@ -59,17 +59,20 @@ window.dtmap = (function () {
             _cur_mode = '3D';
             map2d.hide();
             map2d.clear();
+            map2d.layer.clear();
             await map3d.show();
 
             //2D->3D 위치 동기화
             let center = map2d.getCenter();
             center = ol.proj.transform(center, map2d.crs, map3d.crs);
-            map3d.setCenter(center, dtmap.util.zoomToAlt(map2d.view.getZoom()));
+            center[2] = dtmap.util.zoomToAlt(map2d.view.getZoom());
+            map3d.setCenter(center);
 
         } else {
             _cur_mode = '2D'
             map3d.hide();
             map3d.clear();
+            map3d.layer.clear();
             map2d.show();
 
             //3D->2D 위치 동기화
@@ -107,8 +110,8 @@ window.dtmap = (function () {
      * 중심점 설정하기
      * @param {number[]} center [x,y]
      */
-    function setCenter(center) {
-        call('setCenter', center);
+    function setCenter(center, options) {
+        call('setCenter', center, options);
     }
 
     /**
@@ -133,17 +136,7 @@ window.dtmap = (function () {
      */
 
     function showLayer(options) {
-        let {id, type, visible, table, store, shpType, layerNm} = options;
-
-        call('showLayer', {
-            type: type,
-            id: id,
-            visible: visible,
-            table: table,
-            store: store,
-            shpType: shpType,
-            layerNm: layerNm
-        });
+        call('showLayer', options);
     }
 
     function clearInteraction() {
@@ -276,7 +269,7 @@ window.dtmap = (function () {
             }
             ary.push(new ol.format.filter.intersects('geom', geom, options.crs || dtmap.crs));
         } else if (options.bbox) {
-            ary.push(new ol.format.filter.bbox('geom', options.bbox,options.crs || dtmap.crs));
+            ary.push(new ol.format.filter.bbox('geom', options.bbox, options.crs || dtmap.crs));
         }
 
         if (ary.length === 0) {
@@ -348,9 +341,9 @@ window.dtmap = (function () {
         const sortProperty = doc.createElementNS(ogcNS, 'ogc:SortProperty');
         sortby.appendChild(sortProperty);
         const propertyName = doc.createElementNS(ogcNS, 'ogc:PropertyName');
-        propertyName.setHTML(options.sortBy || 'gid');
+        propertyName.innerHTML = (options.sortBy || 'gid');
         const order = doc.createElementNS(ogcNS, 'ogc:SortOrder');
-        order.setHTML(options.sortOrder || 'ASC');
+        order.innerHTML = (options.sortOrder || 'ASC');
         sortProperty.appendChild(propertyName);
         sortProperty.appendChild(order);
         sortby.appendChild(sortProperty);
@@ -455,9 +448,9 @@ window.dtmap = (function () {
      * 현재 지도화면을 base64 스트링으로 반환
      * @return {Promise}
      */
-    function toImage() {
+    function toImage(options) {
         const promise = $.Deferred();
-        html2canvas(getMap().container).then(canvas => {
+        html2canvas(getMap().container, options).then(canvas => {
             promise.resolve(canvas.toDataURL());
         });
         return promise;

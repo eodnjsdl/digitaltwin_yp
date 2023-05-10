@@ -12,18 +12,9 @@ var cwi ={
 
 // 이벤트 등록
 $(document).ready(function(){
-	//TODO GIS
-	// 레이어 생성
-	// var layerList = new Module.JSLayerList(true);
-	// GLOBAL.PoiLayer = layerList.createLayer(cwi.ordLayerId, Module.ELT_3DPOINT);
-	// layerList.createLayer(cwi.LineLayerId, Module.ELT_3DLINE);
-	// 공사정보 조회 > 속성조회 조회버튼 클릭 이벤트
-	// $("button[name='cwiSearch']").unbind('click').bind('click',function(){
-	// 	document.searchInquiryForm.pageIndex.value = "1";			// 선택한 페이지 번호
-	// 	aj_selectConstructionInquiryList($("#searchInquiryForm")[0]);
-	// 	destroy();destroy("Polygon");
-	// });
-	
+	//오브젝트 클릭 이벤트 처리 
+    dtmap.off('select');
+    dtmap.on('select',spaceClickListener );
 
 	// 공사정보 조회 > 공간조회 조회버튼 클릭 이벤트
 	$("button[name='cwiSearch02']").unbind('click').bind('click',function(){
@@ -31,46 +22,18 @@ $(document).ready(function(){
 		if(Number($("#radius").val()) <= 0){alert('반경을 입력 해주세요'); return false;}
 		document.searchInquiryForm2.pageIndex.value = "1";			// 선택한 페이지 번호
 
-		//TODO GIS
-		// if(app2D){
-		// 	var buffer = $("#radius").val();
-		// 	if(buffer && buffer > 0) {
-		// 		const wkt = $("#searchInquiryForm2 input[name='geomSp']").val();
-		// 		if(wkt) {
-		// 			cmmUtil.showBufferGeometry(wkt, buffer);
-		// 		}
-		// 	}
-		// }else{
-		// 	const wkt = $("#searchInquiryForm2 input[name='geomSp']").val();
-		// 	cmmUtil.setRadius(wkt, $("#radius").val(), 100); // 좌표, 반경값, 표출할 점의 계수
-		// }
 		
 		aj_selectConstructionInquirySpaceList($("#searchInquiryForm2")[0]);
-		
-		/*if(cwi.position != '' || cwi.position != undefined){
-			debugger;
-			cmmUtil.setRadius(cwi.position, $("#radius").val(), 100); // 좌표, 반경값, 표출할 점의 계수
-			var buffer = $("#radius").val();
-			if(buffer && buffer > 0) {
-				const wkt = $("#searchInquiryForm2 input[name='geomSp']").val();
-				if(wkt) {
-					cmmUtil.showBufferGeometry(wkt, buffer);
-				}
-			}
-			aj_selectConstructionInquirySpaceList($("#searchInquiryForm2")[0]);
-		}*/
+
 		
 	});
+	// 상세 페이지 조회 이벤트 처리
+	$("tr[name='tdCwiDtl']").unbind('click').bind('click',function(){
+		// cmmUtil.setCameraMove($(this).data('lon'), $(this).data('lat')); //lon Lat 값에 따라 화면 이동
+		// cmmUtil.setPoiHighlight(cwp.layerId, $(this).data('cpi'));
+		aj_selectConstructionInquiry($(this).data('cwiid'));
+	});
 	
-	
-	// 공사정보 조회 > 상세 페이지 이동 이벤트 처리 이벤트
-	// $("tr[name='tdCwiDtl']").unbind('click').bind('click',function(){
-	// 	//destroy();
-	// 	cmmUtil.setCameraMove($(this).data('lon'), $(this).data('lat'));
-	// 	cmmUtil.setPoiHighlight(cwi.layerId, $(this).data('cwiid'));
-	// 	aj_selectConstructionInquiry($(this).data('cwiid'));
-	//
-	// });
 	
 	// 공사정보 조회 > 상세페이지 >  차수정보 차수 셀렉트박스 처리 이벤트
 	$("#cntrkOdrDtlCwi").unbind('change').bind('change',function(){
@@ -98,9 +61,9 @@ $(document).ready(function(){
 	
 	// 공사정보 조회(공간조회) > 지도에서 선택 이벤트 처리
 	$("#getInquiryPosition").unbind('click').bind('click',function(){
-		// cmmUtil.getPositionGeom(inquiryPositionCallback);
-		// 생성된어 있는 PolygonLayer 레이어가 있을때 지워주기
-		destroy("Polygon");
+		dtmap.off('select');
+		dtmap.draw.active({type: 'Point', once: true});
+		dtmap.on('drawend', onDrawEnd);
 	});
 	
 	// 공사정보조회 > 상세 페이지 > 차수정보 클릭시 지도 이동 처리
@@ -109,23 +72,32 @@ $(document).ready(function(){
 	});
 	
 	
-	// if(Number(poiListInquiry.resultCnt) != 0){
-		//cmmUtil.setPointLayer(poiListSchedule.resultList, poiScheduleInfo.layerTextKey, poiScheduleInfo.layerId, poiScheduleInfo.imgUrl);
-		// if(poiListInquiry != ''){
-			//setPointLayerInquiry();
-			// cmmUtil.setPointLayer(poiListInquiry.resultList, cwi.layerId, "cntrkPrrngId", "cntrkNm", cwi.imgUrl, (feature) => {
-			// 	//$(`.bbs-list tr[data-cwiid='${feature.getId()}']`).trigger('click');
-			// 	console.log('poiListInquiry.resultList : ', poiListInquiry.resultList);
-			//
-			// 	aj_selectConstructionInquiry(`${feature.getId()}`);
-			// });
-		// }
-	// }else{
-		// 생성된어 있는 POI 레이어가 있을때 지워주기
-		// destroy("poi");
-	// }
+
 	
 });
+// 지도 클릭위치 좌표값 획득 이벤트
+function onDrawEnd(e) {
+	dtmap.draw.dispose();
+	var geom = e.geometry;
+	const position = geom.getFlatCoordinates();
+	var modPosition;
+    if(dtmap.mod=='2D'){
+        modPosition = position;
+    }else{
+        modPosition = ol.proj.transform([position[0],position[1]],'EPSG:4326','EPSG:5179');
+    }
+	console.log(modPosition);
+	var xObj = parseFloat(position[0]);
+	var yObj = parseFloat(position[1]);
+	cmmUtil.reverseGeocoding(xObj, yObj).done((result)=>{
+		$("#cntrkLcAdresSp").val("경기도 양평군 "+result["address"]);
+		const format = new ol.format.WKT();
+		const point = new ol.geom.Point([ parseFloat(modPosition[0]), parseFloat(modPosition[1])]);
+		const wkt = format.writeGeometry(point);
+		$("#geomSp").val(wkt);
+	});
+	dtmap.on('select',spaceClickListener );
+}
 
 // 차수정보 관련된 POILayer 를 추가해준다.
 function orderListLayer(){
@@ -136,28 +108,6 @@ function orderListLayer(){
 	}else{
 		
 		if(orderListInquiry.length == 0){ return;}
-		
-		//TODO GIS
-		// 레이어 생성
-		// var layerList = new Module.JSLayerList(true);
-		// poi 레이어 있을떄 삭제 처리
-		// if(GLOBAL.LayerId.PoiLayerId != null){
-		// 	layerList.nameAtLayer(GLOBAL.LayerId.PoiLayerId).removeAll();
-		// 	GLOBAL.LayerId.PoiLayerId = null;
-		// 	Module.XDRenderData();
-		// }
-		// // poi 레이어 있을떄 삭제 처리
-		// if(GLOBAL.LayerId.LowPoiLayerId != null){
-		// 	layerList.nameAtLayer(GLOBAL.LayerId.LowPoiLayerId).removeAll();
-		// 	GLOBAL.LayerId.LowPoiLayerId = null;
-		// 	Module.XDRenderData();
-		// }
-		// // Line 레이어 있을떄 삭제 처리
-		// if(GLOBAL.LayerId.LineLayerId != null){
-		// 	layerList.nameAtLayer(GLOBAL.LayerId.LineLayerId).removeAll();
-		// 	GLOBAL.LayerId.LineLayerId = null;
-		// 	Module.XDRenderData();
-		// }
 		
 		
 				
@@ -443,21 +393,11 @@ function fn_selectInquiry_linkPage(pageNo){
 	if($("#searchInquiryForm2")[0].pageType.value == "type01"){ //공사정보조회 > 공간조회
 		// 조회영역에 있는 값들 가져오기
 		document.searchInquiryForm.pageIndex.value = pageNo;			// 선택한 페이지 번호
-		// document.searchInquiryForm.plnYear.value = rePlnYear;			// 검색된(초기 null) 년도;
-		// document.searchInquiryForm.plnQu.value = rePlnQu;				// 검색된(초기 null) 분기;
-		// document.searchInquiryForm.cntrkTy.value = reCntrkTy;			// 검색된(초기 null) 공사유형;
-		// document.searchInquiryForm.chpsnPsitn.value = reChpsnPsitn;		// 검색된(초기 null) 집행부서;
-		// document.searchInquiryForm.cntrkLcAdres.value = reCntrkLcAdres;	// 검색된(초기 null) 읍명동;
-		// document.searchInquiryForm.cntrkNm.value = reCntrkNm;			// 검색된(초기 null) 공사명;
-		// document.searchInquiryForm.chpsnNm.value = reChpsnNm;			// 검색된(초기 null) 담당자명;
 
 		aj_selectConstructionInquiryList($("#searchInquiryForm")[0]); //공사정보조회 > 속성조회
 	}else{
 		// 조회영역에 있는 값들 가져오기
 		document.searchInquiryForm2.pageIndex.value = pageNo;					// 선택한 페이지 번호
-		//document.searchInquiryForm2.plnYearSp.value = rePlnYearSp;				// 검색된(초기 null) 년도;
-		//document.searchInquiryForm2.cntrkLcAdresSp.value = reCntrkLcAdresSp;	// 검색된(초기 null) 분기;
-		//document.searchInquiryForm2.radius.value = reRadius;					// 검색된(초기 null) 반경;
 		aj_selectConstructionInquirySpaceList($("#searchInquiryForm2")[0]);
 	}
 	
@@ -485,18 +425,7 @@ function aj_selectConstructionInquiryList(form){
 				$(".scroll-y").mCustomScrollbar({
 					scrollbarPosition:"outside"
 				});
-				/*if(uiType == "type01"){
-					$(".constructionInfo02").removeClass("on");
-					$("li[name='constructionInquiry02']").removeClass("on");
-					$(".constructionInfo01").addClass("on");
-					$("li[name='constructionInquiry01']").addClass("on");
-				}else{
-					$(".constructionInfo01").removeClass("on");
-					$("li[name='constructionInquiry01']").removeClass("on");
-					$(".constructionInfo02").addClass("on");
-					$("li[name='constructionInquiry02']").addClass("on");
-					cwi.uiType = uiType;
-				}*/
+				
 			}else{
 				toastr.error("관리자에게 문의 바랍니다.", "정보를 불러오지 못했습니다.");
 				return;
@@ -529,18 +458,7 @@ function aj_selectConstructionInquirySpaceList(form){
 				$(".scroll-y").mCustomScrollbar({
 					scrollbarPosition:"outside"
 				});
-				/*if(uiType == "type01"){
-					$(".constructionInfo02").removeClass("on");
-					$("li[name='constructionInquiry02']").removeClass("on");
-					$(".constructionInfo01").addClass("on");
-					$("li[name='constructionInquiry01']").addClass("on");
-				}else{
-					$(".constructionInfo01").removeClass("on");
-					$("li[name='constructionInquiry01']").removeClass("on");
-					$(".constructionInfo02").addClass("on");
-					$("li[name='constructionInquiry02']").addClass("on");
-					cwi.uiType = uiType;
-				}*/
+				
 				cwi.position = position;
 			}else{ 
 				toastr.error("관리자에게 문의 바랍니다.", "정보를 불러오지 못했습니다.");
@@ -632,80 +550,19 @@ function aj_selectConstructionInquiryOderInfo(cntrkPrrngId, orderId){
 }
 
 function removeInquiryPage(){
-	destroy('All'); 	
+	//destroy('All'); 	
 	// 페이지 초기화
 	leftPopupOpen('constructionInquiry');
 }
 
-//TODO GIS
-//설정되어 있는 정보값들을 초기화 한다.
-// function destroy(val){
-// 	var mapType = $('input:radio[name="mapType"]:checked').val();
-// 	if (mapType == "2D") {
-//
-// 	}else{
-// 		// 레이어 생성
-// 	    var layerList = new Module.JSLayerList(true);
-// 		// 반경검색 레이어 삭제
-// 		if(val == "Polygon" ){
-// 		   if(GLOBAL.LayerId.RadiusLayerId != null){
-// 			   var layer = layerList.nameAtLayer(GLOBAL.LayerId.RadiusLayerId);
-// 			   if(layer != null){
-// 				   layer.removeAll();
-// 				   GLOBAL.LayerId.RadiusLayerId = null;
-// 			   }
-// 		   }
-// 		   // 지도에서 선택 레이어 삭제처리
-// 		   cmmUtil.drawClear();
-// 		   if(GLOBAL.StartPoint){
-// 			   GLOBAL.StartPoint = false;
-// 			   removePoint(GLOBAL.NomalIcon);
-// 		   }
-// 		}else{
-// 			// 반경검색 레이어 삭제
-// 			if(val == "All" ){
-// 			   if(GLOBAL.LayerId.RadiusLayerId != null){
-// 				   var layer = layerList.nameAtLayer(GLOBAL.LayerId.RadiusLayerId);
-// 				   if(layer != null){
-// 					   layer.removeAll();
-// 					   GLOBAL.LayerId.RadiusLayerId = null;
-// 				   }
-// 			   }
-// 			   // 지도에서 선택 레이어 삭제처리
-// 			   cmmUtil.drawClear();
-// 			   if(GLOBAL.StartPoint){
-// 				   GLOBAL.StartPoint = false;
-// 				   removePoint(GLOBAL.NomalIcon);
-// 			   }
-// 			}
-// 			// 차수 라인레이어 삭제
-// 			if(GLOBAL.LayerId.LineLayerId != null){
-// 				var layer = layerList.nameAtLayer(GLOBAL.LayerId.LineLayerId);
-// 				if(layer != null){
-// 					layer.removeAll();
-// 					GLOBAL.LayerId.LineLayerId = null;
-// 				}
-// 			}
-// 			// 공사정보 poi 삭제
-// 			if(GLOBAL.LayerId.PoiLayerId != null){
-// 				var layer = layerList.nameAtLayer(GLOBAL.LayerId.PoiLayerId);
-// 				if(layer != null){
-// 					layer.removeAll();
-// 					GLOBAL.LayerId.PoiLayerId = null;
-// 				}
-// 			}
-// 			// 차수 정보 poi 삭제
-// 			if(GLOBAL.LayerId.LowPoiLayerId != null){
-// 				var layer = layerList.nameAtLayer(GLOBAL.LayerId.LowPoiLayerId);
-// 				if(layer != null){
-// 					layer.removeAll();
-// 					GLOBAL.LayerId.LowPoiLayerId = null;
-// 				}
-// 			}
-// 		}
-// 		 Module.XDRenderData();
-//
-// 		// 생성된어 있는 POI, Line, Polygon 레이어가 있을때 지워주기
-// 		//removeLayer3D();
-// 	}
-// }
+//레이어 선택 상세보기
+function spaceClickListener(e){
+	var gid ;
+	if (dtmap.mod === '3D'){
+		gid=e.id;
+	}else{
+		gid=e.id;
+	}
+	aj_selectConstructionInquiry(gid);
+}
+

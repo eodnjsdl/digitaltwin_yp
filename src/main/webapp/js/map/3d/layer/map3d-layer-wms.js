@@ -7,10 +7,13 @@ map3d.layer.WMS = (function () {
     const WMS_OPT = {
         minimumlevel: 7,
         maximumlevel: 16,
-        tileSize: '756',
+        tileSize: 256,
         crs: 'EPSG:4326',
         parameters: {
-            version: "1.1.1",
+            VERSION: "1.1.0",
+            SERVICE: 'WMS',
+            REQUEST: 'GetMap',
+            FORMAT: 'image/png'
         }
     }
 
@@ -32,15 +35,19 @@ map3d.layer.WMS = (function () {
      * @returns {XDWorld.JSLayer}
      */
     WMS.prototype.createInstance = function (options) {
-        let {store, table} = options;
-        let opt = Object.assign({}, {
+        let opt = _.merge({}, {
+            method : 'post',
             url: dtmap.urls.xdGeoServer + "/wms?",
             layer: options.layerNm,
             minimumlevel: options.minimumlevel,
             maximumlevel: options.maximumlevel,
             tileSize: options.tileSize,
             crs: options.crs,
-            parameters: options.parameters,
+            parameters: {
+                VERSION : '1.1.1',
+                SLD: options.sld,
+                SLD_BODY : options.sldBody
+            },
         }, WMS_OPT)
 
         let layer = map3d.serviceLayers.createWMSLayer(this.id);
