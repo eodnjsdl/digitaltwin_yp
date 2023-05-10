@@ -41,6 +41,7 @@ const analysis = {
         const fileJs = '/appModule/' + id + '/' + id + '.js';
         const $container = $(this.container)
         const $element = $(`<div id="${id}"></div>`);
+        console.log(fileHtml);
         $element.load(fileHtml, function () {
             $.loadCSS(fileCss, function () {
                 $.getScript(fileJs, function () {

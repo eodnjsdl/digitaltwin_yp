@@ -437,7 +437,13 @@ var M_AI_IMAGE = {
             // ai분석 url - 일반, 고도화
             var aiUrl = ["http://203.228.54.47/detectai", "http://49.247.20.149:5002/detectai"];
             let selectedUrl = aiUrl[chooseUrl];
-		
+            let extent = dtmap.getExtent();
+            let coordinate = [];
+            coordinate.push(ol.proj.transform([dtmap.getExtent()[0], dtmap.getExtent()[1]], 'EPSG:4326', 'EPSG:3857'));
+            coordinate.push(ol.proj.transform([dtmap.getExtent()[2], dtmap.getExtent()[3]], 'EPSG:4326', 'EPSG:3857'));
+            
+            
+            
             $.ajax({
 //		url:"http://203.228.54.47/detectai",
 		url: selectedUrl,
@@ -445,7 +451,7 @@ var M_AI_IMAGE = {
 //		url:"http://10.165.2.30/detectai", // 양평 실서버
                 type: "POST",
                 dataType: "json",
-                data: formData,
+                data: {formData, extent, coordinate},
                 processData: false,
                 contentType: false,
                 success: function (result) {
