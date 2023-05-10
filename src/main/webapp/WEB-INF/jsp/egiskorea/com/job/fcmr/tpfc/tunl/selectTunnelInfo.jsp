@@ -36,12 +36,11 @@
 			</div><!-- // scroll-y -->
 			<div class="position-bottom btn-wrap">
 				<div>
-<!-- 				<button type="button" class="btn basic bi-edit" id="bridgeUpdate">수정</button>  -->
-					<button type="button" class="btn basic bi-cancel" onclick="closeView()">취소</button>
+					<button type="button" class="btn basic bi-cancel" onClick="cancleView()">취소</button>
 				</div>
 			</div><!-- // class="position-bottom btn-wrap" -->
 		</div>
 	</div><!-- // sub-popup-body -->
 </div><!-- // class="popup-body" -->
-<button type="button" class="popup-close" title="닫기" onClick="closeView()"></button>				
+<button type="button" class="sub-popup-close" title="닫기" onClick="cancleView()"></button>
 <!-- //업무 > 시설관리 > 교통시설 > 터널 상세보기 -->

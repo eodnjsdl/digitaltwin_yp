@@ -156,7 +156,6 @@ $(document).ready(function() {
 									<td>
 										<select name="fcltyTy" id="phyFcltyTy" class="form-select">
 											<option value="">전체</option>
-											<option value="체육시설">체육시설</option>
 										</select>
 									</td>
 								</tr>

@@ -7,6 +7,9 @@
  * @returns
  */
 function selectBridgeListView() {
+	// 팝업 닫기
+	ui.closeSubPopup();
+	
     $('#bottomPopup').load('/job/fcmr/tpfc/selectBridgeListView.do', function () {
 	// 공간검색 옵션 초기화
 	FACILITY.spaceSearchOption = {};
@@ -34,8 +37,9 @@ function callBridgeGrid() {
  * @returns
  */
 function setBridgeListGrid() {
-    this.target = new ax5.ui.grid();
-    this.target.setConfig({
+	FACILITY.Ax5UiGrid = null;	// ax5uigrid 전역 변수 
+	FACILITY.Ax5UiGrid = new ax5.ui.grid();
+	FACILITY.Ax5UiGrid.setConfig({
 	target: $('[data-ax5grid="bridgeListGrid"]'),
 	showLineNumber: true,
 	sortable: true,
@@ -61,10 +65,10 @@ function setBridgeListGrid() {
 		}
 	},
 	columns: [
-	    {key: "sig_cd",		label: "시군구코드",		width: 250},
-	    {key: "kor_bri_nm",		label: "교량명(한글)",		width: 250},
-	    {key: "opert_de",		label: "작업일시",			width: 250},
-	    {key: "bridge_sn",		label: "교량 일련번호",		width: 250}
+	    {key: "sig_cd",			label: "시군구코드",		width: "*"},
+	    {key: "kor_bri_nm",		label: "교량명(한글)",		width: "*"},
+	    {key: "opert_de",		label: "작업일시",			width: "*"},
+	    {key: "bridge_sn",		label: "교량 일련번호",		width: "*"}
 	],
     });
 }
@@ -123,9 +127,14 @@ function getWfsBridgeListData() {
  * @returns
  */
 function setBridgeListData(_pageNo, geom) {
+	// 팝업 닫기
+	ui.closeSubPopup();
+	
+	//grid 선택창 초기화
+	FACILITY.Ax5UiGrid.focus(-1);
+	
     dtmap.on('select', onSelectBridgeEventListener);
-    var gridList = this;
-    
+
     // wfs 옵션값 담을 변수
     var options;
     if ($('.bridgeProperty').hasClass('on')) {
@@ -203,7 +212,7 @@ function setBridgeListData(_pageNo, geom) {
     }
     
     
- // 철도역사 - wms -> sortBy, orderBy, clq(sig_cd = 41830 -- 양평군) 필수
+	// 철도역사 - wms -> sortBy, orderBy, clq(sig_cd = 41830 -- 양평군) 필수
     const promise = dtmap.wfsGetFeature(options);
     promise.then(function(data) {
 	$('.bbs-list-num strong').empty();
@@ -224,7 +233,7 @@ function setBridgeListData(_pageNo, geom) {
 	    list.push({...properties, ...{id: id}});
 	}
 
-	gridList.target.setData({
+	FACILITY.Ax5UiGrid.setData({
 	    list: list,
 	    page: {
 		currentPage: _pageNo || 0,
@@ -266,26 +275,38 @@ function selectBridgeDetailView(gid) {
     var formData = new FormData();
 	
     if (gid != '') {
-	formData.append('gid', gid);
+    	formData.append('gid', gid);
     }
 	
     $.ajax({
-	data : formData,
-	type : "POST",
-	url : '/job/fcmr/tpfc/selectBridgeInfo.do',
-	dataType : "html",
-	processData : false,
-	contentType : false,
-	async: false,
-	success : function(data, status) {
-	    if (status == "success") {		
-		$("#rightSubPopup").append(data);
-		dtmap.vector.select('tgd_spot_bridge.' + gid);
-	    } else { 
-		toastr.error("ERROR!");
-		return;
-	    } 
-	}
+		data : formData,
+		type : "POST",
+		url : '/job/fcmr/tpfc/selectBridgeInfo.do',
+		dataType : "html",
+		processData : false,
+		contentType : false,
+		async: false,
+		success : function(data, status) {
+		    if (status == "success") {		
+		    	$("#rightSubPopup").append(data);
+	
+				var gridList = FACILITY.Ax5UiGrid.list;
+				for (var i = 0; i < gridList.length; i++) {
+					//console.log(gridList[i]);
+					var grid = gridList[i];
+					if (gid == grid.gid) {
+						var dindex = grid.__index;
+						FACILITY.Ax5UiGrid.clearSelect();
+						FACILITY.Ax5UiGrid.focus(dindex);		
+					}
+				}
+				
+				dtmap.vector.select('tgd_spot_bridge.' + gid);
+		    } else { 
+				toastr.error("ERROR!");
+				return;
+		    } 
+		}
     });
     ui.loadingBar("hide");
 }
@@ -316,7 +337,7 @@ function downloadExcelBridge() {
 	excelGrid.setConfig({
 	target: $('[data-ax5grid="attr-grid-excel"]'),
 	columns: [
-	    {key: "sig_cd",		label: "시군구코드",		},
+	    {key: "sig_cd",			label: "시군구코드",		},
 	    {key: "kor_bri_nm",		label: "교량명(한글)",		},
 	    {key: "opert_de",		label: "작업일시",			},
 	    {key: "bridge_sn",		label: "교량 일련번호",		}
@@ -359,11 +380,18 @@ function onSelectBridgeEventListener(e) {
  * @returns
  */
 function closeView() {
-    if ($('#rightSubPopup').hasClass('opened')) {
-	dtmap.vector.clearSelect();
-	ui.closeSubPopup();
-    } else {
-	dtmap.vector.clear();
-    }
-    
+//    if ($('#rightSubPopup').hasClass('opened')) {
+//	dtmap.vector.clearSelect();
+//	ui.closeSubPopup();
+//    } else {
+//	dtmap.vector.clear();
+//    }
+	// 지도 clear
+	clearMap();
+	
+	// 등록, 상세, 수정 팝업 창 닫기
+	if ($("#rightSubPopup").hasClass("opened")) {
+		$("#rightSubPopup").removeClass("opened");
+		$("#rightSubPopup").empty();
+	}
 }

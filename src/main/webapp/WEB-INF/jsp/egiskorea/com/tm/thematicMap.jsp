@@ -53,30 +53,32 @@
                 <c:when test="${prevClCode ne themaMapVO.themamapClCode}">
                 <c:if test="${!status.first}">
             </ul>
-            </li>
             <c:set var="count" value="1"/>
             </c:if>
-            <li><span class="form-checkbox"><input type="checkbox" class="tm tm-chk-all"
-                                                   id="theme${themaMapVO.themamapClCode}"><label
-                    for="theme${themaMapVO.themamapClCode}">${themaMapVO.themamapCl}</label></span>
+            <li>
+                <span class="form-checkbox">
+                    <button type="button" class="layer-toggle close" title="접기"></button>
+                    <input type="checkbox" class="tm tm-chk-all" id="theme${themaMapVO.themamapClCode}">
+                    <label for="theme${themaMapVO.themamapClCode}">${themaMapVO.themamapCl}</label>
+                </span>
                 <ul class="theme-list-dep2">
                     <li>
-                                                <span class="form-checkbox">
-                                                    <input type="checkbox" class="tm tm-chk"
-                                                           id="theme${themaMapVO.themamapClCode}-${count}"
-                                                           data-layer_nm="${themaMapVO.layerNm}">
-                                                    <label for="theme${themaMapVO.themamapClCode}-${count}">${themaMapVO.themamapNm}</label>
-                                                </span>
+                        <span class="form-checkbox">
+                            <input type="checkbox" class="tm tm-chk"
+                                   id="theme${themaMapVO.themamapClCode}-${count}"
+                                   data-layer_nm="${themaMapVO.layerNm}">
+                            <label for="theme${themaMapVO.themamapClCode}-${count}">${themaMapVO.themamapNm}</label>
+                        </span>
                     </li>
                     </c:when>
                     <c:otherwise>
                         <li>
-                                        <span class="form-checkbox">
-                                            <input type="checkbox" class="tm tm-chk"
-                                                   id="theme${themaMapVO.themamapClCode}-${count}"
-                                                   data-layer_nm="${themaMapVO.layerNm}">
-                                            <label for="theme${themaMapVO.themamapClCode}-${count}">${themaMapVO.themamapNm}</label>
-                                        </span>
+                        <span class="form-checkbox">
+                        <input type="checkbox" class="tm tm-chk"
+                               id="theme${themaMapVO.themamapClCode}-${count}"
+                               data-layer_nm="${themaMapVO.layerNm}">
+                        <label for="theme${themaMapVO.themamapClCode}-${count}">${themaMapVO.themamapNm}</label>
+                        </span>
                         </li>
                     </c:otherwise>
                     </c:choose>
@@ -92,31 +94,6 @@
                 <li>주제도 자료가 없습니다.<br/>다른 검색조건을 선택해주세요.</li>
             </c:otherwise>
             </c:choose>
-
-            <%--
-            <li><span class="form-checkbox"><input type="checkbox" name="" id="theme1"><label for="theme1">상수시설</label></span>
-                <ul class="theme-list-dep2">
-                    <li><span class="form-checkbox"><input type="checkbox" name="" id="theme1-1"><label for="theme1-1">상수관로 (설치년도)</label></span></li>
-                </ul>
-            </li>
-            <li><span class="form-checkbox"><input type="checkbox" name="" id="theme2"><label for="theme2">하수시설</label></span>
-                <ul class="theme-list-dep2">
-                    <li><span class="form-checkbox"><input type="checkbox" name="" id="theme2-1"><label for="theme2-1">하수관로 (설치년도)</label></span></li>
-                </ul>
-            </li>
-            <li><span class="form-checkbox"><input type="checkbox" name="" id="theme3"><label for="theme3">건축물</label></span>
-                <ul class="theme-list-dep2">
-                    <li><span class="form-checkbox"><input type="checkbox" name="" id="theme3-1"><label for="theme3-1">건축물이력</label></span></li>
-                    <li><span class="form-checkbox"><input type="checkbox" name="" id="theme3-2"><label for="theme3-2">건축물허가</label></span></li>
-                </ul>
-            </li>
-            <li><span class="form-checkbox"><input type="checkbox" name="" id="theme4"><label for="theme4-2">토지/건물 소유권</label></span>
-                <ul class="theme-list-dep2">
-                    <li><span class="form-checkbox"><input type="checkbox" name="" id="theme4-1"><label for="theme4-1">공유재산 (새올행정)</label></span></li>
-                    <li><span class="form-checkbox"><input type="checkbox" name="" id="theme4-2"><label for="theme4-2">토지소유권구분(토지대장)</label></span></li>
-                </ul>
-            </li>
-            --%>
             </ul>
         </div>
     </div>
@@ -166,10 +143,11 @@
     function initBythematicMap() {
         if (!$(".lnb-theme .scroll-y").hasClass("mCustomScrollbar")) {
             $(".scroll-y").mCustomScrollbar({
-                scrollbarPosition: "outside"
+                scrollbarPosition: "outside",
+                mouseWheelPixels: 200
             });
         }
-        //LEFT 메뉴 닫기 버튼
+//LEFT 메뉴 닫기 버튼
         $(".lnb-util .lnb-close").click(function () {
             ($(this).parent().parent()).stop().fadeOut(100);
             $("#lnb li[data-menu]").removeClass("on");
@@ -185,7 +163,7 @@
         $('.lnb-theme .lnb-resetBtn').click(function () {
             themeLayer.layerIds = [];
             $(".lnb-theme input[name='searchKeyword']").val(''); //키워드 초기화
-            //기존에 활성화 되어 있는 주제도 레이어 off 및 체크박스 체크 해제
+//기존에 활성화 되어 있는 주제도 레이어 off 및 체크박스 체크 해제
             var $tmChk = $('.tm-chk');
             $tmChk.each(function (index, item) {
                 var layerNm = item.dataset.layer_nm; //주제도 레이어명
@@ -195,21 +173,6 @@
                     visible: false,
                     layerNm: layerNm
                 });
-
-                // if (mapType == '3D') { //3d
-                //     var layerList = new Module.JSLayerList(false); //레이어 리스트 조회
-                //     var layerId = 'TM_LAYER_' + layerNm.replace('digitaltwin:', '').toUpperCase(); //layerId 생성
-                //     var layer = layerList.nameAtLayer(layerId); //레이어 이름으로 레이어 객체 조회
-                //     if (layer != null) {
-                //         layer.setVisible(false);
-                //     }
-                // } else if (mapType == '2D') {
-                //     var isLayer = store.findLayerId(layerNm);
-                //     const yMap = app2D.getYMap();
-                //     yMap.removeWMSLayer(layerNm);
-                //     store.removeLayerId(layerNm);
-                // }
-
                 item.checked = false;
             });
             $('.tm-chk-all').prop('checked', false);
@@ -264,24 +227,6 @@
                     visible: checked,
                     layerNm: layerNm
                 });
-                // if (mapType == '3D') { //3D 지도일 경우
-                //     var layerList = new Module.JSLayerList(false); //레이어 리스트 조회
-                //     var layerId = 'TM_LAYER_' + layerNm.replace('digitaltwin:', '').toUpperCase(); //layerId 생성
-                //     var layer = layerList.nameAtLayer(layerId); //레이어 이름으로 레이어 객체 조회
-                //
-                //     if (layer == null) {
-                //         loadWMS_3D(layerId, layerNm, "")
-                //     } else {
-                //         layer.setVisible(checked);
-                //     }
-                // } else if (mapType == '2D') {  //2D 지도일 경우
-                //     const yMap = app2D.getYMap();
-                //     if (checked) {
-                //         yMap.addWMSLayer(layerNm, null, 2);
-                //     } else {
-                //         yMap.removeWMSLayer(layerNm);
-                //     }
-                // }
             });
         });
 
@@ -309,7 +254,7 @@
                 },
             };
 
-            //형제 노드(체크박스) 갯수 == 형제 노드(체크박스) 체크된 갯수가 같으면 부모 체크 박스 체크 해주기.
+//형제 노드(체크박스) 갯수 == 형제 노드(체크박스) 체크된 갯수가 같으면 부모 체크 박스 체크 해주기.
             if (brotherChkLength == brotherCheckedLength) {
                 parentChk.prop('checked', true);
             } else {
@@ -322,32 +267,28 @@
                 _removeThemeLayerId(layerNm);
             }
 
-            console.log(layerNm);
             dtmap.showLayer({
                 id: layerNm,
                 type: 'WMS',
                 visible: checked,
                 layerNm: layerNm
             });
-            // if (mapType == '3D') { //3D 지도일 경우
-            //     var layerList = new Module.JSLayerList(false); //레이어 리스트 조회
-            //     var layerId = 'TM_LAYER_' + layerNm.replace('digitaltwin:', '').toUpperCase(); //layerId 생성
-            //     var layer = layerList.nameAtLayer(layerId); //레이어 이름으로 레이어 객체 조회
-            //
-            //     if (layer == null) {
-            //         loadWMS_3D(layerId, layerNm, "")
-            //     } else {
-            //         layer.setVisible(checked);
-            //     }
-            // } else if (mapType == '2D') { //2D 지도일 경우
-            //     const yMap = app2D.getYMap();
-            //     if (checked) {
-            //         yMap.addWMSLayer(layerNm, null, 2);
-            //     } else {
-            //         yMap.removeWMSLayer(layerNm);
-            //     }
-            // }
+        });
 
+        // 주제도 메뉴 토글 event
+        $(".theme-list-dep1 .layer-toggle").click(function () {
+            $(this).find(".open").removeClass("open").addClass("close");
+
+            if ($(this).hasClass("close")) {
+                $(this).removeClass("close").addClass("open").attr("title", "펼치기");
+                $(this).parent().siblings("ul").slideUp(200);
+                // $(this).next(".layer-list-dep2").slideUp(200);
+
+            } else if ($(this).hasClass("open")) {
+                $(this).removeClass("open").addClass("close").attr("title", "접기");
+                // $(this).next(".layer-list-dep2").slideDown(200);
+                $(this).parent().siblings("ul").slideDown(200);
+            }
         });
 
     }
@@ -363,25 +304,14 @@
         $tmChk.each(function (index, item) {
             var layerNm = item.dataset.layer_nm; //주제도 레이어명
 
-            // if (mapType == '2D') { //2d
             item.checked = _findThemeLayerId(layerNm) ? true : false;
-            // } else if (mapType == '3D') { //3d
-            //
-            //     var layerList = new Module.JSLayerList(false); //레이어 리스트 조회
-            //     var layerId = 'TM_LAYER_' + layerNm.replace('digitaltwin:', '').toUpperCase(); //layerId 생성
-            //     var layer = layerList.nameAtLayer(layerId); //레이어 이름으로 레이어 객체 조회
-            //     if (layer != null) {
-            //         var checked = layer.getVisible();
-            //         item.checked = checked;
-            //     }
-            // }
 
-            // //형제 노드(체크박스) 찾아서 모두 체크되면 부모 체크해주기
+// //형제 노드(체크박스) 찾아서 모두 체크되면 부모 체크해주기
             var parentUl = $(item).closest('ul[class="theme-list-dep2"]');
             var brotherChkLength = parentUl.find('.tm-chk').length; //형재 노드(체크박스) 갯수
             var brotherCheckedLength = parentUl.find('.tm-chk:checked').length; //형제 노드(체크박스) 체크된 갯수
             var parentChk = parentUl.closest('li').find('.tm-chk-all'); //부모 노드(체크박스) 찾기
-            //형제 노드(체크박스) 갯수 == 형제 노드(체크박스) 체크된 갯수가 같으면 부모 체크 박스 체크 해주기.
+//형제 노드(체크박스) 갯수 == 형제 노드(체크박스) 체크된 갯수가 같으면 부모 체크 박스 체크 해주기.
             if (brotherChkLength == brotherCheckedLength) {
                 parentChk.prop('checked', true);
             } else {

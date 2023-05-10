@@ -312,10 +312,10 @@ function selectSwlConnLsList(page) {
                     color: '#FF3333',
                     width: 4
                 },
-                /*radius: 10,
+                radius: 10,
                 label: {
                     column: 'sba_cde_nm'
-                }*/
+                }
                 
             }
         	
@@ -516,7 +516,7 @@ function insertSwlConnLsView(){
 	
 	var container = "#rightSubPopup";
     $(container).load("/job/fcmr/ssfc/insertSwlConnLsView.do", function () {
-        toastr.success("/job/fcmr/ssfc/insertSwlConnLsView.do", "페이지🙂호🙂출🙂");
+        //toastr.success("/job/fcmr/ssfc/insertSwlConnLsView.do", "페이지🙂호🙂출🙂");
         
         $(".scroll-y").mCustomScrollbar({
             scrollbarPosition: "outside",

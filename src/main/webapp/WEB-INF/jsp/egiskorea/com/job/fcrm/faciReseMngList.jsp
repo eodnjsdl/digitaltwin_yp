@@ -37,7 +37,7 @@ $(document).ready(function(){
 	
 	//if (poiList != "") { //상세보기에서는 안되게 추가 수정해주기.
 		
-	clearMap();
+	//clearMap();
 	
 	if(poiList){
 		if(poiList.resultCnt > 0){

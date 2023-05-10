@@ -33,18 +33,18 @@ function swlPipeLmProcess() {
 			align: "center"
 		},
 		columns: [
-			{key: "hjd_cde_nm",		label: "읍면동",			width: 100},
-			{key: "ist_ymd", 		label: "설치일자",			width: 100},
-			{key: "sba_cde_nm",		label: "하수관용도",		width: 130},
-			{key: "mop_cde_nm",		label: "관재질",			width: 150},
-			{key: "lit_cde_nm",		label: "규모",			width: 100},
-			{key: "for_cde_nm", 	label: "시설물형태",		width: 100},
-			{key: "std_dip", 		label: "관경",			width: 100},
-			{key: "byc_len",		label: "연장",			width: 100},
-			{key: "beg_dep",		label: "시점깊이",			width: 100},
-			{key: "end_dep",		label: "종점깊이",			width: 100},
-			{key: "sbk_hsl",		label: "시점관저고",		width: 100},
-			{key: "sbl_hsl",		label: "종점관저고",		width: 100}
+			{key: "hjd_cde_nm",		label: "읍면동",			width: '*'},
+			{key: "ist_ymd", 		label: "설치일자",			width: '*'},
+			{key: "sba_cde_nm",		label: "하수관용도",		width: '*'},
+			{key: "mop_cde_nm",		label: "관재질",			width: '*'},
+			{key: "lit_cde_nm",		label: "규모",			width: '*'},
+			{key: "for_cde_nm", 	label: "시설물형태",		width: '*'},
+			{key: "std_dip", 		label: "관경",			width: '*'},
+			{key: "byc_len",		label: "연장",			width: '*'},
+			{key: "beg_dep",		label: "시점깊이",			width: '*'},
+			{key: "end_dep",		label: "종점깊이",			width: '*'},
+			{key: "sbk_hsl",		label: "시점관저고",		width: '*'},
+			{key: "sbl_hsl",		label: "종점관저고",		width: '*'}
 		],
 		page: {
 			navigationItemCount: 10,	// 보여지는 클릭 가능 페이지 번호
@@ -79,7 +79,7 @@ function selectSwlPipeLmList(page) {
 	ui.closeSubPopup();
 	
 	//grid 선택창 초기화
-	FACILITY.Ax5UiGrid.clearSelect();
+	FACILITY.Ax5UiGrid.focus(-1);
 	
 	//공간 검색 / 사용자 정의 일 경우 이외에는  그리기 영역 지우기
 	if($(".groundwaterSpace").hasClass("on")){

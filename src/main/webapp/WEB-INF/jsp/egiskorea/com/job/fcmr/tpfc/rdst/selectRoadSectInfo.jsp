@@ -5,10 +5,6 @@
 $(".scroll-y").mCustomScrollbar({
     scrollbarPosition: "outside",
 });
-
-$('.popup-close').on('click', function() {
-    closeView();   
-});
 </script>
 <!-- 업무 > 시설관리 > 교통시설 > 도로구간 상세보기 -->
 <div class="popup-header">도로구간 상세보기</div>
@@ -88,14 +84,14 @@ $('.popup-close').on('click', function() {
 						</tbody>
 					</table>
 				</div>
-			<div class="position-bottom btn-wrap" style="position:relative; margin: 0.5rem 0;">
+			</div>
+			<div class="position-bottom btn-wrap">
 				<div>
-					<button type="button" class="btn basic bi-cancel" onClick="closeView()">취소</button>
+					<button type="button" class="btn basic bi-cancel" onClick="cancleView()">취소</button>
 				</div>
 			</div><!-- // class="position-bottom btn-wrap" -->
-			</div>
 		</div>
 	</div>
 </div>
-<button type="button" class="popup-close" title="닫기"></button>				
+<button type="button" class="sub-popup-close" title="닫기" onClick="cancleView()"></button>
 <!-- 업무 > 시설관리 > 교통시설 > 도로구간 상세보기 end -->

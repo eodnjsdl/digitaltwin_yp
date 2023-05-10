@@ -31,15 +31,15 @@ function swlPumpPsProcess() {
 			align: "center"
 		},
 		columns: [
-			{key: "ftr_cde_nm",		label: "지형지물부호",		width: 140},
-			{key: "ftr_idn",		label: "관리번호",			width: 140},
-			{key: "hjd_cde_nm", 	label: "읍면동",			width: 110},
-			{key: "ist_ymd",		label: "설치일자",			width: 140},
-			{key: "pmp_nam",		label: "하수펌프장명",		width: 250},
-			{key: "gai_ara", 		label: "부지면적",			width: 110},
-			{key: "soo_cde_nm", 	label: "개통상태",			width: 140},
-			{key: "sbe_cde_nm",		label: "펌프장용도",		width: 140},
-			{key: "stp_hsl",		label: "표고",			width: 110}
+			{key: "ftr_cde_nm",		label: "지형지물부호",		width: '*'},
+			{key: "ftr_idn",		label: "관리번호",			width: '*'},
+			{key: "hjd_cde_nm", 	label: "읍면동",			width: '*'},
+			{key: "ist_ymd",		label: "설치일자",			width: '*'},
+			{key: "pmp_nam",		label: "하수펌프장명",		width: '*'},
+			{key: "gai_ara", 		label: "부지면적",			width: '*'},
+			{key: "soo_cde_nm", 	label: "개통상태",			width: '*'},
+			{key: "sbe_cde_nm",		label: "펌프장용도",		width: '*'},
+			{key: "stp_hsl",		label: "표고",			width: '*'}
 		],
 		page: {
 			navigationItemCount: 10,	// 보여지는 클릭 가능 페이지 번호
@@ -74,7 +74,7 @@ function selectSwlPumpPsList(page) {
 	ui.closeSubPopup();
 	
 	//grid 선택창 초기화
-	FACILITY.Ax5UiGrid.clearSelect();
+	FACILITY.Ax5UiGrid.focus(-1);
 
 	//공간 검색 / 사용자 정의 일 경우 이외에는  그리기 영역 지우기
 	if($(".groundwaterSpace").hasClass("on")){

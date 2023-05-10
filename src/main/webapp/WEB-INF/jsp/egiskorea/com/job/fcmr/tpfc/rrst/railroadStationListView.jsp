@@ -77,7 +77,7 @@ $(document).ready(function(){
     $("[name=rad-facility-drawing]", "#bottomPopup").on("click", function () {
         const node = $(this);
         const value = node.val();
-
+        dtmap.off('select');
         let type;
         switch (Number(value)) {
             case 1:
@@ -115,7 +115,7 @@ $(document).ready(function(){
 		<!-- 검색영역 -->
 		<div class="items search-area">
 			<div class="top-search">
-				<select name="selectBoxTrfc" id="selectBoxTrfc" class="form-select facility-select">
+				<select class="form-select facility-select">
 					<option value="roadSection">도로구간</option>
 					<option value="railroadTrack">철도선로</option>
 					<option value="railroadStation" selected>철도역사</option>

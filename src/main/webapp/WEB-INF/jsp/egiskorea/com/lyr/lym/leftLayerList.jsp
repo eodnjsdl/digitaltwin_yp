@@ -40,8 +40,8 @@
                                                            id="chk_ctgr_<c:out value="${result.lyrCl}"/>">
                                                 </c:if>
 												<label for="chk_ctgr_<c:out value="${result.lyrCl}"/>"
-                                                       data-title="<c:out value="${result.lyrClNm}"/>" "><c:out
-                                                    value="${result.lyrClNm}"/></label>
+                                                       data-title="<c:out value="${result.lyrClNm}"/>"><c:out
+                                                        value="${result.lyrClNm}"/></label>
 											</span>
             <button type="button" class="layer-toggle close" title="접기"></button>
             <ul class="layer-list-dep2">
@@ -214,7 +214,7 @@
                     visible: visible,
                     shpType: shpType,
                     // sld : 'http://124.49.110.155:8080/lyr/lyi/sld?lyrId='+layerId
-                    sldBody : findLayer.styleInfo
+                    sldBody: findLayer.styleInfo
 
                 });
                 console.log('[레이어]', layerNm, visible ? 'on' : 'off')
