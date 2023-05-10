@@ -145,18 +145,22 @@ $(document).ready(function(){
 
 	// 공사 예정 정보 > 등록페이지 > 차수별 공사정보 > 지도 에서 선택 처리 이벤트(좌표값 획득, poi마커 표출)
 	$("#getPositionLocation").unbind('click').bind('click',function(){
+		dtmap.off('drawend');
 		dtmap.off('select');
 		if(cws.insertVisible){ //기본정보 등록여부
 			//destroy();
-			if($("#rChk1_1").is(":checked")){
-				// cmmUtil.getPositionGeom(positionCallback);
+			let rChk = $('#OdrInfo input[type=radio]:checked').val();
+			if(rChk == 'position'){
 				dtmap.draw.active({type: 'Point', once: true});
-				dtmap.on('drawend', onDrawEnd);
-
 			}else{
-				// cmmUtil.drawLine(positionCallback);
-				//alert("구간 기능 개발중");
+				dtmap.draw.active({type: 'LineString', once: true});
 			}
+			if(dtmap.mod == '3D' && rChk == 'section'){
+				$('canvas').on('dblclick', onDrawEnd)
+			}else{
+				dtmap.on('drawend', onDrawEnd);
+			}
+
 		}else{
 			alert("기본정보가 등록되어 있어야지만 사용이 가능합니다.");
 		}
@@ -164,21 +168,29 @@ $(document).ready(function(){
 
 	function onDrawEnd(e) {
 		dtmap.draw.dispose();
-		var geom = e.geometry;
-		const position = geom.getFlatCoordinates();
-		var modPosition;
-		if(dtmap.mod=='2D'){
-			modPosition = position;
+		var geom;
+		if(dtmap.mod == '2D'){
+			geom = e.geometry;
 		}else{
-			modPosition = ol.proj.transform([position[0],position[1]],'EPSG:4326','EPSG:5179');
+			geom = dtmap.draw.getGeometry();
 		}
+		const position = geom.getFlatCoordinates();
+
 		var xObj = parseFloat(position[0]);
 		var yObj = parseFloat(position[1]);
 		cmmUtil.reverseGeocoding(xObj, yObj).done((result)=>{
 			$("#cntrkLcAdres").val("경기도 양평군 "+result["address"]);
 			const format = new ol.format.WKT();
-			const point = new ol.geom.Point([parseFloat(modPosition[0]), parseFloat(modPosition[1])]);
-			const wkt = format.writeGeometry(point);
+			let geom =  dtmap.draw.getGeometry();
+			let wkt= format.writeGeometry(geom);
+			if(dtmap.mod=='2D'){
+				 wkt = format.writeGeometry(geom);
+			}else{
+				wkt = format.writeGeometry(geom,{
+				   dataProjection : 'EPSG:5179',
+				   featureProjection:'EPSG:4326'
+			   });
+			}
 			$("#geom").val(wkt);
 		});
 		dtmap.on('select',spaceClickListener );
@@ -440,9 +452,9 @@ function setDtlOrderInfo(type){
 	if(orderInfo != ''){
 		// 공사 구간 처리(위치/구간)
 		if(orderInfo.cntrkSctnTy == "POINT"){
-			$("#rChk2_1").prop('checked', true);
+			$("#rChk_1").prop('checked', true);
 		}else{
-			$("#rChk2_2").prop('checked', true);
+			$("#rChk_2").prop('checked', true);
 		}
 
 		$("#cntrkLcAdres").val(orderInfo.cntrkLcAdres);				// 공사 위치 주소
@@ -901,7 +913,7 @@ function aj_updateConstructionScheduleView(keyId){
 //공사예정 정보 > 수정페이지 > 기본정보 갱신 처리
 function aj_updateConstructionScheduleNomal(form){
 	var formData = new FormData(form);
-	if($("#rChk1_1").is(":checked")){
+	if($("#rChk_1").is(":checked")){
 		keyId = "Y";
 	}else{
 		keyId = "N";
@@ -1066,7 +1078,7 @@ function aj_selectInnerConstructionPlan(form){
 function aj_insertConstructionScheduleNomal(form){
 	//ui.loadingBar("show");
 	var formData = new FormData(form);
-	if($("#rChk2_1").is(":checked")){
+	if($("#rChk_1").is(":checked")){
 		keyId = "Y";
 	}else{
 		keyId = "N";
@@ -1107,13 +1119,13 @@ function aj_insertConstructionScheduleOdr(form, type){
 	var keyId = '';
 	var	formData = new FormData(form);
 	if(type == "odrInsertPage"){
-		if($("#rChk1_1").is(":checked")){
+		if($("#rChk_1").is(":checked")){
 			keyId = "POINT";
 		}else{
 			keyId = "LINE";
 		}
 	}else if(type == "odrUpdatePage"){
-		if($("#rChk2_1").is(":checked")){
+		if($("#rChk_1").is(":checked")){
 			keyId = "POINT";
 		}else{
 			keyId = "LINE";

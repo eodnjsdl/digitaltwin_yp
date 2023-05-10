@@ -257,13 +257,8 @@ function fn_search_List(e){
 		const type = $parent.find('input[name="sffmSelect"]:checked').val();
 
 		if (type === 'extent') {
-			 var bbox = dtmap.getExtent();
-			 if(dtmap.mod == '2D'){
-				 SEARCHOBJ.spaceSearch.bbox = ol.proj.transformExtent(bbox,'EPSG:5179','EPSG:4326' );
-			 }else{
-				SEARCHOBJ.spaceSearch.bbox = bbox;
-			 }
-
+			SEARCHOBJ.spaceSearch.bbox = dtmap.getExtent();
+	
 		} else {
 			if(dtmap.mod == '2D'){
 

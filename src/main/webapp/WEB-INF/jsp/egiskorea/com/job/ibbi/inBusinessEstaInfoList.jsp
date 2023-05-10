@@ -11,7 +11,7 @@
 $(document).ready(function() {
 	ui.callDatePicker();
 	// 이벤트 리스너 추가
-	dtmap.on('select', onFacilitySelectEventListener);
+	// dtmap.on('select', onFacilitySelectEventListener);
 
 	// 초기화 버튼
 	$(".popup-reset").unbind('click').bind('click',function() {
