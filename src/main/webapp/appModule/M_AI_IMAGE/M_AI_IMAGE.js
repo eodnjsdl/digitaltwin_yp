@@ -4,6 +4,19 @@
  * LAST UPDATE : 2022.1.24
  * COMMENT :
  */
+$(document).ready(() => {
+    cameraMove();
+})
+function cameraMove() {
+    let getLocation = map3d.camera.getLocation();
+    let location = {
+	    lon : getLocation.Longitude,
+	    lat : getLocation.Latitude,
+	    alt : getLocation.Altitude,
+    }
+    let centerVec = new Module.JSVector3D(location.lon, location.lat, location.alt);
+    map3d.camera.move(centerVec, 90, 0, 800);
+}
 var M_AI_IMAGE = {
     global: {
         test: null,
@@ -296,24 +309,16 @@ var M_AI_IMAGE = {
 	$("#startAianalysBtn").on('click',function(e){
 		chooseUrl = 0;
 		M_AI_IMAGE.analysis.start();
-	})
+	});
 	
 	$("#startAianalysAdvanc").on('click', function(e) {
 		chooseUrl = 1;
 		M_AI_IMAGE.analysis.start();
-	})
+	});
 	
 	$("#resetMapDirection").on('click', function(e) {
-	    	map3d.camera.setDirect(0);
-	    	let location = {
-	    		Longitude : map3d.camera.getLocation().Longitude,
-	    		Latitude : map3d.camera.getLocation().Latitude,
-	    		Altitude : map3d.camera.getLocation().Altitude
-	    	}
-	    	console.log(location);
-	    	
-	    	
-	})
+	    cameraMove();
+	});
 
         $("#resetAianalysBtn").on('click', function (e) {
             M_AI_IMAGE.analysis.reset();
