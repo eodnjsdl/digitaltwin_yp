@@ -643,8 +643,8 @@ function deleteSwlPipeLm(id) {
 			if (result["result"]) {
 				alert("삭제되었습니다.");
 
-				selectSwlPipeLmList(1);	//첫페이지 조회
-				closeSwlPipeLmPopup();	//창닫기
+				selectSwlPipeLmList(1);		//첫페이지 조회
+				cancelSwlPipeLmDetail();	//창닫기
 			} else {
 				alert(`삭제에 실패했습니다.`);
 				console.log(result["errorMsg"]);

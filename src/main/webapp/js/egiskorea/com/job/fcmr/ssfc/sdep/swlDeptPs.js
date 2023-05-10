@@ -542,8 +542,8 @@ function deleteSwlDeptPs(id) {
 			if (result["result"]) {
 				alert("삭제되었습니다.");
 
-				selectSwlDeptPsList(1);	//첫페이지 조회
-				closeSwlDeptPsPopup();	//창닫기
+				selectSwlDeptPsList(1);		//첫페이지 조회
+				cancelSwlDeptPsDetail();	//창닫기
 			} else {
 				alert(`삭제에 실패했습니다.`);
 				console.log(result["errorMsg"]);

@@ -572,8 +572,8 @@ function deleteSwlSideLs(id) {
 			if (result["result"]) {
 				alert("삭제되었습니다.");
 
-				selectSwlSideLsList(1);	//첫페이지 조회
-				closeSwlSideLsPopup();	//창닫기
+				selectSwlSideLsList(1);		//첫페이지 조회
+				cancelSwlSideLsDetail();	//창닫기
 			} else {
 				alert(`삭제에 실패했습니다.`);
 				console.log(result["errorMsg"]);
