@@ -190,15 +190,10 @@ function selectSwlPumpPsList(page) {
         // 지도에 GeoJSON 추가
         dtmap.vector.readGeoJson(data, function(feature) {
             // 스타일 콜백 
-        	let properties = feature.getProperties();
-            
             return {
                 marker: {
                     src: '/images/poi/swlPumpPs_poi.png'
                 },
-                label: {
-                    text: ''
-                }
             }
         });
         dtmap.vector.fit();
@@ -597,8 +592,8 @@ function deleteSwlPumpPs(id) {
 			if (result["result"]) {
 				alert("삭제되었습니다.");
 
-				selectSwlPumpPsList(1);	//첫페이지 조회
-				closeSwlPumpPsPopup();	//창닫기
+				selectSwlPumpPsList(1);		//첫페이지 조회
+				cancelSwlPumpPsDetail();	//창닫기
 			} else {
 				alert(`삭제에 실패했습니다.`);
 				console.log(result["errorMsg"]);

@@ -132,7 +132,7 @@ $(document).ready(function(){
 						<li data-tab="tunnelProperty" class="on">
 							<button type="button" class="inner-tab">속성검색</button>
 						</li>
-						<li data-tab="tunnelSectSpace">
+						<li data-tab="tunnelSpace">
 							<button type="button" class="inner-tab">공간검색</button>
 						</li>
 					</ul>
@@ -168,7 +168,7 @@ $(document).ready(function(){
 						<div><button type="submit" class="btn type01 search">조회</button></div>
 					</div>
 				</div>
-				<div class="tab-cont tunnelSectSpace">
+				<div class="tab-cont tunnelSpace">
 					<div class="space-search-group">
 						<div class="space-search-items">
 							<span class="form-radio text group">

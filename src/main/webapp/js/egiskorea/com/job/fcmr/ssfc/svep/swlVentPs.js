@@ -202,16 +202,10 @@ function selectSwlVentPsList(page) {
         // 지도에 GeoJSON 추가
         dtmap.vector.readGeoJson(data, function(feature) {
             // 스타일 콜백 
-        	let properties = feature.getProperties();
-            let ftr_idn = properties.ftr_idn;
-            
             return {
                 marker: {
                     src: '/images/poi/swlVentPs_poi.png'
                 },
-                label: {
-                    text: ''
-                }
             }
         });
         dtmap.vector.fit();
@@ -614,8 +608,8 @@ function deleteSwlVentPs(id) {
 			if (result["result"]) {
 				alert("삭제되었습니다.");
 
-				selectSwlVentPsList(1);	//첫페이지 조회
-				closeSwlVentPsPopup();	//창닫기
+				selectSwlVentPsList(1);		//첫페이지 조회
+				cancelSwlVentPsDetail();	//창닫기
 			} else {
 				alert(`삭제에 실패했습니다.`);
 				console.log(result["errorMsg"]);

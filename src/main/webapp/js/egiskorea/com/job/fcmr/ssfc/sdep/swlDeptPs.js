@@ -177,16 +177,10 @@ function selectSwlDeptPsList(page) {
         // 지도에 GeoJSON 추가
         dtmap.vector.readGeoJson(data, function(feature) {
             // 스타일 콜백 
-        	let properties = feature.getProperties();
-            let ftr_idn = properties.ftr_idn;
-            
             return {
                 marker: {
                     src: '/images/poi/swlDeptPs_poi.png'
                 },
-                label: {
-                    text: ''
-                }
             }
         });
         dtmap.vector.fit();
@@ -542,8 +536,8 @@ function deleteSwlDeptPs(id) {
 			if (result["result"]) {
 				alert("삭제되었습니다.");
 
-				selectSwlDeptPsList(1);	//첫페이지 조회
-				closeSwlDeptPsPopup();	//창닫기
+				selectSwlDeptPsList(1);		//첫페이지 조회
+				cancelSwlDeptPsDetail();	//창닫기
 			} else {
 				alert(`삭제에 실패했습니다.`);
 				console.log(result["errorMsg"]);
