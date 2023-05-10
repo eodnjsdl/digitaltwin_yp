@@ -64,7 +64,7 @@ window.map2d = (function () {
             layers: [],
             interactions: defaultInteractions(),
             controls: [
-            //    new ol.control.ScaleLine()
+                //    new ol.control.ScaleLine()
             ],
             view: _view,
         });
@@ -254,6 +254,21 @@ window.map2d = (function () {
         map2d.baseLayer.setLayer(name);
     }
 
+    function getCoordinateFromPixel(pixel) {
+        if (!pixel) {
+            return;
+        }
+        return _map.getCoordinateFromPixel(pixel);
+    }
+
+    function getPixelFromCoordinate(coord) {
+        if (!coord) {
+            return;
+        }
+        return _map.getPixelFromCoordinate(coord);
+    }
+
+
     const module = {
         init: init,
         show: show,
@@ -272,7 +287,9 @@ window.map2d = (function () {
         setBaseLayer: setBaseLayer,
         setInteraction: setInteraction,
         clearInteraction: clearInteraction,
-        defaultInteractions: defaultInteractions
+        defaultInteractions: defaultInteractions,
+        getCoordinateFromPixel: getCoordinateFromPixel,
+        getPixelFromCoordinate: getPixelFromCoordinate
     }
     Object.defineProperties(module, {
         'map': {
