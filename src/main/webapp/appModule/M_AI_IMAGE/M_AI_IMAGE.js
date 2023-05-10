@@ -437,11 +437,10 @@ var M_AI_IMAGE = {
             // ai분석 url - 일반, 고도화
             var aiUrl = ["http://203.228.54.47/detectai", "http://49.247.20.149:5002/detectai"];
             let selectedUrl = aiUrl[chooseUrl];
-            let extent = dtmap.getExtent();
             let coordinate = [];
             coordinate.push(ol.proj.transform([dtmap.getExtent()[0], dtmap.getExtent()[1]], 'EPSG:4326', 'EPSG:3857'));
             coordinate.push(ol.proj.transform([dtmap.getExtent()[2], dtmap.getExtent()[3]], 'EPSG:4326', 'EPSG:3857'));
-            
+            formData.append("coordinate", coordinate);
             
             
             $.ajax({
@@ -451,7 +450,7 @@ var M_AI_IMAGE = {
 //		url:"http://10.165.2.30/detectai", // 양평 실서버
                 type: "POST",
                 dataType: "json",
-                data: {formData, extent, coordinate},
+                data: formData,
                 processData: false,
                 contentType: false,
                 success: function (result) {
@@ -468,21 +467,22 @@ var M_AI_IMAGE = {
 			    console.log(result.response);
 			    var detections;
 			    var screenCoord = [];
+			    var identifier = [];
 			    for (var j = 0; j < result.response.length; j++) {
 				detections = result.response[j].detections.split(', ');
-//				console.log("detections : " + detections);
+				identifier.push({class : result.response[j].class, classId : result.response[j].classid, confidence : result.response[j].confidence});
+//				console.log(identifier);
+//				console.log(detections);
 				screenCoord.push(detections);
 			    }
 			    for (var i = 0, j = 0; i < screenCoord.length; i++) {
 				var analCoord = [];
 				for (var j = 0; j < screenCoord[i].length; j++){
 				    var coord = screenCoord[i][j].split(' ');
-//				    coord[0] = Module.canvas.width - coord[0];
-//				    coord[1] = Module.canvas.height - coord[1];
 				    analCoord.push(coord);
 				}
 //			    console.log(analCoord);
-			    M_AI_IMAGE.analysis.getScreenMapCoord(analCoord);
+			    M_AI_IMAGE.analysis.getScreenMapCoord(analCoord, identifier[i]);
 			    }
 			}
 		ui.loadingBar("hide");
@@ -490,21 +490,31 @@ var M_AI_IMAGE = {
             });
 
         },
-        getScreenMapCoord: function (coord) {
+        getScreenMapCoord: function (coord, identifier) {
             var coordinates = [];
+            let classNm = identifier.class;
+            let classId = identifier.classid;
+            let confidence = identifier.confidence;
             for (var i = 0; i < coord.length; i++) {
-		    var pos = Module.getMap().ScreenToMapPointEX(new Module.JSVector2D(parseFloat(coord[i][0]), parseFloat(coord[i][1])));
+        	coord[i] = [parseFloat(coord[i][0]), parseFloat(coord[i][1])];
+//		    var pos = Module.getMap().ScreenToMapPointEX(new Module.JSVector2D(parseFloat(coord[i][0]), parseFloat(coord[i][1])));
+		    var pos = dtmap.getCoordinateFromPixel(coord[i]);
 //		    console.log(pos.Longitude + ", " + pos.Latitude);
-		    coordinates.push([pos.Longitude, pos.Latitude]);
+//		    coordinates.push([pos.Longitude, pos.Latitude]);
+		    coordinates.push(pos);
 		}
+//            console.log(classNm);
+            options = {
+        	    label : {
+        		textBaseLine : 'top',
+			text : classNm + ' ' + (Math.ceil(confidence * 100)) + '%'
+		    }
+            };
 		dtmap.vector.addLine({
-		    id: 'test',
+		    id: 'aiDetect',
 		    coordinates: coordinates,
 		    crs: 'EPSG:4326',
-		    style: {
-			radius : 8,
-			offsetHeight : 10
-		    }
+		    style : options
 		});  
         },
         markupMachineDetectResult: async function (_imageWidth, _imageHeight, _result, _complateCallback) {
