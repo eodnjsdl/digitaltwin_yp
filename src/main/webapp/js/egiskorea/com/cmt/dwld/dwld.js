@@ -44,7 +44,7 @@ class DataDownlad {
                     this.facility = store["facility"].getData();
                     this.loadSearchTarget();
                     this.bindEvents();
-                    $(".tabBoxDepth1 ul li:first", this.selector).trigger("click");
+                    $(".tabBoxDepth1 ul li button:first", this.selector).trigger("click");
                 } else {
                     toastr.error("관리자에게 문의 바랍니다.", "정보를 불러오지 못했습니다.");
                     return;
@@ -112,11 +112,13 @@ class DataDownlad {
     bindEvents() {
         const that = this;
         // 검색 기준 변경
-        $(".tabBoxDepth1 ul li", that.selector).on("click", function () {
+        $(".tabBoxDepth1 ul li button", that.selector).on("click", function () {
             dtmap.clear();
             dtmap.off('select');
-            const node = $(this);
-            const id = node.attr("data-id");
+            var parent = $(this).parent();
+            parent.addClass("on").siblings().removeClass("on");
+            $("." + parent.data("tab")).addClass("on").siblings().removeClass("on");
+            const id = parent.attr("data-id");
             $(".data-write tbody tr.tr_toggle", that.selector).hide();
             $(`.data-write tbody tr.${id}`, that.selector).show();
             if (id === "tr_area") {
