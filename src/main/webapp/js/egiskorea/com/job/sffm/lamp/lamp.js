@@ -136,6 +136,8 @@ function setData(_pageNo){
 
 //가로등관리 등록페이지 호출
 function fn_insert(){
+	dtmap.vector.clearSelect(); //선택 해제
+	window.target.clearSelect(); //그리드 선택 해제
 	ui.loadingBar("show");
 	ui.openPopup("rightSubPopup");
 	// $(".popup-sub").removeClass("opened").html("");
