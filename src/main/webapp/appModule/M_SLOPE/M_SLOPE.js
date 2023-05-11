@@ -870,7 +870,7 @@ var M_SLOPE = {
 		var hours = M_SLOPE.leadingZeros(today.getHours(), 2); // 시
 		var minutes = M_SLOPE.leadingZeros(today.getMinutes(), 2);  // 분
 		var date = year+month+date+hours+minutes;
-﻿
+
 		if(type == "db"){
 			M_SLOPE.showSaveDB();
 		}else if(type == "pdf"){
