@@ -116,9 +116,9 @@ public class GisController {
         HttpPost httpPost = new HttpPost(url);
 
         httpPost.setHeader("Charset", "UTF-8");
-        if (source.trim().startsWith("<")||source.trim().startsWith("%3C")) {
-//            httpPost.setHeader("Content-Type", "application/xml");
-            httpPost.setEntity(new StringEntity(URLDecoder.decode(source), Charset.defaultCharset()));
+        if (source.trim().startsWith("<") || source.trim().startsWith("%3C")) {
+            httpPost.setHeader("Content-Type", "application/xml");
+            httpPost.setEntity(new StringEntity(source, Charset.defaultCharset()));
         } else {
             String c = request.getContentType();
             if (c.contains(";")) {

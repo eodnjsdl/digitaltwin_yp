@@ -211,16 +211,25 @@ window.dtmap = (function () {
      */
     function wfsGetFeature(options) {
         let data;
+        let contentType;
         if (options.cql) {
             data = getWFSParam(options);
+            contentType = 'text/plain;charset=UTF-8'
         } else {
             data = getWFSParamXML(options);
+            contentType = 'application/xml;charset=UTF-8'
+
         }
-        return $.ajax({
-            url: '/gis/wfs',
-            method: 'post',
-            // contentType: "application/json",
-            data: data
+        return fetch('/gis/wfs', {
+            method: "POST",
+            headers: {
+                'Content-Type': contentType
+            },
+            body: data,
+        }).then((response) => {
+            if (response.ok) {
+                return response.json();
+            }
         })
     }
 
