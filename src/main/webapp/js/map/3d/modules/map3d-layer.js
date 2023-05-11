@@ -138,6 +138,12 @@ map3d.layer = (function () {
         return layer;
     }
 
+    function getLayers(){
+        return Array.from(layerMap, function (entry) {
+            return entry[1];
+        });
+
+    }
 
     function clear() {
         const targets = [];
@@ -165,6 +171,7 @@ map3d.layer = (function () {
         setVisible: setVisible,
         getById: getById,
         getByName: getByName,
+        getLayers : getLayers,
         refresh: refresh,
         clear: clear
     }

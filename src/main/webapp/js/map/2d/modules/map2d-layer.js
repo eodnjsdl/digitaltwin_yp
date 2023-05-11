@@ -3,6 +3,7 @@ map2d.layer = (function () {
 
     const TIME_OUT = 100 * 60 * 10; //레이어 삭제에 쓰이는 타임아웃
     let timeOutMap = new Map();
+    const layers = [];
 
     function addLayer(options) {
         let {id, type} = options;
@@ -13,7 +14,9 @@ map2d.layer = (function () {
             throw new Error("레이어 종류가 지정되지 않았습니다.");
         }
         let layer = createLayer(options);
+        layer.id = id;
         map2d.map.addLayer(layer);
+        layers.push(layer);
         return layer;
     }
 
@@ -23,6 +26,7 @@ map2d.layer = (function () {
             return;
         }
         map2d.map.removeLayer(layer);
+        layers.splice(layers.indexOf(layer), 1);
     }
 
     function setVisible(id, visible) {
@@ -160,6 +164,10 @@ map2d.layer = (function () {
         }
     }
 
+    function getLayers() {
+        return layers;
+    }
+
     function refresh() {
 
     }
@@ -170,6 +178,7 @@ map2d.layer = (function () {
         setVisible: setVisible,
         clear: clear,
         refresh: refresh,
+        getLayers: getLayers,
         getById: getById
     }
     return module;
