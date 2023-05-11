@@ -438,10 +438,13 @@ var M_AI_IMAGE = {
             var aiUrl = ["http://203.228.54.47/detectai", "http://49.247.20.149:5002/detectai"];
             let selectedUrl = aiUrl[chooseUrl];
             let coordinate = [];
+            let size;
             coordinate.push(ol.proj.transform([dtmap.getExtent()[0], dtmap.getExtent()[1]], 'EPSG:4326', 'EPSG:3857'));
             coordinate.push(ol.proj.transform([dtmap.getExtent()[2], dtmap.getExtent()[3]], 'EPSG:4326', 'EPSG:3857'));
+            size = {width : Module.canvas.width, height : Module.canvas.height};
+            console.log(size);
             formData.append("coordinate", coordinate);
-            
+            formData.append("size", size);
             
             $.ajax({
 //		url:"http://203.228.54.47/detectai",
