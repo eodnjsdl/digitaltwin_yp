@@ -18,7 +18,8 @@ map3d.config = (function () {
         vertclPynHeight: 0,
         tpgrphTrnsprc: 0,
         vidoQlityLevel: 0,
-        set: set
+        set: set,
+        setTransparency: setTransparency
     }
 
     function set(options) {
@@ -27,6 +28,16 @@ map3d.config = (function () {
             if (config.hasOwnProperty(key)) {
                 config[key] = options[key];
             }
+        }
+    }
+
+    function setTransparency(v) {
+        if (isNaN(v)) {
+            return console.error(v, ' is NaN');
+        }
+        config.tpgrphTrnsprc = v;
+        if (Module) {
+            Module.XDESetPlanetTransparecny(v / 100);
         }
     }
 
