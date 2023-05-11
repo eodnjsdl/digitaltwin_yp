@@ -96,19 +96,21 @@ map2d.layer = (function () {
                         const sldBody = src.substring(index, src.indexOf("&", index));
                         const imageSrc = src.replace(sldBody, "");
                         const body = decodeURIComponent(sldBody.replace("SLD_BODY=", ""));
-                        fetch(imageSrc, {
-                            method: "POST",
-                            body: body,
-                        })
-                            .then((response) => {
-                                if (response.ok) {
-                                    return response.blob();
-                                }
+                        iconToBase64(body).then((xml) => {
+                            fetch(imageSrc, {
+                                method: "POST",
+                                body: xml,
                             })
-                            .then(function (blob) {
-                                const objectUrl = URL.createObjectURL(blob);
-                                tile.getImage().src = objectUrl;
-                            });
+                                .then((response) => {
+                                    if (response.ok) {
+                                        return response.blob();
+                                    }
+                                })
+                                .then(function (blob) {
+                                    const objectUrl = URL.createObjectURL(blob);
+                                    tile.getImage().src = objectUrl;
+                                });
+                        })
                     } else {
                         tile.getImage().src = src;
                     }
@@ -116,6 +118,31 @@ map2d.layer = (function () {
             }),
         });
         return layer;
+    }
+
+
+    function iconToBase64(sld) {
+        const promise = $.Deferred();
+        const promises = [];
+        const xml = $.parseXML(sld);
+        $(xml).find("se\\:ExternalGraphic")
+            .toArray()
+            .forEach((element) => {
+                const p = $.Deferred();
+                const onlineResource = $(element).find("se\\:OnlineResource");
+                const src = onlineResource.attr("xlink:href");
+                util.sld.getBase64(src).then(function (data) {
+                    onlineResource.remove();
+                    $(element).append(`<se:InlineContent encoding="base64">${data.replace("data:image/png;base64,", "")}</se:InlineContent>`);
+                    p.resolve();
+                })
+                promises.push(p)
+            });
+
+        Promise.all(promises).then(() => {
+            promise.resolve(new XMLSerializer().serializeToString(xml));
+        });
+        return promise;
     }
 
     function clear() {
