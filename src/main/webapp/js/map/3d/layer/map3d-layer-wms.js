@@ -46,7 +46,7 @@ map3d.layer.WMS = (function () {
             parameters: {
                 VERSION : '1.1.1',
                 SLD: options.sld,
-                SLD_BODY : options.sldBody
+                // SLD_BODY : options.sldBody
             },
         }, WMS_OPT)
 
