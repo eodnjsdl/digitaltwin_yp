@@ -211,22 +211,31 @@ window.dtmap = (function () {
      */
     function wfsGetFeature(options) {
         let data;
-        let contentType;
         if (options.cql) {
             data = getWFSParam(options);
-            contentType = 'application/json;charset=UTF-8'
+            return $.ajax({
+                url: '/gis/wfs',
+                header: {
+                    'Content-Type':  'application/json;charset=UTF-8'
+                },
+                method: 'post',
+                data: data,
+            });
         } else {
             data = getWFSParamXML(options);
-            contentType = 'application/xml;charset=UTF-8'
-
+            return fetch('/gis/wfs', {
+                headers: {
+                    'Content-Type': 'application/xml;charset=UTF-8'
+                },
+                method: "POST",
+                body: data,
+            }).then((response) => {
+                if (response.ok) {
+                    return response.json();
+                }
+            })
         }
-        return $.ajax({
-            url: '/gis/wfs',
-            data: data,
-            header: {
-                'Content-Type': contentType
-            },
-        });
+
     }
 
     function getWFSParamXML(options) {
