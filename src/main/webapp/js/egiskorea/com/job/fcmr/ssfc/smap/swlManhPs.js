@@ -313,6 +313,11 @@ function selectSwlManhPsDetail(detailData) {
 	//console.log('selectSwlManhPsDetail(detailData)');
 	//console.log(detailData);
 	
+	//공간정보 편집도구 닫기
+	if($(".space-edit-tool").hasClass("opened")){
+		clearSpaceEditTool();	//공간정보 편집창 닫기
+    }
+	
 	if(!detailData && detailData == null){
 		alert("하수맨홀 상세보기 오류");
 		return false;

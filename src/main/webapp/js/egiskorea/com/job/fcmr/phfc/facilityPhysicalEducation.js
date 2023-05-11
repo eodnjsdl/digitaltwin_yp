@@ -681,7 +681,7 @@ function getPhyMngView(gid) {
 
 // 운영정보 관리 페이징
 function getPhyMngViewPaging(pageIndex, gid) {
-	loadingShowHide("show"); 
+	ui.loadingBar("show");
 	
 	var formData = new FormData();
 
@@ -708,7 +708,7 @@ function getPhyMngViewPaging(pageIndex, gid) {
 			} 
 		},
 		complete : function() {
-			loadingShowHide("hide"); 
+			ui.loadingBar("hide");
 		}
 	});
 }
