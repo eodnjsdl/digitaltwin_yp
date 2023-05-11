@@ -3,6 +3,7 @@ map2d.multiView = (function () {
 
     let _mapList = [];
     let _count;
+    let _mainSelector;
 
     /**
      * 다중화면 활성화 함수
@@ -22,6 +23,7 @@ map2d.multiView = (function () {
             $(target).addClass('split-main-map');
             $(target).parent().addClass('split-map-' + count);
             map2d.map.updateSize();
+            _mainSelector = new BaseSelector(map2d.map);
             _count = count;
         }
     }
@@ -40,8 +42,13 @@ map2d.multiView = (function () {
         $(target).removeClass('split-main-map');
         $(target).parent().removeClass('split-map-' + _count);
         const $target = $(".btn_sync_01");
-        if($target) $target.remove();
+        if ($target) $target.remove();
         map2d.map.updateSize();
+
+        if (_mainSelector) {
+            _mainSelector.dispose();
+            _mainSelector = undefined;
+        }
     }
 
     function syncView() {
@@ -61,6 +68,7 @@ map2d.multiView = (function () {
         this.element = undefined;
         this.view = undefined;
         this.map = undefined;
+        this.selector = undefined;
         this.createElement();
         this.createMap();
     }
@@ -85,6 +93,7 @@ map2d.multiView = (function () {
         setTimeout(function () {
             that.map.updateSize();
         })
+        this.selector = new BaseSelector(this.map);
     }
     SubMap.prototype.createElement = function () {
         this.element = document.createElement('div');
@@ -104,7 +113,6 @@ map2d.multiView = (function () {
     SubMap.prototype.syncView = function () {
         this.map.setView(map2d.view);
     }
-
     SubMap.prototype.asyncView = function () {
         this.view.setCenter(map2d.view.getCenter());
         this.view.setZoom(map2d.view.getZoom())
@@ -112,13 +120,67 @@ map2d.multiView = (function () {
     }
     SubMap.prototype.dispose = function () {
         this.map.setTarget(null);
-
+        this.selector.dispose();
         this.element.remove();
         this.element = undefined
         this.map = undefined;
         this.view = undefined;
     }
 
+
+    function BaseSelector(map) {
+        this.element = undefined;
+        this.map = map;
+        this.target = map.getTargetElement();
+
+        const layers = map.getLayers().getArray();
+        for (let i = 0; i < layers.length; i++) {
+            if (layers[i].get('title') === '배경지도') {
+                this.baseLayers = layers[i];
+            }
+        }
+
+        this.createElement();
+    }
+
+    BaseSelector.prototype.createElement = function () {
+        const select = document.createElement('select');
+        select.className = 'base-layer-select form-control';
+        const layers = this.baseLayers.getLayersArray();
+        let html = ''
+        for (let i = 0; i < layers.length; i++) {
+            const layer = layers[i];
+            const title = layer.get('title');
+            const name = layer.get('name');
+            const visible = layer.getVisible();
+            html += `<option value="${title}" ${visible ? 'selected' : ''}>${name}</option>`;
+        }
+        select.innerHTML = html;
+
+        select.onchange = onSelectChange.bind(this);
+        this.target.appendChild(select)
+        this.element = select;
+    }
+
+    BaseSelector.prototype.setBaseLayer = function (title) {
+        const layers = this.baseLayers.getLayersArray();
+        for (let i = 0; i < layers.length; i++) {
+            const v = layers[i];
+            if (v.get('title') === title) {
+                v.setVisible(true);
+            } else {
+                v.setVisible(false);
+            }
+        }
+    }
+    BaseSelector.prototype.dispose = function () {
+        this.element.remove();
+    }
+
+    //분할창 배경지도 선택 change event
+    function onSelectChange(e) {
+        this.setBaseLayer(e.target.value);
+    }
 
     let module = {
         active: active,
