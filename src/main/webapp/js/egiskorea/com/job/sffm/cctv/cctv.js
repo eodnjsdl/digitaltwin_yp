@@ -114,7 +114,6 @@ function setData(_pageNo){
 	promise.then(function(data){
 		$("#bottomPopup").find(".bbs-list-num strong").text(data.totalFeatures);
 
-		toastr.success("지도 BBOX 이동");
 		var list = [];
 		for(i =0;i<data.features.length;i++){
 			const {id, properties} = data.features[i];
@@ -152,6 +151,8 @@ function setData(_pageNo){
 }
 //cctv관리 등록페이지 호출
 function fn_insert(){
+	dtmap.vector.clearSelect(); //선택 해제
+	window.target.clearSelect(); //그리드 선택 해제
 	ui.loadingBar("show");
 	ui.openPopup("rightSubPopup");
 	// $(".popup-sub").removeClass("opened").html("");

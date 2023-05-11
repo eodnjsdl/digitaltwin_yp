@@ -142,6 +142,8 @@ function setData(_pageNo){
 }
 //지하수이용시설 등록페이지 열기
 function fn_insert(){
+	dtmap.vector.clearSelect(); //선택 해제
+	window.target.clearSelect(); //그리드 선택 해제
 	ui.openPopup("rightSubPopup");
 	$.ajax({
 		type : "POST",

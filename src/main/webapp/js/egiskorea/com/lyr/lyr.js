@@ -192,7 +192,6 @@ const layerStyle = {
       const node = $(this);
       node.siblings().removeClass("active");
       node.addClass("active");
-      const icon = node.find("img").attr("data-icon");
       if (
         that.rule["point"] &&
         that.rule["point"]["graphic"] &&
@@ -203,7 +202,7 @@ const layerStyle = {
       ) {
         that.rule["point"]["graphic"]["externalGraphic"][
           "href"
-        ] = `${icon}.png`;
+        ] = node.find("img")[0].src;
       }
     });
 

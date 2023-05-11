@@ -55,6 +55,15 @@ $("#devUpdate").on("click", function(){
 	}
 	
 });
+$("#rightSubPopup .popup-close").unbind('click').bind('click',function() {
+	dtmap.vector.clearSelect(); //선택 해제
+	window.target.clearSelect(); //그리드 선택 해제
+	// 등록, 상세, 수정 팝업 창 닫기
+	if ($("#rightSubPopup").hasClass("opened")) {
+		$("#rightSubPopup").removeClass("opened");
+		$("#rightSubPopup").empty();
+	}
+});
 
 var years = "<c:out value="${result.devlopYear}" />";
 
