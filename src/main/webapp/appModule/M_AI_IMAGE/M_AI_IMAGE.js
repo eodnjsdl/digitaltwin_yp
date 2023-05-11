@@ -443,6 +443,7 @@ var M_AI_IMAGE = {
             coordinate.push(ol.proj.transform([dtmap.getExtent()[2], dtmap.getExtent()[3]], 'EPSG:4326', 'EPSG:3857'));
             size = {width : Module.canvas.width, height : Module.canvas.height};
             console.log(size);
+            console.log(coordinate);
             formData.append("coordinate", coordinate);
             formData.append("size", size);
             
@@ -498,14 +499,18 @@ var M_AI_IMAGE = {
             let classNm = identifier.class;
             let classId = identifier.classid;
             let confidence = identifier.confidence;
+            console.log(coord);
             for (var i = 0; i < coord.length; i++) {
         	coord[i] = [parseFloat(coord[i][0]), parseFloat(coord[i][1])];
 //		    var pos = Module.getMap().ScreenToMapPointEX(new Module.JSVector2D(parseFloat(coord[i][0]), parseFloat(coord[i][1])));
-		    var pos = dtmap.getCoordinateFromPixel(coord[i]);
+//		    var pos = dtmap.getCoordinateFromPixel(coord[i]);
+		    var pos = ol.proj.transform(coord[i], 'EPSG:3857', 'EPSG:4326');
 //		    console.log(pos.Longitude + ", " + pos.Latitude);
 //		    coordinates.push([pos.Longitude, pos.Latitude]);
+//		    coordinates.push([pos[0], pos[1]]);
 		    coordinates.push(pos);
 		}
+//            console.log(coordinates);
 //            console.log(classNm);
             options = {
         	    label : {
