@@ -62,7 +62,6 @@ const analysis = {
             this.$element = undefined;
             this.current = undefined;
         }
-        $("#lnbAnalysis").find(".on").removeClass("on");
     },
     open: function (id, container) {
         this.close();

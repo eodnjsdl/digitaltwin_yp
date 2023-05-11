@@ -348,7 +348,7 @@ window.ui = (function () {
             //팝업 close
             initPopup("");
             //분석 팝업 초기화
-            analysis.close();
+            analysis.close(); $("#lnbAnalysis").find(".on").removeClass("on");
             //좌측 메뉴 close
             $(".lnb-cont").css("display", "none");
             $("#lnb li[data-menu]").removeClass("on");
@@ -542,9 +542,11 @@ window.ui = (function () {
         $(".lnb-analysis .lnb-body").off("click").on("click", "button", function () {
             const name = $(this).attr("id");
             const hasOn = $(this).parent().hasClass("on");
+            // $("#lnbAnalysis").find(".on").removeClass("on");
             if(hasOn) {
                 analysis.close();
             } else {
+                // $(this).parent().addClass("on");
                 analysis.open(name);
             }
         });
@@ -660,7 +662,7 @@ window.ui = (function () {
         //팝업 초기화
         initPopup(area);
         //분석 팝업 초기화
-        analysis.close();
+        analysis.close(); $("#lnbAnalysis").find(".on").removeClass("on");
         //기본 틀 크기와 다른 크기를 갖는 DIV 처리
         switch (name) {
             case "backgroundMapInfo":
