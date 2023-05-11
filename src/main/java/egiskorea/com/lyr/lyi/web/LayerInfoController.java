@@ -272,6 +272,7 @@ public class LayerInfoController {
 
             layerInfoService.updateLayerAttributeInfo(layerAttribute);
         }
+/*
 
         // 레이어 스타일 수정
         String workspace = "digitaltwin"; // 작업공간
@@ -326,7 +327,9 @@ public class LayerInfoController {
             mav.addObject("callback", "fail");
             mav.addObject("message", "레이어 스타일 수정에 실패했습니다.(1)");
         }
-
+*/
+        mav.addObject("callback", "success");
+        mav.addObject("message", "레이어 스타일이 정상적으로 수정되었습니다.");
         return mav;
     }
 

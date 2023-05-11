@@ -92,8 +92,71 @@
     width: 51px;
     height: 59px;
     display: inline-block;
-    background: url(/images/poi/nomal_poi.png)center 50% no-repeat;
+    background: url(/images/poi/nomal_poi.png) center 50% no-repeat;
     border: none;
     text-indent: -5000px;
     cursor: pointer;
+}
+
+.split-main-map .base-layer-select,
+.split-sub-map .base-layer-select {
+    position: absolute;
+    z-index: 10;
+    width: auto;
+    margin: 10px;
+}
+
+/**
+ * 2분할
+ */
+.split-map-2 .split-main-map .base-layer-select {
+    right: 0;
+    top: 0;
+}
+
+.split-map-2 .split-sub-map .base-layer-select {
+    left: 0;
+    top: 0;
+}
+
+/**
+ * 3분할
+ */
+.split-map-3 .split-main-map .base-layer-select {
+    right: 0;
+    top: 0;
+}
+
+.split-map-3 .split-sub-map:nth-child(2) .base-layer-select {
+    left: 0;
+    top: 0;
+}
+
+.split-map-3 .split-sub-map:nth-child(3) .base-layer-select {
+    left: 0;
+    top: 0;
+}
+
+/**
+ * 4분할
+ */
+.split-map-4 .split-main-map .base-layer-select {
+    right: 0;
+    top: 0;
+
+}
+
+.split-map-4 .split-sub-map:nth-child(2) .base-layer-select {
+    left: 0;
+    top: 0;
+}
+
+.split-map-4 .split-sub-map:nth-child(3) .base-layer-select {
+    right: 0;
+    top: 0;
+}
+
+.split-map-4 .split-sub-map:nth-child(4) .base-layer-select {
+    left: 0;
+    top: 0;
 }

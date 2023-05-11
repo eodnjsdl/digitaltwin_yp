@@ -53,6 +53,7 @@ map3d.vector = (function () {
             _pointLayer = map3d.layer.addLayer({
                 id: 'Vector_Point',
                 type: 'Point',
+                visible : true,
                 isDefault: true
             });
         }
@@ -61,6 +62,7 @@ map3d.vector = (function () {
             _lineLayer = map3d.layer.addLayer({
                 id: 'Vector_Line',
                 type: 'Line',
+                visible : true,
                 isDefault: true
             })
         }
@@ -69,6 +71,7 @@ map3d.vector = (function () {
             _polygonLayer = map3d.layer.addLayer({
                 id: 'Vector_Polygon',
                 type: 'Polygon',
+                visible : true,
                 isDefault: true
             })
         }

@@ -742,6 +742,8 @@ window.ui = (function () {
         });
         //그리기 초기화
         _initDrawEvent();
+        //분석 팝업 초기화
+        analysis.close();
     }
 
     //그리기 초기화

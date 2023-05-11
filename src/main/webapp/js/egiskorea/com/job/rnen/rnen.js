@@ -137,7 +137,8 @@ function setData(_pageNo){
 }
 //태양광발전소 등록하기 페이지 호출
 function fn_insert(){
-
+	dtmap.vector.clearSelect(); //선택 해제
+	window.target.clearSelect(); //그리드 선택 해제
 	ui.openPopup("rightSubPopup");
 	$.ajax({
 		type : "POST",

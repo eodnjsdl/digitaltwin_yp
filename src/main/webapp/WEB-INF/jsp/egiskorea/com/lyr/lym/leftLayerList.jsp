@@ -207,7 +207,7 @@
                     .find((layer) => layer["tblNm"] === layerNm.split(':')[1]);
 
                 dtmap.showLayer({
-                    id: layerId,
+                    id: id,
                     type: type,
                     layerNm: layerNm,
                     title: title,
@@ -217,10 +217,33 @@
                     sldBody: findLayer.styleInfo
 
                 });
-                console.log('[레이어]', layerNm, visible ? 'on' : 'off')
+                console.log('[레이어]', layerNm, visible ? 'on' : 'off');
+                checkSiblings($this);
             }
 
         })
+
+        function checkSiblings($target) {
+            // const node = $target.closest('ul').find('li :checkbox');
+            // let checked = true;
+            // node.each((v) => {
+            //     checked ||= v.prop('checked');
+            // })
+            // if (checked) {
+            //     //전체 체크
+            //     const $li = $target.closest('ul').closest('li')
+            //     $li.find(':checkbox:eq(0)').prop('checked:checked')
+            // }
+        }
+
+        //레이어 가시화여부 체크
+        const layers = dtmap.layer.getLayers();
+        for (let i = 0; i < layers.length; i++) {
+            const layer = layers[i];
+            if (layer.getVisible()) {
+                $('#' + layer.id).prop('checked', 'checked');
+            }
+        }
 
     });
 

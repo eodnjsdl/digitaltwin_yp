@@ -365,7 +365,7 @@ util.sld = {
       canvas.getContext("2d").drawImage(image, 0, 0);
       deferred.resolve(canvas.toDataURL("image/png"));
     };
-    image.src = `./images/poi/${src}`;
+    image.src = `/images/poi/${src}`;
     return deferred;
   },
 

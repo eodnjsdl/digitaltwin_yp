@@ -17,6 +17,7 @@ map2d.baseLayer = (function () {
     function initConfig() {
         LAYER_OPT = {
             emap: {
+                name: '일반지도',
                 visible: false,
                 source: {
                     url: dtmap.urls.emapBase + '?apikey=' + dtmap.urls.EMAP_KEY,
@@ -54,6 +55,7 @@ map2d.baseLayer = (function () {
                 }
             },
             air: {
+                name: '항공영상',
                 visible: true,
                 source: {
                     url: dtmap.urls.emapAir,
@@ -111,6 +113,7 @@ map2d.baseLayer = (function () {
     function createLayer(name) {
         let opt = LAYER_OPT[name];
         return new ol.layer.Tile({
+            name: opt.name,
             title: name,
             visible: opt.visible,
             extent: map2d.config.extent,

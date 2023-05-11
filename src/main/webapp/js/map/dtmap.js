@@ -213,15 +213,29 @@ window.dtmap = (function () {
         let data;
         if (options.cql) {
             data = getWFSParam(options);
+            return $.ajax({
+                url: '/gis/wfs',
+                header: {
+                    'Content-Type':  'application/json;charset=UTF-8'
+                },
+                method: 'post',
+                data: data,
+            });
         } else {
             data = getWFSParamXML(options);
+            return fetch('/gis/wfs', {
+                headers: {
+                    'Content-Type': 'application/xml;charset=UTF-8'
+                },
+                method: "POST",
+                body: data,
+            }).then((response) => {
+                if (response.ok) {
+                    return response.json();
+                }
+            })
         }
-        return $.ajax({
-            url: '/gis/wfs',
-            method: 'post',
-            // contentType: "application/json",
-            data: data
-        })
+
     }
 
     function getWFSParamXML(options) {

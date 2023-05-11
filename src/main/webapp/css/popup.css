@@ -65,14 +65,14 @@
 }
 
 .popup-panel .sub-popup-close {
-	top: 0;
-	right: 0;
-	width: 39px;
-	height: 39px;
-	border-left: 1px solid #44516A;
-	background: url(/images/icon/popup-close2.svg) no-repeat 50% 50%;
-	border-top-right-radius: 10px;
-	position: absolute;
+    top: 0;
+    right: 0;
+    width: 39px;
+    height: 39px;
+    border-left: 1px solid #44516A;
+    background: url(/images/icon/popup-close2.svg) no-repeat 50% 50%;
+    border-top-right-radius: 10px;
+    position: absolute;
 }
 
 .popup-panel .popup-reset {
@@ -485,7 +485,7 @@
 .small-popup.small-bottom {
     left: 320px;
     bottom: 50px;
-    width: 1580px;
+    width: calc(100% - 391px);
     height: 150px;
 }
 
@@ -1523,23 +1523,23 @@
 }
 
 .sectional-group {
-    display: flex;
     padding-top: 10px;
     height: 228px;
 }
 
 .sectional-group .chart-items {
     flex-shrink: 0;
-    position: relative;
-    width: 1270px;
+    width: calc(100% - 230px);
+    float: left;
 }
 
 .sectional-group .legend-items {
-    margin-left: 15px;
     padding: 20px;
-    width: calc(100% - 1270px);
+    width: 225px;
     border: 1px solid #CED1D8;
     border-radius: 10px;
+    height: 100%;
+    float: right;
 }
 
 .sectional-group .legend-items li + li {
