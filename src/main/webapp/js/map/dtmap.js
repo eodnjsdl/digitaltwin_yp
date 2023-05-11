@@ -214,23 +214,19 @@ window.dtmap = (function () {
         let contentType;
         if (options.cql) {
             data = getWFSParam(options);
-            contentType = 'text/plain;charset=UTF-8'
+            contentType = 'application/json;charset=UTF-8'
         } else {
             data = getWFSParamXML(options);
             contentType = 'application/xml;charset=UTF-8'
 
         }
-        return fetch('/gis/wfs', {
-            method: "POST",
-            headers: {
+        return $.ajax({
+            url: '/gis/wfs',
+            data: data,
+            header: {
                 'Content-Type': contentType
             },
-            body: data,
-        }).then((response) => {
-            if (response.ok) {
-                return response.json();
-            }
-        })
+        });
     }
 
     function getWFSParamXML(options) {
