@@ -75,9 +75,10 @@ window.map3d = (function () {
 
             //3D 확장 모듈 초기화
             initModules();
+            initConfig();
             _isInit = true;
             _isLoaded.resolve(true);
-            ``
+
             //이벤트리스너 등록
             const canvas = _container.getElementsByTagName('canvas').canvas
             // _container.addEventListener('click', onClick);
@@ -212,6 +213,11 @@ window.map3d = (function () {
         map3d.location.init();
         map3d.measure.init();
         map3d.vector.init();
+    }
+
+    //설정 반영
+    function initConfig() {
+        Module.XDESetPlanetTransparecny(map3d.config.tpgrphTrnsprc / 100); //투명도
     }
 
     //window resize Event
