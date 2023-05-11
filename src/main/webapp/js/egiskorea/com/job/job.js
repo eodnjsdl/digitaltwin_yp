@@ -3,7 +3,7 @@ $(document).on("click", ".closeSub", function(){
 	ui.closeSubPopup();
 
 	// removePoint(GLOBAL.NomalIcon);
-	toastr.warning("객체 선택 해제하기", "객체 선택 해제하기");
+	// toastr.warning("객체 선택 해제하기", "객체 선택 해제하기");
 });
 
 //생성된어 있는 POI, Line, Polygon 레이어가 있을때 지워주기
