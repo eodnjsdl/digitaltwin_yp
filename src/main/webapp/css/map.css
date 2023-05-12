@@ -51,7 +51,7 @@ html, body {
 
 #container .util-box {
 	display: flex;
-	position: absolute;
+	position: fixed;
 	z-index: 999;
 	right: 0px;
 }
@@ -392,7 +392,7 @@ html, body {
  * map > map-control
  *----------------------------------------------------------------------------*/
 .map-control {
-	position: absolute;
+	position: fixed;
 	top: 50%;
 	right: 20px;
 	margin-top: -245px;
