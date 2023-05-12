@@ -93,11 +93,7 @@ map3d.vector = (function () {
         }
 
         Module.getMap().setSelectObject(object3d);
-        const camera = map3d.camera;
-        let alt = object3d.position.Altitude * 1.5;
-        alt = alt < 1000 ? 1000 : alt;
-        camera.moveLookAt(object3d.position, camera.getTilt(), camera.getDirect(), alt);
-
+        map3d.setCenter([object3d.position.Longitude, object3d.position.Latitude]);
         let feature = _source.getFeatureById(id);
         if (feature) {
             feature.set('_selected', true);
