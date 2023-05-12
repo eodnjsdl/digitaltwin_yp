@@ -21,6 +21,16 @@ function cameraMove() {
     let centerVec = new Module.JSVector3D(location.lon, location.lat, location.alt);
     map3d.camera.move(centerVec, 90, 0, 800);
 }
+
+/**
+ * 객체 선택 이벤트
+ * @param id
+ * @returns
+ */
+function selectTarget(id) {
+    dtmap.vector.select(id);
+}
+
 var M_AI_IMAGE = {
     global: {
         test: null,
@@ -81,153 +91,272 @@ var M_AI_IMAGE = {
 
     },
     detectLegend: {
-        legend: {
-            class_0: {
-                name: "건물(지붕형)",
-                key: "building_roof",
-                color: [252, 213, 180],
+        legend: [
+            {class_0: {
+                name: "건물",
+                key: "bldg",
+                color: [255, 56, 56],
                 hexColor: "#fcd5b4",
                 count: 0,
-                id: "class_0"
-            },
-            class_1: {
-                name: "건물(옥상형)",
-                key: "building_roof",
-                color: [250, 191, 143],
+                classId: "0"
+            }},
+            {class_1: {
+                name: "공원",
+                key: "park",
+                color: [250, 157, 151],
                 hexColor: "#fabf8f",
                 count: 0,
-                id: "class_1"
-            },
-            class_12: {
-                name: "대",
-                key: "empty",
-                color: [49, 134, 155],
+                classId: "1"
+            }},
+            {class_2: {
+                name: "과수원",
+                key: "orchrd",
+                color: [255, 112, 31],
                 hexColor: "#31869b",
                 count: 0,
-                id: "class_12"
-            },
-            class_15: {
-                name: "창고용지",
-                key: "storage_site",
-                color: [33, 89, 103],
+                classId: "2"
+            }},
+            {class_3: {
+                name: "광천지",
+                key: "mnlspt",
+                color: [255, 178, 29],
                 hexColor: "#215967",
                 count: 0,
-                id: "class_15"
-            },
-            class_11: {
-                name: "임야",
-                key: "forest",
-                color: [168, 232, 37],
+                classId: "3"
+            }},
+            {class_4: {
+                name: "구거",
+                key: "ditch",
+                color: [207, 210, 49],
                 hexColor: "#a8e825",
                 count: 0,
-                id: "class_11"
-            },
-            class_5: {
-                name: "전,답",
-                key: "farm",
-                color: [196, 215, 155],
+                classId: "4"
+            }},
+            {class_5: {
+                name: "답",
+                key: "ricfld",
+                color: [72, 249, 10],
                 hexColor: "#c4d79b",
                 count: 0,
-                id: "class_5"
-            },
-            class_14: {
-                name: "과수원",
-                key: "fruit_garden",
-                color: [216, 228, 188],
+                classId: "5"
+            }},
+            {class_6: {
+                name: "대",
+                key: "grnd",
+                color: [146, 204, 23],
                 hexColor: "#d8e4bc",
                 count: 0,
-                id: "class_14"
-            },
-            class_2: {
-                name: "비닐하우스(백)",
-                key: "vinyl_house_white",
-                color: [196, 189, 151],
-                hexColor: "#c4bd97",
-                count: 0,
-                id: "class_2"
-            },
-            class_3: {
-                name: "비닐하우스(흑)",
-                key: "vinyl_house_black",
-                color: [148, 138, 84],
-                hexColor: "#948a54",
-                count: 0,
-                id: "class_3"
-            },
-            class_4: {
+                classId: "6"
+            }},
+            {class_7: {
                 name: "도로",
                 key: "road",
-                color: [242, 242, 242],
+                color: [61, 219, 134],
+                hexColor: "#c4bd97",
+                count: 0,
+                classId: "7"
+            }},
+            {class_8: {
+                name: "목장용지",
+                key: "stkfrm",
+                color: [26, 147, 52],
+                hexColor: "#948a54",
+                count: 0,
+                classId: "8"
+            }},
+            {class_9: {
+                name: "묘지",
+                key: "grvy",
+                color: [0, 212, 187],
                 hexColor: "#f2f2f2",
                 count: 0,
-                id: "class_4"
-            },
-            class_10: {
-                name: "주차장",
-                key: "parking_area",
-                color: [166, 166, 166],
+                classId: "9"
+            }},
+            {class_10: {
+                name: "비닐하우스",
+                key: "phw",
+                color: [44, 153, 168],
                 hexColor: "#a6a6a6",
                 count: 0,
-                id: "class_10"
-            },
-            class_13: {
-                name: "철도용지",
-                key: "railroad_site",
-                color: [217, 217, 217],
+                classId: "10"
+            }},
+            {class_11: {
+                name: "사적지",
+                key: "histst",
+                color: [0, 194, 255],
                 hexColor: "#d9d9d9",
                 count: 0,
-                id: "class_13"
-            },
-            class_6: {
-                name: "하천",
-                key: "river",
-                color: [22, 54, 92],
+                classId: "11"
+            }},
+            {class_12: {
+                name: "수도용지",
+                key: "wtway",
+                color: [52, 69, 147],
                 hexColor: "#16365c",
                 count: 0,
-                id: "class_6"
-            },
-            class_7: {
-                name: "유지",
-                key: "site",
-                color: [83, 141, 213],
+                classId: "12"
+            }},
+            {class_13: {
+                name: "양어장",
+                key: "fshfrm",
+                color: [100, 115, 255],
                 hexColor: "#538dd5",
                 count: 0,
-                id: "class_7"
-            },
-            class_8: {
-                name: "제방",
-                key: "river_bank",
-                color: [141, 180, 226],
+                classId: "13"
+            }},
+            {class_14: {
+                name: "염전",
+                key: "sltpan",
+                color: [0, 24, 236],
                 hexColor: "#8db4e2",
                 count: 0,
-                id: "class_8"
-            },
-            class_16: {
-                name: "염전",
-                key: "salt",
-                color: [197, 217, 241],
+                classId: "14"
+            }},
+            {class_15: {
+                name: "유원지",
+                key: "amsprk",
+                color: [132, 56, 255],
                 hexColor: "#c5d9f1",
                 count: 0,
-                id: "class_16"
-            },
-            class_9: {
-                name: "묘지",
-                key: "cemetery",
-                color: [150, 54, 52],
+                classId: "15"
+            }},
+            {class_16: {
+                name: "유지",
+                key: "yugi",
+                color: [82, 0, 133],
                 hexColor: "#963634",
                 count: 0,
-                id: "class_9"
-            },
-            class_others: {
-                name: "기타",
-                key: "others",
-                color: [255, 255, 255],
-                hexColor: "#ffffff",
-                count: 0,
-                id: "class_others"
-            }
-
-        },
+                classId: "16"
+            }},
+            {class_17: {
+        	name: "임야",
+        	key: "frtl",
+        	color: [203, 56, 255],
+        	hexColor: "#963634",
+        	count: 0,
+        	classId: "17"
+            }},
+            {class_18: {
+        	name: "잡종지",
+        	key: "mslnd",
+        	color: [255, 149, 200],
+        	hexColor: "#963634",
+        	count: 0,
+        	classId: "18"
+            }},
+            {class_19: {
+        	name: "공장용지",
+        	key: "fctry",
+        	color: [255, 55, 199],
+        	hexColor: "#963634",
+        	count: 0,
+        	classId: "19"
+            }},
+            {class_20: {
+        	name: "전",
+        	key: "dfld",
+        	color: [255, 56, 56],
+        	hexColor: "#963634",
+        	count: 0,
+        	classId: "20"
+            }},
+            {class_21: {
+        	name: "제방",
+        	key: "dike",
+        	color: [255, 157, 151],
+        	hexColor: "#963634",
+        	count: 0,
+        	classId: "21"
+            }},
+            {class_22: {
+        	name: "종교용지",
+        	key: "relgn",
+        	color: [255, 112, 31],
+        	hexColor: "#963634",
+        	count: 0,
+        	classId: "22"
+            }},
+            {class_23: {
+        	name: "주유소",
+        	key: "olt",
+        	color: [255, 178, 29],
+        	hexColor: "#963634",
+        	count: 0,
+        	classId: "23"
+            }},
+            {class_24: {
+        	name: "주차장",
+        	key: "prkplce",
+        	color: [207, 210, 49],
+        	hexColor: "#963634",
+        	count: 0,
+        	classId: "24"
+            }},
+            {class_25: {
+        	name: "창고용지",
+        	key: "wrhous",
+        	color: [72, 249, 10],
+        	hexColor: "#963634",
+        	count: 0,
+        	classId: "25"
+            }},
+            {class_26: {
+        	name: "하천",
+        	key: "river",
+        	color: [146, 204, 23],
+        	hexColor: "#963634",
+        	count: 0,
+        	classId: "26"
+            }},
+            {class_27: {
+        	name: "철도용지",
+        	key: "rlroad",
+        	color: [61, 219, 134],
+        	hexColor: "#963634",
+        	count: 0,
+        	classId: "27"
+            }},
+            {class_28: {
+        	name: "체육용지",
+        	key: "phstrn",
+        	color: [26, 147, 52],
+        	hexColor: "#963634",
+        	count: 0,
+        	classId: "28"
+            }},
+            {class_29: {
+        	name: "학교용지",
+        	key: "school",
+        	color: [0, 212, 187],
+        	hexColor: "#963634",
+        	count: 0,
+        	classId: "29"
+            }},
+            {class_30: {
+        	name: "빌딩",
+        	key: "bld",
+        	color: [44, 153, 168],
+        	hexColor: "#963634",
+        	count: 0,
+        	classId: "30"
+            }},
+            {class_31: {
+        	name: "아파트",
+        	key: "apt",
+        	color: [0, 194, 255],
+        	hexColor: "#963634",
+        	count: 0,
+        	classId: "31"
+            }},
+            {class_32: {
+        	name: "저장탱크",
+        	key: "tank",
+        	color: [52, 69, 147],
+        	hexColor: "#963634",
+        	count: 0,
+        	classId: "32"
+            }}
+        ],
         legendCountUp: function (_classNumber) {
 
             var legendInfo = this.legend["class_" + _classNumber];
@@ -386,6 +515,9 @@ var M_AI_IMAGE = {
 
             }, 2000);
         },
+        /**
+         * ai 분석 통신 및 데이터 처리연결
+         */
         detectAI: function (an) {
 
             var detect_type = "";
@@ -442,8 +574,6 @@ var M_AI_IMAGE = {
             coordinate.push(ol.proj.transform([dtmap.getExtent()[0], dtmap.getExtent()[1]], 'EPSG:4326', 'EPSG:3857'));
             coordinate.push(ol.proj.transform([dtmap.getExtent()[2], dtmap.getExtent()[3]], 'EPSG:4326', 'EPSG:3857'));
             size = {width : Module.canvas.width, height : Module.canvas.height};
-            console.log(size);
-            console.log(coordinate);
             formData.append("coordinate", coordinate);
             formData.append("size", size);
             
@@ -458,6 +588,7 @@ var M_AI_IMAGE = {
                 processData: false,
                 contentType: false,
                 success: function (result) {
+                    var alt = dtmap.getCenter()[2];
             		dtmap.vector.clear();
 			
 			if(result.response.length == 0 || result.response.length == undefined){
@@ -466,27 +597,24 @@ var M_AI_IMAGE = {
 				return false;
 			}
 			if(result.response.length > 0) {
-			    var totalCnt=  result.response.length;
 			    console.log("result");
 			    console.log(result.response);
 			    var detections;
 			    var screenCoord = [];
 			    var identifier = [];
+			    var idCount = 0;
 			    for (var j = 0; j < result.response.length; j++) {
 				detections = result.response[j].detections.split(', ');
 				identifier.push({class : result.response[j].class, classId : result.response[j].classid, confidence : result.response[j].confidence});
-//				console.log(identifier);
-//				console.log(detections);
 				screenCoord.push(detections);
 			    }
-			    for (var i = 0, j = 0; i < screenCoord.length; i++) {
+			    for (var i = 0; i < screenCoord.length; i++) {
 				var analCoord = [];
 				for (var j = 0; j < screenCoord[i].length; j++){
 				    var coord = screenCoord[i][j].split(' ');
 				    analCoord.push(coord);
 				}
-//			    console.log(analCoord);
-			    M_AI_IMAGE.analysis.getScreenMapCoord(analCoord, identifier[i]);
+				M_AI_IMAGE.analysis.getScreenMapCoord(analCoord, identifier[i], idCount++, alt);
 			    }
 			}
 		ui.loadingBar("hide");
@@ -494,36 +622,94 @@ var M_AI_IMAGE = {
             });
 
         },
-        getScreenMapCoord: function (coord, identifier) {
-            var coordinates = [];
-            let classNm = identifier.class;
-            let classId = identifier.classid;
+        /**
+         * 좌표 계산 후, vector 생성
+         */
+        getScreenMapCoord: function (coord, identifier, idCount, alt) {
+            var coordinates = [[]];
+//            console.log(identifier);
+            var data = M_AI_IMAGE.detectLegend.legend;
+            var dataOption = null;
+//            console.log(data);
+            for (var i = 0; i < data.length; i++) {
+        	let index = 'class_' + i;
+        	if (identifier.classId == data[i][index].classId) {
+        	    dataOption = data[i][index];
+        	    idCount++;
+//        	    console.log(dataOption);
+        	    break;
+        	}
+            }
+            let classNm = dataOption.key;
+            let classId = identifier.classId;
+            let name = dataOption.name;
             let confidence = identifier.confidence;
-            console.log(coord);
+            let color = dataOption.color;
+            if (color != null || color != undefined) {
+        	color = "rgb(" + color[0] + ', ' + color[1] + ', ' + color[2] + ')';
+            }
+//            console.log(color);
+//            console.log(coord);
             for (var i = 0; i < coord.length; i++) {
-        	coord[i] = [parseFloat(coord[i][0]), parseFloat(coord[i][1])];
-//		    var pos = Module.getMap().ScreenToMapPointEX(new Module.JSVector2D(parseFloat(coord[i][0]), parseFloat(coord[i][1])));
-//		    var pos = dtmap.getCoordinateFromPixel(coord[i]);
+        	coord[i] = [parseFloat(coord[i][0]), parseFloat(coord[i][1]), parseFloat(alt)];
 		    var pos = ol.proj.transform(coord[i], 'EPSG:3857', 'EPSG:4326');
-//		    console.log(pos.Longitude + ", " + pos.Latitude);
-//		    coordinates.push([pos.Longitude, pos.Latitude]);
-//		    coordinates.push([pos[0], pos[1]]);
-		    coordinates.push(pos);
+		    coordinates[0].push(pos);
 		}
 //            console.log(coordinates);
-//            console.log(classNm);
             options = {
+        	    fill : {
+        		      color : color,
+        		      opacity : 0.5
+        		    },
+    		    stroke:{
+    			      color: color,
+    			      opacity: 0.5,
+    			      width: 0,
+    			      lineDash: 'solid',
+    			    },
         	    label : {
-        		textBaseLine : 'top',
-			text : classNm + ' ' + (Math.ceil(confidence * 100)) + '%'
-		    }
+        		fill : {
+        		    color: '#ffffff',
+        		    opacity: 1
+        		},
+			text : name + ' ' + (Math.ceil(confidence * 100)) + '%'
+		    },
+		    offsetHeight : 30
             };
-		dtmap.vector.addLine({
-		    id: 'aiDetect',
+            	let vectorId = classNm + '_' + classId + '_' + idCount;
+		dtmap.vector.addPolygon({
+		    id: vectorId,
 		    coordinates: coordinates,
 		    crs: 'EPSG:4326',
 		    style : options
-		});  
+		});
+//		console.log(vectorId);
+		let resultInfoData = {count : idCount, engNm : dataOption.key, korNm : dataOption.name, conf : identifier.confidence, vectorId : vectorId};  
+		M_AI_IMAGE.analysis.resultView(resultInfoData);
+        },
+        /**
+         * 결과창에 정보 표출
+         */
+        resultView : function (infoData) {
+            // dataOption : classid, color, count, hexColor, key(분석 결과 영어이름 - 사용), name(분석 결과 한글이름 - 사용) 
+            // identifier : class, classId, confidence(분석 결과 정확도 - 사용할 내용)
+            // vectorId : feature로 만들어진 feature id -> dtmap.vector.select('id'); 로 선택가능 - 위치 이동에 넣을 내용
+//            console.log(dataOption, identifier, vectorId);
+            
+            var html = "";
+            html += "<tr>\n";
+            html += "<td>" + infoData.count + "</td>\n";
+            html += "<td>" + infoData.engNm + "</td>\n";
+            html += "<td>" + infoData.korNm + "</td>\n";
+            html += "<td>" + Math.ceil(infoData.conf * 100) + "%</td>\n";
+            html += "<td>\n"
+            html += "<button type=\"button\" onclick=\"selectTarget('" + infoData.vectorId + "\'); \"class=\"icon-btn location sm\" \">\n";
+            html += "</button>\n";
+            html += "</td>\n";
+            html += "</tr>\n";
+
+            $("#classifiedBody").append(html);
+            
         },
         markupMachineDetectResult: async function (_imageWidth, _imageHeight, _result, _complateCallback) {
 

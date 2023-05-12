@@ -8,11 +8,12 @@ window.dtmap = window.dtmap || {};
  */
 dtmap.urls = (function () {
     let url = 'http://203.228.54.47';
+    let url2 = 'http://203.228.54.47:8086';
 
     let urls = {
         BASE: url,
         xdServer: url + '/xdServer',
-        xdGeoServer: 'http://localhost:8080/gis',
+        xdGeoServer: url2 + '/gis',
         xdGeoUrl: url + '/geoUrl',
         emapBase: url + '/extEmap/openapi/Gettile.do',
         emapAirProxy: url + '/extEmap/openapi/proxy/proxyTile.jsp',
