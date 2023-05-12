@@ -57,9 +57,7 @@ window.ui = (function () {
 
         //LEFT 메뉴 닫기 버튼
         $(".lnb-util .lnb-close").click(function () {
-            //console.log(".lnb-util .lnb-close");
             $(".popup-close").trigger("click");	//시설관리 하위 메뉴 팝업 닫기 버튼 동작
-
             ($(this).parent().parent()).stop().fadeOut(100);
             $("#lnb li[data-menu]").removeClass("on");
             _initDrawEvent();
@@ -67,14 +65,19 @@ window.ui = (function () {
         });
 
         $(document).on('click', '.lnb-dep2 button', function (e) {
-            $(".lnb-dep2").find(".on").removeClass("on");
-            $(this).parent().addClass("on");
+            const hasOn = $(this).parent().hasClass("on");
+            if(hasOn) {
+                $(".lnb-dep2").addClass("on");
+                $(this).parent().removeClass("on");
+            } else {
+                $(".lnb-dep2").find(".on").removeClass("on");
+                $(this).parent().addClass("on");
+            }
         });
 
         $(".scroll-y", this.selector).mCustomScrollbar({
             scrollbarPosition: "outside",
         });
-
 
     }
 
@@ -344,6 +347,8 @@ window.ui = (function () {
 
             //팝업 close
             initPopup("");
+            //분석 팝업 초기화
+            analysis.close(); $("#lnbAnalysis").find(".on").removeClass("on");
             //좌측 메뉴 close
             $(".lnb-cont").css("display", "none");
             $("#lnb li[data-menu]").removeClass("on");
@@ -408,7 +413,7 @@ window.ui = (function () {
 
     //좌측 메뉴 >> 공간정보 활용  >> 사업공유 관리
     function _spaceTabEvent() {
-        $(document).on("click", ".inner-tab", function () {
+        $("#leftPopup").on("click", ".inner-tab", function () {
             var parent = $(this).parent();
             var tabName = $(this).data("tab");
             parent.addClass("on").siblings().removeClass("on");
@@ -536,9 +541,16 @@ window.ui = (function () {
 
     //좌측 메뉴 >> 분석
     function _analysisMenuEvent() {
-        $(".lnb-analysis .lnb-body").on("click", "button", function () {
+        $(".lnb-analysis .lnb-body").off("click").on("click", "button", function () {
             const name = $(this).attr("id");
-            analysis.open(name);
+            const hasOn = $(this).parent().hasClass("on");
+            // $("#lnbAnalysis").find(".on").removeClass("on");
+            if(hasOn) {
+                analysis.close();
+            } else {
+                // $(this).parent().addClass("on");
+                analysis.open(name);
+            }
         });
         $(".lnb-analysis .lnb-close").on('click', function () {
             analysis.close();
@@ -649,7 +661,10 @@ window.ui = (function () {
                 break;
         }
 
+        //팝업 초기화
         initPopup(area);
+        //분석 팝업 초기화
+        analysis.close(); $("#lnbAnalysis").find(".on").removeClass("on");
         //기본 틀 크기와 다른 크기를 갖는 DIV 처리
         switch (name) {
             case "backgroundMapInfo":
@@ -744,8 +759,6 @@ window.ui = (function () {
         });
         //그리기 초기화
         _initDrawEvent();
-        //분석 팝업 초기화
-        analysis.close();
     }
 
     //그리기 초기화

@@ -236,8 +236,9 @@
 </form:form>
 <div id="wrap" style="background: black;">
 
-    <!-- header -->
-    <header id="header">
+    <!-- container -->
+    <div id="container">
+        <!-- header -->
         <h1 class="logo"><a href="/index.html"><spring:message code="site.title"/></a></h1>
         <div class="util-box">
             <div class="user"><c:out value="${loginVO.name}"/>님
@@ -300,12 +301,7 @@
                 </li>
             </ul>
         </div>
-    </header>
-    <!-- //header -->
-
-    <!-- container -->
-    <div id="container">
-
+        <!-- //header -->
         <!-- 지도영역 -->
         <div id="map2D" class="main-map"></div>
         <div id="map3D" style="width: 100%; height:100%; display:none; user-select:none"></div>

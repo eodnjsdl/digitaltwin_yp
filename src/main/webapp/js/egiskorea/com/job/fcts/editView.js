@@ -145,21 +145,26 @@ function geoEditBindEvents(obj) {
             const x = xNode.val();
             const y = yNode.val();
             const point = new ol.geom.Point([x, y]);
-            const wkt = format.writeGeometry(
-                point.transform("EPSG:4326", "EPSG:5179")
-            );
+            
+            const tranPoint = point.transform("EPSG:4326", "EPSG:5179");
+            const wkt = format.writeGeometry(tranPoint);
             
             //console.log(wkt);
-
+            
             //임시 공간에 포인트 WKT 저장
             $(".pointTempGeomWKT").val(wkt);
 
-            //화면에 임시 포인트(점) 표시
-            /*dtmap.vector.addPoint({
-        	  id: 'tempPoint',
-        	  coordinates: [x, y],
-        	  crs: 'EPSG:4326',
-        	});*/
+            dtmap.draw.clear();			//그리기 객체 삭제
+            
+            //지도에 표시
+            dtmap.draw.addGeometry(tranPoint);
+            
+            //중심점 이동 및 zoom 설정
+            var options = {
+            		zoom : 15 	
+            }
+
+            dtmap.setCenter(tranPoint.getCoordinates(), options);
            
         } else {
             if (!xNode.val()) {
