@@ -490,11 +490,13 @@ window.ui = (function () {
         $(".lnb-traffic .lnb-body").on("click", "button", function () {
             var name = $(this).attr("id");
             var area = $(this).data("popup"); //팝업 위치명 넣어주세요  ex)rightPopup
-            //ui.openPopup(area);
+            ui.openPopup(area);
+            _selectEventListener();	//지도 선택 이벤트 초기화
             switch (name) {
                 // 교통분석 > 버스노선정보
                 case "BusRouteInformation" :
-                    toastr.error("버스노선정보");
+                	//toastr.error("버스노선정보");
+                    getBusRouteInformation("busRoute")	// 버스노선정보 버스노선
                     break;
                 // 교통분석 >  인구정보
                 case "PopulationInformation" :
