@@ -25,33 +25,38 @@ html, body {
 /*------------------------------------------------------------------------------
  * header
  *----------------------------------------------------------------------------*/
-#header {
-	display: flex;
-	align-items: flex-start;
-	justify-content: space-between;
-	position: absolute;
-	left: 10px;
-	right: 20px;
-	z-index: 10;
-}
+/*#container {*/
+/*	display: flex;*/
+/*	align-items: flex-start;*/
+/*	justify-content: space-between;*/
+/*	position: absolute;*/
+/*	left: 10px;*/
+/*	right: 20px;*/
+/*	z-index: 10;*/
+/*}*/
 
-#header .logo {
+#container .logo {
 	width: 295px;
 	height: 67px;
+	position: absolute;
+	z-index: 999;
 }
 
-#header .logo a {
+#container .logo a {
 	display: block;
 	height: 84%;
 	background: url(/images/common/logo.png) no-repeat 50% 0;
 	text-indent: -9999px;
 }
 
-#header .util-box {
+#container .util-box {
 	display: flex;
+	position: absolute;
+	z-index: 999;
+	right: 0px;
 }
 
-#header .util-box .user {
+#container .util-box .user {
 	position: relative;
 	display: flex;
 	align-items: center;
@@ -66,7 +71,7 @@ html, body {
 	font-weight: 600;
 }
 
-#header .util-box .user::before {
+#container .util-box .user::before {
 	content: '';
 	position: absolute;
 	top: 9px;
@@ -76,7 +81,7 @@ html, body {
 	background: url(/images/common/hd-user.png) no-repeat 50% / cover;
 	vertical-align: middle;
 }
-#header .util-box .user button {
+#container .util-box .user button {
 	display: inline-block;
 	position: relative;
 	margin-top: 1px;
@@ -87,7 +92,7 @@ html, body {
 	-webkit-transition: background .2s;
 	transition: background .2s;
 }
-#header .util-box .user button:after {
+#container .util-box .user button:after {
 	content: attr(data-name);
 	position: absolute;
 	top: 35px;
@@ -102,36 +107,36 @@ html, body {
 	border-radius: 10px;
 	display: none;
 }
-#header .util-box .user button:hover:after {
+#container .util-box .user button:hover:after {
 	display: block;
 }
-#header .util-box .user-btn {
+#container .util-box .user-btn {
 	border: 1px solid #44516A;
 	background: #fff url(/images/common/bi-userModify.svg) no-repeat 50% 50%;
 	-webkit-transition: border .2s, background .2s;
 	transition: border .2s, background .2s;
 }
-#header .util-box .info-btn {background: url(/images/common/bi-info.svg) no-repeat 50% 50%;}
-#header .util-box .user button.manager-btn {
+#container .util-box .info-btn {background: url(/images/common/bi-info.svg) no-repeat 50% 50%;}
+#container .util-box .user button.manager-btn {
 	width: 20px;
 	height: 22px;
 	border-radius: unset;
 	background: url(/images/common/bi-manager.svg) no-repeat 50% 50%;
 }
 
-#header .util-box .user-btn:hover, #header .util-box .user-btn.active {
+#container .util-box .user-btn:hover, #container .util-box .user-btn.active {
 	border-color: #1C77FF;
 	background: #1C77FF url(/images/common/bi-userModify-on.svg) no-repeat 50% 50%;
 }
-#header .util-box .info-btn:hover, #header .util-box .info-btn.active {
+#container .util-box .info-btn:hover, #container .util-box .info-btn.active {
 	background: url(/images/common/bi-info-hover.svg) no-repeat 50% 50%;
 }
-#header .util-box .user button.manager-btn:hover, #header .util-box .user button.manager-btn.active {
+#container .util-box .user button.manager-btn:hover, #container .util-box .user button.manager-btn.active {
 	background: url(/images/common/bi-manager-hover.svg) no-repeat 50% 50%;
 }
 
 
-#header .logout-btn {
+#container .logout-btn {
 	display: block;
 	width: 100px;
 	height: 27px;
@@ -142,7 +147,7 @@ html, body {
 	border-radius: 7px;
 }
 
-#header .logout-btn::before {
+#container .logout-btn::before {
 	content: '';
 	display: inline-block;
 	margin: -2px 5px 0 0;
@@ -154,14 +159,14 @@ html, body {
 	transition: background .1s;
 }
 
-#header .logout-btn:hover {
+#container .logout-btn:hover {
 	color: #fff;
 	background-color: #090F1B;
 }
 
-#header .logout-btn:hover::before {background: url(/images/common/bi-logout-hover.svg) no-repeat 33% 40%}
+#container .logout-btn:hover::before {background: url(/images/common/bi-logout-hover.svg) no-repeat 33% 40%}
 
-#header .util-box .GNB {
+#container .util-box .GNB {
 	display: flex;
 	width: fit-content;
 	height: fit-content;
@@ -177,26 +182,26 @@ html, body {
 	padding: 10px;
 	transition: 0.3s;
 }
-#header .util-box .GNB:hover {
+#container .util-box .GNB:hover {
 	border-radius: 0px 0px 10px 10px;
 	transition: 0.3s;
 }
-#header .util-box .GNB > li {
+#container .util-box .GNB > li {
 	width: 70px;
 	text-align: center;
 }
-#header .util-box .GNB > li ul {
+#container .util-box .GNB > li ul {
 	margin-top: 5px;
 	display: none;
 }
-#header .util-box .GNB > li span {
+#container .util-box .GNB > li span {
 	position: relative;
 	display: block;
 	width: 100%;
 	text-align: center;
 	cursor: pointer;
 }
-#header .util-box .GNB > li span:after {
+#container .util-box .GNB > li span:after {
 	position: absolute;
 	bottom: -3px;
 	left: 50%;
@@ -209,16 +214,16 @@ html, body {
 	border-radius: 1px;
 	transform: translateX(-50%);
 }
-#header .util-box .GNB > li:hover span {
+#container .util-box .GNB > li:hover span {
 	color: #4A566D;
 }
-#header .util-box .GNB > li:hover span:after {
+#container .util-box .GNB > li:hover span:after {
 	display: block;
 }
-#header .util-box .GNB > li:not(:first-child) span {
+#container .util-box .GNB > li:not(:first-child) span {
 	border-left: 1px solid #e7e7e7;
 }
-#header .util-box .GNB button {
+#container .util-box .GNB button {
 	font-family: 'Noto Sans KR', 'Malgun Gothic', '맑은 고딕', sans-serif;
 	font-size: 13px;
 	font-weight: 400;
@@ -227,7 +232,7 @@ html, body {
 	text-align: center;
 	color: #969696;
 }
-#header .util-box .GNB button:hover {
+#container .util-box .GNB button:hover {
 	color: #4A566D;
 }
 /*------------------------------------------------------------------------------

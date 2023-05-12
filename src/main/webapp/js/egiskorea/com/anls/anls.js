@@ -36,6 +36,7 @@ const analysis = {
         }
     },
     load: function (id) {
+        ui.initPopup("");
         const fileHtml = '/appModule/' + id + '/' + id + '.html';
         const fileCss = '/appModule/' + id + '/' + id + '.css';
         const fileJs = '/appModule/' + id + '/' + id + '.js';
