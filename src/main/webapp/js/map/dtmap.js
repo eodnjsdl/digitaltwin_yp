@@ -216,7 +216,7 @@ window.dtmap = (function () {
             return $.ajax({
                 url: '/gis/wfs',
                 header: {
-                    'Content-Type':  'application/json;charset=UTF-8'
+                    'Content-Type': 'application/json;charset=UTF-8'
                 },
                 method: 'post',
                 data: data,

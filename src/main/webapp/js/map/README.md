@@ -37,7 +37,7 @@ dtmap.wfsGetFeature({
 ```
 
 ## dtmap.draw
-### 1. 그리기 및 편집
+- ### 그리기 및 편집
 ```javascript
 //그리기 활성화
 dtmap.draw.active({
@@ -67,11 +67,11 @@ dtmap.draw.setBuffer(0); //해제
 ```
 
 ## dtmap.vector
-### 1. GeoJSON 피쳐추가
+- ### GeoJSON 피쳐추가
 ```javascript
  dtmap.vector.readGeoJson(json)
 ```
-### 2. 직접 좌표 입력하여 피쳐 추가
+- ### 직접 좌표 입력하여 피쳐 추가
 - #### Point 추가
 ```javascript
  dtmap.vector.addPoint({
@@ -99,12 +99,12 @@ dtmap.draw.setBuffer(0); //해제
   style: style //스타일 옵션 (벡터 스타일옵션 참고)
 })
 ```
-### 벡터 스타일 옵션
-- 벡터 표출시 적용할 수 있는 스타일 옵션
-- `marker`, `radius` 옵션의 경우, 도형이 **Point**인 경우에만 적용됨
-- `stroke`옵션의 `startArrow`, `endArrow` 옵션의 경우, 도형이 **LineString**인 경우에만 적용됨
-- `label` 옵션의 `text`, `column` 옵션은 둘중 한개만 선택하여 적용
-- `offsetHeight` : 3D POI의 수직막대 길이 설정
+- ### 벡터 스타일 옵션
+  - 벡터 표출시 적용할 수 있는 스타일 옵션
+  - `marker`, `radius` 옵션의 경우, 도형이 **Point**인 경우에만 적용됨
+  - `stroke`옵션의 `startArrow`, `endArrow` 옵션의 경우, 도형이 **LineString**인 경우에만 적용됨
+  - `label` 옵션의 `text`, `column` 옵션은 둘중 한개만 선택하여 적용
+  - `offsetHeight` : 3D POI의 수직막대 길이 설정
 ```javascript
 const options = {
     //채움색
@@ -157,6 +157,30 @@ const options = {
     //3D POI 수직 막대길이
     offsetHeight : 10
 }
+```
+- ### 피쳐 삭제
+```javascript
+/**
+ * 피쳐 객체로 직접 삭제
+ * @param {ol.Feature} feature 피쳐객체
+ */
+dtmap.vector.removeFeature(feature);
+
+/**
+ * 피쳐 아이디로 삭제
+ * @param {string|number} id 생성할때 부여한 피쳐 ID값
+ */
+dtmap.vector.removeFeatureById(id);
+
+/**
+ * 콜백 Function으로 삭제
+ * @param {function} filter 콜백 Filter
+ */
+dtmap.vector.removeFeatureByFilter(function (feature) {
+    //ol.Feature 객체가 인자로 넘어옴
+    const prop = feature.getProperties();
+    return prop["TEST"] === 'TEST'; //true를 반환할 경우 삭제
+});
 ```
 
 ## 지도 이벤트
