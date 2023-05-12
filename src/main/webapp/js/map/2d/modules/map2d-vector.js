@@ -496,6 +496,19 @@ map2d.vector = (function () {
         _source.addFeature(feature)
     }
 
+    function removeFeature(feature) {
+        if (_source.hasFeature(feature)) {
+            _source.removeFeature(feature);
+        }
+    }
+
+    function removeFeatureById(id) {
+        const feature = _source.getFeatureById(id);
+        if (feature) {
+            removeFeature(feature);
+        }
+    }
+
     function removeFeatureByFilter(filter) {
         const features = _source
             .getFeatures()
@@ -522,6 +535,8 @@ map2d.vector = (function () {
         readGeoJson: readGeoJson,
         select: select,
         writeGeoJson: writeGeoJson,
+        removeFeature: removeFeature,
+        removeFeatureById: removeFeatureById,
         removeFeatureByFilter: removeFeatureByFilter,
         getFeature: getFeature,
         getSelected: getSelected
