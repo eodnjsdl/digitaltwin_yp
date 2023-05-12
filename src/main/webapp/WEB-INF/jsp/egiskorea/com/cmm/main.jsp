@@ -638,7 +638,7 @@
                                     </li>
                                     <li>
                                         <button type="button" id="PopulationInformation" class="dataPopup"
-                                                data-popup="">인구정보
+                                                data-popup="leftPopup">인구정보
                                         </button>
                                     </li>
                                     <li>

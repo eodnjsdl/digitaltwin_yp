@@ -495,7 +495,8 @@ window.ui = (function () {
         $(".lnb-traffic .lnb-body").on("click", "button", function () {
             var name = $(this).attr("id");
             var area = $(this).data("popup"); //팝업 위치명 넣어주세요  ex)rightPopup
-            //ui.openPopup(area);
+            ui.openPopup(area);
+            _selectEventListener();	//지도 선택 이벤트 초기화
             switch (name) {
                 // 교통분석 > 버스노선정보
                 case "BusRouteInformation" :
@@ -503,7 +504,8 @@ window.ui = (function () {
                     break;
                 // 교통분석 >  인구정보
                 case "PopulationInformation" :
-                    toastr.error("인구정보");
+                	aj_selectPopulationInfoList();
+                    //toastr.error("인구정보");
                     break;
                 // 교통분석 > 대중교통 취약분석
                 case "TransportationVulnerability" :

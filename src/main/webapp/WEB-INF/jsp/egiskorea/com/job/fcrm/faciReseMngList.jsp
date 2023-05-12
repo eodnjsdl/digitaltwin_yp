@@ -51,8 +51,8 @@ $(document).ready(function(){
 });
 </script>
 <form name="searchForm" id="searchForm" method="post" onsubmit="fn_select_list(); return false;">
-<input type="text" name="pageIndex" id="pageIndex" value="<c:out value='${searchVO.pageIndex}' />">
-<input type="text" name="srchYM" value="<c:out value='${searchVO.srchYM}' />">
+<input type="hidden" name="pageIndex" id="pageIndex" value="<c:out value='${searchVO.pageIndex}' />">
+<input type="hidden" name="srchYM" value="<c:out value='${searchVO.srchYM}' />">
 <div class="popup-header">시설예약관리</div>
 <div class="popup-body">
 	<div class="left-popup-body facility-rsve-mng-body">	
