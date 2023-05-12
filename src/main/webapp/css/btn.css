@@ -298,3 +298,9 @@ input[class^="bi-"]::before, input[class*="bi-"]::before {
 
 .btn.bi-delete2::before {background-image: url(/yp_dt/images/icon/bi-delete2.svg);}
 .btn.bi-delete2:hover::before {background-image: url(/yp_dt/images/icon/bi-delete2-on.svg);}
+
+.btn-blink01 {
+	animation: blink 1s;
+	animation-iteration-count: 3;
+}
+@keyframes blink { 50% { background-color:#1C77FF ; color: #fff; }  }
