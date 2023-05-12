@@ -212,6 +212,8 @@
 
     <!-- 분석 -->
     <script src="/js/egiskorea/com/anls/anls.js"></script>
+    <script src="/js/egiskorea/com/job/tfan/trafficAnalysisCommon.js"></script>                <!-- 교통분석  공통 -->
+    <script src="/js/egiskorea/com/job/tfan/brin/busRouteInformation.js"></script>        <!--{버스노선정보  공통} -->
 
     <!-- 지적 정보 -->
     <script src="/js/egiskorea/com/geo/geographic.js"></script>
