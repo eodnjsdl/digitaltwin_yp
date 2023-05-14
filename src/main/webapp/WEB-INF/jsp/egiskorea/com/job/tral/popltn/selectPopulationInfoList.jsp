@@ -12,6 +12,32 @@
 	$(document).ready(function(){
 		console.log("selectPopulationInfoList.jsp");
 		console.log("교통분석 - 인구정보");
+		populationRenderChart();
+		
+		
+		$("#showType").on('change', function() {
+			alert(this.value);
+			var showType = this.value;
+			if(showType == "1"){
+				alert("법정동 경계");
+				if($(".popShowType1").css("display") == "none"){
+					$(".popShowType1").show();
+				}
+				$(".popShowType2").hide();
+				
+				populationRenderChart();
+			}else if(showType == "2"){
+				alert("격자");
+				if($(".popShowType2").css("display") == "none"){
+					$(".popShowType2").show();
+				}
+				
+				$(".popShowType1").hide();
+			}
+		});
+		
+		
+		
 	});
 	
 	//functions
@@ -19,19 +45,24 @@
      * 분석결과 차트 표시
      */
     function populationRenderChart(){
-		
+    	console.log("populationRenderChart()");
     	const canvas = $(
-                `<canvas class="analysis-chart" width="370" height="220"></canvas>`
+                `<canvas class="analysis-chart2" width="370" height="220"></canvas>`
         );
         $(".graph-box2", this.selector).html(canvas);
         const ctx = canvas[0].getContext("2d");
 
-        const labels = this.list.map((item) => {
+        /* const labels = this.list.map((item) => {
             return item["name"];
         });
         const data = this.list.map((item) => {
             return item["value"];
-        });
+        }); */
+        
+        const labels =  ['양평읍', '강상면', '강하면', '양서면', '옥천면', '서종면', '단월면', '청운면', '양동면', '지평면', '용문면', '개군면'];
+        
+        const data = [681, 175, 115, 338, 131, 166, 117, 94, 113, 154, 362, 166];
+        
         const datasets = [
             {
                 data: data,
@@ -53,13 +84,13 @@
                             label: (context) => {
                                 let label = "";
                                 if (this.type === "P" || this.type === "MP") {
-                                    label += `\r\n${context["raw"]}개`;
+                                    label += `\r\nTestP개`;
                                 } else if (this.type === "L" || this.type === "ML") {
-                                    label += `\r\n${this.formatLength(context["raw"])}`;
+                                    label += `\r\nTestL개`;
                                 } else if (this.type === "A" || this.type === "MA") {
-                                    label += `\r\n${this.formatArea(context["raw"])}`;
+                                	label += `\r\nTestA개`;
                                 } else {
-                                    label += `\r\n${context["formattedValue"]}`;
+                                    label += `\r\nTestOther개`;
                                 }
                                 return label;
                             },
@@ -88,7 +119,7 @@
 <form name="searchForm" id="searchForm" method="post" onsubmit="fn_select_list(); return false;">
 	<div class="popup-header">인구정보</div>
 	<div class="popup-body">
-		<div class="left-popup-body facility-rsve-mng-body">	
+		<div class="left-popup-body">	
 			<div class="srch-box">
 				<div class="srch-default">
 					<table class="srch-tbl">
@@ -148,88 +179,105 @@
 				
 				
 			</div>
-			<div class="btn-wrap justify-content-between">
-				<div class="bbs-list-num">조회결과 : <strong><c:out value="" /></strong>건</div>
-				<!-- <div class="align-right"><button type="button" class="btn bi-write" id="faciRegistViewBtn">등록</button></div> -->
-			</div>
-	
-			<div class="bbs-default">
-				<div class="bbs-list-head">
-                    <table class="bbs-list">
-                        <colgroup>
-                            <col style="width: 30%;">
-                            <col style="width: 30%;">
-                            <col style="width: auto;">
-                        </colgroup>
-                        <thead>
-	                        <tr>
-	                            <th scope="col">지역</th>
-	                            <th scope="col">통계치</th>
-	                            <th scope="col">개수</th>
-	                        </tr>
-                        </thead>
-                    </table>
-                </div>
-				<div class="scroll-y">
-					<table class="bbs-list">
-	                     <colgroup>
-	                         <col style="width: 30%;">
-	                         <col style="width: 30%;">
-	                         <col style="width: auto;">
-	                     </colgroup>
-                     <tbody>
-	                     <tr>
-	                     	<td>양평읍</td>
-	                     	<td>681</td>
-	                     	<td>681개</td>
-	                     </tr>
-	                     <tr>
-	                     	<td>양평읍</td>
-	                     	<td>681</td>
-	                     	<td>681개</td>
-	                     </tr>
-	                     <tr>
-	                     	<td>양평읍</td>
-	                     	<td>681</td>
-	                     	<td>681개</td>
-	                     </tr>
-	                     <tr>
-	                     	<td>양평읍</td>
-	                     	<td>681</td>
-	                     	<td>681개</td>
-	                     </tr>
-	                     <tr>
-	                     	<td>양평읍</td>
-	                     	<td>681</td>
-	                     	<td>681개</td>
-	                     </tr>
-                     <%-- <c:forEach items="${resultList}" var="cpList" varStatus="status">
-                         <tr name="tdCwpDtl" id="tdCwpDtl" data-cpi='<c:out value="${cpList.cntrkPlnId}" />'
-                             data-lon='<c:out value="${cpList.lon}" />'
-                             data-lat='<c:out value="${cpList.lat}" />'>
-                              
-                             <c:forEach items="${codeList}" var="codeList" varStatus="status">
-                                 <c:if test="${cpList.cntrkTy eq codeList.codeId}">
-                                     <td><c:out value="${codeList.codeIdNm}"></c:out></td>
-                                 </c:if>
-                             </c:forEach>
-                             <td><c:out value="${cpList.chpsnPsitn}"></c:out></td>
-                             <td><c:out value="${cpList.plnYear}"></c:out>년 <c:out
-                                     value="${cpList.plnQu}"></c:out></td>
-                             <td><c:out value="${cpList.cntrkNm}"></c:out></td>
-                         </tr>
-                     </c:forEach>
-                     <c:if test="${fn:length(resultList) == 0}">
-                         <tr>
-                             <td colspan="4">데이터가 없습니다.</td>
-                         </tr>
-                     </c:if> --%>
-                     </tbody>
-                 </table>
+			
+			<div class="popShowType1">
+				<div class="btn-wrap justify-content-between">
+					<div class="bbs-list-num">조회결과 : <strong><c:out value="" /></strong>건</div>
+					<!-- <div class="align-right"><button type="button" class="btn bi-write" id="faciRegistViewBtn">등록</button></div> -->
 				</div>
+		
+				<div class="bbs-default">
+					<div class="bbs-list-head">
+	                    <table class="bbs-list">
+	                        <colgroup>
+	                            <col style="width: 30%;">
+	                            <col style="width: 30%;">
+	                            <col style="width: auto;">
+	                        </colgroup>
+	                        <thead>
+		                        <tr>
+		                            <th scope="col">지역</th>
+		                            <th scope="col">통계치</th>
+		                            <th scope="col">개수</th>
+		                        </tr>
+	                        </thead>
+	                    </table>
+	                </div>
+					<div class="scroll-y">
+						<table class="bbs-list">
+		                     <colgroup>
+		                         <col style="width: 30%;">
+		                         <col style="width: 30%;">
+		                         <col style="width: auto;">
+		                     </colgroup>
+	                     <tbody>
+		                     <tr>
+		                     	<td>양평읍</td>
+		                     	<td>681</td>
+		                     	<td>681개</td>
+		                     </tr>
+		                     <tr>
+		                     	<td>양평읍</td>
+		                     	<td>681</td>
+		                     	<td>681개</td>
+		                     </tr>
+		                     <tr>
+		                     	<td>양평읍</td>
+		                     	<td>681</td>
+		                     	<td>681개</td>
+		                     </tr>
+		                     <tr>
+		                     	<td>양평읍</td>
+		                     	<td>681</td>
+		                     	<td>681개</td>
+		                     </tr>
+		                     <tr>
+		                     	<td>양평읍</td>
+		                     	<td>681</td>
+		                     	<td>681개</td>
+		                     </tr>
+	                     <%-- <c:forEach items="${resultList}" var="cpList" varStatus="status">
+	                         <tr name="tdCwpDtl" id="tdCwpDtl" data-cpi='<c:out value="${cpList.cntrkPlnId}" />'
+	                             data-lon='<c:out value="${cpList.lon}" />'
+	                             data-lat='<c:out value="${cpList.lat}" />'>
+	                              
+	                             <c:forEach items="${codeList}" var="codeList" varStatus="status">
+	                                 <c:if test="${cpList.cntrkTy eq codeList.codeId}">
+	                                     <td><c:out value="${codeList.codeIdNm}"></c:out></td>
+	                                 </c:if>
+	                             </c:forEach>
+	                             <td><c:out value="${cpList.chpsnPsitn}"></c:out></td>
+	                             <td><c:out value="${cpList.plnYear}"></c:out>년 <c:out
+	                                     value="${cpList.plnQu}"></c:out></td>
+	                             <td><c:out value="${cpList.cntrkNm}"></c:out></td>
+	                         </tr>
+	                     </c:forEach>
+	                     <c:if test="${fn:length(resultList) == 0}">
+	                         <tr>
+	                             <td colspan="4">데이터가 없습니다.</td>
+	                         </tr>
+	                     </c:if> --%>
+	                     </tbody>
+	                 </table>
+					</div>
+				</div>
+				
+				<div class="graph-box2"></div>
 			</div>
 			
-			<div class="graph-box2"></div>
+			<div class="popShowType2">
+				<div>
+				격자
+				<ul>
+					<li>aaa</li>
+					<li>bbb</li>
+					<li>ccc</li>
+					<li>ddd</li>
+					<li>eee</li>
+					<li>fff</li>
+				</ul>
+				</div>
+			</div>
 			
 		</div>
 	</div>
