@@ -300,8 +300,15 @@ var M_PRCL_ANLS = (function () {
 
             dtmap.vector.addFeatures(features);
             dtmap.vector.addFeatures(intersects, {
+                fill: {
+                    color: '#fde0dd',
+                    opacity: 0.5
+                },
                 stroke: {
-                    color: '#ff0000',
+                    color: '#c51b8a',
+                },
+                label: {
+                    column: 'jibun'
                 }
             });
             printList(intersects);

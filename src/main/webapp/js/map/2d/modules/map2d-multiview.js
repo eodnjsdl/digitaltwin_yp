@@ -17,7 +17,9 @@ map2d.multiView = (function () {
             dispose();
             createSync();
             for (let i = 1; i < count; i++) {
-                _mapList.push(new SubMap('subMap_' + (i + 1)));
+                let subMap = new SubMap('subMap_' + (i + 1));
+                subMap.element.className += ' sub-map-' + (i + 1);
+                _mapList.push(subMap);
             }
             const target = map2d.map.getTarget();
             $(target).addClass('split-main-map');
