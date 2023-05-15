@@ -1,35 +1,17 @@
 window.dtmap = window.dtmap || {};
-dtmap.config = dtmap.config || {};
-
 /**
  * http://10.165.2.30       [운영] 행정
  * http://10.20.30.81       [운영] LX
  * http://203.228.54.54     [개발] 행정
  * http://203.228.54.47     [개발] LX
- * @type {{}}
  */
-dtmap.config.url = (function () {
-    var url = 'http://203.228.54.54';
+dtmap.urls = {
+    BASE: 'http://203.228.54.54',
+    xdServer: 'http://203.228.54.54/xdServer',
+    xdGeoServer: 'http://203.228.54.54/geoserver',
+    xdGeoUrl: 'http://203.228.54.54/geoUrl',
+    emapBase: 'http://203.228.54.54/intEmap/extEmap/openapi/Gettile.do',
+    emapAirProxy: 'http://203.228.54.54/intEmap/extEmap/openapi/proxy/proxyTile.jsp',
+    emapAir: 'http://210.117.198.120:8081/o2map/services',
 
-    return {
-        BASE: url,
-        xdServer: url + '/xdServer',
-        xdGeoServer: url + '/geoserver',
-        xdGeoUrl: url + '/geoUrl',
-        emapBase: url + '/intEmap/extEmap/openapi/Gettile.do',
-        emapAirProxy: url + '/intEmap/extEmap/openapi/proxy/proxyTile.jsp',
-        emapAir: 'http://210.117.198.120:8081/o2map/services',
-        EMAP_KEY: undefined,
-        set: set
-    }
-
-    function set(options) {
-        for (let key in options) {
-            if (key === 'set') continue;
-            if (urls.hasOwnProperty(key)) {
-                urls[key] = options[key];
-            }
-        }
-    }
-
-})()
+}
