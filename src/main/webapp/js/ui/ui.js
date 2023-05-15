@@ -68,7 +68,7 @@ window.ui = (function () {
 
         $(document).on('click', '.lnb-dep2 button', function (e) {
             const hasOn = $(this).parent().hasClass("on");
-            if(hasOn) {
+            if (hasOn) {
                 $(".lnb-dep2").addClass("on");
                 $(this).parent().removeClass("on");
             } else {
@@ -196,18 +196,39 @@ window.ui = (function () {
 
         //통합행정정보
         $mapControl.on('click', '.integrated-info', function (e) {
-            toastr.success("지도에서 위치를 선택하세요. ", "통합행정정보");
-            $(".map-control button").removeClass("active");
-            aj_krasInfo();
+            offKrasNLdb();
+            let $this = $(this);
+            if ($this.hasClass('active')) {
+                $(".map-control button").removeClass("active");
+                aj_krasInfo(false);
+            } else {
+                $(".map-control button").removeClass("active");
+                $this.toggleClass('active');
+                aj_krasInfo(true);
+            }
         });
         //지적/건물
         $mapControl.on('click', '.building', function (e) {
-            $(".map-control button").removeClass("active");
-            aj_ldbdInfo();
+            offKrasNLdb();
+            let $this = $(this);
+            if ($this.hasClass('active')) {
+                $(".map-control button").removeClass("active");
+                aj_ldbdInfo(false);
+            } else {
+                $(".map-control button").removeClass("active");
+                $this.toggleClass('active');
+                aj_ldbdInfo(true);
+            }
         });
+
+        function offKrasNLdb() {
+            aj_krasInfo(false);
+            aj_ldbdInfo(false);
+        }
 
         //위치
         $mapControl.on('click', '.ctrl-btn.location', function (e) {
+            offKrasNLdb();
             let $this = $(this);
             if ($this.hasClass('active')) {
                 $("#rightPopup").removeClass("opened");
@@ -222,6 +243,7 @@ window.ui = (function () {
 
         //거리측정
         $mapControl.on('click', '.ctrl-btn.distance', function (e) {
+            offKrasNLdb();
             let $this = $(this);
             if ($this.hasClass('active')) {
                 $("#rightPopup").removeClass("opened");
@@ -236,6 +258,7 @@ window.ui = (function () {
 
         //면적측정
         $mapControl.on('click', '.ctrl-btn.measure', function (e) {
+            offKrasNLdb();
             let $this = $(this);
             if ($this.hasClass('active')) {
                 $("#rightPopup").removeClass("opened");
@@ -250,6 +273,7 @@ window.ui = (function () {
 
         //반경측정
         $mapControl.on('click', '.ctrl-btn.radius', function (e) {
+            offKrasNLdb();
             let $this = $(this);
             if ($this.hasClass('active')) {
                 $("#rightPopup").removeClass("opened");
@@ -301,7 +325,8 @@ window.ui = (function () {
         $leftBar.on('click', 'li', function () {
             ui.initPopup("");
             //분석 팝업 초기화
-            analysis.close(); $("#lnbAnalysis").find(".on").removeClass("on");
+            analysis.close();
+            $("#lnbAnalysis").find(".on").removeClass("on");
             let $this = $(this);
             let menu = $this.attr('data-menu');
             $(".lnb-dep2").find(".on").removeClass("on");
@@ -352,7 +377,8 @@ window.ui = (function () {
             //팝업 close
             initPopup("");
             //분석 팝업 초기화
-            analysis.close(); $("#lnbAnalysis").find(".on").removeClass("on");
+            analysis.close();
+            $("#lnbAnalysis").find(".on").removeClass("on");
             //좌측 메뉴 close
             $(".lnb-cont").css("display", "none");
             $("#lnb li[data-menu]").removeClass("on");
@@ -466,7 +492,7 @@ window.ui = (function () {
                     break;
                 // LeftMenu > 레이어 > Tab (3D)
                 case "layerTab3D"        :
-                    if(dtmap.mod !== '3D') {
+                    if (dtmap.mod !== '3D') {
                         toastr.warning("3D지도에서만 사용 가능합니다.");
                         return;
                     }
@@ -575,7 +601,7 @@ window.ui = (function () {
             const name = $(this).attr("id");
             const hasOn = $(this).parent().hasClass("on");
             // $("#lnbAnalysis").find(".on").removeClass("on");
-            if(hasOn) {
+            if (hasOn) {
                 analysis.close();
             } else {
                 // $(this).parent().addClass("on");
@@ -694,7 +720,8 @@ window.ui = (function () {
         //팝업 초기화
         initPopup(area);
         //분석 팝업 초기화
-        analysis.close(); $("#lnbAnalysis").find(".on").removeClass("on");
+        analysis.close();
+        $("#lnbAnalysis").find(".on").removeClass("on");
         //기본 틀 크기와 다른 크기를 갖는 DIV 처리
         switch (name) {
             case "backgroundMapInfo":
@@ -793,14 +820,14 @@ window.ui = (function () {
 
     //그리기 초기화
     function _initDrawEvent() {
-        dtmap.off('drawend');
+        // dtmap.off('drawend');
         // dtmap.vector.clear();
         dtmap.draw.clear();
     }
 
     //지도 선택 이벤트 초기화
     function _selectEventListener() {
-    	dtmap.off('select');
+        dtmap.off('select');
         dtmap.clear();
     }
 

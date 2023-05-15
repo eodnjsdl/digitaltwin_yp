@@ -11,14 +11,15 @@ function _onDrawEnd_krasInfo(e) {
     var geom = e.geometry;
     var coord = geom.getFlatCoordinates();
     reverseUaiGeo(parseFloat(coord[0]), parseFloat(coord[1]));
-    dtmap.draw.dispose();
 }
 
-function aj_krasInfo() {
+function aj_krasInfo(active) {
     dtmap.vector.clear();
-    dtmap.draw.active({type: 'Point', once: true});
-    dtmap.once('drawend', _onDrawEnd_krasInfo);
-
+    dtmap.off('drawend', _onDrawEnd_krasInfo);
+    if (active) {
+        dtmap.draw.active({type: 'Point'});
+        dtmap.on('drawend', _onDrawEnd_krasInfo);
+    }
 
     // if (!is3dInit) {
     //     ui.loadingBar('show')
@@ -47,12 +48,12 @@ function reverseUaiGeo(pointx, pointy) {
     // var vResult = Module.getProjection().convertProjection(26, vPosition, 13); // 5179 -> 4326
     var transCoord = proj4(dtmap.crs, "EPSG:4326", [pointx, pointy]);
     var pnu = aj_getPnuByLonLat(transCoord[0], transCoord[1]);
-    if (pnu != "") {
+    if (pnu !== "") {
         dtmap.vector.clear();
         var landRegister = getLandRegisterByPnu(pnu);
         if (landRegister.landRegister) {
             const feature = dtmap.util.readWKT(landRegister.landRegister.geometry, landRegister.landRegister);
-            dtmap.vector.addFeature(feature,{
+            dtmap.vector.addFeature(feature, {
                 fill: {
                     color: '#FFC080',
                     opacity: 0.6
@@ -88,7 +89,7 @@ function aj_selectLandRegister(pnu) {
         dataType: "html",
         async: false,
         success: function (returnData, status) {
-            if (status == "success") {
+            if (status === "success") {
                 $("#rightPopup").html(returnData);
             } else {
                 toastr.error("관리자에게 문의 바랍니다.", "정보를 불러오지 못했습니다.");
@@ -112,7 +113,7 @@ function aj_selectBuildingRegister(pnu) {
         dataType: "html",
         async: false,
         success: function (returnData, status) {
-            if (status == "success") {
+            if (status === "success") {
                 $("#rightPopup .tabBoxDepth1-wrap").html(returnData);
 
                 $(".scroll-y").mCustomScrollbar({
@@ -140,7 +141,7 @@ function aj_selectLandUseStatus(pnu) {
         dataType: "html",
         async: false,
         success: function (returnData, status) {
-            if (status == "success") {
+            if (status === "success") {
                 $("#rightPopup .tabBoxDepth1-wrap").html(returnData);
 
                 $(".scroll-y").mCustomScrollbar({
@@ -168,7 +169,7 @@ function aj_selectOfficiallyAnnouncedLandPrice(pnu) {
         dataType: "html",
         async: false,
         success: function (returnData, status) {
-            if (status == "success") {
+            if (status === "success") {
                 $("#rightPopup .tabBoxDepth1-wrap").html(returnData);
 
                 $(".scroll-y").mCustomScrollbar({
@@ -196,7 +197,7 @@ function aj_selectIndividualizationHousePrice(pnu) {
         dataType: "html",
         async: false,
         success: function (returnData, status) {
-            if (status == "success") {
+            if (status === "success") {
                 $("#rightPopup .tabBoxDepth1-wrap").html(returnData);
 
                 $(".scroll-y").mCustomScrollbar({
@@ -224,7 +225,7 @@ function aj_selectAuthorizationPermission(pnu) {
         dataType: "html",
         async: false,
         success: function (returnData, status) {
-            if (status == "success") {
+            if (status === "success") {
                 $("#rightPopup .tabBoxDepth1-wrap").html(returnData);
 
                 $(".scroll-y").mCustomScrollbar({
@@ -253,7 +254,7 @@ function aj_selectLandRegisterTest(pnu) {
         dataType: "html",
         async: false,
         success: function (returnData, status) {
-            if (status == "success") {
+            if (status === "success") {
                 $("#rightPopup .tabBoxDepth1-wrap").html(returnData);
 
                 $(".scroll-y").mCustomScrollbar({
@@ -299,7 +300,7 @@ function aj_selectLandRegisterSearch() {
             dataType: "html",
             async: false,
             success: function (returnData, status) {
-                if (status == "success") {
+                if (status === "success") {
                     $("#rightPopup .tabBoxDepth1-wrap").html(returnData);
 
                     $(".scroll-y").mCustomScrollbar({
