@@ -372,10 +372,13 @@ var M_PRCL_ANLS = (function () {
         $div.empty();
         for (let i = 0; i < features.length; i++) {
             const f = features[i];
+            console.log(f.get('oriArea').toFixed(2))
+            let exceptVal = f.get('oriArea').toFixed(2) - f.get('area').toFixed(2);
             const html = `<tr data-fid="${f.getId()}">
                 <td>${f.get('jibun')}</td>
                 <td>${f.get('oriArea').toFixed(2)}</td>
                 <td>${f.get('area').toFixed(2)}</td>
+                <td>${exceptVal}</td>
                 <td>${f.get('ratio').toFixed(1)}</td>
             </tr>`
             $div.append(html);
