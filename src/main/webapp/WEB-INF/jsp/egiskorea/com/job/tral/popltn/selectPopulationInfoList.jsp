@@ -12,46 +12,118 @@
 	$(document).ready(function(){
 		console.log("selectPopulationInfoList.jsp");
 		console.log("교통분석 - 인구정보");
-		populationRenderChart();
 		
+		//검색 조건 세팅
+		getCmmCodeData("YPE001", "#pplSearchForm select[name=pplTrArea]");	//읍면동
+		getPplBaseYYMMList();
 		
-		$("#showType").on('change', function() {
-			alert(this.value);
+		initPplLegal();
+		
+		$("#pplShowType").on('change', function() {
+			console.log("pplShowType>>"+this.value);
 			var showType = this.value;
-			if(showType == "1"){
-				alert("법정동 경계");
-				if($(".popShowType1").css("display") == "none"){
-					$(".popShowType1").show();
+			if(showType == "legal"){
+				//console.log("법정동 경계");
+				if($(".pplInfoLegalType").css("display") == "none"){
+					$(".pplInfoLegalType").show();
 				}
-				$(".popShowType2").hide();
+				$(".pplInfoGridType").hide();
 				
-				populationRenderChart();
-			}else if(showType == "2"){
-				alert("격자");
-				if($(".popShowType2").css("display") == "none"){
-					$(".popShowType2").show();
+				initPplLegal();
+				
+			}else if(showType == "grid"){
+				//console.log("격자");
+				if($(".pplInfoGridType").css("display") == "none"){
+					$(".pplInfoGridType").show();
 				}
 				
-				$(".popShowType1").hide();
+				$(".pplInfoLegalType").hide();
+			}else{
+				console.log("인구정보 선택 오류");
 			}
+			
 		});
+		
 		
 		
 		
 	});
 	
 	//functions
+	
+	/**
+     * 법정도 경계 초기화
+     */
+	function initPplLegal(){
+
+		selectPplInfoList()
+	}
+	
+	/**
+     * 격자 경계 초기화
+     */
+	function initPplGrid(){
+		
+	}
+	
+	/**
+     * 격자 경계 초기화
+     */
+	function getPplBaseYYMMList(){
+		console.log("getPplBaseYYMMList()");
+		var today = new Date();
+		
+		for(var i=0; i<12; i++){
+			
+			var dYear = today.getFullYear();
+			var dMonth = ('0' + (today.getMonth() + 1)).slice(-2);
+			
+			var dVal = dYear+""+dMonth;
+			var dYM  = dYear+"년 "+dMonth+"월";
+
+			var dhml = "<option value='"+dVal+"'>"+ dYM +"</option>";
+			$("#pplBaseYYMM").append(dhml);
+			//console.log('dYM>>'+dYM);
+			
+			var dMonth = today.setMonth(today.getMonth()-1);
+			var dDate = new Date(dMonth);
+			today = dDate;
+		}
+	
+	}
+	
 	/**
      * 분석결과 차트 표시
      */
-    function populationRenderChart(){
+    function populationRenderChart(result){
     	console.log("populationRenderChart()");
+    	
+    	//캔버스 처리
     	const canvas = $(
                 `<canvas class="analysis-chart2" width="370" height="220"></canvas>`
         );
         $(".graph-box2", this.selector).html(canvas);
         const ctx = canvas[0].getContext("2d");
-
+        
+        // 데이터 세팅
+        var labels 	= [];
+        var data 	= [];
+        
+        if(result){
+        	
+        	for(var i=0; i<result.length; i++){
+        		labels.push(result[i].area);
+        		data.push(result[i].data);
+        	}
+        	
+        	//console.log(labels);
+        	//console.log(data);
+        	
+        }else{
+        	console.log("그래프 데이터 오류");
+        	return false;
+        }
+        
         /* const labels = this.list.map((item) => {
             return item["name"];
         });
@@ -59,10 +131,7 @@
             return item["value"];
         }); */
         
-        const labels =  ['양평읍', '강상면', '강하면', '양서면', '옥천면', '서종면', '단월면', '청운면', '양동면', '지평면', '용문면', '개군면'];
-        
-        const data = [681, 175, 115, 338, 131, 166, 117, 94, 113, 154, 362, 166];
-        
+        //차트 그리기
         const datasets = [
             {
                 data: data,
@@ -83,15 +152,9 @@
                         callbacks: {
                             label: (context) => {
                                 let label = "";
-                                if (this.type === "P" || this.type === "MP") {
-                                    label += `\r\nTestP개`;
-                                } else if (this.type === "L" || this.type === "ML") {
-                                    label += `\r\nTestL개`;
-                                } else if (this.type === "A" || this.type === "MA") {
-                                	label += `\r\nTestA개`;
-                                } else {
-                                    label += `\r\nTestOther개`;
-                                }
+                                
+                                label += `\r\n`+context.raw+`명`;
+                                
                                 return label;
                             },
                         },
@@ -113,10 +176,68 @@
             ],
         });
 	}
+	
+	/**
+	* 인구 정보 조회
+	*/
+	function selectPplInfoList(){
+		console.log("selectPplInfoList()");
+		
+		var data = $("#pplSearchForm").serialize();
+		
+		//console.log("data>>");
+		//console.log(data);
+				
+		var result =
+			[
+				{area : '양평읍', data : 681 },
+				{area : '강상면', data : 175 },
+				{area : '강하면', data : 115 },
+				{area : '양서면', data : 338 },
+				{area : '옥천면', data : 131 },
+				{area : '서종면', data : 166 },
+				{area : '단월면', data : 117 },
+				{area : '청운면', data : 94 },
+				{area : '양동면', data : 113 },
+				{area : '지평면', data : 154 },
+				{area : '용문면', data : 362 },
+				{area : '개군면', data : 166 }
+		];
+		
+		
+		var totalCount = 0;
+		for(var i=0; i<result.length; i++){
+			totalCount += result[i].data;
+    	}
+		
+		$('.pplInfoLegalType .bbs-list-num').html("조회결과 : <strong>"+totalCount+"</strong>명")
+	 	//console.log(totalCount);		
+		
+		//리스트 갱신
+		var legalListHml = "";
+		for(var i=0; i<result.length; i++){
+						
+			legalListHml +=	"<tr>"
+			legalListHml +=	"<td>"+result[i].area+"</td>"
+			legalListHml +=	"<td>"+result[i].data+"</td>"
+			
+			var rate = Math.floor(result[i].data/totalCount*100);
+			//console.log(rate);
+			legalListHml +=	"<td>"+rate+"%</td>"
+			legalListHml +=	"</tr>"
+    	}
+		
+		$("#pplInfoLegalList").html(legalListHml);
+		
+		//차트 그리기
+		populationRenderChart(result);
+		
+	}
 
 </script>
 <!-- 교통분석-인구정보 -->
-<form name="searchForm" id="searchForm" method="post" onsubmit="fn_select_list(); return false;">
+	<form name="pplSearchForm" id="pplSearchForm" method="post">
+
 	<div class="popup-header">인구정보</div>
 	<div class="popup-body">
 		<div class="left-popup-body">	
@@ -131,25 +252,24 @@
 							<tr>
                                <th scope="row">항목 선택</th>
                                <td>
-                                   <select name="showType" id="showType" class="form-select w-auto" style="width: 100%;">
-                                       <option value="1" selected="selected">법정동 경계</option>
-                                       <option value="2">격자</option>
+                                   <select name="pplShowType" id="pplShowType" class="form-select w-auto" style="width: 100%;">
+                                       <option value="legal" selected="selected">법정동 경계</option>
+                                       <option value="grid">격자</option>
                                    </select>
                                </td>
                            </tr>
                            <tr>
                               <th scope="row">대상 지역</th>
                                <td>
-                                   <select name="targetArea" id="targetArea" class="form-select w-auto" style="width: 100%;">
+                                   <select name="pplTrArea" id="pplTrArea" class="form-select w-auto" style="width: 100%;">
                                        <option value="all" selected="selected">전체</option>
-                                       <option value="1">양평읍</option>
                                    </select>
                                </td> 
                            </tr>
                            <tr>
                               <th scope="row">자료 유형</th>
                                <td>
-                                   <select name="gender" id="gender" class="form-select w-auto" style="width: 100%;">
+                                   <select name="pplGender" id="pplGender" class="form-select w-auto" style="width: 100%;">
                                        <option value="all" selected="selected">총인구</option>
                                        <option value="m">남자</option>
                                        <option value="w">여자</option>
@@ -159,12 +279,12 @@
                            <tr>
                               <th scope="row">기준 연월</th>
                                <td>
-                                   <select name="baseYYMM" id="baseYYMM" class="form-select w-auto" style="width: 100%;">
-                                       <option value="2305" selected="selected">23-05</option>
-                                       <option value="2304">23-04</option>
-                                       <option value="2303">23-03</option>
-                                       <option value="2302">23-02</option>
-                                       <option value="2301">23-01</option>
+                                   <select name="pplBaseYYMM" id="pplBaseYYMM" class="form-select w-auto" style="width: 100%;">
+                                     <!--   <option value="202305" selected="selected">2023년 05월</option>
+                                       <option value="202304">2023년 04월</option>
+                                       <option value="202303">2023년 03월</option>
+                                       <option value="202302">2023년 02월</option>
+                                       <option value="202301">2023년 01월</option> -->
                                    </select>
                                </td> 
                            </tr>										
@@ -173,16 +293,15 @@
 				</div>
 				<div class="btn-wrap">
                     <div>
-                        <button type="button" class="btn type01 search" name="cplSearch">조회</button>
+                        <button type="button" class="btn type01 search" onclick="selectPplInfoList();">조회</button>
                     </div>
                 </div>
 				
-				
 			</div>
 			
-			<div class="popShowType1">
+			<div class="pplInfoLegalType">
 				<div class="btn-wrap justify-content-between">
-					<div class="bbs-list-num">조회결과 : <strong><c:out value="" /></strong>건</div>
+					<div class="bbs-list-num">조회결과 : <strong></strong>건</div>
 					<!-- <div class="align-right"><button type="button" class="btn bi-write" id="faciRegistViewBtn">등록</button></div> -->
 				</div>
 		
@@ -198,43 +317,43 @@
 		                        <tr>
 		                            <th scope="col">지역</th>
 		                            <th scope="col">통계치</th>
-		                            <th scope="col">개수</th>
+		                            <th scope="col">비율</th>
 		                        </tr>
 	                        </thead>
 	                    </table>
 	                </div>
-					<div class="scroll-y">
+					<div class="scroll-y" style="max-height: 180px;">
 						<table class="bbs-list">
 		                     <colgroup>
 		                         <col style="width: 30%;">
 		                         <col style="width: 30%;">
 		                         <col style="width: auto;">
 		                     </colgroup>
-	                     <tbody>
+	                     <tbody id="pplInfoLegalList">
 		                     <tr>
 		                     	<td>양평읍</td>
 		                     	<td>681</td>
-		                     	<td>681개</td>
+		                     	<td>681명</td>
 		                     </tr>
 		                     <tr>
 		                     	<td>양평읍</td>
 		                     	<td>681</td>
-		                     	<td>681개</td>
+		                     	<td>681명</td>
 		                     </tr>
 		                     <tr>
 		                     	<td>양평읍</td>
 		                     	<td>681</td>
-		                     	<td>681개</td>
+		                     	<td>681명</td>
 		                     </tr>
 		                     <tr>
 		                     	<td>양평읍</td>
 		                     	<td>681</td>
-		                     	<td>681개</td>
+		                     	<td>681명</td>
 		                     </tr>
 		                     <tr>
 		                     	<td>양평읍</td>
 		                     	<td>681</td>
-		                     	<td>681개</td>
+		                     	<td>681명</td>
 		                     </tr>
 	                     <%-- <c:forEach items="${resultList}" var="cpList" varStatus="status">
 	                         <tr name="tdCwpDtl" id="tdCwpDtl" data-cpi='<c:out value="${cpList.cntrkPlnId}" />'
@@ -265,7 +384,7 @@
 				<div class="graph-box2"></div>
 			</div>
 			
-			<div class="popShowType2">
+			<div class="pplInfoGridType" style="display: none;">
 				<div>
 				격자
 				<ul>
@@ -281,10 +400,12 @@
 			
 		</div>
 	</div>
-</form>
-<button type="button" class="manualBtn" title="도움말" onclick="manualTab('인구정보')"></button>
-<button type="button" class="popup-close" id="fcrmCloseBtn" title="닫기"></button>
-<button type="button" class="popup-reset" class="초기화" id="fcrmResetBtn"></button>
-<button type="button" class="popup-bottom-toggle" title="접기"></button>				
+	
+	</form>
+	
+	<button type="button" class="manualBtn" title="도움말" onclick="manualTab('인구정보')"></button>
+	<button type="button" class="popup-close" id="fcrmCloseBtn" title="닫기"></button>
+	<button type="button" class="popup-reset" class="초기화" id="fcrmResetBtn"></button>
+	<button type="button" class="popup-bottom-toggle" title="접기"></button>				
 <!-- 교통분석-인구정보 -->
 
