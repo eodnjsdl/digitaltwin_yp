@@ -143,6 +143,10 @@ map3d.draw = (function () {
         drawBuffer();
     }
 
+    function getBuffer() {
+        return _buffer;
+    }
+
     function drawBuffer() {
         if (_bufferLayer) {
             _bufferLayer.removeAll();
@@ -264,6 +268,7 @@ map3d.draw = (function () {
         writeWKT: writeWKT,
         getGeometry: getGeometry,
         setBuffer: setBuffer,
+        getBuffer: getBuffer,
         getSnapLayer: getSnapLayer,
         setSnapLayer: setSnapLayer,
         clearSnapLayer: clearSnapLayer,

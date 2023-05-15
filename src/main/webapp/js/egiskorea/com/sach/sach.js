@@ -43,11 +43,35 @@ class Search {
             // cmmUtil.resetMap();
             dtmap.clear();
         });
+
+        //tabBox > 1depth
+        $(".lnb-search").on("click", ".tabBoxDepth1-wrap .tabBoxDepth1 > ul > li > .inner-tab", function(){
+            $(this).each(function(){
+                $(this).parent().addClass("on").siblings().removeClass("on");
+                $("."+$(this).parent().data("tab")).addClass("on").siblings().removeClass("on");
+            });
+            // if($("li[data-menu=lnb-search]").hasClass("on")){
+            //     removeAllLayer()
+            // }
+        });
+
+        //tabBox > 2depth
+        $(".lnb-search").on("click", ".tabBoxDepth2-wrap .tabBoxDepth2 > ul > li > .inner-tab", function(){
+            $(this).each(function(){
+                $(this).parent().addClass("on").siblings().removeClass("on");
+                $("."+$(this).parent().data("tab")).addClass("on").siblings().removeClass("on");
+            });
+            // if($("li[data-menu=lnb-search]").hasClass("on")){
+            //     removeAllLayer()
+            // }
+        });
+
+
     }
 }
 
 /**
- * 통합 검색
+ * 명칭 검색
  */
 class UnitySearch {
     /**

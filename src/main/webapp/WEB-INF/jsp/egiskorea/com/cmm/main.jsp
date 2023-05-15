@@ -86,7 +86,8 @@
     <script src="/js/map/dtmap.js"></script>
     <script src="/js/map/dtmap-config.js"></script>
 
-    <script src="/js/map/dtmap-urls.${domain}.js"></script>
+<%--    <script src="/js/map/dtmap-urls.${domain}.js"></script>--%>
+    <script src="/js/map/dtmap-urls.localhost.js"></script>
     <script src="/js/map/dtmap-util.js"></script>
 
     <!-- 2D Map js -->

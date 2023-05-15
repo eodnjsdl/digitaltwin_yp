@@ -330,6 +330,10 @@ map2d.draw = (function () {
         }
     }
 
+    function getBuffer() {
+        return _buffer;
+    }
+
     //지오메트리 버퍼 업데이트
     function updateGeometry(feature) {
         if (_buffer <= 0 || isNaN(_buffer)) {
@@ -468,6 +472,7 @@ map2d.draw = (function () {
         readGeoJson: readGeoJson,
         getGeometry: getGeometry,
         setBuffer: setBuffer,
+        getBuffer: getBuffer,
         getSnapLayer: getSnapLayer,
         setSnapLayer: setSnapLayer,
         clearSnapLayer: clearSnapLayer,

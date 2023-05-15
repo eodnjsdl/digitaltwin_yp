@@ -14,7 +14,7 @@ const analysis = {
                 id === 'M_AI_IMAGE' ||
                 id === 'M_TPPH_SECT' ||
                 id === 'M_DGUF_ANLS') {
-                toastr.warning("3D에서 가능합니다.");
+                toastr.warning("3D지도에서만 사용 가능합니다.");
                 this.current = undefined
                 return false;
             } else {

@@ -36,6 +36,7 @@ map2d.location = (function () {
     }
 
     function addOverlay(coord, html) {
+        clear();
         let $element = $(html);
         let id = ol.util.getUid({});
         const overlay = new ol.Overlay({

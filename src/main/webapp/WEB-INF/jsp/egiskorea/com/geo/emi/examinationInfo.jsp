@@ -8,8 +8,8 @@
 
     $(document).ready(function () {
         eventBindByExaminationInfo();
-		initByExaminationInfo();
-		<%--if(app2D){--%>
+        initByExaminationInfo();
+        <%--if(app2D){--%>
         <%--	cmmUtil.highlightGeometry(landRegister.landRegister.geometry);--%>
         <%--} else{--%>
         <%--	if("<c:out value='${result.pnu}' />" != ""){--%>
@@ -37,20 +37,23 @@
             // }
         });
     }
+
     function initByExaminationInfo() {
         dtmap.vector.clear();
         var landRegister = getLandRegisterByPnu("<c:out value='${result.pnu}' />");
-        landRegister.landRegister ?
-            (
-                dtmap.vector.readWKT(landRegister.landRegister.geometry,  landRegister.landRegister),
-                    dtmap.vector.fit()
-            )
-            : toastr.error("geometry 값이 존재하지 않습니다.");
+        if (landRegister.landRegister) {
+            let feature = dtmap.util.readWKT(landRegister.landRegister.geometry, landRegister.landRegister);
+            feature.setId("1");
+            dtmap.vector.addFeature(feature);
+            dtmap.vector.select(feature.getId());
+        } else {
+            toastr.error("geometry 값이 존재하지 않습니다.");
+        }
     }
 
-	function fn_select_update(pnu) {
-		leftSubPopupOpen("examinationInfoView", pnu, "left");
-	}
+    function fn_select_update(pnu) {
+        leftSubPopupOpen("examinationInfoView", pnu, "left");
+    }
 
     function fn_select_delete(orgFid) {
         if (confirm("<spring:message code="common.delete.msg" />")) {
