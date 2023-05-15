@@ -5,7 +5,10 @@
  * COMMENT :
  */
 $(document).ready(() => {
+    dtmap.off('select');
     cameraMove();
+    setCheckList();
+    setCheckboxDetail();    
 })
 /**
  * 카메라 위치 조정 (북방향, 90도각)
@@ -23,13 +26,80 @@ function cameraMove() {
 }
 
 /**
+ * 체크박스 생성 - 분석 결과 표시할 값
+ * @returns
+ */
+function setCheckList() {
+    console.log("체크박스세팅");
+    let count = M_AI_IMAGE.detectLegend.legend.length;
+    for (let i = 0; i < count; i++) {
+	let textData = M_AI_IMAGE.detectLegend.legend[i];
+	let id = 'class_' + i;
+	let html = "";
+	html += "<span>\n";
+	html += "<input type=\"checkbox\" name=\"AI_check\" id="+ id + " checked=\"checked\" data-base-id=" + textData[id].key + ">\n";
+	html += "<label for=" + id + ">" + textData[id].name + "(0)" + "</label>\n";
+	html += "</span>\n";
+	$('#AIVideoBox .form-checkbox.group').append(html);
+    }
+}
+
+/**
+ * 체크박스 전체 컨트롤
+ * @returns
+ */
+function setCheckboxDetail() {
+    $('#AIVideoBox input[name=AiCheckValue]').on('change', function(e) {
+	let value = $(e.target).prop('checked');
+	if (value === true) {
+	    $('#AIVideoBox .form-checkbox.group input[name=AI_check]').prop('checked', true);
+	} else {
+	    $('#AIVideoBox .form-checkbox.group input[name=AI_check]').prop('checked', false);
+	}
+    });
+}
+
+/**
  * 객체 선택 이벤트
  * @param id
  * @returns
  */
-function selectTarget(id) {
-    dtmap.vector.clearSelect();
-    dtmap.vector.select(id);
+function selectAiResult(e) {
+    let $thisBtn = null;
+    let $otherBtn = null;
+    if (e.id) {
+	dtmap.vector.clearSelect();
+	dtmap.vector.select(e.id);
+	$thisBtn = $(e).parents('tr');
+	$otherBtn = $(e).parents('tbody').find('tr');
+    } else {
+        $thisBtn = $('#' + e).parents('tr');
+        $otherBtn = $('#' + e).parents('tbody').find('tr');
+    }
+    if ($thisBtn.hasClass('selectedLine')) {
+	$otherBtn.removeClass('selectedLine');
+    } else {
+	$otherBtn.removeClass('selectedLine');
+	$thisBtn.addClass('selectedLine');
+    }
+}
+
+/**
+ * 객체 선택 이벤트 (dtmap.on())
+ * @param e
+ * @returns
+ */
+function onAiImageSelectEventListener(e) {
+    console.log(e);
+    let id = e.id;
+    if (id) {
+	dtmap.vector.clearSelect();
+	dtmap.vector.select(id);
+	selectAiResult(id);
+    } else { 
+	toastr.error("객체 선택 오류입니다.");
+	return false;
+    }
 }
 
 var M_AI_IMAGE = {
@@ -72,226 +142,240 @@ var M_AI_IMAGE = {
 //
 //
 //    },
-//    setCheckbox: function () {//체크박스 리셋
-//
-//        //라벨텍스트초기화
-//        var lbText = document.querySelectorAll('#AIVideoBox label')
-//        lbText.forEach(function (item) {
-//            item.innerText = ""
-//        })
-//
-//        var checkSize = $("input[name='AI_check']").length
-//        //카운트 올리기
-//        for (var i = 0; i < checkSize; i++) {
-//            var checkId = $("input[name='AI_check']")[i].id
-//            var countClass = M_AI_IMAGE.detectLegend.legend[checkId].count
-//            $("input[name='AI_check']")[i].nextElementSibling.innerHTML = M_AI_IMAGE.detectLegend.legend[checkId].name + "(" + countClass + ")"
-//
-//        }
-//
-//
-//    },
     detectLegend: {
         legend: [
             {class_0: {
                 name: "건물",
                 key: "bldg",
                 color: [255, 56, 56],
-                classId: "0"
+                classId: "0",
+                count: 0
             }},
             {class_1: {
                 name: "공원",
                 key: "park",
                 color: [250, 157, 151],
-                classId: "1"
+                classId: "1",
+                count: 0
             }},
             {class_2: {
                 name: "과수원",
                 key: "orchrd",
                 color: [255, 112, 31],
-                classId: "2"
+                classId: "2",
+                count: 0
             }},
             {class_3: {
                 name: "광천지",
                 key: "mnlspt",
                 color: [255, 178, 29],
-                classId: "3"
+                classId: "3",
+                count: 0
             }},
             {class_4: {
                 name: "구거",
                 key: "ditch",
                 color: [207, 210, 49],
-                classId: "4"
+                classId: "4",
+                count: 0
             }},
             {class_5: {
                 name: "답",
                 key: "ricfld",
                 color: [72, 249, 10],
-                classId: "5"
+                classId: "5",
+                count: 0
             }},
             {class_6: {
                 name: "대",
                 key: "grnd",
                 color: [146, 204, 23],
-                classId: "6"
+                classId: "6",
+                count: 0
             }},
             {class_7: {
                 name: "도로",
                 key: "road",
                 color: [61, 219, 134],
-                classId: "7"
+                classId: "7",
+                count: 0
             }},
             {class_8: {
                 name: "목장용지",
                 key: "stkfrm",
                 color: [26, 147, 52],
-                classId: "8"
+                classId: "8",
+                count: 0
             }},
             {class_9: {
                 name: "묘지",
                 key: "grvy",
                 color: [0, 212, 187],
-                classId: "9"
+                classId: "9",
+                count: 0
             }},
             {class_10: {
                 name: "비닐하우스",
                 key: "phw",
                 color: [44, 153, 168],
-                classId: "10"
+                classId: "10",
+                count: 0
             }},
             {class_11: {
                 name: "사적지",
                 key: "histst",
                 color: [0, 194, 255],
-                classId: "11"
+                classId: "11",
+                count: 0
             }},
             {class_12: {
                 name: "수도용지",
                 key: "wtway",
                 color: [52, 69, 147],
-                classId: "12"
+                classId: "12",
+                count: 0
             }},
             {class_13: {
                 name: "양어장",
                 key: "fshfrm",
                 color: [100, 115, 255],
-                classId: "13"
+                classId: "13",
+                count: 0
             }},
             {class_14: {
                 name: "염전",
                 key: "sltpan",
                 color: [0, 24, 236],
-                classId: "14"
+                classId: "14",
+                count: 0
             }},
             {class_15: {
                 name: "유원지",
                 key: "amsprk",
                 color: [132, 56, 255],
-                classId: "15"
+                classId: "15",
+                count: 0
             }},
             {class_16: {
                 name: "유지",
                 key: "yugi",
                 color: [82, 0, 133],
-                classId: "16"
+                classId: "16",
+                count: 0
             }},
             {class_17: {
         	name: "임야",
         	key: "frtl",
         	color: [203, 56, 255],
-        	classId: "17"
+        	classId: "17",
+                count: 0
             }},
             {class_18: {
         	name: "잡종지",
         	key: "mslnd",
         	color: [255, 149, 200],
-        	classId: "18"
+        	classId: "18",
+                count: 0
             }},
             {class_19: {
         	name: "공장용지",
         	key: "fctry",
         	color: [255, 55, 199],
-        	classId: "19"
+        	classId: "19",
+                count: 0
             }},
             {class_20: {
         	name: "전",
         	key: "dfld",
         	color: [255, 56, 56],
-        	classId: "20"
+        	classId: "20",
+                count: 0
             }},
             {class_21: {
         	name: "제방",
         	key: "dike",
         	color: [255, 157, 151],
-        	classId: "21"
+        	classId: "21",
+                count: 0
             }},
             {class_22: {
         	name: "종교용지",
         	key: "relgn",
         	color: [255, 112, 31],
-        	classId: "22"
+        	classId: "22",
+                count: 0
             }},
             {class_23: {
         	name: "주유소",
         	key: "olt",
         	color: [255, 178, 29],
-        	classId: "23"
+        	classId: "23",
+                count: 0
             }},
             {class_24: {
         	name: "주차장",
         	key: "prkplce",
         	color: [207, 210, 49],
-        	classId: "24"
+        	classId: "24",
+                count: 0
             }},
             {class_25: {
         	name: "창고용지",
         	key: "wrhous",
         	color: [72, 249, 10],
-        	classId: "25"
+        	classId: "25",
+                count: 0
             }},
             {class_26: {
         	name: "하천",
         	key: "river",
         	color: [146, 204, 23],
-        	classId: "26"
+        	classId: "26",
+                count: 0
             }},
             {class_27: {
         	name: "철도용지",
         	key: "rlroad",
         	color: [61, 219, 134],
-        	classId: "27"
+        	classId: "27",
+                count: 0
             }},
             {class_28: {
         	name: "체육용지",
         	key: "phstrn",
         	color: [26, 147, 52],
-        	classId: "28"
+        	classId: "28",
+                count: 0
             }},
             {class_29: {
         	name: "학교용지",
         	key: "school",
         	color: [0, 212, 187],
-        	classId: "29"
+        	classId: "29",
+                count: 0
             }},
             {class_30: {
         	name: "빌딩",
         	key: "bld",
         	color: [44, 153, 168],
-        	classId: "30"
+        	classId: "30",
+                count: 0
             }},
             {class_31: {
         	name: "아파트",
         	key: "apt",
         	color: [0, 194, 255],
-        	classId: "31"
+        	classId: "31",
+                count: 0
             }},
             {class_32: {
         	name: "저장탱크",
         	key: "tank",
         	color: [52, 69, 147],
-        	classId: "32"
+        	classId: "32",
+                count: 0
             }}
-        ],
+        ]},
 //        legendCountUp: function (_classNumber) {
 //
 //            var legendInfo = this.legend["class_" + _classNumber];
@@ -369,8 +453,6 @@ var M_AI_IMAGE = {
 //
 //            return colors;
 //        }
-    },
-
     init: function () {
 
 	//분석 시작 이벤트
@@ -381,7 +463,15 @@ var M_AI_IMAGE = {
 	
 	$("#startAianalysAdvanc").on('click', function(e) {
 		chooseUrl = 1;
-		M_AI_IMAGE.analysis.start();
+		dtmap.vector.clear();
+		let checkValue = $('#AIVideoBox input[name="AI_check"]:checked').length;
+		if (checkValue === 0) {
+		    toastr.error('하나 이상의 옵션을 선택해주세요.');
+		} else {
+		    M_AI_IMAGE.analysis.start();
+		}
+		dtmap.off('select');
+		dtmap.on('select', onAiImageSelectEventListener);
 	});
 	
 	$("#resetMapDirection").on('click', function(e) {
@@ -421,6 +511,54 @@ var M_AI_IMAGE = {
         M_AI_IMAGE.itv = null
         M_AI_IMAGE.isnt = 0
         M_AI_IMAGE.checkedVal = "3"
+    },
+    setCheckbox: function () {//체크박스 리셋
+
+        //라벨텍스트초기화
+//        var lbText = document.querySelectorAll('#AIVideoBox label')
+//        lbText.forEach(function (item) {
+//            item.innerText = ""
+//        })
+
+//        var checkSize = $("input[name='AI_check']").length
+//        //카운트 올리기
+//        for (var i = 0; i < checkSize; i++) {
+//            var checkId = $("input[name='AI_check']")[i].id
+//            var countClass = M_AI_IMAGE.detectLegend.legend[checkId].count
+//            $("input[name='AI_check']")[i].nextElementSibling.innerHTML = M_AI_IMAGE.detectLegend.legend[checkId].name + "(" + countClass + ")"
+//
+//        }
+        
+        let labelText = document.querySelectorAll('#AIVideoBox label');
+        labelText.forEach(function (item) {
+            item.innerText = "";
+        });
+
+        let checkSize = $("input[name='AI_check']").length
+        
+        for (let i = 0; i < checkSize; i++) {
+            let checkId = $("input[name='AI_check']")[i].id;
+            var countClass = M_AI_IMAGE.detectLegend.legend[i][checkId].count;
+            $("input[name='AI_check']")[i].nextElementSibling.innerHTML = M_AI_IMAGE.detectLegend.legend[i][checkId].name + "(" + countClass + ")"
+        }
+        
+    },
+    checkBoxValue : function(value) {
+	// value = identifier; class, classId, 
+	let length = $("input[name='AI_check']:checked").length;
+	let checkedValues = null;
+	let count = 0;
+//	let data = M_AI_IMAGE.detectLegend.legend[value.classId]['class_' + value.classId].key;
+	for (let i = 0; i < length; i++) {
+	    let data = $("input[name='AI_check']:checked")[i].dataset.baseId;
+	    if (value.class == data) {
+		checkedValues = value;
+		count++;
+		break;
+	    }
+	    
+	}
+	return {checkedValues: checkedValues, count: count};
     },
     analysis: {
         start: function () {
@@ -539,7 +677,8 @@ var M_AI_IMAGE = {
 			    var detections;
 			    var screenCoord = [];
 			    var identifier = [];
-			    var idCount = 0;
+			    var totalCount = 0;
+			    var resultCount = result.response.length;
 			    for (var j = 0; j < result.response.length; j++) {
 				detections = result.response[j].detections.split(', ');
 				identifier.push({class : result.response[j].class, classId : result.response[j].classid, confidence : result.response[j].confidence});
@@ -551,7 +690,7 @@ var M_AI_IMAGE = {
 				    var coord = screenCoord[i][j].split(' ');
 				    analCoord.push(coord);
 				}
-				M_AI_IMAGE.analysis.getScreenMapCoord(analCoord, identifier[i], idCount++, alt);
+				M_AI_IMAGE.analysis.getScreenMapCoord(analCoord, identifier[i], idCount++, resultCount, alt);
 			    }
 			}
 		ui.loadingBar("hide");
@@ -562,8 +701,13 @@ var M_AI_IMAGE = {
         /**
          * 좌표 계산 후, vector 생성
          */
-        getScreenMapCoord: function (coord, identifier, idCount, alt) {
+        getScreenMapCoord: function (coord, identifier, idCount, resultCount, alt) {
             var coordinates = [[]];
+            // 체크박스 필터.
+            var isExist = M_AI_IMAGE.checkBoxValue(identifier);
+            if (!isExist.checkedValues){
+        	return;
+            }
 //            console.log(identifier);
             var data = M_AI_IMAGE.detectLegend.legend;
             var dataOption = null;
@@ -572,7 +716,7 @@ var M_AI_IMAGE = {
         	let index = 'class_' + i;
         	if (identifier.classId == data[i][index].classId) {
         	    dataOption = data[i][index];
-        	    idCount++;
+        	    resultCount++;
 //        	    console.log(dataOption);
         	    break;
         	}
@@ -600,7 +744,7 @@ var M_AI_IMAGE = {
         		    },
     		    stroke:{
     			      color: color,
-    			      opacity: 0.5,
+    			      opacity: 0.3,
     			      width: 0,
     			      lineDash: 'solid',
     			    },
@@ -613,26 +757,22 @@ var M_AI_IMAGE = {
 		    },
 		    offsetHeight : 30
             };
-            	let vectorId = classNm + '_' + classId + '_' + idCount;
+            	let vectorId = classNm + '_' + classId + '_' + totalCount;
 		dtmap.vector.addPolygon({
 		    id: vectorId,
 		    coordinates: coordinates,
 		    crs: 'EPSG:4326',
 		    style : options
 		});
-//		console.log(vectorId);
-		let resultInfoData = {count : idCount, engNm : dataOption.key, korNm : dataOption.name, conf : identifier.confidence, vectorId : vectorId};  
+		console.log(vectorId);
+		let resultInfoData = {count : resultCount, engNm : dataOption.key, korNm : dataOption.name, conf : identifier.confidence, vectorId : vectorId};
+		console.log(resultInfoData);
 		M_AI_IMAGE.analysis.resultView(resultInfoData);
         },
         /**
          * 결과창에 정보 표출
          */
         resultView : function (infoData) {
-            // dataOption : classid, color, count, hexColor, key(분석 결과 영어이름 - 사용), name(분석 결과 한글이름 - 사용) 
-            // identifier : class, classId, confidence(분석 결과 정확도 - 사용할 내용)
-            // vectorId : feature로 만들어진 feature id -> dtmap.vector.select('id'); 로 선택가능 - 위치 이동에 넣을 내용
-//            console.log(dataOption, identifier, vectorId);
-            
             var html = "";
             html += "<tr>\n";
             html += "<td>" + infoData.count + "</td>\n";
@@ -640,18 +780,17 @@ var M_AI_IMAGE = {
             html += "<td>" + infoData.korNm + "</td>\n";
             html += "<td>" + Math.ceil(infoData.conf * 100) + "%</td>\n";
             html += "<td>\n"
-            html += "<button type=\"button\" onclick=\"selectTarget('" + infoData.vectorId + "\'); \"class=\"icon-btn location sm\" \">\n";
+            html += "<button type=\"button\" id=" + infoData.vectorId + " onclick=\"selectAiResult(this); \"class=\"icon-btn location sm\">\n";
             html += "</button>\n";
             html += "</td>\n";
             html += "</tr>\n";
 
             $("#classifiedBody").append(html);
-            
         },
         reset: function () {
 
             $("#copyCanvas").remove();
-            $("#gridCanvas").remove();
+//            $("#gridCanvas").remove();
             $("#classifiedBody").empty();
 
             //카운터 초기화
@@ -680,7 +819,7 @@ var M_AI_IMAGE = {
 
             return new File([u8arr], fileName, {type: mime});
         }
-    },
+    }
     
 }
 
