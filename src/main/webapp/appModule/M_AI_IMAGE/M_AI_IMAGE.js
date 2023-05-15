@@ -28,29 +28,30 @@ function cameraMove() {
  * @returns
  */
 function selectTarget(id) {
+    dtmap.vector.clearSelect();
     dtmap.vector.select(id);
 }
 
 var M_AI_IMAGE = {
-    global: {
-        test: null,
-        isn: null,
-        itv: null,
-        isnt: 0,
-        checkedVal: "3",
-        ps: [
-            ["10", "20", "40", "70", "100"],
-            ["0", "15", "50", "68", "80", "95", "100"],
-            ["5", "25", "45", "95", "100"],
-            ["30", "60", "90", "100"],
-            ["5", "20", "30", "40", "50", "55", "70", "100"],
-            ["8", "15", "24", "38", "55", "78", "95", "100"],
-            ["9", "17", "25", "38", "47", "55", "62", "68", "72", "84", "96", "100"],
-            ["13", "19", "26", "35", "48", "59", "65", "79", "91", "100"],
-            ["5", "17", "29", "35", "46", "66", "82", "100"],
-            ["2", "9", "34", "44", "62", "78", "88", "100"]
-        ],
-    },
+//    global: {
+//        test: null,
+//        isn: null,
+//        itv: null,
+//        isnt: 0,
+//        checkedVal: "3",
+//        ps: [
+//            ["10", "20", "40", "70", "100"],
+//            ["0", "15", "50", "68", "80", "95", "100"],
+//            ["5", "25", "45", "95", "100"],
+//            ["30", "60", "90", "100"],
+//            ["5", "20", "30", "40", "50", "55", "70", "100"],
+//            ["8", "15", "24", "38", "55", "78", "95", "100"],
+//            ["9", "17", "25", "38", "47", "55", "62", "68", "72", "84", "96", "100"],
+//            ["13", "19", "26", "35", "48", "59", "65", "79", "91", "100"],
+//            ["5", "17", "29", "35", "46", "66", "82", "100"],
+//            ["2", "9", "34", "44", "62", "78", "88", "100"]
+//        ],
+//    },
 //    getAiSettingInfo: function () {
 //        $("#aiSettingModal").modal({backdrop: 'static', keyboard: false});
 //    },
@@ -429,30 +430,32 @@ var M_AI_IMAGE = {
             ui.loadingBar("show");
 
             //초기화
-            M_AI_IMAGE.global.isn = null;
-            M_AI_IMAGE.global.itv = null;
-            M_AI_IMAGE.global.isnt = 0;
+//            M_AI_IMAGE.global.isn = null;
+//            M_AI_IMAGE.global.itv = null;
+//            M_AI_IMAGE.global.isnt = 0;
 
             //이미지스캐닝
-            M_AI_IMAGE.analysis.imageScanning();
+//            M_AI_IMAGE.analysis.imageScanning();
+            M_AI_IMAGE.analysis.detectAI();
 
         },
-        imageScanning: function () {
-
-            setTimeout(function () {
-
-                if (M_AI_IMAGE.global.checkedVal == null || M_AI_IMAGE.global.checkedVal == 'undefined') {
-                    M_AI_IMAGE.global.checkedVal = 3;
-                }
-                //분류 value
-                M_AI_IMAGE.analysis.detectAI(parseInt(M_AI_IMAGE.global.checkedVal));
-
-            }, 2000);
-        },
+//        imageScanning: function () {
+//
+//            setTimeout(function () {
+//
+//                if (M_AI_IMAGE.global.checkedVal == null || M_AI_IMAGE.global.checkedVal == 'undefined') {
+//                    M_AI_IMAGE.global.checkedVal = 3;
+//                }
+//                //분류 value
+//                M_AI_IMAGE.analysis.detectAI(parseInt(M_AI_IMAGE.global.checkedVal));
+//
+//            }, 2000);
+//        },
         /**
          * ai 분석 통신 및 데이터 처리연결
          */
-        detectAI: function (an) {
+        detectAI: function () {
+//            detectAI: function (an) {
 
 //            var detect_type = "";
 //
@@ -645,6 +648,44 @@ var M_AI_IMAGE = {
             $("#classifiedBody").append(html);
             
         },
+        reset: function () {
+
+            $("#copyCanvas").remove();
+            $("#gridCanvas").remove();
+            $("#classifiedBody").empty();
+
+            //카운터 초기화
+//            M_AI_IMAGE.detectLegend.clearCount()
+
+//            var layerList = new Module.JSLayerList(true);
+//            var layer = layerList.nameAtLayer("ML_RESULT_RECT");
+
+//            if (layer != null) {
+//                layer.removeAll();
+//            }
+
+        }
+    },
+    UTIL: {
+        dataURLtoFile: function (dataurl, fileName) {
+            var arr = dataurl.split(','),
+                mime = arr[0].match(/:(.*?);/)[1],
+                bstr = atob(arr[1]),
+                n = bstr.length,
+                u8arr = new Uint8Array(n);
+
+            while (n--) {
+                u8arr[n] = bstr.charCodeAt(n);
+            }
+
+            return new File([u8arr], fileName, {type: mime});
+        }
+    },
+    
+}
+
+
+
 //        markupMachineDetectResult: async function (_imageWidth, _imageHeight, _result, _complateCallback) {
 //
 //            var result = _result.response;
@@ -925,41 +966,9 @@ var M_AI_IMAGE = {
 //
 //            layer.addObject(point, 0);
 //        },
-        reset: function () {
-
-            $("#copyCanvas").remove();
-            $("#gridCanvas").remove();
-            $("#classifiedBody").empty();
-
-            //카운터 초기화
-//            M_AI_IMAGE.detectLegend.clearCount()
-
-            var layerList = new Module.JSLayerList(true);
-            var layer = layerList.nameAtLayer("ML_RESULT_RECT");
-
-            if (layer != null) {
-                layer.removeAll();
-            }
-
-        }
-
-    },
-    UTIL: {
-        dataURLtoFile: function (dataurl, fileName) {
-            var arr = dataurl.split(','),
-                mime = arr[0].match(/:(.*?);/)[1],
-                bstr = atob(arr[1]),
-                n = bstr.length,
-                u8arr = new Uint8Array(n);
-
-            while (n--) {
-                u8arr[n] = bstr.charCodeAt(n);
-            }
-
-            return new File([u8arr], fileName, {type: mime});
-        }
-    }
-}
+//    }
+    
+//}
 //function sleep(ms) {
 //    return new Promise(resolve => setTimeout(resolve, ms));
 //}
