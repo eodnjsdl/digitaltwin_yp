@@ -108,7 +108,7 @@
 </div>
 
 <div class="lnb-util">
-    <button type="button" class="manualBtn" title="도움말"></button>
+    <button type="button" class="manualBtn" title="도움말" onclick="manualTab('레이어')"></button>
     <button type="button" class="lnb-resetBtn" title="초기화"></button>
     <button type="button" class="lnb-close" title="닫기"></button>
 </div>
