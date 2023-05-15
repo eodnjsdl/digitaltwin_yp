@@ -367,26 +367,30 @@ var M_PRCL_ANLS = (function () {
     }
 
     function printList(features) {
+        let html = ``;
         const $div = $(M_PRCL_ANLS.selector).find('.result-list');
         $('.guid-box', M_PRCL_ANLS.selector).hide();
         $div.empty();
-        for (let i = 0; i < features.length; i++) {
-            const f = features[i];
-            console.log(f.get('oriArea').toFixed(2))
-            let exceptVal = f.get('oriArea').toFixed(2) - f.get('area').toFixed(2);
-            const html = `<tr data-fid="${f.getId()}">
+        if(features.length === 0) {
+            html += `<tr>
+                <td colspan="5">검색결과가 존재하지 않습니다.</td>
+            </tr>`
+        } else {
+            for (let i = 0; i < features.length; i++) {
+                const f = features[i];
+                let exceptVal = f.get('oriArea') - f.get('area');
+                html += `<tr data-fid="${f.getId()}">
                 <td>${f.get('jibun')}</td>
                 <td>${f.get('oriArea').toFixed(2)}</td>
                 <td>${f.get('area').toFixed(2)}</td>
-                <td>${exceptVal}</td>
+                <td>${exceptVal.toFixed(2)}</td>
                 <td>${f.get('ratio').toFixed(1)}</td>
             </tr>`
-            $div.append(html);
-            $(".bbs-list-wrap").show();
-            $(".guid-box").hide();
-
+            }
         }
-
+        $div.append(html);
+        $(".bbs-list-wrap").show();
+        $(".guid-box").hide();
     }
 
     return module;
