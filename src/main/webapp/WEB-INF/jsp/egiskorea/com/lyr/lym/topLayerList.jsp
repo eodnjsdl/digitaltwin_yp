@@ -9,7 +9,8 @@
         margin-left: 1rem;
     }
     #trrcSlider {
-        width: 7.5rem;
+        /*width: 7.5rem;*/
+        width: 185px;
     }
 </style>
 <script>

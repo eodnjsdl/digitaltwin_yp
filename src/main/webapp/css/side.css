@@ -341,8 +341,8 @@
 
 .layer-list > li .layer-toggle {
 	position: absolute;
-	top: 3px;
-	right: 0;
+	top: 8px;
+	right: 5px;
 	width: 16px;
 	height: 16px;
 	background-color: #161F32;
