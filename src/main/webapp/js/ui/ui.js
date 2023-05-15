@@ -298,6 +298,8 @@ window.ui = (function () {
 
         $leftBar.on('click', 'li', function () {
             ui.initPopup("");
+            //분석 팝업 초기화
+            analysis.close(); $("#lnbAnalysis").find(".on").removeClass("on");
             let $this = $(this);
             let menu = $this.attr('data-menu');
             $(".lnb-dep2").find(".on").removeClass("on");
