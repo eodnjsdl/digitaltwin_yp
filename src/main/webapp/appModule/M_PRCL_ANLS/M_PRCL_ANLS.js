@@ -74,31 +74,6 @@ var M_PRCL_ANLS = (function () {
         $("[name=standard-search-target]", M_PRCL_ANLS.selector).html(tag);
         $(".data-list tbody", M_PRCL_ANLS.selector).html(dataTag);
     }
-
-    /**
-     * 선택 이벤트
-     */
-    function onFacSelect(e) {
-        if (e.id) {
-            dtmap.vector.select(e.id);
-            const selected = dtmap.vector.getSelected();
-            if (selected && selected.length > 0) {
-                const buffer = Number($(M_PRCL_ANLS.selector).find(".facility-search-buffer").val() || 0);
-                const feature = selected[0];
-                let geometry = feature.getGeometry();
-                if (geometry instanceof ol.geom.Point || geometry instanceof ol.geom.LineString) {
-                    if (buffer === 0) {
-                        return toastr.warning('버퍼를 설정해 주세요.');
-                    }
-                }
-                geometry = dtmap.util.getBufferGeometry(geometry, buffer);
-                compute(geometry);
-            }
-        } else {
-            toastr.warning("현재 화면에 검색영역이 존재하지 않습니다.");
-        }
-    }
-
     /**
      * 초기화
      */
@@ -136,7 +111,6 @@ var M_PRCL_ANLS = (function () {
             $("." + parent.data("tab")).addClass("on").siblings().removeClass("on");
             $(".data-write tbody tr.tr_toggle", M_PRCL_ANLS.selector).hide();
             $(`.data-write tbody tr.${id}`, M_PRCL_ANLS.selector).show();
-
 
 
             const $div = $(M_PRCL_ANLS.selector).find('.result-list');
@@ -210,7 +184,7 @@ var M_PRCL_ANLS = (function () {
             const type = $("[name=standard-search-target]", M_PRCL_ANLS.selector).val();
             if (type.length !== 0) {
                 dtmap.off('select', onFacSelect);
-                dtmap.on("select", onFacSelect);
+                dtmap.once("select", onFacSelect);
             } else {
                 toastr.warning("검색영역을 지정해 주세요.");
             }
@@ -278,18 +252,45 @@ var M_PRCL_ANLS = (function () {
         dtmap.on('drawend', onDrawEnd)
     }
 
+    /**
+     * 선택 이벤트
+     */
+    function onFacSelect(e) {
+        if (e.id) {
+            dtmap.vector.select(e.id);
+            const selected = dtmap.vector.getSelected();
+            if (selected && selected.length > 0) {
+                let buffer = Number($(M_PRCL_ANLS.selector).find(".facility-search-buffer").val() || 0);
+                const feature = selected[0];
+                let geometry = feature.getGeometry();
+                if (geometry instanceof ol.geom.Point ||
+                    geometry instanceof ol.geom.MultiPoint ||
+                    geometry instanceof ol.geom.LineString ||
+                    geometry instanceof ol.geom.MultiLineString) {
+                    if (buffer === 0) {
+                        buffer = 0.001;
+                    }
+                }
+                geometry = dtmap.util.getBufferGeometry(geometry, buffer);
+                compute(geometry);
+            }
+        } else {
+            toastr.warning("현재 화면에 검색영역이 존재하지 않습니다.");
+        }
+    }
+
     function onDrawEnd(e) {
         const type = Number($("[name=download-search-drawing]:checked", M_PRCL_ANLS.selector).val());
-        if (type === 0 || type === 1) {
-            const buffer = Number($('.area-search-buffer', M_PRCL_ANLS.selector).val());
+        let buffer = Number($('.area-search-buffer', M_PRCL_ANLS.selector).val());
+        if (type === 1 || type === 2) {
             if (buffer === 0) {
-                return toastr.warning('버퍼를 설정해 주세요.')
+                buffer = 0.001;
             }
         }
+        let geometry = e.geometry.clone();
+        geometry = dtmap.util.getBufferGeometry(geometry, buffer);
+        compute(geometry);
 
-
-        const drawGeom = e.geometry.clone();
-        compute(drawGeom);
     }
 
     function compute(geom) {
@@ -302,14 +303,16 @@ var M_PRCL_ANLS = (function () {
             let features = dtmap.util.readGeoJson(data);
             let intersects = [];
             for (let i = 0; i < features.length; i++) {
-                let f = features[i];
-                intersects.push(getIntersects(geom, f));
+                const intersect = getIntersects(geom, features[i]);
+                if (intersect) {
+                    intersects.push(intersect);
+                }
             }
 
             let _name;
             let onTarget = $("#parcelPopup").find(".on").data("id");
             onTarget === "tr_area" ? _name = "parcel-area-type" : _name = "parcel-facility-type";
-            let b = $("[name="+_name+"]:checked").val() === "all" ? true : false;
+            let b = $("[name=" + _name + "]:checked").val() === "all" ? true : false;
 
             if (b) {
                 //전체 포함되는 경우만
@@ -338,25 +341,29 @@ var M_PRCL_ANLS = (function () {
     const jstsParser = new jsts.io.OL3Parser();
 
     function getIntersects(geom, feature) {
-        if (geom instanceof ol.geom.Circle) {
-            geom = ol.geom.Polygon.fromCircle(geom);
-        }
+        try {
+            if (geom instanceof ol.geom.Circle) {
+                geom = ol.geom.Polygon.fromCircle(geom);
+            }
 
-        const oriGeom = feature.getGeometry().clone();
-        const a = jstsParser.read(geom);
-        const b = jstsParser.read(oriGeom);
-        const result = a.intersection(b);
-        const inGeom = jstsParser.write(result);
-        const inFeature = new ol.Feature(inGeom);
-        const inArea = inGeom.getArea();
-        const oriArea = oriGeom.getArea();
-        const ratio = (inArea / oriArea) * 100;
-        inFeature.set('ratio', ratio);
-        inFeature.set('area', inArea);
-        inFeature.set('jibun', feature.get('jibun'));
-        inFeature.set('oriArea', oriArea);
-        inFeature.setId(feature.getId() + '_intersect');
-        return inFeature;
+            const oriGeom = feature.getGeometry().clone();
+            const a = jstsParser.read(geom);
+            const b = jstsParser.read(oriGeom);
+            const result = a.intersection(b);
+            const inGeom = jstsParser.write(result);
+            const inFeature = new ol.Feature(inGeom);
+            const inArea = inGeom.getArea();
+            const oriArea = oriGeom.getArea();
+            const ratio = (inArea / oriArea) * 100;
+            inFeature.set('ratio', ratio);
+            inFeature.set('area', inArea);
+            inFeature.set('jibun', feature.get('jibun'));
+            inFeature.set('oriArea', oriArea);
+            inFeature.setId(feature.getId() + '_intersect');
+            return inFeature;
+        } catch (e) {
+            console.log(e);
+        }
     }
 
     function printList(features) {
