@@ -11,6 +11,8 @@ window.ui = (function () {
         _leftMenuEvent();
         //좌측 메뉴 >> 공간정보
         _spaceMenuEvent();
+        //좌측 메뉴 >> 레이어 Tab(2D/3D)
+        _layerTabEvent();
         //좌측 메뉴 >> 공간정보 활용 >> 사업공유관리 
         _spaceTabEvent();
         //좌측 메뉴 >> 시설관리 
@@ -66,7 +68,7 @@ window.ui = (function () {
 
         $(document).on('click', '.lnb-dep2 button', function (e) {
             const hasOn = $(this).parent().hasClass("on");
-            if(hasOn) {
+            if (hasOn) {
                 $(".lnb-dep2").addClass("on");
                 $(this).parent().removeClass("on");
             } else {
@@ -194,18 +196,39 @@ window.ui = (function () {
 
         //통합행정정보
         $mapControl.on('click', '.integrated-info', function (e) {
-            toastr.success("지도에서 위치를 선택하세요. ", "통합행정정보");
-            $(".map-control button").removeClass("active");
-            aj_krasInfo();
+            offKrasNLdb();
+            let $this = $(this);
+            if ($this.hasClass('active')) {
+                $(".map-control button").removeClass("active");
+                aj_krasInfo(false);
+            } else {
+                $(".map-control button").removeClass("active");
+                $this.toggleClass('active');
+                aj_krasInfo(true);
+            }
         });
         //지적/건물
         $mapControl.on('click', '.building', function (e) {
-            $(".map-control button").removeClass("active");
-            aj_ldbdInfo();
+            offKrasNLdb();
+            let $this = $(this);
+            if ($this.hasClass('active')) {
+                $(".map-control button").removeClass("active");
+                aj_ldbdInfo(false);
+            } else {
+                $(".map-control button").removeClass("active");
+                $this.toggleClass('active');
+                aj_ldbdInfo(true);
+            }
         });
+
+        function offKrasNLdb() {
+            aj_krasInfo(false);
+            aj_ldbdInfo(false);
+        }
 
         //위치
         $mapControl.on('click', '.ctrl-btn.location', function (e) {
+            offKrasNLdb();
             let $this = $(this);
             if ($this.hasClass('active')) {
                 $("#rightPopup").removeClass("opened");
@@ -220,6 +243,7 @@ window.ui = (function () {
 
         //거리측정
         $mapControl.on('click', '.ctrl-btn.distance', function (e) {
+            offKrasNLdb();
             let $this = $(this);
             if ($this.hasClass('active')) {
                 $("#rightPopup").removeClass("opened");
@@ -234,6 +258,7 @@ window.ui = (function () {
 
         //면적측정
         $mapControl.on('click', '.ctrl-btn.measure', function (e) {
+            offKrasNLdb();
             let $this = $(this);
             if ($this.hasClass('active')) {
                 $("#rightPopup").removeClass("opened");
@@ -248,6 +273,7 @@ window.ui = (function () {
 
         //반경측정
         $mapControl.on('click', '.ctrl-btn.radius', function (e) {
+            offKrasNLdb();
             let $this = $(this);
             if ($this.hasClass('active')) {
                 $("#rightPopup").removeClass("opened");
@@ -298,6 +324,9 @@ window.ui = (function () {
 
         $leftBar.on('click', 'li', function () {
             ui.initPopup("");
+            //분석 팝업 초기화
+            analysis.close();
+            $("#lnbAnalysis").find(".on").removeClass("on");
             let $this = $(this);
             let menu = $this.attr('data-menu');
             $(".lnb-dep2").find(".on").removeClass("on");
@@ -309,15 +338,13 @@ window.ui = (function () {
                 //메뉴 선택시 바로 실행되는 메뉴 
                 switch (menu) {
                     case "lnb-search" :
-                        //TODO 검색 메뉴
                         aj_search();
                         break;
                     case "lnb-layer" :
                         $leftSide.find(".lnb-layer input[name='searchKeyword']").val("");
-                        aj_selectLayerList("left");
+                        dtmap.mod === '2D' ? aj_selectLayerList("left") : aj_selectLayerList("top");
                         break;
                     case "lnb-theme" :
-                        //TODO 주제도 메뉴
                         aj_selectThematicMapList();
                         break;
                     //국토조사
@@ -348,7 +375,8 @@ window.ui = (function () {
             //팝업 close
             initPopup("");
             //분석 팝업 초기화
-            analysis.close(); $("#lnbAnalysis").find(".on").removeClass("on");
+            analysis.close();
+            $("#lnbAnalysis").find(".on").removeClass("on");
             //좌측 메뉴 close
             $(".lnb-cont").css("display", "none");
             $("#lnb li[data-menu]").removeClass("on");
@@ -444,6 +472,34 @@ window.ui = (function () {
                 case "constructionInfo02"            :
                     break;
             }
+        });
+    }
+
+    //좌측 메뉴 >> 레이어 >> Tab (2D / 3D)
+    function _layerTabEvent() {
+        $(".lnb-layer").on("click", ".layerTab", function () {
+            let $leftSide = $('#side');
+            var parent = $(this).parent();
+            var tabName = $(this).data("tab");
+            //set event
+            switch (tabName) {
+                // LeftMenu > 레이어 > Tab (2D)
+                case "layerTab2D" :
+                    $leftSide.find(".lnb-layer input[name='searchKeyword']").val("");
+                    aj_selectLayerList("left");
+                    break;
+                // LeftMenu > 레이어 > Tab (3D)
+                case "layerTab3D"        :
+                    if (dtmap.mod !== '3D') {
+                        toastr.warning("3D지도에서만 사용 가능합니다.");
+                        return;
+                    }
+                    $leftSide.find(".lnb-layer input[name='searchKeyword']").val("");
+                    aj_selectLayerList("top");
+                    break;
+            }
+            parent.addClass("on").siblings().removeClass("on");
+            $("." + parent.data("tab")).addClass("on").siblings().removeClass("on");
         });
     }
 
@@ -545,7 +601,7 @@ window.ui = (function () {
             const name = $(this).attr("id");
             const hasOn = $(this).parent().hasClass("on");
             // $("#lnbAnalysis").find(".on").removeClass("on");
-            if(hasOn) {
+            if (hasOn) {
                 analysis.close();
             } else {
                 // $(this).parent().addClass("on");
@@ -664,7 +720,8 @@ window.ui = (function () {
         //팝업 초기화
         initPopup(area);
         //분석 팝업 초기화
-        analysis.close(); $("#lnbAnalysis").find(".on").removeClass("on");
+        analysis.close();
+        $("#lnbAnalysis").find(".on").removeClass("on");
         //기본 틀 크기와 다른 크기를 갖는 DIV 처리
         switch (name) {
             case "backgroundMapInfo":
@@ -696,7 +753,7 @@ window.ui = (function () {
                 _area.heigth = "807";
                 break;
             case "layerManagement":
-                _area.left = "360";
+                _area.left = "410";
                 _area.width = "550";
                 _area.heigth = "807";
                 break;
@@ -763,14 +820,14 @@ window.ui = (function () {
 
     //그리기 초기화
     function _initDrawEvent() {
-        dtmap.off('drawend');
+        // dtmap.off('drawend');
         // dtmap.vector.clear();
         dtmap.draw.clear();
     }
 
     //지도 선택 이벤트 초기화
     function _selectEventListener() {
-    	dtmap.off('select');
+        dtmap.off('select');
         dtmap.clear();
     }
 
@@ -1210,49 +1267,6 @@ function clearMap() {
     dtmap.vector.clear();
 
     $(".lnb-dep2").find(".on").removeClass("on");
-}
-
-//팝업 오픈 실행 함수 
-// 개인별 레이어 목록 호출
-function aj_selectLayerList(mode, reset = false) {
-    var searchKeyword = mode === "left"
-        ? $(".lnb-layer input[name='searchKeyword']").val()
-        : $("#rightPopup input[name='searchKeyword']").val();
-
-    ui.loadingBar("show");
-    $.ajax({
-        type: "POST",
-        url: "/lyr/lym/selectLayerList.do",
-        data: {
-            "searchKeyword": searchKeyword,
-            "mode": mode
-        },
-        dataType: "html",
-        async: false,
-        success: function (returnData, status) {
-            if (status === "success") {
-                if (mode === "left") { // 좌측 메뉴 선택 시
-                    $(".lnb-layer").html(returnData);
-                    $(".lnb-layer input[name='searchKeyword']").val(searchKeyword);
-                } else if (mode === "top") { // 상단 메뉴 선택 시
-                    $("#rightPopup").html(returnData);
-                    $("#rightPopup input[name='searchKeyword']").val(searchKeyword);
-                }
-
-                if (!$(".lnb-layer .scroll-y").hasClass("mCustomScrollbar")) {
-                    $(".scroll-y").mCustomScrollbar({
-                        scrollbarPosition: "outside",
-                        mouseWheel: {scrollAmount: 250}
-                    });
-                }
-            } else {
-                toastr.error("관리자에게 문의 바랍니다.", "정보를 불러오지 못했습니다.");
-                return;
-            }
-        }, complete: function () {
-            ui.loadingBar("hide");
-        }
-    });
 }
 
 //사용자 정보 조회
