@@ -229,7 +229,7 @@
     <script src="/js/egiskorea/com/tm/thematicMap.js"></script>
 
 </head>
-<body class="<c:out value='${loginVO.id}'/>">
+<body oncontextmenu="return false" class="<c:out value='${loginVO.id}'/>">
 <form:form name="tmpForm" id="tmpForm" action="/" method="post">
     <input type="hidden" name="pageIndex" id="pageIndex" value="1">
 </form:form>

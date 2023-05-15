@@ -46,8 +46,8 @@
                                         <option value="EPSG:4326">위경도</option>
                                     </select>
                                 </div>
-                                <div class="col"><input type="number" class="form-control edit-x"></div>
-                                <div class="col"><input type="number" class="form-control edit-y"></div>
+                                <div class="col"><input type="number" class="form-control edit-x" placeholder="경도"></div>
+                                <div class="col"><input type="number" class="form-control edit-y" placeholder="위도"></div>
                                 <div class="col-auto"><button type="button" class="btn type03 btn-xsm edit-add-coordinate">좌표추가</button></div>
                             </div>
                         </td>

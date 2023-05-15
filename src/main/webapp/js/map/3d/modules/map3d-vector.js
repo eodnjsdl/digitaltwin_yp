@@ -53,7 +53,7 @@ map3d.vector = (function () {
             _pointLayer = map3d.layer.addLayer({
                 id: 'Vector_Point',
                 type: 'Point',
-                visible : true,
+                visible: true,
                 isDefault: true
             });
         }
@@ -62,7 +62,7 @@ map3d.vector = (function () {
             _lineLayer = map3d.layer.addLayer({
                 id: 'Vector_Line',
                 type: 'Line',
-                visible : true,
+                visible: true,
                 isDefault: true
             })
         }
@@ -71,7 +71,7 @@ map3d.vector = (function () {
             _polygonLayer = map3d.layer.addLayer({
                 id: 'Vector_Polygon',
                 type: 'Polygon',
-                visible : true,
+                visible: true,
                 isDefault: true
             })
         }
@@ -93,11 +93,7 @@ map3d.vector = (function () {
         }
 
         Module.getMap().setSelectObject(object3d);
-        const camera = map3d.camera;
-        let alt = object3d.position.Altitude * 1.5;
-        alt = alt < 1000 ? 1000 : alt;
-        camera.moveLookAt(object3d.position, camera.getTilt(), camera.getDirect(), alt);
-
+        map3d.setCenter([object3d.position.Longitude, object3d.position.Latitude]);
         let feature = _source.getFeatureById(id);
         if (feature) {
             feature.set('_selected', true);
@@ -333,6 +329,15 @@ map3d.vector = (function () {
         }
     }
 
+    function removeFeatureById(id) {
+        const feature = _source.getFeatureById(id);
+        if (feature) {
+            const layer3d = getLayerFromFeature(feature);
+            layer3d.removeById(id);
+            _source.removeFeature(feature);
+        }
+    }
+
     function removeFeatureByFilter(filter) {
         const features = _source
             .getFeatures()
@@ -349,6 +354,7 @@ map3d.vector = (function () {
         readWKT: readWKT,
         readGeoJson: readGeoJson,
         removeFeature: removeFeature,
+        removeFeatureById: removeFeatureById,
         removeFeatureByFilter: removeFeatureByFilter,
         addFeature: addFeature,
         addFeatures: addFeatures,

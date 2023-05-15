@@ -29,7 +29,7 @@
             AND B.CODE_NM LIKE CONCAT ('%', #{searchKeyword},'%') OR A.THEMAMAP_NM LIKE CONCAT ('%', #{searchKeyword},'%')
         </if>
         ORDER BY
-            A.THEMAMAP_CL_CODE ASC, A.THEMAMAP_NM ASC
+            A.THEMAMAP_CL_CODE ASC, A.THEMAMAP_ID ASC
     </select>
 
     <select id="selectTMapAllList" resultType="ThemaMapVO">

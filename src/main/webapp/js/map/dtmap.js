@@ -66,7 +66,7 @@ window.dtmap = (function () {
             let center = map2d.getCenter();
             center = ol.proj.transform(center, map2d.crs, map3d.crs);
             center[2] = dtmap.util.zoomToAlt(map2d.view.getZoom());
-            map3d.setCenter(center);
+            map3d.setCenter(center, {tilt: 30, direct: -map2d.view.getRotation() * (180 / Math.PI)});
 
         } else {
             _cur_mode = '2D'
@@ -216,7 +216,7 @@ window.dtmap = (function () {
             return $.ajax({
                 url: '/gis/wfs',
                 header: {
-                    'Content-Type':  'application/json;charset=UTF-8'
+                    'Content-Type': 'application/json;charset=UTF-8'
                 },
                 method: 'post',
                 data: data,
