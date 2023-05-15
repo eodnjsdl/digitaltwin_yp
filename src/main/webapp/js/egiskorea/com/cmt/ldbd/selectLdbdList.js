@@ -248,9 +248,10 @@ function _onContext_ldbdInfo(geom) {
 }
 
 function aj_ldbdInfo(active) {
-    dtmap.vector.clear();
+    dtmap.draw.dispose();
     dtmap.off('drawend', _onDrawEnd_ldbdInfo);
     if (active) {
+        dtmap.vector.clear();
         if (map2d.view.getZoom() < 19) {
             toastr.success("그리기: Point", "지도에서 위치를 클릭하세요. ");
             dtmap.draw.active({type: 'Point'});
