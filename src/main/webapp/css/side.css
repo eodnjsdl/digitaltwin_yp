@@ -245,8 +245,8 @@
 }
 
 .lnb-cont .lnb-body {
-	padding: 20px;
-	height: calc(100% - 70px);
+	padding: 18px;
+	height: calc(100% - 80px);
 }
 
 .lnb-cont .lnb-body .srch-box {
