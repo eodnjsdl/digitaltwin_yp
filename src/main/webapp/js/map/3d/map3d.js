@@ -317,11 +317,12 @@ window.map3d = (function () {
             altitude = _camera.getLocation().Altitude;
         }
 
-        const angle = options.angle || 30;
-        const dis = Math.abs(altitude / Math.sin((angle * Math.PI / 180)))
+        const tilt = options.tilt || _camera.getTilt();
+        const dir = options.direct || _camera.getDirect();
+        const dis = Math.abs(altitude / Math.sin((tilt * Math.PI / 180)))
         const alt = Module.getMap().getTerrHeightFast(center[0], center[1]);
         let centerVec = new Module.JSVector3D(center[0], center[1], alt);
-        _camera.moveLookAt(centerVec, angle, 0, dis);
+        _camera.moveLookAt(centerVec, tilt, dir, dis);
     }
 
     /**
