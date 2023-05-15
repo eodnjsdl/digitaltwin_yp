@@ -65,9 +65,75 @@
             }
         });
 
+        // 팝업창 닫기 event
+        $(".lnb-layer .lnb-close").click(function () {
+            $(".lnb-layer").stop().fadeOut(100);
+            $("#lnb li[data-menu]").removeClass("on");
+            $('#leftPopup.opened').removeClass('opened');
+        });
+
+        // 초기화 button event
+        $("#side .lnb-layer .lnb-resetBtn").click(function () {
+            dtmap.layer.clear();
+            $('.lnb-layer [name="searchKeyword"]').val(null);
+            aj_selectLayerList('top', true);
+        });
+
+        $('.layer-list :checkbox').on('change', function (e) {
+            const visible = this.checked;
+            const $this = $(this);
+            const $ul = $this.closest('ul');
+
+            if ($ul.hasClass('layer-list')) {
+                //상위버튼
+                const $li = $this.closest('li');
+                $li.find('ul input[type="checkbox"]').each(function (i, v) {
+                    $(v).prop('checked', visible).change();
+                });
+
+            } else {
+                //하위버튼
+                const id = $this.attr('id');
+                let layerNm = $this.data('layer');
+                const title = $this.data('title');
+                const desc = $this.data('desc');
+                const shpType = $this.data('shptype');
+
+                if (desc) {
+                    layerNm = desc;
+                }
+
+                let type = dtmap.mod === '3D' ? LAYER_TYPE[id.split('_')[1]] : 'WMS';
+                let layerId = id.split('_')[2];
+                let only3d = id.split('_')[3];
+
+                if (only3d && dtmap.mod !== '3D') {
+                    console.warn("3D지도에서만 사용 가능합니다.");
+                    toastr.warning("3D지도에서만 사용 가능합니다.");
+                }
+                const findLayer = store.facility
+                    .getData()
+                    .find((layer) => layer["tblNm"] === layerNm.split(':')[1]);
+
+                dtmap.showLayer({
+                    id: id,
+                    type: type,
+                    layerNm: layerNm,
+                    title: title,
+                    visible: visible,
+                    shpType: shpType,
+                    // sld : 'http://124.49.110.155:8080/lyr/lyi/sld?lyrId='+layerId
+                    sldBody: findLayer.styleInfo
+
+                });
+                console.log('[레이어]', layerNm, visible ? 'on' : 'off');
+                checkSiblings($this);
+            }
+
+        })
 
         //초기화
-        $(".popup-right.opened .lnb-resetBtn").click(function () {
+        // $(".popup-right.opened .lnb-resetBtn").click(function () {
             // 레이어 전체 비활성화
             // if (app2D) {
             //     var layers = store.layerIds;
@@ -104,7 +170,7 @@
             // }
             // $('#rightPopup [name="searchKeyword"]').val(null);
             // aj_selectLayerList('top', true);
-        });
+        // });
 
         //팝업창 오픈 시  레이어 가시화여부 체크
         // layerChecked();

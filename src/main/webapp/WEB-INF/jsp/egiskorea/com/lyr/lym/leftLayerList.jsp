@@ -185,6 +185,7 @@
             $('.lnb-layer [name="searchKeyword"]').val(null);
             aj_selectLayerList('left', true);
         });
+
         $('.layer-list :checkbox').on('change', function (e) {
             const visible = this.checked;
             const $this = $(this);
