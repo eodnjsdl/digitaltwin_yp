@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" %>
 
 <!-- js -->
-<script src="/js/egiskorea/com/job/tfan/brin/tbrs/tbdBusRouteStation.js"></script>			<!-- 버스정류소  -->
+<script src="/js/egiskorea/com/job/tfan/brin/tbrs/tgdBusSttnInfo.js"></script>			<!-- 버스정류소  -->
 
 <!-- 업무 > 공통 -->
 <div class="popup-header">버스노선정보</div>
@@ -10,9 +10,9 @@
         <!-- 검색영역 -->
         <div class="items search-area">
             <div class="top-search">
-                <select class="form-select facility-select">
-                    <option value="wtlFirePs" selected="selected">버스정류소</option>
-                    <option value="wtlPipeLm">버스노선</option>
+                <select class="form-select trafficAnalysis-select">
+                    <option value="tgdBusSttnInfo" selected="selected">버스정류소</option>
+                    <option value="tgdBusRouteInfo">버스노선</option>
                 </select>
             </div>
             <div class="tabBoxDepth2-wrap">
@@ -45,13 +45,13 @@
 								<tr>  
 									<th scope="row">정류소명</th>  
 									<td>    
-										<input type="text" name="dpg_std" class="form-control" value="">    
+										<input type="text" name="stationname" class="form-control" value="">    
 									</td>
 								</tr>
 								<tr>  
 									<th scope="row">정류소번호</th>  
 									<td>    
-										<input type="text" name="dpg_std" class="form-control" value="">    
+										<input type="number" step="1" name="stationseq" class="form-control" value="">    
 									</td>
 								</tr>
                             </tbody>
@@ -59,7 +59,7 @@
                     </div>
                     <div class="btn-wrap">
                         <div>
-                            <button type="button" class="btn type01 search facility-attribute-search" onclick="selectWtlFirePsList(1)">조회</button>
+                            <button type="button" class="btn type01 search trafficAnalysis-attribute-search" onclick="selectTgdBusSttnInfoList(1)">조회</button>
                         </div>
                     </div>
                 </div>
@@ -67,39 +67,39 @@
                     <div class="space-search-group">
                         <div class="space-search-items">
 							<span class="form-radio text group">
-								<span><input type="radio" name="rad-facility-area" id="rad-facility-area-extent"
-                                             value="extent" checked="checked"><label for="rad-facility-area-extent">현재화면영역</label></span>
-								<span><input type="radio" name="rad-facility-area" id="rad-facility-area-custom"
-                                             value="custom"><label for="rad-facility-area-custom">사용자 정의</label></span>
+								<span><input type="radio" name="rad-trafficAnalysis-area" id="rad-trafficAnalysis-area-extent"
+                                             value="extent" checked="checked"><label for="rad-trafficAnalysis-area-extent">현재화면영역</label></span>
+								<span><input type="radio" name="rad-trafficAnalysis-area" id="rad-trafficAnalysis-area-custom"
+                                             value="custom"><label for="rad-trafficAnalysis-area-custom">사용자 정의</label></span>
 							</span>
                         </div>
-                        <div class="space-search-items space-facility-area" style="display:none;">
+                        <div class="space-search-items space-trafficAnalysis-area" style="display:none;">
 							<span class="drawing-obj small">
-								<span><input type="radio" name="rad-facility-drawing" id="rad-facility-drawing-point"
-                                             value="1" checked="checked"><label for="rad-facility-drawing-point"
+								<span><input type="radio" name="rad-trafficAnalysis-drawing" id="rad-trafficAnalysis-drawing-point"
+                                             value="1" checked="checked"><label for="rad-trafficAnalysis-drawing-point"
                                                                                 class="obj-sm01"></label></span>
-								<span><input type="radio" name="rad-facility-drawing"
-                                             id="rad-facility-drawing-linestring" value="2"><label
-                                        for="rad-facility-drawing-linestring" class="obj-sm02"></label></span>
-								<span><input type="radio" name="rad-facility-drawing" id="rad-facility-drawing-box"
-                                             value="3"><label for="rad-facility-drawing-box"
+								<span><input type="radio" name="rad-trafficAnalysis-drawing"
+                                             id="rad-trafficAnalysis-drawing-linestring" value="2"><label
+                                        for="rad-trafficAnalysis-drawing-linestring" class="obj-sm02"></label></span>
+								<span><input type="radio" name="rad-trafficAnalysis-drawing" id="rad-trafficAnalysis-drawing-box"
+                                             value="3"><label for="rad-trafficAnalysis-drawing-box"
                                                               class="obj-sm03"></label></span>
-								<span><input type="radio" name="rad-facility-drawing" id="rad-facility-drawing-circle"
-                                             value="4"><label for="rad-facility-drawing-circle"
+								<span><input type="radio" name="rad-trafficAnalysis-drawing" id="rad-trafficAnalysis-drawing-circle"
+                                             value="4"><label for="rad-trafficAnalysis-drawing-circle"
                                                               class="obj-sm04"></label></span>
 							</span>
                         </div>
                         <div class="space-search-items">
                         	경계로부터 
                         	<span class="form-group">
-                        		<input type="text" class="form-control align-center area-facility-buffer" placeholder="0" value="0"><sub>m</sub>
+                        		<input type="text" class="form-control align-center area-trafficAnalysis-buffer" placeholder="0" value="0"><sub>m</sub>
                         	</span>
                         	이내 범위
                         </div>
                     </div>
                     <div class="btn-wrap">
                         <div>
-                            <button type="button" class="btn type01 search facility-spatial-search">조회</button>
+                            <button type="button" class="btn type01 search trafficAnalysis-spatial-search">조회</button>
                         </div>
                     </div>
                 </div>
@@ -107,12 +107,8 @@
         </div>
         <!-- //검색영역 -->
         <div class="items data-area">
-            <div class="bbs-top">
+        	<div class="bbs-top">
                 <div class="bbs-list-num">조회결과 : --건</div>
-                <div>
-                    <button type="button" class="btn basic bi-write btn_add opened" 	onclick="insertWtlFirePsView();">등록</button>
-                    <button type="button" class="btn basic bi-excel btn_excel" 	onclick="downloadExcelWtlFirePs();">엑셀저장</button>
-                </div>
             </div>
             <div class="bbs-list-wrap" style="height: 267px;"><!-- pagination 하단 고정을 위해 반드시 필요 -->
                 <div class="bbs-default">
@@ -122,11 +118,11 @@
                     </div>
                 </div>
             </div>
-            <input type="hidden" id="wtlFirePsListPage" 	value="">
+            <input type="hidden" id="tgdBusSttnInfoListPage" 	value="">
         </div>
     </div>
 </div>
-<button type="button" class="manualBtn" title="도움말" onclick="manualTab('상수도시설')"></button>
+<button type="button" class="manualBtn" title="도움말" onclick="manualTab('공간분석')"></button>
 <button type="button" class="popup-close" title="닫기"></button>
 <button type="button" class="popup-reset" title="초기화"></button>
 <button type="button" class="popup-bottom-toggle" title="접기"></button>
@@ -134,24 +130,23 @@
 <script type="text/javascript">
 	//jqeury
 	$(document).ready(function(){
-		//console.log("wtlFirePsListView.jsp");	
 		 
 		//이벤트 리스너 추가
-		dtmap.on('select', onFacilitySelectEventListener);
+		dtmap.on('select', onTrficAnalsSelectEventListener);
 		
-		wtlFirePsInit();	//초기화
+		tgdBusSttnInfoInit();	//초기화
 		 
 		//////////////////
 		//하위메뉴 select box
 		
-		//상수도 관리 메뉴 - 이벤트
+		//버스노선정보 메뉴 - 이벤트
 		var $container = $("#container");
-	    var $target = $container.find('#bottomPopup .facility-select');
+	    var $target = $container.find('#bottomPopup .trafficAnalysis-select');
 		
 		$target.on('change', function() {
 			dtmap.draw.clear();
 			dtmap.draw.setBuffer(0);
-			getWaterSupplyFacility(this.value);
+			getBusRouteInformation(this.value);
 		});
 		
 		///////////
@@ -211,11 +206,11 @@
 			
      	
      	// 공간 검색 조회 버튼
-        $(".facility-spatial-search", "#bottomPopup").on("click", function (e) {
-           	//console.log("공간검색 조회");
+        $(".trafficAnalysis-spatial-search", "#bottomPopup").on("click", function (e) {
+           	console.log("공간검색 조회");
 			
            	const $parent = $(e.target).closest('.search-area');
-            const type = $parent.find('input[name="rad-facility-area"]:checked').val();
+            const type = $parent.find('input[name="rad-trafficAnalysis-area"]:checked').val();
             
             if (type === 'extent') {
             	FACILITY.spaceSearchOption.bbox 	= dtmap.getExtent();
@@ -223,42 +218,42 @@
             	//console.log("모드>>>"+dtmap.mod);
             	if(dtmap.mod == "2D"){
             		if(dtmap.draw.source.getFeatures().length > 0){	//임시로 그려진 형태체크
-    	            	FACILITY.spaceSearchOption.geometry = dtmap.draw.getGeometry();
+            			TRFICANALS.spaceSearchOption.geometry = dtmap.draw.getGeometry();
                 	}else{
                 		alert("영역지정 안되었습니다");
                 		return false;
                 	}
             	}else if(dtmap.mod == "3D"){		
-            		FACILITY.spaceSearchOption.geometry = dtmap.draw.getGeometry();
+            		TRFICANALS.spaceSearchOption.geometry = dtmap.draw.getGeometry();
             	}
             	
             }
            	
-           	selectWtlFirePsList(1);
+           	selectTgdBusSttnInfoList(1);
 
         });
      	
      	
      	// 검색영역지정 변경 (현재화면영역, 사용자정의)
-        $("[name=rad-facility-area]", "#bottomPopup").on("change", function () {
+        $("[name=rad-trafficAnalysis-area]", "#bottomPopup").on("change", function () {
             const node = $(this);
             const value = node.val();
             if (value == "extent") {
-                $(".space-facility-area", "#bottomPopup").hide();
+                $(".space-trafficAnalysis-area", "#bottomPopup").hide();
                 
                 //그리기, 그려진 것 초기화
                 dtmap.draw.dispose();
                 dtmap.draw.clear();
                 
             } else {
-                $(".space-facility-area", "#bottomPopup").show();
-                $("[name=rad-facility-drawing]:first", "#bottomPopup").trigger("click");
+                $(".space-trafficAnalysis-area", "#bottomPopup").show();
+                $("[name=rad-trafficAnalysis-drawing]:first", "#bottomPopup").trigger("click");
             }
         }); 
      	
      	
      	// 사용자 정의 검색 조건
-        $("[name=rad-facility-drawing]", "#bottomPopup").on("click", function () {
+        $("[name=rad-trafficAnalysis-drawing]", "#bottomPopup").on("click", function () {
             const node = $(this);
             const value = node.val();
 
@@ -283,7 +278,7 @@
 		
 
      	//경계로부터 버퍼 영역 지정
-        $(".area-facility-buffer", "#bottomPopup").on("keyup", function (event) {
+        $(".area-trafficAnalysis-buffer", "#bottomPopup").on("keyup", function (event) {
             dtmap.draw.setBuffer(Number(this.value));
         });
 		

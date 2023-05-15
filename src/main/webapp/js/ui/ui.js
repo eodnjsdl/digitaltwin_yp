@@ -499,7 +499,7 @@ window.ui = (function () {
             switch (name) {
                 // 교통분석 > 버스노선정보
                 case "BusRouteInformation" :
-                	getWaterSupplyFacility("wtlFirePs");		//버스노선정보 - 버스정류소
+                	getBusRouteInformation("tgdBusSttnInfo");		//버스노선정보 - 버스정류소
                     break;
                 // 교통분석 >  인구정보
                 case "PopulationInformation" :

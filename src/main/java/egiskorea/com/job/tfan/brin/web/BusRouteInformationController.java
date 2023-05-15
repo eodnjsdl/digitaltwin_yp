@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import egiskorea.com.job.fcmr.wsfc.service.WtlFirePsVO;
-import egiskorea.com.job.tfan.brin.service.TbdBusRouteStationVO;
+import egiskorea.com.job.tfan.brin.service.TgdBusSttnInfoVO;
 
 /**
  * @Description 교통분석/버스노선정보
@@ -27,17 +27,24 @@ import egiskorea.com.job.tfan.brin.service.TbdBusRouteStationVO;
 @RequestMapping("/job/tfan/brin")
 public class BusRouteInformationController {
 
-    //private static final Logger logger = LoggerFactory.getLogger(WtlFirePsController.class);
-	
 	////////
-	//소방시설
+	//버스정류소
 	
 	//목록 화면 호출
-	@RequestMapping(value = "/selectTbdBusRouteStationListView.do")
-    public String selectTbdBusRouteStationListView(
-            @ModelAttribute("tbdBusRouteStation") TbdBusRouteStationVO tbdBusRouteStationVO,
+	@RequestMapping(value = "/selectTgdBusSttnInfoListView.do")
+    public String selectTgdBusSttnInfoListView(
+            @ModelAttribute("tgdBusSttnInfoVO") TgdBusSttnInfoVO tgdBusSttnInfoVO,
             ModelMap model) throws Exception {
-        return "egiskorea/com/job/tfan/brin/brst/tbdBusRouteStationListView";
+        return "egiskorea/com/job/tfan/brin/brst/tgdBusSttnInfoListView";
+    }
+	
+	//상세 화면 조회
+	@RequestMapping(value = "/selectTgdBusSttnInfo.do", method = RequestMethod.POST)
+    public String selectTgdBusSttnInfo(
+    		@ModelAttribute("tgdBusSttnInfoVO") TgdBusSttnInfoVO tgdBusSttnInfoVO, String id,
+    		ModelMap model) throws Exception {
+			model.addAttribute("id", id);
+        return "egiskorea/com/job/tfan/brin/brst/selectTgdBusSttnInfo";
     }
     
 }

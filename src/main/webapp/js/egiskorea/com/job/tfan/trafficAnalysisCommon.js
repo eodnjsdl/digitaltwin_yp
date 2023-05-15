@@ -1,19 +1,17 @@
 /**
- * - 업무 / 시설관리
+ * - 교통분석 / 교통분석
  * 
  * @returns
  */
 
 //jqeury
 $(document).ready(function(){
-	//console.log("facilityCommon.js");
-	//console.log("시설 공통");
 	
-	codeArrayInit();
+	trficAnalsCodeArrayInit();
 });
 
 //전역 변수
-var FACILITY={
+var TRFICANALS={
 	CODEARRAY :	[],				//code 데이블 정리
 	Ax5UiGrid :	null,			//Ax5UiGrid 변수
 	spaceSearchOption:{},		//공간검색 조건 옵션 변수
@@ -23,117 +21,10 @@ var FACILITY={
 //functions
 
 //코드 세팅 : gird 데이터 code 변환 위해
-function codeArrayInit(){
-	//console.log("codeArrayInit()");
-	
-	/*var codeData = [
-		{ code: "SA100", codeNm: "상수맨홀" },
-		{ code: "SA114", codeNm: "배수지" },
-		{ code: "SA117", codeNm: "유량계" },
-        { code: "SA118", codeNm: "급수탑" },
-        { code: "SA119", codeNm: "소화전" },
-        { code: "SB003", codeNm: "하수연결관" },
-        { code: "SA121", codeNm: "수압계" },
-        { code: "SA200", codeNm: "상수제수변" },
-        { code: "SA201", codeNm: "상수역지변" },
-        { code: "SA202", codeNm: "상수이토변" },
-        { code: "SA203", codeNm: "상수배기변" },
-        { code: "SA204", codeNm: "상수감압변" },
-        { code: "SA205", codeNm: "상수안전변" },
-        { code: "SA991", codeNm: "신축관실" },
-        { code: "SB410", codeNm: "환기구" },
-	];*/
-
-	
-	//setCmmCodeDataArray("SA-001", codeData);	//지형지물부호	SA-001 임의로 만든	-> 아래 code로 대체
-	setCmmCodeDataArray("FTR-001");				//지형지물부호  
+function trficAnalsCodeArrayInit(){
 																		
-	setCmmCodeDataArray("YPE001");				//읍면동 코드
-	setCmmCodeDataArray("MNG-001");				//관리기관	
-	
-	//상수도 - 소방시설
-	setCmmCodeDataArray("OGC-048");				//소화전 형식
-	
-	//상수관로 코드
-	setCmmCodeDataArray("OGC-004");				//관용도
-	setCmmCodeDataArray("OGC-003");				//관재질
-	setCmmCodeDataArray("OGC-005");				//접합종류
-	
-	//유량계 코드
-	setCmmCodeDataArray("OGC-141");				//유량계 종류
-	setCmmCodeDataArray("OGC-041");				//유량계 형식
-	
-	//상수맨홀 코드
-	setCmmCodeDataArray("OGC-002");				//맨홀종류
-	setCmmCodeDataArray("OGC-006");				//맨홀형태
-	
-	//수압계
-	setCmmCodeDataArray("OGC-137");				//수압계종류
-	//setCmmCodeDataArray("OGC-041");			//수압계형식
-	
-	//배수지
-	setCmmCodeDataArray("OGC-042");				//관리방법
-	setCmmCodeDataArray("OGC-134");				//배수지제어방법
+	setTrficAnalsCmmCodeDataArray("YPE001");				//읍면동 코드
 
-	//변류시설
-	setCmmCodeDataArray("OGC-031");				//변류형식
-	setCmmCodeDataArray("OGC-007");				//제수변회전방향
-	setCmmCodeDataArray("OGC-008");				//제수변구동방법
-	setCmmCodeDataArray("OGC-001");				//시설물형태
-	setCmmCodeDataArray("OGC-010");				//이상상태
-	setCmmCodeDataArray("OGC-011");				//개폐여부
-	
-	//하수도 - 하수연결관
-	setCmmCodeDataArray("OGC-017");				//하수관용도
-	
-	// 하수도 - 하수처리장
-	setCmmCodeDataArray("OGC-023");				// 개통상태
-	setCmmCodeDataArray("OGC-056");				// 하수처리방식
-	
-	// 하수도 - 하수맨홀
-	setCmmCodeDataArray("OGC-013");				// 하수맨홀용도
-	//setCmmCodeDataArray("OGC-001");			// 시설물형태
-	//setCmmCodeDataArray("OGC-002");			// 맨홀종류
-	setCmmCodeDataArray("OGC-014");				// 뚜껑재질
-	setCmmCodeDataArray("OGC-015");				// 인버트유무
-	setCmmCodeDataArray("OGC-016");				// 사다리설치유무
-	//setCmmCodeDataArray("OGC-010");			// 이상상태
-	
-	// 하수도 - 하수관거
-	//setCmmCodeDataArray("OGC-017");			// 하수관용도
-	//setCmmCodeDataArray("OGC-003");			// 관재질
-	setCmmCodeDataArray("OGC-018");				// 규모
-	//setCmmCodeDataArray("OGC-001");			// 시설물형태
-	//setCmmCodeDataArray("FTR-001");			// 시점맨홀지형지물부호
-	//setCmmCodeDataArray("FTR-001");			// 종점맨홀지형지물부호
-
-	// 하수도 - 하수펌프장
-	//setCmmCodeDataArray("OGC-023");			// 개통상태
-	setCmmCodeDataArray("OGC-055");				// 펌프장용도
-	
-	// 하수도 - 측구
-	setCmmCodeDataArray("OGC-054");				// 촉구구분
-	//setCmmCodeDataArray("OGC-003");			// 관재질
-	
-	// 하수도 - 토구
-	setCmmCodeDataArray("OGC-145");				// 토구용도
-	
-	// 하수도 - 물받이
-	setCmmCodeDataArray("OGC-043");				// 물받이용도
-	//setCmmCodeDataArray("OGC-001");			// 시설물형태
-	setCmmCodeDataArray("OGC-133");				// 물받이뚜껑형태
-	setCmmCodeDataArray("OGC-044");				// 관재질
-	
-	// 하수도 - 환기구
-	//setCmmCodeDataArray("OGC-003");			// 관재질
-	setCmmCodeDataArray("OGC-012");				// 흡출기형식
-	setCmmCodeDataArray("OGC-172");				// 흡출기재질
-	
-	// 체육시설 - 시설유형
-	setCmmCodeDataArray("ALSFCTY");				// 시설유형
-	
-	// 복지시설 - 시설구분
-	setCmmCodeDataArray("FCLTCD");				// 시설구분
 }
 
 ///////////////////////////
@@ -143,8 +34,8 @@ function codeArrayInit(){
 //codeId 		: 조회할 코드 id 
 //selectBoxTag 	: select box 에 option 값 세팅, 없으면 해당 코드의 데이터 json 형태로 리턴
 //selectedValue	: 해당 값이 선택되게 처리
-function getCmmCodeData(codeId, selectBoxTag, selectedValue) {	
-	//console.log("getCmmCodeData(codeId, selectTag)");
+function getTrficAnalsCmmCodeData(codeId, selectBoxTag, selectedValue) {	
+	//console.log("getTrficAnalsCmmCodeData(codeId, selectTag)");
 	
 	//ajax - 전달받은 주소로 GET 방식의 HTTP 요청을 전송함
 	$.get("/com/cmm/selectCmmCodeDetail.do", { codeId: codeId })
@@ -181,13 +72,13 @@ function getCmmCodeData(codeId, selectBoxTag, selectedValue) {
 }
 
 //시설 code 테이블 배열에 저장
-function setCmmCodeDataArray(codeId, targetList){
-	//console.log("setCmmCodeDataArray()");
+function setTrficAnalsCmmCodeDataArray(codeId, targetList){
+	//console.log("setTrficAnalsCmmCodeDataArray()");
 	
 	//기존 에 있는지 확인
-	if(FACILITY.CODEARRAY.length > 0){
-		for(var i=0; i<FACILITY.CODEARRAY.length; i++){
-			if(FACILITY.CODEARRAY[i].codeId == codeId){
+	if(TRFICANALS.CODEARRAY.length > 0){
+		for(var i=0; i<TRFICANALS.CODEARRAY.length; i++){
+			if(TRFICANALS.CODEARRAY[i].codeId == codeId){
 				console.log("이미 있는 코드 입니다.("+codeId+")");
 				return;
 			}
@@ -203,7 +94,7 @@ function setCmmCodeDataArray(codeId, targetList){
     		 };
          });
     	 var listCodeData = {codeId : codeId , value: listCodes};
-    	 FACILITY.CODEARRAY.push(listCodeData);
+    	 TRFICANALS.CODEARRAY.push(listCodeData);
     	 
     	 return;
 	}
@@ -213,8 +104,8 @@ function setCmmCodeDataArray(codeId, targetList){
     .done((response) => {
     	
     	//getCmmCodeData() 함수와 연동해서 사용시 동일 코드 일 때 중복 저장 되는 것 처리 : 둘다 비동기 방식으로 처리 하기 때문
-    	for(var i=0; i<FACILITY.CODEARRAY.length; i++){
-			if(FACILITY.CODEARRAY[i].codeId == codeId){
+    	for(var i=0; i<TRFICANALS.CODEARRAY.length; i++){
+			if(TRFICANALS.CODEARRAY[i].codeId == codeId){
 				console.log("이미 있는 코드 입니다.("+codeId+")");
 				return;
 			}
@@ -228,7 +119,7 @@ function setCmmCodeDataArray(codeId, targetList){
     		 };
         });
     	var codeData = {codeId : codeId , value: codes};
-    	FACILITY.CODEARRAY.push(codeData);
+    	TRFICANALS.CODEARRAY.push(codeData);
     		
     })
     .fail(() => {
@@ -238,11 +129,11 @@ function setCmmCodeDataArray(codeId, targetList){
 }
 
 //코드 배열 에서 해당 코드 값 조회
-function getCmmCodeDataArray(codeId, code){
+function getTrficAnalsCmmCodeDataArray(codeId, code){
 	//console.log("getCmmCodeDataArray()");
-	//console.log(FACILITY.CODEARRAY);
+	//console.log(TRFICANALS.CODEARRAY);
 	
-	var codeArray = FACILITY.CODEARRAY;
+	var codeArray = TRFICANALS.CODEARRAY;
 	
 	if(codeArray && codeArray.length>0){
 		var returnValue = "";
@@ -272,7 +163,7 @@ function getCmmCodeDataArray(codeId, code){
 
 
 //좌표로 주소 조회(reverseGeocoding)
-function getAddressForPoint(geomText, tag){
+function getTrficAnalsAddressForPoint(geomText, tag){
 	//console.log("getAddressForPoint()");
 	//console.log(geomText);
 	//console.log(tag);
@@ -342,12 +233,12 @@ function getAddressForPoint(geomText, tag){
 }
 
 //gird Id 를 통해 geom 데이터 조회
-function getGeomDataForGridId(id){
-	//console.log("getGeomDataForGridId");
+function getTrficAnalsGeomDataForGridId(id){
+	//console.log("getTrficAnalsGeomDataForGridId");
 	//console.log(id);
 
 	//grid 에서 데이터 조회
-	var detailData = getGridDetailData(id);
+	var detailData = getTrficAnalsGridDetailData(id);
 	
 	//조회된 데이터에서 geom 데이터 추출
 	var returnGeomVal = "";
@@ -430,13 +321,13 @@ function getGeomDataForGridId(id){
 }
 
 
-//현재 목록 화면의 gird 상세 정보 조회
-function getGridDetailData(id){
+//현재 목록 화면의 grid 상세 정보 조회
+function getTrficAnalsGridDetailData(id){
 	//console.log("getGridDetailData(id)");
 	
 	var detailData = null;
-	if(FACILITY.Ax5UiGrid){
-		var list =  FACILITY.Ax5UiGrid.list;
+	if(TRFICANALS.Ax5UiGrid){
+		var list =  TRFICANALS.Ax5UiGrid.list;
 		
 		for(var i=0; i<list.length; i++){
 			if(list[i].id == id){
@@ -447,14 +338,14 @@ function getGridDetailData(id){
 		
 		return detailData;
 	}else{
-		alert("현재 gird 목록이 없습니다.");
+		alert("현재 grid 목록이 없습니다.");
 	}
 }
 
 /////////////////////////
 //지도 아이콘(객체) 클릭시 이벤트
-function onFacilitySelectEventListener(e){
-	//console.log("onFacilitySelectEventListener(e)");
+function onTrficAnalsSelectEventListener(e){
+	//console.log("onTrficAnalsSelectEventListener(e)");
 	//console.log(e);
 	if(e){
 		
@@ -480,50 +371,8 @@ function onFacilitySelectEventListener(e){
 			//console.log(idArray);
 			const featureType	= idArray[0];
 			
-			if(featureType == "wtl_fire_ps"){						//상수도시설 - 소방시설
-				selectWtlFirePs(id);
-			}else if(featureType == "wtl_pipe_lm"){					//상수도시설 - 상수관로
-				selectWtlPipeLm(id);
-			}else if(featureType == "wtl_flow_ps"){					//상수도시설 - 유량계
-				selectWtlFlowPs(id);
-			}else if(featureType == "wtl_manh_ps"){					//상수도시설 - 상수맨홀
-				selectWtlManhPs(id);
-			}else if(featureType == "wtl_pipe_ps"){					//상수도시설 - 상수관로심도
-				selectWtlPipePs(id);
-			}else if(featureType == "wtl_prga_ps"){					//상수도시설 - 수압계
-				selectWtlPrgaPs(id);
-			}else if(featureType == "wtl_serv_ps"){					//상수도시설 - 배수지
-				selectWtlServPs(id);
-			}else if(featureType == "wtl_sply_ls"){					//상수도시설 - 급수관로
-				selectWtlSplyLs(id);
-			}else if(featureType == "wtl_valv_ps"){					//상수도시설 - 변류시설
-				selectWtlValvPs(id);
-			}else if(featureType == "swl_conn_ls"){					//하수도시설 - 하수연결관 
-				selectSwlConnLs(id);
-			}else if(featureType == "swl_dept_ps"){					// 하수도시설 - 하수관거심도
-				selectSwlDeptPs(id);
-			}else if(featureType == "swl_dran_ps"){					// 하수도시설 - 하수처리장
-				selectSwlDranPs(id);
-			}else if(featureType == "swl_manh_ps"){					// 하수도시설 - 하수맨홀
-				selectSwlManhPs(id);
-			}else if(featureType == "swl_pipe_as"){					//하수도시설 - 면형하수관거 
-				selectSwlPipeAs(id);
-			}else if(featureType == "swl_pipe_lm"){					// 하수도시설 - 하수관거 
-				selectSwlPipeLm(id);
-			}else if(featureType == "swl_pump_ps"){					// 하수도시설 - 하수펌프장 
-				selectSwlPumpPs(id);
-			}else if(featureType == "swl_side_ls"){					// 하수도시설 - 측구 
-				selectSwlSideLs(id);
-			}else if(featureType == "swl_spew_ps"){					// 하수도시설 - 토구 
-				selectSwlSpewPs(id);
-			}else if(featureType == "swl_spot_ps"){					// 하수도시설 - 물받이 
-				selectSwlSpotPs(id);
-			}else if(featureType == "swl_vent_ps"){					// 하수도시설 - 환기구 
-				selectSwlVentPs(id);
-			}else if(featureType == "tgd_phstrn_fclty"){			// 체육시설
-				selectPhyEduFaciDetail(id);
-			}else if(featureType == "tgd_sclwlfr_fclty_status"){	// 복지시설
-				selectWelFareFaciDetail(id);
+			if(featureType == "tgd_bus_sttn_info"){						//교통분석 - 버스노선정보
+				selectTgdBusSttnInfo(id);
 			}else{
 				alert("지도 객체 선택 오류");
 				return false;
@@ -536,7 +385,7 @@ function onFacilitySelectEventListener(e){
 
 
 //모드 변환시 등록 버튼 처리
-function arrangeAddBtnMode() {
+function arrangeTrficAnalsAddBtnMode() {
 	//console.log("arrangeAddBtnMode()");
 	
 	if(dtmap.mod){
@@ -556,4 +405,3 @@ function arrangeAddBtnMode() {
 	}
 	
 }
-
