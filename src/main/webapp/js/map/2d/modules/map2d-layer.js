@@ -169,7 +169,14 @@ map2d.layer = (function () {
     }
 
     function refresh() {
-
+        layers.forEach((layer) => {
+            const source = layer.getSource();
+            if(source instanceof ol.source.Image){
+                source.updateParams({
+                    _ : Date.now()
+                });
+            }
+        })
     }
 
     let module = {

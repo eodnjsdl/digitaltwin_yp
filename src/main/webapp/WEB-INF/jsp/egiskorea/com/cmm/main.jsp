@@ -12,7 +12,6 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title><spring:message code="site.title"/></title>
-
     <!-- Favicon-->
     <link rel="icon" type="image/x-icon" href="/images/common/favicon.ico"/>
 
@@ -86,7 +85,8 @@
     <!-- DTMAP -->
     <script src="/js/map/dtmap.js"></script>
     <script src="/js/map/dtmap-config.js"></script>
-    <script src="/js/map/dtmap-urls.js"></script>
+
+    <script src="/js/map/dtmap-urls.${domain}.js"></script>
     <script src="/js/map/dtmap-util.js"></script>
 
     <!-- 2D Map js -->
@@ -632,7 +632,8 @@
                             <li><p class="lnb-dep1">교통분석</p>
                                 <ul class="lnb-dep2">
                                     <li>
-                                        <button type="button" id="BusRouteInformation" class="dataPopup" data-popup="bottomPopup">
+                                        <button type="button" id="BusRouteInformation" class="dataPopup"
+                                                data-popup="bottomPopup">
                                             버스노선정보
                                         </button>
                                     </li>
@@ -872,9 +873,7 @@
     // check cookie
     checkCookiePopup();
 
-    dtmap.urls.set({
-        EMAP_KEY: `<spring:message code="Gis.baro2map.key"/>`
-    });
+    dtmap.config.EMAP_KEY = `<spring:message code="Gis.baro2map.key"/>`;
     /**
      * 초기 지도 선택 가능
      * dtmap.init('2D');
