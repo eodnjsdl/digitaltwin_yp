@@ -290,7 +290,9 @@ var M_PRCL_ANLS = (function () {
                 let f = features[i];
                 intersects.push(getIntersects(geom, f));
             }
+
             if (true) {
+                //전체 포함되는 경우만
                 intersects = intersects.filter((f) => {
                     return f.get('ratio') === 100;
                 })
