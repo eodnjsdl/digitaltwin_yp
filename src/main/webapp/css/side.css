@@ -293,6 +293,11 @@
 /*------------------------------------------------------------------------------
  * LNB > 레이어
  *----------------------------------------------------------------------------*/
+
+#side .lnb-layer.lnb-cont {
+	width: 318px;
+}
+
 .lnb-layer.lnb-cont .lnb-resetBtn {
 	/*margin-right: 15px;*/
 }
@@ -301,9 +306,9 @@
 	margin-right: 3px;
 }
 
-.lnb-layer.lnb-cont {
-	width: 250px !important;
-}
+/*.lnb-layer.lnb-cont {*/
+/*	width: 250px !important;*/
+/*}*/
 
 .lnb-layer.lnb-cont .lnb-body .scroll-y {
 	height: calc(100% - 108px);

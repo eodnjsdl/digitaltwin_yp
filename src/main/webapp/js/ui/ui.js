@@ -726,7 +726,7 @@ window.ui = (function () {
                 _area.heigth = "807";
                 break;
             case "layerManagement":
-                _area.left = "360";
+                _area.left = "410";
                 _area.width = "550";
                 _area.heigth = "807";
                 break;

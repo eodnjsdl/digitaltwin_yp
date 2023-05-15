@@ -198,13 +198,13 @@
 
     <div class="tabBoxDepth1">
         <ul>
-            <li data-tab="layerTab2D">
-                <button id="layerTab2D" type="button" class="inner-tab leftPopup layerTab"
+            <li data-tab="layerTab2D" style="width: 50%;">
+                <button id="layerTab2D" type="button" class="inner-tab leftPopup layerTab" style="width: 100%;"
                         data-tab="layerTab2D">2D 레이어
                 </button>
             </li>
-            <li data-tab="layerTab3D" class="on">
-                <button id="layerTab3D" type="button" class="inner-tab leftPopup layerTab"
+            <li data-tab="layerTab3D" class="on" style="width: 50%;">
+                <button id="layerTab3D" type="button" class="inner-tab leftPopup layerTab" style="width: 100%;"
                         data-tab="layerTab3D">3D 레이어
                 </button>
             </li>
