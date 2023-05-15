@@ -108,6 +108,19 @@ map3d.vector = (function () {
         // layer.setHighLight(id);
     }
 
+    function unselect(id) {
+        const obj = getObject3D(id);
+        if (!obj) {
+            return;
+        }
+        const object3d = obj.object;
+        if (!object3d || !object3d.getSelectable()) {
+            return;
+        }
+
+        debugger;
+    }
+
     function getSelected() {
         const features = _source
             .getFeatures()
@@ -372,6 +385,7 @@ map3d.vector = (function () {
         getObject3D: getObject3D,
         getSelected: getSelected,
         select: select,
+        unselect: unselect,
         clear: clear,
         clearSelect: clearSelect,
         dispose: dispose,

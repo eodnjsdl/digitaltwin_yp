@@ -175,6 +175,13 @@ map2d.vector = (function () {
         }
     }
 
+    function unselect(id) {
+        let feature = getFeature(id);
+        if (feature) {
+            feature.set('_selected', false);
+        }
+    }
+
     function getSelected() {
         const features = _source
             .getFeatures()
@@ -539,6 +546,7 @@ map2d.vector = (function () {
         readWKT: readWKT,
         readGeoJson: readGeoJson,
         select: select,
+        unselect: unselect,
         writeGeoJson: writeGeoJson,
         removeFeature: removeFeature,
         removeFeatureById: removeFeatureById,

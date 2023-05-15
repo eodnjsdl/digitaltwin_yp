@@ -239,19 +239,32 @@ var M_PRCL_ANLS = (function () {
                 }
             });
         });
+        $('.result-list', M_PRCL_ANLS.selector).on('click', 'tr', function (e) {
+            const fid = $(this).data('fid');
 
+            dtmap.vector.select(fid, {
+                move: true
+            })
+        });
         $('.result-list', M_PRCL_ANLS.selector).on('mouseover', 'tr', function (e) {
             const fid = $(this).data('fid');
+
             dtmap.vector.select(fid, {
                 move: false
             })
         });
+
+        // $('.result-list', M_PRCL_ANLS.selector).on('mouseleave', 'tr', function (e) {
+        //     const fid = $(this).data('fid');
+        //
+        //     dtmap.vector.unselect(fid)
+        // });
         //dtmap 그리기이벤트
         dtmap.on('drawend', onDrawEnd)
     }
 
     function onDrawEnd(e) {
-        const type = Number($("[name=download-search-drawing]", M_PRCL_ANLS.selector).val());
+        const type = Number($("[name=download-search-drawing]:checked", M_PRCL_ANLS.selector).val());
         if (type === 0 || type === 1) {
             const buffer = Number($('.area-search-buffer', M_PRCL_ANLS.selector).val());
             if (buffer === 0) {
@@ -276,6 +289,11 @@ var M_PRCL_ANLS = (function () {
             for (let i = 0; i < features.length; i++) {
                 let f = features[i];
                 intersects.push(getIntersects(geom, f));
+            }
+            if (true) {
+                intersects = intersects.filter((f) => {
+                    return f.get('ratio') === 100;
+                })
             }
 
             dtmap.vector.addFeatures(features);
@@ -322,7 +340,7 @@ var M_PRCL_ANLS = (function () {
                 <td>${f.get('jibun')}</td>
                 <td>${f.get('oriArea').toFixed(2)}</td>
                 <td>${f.get('area').toFixed(2)}</td>
-                <td>${f.get('ratio').toFixed(0)}</td>
+                <td>${f.get('ratio').toFixed(1)}</td>
             </tr>`
             $div.append(html);
 
