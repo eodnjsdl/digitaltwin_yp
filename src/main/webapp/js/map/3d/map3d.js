@@ -31,7 +31,7 @@ window.map3d = (function () {
             //XDWorld 시작
             Module.initialize({
                 container: _container,
-                // defaultKey: dtmap.urls.EMAP_KEY
+                // defaultKey: dtmap.config.EMAP_KEY
             });
             Module.XDSetMouseState(Module.MML_SELECT_POINT);
 
@@ -430,9 +430,9 @@ window.map3d = (function () {
     function setBaseLayer(name) {
         let url;
         if (name === 'emap') {
-            url = dtmap.urls.emapBase + '?apikey=' + dtmap.urls.EMAP_KEY + '&layer=korean_map&style=korean&tilematrixset=EPSG%3A5179&Service=WMTS&Request=GetTile&Version=1.0.0&Format=image%2Fpng&TileMatrix=L{02z}&TileCol={x}&TileRow={y}'
+            url = dtmap.urls.emapBase + '?apikey=' + dtmap.config.EMAP_KEY + '&layer=korean_map&style=korean&tilematrixset=EPSG%3A5179&Service=WMTS&Request=GetTile&Version=1.0.0&Format=image%2Fpng&TileMatrix=L{02z}&TileCol={x}&TileRow={y}'
         } else if (name === 'air') {
-            // url = dtmap.urls.emapAirProxy + '?URL=' + dtmap.urls.emapAir + '%3Fapikey=' + dtmap.urls.EMAP_KEY + '%26layer=AIRPHOTO%26style=_null%26tilematrixset=NGIS_AIR%26Service=WMTS%26Request=GetTile%26Version=1.0.0%26Format=image%252Fjpg%26TileMatrix={z}%26TileCol={x}%26TileRow={y}'
+            // url = dtmap.urls.emapAirProxy + '?URL=' + dtmap.urls.emapAir + '%3Fapikey=' + dtmap.config.EMAP_KEY + '%26layer=AIRPHOTO%26style=_null%26tilematrixset=NGIS_AIR%26Service=WMTS%26Request=GetTile%26Version=1.0.0%26Format=image%252Fjpg%26TileMatrix={z}%26TileCol={x}%26TileRow={y}'
             return Module.WMTS().clear();
         }
 
