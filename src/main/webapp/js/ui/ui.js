@@ -338,7 +338,6 @@ window.ui = (function () {
                 //메뉴 선택시 바로 실행되는 메뉴 
                 switch (menu) {
                     case "lnb-search" :
-                        //TODO 검색 메뉴
                         aj_search();
                         break;
                     case "lnb-layer" :
@@ -346,7 +345,6 @@ window.ui = (function () {
                         dtmap.mod === '2D' ? aj_selectLayerList("left") : aj_selectLayerList("top");
                         break;
                     case "lnb-theme" :
-                        //TODO 주제도 메뉴
                         aj_selectThematicMapList();
                         break;
                     //국토조사

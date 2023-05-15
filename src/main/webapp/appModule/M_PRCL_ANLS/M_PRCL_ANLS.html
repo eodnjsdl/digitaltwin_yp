@@ -62,6 +62,19 @@
                                                                             value="0"> <sub>m</sub></span> 이내 범위
                                 </td>
                             </tr>
+
+                            <tr class="tr_toggle tr_area">
+                                <th scope="row">포함방식</th>
+                                <td>
+                                    <span class="form-radio text group">
+                                        <span><input type="radio" name="parcel-area-type" id="parcel-area-part"
+                                                     value="part" checked="checked"><label for="parcel-area-part">일부포함</label></span>
+                                        <span><input type="radio" name="parcel-area-type" id="parcel-area-all"
+                                                     value="all"><label for="parcel-area-all">전체포함</label></span>
+                                    </span>
+                                </td>
+                            </tr>
+
                             <tr class="tr_toggle tr_facility">
                                 <th scope="row" rowspan="2">검색영역지정</th>
                                 <td>
@@ -86,6 +99,20 @@
                                                                             value="0"> <sub>m</sub></span> 이내 범위
                                 </td>
                             </tr>
+
+                            <tr class="tr_toggle tr_facility">
+                                <th scope="row">포함방식</th>
+                                <td>
+                                    <span class="form-radio text group">
+                                        <span><input type="radio" name="parcel-facility-type" id="parcel-facility-part"
+                                                     value="part" checked="checked"><label for="parcel-facility-part">일부포함</label></span>
+                                        <span><input type="radio" name="parcel-facility-type" id="parcel-facility-all"
+                                                     value="all"><label for="parcel-facility-all">전체포함</label></span>
+                                    </span>
+                                </td>
+                            </tr>
+
+
                             </tbody>
                         </table>
                     </div>
@@ -98,12 +125,11 @@
                 </div>
             </div>
         </div>
-        <div class="bbs-list-wrap" style="height: 545px;"><!-- pagination 하단 고정을 위해 반드시 필요 -->
+        <div class="bbs-list-wrap" style="height: 545px; display: none;"><!-- pagination 하단 고정을 위해 반드시 필요 -->
             <div class="bbs-default">
                 <div class="bbs-list-head">
                     <table class="bbs-list">
                         <colgroup>
-
                             <col style="width: 20%;">
                             <col style="width: 20%;">
                             <col style="width: 20%;">
@@ -111,9 +137,6 @@
                         </colgroup>
                         <thead>
                         <tr>
-                            <!-- <th scope="col">
-                                <span class="form-checkbox"><span><input type="checkbox" name="" id="chk-all"><label for="chk-all"></label></span></span>
-                            </th> -->
                             <th scope="col">법정동</th>
                             <th scope="col">지적면적</th>
                             <th scope="col">편입면적</th>
@@ -127,10 +150,6 @@
                          style="max-height: none;" tabindex="0">
                         <div id="mCSB_14_container" class="mCSB_container"
                              style="position: relative; top: 0px; left: 0px;" dir="ltr">
-                            <div class="guid-box" style="text-align: center; font-size: 18px;">
-                                <img style="width: 70px;" src="/images/etc/icon_guide.png" alt="가이드이미지">
-                                검색영역을 지정하세요.
-                            </div>
                             <table class="bbs-list">
                                 <colgroup>
                                     <col style="width: 20%;">
@@ -162,6 +181,14 @@
 
             <!-- <div class="btn-wrap"><div><button type="button" class="btn basic bi-delete2">선택삭제</button></div></div> -->
         </div>
+
+
+        <div class="guid-box" style="text-align: center; font-size: 18px; display: block;">
+            <img style="width: 70px;" src="/images/etc/icon_guide.png" alt="가이드이미지">
+            검색영역을 지정하세요.
+        </div>
+
+
     </div>
 
 

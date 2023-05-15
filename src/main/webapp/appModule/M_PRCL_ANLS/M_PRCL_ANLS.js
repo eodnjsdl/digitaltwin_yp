@@ -111,6 +111,8 @@ var M_PRCL_ANLS = (function () {
         $("[name=download-type]:first", M_PRCL_ANLS.selector).trigger("click");
         $("[name=download-feature-type-all]", M_PRCL_ANLS.selector).prop("checked", false);
         $("[name=download-feature-type]", M_PRCL_ANLS.selector).prop("checked", false);
+        $(".bbs-list-wrap").hide();
+        $(".guid-box").show();
     }
 
     /**
@@ -118,18 +120,31 @@ var M_PRCL_ANLS = (function () {
      */
     function bindEvents() {
 
-
         // const that = this;
         // 검색 기준 변경
         $(".tabBoxDepth1 ul li button", M_PRCL_ANLS.selector).on("click", function () {
             dtmap.clear();
             dtmap.off('select');
             var parent = $(this).parent();
+            const id = parent.attr("data-id");
+            const mod = dtmap.mod;
+            if (id === "tr_facility" && mod === "3D") {
+                toastr.warning("2D지도에서만 사용 가능합니다.");
+                return;
+            }
             parent.addClass("on").siblings().removeClass("on");
             $("." + parent.data("tab")).addClass("on").siblings().removeClass("on");
-            const id = parent.attr("data-id");
             $(".data-write tbody tr.tr_toggle", M_PRCL_ANLS.selector).hide();
             $(`.data-write tbody tr.${id}`, M_PRCL_ANLS.selector).show();
+
+
+
+            const $div = $(M_PRCL_ANLS.selector).find('.result-list');
+            $div.empty();
+            $(".bbs-list-wrap").hide();
+            $(".guid-box").show();
+
+
             // if (id === "tr_area") {
             //     $("[name=download-search-area]:checked", M_PRCL_ANLS.selector).trigger(
             //         "change"
@@ -291,7 +306,12 @@ var M_PRCL_ANLS = (function () {
                 intersects.push(getIntersects(geom, f));
             }
 
-            if (true) {
+            let _name;
+            let onTarget = $("#parcelPopup").find(".on").data("id");
+            onTarget === "tr_area" ? _name = "parcel-area-type" : _name = "parcel-facility-type";
+            let b = $("[name="+_name+"]:checked").val() === "all" ? true : false;
+
+            if (b) {
                 //전체 포함되는 경우만
                 intersects = intersects.filter((f) => {
                     return f.get('ratio') === 100;
@@ -352,7 +372,8 @@ var M_PRCL_ANLS = (function () {
                 <td>${f.get('ratio').toFixed(1)}</td>
             </tr>`
             $div.append(html);
-
+            $(".bbs-list-wrap").show();
+            $(".guid-box").hide();
 
         }
 
