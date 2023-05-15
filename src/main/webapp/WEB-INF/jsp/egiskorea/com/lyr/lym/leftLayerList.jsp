@@ -2,7 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
-<div class="lnb-header"><h2 class="tit">레이어</h2></div>
+<div class="lnb-header"><h2 class="tit">2D 레이어</h2></div>
 <div class="lnb-body">
     <div class="srch-box marB5">
         <form action="">
@@ -22,6 +22,21 @@
                 data-popup="left-layer-mng">레이어관리
         </button>
     </div>
+    <div class="tabBoxDepth1">
+        <ul>
+            <li data-tab="layerTab2D" class="on">
+                <button id="layerTab2D" type="button" class="inner-tab leftPopup layerTab"
+                        data-tab="layerTab2D">2D 레이어
+                </button>
+            </li>
+            <li data-tab="layerTab3D">
+                <button id="layerTab3D" type="button" class="inner-tab leftPopup layerTab"
+                        data-tab="layerTab3D">3D 레이어
+                </button>
+            </li>
+        </ul>
+    </div>
+
 
     <div class="scroll-y">
         <ul class="layer-list">
@@ -199,7 +214,7 @@
                 let only3d = id.split('_')[3];
 
                 if (only3d && dtmap.mod !== '3D') {
-                    console.warn('3D지도에서만 사용 가능합니다.');
+                    console.warn("3D지도에서만 사용 가능합니다.");
                     toastr.warning("3D지도에서만 사용 가능합니다.");
                 }
                 const findLayer = store.facility

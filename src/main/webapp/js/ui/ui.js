@@ -11,6 +11,8 @@ window.ui = (function () {
         _leftMenuEvent();
         //좌측 메뉴 >> 공간정보
         _spaceMenuEvent();
+        //좌측 메뉴 >> 레이어 Tab(2D/3D)
+        _layerTabEvent();
         //좌측 메뉴 >> 공간정보 활용 >> 사업공유관리 
         _spaceTabEvent();
         //좌측 메뉴 >> 시설관리 
@@ -316,7 +318,7 @@ window.ui = (function () {
                         break;
                     case "lnb-layer" :
                         $leftSide.find(".lnb-layer input[name='searchKeyword']").val("");
-                        aj_selectLayerList("left");
+                        dtmap.mod === '2D' ? aj_selectLayerList("left") : aj_selectLayerList("top");
                         break;
                     case "lnb-theme" :
                         //TODO 주제도 메뉴
@@ -446,6 +448,34 @@ window.ui = (function () {
                 case "constructionInfo02"            :
                     break;
             }
+        });
+    }
+
+    //좌측 메뉴 >> 레이어 >> Tab (2D / 3D)
+    function _layerTabEvent() {
+        $(".lnb-layer").on("click", ".layerTab", function () {
+            let $leftSide = $('#side');
+            var parent = $(this).parent();
+            var tabName = $(this).data("tab");
+            //set event
+            switch (tabName) {
+                // LeftMenu > 레이어 > Tab (2D)
+                case "layerTab2D" :
+                    $leftSide.find(".lnb-layer input[name='searchKeyword']").val("");
+                    aj_selectLayerList("left");
+                    break;
+                // LeftMenu > 레이어 > Tab (3D)
+                case "layerTab3D"        :
+                    if(dtmap.mod !== '3D') {
+                        toastr.warning("3D지도에서만 사용 가능합니다.");
+                        return;
+                    }
+                    $leftSide.find(".lnb-layer input[name='searchKeyword']").val("");
+                    aj_selectLayerList("top");
+                    break;
+            }
+            parent.addClass("on").siblings().removeClass("on");
+            $("." + parent.data("tab")).addClass("on").siblings().removeClass("on");
         });
     }
 
@@ -1210,49 +1240,6 @@ function clearMap() {
     dtmap.vector.clear();
 
     $(".lnb-dep2").find(".on").removeClass("on");
-}
-
-//팝업 오픈 실행 함수 
-// 개인별 레이어 목록 호출
-function aj_selectLayerList(mode, reset = false) {
-    var searchKeyword = mode === "left"
-        ? $(".lnb-layer input[name='searchKeyword']").val()
-        : $("#rightPopup input[name='searchKeyword']").val();
-
-    ui.loadingBar("show");
-    $.ajax({
-        type: "POST",
-        url: "/lyr/lym/selectLayerList.do",
-        data: {
-            "searchKeyword": searchKeyword,
-            "mode": mode
-        },
-        dataType: "html",
-        async: false,
-        success: function (returnData, status) {
-            if (status === "success") {
-                if (mode === "left") { // 좌측 메뉴 선택 시
-                    $(".lnb-layer").html(returnData);
-                    $(".lnb-layer input[name='searchKeyword']").val(searchKeyword);
-                } else if (mode === "top") { // 상단 메뉴 선택 시
-                    $("#rightPopup").html(returnData);
-                    $("#rightPopup input[name='searchKeyword']").val(searchKeyword);
-                }
-
-                if (!$(".lnb-layer .scroll-y").hasClass("mCustomScrollbar")) {
-                    $(".scroll-y").mCustomScrollbar({
-                        scrollbarPosition: "outside",
-                        mouseWheel: {scrollAmount: 250}
-                    });
-                }
-            } else {
-                toastr.error("관리자에게 문의 바랍니다.", "정보를 불러오지 못했습니다.");
-                return;
-            }
-        }, complete: function () {
-            ui.loadingBar("hide");
-        }
-    });
 }
 
 //사용자 정보 조회
