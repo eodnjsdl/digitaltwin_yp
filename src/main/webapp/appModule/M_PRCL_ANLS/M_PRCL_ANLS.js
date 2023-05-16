@@ -159,6 +159,9 @@ var M_PRCL_ANLS = (function () {
                     type = 'Box';
                     break;
                 case 4:
+                    type = 'Polygon';
+                    break;
+                case 5:
                     type = 'Circle';
                     break;
             }
