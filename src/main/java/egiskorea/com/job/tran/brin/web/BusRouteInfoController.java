@@ -1,13 +1,19 @@
 package egiskorea.com.job.tran.brin.web;
 
+import java.util.Map;
+
+import javax.annotation.Resource;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import egiskorea.com.job.tran.brin.service.BusRouteInfoService;
 import egiskorea.com.job.tran.brin.service.BusRouteVO;
 import egiskorea.com.job.tran.brin.service.BusSttnVO;
+import egiskorea.com.job.tran.brin.service.ThrghSttnVO;
 
 /**
  * @Description 교통분석/버스노선정보
@@ -29,6 +35,8 @@ public class BusRouteInfoController {
 
 	//////////
 	// 버스노선
+	@Resource(name = "busRouteInfoService")
+	private BusRouteInfoService busRouteInfoService;
 	
 	// 버스노선 목록 조회
 	@RequestMapping(value = "/selectBusRouteListView.do")
@@ -44,10 +52,16 @@ public class BusRouteInfoController {
 	public String selectBusRoute(
 			@ModelAttribute("busRouteVO") BusRouteVO busRouteVO, String route_id,
 			ModelMap model) throws Exception {
-		// 경유 정류소 목록: tbd_bus_route_station_list
+		// 경유 정류소 조회
+		ThrghSttnVO thrghSttnVO = new ThrghSttnVO();
+		thrghSttnVO.setRoute_id(route_id);
+		
+		Map<String, Object> map = busRouteInfoService.selectThrghSttnList(thrghSttnVO);
+		model.addAttribute("thrghSttnList", map.get("thrghSttnList"));
+		
 		return "egiskorea/com/job/tran/brin/buro/busRouteDetail";
 	}
-		
+	
 	//////////
 	// 버스정류소
 	

@@ -12,6 +12,7 @@ $(document).ready(function(){
 // 버스노선정보 분기
 function getBusRouteInformation(info) {
 	//console.log("getBusRouteInformation(info)");
+	dtmap.off('select');
 	
 	if (info) {
 		if (info == "busRoute") {			// 버스노선
@@ -53,11 +54,12 @@ function onBusSelectEventListener(e) {
 			var idArray = id.split(".");
 			//console.log(idArray);
 			const featureType	= idArray[0];
-			
 			if(featureType == "tgd_bus_route_info"){			// 버스 노선
 				selectBusRoute(id);
-			}else if(featureType == "tgd_bus_sttn_info"){		// 버스 정류소
-				selectBusSttn(id);
+			}else if(featureType == "tgd_bus_route_info"){			// 버스 노선
+				selectBusRoute(id);
+			}else if(featureType == "ol_uid"){		// 버스 정류소
+				return false;
 			}else{
 				alert("지도 객체 선택 오류");
 				return false;

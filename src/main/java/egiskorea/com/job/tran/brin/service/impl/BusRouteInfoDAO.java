@@ -1,8 +1,11 @@
 package egiskorea.com.job.tran.brin.service.impl;
 
+import java.util.List;
+
 import org.springframework.stereotype.Repository;
 
 import egiskorea.com.cmm.service.impl.ComAbstractDAO;
+import egiskorea.com.job.tran.brin.service.ThrghSttnVO;
 
 /**
  * @Description 교통분석/버스노선정보 DAO
@@ -21,4 +24,13 @@ import egiskorea.com.cmm.service.impl.ComAbstractDAO;
 @Repository("busRouteInfoDAO")
 public class BusRouteInfoDAO extends ComAbstractDAO {
 	
+	/**
+	 * 경유 정류소 조회
+	 * @param thrghSttnVO
+	 * @return Exception
+	 */
+	public List<?> selectThrghSttnList(ThrghSttnVO thrghSttnVO) {
+		// TODO Auto-generated method stub
+		return selectList("busRouteInfoDAO.selectThrghSttnList", thrghSttnVO);
+	}
 }

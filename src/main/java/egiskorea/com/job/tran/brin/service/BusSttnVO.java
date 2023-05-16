@@ -5,6 +5,4 @@ import java.io.Serializable;
 @SuppressWarnings("serial")
 public class BusSttnVO implements Serializable {
 
-	/** GID */
-	private int gid;
 }

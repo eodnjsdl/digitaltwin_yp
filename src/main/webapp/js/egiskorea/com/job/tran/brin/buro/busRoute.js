@@ -207,7 +207,7 @@ function selectBusRouteList(page, geom) {
 		
 		const format = new ol.format.GeoJSON();
         features = format.readFeatures(data);
-		
+        
 		var total = data.totalFeatures;
 		var totPge = Math.ceil(total / 10);
 		
@@ -235,6 +235,7 @@ function selectBusRouteList(page, geom) {
 			let properties = feature.getProperties();
 			let route_ty = properties['route_ty'];
 			let route_nm_color;
+			
 			// 색상 확인 필요
 			if (route_ty == 11) {				// 직행좌석형시내버스
 				route_nm_color = '#e60012';
@@ -249,11 +250,11 @@ function selectBusRouteList(page, geom) {
 			} else if (route_ty == 16) {		// 경기순환버스
 				route_nm_color = '#e60012';
 			} else if (route_ty == 21) {		// 직행좌석형농어촌버스
-				route_nm_color = '';
+				route_nm_color = 'rgb(124,252,0)';
 			} else if (route_ty == 22) {		// 좌석형농어촌버스
-				route_nm_color = '';
+				route_nm_color = 'rgb(124,252,0)';
 			} else if (route_ty == 23) {		// 일반형농어촌버스
-				route_nm_color = '';
+				route_nm_color = 'rgb(124,252,0)';
 			} else if (route_ty == 30) {		// 마을버스
 				route_nm_color = '#ffc600';
 			} else if (route_ty == 41) {		// 고속형시외버스
@@ -279,7 +280,7 @@ function selectBusRouteList(page, geom) {
 				},
 				radius: 10,
 				label: {
-					column: 'route_nm',
+					column: 'route_nm'
 				}
 			}
         });
@@ -300,9 +301,9 @@ function selectBusRoute(id) {
 		return false;
 	}
 	
-	const gid = idArray[1];
-	if (gid) {
-		filters.push("route_id" + " = " + gid); 
+	const rid = idArray[1];
+	if (rid) {
+		filters.push("route_id" + " = " + rid); 
 	} else {
 		alert("상세보기 오류");
 		return false;
@@ -334,6 +335,8 @@ function selectBusRoute(id) {
 function selectBusRouteDetail(detailData) {
 	//console.log('selectBusRouteDetail(detailData)');
 	//console.log(detailData);
+	
+	dtmap.vector.removeFeatureById('ol_uid');	// 정류소 지우기
 	
 	if(!detailData && detailData == null){
 		alert("버스 노선 상세보기 오류");

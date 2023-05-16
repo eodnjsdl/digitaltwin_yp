@@ -5,9 +5,6 @@ import java.io.Serializable;
 @SuppressWarnings("serial")
 public class BusRouteVO implements Serializable {
 
-	/** GID */
-	//private int gid;
-	
 	/** 노선아이디 */
 	private String route_id;
 	/** 노선번호 */

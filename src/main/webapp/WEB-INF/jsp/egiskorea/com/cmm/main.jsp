@@ -212,7 +212,6 @@
     
     <!-- [교통분석]  -->
     <script src="/js/egiskorea/com/job/tran/brin/busRouteInfo.js"></script>		<!-- {버스노선정보  공통} -->
-    <script src="/js/egiskorea/com/job/tran/brin/buro/busRoute.js"></script>		<!-- {버스노선정보  공통} -->
     <!-- ////////////////////////////  -->
 
     <!-- 분석 -->
