@@ -166,6 +166,9 @@ class DataDownlad {
                     type = 'Box';
                     break;
                 case 4:
+                    type = 'Polygon';
+                    break;
+                case 5:
                     type = 'Circle';
                     break;
             }
