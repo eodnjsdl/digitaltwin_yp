@@ -439,7 +439,7 @@ var M_AI_IMAGE = {
 			if(result.response.length > 0) {
 //			    console.log("result");
 //			    console.log(result.response);
-			    console.log('find\ntotal : ' + result.response.length);
+//			    console.log('find\ntotal : ' + result.response.length);
 			    var detections;
 			    var screenCoord = [];
 			    var identifier = [];
@@ -467,7 +467,7 @@ var M_AI_IMAGE = {
 			    }
 			}
 		// 체크박스 전체 글자 사라짐 방지;
-			console.log('result\ntotal : ' + M_AI_IMAGE.global.count);
+//		console.log('result\ntotal : ' + M_AI_IMAGE.global.count);
 		$('input[name="AiCheckValue"] label').innerHTML = '전체';
 		ui.loadingBar("hide");
                 }
