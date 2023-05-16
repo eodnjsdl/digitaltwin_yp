@@ -210,6 +210,10 @@
     <!-- [시설예약관리]  -->
 
     <!-- [[업무 /시설관리 재작업]] end -->
+    
+    <!-- [교통분석]  -->
+    <script src="/js/egiskorea/com/job/tran/brin/busRouteInfo.js"></script>		<!-- {버스노선정보  공통} -->
+    <!-- ////////////////////////////  -->
 
     <!-- 분석 -->
     <script src="/js/egiskorea/com/anls/anls.js"></script>
@@ -640,7 +644,7 @@
                                     </li>
                                     <li>
                                         <button type="button" id="PopulationInformation" class="dataPopup"
-                                                data-popup="">인구정보
+                                                data-popup="leftPopup">인구정보
                                         </button>
                                     </li>
                                     <li>
