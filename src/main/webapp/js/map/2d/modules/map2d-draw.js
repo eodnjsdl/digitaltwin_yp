@@ -463,6 +463,18 @@ map2d.draw = (function () {
         _source.addFeature(feature);
     }
 
+    function getZIndex() {
+        if (_layer) {
+            return _layer.getZIndex();
+        }
+    }
+
+    function setZIndex(index) {
+        if (_layer) {
+            _layer.setZIndex(index)
+        }
+    }
+
     let module = {
         init: init,
         active: active,
@@ -478,6 +490,8 @@ map2d.draw = (function () {
         clearSnapLayer: clearSnapLayer,
         addFeatures: addFeatures,
         addGeometry: addGeometry,
+        getZIndex: getZIndex,
+        setZIndex: setZIndex,
         clear: clear
     }
 
