@@ -117,8 +117,6 @@ map3d.vector = (function () {
         if (!object3d || !object3d.getSelectable()) {
             return;
         }
-
-        debugger;
     }
 
     function getSelected() {
