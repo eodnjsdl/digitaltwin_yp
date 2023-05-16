@@ -19,7 +19,8 @@ function getBusRouteInformation(info) {
 			selectBusRouteListView();
 			return;
 		} else if (info == "busSttn") {		// 버스정류소
-			selectBusSttnListView();
+			toastr.error("버스정류소 작업중");
+			//selectBusSttnListView();
 			return;
 		} else {
 			alert("잘못된 호출");
