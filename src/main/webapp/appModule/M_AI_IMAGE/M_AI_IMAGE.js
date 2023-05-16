@@ -437,8 +437,8 @@ var M_AI_IMAGE = {
 				return false;
 			}
 			if(result.response.length > 0) {
-//			    console.log("result");
-//			    console.log(result.response);
+			    console.log("result");
+			    console.log(result.response);
 			    console.log('find\ntotal : ' + result.response.length);
 			    var detections;
 			    var screenCoord = [];
