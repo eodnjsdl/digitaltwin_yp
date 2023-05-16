@@ -105,6 +105,7 @@ dtmap.draw.setBuffer(0); //해제
   - `stroke`옵션의 `startArrow`, `endArrow` 옵션의 경우, 도형이 **LineString**인 경우에만 적용됨
   - `label` 옵션의 `text`, `column` 옵션은 둘중 한개만 선택하여 적용
   - `offsetHeight` : 3D POI의 수직막대 길이 설정
+  - 선택된 피쳐의 경우 내부적으로 `zIndex`를 `9999`로 설정함
 ```javascript
 const options = {
     //채움색
@@ -154,6 +155,7 @@ const options = {
       scale: 1, //스케일값
       opacity: 1 
     },
+    zIndex : 1, //zIndex 숫자값 높을수록 상위에 표출
     //3D POI 수직 막대길이
     offsetHeight : 10
 }

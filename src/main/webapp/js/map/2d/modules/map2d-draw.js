@@ -22,7 +22,7 @@ map2d.draw = (function () {
         _layer = new ol.layer.Vector({
             title: '_draw',
             source: _source,
-            zIndex: 99,
+            zIndex: 999,
             style: map2d.vector.style,
             isDefault: true
         });
