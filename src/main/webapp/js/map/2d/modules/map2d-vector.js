@@ -154,7 +154,10 @@ map2d.vector = (function () {
      * @param id 피쳐ID
      * @param [multi=false] 다중선택
      */
-    function select(id, multi) {
+    function select(id, options) {
+        options = options || {};
+        const multi = options.multi === undefined ? false : options.multi;
+        const move = options.move === undefined ? true : options.move;
         if (!multi) {
             clearSelect();
         }
@@ -162,11 +165,20 @@ map2d.vector = (function () {
 
         let feature = getFeature(id);
         if (feature) {
-            // const center = feature.getGeometry().getCoordinates();
-            const extent = feature.getGeometry().getExtent();
-            const center = [(extent[0] + extent[2]) / 2, (extent[1] + extent[3]) / 2];
             feature.set('_selected', true);
-            map2d.view.setCenter(center);
+            if (move) {
+                // const center = feature.getGeometry().getCoordinates();
+                const extent = feature.getGeometry().getExtent();
+                const center = [(extent[0] + extent[2]) / 2, (extent[1] + extent[3]) / 2];
+                map2d.view.setCenter(center);
+            }
+        }
+    }
+
+    function unselect(id) {
+        let feature = getFeature(id);
+        if (feature) {
+            feature.set('_selected', false);
         }
     }
 
@@ -534,6 +546,7 @@ map2d.vector = (function () {
         readWKT: readWKT,
         readGeoJson: readGeoJson,
         select: select,
+        unselect: unselect,
         writeGeoJson: writeGeoJson,
         removeFeature: removeFeature,
         removeFeatureById: removeFeatureById,

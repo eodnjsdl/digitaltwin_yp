@@ -79,7 +79,10 @@ map3d.vector = (function () {
         Module.getOption().selectColor = new Module.JSColor(255, 79, 245, 255);
     }
 
-    function select(id, multi) {
+    function select(id, options) {
+        options = options || {};
+        const multi = options.multi === undefined ? false : options.multi;
+        const move = options.move === undefined ? true : options.move;
         if (!multi) {
             clearSelect();
         }
@@ -93,12 +96,29 @@ map3d.vector = (function () {
         }
 
         Module.getMap().setSelectObject(object3d);
-        map3d.setCenter([object3d.position.Longitude, object3d.position.Latitude]);
+
+        if (move) {
+            map3d.setCenter([object3d.position.Longitude, object3d.position.Latitude]);
+        }
         let feature = _source.getFeatureById(id);
         if (feature) {
             feature.set('_selected', true);
+            Module.XDRenderData();
         }
         // layer.setHighLight(id);
+    }
+
+    function unselect(id) {
+        const obj = getObject3D(id);
+        if (!obj) {
+            return;
+        }
+        const object3d = obj.object;
+        if (!object3d || !object3d.getSelectable()) {
+            return;
+        }
+
+        debugger;
     }
 
     function getSelected() {
@@ -365,6 +385,7 @@ map3d.vector = (function () {
         getObject3D: getObject3D,
         getSelected: getSelected,
         select: select,
+        unselect: unselect,
         clear: clear,
         clearSelect: clearSelect,
         dispose: dispose,
