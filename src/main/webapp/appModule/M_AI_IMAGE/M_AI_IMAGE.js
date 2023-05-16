@@ -446,6 +446,14 @@ var M_AI_IMAGE = {
 			    var totalCount = 0;
 			    for (var j = 0; j < result.response.length; j++) {
 				detections = result.response[j].detections.split(', ');
+				if (detections.length == 3) {
+				    console.log(detections);
+				    detections.push(detections[0]);
+				}
+				if (detections.length <= 2) {
+				    console.log(detections);
+				    break;
+				}
 				identifier.push({class : result.response[j].class, classId : result.response[j].classid, confidence : result.response[j].confidence});
 				screenCoord.push(detections);
 			    }
