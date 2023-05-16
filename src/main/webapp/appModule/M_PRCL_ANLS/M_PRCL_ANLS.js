@@ -297,10 +297,15 @@ var M_PRCL_ANLS = (function () {
     }
 
     function compute(geom) {
+        const maxCnt = 5000;
         dtmap.wfsGetFeature({
             typeNames: 'digitaltwin:lsmd_cont_ldreg_41830',
             geometry: geom
         }).then(function (data) {
+            if(data.features.length > maxCnt) {
+                toastr.warning(maxCnt + "건 이하로 다시 선택해 주세요.", "편입필지 분석 갯수 초과");
+                return;
+            }
             dtmap.draw.clear();
             dtmap.vector.clear();
             let features = dtmap.util.readGeoJson(data);
@@ -365,7 +370,7 @@ var M_PRCL_ANLS = (function () {
             inFeature.setId(feature.getId() + '_intersect');
             return inFeature;
         } catch (e) {
-            console.log(e);
+            // console.log(e);
         }
     }
 
