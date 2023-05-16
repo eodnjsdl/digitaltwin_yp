@@ -134,6 +134,9 @@ function codeArrayInit(){
 	
 	// 복지시설 - 시설구분
 	setCmmCodeDataArray("FCLTCD");				// 시설구분
+	
+	// 교통 - 노선유형
+	setCmmCodeDataArray("ROUTETY");				// 노선유형
 }
 
 ///////////////////////////
