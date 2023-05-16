@@ -79,9 +79,7 @@ function drawCrdnt(xCrdnt, yCrdnt, sttnNm) {
 	})
 	
 	// 중심점 이동 및 zoom 설정
-	// zoom 복구
 	var point = new ol.geom.Point([x, y]);
-	
 	if (dtmap.mod == "2D") {
 		var tranPoint = point.transform("EPSG:4326", "EPSG:5179");
 		var options = {
