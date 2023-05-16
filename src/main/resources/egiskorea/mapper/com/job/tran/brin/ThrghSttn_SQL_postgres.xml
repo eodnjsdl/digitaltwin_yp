@@ -16,6 +16,7 @@
 			X_CRDNT, 
 			Y_CRDNT
 		FROM TBD_THRGH_STTN_INFO
-			WHERE ROUTE_ID = #{route_id}
+			WHERE LENGTH(STTN_NO) != 0
+			 AND ROUTE_ID = #{route_id}
 	</select>
 </mapper>
