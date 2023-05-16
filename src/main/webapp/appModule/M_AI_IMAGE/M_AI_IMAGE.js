@@ -1,8 +1,7 @@
 /**
  * SUBJECT : ai영상분석 (3d)
- * AUTHOR : 이푸름
- * LAST UPDATE : 2022.1.24
- * COMMENT :
+ * AUTHOR : 백승석
+ * LAST UPDATE : 2023.05.26
  */
 $(document).ready(() => {
     dtmap.off('select');
@@ -30,7 +29,6 @@ function cameraMove() {
  * @returns
  */
 function setCheckList() {
-    console.log("체크박스세팅");
     let count = M_AI_IMAGE.detectLegend.legend.length;
     for (let i = 0; i < count; i++) {
 	let textData = M_AI_IMAGE.detectLegend.legend[i];
@@ -90,7 +88,6 @@ function selectAiResult(e) {
  * @returns
  */
 function onAiImageSelectEventListener(e) {
-    console.log(e);
     let id = e.id;
     if (id) {
 	dtmap.vector.clearSelect();
@@ -103,45 +100,7 @@ function onAiImageSelectEventListener(e) {
 }
 
 var M_AI_IMAGE = {
-//    global: {
-//        test: null,
-//        isn: null,
-//        itv: null,
-//        isnt: 0,
-//        checkedVal: "3",
-//        ps: [
-//            ["10", "20", "40", "70", "100"],
-//            ["0", "15", "50", "68", "80", "95", "100"],
-//            ["5", "25", "45", "95", "100"],
-//            ["30", "60", "90", "100"],
-//            ["5", "20", "30", "40", "50", "55", "70", "100"],
-//            ["8", "15", "24", "38", "55", "78", "95", "100"],
-//            ["9", "17", "25", "38", "47", "55", "62", "68", "72", "84", "96", "100"],
-//            ["13", "19", "26", "35", "48", "59", "65", "79", "91", "100"],
-//            ["5", "17", "29", "35", "46", "66", "82", "100"],
-//            ["2", "9", "34", "44", "62", "78", "88", "100"]
-//        ],
-//    },
-//    getAiSettingInfo: function () {
-//        $("#aiSettingModal").modal({backdrop: 'static', keyboard: false});
-//    },
-//    setAiSettingVal: function () {
-//        M_AI_IMAGE.global.checkedVal = $("input[name=AI_radio]:checked").val();
-////		$("#aiSettingModal").modal('hide');	
-//    },
-//    closeAiAnalysis: function () {
-//
-//        M_AI_IMAGE.analysis.reset();
-//
-//        var moduleIdTxt = $("#moduleUITabContent div").attr('id');
-//        var moduleId = moduleIdTxt.trim().split("-")[2];
-//
-//        IDE.MODULE.closeModule(moduleId);
-//
-////		$("#imageMclearnStart").hide();
-//
-//
-//    },
+	global: {count: 0},
     detectLegend: {
         legend: [
             {class_0: {
@@ -375,86 +334,16 @@ var M_AI_IMAGE = {
         	classId: "32",
                 count: 0
             }}
-        ]},
-//        legendCountUp: function (_classNumber) {
-//
-//            var legendInfo = this.legend["class_" + _classNumber];
-//
-//            if (typeof legendInfo == 'undefined') {
-//                legendInfo = this.legend["class_others"];
-//            }
-//
-//            legendInfo.count++;
-//        },
-//        getLegendColor: function (_classNumber) {
-//
-//            var legendInfo = this.legend["class_" + _classNumber];
-//            if (typeof legendInfo == 'undefined') {
-//                legendInfo = this.legend["class_others"];
-//            }
-//
-//            return legendInfo.color;
-//        },
-//        getLegendName: function (_classNumber) {
-//
-//            var legendInfo = this.legend["class_" + _classNumber];
-//            if (typeof legendInfo == 'undefined') {
-//                legendInfo = this.legend["class_others"];
-//            }
-//
-//            return legendInfo.name;
-//        },
-//        clearCount: function () {
-//
-//            var data = [];
-//
-//            for (var id in this.legend) {
-//
-//                if (this.legend.hasOwnProperty(id)) {
-//                    this.legend[id].count = 0;
-//                }
-//            }
-//
-//            return data;
-//        },
-//        getLegendGraphData: function () {
-//
-//            var data = [];
-//
-//            for (var id in this.legend) {
-//
-//                if (this.legend.hasOwnProperty(id)) {
-//
-//                    if (this.legend[id].count > 0) {
-//                        data.push({
-//                            label: this.legend[id].name,
-//                            value: this.legend[id].count,
-//                            color: this.legend[id].hexColor
-//                        });
-//                    }
-//                }
-//            }
-//
-//            return data;
-//        },
-//        getLegendGraphHexColorList: function () {
-//
-//            var colors = [];
-//
-//            for (var id in this.legend) {
-//
-//                if (this.legend.hasOwnProperty(id)) {
-//
-//                    if (this.legend[id].count > 0) {
-//                        colors.push(this.legend[id].hexColor);
-//                    }
-//                }
-//            }
-//
-//            return colors;
-//        }
+        ],
+        resetCount: function () {
+            let length = M_AI_IMAGE.detectLegend.legend.length;
+            for (let i = 0; i < length; i++) {
+        	let obj = M_AI_IMAGE.detectLegend.legend[i]['class_'+i];
+        	obj.count = 0;
+            }
+        }
+    },
     init: function () {
-
 	//분석 시작 이벤트
 	$("#startAianalysBtn").on('click',function(e){
 		chooseUrl = 0;
@@ -477,88 +366,6 @@ var M_AI_IMAGE = {
 	$("#resetMapDirection").on('click', function(e) {
 	    cameraMove();
 	});
-
-        $("#resetAianalysBtn").on('click', function (e) {
-            M_AI_IMAGE.analysis.reset();
-        });
-        //검색값 변경
-//        $("input[name='AI_radio']").on('change', function (e) {
-//            M_AI_IMAGE.setAiSettingVal();
-//        });
-
-        //			new PerfectScrollbar(document.getElementById('classifiedBody'),{
-//				suppressScrollX:true
-//			});
-//	
-        $("#aiImageReslt").mouseover(function () {
-            Module.XDIsMouseOverDiv(true);
-        })
-            .mouseout(function () {
-                Module.XDIsMouseOverDiv(false);
-            });
-
-        this.Cameara = Module.getViewCamera();
-
-    },
-    destroy: function () {
-
-//		$("#imageMclearnStart").hide();
-
-        M_AI_IMAGE.analysis.reset();
-//		DRAW=null;
-
-        M_AI_IMAGE.isn = null
-        M_AI_IMAGE.itv = null
-        M_AI_IMAGE.isnt = 0
-        M_AI_IMAGE.checkedVal = "3"
-    },
-    setCheckbox: function () {//체크박스 리셋
-
-        //라벨텍스트초기화
-//        var lbText = document.querySelectorAll('#AIVideoBox label')
-//        lbText.forEach(function (item) {
-//            item.innerText = ""
-//        })
-
-//        var checkSize = $("input[name='AI_check']").length
-//        //카운트 올리기
-//        for (var i = 0; i < checkSize; i++) {
-//            var checkId = $("input[name='AI_check']")[i].id
-//            var countClass = M_AI_IMAGE.detectLegend.legend[checkId].count
-//            $("input[name='AI_check']")[i].nextElementSibling.innerHTML = M_AI_IMAGE.detectLegend.legend[checkId].name + "(" + countClass + ")"
-//
-//        }
-        
-        let labelText = document.querySelectorAll('#AIVideoBox label');
-        labelText.forEach(function (item) {
-            item.innerText = "";
-        });
-
-        let checkSize = $("input[name='AI_check']").length
-        
-        for (let i = 0; i < checkSize; i++) {
-            let checkId = $("input[name='AI_check']")[i].id;
-            var countClass = M_AI_IMAGE.detectLegend.legend[i][checkId].count;
-            $("input[name='AI_check']")[i].nextElementSibling.innerHTML = M_AI_IMAGE.detectLegend.legend[i][checkId].name + "(" + countClass + ")"
-        }
-        
-    },
-    checkBoxValue : function(value) {
-	// value = identifier; class, classId, 
-	let length = $("input[name='AI_check']:checked").length;
-	let checkedValues = null;
-	let count = 0;
-//	let data = M_AI_IMAGE.detectLegend.legend[value.classId]['class_' + value.classId].key;
-	for (let i = 0; i < length; i++) {
-	    let data = $("input[name='AI_check']:checked")[i].dataset.baseId;
-	    if (value.class == data) {
-		checkedValues = value;
-		count++;
-		break;
-	    }
-	    
-	}
-	return {checkedValues: checkedValues, count: count};
     },
     analysis: {
         start: function () {
@@ -567,54 +374,12 @@ var M_AI_IMAGE = {
             //프로그레스
             ui.loadingBar("show");
 
-            //초기화
-//            M_AI_IMAGE.global.isn = null;
-//            M_AI_IMAGE.global.itv = null;
-//            M_AI_IMAGE.global.isnt = 0;
-
-            //이미지스캐닝
-//            M_AI_IMAGE.analysis.imageScanning();
             M_AI_IMAGE.analysis.detectAI();
-
         },
-//        imageScanning: function () {
-//
-//            setTimeout(function () {
-//
-//                if (M_AI_IMAGE.global.checkedVal == null || M_AI_IMAGE.global.checkedVal == 'undefined') {
-//                    M_AI_IMAGE.global.checkedVal = 3;
-//                }
-//                //분류 value
-//                M_AI_IMAGE.analysis.detectAI(parseInt(M_AI_IMAGE.global.checkedVal));
-//
-//            }, 2000);
-//        },
         /**
          * ai 분석 통신 및 데이터 처리연결
          */
         detectAI: function () {
-//            detectAI: function (an) {
-
-//            var detect_type = "";
-//
-//            switch (an) {
-//                case 1:
-//                    detect_type = "gun";
-//                    break;
-//
-//                case 2:
-//                    detect_type = "coco";
-//                    break;
-//
-//                case 3:
-//                    detect_type = "bld";
-//                    break;
-//
-//                case 4:
-//                    detect_type = "boat";
-//                    break;
-//            }
-
             var captureCanvas = null;		// 캡쳐 이미지 저장 캔버스
 
             var canvasRect = Module.canvas.getBoundingClientRect();
@@ -678,7 +443,6 @@ var M_AI_IMAGE = {
 			    var screenCoord = [];
 			    var identifier = [];
 			    var totalCount = 0;
-			    var resultCount = result.response.length;
 			    for (var j = 0; j < result.response.length; j++) {
 				detections = result.response[j].detections.split(', ');
 				identifier.push({class : result.response[j].class, classId : result.response[j].classid, confidence : result.response[j].confidence});
@@ -690,9 +454,11 @@ var M_AI_IMAGE = {
 				    var coord = screenCoord[i][j].split(' ');
 				    analCoord.push(coord);
 				}
-				M_AI_IMAGE.analysis.getScreenMapCoord(analCoord, identifier[i], idCount++, resultCount, alt);
+				M_AI_IMAGE.analysis.getScreenMapCoord(analCoord, identifier[i], totalCount++, alt);
 			    }
 			}
+		// 체크박스 전체 글자 사라짐 방지;
+		$('input[name="AiCheckValue"] label').innerHTML = '전체';
 		ui.loadingBar("hide");
                 }
             });
@@ -701,23 +467,20 @@ var M_AI_IMAGE = {
         /**
          * 좌표 계산 후, vector 생성
          */
-        getScreenMapCoord: function (coord, identifier, idCount, resultCount, alt) {
+        getScreenMapCoord: function (coord, identifier, totalCount, alt) {
             var coordinates = [[]];
             // 체크박스 필터.
-            var isExist = M_AI_IMAGE.checkBoxValue(identifier);
-            if (!isExist.checkedValues){
+            var isExist = M_AI_IMAGE.analysis.checkBoxValue(identifier);
+            if (!isExist){
         	return;
             }
-//            console.log(identifier);
             var data = M_AI_IMAGE.detectLegend.legend;
             var dataOption = null;
-//            console.log(data);
             for (var i = 0; i < data.length; i++) {
         	let index = 'class_' + i;
         	if (identifier.classId == data[i][index].classId) {
         	    dataOption = data[i][index];
-        	    resultCount++;
-//        	    console.log(dataOption);
+        	    totalCount++;
         	    break;
         	}
             }
@@ -729,14 +492,11 @@ var M_AI_IMAGE = {
             if (color != null || color != undefined) {
         	color = "rgb(" + color[0] + ', ' + color[1] + ', ' + color[2] + ')';
             }
-//            console.log(color);
-//            console.log(coord);
             for (var i = 0; i < coord.length; i++) {
         	coord[i] = [parseFloat(coord[i][0]), parseFloat(coord[i][1]), parseFloat(alt)];
 		    var pos = ol.proj.transform(coord[i], 'EPSG:3857', 'EPSG:4326');
 		    coordinates[0].push(pos);
 		}
-//            console.log(coordinates);
             options = {
         	    fill : {
         		      color : color,
@@ -755,27 +515,77 @@ var M_AI_IMAGE = {
         		},
 			text : name + ' ' + (Math.ceil(confidence * 100)) + '%'
 		    },
-		    offsetHeight : 30
+		    offsetHeight : 15
             };
             	let vectorId = classNm + '_' + classId + '_' + totalCount;
-		dtmap.vector.addPolygon({
-		    id: vectorId,
+            	let crs = 'EPSG:4326';
+            	let resultInfoData = {count : totalCount, engNm : dataOption.key, korNm : dataOption.name, conf : identifier.confidence, vectorId : vectorId};
+            	M_AI_IMAGE.global.count += M_AI_IMAGE.analysis.addPolygon(vectorId, coordinates, crs, options, resultInfoData);
+            	M_AI_IMAGE.analysis.resultView(resultInfoData, M_AI_IMAGE.global.count);
+        },
+        /**
+         * 체크박스 값에 따른 분류 - 결과 사용/미사용
+         * 미사용일 때 -> null 반환으로 폴리곤 생성통과
+         */
+        checkBoxValue : function(value) {
+    	let length = $("input[name='AI_check']:checked").length;
+    	let checkedValues = null;
+    	for (let i = 0; i < length; i++) {
+    	    let data = $("input[name='AI_check']:checked")[i].dataset.baseId;
+    	    if (value.class == data) {
+    		checkedValues = value;
+    		break;
+    	    }
+    	    
+    	}
+    	return checkedValues;
+        },
+        /**
+         * 폴리곤 생성
+         */
+        addPolygon : function (id, coordinates, crs, style, resultInfoData) {
+            M_AI_IMAGE.analysis.setEachCount(resultInfoData);
+            dtmap.vector.addPolygon({
+		    id: id,
 		    coordinates: coordinates,
 		    crs: 'EPSG:4326',
-		    style : options
+		    style : style
 		});
-		console.log(vectorId);
-		let resultInfoData = {count : resultCount, engNm : dataOption.key, korNm : dataOption.name, conf : identifier.confidence, vectorId : vectorId};
-		console.log(resultInfoData);
-		M_AI_IMAGE.analysis.resultView(resultInfoData);
+            return 1;
+        },
+        /**
+         * 표시할 데이터 개수 
+         */
+        setEachCount : function (infoData) {
+            let length = M_AI_IMAGE.detectLegend.legend.length;  
+            for (let i = 0; i < length; i++) {
+        	let obj = M_AI_IMAGE.detectLegend.legend[i]['class_'+i];
+        	if (obj.key == infoData.engNm) {
+        	    obj.count++;
+        	}
+            }
+        },
+        /**
+         * 체크박스 결과 개수 설정
+         */
+        setCheckboxResult: function () {
+            let checkSize = $("input[name='AI_check']").length
+            
+            for (let i = 0; i < checkSize; i++) {
+                let checkId = $("input[name='AI_check']")[i].id;
+                var countClass = M_AI_IMAGE.detectLegend.legend[i][checkId].count;
+                $("input[name='AI_check']")[i].nextElementSibling.innerHTML = M_AI_IMAGE.detectLegend.legend[i][checkId].name + "(" + countClass + ")"
+            }
+            
         },
         /**
          * 결과창에 정보 표출
          */
-        resultView : function (infoData) {
+        resultView : function (infoData, viewCount) {
             var html = "";
             html += "<tr>\n";
-            html += "<td>" + infoData.count + "</td>\n";
+//            html += "<td>" + infoData.count + "</td>\n";
+            html += "<td>" + viewCount + "</td>\n";
             html += "<td>" + infoData.engNm + "</td>\n";
             html += "<td>" + infoData.korNm + "</td>\n";
             html += "<td>" + Math.ceil(infoData.conf * 100) + "%</td>\n";
@@ -786,25 +596,25 @@ var M_AI_IMAGE = {
             html += "</tr>\n";
 
             $("#classifiedBody").append(html);
+            M_AI_IMAGE.analysis.setCheckboxResult();
         },
         reset: function () {
-
+            // 결과 카운터 초기화
+            M_AI_IMAGE.global.count = 0;
+            
+            // 체크박스 카운트 초기화
+            M_AI_IMAGE.detectLegend.resetCount();
+            
+            // 이미지 초기화
             $("#copyCanvas").remove();
-//            $("#gridCanvas").remove();
+            
+            // 결과창 초기화
             $("#classifiedBody").empty();
-
-            //카운터 초기화
-//            M_AI_IMAGE.detectLegend.clearCount()
-
-//            var layerList = new Module.JSLayerList(true);
-//            var layer = layerList.nameAtLayer("ML_RESULT_RECT");
-
-//            if (layer != null) {
-//                layer.removeAll();
-//            }
-
         }
     },
+    /**
+     * 이미지파일 변환
+     */
     UTIL: {
         dataURLtoFile: function (dataurl, fileName) {
             var arr = dataurl.split(','),
@@ -812,312 +622,18 @@ var M_AI_IMAGE = {
                 bstr = atob(arr[1]),
                 n = bstr.length,
                 u8arr = new Uint8Array(n);
-
             while (n--) {
                 u8arr[n] = bstr.charCodeAt(n);
             }
-
             return new File([u8arr], fileName, {type: mime});
         }
     }
     
 }
-
-
-
-//        markupMachineDetectResult: async function (_imageWidth, _imageHeight, _result, _complateCallback) {
-//
-//            var result = _result.response;
-//            var splitCellCount = 10;
-//
-//            // 결과 반환할 레이어
-//            var layerList = new Module.JSLayerList(true);
-//            var layer = layerList.nameAtLayer("ML_RESULT_RECT");
-//
-//            if (layer == null) {
-//                layer = layerList.createLayer("ML_RESULT_RECT", Module.ELT_SKY_LINE);
-//                layer.setMaxDistance(map3d.config.maxDistance);
-//                layer.setSelectable(false);
-//            } else {
-//                layer.removeAll();
-//            }
-//
-//            var donutGraph = null;
-//            M_AI_IMAGE.detectLegend.clearCount();
-//
-//            CINIT.createCanvas("imgcanvas");
-//            // 그리드 canvas 세팅
-//            var result = DRAW.OVERVIEW.createCanvas("gridCanvas");
-//            if (result == -1) {
-//                console.log("create overview cnavas error");
-//            }
-//
-//            // result 2이면 새로 생성되기 떄문에 setGrid 해준다
-//            if (result > 1) {
-//                DRAW.OVERVIEW.setGrid();
-//            }
-//
-//            DRAW.CANVAS.ETC.initGrid();
-//
-//            var gridCanvas = document.getElementById('gridCanvas');
-//            gridCanvas.style.position = "absolute";
-//            gridCanvas.style.top = "0";
-//            gridCanvas.style.left = "0";
-//            gridCanvas.style.zIndex = "100";
-//
-//            DRAW.CANVAS.INIT.clearCanvas();
-//            DRAW.CANVAS.INIT.setCanvasSize(Module.canvas.width, Module.canvas.height);
-//            DRAW.CANVAS.ETC.setColor("rgba(255,255,255,0.7)", 1);
-//            DRAW.CANVAS.LINE.setStyle(1, "butt", "round");
-//
-//            DRAW.CANVAS.ETC.setVisible("gridCanvas", true);
-//
-//            // 그리드 단위로 결과 데이터 정렬
-//            var result = _result.response;
-//            result = this.sortDetectResult(splitCellCount, splitCellCount, result);
-//
-//            var processIndex = 1;
-////			$("#classifiedBody").empty();
-//            $("#aiImageReslt").show("slide", {direction: "down"}, 200);
-//
-//
-//            for (var i = 0; i < splitCellCount; i++) {
-//
-//                for (var j = 0; j < splitCellCount; j++) {
-//
-//                    var cellResult = result[i][j].result;
-//
-//                    DRAW.CANVAS.INIT.clearRect(0, 0, DRAW.CANVAS.CANVAS_MAIN.width, DRAW.CANVAS.CANVAS_MAIN.height);
-//
-//                    DRAW.CANVAS.ETC.drawGrid(splitCellCount, splitCellCount, 1);
-//                    DRAW.CANVAS.ETC.setColor("rgba(255,255,255,0.7)", 0);
-//                    DRAW.CANVAS.ETC.drawGridRect(j, splitCellCount - i);
-//
-//                    for (var k = 0; k < cellResult.length; k++) {
-//
-//                        var result_detections = cellResult[k].detections.split(" ");
-//
-//                        var line = this.createRectLine(
-//                            "result_" + i + "_" + j + "_" + k,
-//                            _imageWidth, _imageHeight,
-//                            cellResult[k],
-//                            M_AI_IMAGE.detectLegend.getLegendColor(result_detections[0])
-//                        );
-//
-//
-//                        //체크박스 해제된것 찾기
-//                        var uncheckedDiv = document.querySelectorAll('input[name="AI_check"]:not(input[name="AI_check"]:checked)')
-//                        var classId = M_AI_IMAGE.detectLegend.legend["class_" + result_detections[0]].id;
-//                        //체크박스 선택되있고 아이디같을경우 tr늘려주기
-//                        if (uncheckedDiv.length == 0) {
-//                            this.insertDetectPositionMoveButton(
-//                                processIndex,
-//                                _imageWidth, _imageHeight,
-//                                result_detections[1], result_detections[2],
-//                                cellResult[k].class,
-//                                result_detections[0],
-//                                cellResult[k].confidence
-//                            );
-//                            //카운팅
-//                            M_AI_IMAGE.detectLegend.legendCountUp(result_detections[0]);
-//
-//                            // 레이어에 객체 추가
-//                            layer.addObject(line, 0);
-//
-//                            processIndex++;
-//                        } else {
-//
-//                            for (var z = 0; z < uncheckedDiv.length; z++) {
-//                                if (uncheckedDiv[z].id != classId && $("#" + classId).is(':checked')) {
-//                                    this.insertDetectPositionMoveButton(
-//                                        processIndex,
-//                                        _imageWidth, _imageHeight,
-//                                        result_detections[1], result_detections[2],
-//                                        cellResult[k].class,
-//                                        result_detections[0],
-//                                        cellResult[k].confidence
-//                                    );
-//                                    //카운팅
-//                                    M_AI_IMAGE.detectLegend.legendCountUp(result_detections[0]);
-//
-//                                    // 레이어에 객체 추가
-//                                    layer.addObject(line, 0);
-//
-//                                    processIndex++;
-//                                }
-//                            }
-//                        }
-//                        await sleep(70.0 * Math.random());
-//                    }
-//                }
-//
-//
-//            }
-//
-//            if (_complateCallback) {
-//                _complateCallback(_result);
-//            }
-//
-//            setTimeout(function () {
-//
-//                DRAW.CANVAS.ETC.setVisible("gridCanvas", false);
-//
-//                ui.loadingBar("hide");
-//                M_AI_IMAGE.setCheckbox();
-//                Module.XDRenderData();
-//                Module.XDIsMouseOverDiv(false);
-//
-//            }, 2000);
-//
-//
-//        },
-//        sortDetectResult: function (_cellWidthNum, _cellHeightNum, _result) {
-//            var resultCell = {};
-//            for (var i = 0; i < _cellHeightNum; i++) {
-//
-//                resultCell[i] = {};
-//
-//                for (var j = 0; j < _cellWidthNum; j++) {
-//
-//                    resultCell[i][j] = {
-//                        result: []
-//                    };
-//                }
-//            }
-//
-//            for (var i = 0; i < _result.length; i++) {
-//
-//                var detections = _result[i].detections.split(" ");
-//
-//                var cellIndex_x = parseInt(parseFloat(detections[1]) * 10.0);
-//                var cellIndex_y = parseInt(parseFloat(detections[2]) * 10.0);
-//
-//                resultCell[cellIndex_y][cellIndex_x].result.push(_result[i]);
-//            }
-//
-//            return resultCell;
-//        },
-//        createRectLine: function (_key, _imageWidth, _imageHeight, _data, _color) {
-//            var line = Module.createLineString(_key);
-//
-//            // 좌표 리스트 생성
-//            var result_detections = _data.detections.split(" ");
-//
-//            var coordinates = this.getDetectionRectCoordinates(
-//                _imageWidth, _imageHeight,
-//                result_detections[1], result_detections[2],
-//                result_detections[3], result_detections[4]
-//            );
-//
-//            var parts = new Module.Collection();
-//            parts.add(5);
-//            line.setPartCoordinates(coordinates, parts);
-//
-//            var color = new Module.JSColor(255, _color[0], _color[1], _color[2]);
-//
-//            var lineStyle = new Module.JSPolyLineStyle();
-//            lineStyle.setWidth(1.1);
-//            lineStyle.setColor(color);
-//            line.setStyle(lineStyle);
-//
-//            return line;
-//        },
-//        getDetectionRectCoordinates: function (_imageWidth, _imageHeight, _centerX, _centerY, _width, _height) {
-//            var coordinates = new Module.JSVec3Array();
-//
-//            var center_x = parseFloat(_centerX) * _imageWidth;
-//            var center_y = parseFloat(_centerY) * _imageHeight;
-//
-//            var halfWidth = (parseFloat(_width) * _imageWidth) / 2;
-//            var halfHeight = (parseFloat(_height) * _imageHeight) / 2;
-//
-//            var screenPos_min_x = center_x - halfWidth;
-//            var screenPos_min_y = center_y - halfHeight;
-//
-//            var screenPos_max_x = center_x + halfWidth;
-//            var screenPos_max_y = center_y + halfHeight;
-//
-//            coordinates.push(this.screenToLonLatAlt(screenPos_min_x, screenPos_min_y, 2.0));	// left-top
-//            coordinates.push(this.screenToLonLatAlt(screenPos_max_x, screenPos_min_y, 2.0));	// right-top
-//            coordinates.push(this.screenToLonLatAlt(screenPos_max_x, screenPos_max_y, 2.0));	// right-bottom
-//            coordinates.push(this.screenToLonLatAlt(screenPos_min_x, screenPos_max_y, 2.0));	// left-bottom
-//            coordinates.push(this.screenToLonLatAlt(screenPos_min_x, screenPos_min_y, 2.0));	// left-top
-//
-//            return coordinates;
-//        },
-//        insertDetectPositionMoveButton: function (_index, _imageWidth, _imageHeight, _centerScreen_x, _centerScreen_y, _classType, _classNumber, _confidenct) {
-////			debugger
-//            var center = this.screenToLonLatAlt(parseFloat(_centerScreen_x) * _imageWidth, parseFloat(_centerScreen_y) * _imageHeight, 0.0);
-//
-//            var className = M_AI_IMAGE.detectLegend.getLegendName(_classNumber);
-//            var classId = M_AI_IMAGE.detectLegend.legend["class_" + _classNumber].id;
-//            var perciseNum = (_confidenct * 100).toFixed(0);
-//
-//            var html = "";
-//            html += "<tr data-id=" + classId + ">\n";
-//            html += "	<td>" + _index + "</td>\n";
-//            html += "	<td>" + _classType + "</td>\n";
-//            html += "	<td>" + className + "</td>\n";
-//            html += "	<td>" + perciseNum + "%</td>\n";
-//            html += "	<td>\n"
-//            html += "		<button type=\"button\" class=\"icon-btn location sm\" onclick=\"M_AI_IMAGE.analysis.moveDetectPosition(" + center.Longitude + "," + center.Latitude + "," + center.Altitude + ");\">\n";
-//            html += "		</button>\n";
-//            html += "	</td>\n";
-//            html += "</tr>\n";
-//
-//            $("#classifiedBody").append(html);
-//        },
-//        screenToLonLatAlt: function (_screenX, _screenY, _altitudeGap) {
-//
-//            if (_altitudeGap < 0.001) {
-//                return Module.getMap().ScreenToMapPointEX(new Module.JSVector2D(_screenX, _screenY));
-//            }
-//
-//            var pos = Module.getMap().ScreenToMapPointEX(new Module.JSVector2D(_screenX, _screenY));
-//            pos.Altitude += _altitudeGap;
-//
-//            return pos;
-//        },
-//        moveDetectPosition: function (_lon, _lat, _alt, _color) {
-//            var position = new Module.JSVector3D(_lon, _lat, _alt + 150.0);
-//
-//            // 카메라 위치 이동
-//            var camera = new Module.getViewCamera();
-//            //camera.setTilt(90.0);
-//            //camera.setLocation(position);
-//            camera.moveLookAt(position, Module.getViewCamera().getTilt(), M_AI_IMAGE.Camera.getDirect(), _alt * 25);
-//
-//            // 위치 표시
-//            var layerList = new Module.JSLayerList(true);
-//            var layer = layerList.nameAtLayer("ML_RESULT_SELECT_POSITION");
-//            if (layer == null) {
-//                layer = layerList.createLayer("ML_RESULT_SELECT_POSITION", Module.ELT_3DPOINT);
-//                layer.setMaxDistance(map3d.config.maxDistance);
-//                layer.setSelectable(false);
-//            } else {
-//                layer.removeAll();
-//            }
-//
-//            var point = new Module.createPoint("point_" + layer.getObjectCount());
-//            position.Altitude = _alt;
-//            point.setPosition(position);
-////			point.setText("O");
-//
-//            layer.addObject(point, 0);
-//        },
-//    }
-    
-//}
-//function sleep(ms) {
-//    return new Promise(resolve => setTimeout(resolve, ms));
-//}
-
 $(function () {
     $(".scroll-y").mCustomScrollbar({
         scrollbarPosition: "outside"
     });
-
-
     //분석 popup 접기/펼치기
     $(".small-popup .popup-toggle").each(function () {
         $(this).click(function () {
