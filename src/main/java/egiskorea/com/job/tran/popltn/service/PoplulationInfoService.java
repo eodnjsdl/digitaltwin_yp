@@ -1,4 +1,4 @@
-package egiskorea.com.job.tral.service;
+package egiskorea.com.job.tran.popltn.service;
 
 import java.util.List;
 import java.util.Map;
@@ -19,7 +19,7 @@ import java.util.Map;
  *  </pre>
  */
 
-public interface TrafficAnalysisService {
+public interface PoplulationInfoService {
 	
 	
 // ################################################# 인구정보 #################################################

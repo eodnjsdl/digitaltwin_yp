@@ -1,4 +1,4 @@
-package egiskorea.com.job.tral.service.impl;
+package egiskorea.com.job.tran.popltn.service.impl;
 
 import java.util.List;
 
@@ -38,8 +38,8 @@ import egiskorea.com.job.trfc.service.TunnelVO;
  *  </pre>
  */
 
-@Repository("trafficAnalysisDAO")
-public class TrafficAnalysisDAO extends ComAbstractDAO {
+@Repository("poplulationInfoDAO")
+public class PoplulationInfoDAO extends ComAbstractDAO {
 	
 // ################################################# 도로구간 #################################################
 	

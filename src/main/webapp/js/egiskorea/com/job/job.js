@@ -1174,7 +1174,6 @@ function onFaciReseMngSelectEventListener(e){
 	}
 }
 
-//uhh add...
 /**
  * 인구정보 목록 조회
  * @returns
@@ -1185,7 +1184,7 @@ function aj_selectPopulationInfoList() {
 	
 	$.ajax({
 		type : "POST",
-		url : "/job/tral/selectPopulationInfoList.do",
+		url : "/job/tran/popltn/selectPopulationInfoList.do",
 		//data : formData,
 		dataType : "html",
 		processData : false,
@@ -1206,5 +1205,3 @@ function aj_selectPopulationInfoList() {
 		}
 	});
 }
-
-//uhh add... end

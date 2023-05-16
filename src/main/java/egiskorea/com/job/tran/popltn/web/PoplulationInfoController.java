@@ -1,46 +1,15 @@
-package egiskorea.com.job.tral.web;
-
-import java.util.List;
-import java.util.Map;
+package egiskorea.com.job.tran.popltn.web;
 
 import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.google.gson.Gson;
-
-import egiskorea.com.cmm.service.impl.ExcelView;
-import egiskorea.com.job.cmss.service.CommonnessSpaceSearchService;
-import egiskorea.com.job.cmss.service.TgdSccoEmdVO;
-import egiskorea.com.job.spor.web.SportsController;
-import egiskorea.com.job.tral.service.TrafficAnalysisService;
-import egiskorea.com.job.trfc.service.Bridge;
-import egiskorea.com.job.trfc.service.BridgeVO;
-import egiskorea.com.job.trfc.service.Overpass;
-import egiskorea.com.job.trfc.service.OverpassVO;
-import egiskorea.com.job.trfc.service.RailroadStation;
-import egiskorea.com.job.trfc.service.RailroadStationVO;
-import egiskorea.com.job.trfc.service.RailroadTrack;
-import egiskorea.com.job.trfc.service.RailroadTrackVO;
-import egiskorea.com.job.trfc.service.RoadSection;
-import egiskorea.com.job.trfc.service.RoadSectionVO;
-import egiskorea.com.job.trfc.service.SubwayStation;
-import egiskorea.com.job.trfc.service.SubwayStationVO;
-import egiskorea.com.job.trfc.service.SubwayTrack;
-import egiskorea.com.job.trfc.service.SubwayTrackVO;
-import egiskorea.com.job.trfc.service.TransportationFacilityService;
-import egiskorea.com.job.trfc.service.Tunnel;
-import egiskorea.com.job.trfc.service.TunnelVO;
-import egiskorea.com.job.ugtm.service.UnderWaterAgriVO;
+import egiskorea.com.job.tran.popltn.service.PoplulationInfoService;
 import egovframework.rte.fdl.property.EgovPropertyService;
-import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
 
 /**
  * @Description 교통분석  controller 클래스
@@ -59,16 +28,16 @@ import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
  */
 
 @Controller
-@RequestMapping("/job/tral")
-public class TrafficAnalysisController {
+@RequestMapping("/job/tran/popltn")
+public class PoplulationInfoController {
 	
-	@Resource(name = "trafficAnalysisService")
-	private TrafficAnalysisService trafficAnalysisService;
+	@Resource(name = "poplulationInfoService")
+	private PoplulationInfoService poplulationInfoService;
 	
 	@Resource(name = "propertiesService")
     protected EgovPropertyService propertyService;
 
-	private static final Logger logger = LoggerFactory.getLogger(TrafficAnalysisController.class);
+	private static final Logger logger = LoggerFactory.getLogger(PoplulationInfoController.class);
 	
 	// ################################################# 인구정보 #################################################
 	
@@ -83,13 +52,13 @@ public class TrafficAnalysisController {
 	 */
 	@RequestMapping(value = "/selectPopulationInfoList.do")
 	public String selectPopulationInfoList(
-			@ModelAttribute("searchVO") RoadSectionVO roadSectionVO,
+			//@ModelAttribute("searchVO") RoadSectionVO roadSectionVO,
 			ModelMap model) throws Exception{
 		
 		logger.info("selectPopulationInfoList.do");
 		
 		model.addAttribute("result", "ok");
-		return "egiskorea/com/job/tral/popltn/selectPopulationInfoList";
+		return "egiskorea/com/job/tran/popltn/selectPopulationInfoList";
 	}
 	
 	

@@ -1,31 +1,10 @@
-package egiskorea.com.job.tral.service.impl;
-
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+package egiskorea.com.job.tran.popltn.service.impl;
 
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
 
-import egiskorea.com.job.tral.service.TrafficAnalysisService;
-import egiskorea.com.job.trfc.service.Bridge;
-import egiskorea.com.job.trfc.service.BridgeVO;
-import egiskorea.com.job.trfc.service.Overpass;
-import egiskorea.com.job.trfc.service.OverpassVO;
-import egiskorea.com.job.trfc.service.RailroadStation;
-import egiskorea.com.job.trfc.service.RailroadStationVO;
-import egiskorea.com.job.trfc.service.RailroadTrack;
-import egiskorea.com.job.trfc.service.RailroadTrackVO;
-import egiskorea.com.job.trfc.service.RoadSection;
-import egiskorea.com.job.trfc.service.RoadSectionVO;
-import egiskorea.com.job.trfc.service.SubwayStation;
-import egiskorea.com.job.trfc.service.SubwayStationVO;
-import egiskorea.com.job.trfc.service.SubwayTrack;
-import egiskorea.com.job.trfc.service.SubwayTrackVO;
-import egiskorea.com.job.trfc.service.TransportationFacilityService;
-import egiskorea.com.job.trfc.service.Tunnel;
-import egiskorea.com.job.trfc.service.TunnelVO;
+import egiskorea.com.job.tran.popltn.service.PoplulationInfoService;
 import egovframework.rte.fdl.cmmn.EgovAbstractServiceImpl;
 
 /**
@@ -44,12 +23,11 @@ import egovframework.rte.fdl.cmmn.EgovAbstractServiceImpl;
  *  </pre>
  */
 
-@Service("trafficAnalysisService")
-public class TrafficAnalysisServiceImpl extends EgovAbstractServiceImpl implements TrafficAnalysisService{
+@Service("poplulationInfoService")
+public class PoplulationInfoServiceImpl extends EgovAbstractServiceImpl implements PoplulationInfoService{
 	
-	@Resource(name = "trafficAnalysisDAO")
-	private TrafficAnalysisDAO trafficAnalysisDAO;
-
+	@Resource(name = "poplulationInfoDAO")
+	private PoplulationInfoDAO poplulationInfoDAO;
 	
 // ################################################# 도로구간 #################################################
 	
