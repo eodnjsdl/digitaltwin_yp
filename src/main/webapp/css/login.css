@@ -131,11 +131,11 @@ html, body {
 }
 
 .form-checkbox input[type="checkbox"] + label::before {
-	background-image: url(/yp_dt/images/login/form-checkbox.svg);
+	background-image: url(/images/login/form-checkbox.svg);
 }
 
 .form-checkbox input[type="checkbox"]:checked + label::before {
-	background-image: url(/yp_dt/images/login/form-checkbox-on.svg);
+	background-image: url(/images/login/form-checkbox-on.svg);
 }
 
 .login-btn {
@@ -230,7 +230,7 @@ html, body {
 }
 
 .login-dialog .ui-widget-header .ui-icon {
-	background-image: url(/yp_dt/images/icon/popup-close2.svg);
+	background-image: url(/images/icon/popup-close2.svg);
 	background-position: 50% 50%;
 }
 
@@ -406,7 +406,7 @@ select::-ms-expand {
 	font-weight: 500;
 	border: 1px solid #44516A;
 	border-radius: 5px;
-	background-image: url(/yp_dt/images/icon/form-select-arrow-lg.jpg);
+	background-image: url(/images/icon/form-select-arrow-lg.jpg);
 	background-repeat: no-repeat;
 	background-position: right 0 top 50%;
 	-webkit-appearance: none;
@@ -479,7 +479,7 @@ select::-ms-expand {
 	right: 20px;
 	width: 28px;
 	height: 28px;
-	background: url(/yp_dt/images/login/system-close.png) no-repeat 50% 50%;
+	background: url(/images/login/system-close.png) no-repeat 50% 50%;
 }
 
 .system-popup .system-body {

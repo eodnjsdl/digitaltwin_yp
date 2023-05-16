@@ -75,7 +75,7 @@ select::-ms-expand {
 	font-weight: 500;
 	border: 1px solid #44516A;
 	border-radius: 5px;
-	background-image: url(/yp_dt/images/icon/form-select-arrow.jpg);
+	background-image: url(/images/icon/form-select-arrow.jpg);
 	background-repeat: no-repeat;
 	background-position: right 0 top 50%;
 	-webkit-appearance: none;
@@ -88,12 +88,12 @@ select::-ms-expand {
 
 .form-select.md {
 	height: 26px;
-	background-image: url(/yp_dt/images/icon/form-select-arrow-md.jpg);
+	background-image: url(/images/icon/form-select-arrow-md.jpg);
 }
 
 .form-select.lg {
 	height: 27px;
-	background-image: url(/yp_dt/images/icon/form-select-arrow-lg.jpg);
+	background-image: url(/images/icon/form-select-arrow-lg.jpg);
 }
 
 .box .form-select {
@@ -117,7 +117,7 @@ select::-ms-expand {
 	border: 1px solid #8895AD;
 	border-radius: 5px;
 	background-color: #F3F4F5;
-	background-image: url(/yp_dt/images/icon/form-select-arrow2.jpg);
+	background-image: url(/images/icon/form-select-arrow2.jpg);
 	background-repeat: no-repeat;
 	background-position: right 0 top 50%;
 	-webkit-appearance: none;
@@ -138,7 +138,7 @@ select::-ms-expand {
 	border: 1px solid #506CA5;
 	border-radius: 5px;
 	background-color: #151F31;
-	background-image: url(/yp_dt/images/icon/form-select-arrow3.jpg);
+	background-image: url(/images/icon/form-select-arrow3.jpg);
 	background-repeat: no-repeat;
 	background-position: right 0 top 50%;
 	-webkit-appearance: none;
@@ -306,19 +306,19 @@ img.ui-datepicker-trigger {
 }
 
 .form-checkbox input[type="checkbox"] + label::before {
-	background-image: url(/yp_dt/images/icon/form-checkbox.svg);
+	background-image: url(/images/icon/form-checkbox.svg);
 }
 
 .form-checkbox input[type="checkbox"]:checked + label::before {
-	background-image: url(/yp_dt/images/icon/form-checkbox-on.svg);
+	background-image: url(/images/icon/form-checkbox-on.svg);
 }
 
 .form-radio input[type=radio] + label::before {
-	background-image: url(/yp_dt/images/icon/form-radio.svg);
+	background-image: url(/images/icon/form-radio.svg);
 }
 
 .form-radio input[type=radio]:checked + label::before {
-	background-image: url(/yp_dt/images/icon/form-radio-on.svg);
+	background-image: url(/images/icon/form-radio-on.svg);
 }
 
 .form-checkbox input[type="checkbox"]:disabled + label, .form-radio input[type="radio"]:disabled + label {
@@ -348,19 +348,19 @@ img.ui-datepicker-trigger {
 }
 
 .form-checkbox.sm input[type=checkbox] + label::before {
-	background-image: url(/yp_dt/images/icon/form-checkbox-sm.svg);
+	background-image: url(/images/icon/form-checkbox-sm.svg);
 }
 
 .form-checkbox.sm input[type=checkbox]:checked + label::before {
-	background-image: url(/yp_dt/images/icon/form-checkbox-sm-on.svg);
+	background-image: url(/images/icon/form-checkbox-sm-on.svg);
 }
 
 .form-radio.sm input[type=radio] + label::before {
-	background-image: url(/yp_dt/images/icon/form-radio-sm.svg);
+	background-image: url(/images/icon/form-radio-sm.svg);
 }
 
 .form-radio.sm input[type=radio]:checked + label::before {
-	background-image: url(/yp_dt/images/icon/form-radio-sm-on.svg);
+	background-image: url(/images/icon/form-radio-sm-on.svg);
 }
 
 /*------------------------------------------------------------------------------
@@ -454,32 +454,32 @@ img.ui-datepicker-trigger {
 	background-color: #1C77FF;
 }
 
-.drawing-obj input[type="radio"] + .obj-01 {background-image: url(/yp_dt/images/icon/drawing-icon01.svg);}
-.drawing-obj input[type="radio"]:checked + .obj-01 {background-image: url(/yp_dt/images/icon/drawing-icon01-on.svg);}
+.drawing-obj input[type="radio"] + .obj-01 {background-image: url(/images/icon/drawing-icon01.svg);}
+.drawing-obj input[type="radio"]:checked + .obj-01 {background-image: url(/images/icon/drawing-icon01-on.svg);}
 
-.drawing-obj input[type="radio"] + .obj-02 {background-image: url(/yp_dt/images/icon/drawing-icon02.svg);}
-.drawing-obj input[type="radio"]:checked + .obj-02 {background-image: url(/yp_dt/images/icon/drawing-icon02-on.svg);}
+.drawing-obj input[type="radio"] + .obj-02 {background-image: url(/images/icon/drawing-icon02.svg);}
+.drawing-obj input[type="radio"]:checked + .obj-02 {background-image: url(/images/icon/drawing-icon02-on.svg);}
 
-.drawing-obj input[type="radio"] + .obj-03 {background-image: url(/yp_dt/images/icon/drawing-icon03.svg);}
-.drawing-obj input[type="radio"]:checked + .obj-03 {background-image: url(/yp_dt/images/icon/drawing-icon03-on.svg);}
+.drawing-obj input[type="radio"] + .obj-03 {background-image: url(/images/icon/drawing-icon03.svg);}
+.drawing-obj input[type="radio"]:checked + .obj-03 {background-image: url(/images/icon/drawing-icon03-on.svg);}
 
-.drawing-obj input[type="radio"] + .obj-04 {background-image: url(/yp_dt/images/icon/drawing-icon04.svg);}
-.drawing-obj input[type="radio"]:checked + .obj-04 {background-image: url(/yp_dt/images/icon/drawing-icon04-on.svg);}
+.drawing-obj input[type="radio"] + .obj-04 {background-image: url(/images/icon/drawing-icon04.svg);}
+.drawing-obj input[type="radio"]:checked + .obj-04 {background-image: url(/images/icon/drawing-icon04-on.svg);}
 
-.drawing-obj input[type="radio"] + .obj-05 {background-image: url(/yp_dt/images/icon/drawing-icon05.svg);}
-.drawing-obj input[type="radio"]:checked + .obj-05 {background-image: url(/yp_dt/images/icon/drawing-icon05-on.svg);}
+.drawing-obj input[type="radio"] + .obj-05 {background-image: url(/images/icon/drawing-icon05.svg);}
+.drawing-obj input[type="radio"]:checked + .obj-05 {background-image: url(/images/icon/drawing-icon05-on.svg);}
 
-.drawing-obj input[type="radio"] + .obj-06 {background-image: url(/yp_dt/images/icon/drawing-icon06.svg);}
-.drawing-obj input[type="radio"]:checked + .obj-06 {background-image: url(/yp_dt/images/icon/drawing-icon06-on.svg);}
+.drawing-obj input[type="radio"] + .obj-06 {background-image: url(/images/icon/drawing-icon06.svg);}
+.drawing-obj input[type="radio"]:checked + .obj-06 {background-image: url(/images/icon/drawing-icon06-on.svg);}
 
-.drawing-obj input[type="radio"] + .obj-07 {background-image: url(/yp_dt/images/icon/drawing-icon07.svg);}
-.drawing-obj input[type="radio"]:checked + .obj-07 {background-image: url(/yp_dt/images/icon/drawing-icon07-on.svg);}
+.drawing-obj input[type="radio"] + .obj-07 {background-image: url(/images/icon/drawing-icon07.svg);}
+.drawing-obj input[type="radio"]:checked + .obj-07 {background-image: url(/images/icon/drawing-icon07-on.svg);}
 
-.drawing-obj input[type="radio"] + .obj-08 {background-image: url(/yp_dt/images/icon/drawing-icon08.svg);}
-.drawing-obj input[type="radio"]:checked + .obj-08 {background-image: url(/yp_dt/images/icon/drawing-icon08-on.svg);}
+.drawing-obj input[type="radio"] + .obj-08 {background-image: url(/images/icon/drawing-icon08.svg);}
+.drawing-obj input[type="radio"]:checked + .obj-08 {background-image: url(/images/icon/drawing-icon08-on.svg);}
 
-.drawing-obj input[type="radio"] + .obj-09 {background-image: url(/yp_dt/images/icon/drawing-icon09.svg);}
-.drawing-obj input[type="radio"]:checked + .obj-09 {background-image: url(/yp_dt/images/icon/drawing-icon09-on.svg);}
+.drawing-obj input[type="radio"] + .obj-09 {background-image: url(/images/icon/drawing-icon09.svg);}
+.drawing-obj input[type="radio"]:checked + .obj-09 {background-image: url(/images/icon/drawing-icon09-on.svg);}
 
 .drawing-obj.small input[type=radio] + label {
 	width: 23px;
@@ -487,17 +487,17 @@ img.ui-datepicker-trigger {
 	border-radius: 3px;
 }
 
-.drawing-obj input[type="radio"] + .obj-sm01 {background-image: url(/yp_dt/images/icon/drawing-sm-icon01.svg);}
-.drawing-obj input[type="radio"]:checked + .obj-sm01 {background-image: url(/yp_dt/images/icon/drawing-sm-icon01-on.svg);}
+.drawing-obj input[type="radio"] + .obj-sm01 {background-image: url(/images/icon/drawing-sm-icon01.svg);}
+.drawing-obj input[type="radio"]:checked + .obj-sm01 {background-image: url(/images/icon/drawing-sm-icon01-on.svg);}
 
-.drawing-obj input[type="radio"] + .obj-sm02 {background-image: url(/yp_dt/images/icon/drawing-sm-icon02.svg);}
-.drawing-obj input[type="radio"]:checked + .obj-sm02 {background-image: url(/yp_dt/images/icon/drawing-sm-icon02-on.svg);}
+.drawing-obj input[type="radio"] + .obj-sm02 {background-image: url(/images/icon/drawing-sm-icon02.svg);}
+.drawing-obj input[type="radio"]:checked + .obj-sm02 {background-image: url(/images/icon/drawing-sm-icon02-on.svg);}
 
-.drawing-obj input[type="radio"] + .obj-sm03 {background-image: url(/yp_dt/images/icon/drawing-sm-icon03.svg);}
-.drawing-obj input[type="radio"]:checked + .obj-sm03 {background-image: url(/yp_dt/images/icon/drawing-sm-icon03-on.svg);}
+.drawing-obj input[type="radio"] + .obj-sm03 {background-image: url(/images/icon/drawing-sm-icon03.svg);}
+.drawing-obj input[type="radio"]:checked + .obj-sm03 {background-image: url(/images/icon/drawing-sm-icon03-on.svg);}
 
-.drawing-obj input[type="radio"] + .obj-sm04 {background-image: url(/yp_dt/images/icon/drawing-sm-icon04.svg);}
-.drawing-obj input[type="radio"]:checked + .obj-sm04 {background-image: url(/yp_dt/images/icon/drawing-sm-icon04-on.svg);}
+.drawing-obj input[type="radio"] + .obj-sm04 {background-image: url(/images/icon/drawing-sm-icon04.svg);}
+.drawing-obj input[type="radio"]:checked + .obj-sm04 {background-image: url(/images/icon/drawing-sm-icon04-on.svg);}
 
 /*------------------------------------------------------------------------------
  * form-row
@@ -654,11 +654,11 @@ img.ui-datepicker-trigger {
 }
 
 .spinner-group .ui-spinner-up .ui-icon {
-	background-image: url(/yp_dt/images/icon/arrow-up.svg);
+	background-image: url(/images/icon/arrow-up.svg);
 }
 
 .spinner-group .ui-spinner-up:hover .ui-icon {
-	background-image: url(/yp_dt/images/icon/arrow-up-on.svg);
+	background-image: url(/images/icon/arrow-up-on.svg);
 }
 
 .spinner-group .ui-spinner-down,
@@ -668,11 +668,11 @@ img.ui-datepicker-trigger {
 }
 
 .spinner-group .ui-spinner-down .ui-icon {
-	background-image: url(/yp_dt/images/icon/arrow-down.svg);
+	background-image: url(/images/icon/arrow-down.svg);
 }
 
 .spinner-group .ui-spinner-down:hover .ui-icon {
-	background-image: url(/yp_dt/images/icon/arrow-down-on.svg);
+	background-image: url(/images/icon/arrow-down-on.svg);
 }
 
 
@@ -717,19 +717,19 @@ img.ui-datepicker-trigger {
 	background-color: #1C77FF;
 }
 
-.text-decoration-group .fontBold {background-image: url(/yp_dt/images/icon/icon-fontBold.svg);}
-.text-decoration-group .fontItalic {background-image: url(/yp_dt/images/icon/icon-fontItalic.svg);}
-.text-decoration-group .fontUnder {background-image: url(/yp_dt/images/icon/icon-fontUnder.svg);}
-.text-decoration-group input[type="checkbox"]:checked + .fontBold {background-image: url(/yp_dt/images/icon/icon-fontBold-on.svg);}
-.text-decoration-group input[type="checkbox"]:checked + .fontItalic {background-image: url(/yp_dt/images/icon/icon-fontItalic-on.svg);}
-.text-decoration-group input[type="checkbox"]:checked + .fontUnder {background-image: url(/yp_dt/images/icon/icon-fontUnder-on.svg);}
+.text-decoration-group .fontBold {background-image: url(/images/icon/icon-fontBold.svg);}
+.text-decoration-group .fontItalic {background-image: url(/images/icon/icon-fontItalic.svg);}
+.text-decoration-group .fontUnder {background-image: url(/images/icon/icon-fontUnder.svg);}
+.text-decoration-group input[type="checkbox"]:checked + .fontBold {background-image: url(/images/icon/icon-fontBold-on.svg);}
+.text-decoration-group input[type="checkbox"]:checked + .fontItalic {background-image: url(/images/icon/icon-fontItalic-on.svg);}
+.text-decoration-group input[type="checkbox"]:checked + .fontUnder {background-image: url(/images/icon/icon-fontUnder-on.svg);}
 
-.text-align-group .alignLeft {background-image: url(/yp_dt/images/icon/icon-alignLeft.svg);}
-.text-align-group .alignCenter {background-image: url(/yp_dt/images/icon/icon-alignCenter.svg);}
-.text-align-group .alignRight {background-image: url(/yp_dt/images/icon/icon-alignRight.svg);}
-.text-align-group input[type="radio"]:checked + .alignLeft {background-image: url(/yp_dt/images/icon/icon-alignLeft-on.svg);}
-.text-align-group input[type="radio"]:checked + .alignCenter {background-image: url(/yp_dt/images/icon/icon-alignCenter-on.svg);}
-.text-align-group input[type="radio"]:checked + .alignRight {background-image: url(/yp_dt/images/icon/icon-alignRight-on.svg);}
+.text-align-group .alignLeft {background-image: url(/images/icon/icon-alignLeft.svg);}
+.text-align-group .alignCenter {background-image: url(/images/icon/icon-alignCenter.svg);}
+.text-align-group .alignRight {background-image: url(/images/icon/icon-alignRight.svg);}
+.text-align-group input[type="radio"]:checked + .alignLeft {background-image: url(/images/icon/icon-alignLeft-on.svg);}
+.text-align-group input[type="radio"]:checked + .alignCenter {background-image: url(/images/icon/icon-alignCenter-on.svg);}
+.text-align-group input[type="radio"]:checked + .alignRight {background-image: url(/images/icon/icon-alignRight-on.svg);}
 
 
 /*------------------------------------------------------------------------------
@@ -805,7 +805,7 @@ img.ui-datepicker-trigger {
 	width: 100%;
 	height: 100%;
 	background: url(data:image/gif;base64,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);
-	background: url(/yp_dt/images/etc/progressbar-bg-white.gif);
+	background: url(/images/etc/progressbar-bg-white.gif);
     filter: alpha(opacity=5);
     opacity: 0.5;
 }
@@ -861,29 +861,29 @@ img.ui-datepicker-trigger {
 	background-color: #1C77FF;
 }
 
-.layer-marker input[type="radio"] + .obj-01 {background-image: url(/yp_dt/images/symbol/layerMarker01.svg);}
-.layer-marker input[type="radio"]:checked + .obj-01 {background-image: url(/yp_dt/images/symbol/layerMarker01-on.svg);}
+.layer-marker input[type="radio"] + .obj-01 {background-image: url(/images/symbol/layerMarker01.svg);}
+.layer-marker input[type="radio"]:checked + .obj-01 {background-image: url(/images/symbol/layerMarker01-on.svg);}
 
-.layer-marker input[type="radio"] + .obj-02 {background-image: url(/yp_dt/images/symbol/layerMarker02.svg);}
-.layer-marker input[type="radio"]:checked + .obj-02 {background-image: url(/yp_dt/images/symbol/layerMarker02-on.svg);}
+.layer-marker input[type="radio"] + .obj-02 {background-image: url(/images/symbol/layerMarker02.svg);}
+.layer-marker input[type="radio"]:checked + .obj-02 {background-image: url(/images/symbol/layerMarker02-on.svg);}
 
-.layer-marker input[type="radio"] + .obj-03 {background-image: url(/yp_dt/images/symbol/layerMarker03.svg);}
-.layer-marker input[type="radio"]:checked + .obj-03 {background-image: url(/yp_dt/images/symbol/layerMarker03-on.svg);}
+.layer-marker input[type="radio"] + .obj-03 {background-image: url(/images/symbol/layerMarker03.svg);}
+.layer-marker input[type="radio"]:checked + .obj-03 {background-image: url(/images/symbol/layerMarker03-on.svg);}
 
-.layer-marker input[type="radio"] + .obj-04 {background-image: url(/yp_dt/images/symbol/layerMarker04.svg);}
-.layer-marker input[type="radio"]:checked + .obj-04 {background-image: url(/yp_dt/images/symbol/layerMarker04-on.svg);}
+.layer-marker input[type="radio"] + .obj-04 {background-image: url(/images/symbol/layerMarker04.svg);}
+.layer-marker input[type="radio"]:checked + .obj-04 {background-image: url(/images/symbol/layerMarker04-on.svg);}
 
-.layer-marker input[type="radio"] + .obj-05 {background-image: url(/yp_dt/images/symbol/layerMarker05.svg);}
-.layer-marker input[type="radio"]:checked + .obj-05 {background-image: url(/yp_dt/images/symbol/layerMarker05-on.svg);}
+.layer-marker input[type="radio"] + .obj-05 {background-image: url(/images/symbol/layerMarker05.svg);}
+.layer-marker input[type="radio"]:checked + .obj-05 {background-image: url(/images/symbol/layerMarker05-on.svg);}
 
-.layer-marker input[type="radio"] + .obj-06 {background-image: url(/yp_dt/images/symbol/layerMarker06.svg);}
-.layer-marker input[type="radio"]:checked + .obj-06 {background-image: url(/yp_dt/images/symbol/layerMarker06-on.svg);}
+.layer-marker input[type="radio"] + .obj-06 {background-image: url(/images/symbol/layerMarker06.svg);}
+.layer-marker input[type="radio"]:checked + .obj-06 {background-image: url(/images/symbol/layerMarker06-on.svg);}
 
-.layer-marker input[type="radio"] + .obj-07 {background-image: url(/yp_dt/images/symbol/layerMarker07.svg);}
-.layer-marker input[type="radio"]:checked + .obj-07 {background-image: url(/yp_dt/images/symbol/layerMarker07-on.svg);}
+.layer-marker input[type="radio"] + .obj-07 {background-image: url(/images/symbol/layerMarker07.svg);}
+.layer-marker input[type="radio"]:checked + .obj-07 {background-image: url(/images/symbol/layerMarker07-on.svg);}
 
-.layer-marker input[type="radio"] + .obj-08 {background-image: url(/yp_dt/images/symbol/layerMarker08.svg);}
-.layer-marker input[type="radio"]:checked + .obj-08 {background-image: url(/yp_dt/images/symbol/layerMarker08-on.svg);}
+.layer-marker input[type="radio"] + .obj-08 {background-image: url(/images/symbol/layerMarker08.svg);}
+.layer-marker input[type="radio"]:checked + .obj-08 {background-image: url(/images/symbol/layerMarker08-on.svg);}
 
-.layer-marker input[type="radio"] + .obj-09 {background-image: url(/yp_dt/images/symbol/layerMarker09.svg);}
-.layer-marker input[type="radio"]:checked + .obj-09 {background-image: url(/yp_dt/images/symbol/layerMarker09-on.svg);}
+.layer-marker input[type="radio"] + .obj-09 {background-image: url(/images/symbol/layerMarker09.svg);}
+.layer-marker input[type="radio"]:checked + .obj-09 {background-image: url(/images/symbol/layerMarker09-on.svg);}

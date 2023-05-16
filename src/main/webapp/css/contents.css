@@ -24,7 +24,7 @@
 	margin-top: -5px;
 	width: 10px;
 	height: 10px;
-	background: url(/yp_dt/images/etc/cont-stit-bul.svg) no-repeat 50% 50%;
+	background: url(/images/etc/cont-stit-bul.svg) no-repeat 50% 50%;
 }
 
 .cont-txt {
@@ -296,7 +296,7 @@ sub {font-size: 13px;}
 }
 
 .tabBoxDepth3 > ul > li.on .inner-tab::after {
-	background-image: url(/yp_dt/images/etc/tabBoxDepth3-obj-on.png);
+	background-image: url(/images/etc/tabBoxDepth3-obj-on.png);
 }
 
 .tabBoxDepth3 > ul > li .inner-tab::after {
@@ -306,7 +306,7 @@ sub {font-size: 13px;}
 	bottom: -1px;
 	width: 8px;
 	height: 8px;
-	background-image: url(/yp_dt/images/etc/tabBoxDepth3-obj.png);
+	background-image: url(/images/etc/tabBoxDepth3-obj.png);
 	background-repeat: no-repeat;
 	background-position: 50% 50%;
 }
@@ -496,11 +496,11 @@ sub {font-size: 13px;}
 }
 
 .searchResult-wrap .search-list .road .cate {
-	background-image: url(/yp_dt/images/etc/search-cate-road.svg);
+	background-image: url(/images/etc/search-cate-road.svg);
 }
 
 .searchResult-wrap .search-list .jibun .cate {
-	background-image: url(/yp_dt/images/etc/search-cate-jibun.svg);
+	background-image: url(/images/etc/search-cate-jibun.svg);
 }
 
 .searchResult-wrap .search-list.type01 .road {
@@ -542,11 +542,11 @@ td.noData {
 }
 
 .noData .items.search .text::before {
-	background-image: url(/yp_dt/images/etc/search-empty.svg);
+	background-image: url(/images/etc/search-empty.svg);
 }
 
 .noData .items.data .text::before {
-	background-image: url(/yp_dt/images/etc/noData.svg);
+	background-image: url(/images/etc/noData.svg);
 }
 
 .noData .items .text {
@@ -651,7 +651,7 @@ td.noData {
 	display: block;
 	width: 20px;
 	height: 20px;
-	background: url(/yp_dt/images/icon/icon-symbol-delete.svg) no-repeat 50% 50%;
+	background: url(/images/icon/icon-symbol-delete.svg) no-repeat 50% 50%;
 }
 
 .symbol-register .form-file {
@@ -894,7 +894,7 @@ td.noData {
 	margin: 0 auto 5px;
 	width: 17px;
 	height: 17px;
-	background: url(/yp_dt/images/icon/icon-chart.svg) no-repeat 50% 50%;
+	background: url(/images/icon/icon-chart.svg) no-repeat 50% 50%;
 }
 
 .graph-box {
