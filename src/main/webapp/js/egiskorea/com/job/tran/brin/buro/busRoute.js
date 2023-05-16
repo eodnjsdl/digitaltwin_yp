@@ -317,8 +317,6 @@ function selectBusRoute(id) {
     
     const promise = dtmap.wfsGetFeature(options);
     promise.then(function (data) {
-    	//console.log(data);
-    	
     	if(data.features.length != 1){
     		alert("상세보기 오류")
     		return false;
@@ -337,6 +335,15 @@ function selectBusRouteDetail(detailData) {
 	//console.log(detailData);
 	
 	dtmap.vector.removeFeatureById('ol_uid');	// 정류소 지우기
+	
+	// zoom 변경
+	if (dtmap.mod == "2D") {
+		map2d.view.setZoom(5);
+	} else if (dtmap.mod == "3D") {
+		var center = map3d.getCenter();
+		center[2] = 57000;		// altitude 변경
+		map3d.setCenter(center);
+	}
 	
 	if(!detailData && detailData == null){
 		alert("버스 노선 상세보기 오류");
