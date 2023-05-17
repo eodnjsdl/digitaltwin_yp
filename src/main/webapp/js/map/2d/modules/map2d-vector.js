@@ -270,11 +270,7 @@ map2d.vector = (function () {
         } else if (geom instanceof ol.geom.Point || geom instanceof ol.geom.MultiPoint) {
             if (styleOpt.marker && styleOpt.marker.src) {
                 //마커
-                if (feature.id_ == 'ol_uid') {	// 교통분석 - 버스노선정보 - 노스정류소 marker
-                	style.setImage(markerStyle(_.merge({}, DEFAULT_MARKER, styleOpt.marker)));
-                } else {
-                	style.setImage(markerStyle(_.merge({}, DEFAULT_MARKER, styleOpt.marker), selected));
-                }
+            	style.setImage(markerStyle(_.merge({}, DEFAULT_MARKER, styleOpt.marker), selected));
             } else if (styleOpt.text) {
                 style.setText(textStyle(_.merge({}, DEFAULT_LABEL, styleOpt.text)));
             } else {
