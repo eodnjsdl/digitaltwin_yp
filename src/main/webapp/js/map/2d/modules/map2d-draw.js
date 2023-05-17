@@ -22,7 +22,7 @@ map2d.draw = (function () {
         _layer = new ol.layer.Vector({
             title: '_draw',
             source: _source,
-            zIndex: 99,
+            zIndex: 999,
             style: map2d.vector.style,
             isDefault: true
         });
@@ -463,6 +463,18 @@ map2d.draw = (function () {
         _source.addFeature(feature);
     }
 
+    function getZIndex() {
+        if (_layer) {
+            return _layer.getZIndex();
+        }
+    }
+
+    function setZIndex(index) {
+        if (_layer) {
+            _layer.setZIndex(index)
+        }
+    }
+
     let module = {
         init: init,
         active: active,
@@ -478,6 +490,8 @@ map2d.draw = (function () {
         clearSnapLayer: clearSnapLayer,
         addFeatures: addFeatures,
         addGeometry: addGeometry,
+        getZIndex: getZIndex,
+        setZIndex: setZIndex,
         clear: clear
     }
 

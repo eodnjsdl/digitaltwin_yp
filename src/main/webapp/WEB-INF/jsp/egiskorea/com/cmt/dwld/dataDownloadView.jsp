@@ -32,7 +32,8 @@
                                         <span><input type="radio" name="download-search-drawing" id="download-search-drawing-point" value="1" checked="checked"><label for="download-search-drawing-point" class="obj-sm01"></label></span>
                                         <span><input type="radio" name="download-search-drawing" id="download-search-drawing-linestring" value="2"><label for="download-search-drawing-linestring" class="obj-sm02"></label></span>
                                         <span><input type="radio" name="download-search-drawing" id="download-search-drawing-box" value="3"><label for="download-search-drawing-box" class="obj-sm03"></label></span>
-                                        <span><input type="radio" name="download-search-drawing" id="download-search-drawing-circle" value="4"><label for="download-search-drawing-circle" class="obj-sm04"></label></span>
+                                        <span><input type="radio" name="download-search-drawing" id="download-search-drawing-polygon" value="4"><label for="download-search-drawing-polygon" class="obj-07"></label></span>
+                                        <span><input type="radio" name="download-search-drawing" id="download-search-drawing-circle" value="5"><label for="download-search-drawing-circle" class="obj-sm04"></label></span>
                                     </span>
                                 </td>
                             </tr>

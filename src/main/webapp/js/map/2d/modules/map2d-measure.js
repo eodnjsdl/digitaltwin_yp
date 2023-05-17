@@ -194,7 +194,7 @@ map2d.measure = (function () {
             title: '_measure',
             style: styleFunction,
             isDefault: true,
-            zIndex: 999
+            zIndex: 9999
         });
         map2d.map.addLayer(_layer);
     }

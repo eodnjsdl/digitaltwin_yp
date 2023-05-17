@@ -532,6 +532,18 @@ map2d.vector = (function () {
         });
     }
 
+    function getZIndex() {
+        if (_layer) {
+            return _layer.getZIndex();
+        }
+    }
+
+    function setZIndex(index) {
+        if (_layer) {
+            _layer.setZIndex(index)
+        }
+    }
+
     let module = {
         init: init,
         addPoint: addPoint,
@@ -552,7 +564,9 @@ map2d.vector = (function () {
         removeFeatureById: removeFeatureById,
         removeFeatureByFilter: removeFeatureByFilter,
         getFeature: getFeature,
-        getSelected: getSelected
+        getSelected: getSelected,
+        getZIndex: getZIndex,
+        setZIndex: setZIndex
 
     }
 

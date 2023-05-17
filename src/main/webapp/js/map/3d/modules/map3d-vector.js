@@ -117,8 +117,6 @@ map3d.vector = (function () {
         if (!object3d || !object3d.getSelectable()) {
             return;
         }
-
-        debugger;
     }
 
     function getSelected() {
@@ -369,6 +367,14 @@ map3d.vector = (function () {
         });
     }
 
+    function getZIndex() {
+        return console.warn('3D 지도에서는 지원하지 않습니다.');
+    }
+
+    function setZIndex(index) {
+        return console.warn('3D 지도에서는 지원하지 않습니다.');
+    }
+
     let module = {
         init: init,
         readWKT: readWKT,
@@ -389,7 +395,9 @@ map3d.vector = (function () {
         clear: clear,
         clearSelect: clearSelect,
         dispose: dispose,
-        fit: fit
+        fit: fit,
+        getZIndex: getZIndex,
+        setZIndex: setZIndex
     }
 
     return module;

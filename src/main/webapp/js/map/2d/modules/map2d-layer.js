@@ -29,6 +29,13 @@ map2d.layer = (function () {
         layers.splice(layers.indexOf(layer), 1);
     }
 
+    function getVisible(id) {
+        let layer = getById(id);
+        if (layer) {
+            return layer.getVisible();
+        }
+    }
+
     function setVisible(id, visible) {
         let layer = getById(id);
         if (visible) {
@@ -40,6 +47,20 @@ map2d.layer = (function () {
             removeByTimeOut(id, layer);
         }
         layer.setVisible(visible);
+    }
+
+    function getZIndex(id) {
+        let layer = getById(id);
+        if (layer) {
+            return layer.getZIndex();
+        }
+    }
+
+    function setZIndex(id, zIndex) {
+        let layer = getById(id);
+        if (layer) {
+            return layer.setZIndex(zIndex);
+        }
     }
 
     //레이어 가시화 OFF 10분후 삭제
@@ -80,7 +101,7 @@ map2d.layer = (function () {
         const layer = new ol.layer.Image({
             id: id,
             title: title,
-            zIndex: options.zIndex || 1,
+            zIndex: options.zIndex,
             // extent: ol.proj.transformExtent(extent, bbox.crs.$, gis.map.Instance.getView().getProjection()),
             source: new ol.source.ImageWMS({
                 url: '/gis/wms',
@@ -171,9 +192,9 @@ map2d.layer = (function () {
     function refresh() {
         layers.forEach((layer) => {
             const source = layer.getSource();
-            if(source instanceof ol.source.Image){
+            if (source instanceof ol.source.Image) {
                 source.updateParams({
-                    _ : Date.now()
+                    _: Date.now()
                 });
             }
         })
@@ -182,7 +203,10 @@ map2d.layer = (function () {
     let module = {
         addLayer: addLayer,
         removeLayer: removeLayer,
+        getVisible: getVisible,
         setVisible: setVisible,
+        getZIndex: getZIndex,
+        setZIndex: setZIndex,
         clear: clear,
         refresh: refresh,
         getLayers: getLayers,
