@@ -1,12 +1,18 @@
 package egiskorea.com.job.tfan.brin.web;
 
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
-import egiskorea.com.job.fcmr.wsfc.service.WtlFirePsVO;
+import egiskorea.com.job.tfan.brin.service.BusRouteInformationService;
+import egiskorea.com.job.tfan.brin.service.TbdThrghRouteInfoVO;
 import egiskorea.com.job.tfan.brin.service.TgdBusSttnInfoVO;
 
 /**
@@ -27,6 +33,9 @@ import egiskorea.com.job.tfan.brin.service.TgdBusSttnInfoVO;
 @RequestMapping("/job/tfan/brin")
 public class BusRouteInformationController {
 
+	@Autowired
+    private BusRouteInformationService busRouteInformationService;
+	
 	////////
 	//버스정류소
 	
@@ -38,13 +47,23 @@ public class BusRouteInformationController {
         return "egiskorea/com/job/tfan/brin/brst/tgdBusSttnInfoListView";
     }
 	
-	//상세 화면 조회
+	//정류소경유노선(버스정류소정보)
 	@RequestMapping(value = "/selectTgdBusSttnInfo.do", method = RequestMethod.POST)
     public String selectTgdBusSttnInfo(
-    		@ModelAttribute("tgdBusSttnInfoVO") TgdBusSttnInfoVO tgdBusSttnInfoVO, String id,
+    		@ModelAttribute("tgdBusSttnInfoVO") TgdBusSttnInfoVO tgdBusSttnInfoVO,
     		ModelMap model) throws Exception {
-			model.addAttribute("id", id);
         return "egiskorea/com/job/tfan/brin/brst/selectTgdBusSttnInfo";
     }
+	
+	//정류소경유노선(특정 경유노선정보)
+	@RequestMapping(value = "/selectTbdThrghRouteInfo.do", method = RequestMethod.POST)
+	public String selectTbdThrghRouteInfo(
+		@ModelAttribute("tbdThrghRouteInfoVO") TbdThrghRouteInfoVO tbdThrghRouteInfoVO, ModelMap model) throws Exception {
+		
+		List<TbdThrghRouteInfoVO> result = busRouteInformationService.getTbdThrghRouteInfoById(tbdThrghRouteInfoVO.getSttnId());
+	    model.addAttribute("tbdThrghRouteInfoVO", result);
+	    
+	    return "egiskorea/com/job/tfan/brin/brst/selectTgdBusSttnInfo";
+	}
     
 }

@@ -1,9 +1,20 @@
 package egiskorea.com.job.tfan.brin.service.impl;
 
 import egiskorea.com.cmm.service.impl.ComAbstractDAO;
+import egiskorea.com.job.tfan.brin.service.TbdThrghRouteInfoVO;
+import java.util.List;
 import org.springframework.stereotype.Repository;
 
-@Repository("busRouteInfoDAO")
+@Repository("busRouteInformationDAO")
 public class BusRouteInformationDAO extends ComAbstractDAO {
+
+    // 특정 정류소경유노선정보
+    public List<TbdThrghRouteInfoVO> getTbdThrghRouteInfoById(String sttn_id) throws Exception {
+        return selectList("busRouteInformationDAO.getTbdThrghRouteInfoById", sttn_id);
+//    	List<TbdThrghRouteInfoVO> r = selectList("busRouteInformationDAO.getTbdThrghRouteInfoById", sttn_id);
+//    	System.out.println("-----------");
+//    	System.out.println(r.toString());
+//    	return r;
+    }
 
 }

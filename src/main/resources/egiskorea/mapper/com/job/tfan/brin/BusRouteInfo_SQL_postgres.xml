@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="busRouteInformationDAO">
+	
+	<!-- 특정 정류소경유노선 조회 쿼리 -->
+	<select id="getTbdThrghRouteInfoById" parameterType="String" resultType="tbdThrghRouteInfoVO">
+	    SELECT 	
+	    		ROUTE_TY_NM,
+	    		ROUTE_NM,
+	    		CDPNT_STTN_NM,
+	    		TMNL_STTN_NM
+	    		
+	    FROM 	tbd_thrgh_route_info
+	    
+	    WHERE 	sttn_id = #{sttn_id}
+	</select>
+	
+</mapper>

@@ -20,7 +20,9 @@
 
 <!-- 업무 > 교통분석 > 버스정류소 > 정류소경유노선 조회-->
 
-       	<div class="popup-header"><c:out value="${tgdBusSttnInfoVO.sttn_nm }"/></div>
+<%--        	<div class="popup-header">
+       		<c:out value="${tgdBusSttnInfoVO.sttn_nm }"/>&#40;<c:out value="${tgdBusSttnInfoVO.sttn_no }"/>&#41;
+       	</div> --%>
            <div class="popup-body">
                <div class="sub-popup-body">
                    <div class="data-write-wrap" style="height: 100%;">
@@ -34,7 +36,17 @@
                                        <col style="width: auto;">
                                    </colgroup>
                                    <tbody>
-                                   <tr>
+                                   <%-- <tr>
+                                       <th scope="row">기점정류소명</th>
+                                       <td>
+                                          	<c:out value="${tbdThrghRouteInfoVO.routeTy }"/>
+                                       </td>
+                                       <th scope="row">종점정류소명</th>
+                                       <td>
+                                       	  	<c:out value="${tbdThrghRouteInfoVO.routeTy }"/>
+                                       </td>
+                                   </tr> --%>
+<%--                                    <tr>
                                        <th scope="row">정류소아이디</th>
                                        <td>
                                           	<c:out value="${tgdBusSttnInfoVO.sttn_id }"/>
@@ -73,7 +85,7 @@
                                        <td>
                                        	  	<c:out value="${tgdBusSttnInfoVO.y_crdnt }"/>
                                        </td>
-                                   </tr>
+                                   </tr> --%>
                                    </tbody>
                                </table>
                            </div>

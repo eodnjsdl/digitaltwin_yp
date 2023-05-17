@@ -6,7 +6,7 @@
 
 //jqeury
 $(document).ready(function(){
-
+    
 });
 
 //functions
@@ -90,7 +90,7 @@ function tgdBusSttnInfoListProcess(){
             	if($(".space-edit-tool").hasClass("opened")){
             		clearSpaceEditTool();
                 }
-        		selectTgdBusSttnInfo(this.item.id);	//소방 시설 상세 페이지 로드
+        		selectTgdBusSttnInfo(this.item.id);	//정류소경유노선 조회 페이지 로드
             }
         }
 		
@@ -233,7 +233,7 @@ function selectTgdBusSttnInfoList(page) {
         	
             return {
                 marker: {
-                    src: '/images/poi/hydrant_poi.png'
+                    src: '/images/poi/subwayStation_poi.png'
                 },
                 label: {
                 	text: ''
@@ -276,37 +276,37 @@ function selectTgdBusSttnInfo(id){
 		return false;
 	}
 	
-  var options;
-  options = {
-      typeNames	: 'tgd_bus_sttn_info' + "",
-      filter 		: filters,
-  }
+	var options;
+	options = {
+		typeNames	: 'tgd_bus_sttn_info' + "",
+		filter 		: filters,
+	}
   
-  const promise = dtmap.wfsGetFeature(options);
-  promise.then(function (data) {
-  	//console.log(data);
-  	
-  	if(data.features.length != 1){
-  		alert("상세보기 오류")
-  		return false;
-  	}
-      	
-    //좌표 처리  geometry로 변수명을 정하면 기존것과 충돌 발생
-  	data.features[0].properties.geomObj = data.features[0].geometry;
-  	
-  	var detailData = data.features[0].properties;
-  	detailData.id = id;
-  	
-  	selectTgdBusSttnInfoView(detailData);	//상세 페이지에 데이터 전달
-  	
-  });
-
+	const promise = dtmap.wfsGetFeature(options);
+	promise.then(function (data) {
+	  	//console.log(data);
+	  	
+	  	if(data.features.length != 1){
+	  		alert("상세보기 오류")
+	  		return false;
+	  	}
+	      	
+	    //좌표 처리  geometry로 변수명을 정하면 기존것과 충돌 발생
+	  	data.features[0].properties.geomObj = data.features[0].geometry;
+	  	
+	  	var detailData = data.features[0].properties;
+	  	detailData.id = id;
+	  	
+	  	selectTgdBusSttnInfoView(detailData);	//상세 페이지에 데이터 전달
+	  	
+	});
+  
 }
 
 //상세 정보 페이지 불러 오기
 function selectTgdBusSttnInfoView(detailData){
 	//console.log("selectTgdBusSttnInfoView(detailData)");
-	console.log(detailData);
+	//console.log(detailData);
 	
 	if(!detailData && detailData == null){
 		alert("정류소경유노선 오류");
@@ -321,21 +321,66 @@ function selectTgdBusSttnInfoView(detailData){
 			formData.append(key, detailData[key]);
 		}
 	}
-
+	
+	var sttn_id = detailData.sttn_id;
+	
 	ui.loadingBar("show");
 	
+//	$.ajax({
+//		url:"/job/tfan/brin/selectTgdBusSttnInfo.do",
+//		type: "POST",
+//		//data: JSON.stringify(detailData),
+//		data: formData,
+//		dataType: 'html',
+//		//contentType: "application/json; charset=utf-8",
+//		contentType: false,
+//		processData: false,
+//		success:function(result) {
+//			//console.log(result);
+//			
+//			ui.openPopup("rightSubPopup");
+//			var container = "#rightSubPopup";
+//			$(container).html(result);
+//			
+//			dtmap.vector.select(detailData.id);	//지도에  표시
+//			
+//			//그리드에 행전체 선택되게 수정
+//			//console.log(detailData);
+//			var sttn_id = detailData.sttn_id;
+//			var gridList = TRFICANALS.Ax5UiGrid.list;
+//			
+//			for(var i=0; i<gridList.length; i++){
+//				//console.log(gridList[i]);
+//				var grid = gridList[i];
+//				if(sttn_id == grid.sttn_id){
+//					var dindex = grid.__index;
+//					TRFICANALS.Ax5UiGrid.clearSelect();
+//					TRFICANALS.Ax5UiGrid.focus(dindex);		
+//					//[참고 사항]
+//					//TRFICANALS.Ax5UiGrid.focus(-1); 	: 포커스 해제
+//					//TRFICANALS.Ax5UiGrid.select(숫자); 	: 사용해도 되는데 스크롤 이동이 안됨
+//				}
+//			}
+//
+//		}
+//		,error: function(request,status,error){
+//			console.log("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+//		}
+//		, complete : function(){
+//			ui.loadingBar("hide");
+//		}
+//	});
+	
+	// 정류소경유노선 조회
 	$.ajax({
-		url:"/job/tfan/brin/selectTgdBusSttnInfo.do",
-		type: "POST",
-		//data: JSON.stringify(detailData),
-		data: formData,
-		dataType: 'html',
-		//contentType: "application/json; charset=utf-8",
-		contentType: false,
-		processData: false,
-		success:function(result) {
-			console.log(result);
-			
+        url: "/job/tfan/brin/selectTbdThrghRouteInfo.do",
+        type: "POST",
+        data : {
+			"sttnId" 			: sttn_id,
+		},
+        success: function(result) {
+        	console.log(result);
+        	
 			ui.openPopup("rightSubPopup");
 			var container = "#rightSubPopup";
 			$(container).html(result);
@@ -353,20 +398,13 @@ function selectTgdBusSttnInfoView(detailData){
 				if(sttn_id == grid.sttn_id){
 					var dindex = grid.__index;
 					TRFICANALS.Ax5UiGrid.clearSelect();
-					TRFICANALS.Ax5UiGrid.focus(dindex);		
-					//[참고 사항]
-					//TRFICANALS.Ax5UiGrid.focus(-1); 	: 포커스 해제
-					//TRFICANALS.Ax5UiGrid.select(숫자); 	: 사용해도 되는데 스크롤 이동이 안됨
+					TRFICANALS.Ax5UiGrid.focus(dindex);
 				}
 			}
+        },
+        error: function(error) {
+            console.log(error);
+        }
+    });
 
-		}
-		,error: function(request,status,error){
-			console.log("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
-		}
-		, complete : function(){
-			ui.loadingBar("hide");
-		}
-	});
-	
 }
