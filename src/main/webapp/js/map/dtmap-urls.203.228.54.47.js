@@ -8,7 +8,7 @@ window.dtmap = window.dtmap || {};
 dtmap.urls = {
     BASE: 'http://203.228.54.47',
     xdServer: 'http://203.228.54.47/xdServer',
-    xdGeoServer: 'http://203.228.54.47/geoserver',
+    xdGeoServer: 'http://203.228.54.47:8086/gis',
     xdGeoUrl: 'http://203.228.54.47/geoUrl',
     emapBase: 'http://203.228.54.47/extEmap/openapi/Gettile.do',
     emapAirProxy: 'http://203.228.54.47/extEmap/openapi/proxy/proxyTile.jsp',
