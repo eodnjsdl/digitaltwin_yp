@@ -270,7 +270,7 @@ map2d.vector = (function () {
         } else if (geom instanceof ol.geom.Point || geom instanceof ol.geom.MultiPoint) {
             if (styleOpt.marker && styleOpt.marker.src) {
                 //마커
-                style.setImage(markerStyle(_.merge({}, DEFAULT_MARKER, styleOpt.marker), selected));
+            	style.setImage(markerStyle(_.merge({}, DEFAULT_MARKER, styleOpt.marker), selected));
             } else if (styleOpt.text) {
                 style.setText(textStyle(_.merge({}, DEFAULT_LABEL, styleOpt.text)));
             } else {
