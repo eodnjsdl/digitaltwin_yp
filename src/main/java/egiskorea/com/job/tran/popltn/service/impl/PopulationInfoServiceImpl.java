@@ -1,10 +1,13 @@
 package egiskorea.com.job.tran.popltn.service.impl;
 
+import java.util.List;
+
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
 
-import egiskorea.com.job.tran.popltn.service.PoplulationInfoService;
+import egiskorea.com.job.tran.popltn.service.PopulationInfoService;
+import egiskorea.com.job.tran.popltn.service.PopulationVO;
 import egovframework.rte.fdl.cmmn.EgovAbstractServiceImpl;
 
 /**
@@ -23,11 +26,44 @@ import egovframework.rte.fdl.cmmn.EgovAbstractServiceImpl;
  *  </pre>
  */
 
-@Service("poplulationInfoService")
-public class PoplulationInfoServiceImpl extends EgovAbstractServiceImpl implements PoplulationInfoService{
+@Service("populationInfoService")
+public class PopulationInfoServiceImpl extends EgovAbstractServiceImpl implements PopulationInfoService{
 	
-	@Resource(name = "poplulationInfoDAO")
-	private PoplulationInfoDAO poplulationInfoDAO;
+	@Resource(name = "populationInfoDAO")
+	private PopulationInfoDAO populationInfoDAO;
+
+	@Override
+	public List<PopulationVO> selectPopulationInfoList(PopulationVO populationVO) {
+		List<PopulationVO> list = null;
+		
+		list = populationInfoDAO.selectPopulationInfoList(populationVO);
+		
+		return list;
+	}
+
+	@Override
+	public int selectAllPopulationCnt() {
+		int cnt = 0;
+		cnt = populationInfoDAO.selectAllPopulationCnt();
+		return cnt;
+	}
+
+	@Override
+	public List<PopulationVO> selectMyeonPopulationInfoList(PopulationVO populationVO) {
+		List<PopulationVO> list = null;
+		
+		// 리 단위를 조회하기위해 면 코드 like 설정
+		// 10 자리 중 6~8자리 - 면, 9~10 자리 - 리
+		// 0~8 자리 까지 필요 41830***%;
+		String liCd = populationVO.getLiCd();
+		String setLiCd = "";
+		setLiCd = liCd.substring(0, 7);
+		populationVO.setLiCd(setLiCd);
+		
+		list = populationInfoDAO.selectMyeonPopulationInfoList(populationVO);
+		
+		return list;
+	}
 	
 // ################################################# 도로구간 #################################################
 	

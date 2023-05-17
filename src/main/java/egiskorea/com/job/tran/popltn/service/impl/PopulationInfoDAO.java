@@ -5,22 +5,7 @@ import java.util.List;
 import org.springframework.stereotype.Repository;
 
 import egiskorea.com.cmm.service.impl.ComAbstractDAO;
-import egiskorea.com.job.trfc.service.Bridge;
-import egiskorea.com.job.trfc.service.BridgeVO;
-import egiskorea.com.job.trfc.service.Overpass;
-import egiskorea.com.job.trfc.service.OverpassVO;
-import egiskorea.com.job.trfc.service.RailroadStation;
-import egiskorea.com.job.trfc.service.RailroadStationVO;
-import egiskorea.com.job.trfc.service.RailroadTrack;
-import egiskorea.com.job.trfc.service.RailroadTrackVO;
-import egiskorea.com.job.trfc.service.RoadSection;
-import egiskorea.com.job.trfc.service.RoadSectionVO;
-import egiskorea.com.job.trfc.service.SubwayStation;
-import egiskorea.com.job.trfc.service.SubwayStationVO;
-import egiskorea.com.job.trfc.service.SubwayTrack;
-import egiskorea.com.job.trfc.service.SubwayTrackVO;
-import egiskorea.com.job.trfc.service.Tunnel;
-import egiskorea.com.job.trfc.service.TunnelVO;
+import egiskorea.com.job.tran.popltn.service.PopulationVO;
 
 /**
  * @Description 교통시설 dao 클래스
@@ -38,8 +23,21 @@ import egiskorea.com.job.trfc.service.TunnelVO;
  *  </pre>
  */
 
-@Repository("poplulationInfoDAO")
-public class PoplulationInfoDAO extends ComAbstractDAO {
+@Repository("populationInfoDAO")
+public class PopulationInfoDAO extends ComAbstractDAO {
+	
+	public List<PopulationVO> selectPopulationInfoList(PopulationVO populationVO) {
+		return selectList("population.selectPopulationInfoList", populationVO);
+	}
+	
+	public int selectAllPopulationCnt() {
+		int cnt = selectOne("population.selectAllPopulationCnt");
+		return cnt;
+	}
+	
+	public List<PopulationVO> selectMyeonPopulationInfoList(PopulationVO populationVO) {
+		return selectList("population.selectMyeonPopulationInfoList", populationVO);
+	}
 	
 // ################################################# 도로구간 #################################################
 	

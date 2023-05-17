@@ -1,5 +1,9 @@
 package egiskorea.com.job.tran.popltn.web;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import javax.annotation.Resource;
 
 import org.slf4j.Logger;
@@ -7,8 +11,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
-import egiskorea.com.job.tran.popltn.service.PoplulationInfoService;
+import egiskorea.com.job.tran.popltn.service.PopulationInfoService;
+import egiskorea.com.job.tran.popltn.service.PopulationVO;
 import egovframework.rte.fdl.property.EgovPropertyService;
 
 /**
@@ -29,15 +36,15 @@ import egovframework.rte.fdl.property.EgovPropertyService;
 
 @Controller
 @RequestMapping("/job/tran/popltn")
-public class PoplulationInfoController {
+public class PopulationInfoController {
 	
-	@Resource(name = "poplulationInfoService")
-	private PoplulationInfoService poplulationInfoService;
+	@Resource(name = "populationInfoService")
+	private PopulationInfoService poplulationInfoService;
 	
 	@Resource(name = "propertiesService")
     protected EgovPropertyService propertyService;
 
-	private static final Logger logger = LoggerFactory.getLogger(PoplulationInfoController.class);
+	private static final Logger logger = LoggerFactory.getLogger(PopulationInfoController.class);
 	
 	// ################################################# 인구정보 #################################################
 	
@@ -60,6 +67,21 @@ public class PoplulationInfoController {
 		model.addAttribute("result", "ok");
 		return "egiskorea/com/job/tran/popltn/selectPopulationInfoList";
 	}
+	
+	@RequestMapping(value = "/selectMyeonPopulationInfoList.do")
+	@ResponseBody
+	public ModelAndView selectMyeonPopulationInfoList(
+			PopulationVO populationVO) throws Exception {
+		ModelAndView mav = new ModelAndView("jsonView");
+		List<PopulationVO> list = null;
+		
+		list = poplulationInfoService.selectMyeonPopulationInfoList(populationVO);
+		
+		mav.addObject("resultList", list);
+		
+		return mav;
+	}
+	
 	
 	
 	/////////////////////////

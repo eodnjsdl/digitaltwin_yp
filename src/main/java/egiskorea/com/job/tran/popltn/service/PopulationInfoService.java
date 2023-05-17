@@ -1,7 +1,6 @@
 package egiskorea.com.job.tran.popltn.service;
 
 import java.util.List;
-import java.util.Map;
 
 /**
  * @Description 교통분석 service 클래스
@@ -19,8 +18,27 @@ import java.util.Map;
  *  </pre>
  */
 
-public interface PoplulationInfoService {
+public interface PopulationInfoService {
 	
+	/**
+	 * 양평군 리 단위 인구수 목록 조회
+	 * @param poplulationVO
+	 * @return
+	 */
+	public List<PopulationVO> selectPopulationInfoList(PopulationVO populationVO);
+	
+	/**
+	 * 양평군 총 인구 수 조회
+	 * @return
+	 */
+	public int selectAllPopulationCnt();
+	
+	/**
+	 * 해당하는 면 정보 조회 (해당하는 면의 리 정보 조회)
+	 * @param poplulationVO
+	 * @return
+	 */
+	public List<PopulationVO> selectMyeonPopulationInfoList(PopulationVO populationVO);
 	
 // ################################################# 인구정보 #################################################
 	

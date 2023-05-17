@@ -7,7 +7,7 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
 
-<script type="text/javascript">
+<!-- <script type="text/javascript">
 	//jquery
 	$(document).ready(function(){
 		console.log("selectPopulationInfoList.jsp");
@@ -234,10 +234,10 @@
 		
 	}
 
-</script>
+</script> -->
+<script src="/js/egiskorea/com/job/tran/popltn/popltn.js"></script>
 <!-- 교통분석-인구정보 -->
-	<form name="pplSearchForm" id="pplSearchForm" method="post">
-
+	<form name="pplSearchForm" id="pplSearchForm">
 	<div class="popup-header">인구정보</div>
 	<div class="popup-body">
 		<div class="left-popup-body">	
@@ -261,7 +261,7 @@
                            <tr>
                               <th scope="row">대상 지역</th>
                                <td>
-                                   <select name="pplTrArea" id="pplTrArea" class="form-select w-auto" style="width: 100%;">
+                                   <select name="liCd" id="liCd" class="form-select w-auto" style="width: 100%;">
                                        <option value="all" selected="selected">전체</option>
                                    </select>
                                </td> 
@@ -279,12 +279,7 @@
                            <tr>
                               <th scope="row">기준 연월</th>
                                <td>
-                                   <select name="pplBaseYYMM" id="pplBaseYYMM" class="form-select w-auto" style="width: 100%;">
-                                     <!--   <option value="202305" selected="selected">2023년 05월</option>
-                                       <option value="202304">2023년 04월</option>
-                                       <option value="202303">2023년 03월</option>
-                                       <option value="202302">2023년 02월</option>
-                                       <option value="202301">2023년 01월</option> -->
+                                   <select name="stdrYm" id="pplBaseYYMM" class="form-select w-auto" style="width: 100%;">
                                    </select>
                                </td> 
                            </tr>										
