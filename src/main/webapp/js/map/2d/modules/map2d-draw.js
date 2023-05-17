@@ -22,7 +22,7 @@ map2d.draw = (function () {
         _layer = new ol.layer.Vector({
             title: '_draw',
             source: _source,
-            zIndex: 99,
+            zIndex: 999,
             style: map2d.vector.style,
             isDefault: true
         });
@@ -330,6 +330,10 @@ map2d.draw = (function () {
         }
     }
 
+    function getBuffer() {
+        return _buffer;
+    }
+
     //지오메트리 버퍼 업데이트
     function updateGeometry(feature) {
         if (_buffer <= 0 || isNaN(_buffer)) {
@@ -459,6 +463,18 @@ map2d.draw = (function () {
         _source.addFeature(feature);
     }
 
+    function getZIndex() {
+        if (_layer) {
+            return _layer.getZIndex();
+        }
+    }
+
+    function setZIndex(index) {
+        if (_layer) {
+            _layer.setZIndex(index)
+        }
+    }
+
     let module = {
         init: init,
         active: active,
@@ -468,11 +484,14 @@ map2d.draw = (function () {
         readGeoJson: readGeoJson,
         getGeometry: getGeometry,
         setBuffer: setBuffer,
+        getBuffer: getBuffer,
         getSnapLayer: getSnapLayer,
         setSnapLayer: setSnapLayer,
         clearSnapLayer: clearSnapLayer,
         addFeatures: addFeatures,
         addGeometry: addGeometry,
+        getZIndex: getZIndex,
+        setZIndex: setZIndex,
         clear: clear
     }
 

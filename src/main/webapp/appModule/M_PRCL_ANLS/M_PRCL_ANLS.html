@@ -5,17 +5,20 @@
     <div class="popup-header">편입필지분석</div>
 
 
-
     <div class="popup-body">
         <div class="tool-popup-body top-dataOut-body">
             <div class="tabBoxDepth1-wrap">
                 <div class="tabBoxDepth1">
                     <ul>
-                        <li data-id="tr_area" id="trArea" class="on"><button type="button" class="inner-tab">영역기준</button></li>
-                        <li data-id="tr_facility" id="trFacility"><button type="button" class="inner-tab">시설물 기준</button></li>
+                        <li data-id="tr_area" id="trArea" class="on">
+                            <button type="button" class="inner-tab">영역기준</button>
+                        </li>
+                        <li data-id="tr_facility" id="trFacility">
+                            <button type="button" class="inner-tab">시설물 기준</button>
+                        </li>
                     </ul>
                 </div>
-                <div class="tab-cont dataOut01 on">
+                <div class="tab-cont dataOut01 on" style="padding-bottom: 25px !important;">
                     <div class="data-default">
                         <table class="data-write">
                             <colgroup>
@@ -25,54 +28,176 @@
                             <tbody>
                             <tr class="tr_toggle tr_area">
                                 <th scope="row" class="th_search_area_span" rowspan="3">검색영역지정</th>
-<!--                                <td>-->
-<!--                                    <span class="form-radio text group">-->
-<!--                                        <span><input type="radio" name="download-search-area" id="download-search-area-extent" value="extent" checked="checked"><label for="download-search-area-extent">현재화면영역</label></span>-->
-<!--                                        <span><input type="radio" name="download-search-area" id="download-search-area-custom" value="custom"><label for="download-search-area-custom">사용자 정의</label></span>-->
-<!--                                    </span>-->
-<!--                                </td>-->
+                                <!--                                <td>-->
+                                <!--                                    <span class="form-radio text group">-->
+                                <!--                                        <span><input type="radio" name="download-search-area" id="download-search-area-extent" value="extent" checked="checked"><label for="download-search-area-extent">현재화면영역</label></span>-->
+                                <!--                                        <span><input type="radio" name="download-search-area" id="download-search-area-custom" value="custom"><label for="download-search-area-custom">사용자 정의</label></span>-->
+                                <!--                                    </span>-->
+                                <!--                                </td>-->
                             </tr>
                             <tr class="tr_toggle tr_area tr_search_area">
                                 <td>
                                     <span class="drawing-obj small">
-                                        <span><input type="radio" name="download-search-drawing" id="download-search-drawing-point" value="1" checked="checked"><label for="download-search-drawing-point" class="obj-sm01"></label></span>
-                                        <span><input type="radio" name="download-search-drawing" id="download-search-drawing-linestring" value="2"><label for="download-search-drawing-linestring" class="obj-sm02"></label></span>
-                                        <span><input type="radio" name="download-search-drawing" id="download-search-drawing-box" value="3"><label for="download-search-drawing-box" class="obj-sm03"></label></span>
-                                        <span><input type="radio" name="download-search-drawing" id="download-search-drawing-circle" value="4"><label for="download-search-drawing-circle" class="obj-sm04"></label></span>
+                                        <span><input type="radio" name="download-search-drawing"
+                                                     id="download-search-drawing-point" value="1"
+                                        ><label for="download-search-drawing-point"
+                                                class="obj-sm01"></label></span>
+                                        <span><input type="radio" name="download-search-drawing"
+                                                     id="download-search-drawing-linestring" value="2"><label
+                                                for="download-search-drawing-linestring"
+                                                class="obj-sm02"></label></span>
+                                        <span><input type="radio" name="download-search-drawing"
+                                                     id="download-search-drawing-box" value="3"><label
+                                                for="download-search-drawing-box" class="obj-sm03"></label></span>
+                                        <span><input type="radio" name="download-search-drawing"
+                                                     id="download-search-drawing-polygon" value="4"><label
+                                                for="download-search-drawing-polygon" class="obj-07"></label></span>
+                                        <span><input type="radio" name="download-search-drawing"
+                                                     id="download-search-drawing-circle" value="5"><label
+                                                for="download-search-drawing-circle" class="obj-sm04"></label></span>
                                     </span>
                                 </td>
                             </tr>
                             <tr class="tr_toggle tr_area">
-                                <td>경계로부터 <span class="marL5 marR10"><input type="text" class="form-control w-60 align-center area-search-buffer" placeholder="0" value="0"> <sub>m</sub></span> 이내 범위</td>
+                                <td>경계로부터 <span class="marL5 marR10"><input type="text"
+                                                                            class="form-control w-60 align-center area-search-buffer"
+                                                                            placeholder="0"
+                                                                            value="0"> <sub>m</sub></span> 이내 범위
+                                </td>
                             </tr>
+
+                            <tr class="tr_toggle tr_area">
+                                <th scope="row">포함방식</th>
+                                <td>
+                                    <span class="form-radio text group">
+                                        <span><input type="radio" name="parcel-area-type" id="parcel-area-part"
+                                                     value="part" checked="checked"><label for="parcel-area-part">일부포함</label></span>
+                                        <span><input type="radio" name="parcel-area-type" id="parcel-area-all"
+                                                     value="all"><label for="parcel-area-all">전체포함</label></span>
+                                    </span>
+                                </td>
+                            </tr>
+
                             <tr class="tr_toggle tr_facility">
                                 <th scope="row" rowspan="2">검색영역지정</th>
                                 <td>
                                     <div class="form-row">
                                         <div class="col">
-                                            <select name="standard-search-target" class="form-select" id="facilitySelectList">
+                                            <select name="standard-search-target" class="form-select"
+                                                    id="facilitySelectList">
                                             </select>
                                         </div>
-                                        <div class="col-auto"><button type="button" class="btn type01 bi-location btn-select-map">지도에서 선택</button></div>
+                                        <div class="col-auto">
+                                            <button type="button" class="btn type01 bi-location btn-select-map">지도에서
+                                                선택
+                                            </button>
+                                        </div>
                                     </div>
                                 </td>
                             </tr>
                             <tr class="tr_toggle tr_facility">
-                                <td>경계로부터 <span class="marL5 marR10"><input type="text" class="form-control w-60 align-center facility-search-buffer" placeholder="0" value="0"> <sub>m</sub></span> 이내 범위</td>
+                                <td>경계로부터 <span class="marL5 marR10"><input type="text"
+                                                                            class="form-control w-60 align-center facility-search-buffer"
+                                                                            placeholder="0"
+                                                                            value="0"> <sub>m</sub></span> 이내 범위
+                                </td>
                             </tr>
+
+                            <tr class="tr_toggle tr_facility">
+                                <th scope="row">포함방식</th>
+                                <td>
+                                    <span class="form-radio text group">
+                                        <span><input type="radio" name="parcel-facility-type" id="parcel-facility-part"
+                                                     value="part" checked="checked"><label for="parcel-facility-part">일부포함</label></span>
+                                        <span><input type="radio" name="parcel-facility-type" id="parcel-facility-all"
+                                                     value="all"><label for="parcel-facility-all">전체포함</label></span>
+                                    </span>
+                                </td>
+                            </tr>
+
+
                             </tbody>
                         </table>
                     </div>
                     <div class="btn-wrap justify-content-end marT5">
-                        <div><button type="button" class="btn basic bi-reset btn_reset">초기화</button></div>
+                        <div>
+                            <button type="button" class="btn basic bi-reset btn_reset">초기화</button>
+                        </div>
                     </div>
 
                 </div>
             </div>
         </div>
+
+        <div class="bbs-list-wrap" style="height: 545px; display: none;"><!-- pagination 하단 고정을 위해 반드시 필요 -->
+
+            <div id="parcelInfoArea" style="padding: 5px;text-align: right;"></div>
+
+            <div class="bbs-default" style="height: 90% !important;">
+                <div class="bbs-list-head">
+                    <table class="bbs-list">
+                        <colgroup>
+                            <col style="width: 20%;">
+                            <col style="width: 20%;">
+                            <col style="width: 20%;">
+                            <col style="width: auto;">
+                        </colgroup>
+                        <thead>
+                        <tr>
+                            <th scope="col">법정동</th>
+                            <th scope="col">전체면적(㎡)</th>
+                            <th scope="col">편입면적(㎡)</th>
+                            <th scope="col">제외면적(㎡)</th>
+                            <th scope="col">편입비율(%)</th>
+                        </tr>
+                        </thead>
+                    </table>
+                </div>
+                <div class="scroll-y mCustomScrollbar _mCS_14" style="position: relative; overflow: visible;">
+                    <div id="mCSB_14" class="mCustomScrollBox mCS-light mCSB_vertical mCSB_outside"
+                         style="max-height: none;" tabindex="0">
+                        <div id="mCSB_14_container" class="mCSB_container"
+                             style="position: relative; top: 0px; left: 0px;" dir="ltr">
+                            <table class="bbs-list">
+                                <colgroup>
+                                    <col style="width: 20%;">
+                                    <col style="width: 20%;">
+                                    <col style="width: 20%;">
+                                    <col style="width: auto;">
+                                </colgroup>
+                                <tbody class="result-list">
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- <div class="pagination">
+                <a href="javascript:void(0);" class="first" title="처음"></a>
+                <a href="javascript:void(0);" class="prev" title="이전"></a>
+                <strong class="current">1</strong>
+                <a href="javascript:void(0);">2</a>
+                <a href="javascript:void(0);">3</a>
+                <a href="javascript:void(0);">4</a>
+                <a href="javascript:void(0);">5</a>
+                <a href="javascript:void(0);" class="next" title="다음"></a>
+                <a href="javascript:void(0);" class="last" title="마지막"></a>
+            </div> -->
+
+            <!-- <div class="btn-wrap"><div><button type="button" class="btn basic bi-delete2">선택삭제</button></div></div> -->
+        </div>
+
+
+        <div class="guid-box" style="text-align: center; font-size: 18px; display: block;">
+            <img style="width: 70px;" src="/images/etc/icon_guide.png" alt="가이드이미지">
+            검색영역을 지정하세요.
+        </div>
+
+
     </div>
-
-
 
 
     <button type="button" class="manualBtn" title="도움말" onclick="manualTab('경사분석(3D)')"></button>

@@ -22,7 +22,7 @@ html, body {
 	margin: 0 auto 20px;
 	width: 195px;
 	height: 160px;
-	background: url(/yp_dt/images/error/error-img.svg) no-repeat 50% 50%;
+	background: url(/images/error/error-img.svg) no-repeat 50% 50%;
 }
 
 #errorPage .txt1 {

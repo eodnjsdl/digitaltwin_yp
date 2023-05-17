@@ -155,7 +155,10 @@
 		<typeAlias alias="welFareFaciVO" type="egiskorea.com.job.fcmr.wlfc.service.WelFareFaciVO" />
 		<typeAlias alias="welfareVO" type="egiskorea.com.job.wlre.service.WelfareVO" />
 		
-		<!-- 업무 > 읍명동  -->
+		<!-- 교통분석 > 버스노선 -->
+		<typeAlias alias="thrghSttnVO" type="egiskorea.com.job.tran.brin.service.ThrghSttnVO" />
+		
+		<!-- 업무 > 읍면동  -->
 		<typeAlias alias="tgdSccoEmdVO" type="egiskorea.com.job.cmss.service.TgdSccoEmdVO" />
 
 		<!-- 주제도 관리 -->

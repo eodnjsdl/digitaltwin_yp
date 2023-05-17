@@ -20,7 +20,7 @@ map2d.baseLayer = (function () {
                 name: '일반지도',
                 visible: false,
                 source: {
-                    url: dtmap.urls.emapBase + '?apikey=' + dtmap.urls.EMAP_KEY,
+                    url: dtmap.urls.emapBase + '?apikey=' + dtmap.config.EMAP_KEY,
                     crossOrigin: "*",
                     projection: "EPSG:5179",
                     wrapX: true,
@@ -89,7 +89,7 @@ map2d.baseLayer = (function () {
                         origin: [-200000, 4000000],
                     }),
                     tileLoadFunction: function (imageTile, src) {
-                        imageTile.getImage().src = dtmap.urls.emapAirProxy + '?apikey=' + dtmap.urls.EMAP_KEY + "&URL=" + encodeURIComponent(src);
+                        imageTile.getImage().src = dtmap.urls.emapAirProxy + '?apikey=' + dtmap.config.EMAP_KEY + "&URL=" + encodeURIComponent(src);
                     }
                 }
             }

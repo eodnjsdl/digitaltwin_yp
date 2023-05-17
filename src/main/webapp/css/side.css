@@ -245,8 +245,8 @@
 }
 
 .lnb-cont .lnb-body {
-	padding: 20px;
-	height: calc(100% - 32px);
+	padding: 18px;
+	height: calc(100% - 80px);
 }
 
 .lnb-cont .lnb-body .srch-box {
@@ -293,6 +293,11 @@
 /*------------------------------------------------------------------------------
  * LNB > 레이어
  *----------------------------------------------------------------------------*/
+
+#side .lnb-layer.lnb-cont {
+	width: 318px;
+}
+
 .lnb-layer.lnb-cont .lnb-resetBtn {
 	/*margin-right: 15px;*/
 }
@@ -301,9 +306,9 @@
 	margin-right: 3px;
 }
 
-.lnb-layer.lnb-cont {
-	width: 250px !important;
-}
+/*.lnb-layer.lnb-cont {*/
+/*	width: 250px !important;*/
+/*}*/
 
 .lnb-layer.lnb-cont .lnb-body .scroll-y {
 	height: calc(100% - 108px);
@@ -336,8 +341,8 @@
 
 .layer-list > li .layer-toggle {
 	position: absolute;
-	top: 3px;
-	right: 0;
+	top: 8px;
+	right: 5px;
 	width: 16px;
 	height: 16px;
 	background-color: #161F32;
@@ -410,6 +415,13 @@
 	flex-shrink: 0;
 	margin-left: auto;
 	width: 33px;
+}
+
+.layer-list .layer-list-dep2 > li > div.riDiv {
+	margin: 0;
+	padding: 0;
+	width: auto;
+	text-align: inherit;
 }
 
 .layer-list .layer-list-dep2 .form-checkbox {

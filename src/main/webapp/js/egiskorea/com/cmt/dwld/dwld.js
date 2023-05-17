@@ -116,9 +116,14 @@ class DataDownlad {
             dtmap.clear();
             dtmap.off('select');
             var parent = $(this).parent();
+            const id = parent.attr("data-id");
+            const mod = dtmap.mod;
+            if (id === "tr_facility" && mod === "3D") {
+                toastr.warning("2D지도에서만 사용 가능합니다.");
+                return;
+            }
             parent.addClass("on").siblings().removeClass("on");
             $("." + parent.data("tab")).addClass("on").siblings().removeClass("on");
-            const id = parent.attr("data-id");
             $(".data-write tbody tr.tr_toggle", that.selector).hide();
             $(`.data-write tbody tr.${id}`, that.selector).show();
             if (id === "tr_area") {
@@ -161,6 +166,9 @@ class DataDownlad {
                     type = 'Box';
                     break;
                 case 4:
+                    type = 'Polygon';
+                    break;
+                case 5:
                     type = 'Circle';
                     break;
             }

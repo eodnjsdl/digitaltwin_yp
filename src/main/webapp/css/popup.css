@@ -60,7 +60,7 @@
     right: 8px;
     width: 24px;
     height: 24px;
-    background: url(/yp_dt/images/icon/popup-close.svg) no-repeat 50% 50%;
+    background: url(/images/icon/popup-close.svg) no-repeat 50% 50%;
     z-index: 5;
 }
 
@@ -82,7 +82,7 @@
     width: 24px;
     height: 24px;
     background-color: rgba(0, 0, 0, 0.5);
-    background-image: url(/yp_dt/images/icon/popup-reset.svg);
+    background-image: url(/images/icon/popup-reset.svg);
     background-repeat: no-repeat;
     background-position: 50% 50%;
     border-radius: 7px;
@@ -98,7 +98,7 @@
     width: 24px;
     height: 24px;
     background-color: rgba(0, 0, 0, 0.5);
-    background-image: url(/yp_dt/images/map/manualBtn.png);
+    background-image: url(/images/map/manualBtn.png);
     background-repeat: no-repeat;
     background-position: 50% 50%;
     border-radius: 7px;
@@ -161,7 +161,7 @@
     margin-top: -50px;
     width: 30px;
     height: 100px;
-    background: url(/yp_dt/images/etc/popup-left-toggle-bg.png) no-repeat 50% 50%;
+    background: url(/images/etc/popup-left-toggle-bg.png) no-repeat 50% 50%;
 }
 
 .popup-panel.popup-left .popup-left-toggle::after {
@@ -173,7 +173,7 @@
     margin: -5px 0 0 -3px;
     width: 7px;
     height: 10px;
-    background: url(/yp_dt/images/etc/popup-left-toggle-arrow.svg) no-repeat 50% 50%;
+    background: url(/images/etc/popup-left-toggle-arrow.svg) no-repeat 50% 50%;
     -webkit-transition: left .2s;
     transition: left .2s;
 }
@@ -230,7 +230,7 @@
 /*    left: -6px;*/
 /*    width: 320px;*/
 /*    height: 46px;*/
-/*    background: transparent url(/yp_dt/images/etc/bottom-popup-header.png) no-repeat 50% 50%;*/
+/*    background: transparent url(/images/etc/bottom-popup-header.png) no-repeat 50% 50%;*/
 /*    z-index: 1;*/
 /*}*/
 
@@ -275,7 +275,7 @@
     margin: -3px 0 0 -6px;
     width: 12px;
     height: 7px;
-    background: url(/yp_dt/images/icon/popup-toggle.svg);
+    background: url(/images/icon/popup-toggle.svg);
     -webkit-transition: all .2s;
     transition: all .2s;
 }
@@ -291,11 +291,11 @@
 .popup-panel.popup-bottom .bbs-top .btn.bi-write {
     width: 50px;
     height: 27px;
-    background: url(/yp_dt/images/icon/bi-write-sm.png) no-repeat 50% 50%;
+    background: url(/images/icon/bi-write-sm.png) no-repeat 50% 50%;
 }
 
 .popup-panel.popup-bottom .bbs-top .btn.bi-write:hover {
-    background: url(/yp_dt/images/icon/bi-write-sm-on.png) no-repeat 50% 50%;
+    background: url(/images/icon/bi-write-sm-on.png) no-repeat 50% 50%;
 }
 
 .popup-panel.popup-bottom .bbs-list thead th {
@@ -403,7 +403,7 @@
     width: 39px;
     height: 39px;
     border-left: 1px solid #44516A;
-    background: url(/yp_dt/images/icon/popup-close2.svg) no-repeat 50% 50%;
+    background: url(/images/icon/popup-close2.svg) no-repeat 50% 50%;
     border-top-right-radius: 10px;
 }
 
@@ -454,7 +454,7 @@
     width: 20px;
     height: 20px;
     border: 1px solid #44516A;
-    background-image: url(/yp_dt/images/etc/small-toggle-fold.svg);
+    background-image: url(/images/etc/small-toggle-fold.svg);
     background-repeat: no-repeat;
     background-position: 50% 50%;
     border-radius: 5px;
@@ -467,7 +467,7 @@
     height: 20px;
     border: 1px solid #44516A;
     background-color: #fff;
-    background-image: url(/yp_dt/images/map/manualBtn2.png);
+    background-image: url(/images/map/manualBtn2.png);
     border-radius: 5px;
 }
 
@@ -515,7 +515,7 @@
 }
 
 .small-popup.fold .popup-toggle {
-    background-image: url(/yp_dt/images/etc/small-toggle.svg);
+    background-image: url(/images/etc/small-toggle.svg);
 }
 
 
@@ -542,11 +542,11 @@
 }
 
 .popup-panel.board-notice .popup-header {
-    background-image: url(/yp_dt/images/etc/popup-title-notice.svg);
+    background-image: url(/images/etc/popup-title-notice.svg);
 }
 
 .popup-panel.board-qna .popup-header {
-    background-image: url(/yp_dt/images/etc/popup-title-board.svg);
+    background-image: url(/images/etc/popup-title-board.svg);
 }
 
 .popup-panel.popup-bbs .popup-body {
@@ -568,7 +568,7 @@
     width: 80px;
     height: 80px;
     border-radius: 15px 15px 0 0;
-    background: #fff url(/yp_dt/images/icon/popup-close3.svg) no-repeat 50% 50%;
+    background: #fff url(/images/icon/popup-close3.svg) no-repeat 50% 50%;
 }
 
 .popup-panel.popup-bbs .popup-close::before {
@@ -578,7 +578,7 @@
     left: -19px;
     width: 19px;
     height: 19px;
-    background: url(/yp_dt/images/etc/board-popup-bg.png) no-repeat 50% 50%;
+    background: url(/images/etc/board-popup-bg.png) no-repeat 50% 50%;
 }
 
 /*------------------------------------------------------------------------------
@@ -661,7 +661,7 @@
     margin: -4px 3px 0 0;
     width: 20px;
     height: 20px;
-    background: url(/yp_dt/images/icon/icon-folder.svg) no-repeat 50% 50%;
+    background: url(/images/icon/icon-folder.svg) no-repeat 50% 50%;
     vertical-align: middle;
 }
 
@@ -693,7 +693,7 @@
     margin: -4px 5px 0 0;
     width: 15px;
     height: 15px;
-    background: url(/yp_dt/images/icon/icon-folder-bul.svg) no-repeat 50% 50%;
+    background: url(/images/icon/icon-folder-bul.svg) no-repeat 50% 50%;
     vertical-align: middle;
 }
 
@@ -755,12 +755,12 @@
 }
 
 .imagesSwiper .swiper-button-prev, .imagesSwiper .swiper-container-rtl .swiper-button-next {
-    background-image: url(/yp_dt/images/icon/swiper-button-prev.svg);
+    background-image: url(/images/icon/swiper-button-prev.svg);
     left: 0;
 }
 
 .imagesSwiper .swiper-button-next, .imagesSwiper .swiper-container-rtl .swiper-button-prev {
-    background-image: url(/yp_dt/images/icon/swiper-button-next.svg);
+    background-image: url(/images/icon/swiper-button-next.svg);
     right: 0;
 }
 
@@ -1074,7 +1074,7 @@
     right: 0;
     width: 24px;
     height: 100%;
-    background: url(/yp_dt/images/icon/icon-symbol-delete.svg) no-repeat 50% 50%;
+    background: url(/images/icon/icon-symbol-delete.svg) no-repeat 50% 50%;
 }
 
 .layerList-legend {
@@ -1244,7 +1244,7 @@
     margin: 0 auto 15px;
     width: 100%;
     height: 119px;
-    background: url(/yp_dt/images/etc/analysis-view-thumb.jpg) no-repeat 50% 50%;
+    background: url(/images/etc/analysis-view-thumb.jpg) no-repeat 50% 50%;
 }
 
 .analysis-view-basic .btn-wrap {
@@ -1276,11 +1276,11 @@
 }
 
 .analysis-view-list .icon-btn.delete {
-    background-image: url(/yp_dt/images/icon/bi-delete-sm.svg);
+    background-image: url(/images/icon/bi-delete-sm.svg);
 }
 
 .analysis-view-list .icon-btn.delete:hover {
-    background-image: url(/yp_dt/images/icon/bi-delete-sm-on.svg);
+    background-image: url(/images/icon/bi-delete-sm-on.svg);
 }
 
 
@@ -1300,14 +1300,14 @@
 }
 
 .sunlight-slider .ui-slider-range {
-    background: url(/yp_dt/images/etc/slider-range.png) no-repeat -1px 50%;
+    background: url(/images/etc/slider-range.png) no-repeat -1px 50%;
 }
 
 .sunlight-slider .ui-slider-handle {
     width: 15px;
     height: 16px;
     border-color: #939FB5;
-    background: #fff url(/yp_dt/images/etc/slider-handle.svg) no-repeat 50% 50%;
+    background: #fff url(/images/etc/slider-handle.svg) no-repeat 50% 50%;
     box-shadow: 0px 2px 3px rgba(0, 0, 0, 0.25);
     border-radius: 3px;
 }
@@ -1339,7 +1339,7 @@
     margin-left: -4px;
     width: 8px;
     height: 7px;
-    background: url(/yp_dt/images/map/toolTip-arrow-bottom.png) no-repeat 50% 50%;
+    background: url(/images/map/toolTip-arrow-bottom.png) no-repeat 50% 50%;
 }
 
 .sunlight-slider-wrap .sunlight-time {
@@ -1384,7 +1384,7 @@
 .sunlight-option-group .form-select {
     width: 80px;
     height: 26px;
-    background-image: url(/yp_dt/images/icon/form-select-arrow-md.jpg);
+    background-image: url(/images/icon/form-select-arrow-md.jpg);
 }
 
 .sunlight-option-group .form-select + .form-select {
@@ -1438,27 +1438,27 @@
 }
 
 .playCtrl-group .play {
-    background-image: url(/yp_dt/images/etc/playCtrl-play.svg);
+    background-image: url(/images/etc/playCtrl-play.svg);
 }
 
 .playCtrl-group .pause {
-    background-image: url(/yp_dt/images/etc/playCtrl-pause.svg);
+    background-image: url(/images/etc/playCtrl-pause.svg);
 }
 
 .playCtrl-group .stop {
-    background-image: url(/yp_dt/images/etc/playCtrl-stop.svg);
+    background-image: url(/images/etc/playCtrl-stop.svg);
 }
 
 .playCtrl-group input[type="radio"]:checked + .play {
-    background-image: url(/yp_dt/images/etc/playCtrl-play-on.svg);
+    background-image: url(/images/etc/playCtrl-play-on.svg);
 }
 
 .playCtrl-group input[type="radio"]:checked + .pause {
-    background-image: url(/yp_dt/images/etc/playCtrl-pause-on.svg);
+    background-image: url(/images/etc/playCtrl-pause-on.svg);
 }
 
 .playCtrl-group input[type="radio"]:checked + .stop {
-    background-image: url(/yp_dt/images/etc/playCtrl-stop-on.svg);
+    background-image: url(/images/etc/playCtrl-stop-on.svg);
 }
 
 /*------------------------------------------------------------------------------
@@ -1681,7 +1681,7 @@
     right: 20px;
     width: 28px;
     height: 28px;
-    background: url(/yp_dt/images/login/system-close.png) no-repeat 50% 50%;
+    background: url(/images/login/system-close.png) no-repeat 50% 50%;
 }
 
 .basic-popup .basic-body {
@@ -1726,7 +1726,7 @@
     margin: -3px 0 0 10px;
     width: 16px;
     height: 16px;
-    background-image: url(/yp_dt/images/icon/form-checkbox.svg);
+    background-image: url(/images/icon/form-checkbox.svg);
     background-repeat: no-repeat;
     background-position: 50% 50%;
     cursor: pointer;
@@ -1734,7 +1734,7 @@
 }
 
 .basic-popup .today-checkbox input[type=checkbox]:checked + label::after {
-    background-image: url(/yp_dt/images/icon/form-checkbox-on.svg);
+    background-image: url(/images/icon/form-checkbox-on.svg);
 }
 
 .list-type1 {

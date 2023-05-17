@@ -96,7 +96,7 @@ public class MainController {
 		
 		// 만료일자로부터 경과한 일수 => ex)1이면 만료일에서 1일 경과
 		model.addAttribute("elapsedTimeExpiration", passedDayChangePWD - expirePwdDay);
-		
+		model.addAttribute("domain",request.getServerName());
 		if(RequestContextUtils.getInputFlashMap(request) != null) {
 			model.addAttribute("area", (String) RequestContextUtils.getInputFlashMap(request).get("area"));
 		}

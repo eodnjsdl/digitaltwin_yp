@@ -154,7 +154,10 @@ map2d.vector = (function () {
      * @param id 피쳐ID
      * @param [multi=false] 다중선택
      */
-    function select(id, multi) {
+    function select(id, options) {
+        options = options || {};
+        const multi = options.multi === undefined ? false : options.multi;
+        const move = options.move === undefined ? true : options.move;
         if (!multi) {
             clearSelect();
         }
@@ -162,11 +165,20 @@ map2d.vector = (function () {
 
         let feature = getFeature(id);
         if (feature) {
-            // const center = feature.getGeometry().getCoordinates();
-            const extent = feature.getGeometry().getExtent();
-            const center = [(extent[0] + extent[2]) / 2, (extent[1] + extent[3]) / 2];
             feature.set('_selected', true);
-            map2d.view.setCenter(center);
+            if (move) {
+                // const center = feature.getGeometry().getCoordinates();
+                const extent = feature.getGeometry().getExtent();
+                const center = [(extent[0] + extent[2]) / 2, (extent[1] + extent[3]) / 2];
+                map2d.view.setCenter(center);
+            }
+        }
+    }
+
+    function unselect(id) {
+        let feature = getFeature(id);
+        if (feature) {
+            feature.set('_selected', false);
         }
     }
 
@@ -258,7 +270,7 @@ map2d.vector = (function () {
         } else if (geom instanceof ol.geom.Point || geom instanceof ol.geom.MultiPoint) {
             if (styleOpt.marker && styleOpt.marker.src) {
                 //마커
-                style.setImage(markerStyle(_.merge({}, DEFAULT_MARKER, styleOpt.marker), selected));
+            	style.setImage(markerStyle(_.merge({}, DEFAULT_MARKER, styleOpt.marker), selected));
             } else if (styleOpt.text) {
                 style.setText(textStyle(_.merge({}, DEFAULT_LABEL, styleOpt.text)));
             } else {
@@ -520,6 +532,18 @@ map2d.vector = (function () {
         });
     }
 
+    function getZIndex() {
+        if (_layer) {
+            return _layer.getZIndex();
+        }
+    }
+
+    function setZIndex(index) {
+        if (_layer) {
+            _layer.setZIndex(index)
+        }
+    }
+
     let module = {
         init: init,
         addPoint: addPoint,
@@ -534,12 +558,15 @@ map2d.vector = (function () {
         readWKT: readWKT,
         readGeoJson: readGeoJson,
         select: select,
+        unselect: unselect,
         writeGeoJson: writeGeoJson,
         removeFeature: removeFeature,
         removeFeatureById: removeFeatureById,
         removeFeatureByFilter: removeFeatureByFilter,
         getFeature: getFeature,
-        getSelected: getSelected
+        getSelected: getSelected,
+        getZIndex: getZIndex,
+        setZIndex: setZIndex
 
     }
 
