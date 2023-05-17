@@ -2,6 +2,20 @@ package egiskorea.com.job.tfan.brin.service;
 
 import java.io.Serializable;
 
+/**
+ * @Description 버스정류소정보 VO
+ * @author 글로벌컨설팅부문 장현승
+ * @since 2023.05.17
+ * @version 1.0
+ * @see
+ *
+ * << 개정이력(Modification Information) >>
+ *
+ *  수정일               수정자            수정내용
+ *  ----------   --------   ---------------------------
+ *  2023.05.17   장현승           최초 생성
+ */
+
 @SuppressWarnings("serial")
 public class TgdBusSttnInfoVO implements Serializable{
 	

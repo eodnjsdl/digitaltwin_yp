@@ -45,13 +45,13 @@
 								<tr>  
 									<th scope="row">정류소명</th>  
 									<td>    
-										<input type="text" name="stationname" class="form-control" value="">    
+										<input type="text" name="sttn_nm" class="form-control" value="">    
 									</td>
 								</tr>
 								<tr>  
 									<th scope="row">정류소번호</th>  
 									<td>    
-										<input type="number" step="1" name="stationseq" class="form-control" value="">    
+										<input type="number" step="1" name="sttn_no" class="form-control" value="">    
 									</td>
 								</tr>
                             </tbody>

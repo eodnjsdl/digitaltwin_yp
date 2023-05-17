@@ -17,8 +17,8 @@ import egiskorea.com.job.tfan.brin.service.TgdBusSttnInfoVO;
 
 /**
  * @Description 교통분석/버스노선정보
- * @author 장현승
- * @since 2023.05.11
+ * @author 글로벌컨설팅부문 장현승
+ * @since 2023.05.17
  * @version 1.0
  * @see
  *
@@ -26,7 +26,7 @@ import egiskorea.com.job.tfan.brin.service.TgdBusSttnInfoVO;
  *
  *  수정일               수정자            수정내용
  *  ----------   --------   ---------------------------
- *  2023.05.11   장현승           최초 생성
+ *  2023.05.17   장현승           최초 생성
  */
 
 @Controller

@@ -43,7 +43,7 @@ function tgdBusSttnInfoListProcess(){
     });
     
     //옵션 값 세팅
-	//getTrficAnalsCmmCodeData("YPE001", 	"#lSrchOptions select[name=hjd_cde]");	//읍면동	
+	getTrficAnalsCmmCodeData("YPE001", 	"#lSrchOptions select[name=hjd_cde]");	//읍면동	
 	
 	//grid 기본 세팅
 	var $container = $("#container");
@@ -83,7 +83,6 @@ function tgdBusSttnInfoListProcess(){
         },
         body: {
         	onClick: function () {
-        		//console.log(this);
         		//this.self.select(this.dindex);	//행 선택 되게 수정
                 
                 //공간정보 편집도구 닫기
@@ -92,8 +91,7 @@ function tgdBusSttnInfoListProcess(){
                 }
         		selectTgdBusSttnInfo(this.item.id);	//정류소경유노선 조회 페이지 로드
             }
-        }
-		
+        },
 	});
     
 	//목록 조회  - 1 page
@@ -134,13 +132,21 @@ function selectTgdBusSttnInfoList(page) {
 		
 		const filters = [];
 		
-		//const hjd_cde 		=	$("#lSrchOptions select[name=hjd_cde]").val();				//읍면동
+		const hjd_cde 		=	$("#lSrchOptions select[name=hjd_cde]").val();				//읍면동
+		const sttn_nm		=	$("#lSrchOptions input[name=sttn_nm]").val();
+		const sttn_no		=	$("#lSrchOptions input[name=sttn_no]").val();
 		
 		let filterString = "";
 		
-		/*if(hjd_cde){
-			filters.push("hjd_cde" + " = " + hjd_cde); 
-		}*/
+		if(hjd_cde){
+			filters.push("geom" + " = " + hjd_cde); 
+		}
+		if(sttn_nm){
+			filters.push("sttn_nm" + " = " + sttn_nm); 
+		}
+		if(sttn_no){
+			filters.push("sttn_no" + " = " + sttn_no); 
+		}
 	    
 	    options = {
 	        typeNames	: 'tgd_bus_sttn_info' + "",
@@ -251,7 +257,7 @@ function selectTgdBusSttnInfoList(page) {
 //////////////
 //상세정보 보회
 
-//버스정류소 상세정보 조회
+//정류소경유노선 조회
 function selectTgdBusSttnInfo(id){
 	//console.log("selectTgdBusSttnInfo(id)");
 	//console.log(id);

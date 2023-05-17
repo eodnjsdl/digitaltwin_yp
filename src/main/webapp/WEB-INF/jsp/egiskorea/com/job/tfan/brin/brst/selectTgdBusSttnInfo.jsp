@@ -17,13 +17,15 @@
 	    position: absolute;
 	}
 	
+	.data-default {
+	  max-height: 100%; /* 원하는 높이로 스크롤 설정 */
+	  overflow-y: auto;
+	}
+	
 </style>
 
 <!-- 업무 > 교통분석 > 버스정류소 > 정류소경유노선 조회-->
 
-       	<%-- <div class="popup-header">
-       		<c:out value="${tgdBusSttnInfoVO.sttn_nm }"/>&#40;<c:out value="${tgdBusSttnInfoVO.sttn_no }"/>&#41;
-       	</div> --%>
        	<div class="popup-header" id="tgdBusSttnInfo"></div>
            <div class="popup-body">
                <div class="sub-popup-body">
@@ -33,6 +35,26 @@
                                <ul class="data-write">
 								  <c:forEach items="${tbdThrghRouteInfoVO}" var="item">
 								    <li>
+								      <strong>노선유형:</strong> <c:out value="${item.routeTyNm }"/>&nbsp;&nbsp;&nbsp;&nbsp;
+								      <strong>노선번호:</strong> <c:out value="${item.routeNm }"/><br>
+								      <strong>기점:</strong> <c:out value="${item.cdpntSttnNm }"/>&nbsp;&nbsp;&nbsp;&nbsp;
+								      <strong>종점:</strong> <c:out value="${item.tmnlSttnNm }"/><br>
+								      <strong></strong><br>
+								      <strong>노선유형:</strong> <c:out value="${item.routeTyNm }"/>&nbsp;&nbsp;&nbsp;&nbsp;
+								      <strong>노선번호:</strong> <c:out value="${item.routeNm }"/><br>
+								      <strong>기점:</strong> <c:out value="${item.cdpntSttnNm }"/>&nbsp;&nbsp;&nbsp;&nbsp;
+								      <strong>종점:</strong> <c:out value="${item.tmnlSttnNm }"/><br>
+								      <strong></strong><br>
+								      <strong>노선유형:</strong> <c:out value="${item.routeTyNm }"/>&nbsp;&nbsp;&nbsp;&nbsp;
+								      <strong>노선번호:</strong> <c:out value="${item.routeNm }"/><br>
+								      <strong>기점:</strong> <c:out value="${item.cdpntSttnNm }"/>&nbsp;&nbsp;&nbsp;&nbsp;
+								      <strong>종점:</strong> <c:out value="${item.tmnlSttnNm }"/><br>
+								      <strong></strong><br>
+								      <strong>노선유형:</strong> <c:out value="${item.routeTyNm }"/>&nbsp;&nbsp;&nbsp;&nbsp;
+								      <strong>노선번호:</strong> <c:out value="${item.routeNm }"/><br>
+								      <strong>기점:</strong> <c:out value="${item.cdpntSttnNm }"/>&nbsp;&nbsp;&nbsp;&nbsp;
+								      <strong>종점:</strong> <c:out value="${item.tmnlSttnNm }"/><br>
+								      <strong></strong><br>
 								      <strong>노선유형:</strong> <c:out value="${item.routeTyNm }"/>&nbsp;&nbsp;&nbsp;&nbsp;
 								      <strong>노선번호:</strong> <c:out value="${item.routeNm }"/><br>
 								      <strong>기점:</strong> <c:out value="${item.cdpntSttnNm }"/>&nbsp;&nbsp;&nbsp;&nbsp;
