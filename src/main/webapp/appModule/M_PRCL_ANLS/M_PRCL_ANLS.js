@@ -100,6 +100,7 @@ var M_PRCL_ANLS = (function () {
         $(".tabBoxDepth1 ul li button", M_PRCL_ANLS.selector).on("click", function () {
             dtmap.clear();
             dtmap.off('select');
+            $("[name=download-search-drawing]:checked").prop("checked", false);
             var parent = $(this).parent();
             const id = parent.attr("data-id");
             const mod = dtmap.mod;
@@ -376,6 +377,8 @@ var M_PRCL_ANLS = (function () {
 
     function printList(features) {
         let html = ``;
+        let sumJijukArea = 0;
+        let sumParcelArea = 0;
         const $div = $(M_PRCL_ANLS.selector).find('.result-list');
         $('.guid-box', M_PRCL_ANLS.selector).hide();
         $div.empty();
@@ -386,6 +389,8 @@ var M_PRCL_ANLS = (function () {
         } else {
             for (let i = 0; i < features.length; i++) {
                 const f = features[i];
+                sumParcelArea += f.get("area");
+                sumJijukArea += f.get("oriArea");
                 let exceptVal = f.get('oriArea') - f.get('area');
                 html += `<tr data-fid="${f.getId()}">
                 <td>${f.get('jibun')}</td>
@@ -399,6 +404,17 @@ var M_PRCL_ANLS = (function () {
         $div.append(html);
         $(".bbs-list-wrap").show();
         $(".guid-box").hide();
+
+        let infoHtml = ``;
+        infoHtml += `
+            <ul>
+                <li>필지수:<a style="color:#1C77FF; font-weight: bold;"> ${features.length}건</a></li>
+                <li>
+                편입면적합계:<a style="color:#1C77FF; font-weight: bold;"> ${sumParcelArea.toFixed(2)}㎡</a>
+                전체면적합계:<a style="color:#1C77FF; font-weight: bold;"> ${sumJijukArea.toFixed(2)}㎡</a></li>
+            </ul>
+        `;
+        $("#parcelInfoArea").html(infoHtml);
     }
 
     return module;
