@@ -3,15 +3,13 @@
 <mapper namespace="busRouteInformationDAO">
 	
 	<!-- 특정 정류소경유노선 조회 쿼리 -->
-	<select id="getTbdThrghRouteInfoById" parameterType="String" resultType="tbdThrghRouteInfoVO">
+	<select id="getTbdThrghRouteInfoById" parameterType="String" resultType="egiskorea.com.job.tfan.brin.service.TbdThrghRouteInfoVO">
 	    SELECT 	
-	    		ROUTE_TY_NM,
-	    		ROUTE_NM,
-	    		CDPNT_STTN_NM,
-	    		TMNL_STTN_NM
-	    		
+	    		route_ty_nm,
+	    		route_nm,
+	    		cdpnt_sttn_nm,
+	    		tmnl_sttn_nm
 	    FROM 	tbd_thrgh_route_info
-	    
 	    WHERE 	sttn_id = #{sttn_id}
 	</select>
 	

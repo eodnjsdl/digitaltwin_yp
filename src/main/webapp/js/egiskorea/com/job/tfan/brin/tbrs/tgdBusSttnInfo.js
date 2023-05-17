@@ -6,7 +6,7 @@
 
 //jqeury
 $(document).ready(function(){
-    
+	
 });
 
 //functions
@@ -323,53 +323,10 @@ function selectTgdBusSttnInfoView(detailData){
 	}
 	
 	var sttn_id = detailData.sttn_id;
+	var sttn_nm = detailData.sttn_nm;
+	
 	
 	ui.loadingBar("show");
-	
-//	$.ajax({
-//		url:"/job/tfan/brin/selectTgdBusSttnInfo.do",
-//		type: "POST",
-//		//data: JSON.stringify(detailData),
-//		data: formData,
-//		dataType: 'html',
-//		//contentType: "application/json; charset=utf-8",
-//		contentType: false,
-//		processData: false,
-//		success:function(result) {
-//			//console.log(result);
-//			
-//			ui.openPopup("rightSubPopup");
-//			var container = "#rightSubPopup";
-//			$(container).html(result);
-//			
-//			dtmap.vector.select(detailData.id);	//지도에  표시
-//			
-//			//그리드에 행전체 선택되게 수정
-//			//console.log(detailData);
-//			var sttn_id = detailData.sttn_id;
-//			var gridList = TRFICANALS.Ax5UiGrid.list;
-//			
-//			for(var i=0; i<gridList.length; i++){
-//				//console.log(gridList[i]);
-//				var grid = gridList[i];
-//				if(sttn_id == grid.sttn_id){
-//					var dindex = grid.__index;
-//					TRFICANALS.Ax5UiGrid.clearSelect();
-//					TRFICANALS.Ax5UiGrid.focus(dindex);		
-//					//[참고 사항]
-//					//TRFICANALS.Ax5UiGrid.focus(-1); 	: 포커스 해제
-//					//TRFICANALS.Ax5UiGrid.select(숫자); 	: 사용해도 되는데 스크롤 이동이 안됨
-//				}
-//			}
-//
-//		}
-//		,error: function(request,status,error){
-//			console.log("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
-//		}
-//		, complete : function(){
-//			ui.loadingBar("hide");
-//		}
-//	});
 	
 	// 정류소경유노선 조회
 	$.ajax({
@@ -379,17 +336,19 @@ function selectTgdBusSttnInfoView(detailData){
 			"sttnId" 			: sttn_id,
 		},
         success: function(result) {
+        	
         	console.log(result);
         	
 			ui.openPopup("rightSubPopup");
 			var container = "#rightSubPopup";
 			$(container).html(result);
 			
+			$('#tgdBusSttnInfo').append(sttn_nm + " (" + sttn_id + ")");
+			
 			dtmap.vector.select(detailData.id);	//지도에  표시
 			
 			//그리드에 행전체 선택되게 수정
 			//console.log(detailData);
-			var sttn_id = detailData.sttn_id;
 			var gridList = TRFICANALS.Ax5UiGrid.list;
 			
 			for(var i=0; i<gridList.length; i++){
@@ -401,10 +360,13 @@ function selectTgdBusSttnInfoView(detailData){
 					TRFICANALS.Ax5UiGrid.focus(dindex);
 				}
 			}
-        },
-        error: function(error) {
+        }
+        ,error: function(error) {
             console.log(error);
         }
+        , complete : function(){
+			ui.loadingBar("hide");
+		}
     });
 
 }

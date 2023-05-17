@@ -16,78 +16,31 @@
 	    border-top-right-radius: 10px;
 	    position: absolute;
 	}
+	
 </style>
 
 <!-- 업무 > 교통분석 > 버스정류소 > 정류소경유노선 조회-->
 
-<%--        	<div class="popup-header">
+       	<%-- <div class="popup-header">
        		<c:out value="${tgdBusSttnInfoVO.sttn_nm }"/>&#40;<c:out value="${tgdBusSttnInfoVO.sttn_no }"/>&#41;
        	</div> --%>
+       	<div class="popup-header" id="tgdBusSttnInfo"></div>
            <div class="popup-body">
                <div class="sub-popup-body">
                    <div class="data-write-wrap" style="height: 100%;">
                        <div class="scroll-y">
                            <div class="data-default">
-                               <table class="data-write">
-                                   <colgroup>
-                                       <col style="width: 23%;">
-                                       <col style="width: auto;">
-                                       <col style="width: 23%;">
-                                       <col style="width: auto;">
-                                   </colgroup>
-                                   <tbody>
-                                   <%-- <tr>
-                                       <th scope="row">기점정류소명</th>
-                                       <td>
-                                          	<c:out value="${tbdThrghRouteInfoVO.routeTy }"/>
-                                       </td>
-                                       <th scope="row">종점정류소명</th>
-                                       <td>
-                                       	  	<c:out value="${tbdThrghRouteInfoVO.routeTy }"/>
-                                       </td>
-                                   </tr> --%>
-<%--                                    <tr>
-                                       <th scope="row">정류소아이디</th>
-                                       <td>
-                                          	<c:out value="${tgdBusSttnInfoVO.sttn_id }"/>
-                                       </td>
-                                       <th scope="row">정류소명</th>
-                                       <td>
-                                       	  	<c:out value="${tgdBusSttnInfoVO.sttn_nm }"/>
-                                       </td>
-                                   </tr>
-                                   <tr>
-                                       <th scope="row">정류소번호</th>
-                                       <td>
-                                       	  	<c:out value="${tgdBusSttnInfoVO.sttn_no }"/>
-                                       </td>
-                                       <th scope="row">지역명</th>
-                                       <td>
-                                       	  	<c:out value="${tgdBusSttnInfoVO.area_nm }"/>
-                                       </td>
-                                   </tr>
-                                   <tr>
-                                       <th scope="row">관할코드</th>
-                                       <td>
-                                       	  	<c:out value="${tgdBusSttnInfoVO.cmptnc_cd }"/>
-                                       </td>
-                                       <th scope="row">중앙차로여부</th>
-                                       <td>
-                                       	  	<c:out value="${tgdBusSttnInfoVO.centr_cartrk_at }"/>
-                                       </td>
-                                   </tr>
-                                   <tr>
-                                       <th scope="row">x좌표</th>
-                                       <td>
-                                       	  	<c:out value="${tgdBusSttnInfoVO.x_crdnt }"/>
-                                       </td>
-                                       <th scope="row">y좌표</th>
-                                       <td>
-                                       	  	<c:out value="${tgdBusSttnInfoVO.y_crdnt }"/>
-                                       </td>
-                                   </tr> --%>
-                                   </tbody>
-                               </table>
+                               <ul class="data-write">
+								  <c:forEach items="${tbdThrghRouteInfoVO}" var="item">
+								    <li>
+								      <strong>노선유형:</strong> <c:out value="${item.routeTyNm }"/>&nbsp;&nbsp;&nbsp;&nbsp;
+								      <strong>노선번호:</strong> <c:out value="${item.routeNm }"/><br>
+								      <strong>기점:</strong> <c:out value="${item.cdpntSttnNm }"/>&nbsp;&nbsp;&nbsp;&nbsp;
+								      <strong>종점:</strong> <c:out value="${item.tmnlSttnNm }"/><br>
+								      <strong></strong><br>
+								    </li>
+								  </c:forEach>
+								</ul>
                            </div>
                        </div>
                        <div class="position-bottom btn-wrap justify-content-end">
