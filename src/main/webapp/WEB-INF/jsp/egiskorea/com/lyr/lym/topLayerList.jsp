@@ -300,8 +300,8 @@
                         const li = liList[j];
                         const liId = id + '_' + j;
                         let liTag = "";
-                        liTag += '<li title="' + key + ' ' + li.kr + '" class="liData">';
-                        liTag += '<span class="form-checkbox">';
+                        liTag += '<li  style="display: inline-block; padding: 2px;" title="' + key + ' ' + li.kr + '" class="liData">';
+                        liTag += '<span class="form-checkbox" style="width: unset;">';
                         liTag += '<input type="checkbox" id="' + liId + '" name="' + li.layer + '" class="only3d" title="' + li.kr + '" data-desc="' + li.layer + '">';
                         liTag += '<label for="' + liId + '" data-title="' + li.kr + '">' + li.kr + '</label></span></li>';
                         $ul.append(liTag)
