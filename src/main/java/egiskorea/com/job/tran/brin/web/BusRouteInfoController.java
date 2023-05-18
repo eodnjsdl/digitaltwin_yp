@@ -1,5 +1,6 @@
 package egiskorea.com.job.tran.brin.web;
 
+import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
@@ -10,6 +11,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import egiskorea.com.job.tran.brin.service.TbdThrghRouteInfoVO;
+import egiskorea.com.job.tran.brin.service.TgdBusSttnInfoVO;
 import egiskorea.com.job.tran.brin.service.BusRouteInfoService;
 import egiskorea.com.job.tran.brin.service.BusRouteVO;
 import egiskorea.com.job.tran.brin.service.BusSttnVO;
@@ -27,6 +30,7 @@ import egiskorea.com.job.tran.brin.service.ThrghSttnVO;
  *  수정일                     수정자               수정내용
  *  ----------   --------   ---------------------------
  *  2023.05.11   김영주                최초 생성
+ *  2023.05.17   장현승                2차 수정
  */
 
 @Controller
@@ -81,4 +85,32 @@ public class BusRouteInfoController {
 //		model.addAttribute("id", id);
 //		return "egiskorea/com/job/tran/brin/bust/busSttnDetail";
 //	}
+	
+	//목록 화면 호출
+	@RequestMapping(value = "/selectTgdBusSttnInfoListView.do")
+    public String selectTgdBusSttnInfoListView(
+            @ModelAttribute("tgdBusSttnInfoVO") TgdBusSttnInfoVO tgdBusSttnInfoVO,
+            ModelMap model) throws Exception {
+        return "egiskorea/com/job/tran/brin/brst/tgdBusSttnInfoListView";
+    }
+	
+	//정류소경유노선(버스정류소정보)
+	@RequestMapping(value = "/selectTgdBusSttnInfo.do", method = RequestMethod.POST)
+    public String selectTgdBusSttnInfo(
+    		@ModelAttribute("tgdBusSttnInfoVO") TgdBusSttnInfoVO tgdBusSttnInfoVO,
+    		ModelMap model) throws Exception {
+        return "egiskorea/com/job/tran/brin/brst/selectTgdBusSttnInfo";
+    }
+	
+	//정류소경유노선(특정 경유노선정보)
+	@RequestMapping(value = "/selectTbdThrghRouteInfo.do", method = RequestMethod.POST)
+	public String selectTbdThrghRouteInfo(
+		@ModelAttribute("tbdThrghRouteInfoVO") TbdThrghRouteInfoVO tbdThrghRouteInfoVO, ModelMap model) throws Exception {
+		
+		List<TbdThrghRouteInfoVO> result = busRouteInfoService.getTbdThrghRouteInfoById(tbdThrghRouteInfoVO.getSttnId());
+	    model.addAttribute("tbdThrghRouteInfoVO", result);
+	    
+	    return "egiskorea/com/job/tran/brin/brst/selectTgdBusSttnInfo";
+	}
+	
 }

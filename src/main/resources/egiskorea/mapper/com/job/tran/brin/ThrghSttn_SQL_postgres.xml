@@ -18,4 +18,15 @@
 		FROM TBD_THRGH_STTN_INFO
 			WHERE ROUTE_ID = #{route_id}
 	</select>
+	
+	<!-- 특정 정류소경유노선 조회 쿼리 -->
+	<select id="getTbdThrghRouteInfoById" parameterType="String" resultType="tbdThrghRouteInfoVO">
+	    SELECT 	
+	    		route_ty_nm,
+	    		route_nm,
+	    		cdpnt_sttn_nm,
+	    		tmnl_sttn_nm
+	    FROM 	tbd_thrgh_route_info
+	    WHERE 	sttn_id = #{sttn_id}
+	</select>
 </mapper>

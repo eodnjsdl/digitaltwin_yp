@@ -142,7 +142,7 @@ function selectTgdBusSttnInfoList(page) {
 			filters.push("geom" + " = " + hjd_cde); 
 		}
 		if(sttn_nm){
-			filters.push("sttn_nm" + " = " + sttn_nm); 
+			filters.push("sttn_nm" + " like " + sttn_nm); 
 		}
 		if(sttn_no){
 			filters.push("sttn_no" + " = " + sttn_no); 
@@ -336,7 +336,7 @@ function selectTgdBusSttnInfoView(detailData){
 	
 	// 정류소경유노선 조회
 	$.ajax({
-        url: "/job/tfan/brin/selectTbdThrghRouteInfo.do",
+        url: "/job/tran/brin/selectTbdThrghRouteInfo.do",
         type: "POST",
         data : {
 			"sttnId" 			: sttn_id,

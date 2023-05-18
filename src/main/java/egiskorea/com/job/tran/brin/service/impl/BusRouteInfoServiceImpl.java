@@ -8,6 +8,7 @@ import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
 
+import egiskorea.com.job.tran.brin.service.TbdThrghRouteInfoVO;
 import egiskorea.com.job.tran.brin.service.BusRouteInfoService;
 import egiskorea.com.job.tran.brin.service.ThrghSttnVO;
 import egovframework.rte.fdl.cmmn.EgovAbstractServiceImpl;
@@ -24,6 +25,7 @@ import egovframework.rte.fdl.cmmn.EgovAbstractServiceImpl;
  *  수정일                     수정자               수정내용
  *  ----------   --------   ---------------------------
  *  2023.05.11   김영주                최초 생성
+ *  2023.05.17   장현승                2차 수정
  */
 
 @Service("busRouteInfoService")
@@ -46,4 +48,14 @@ public class BusRouteInfoServiceImpl extends EgovAbstractServiceImpl implements 
 
 		return map;
 	}
+	
+	/**
+	 * 특정 정류소경유노선정보
+	 * @param tbdThrghRouteInfoVO
+	 * @throws Exception
+	 */
+    @Override
+    public List<TbdThrghRouteInfoVO> getTbdThrghRouteInfoById(String sttn_id) throws Exception {
+        return busRouteInfoDAO.getTbdThrghRouteInfoById(sttn_id);
+    }
 }

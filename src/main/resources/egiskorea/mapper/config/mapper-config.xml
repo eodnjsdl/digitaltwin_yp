@@ -157,7 +157,8 @@
 		
 		<!-- 교통분석 > 버스노선 -->
 		<typeAlias alias="thrghSttnVO" type="egiskorea.com.job.tran.brin.service.ThrghSttnVO" />
-		
+		<typeAlias alias="tbdThrghRouteInfoVO" type="egiskorea.com.job.tran.brin.service.TbdThrghRouteInfoVO" />
+	
 		<!-- 업무 > 읍면동  -->
 		<typeAlias alias="tgdSccoEmdVO" type="egiskorea.com.job.cmss.service.TgdSccoEmdVO" />
 
@@ -184,9 +185,6 @@
 		<typeAlias alias="pbprtAccdtVO" type="egiskorea.com.job.publnd.service.PbprtAccdtVO"/>
 		<typeAlias alias="pbprtAccdtWrinvstgVO" type="egiskorea.com.job.publnd.service.PbprtAccdtWrinvstgVO"/>
 		<typeAlias alias="cmmnCdVO" type="egiskorea.com.cmm.service.CmmnCdVO"/>
-		
-		<!-- 교통분석 > 버스노선정보 -->
-		<typeAlias alias="tbdThrghRouteInfoVO" type="egiskorea.com.job.tfan.brin.service.TbdThrghRouteInfoVO" />
 		
 		<!-- 파일 -->
 		<typeAlias alias="fileVO" type="egovframework.com.cmm.service.FileVO"/>

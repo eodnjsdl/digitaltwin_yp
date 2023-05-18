@@ -1,4 +1,4 @@
-package egiskorea.com.job.tfan.brin.service;
+package egiskorea.com.job.tran.brin.service;
 
 import java.io.Serializable;
 

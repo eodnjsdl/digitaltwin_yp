@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.stereotype.Repository;
 
 import egiskorea.com.cmm.service.impl.ComAbstractDAO;
+import egiskorea.com.job.tran.brin.service.TbdThrghRouteInfoVO;
 import egiskorea.com.job.tran.brin.service.ThrghSttnVO;
 
 /**
@@ -19,6 +20,7 @@ import egiskorea.com.job.tran.brin.service.ThrghSttnVO;
  *  수정일                     수정자               수정내용
  *  ----------   --------   ---------------------------
  *  2023.05.11   김영주                최초 생성
+ *  2023.05.17   장현승                2차 수정
  */
 
 @Repository("busRouteInfoDAO")
@@ -33,4 +35,13 @@ public class BusRouteInfoDAO extends ComAbstractDAO {
 		// TODO Auto-generated method stub
 		return selectList("busRouteInfoDAO.selectThrghSttnList", thrghSttnVO);
 	}
+	
+	/**
+	 * 특정 정류소경유노선정보
+	 * @param tbdThrghRouteInfoVO
+	 * @return Exception
+	 */
+    public List<TbdThrghRouteInfoVO> getTbdThrghRouteInfoById(String sttn_id) throws Exception {
+        return selectList("busRouteInfoDAO.getTbdThrghRouteInfoById", sttn_id);
+    }
 }

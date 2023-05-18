@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" %>
 
 <!-- js -->
-<script src="/js/egiskorea/com/job/tfan/brin/tbrs/tgdBusSttnInfo.js"></script>			<!-- 버스정류소  -->
+<script src="/js/egiskorea/com/job/tran/brin/tbrs/tgdBusSttnInfo.js"></script>			<!-- 버스정류소  -->
 
 <!-- 업무 > 공통 -->
 <div class="popup-header">버스노선정보</div>
@@ -11,8 +11,8 @@
         <div class="items search-area">
             <div class="top-search">
                 <select class="form-select trafficAnalysis-select">
-                    <option value="tgdBusSttnInfo" selected="selected">버스정류소</option>
-                    <option value="tgdBusRouteInfo">버스노선</option>
+                    <option value="busRoute">버스노선</option>
+                    <option value="busSttn" selected="selected">버스정류소</option>
                 </select>
             </div>
             <div class="tabBoxDepth2-wrap">
