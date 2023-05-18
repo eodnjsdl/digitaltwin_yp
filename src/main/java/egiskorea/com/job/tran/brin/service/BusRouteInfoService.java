@@ -1,6 +1,6 @@
 package egiskorea.com.job.tran.brin.service;
 
-import java.util.Map;
+import java.util.List;
 
 /**
  * @Description 교통분석/버스노선정보 Service
@@ -23,5 +23,5 @@ public interface BusRouteInfoService {
 	 * @param thrghSttnVO
 	 * @throws Exception
 	 */
-	public Map<String, Object> selectThrghSttnList(ThrghSttnVO thrghSttnVO) throws Exception;
+	public List<ThrghSttnVO> selectThrghSttnList(ThrghSttnVO thrghSttnVO) throws Exception;
 }
