@@ -43,4 +43,8 @@ public class PopulationInfoDAO extends ComAbstractDAO {
 		return selectList("population.selectAllPopulationInfoList", populationVO);
 	}
 	
+	
+	public List<PopulationVO> selectAllPopulationInfoGeomList(PopulationVO populationVO) {
+		return selectList("population.selectAllPopulationInfoGeomList", populationVO);
+	}
 }

@@ -92,6 +92,15 @@ public class PopulationInfoServiceImpl extends EgovAbstractServiceImpl implement
 		
 		return list;
 	}
+
+	@Override
+	public List<PopulationVO> selectAllPopulationInfoGeomList(PopulationVO populationVO) {
+		List<PopulationVO> list = null;
+		
+		list = populationInfoDAO.selectAllPopulationInfoGeomList(populationVO);
+		
+		return list;
+	}
 	
 	
 

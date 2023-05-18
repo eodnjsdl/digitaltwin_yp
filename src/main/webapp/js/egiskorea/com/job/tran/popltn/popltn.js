@@ -256,3 +256,34 @@ function legalData(result) {
 	//차트 그리기
 	populationRenderChart(result);
 }
+
+
+
+function getGeomData() {
+    ui.loadingBar('show');
+    
+    $.ajax({
+	url : "job/tran/popltn/selectAllPopulationInfoGeomList.do",
+	type : 'post',
+	dataType : 'json',
+	success : function(data) {
+	    let result = data.resultList;
+	    geomPrcss(result);
+	}, error : function() {
+	    toastr.error("데이터 호출 실패.");
+	}
+    });
+}
+
+function geomPrcss(data) {
+//    let features = {};
+//    for (let i = 0; i < data.length; i++) {
+//	features = dtmap.util.readGeoJson(data[0].geom));
+//    }
+//    console.log(features);
+    
+    
+    let geom = ''; // geom 데이터
+    
+    ui.loadingBar('hide');
+}
