@@ -23,7 +23,7 @@ function getBusRouteEmdData() {
 		cqlFilters = "emd_cd like '" + emdCdVal + "%'";
 	} else {
 		// 해당 읍면동 검색
-		cqlFilters = 'emd_cd = ' + emdCdVal;
+		cqlFilters = "emd_cd = " + emdCdVal;
 	}
 	
 	geomOptions = {
@@ -137,11 +137,11 @@ function selectBusRouteList(page, geom) {
 		if (route_ty) {
 			filters.push("route_ty" + " = " + route_ty);
 		}
-		var route_id = $("input[name=route_id]").val();		// 노선아이디
+		var route_id = $("#lSrchOptions input[name=route_id]").val();		// 노선아이디
 		if (route_id) {
 			filters.push("route_id" + " like " + route_id);
 		}
-		var route_nm = $("input[name=route_nm]").val();		// 노선번호
+		var route_nm = $("#lSrchOptions input[name=route_nm]").val();		// 노선번호
 		if (route_nm) {
 			filters.push("route_nm" + " like " + route_nm);
 		}
@@ -250,11 +250,11 @@ function selectBusRouteList(page, geom) {
 			} else if (route_ty == 16) {		// 경기순환버스
 				route_nm_color = '#e60012';
 			} else if (route_ty == 21) {		// 직행좌석형농어촌버스
-				route_nm_color = 'rgb(124,252,0)';
+				route_nm_color = '#33CC99';
 			} else if (route_ty == 22) {		// 좌석형농어촌버스
-				route_nm_color = 'rgb(124,252,0)';
+				route_nm_color = '#33CC99';
 			} else if (route_ty == 23) {		// 일반형농어촌버스
-				route_nm_color = 'rgb(124,252,0)';
+				route_nm_color = '#33CC99';
 			} else if (route_ty == 30) {		// 마을버스
 				route_nm_color = '#ffc600';
 			} else if (route_ty == 41) {		// 고속형시외버스
@@ -401,13 +401,13 @@ function selectBusRouteDetail(detailData) {
 
 // 속성 검색 조회 버튼
 function searchBusRouteFilters() {
-	$("input[name=routeId], input[name=routeNo]").on('keyup', function () {
+	$("#lSrchOptions input[name=route_id], #lSrchOptions input[name=route_nm]").on('keyup', function (event) {
 		if (event.keyCode == 13) {
 			selectBusRouteList(1, geom);
 		}
 	});
 	
-	$('.info-attribute-search').on('click', function() {
+	$('#lSrchOptions .info-attribute-search').on('click', function() {
 		selectBusRouteList(1, geom);
 	});
 }
