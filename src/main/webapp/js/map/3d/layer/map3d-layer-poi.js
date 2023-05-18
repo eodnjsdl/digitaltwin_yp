@@ -256,7 +256,8 @@ map3d.layer.POI = (function () {
         map3d.serviceLayers.createXDServerLayer({
             name: layerNm,
             url: dtmap.urls.xdServer,
-            type: Module.ELT_3DPOINT
+            type: Module.ELT_3DPOINT,
+            visible: this.visible
         });
         //poi icon 표출
         let layer = map3d.serviceLayers.nameAtLayer(layerNm);
