@@ -111,26 +111,21 @@
         }
 
         // 지형투명도 > 투명도
-        const tpgrphTrnsprc = $('#tpgrphTrnsprc').val();
-        $(".top.slider-box .top.trrc-value").val(tpgrphTrnsprc);
+        $(".top.slider-box .top.trrc-value").val(map3d.config.tpgrphTrnsprc);
 
 
         $(".top.slider-box .top.trrc-slider").slider({
             range: "min",
             min: 0,
             max: 100,
-            value: tpgrphTrnsprc,
+            value: map3d.config.tpgrphTrnsprc,
             step: 1,
             slide: function (event, ui) {
                 if (dtmap.mod === '2D') {
                     event.preventDefault();
                 } else {
-                    $(".top.slider-box .top.trrc-value").val(ui.value);
                     $(".slider-box .trrc-value").val(ui.value);
-                    $('#mapsettingTrrcSlider > div > div').attr('style', 'width: ' + ui.value + '%');
-                    $('#mapsettingTrrcSlider > div > span').attr('style', 'left: ' + ui.value + '%');
-                    map3d.config.tpgrphTrnsprc = Number(ui.value);
-                    setPlanetTransparency(map3d.config.tpgrphTrnsprc);
+                    map3d.config.setTransparency(Number(ui.value));
                 }
             },
             change: function () {
@@ -192,6 +187,10 @@
                 const title = $this.closest('span').find('label').data('title');
                 const desc = $this.data('desc');
                 const shpType = $this.data('shptype');
+                let minLevel = Number($this.data('minLevel'));
+                let maxLevel = Number($this.data('maxLevel'));
+                minLevel = isNaN(minLevel) ? 0 : minLevel;
+                maxLevel = isNaN(maxLevel) ? 15 : maxLevel;
 
                 if (desc) {
                     layerNm = desc;
@@ -206,7 +205,7 @@
                     toastr.warning("3D지도에서만 사용 가능합니다.");
                 }
 
-                if (type === 'TDS') {
+                if (type === 'TDS' || type === 'Facility') {
                     showFacility(id, visible);
                 } else {
                     dtmap.showLayer({
@@ -216,6 +215,8 @@
                         title: title,
                         visible: visible,
                         shpType: shpType,
+                        minLevel: minLevel,
+                        maxLevel: maxLevel
                         // sld : 'http://124.49.110.155:8080/lyr/lyi/sld?lyrId='+layerId
                         // sldBody: findLayer.styleInfo
 
@@ -302,7 +303,7 @@
                         let liTag = "";
                         liTag += '<li  style="display: inline-block; padding: 2px;" title="' + key + ' ' + li.kr + '" class="liData">';
                         liTag += '<span class="form-checkbox" style="width: unset;">';
-                        liTag += '<input type="checkbox" id="' + liId + '" name="' + li.layer + '" class="only3d" title="' + li.kr + '" data-desc="' + li.layer + '">';
+                        liTag += '<input type="checkbox" id="' + liId + '" name="' + li.layer + '" class="only3d" title="' + li.kr + '" data-desc="' + li.layer + '" data-minLevel="' + li.minLevel + '" data-maxLevel="' + li.maxLevel + '">';
                         liTag += '<label for="' + liId + '" data-title="' + li.kr + '">' + li.kr + '</label></span></li>';
                         $ul.append(liTag)
                     }
@@ -677,7 +678,6 @@
             const color = new Module.JSColor(0, 0, 0, 0);
             const ghostSymbolMap = Module.getGhostSymbolMap();
             const symbolId = "";
-
             if (!symbolMap['SL251']) {
                 ghostSymbolMap.addGhostSymbolBy3DS("SL251", path, "SL251");
             } else {
