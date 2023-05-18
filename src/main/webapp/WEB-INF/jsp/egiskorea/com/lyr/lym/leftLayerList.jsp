@@ -3,7 +3,7 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
 <div class="lnb-header"><h2 class="tit">2D 레이어</h2></div>
-<div class="lnb-body">
+<div class="lnb-body toc">
     <div class="srch-box marB5">
         <form action="">
             <div class="form-row">
@@ -11,7 +11,8 @@
                                         onkeypress="javascript:if(event.keyCode===13) aj_selectLayerList('left');">
                 </div>
                 <div class="col-auto">
-                    <button type="button" class="btn type01 search" onclick="aj_selectLayerList('left');">검색</button>
+                    <button type="button" class="btn type01 search" onclick="aj_selectLayerList('left');">검색
+                    </button>
                 </div>
             </div>
         </form>
@@ -101,10 +102,7 @@
             </li>
         </c:if>
         </ul>
-
-
     </div>
-
 </div>
 
 <div class="lnb-util">
@@ -114,24 +112,9 @@
 </div>
 <script>
     $(document).ready(function () {
-        //슬라이더바
-        var handle = $("#custom-handle");
-        $(".slider-box .slider").slider({
-            value: 100,
-            min: 0,
-            max: 100,
-            step: 10,
-            range: "min",
-            create: function () {
-                handle.text($(this).slider("value"));
-            },
-            slide: function (event, ui) {
-                handle.text(ui.value);
-                setPlanetTransparency(ui.value);
-            },
-            change: function (event, ui) {
-            }
-        });
+        const $toc = $('.toc');
+        const $list = $toc.find('.layer-list');
+
 
         // 레이어 관리 버튼 활성화 체크
         if ($(".layerMng-body").closest("#leftPopup").hasClass("opened")) {
@@ -139,7 +122,7 @@
         }
 
         // 레이어 정보 상세보기 클릭 event
-        $(".layer-list .layer-detail").click(function () {
+        $list.on('click', '.layer-detail', function () {
             var layerId = $(this).closest("li").find(".form-checkbox input[type='checkbox']").attr("id").split("_")[2];
 
             $(".layer-list li").find(".active").removeClass("active");
@@ -152,7 +135,7 @@
         });
 
         // 레이어 메뉴 토글 event
-        $(".layer-list .layer-toggle").click(function () {
+        $list.on('click', '.layer-toggle', function () {
             $(this).find(".open").removeClass("open").addClass("close");
 
             if ($(this).hasClass("close")) {
@@ -166,18 +149,18 @@
         });
 
         // 레이어관리 button event
-        $(".lnb-layer .layer-mng").on("click", function () {
+        $list.on('click', '.layer-mng', function () {
             $(this).addClass("active");
             ui.openPopup("leftPopup", "layerManagement");
             aj_selectLayerManagementList();
-        });
+        })
 
         // 팝업창 닫기 event
-        $(".lnb-layer .lnb-close").click(function () {
+        $list.on('click', '.lnb-close', function () {
             $(".lnb-layer").stop().fadeOut(100);
             $("#lnb li[data-menu]").removeClass("on");
             $('#leftPopup.opened').removeClass('opened');
-        });
+        })
 
         // 초기화 button event
         $("#side .lnb-layer .lnb-resetBtn").click(function () {
@@ -186,7 +169,9 @@
             aj_selectLayerList('left', true);
         });
 
-        $('.layer-list :checkbox').on('change', function (e) {
+
+        //체크박스 change event
+        $list.on('change', ':checkbox', function (e) {
             const visible = this.checked;
             const $this = $(this);
             const $ul = $this.closest('ul');
@@ -202,7 +187,7 @@
                 //하위버튼
                 const id = $this.attr('id');
                 let layerNm = $this.data('layer');
-                const title = $this.data('title');
+                const title = $this.closest('span').find('label').data('title');
                 const desc = $this.data('desc');
                 const shpType = $this.data('shptype');
 
@@ -211,7 +196,7 @@
                 }
 
                 let type = dtmap.mod === '3D' ? LAYER_TYPE[id.split('_')[1]] : 'WMS';
-                let layerId = id.split('_')[2];
+                // let layerId = id.split('_')[2];
                 let only3d = id.split('_')[3];
 
                 if (only3d && dtmap.mod !== '3D') {
@@ -221,7 +206,11 @@
                 const findLayer = store.facility
                     .getData()
                     .find((layer) => layer["tblNm"] === layerNm.split(':')[1]);
-
+                if (!findLayer) {
+                    this.checked = false;
+                    toastr.warning(title + ' 레이어 정보를 찾을 수 없습니다.');
+                    return;
+                }
                 dtmap.showLayer({
                     id: id,
                     type: type,
@@ -240,16 +229,16 @@
         })
 
         function checkSiblings($target) {
-            // const node = $target.closest('ul').find('li :checkbox');
-            // let checked = true;
-            // node.each((v) => {
-            //     checked ||= v.prop('checked');
-            // })
-            // if (checked) {
-            //     //전체 체크
-            //     const $li = $target.closest('ul').closest('li')
-            //     $li.find(':checkbox:eq(0)').prop('checked:checked')
-            // }
+            const node = $target.closest('ul').find('li :checkbox');
+            let checked = true;
+            node.each((i, v) => {
+                checked &&= v.checked;
+            })
+            if (checked) {
+                //전체 체크
+                const $li = $target.closest('ul').closest('li')
+                $li.find(':checkbox:eq(0)').prop('checked', 'checked')
+            }
         }
 
         //레이어 가시화여부 체크
@@ -260,7 +249,6 @@
                 $('#' + layer.id).prop('checked', 'checked');
             }
         }
-
     });
 
     // 개인별 레이어 목록 항목 제거

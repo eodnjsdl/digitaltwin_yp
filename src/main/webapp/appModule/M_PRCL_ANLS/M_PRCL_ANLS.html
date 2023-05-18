@@ -121,6 +121,7 @@
                     </div>
                     <div class="btn-wrap justify-content-end marT5">
                         <div>
+                            <button type="button" class="btn basic bi-reset btn_excelDownload">엑셀다운로드</button>
                             <button type="button" class="btn basic bi-reset btn_reset">초기화</button>
                         </div>
                     </div>
@@ -158,13 +159,22 @@
                          style="max-height: none;" tabindex="0">
                         <div id="mCSB_14_container" class="mCSB_container"
                              style="position: relative; top: 0px; left: 0px;" dir="ltr">
-                            <table class="bbs-list">
+                            <table id="parcelRstListTbl" class="bbs-list">
                                 <colgroup>
                                     <col style="width: 20%;">
                                     <col style="width: 20%;">
                                     <col style="width: 20%;">
                                     <col style="width: auto;">
                                 </colgroup>
+                                <thead style="display: none;">
+                                <tr>
+                                    <th scope="col">법정동</th>
+                                    <th scope="col">전체면적(㎡)</th>
+                                    <th scope="col">편입면적(㎡)</th>
+                                    <th scope="col">제외면적(㎡)</th>
+                                    <th scope="col">편입비율(%)</th>
+                                </tr>
+                                </thead>
                                 <tbody class="result-list">
 
                                 </tbody>
