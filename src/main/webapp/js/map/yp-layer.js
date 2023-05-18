@@ -7,7 +7,7 @@ const LAYER_TYPE = {
     "I": 'Image', // image
     "D": 'TDS', // 3ds
     "G": 'Graph', // graph
-    "L": 'WMS', //
+    "L": 'LOD', //드론 LOD
     "F": 'Facility', // facility
     "C": 'CSV', // csv
     "POI": 'POI', // poi

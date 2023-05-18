@@ -765,7 +765,8 @@
 
                         $("#" + activeLayer).closest("li").addClass("active");
 
-                        dtmap.layer.refresh();
+                        dtmap.layer.removeLayer(activeLayer);
+                        $('#' + activeLayer).prop('checked', 'checked').change();
 // 				// 레이어 재로드 여부 확인
 // 				var layerType = $("input[name='lyrDtlKnd']").val();
 // 				var layerListType = layerType == "P" ? true : false;

@@ -599,6 +599,7 @@ window.ui = (function () {
     //좌측 메뉴 >> 분석
     function _analysisMenuEvent() {
         $(".lnb-analysis .lnb-body").off("click").on("click", "button", function () {
+            dtmap.off('select');
             const name = $(this).attr("id");
             const hasOn = $(this).parent().hasClass("on");
             // $("#lnbAnalysis").find(".on").removeClass("on");
