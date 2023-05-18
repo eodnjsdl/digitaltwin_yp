@@ -33,6 +33,7 @@ window.map3d = (function () {
                 container: _container,
                 // defaultKey: dtmap.config.EMAP_KEY
             });
+            Module.SetAPIKey("767B7ADF-10BA-3D86-AB7E-02816B5B92E9");
             Module.XDSetMouseState(Module.MML_SELECT_POINT);
 
             // 이전버전 초기화 소스
