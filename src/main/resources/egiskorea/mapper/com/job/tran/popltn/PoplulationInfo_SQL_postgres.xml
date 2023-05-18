@@ -12,13 +12,6 @@
 		from tgb_li_popltn_info
 </select>
 
-<!-- 양평군 총 인구 수 조회 -->
-<select id="selectAllPopulationCnt" resultType="int">
-		select sum(all_popltn_cnt) all_popltn_cnt 
-		  from tgb_li_popltn_info
-		  where li_cd like '41830%'
-</select>
-
 <!-- 해당하는 면 정보 조회 (리 단위 조회) -->
 <select id="selectMyeonPopulationInfoList" parameterType="populationVO" resultType="populationVO">
 		select c.code_nm
@@ -71,7 +64,6 @@
 						 , female_popltn_cnt  
 					  from tgb_li_popltn_info
 				 ) tlpi
-		 inner join comtccmmndetailcode c on (c.code = tlpi.li_cd and c.code_id = 'YPLI')
 		 inner join comtccmmndetailcode c2 on (tlpi.li_cd like (substring(c2.code, 1, 8) || '%') and c2.code_id = 'YPE001')
 		 group by c2.code_nm
 </select>

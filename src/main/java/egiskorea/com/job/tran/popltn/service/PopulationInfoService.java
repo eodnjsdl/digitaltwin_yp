@@ -29,12 +29,6 @@ public interface PopulationInfoService {
 	public List<PopulationVO> selectPopulationInfoList(PopulationVO populationVO);
 	
 	/**
-	 * 양평군 총 인구 수 조회
-	 * @return
-	 */
-	public int selectAllPopulationCnt();
-	
-	/**
 	 * 해당하는 면 정보 조회 (해당하는 면의 리 정보 조회)
 	 * @param poplulationVO
 	 * @return
