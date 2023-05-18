@@ -22,7 +22,7 @@ window.map3d = (function () {
             Module.TOTAL_MEMORY = map3d.config.totalMemory;
             Module.getNavigation().setNaviVisible(Module.JS_VISIBLE_OFF);
             //Module.Start 이전에 호출해야함.
-            Module.SetResourceServerAddr(dtmap.urls.xdServer + "/images/poi/");
+            Module.SetResourceServerAddr("/images/poi/");
             //배경 지도, DEM 설정부
             Module.XDESetDemUrlLayerName(dtmap.urls.xdServer, "dem_yp_5m");
             Module.XDESetSatUrlLayerName(dtmap.urls.xdServer, "tile_yp_25cm");
@@ -37,16 +37,16 @@ window.map3d = (function () {
             Module.XDSetMouseState(Module.MML_SELECT_POINT);
 
             // 이전버전 초기화 소스
-            // const canvas = document.createElement("canvas");
+            // let canvas = document.createElement("canvas");
             // canvas.id = "canvas"; // id가 canvas가 아닐경우 에러발생
-            // canvas.width = container_.clientWidth;
-            // canvas.height = container_.clientHeight;
-            // container_.append(canvas);
+            // canvas.width = _container.clientWidth;
+            // canvas.height = _container.clientHeight;
+            // _container.append(canvas);
             // Module.canvas = canvas
             // canvas.addEventListener('contextmenu', function (e) {
             //     e.preventDefault();
             // })
-            // Module.Start(container_.clientWidth, container_.clientHeight)
+            // Module.Start(_container.clientWidth, _container.clientHeight)
 
             //초기 카메라설정
             const {center, limitRect, limitAlt, limitCamera} = map3d.config;
@@ -81,7 +81,7 @@ window.map3d = (function () {
             _isLoaded.resolve(true);
 
             //이벤트리스너 등록
-            const canvas = _container.getElementsByTagName('canvas').canvas
+            // const canvas = _container.getElementsByTagName('canvas').canvas
             // _container.addEventListener('click', onClick);
             // _container.addEventListener('contextmenu', onClick);
             canvas.addEventListener('mousedown', onMouseDown);
