@@ -566,7 +566,7 @@ window.ui = (function () {
                     break;
                 // 교통분석 > 대중교통 취약분석
                 case "TransportationVulnerability" :
-                	aj_selectTransportationVulnerabilityList();
+                	aj_selectTransportationVulnerabilityListView();
                     //toastr.error("대중교통 취약분석");
                     break;
             }

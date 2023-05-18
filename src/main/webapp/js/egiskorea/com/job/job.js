@@ -1210,13 +1210,13 @@ function aj_selectPopulationInfoList() {
  * 대중교통 취약분석 목록 조회
  * @returns
  */
-function aj_selectTransportationVulnerabilityList() {
+function aj_selectTransportationVulnerabilityListView() {
 	
 	ui.loadingBar("show");
 	
 	$.ajax({
 		type : "POST",
-		url : "/job/tran/trva/selectTransportationVulnerabilityList.do",
+		url : "/job/tran/trva/selectTransportationVulnerabilityListView.do",
 		//data : formData,
 		dataType : "html",
 		processData : false,
