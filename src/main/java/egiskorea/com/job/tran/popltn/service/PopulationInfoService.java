@@ -15,6 +15,7 @@ import java.util.List;
  *  수정일               수정자            수정내용
  *  ----------   --------   ---------------------------
  *  2023.05.12   황의현           최초 생성
+ *  2023.05.17   백승석           데이터 조회 처리 생성
  *  </pre>
  */
 
@@ -40,31 +41,17 @@ public interface PopulationInfoService {
 	 */
 	public List<PopulationVO> selectMyeonPopulationInfoList(PopulationVO populationVO);
 	
-// ################################################# 인구정보 #################################################
-	
+	/**
+	 * 검색 기준 년월 조회
+	 * @param populationVO
+	 * @return
+	 */
+	public List<String> selectStandardYmList(PopulationVO populationVO);
 	
 	/**
-	 * 교통시설 도로구간 목록
-	 * @param transportationFacilityVO
-	 * @return Map
-	 *//*
-	public Map<String, Object> selectTransportationFacilityList(RoadSectionVO transportationFacilityVO);
-	
-	*//** 
-	 * 교통시설 도로구간 상세조회
-	 * @param roadSectionVO
-	 * @return RoadSection
-	 *//*
-	public RoadSection selectRoadSection(RoadSectionVO roadSectionVO);
-	
-	*//**
-	 * 교통시설 도로구간 엑셀다운로드
-	 * @param roadSectionVO
-	 * @return list
-	 *//*
-	public List<?> selectRoadSectionExcelList(RoadSectionVO roadSectionVO);*/
-	
-// ################################################# 인구정보 #################################################
-		
-		
+	 * 양평군 전체 인구 정보 조회
+	 * @param populationVO
+	 * @return
+	 */
+	public List<PopulationVO> selectAllPopulationInfoList(PopulationVO populationVO);
 }

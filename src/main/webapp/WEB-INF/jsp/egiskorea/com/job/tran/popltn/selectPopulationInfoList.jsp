@@ -288,7 +288,7 @@
 				</div>
 				<div class="btn-wrap">
                     <div>
-                        <button type="button" class="btn type01 search" onclick="selectPplInfoList();">조회</button>
+                        <button type="button" id="pplInfoSearch" class="btn type01 search">조회</button>
                     </div>
                 </div>
 				

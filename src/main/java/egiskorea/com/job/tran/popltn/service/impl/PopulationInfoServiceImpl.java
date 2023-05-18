@@ -22,7 +22,8 @@ import egovframework.rte.fdl.cmmn.EgovAbstractServiceImpl;
  *
  *  수정일               수정자            수정내용
  *  ----------   --------   ---------------------------
- *  2021.05.12   황의현           최초 생성
+ *  2023.05.12   황의현           최초 생성
+ *  2023.05.17   백승석           데이터 조회 처리 생성
  *  </pre>
  */
 
@@ -60,60 +61,43 @@ public class PopulationInfoServiceImpl extends EgovAbstractServiceImpl implement
 		setLiCd = liCd.substring(0, 7);
 		populationVO.setLiCd(setLiCd);
 		
+		// 기준 년월 포맷 변경 - xxxx년xx월 -> 202210
+		String stdrYm = populationVO.getStdrYm();
+		stdrYm = stdrYm.substring(0, 4).concat(stdrYm.substring(5, 7));
+		populationVO.setStdrYm(stdrYm);
+		
 		list = populationInfoDAO.selectMyeonPopulationInfoList(populationVO);
 		
 		return list;
 	}
-	
-// ################################################# 도로구간 #################################################
-	
-	/**
-	 * 교통시설 도로구간 목록
-	 * @param roadSectionVO
-	 * @return Map<String, Object>
-	 */
-	/*@Override
-	public Map<String, Object> selectTransportationFacilityList(RoadSectionVO roadSectionVO) {
+
+	@Override
+	public List<String> selectStandardYmList(PopulationVO populationVO) {
+		List<String> list = null;
+		// 리 단위를 조회하기위해 면 코드 like 설정
+		// 10 자리 중 6~8자리 - 면, 9~10 자리 - 리
+		// 0~8 자리 까지 필요 41830***%;
+		String liCd = populationVO.getLiCd();
+		if (!liCd.equals("all")) {
+			String setLiCd = "";
+			setLiCd = liCd.substring(0, 7);
+			populationVO.setLiCd(setLiCd);
+		}
 		
-		List<?> list = transportationFacilityDAO.selectRoadSectionList(roadSectionVO);
+		list = populationInfoDAO.selectStandardYmList(populationVO);
 		
-		int cnt = transportationFacilityDAO.selectRoadSectionListCnt(roadSectionVO);
+		return list;
+	}
+
+	@Override
+	public List<PopulationVO> selectAllPopulationInfoList(PopulationVO populationVO) {
+		List<PopulationVO> list = null;
 		
-		Map<String, Object> map = new HashMap<String, Object>();
+		list = populationInfoDAO.selectAllPopulationInfoList(populationVO);
 		
-		map.put("resultList", list);
-		map.put("resultCnt", Integer.toString(cnt));
-		
-		return map;
-		
+		return list;
 	}
 	
-	*//** 
-	 * 교통시설 도로구간 상세조회
-	 * @param roadSectionVO
-	 * @return RoadSection
-	 *//*
-	public RoadSection selectRoadSection(RoadSectionVO roadSectionVO) {
-		
-		RoadSection result = transportationFacilityDAO.selectRoadSection(roadSectionVO);
-		
-		return result;
-		
-	}
 	
-	*//** 
-	 * 교통시설 도로구간 엑셀 다운로드
-	 * @param roadSectionVO
-	 * @return List<?>
-	 *//*
-	public List<?> selectRoadSectionExcelList(RoadSectionVO roadSectionVO) {
-		
-		List<?> result = transportationFacilityDAO.selectRoadSectionExcelList(roadSectionVO);
-		
-		return result;
-		
-	}*/
-	
-// ################################################# 도로구간 #################################################
 
 }

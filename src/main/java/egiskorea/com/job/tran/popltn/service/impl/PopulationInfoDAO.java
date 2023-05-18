@@ -20,6 +20,7 @@ import egiskorea.com.job.tran.popltn.service.PopulationVO;
  *  수정일               수정자            수정내용
  *  ----------   --------   ---------------------------
  *  2023.05.12   황의현           최초 생성
+ *  2023.05.18   백승석           데이터 조회 처리 생성
  *  </pre>
  */
 
@@ -39,48 +40,12 @@ public class PopulationInfoDAO extends ComAbstractDAO {
 		return selectList("population.selectMyeonPopulationInfoList", populationVO);
 	}
 	
-// ################################################# 도로구간 #################################################
-	
-	
-	/**
-	 * 교통시설 도로구간 목록
-	 * @param roadSectionVO
-	 * @return list
-	 *//*
-	public List<?> selectRoadSectionList(RoadSectionVO roadSectionVO) {
-		return selectList("transportationFacility.selectRoadSectionList", roadSectionVO);
+	public List<String> selectStandardYmList(PopulationVO populationVO) {
+		return selectList("population.selectStandardYmList", populationVO);
 	}
 	
-	*//**
-	 * 교통시설 도로구간 목록 cnt
-	 * @param roadSectionVO
-	 * @return int
-	 *//*
-	public int selectRoadSectionListCnt(RoadSectionVO roadSectionVO) {
-		return (Integer)selectOne("transportationFacility.selectRoadSectionListCnt", roadSectionVO);
+	public List<PopulationVO> selectAllPopulationInfoList(PopulationVO populationVO) {
+		return selectList("population.selectAllPopulationInfoList", populationVO);
 	}
 	
-	*//** 
-	 * 교통시설 도로구간 상세조회
-	 * @param roadSectionVO
-	 * @return RoadSection
-	 *//*
-	public RoadSection selectRoadSection(RoadSectionVO roadSectionVO) {
-		return (RoadSection) selectOne("transportationFacility.selectRoadSection", roadSectionVO);
-	}
-	
-	*//**
-	 * 교통시설 도로구간 엑셀다운로드
-	 * @param roadSectionVO
-	 * @return list
-	 *//*
-	public List<?> selectRoadSectionExcelList(RoadSectionVO roadSectionVO) {
-		return selectList("transportationFacility.selectRoadSectionExcelList", roadSectionVO);
-	}*/
-	
-	
-// ################################################# 도로구간 #################################################
-	
-	
-
 }

@@ -1,79 +1,112 @@
 $(document).ready(function(){
-		console.log("selectPopulationInfoList.jsp");
-		console.log("교통분석 - 인구정보");
+    //검색 조건 세팅
+    getCmmCodeData("YPE001", "#pplSearchForm select#liCd");	//읍면동
+    
+    // 화면기본세팅 - 양평군 전체 인구 정보 조회
+    getAllPopulationInfo();
+    
+    // 검색 기준 년월 - 대상지역이 변경될 때마다 호출
+    getPplBaseYYMMList();
 		
-		//검색 조건 세팅
-		getCmmCodeData("YPE001", "#pplSearchForm select#liCd");	//읍면동
-		getPplBaseYYMMList();
-		
-		initPplLegal();
-		
-		$("#pplShowType").on('change', function() {
-			console.log("pplShowType>>"+this.value);
-			var showType = this.value;
-			if(showType == "legal"){
-				//console.log("법정동 경계");
-				if($(".pplInfoLegalType").css("display") == "none"){
-					$(".pplInfoLegalType").show();
-				}
-				$(".pplInfoGridType").hide();
-				
-				initPplLegal();
-				
-			}else if(showType == "grid"){
-				//console.log("격자");
-				if($(".pplInfoGridType").css("display") == "none"){
-					$(".pplInfoGridType").show();
-				}
-				
-				$(".pplInfoLegalType").hide();
-			}else{
-				console.log("인구정보 선택 오류");
-			}
-		});
-	});
+    initPplLegal();
 	
-	//functions
+    $("#pplShowType").on('change', function() {
+//	console.log("pplShowType>>"+this.value);
+	var showType = this.value;
+	if(showType == "legal"){
+	    if ($(".pplInfoLegalType").css("display") == "none") {
+		$(".pplInfoLegalType").show();
+	    }
+	    $(".pplInfoGridType").hide();
+	    initPplLegal();
+	} else if (showType == "grid") {
+	    if($(".pplInfoGridType").css("display") == "none") {
+		$(".pplInfoGridType").show();
+	    }
+	$(".pplInfoLegalType").hide();
+	} else {
+	    toastr.error("인구정보 선택 오류");
+	}
+    });
+    
+    $('#pplInfoSearch').on('click', function () {
+	selectPplInfoList();
+    });
+    
+    // 대상지역이 변경될 때마다 호출
+    $('#liCd').on('change', function () {
+	$('#pplBaseYYMM').empty();
+	getPplBaseYYMMList();
+    })
+});
 	
-	/**
-     * 법정도 경계 초기화
-     */
-	function initPplLegal(){
+//functions
 
-	}
+/**
+* 법정도 경계 초기화
+*/
+function initPplLegal(){
+    
+}
 	
-	/**
-     * 격자 경계 초기화
-     */
-	function initPplGrid(){
-		
-	}
+/**
+* 격자 경계 초기화
+*/
+function initPplGrid(){
 	
-	/**
+}
+
+/**
+ * 양평군 전체 인구 정보 조회
+ * @returns
+ */
+function getAllPopulationInfo() {
+    $.ajax({
+	url : "/job/tran/popltn/selectAllPopulationInfoList.do",
+	type : 'post',
+	dataType: 'json',
+	success: function(data) {
+	    result = data.resultList;
+	    legalData(result);
+	}, error: function() {
+	    toastr.error("정보를 불러오지 못하였습니다.");
+	}
+    });
+}
+
+/**
+* 기준 연월 기본 세팅 로드 및 세팅 함수 연결
+*/
+function getPplBaseYYMMList() {
+    // data
+    let data = $("#pplSearchForm").serialize();
+    
+    $.ajax({
+	data: data,
+	url : "/job/tran/popltn/selectStandardYmList.do",
+	type : 'post',
+	dataType: 'json',
+	success: function(data) {
+	    result = data.resultList;
+	    setPplBaseYYMMList(result);
+	}, error: function() {
+	    toastr.error("정보를 불러오지 못하였습니다.");
+	}
+    });
+    
+    /**
      * 기준 연월 기본 세팅
+     * @param result
+     * @returns
      */
-	function getPplBaseYYMMList(){
-		console.log("getPplBaseYYMMList()");
-		var today = new Date();
-		
-		for(var i=0; i<12; i++){
-			
-			var dYear = today.getFullYear();
-			var dMonth = ('0' + (today.getMonth() + 1)).slice(-2);
-			
-			var dVal = dYear+""+dMonth;
-			var dYM  = dYear+"년 "+dMonth+"월";
-
-			var dhml = "<option value='"+dVal+"'>"+ dYM +"</option>";
-			$("#pplBaseYYMM").append(dhml);
-			//console.log('dYM>>'+dYM);
-			
-			var dMonth = today.setMonth(today.getMonth()-1);
-			var dDate = new Date(dMonth);
-			today = dDate;
-		}
-	
+    function setPplBaseYYMMList(result) {
+	for (let i = 0; i < result.length; i++) {
+	    let data = result[i];
+	    let addHtml = '<option value="' + data + '">' + data + '</option>';
+	    $('#pplBaseYYMM').append(addHtml);
 	}
+    }
+}
 	
 /**
 * 분석결과 차트 표시
@@ -97,12 +130,7 @@ function populationRenderChart(result){
 	console.log("그래프 데이터 오류");
        	return false;
     }
-        /* const labels = this.list.map((item) => {
-            return item["name"];
-        });
-        const data = this.list.map((item) => {
-            return item["value"];
-        }); */
+    
     //차트 그리기
     const datasets = [
         {
@@ -150,7 +178,7 @@ function populationRenderChart(result){
 /**
 * 인구 정보 조회 및 차트 데이터 전달
 */
-function selectPplInfoList(){
+function selectPplInfoList() {
 	// ajax 전달 데이터
 	let data = $("#pplSearchForm").serialize();
 	let pplShowType = $("#pplShowType").val();
@@ -164,48 +192,58 @@ function selectPplInfoList(){
 		type : 'post',
 		dataType: 'json',
 		success: function(data) {
-		    toastr.success("조회 성공.");
 		    result = data.resultList;
 		    legalData(result);
 		}, error: function() {
 		    toastr.error("정보를 불러오지 못하였습니다.");
 		}
 	    });
-	    
-	    // 법정동 경계 데이터 설정
-	    function legalData(result) {
-		let totalCount = 0;
-		let legalListHml = "";
-		let dataType = $("#pplGender").val();
-		let typeSelector; 
-		switch (dataType) {
-		case 'all' :
-		    typeSelector = '.allPopltnCnt';
-		    break;
-		case 'm' :
-		    typeSelector = '.malePopltnCnt';
-		    break;
-		case 'w' :
-		    typeSelector = '.femalePopltnCnt';
-		    break;
-		}
-		for(let i = 0; i < result.length; i++) {
-		    totalCount += result[i].allPopltnCnt;
-		    legalListHml += "<tr>";
-		    legalListHml += "<td>" + result[i].codeNm + "</td>";
-		    legalListHml += "<td>" + result[i].allPopltnCnt + "</td>";
-		    let rate = Math.floor(result[i].allPopltnCnt / totalCount * 100);
-		    legalListHml += "<td>" + rate + "%</td>";
-		    legalListHml += "</tr>";
-		    $("#pplInfoLegalList").html(legalListHml);
-		}
-		$('.pplInfoLegalType .bbs-list-num').html("조회결과 : <strong>" + totalCount + "</strong>명")
-		//차트 그리기
-		populationRenderChart(result);
-	    }
-	    
 	} else {
 	    // 격자 데이터 ajax. pplShowType = grid
 	    toastr.error("미구현");
 	}
+}
+
+/**
+ * 법정동 경계 데이터 설정 
+ * @param result
+ * @returns
+ */
+function legalData(result) {
+	let totalCount = 0;
+	let legalListHml = "";
+	let dataType = $("#pplGender").val();
+	
+	for(let i = 0; i < result.length; i++) {
+	    if (dataType == 'all') {
+		totalCount += result[i].allPopltnCnt;
+	    } else if (dataType == 'm') {
+		totalCount += result[i].malePopltnCnt;
+	    } else if (dataType == 'w') {
+		totalCount += result[i].femalePopltnCnt;
+	    }
+	}
+	for(let i = 0; i < result.length; i++) {
+	    legalListHml += "<tr>";
+	    legalListHml += "<td>" + result[i].codeNm + "</td>";
+	    let rate = '';
+	    // 총인구, 남자, 여자 분류
+	    if (dataType == 'all') {
+		legalListHml += "<td>" + result[i].allPopltnCnt + "</td>";
+		rate = Math.round(result[i].allPopltnCnt / totalCount * 100);
+		} else if (dataType == 'm') {
+		    legalListHml += "<td>" + result[i].malePopltnCnt + "</td>";
+		    rate = Math.round(result[i].malePopltnCnt / totalCount * 100);
+		} else if (dataType == 'w') {
+		    legalListHml += "<td>" + result[i].femalePopltnCnt + "</td>";
+		    rate = Math.round(result[i].femalePopltnCnt / totalCount * 100);
+		}
+	    legalListHml += "<td>" + rate + "%</td>";
+	    legalListHml += "</tr>";
+	    $("#pplInfoLegalList").html(legalListHml);
+	}
+	let totalCountFormat = new Intl.NumberFormat().format(totalCount);
+	$('.pplInfoLegalType .bbs-list-num').html("조회결과 : <strong>" + totalCountFormat + "</strong>명")
+	//차트 그리기
+	populationRenderChart(result);
 }
