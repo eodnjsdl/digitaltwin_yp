@@ -43,13 +43,6 @@ public class PopulationInfoServiceImpl extends EgovAbstractServiceImpl implement
 	}
 
 	@Override
-	public int selectAllPopulationCnt() {
-		int cnt = 0;
-		cnt = populationInfoDAO.selectAllPopulationCnt();
-		return cnt;
-	}
-
-	@Override
 	public List<PopulationVO> selectMyeonPopulationInfoList(PopulationVO populationVO) {
 		List<PopulationVO> list = null;
 		
@@ -57,9 +50,11 @@ public class PopulationInfoServiceImpl extends EgovAbstractServiceImpl implement
 		// 10 자리 중 6~8자리 - 면, 9~10 자리 - 리
 		// 0~8 자리 까지 필요 41830***%;
 		String liCd = populationVO.getLiCd();
-		String setLiCd = "";
-		setLiCd = liCd.substring(0, 7);
-		populationVO.setLiCd(setLiCd);
+		if (!liCd.equals("all")) {
+			String setLiCd = "";
+			setLiCd = liCd.substring(0, 7);
+			populationVO.setLiCd(setLiCd);
+		}
 		
 		// 기준 년월 포맷 변경 - xxxx년xx월 -> 202210
 		String stdrYm = populationVO.getStdrYm();
