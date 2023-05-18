@@ -125,7 +125,7 @@
     <script src="/js/map/3d/layer/map3d-layer-line.js"></script>
     <script src="/js/map/3d/layer/map3d-layer-polygon.js"></script>
     <script src="/js/map/3d/layer/map3d-layer-csv.js"></script>
-    <script src="/js/map/3d/layer/map3d-layer-3ds.js"></script>
+    <script src="/js/map/3d/layer/map3d-layer-lod.js"></script>
     <script src="/js/map/3d/layer/map3d-layer-img.js"></script>
     <script src="/js/map/3d/layer/map3d-layer-shp.js"></script>
     <script src="/js/map/3d/layer/map3d-layer-facility.js"></script>

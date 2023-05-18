@@ -23,7 +23,7 @@ map3d.layer.Image = (function () {
      * @returns {XDWorld.JSLayer}
      */
     Image.prototype.createInstance = function (options) {
-        Module.XDEMapCreateLayer(this.layerNm, dtmap.urls.xdServer, 0, false, this.visible, false, Module.ELT_KML_GROUND, 1, 15);
+        Module.XDEMapCreateLayer(this.layerNm, dtmap.urls.xdServer, 0, false, this.visible, false, Module.ELT_KML_GROUND, 1, 16);
         Module.setVisibleRange(this.layerNm, map3d.config.vidoQlityLevel, map3d.config.maxDistance);
 
         return map3d.layer.serviceLayers.nameAtLayer(this.layerNm);

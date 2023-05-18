@@ -46,8 +46,8 @@ map3d.layer = (function () {
             return new map3d.layer.Image(options);
         } else if (type === 'SHP') {
             return new map3d.layer.SHP(options);
-        } else if (type === 'TDS') {
-            return new map3d.layer.TDS(options);
+        } else if (type === 'LOD') {
+            return new map3d.layer.LOD(options);
         } else if (type === 'WMS') {
             return new map3d.layer.WMS(options);
         } else if (type === 'CSV') {
