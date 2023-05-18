@@ -65,21 +65,4 @@ public class BusRouteInfoController {
 	
 	//////////
 	// 버스정류소
-	
-	// 버스정류소 목록 조회
-	@RequestMapping(value = "/selectBusSttnListView.do")
-	public String selectBusSttnListView(
-			@ModelAttribute("busSttnVO") BusSttnVO busSttnVO,
-			ModelMap model) throws Exception {
-		return "egiskorea/com/job/tran/brin/bust/busSttnListView";
-	}
-
-	// 버스정류소 상세화면 조회
-//	@RequestMapping(value = "/selectBusSttn.do", method = RequestMethod.POST)
-//	public String selectBusSttn(
-//			@ModelAttribute("busSttnVO") BusSttnVO busSttnVO, String id,
-//			ModelMap model) throws Exception {
-//		model.addAttribute("id", id);
-//		return "egiskorea/com/job/tran/brin/bust/busSttnDetail";
-//	}
 }
