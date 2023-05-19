@@ -35,19 +35,31 @@ map3d.layer.WMS = (function () {
      * @returns {XDWorld.JSLayer}
      */
     WMS.prototype.createInstance = function (options) {
+        let wmsParam = {
+            VERSION: '1.1.1',
+            REQUEST: 'GetMap',
+            // SLD_BODY : options.sldBody
+        }
+        if (options.sld) {
+            wmsParam['SLD'] = options.sld
+        }
+        // 엔진 기능 미제공으로 주석처리
+        // if(options.sldBody){
+        //     wmsParam['SLD_BODY'] = options.sldBody
+        // }
+        if (options.cql) {
+            wmsParam['CQL_FILTER'] = encodeURIComponent(options.cql);
+        }
+
         let opt = _.merge({}, {
-            method : 'post',
+            method: 'post',
             url: dtmap.urls.xdGeoServer + "/wms?",
             layer: options.layerNm,
             minimumlevel: options.minimumlevel,
             maximumlevel: options.maximumlevel,
             tileSize: options.tileSize,
             crs: options.crs,
-            parameters: {
-                VERSION : '1.1.1',
-                SLD: options.sld,
-                // SLD_BODY : options.sldBody
-            },
+            parameters: wmsParam,
         }, WMS_OPT)
 
         let layer = map3d.serviceLayers.createWMSLayer(this.id);
