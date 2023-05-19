@@ -13,7 +13,7 @@ function aj_selectLayerList(mode, reset = false) {
         dataType: "html",
         async: false,
         success: function (returnData, status) {
-            if (status == "success") {
+            if (status === "success") {
                 $(".lnb-layer").html(returnData);
                 $(".lnb-layer input[name='searchKeyword']").val(searchKeyword);
 
@@ -49,7 +49,7 @@ function aj_selectLayerManagementList() {
         dataType: "html",
         async: false,
         success: function (returnData, status) {
-            if (status == "success") {
+            if (status === "success") {
                 $("#leftPopup").html(returnData);
                 $("#leftPopup select[name='searchCondition']").val(searchCondition);
                 $("#leftPopup input[name='searchKeyword']").val(searchKeyword);
@@ -80,7 +80,7 @@ function aj_insertDataConversionView() {
         dataType: "html",
         async: false,
         success: function (returnData, status) {
-            if (status == "success") {
+            if (status === "success") {
                 $("#leftPopup").html(returnData);
             } else {
                 toastr.error("관리자에게 문의 바랍니다.", "정보를 불러오지 못했습니다.");
@@ -104,7 +104,7 @@ function aj_updateLayerInfoView(layerId) {
         dataType: "html",
         async: false,
         success: function (returnData, status) {
-            if (status == "success") {
+            if (status === "success") {
                 $("#layerManagement").removeClass("active");
                 $("#leftPopup").html(returnData);
             } else {
@@ -116,3 +116,4 @@ function aj_updateLayerInfoView(layerId) {
         }
     });
 }
+

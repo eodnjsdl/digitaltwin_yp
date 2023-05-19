@@ -162,8 +162,8 @@ window.dtmap = (function () {
      * 배경지도 설정함수
      * @param {string} name 배경지도 서비스명 'emap' || 'air'
      */
-    function setBaseLayer(name) {
-        call('setBaseLayer', name)
+    function setBaseLayer(name, url) {
+        call('setBaseLayer', name, url)
     }
 
 

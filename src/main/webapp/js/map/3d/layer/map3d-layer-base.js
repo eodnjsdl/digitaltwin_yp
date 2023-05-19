@@ -10,7 +10,7 @@ map3d.layer.Layer = (function () {
         this.layerNm = layerNm;
         this.visible = visible || false;
         this.minLevel = 0;
-        this.maxLevel = 15;
+        this.maxLevel = 16;
         this.isDefault = isDefault;
         this.instance = this.createInstance(options);
         if (this.instance.setMaxDistance) {

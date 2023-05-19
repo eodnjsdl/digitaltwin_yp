@@ -31,7 +31,7 @@ public class BusRouteInfoDAO extends ComAbstractDAO {
 	 * @param thrghSttnVO
 	 * @return Exception
 	 */
-	public List<?> selectThrghSttnList(ThrghSttnVO thrghSttnVO) {
+	public List<ThrghSttnVO> selectThrghSttnList(ThrghSttnVO thrghSttnVO) {
 		// TODO Auto-generated method stub
 		return selectList("busRouteInfoDAO.selectThrghSttnList", thrghSttnVO);
 	}

@@ -25,7 +25,7 @@ public interface BusRouteInfoService {
 	 * @param thrghSttnVO
 	 * @throws Exception
 	 */
-	public Map<String, Object> selectThrghSttnList(ThrghSttnVO thrghSttnVO) throws Exception;
+	public List<ThrghSttnVO> selectThrghSttnList(ThrghSttnVO thrghSttnVO) throws Exception;
 
 	/**
 	 * 특정 정류소경유노선정보

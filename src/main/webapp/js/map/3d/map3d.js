@@ -8,6 +8,7 @@ window.map3d = (function () {
     let _beforeMouse;
     let _isMouseDown = false;
     let _isDrag = false;
+    let _xdBaseLayer;
 
     function init() {
         if (_isInit) {
@@ -22,7 +23,7 @@ window.map3d = (function () {
             Module.TOTAL_MEMORY = map3d.config.totalMemory;
             Module.getNavigation().setNaviVisible(Module.JS_VISIBLE_OFF);
             //Module.Start 이전에 호출해야함.
-            Module.SetResourceServerAddr(dtmap.urls.xdServer + "/images/poi/");
+            Module.SetResourceServerAddr("/images/poi/");
             //배경 지도, DEM 설정부
             Module.XDESetDemUrlLayerName(dtmap.urls.xdServer, "dem_yp_5m");
             Module.XDESetSatUrlLayerName(dtmap.urls.xdServer, "tile_yp_25cm");
@@ -33,19 +34,20 @@ window.map3d = (function () {
                 container: _container,
                 // defaultKey: dtmap.config.EMAP_KEY
             });
+            Module.SetAPIKey("767B7ADF-10BA-3D86-AB7E-02816B5B92E9");
             Module.XDSetMouseState(Module.MML_SELECT_POINT);
 
             // 이전버전 초기화 소스
-            // const canvas = document.createElement("canvas");
+            // let canvas = document.createElement("canvas");
             // canvas.id = "canvas"; // id가 canvas가 아닐경우 에러발생
-            // canvas.width = container_.clientWidth;
-            // canvas.height = container_.clientHeight;
-            // container_.append(canvas);
+            // canvas.width = _container.clientWidth;
+            // canvas.height = _container.clientHeight;
+            // _container.append(canvas);
             // Module.canvas = canvas
             // canvas.addEventListener('contextmenu', function (e) {
             //     e.preventDefault();
             // })
-            // Module.Start(container_.clientWidth, container_.clientHeight)
+            // Module.Start(_container.clientWidth, _container.clientHeight)
 
             //초기 카메라설정
             const {center, limitRect, limitAlt, limitCamera} = map3d.config;
@@ -80,7 +82,7 @@ window.map3d = (function () {
             _isLoaded.resolve(true);
 
             //이벤트리스너 등록
-            const canvas = _container.getElementsByTagName('canvas').canvas
+            // const canvas = _container.getElementsByTagName('canvas').canvas
             // _container.addEventListener('click', onClick);
             // _container.addEventListener('contextmenu', onClick);
             canvas.addEventListener('mousedown', onMouseDown);
@@ -316,6 +318,9 @@ window.map3d = (function () {
         if (!altitude) {
             altitude = _camera.getLocation().Altitude;
         }
+        if (options.zoom) {
+            altitude = dtmap.util.zoomToAlt(options.zoom);
+        }
 
         const tilt = options.tilt || _camera.getTilt();
         const dir = options.direct || _camera.getDirect();
@@ -427,15 +432,35 @@ window.map3d = (function () {
      * 배경지도 설정
      * @param name
      */
-    function setBaseLayer(name) {
-        let url;
-        if (name === 'emap') {
-            url = dtmap.urls.emapBase + '?apikey=' + dtmap.config.EMAP_KEY + '&layer=korean_map&style=korean&tilematrixset=EPSG%3A5179&Service=WMTS&Request=GetTile&Version=1.0.0&Format=image%2Fpng&TileMatrix=L{02z}&TileCol={x}&TileRow={y}'
-        } else if (name === 'air') {
-            // url = dtmap.urls.emapAirProxy + '?URL=' + dtmap.urls.emapAir + '%3Fapikey=' + dtmap.config.EMAP_KEY + '%26layer=AIRPHOTO%26style=_null%26tilematrixset=NGIS_AIR%26Service=WMTS%26Request=GetTile%26Version=1.0.0%26Format=image%252Fjpg%26TileMatrix={z}%26TileCol={x}%26TileRow={y}'
-            return Module.WMTS().clear();
+
+    function setBaseLayer(name, url) {
+        if (!name) {
+            return console.warn('배경지도 이름이 없습니다.');
         }
 
+        if (_xdBaseLayer) {
+            Module.XDEMapRemoveLayer(_xdBaseLayer);
+            _xdBaseLayer = undefined;
+        }
+
+
+        if (name === 'emap') {
+            if (!url) {
+                url = dtmap.urls.emapBase + '?apikey=' + dtmap.config.EMAP_KEY + '&layer=korean_map&style=korean&tilematrixset=EPSG%3A5179&Service=WMTS&Request=GetTile&Version=1.0.0&Format=image%2Fpng&TileMatrix=L{02z}&TileCol={x}&TileRow={y}';
+            }
+            setEmapBase(url);
+        } else if (name === 'air') {
+            if (!url) {
+                url = dtmap.urls.emapAirProxy + '?URL=' + dtmap.urls.emapAir + '%3Fapikey=' + dtmap.config.EMAP_KEY + '%26layer=AIRPHOTO%26style=_null%26tilematrixset=NGIS_AIR%26Service=WMTS%26Request=GetTile%26Version=1.0.0%26Format=image%252Fjpg%26TileMatrix={z}%26TileCol={x}%26TileRow={y}';
+            }
+            setEmapBase(url);
+        } else {
+            _xdBaseLayer = name;
+            Module.XDEMapCreateLayer(_xdBaseLayer, dtmap.urls.xdServer, 0, true, true, false, 10, 0, 19)
+        }
+    }
+
+    function setEmapBase(url) {
         let wmts = Module.WMTS();
         wmts.provider = {
             url: url,
@@ -454,7 +479,6 @@ window.map3d = (function () {
         }
         wmts.quality = "middle";	// wmts 이미지 품질
         wmts.zeroLevel = 2;			// wmts 이미지 LOD
-
     }
 
     function getCoordinateFromPixel(pixel) {

@@ -1,8 +1,6 @@
 package egiskorea.com.job.tran.brin.service.impl;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.annotation.Resource;
 
@@ -39,14 +37,9 @@ public class BusRouteInfoServiceImpl extends EgovAbstractServiceImpl implements 
 	 * @param thrghSttnVO
 	 * @throws Exception
 	 */
-	public Map<String, Object> selectThrghSttnList(ThrghSttnVO thrghSttnVO) {
+	public List<ThrghSttnVO> selectThrghSttnList(ThrghSttnVO thrghSttnVO) {
 		// TODO Auto-generated method stub
-		List<?> thrghSttnList = busRouteInfoDAO.selectThrghSttnList(thrghSttnVO);
-
-		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("thrghSttnList", thrghSttnList);
-
-		return map;
+		return (List<ThrghSttnVO>) busRouteInfoDAO.selectThrghSttnList(thrghSttnVO);
 	}
 	
 	/**

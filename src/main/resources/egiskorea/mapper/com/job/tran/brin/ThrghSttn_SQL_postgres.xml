@@ -2,21 +2,18 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="busRouteInfoDAO">
 	<!-- 경유 정류소 조회 -->
-	<select id="selectThrghSttnList" resultType="egovMap" parameterType="thrghSttnVO">
+	<select id="selectThrghSttnList" resultType="thrghSttnVO" parameterType="thrghSttnVO">
 		SELECT
 			ROUTE_ID, 
 			STTN_ID, 
 			STTN_SN, 
 			STTN_NM, 
 			STTN_NO, 
-			AREA_NM, 
-			CMPTNC_CD, 
-			CENTR_CARTRK_AT, 
-			TURN_AT, 
 			X_CRDNT, 
 			Y_CRDNT
 		FROM TBD_THRGH_STTN_INFO
-			WHERE ROUTE_ID = #{route_id}
+			WHERE ROUTE_ID = #{routeId}
+			 ORDER BY STTN_SN ASC
 	</select>
 	
 	<!-- 특정 정류소경유노선 조회 쿼리 -->

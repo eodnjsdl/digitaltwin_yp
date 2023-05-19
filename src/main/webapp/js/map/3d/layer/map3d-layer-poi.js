@@ -252,11 +252,15 @@ map3d.layer.POI = (function () {
      */
     function createTilePOI(options) {
         let {layerNm} = options;
-        //Module.ELT_3DPOINT = 5
+        // Module.XDEMapCreateLayer(layerNm, dtmap.urls.xdServer, 0, true, this.visible, false, Module.ELT_3DPOINT, this.minLevel, this.maxLevel);
         map3d.serviceLayers.createXDServerLayer({
             name: layerNm,
             url: dtmap.urls.xdServer,
-            type: Module.ELT_3DPOINT
+            type: Module.ELT_3DPOINT,
+            visible: this.visible,
+            selectable: false, // 옵션 (default : true)
+            minLevel: this.minLevel,
+            maxLevel: this.maxLevel
         });
         //poi icon 표출
         let layer = map3d.serviceLayers.nameAtLayer(layerNm);

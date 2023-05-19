@@ -5,7 +5,7 @@
  * COMMENT :
  */
 var M_PRCL_ANLS = (function () {
-
+    let rstCnt = 0;
     let module = {
         wkt: null,
         facility: store['facility'].getData(),
@@ -74,6 +74,7 @@ var M_PRCL_ANLS = (function () {
         $("[name=standard-search-target]", M_PRCL_ANLS.selector).html(tag);
         $(".data-list tbody", M_PRCL_ANLS.selector).html(dataTag);
     }
+
     /**
      * 초기화
      */
@@ -86,8 +87,10 @@ var M_PRCL_ANLS = (function () {
         $("[name=download-type]:first", M_PRCL_ANLS.selector).trigger("click");
         $("[name=download-feature-type-all]", M_PRCL_ANLS.selector).prop("checked", false);
         $("[name=download-feature-type]", M_PRCL_ANLS.selector).prop("checked", false);
+        $("[name=download-search-drawing]:checked").prop("checked", false);
         $(".bbs-list-wrap").hide();
         $(".guid-box").show();
+        rstCnt = 0;
     }
 
     /**
@@ -98,6 +101,7 @@ var M_PRCL_ANLS = (function () {
         // const that = this;
         // 검색 기준 변경
         $(".tabBoxDepth1 ul li button", M_PRCL_ANLS.selector).on("click", function () {
+            rstCnt = 0;
             dtmap.clear();
             dtmap.off('select');
             $("[name=download-search-drawing]:checked").prop("checked", false);
@@ -201,6 +205,29 @@ var M_PRCL_ANLS = (function () {
             dtmap.clear();
             dtmap.draw.setBuffer(0); // 버퍼해제
         });
+
+        // 엑셀다운로드
+        $(".btn_excelDownload", M_PRCL_ANLS.selector).on("click", function () {
+            if (rstCnt !== 0) {
+                var today = new Date();
+                var dd = String(today.getDate()).padStart(2, '0');
+                var mm = String(today.getMonth() + 1).padStart(2, '0');
+                var yyyy = today.getFullYear();
+                today = yyyy + '' + mm + '' + dd;
+                $("#parcelRstListTbl").table2excel({
+                    exclude: ".noExl",
+                    name: "Excel Document Name",
+                    filename: "편입필지분석(" + today + ")",
+                    fileext: ".xls",
+                    exclude_img: true,
+                    exclude_links: true,
+                    exclude_inputs: true
+                });
+            } else {
+                toastr.warning("분석 후 시도해 주세요.");
+            }
+        });
+
         // 전체 선택 / 해제
         $("[name=download-feature-type-all]", M_PRCL_ANLS.selector).on(
             "change",
@@ -298,12 +325,13 @@ var M_PRCL_ANLS = (function () {
     }
 
     function compute(geom) {
-        const maxCnt = 5000;
+        let maxCnt;
+        dtmap.mod === '2D' ? maxCnt = 5000 : maxCnt = 300;
         dtmap.wfsGetFeature({
             typeNames: 'digitaltwin:lsmd_cont_ldreg_41830',
             geometry: geom
         }).then(function (data) {
-            if(data.features.length > maxCnt) {
+            if (data.features.length > maxCnt) {
                 toastr.warning(maxCnt + "건 이하로 다시 선택해 주세요.", "편입필지 분석 갯수 초과");
                 return;
             }
@@ -376,13 +404,14 @@ var M_PRCL_ANLS = (function () {
     }
 
     function printList(features) {
+        rstCnt = features.length;
         let html = ``;
         let sumJijukArea = 0;
         let sumParcelArea = 0;
         const $div = $(M_PRCL_ANLS.selector).find('.result-list');
         $('.guid-box', M_PRCL_ANLS.selector).hide();
         $div.empty();
-        if(features.length === 0) {
+        if (features.length === 0) {
             html += `<tr>
                 <td colspan="5">검색결과가 존재하지 않습니다.</td>
             </tr>`

@@ -55,13 +55,16 @@
     <script src="/engine/plugin/v6.7.0/jspdf.umd.min.js"></script>
     <script src="/engine/plugin/v6.7.0/jspdf.plugin.autotable.min.js"></script>
 
-    <!-- ax5 grid-->
+    <!-- ax5 grid -->
     <script src="/js/plugin/ax5grid/ax5core.min.js"></script>
     <script src="/js/plugin/ax5grid/ax5grid.min.js"></script>
 
     <!-- lightbox2-2.11.4 -->
     <link href="/js/plugin/lightbox2-2.11.4/dist/css/lightbox.css" rel="stylesheet">
     <script type="text/javascript" src="/js/plugin/lightbox2-2.11.4/dist/js/lightbox.js"></script>
+
+    <!-- jquery.table2excel -->
+    <script src="/js/plugin/jquery.table2excel/jquery.table2excel.min.js"></script>
 
     <!-- font 맑은고딕: stre.js (지도저장기능 수행 시) -->
     <script src="/engine/plugin/v6.7.0/malgun.js"></script>
@@ -86,7 +89,7 @@
     <script src="/js/map/dtmap.js"></script>
     <script src="/js/map/dtmap-config.js"></script>
 
-<%--    <script src="/js/map/dtmap-urls.${domain}.js"></script>--%>
+    <%--    <script src="/js/map/dtmap-urls.${domain}.js"></script>--%>
     <script src="/js/map/dtmap-urls.localhost.js"></script>
     <script src="/js/map/dtmap-util.js"></script>
 
@@ -122,7 +125,7 @@
     <script src="/js/map/3d/layer/map3d-layer-line.js"></script>
     <script src="/js/map/3d/layer/map3d-layer-polygon.js"></script>
     <script src="/js/map/3d/layer/map3d-layer-csv.js"></script>
-    <script src="/js/map/3d/layer/map3d-layer-3ds.js"></script>
+    <script src="/js/map/3d/layer/map3d-layer-lod.js"></script>
     <script src="/js/map/3d/layer/map3d-layer-img.js"></script>
     <script src="/js/map/3d/layer/map3d-layer-shp.js"></script>
     <script src="/js/map/3d/layer/map3d-layer-facility.js"></script>
@@ -211,7 +214,7 @@
     
 
     <!-- [[업무 /시설관리 재작업]] end -->
-    
+
     <!-- [교통분석]  -->
     <script src="/js/egiskorea/com/job/tran/brin/busRouteInfo.js"></script>				  <!-- {버스노선정보  공통} -->
     <!-- ////////////////////////////  -->

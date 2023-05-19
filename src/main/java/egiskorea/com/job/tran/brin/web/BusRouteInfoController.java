@@ -1,8 +1,6 @@
 package egiskorea.com.job.tran.brin.web;
 
 import java.util.List;
-import java.util.Map;
-
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Controller;
@@ -15,7 +13,6 @@ import egiskorea.com.job.tran.brin.service.TbdThrghRouteInfoVO;
 import egiskorea.com.job.tran.brin.service.TgdBusSttnInfoVO;
 import egiskorea.com.job.tran.brin.service.BusRouteInfoService;
 import egiskorea.com.job.tran.brin.service.BusRouteVO;
-import egiskorea.com.job.tran.brin.service.BusSttnVO;
 import egiskorea.com.job.tran.brin.service.ThrghSttnVO;
 
 /**
@@ -58,10 +55,11 @@ public class BusRouteInfoController {
 			ModelMap model) throws Exception {
 		// 경유 정류소 조회
 		ThrghSttnVO thrghSttnVO = new ThrghSttnVO();
-		thrghSttnVO.setRoute_id(route_id);
+		thrghSttnVO.setRouteId(route_id);
 		
-		Map<String, Object> map = busRouteInfoService.selectThrghSttnList(thrghSttnVO);
-		model.addAttribute("thrghSttnList", map.get("thrghSttnList"));
+		List<ThrghSttnVO> thrghSttnList = null;
+		thrghSttnList = busRouteInfoService.selectThrghSttnList(thrghSttnVO);
+		model.addAttribute("thrghSttnList", thrghSttnList);
 		
 		return "egiskorea/com/job/tran/brin/buro/busRouteDetail";
 	}

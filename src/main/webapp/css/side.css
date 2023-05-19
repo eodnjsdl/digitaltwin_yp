@@ -396,12 +396,12 @@
 	font-size: 13px;
 }
 
-.layer-list .layer-list-dep2 > li::before {
+.layer-list .layer-list-dep2 .form-checkbox::before {
 	content: '';
 	position: absolute;
-	top: 50%;
-	left: 9px;
-	margin-top: -6px;
+	top: 4px;
+	left: -12px;
+	/*margin-top: -6px;*/
 	width: 8px;
 	height: 8px;
 	background: url(/images/map/lnb-list-icon.svg) no-repeat 50% 50%;

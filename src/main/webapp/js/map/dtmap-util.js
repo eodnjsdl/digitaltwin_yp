@@ -145,7 +145,7 @@ window.dtmap.util = (function () {
             geometry: geometry
         });
         if (options.id) {
-            feature.setId(options.id)
+            feature.setId(options.id);
         }
         if (options.style) {
             feature.set('style', options.style);
