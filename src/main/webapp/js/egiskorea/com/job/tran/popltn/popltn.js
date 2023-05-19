@@ -47,6 +47,11 @@ $(document).ready(function(){
     $('#populationReset').on('click', function () {
 	aj_selectPopulationInfoList();
     });
+    
+    // 닫기 버튼
+    $('#popltnCloseBtn').on('click', function () {
+	dtmap.layer.clear();
+    });
 });
 	
 //functions
@@ -219,6 +224,7 @@ function selectPplInfoList() {
         	    legalData(result);
         	    // 레이어 호출
         	    getLayer(options);
+        	    getJenks(result);
         	    ui.loadingBar('hide');
         	}, error: function() {
         	    toastr.error("정보를 불러오지 못하였습니다.");
@@ -301,6 +307,16 @@ function getLayer(options) {
     });
 }
 
+function getJenks(data) {
+    let popltn = [];
+    for (let i = 0; i < data.length; i++) {
+	popltn.push(data[i].allPopltnCnt);
+    }
+    let geo = new geostats(popltn);
+    let jenks = geo.getClassJenks(5);
+    console.log("geo.ranges---------");
+    console.log(geo.ranges);
+}
 
 //================== db data =======================
 function getGeomData() {

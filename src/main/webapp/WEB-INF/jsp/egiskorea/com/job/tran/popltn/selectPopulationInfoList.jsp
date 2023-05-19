@@ -6,6 +6,7 @@
 <%@ taglib prefix="ui" uri="http://egovframework.gov/ctl/ui"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <script src="/js/egiskorea/com/job/tran/popltn/popltn.js"></script>
+<script src="/js/map/lib/geostats/geostats.min.js"></script>
 <!-- 교통분석-인구정보 -->
 	<form name="pplSearchForm" id="pplSearchForm">
 	<div class="popup-header">인구정보</div>
@@ -144,7 +145,7 @@
 	</form>
 	
 	<button type="button" class="manualBtn" title="도움말" onclick="manualTab('인구정보')"></button>
-	<button type="button" class="popup-close" id="fcrmCloseBtn" title="닫기"></button>
+	<button type="button" class="popup-close" id="popltnCloseBtn" title="닫기"></button>
 	<button type="button" class="popup-reset" class="초기화" id="populationReset"></button>
 	<button type="button" class="popup-bottom-toggle" title="접기"></button>				
 <!-- 교통분석-인구정보 -->
