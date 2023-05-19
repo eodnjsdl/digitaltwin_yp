@@ -109,7 +109,8 @@ map2d.layer = (function () {
                     VERSION: '1.1.1',
                     LAYERS: layerNm,
                     SLD: options.sld,
-                    SLD_BODY: options.sldBody
+                    SLD_BODY: options.sldBody,
+                    CQL_FILTER: options.cql
                 },
                 // projection: ol.proj.get(e.srs),
                 ratio: 1,
