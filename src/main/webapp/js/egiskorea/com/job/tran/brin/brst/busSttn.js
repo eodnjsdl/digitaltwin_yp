@@ -438,7 +438,6 @@ function selectBusSttnView(detailData){
 function searchBusSttnFilters() {
 	$('.info-attribute-search').on('click', function() {
 		getBusSttnEmdData();
-		selectBusSttnList(1, geom);
 	});
 }
 

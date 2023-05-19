@@ -19,8 +19,8 @@ function getBusRouteInformation(info) {
 			selectBusRouteListView();
 			return;
 		} else if (info == "busSttn") {		// 버스정류소
-			selectTgdBusSttnInfoListView();
-			//selectBusSttnListView();
+			//selectTgdBusSttnInfoListView();
+			selectBusSttnListView();
 			return;
 		} else {
 			alert("잘못된 호출");
@@ -69,7 +69,7 @@ function selectBusRouteListView() {
 }
 
 //버스정류소 목록 화면 조회
-function selectTgdBusSttnInfoListView(){
+function selectBusSttnListView(){
 	
 	ui.loadingBar("show");
 	

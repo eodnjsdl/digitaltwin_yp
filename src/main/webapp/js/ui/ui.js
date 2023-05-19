@@ -557,8 +557,7 @@ window.ui = (function () {
                 // 교통분석 > 버스노선정보
                 case "BusRouteInformation" :
                 	//toastr.error("버스노선정보");
-                    //getBusRouteInformation("busRoute")	// 버스노선정보 버스노선
-                    getBusRouteInformation("busSttn")	// 버스노선정보 버스노선
+                    getBusRouteInformation("busRoute")	// 버스노선정보 버스노선
                     break;
                 // 교통분석 >  인구정보
                 case "PopulationInformation" :
