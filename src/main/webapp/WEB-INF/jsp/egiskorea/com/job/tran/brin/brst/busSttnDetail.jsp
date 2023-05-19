@@ -40,26 +40,6 @@
 								      <strong>기점:</strong> <c:out value="${item.cdpntSttnNm }"/>&nbsp;&nbsp;&nbsp;&nbsp;
 								      <strong>종점:</strong> <c:out value="${item.tmnlSttnNm }"/><br>
 								      <strong></strong><br>
-								      <strong>노선유형:</strong> <c:out value="${item.routeTyNm }"/>&nbsp;&nbsp;&nbsp;&nbsp;
-								      <strong>노선번호:</strong> <c:out value="${item.routeNm }"/><br>
-								      <strong>기점:</strong> <c:out value="${item.cdpntSttnNm }"/>&nbsp;&nbsp;&nbsp;&nbsp;
-								      <strong>종점:</strong> <c:out value="${item.tmnlSttnNm }"/><br>
-								      <strong></strong><br>
-								      <strong>노선유형:</strong> <c:out value="${item.routeTyNm }"/>&nbsp;&nbsp;&nbsp;&nbsp;
-								      <strong>노선번호:</strong> <c:out value="${item.routeNm }"/><br>
-								      <strong>기점:</strong> <c:out value="${item.cdpntSttnNm }"/>&nbsp;&nbsp;&nbsp;&nbsp;
-								      <strong>종점:</strong> <c:out value="${item.tmnlSttnNm }"/><br>
-								      <strong></strong><br>
-								      <strong>노선유형:</strong> <c:out value="${item.routeTyNm }"/>&nbsp;&nbsp;&nbsp;&nbsp;
-								      <strong>노선번호:</strong> <c:out value="${item.routeNm }"/><br>
-								      <strong>기점:</strong> <c:out value="${item.cdpntSttnNm }"/>&nbsp;&nbsp;&nbsp;&nbsp;
-								      <strong>종점:</strong> <c:out value="${item.tmnlSttnNm }"/><br>
-								      <strong></strong><br>
-								      <strong>노선유형:</strong> <c:out value="${item.routeTyNm }"/>&nbsp;&nbsp;&nbsp;&nbsp;
-								      <strong>노선번호:</strong> <c:out value="${item.routeNm }"/><br>
-								      <strong>기점:</strong> <c:out value="${item.cdpntSttnNm }"/>&nbsp;&nbsp;&nbsp;&nbsp;
-								      <strong>종점:</strong> <c:out value="${item.tmnlSttnNm }"/><br>
-								      <strong></strong><br>
 								    </li>
 								  </c:forEach>
 								</ul>
