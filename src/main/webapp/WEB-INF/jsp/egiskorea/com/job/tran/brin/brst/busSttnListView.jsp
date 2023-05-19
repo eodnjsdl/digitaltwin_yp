@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" %>
 
 <!-- js -->
-<script src="/js/egiskorea/com/job/tran/brin/tbrs/tgdBusSttnInfo.js"></script>			<!-- 버스정류소  -->
+<script src="/js/egiskorea/com/job/tran/brin/tbrs/busSttn.js"></script>			<!-- 버스정류소  -->
 
 <!-- 업무 > 공통 -->
 <div class="popup-header">버스노선정보</div>
@@ -37,8 +37,20 @@
                             	<tr>  
 									<th scope="row">읍면동</th>  
 									<td>    
-										<select name="hjd_cde" class="form-select">
+										<select name="emdKorNm" class="form-select">
 											<option value="">선택</option>
+<!-- 											<option value="지평면">지평면</option>
+											<option value="용문면">용문면</option>
+											<option value="개군면">개군면</option>
+											<option value="단월면">단월면</option>
+											<option value="청운면">청운면</option>
+											<option value="양동면">양동면</option>
+											<option value="양평읍">양평읍</option>
+											<option value="강상면">강상면</option>
+											<option value="강하면">강하면</option>
+											<option value="양서면">양서면</option>
+											<option value="옥천면">옥천면</option>
+											<option value="서종면">서종면</option> -->
 										</select>  
 									</td>
 								</tr>
@@ -59,7 +71,7 @@
                     </div>
                     <div class="btn-wrap">
                         <div>
-                            <button type="button" class="btn type01 search trafficAnalysis-attribute-search" onclick="selectTgdBusSttnInfoList(1)">조회</button>
+                            <button type="button" class="btn type01 search trafficAnalysis-attribute-search" onclick="selectBusSttnList(1)">조회</button>
                         </div>
                     </div>
                 </div>
@@ -134,7 +146,7 @@
 		//이벤트 리스너 추가
 		dtmap.on('select', onTrficAnalsSelectEventListener);
 		
-		tgdBusSttnInfoInit();	//초기화
+		initBusSttn();	//초기화
 		 
 		//////////////////
 		//하위메뉴 select box
@@ -213,7 +225,7 @@
             const type = $parent.find('input[name="rad-trafficAnalysis-area"]:checked').val();
             
             if (type === 'extent') {
-            	FACILITY.spaceSearchOption.bbox 	= dtmap.getExtent();
+            	TRFICANALS.spaceSearchOption.bbox 	= dtmap.getExtent();
             } else {
             	//console.log("모드>>>"+dtmap.mod);
             	if(dtmap.mod == "2D"){
@@ -229,7 +241,7 @@
             	
             }
            	
-           	selectTgdBusSttnInfoList(1);
+            selectBusSttnList(1);
 
         });
      	

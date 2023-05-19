@@ -69,48 +69,23 @@ public class BusRouteInfoController {
 	//////////
 	// 버스정류소
 	
-	// 버스정류소 목록 조회
-	@RequestMapping(value = "/selectBusSttnListView.do")
-	public String selectBusSttnListView(
-			@ModelAttribute("busSttnVO") BusSttnVO busSttnVO,
-			ModelMap model) throws Exception {
-		return "egiskorea/com/job/tran/brin/bust/busSttnListView";
-	}
-
-	// 버스정류소 상세화면 조회
-//	@RequestMapping(value = "/selectBusSttn.do", method = RequestMethod.POST)
-//	public String selectBusSttn(
-//			@ModelAttribute("busSttnVO") BusSttnVO busSttnVO, String id,
-//			ModelMap model) throws Exception {
-//		model.addAttribute("id", id);
-//		return "egiskorea/com/job/tran/brin/bust/busSttnDetail";
-//	}
-	
 	//목록 화면 호출
-	@RequestMapping(value = "/selectTgdBusSttnInfoListView.do")
+	@RequestMapping(value = "/selectBusSttnListView.do")
     public String selectTgdBusSttnInfoListView(
             @ModelAttribute("tgdBusSttnInfoVO") TgdBusSttnInfoVO tgdBusSttnInfoVO,
             ModelMap model) throws Exception {
-        return "egiskorea/com/job/tran/brin/brst/tgdBusSttnInfoListView";
-    }
-	
-	//정류소경유노선(버스정류소정보)
-	@RequestMapping(value = "/selectTgdBusSttnInfo.do", method = RequestMethod.POST)
-    public String selectTgdBusSttnInfo(
-    		@ModelAttribute("tgdBusSttnInfoVO") TgdBusSttnInfoVO tgdBusSttnInfoVO,
-    		ModelMap model) throws Exception {
-        return "egiskorea/com/job/tran/brin/brst/selectTgdBusSttnInfo";
+        return "egiskorea/com/job/tran/brin/brst/busSttnListView";
     }
 	
 	//정류소경유노선(특정 경유노선정보)
-	@RequestMapping(value = "/selectTbdThrghRouteInfo.do", method = RequestMethod.POST)
+	@RequestMapping(value = "/selectBusSttn.do", method = RequestMethod.POST)
 	public String selectTbdThrghRouteInfo(
 		@ModelAttribute("tbdThrghRouteInfoVO") TbdThrghRouteInfoVO tbdThrghRouteInfoVO, ModelMap model) throws Exception {
 		
 		List<TbdThrghRouteInfoVO> result = busRouteInfoService.getTbdThrghRouteInfoById(tbdThrghRouteInfoVO.getSttnId());
 	    model.addAttribute("tbdThrghRouteInfoVO", result);
 	    
-	    return "egiskorea/com/job/tran/brin/brst/selectTgdBusSttnInfo";
+	    return "egiskorea/com/job/tran/brin/brst/busSttnDetail";
 	}
 	
 }

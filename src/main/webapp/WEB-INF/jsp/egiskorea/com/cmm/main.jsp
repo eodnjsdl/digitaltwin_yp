@@ -213,8 +213,7 @@
     <!-- [[업무 /시설관리 재작업]] end -->
     
     <!-- [교통분석]  -->
-    <script src="/js/egiskorea/com/job/tran/trafficAnalysisCommon.js"></script>           <!-- 교통분석  공통 -->
-    <script src="/js/egiskorea/com/job/tran/brin/busRouteInfo.js"></script>		<!-- {버스노선정보  공통} -->
+    <script src="/js/egiskorea/com/job/tran/brin/busRouteInfo.js"></script>				  <!-- {버스노선정보  공통} -->
     <!-- ////////////////////////////  -->
 
     <!-- 분석 -->

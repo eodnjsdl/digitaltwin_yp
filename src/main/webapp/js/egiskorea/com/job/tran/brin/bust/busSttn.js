@@ -9,7 +9,3 @@ $(document).ready(function(){
 	//console.log("busSttn.js");
 	//console.log("버스정류소");
 });
-
-function getBusSttn() {
-	console.log("getBusSttn()");
-}

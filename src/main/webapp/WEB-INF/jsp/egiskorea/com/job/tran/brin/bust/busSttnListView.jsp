@@ -162,7 +162,7 @@ $(document).ready(function() {
 								<tr>  
 									<th scope="row">읍면동</th>
 									<td>
-										<select name="hjd_cde" class="form-select">
+										<select name="emdKorNm" class="form-select">
 											<option value="">전체</option>
 										</select>
 									</td>

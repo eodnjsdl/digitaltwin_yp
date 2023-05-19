@@ -68,30 +68,16 @@ function selectBusRouteListView() {
     });
 }
 
-//버스 정류소 목록 조회
-function selectBusSttnListView() {
-	//console.log("selectBusSttnListView()");
-	
-	ui.loadingBar("show");
-	
-	var baseContainer = "#bottomPopup";
-    $(baseContainer).load("/job/tran/brin/selectBusSttnListView.do", function() {
-    	getBusSttn();
-    	
-		ui.loadingBar("hide");
-    });
-}
-
 //버스정류소 목록 화면 조회
 function selectTgdBusSttnInfoListView(){
-	//console.log("selectTbdBusRsListView()");
 	
 	ui.loadingBar("show");
 	
 	var baseContainer = "#bottomPopup";
-    $(baseContainer).load("/job/tran/brin/selectTgdBusSttnInfoListView.do", function () {
-        //toastr.success("/job/tran/brin/selectTgdBusSttnInfoListView.do", "페이지🙂호🙂출🙂");
-    	tgdBusSttnInfoListProcess();
+    $(baseContainer).load("/job/tran/brin/selectBusSttnListView.do", function () {
+    	getBusSttnEmdData();
+    	getBusSttn();
+    	
 		ui.loadingBar("hide");
     });
 }
