@@ -78,6 +78,7 @@ function getAllPopulationInfo() {
 	success: function(data) {
 	    result = data.resultList;
 	    legalData(result);
+	    getLayer();
 	    ui.loadingBar('hide');
 	}, error: function() {
 	    toastr.error("정보를 불러오지 못하였습니다.");
@@ -202,15 +203,11 @@ function selectPplInfoList() {
 	    getAllPopulationInfo();
 	} else {
 	    // 레이어 호출 - cql 옵션 세팅
-	    console.log(data);
 	    let liCode = $('#liCd').val().slice(0, 8);
 	    let filter = "li_cd like " + "'" + liCode + "%'";
 	    let options = {
 		    cql : filter
 	    };
-	    console.log(liCode);
-	    console.log(filter);
-	    console.log(options);
 	    $.ajax({
 		data: data,
         	url : "/job/tran/popltn/selectMyeonPopulationInfoList.do",
@@ -282,10 +279,13 @@ function legalData(result) {
 
 // wms 레이어 호출
 function getLayer(options) {
-    console.log(options);
-    let cql = options.cql;
+    dtmap.layer.clear();
+    let cql;
+    if (options != undefined) {
+	cql = options.cql;
+    }
     const layerNm = 'digitaltwin:tgd_li_popltn_info';
-    let id = 'yp_all_popltn_Layer_';
+    let id = 'popltn_Layer';
     let type = 'WMS'
     let title = '인구정보'
     let visible = true;
