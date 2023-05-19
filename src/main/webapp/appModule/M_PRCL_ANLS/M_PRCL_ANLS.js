@@ -325,7 +325,8 @@ var M_PRCL_ANLS = (function () {
     }
 
     function compute(geom) {
-        const maxCnt = 5000;
+        let maxCnt;
+        dtmap.mod === '2D' ? maxCnt = 5000 : maxCnt = 300;
         dtmap.wfsGetFeature({
             typeNames: 'digitaltwin:lsmd_cont_ldreg_41830',
             geometry: geom

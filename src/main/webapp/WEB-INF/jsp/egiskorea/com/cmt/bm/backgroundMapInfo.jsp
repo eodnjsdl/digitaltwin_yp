@@ -97,11 +97,11 @@
             </div>
             --%>
         </div>
-<%--        <div class="position-bottom btn-wrap">--%>
-<%--            <div>--%>
-<%--                <button type="button" class="btn basic bi-check" id="bg-apply">적용</button>--%>
-<%--            </div>--%>
-<%--        </div>--%>
+        <%--        <div class="position-bottom btn-wrap">--%>
+        <%--            <div>--%>
+        <%--                <button type="button" class="btn basic bi-check" id="bg-apply">적용</button>--%>
+        <%--            </div>--%>
+        <%--        </div>--%>
     </div>
 </div>
 <button type="button" class="manualBtn" title="도움말" onclick="manualTab('배경지도')"></button>
@@ -129,8 +129,10 @@
         }
 
         $(document).on('change', 'input[name="mapBgType"]:radio', function () {
-            var value = $(this).val(); //서비스ID
-            dtmap.setBaseLayer(value);
+            const $this = $(this);
+            const value = $this.val(); //서비스ID
+            const url = $this.data('service_url')
+            dtmap.setBaseLayer(value, url);
         });
         // mapBgTypeCheckedInit();
     })
