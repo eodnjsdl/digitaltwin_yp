@@ -19,8 +19,8 @@ function getBusRouteInformation(info) {
 			selectBusRouteListView();
 			return;
 		} else if (info == "busSttn") {		// 버스정류소
-			toastr.error("버스정류소 작업중");
-			//selectBusSttnListView();
+			//selectTgdBusSttnInfoListView();
+			selectBusSttnListView();
 			return;
 		} else {
 			alert("잘못된 호출");
@@ -68,14 +68,14 @@ function selectBusRouteListView() {
     });
 }
 
-//버스 정류소 목록 조회
-function selectBusSttnListView() {
-	//console.log("selectBusSttnListView()");
+//버스정류소 목록 화면 조회
+function selectBusSttnListView(){
 	
 	ui.loadingBar("show");
 	
 	var baseContainer = "#bottomPopup";
-    $(baseContainer).load("/job/tran/brin/selectBusSttnListView.do", function() {
+    $(baseContainer).load("/job/tran/brin/selectBusSttnListView.do", function () {
+    	getBusSttnEmdData();
     	getBusSttn();
     	
 		ui.loadingBar("hide");

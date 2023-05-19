@@ -157,6 +157,7 @@
 		
 		<!-- 교통분석 > 버스노선 -->
 		<typeAlias alias="thrghSttnVO" type="egiskorea.com.job.tran.brin.service.ThrghSttnVO" />
+		<typeAlias alias="tbdThrghRouteInfoVO" type="egiskorea.com.job.tran.brin.service.TbdThrghRouteInfoVO" />
 		<typeAlias alias="populationVO" type="egiskorea.com.job.tran.popltn.service.PopulationVO" />
 		
 		<!-- 업무 > 읍면동  -->
