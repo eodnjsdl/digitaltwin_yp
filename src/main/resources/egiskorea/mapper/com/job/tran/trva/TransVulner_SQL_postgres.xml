@@ -39,8 +39,9 @@
 	<!-- 대중교통 취약 분석 목록 모두조회 : 격자 -->
 	<select id="selectTransportationVulnerabilityListAllGrid" resultType="egovMap" parameterType="egiskorea.com.job.tran.trva.service.TransportationVulnerabilityVO">
 		/* 대중교통 취약분석 - transportationVulnerabilityDAO.selectTransportationVulnerabilityListAllGrid*/
-		<!-- SELECT
+		SELECT
 			grid_id
+			,li_cd
 			,stdr_ym
 			,all_popltn_cnt
 			,male_popltn_cnt
@@ -48,52 +49,11 @@
 			,st_astext(geom) as geom
 		FROM 
 			tgd_grid_popltn_info
-		WHERE
-			stdr_ym = #{stdrYm}
-		LIMIT 10000 -->	
-		SELECT
-			(select code_nm from comtccmmndetailcode where code = r.hjd   and code_id = 'YPE001') as areaNm
-			,(select code_nm from comtccmmndetailcode where code = r.li_cd and code_id = 'YPLI')   as liNm
-		 	,r.*
-		 FROM
-		(		
-			SELECT
-				<!-- st_contains(li.geom, gd.geom) as bCon -->
-				st_intersects(li.geom, gd.geom) as bCon
-				,li.hjd
-				,li.li_cd 
-				,gd.grid_id
-				,st_astext(gd.geom) as geom 
-			FROM
-			(
-				SELECT
-					li_cd
-					,concat(substring(li_cd,1,8),'00') as hjd
-					,stdr_ym
-					,geom
-				FROM 
-					tgd_li_popltn_info
-				WHERE 1=1
-				AND	stdr_ym = #{stdrYm}
-				<if test="searchArea != '' ">
-				AND 	
-					li_cd like concat(substring(#{searchArea},1,8),'%')
-				</if>
-			) li
-			,
-			(
-				SELECT
-					grid_id
-					,stdr_ym
-					,geom
-				FROM 
-					tgd_grid_popltn_info 
-				WHERE 1=1
-				AND	stdr_ym = #{stdrYm}
-			) gd
-		) r
 		WHERE 1=1
-		AND bCon = true
+		AND	stdr_ym = #{stdrYm}
+		<if test="searchArea != '' ">
+		AND li_cd LIKE CONCAT(SUBSTRING(#{searchArea},1,8),'%')
+		</if>
 	</select>
 	
 	<!-- 대중교통 취약 분석 목록 조회 -->

@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import egiskorea.com.job.tran.brin.service.BusRouteInfoService;
 import egiskorea.com.job.tran.brin.service.BusRouteVO;
-import egiskorea.com.job.tran.brin.service.BusSttnVO;
 import egiskorea.com.job.tran.brin.service.ThrghSttnVO;
 
 /**
