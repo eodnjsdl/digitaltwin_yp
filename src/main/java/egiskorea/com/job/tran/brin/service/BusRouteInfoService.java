@@ -1,6 +1,7 @@
 package egiskorea.com.job.tran.brin.service;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @Description 교통분석/버스노선정보 Service
@@ -14,6 +15,7 @@ import java.util.List;
  *  수정일                     수정자               수정내용
  *  ----------   --------   ---------------------------
  *  2023.05.11   김영주                최초 생성
+ *  2023.05.17   장현승                2차 수정
  */
 
 public interface BusRouteInfoService {
@@ -24,4 +26,12 @@ public interface BusRouteInfoService {
 	 * @throws Exception
 	 */
 	public List<ThrghSttnVO> selectThrghSttnList(ThrghSttnVO thrghSttnVO) throws Exception;
+
+	/**
+	 * 특정 정류소경유노선정보
+	 * @param tbdThrghRouteInfoVO
+	 * @throws Exception
+	 */
+	public List<TbdThrghRouteInfoVO> getTbdThrghRouteInfoById(String sttn_id) throws Exception;
+		
 }
