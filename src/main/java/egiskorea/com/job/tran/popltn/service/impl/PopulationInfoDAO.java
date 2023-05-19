@@ -31,11 +31,6 @@ public class PopulationInfoDAO extends ComAbstractDAO {
 		return selectList("population.selectPopulationInfoList", populationVO);
 	}
 	
-	public int selectAllPopulationCnt() {
-		int cnt = selectOne("population.selectAllPopulationCnt");
-		return cnt;
-	}
-	
 	public List<PopulationVO> selectMyeonPopulationInfoList(PopulationVO populationVO) {
 		return selectList("population.selectMyeonPopulationInfoList", populationVO);
 	}

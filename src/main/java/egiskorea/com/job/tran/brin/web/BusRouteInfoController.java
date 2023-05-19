@@ -1,6 +1,6 @@
 package egiskorea.com.job.tran.brin.web;
 
-import java.util.Map;
+import java.util.List;
 
 import javax.annotation.Resource;
 
@@ -54,31 +54,15 @@ public class BusRouteInfoController {
 			ModelMap model) throws Exception {
 		// 경유 정류소 조회
 		ThrghSttnVO thrghSttnVO = new ThrghSttnVO();
-		thrghSttnVO.setRoute_id(route_id);
+		thrghSttnVO.setRouteId(route_id);
 		
-		Map<String, Object> map = busRouteInfoService.selectThrghSttnList(thrghSttnVO);
-		model.addAttribute("thrghSttnList", map.get("thrghSttnList"));
+		List<ThrghSttnVO> thrghSttnList = null;
+		thrghSttnList = busRouteInfoService.selectThrghSttnList(thrghSttnVO);
+		model.addAttribute("thrghSttnList", thrghSttnList);
 		
 		return "egiskorea/com/job/tran/brin/buro/busRouteDetail";
 	}
 	
 	//////////
 	// 버스정류소
-	
-	// 버스정류소 목록 조회
-	@RequestMapping(value = "/selectBusSttnListView.do")
-	public String selectBusSttnListView(
-			@ModelAttribute("busSttnVO") BusSttnVO busSttnVO,
-			ModelMap model) throws Exception {
-		return "egiskorea/com/job/tran/brin/bust/busSttnListView";
-	}
-
-	// 버스정류소 상세화면 조회
-//	@RequestMapping(value = "/selectBusSttn.do", method = RequestMethod.POST)
-//	public String selectBusSttn(
-//			@ModelAttribute("busSttnVO") BusSttnVO busSttnVO, String id,
-//			ModelMap model) throws Exception {
-//		model.addAttribute("id", id);
-//		return "egiskorea/com/job/tran/brin/bust/busSttnDetail";
-//	}
 }

@@ -30,6 +30,10 @@ $(document).ready(function(){
     });
     
     $('#pplInfoSearch').on('click', function () {
+	let area = $('select[name="liCd"]').val();
+	if (area == 'all') {
+	    getAllPopulationInfo();
+	}
 	selectPplInfoList();
     });
     
@@ -37,7 +41,12 @@ $(document).ready(function(){
     $('#liCd').on('change', function () {
 	$('#pplBaseYYMM').empty();
 	getPplBaseYYMMList();
-    })
+    });
+    
+    // 초기화 버튼
+    $('#populationReset').on('click', function () {
+	aj_selectPopulationInfoList();
+    });
 });
 	
 //functions
