@@ -204,7 +204,7 @@ function selectPplInfoList() {
 	    // 레이어 호출 - cql 옵션 세팅
 	    console.log(data);
 	    let liCode = $('#liCd').val().slice(0, 8);
-	    let filter = 'li_cd like ' + liCode +'%';
+	    let filter = "li_cd like " + "'" + liCode + "%'";
 	    let options = {
 		    cql : filter
 	    };
@@ -221,7 +221,7 @@ function selectPplInfoList() {
         	    // 데이터 세팅
         	    legalData(result);
         	    // 레이어 호출
-//        	    getLayer(options);
+        	    getLayer(options);
         	    ui.loadingBar('hide');
         	}, error: function() {
         	    toastr.error("정보를 불러오지 못하였습니다.");
@@ -281,10 +281,9 @@ function legalData(result) {
 }
 
 // wms 레이어 호출
-function getLayer() {
-//    console.log(options);
-//    let cql = opttions.cql;
-//    console.log(cql);
+function getLayer(options) {
+    console.log(options);
+    let cql = options.cql;
     const layerNm = 'digitaltwin:tgd_li_popltn_info';
     let id = 'yp_all_popltn_Layer_';
     let type = 'WMS'
@@ -298,7 +297,7 @@ function getLayer() {
         layerNm: layerNm,
         title: title,
         visible: visible,
-        sldBody: findLayer.styleInfo
+        cql : cql
     });
 }
 
