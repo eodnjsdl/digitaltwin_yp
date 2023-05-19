@@ -70,6 +70,7 @@ function initPplGrid(){
  * @returns
  */
 function getAllPopulationInfo() {
+    ui.loadingBar('show');
     $.ajax({
 	url : "/job/tran/popltn/selectAllPopulationInfoList.do",
 	type : 'post',
@@ -77,6 +78,7 @@ function getAllPopulationInfo() {
 	success: function(data) {
 	    result = data.resultList;
 	    legalData(result);
+	    ui.loadingBar('hide');
 	}, error: function() {
 	    toastr.error("정보를 불러오지 못하였습니다.");
 	}
@@ -111,7 +113,8 @@ function getPplBaseYYMMList() {
     function setPplBaseYYMMList(result) {
 	for (let i = 0; i < result.length; i++) {
 	    let data = result[i];
-	    let addHtml = '<option value="' + data + '">' + data + '</option>';
+	    let dataFormat = data.substring(0, 4) + data.substring(5, 7);
+	    let addHtml = '<option value="' + dataFormat + '">' + data + '</option>';
 	    $('#pplBaseYYMM').append(addHtml);
 	}
     }
@@ -188,29 +191,47 @@ function populationRenderChart(result){
 * 인구 정보 조회 및 차트 데이터 전달
 */
 function selectPplInfoList() {
-	// ajax 전달 데이터
-	let data = $("#pplSearchForm").serialize();
-	let pplShowType = $("#pplShowType").val();
-	if (pplShowType == 'legal') {
-	    // 법정동 경계 데이터 ajax. pplShowType = legal
-	    // 그래프 데이터 전달 변수 result
-	    let result;
+    ui.loadingBar('show');
+    // ajax 전달 데이터
+    let data = $("#pplSearchForm").serialize();
+    let pplShowType = $("#pplShowType").val();
+    // 법정동 경계 데이터 ajax. pplShowType = legal
+    if (pplShowType == 'legal') {
+	// formdata에 리 옵션 값 'all' 일 때, 전체 조회
+	if (data.includes('liCd=all')) {
+	    getAllPopulationInfo();
+	} else {
+	    // 레이어 호출 - cql 옵션 세팅
+	    console.log(data);
+	    let liCode = $('#liCd').val().slice(0, 8);
+	    let filter = 'li_cd like ' + liCode +'%';
+	    let options = {
+		    cql : filter
+	    };
+	    console.log(liCode);
+	    console.log(filter);
+	    console.log(options);
 	    $.ajax({
 		data: data,
-		url : "/job/tran/popltn/selectMyeonPopulationInfoList.do",
-		type : 'post',
-		dataType: 'json',
-		success: function(data) {
-		    result = data.resultList;
-		    legalData(result);
-		}, error: function() {
-		    toastr.error("정보를 불러오지 못하였습니다.");
-		}
+        	url : "/job/tran/popltn/selectMyeonPopulationInfoList.do",
+        	type : 'post',
+        	dataType: 'json',
+        	success: function(data) {
+        	    let result = data.resultList;
+        	    // 데이터 세팅
+        	    legalData(result);
+        	    // 레이어 호출
+//        	    getLayer(options);
+        	    ui.loadingBar('hide');
+        	}, error: function() {
+        	    toastr.error("정보를 불러오지 못하였습니다.");
+        	}
 	    });
-	} else {
-	    // 격자 데이터 ajax. pplShowType = grid
-	    toastr.error("미구현");
 	}
+	// 격자 데이터 ajax. pplShowType = grid
+    } else {
+	toastr.error("미구현");
+    }
 }
 
 /**
@@ -255,10 +276,34 @@ function legalData(result) {
 	$('.pplInfoLegalType .bbs-list-num').html("조회결과 : <strong>" + totalCountFormat + "</strong>명")
 	//차트 그리기
 	populationRenderChart(result);
+
+	
+}
+
+// wms 레이어 호출
+function getLayer() {
+//    console.log(options);
+//    let cql = opttions.cql;
+//    console.log(cql);
+    const layerNm = 'digitaltwin:tgd_li_popltn_info';
+    let id = 'yp_all_popltn_Layer_';
+    let type = 'WMS'
+    let title = '인구정보'
+    let visible = true;
+    let shpType = 6;
+    
+    dtmap.showLayer({
+        id: id,
+        type: type,
+        layerNm: layerNm,
+        title: title,
+        visible: visible,
+        sldBody: findLayer.styleInfo
+    });
 }
 
 
-
+//================== db data =======================
 function getGeomData() {
     ui.loadingBar('show');
     
@@ -269,6 +314,7 @@ function getGeomData() {
 	success : function(data) {
 	    let result = data.resultList;
 	    geomPrcss(result);
+	    ui.loadingBar('hide');
 	}, error : function() {
 	    toastr.error("데이터 호출 실패.");
 	}
@@ -276,14 +322,46 @@ function getGeomData() {
 }
 
 function geomPrcss(data) {
-//    let features = {};
-//    for (let i = 0; i < data.length; i++) {
-//	features = dtmap.util.readGeoJson(data[0].geom));
-//    }
-//    console.log(features);
+    console.log(data);
+    const formatWKT = new ol.format.WKT();
+    for (let i = 0; i < data.length; i++) {
+	let geom = data[i].geom; // geom 데이터
+	let geometry = formatWKT.readGeometry(geom);
+	let geomGetter = geometry.flatCoordinates
+	let coordArr =[]; 
+	    coordArr.push(coordArrFomatter(geomGetter, 2));
+	    console.log(coordArr);
+	    popltnAddPolygon(coordArr, i);
+    }
     
-    
-    let geom = ''; // geom 데이터
     
     ui.loadingBar('hide');
 }
+
+function coordArrFomatter(coord, size) {
+    const arr = [];
+	    
+    for (let i = 0; i < coord.length; i += size) {
+	arr.push(coord.slice(i, i + size));
+    }
+
+    return arr;
+}
+
+function popltnAddPolygon(coordinates, id) {
+    let style = {
+	    fill : {
+		      color : '#dddddd',
+		      opacity : 0.3
+		    }
+    };
+    dtmap.vector.addPolygon({
+	id : 'test_popltn_' + id,
+	coordinates : coordinates,
+	crs : 'EPSG:5179',
+	style : style
+    })
+}
+
+
+//================== db data =======================

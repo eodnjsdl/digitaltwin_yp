@@ -56,10 +56,10 @@ public class PopulationInfoServiceImpl extends EgovAbstractServiceImpl implement
 			populationVO.setLiCd(setLiCd);
 		}
 		
-		// 기준 년월 포맷 변경 - xxxx년xx월 -> 202210
-		String stdrYm = populationVO.getStdrYm();
-		stdrYm = stdrYm.substring(0, 4).concat(stdrYm.substring(5, 7));
-		populationVO.setStdrYm(stdrYm);
+//		// 기준 년월 포맷 변경 - xxxx년xx월 -> 202210
+//		String stdrYm = populationVO.getStdrYm();
+//		stdrYm = stdrYm.substring(0, 4).concat(stdrYm.substring(5, 7));
+//		populationVO.setStdrYm(stdrYm);
 		
 		list = populationInfoDAO.selectMyeonPopulationInfoList(populationVO);
 		
