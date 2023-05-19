@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" %>
 
 <!-- js -->
-<script src="/js/egiskorea/com/job/tran/brin/tbrs/busSttn.js"></script>			<!-- 버스정류소  -->
+<script src="/js/egiskorea/com/job/tran/brin/brst/busSttn.js"></script>			<!-- 버스정류소  -->
 
 <!-- 업무 > 공통 -->
 <div class="popup-header">버스노선정보</div>
@@ -38,7 +38,7 @@
 									<th scope="row">읍면동</th>  
 									<td>    
 										<select name="emdKorNm" class="form-select">
-											<option value="">선택</option>
+											<option value="41830">전체</option>
 <!-- 											<option value="지평면">지평면</option>
 											<option value="용문면">용문면</option>
 											<option value="개군면">개군면</option>
@@ -71,7 +71,7 @@
                     </div>
                     <div class="btn-wrap">
                         <div>
-                            <button type="button" class="btn type01 search trafficAnalysis-attribute-search" onclick="selectBusSttnList(1)">조회</button>
+                            <button type="button" class="btn type01 search info-attribute-search">조회</button>
                         </div>
                     </div>
                 </div>
@@ -147,9 +147,9 @@
 		dtmap.on('select', onTrficAnalsSelectEventListener);
 		
 		initBusSttn();	//초기화
-		 
-		//////////////////
-		//하위메뉴 select box
+		
+		// 속성검색 조회 기능
+		searchBusSttnFilters(); 
 		
 		//버스노선정보 메뉴 - 이벤트
 		var $container = $("#container");

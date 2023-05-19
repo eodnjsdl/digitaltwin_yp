@@ -51,7 +51,7 @@ function getBusSttnEmdData() {
 			// 읍면동  selectbox option
 			$("#lSrchOptions select[name=emdKorNm]").append(optionText);
 			
-			return selectBusSttnList(1);
+			return selectBusSttnList(1, geom);
     	}
     });
 }
@@ -125,7 +125,7 @@ function getBusSttn(){
             nextIcon: '>',
             lastIcon: '>|',
             onChange: function () {
-            	selectBusSttnList(this.page.selectPage+1);
+            	selectBusSttnList(this.page.selectPage+1, geom);
             }
         },
         body: {
@@ -147,8 +147,8 @@ function getBusSttn(){
 
 
 //버스정류소 목록 조회
-function selectBusSttnList(page) {
-
+function selectBusSttnList(page, geom) {
+	
 	initBusSttn();	//초기화
 		
 	//공간 검색 / 사용자 정의 일 경우 이외에는  그리기 영역 지우기
@@ -196,7 +196,23 @@ function selectBusSttnList(page) {
 	        sortBy		: 'sttn_id',
 	        sortOrder	: 'DESC',
 	        //sortOrder	: 'ASC'
-	    }
+	    };
+	    
+	    var emdCd = $("#lSrchOptions select[name=emdKorNm] option:selected").val();	// 읍면동
+		if (emdCd != '41830') {
+			let geo = findEmdCd(geom, emdCd);
+		    if (geo != null) {
+		    	options.geometry = geo;
+		    }
+		}
+		
+		function findEmdCd(geom, emdCd) {
+		    for (let i = 0; i < geom.length; i++) {
+		    	if (geom[i].emdCd == emdCd) {
+		    		return geom[i].geometry;
+		    	} 
+		    }
+		}
 	    
 	}else if($(".groundwaterSpace").hasClass("on")){		//공간 검색
 		
@@ -347,6 +363,15 @@ function selectBusSttn(id){
 //정류소경유노선 조회 페이지 불러 오기
 function selectBusSttnView(detailData){
 	
+	// zoom 변경
+	if (dtmap.mod == "2D") {
+		map2d.view.setZoom(5);
+	} else if (dtmap.mod == "3D") {
+		var center = map3d.getCenter();
+		center[2] = 57000;		// altitude 변경
+		map3d.setCenter(center);
+	}
+	
 	if(!detailData && detailData == null){
 		alert("정류소경유노선 조회 오류");
 		return false;
@@ -404,6 +429,26 @@ function selectBusSttnView(detailData){
     });
 
 }
+
+
+
+
+
+//속성 검색 조회 버튼
+function searchBusSttnFilters() {
+	$('.info-attribute-search').on('click', function() {
+		getBusSttnEmdData();
+		selectBusSttnList(1, geom);
+	});
+}
+
+
+
+
+
+
+
+
 
 /////////////////////////
 //지도 아이콘(객체) 클릭시 이벤트

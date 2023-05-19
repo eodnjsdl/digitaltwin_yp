@@ -3,7 +3,6 @@
 
 <!-- js -->
 <script src="/js/egiskorea/com/job/tran/brin/buro/busRoute.js"></script>	<!-- 버스 노선 -->
-<script src="/js/egiskorea/com/job/tran/trafficAnalysisCommon.js"></script> <!-- 교통분석  공통 -->
 <script>
 
 $(document).ready(function() {
