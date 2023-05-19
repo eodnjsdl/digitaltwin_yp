@@ -283,7 +283,11 @@ function legalData(result) {
 	
 }
 
-// wms 레이어 호출
+/**
+ * wms 레이어 호출
+ * @param options
+ * @returns
+ */
 function getLayer(options) {
     dtmap.layer.clear();
     let cql;
@@ -307,6 +311,11 @@ function getLayer(options) {
     });
 }
 
+/**
+ * natural breaks 값 구하는 함수
+ * @param data
+ * @returns
+ */
 function getJenks(data) {
     let popltn = [];
     for (let i = 0; i < data.length; i++) {
@@ -318,6 +327,8 @@ function getJenks(data) {
     console.log(geo.ranges);
 }
 
+
+/*
 //================== db data =======================
 function getGeomData() {
     ui.loadingBar('show');
@@ -377,6 +388,5 @@ function popltnAddPolygon(coordinates, id) {
 	style : style
     })
 }
-
-
 //================== db data =======================
+*/
