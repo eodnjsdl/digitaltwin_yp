@@ -188,7 +188,7 @@ window.map2d = (function () {
      * @return {ol.Layer}
      */
     function showLayer(options) {
-        let {id, visible} = options;
+        const {id, visible} = options;
         let layer = map2d.layer.getById(id);
         if (!layer) {
             layer = map2d.layer.addLayer(options);
@@ -196,6 +196,8 @@ window.map2d = (function () {
         map2d.layer.setVisible(id, visible);
         return layer;
     }
+
+
 
 
     function clear() {

@@ -35,6 +35,9 @@ map3d.layer.Layer = (function () {
         }
         return this.instance.getName();
     }
+    Layer.prototype.updateParams = function (options) {
+
+    }
     Layer.prototype.dispose = function () {
         console.log('layer dispose');
     }
