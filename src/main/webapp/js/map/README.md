@@ -1,5 +1,31 @@
 # dtmap 예제
 
+## WMS 레이어
+### 1. 가시화
+```javascript
+dtmap.showLayer({
+    id: 'id',
+    type: 'WMS',
+    layerNm: 'digitaltwin:tgd_li_popltn_info',
+    visible : true, // (default:true)
+    cql : 'gid > 10 and gid < 20',
+    sldBody : 'sld xml 입력'     
+});
+```
+### 2. 파라미터 변경
+```javascript
+/**
+ * @param {string} id
+ * @param {object} options 업데이트할 파라미터
+ * @param {string} [options.cql] cql 문
+ * @param {xml} [options.sldBody] sld xml
+ */
+dtmap.layer.updateParams('test', {
+    cql: 'gid=15'
+});
+```
+
+
 ## WFS GetFeature
 ```javascript
 /** WFS GetFeature 호출함수
