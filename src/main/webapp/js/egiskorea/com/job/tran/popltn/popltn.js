@@ -210,8 +210,10 @@ function selectPplInfoList() {
 	    // 레이어 호출 - cql 옵션 세팅
 	    let liCode = $('#liCd').val().slice(0, 8);
 	    let filter = "li_cd like " + "'" + liCode + "%'";
+	    let gender = $('#pplGender').val();
 	    let options = {
-		    cql : filter
+		    cql : filter,
+		    gender : gender
 	    };
 	    $.ajax({
 		data: data,
@@ -223,8 +225,8 @@ function selectPplInfoList() {
         	    // 데이터 세팅
         	    legalData(result);
         	    // 레이어 호출
-        	    getLayer(options);
-        	    getJenks(result);
+//        	    getLayer(options);
+        	    getJenks(result, options);
         	    ui.loadingBar('hide');
         	}, error: function() {
         	    toastr.error("정보를 불러오지 못하였습니다.");
@@ -291,8 +293,10 @@ function legalData(result) {
 function getLayer(options) {
     dtmap.layer.clear();
     let cql;
+    let style;
     if (options != undefined) {
 	cql = options.cql;
+	style = options.style;
     }
     const layerNm = 'digitaltwin:tgd_li_popltn_info';
     let id = 'popltn_Layer';
@@ -307,7 +311,8 @@ function getLayer(options) {
         layerNm: layerNm,
         title: title,
         visible: visible,
-        cql : cql
+        cql : cql,
+        sldBody : style
     });
 }
 
@@ -316,17 +321,106 @@ function getLayer(options) {
  * @param data
  * @returns
  */
-function getJenks(data) {
+function getJenks(data, options) {
+    let propertyNm = 'all_popltn_cnt';
+    if (options.gender == 'w') {
+	propertyNm = 'female_popltn_cnt';
+    } else if (options.gender == 'm') {
+	propertyNm = 'male_popltn_cnt';
+    }
     let popltn = [];
     for (let i = 0; i < data.length; i++) {
 	popltn.push(data[i].allPopltnCnt);
     }
     let geo = new geostats(popltn);
-    let jenks = geo.getClassJenks(5);
+    // '리'가 4개 이하일 때 5단계 구분 불가능
+    if (popltn.length < 5) {
+	let jenks = geo.getClassJenks(popltn.length - 1);
+    } else {
+	let jenks = geo.getClassJenks(5);
+    }
     console.log("geo.ranges---------");
     console.log(geo.ranges);
+    
+    let low = [];
+    let high = [];
+    for (let i = 0; i < geo.ranges.length; i++) {
+	low.push(geo.ranges[i].split(' - ')[0]);
+	high.push(geo.ranges[i].split(' - ')[1]);
+    }
+    
+    let style = {
+	length : geo.ranges.length,
+	name : 'tgd_li_popltn_info',
+	range : {
+	    jenks : geo.ranges,
+	    low : low,
+	    high : high
+	},
+	value : propertyNm,
+	color : ['#f7fbff', '#c8dcf0', '#73b2d8', '#2979b9', '#08306b']
+    };
+    console.log(style);
+    let xml = styleTest(style);
+    options.style = style;
+    console.log(options);
+    getLayer(options);
 }
 
+
+function styleTest(style) {
+    // {Object} style : name, 
+    // rule[name(레이어명), range[](jenks범위, [jenks][low][high]),  value(인구결과값(모두, 남, 여)]
+    let range = style.range;
+    let color = style.color;
+    let xml = ``;
+    xml += `<?xml version="1.0" encoding="UTF-8"?>`;
+    xml += `<sld:StyledLayerDescriptor xmlns:sld="http://www.opengis.net/sld" `;
+    xml += `xmlns:ogc="http://www.opengis.net/ogc" `;
+    xml += `xmlns:gml="http://www.opengis.net/gml" `;
+    xml += `xmlns:se="http://www.opengis.net/se" `;
+    xml += `xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1.0">`;
+    xml += `<sld:NamedLayer>`;
+    xml += `<se:Name>${style.name}</se:Name>`;
+    xml += `<sld:UserStyle>`;
+    xml += `<se:FeatureTypeStyle>`;
+    for (let i = 0; i < style.length; i ++) {
+	xml += `<se:Rule>`;
+	xml += `<se:Name>${range['jenks'][i]}</se:Name>`;
+	xml += `<se:Description>`;
+	xml += `<se:Title>${range['jenks'][i]}</se:Title>`;
+	xml += `</se:Description>`;
+	xml += `<ogc:Filter xmlns:ogc="http://www.opengis.net/ogc">`;
+	xml += `<ogc:And>`;
+	xml += `<ogc:PropertyIsGreaterThanOrEqualTo>`;
+	xml += `<ogc:PropertyName>${style.value}</ogc:PropertyName>`;
+	xml += `<ogc:Literal>${range['low'][i]}</goc:Literal>`;
+	xml += `</ogc:PropertyIsGreaterThanOrEqualTo>`;
+	xml += `<ogc:PropertyIsLessThanOrEqualTo>`;
+	xml += `<ogc:PropertyName>${style.value}</ogc:PropertyName>`;
+	xml += `<ogc:Literal>${range['high'][i]}</goc:Literal>`;
+	xml += `</ogc:PropertyIsLessThanOrEqualTo>`;
+	xml += `</ogc:And>`;
+	xml += `</ogc:Filter>`;
+        xml += `<se:PolygonSymbolizer>
+            <se:Fill>
+              <se:SvgParameter name="fill">${color[i]}</se:SvgParameter>
+            </se:Fill>
+            <se:Stroke>
+              <se:SvgParameter name="stroke">#232323</se:SvgParameter>
+              <se:SvgParameter name="stroke-width">1</se:SvgParameter>
+              <se:SvgParameter name="stroke-linejoin">bevel</se:SvgParameter>
+            </se:Stroke>
+          </se:PolygonSymbolizer>`;
+        xml += `</se:Rule>`;
+    };
+    xml += `</se:FeatureTypeStyle>`;
+    xml += `</sld:UserStyle>`;
+    xml += `</sld:NamedLayer>`;
+    xml += `</sld:StyledLayerDescriptor>`;
+    
+    return xml;
+}
 
 /*
 //================== db data =======================
