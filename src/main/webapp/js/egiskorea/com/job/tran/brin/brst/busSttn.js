@@ -9,6 +9,15 @@ $(document).ready(function(){
 	var geom = {};
 });
 
+//전역 변수
+var TRFICANALS={
+	CODEARRAY :	[],				//code 데이블 정리
+	Ax5UiGrid :	null,			//Ax5UiGrid 변수
+	spaceSearchOption:{},		//공간검색 조건 옵션 변수
+}
+
+//functions
+
 //wfs로 읍면동 데이터 가져오기(grid 테이블 데이터 설정 전)
 function getBusSttnEmdData() {
 	
@@ -23,7 +32,7 @@ function getBusSttnEmdData() {
 	}
 	
 	geomOptions = {
-		typeNames: 'tgd_scco_emd',
+		typeNames: 'tgd_scco_emd',			// 법정구역읍면동 테이블
 		sortBy : 'gid',
 		sortOrder : 'DESC',
 		cql : cqlFilters
@@ -55,15 +64,6 @@ function getBusSttnEmdData() {
     	}
     });
 }
-
-//전역 변수
-var TRFICANALS={
-	CODEARRAY :	[],				//code 데이블 정리
-	Ax5UiGrid :	null,			//Ax5UiGrid 변수
-	spaceSearchOption:{},		//공간검색 조건 옵션 변수
-}
-
-//functions
 
 //초기화
 function initBusSttn(){
@@ -430,24 +430,12 @@ function selectBusSttnView(detailData){
 
 }
 
-
-
-
-
 //속성 검색 조회 버튼
 function searchBusSttnFilters() {
 	$('.info-attribute-search').on('click', function() {
 		getBusSttnEmdData();
 	});
 }
-
-
-
-
-
-
-
-
 
 /////////////////////////
 //지도 아이콘(객체) 클릭시 이벤트
