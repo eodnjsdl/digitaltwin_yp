@@ -25,14 +25,14 @@
                 toastr.success('분할 지도의 위치가 동기화 됩니다.'),
                     $(e.target).val("sync"),
                     $(e.target).css({
-                        "background-image": "url(/images/poi/nomal_poi_on.png)"
+                        "background-image": "url(/images/poi/nomal_poi_on_ex1.png)"
                     }),
                     map2d.multiView.syncView()
             ) : (
                 toastr.success('분할 지도의 위치가 비동기화 됩니다.'),
                     $(e.target).val("async"),
                     $(e.target).css({
-                        "background-image": "url(/images/poi/nomal_poi.png)"
+                        "background-image": "url(/images/poi/nomal_poi_ex1.png)"
                     }),
                     map2d.multiView.asyncView()
             );
