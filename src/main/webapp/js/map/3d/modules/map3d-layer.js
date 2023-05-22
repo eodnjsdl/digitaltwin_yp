@@ -138,7 +138,7 @@ map3d.layer = (function () {
         return layer;
     }
 
-    function getLayers(){
+    function getLayers() {
         return Array.from(layerMap, function (entry) {
             return entry[1];
         });
@@ -159,8 +159,12 @@ map3d.layer = (function () {
         }
     }
 
-    function refresh() {
-
+    function updateParams(id, options) {
+        let layer = map3d.layer.getById(id);
+        if (!layer) {
+            return;
+        }
+        layer.updateParams(options);
     }
 
 
@@ -171,8 +175,8 @@ map3d.layer = (function () {
         setVisible: setVisible,
         getById: getById,
         getByName: getByName,
-        getLayers : getLayers,
-        refresh: refresh,
+        getLayers: getLayers,
+        updateParams: updateParams,
         clear: clear
     }
 

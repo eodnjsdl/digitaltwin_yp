@@ -190,15 +190,29 @@ map2d.layer = (function () {
         return layers;
     }
 
-    function refresh() {
-        layers.forEach((layer) => {
-            const source = layer.getSource();
-            if (source instanceof ol.source.Image) {
-                source.updateParams({
-                    _: Date.now()
-                });
+    function updateParams(id, options) {
+        const layer = getById(id);
+        if (!layer) {
+            return;
+        }
+        const source = layer.getSource();
+        if (source.updateParams) {
+            const WMS_PARAM_MAP = {
+                cql: 'CQL_FILTER',
+                sld: 'SLD',
+                sldBody: 'SLD_BODY'
             }
-        })
+            const keys = Object.keys(options);
+            let params = {};
+            for (let i = 0; i < keys.length; i++) {
+                let key = keys[i];
+                if (WMS_PARAM_MAP[key]) {
+                    key = WMS_PARAM_MAP[key];
+                }
+                params[key] = options[key];
+            }
+            source.updateParams(params);
+        }
     }
 
     let module = {
@@ -209,7 +223,7 @@ map2d.layer = (function () {
         getZIndex: getZIndex,
         setZIndex: setZIndex,
         clear: clear,
-        refresh: refresh,
+        updateParams: updateParams,
         getLayers: getLayers,
         getById: getById
     }
