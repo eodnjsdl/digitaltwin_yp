@@ -23,6 +23,8 @@ map3d.layer.WMS = (function () {
      */
     function WMS(options) {
         map3d.layer.Layer.call(this, options);
+        this.tileSize = options.tileSize || 256
+        this.crs = options.crs;
         this.serviceType = 'service';
     }
 
@@ -35,10 +37,38 @@ map3d.layer.WMS = (function () {
      * @returns {XDWorld.JSLayer}
      */
     WMS.prototype.createInstance = function (options) {
+        let opt = parseOptions.call(this, options);
+        let layer = map3d.serviceLayers.createWMSLayer(this.id);
+        layer.setWMSProvider(opt);
+        layer.setBBoxOrder(true);
+        return layer;
+
+    }
+    WMS.prototype.updateParams = function (options) {
+        let opt = parseOptions.call(this, options);
+        this.instance.setWMSProvider(opt);
+        this.instance.clearWMSCache();
+        Module.XDRenderData();
+    }
+
+    function parseOptions(options) {
+        let wmsParam = parseWMSOption(options);
+        return _.merge({}, {
+            method: 'post',
+            url: dtmap.urls.xdGeoServer + "/wms?",
+            layer: this.layerNm,
+            minimumlevel: this.minLevel,
+            maximumlevel: this.maxLevel,
+            tileSize: this.tileSize,
+            crs: this.crs,
+            parameters: wmsParam,
+        }, WMS_OPT)
+    }
+
+    function parseWMSOption(options) {
         let wmsParam = {
             VERSION: '1.1.1',
             REQUEST: 'GetMap',
-            // SLD_BODY : options.sldBody
         }
         if (options.sld) {
             wmsParam['SLD'] = options.sld
@@ -50,23 +80,7 @@ map3d.layer.WMS = (function () {
         if (options.cql) {
             wmsParam['CQL_FILTER'] = encodeURIComponent(options.cql);
         }
-
-        let opt = _.merge({}, {
-            method: 'post',
-            url: dtmap.urls.xdGeoServer + "/wms?",
-            layer: options.layerNm,
-            minimumlevel: options.minimumlevel,
-            maximumlevel: options.maximumlevel,
-            tileSize: options.tileSize,
-            crs: options.crs,
-            parameters: wmsParam,
-        }, WMS_OPT)
-
-        let layer = map3d.serviceLayers.createWMSLayer(this.id);
-        layer.setWMSProvider(opt);
-        layer.setBBoxOrder(true);
-        return layer;
-
+        return wmsParam
     }
 
     return WMS;

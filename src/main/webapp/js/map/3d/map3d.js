@@ -391,6 +391,14 @@ window.map3d = (function () {
         return layer;
     }
 
+    function updateLayer(id, options) {
+        let layer = map3d.layer.getById(id);
+        if (!layer) {
+            return;
+        }
+        layer.updateLayer(options);
+    }
+
     function clearInteraction() {
         if (_curInteraction) {
             if (_curInteraction.clear) {
@@ -515,6 +523,7 @@ window.map3d = (function () {
         getZoom: getZoom,
         setZoom: setZoom,
         showLayer: showLayer,
+        updateLayer: updateLayer,
         setInteraction: setInteraction,
         clearInteraction: clearInteraction,
         clear: clear,
