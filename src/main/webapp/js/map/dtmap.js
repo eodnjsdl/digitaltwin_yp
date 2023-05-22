@@ -139,6 +139,7 @@ window.dtmap = (function () {
         call('showLayer', options);
     }
 
+
     function clearInteraction() {
         call('clearInteraction');
     }

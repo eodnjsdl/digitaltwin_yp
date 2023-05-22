@@ -764,8 +764,9 @@
                         aj_selectLayerList("left");
 
                         $("#" + activeLayer).closest("li").addClass("active");
-
-                        dtmap.layer.removeLayer(activeLayer);
+                        dtmap.layer.updateParams(activeLayer, {
+                            sldBody: returnData.layerSet.styleInfo
+                        });
                         $('#' + activeLayer).prop('checked', 'checked').change();
 // 				// 레이어 재로드 여부 확인
 // 				var layerType = $("input[name='lyrDtlKnd']").val();
@@ -798,7 +799,7 @@
                     console.log("code:" + request.status + "\nmessage:" + request.responseText + "\nerror:" + error);
                 },
                 complete: function () {
-                    loadingShowHide("hide");
+                    // loadingShowHide("hide");
                 }
             });
         }
