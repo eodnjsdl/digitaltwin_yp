@@ -1,4 +1,5 @@
 $(document).ready(function(){
+    $('#leftPopup').css({"left": "320px", "width": "300px", "height": "780px"});
     //검색 조건 세팅
     getCmmCodeData("YPE001", "#pplSearchForm select#liCd");	//읍면동
     
@@ -225,7 +226,6 @@ function selectPplInfoList() {
         	    // 데이터 세팅
         	    legalData(result);
         	    // 레이어 호출
-//        	    getLayer(options);
         	    getJenks(result, options);
         	    ui.loadingBar('hide');
         	}, error: function() {
@@ -278,10 +278,9 @@ function legalData(result) {
 	    $("#pplInfoLegalList").html(legalListHml);
 	}
 	let totalCountFormat = new Intl.NumberFormat().format(totalCount);
-	$('.pplInfoLegalType .bbs-list-num').html("조회결과 : <strong>" + totalCountFormat + "</strong>명")
+	$('.pplInfoLegalType #resultCnt').html("조회결과 : <strong>" + totalCountFormat + "</strong> 명")
 	//차트 그리기
 	populationRenderChart(result);
-
 	
 }
 
@@ -293,26 +292,24 @@ function legalData(result) {
 function getLayer(options) {
     dtmap.layer.clear();
     let cql;
-    let style;
+    let sld;
     if (options != undefined) {
 	cql = options.cql;
-	style = options.style;
+	sld = options.sld;
     }
     const layerNm = 'digitaltwin:tgd_li_popltn_info';
-    let id = 'popltn_Layer';
+    let id = 'li_popltn_info';
     let type = 'WMS'
     let title = '인구정보'
     let visible = true;
-    let shpType = 6;
-    
     dtmap.showLayer({
-        id: id,
-        type: type,
-        layerNm: layerNm,
-        title: title,
-        visible: visible,
-        cql : cql,
-        sldBody : style
+	id: id,
+	type: type,
+	layerNm: layerNm,
+	title: title,
+	visible: visible,
+	cql : cql,
+	sldBody : sld
     });
 }
 
@@ -339,8 +336,6 @@ function getJenks(data, options) {
     } else {
 	let jenks = geo.getClassJenks(5);
     }
-    console.log("geo.ranges---------");
-    console.log(geo.ranges);
     
     let low = [];
     let high = [];
@@ -351,7 +346,7 @@ function getJenks(data, options) {
     
     let style = {
 	length : geo.ranges.length,
-	name : 'tgd_li_popltn_info',
+	name : 'li_popltn_info',
 	range : {
 	    jenks : geo.ranges,
 	    low : low,
@@ -360,29 +355,33 @@ function getJenks(data, options) {
 	value : propertyNm,
 	color : ['#f7fbff', '#c8dcf0', '#73b2d8', '#2979b9', '#08306b']
     };
-    console.log(style);
-    let xml = styleTest(style);
-    options.style = style;
-    console.log(options);
+    let xmlString = styleTest(style);
+    options.sld = xmlString;
     getLayer(options);
 }
 
-
+/**
+ * natural breaks 분류값 스타일 재설정 xml
+ * '면'단위 layer 호출 시
+ * @param style
+ * @returns
+ */
 function styleTest(style) {
-    // {Object} style : name, 
-    // rule[name(레이어명), range[](jenks범위, [jenks][low][high]),  value(인구결과값(모두, 남, 여)]
     let range = style.range;
     let color = style.color;
     let xml = ``;
     xml += `<?xml version="1.0" encoding="UTF-8"?>`;
-    xml += `<sld:StyledLayerDescriptor xmlns:sld="http://www.opengis.net/sld" `;
-    xml += `xmlns:ogc="http://www.opengis.net/ogc" `;
-    xml += `xmlns:gml="http://www.opengis.net/gml" `;
+    xml += `<StyledLayerDescriptor xmlns:sld="http://www.opengis.net/sld" `;
     xml += `xmlns:se="http://www.opengis.net/se" `;
-    xml += `xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1.0">`;
+    xml += `xmlns:ogc="http://www.opengis.net/ogc" `;
+    xml += `xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" `;
+    xml += `xmlns:xlink="http://www.w3.org/1999/xlink" `;
+    xml += `xsi:schemaLocation="http://www.opengis.net/sld `;
+    xml += `http://schemas.opengis.net/sld/1.1.0/StyledLayerDescriptor.xsd" version="1.1.0">`;
     xml += `<sld:NamedLayer>`;
-    xml += `<se:Name>${style.name}</se:Name>`;
+    xml += `<se:Name>tgd_li_popltn_info</se:Name>`;
     xml += `<sld:UserStyle>`;
+    xml += `<se:Name>${style.name}</se:Name>`;
     xml += `<se:FeatureTypeStyle>`;
     for (let i = 0; i < style.length; i ++) {
 	xml += `<se:Rule>`;
@@ -394,33 +393,34 @@ function styleTest(style) {
 	xml += `<ogc:And>`;
 	xml += `<ogc:PropertyIsGreaterThanOrEqualTo>`;
 	xml += `<ogc:PropertyName>${style.value}</ogc:PropertyName>`;
-	xml += `<ogc:Literal>${range['low'][i]}</goc:Literal>`;
+	xml += `<ogc:Literal>${range['low'][i]}</ogc:Literal>`;
 	xml += `</ogc:PropertyIsGreaterThanOrEqualTo>`;
 	xml += `<ogc:PropertyIsLessThanOrEqualTo>`;
 	xml += `<ogc:PropertyName>${style.value}</ogc:PropertyName>`;
-	xml += `<ogc:Literal>${range['high'][i]}</goc:Literal>`;
+	xml += `<ogc:Literal>${range['high'][i]}</ogc:Literal>`;
 	xml += `</ogc:PropertyIsLessThanOrEqualTo>`;
 	xml += `</ogc:And>`;
 	xml += `</ogc:Filter>`;
-        xml += `<se:PolygonSymbolizer>
-            <se:Fill>
-              <se:SvgParameter name="fill">${color[i]}</se:SvgParameter>
-            </se:Fill>
-            <se:Stroke>
-              <se:SvgParameter name="stroke">#232323</se:SvgParameter>
-              <se:SvgParameter name="stroke-width">1</se:SvgParameter>
-              <se:SvgParameter name="stroke-linejoin">bevel</se:SvgParameter>
-            </se:Stroke>
-          </se:PolygonSymbolizer>`;
+        xml += `<se:PolygonSymbolizer>`;
+        xml += `<se:Fill>`
+        xml += `<se:SvgParameter name="fill">${color[i]}</se:SvgParameter>`;
+        xml += `</se:Fill>`;
+        xml += `<se:Stroke>`;
+        xml += `<se:SvgParameter name="stroke">#232323</se:SvgParameter>`;
+        xml += `<se:SvgParameter name="stroke-width">1</se:SvgParameter>`
+        xml += `<se:SvgParameter name="stroke-linejoin">bevel</se:SvgParameter>`
+        xml += `</se:Stroke>`
+        xml += `</se:PolygonSymbolizer>`;
         xml += `</se:Rule>`;
     };
     xml += `</se:FeatureTypeStyle>`;
     xml += `</sld:UserStyle>`;
     xml += `</sld:NamedLayer>`;
-    xml += `</sld:StyledLayerDescriptor>`;
+    xml += `</StyledLayerDescriptor>`;
     
     return xml;
 }
+
 
 /*
 //================== db data =======================
