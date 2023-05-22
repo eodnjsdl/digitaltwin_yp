@@ -55,6 +55,7 @@
 .bbs-list tbody td {
 	height: auto;
 }
+
 </style>
 <!-- 교통분석-인구정보 -->
 	<form name="pplSearchForm" id="pplSearchForm">
@@ -148,20 +149,48 @@
 				<div class="graph-box2" style="margin-top: 5px;"></div>
 			</div>
 			
-			<div class="pplInfoGridType" style="display: none;">
-				<div>
-				격자
-				<ul>
-					<li>aaa</li>
-					<li>bbb</li>
-					<li>ccc</li>
-					<li>ddd</li>
-					<li>eee</li>
-					<li>fff</li>
-				</ul>
-				</div>
+			<div id="pplInfoGridType" class="regendLevel-type1" style="display: none;">
+			<h4>인구 분포도 정보<small>*인구 수 (2022년 10월 기준)</small></h4>
+			<ol>
+				<li>
+					<span class="rg lv01"></span>
+					<label>
+						<input type="text" value="0.00" readonly="">- 
+						<input type="text" value="0.00" readonly="">
+						</input>
+					</label>
+				</li>
+				<li>
+					<span class="rg lv02"></span>
+					<label>
+						<input type="text" value="0.00" readonly="">-
+						<input type="text" value="23.00" readonly="">
+					</label>
+				</li>
+				<li>
+					<span class="rg lv03"></span>
+					<label>
+						<input type="text" value="0.00" readonly="">-
+						<input type="text" value="23.00" readonly="">
+					</label>
+				</li>
+				<li>
+					<span class="rg lv04"></span>
+					<label>
+						<input type="text" value="0.00" readonly="">-
+						<input type="text" value="23.00" readonly="">
+					</label>
+				</li>
+				<li>
+					<span class="rg lv05"></span>
+					<label>
+						<input type="text" value="0.00" readonly="">-
+						<input type="text" value="23.00" readonly="">
+					</label>
+				</li>
+				
+			</ol>
 			</div>
-			
 		</div>
 	</div>
 	

@@ -9,20 +9,21 @@ $(document).ready(function(){
     // 검색 기준 년월 - 대상지역이 변경될 때마다 호출
     getPplBaseYYMMList();
 		
-    initPplLegal();
-	
     $("#pplShowType").on('change', function() {
 //	console.log("pplShowType>>"+this.value);
 	var showType = this.value;
 	if(showType == "legal"){
 	    if ($(".pplInfoLegalType").css("display") == "none") {
 		$(".pplInfoLegalType").show();
+		$('#leftPopup').css({"left": "320px", "width": "300px", "height": "780px"});
 	    }
-	    $(".pplInfoGridType").hide();
+	    $("#pplInfoGridType").hide();
 	    initPplLegal();
 	} else if (showType == "grid") {
-	    if($(".pplInfoGridType").css("display") == "none") {
-		$(".pplInfoGridType").show();
+	    if($("#pplInfoGridType").css("display") == "none") {
+		$("#pplInfoGridType").show();
+		$('#leftPopup').css({"left": "320px", "width": "300px", "height": "750px"});
+		dtmap.layer.clear();
 	    }
 	$(".pplInfoLegalType").hide();
 	} else {
@@ -32,8 +33,12 @@ $(document).ready(function(){
     
     $('#pplInfoSearch').on('click', function () {
 	let area = $('select[name="liCd"]').val();
+	let viewType = $("#pplShowType").val();
 	if (area == 'all') {
-	    getAllPopulationInfo();
+	    if (viewType == 'legal') {
+		getAllPopulationInfo();
+	    }
+	    
 	}
 	selectPplInfoList();
     });
@@ -56,20 +61,6 @@ $(document).ready(function(){
 });
 	
 //functions
-
-/**
-* 법정도 경계 초기화
-*/
-function initPplLegal(){
-    
-}
-	
-/**
-* 격자 경계 초기화
-*/
-function initPplGrid(){
-	
-}
 
 /**
  * 양평군 전체 인구 정보 조회
@@ -198,12 +189,12 @@ function populationRenderChart(result){
 * 인구 정보 조회 및 차트 데이터 전달
 */
 function selectPplInfoList() {
-    ui.loadingBar('show');
     // ajax 전달 데이터
     let data = $("#pplSearchForm").serialize();
     let pplShowType = $("#pplShowType").val();
     // 법정동 경계 데이터 ajax. pplShowType = legal
     if (pplShowType == 'legal') {
+	ui.loadingBar('show');
 	// formdata에 리 옵션 값 'all' 일 때, 전체 조회
 	if (data.includes('liCd=all')) {
 	    getAllPopulationInfo();
@@ -236,6 +227,8 @@ function selectPplInfoList() {
 	// 격자 데이터 ajax. pplShowType = grid
     } else {
 	toastr.error("미구현");
+	
+	
     }
 }
 
