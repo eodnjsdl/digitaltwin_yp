@@ -8,7 +8,7 @@
 <style type="text/css">
 
 	/* 닫기 버튼 개별 설정 */
-	.popup-panel.popup-sub .popup-close {
+	.popup-panel.popup-sub .sub-popup-close {
 	    top: 0;
 	    right: 0;
 	    width: 39px;
@@ -100,12 +100,12 @@
             </div>
             <div class="position-bottom btn-wrap">
                 <div>
-                    <button type="button" id="cancelSelectBusSttn" class="btn type01">닫기</button>
+                    <button type="button" onclick="cancelSelectBusSttn();" class="btn type01">닫기</button>
                 </div>
             </div>							
         </div>
     </div>
-    <button type="button" class="popup-close" onclick="cancelSelectBusSttn();" title="닫기"></button>				
+    <button type="button" class="sub-popup-close" onclick="cancelSelectBusSttn();" title="닫기"></button>				
 </div>
 <!-- 업무 > 교통분석 > 버스정류소 > 정류소경유노선 조회 end -->
 
@@ -125,9 +125,9 @@
 	//정류소경유노선 조회 취소
 	function cancelSelectBusSttn() {
 		
-		$(".popup-close").closest('#rightSubPopup').removeClass('opened');	// 우측팝업 닫기
-        dtmap.vector.clearSelect();											//선택 해제
-        TRFICANALS.Ax5UiGrid.clearSelect();									//그리드 선택 해제
+		$(".sub-popup-close").closest('#rightSubPopup').removeClass('opened');	// 우측팝업 닫기
+        dtmap.vector.clearSelect();												//선택 해제
+        TRFICANALS.Ax5UiGrid.clearSelect();										//그리드 선택 해제
         
 	}
 	
