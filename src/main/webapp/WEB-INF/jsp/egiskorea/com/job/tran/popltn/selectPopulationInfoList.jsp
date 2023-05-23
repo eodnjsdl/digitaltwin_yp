@@ -7,56 +7,6 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <script src="/js/egiskorea/com/job/tran/popltn/popltn.js"></script>
 <script src="/js/map/lib/geostats/geostats.min.js"></script>
-<style>
-.search-box {
-     margin: 10px auto;
-}
- 
-.search-table {
-     margin-bottom: 20px;
-}
-.search-box table {
-    width: 100%;
-    table-layout: fixed;
-}
-
-.search-box .search-table {
-	border-collapse: inherit;
-    border-spacing: 0 5px;
-}
- 
-.search-box .search-table th, .search-box .search-table td {
- 	padding: 4px 5px;
-    font-weight: 400;
-    background-color: #E5E7EA;
-    text-align: left;
-}
- 
-.search-box .search-table tbody th {
-	padding-left: 10px;
-	border-radius: 5px 0 0 5px;
-}
-
-.search-box .search-table tbody td {
-	border-radius: 0 5px 5px 0;
-}
- 
-#resultCnt {
-    margin-bottom: 5px;
-    color: #44516A;
-	font-size: 13px;
-}
-
-#resultCnt strong {
-    color: #1C77FF;
-    font-size: 13px;
-}
-
-.bbs-list tbody td {
-	height: auto;
-}
-
-</style>
 <!-- 교통분석-인구정보 -->
 	<form name="pplSearchForm" id="pplSearchForm">
 	<div class="popup-header">인구정보</div>
@@ -116,7 +66,6 @@
 			<div class="pplInfoLegalType">
 				<div class="btn-wrap justify-content-between">
 					<h4 id="resultCnt">조회결과 : 명</h4>
-					<!-- <div class="align-right"><button type="button" class="btn bi-write" id="faciRegistViewBtn">등록</button></div> -->
 				</div>
 		
 				<div class="data-default">
@@ -155,37 +104,31 @@
 				<li>
 					<span class="rg lv01"></span>
 					<label>
-						<input type="text" value="0.00" readonly="">- 
-						<input type="text" value="0.00" readonly="">
-						</input>
+						<input type="text" value="0.00" readonly />-&nbsp;<input type="text" value="0.00" readonly />
 					</label>
 				</li>
 				<li>
 					<span class="rg lv02"></span>
 					<label>
-						<input type="text" value="0.00" readonly="">-
-						<input type="text" value="23.00" readonly="">
+						<input type="text" value="0.00" readonly />-&nbsp;<input type="text" value="23.00" readonly />
 					</label>
 				</li>
 				<li>
 					<span class="rg lv03"></span>
 					<label>
-						<input type="text" value="0.00" readonly="">-
-						<input type="text" value="23.00" readonly="">
+						<input type="text" value="23.00" readonly />-&nbsp;<input type="text" value="77.00" readonly />
 					</label>
 				</li>
 				<li>
 					<span class="rg lv04"></span>
 					<label>
-						<input type="text" value="0.00" readonly="">-
-						<input type="text" value="23.00" readonly="">
+						<input type="text" value="77.00" readonly />-&nbsp;<input type="text" value="287.00" readonly />
 					</label>
 				</li>
 				<li>
 					<span class="rg lv05"></span>
 					<label>
-						<input type="text" value="0.00" readonly="">-
-						<input type="text" value="23.00" readonly="">
+						<input type="text" value="287.00" readonly />-&nbsp;<input type="text" value="1479.00" readonly />
 					</label>
 				</li>
 				

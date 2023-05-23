@@ -73,10 +73,13 @@ public class PopulationInfoController {
 			PopulationVO populationVO) throws Exception {
 		ModelAndView mav = new ModelAndView("jsonView");
 		List<PopulationVO> list = null;
+		String geom = "";
 		
 		list = populationInfoService.selectMyeonPopulationInfoList(populationVO);
+		geom = populationInfoService.selectPopulationCenter(populationVO);
 		
 		mav.addObject("resultList", list);
+		mav.addObject("geomCenter", geom);
 		
 		return mav;
 	}
@@ -113,32 +116,50 @@ public class PopulationInfoController {
 			PopulationVO populationVO) throws Exception {
 		ModelAndView mav = new ModelAndView("jsonView");
 		List<PopulationVO> list = null;
+		String geom = "";
 		
 		list = populationInfoService.selectAllPopulationInfoList(populationVO);
+		geom = populationInfoService.selectPopulationCenter(populationVO);
 		
 		mav.addObject("resultList", list);
+		mav.addObject("geomCenter", geom);
+		
 		return mav;
 	}
 	
-	
-	
+	/************************* GRID 화면************************/
 	/**
-	 * 양평군 전체 데이터 (geom 포함) 조회
+	 * 검색 기준 년월 조회 - grid화면
 	 * @param populationVO
 	 * @return
 	 * @throws Exception
 	 */
-	@RequestMapping(value = "/selectAllPopulationInfoGeomList.do")
+	@RequestMapping(value = "/selectGridStandardYmList.do")
 	@ResponseBody
-	public ModelAndView selectAllPopulationInfoGeomList(
+	public ModelAndView selectGridStandardYmList(
 			PopulationVO populationVO) throws Exception {
 		ModelAndView mav = new ModelAndView("jsonView");
-		List<PopulationVO> list = null;
+		List<String> list = null;
 		
-		list = populationInfoService.selectAllPopulationInfoGeomList(populationVO);
+		list = populationInfoService.selectGridStandardYmList(populationVO);
 		
 		mav.addObject("resultList", list);
 		
 		return mav;
 	}
+	
+	@RequestMapping(value = "/selectGridMyeonPopulationInfoList.do")
+	@ResponseBody
+	public ModelAndView selectGridMyeonPopulationInfoList(
+			PopulationVO populationVO) throws Exception {
+		ModelAndView mav = new ModelAndView("jsonView");
+		List<PopulationVO> list = null;
+		
+		list = populationInfoService.selectGridMyeonPopulationInfoList(populationVO);
+		
+		mav.addObject("resultList", list);
+		
+		return mav;
+	}
+	
 }

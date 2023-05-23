@@ -34,15 +34,6 @@ public class PopulationInfoServiceImpl extends EgovAbstractServiceImpl implement
 	private PopulationInfoDAO populationInfoDAO;
 
 	@Override
-	public List<PopulationVO> selectPopulationInfoList(PopulationVO populationVO) {
-		List<PopulationVO> list = null;
-		
-		list = populationInfoDAO.selectPopulationInfoList(populationVO);
-		
-		return list;
-	}
-
-	@Override
 	public List<PopulationVO> selectMyeonPopulationInfoList(PopulationVO populationVO) {
 		List<PopulationVO> list = null;
 		
@@ -55,11 +46,6 @@ public class PopulationInfoServiceImpl extends EgovAbstractServiceImpl implement
 			setLiCd = liCd.substring(0, 7);
 			populationVO.setLiCd(setLiCd);
 		}
-		
-//		// 기준 년월 포맷 변경 - xxxx년xx월 -> 202210
-//		String stdrYm = populationVO.getStdrYm();
-//		stdrYm = stdrYm.substring(0, 4).concat(stdrYm.substring(5, 7));
-//		populationVO.setStdrYm(stdrYm);
 		
 		list = populationInfoDAO.selectMyeonPopulationInfoList(populationVO);
 		
@@ -94,14 +80,55 @@ public class PopulationInfoServiceImpl extends EgovAbstractServiceImpl implement
 	}
 
 	@Override
-	public List<PopulationVO> selectAllPopulationInfoGeomList(PopulationVO populationVO) {
-		List<PopulationVO> list = null;
+	public String selectPopulationCenter(PopulationVO populationVO) {
+		String geom = "";
+		String liCd = populationVO.getLiCd();
+		if (liCd == null) {
+			populationVO.setLiCd("all");
+		}
+		geom = populationInfoDAO.selectPopulationCenter(populationVO);
 		
-		list = populationInfoDAO.selectAllPopulationInfoGeomList(populationVO);
+		return geom;
+	}
+	
+	
+	/***************** GRID *****************/
+	@Override
+	public List<String> selectGridStandardYmList(PopulationVO populationVO) {
+		List<String> list = null;
+		
+		// 리 단위를 조회하기위해 면 코드 like 설정
+		// 10 자리 중 6~8자리 - 면, 9~10 자리 - 리
+		// 0~8 자리 까지 필요 41830***%;
+		String liCd = populationVO.getLiCd();
+		if (!liCd.equals("all")) {
+			String setLiCd = "";
+			setLiCd = liCd.substring(0, 7);
+			populationVO.setLiCd(setLiCd);
+		}
+		
+		list = populationInfoDAO.selectGridStandardYmList(populationVO);
 		
 		return list;
 	}
 	
-	
+	@Override
+	public List<PopulationVO> selectGridMyeonPopulationInfoList(PopulationVO populationVO) {
+		List<PopulationVO> list = null;
+		
+		// 리 단위를 조회하기위해 면 코드 like 설정
+		// 10 자리 중 6~8자리 - 면, 9~10 자리 - 리
+		// 0~8 자리 까지 필요 41830***%;
+		String liCd = populationVO.getLiCd();
+		if (!liCd.equals("all")) {
+			String setLiCd = "";
+			setLiCd = liCd.substring(0, 7);
+			populationVO.setLiCd(setLiCd);
+		}
+		
+		list = populationInfoDAO.selectGridMyeonPopulationInfoList(populationVO);
+		
+		return list;
+	}
 
 }
