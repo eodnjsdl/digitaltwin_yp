@@ -1441,6 +1441,33 @@
 	cursor: pointer;
 }
 
+/*------------------------------------------------------------------------------
+ * LNB > 교통분석 > 버스노선정보 --1-2 정류소 세부 팝업
+ *----------------------------------------------------------------------------*/
+
+.work-03-01-detail{bottom: 398px; right: 70px; width: 450px; height: 459px; }
+.work-03-01-detail > .popup-header{background-color: #44516A; color: #fff;}
+.work-03-01-detail .popup-header > label::before{content: url('../images/icon/bus_point_ico.png'); top: 15%; left: 20px; z-index: 9; width: 18px; height: 22px; display: block;}
+.work-03-01-detail > .popup-header label{padding-left: 35px;} 
+.work-03-01-detail .bus{border: none;}
+.work-03-01-detail .bus ol li{border-bottom: 1px solid #e6e8ed; padding: 15px 10px;}
+.work-03-01-detail .bus ol li:hover{background-color: #F3F4F5;}
+.work-03-01-detail .bus ol li > * input{border: none; background-color: transparent;} 
+.work-03-01-detail .bus ol li label.busNumb-info{line-height: 24px;  margin-bottom: 20px;} 
+.work-03-01-detail .bus ol li label.busNumb-info small.GrBusType{ background-color: #33CC99;} /*시내일반*/
+.work-03-01-detail .bus ol li label.busNumb-info small.blBusType{ background-color: #0068b7;} /*일반좌석*/
+.work-03-01-detail .bus ol li label.busNumb-info small.rdBusType{ background-color: #e60012;} /*직행좌석,간선급행,경기순환*/
+.work-03-01-detail .bus ol li label.busNumb-info small.ywBusType{ background-color: #ffc600;} /*마을버스*/
+.work-03-01-detail .bus ol li label.busNumb-info small.gBusType{ background-color: #ffd700;} /*굿모닝급행버스*/
+.work-03-01-detail .bus ol li label.busNumb-info small.gmBusType{ background-color: #1e90ff;} /*굿모닝글자*/
+.work-03-01-detail .bus ol li label.busNumb-info small.pkBusType{ background-color: #bb2266;} /*따복버스*/
+.work-03-01-detail .bus ol li label.busNumb-info small.preBusType{ background-color: #a88870;} /*프리미엄버스*/
+.work-03-01-detail .bus ol li label.busNumb-info small{background-color: #44516A; color: #fff; font-size: 11px; padding: 0 2%; line-height: 15px; display: inline-block;}
+.work-03-01-detail .bus ol li label.busNumb-info input{line-height: 30px; font-size: 16px; font-weight: 600; padding-left: 10px;}
+.work-03-01-detail .bus ol li label.st-BusInfo{	display: flex; flex-direction: row; justify-content: space-between; align-items: center; width: 100%;}
+.work-03-01-detail .bus ol li label.st-BusInfo input{background-color: rgba(68, 81, 106, 0.1); padding: 0 15px; line-height: 22px; font-size: 13px; font-weight: 400; width: 45%; border-radius: 15px;} 
+.work-03-01-detail .bus ol li label span.sideArrow{display: block; background-image: url('../images/icon/stsname_split_ico.svg'); background-position: 0 0; background-size: 22px 10px; background-repeat: no-repeat; width: 22px; height: 10px;}
+.popup-panel.popup-sub.work-03-01-detail > .popup-close {position: absolute; top: 0; right: 0; width: 39px; height: 39px; border-left: 1px solid #fff; background: url(../images/icon/popup-close.svg) no-repeat 50% 50%; border-top-right-radius: 10px;}
 
 /*------------------------------------------------------------------------------
  * LNB > 분석 > 조망권
@@ -2049,8 +2076,49 @@
 /*------------------------------------------------------------------------------
  * 교통분석 > 인구정보 > 격자
  *----------------------------------------------------------------------------*/
+.search-box table {
+    width: 100%;
+    table-layout: fixed;
+}
+
+.search-box .search-table {
+	border-collapse: inherit;
+    border-spacing: 0 5px;
+}
+ 
+.search-box .search-table th, .search-box .search-table td {
+ 	padding: 4px 5px;
+    font-weight: 400;
+    background-color: #E5E7EA;
+    text-align: center;
+}
+ 
+.search-box .search-table tbody th {
+	padding-left: 10px;
+	border-radius: 5px 0 0 5px;
+}
+
+.search-box .search-table tbody td {
+	border-radius: 0 5px 5px 0;
+}
+ 
+#resultCnt {
+    margin-bottom: 5px;
+    color: #44516A;
+	font-size: 13px;
+}
+
+#resultCnt strong {
+    color: #1C77FF;
+    font-size: 13px;
+}
+
+.bbs-list tbody td {
+	height: auto;
+}
 
 .regendLevel-type1 {
+	margin-top: 15px;
 	margin-bottom: 15px;
     width: 100%;
 }

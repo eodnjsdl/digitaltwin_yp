@@ -19,8 +19,10 @@
 	<!-- 특정 정류소경유노선 조회 쿼리 -->
 	<select id="getTbdThrghRouteInfoById" parameterType="String" resultType="tbdThrghRouteInfoVO">
 	    SELECT 	
-	    		route_ty_nm,
+	    		route_id,
 	    		route_nm,
+	    		route_ty,
+	    		route_ty_nm,
 	    		cdpnt_sttn_nm,
 	    		tmnl_sttn_nm
 	    FROM 	tbd_thrgh_route_info

@@ -20,13 +20,13 @@
 	right: 0;
 	height: 32px;
 	line-height: 32px;
-	font-family: 'YangPyeong';
-    color: #fff;
-    font-size: 21px;
-	font-weight: bold;
+	font-family: 'Noto Sans KR';
+	color: #fff;
+	font-size: 20px;
+	font-weight: 700;
     text-align: center;
 	background-color: #44516A;
-	border-radius: 15px 15px 0px 15px;
+	border-radius: 15px 15px 0px 0px;
 }
 
 .popup-panel .popup-body {
@@ -59,7 +59,7 @@
 	right: 8px;
 	width: 24px;
 	height: 24px;
-	background: url(/yp_dt/images/icon/popup-close.svg) no-repeat 50% 50%;
+	background: url(../images/icon/popup-close.svg) no-repeat 50% 50%;
 	z-index: 5;
 }
 
@@ -70,7 +70,7 @@
 	width: 24px;
 	height: 24px;
 	background-color: rgba(0, 0, 0, 0.5);
-	background-image: url(/yp_dt/images/icon/popup-reset.svg);
+	background-image: url(../images/icon/popup-reset.svg);
 	background-repeat: no-repeat;
 	background-position: 50% 50%;
 	border-radius: 7px;
@@ -86,7 +86,7 @@
 	width: 24px;
 	height: 24px;
 	background-color: rgba(0, 0, 0, 0.5);
-	background-image: url(/yp_dt/images/map/manualBtn.png);
+	background-image: url(../images/map/manualBtn.png);
 	background-repeat: no-repeat;
 	background-position: 50% 50%;
 	border-radius: 7px;
@@ -123,7 +123,7 @@
  * popup-right
  *----------------------------------------------------------------------------*/
 .popup-panel.popup-right {
-	top: 80px;
+	top: 130px;
 	right: 70px;
 }
 
@@ -149,7 +149,7 @@
 	margin-top: -50px;
 	width: 30px;
 	height: 100px;
-	background: url(/yp_dt/images/etc/popup-left-toggle-bg.png) no-repeat 50% 50%;
+	background: url(../images/etc/popup-left-toggle-bg.png) no-repeat 50% 50%;
 }
 
 .popup-panel.popup-left .popup-left-toggle::after {
@@ -161,7 +161,7 @@
 	margin: -5px 0 0 -3px;
 	width: 7px;
 	height: 10px;
-	background: url(/yp_dt/images/etc/popup-left-toggle-arrow.svg) no-repeat 50% 50%;
+	background: url(../images/etc/popup-left-toggle-arrow.svg) no-repeat 50% 50%;
 	-webkit-transition: left .2s;
 	transition: left .2s;
 }
@@ -206,7 +206,6 @@
 	height: 40px;
 	line-height: 40px;
 	width: 275px;
-	background-color: transparent;
 	text-align: left;
 	z-index: 5;
 }
@@ -219,7 +218,7 @@
 	left: -6px;
 	width: 320px;
 	height: 46px;
-	background: transparent url(/yp_dt/images/etc/bottom-popup-header.png) no-repeat 50% 50%;
+	background: transparent url(../images/etc/bottom-popup-header.png) no-repeat 50% 50%;
 	z-index: 1;
 }
 
@@ -264,7 +263,7 @@
 	margin: -3px 0 0 -6px;
 	width: 12px;
 	height: 7px;
-	background: url(/yp_dt/images/icon/popup-toggle.svg);
+	background: url(../images/icon/popup-toggle.svg);
 	-webkit-transition: all .2s;
 	transition: all .2s;
 }
@@ -277,8 +276,8 @@
 	background-color: rgba(0, 0, 0, 0.5);
 }
 
-.popup-panel.popup-bottom .bbs-top .btn.bi-write {width: 50px;height: 27px;background: url(/yp_dt/images/icon/bi-write-sm.png) no-repeat 50% 50%;}
-.popup-panel.popup-bottom .bbs-top .btn.bi-write:hover {background: url(/yp_dt/images/icon/bi-write-sm-on.png) no-repeat 50% 50%;}
+.popup-panel.popup-bottom .bbs-top .btn.bi-write {width: 50px;height: 27px;background: url(../images/icon/bi-write-sm.png) no-repeat 50% 50%;}
+.popup-panel.popup-bottom .bbs-top .btn.bi-write:hover {background: url(../images/icon/bi-write-sm-on.png) no-repeat 50% 50%;}
 
 .popup-panel.popup-bottom .bbs-list thead th {	
 	padding-left: 5px;
@@ -385,7 +384,7 @@
 	width: 39px;
 	height: 39px;
 	border-left: 1px solid #44516A;
-	background: url(/yp_dt/images/icon/popup-close2.svg) no-repeat 50% 50%;
+	background: url(../images/icon/popup-close2.svg) no-repeat 50% 50%;
 	border-top-right-radius: 10px;
 }
 
@@ -436,7 +435,7 @@
 	width: 20px;
 	height: 20px;
 	border: 1px solid #44516A;
-	background-image: url(/yp_dt/images/etc/small-toggle-fold.svg);
+	background-image: url(../images/etc/small-toggle-fold.svg);
 	background-repeat: no-repeat;
 	background-position: 50% 50%;
 	border-radius: 5px;
@@ -449,7 +448,7 @@
 	height: 20px;
 	border: 1px solid #44516A;
 	background-color: #fff;
-	background-image: url(/yp_dt/images/map/manualBtn2.png);
+	background-image: url(../images/map/manualBtn2.png);
 	border-radius: 5px;
 }
 
@@ -497,7 +496,7 @@
 }
 
 .small-popup.fold .popup-toggle {
-	background-image: url(/yp_dt/images/etc/small-toggle.svg);
+	background-image: url(../images/etc/small-toggle.svg);
 }
 
 
@@ -505,12 +504,11 @@
  * 게시판
  *----------------------------------------------------------------------------*/
 .popup-panel.popup-bbs {
-	top: 50%;
-	left: 50%;
-	margin: -415px 0 0 -625px;
+	top: 130px;
+	left: 400px;
 	padding-top: 60px;
 	width: 1250px;
-	height: 830px;
+	height: 690px;
 	z-index: 600;
 }
 
@@ -525,11 +523,11 @@
 }
 
 .popup-panel.board-notice .popup-header {
-	background-image: url(/yp_dt/images/etc/popup-title-notice.svg);
+	background-image: url(../images/etc/popup-title-notice.svg);
 }
 
 .popup-panel.board-qna .popup-header {
-	background-image: url(/yp_dt/images/etc/popup-title-board.svg);
+	background-image: url(../images/etc/popup-title-board.svg);
 }
 
 .popup-panel.popup-bbs .popup-body {
@@ -551,7 +549,7 @@
 	width: 80px;
 	height: 80px;
 	border-radius: 15px 15px 0 0;
-	background: #fff url(/yp_dt/images/icon/popup-close3.svg) no-repeat 50% 50%;
+	background: #fff url(../images/icon/popup-close3.svg) no-repeat 50% 50%;
 }
 
 .popup-panel.popup-bbs .popup-close::before {
@@ -561,7 +559,7 @@
 	left: -19px;
 	width: 19px;
 	height: 19px;
-	background: url(/yp_dt/images/etc/board-popup-bg.png) no-repeat 50% 50%;
+	background: url(../images/etc/board-popup-bg.png) no-repeat 50% 50%;
 }
 
 /*------------------------------------------------------------------------------
@@ -612,7 +610,7 @@
  *----------------------------------------------------------------------------*/
  .building-list-group {	
 	display: flex;
-	height: 667px;
+	 height: 610px;
 }
 
 .building-list-item {	
@@ -643,7 +641,7 @@
 	margin: -4px 3px 0 0;
 	width: 20px;
 	height: 20px;
-	background: url(/yp_dt/images/icon/icon-folder.svg) no-repeat 50% 50%;
+	background: url(../images/icon/icon-folder.svg) no-repeat 50% 50%;
 	vertical-align: middle;
 }
 
@@ -675,7 +673,7 @@
 	margin: -4px 5px 0 0;
 	width: 15px;
 	height: 15px;
-	background: url(/yp_dt/images/icon/icon-folder-bul.svg) no-repeat 50% 50%;
+	background: url(../images/icon/icon-folder-bul.svg) no-repeat 50% 50%;
 	vertical-align: middle;
 }
 
@@ -696,7 +694,10 @@
 .building-data-item .data-default {
 	height: 100%;
 }
-
+/*! 버스 노선도 검색 팝업 수정 */
+.building-data-item .data-default.bus{
+	height: 50%;
+}
 .building-data-item .mCSB_outside+.mCSB_scrollTools {
 	right: 0;
 }
@@ -735,12 +736,12 @@
 }
 
 .imagesSwiper .swiper-button-prev, .imagesSwiper .swiper-container-rtl .swiper-button-next {
-   background-image: url(/yp_dt/images/icon/swiper-button-prev.svg);
+   background-image: url(../images/icon/swiper-button-prev.svg);
    left: 0;
 }
 
 .imagesSwiper .swiper-button-next, .imagesSwiper .swiper-container-rtl .swiper-button-prev {
-   background-image: url(/yp_dt/images/icon/swiper-button-next.svg);
+   background-image: url(../images/icon/swiper-button-next.svg);
    right: 0;
 }
 
@@ -1053,7 +1054,7 @@
 	right: 0;
 	width: 24px;
 	height: 100%;
-	background: url(/yp_dt/images/icon/icon-symbol-delete.svg) no-repeat 50% 50%;
+	background: url(../images/icon/icon-symbol-delete.svg) no-repeat 50% 50%;
 }
 
 .layerList-legend {
@@ -1204,14 +1205,125 @@
 	display: inline-block;
 	margin-right: 5px;
 }
+.facility-rsve-mng-body .cont-tit:first-child {margin-top: 0;}
 
-.facility-rsve-mng-body .data-write-wrap {
-	height: 100%;
-}
+/*------------------------------------------------------------------------------
+ * LNB > 교통분석 > 버스노선정보 --1 버스노선 검색 팝업
+ *----------------------------------------------------------------------------*/
 
-.facility-rsve-mng-body .cont-tit:first-child {
-	margin-top: 0;
-}
+.popup-panel.popup-bottom.work-03-01{left: 320px;width: 1600px;height: 378px; z-index: 3;}
+.popup-panel.popup-bottom.work-03-01 .popup-body .bottom-popup-body.bottom-popup-group .items.search-area .tabBoxDepth2-wrap .tab-cont.groundwaterProperty.on .btn-wrap > div.t02{margin-left: 10px;}
+.popup-panel.popup-bottom.work-03-01 .popup-body .bottom-popup-body.bottom-popup-group .items.data-area .bbs-top .bbs-list-num,
+.popup-panel.popup-bottom.work-03-01 .popup-body .bottom-popup-body.bottom-popup-group .items.data-area .bbs-top > div:nth-child(2){margin-bottom: 10px;}
+
+/*------------------------------------------------------------------------------
+ * LNB > 교통분석 > 버스노선정보 --1-1 버스노선 정보 팝업
+ *----------------------------------------------------------------------------*/
+ 
+.work-03-01-regist .nomaltxt{ color: #44516A;} /*공통색상*/
+.work-03-01-regist .greentxt{ color: #33CC99;} /*시내일반*/
+.work-03-01-regist .bluetxt{ color: #0068b7;} /*일반좌석*/
+.work-03-01-regist .redtxt{ color: #e60012;} /*직행좌석,간선급행,경기순환*/
+.work-03-01-regist .yellowBustxt{ color: #ffc600;} /*마을버스*/
+.work-03-01-regist .goodBustxt{ color: #ffd700;} /*굿모닝급행버스*/
+.work-03-01-regist .goodmBustxt{ color: #1e90ff;} /*굿모닝글자*/
+.work-03-01-regist .pinkBustxt{ color: #bb2266;} /*따복버스*/
+.work-03-01-regist .premBustxt{ color: #a88870;} /*프리미엄버스*/
+.work-03-01-regist .popup-header > label{color:#fff;}
+.work-03-01-regist{bottom: 398px; right: 530px; width: 600px; height: 459px;}
+.work-03-01-regist div.popup-header{background-color: #44516A; width: 600px;}
+.work-03-01-regist label.nomalBusNumb::before{content: url('../images/icon/bus_title_ico.svg');} /*공통색상*/
+.work-03-01-regist label.greenBusNumb::before{content: url('../images/icon/bus_gg-01_ico.svg');} /*시내일반*/
+.work-03-01-regist label.blueBusNumb::before{content: url('../images/icon/bus_gg-02_ico.svg');} /*일반좌석*/
+.work-03-01-regist label.redBusNumb::before{content: url('../images/icon/bus_gg-03_ico.svg');} /*직행좌석,간선급행,경기순환*/
+.work-03-01-regist label.goodBusNumb::before{content: url('../images/icon/bus_gg-04_ico.svg');} /*굿모닝급행버스*/
+.work-03-01-regist label.goodmBusNumb::before{content: url('../images/icon/bus_gg-05_ico.svg');} /*굿모닝글자*/
+.work-03-01-regist label.pinkBusNumb::before{content: url('../images/icon/bus_gg-06_ico.svg');} /*따복버스*/
+.work-03-01-regist label.premBusNumb::before{content: url('../images/icon/bus_gg-07_ico.svg');} /*프리미엄버스*/
+.work-03-01-regist label.yellowBusNumb::before{content: url('../images/icon/bus_gg-08_ico.svg');} /*마을버스*/
+.work-03-01-regist .popup-header label::before{top: 15%; left: 20px; z-index: 9; width: 25px; height: 25px;}
+.work-03-01-detail > .popup-header label::before,
+.work-03-01-regist .popup-header > label::before{position: absolute; display: block;}
+.work-03-01-detail > .popup-header label,.work-03-01-regist > .popup-header label{ padding-left: 35px;}
+.work-03-01-detail > .popup-header input,.work-03-01-regist > .popup-header input{ width: 100px; padding: 0 3%; margin-left: 10px; border: none; background-color: #e6e8ed; font-size: 15px; font-weight: 700; text-align: center; border-radius: 15px;}
+.work-03-01-regist > .popup-body{top: 50px;}
+.popup-panel.popup-sub.work-03-01-regist > .popup-close {position: absolute; top: 0; right: 0; width: 39px; height: 39px; border-left: 1px solid #fff; background: url(../images/icon/popup-close.svg) no-repeat 50% 50%; border-top-right-radius: 10px;}
+.work-03-01-regist .popup-body .sub-popup-body {display: flex; flex-direction: row; justify-content: flex-start; width: 90%; height: auto;}
+.work-03-01-regist .popup-body .sub-popup-body .data-write-wrap{display: flex; flex-direction: row;}	
+.work-03-01-regist .popup-body .sub-popup-body .data-write-wrap .data-default.bus{border: none;}
+.work-03-01-regist .popup-body .sub-popup-body .data-write-wrap .bus .data-write:nth-child(1){ width: 90%; height: 320px; padding: 30px 15px; margin-right: 20px;	background-color: #f3f4f5; border: 1px solid #8895ad; border-radius: 35px;}
+.work-03-01-regist .popup-body .sub-popup-body .data-write-wrap .bus .data-write:nth-child(1) ul li{ text-align: left; display: flex; flex-direction: row; justify-content: space-between; margin-bottom: 15px; align-items: center; width: 100%;}
+.work-03-01-regist .popup-body .sub-popup-body .data-write-wrap .bus .data-write:nth-child(1) ul li label{font-size: 13px; font-weight: 500; line-height: 34px;}
+.work-03-01-regist .popup-body .sub-popup-body .data-write-wrap .bus .data-write:nth-child(1) ul li input{ border: none; background-color: #fff; line-height: 34px; border-radius: 5px; width: 60%; padding: 0 5%; font-weight: 500;}
+.work-03-01-regist .popup-body .sub-popup-body .data-write-wrap .bus .data-write:nth-child(1) ul li input:read-only{ color: #666666; font-weight: 300; }
+.work-03-01-regist .popup-body .sub-popup-body .data-write-wrap .scroll-y{	width: 235px;}
+.work-03-01-regist .popup-body .sub-popup-body .data-write-wrap .scroll-y .bus{ display: flex; flex-direction: row; justify-content: center;}
+.work-03-01-regist .popup-body .sub-popup-body .data-write-wrap .scroll-y .bus ol:before{content: ''; position: absolute;top: 40px;bottom: -90px;left: -2px; width: 2px; border-left: 2px solid #44516A;display: block;	height: 89%;}
+.work-03-01-regist .popup-body .sub-popup-body .data-write-wrap .scroll-y .bus ol{position: relative; width: 90%;}
+.work-03-01-regist .popup-body .sub-popup-body .data-write-wrap .scroll-y .bus ol > li{	line-height: 22px; width: 100%; padding: 10px 0; width: 100%;}
+.work-03-01-regist .popup-body .sub-popup-body .data-write-wrap .scroll-y .bus ol > li:hover{background-color: #F3F4F5;}
+.work-03-01-regist .popup-body .sub-popup-body .data-write-wrap .scroll-y .bus ol > li:not(:last-of-type){border-bottom: 1px solid #e6e8ed;}
+.work-03-01-regist .popup-body .sub-popup-body .data-write-wrap .scroll-y .bus ol li a{width: 100%; display: flex; flex-direction: column; cursor: pointer; position: relative;}
+.work-03-01-regist .popup-body .sub-popup-body .data-write-wrap .bus ol > li a::before{content: ''; width: 22px; height: 26px; position: absolute; top: 21%; left: -13px; background-size: contain;	background-image: url('../images/icon/bus_statn_ico.png'); background-repeat: no-repeat; display: block;}
+.work-03-01-regist .popup-body .sub-popup-body .data-write-wrap .scroll-y .bus ol li a div{padding-left: 25px; width: (100% - 25px);}
+.work-03-01-regist .popup-body .sub-popup-body .data-write-wrap .scroll-y .bus ol li a div label{font-size: 13px; font-weight: 500; line-height: 22px; width: 100%;}
+.work-03-01-regist .popup-body .sub-popup-body .data-write-wrap .scroll-y .bus ol li a div input{border: none; line-height: 20px; width: 100%; font-weight: 300; background-color: transparent; cursor: pointer;}
+
+/*------------------------------------------------------------------------------
+ * LNB > 교통분석 > 버스노선정보 --1-2 정류소 세부 팝업
+ *----------------------------------------------------------------------------*/
+
+.work-03-01-detail{bottom: 398px; right: 70px; width: 450px; height: 459px; }
+.work-03-01-detail > .popup-header{background-color: #44516A; color: #fff;}
+.work-03-01-detail .popup-header > label::before{content: url('../images/icon/bus_point_ico.png'); top: 15%; left: 20px; z-index: 9; width: 18px; height: 22px; display: block;}
+.work-03-01-detail > .popup-header label{padding-left: 35px;} 
+.work-03-01-detail .bus{border: none;}
+.work-03-01-detail .bus ol li{border-bottom: 1px solid #e6e8ed; padding: 15px 10px;}
+.work-03-01-detail .bus ol li:hover{background-color: #F3F4F5;}
+.work-03-01-detail .bus ol li > * input{border: none; background-color: transparent;} 
+.work-03-01-detail .bus ol li label.busNumb-info{line-height: 24px;  margin-bottom: 20px;} 
+.work-03-01-detail .bus ol li label.busNumb-info small.GrBusType{ background-color: #33CC99;} /*시내일반*/
+.work-03-01-detail .bus ol li label.busNumb-info small.blBusType{ background-color: #0068b7;} /*일반좌석*/
+.work-03-01-detail .bus ol li label.busNumb-info small.rdBusType{ background-color: #e60012;} /*직행좌석,간선급행,경기순환*/
+.work-03-01-detail .bus ol li label.busNumb-info small.ywBusType{ background-color: #ffc600;} /*마을버스*/
+.work-03-01-detail .bus ol li label.busNumb-info small.gBusType{ background-color: #ffd700;} /*굿모닝급행버스*/
+.work-03-01-detail .bus ol li label.busNumb-info small.gmBusType{ background-color: #1e90ff;} /*굿모닝글자*/
+.work-03-01-detail .bus ol li label.busNumb-info small.pkBusType{ background-color: #bb2266;} /*따복버스*/
+.work-03-01-detail .bus ol li label.busNumb-info small.preBusType{ background-color: #a88870;} /*프리미엄버스*/
+.work-03-01-detail .bus ol li label.busNumb-info small{background-color: #44516A; color: #fff; font-size: 11px; padding: 0 2%; line-height: 15px; display: inline-block;}
+.work-03-01-detail .bus ol li label.busNumb-info input{line-height: 30px; font-size: 16px; font-weight: 600; padding-left: 10px;}
+.work-03-01-detail .bus ol li label.st-BusInfo{	display: flex; flex-direction: row; justify-content: space-between; align-items: center; width: 100%;}
+.work-03-01-detail .bus ol li label.st-BusInfo input{background-color: rgba(68, 81, 106, 0.1); padding: 0 15px; line-height: 22px; font-size: 13px; font-weight: 400; width: 45%; border-radius: 15px;} 
+.work-03-01-detail .bus ol li label span.sideArrow{display: block; background-image: url('../images/icon/stsname_split_ico.svg'); background-position: 0 0; background-size: 22px 10px; background-repeat: no-repeat; width: 22px; height: 10px;}
+.popup-panel.popup-sub.work-03-01-detail > .popup-close {position: absolute; top: 0; right: 0; width: 39px; height: 39px; border-left: 1px solid #fff; background: url(../images/icon/popup-close.svg) no-repeat 50% 50%; border-top-right-radius: 10px;}
+
+/*------------------------------------------------------------------------------
+ * LNB > 교통분석 > 인구정보 팝업
+ *----------------------------------------------------------------------------*/
+
+.popup-panel.popup-left.work-03-02{left: 320px; width: 300px; height: 750px;}
+.regendLevel-type1{	margin-bottom: 15px; width: 100%; padding-top: 225px;}
+.regendLevel-type1 h4{margin-bottom: 5px;}
+.regendLevel-type1 ol{background-color: #E5E7EA; padding: 10px 0; border-radius:5px;}
+.popup-panel.popup-left.work-03-02 .popup-body .tbl-default .tbl-type1{margin-bottom: 20px;}
+.regendLevel-type1 ol li{display: flex; flex-direction: row; position: relative;}
+.regendLevel-type1 ol li:not(:last-child){margin-bottom: 2px;}
+.regendLevel-type1 ol li span.rg{display: block; width: 20px; height: 20px; margin:0 5% 0 2%; border: 1px solid #eaeaea;}
+.regendLevel-type1 ol li span.rg.lv01{background-color: #ffffff;}
+.regendLevel-type1 ol li span.rg.lv02{background-color: #ff9090;}
+.regendLevel-type1 ol li span.rg.lv03{background-color: #ff7070;}
+.regendLevel-type1 ol li span.rg.lv04{background-color: #ff5050;}
+.regendLevel-type1 ol li span.rg.lv05{background-color: #ff3030;}
+.regendLevel-type1 ol li span.rg.lv06{background-color: #ff1010;}
+.regendLevel-type1 ol li span.rg.lv07{background-color: #ce0000;}
+.regendLevel-type1 ol li span.rg.lv08{background-color: #8e0000;}
+.regendLevel-type1 ol li span.rg.lv09{background-color: #3e0000;}
+.regendLevel-type1 ol li span.rg.lv10{background-color: #1e0000;}
+.regendLevel-type1 ol li label{width: 80%; display: flex; justify-content: flex-start;}
+.regendLevel-type1 ol li label input:last-of-type::before{content: '-'; display: block; position: absolute; top: 0; left: 0; width: 10px; height: 10px; color: #000;}
+.regendLevel-type1 ol li label input{width: 45%; font-size: 13px; font-weight: 300; color: #44516A;	background-color: #f8f8f8; line-height: 20px; padding: 0 5%;border-radius: 5px; border: 1px solid rgba(68, 81, 106, 0.3);}
+.regendLevel-type1 ol li label input:first-of-type{margin-right: 10px;}
+.regendLevel-type1 ol li label input:not(:first-of-type){margin-left: 10px;}
 
 /*------------------------------------------------------------------------------
  * LNB > 분석 > 조망권
@@ -1222,7 +1334,7 @@
 	margin: 0 auto 15px;
 	width: 100%;
 	height: 119px;
-	background: url(/yp_dt/images/etc/analysis-view-thumb.jpg) no-repeat 50% 50%;
+	background: url(../images/etc/analysis-view-thumb.jpg) no-repeat 50% 50%;
 }
 
 .analysis-view-basic .btn-wrap {
@@ -1253,8 +1365,8 @@
 	height: 22px;
 }
 
-.analysis-view-list .icon-btn.delete {background-image: url(/yp_dt/images/icon/bi-delete-sm.svg);}
-.analysis-view-list .icon-btn.delete:hover {background-image: url(/yp_dt/images/icon/bi-delete-sm-on.svg);}
+.analysis-view-list .icon-btn.delete {background-image: url(../images/icon/bi-delete-sm.svg);}
+.analysis-view-list .icon-btn.delete:hover {background-image: url(../images/icon/bi-delete-sm-on.svg);}
 
 
 
@@ -1274,14 +1386,14 @@
 }
 
 .sunlight-slider .ui-slider-range {
-	background: url(/yp_dt/images/etc/slider-range.png) no-repeat -1px 50%;
+	background: url(../images/etc/slider-range.png) no-repeat -1px 50%;
 }
 
 .sunlight-slider .ui-slider-handle {
 	width: 15px;
 	height: 16px;
 	border-color: #939FB5;
-	background: #fff url(/yp_dt/images/etc/slider-handle.svg) no-repeat 50% 50%;
+	background: #fff url(../images/etc/slider-handle.svg) no-repeat 50% 50%;
 	box-shadow: 0px 2px 3px rgba(0, 0, 0, 0.25);
 	border-radius: 3px;
 }
@@ -1313,7 +1425,7 @@
 	margin-left: -4px;
 	width: 8px;
 	height: 7px;
-	background: url(/yp_dt/images/map/toolTip-arrow-bottom.png) no-repeat 50% 50%;
+	background: url(../images/map/toolTip-arrow-bottom.png) no-repeat 50% 50%;
 }
 
 .sunlight-slider-wrap .sunlight-time {
@@ -1358,7 +1470,7 @@
 .sunlight-option-group .form-select {
 	width: 80px;
 	height: 26px;
-	background-image: url(/yp_dt/images/icon/form-select-arrow-md.jpg);
+	background-image: url(../images/icon/form-select-arrow-md.jpg);
 }
 
 .sunlight-option-group .form-select + .form-select {
@@ -1411,13 +1523,13 @@
 	background-color: #1C77FF;
 }
 
-.playCtrl-group .play {background-image: url(/yp_dt/images/etc/playCtrl-play.svg);}
-.playCtrl-group .pause {background-image: url(/yp_dt/images/etc/playCtrl-pause.svg);}
-.playCtrl-group .stop {background-image: url(/yp_dt/images/etc/playCtrl-stop.svg);}
+.playCtrl-group .play {background-image: url(../images/etc/playCtrl-play.svg);}
+.playCtrl-group .pause {background-image: url(../images/etc/playCtrl-pause.svg);}
+.playCtrl-group .stop {background-image: url(../images/etc/playCtrl-stop.svg);}
 
-.playCtrl-group input[type="radio"]:checked + .play {background-image: url(/yp_dt/images/etc/playCtrl-play-on.svg);}
-.playCtrl-group input[type="radio"]:checked + .pause {background-image: url(/yp_dt/images/etc/playCtrl-pause-on.svg);}
-.playCtrl-group input[type="radio"]:checked + .stop {background-image: url(/yp_dt/images/etc/playCtrl-stop-on.svg);}
+.playCtrl-group input[type="radio"]:checked + .play {background-image: url(../images/etc/playCtrl-play-on.svg);}
+.playCtrl-group input[type="radio"]:checked + .pause {background-image: url(../images/etc/playCtrl-pause-on.svg);}
+.playCtrl-group input[type="radio"]:checked + .stop {background-image: url(../images/etc/playCtrl-stop-on.svg);}
 
 /*------------------------------------------------------------------------------
  * LNB > 분석 > 경사분석
@@ -1627,7 +1739,7 @@
 	right: 20px;
 	width: 28px;
 	height: 28px;
-	background: url(/yp_dt/images/login/system-close.png) no-repeat 50% 50%;
+	background: url(../images/login/system-close.png) no-repeat 50% 50%;
 }
 
 .basic-popup .basic-body {
@@ -1672,7 +1784,7 @@
 	margin: -3px 0 0 10px;
 	width: 16px;
 	height: 16px;
-	background-image: url(/yp_dt/images/icon/form-checkbox.svg);
+	background-image: url(../images/icon/form-checkbox.svg);
 	background-repeat: no-repeat;
 	background-position: 50% 50%;
 	cursor: pointer;
@@ -1680,7 +1792,7 @@
 }
 
 .basic-popup .today-checkbox input[type=checkbox]:checked + label::after {
-	background-image: url(/yp_dt/images/icon/form-checkbox-on.svg);
+	background-image: url(../images/icon/form-checkbox-on.svg);
 }
 
 .list-type1{

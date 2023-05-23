@@ -27,10 +27,6 @@ import egiskorea.com.job.tran.popltn.service.PopulationVO;
 @Repository("populationInfoDAO")
 public class PopulationInfoDAO extends ComAbstractDAO {
 	
-	public List<PopulationVO> selectPopulationInfoList(PopulationVO populationVO) {
-		return selectList("population.selectPopulationInfoList", populationVO);
-	}
-	
 	public List<PopulationVO> selectMyeonPopulationInfoList(PopulationVO populationVO) {
 		return selectList("population.selectMyeonPopulationInfoList", populationVO);
 	}
@@ -43,8 +39,17 @@ public class PopulationInfoDAO extends ComAbstractDAO {
 		return selectList("population.selectAllPopulationInfoList", populationVO);
 	}
 	
+	public List<String> selectGridStandardYmList(PopulationVO populationVO) {
+		return selectList("population.selectGridStandardYmList", populationVO);
+	}
 	
-	public List<PopulationVO> selectAllPopulationInfoGeomList(PopulationVO populationVO) {
-		return selectList("population.selectAllPopulationInfoGeomList", populationVO);
+	public String selectPopulationCenter(PopulationVO populationVO) {
+		return selectOne("population.selectPopulationCenter", populationVO);
+	}
+	
+	/************** GRID *************/
+	
+	public List<PopulationVO> selectGridMyeonPopulationInfoList(PopulationVO populationVO) {
+		return selectList("population.selectGridMyeonPopulationInfoList", populationVO);
 	}
 }
