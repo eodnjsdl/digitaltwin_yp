@@ -263,19 +263,19 @@ map3d.vector = (function () {
     function addPoint(options) {
         const geom = dtmap.util.createGeometry('Point', options);
         const feature = dtmap.util.createFeature(geom, options);
-        return addFeature(feature, options.style, options.crs);
+        return addFeature(feature, options.style);
     }
 
     function addLine(options) {
-        const geom = new ol.geom.LineString(options.coordinates);
+        const geom = dtmap.util.createGeometry('LineString', options);
         const feature = dtmap.util.createFeature(geom, options);
-        return addFeature(feature, options.style, options.crs);
+        return addFeature(feature, options.style);
     }
 
     function addPolygon(options) {
-        const geom = new ol.geom.Polygon(options.coordinates);
+        const geom = dtmap.util.createGeometry('Polygon', options);
         const feature = dtmap.util.createFeature(geom, options);
-        return addFeature(feature, options.style, options.crs);
+        return addFeature(feature, options.style);
     }
 
 
