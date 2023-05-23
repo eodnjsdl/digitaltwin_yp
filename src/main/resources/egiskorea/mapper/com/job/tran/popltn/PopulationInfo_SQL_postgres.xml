@@ -25,7 +25,7 @@
 
 <!-- 검색 기준 년월 조회(법정동경계화면) -->
 <select id="selectStandardYmList" resultType="String">
-		select distinct (substring(tlpi.stdr_ym, 1, 4) || '년' || 
+		select distinct (substring(tlpi.stdr_ym, 1, 4) || '년 ' || 
 							substring(tlpi.stdr_ym, 5, 2) || '월') as stdr_ym
 		  from (
 					select li_cd 
@@ -98,16 +98,17 @@
 
 <!-- 검색 기준 년월 조회(격자화면) -->
 <select id="selectGridStandardYmList" resultType="String">
-		select distinct (substring(tgpi.stdr_ym, 1, 4) || '년' || substring(tgpi.stdr_ym, 5, 2) || '월') as stdr_ym
+		select distinct (substring(tgpi.stdr_ym, 1, 4) || '년 ' || 
+							substring(tgpi.stdr_ym, 5, 2) || '월') as stdr_ym
 		   from (
 					select grid_id
 						 , li_cd
 						 , stdr_ym 
 					  from tgd_grid_popltn_info
 					 where 1 = 1
-					 /*<if test="liCd != 'all'">
+					 <if test="liCd != 'all'">
 					   and li_cd like #{liCd} || '%'
-					 </if>*/
+					 </if>
 				 ) tgpi
 		 inner join comtccmmndetailcode c on (c.code = tgpi.li_cd and c.code_id = 'YPLI')
 		 order by stdr_ym desc 

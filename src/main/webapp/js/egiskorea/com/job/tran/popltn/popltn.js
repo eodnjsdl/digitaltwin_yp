@@ -6,19 +6,17 @@ $(document).ready(function(){
     initPplLegal();
 		
     $("#pplShowType").on('change', function() {
-//	console.log("pplShowType>>"+this.value);
 	var showType = this.value;
 	if(showType == "legal"){
 	    if ($(".pplInfoLegalType").css("display") == "none") {
+		dtmap.layer.removeLayer('li_popltn_info');
 		aj_selectPopulationInfoList();
 	    }
 	    $("#pplInfoGridType").hide();
 	} else if (showType == "grid") {
 	    if($("#pplInfoGridType").css("display") == "none") {
 		$("#pplInfoGridType").show();
-//		$('#leftPopup').css({"left": "320px", "width": "300px", "height": "475px"});
-		toastr.error("수정중입니다.");
-		dtmap.layer.clear();
+		dtmap.layer.removeLayer('li_popltn_info');
 		$('#pplBaseYYMM').empty();
 		getGridPplBaseYYMMList();
 	    }
@@ -43,7 +41,11 @@ $(document).ready(function(){
     // 대상지역이 변경될 때마다 호출
     $('#liCd').on('change', function () {
 	$('#pplBaseYYMM').empty();
-	getPplBaseYYMMList();
+	 if($("#pplInfoGridType").css("display") == "none") {
+	     getPplBaseYYMMList();
+	 } else {
+	     getGridPplBaseYYMMList();
+	 }
     });
     
     // 초기화 버튼
@@ -53,7 +55,7 @@ $(document).ready(function(){
     
     // 닫기 버튼
     $('#popltnCloseBtn').on('click', function () {
-	dtmap.layer.clear();
+	dtmap.layer.removeLayer('li_popltn_info');
     });
 });
 	
@@ -64,7 +66,7 @@ $(document).ready(function(){
  * @returns
  */
 function initPplLegal() {
-    dtmap.layer.clear();
+    dtmap.layer.removeLayer('li_popltn_info');
     getPplBaseYYMMList();
     setTimeout(() => {
 	getAllPopulationInfo();
@@ -96,7 +98,6 @@ function getAllPopulationInfo() {
 	    success: function(data) {
 		let result = data.resultList;
 		let geom = data.geomCenter;
-		console.log(geom);
 		legalData(result);
 		getJenks(result, options, viewType);
 		setViewPoint(geom);
@@ -158,7 +159,7 @@ function getGridPplBaseYYMMList() {
 function setPplBaseYYMMList(result) {
 	for (let i = 0; i < result.length; i++) {
 	    let data = result[i];
-	    let dataFormat = data.substring(0, 4) + data.substring(5, 7);
+	    let dataFormat = data.substring(0, 4) + data.substring(6, 8);
 	    let addHtml = '<option value="' + dataFormat + '">' + data + '</option>';
 	    $('#pplBaseYYMM').append(addHtml);
 	}
@@ -194,7 +195,6 @@ function selectPplInfoList() {
         	success: function(data) {
         	    let result = data.resultList;
         	    let geom = data.geomCenter;
-        	    console.log(geom);
         	    // 데이터 세팅
         	    legalData(result);
         	    // 레이어 호출
@@ -286,7 +286,7 @@ function legalData(result) {
  * @returns
  */
 function getLayer(options, viewType) {
-    dtmap.layer.clear();
+    dtmap.layer.removeLayer('li_popltn_info');
     let cql;
     let sld;
     if (options != undefined) {
@@ -386,7 +386,6 @@ function setViewPoint(geom) {
 	let tranPoint = ol.proj.transform(geometry, "EPSG:5179", "EPSG:4326");
 	let alt = parseFloat(66800);
 	tranPoint.push(alt);
-	console.log(tranPoint);
 	let centerVec = new Module.JSVector3D(tranPoint[0]-0.15, tranPoint[1], tranPoint[2]);
 	map3d.camera.move(centerVec, 90, 0, 800);
     }
