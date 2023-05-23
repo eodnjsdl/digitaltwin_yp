@@ -103,7 +103,7 @@ dtmap.draw.setBuffer(0); //해제
  dtmap.vector.addPoint({
   id: '피쳐아이디',
   coordinates: [127,36],
-  crs: 'EPSG:4326',
+  crs: 'EPSG:4326', //입력한 좌표의 좌표계
   style: style //스타일 옵션 (벡터 스타일옵션 참고)
 })
 ```
@@ -112,7 +112,7 @@ dtmap.draw.setBuffer(0); //해제
  dtmap.vector.addLine({
   id: '피쳐아이디',
   coordinates: [[127,36],[127.12,36.12],...],
-  crs: 'EPSG:4326',
+  crs: 'EPSG:4326', //입력한 좌표의 좌표계
   style: style //스타일 옵션 (벡터 스타일옵션 참고)
 })
 ```
@@ -121,7 +121,7 @@ dtmap.draw.setBuffer(0); //해제
  dtmap.vector.addPolygon({
   id: '피쳐아이디',
   coordinates: [[[127,36],[127.12,36.12],...]],
-  crs: 'EPSG:4326',
+  crs: 'EPSG:4326', //입력한 좌표의 좌표계
   style: style //스타일 옵션 (벡터 스타일옵션 참고)
 })
 ```
