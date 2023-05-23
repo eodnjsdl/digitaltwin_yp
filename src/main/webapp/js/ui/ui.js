@@ -549,6 +549,7 @@ window.ui = (function () {
     //좌측 메뉴 >> 교통분석
     function _trafficMenuEvent() {
         $(".lnb-traffic .lnb-body").on("click", "button", function () {
+            dtmap.layer.clear();
             var name = $(this).attr("id");
             var area = $(this).data("popup"); //팝업 위치명 넣어주세요  ex)rightPopup
             ui.openPopup(area);
@@ -1267,6 +1268,9 @@ function clearMap() {
     dtmap.draw.dispose();
     dtmap.draw.clear();
     dtmap.vector.clear();
+    
+    // 교통분석 - 인구정보 레이어 제거
+    dtmap.layer.clear('li_popltn_info');
 
     $(".lnb-dep2").find(".on").removeClass("on");
 }
