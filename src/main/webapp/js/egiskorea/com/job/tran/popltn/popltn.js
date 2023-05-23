@@ -223,6 +223,8 @@ function selectPplInfoList() {
     	dataType: 'json',
     	success: function(data) {
     	    let result = data.resultList;
+    	    console.log(result);
+    	    console.log(options);
     	    // 레이어 호출
     	    getJenks(result, options, viewType);
     	}, error: function() {
@@ -294,24 +296,36 @@ function getLayer(options, viewType) {
 	sld = options.sld;
     }
     let layerNm = 'digitaltwin:tgd_li_popltn_info';
+    let id = 'li_popltn_info';
     if (viewType == 'legal' || viewType == '') {
 	layerNm = 'digitaltwin:tgd_li_popltn_info';
     } else if (viewType == 'grid'){
 	layerNm = 'digitaltwin:tgd_grid_popltn_info';
+	id = 'li_popltn_info_grid';
     }
-    let id = 'li_popltn_info';
     let type = 'WMS'
     let title = '인구정보'
     let visible = true;
-    dtmap.showLayer({
-	id: id,
-	type: type,
-	layerNm: layerNm,
-	title: title,
-	visible: visible,
-	cql : cql,
-	sldBody : sld
-    });
+    if (viewType == 'legal') {
+	dtmap.showLayer({
+	    id: id,
+	    type: type,
+	    layerNm: layerNm,
+	    title: title,
+	    visible: visible,
+	    cql : cql,
+	    sldBody : sld
+	});
+    } else if (viewType == 'grid') {
+	dtmap.showLayer({
+	    id: id,
+	    type: type,
+	    layerNm: layerNm,
+	    title: title,
+	    visible: visible,
+	    cql : cql
+	});
+    }
     ui.loadingBar('hide');
 }
 
