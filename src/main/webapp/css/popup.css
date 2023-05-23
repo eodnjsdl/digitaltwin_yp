@@ -1838,3 +1838,90 @@
 .setting-list .tbl-list.vertical-tbl .items + .items, .setting-list .tbl-list.all-vertical-tbl .items + .items {
     margin-top: 10px;
 }
+
+/*------------------------------------------------------------------------------
+ * 교통분석 > 인구정보 > 격자
+ *----------------------------------------------------------------------------*/
+
+.regendLevel-type1 {
+	margin-bottom: 15px;
+    width: 100%;
+}
+
+.regendLevel-type1 h4 {
+    margin-bottom: 5px;
+}
+
+.regendLevel-type1 ol {
+    background-color: #E5E7EA;
+    padding: 10px 0;
+    border-radius: 5px;
+}
+
+.regendLevel-type1 ol li {
+    display: flex;
+    flex-direction: row;
+    position: relative;
+}
+
+.regendLevel-type1 ol li:not(:last-child) {
+    margin-bottom: 2px;
+}
+
+.regendLevel-type1 ol li span.rg {
+    display: block;
+    width: 20px;
+    height: 20px;
+    margin: 0 5% 0 2%;
+    border: 1px solid #eaeaea;
+}
+
+.regendLevel-type1 ol li span.rg.lv01 {
+    background-color: #ffffff;
+}
+
+.regendLevel-type1 ol li span.rg.lv02 {
+    background-color: #ff9090;
+}
+
+.regendLevel-type1 ol li span.rg.lv03 {
+    background-color: #ff7070;
+}
+
+.regendLevel-type1 ol li span.rg.lv04 {
+    background-color: #ff5050;
+}
+
+.regendLevel-type1 ol li span.rg.lv05 {
+    background-color: #ff3030;
+}
+
+.regendLevel-type1 ol li label {
+    width: 80%;
+    display: flex;
+    justify-content: flex-start;
+}
+
+.regendLevel-type1 ol li label input {
+    width: 45%;
+    font-size: 13px;
+    font-weight: 300;
+    color: #44516A;
+    background-color: #f8f8f8;
+    line-height: 20px;
+    padding: 0 5%;
+    border-radius: 5px;
+    border: 1px solid rgba(68, 81, 106, 0.3);
+}
+
+.regendLevel-type1 ol li label input:first-of-type {
+    margin-right: 10px;
+}
+
+.regendLevel-type1 ol li label input:not(:first-of-type) {
+    margin-left: 10px;
+}
+
+.regendLevel-type1 ol li span.rg.lv05 {
+    background-color: #ff3030;
+}
