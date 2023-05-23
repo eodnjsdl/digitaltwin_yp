@@ -293,7 +293,7 @@ function selectBusSttnList(page, geom) {
         	
             return {
                 marker: {
-                    src: '/images/poi/subwayStation_poi.png'
+                    src: '/images/map/busSt_01_ico.png'
                 },
                 label: {
                 	text: ''
@@ -404,7 +404,8 @@ function selectBusSttnView(detailData){
 			var container = "#rightSubPopup";
 			$(container).html(result);
 			
-			$('#tgdBusSttnInfo').append(sttn_nm + " (" + sttn_id + ")");
+			$('#tgdBusSttnInfo').append(sttn_nm);
+			$('#data-stNumb').val(sttn_id);
 			
 			dtmap.vector.select(detailData.id);	//지도에  표시
 			

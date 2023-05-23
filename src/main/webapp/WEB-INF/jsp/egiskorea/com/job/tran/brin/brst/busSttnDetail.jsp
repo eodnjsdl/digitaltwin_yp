@@ -6,56 +6,98 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
 <style type="text/css">
-	.popup-panel.popup-sub .select-tgdBusSttnInfo-popup-close {
+	
+	.popup-panel.popup-sub .popup-close {
 	    top: 0;
 	    right: 0;
 	    width: 39px;
 	    height: 39px;
-	    border-left: 1px solid #44516A;
-	    background: url(/images/icon/popup-close2.svg) no-repeat 50% 50%;
+	    border-left: 1px solid white;
+	    background: url(../images/icon/popup-close.svg) no-repeat 50% 50%;
 	    border-top-right-radius: 10px;
-	    position: absolute;
 	}
 	
 	.data-default {
 	  max-height: 100%; /* 원하는 높이로 스크롤 설정 */
 	  overflow-y: auto;
 	}
-	
+
 </style>
 
 <!-- 업무 > 교통분석 > 버스정류소 > 정류소경유노선 조회-->
-
-       	<div class="popup-header" id="tgdBusSttnInfo"></div>
-           <div class="popup-body">
-               <div class="sub-popup-body">
-                   <div class="data-write-wrap" style="height: 100%;">
-                       <div class="scroll-y">
-                           <div class="data-default">
-                               <ul class="data-write">
-								  <c:forEach items="${tbdThrghRouteInfoVO}" var="item">
-								    <li>
-								      <strong>노선유형:</strong> <c:out value="${item.routeTyNm }"/>&nbsp;&nbsp;&nbsp;&nbsp;
-								      <strong>노선번호:</strong> <c:out value="${item.routeNm }"/><br>
-								      <strong>기점:</strong> <c:out value="${item.cdpntSttnNm }"/>&nbsp;&nbsp;&nbsp;&nbsp;
-								      <strong>종점:</strong> <c:out value="${item.tmnlSttnNm }"/><br>
-								      <strong></strong><br>
-								    </li>
-								  </c:forEach>
-								</ul>
-                           </div>
-                       </div>
-                       <div class="position-bottom btn-wrap justify-content-end">
-                           <div>
-                               <button type="button" class="btn basic bi-cancel btn_cancel" 	onclick="cancelSelectTgdBusSttnInfo();">닫기</button>
-                           </div>
-                       </div>
-                   </div>
-               </div>
-           </div>
-           <!-- <button type="button" class="popup-close" title="닫기"></button> -->
-           <button type="button" class="select-tgdBusSttnInfo-popup-close" title="닫기"></button>
-
+<div class="work-03-01-detail">
+    <div class="popup-header">
+        <label for="data-stNumb" id="tgdBusSttnInfo"></label>
+        <input type="text" id="data-stNumb" value="" class="bluetxt">
+    </div>
+    <div class="popup-body">
+        <div class="sub-popup-body">
+            <div class="data-write-wrap" style="height: 100%;">
+                <div class="scroll-y mCustomScrollbar _mCS_63" style="position: relative; overflow: visible;"><div id="mCSB_63" class="mCustomScrollBox mCS-light mCSB_vertical mCSB_outside" tabindex="0" style="max-height: none;"><div id="mCSB_63_container" class="mCSB_container" style="position:relative; top:0; left:0;" dir="ltr">
+                    <div class="data-default bus">
+                        <ol>
+                        	<c:forEach items="${tbdThrghRouteInfoVO}" var="item">
+                            <li>
+                                <label class="busNumb-info">
+                                    <small id="busType">
+                                    	<c:choose>
+					                        <c:when test="${item.routeTy == '11'}">
+					                           	직행
+					                        </c:when>
+					                        <c:when test="${item.routeTy == '12' || item.routeTy == '13'}">
+					                           	시내일반
+					                        </c:when>
+					                        <c:when test="${item.routeTy == '14'}">
+					                           	급행
+					                        </c:when>
+					                        <c:when test="${item.routeTy == '15'}">
+					                           	따복
+					                        </c:when>
+					                        <c:when test="${item.routeTy == '16'}">
+					                           	경기
+					                        </c:when>
+					                        <c:when test="${item.routeTy == '21'}">
+					                           	직행
+					                        </c:when>
+					                        <c:when test="${item.routeTy == '22' || item.routeTy == '23'}">
+					                           	일반
+					                        </c:when>
+					                        <c:when test="${item.routeTy == '30'}">
+					                           	마을
+					                        </c:when>
+					                        <c:when test="${item.routeTy == '41' || item.routeTy == '42' || item.routeTy == '43'}">
+					                           	시외
+					                        </c:when>
+					                        <c:when test="${item.routeTy == '51' || item.routeTy == '52' || item.routeTy == '53'}">
+					                           	공항
+					                        </c:when>
+					                        <c:otherwise>
+					                        	일반
+					                        </c:otherwise>
+					                    </c:choose>
+                                    </small>
+                                    <input type="text" value="<c:out value="${item.routeNm }"/>" readonly>
+                                </label>
+                                <label class="st-BusInfo">
+                                    <input type="text" value="<c:out value="${item.cdpntSttnNm }"/>" readonly>
+                                    <span class="sideArrow"></span>
+                                    <input type="text" value="<c:out value="${item.tmnlSttnNm }"/>" readonly>
+                                </label>
+                            </li>
+                          	</c:forEach>
+                        </ol>
+                    </div>
+                </div></div><div id="mCSB_63_scrollbar_vertical" class="mCSB_scrollTools mCSB_63_scrollbar mCS-light mCSB_scrollTools_vertical" style="display: block;"><div class="mCSB_draggerContainer"><div id="mCSB_63_dragger_vertical" class="mCSB_dragger" style="position: absolute; min-height: 30px; top: 0px; display: block; height: 122px; max-height: 324px;"><div class="mCSB_dragger_bar" style="line-height: 30px;"></div></div><div class="mCSB_draggerRail"></div></div></div></div>
+            </div>
+            <div class="position-bottom btn-wrap">
+                <div>
+                    <button type="button" id="cancelSelectBusSttn" class="btn type01">닫기</button>
+                </div>
+            </div>							
+        </div>
+    </div>
+    <button type="button" class="popup-close" onclick="cancelSelectBusSttn();" title="닫기"></button>				
+</div>
 <!-- 업무 > 교통분석 > 버스정류소 > 정류소경유노선 조회 end -->
 
 <script type="text/javascript">
@@ -63,8 +105,9 @@
 	$(document).ready(function(){
 		
 		//닫기
-		$(".popup-panel .select-tgdBusSttnInfo-popup-close").on("click", function () {
-			cancelSelectTgdBusSttnInfo();
+ 		$("#cancelSelectBusSttn").on("click", function () {
+			cancelSelectBusSttn();
+			
     	});
 		
 	});
@@ -72,10 +115,10 @@
 	//functions
 	
 	//정류소경유노선 조회 취소
-	function cancelSelectTgdBusSttnInfo() {
-		//console.log("cancelSelectTgdBusSttnInfo()");
+	function cancelSelectBusSttn() {
+		alert('close');
 		
-		$(".select-tgdBusSttnInfo-popup-close").closest('.popup-panel').removeClass('opened');
+		$(".popup-close").closest('.popup-panel').removeClass('work-03-01-detail');
         // 초기화 (지도)
         dtmap.draw.dispose();
         dtmap.draw.clear();
@@ -85,7 +128,44 @@
         TRFICANALS.Ax5UiGrid.clearSelect();	//그리드 선택 해제
         
 	}
-
-</script>
-
 	
+	// 버스 노선유형별 색상 지정
+	var busTypeElements = document.querySelectorAll('#busType');
+
+	busTypeElements.forEach(function(element) {
+	    var routeTyNm = element.textContent.trim();
+
+	    switch (routeTyNm) {
+		    case '직행':
+		    case '경기':
+		        element.classList.add('rdBusType');
+		        break;
+		    case '시내일반':
+		        element.classList.add('GrBusType');
+		        break;
+		    case '급행':
+		        element.classList.add('gBusType');
+		        break;
+		    case '따복':
+		        element.classList.add('pkBusType');
+		        break;
+		    case '일반':
+		        element.classList.add('blBusType');
+		        break;
+		    case '마을':
+		        element.classList.add('ywBusType');
+		        break;
+		    case '시외':
+		        element.classList.add('gmBusType');
+		        break;
+		    case '공항':
+		        element.classList.add('preBusType');
+		        break;
+		    default:
+		        // 기본 동작 설정 (예: 다른 경우에는 'blBusType' 추가)
+		        element.classList.add('blBusType');
+		}
+
+	});
+	
+</script>

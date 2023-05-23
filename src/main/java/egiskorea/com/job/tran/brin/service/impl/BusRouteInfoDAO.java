@@ -42,6 +42,11 @@ public class BusRouteInfoDAO extends ComAbstractDAO {
 	 * @return Exception
 	 */
     public List<TbdThrghRouteInfoVO> getTbdThrghRouteInfoById(String sttn_id) throws Exception {
-        return selectList("busRouteInfoDAO.getTbdThrghRouteInfoById", sttn_id);
+    	List<TbdThrghRouteInfoVO> t;
+    	t = selectList("busRouteInfoDAO.getTbdThrghRouteInfoById", sttn_id);
+    	System.out.println(t);
+    	return t;
+    	//return selectList("busRouteInfoDAO.getTbdThrghRouteInfoById", sttn_id);
+    	
     }
 }
