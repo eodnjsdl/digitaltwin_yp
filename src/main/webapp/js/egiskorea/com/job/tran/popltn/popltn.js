@@ -1,4 +1,5 @@
 $(document).ready(function(){
+    $('#leftPopup').css({"left": "320px", "width": "300px", "height": "780px"});
     //검색 조건 세팅
     getCmmCodeData("YPE001", "#pplSearchForm select#liCd");	//읍면동
     
@@ -8,20 +9,21 @@ $(document).ready(function(){
     // 검색 기준 년월 - 대상지역이 변경될 때마다 호출
     getPplBaseYYMMList();
 		
-    initPplLegal();
-	
     $("#pplShowType").on('change', function() {
 //	console.log("pplShowType>>"+this.value);
 	var showType = this.value;
 	if(showType == "legal"){
 	    if ($(".pplInfoLegalType").css("display") == "none") {
 		$(".pplInfoLegalType").show();
+		$('#leftPopup').css({"left": "320px", "width": "300px", "height": "780px"});
 	    }
-	    $(".pplInfoGridType").hide();
+	    $("#pplInfoGridType").hide();
 	    initPplLegal();
 	} else if (showType == "grid") {
-	    if($(".pplInfoGridType").css("display") == "none") {
-		$(".pplInfoGridType").show();
+	    if($("#pplInfoGridType").css("display") == "none") {
+		$("#pplInfoGridType").show();
+		$('#leftPopup').css({"left": "320px", "width": "300px", "height": "750px"});
+		dtmap.layer.clear();
 	    }
 	$(".pplInfoLegalType").hide();
 	} else {
@@ -31,8 +33,12 @@ $(document).ready(function(){
     
     $('#pplInfoSearch').on('click', function () {
 	let area = $('select[name="liCd"]').val();
+	let viewType = $("#pplShowType").val();
 	if (area == 'all') {
-	    getAllPopulationInfo();
+	    if (viewType == 'legal') {
+		getAllPopulationInfo();
+	    }
+	    
 	}
 	selectPplInfoList();
     });
@@ -47,29 +53,21 @@ $(document).ready(function(){
     $('#populationReset').on('click', function () {
 	aj_selectPopulationInfoList();
     });
+    
+    // 닫기 버튼
+    $('#popltnCloseBtn').on('click', function () {
+	dtmap.layer.clear();
+    });
 });
 	
 //functions
-
-/**
-* 법정도 경계 초기화
-*/
-function initPplLegal(){
-    
-}
-	
-/**
-* 격자 경계 초기화
-*/
-function initPplGrid(){
-	
-}
 
 /**
  * 양평군 전체 인구 정보 조회
  * @returns
  */
 function getAllPopulationInfo() {
+    ui.loadingBar('show');
     $.ajax({
 	url : "/job/tran/popltn/selectAllPopulationInfoList.do",
 	type : 'post',
@@ -77,6 +75,8 @@ function getAllPopulationInfo() {
 	success: function(data) {
 	    result = data.resultList;
 	    legalData(result);
+	    getLayer();
+	    ui.loadingBar('hide');
 	}, error: function() {
 	    toastr.error("정보를 불러오지 못하였습니다.");
 	}
@@ -111,7 +111,8 @@ function getPplBaseYYMMList() {
     function setPplBaseYYMMList(result) {
 	for (let i = 0; i < result.length; i++) {
 	    let data = result[i];
-	    let addHtml = '<option value="' + data + '">' + data + '</option>';
+	    let dataFormat = data.substring(0, 4) + data.substring(5, 7);
+	    let addHtml = '<option value="' + dataFormat + '">' + data + '</option>';
 	    $('#pplBaseYYMM').append(addHtml);
 	}
     }
@@ -188,29 +189,47 @@ function populationRenderChart(result){
 * 인구 정보 조회 및 차트 데이터 전달
 */
 function selectPplInfoList() {
-	// ajax 전달 데이터
-	let data = $("#pplSearchForm").serialize();
-	let pplShowType = $("#pplShowType").val();
-	if (pplShowType == 'legal') {
-	    // 법정동 경계 데이터 ajax. pplShowType = legal
-	    // 그래프 데이터 전달 변수 result
-	    let result;
+    // ajax 전달 데이터
+    let data = $("#pplSearchForm").serialize();
+    let pplShowType = $("#pplShowType").val();
+    // 법정동 경계 데이터 ajax. pplShowType = legal
+    if (pplShowType == 'legal') {
+	ui.loadingBar('show');
+	// formdata에 리 옵션 값 'all' 일 때, 전체 조회
+	if (data.includes('liCd=all')) {
+	    getAllPopulationInfo();
+	} else {
+	    // 레이어 호출 - cql 옵션 세팅
+	    let liCode = $('#liCd').val().slice(0, 8);
+	    let filter = "li_cd like " + "'" + liCode + "%'";
+	    let gender = $('#pplGender').val();
+	    let options = {
+		    cql : filter,
+		    gender : gender
+	    };
 	    $.ajax({
 		data: data,
-		url : "/job/tran/popltn/selectMyeonPopulationInfoList.do",
-		type : 'post',
-		dataType: 'json',
-		success: function(data) {
-		    result = data.resultList;
-		    legalData(result);
-		}, error: function() {
-		    toastr.error("정보를 불러오지 못하였습니다.");
-		}
+        	url : "/job/tran/popltn/selectMyeonPopulationInfoList.do",
+        	type : 'post',
+        	dataType: 'json',
+        	success: function(data) {
+        	    let result = data.resultList;
+        	    // 데이터 세팅
+        	    legalData(result);
+        	    // 레이어 호출
+        	    getJenks(result, options);
+        	    ui.loadingBar('hide');
+        	}, error: function() {
+        	    toastr.error("정보를 불러오지 못하였습니다.");
+        	}
 	    });
-	} else {
-	    // 격자 데이터 ajax. pplShowType = grid
-	    toastr.error("미구현");
 	}
+	// 격자 데이터 ajax. pplShowType = grid
+    } else {
+	toastr.error("미구현");
+	
+	
+    }
 }
 
 /**
@@ -252,7 +271,209 @@ function legalData(result) {
 	    $("#pplInfoLegalList").html(legalListHml);
 	}
 	let totalCountFormat = new Intl.NumberFormat().format(totalCount);
-	$('.pplInfoLegalType .bbs-list-num').html("조회결과 : <strong>" + totalCountFormat + "</strong>명")
+	$('.pplInfoLegalType #resultCnt').html("조회결과 : <strong>" + totalCountFormat + "</strong> 명")
 	//차트 그리기
 	populationRenderChart(result);
+	
 }
+
+/**
+ * wms 레이어 호출
+ * @param options
+ * @returns
+ */
+function getLayer(options) {
+    dtmap.layer.clear();
+    let cql;
+    let sld;
+    if (options != undefined) {
+	cql = options.cql;
+	sld = options.sld;
+    }
+    const layerNm = 'digitaltwin:tgd_li_popltn_info';
+    let id = 'li_popltn_info';
+    let type = 'WMS'
+    let title = '인구정보'
+    let visible = true;
+    dtmap.showLayer({
+	id: id,
+	type: type,
+	layerNm: layerNm,
+	title: title,
+	visible: visible,
+	cql : cql,
+	sldBody : sld
+    });
+}
+
+/**
+ * natural breaks 값 구하는 함수
+ * @param data
+ * @returns
+ */
+function getJenks(data, options) {
+    let propertyNm = 'all_popltn_cnt';
+    if (options.gender == 'w') {
+	propertyNm = 'female_popltn_cnt';
+    } else if (options.gender == 'm') {
+	propertyNm = 'male_popltn_cnt';
+    }
+    let popltn = [];
+    for (let i = 0; i < data.length; i++) {
+	popltn.push(data[i].allPopltnCnt);
+    }
+    let geo = new geostats(popltn);
+    // '리'가 4개 이하일 때 5단계 구분 불가능
+    if (popltn.length < 5) {
+	let jenks = geo.getClassJenks(popltn.length - 1);
+    } else {
+	let jenks = geo.getClassJenks(5);
+    }
+    
+    let low = [];
+    let high = [];
+    for (let i = 0; i < geo.ranges.length; i++) {
+	low.push(geo.ranges[i].split(' - ')[0]);
+	high.push(geo.ranges[i].split(' - ')[1]);
+    }
+    
+    let style = {
+	length : geo.ranges.length,
+	name : 'li_popltn_info',
+	range : {
+	    jenks : geo.ranges,
+	    low : low,
+	    high : high
+	},
+	value : propertyNm,
+	color : ['#f7fbff', '#c8dcf0', '#73b2d8', '#2979b9', '#08306b']
+    };
+    let xmlString = styleTest(style);
+    options.sld = xmlString;
+    getLayer(options);
+}
+
+/**
+ * natural breaks 분류값 스타일 재설정 xml
+ * '면'단위 layer 호출 시
+ * @param style
+ * @returns
+ */
+function styleTest(style) {
+    let range = style.range;
+    let color = style.color;
+    let xml = ``;
+    xml += `<?xml version="1.0" encoding="UTF-8"?>`;
+    xml += `<StyledLayerDescriptor xmlns:sld="http://www.opengis.net/sld" `;
+    xml += `xmlns:se="http://www.opengis.net/se" `;
+    xml += `xmlns:ogc="http://www.opengis.net/ogc" `;
+    xml += `xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" `;
+    xml += `xmlns:xlink="http://www.w3.org/1999/xlink" `;
+    xml += `xsi:schemaLocation="http://www.opengis.net/sld `;
+    xml += `http://schemas.opengis.net/sld/1.1.0/StyledLayerDescriptor.xsd" version="1.1.0">`;
+    xml += `<sld:NamedLayer>`;
+    xml += `<se:Name>tgd_li_popltn_info</se:Name>`;
+    xml += `<sld:UserStyle>`;
+    xml += `<se:Name>${style.name}</se:Name>`;
+    xml += `<se:FeatureTypeStyle>`;
+    for (let i = 0; i < style.length; i ++) {
+	xml += `<se:Rule>`;
+	xml += `<se:Name>${range['jenks'][i]}</se:Name>`;
+	xml += `<se:Description>`;
+	xml += `<se:Title>${range['jenks'][i]}</se:Title>`;
+	xml += `</se:Description>`;
+	xml += `<ogc:Filter xmlns:ogc="http://www.opengis.net/ogc">`;
+	xml += `<ogc:And>`;
+	xml += `<ogc:PropertyIsGreaterThanOrEqualTo>`;
+	xml += `<ogc:PropertyName>${style.value}</ogc:PropertyName>`;
+	xml += `<ogc:Literal>${range['low'][i]}</ogc:Literal>`;
+	xml += `</ogc:PropertyIsGreaterThanOrEqualTo>`;
+	xml += `<ogc:PropertyIsLessThanOrEqualTo>`;
+	xml += `<ogc:PropertyName>${style.value}</ogc:PropertyName>`;
+	xml += `<ogc:Literal>${range['high'][i]}</ogc:Literal>`;
+	xml += `</ogc:PropertyIsLessThanOrEqualTo>`;
+	xml += `</ogc:And>`;
+	xml += `</ogc:Filter>`;
+        xml += `<se:PolygonSymbolizer>`;
+        xml += `<se:Fill>`
+        xml += `<se:SvgParameter name="fill">${color[i]}</se:SvgParameter>`;
+        xml += `</se:Fill>`;
+        xml += `<se:Stroke>`;
+        xml += `<se:SvgParameter name="stroke">#232323</se:SvgParameter>`;
+        xml += `<se:SvgParameter name="stroke-width">1</se:SvgParameter>`
+        xml += `<se:SvgParameter name="stroke-linejoin">bevel</se:SvgParameter>`
+        xml += `</se:Stroke>`
+        xml += `</se:PolygonSymbolizer>`;
+        xml += `</se:Rule>`;
+    };
+    xml += `</se:FeatureTypeStyle>`;
+    xml += `</sld:UserStyle>`;
+    xml += `</sld:NamedLayer>`;
+    xml += `</StyledLayerDescriptor>`;
+    
+    return xml;
+}
+
+
+/*
+//================== db data =======================
+function getGeomData() {
+    ui.loadingBar('show');
+    
+    $.ajax({
+	url : "job/tran/popltn/selectAllPopulationInfoGeomList.do",
+	type : 'post',
+	dataType : 'json',
+	success : function(data) {
+	    let result = data.resultList;
+	    geomPrcss(result);
+	    ui.loadingBar('hide');
+	}, error : function() {
+	    toastr.error("데이터 호출 실패.");
+	}
+    });
+}
+
+function geomPrcss(data) {
+    console.log(data);
+    const formatWKT = new ol.format.WKT();
+    for (let i = 0; i < data.length; i++) {
+	let geom = data[i].geom; // geom 데이터
+	let geometry = formatWKT.readGeometry(geom);
+	let geomGetter = geometry.flatCoordinates
+	let coordArr =[]; 
+	    coordArr.push(coordArrFomatter(geomGetter, 2));
+	    console.log(coordArr);
+	    popltnAddPolygon(coordArr, i);
+    }
+    
+    
+    ui.loadingBar('hide');
+}
+
+function coordArrFomatter(coord, size) {
+    const arr = [];
+	    
+    for (let i = 0; i < coord.length; i += size) {
+	arr.push(coord.slice(i, i + size));
+    }
+
+    return arr;
+}
+
+function popltnAddPolygon(coordinates, id) {
+    let style = {
+	    fill : {
+		      color : '#dddddd',
+		      opacity : 0.3
+		    }
+    };
+    dtmap.vector.addPolygon({
+	id : 'test_popltn_' + id,
+	coordinates : coordinates,
+	crs : 'EPSG:5179',
+	style : style
+    })
+}
+//================== db data =======================
+*/

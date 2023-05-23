@@ -18,7 +18,7 @@ dtmap.showLayer({
  * @param {string} id
  * @param {object} options 업데이트할 파라미터
  * @param {string} [options.cql] cql 문
- * @param {xml} [options.sldBody] sld xml
+ * @param {string} [options.sldBody] sld xml string
  */
 dtmap.layer.updateParams('test', {
     cql: 'gid=15'

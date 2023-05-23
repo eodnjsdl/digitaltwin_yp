@@ -48,4 +48,14 @@ public interface PopulationInfoService {
 	 * @return
 	 */
 	public List<PopulationVO> selectAllPopulationInfoList(PopulationVO populationVO);
+	
+	
+	
+	/**
+	 * 양평군 전체 geom 및 데이터 조회
+	 * @param populationVO
+	 * @return
+	 */
+	public List<PopulationVO> selectAllPopulationInfoGeomList(PopulationVO populationVO);
+	
 }

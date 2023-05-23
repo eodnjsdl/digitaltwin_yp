@@ -119,7 +119,11 @@ function selectBusRouteList(page, geom) {
 	//console.log('selectBusRouteList(page, geom)');
 	
 	// 팝업 닫기
-	ui.closeSubPopup();
+	//ui.closeSubPopup();
+	if($("#rightSubPopup").hasClass("opened")) {
+		$("#rightSubPopup").removeClass("opened");
+		$("#rightSubPopup").empty();
+	}
 	
 	//grid 선택창 초기화
 	FACILITY.Ax5UiGrid.focus(-1);
@@ -237,40 +241,40 @@ function selectBusRouteList(page, geom) {
 			let route_nm_color;
 			
 			// 색상 확인 필요
-			if (route_ty == 11) {				// 직행좌석형시내버스
+			if (route_ty == 11) {				// 직행좌석형시내버스: bus_gg-03_ico
 				route_nm_color = '#e60012';
-			} else if (route_ty == 12) {		// 좌석형시내버스
+			} else if (route_ty == 12) {		// 좌석형시내버스: bus_gg-02_ico
 				route_nm_color = '#0068b7';
-			} else if (route_ty == 13) {		// 일반형시내버스
+			} else if (route_ty == 13) {		// 일반형시내버스: bus_gg-01_ico
 				route_nm_color = '#33CC99';
-			} else if (route_ty == 14) {		// 광역급행형시내버스
+			} else if (route_ty == 14) {		// 광역급행형시내버스: bus_gg-01_ico -> 일반형시내버스(일반좌석버스)
 				route_nm_color = '#006896';
-			} else if (route_ty == 15) {		// 따복형시내버스
+			} else if (route_ty == 15) {		// 따복형시내버스: bus_gg-06_ico
 				route_nm_color = '#bb2266';
-			} else if (route_ty == 16) {		// 경기순환버스
+			} else if (route_ty == 16) {		// 경기순환버스: bus_gg-03_ico
 				route_nm_color = '#e60012';
-			} else if (route_ty == 21) {		// 직행좌석형농어촌버스
+			} else if (route_ty == 21) {		// 직행좌석형농어촌버스: bus_gg-01_ico
 				route_nm_color = '#33CC99';
-			} else if (route_ty == 22) {		// 좌석형농어촌버스
+			} else if (route_ty == 22) {		// 좌석형농어촌버스: bus_gg-01_ico
 				route_nm_color = '#33CC99';
-			} else if (route_ty == 23) {		// 일반형농어촌버스
+			} else if (route_ty == 23) {		// 일반형농어촌버스: bus_gg-01_ico
 				route_nm_color = '#33CC99';
-			} else if (route_ty == 30) {		// 마을버스
+			} else if (route_ty == 30) {		// 마을버스: bus_gg-08_ico
 				route_nm_color = '#ffc600';
-			} else if (route_ty == 41) {		// 고속형시외버스
+			} else if (route_ty == 41) {		// 고속형시외버스: bus_gg-06_ico -> 따복버스
 				route_nm_color = '#a800ff';
-			} else if (route_ty == 42) {		// 좌석형시외버스
+			} else if (route_ty == 42) {		// 좌석형시외버스: bus_gg-06_ico -> 따복버스
 				route_nm_color = '#a800ff';
-			} else if (route_ty == 43) {		// 일반형시외버스
+			} else if (route_ty == 43) {		// 일반형시외버스: bus_gg-06_ico -> 따복버스
 				route_nm_color = '#a800ff';
-			} else if (route_ty == 51) {		// 리무진공항버스
+			} else if (route_ty == 51) {		// 리무진공항버스: bus_gg-05_ico -> 굿모닝글자버스
 				route_nm_color = '#00a0e9';
-			} else if (route_ty == 52) {		// 좌석형공항버스
+			} else if (route_ty == 52) {		// 좌석형공항버스: bus_gg-05_ico -> 굿모닝글자버스
 				route_nm_color = '#00a0e9';
-			} else if (route_ty == 53) {		// 일반형공항버스
+			} else if (route_ty == 53) {		// 일반형공항버스: bus_gg-05_ico -> 굿모닝글자버스
 				route_nm_color = '#00a0e9';
 			} else {
-				route_nm_color = '#ffffff';
+				route_nm_color = '#44516A';
 			}
 
 			return {
@@ -407,7 +411,7 @@ function searchBusRouteFilters() {
 		}
 	});
 	
-	$('#lSrchOptions .info-attribute-search').on('click', function() {
+	$('.info-attribute-search').on('click', function() {
 		selectBusRouteList(1, geom);
 	});
 }

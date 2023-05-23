@@ -13,6 +13,7 @@ public class PopulationVO implements Serializable {
 	private String pplShowType;				// 항목 정보
 	private String pplGender; 				// 자료 유형(성별)
 	private String codeNm;					// 면 이름
+	private String liNm;					// 리 이름
 	
 	public String getLiCd() {
 		return liCd;
@@ -67,6 +68,12 @@ public class PopulationVO implements Serializable {
 	}
 	public void setCodeNm(String codeNm) {
 		this.codeNm = codeNm;
+	}
+	public String getLiNm() {
+		return liNm;
+	}
+	public void setLiNm(String liNm) {
+		this.liNm = liNm;
 	}
 	
 }

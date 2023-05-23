@@ -118,7 +118,27 @@ public class PopulationInfoController {
 		
 		mav.addObject("resultList", list);
 		return mav;
-		
 	}
 	
+	
+	
+	/**
+	 * 양평군 전체 데이터 (geom 포함) 조회
+	 * @param populationVO
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/selectAllPopulationInfoGeomList.do")
+	@ResponseBody
+	public ModelAndView selectAllPopulationInfoGeomList(
+			PopulationVO populationVO) throws Exception {
+		ModelAndView mav = new ModelAndView("jsonView");
+		List<PopulationVO> list = null;
+		
+		list = populationInfoService.selectAllPopulationInfoGeomList(populationVO);
+		
+		mav.addObject("resultList", list);
+		
+		return mav;
+	}
 }
