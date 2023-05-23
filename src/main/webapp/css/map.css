@@ -872,6 +872,7 @@ html, body {
 .context .c05::before {background-image: url(/images/map/context-icon05.png);}
 .context .c06::before {background-image: url(/images/map/context-icon06.png);}
 .context .c07::before {background-image: url(/images/map/context-icon07.png);}
+.context .c08::before {background-image: url(/images/map/context-icon08.png);}
 
 .context .c01:hover::before {background-image: url(/images/map/context-icon01-on.png);}
 .context .c02:hover::before {background-image: url(/images/map/context-icon02-on.png);}
@@ -880,4 +881,5 @@ html, body {
 .context .c05:hover::before {background-image: url(/images/map/context-icon05-on.png);}
 .context .c06:hover::before {background-image: url(/images/map/context-icon06-on.png);}
 .context .c07:hover::before {background-image: url(/images/map/context-icon07-on.png);}
+.context .c08:hover::before {background-image: url(/images/map/context-icon08-on.png);}
 

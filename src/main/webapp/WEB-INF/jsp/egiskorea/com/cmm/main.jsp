@@ -912,11 +912,14 @@
         var mod = dtmap.mod;
         var html1 = mod === '2D' ? _html2dTop4 : _html3dTop4;
         $("#tmnMapSetting").html(html1);
-
         //컨텍스트메뉴 변경
-        var _mapTy = "";
-        mod === '2D' ? _mapTy = "3D전환" : _mapTy = "2D전환";
-        $("#contextMenu .c07")[0].text = _mapTy;
+        if(mod === '2D') {
+            $("#contextMenu .c08").removeClass("c08").addClass("c07");
+            $("#contextMenu .c07")[0].text = "3D전환";
+        } else {
+            $("#contextMenu .c07").removeClass("c07").addClass("c08");
+            $("#contextMenu .c08")[0].text = "2D전환";
+        }
     }
 
     function checkCookiePopup() {

@@ -1326,6 +1326,213 @@
 .regendLevel-type1 ol li label input:not(:first-of-type){margin-left: 10px;}
 
 /*------------------------------------------------------------------------------
+ * LNB > 교통분석 > 버스노선정보 --1 버스노선 검색 팝업
+ *----------------------------------------------------------------------------*/
+
+.popup-panel.popup-bottom.work-03-01 {
+	left: 320px;
+	width: 1600px;
+	height: 378px;
+	z-index: 3;
+}
+
+.popup-panel.popup-bottom.work-03-01 .popup-body .bottom-popup-body.bottom-popup-group .items.search-area .tabBoxDepth2-wrap .tab-cont.groundwaterProperty.on .btn-wrap > div.t02 {
+	margin-left: 10px;
+}
+
+.popup-panel.popup-bottom.work-03-01 .popup-body .bottom-popup-body.bottom-popup-group .items.data-area .bbs-top .bbs-list-num, .popup-panel.popup-bottom.work-03-01 .popup-body .bottom-popup-body.bottom-popup-group .items.data-area .bbs-top > div:nth-child(2){
+	margin-bottom: 10px;
+}
+
+
+/*------------------------------------------------------------------------------
+ * LNB > 교통분석 > 버스노선정보 --1-1 버스노선 정보 팝업
+ *----------------------------------------------------------------------------*/
+.work-03-01-regist .nomaltxt{color: #44516A;} /*공통색상*/
+.work-03-01-regist .greentxt{color: #33CC99;} /*시내일반*/
+.work-03-01-regist .bluetxt{color: #0068b7;} /*일반좌석*/
+.work-03-01-regist .redtxt{color: #e60012;} /*직행좌석,간선급행,경기순환*/
+.work-03-01-regist .goodBustxt{color: #ffd700;} /*굿모닝급행버스*/
+.work-03-01-regist .goodmBustxt{color: #1e90ff;} /*굿모닝글자*/
+.work-03-01-regist .pinkBustxt{color: #bb2266;} /*따복버스*/
+.work-03-01-regist .premBustxt{color: #a88870;} /*프리미엄버스*/
+.work-03-01-regist .yellowBustxt{color: #ffc600;} /*마을버스*/
+
+.work-03-01-regist .popup-header > label{
+	color:#fff;
+}
+.work-03-01-regist{
+	bottom: 398px;
+	right: 530px;
+}
+.work-03-01-regist div.popup-header{
+	background-color: #44516A;
+}
+
+.work-03-01-regist label.nomalBusNumb::before{content: url('/images/icon/bus_title_ico.svg');} /*공통색상*/
+.work-03-01-regist label.greenBusNumb::before{content: url('/images/icon/bus_gg-01_ico.svg');} /*시내일반*/
+.work-03-01-regist label.blueBusNumb::before{content: url('/images/icon/bus_gg-02_ico.svg');} /*일반좌석*/
+.work-03-01-regist label.redBusNumb::before{content: url('/images/icon/bus_gg-03_ico.svg');} /*직행좌석,간선급행,경기순환*/
+.work-03-01-regist label.goodBusNumb::before{content: url('/images/icon/bus_gg-04_ico.svg');} /*굿모닝급행버스*/
+.work-03-01-regist label.goodmBusNumb::before{content: url('/images/icon/bus_gg-05_ico.svg');} /*굿모닝글자*/
+.work-03-01-regist label.pinkBusNumb::before{content: url('/images/icon/bus_gg-06_ico.svg');} /*따복버스*/
+.work-03-01-regist label.premBusNumb::before{content: url('/images/icon/bus_gg-07_ico.svg');} /*프리미엄버스*/
+.work-03-01-regist label.yellowBusNumb::before{content: url('/images/icon/bus_gg-08_ico.svg');} /*마을버스*/
+
+.work-03-01-regist .popup-header label::before{
+	top: 15%;
+	left: 20px;
+	z-index: 9;
+	width: 25px;
+	height: 25px;
+}
+.work-03-01-detail > .popup-header label::before, .work-03-01-regist .popup-header > label::before{
+	position: absolute;
+	display: block;
+}
+.work-03-01-detail > .popup-header label,.work-03-01-regist > .popup-header label{
+	padding-left: 35px;
+}
+.work-03-01-detail > .popup-header input,.work-03-01-regist > .popup-header input{
+	width: 100px;
+	padding: 0 3%;
+	margin-left: 10px;
+	border: none;
+	background-color: #e6e8ed;
+	font-size: 15px;
+	font-weight: 700;
+	text-align: center;
+	border-radius: 15px;
+}
+.work-03-01-regist > .sub-popup-close {
+	position: absolute;
+	top: 0;
+	right: 0;
+	width: 39px;
+	height: 39px;
+	border-left: 1px solid #fff;
+	background: url(../images/icon/popup-close.svg) no-repeat 50% 50%;
+	border-top-right-radius: 10px;
+}
+.work-03-01-regist .popup-body .sub-popup-body .data-write-wrap{
+	display: flex;
+	flex-direction: row;
+}	
+.work-03-01-regist .popup-body .sub-popup-body .data-write-wrap .data-default.bus{
+	border: none;
+}
+.work-03-01-regist .popup-body .sub-popup-body .data-write-wrap .bus .data-write:nth-child(1){
+	width: 95%;
+	height: 350px;
+	padding: 20px 15px;
+	margin-top: 5px;
+	margin-left: 10px;
+	margin-right: 3px;
+	background-color: #f3f4f5;
+	border: 1px solid #8895ad;
+	border-radius: 20px;
+}
+.work-03-01-regist .popup-body .sub-popup-body .data-write-wrap .bus .data-write:nth-child(1) ul li{
+	margin-bottom: 10px;
+	width: 100%;
+}
+.work-03-01-regist .popup-body .sub-popup-body .data-write-wrap .bus .data-write:nth-child(1) ul li label{
+	display: block;
+	font-size: 13px;
+	font-weight: 500;
+	line-height: 30px;
+	height: 30px;
+}
+.work-03-01-regist .popup-body .sub-popup-body .data-write-wrap .bus .data-write:nth-child(1) ul li input{
+	display: block;
+	border: none;
+	background-color: #fff;
+	line-height: 33px;
+	border-radius: 5px;
+	padding: 0 5%;
+	font-weight: 500;
+	width: 100%;
+}
+.work-03-01-regist .popup-body .sub-popup-body .data-write-wrap .bus .data-write:nth-child(1) ul li .readNo{
+	color: #666666;
+	font-weight: 300;
+}
+.work-03-01-regist .popup-body .sub-popup-body .data-write-wrap .scroll-y{
+	width: 260px;
+}
+.work-03-01-regist .popup-body .sub-popup-body .data-write-wrap .scroll-y .bus{
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+}
+.work-03-01-regist .popup-body .sub-popup-body .data-write-wrap .scroll-y .bus ol:before{
+	content: '';
+	position: absolute;
+	top: 40px;
+	bottom: -90px;
+	left: 1px;
+	width: 2px;
+	border-left: 2px solid #44516A;
+	display: block;
+	height: calc(100% - 75px);
+}
+.work-03-01-regist .popup-body .sub-popup-body .data-write-wrap .scroll-y .bus ol{
+	position: relative;
+	width: 90%;
+	margin-left: 20px;
+}
+.work-03-01-regist .popup-body .sub-popup-body .data-write-wrap .scroll-y .bus ol > li{
+	line-height: 22px;
+	width: 100%;
+	padding: 10px 0;
+	width: 100%;
+}
+.work-03-01-regist .popup-body .sub-popup-body .data-write-wrap .scroll-y .bus ol > li:hover{
+	background-color: #F3F4F5;
+}
+.work-03-01-regist .popup-body .sub-popup-body .data-write-wrap .scroll-y .bus ol > li:not(:last-of-type){
+	border-bottom: 1px solid #e6e8ed;
+}
+.work-03-01-regist .popup-body .sub-popup-body .data-write-wrap .scroll-y .bus ol li a{
+	width: 100%;
+	display: flex;
+	flex-direction: column;
+	cursor: pointer;
+	position: relative;
+}
+.work-03-01-regist .popup-body .sub-popup-body .data-write-wrap .bus ol > li a::before{
+	content: '';
+	width: 22px;
+	height: 26px;
+	position: absolute;
+	top: 21%;
+	left: -10px;
+	background-size: contain;
+	background-image: url('/images/icon/bus_statn_ico.png');
+	background-repeat: no-repeat;
+	display: block;
+}
+.work-03-01-regist .popup-body .sub-popup-body .data-write-wrap .scroll-y .bus ol li a .route_info{
+	padding-left: 20px;
+}
+.work-03-01-regist .popup-body .sub-popup-body .data-write-wrap .scroll-y .bus ol li a .route_info label{
+	font-size: 13px;
+	font-weight: 500;
+	line-height: 22px;
+	width: 100%;
+	cursor: pointer;
+}
+.work-03-01-regist .popup-body .sub-popup-body .data-write-wrap .scroll-y .bus ol li a .route_info input{
+	border: none;
+	line-height: 20px;
+	width: 100%;
+	font-weight: 300;
+	background-color: transparent;
+	cursor: pointer;
+}
+
+
+/*------------------------------------------------------------------------------
  * LNB > 분석 > 조망권
  *----------------------------------------------------------------------------*/
 .analysis-view-basic p::before {
@@ -1814,4 +2021,91 @@
 	height: 4px;
 	border-radius: 50%;
 	background-color: #44516A;
+}
+
+/*------------------------------------------------------------------------------
+ * 교통분석 > 인구정보 > 격자
+ *----------------------------------------------------------------------------*/
+
+.regendLevel-type1 {
+	margin-bottom: 15px;
+    width: 100%;
+}
+
+.regendLevel-type1 h4 {
+    margin-bottom: 5px;
+}
+
+.regendLevel-type1 ol {
+    background-color: #E5E7EA;
+    padding: 10px 0;
+    border-radius: 5px;
+}
+
+.regendLevel-type1 ol li {
+    display: flex;
+    flex-direction: row;
+    position: relative;
+}
+
+.regendLevel-type1 ol li:not(:last-child) {
+    margin-bottom: 2px;
+}
+
+.regendLevel-type1 ol li span.rg {
+    display: block;
+    width: 20px;
+    height: 20px;
+    margin: 0 5% 0 2%;
+    border: 1px solid #eaeaea;
+}
+
+.regendLevel-type1 ol li span.rg.lv01 {
+    background-color: #ffffff;
+}
+
+.regendLevel-type1 ol li span.rg.lv02 {
+    background-color: #ff9090;
+}
+
+.regendLevel-type1 ol li span.rg.lv03 {
+    background-color: #ff7070;
+}
+
+.regendLevel-type1 ol li span.rg.lv04 {
+    background-color: #ff5050;
+}
+
+.regendLevel-type1 ol li span.rg.lv05 {
+    background-color: #ff3030;
+}
+
+.regendLevel-type1 ol li label {
+    width: 80%;
+    display: flex;
+    justify-content: flex-start;
+}
+
+.regendLevel-type1 ol li label input {
+    width: 45%;
+    font-size: 13px;
+    font-weight: 300;
+    color: #44516A;
+    background-color: #f8f8f8;
+    line-height: 20px;
+    padding: 0 5%;
+    border-radius: 5px;
+    border: 1px solid rgba(68, 81, 106, 0.3);
+}
+
+.regendLevel-type1 ol li label input:first-of-type {
+    margin-right: 10px;
+}
+
+.regendLevel-type1 ol li label input:not(:first-of-type) {
+    margin-left: 10px;
+}
+
+.regendLevel-type1 ol li span.rg.lv05 {
+    background-color: #ff3030;
 }
