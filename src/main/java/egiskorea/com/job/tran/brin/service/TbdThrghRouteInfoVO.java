@@ -21,54 +21,76 @@ public class TbdThrghRouteInfoVO {
 	/** 정류소아이디 */
 	private String sttnId;
 	
-	/** 노선유형 */
-	private String routeTyNm;
+	/** 노선아이디 */
+	private String routeId;
 	
 	/** 노선명 */
 	private String routeNm;
+	
+	/** 노선유형 */
+	private String routeTy;
+	
+	/** 노선유형 */
+	private String routeTyNm;
 	
 	/** 기점정류소명 */
 	private String cdpntSttnNm;
 	
 	/** 종점정류소명 */
 	private String tmnlSttnNm;
-	
+
 	public String getSttnId() {
 		return sttnId;
 	}
-	
+
 	public void setSttnId(String sttnId) {
 		this.sttnId = sttnId;
 	}
-	
-	public String getRouteTyNm() {
-		return routeTyNm;
+
+	public String getRouteId() {
+		return routeId;
 	}
-	
-	public void setRouteTyNm(String routeTyNm) {
-		this.routeTyNm = routeTyNm;
+
+	public void setRouteId(String routeId) {
+		this.routeId = routeId;
 	}
-	
+
 	public String getRouteNm() {
 		return routeNm;
 	}
-	
+
 	public void setRouteNm(String routeNm) {
 		this.routeNm = routeNm;
 	}
-	
+
+	public String getRouteTy() {
+		return routeTy;
+	}
+
+	public void setRouteTy(String routeTy) {
+		this.routeTy = routeTy;
+	}
+
+	public String getRouteTyNm() {
+		return routeTyNm;
+	}
+
+	public void setRouteTyNm(String routeTyNm) {
+		this.routeTyNm = routeTyNm;
+	}
+
 	public String getCdpntSttnNm() {
 		return cdpntSttnNm;
 	}
-	
+
 	public void setCdpntSttnNm(String cdpntSttnNm) {
 		this.cdpntSttnNm = cdpntSttnNm;
 	}
-	
+
 	public String getTmnlSttnNm() {
 		return tmnlSttnNm;
 	}
-	
+
 	public void setTmnlSttnNm(String tmnlSttnNm) {
 		this.tmnlSttnNm = tmnlSttnNm;
 	}

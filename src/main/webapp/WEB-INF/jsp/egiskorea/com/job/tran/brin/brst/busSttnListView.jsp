@@ -39,18 +39,6 @@
 									<td>    
 										<select name="emdKorNm" class="form-select">
 											<option value="41830">전체</option>
-<!-- 											<option value="지평면">지평면</option>
-											<option value="용문면">용문면</option>
-											<option value="개군면">개군면</option>
-											<option value="단월면">단월면</option>
-											<option value="청운면">청운면</option>
-											<option value="양동면">양동면</option>
-											<option value="양평읍">양평읍</option>
-											<option value="강상면">강상면</option>
-											<option value="강하면">강하면</option>
-											<option value="양서면">양서면</option>
-											<option value="옥천면">옥천면</option>
-											<option value="서종면">서종면</option> -->
 										</select>  
 									</td>
 								</tr>
@@ -296,5 +284,4 @@
 		
 	});
 
-	//functions
 </script>
