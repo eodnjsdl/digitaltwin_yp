@@ -1268,6 +1268,9 @@ function clearMap() {
     dtmap.draw.dispose();
     dtmap.draw.clear();
     dtmap.vector.clear();
+    
+    // 교통분석 - 인구정보 레이어 제거
+    dtmap.layer.clear('li_popltn_info');
 
     $(".lnb-dep2").find(".on").removeClass("on");
 }
