@@ -1268,7 +1268,6 @@ function clearMap() {
     dtmap.draw.dispose();
     dtmap.draw.clear();
     dtmap.vector.clear();
-    dtmap.layer.clear();
 
     $(".lnb-dep2").find(".on").removeClass("on");
 }

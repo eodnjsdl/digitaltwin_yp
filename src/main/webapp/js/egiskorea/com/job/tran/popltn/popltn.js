@@ -79,6 +79,14 @@ function getAllPopulationInfo() {
     ui.loadingBar('show');
     setTimeout(() => {
 	let stdrYm = $('#pplBaseYYMM').val();
+	let liCode = $('#liCd').val().slice(0, 8);
+	let filter = "length(li_cd) = '8'";
+	let gender = $('#pplGender').val();
+	let options = {
+		cql : filter,
+		gender : gender
+	};
+	let viewType = 'legal';
 	$.ajax({
 	    data : {"stdrYm" : stdrYm},
 	    url : "/job/tran/popltn/selectAllPopulationInfoList.do",
@@ -90,7 +98,7 @@ function getAllPopulationInfo() {
 		let geom = data.geomCenter;
 		console.log(geom);
 		legalData(result);
-		getLayer();
+		getJenks(result, options, viewType);
 		setViewPoint(geom);
 	    }, error: function() {
 		toastr.error("정보를 불러오지 못하였습니다.");
@@ -249,24 +257,27 @@ function legalData(result) {
 	    let rate = '';
 	    // 총인구, 남자, 여자 분류
 	    if (dataType == 'all') {
-		legalListHml += "<td>" + result[i].allPopltnCnt + "</td>";
+		legalListHml += "<td>" + numberFormatter(result[i].allPopltnCnt) + "</td>";
 		rate = Math.round(result[i].allPopltnCnt / totalCount * 100);
 		} else if (dataType == 'm') {
-		    legalListHml += "<td>" + result[i].malePopltnCnt + "</td>";
+		    legalListHml += "<td>" + numberFormatter(result[i].malePopltnCnt) + "</td>";
 		    rate = Math.round(result[i].malePopltnCnt / totalCount * 100);
 		} else if (dataType == 'w') {
-		    legalListHml += "<td>" + result[i].femalePopltnCnt + "</td>";
+		    legalListHml += "<td>" + numberFormatter(result[i].femalePopltnCnt) + "</td>";
 		    rate = Math.round(result[i].femalePopltnCnt / totalCount * 100);
 		}
 	    legalListHml += "<td>" + rate + "%</td>";
 	    legalListHml += "</tr>";
 	    $("#pplInfoLegalList").html(legalListHml);
 	}
-	let totalCountFormat = new Intl.NumberFormat().format(totalCount);
-	$('.pplInfoLegalType #resultCnt').html("조회결과 : <strong>" + totalCountFormat + "</strong> 명")
+	$('.pplInfoLegalType #resultCnt').html("조회결과 : <strong>" + numberFormatter(totalCount) + "</strong> 명")
 	//차트 그리기
 	populationRenderChart(result);
 	
+	function numberFormatter(cnt) {
+	    let count = new Intl.NumberFormat().format(cnt);
+	    return count;
+	}
 }
 
 /**
@@ -318,7 +329,13 @@ function getJenks(data, options, viewType) {
     }
     let popltn = [];
     for (let i = 0; i < data.length; i++) {
-	popltn.push(data[i].allPopltnCnt);
+	if (options.gender == 'w') {
+	    popltn.push(data[i].femalePopltnCnt);
+	} else if (options.gender == 'm') {
+	    popltn.push(data[i].malePopltnCnt);
+	} else {
+	    popltn.push(data[i].allPopltnCnt);
+	}
     }
     let geo = new geostats(popltn);
     // '리'가 4개 이하일 때 5단계 구분 불가능
@@ -356,15 +373,12 @@ function setViewPoint(geom) {
     let geometry = geom.replace(/[POINT()]/gi, '').split(' ');
     geometry = [parseFloat(geometry[0]), parseFloat(geometry[1])];
     if(dtmap.mod == '2D'){
-	console.log("2D");
-	
 	//중심점 이동 및 zoom 설정
 	var options = {
 		zoom : 9	
 	}
-	
 	dtmap.setCenter(
-		[geometry[0]-13000, geometry[1]]
+		[geometry[0]-9000, geometry[1]+2000]
 		, options
 	);
 	
