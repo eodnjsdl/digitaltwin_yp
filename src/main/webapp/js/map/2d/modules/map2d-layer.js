@@ -98,6 +98,21 @@ map2d.layer = (function () {
 
     function createWMS(options) {
         const {id, title, layerNm} = options;
+        const wmsParams = {
+            VERSION: '1.1.1',
+            LAYERS: layerNm,
+        };
+
+        if (options.sld) {
+            wmsParams['SLD'] = options.sld;
+        }
+        if (options.sldBody) {
+            wmsParams['SLD_BODY'] = options.sldBody
+        }
+        if (options.cql) {
+            wmsParams['CQL_FILTER'] = options.cql;
+        }
+
         const layer = new ol.layer.Image({
             id: id,
             title: title,
@@ -105,13 +120,7 @@ map2d.layer = (function () {
             // extent: ol.proj.transformExtent(extent, bbox.crs.$, gis.map.Instance.getView().getProjection()),
             source: new ol.source.ImageWMS({
                 url: '/gis/wms',
-                params: {
-                    VERSION: '1.1.1',
-                    LAYERS: layerNm,
-                    SLD: options.sld,
-                    SLD_BODY: options.sldBody,
-                    CQL_FILTER: options.cql
-                },
+                params: wmsParams,
                 // projection: ol.proj.get(e.srs),
                 ratio: 1,
                 crossOrigin: 'anonymous',
