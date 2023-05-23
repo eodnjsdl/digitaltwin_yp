@@ -6,7 +6,8 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
 <style type="text/css">
-	
+
+	/* 닫기 버튼 개별 설정 */
 	.popup-panel.popup-sub .popup-close {
 	    top: 0;
 	    right: 0;
@@ -17,9 +18,17 @@
 	    border-top-right-radius: 10px;
 	}
 	
-	.data-default {
-	  max-height: 100%; /* 원하는 높이로 스크롤 설정 */
-	  overflow-y: auto;
+	/* 정류소 아이디 input 개별 설정 */
+	.work-03-01-detail > .popup-header input, .work-03-01-regist > .popup-header input {
+	    width: 120px;
+	    padding: 0 3%;
+	    margin-left: 10px;
+	    border: none;
+	    background-color: #e6e8ed;
+	    font-size: 15px;
+	    font-weight: 700;
+	    text-align: center;
+	    border-radius: 15px;
 	}
 
 </style>
@@ -107,7 +116,6 @@
 		//닫기
  		$("#cancelSelectBusSttn").on("click", function () {
 			cancelSelectBusSttn();
-			
     	});
 		
 	});
@@ -116,22 +124,15 @@
 	
 	//정류소경유노선 조회 취소
 	function cancelSelectBusSttn() {
-		alert('close');
 		
-		$(".popup-close").closest('.popup-panel').removeClass('work-03-01-detail');
-        // 초기화 (지도)
-        dtmap.draw.dispose();
-        dtmap.draw.clear();
-        
-        dtmap.vector.clearSelect();	//선택 해제
-       
-        TRFICANALS.Ax5UiGrid.clearSelect();	//그리드 선택 해제
+		$(".popup-close").closest('#rightSubPopup').removeClass('opened');	// 우측팝업 닫기
+        dtmap.vector.clearSelect();											//선택 해제
+        TRFICANALS.Ax5UiGrid.clearSelect();									//그리드 선택 해제
         
 	}
 	
 	// 버스 노선유형별 색상 지정
 	var busTypeElements = document.querySelectorAll('#busType');
-
 	busTypeElements.forEach(function(element) {
 	    var routeTyNm = element.textContent.trim();
 
