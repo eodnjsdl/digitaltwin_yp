@@ -22,13 +22,6 @@ import java.util.List;
 public interface PopulationInfoService {
 	
 	/**
-	 * 양평군 리 단위 인구수 목록 조회
-	 * @param poplulationVO
-	 * @return
-	 */
-	public List<PopulationVO> selectPopulationInfoList(PopulationVO populationVO);
-	
-	/**
 	 * 해당하는 면 정보 조회 (해당하는 면의 리 정보 조회)
 	 * @param poplulationVO
 	 * @return
@@ -49,13 +42,26 @@ public interface PopulationInfoService {
 	 */
 	public List<PopulationVO> selectAllPopulationInfoList(PopulationVO populationVO);
 	
-	
-	
 	/**
-	 * 양평군 전체 geom 및 데이터 조회
+	 * 레이어 중심점 좌표 조회
 	 * @param populationVO
 	 * @return
 	 */
-	public List<PopulationVO> selectAllPopulationInfoGeomList(PopulationVO populationVO);
+	public String selectPopulationCenter(PopulationVO populationVO);
 	
+	/****************** GRID ******************/
+	
+	/**
+	 * 검색 기준 년월 조회 - grid화면
+	 * @param populationVO
+	 * @return
+	 */
+	public List<String> selectGridStandardYmList(PopulationVO populationVO);
+	
+	/**
+	 * 해당하는 면 정보 조회 (해당하는 면의 리 정보 조회)
+	 * @param poplulationVO
+	 * @return
+	 */
+	public List<PopulationVO> selectGridMyeonPopulationInfoList(PopulationVO populationVO);
 }

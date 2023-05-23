@@ -1,33 +1,28 @@
 $(document).ready(function(){
-    $('#leftPopup').css({"left": "320px", "width": "300px", "height": "780px"});
+    $('#leftPopup').css({"left": "320px", "width": "400px", "height": "807px"});
     //검색 조건 세팅
     getCmmCodeData("YPE001", "#pplSearchForm select#liCd");	//읍면동
     
-    // 화면기본세팅 - 양평군 전체 인구 정보 조회
-    getAllPopulationInfo();
-    
-    // 검색 기준 년월 - 대상지역이 변경될 때마다 호출
-    getPplBaseYYMMList();
+    initPplLegal();
 		
     $("#pplShowType").on('change', function() {
 //	console.log("pplShowType>>"+this.value);
 	var showType = this.value;
 	if(showType == "legal"){
 	    if ($(".pplInfoLegalType").css("display") == "none") {
-		$(".pplInfoLegalType").show();
-		$('#leftPopup').css({"left": "320px", "width": "300px", "height": "780px"});
+		aj_selectPopulationInfoList();
 	    }
 	    $("#pplInfoGridType").hide();
-	    initPplLegal();
 	} else if (showType == "grid") {
 	    if($("#pplInfoGridType").css("display") == "none") {
 		$("#pplInfoGridType").show();
-		$('#leftPopup').css({"left": "320px", "width": "300px", "height": "750px"});
+//		$('#leftPopup').css({"left": "320px", "width": "300px", "height": "475px"});
+		toastr.error("수정중입니다.");
 		dtmap.layer.clear();
+		$('#pplBaseYYMM').empty();
+		getGridPplBaseYYMMList();
 	    }
 	$(".pplInfoLegalType").hide();
-	} else {
-	    toastr.error("인구정보 선택 오류");
 	}
     });
     
@@ -37,6 +32,8 @@ $(document).ready(function(){
 	if (area == 'all') {
 	    if (viewType == 'legal') {
 		getAllPopulationInfo();
+	    } else {
+		
 	    }
 	    
 	}
@@ -63,24 +60,43 @@ $(document).ready(function(){
 //functions
 
 /**
+ * 법정동경계 초기화 
+ * @returns
+ */
+function initPplLegal() {
+    dtmap.layer.clear();
+    getPplBaseYYMMList();
+    setTimeout(() => {
+	getAllPopulationInfo();
+    }, 200);
+}
+
+/**
  * 양평군 전체 인구 정보 조회
  * @returns
  */
 function getAllPopulationInfo() {
     ui.loadingBar('show');
-    $.ajax({
-	url : "/job/tran/popltn/selectAllPopulationInfoList.do",
-	type : 'post',
-	dataType: 'json',
-	success: function(data) {
-	    result = data.resultList;
-	    legalData(result);
-	    getLayer();
-	    ui.loadingBar('hide');
-	}, error: function() {
-	    toastr.error("정보를 불러오지 못하였습니다.");
-	}
-    });
+    setTimeout(() => {
+	let stdrYm = $('#pplBaseYYMM').val();
+	$.ajax({
+	    data : {"stdrYm" : stdrYm},
+	    url : "/job/tran/popltn/selectAllPopulationInfoList.do",
+	    type : 'post',
+	    dataType: 'json',
+	    async : true,
+	    success: function(data) {
+		let result = data.resultList;
+		let geom = data.geomCenter;
+		console.log(geom);
+		legalData(result);
+		getLayer();
+		setViewPoint(geom);
+	    }, error: function() {
+		toastr.error("정보를 불러오지 못하였습니다.");
+	    }
+	});
+    }, 200);
 }
 
 /**
@@ -102,22 +118,327 @@ function getPplBaseYYMMList() {
 	    toastr.error("정보를 불러오지 못하였습니다.");
 	}
     });
+}
+/**
+ * grid(격자)화면 - 기준 연월 세팅
+ * @returns
+ */
+function getGridPplBaseYYMMList() {
+    // data
+    let data = $("#pplSearchForm").serialize();
     
-    /**
-     * 기준 연월 기본 세팅
-     * @param result
-     * @returns
-     */
-    function setPplBaseYYMMList(result) {
+    $.ajax({
+	data: data,
+	url : "/job/tran/popltn/selectGridStandardYmList.do",
+	type : 'post',
+	dataType: 'json',
+	success: function(data) {
+	    result = data.resultList;
+	    console.log(result);
+	    setPplBaseYYMMList(result);
+	}, error: function() {
+	    toastr.error("정보를 불러오지 못하였습니다.");
+	}
+    });
+}
+
+/**
+ * 기준 연월 기본 세팅
+ * @param result
+ * @returns
+ */
+function setPplBaseYYMMList(result) {
 	for (let i = 0; i < result.length; i++) {
 	    let data = result[i];
 	    let dataFormat = data.substring(0, 4) + data.substring(5, 7);
 	    let addHtml = '<option value="' + dataFormat + '">' + data + '</option>';
 	    $('#pplBaseYYMM').append(addHtml);
 	}
-    }
 }
 	
+/**
+* 인구 정보 조회 및 차트 데이터 전달
+*/
+function selectPplInfoList() {
+    // ajax 전달 데이터
+    let data = $("#pplSearchForm").serialize();
+    let pplShowType = $("#pplShowType").val();
+    // 법정동 경계 데이터 ajax. pplShowType = legal
+    if (pplShowType == 'legal') {
+	ui.loadingBar('show');
+	// formdata에 리 옵션 값 'all' 일 때, 전체 조회
+	if (data.includes('liCd=all')) {
+	} else {
+	    // 레이어 호출 - cql 옵션 세팅
+	    let liCode = $('#liCd').val().slice(0, 8);
+	    let filter = "li_cd like " + "'" + liCode + "%'";
+	    let gender = $('#pplGender').val();
+	    let options = {
+		    cql : filter,
+		    gender : gender
+	    };
+	    let viewType = 'legal';
+	    $.ajax({
+		data: data,
+        	url : "/job/tran/popltn/selectMyeonPopulationInfoList.do",
+        	type : 'post',
+        	dataType: 'json',
+        	success: function(data) {
+        	    let result = data.resultList;
+        	    let geom = data.geomCenter;
+        	    console.log(geom);
+        	    // 데이터 세팅
+        	    legalData(result);
+        	    // 레이어 호출
+        	    getJenks(result, options, viewType);
+        	    setViewPoint(geom);
+        	}, error: function() {
+        	    toastr.error("정보를 불러오지 못하였습니다.");
+        	}
+	    });
+	}
+	// 격자 데이터 ajax. pplShowType = grid
+    } else {
+	ui.loadingBar('show');
+	let liCode = $('#liCd').val().slice(0, 8);
+	let filter = "li_cd like " + "'" + liCode + "%'";
+	let gender = $('#pplGender').val();
+	let options = {
+		cql : filter,
+		gender : gender
+	};
+	let viewType = 'grid';
+	$.ajax({
+		data: data,
+    	url : "/job/tran/popltn/selectGridMyeonPopulationInfoList.do",
+    	type : 'post',
+    	dataType: 'json',
+    	success: function(data) {
+    	    let result = data.resultList;
+    	    // 레이어 호출
+    	    getJenks(result, options, viewType);
+    	}, error: function() {
+    	    toastr.error("정보를 불러오지 못하였습니다.");
+    	}
+	    });
+    }
+}
+
+/**
+ * 법정동 경계 데이터 설정 
+ * @param result
+ * @returns
+ */
+function legalData(result) {
+	let totalCount = 0;
+	let legalListHml = "";
+	let dataType = $("#pplGender").val();
+	
+	for(let i = 0; i < result.length; i++) {
+	    if (dataType == 'all') {
+		totalCount += result[i].allPopltnCnt;
+	    } else if (dataType == 'm') {
+		totalCount += result[i].malePopltnCnt;
+	    } else if (dataType == 'w') {
+		totalCount += result[i].femalePopltnCnt;
+	    }
+	}
+	for(let i = 0; i < result.length; i++) {
+	    legalListHml += "<tr>";
+	    legalListHml += "<td>" + result[i].codeNm + "</td>";
+	    let rate = '';
+	    // 총인구, 남자, 여자 분류
+	    if (dataType == 'all') {
+		legalListHml += "<td>" + result[i].allPopltnCnt + "</td>";
+		rate = Math.round(result[i].allPopltnCnt / totalCount * 100);
+		} else if (dataType == 'm') {
+		    legalListHml += "<td>" + result[i].malePopltnCnt + "</td>";
+		    rate = Math.round(result[i].malePopltnCnt / totalCount * 100);
+		} else if (dataType == 'w') {
+		    legalListHml += "<td>" + result[i].femalePopltnCnt + "</td>";
+		    rate = Math.round(result[i].femalePopltnCnt / totalCount * 100);
+		}
+	    legalListHml += "<td>" + rate + "%</td>";
+	    legalListHml += "</tr>";
+	    $("#pplInfoLegalList").html(legalListHml);
+	}
+	let totalCountFormat = new Intl.NumberFormat().format(totalCount);
+	$('.pplInfoLegalType #resultCnt').html("조회결과 : <strong>" + totalCountFormat + "</strong> 명")
+	//차트 그리기
+	populationRenderChart(result);
+	
+}
+
+/**
+ * wms 레이어 호출
+ * @param options
+ * @returns
+ */
+function getLayer(options, viewType) {
+    dtmap.layer.clear();
+    let cql;
+    let sld;
+    if (options != undefined) {
+	cql = options.cql;
+	sld = options.sld;
+    }
+    let layerNm = 'digitaltwin:tgd_li_popltn_info';
+    if (viewType == 'legal' || viewType == '') {
+	layerNm = 'digitaltwin:tgd_li_popltn_info';
+    } else if (viewType == 'grid'){
+	layerNm = 'digitaltwin:tgd_grid_popltn_info';
+    }
+    let id = 'li_popltn_info';
+    let type = 'WMS'
+    let title = '인구정보'
+    let visible = true;
+    dtmap.showLayer({
+	id: id,
+	type: type,
+	layerNm: layerNm,
+	title: title,
+	visible: visible,
+	cql : cql,
+	sldBody : sld
+    });
+    ui.loadingBar('hide');
+}
+
+/**
+ * natural breaks 값 구하는 함수
+ * @param data
+ * @returns
+ */
+function getJenks(data, options, viewType) {
+    let propertyNm = 'all_popltn_cnt';
+    if (options.gender == 'w') {
+	propertyNm = 'female_popltn_cnt';
+    } else if (options.gender == 'm') {
+	propertyNm = 'male_popltn_cnt';
+    }
+    let popltn = [];
+    for (let i = 0; i < data.length; i++) {
+	popltn.push(data[i].allPopltnCnt);
+    }
+    let geo = new geostats(popltn);
+    // '리'가 4개 이하일 때 5단계 구분 불가능
+    if (popltn.length < 5) {
+	let jenks = geo.getClassJenks(popltn.length - 1);
+    } else {
+	let jenks = geo.getClassJenks(5);
+    }
+    
+    let low = [];
+    let high = [];
+    for (let i = 0; i < geo.ranges.length; i++) {
+	low.push(geo.ranges[i].split(' - ')[0]);
+	high.push(geo.ranges[i].split(' - ')[1]);
+    }
+    
+    let style = {
+	length : geo.ranges.length,
+	name : 'li_popltn_info',
+	range : {
+	    jenks : geo.ranges,
+	    low : low,
+	    high : high
+	},
+	value : propertyNm,
+	color : ['#f7fbff', '#c8dcf0', '#73b2d8', '#2979b9', '#08306b']
+    };
+    console.log(style);
+    let xmlString = setLegalStyle(style);
+    options.sld = xmlString;
+    getLayer(options, viewType);
+}
+
+function setViewPoint(geom) {
+    let geometry = geom.replace(/[POINT()]/gi, '').split(' ');
+    geometry = [parseFloat(geometry[0]), parseFloat(geometry[1])];
+    if(dtmap.mod == '2D'){
+	console.log("2D");
+	
+	//중심점 이동 및 zoom 설정
+	var options = {
+		zoom : 9	
+	}
+	
+	dtmap.setCenter(
+		[geometry[0]-13000, geometry[1]]
+		, options
+	);
+	
+    } else if (dtmap.mod == '3D') {
+	let tranPoint = ol.proj.transform(geometry, "EPSG:5179", "EPSG:4326");
+	let alt = parseFloat(66800);
+	tranPoint.push(alt);
+	console.log(tranPoint);
+	let centerVec = new Module.JSVector3D(tranPoint[0]-0.15, tranPoint[1], tranPoint[2]);
+	map3d.camera.move(centerVec, 90, 0, 800);
+    }
+}
+
+/**
+ * natural breaks 분류값 스타일 재설정 xml
+ * '면'단위 layer 호출 시
+ * @param style
+ * @returns
+ */
+function setLegalStyle(style) {
+    let range = style.range;
+    let color = style.color;
+    let xml = ``;
+    xml += `<?xml version="1.0" encoding="UTF-8"?>`;
+    xml += `<StyledLayerDescriptor xmlns:sld="http://www.opengis.net/sld" `;
+    xml += `xmlns:se="http://www.opengis.net/se" `;
+    xml += `xmlns:ogc="http://www.opengis.net/ogc" `;
+    xml += `xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" `;
+    xml += `xmlns:xlink="http://www.w3.org/1999/xlink" `;
+    xml += `xsi:schemaLocation="http://www.opengis.net/sld `;
+    xml += `http://schemas.opengis.net/sld/1.1.0/StyledLayerDescriptor.xsd" version="1.1.0">`;
+    xml += `<sld:NamedLayer>`;
+    xml += `<se:Name>tgd_li_popltn_info</se:Name>`;
+    xml += `<sld:UserStyle>`;
+    xml += `<se:Name>${style.name}</se:Name>`;
+    xml += `<se:FeatureTypeStyle>`;
+    for (let i = 0; i < style.length; i ++) {
+	xml += `<se:Rule>`;
+	xml += `<se:Name>${range['jenks'][i]}</se:Name>`;
+	xml += `<se:Description>`;
+	xml += `<se:Title>${range['jenks'][i]}</se:Title>`;
+	xml += `</se:Description>`;
+	xml += `<ogc:Filter xmlns:ogc="http://www.opengis.net/ogc">`;
+	xml += `<ogc:And>`;
+	xml += `<ogc:PropertyIsGreaterThanOrEqualTo>`;
+	xml += `<ogc:PropertyName>${style.value}</ogc:PropertyName>`;
+	xml += `<ogc:Literal>${range['low'][i]}</ogc:Literal>`;
+	xml += `</ogc:PropertyIsGreaterThanOrEqualTo>`;
+	xml += `<ogc:PropertyIsLessThanOrEqualTo>`;
+	xml += `<ogc:PropertyName>${style.value}</ogc:PropertyName>`;
+	xml += `<ogc:Literal>${range['high'][i]}</ogc:Literal>`;
+	xml += `</ogc:PropertyIsLessThanOrEqualTo>`;
+	xml += `</ogc:And>`;
+	xml += `</ogc:Filter>`;
+        xml += `<se:PolygonSymbolizer>`;
+        xml += `<se:Fill>`
+        xml += `<se:SvgParameter name="fill">${color[i]}</se:SvgParameter>`;
+        xml += `</se:Fill>`;
+        xml += `<se:Stroke>`;
+        xml += `<se:SvgParameter name="stroke">#232323</se:SvgParameter>`;
+        xml += `<se:SvgParameter name="stroke-width">1</se:SvgParameter>`
+        xml += `<se:SvgParameter name="stroke-linejoin">bevel</se:SvgParameter>`
+        xml += `</se:Stroke>`
+        xml += `</se:PolygonSymbolizer>`;
+        xml += `</se:Rule>`;
+    };
+    xml += `</se:FeatureTypeStyle>`;
+    xml += `</sld:UserStyle>`;
+    xml += `</sld:NamedLayer>`;
+    xml += `</StyledLayerDescriptor>`;
+    
+    return xml;
+}
+
 /**
 * 분석결과 차트 표시
 */
@@ -184,237 +505,6 @@ function populationRenderChart(result){
             ],
     });
 }
-	
-/**
-* 인구 정보 조회 및 차트 데이터 전달
-*/
-function selectPplInfoList() {
-    // ajax 전달 데이터
-    let data = $("#pplSearchForm").serialize();
-    let pplShowType = $("#pplShowType").val();
-    // 법정동 경계 데이터 ajax. pplShowType = legal
-    if (pplShowType == 'legal') {
-	ui.loadingBar('show');
-	// formdata에 리 옵션 값 'all' 일 때, 전체 조회
-	if (data.includes('liCd=all')) {
-	    getAllPopulationInfo();
-	} else {
-	    // 레이어 호출 - cql 옵션 세팅
-	    let liCode = $('#liCd').val().slice(0, 8);
-	    let filter = "li_cd like " + "'" + liCode + "%'";
-	    let gender = $('#pplGender').val();
-	    let options = {
-		    cql : filter,
-		    gender : gender
-	    };
-	    $.ajax({
-		data: data,
-        	url : "/job/tran/popltn/selectMyeonPopulationInfoList.do",
-        	type : 'post',
-        	dataType: 'json',
-        	success: function(data) {
-        	    let result = data.resultList;
-        	    // 데이터 세팅
-        	    legalData(result);
-        	    // 레이어 호출
-        	    getJenks(result, options);
-        	    ui.loadingBar('hide');
-        	}, error: function() {
-        	    toastr.error("정보를 불러오지 못하였습니다.");
-        	}
-	    });
-	}
-	// 격자 데이터 ajax. pplShowType = grid
-    } else {
-	toastr.error("미구현");
-	
-	
-    }
-}
-
-/**
- * 법정동 경계 데이터 설정 
- * @param result
- * @returns
- */
-function legalData(result) {
-	let totalCount = 0;
-	let legalListHml = "";
-	let dataType = $("#pplGender").val();
-	
-	for(let i = 0; i < result.length; i++) {
-	    if (dataType == 'all') {
-		totalCount += result[i].allPopltnCnt;
-	    } else if (dataType == 'm') {
-		totalCount += result[i].malePopltnCnt;
-	    } else if (dataType == 'w') {
-		totalCount += result[i].femalePopltnCnt;
-	    }
-	}
-	for(let i = 0; i < result.length; i++) {
-	    legalListHml += "<tr>";
-	    legalListHml += "<td>" + result[i].codeNm + "</td>";
-	    let rate = '';
-	    // 총인구, 남자, 여자 분류
-	    if (dataType == 'all') {
-		legalListHml += "<td>" + result[i].allPopltnCnt + "</td>";
-		rate = Math.round(result[i].allPopltnCnt / totalCount * 100);
-		} else if (dataType == 'm') {
-		    legalListHml += "<td>" + result[i].malePopltnCnt + "</td>";
-		    rate = Math.round(result[i].malePopltnCnt / totalCount * 100);
-		} else if (dataType == 'w') {
-		    legalListHml += "<td>" + result[i].femalePopltnCnt + "</td>";
-		    rate = Math.round(result[i].femalePopltnCnt / totalCount * 100);
-		}
-	    legalListHml += "<td>" + rate + "%</td>";
-	    legalListHml += "</tr>";
-	    $("#pplInfoLegalList").html(legalListHml);
-	}
-	let totalCountFormat = new Intl.NumberFormat().format(totalCount);
-	$('.pplInfoLegalType #resultCnt').html("조회결과 : <strong>" + totalCountFormat + "</strong> 명")
-	//차트 그리기
-	populationRenderChart(result);
-	
-}
-
-/**
- * wms 레이어 호출
- * @param options
- * @returns
- */
-function getLayer(options) {
-    dtmap.layer.clear();
-    let cql;
-    let sld;
-    if (options != undefined) {
-	cql = options.cql;
-	sld = options.sld;
-    }
-    const layerNm = 'digitaltwin:tgd_li_popltn_info';
-    let id = 'li_popltn_info';
-    let type = 'WMS'
-    let title = '인구정보'
-    let visible = true;
-    dtmap.showLayer({
-	id: id,
-	type: type,
-	layerNm: layerNm,
-	title: title,
-	visible: visible,
-	cql : cql,
-	sldBody : sld
-    });
-}
-
-/**
- * natural breaks 값 구하는 함수
- * @param data
- * @returns
- */
-function getJenks(data, options) {
-    let propertyNm = 'all_popltn_cnt';
-    if (options.gender == 'w') {
-	propertyNm = 'female_popltn_cnt';
-    } else if (options.gender == 'm') {
-	propertyNm = 'male_popltn_cnt';
-    }
-    let popltn = [];
-    for (let i = 0; i < data.length; i++) {
-	popltn.push(data[i].allPopltnCnt);
-    }
-    let geo = new geostats(popltn);
-    // '리'가 4개 이하일 때 5단계 구분 불가능
-    if (popltn.length < 5) {
-	let jenks = geo.getClassJenks(popltn.length - 1);
-    } else {
-	let jenks = geo.getClassJenks(5);
-    }
-    
-    let low = [];
-    let high = [];
-    for (let i = 0; i < geo.ranges.length; i++) {
-	low.push(geo.ranges[i].split(' - ')[0]);
-	high.push(geo.ranges[i].split(' - ')[1]);
-    }
-    
-    let style = {
-	length : geo.ranges.length,
-	name : 'li_popltn_info',
-	range : {
-	    jenks : geo.ranges,
-	    low : low,
-	    high : high
-	},
-	value : propertyNm,
-	color : ['#f7fbff', '#c8dcf0', '#73b2d8', '#2979b9', '#08306b']
-    };
-    let xmlString = styleTest(style);
-    options.sld = xmlString;
-    getLayer(options);
-}
-
-/**
- * natural breaks 분류값 스타일 재설정 xml
- * '면'단위 layer 호출 시
- * @param style
- * @returns
- */
-function styleTest(style) {
-    let range = style.range;
-    let color = style.color;
-    let xml = ``;
-    xml += `<?xml version="1.0" encoding="UTF-8"?>`;
-    xml += `<StyledLayerDescriptor xmlns:sld="http://www.opengis.net/sld" `;
-    xml += `xmlns:se="http://www.opengis.net/se" `;
-    xml += `xmlns:ogc="http://www.opengis.net/ogc" `;
-    xml += `xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" `;
-    xml += `xmlns:xlink="http://www.w3.org/1999/xlink" `;
-    xml += `xsi:schemaLocation="http://www.opengis.net/sld `;
-    xml += `http://schemas.opengis.net/sld/1.1.0/StyledLayerDescriptor.xsd" version="1.1.0">`;
-    xml += `<sld:NamedLayer>`;
-    xml += `<se:Name>tgd_li_popltn_info</se:Name>`;
-    xml += `<sld:UserStyle>`;
-    xml += `<se:Name>${style.name}</se:Name>`;
-    xml += `<se:FeatureTypeStyle>`;
-    for (let i = 0; i < style.length; i ++) {
-	xml += `<se:Rule>`;
-	xml += `<se:Name>${range['jenks'][i]}</se:Name>`;
-	xml += `<se:Description>`;
-	xml += `<se:Title>${range['jenks'][i]}</se:Title>`;
-	xml += `</se:Description>`;
-	xml += `<ogc:Filter xmlns:ogc="http://www.opengis.net/ogc">`;
-	xml += `<ogc:And>`;
-	xml += `<ogc:PropertyIsGreaterThanOrEqualTo>`;
-	xml += `<ogc:PropertyName>${style.value}</ogc:PropertyName>`;
-	xml += `<ogc:Literal>${range['low'][i]}</ogc:Literal>`;
-	xml += `</ogc:PropertyIsGreaterThanOrEqualTo>`;
-	xml += `<ogc:PropertyIsLessThanOrEqualTo>`;
-	xml += `<ogc:PropertyName>${style.value}</ogc:PropertyName>`;
-	xml += `<ogc:Literal>${range['high'][i]}</ogc:Literal>`;
-	xml += `</ogc:PropertyIsLessThanOrEqualTo>`;
-	xml += `</ogc:And>`;
-	xml += `</ogc:Filter>`;
-        xml += `<se:PolygonSymbolizer>`;
-        xml += `<se:Fill>`
-        xml += `<se:SvgParameter name="fill">${color[i]}</se:SvgParameter>`;
-        xml += `</se:Fill>`;
-        xml += `<se:Stroke>`;
-        xml += `<se:SvgParameter name="stroke">#232323</se:SvgParameter>`;
-        xml += `<se:SvgParameter name="stroke-width">1</se:SvgParameter>`
-        xml += `<se:SvgParameter name="stroke-linejoin">bevel</se:SvgParameter>`
-        xml += `</se:Stroke>`
-        xml += `</se:PolygonSymbolizer>`;
-        xml += `</se:Rule>`;
-    };
-    xml += `</se:FeatureTypeStyle>`;
-    xml += `</sld:UserStyle>`;
-    xml += `</sld:NamedLayer>`;
-    xml += `</StyledLayerDescriptor>`;
-    
-    return xml;
-}
-
-
 /*
 //================== db data =======================
 function getGeomData() {

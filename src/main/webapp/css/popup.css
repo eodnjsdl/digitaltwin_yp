@@ -1842,8 +1842,49 @@
 /*------------------------------------------------------------------------------
  * 교통분석 > 인구정보 > 격자
  *----------------------------------------------------------------------------*/
+.search-box table {
+    width: 100%;
+    table-layout: fixed;
+}
+
+.search-box .search-table {
+	border-collapse: inherit;
+    border-spacing: 0 5px;
+}
+ 
+.search-box .search-table th, .search-box .search-table td {
+ 	padding: 4px 5px;
+    font-weight: 400;
+    background-color: #E5E7EA;
+    text-align: center;
+}
+ 
+.search-box .search-table tbody th {
+	padding-left: 10px;
+	border-radius: 5px 0 0 5px;
+}
+
+.search-box .search-table tbody td {
+	border-radius: 0 5px 5px 0;
+}
+ 
+#resultCnt {
+    margin-bottom: 5px;
+    color: #44516A;
+	font-size: 13px;
+}
+
+#resultCnt strong {
+    color: #1C77FF;
+    font-size: 13px;
+}
+
+.bbs-list tbody td {
+	height: auto;
+}
 
 .regendLevel-type1 {
+	margin-top: 15px;
 	margin-bottom: 15px;
     width: 100%;
 }
