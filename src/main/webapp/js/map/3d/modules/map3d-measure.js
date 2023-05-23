@@ -146,7 +146,8 @@ map3d.measure = (function () {
     map3d.inherits(Area, Measure);
     Area.prototype.active = function () {
         Measure.prototype.active.call(this);
-        Module.XDSetMouseState(Module.MML_ANALYS_AREA);
+        Module.XDSetMouseState(Module.MML_ANALYS_AREA_PLANE);
+        Module.getOption().SetAreaMeasurePolygonDepthBuffer(false);
     }
     Area.prototype.createLayer = function () {
         let list = map3d.userLayers;
@@ -178,6 +179,7 @@ map3d.measure = (function () {
     }
     Area.prototype.dispose = function () {
         Measure.prototype.dispose.call(this);
+        Module.getOption().SetAreaMeasurePolygonDepthBuffer(true);
         this.poiLayer = undefined;
     }
     Area.prototype.format = function (value) {
