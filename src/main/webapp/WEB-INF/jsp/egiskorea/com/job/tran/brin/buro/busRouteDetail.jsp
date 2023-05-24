@@ -50,27 +50,10 @@ function cancelbusRouteDetail() {
 
 // 경유정류소 그리기
 function drawCrdnt(xCrdnt, yCrdnt, sttnNm) {
-	var x = parseFloat(xCrdnt);
-	var y = parseFloat(yCrdnt);
-
-	const styleOptions = {
-		label: {
-			text: sttnNm
-		},
-		marker: {
-			src: '/images/map/busSt_02_ico.png'
-		},
-		zIndex: 9999
-	};
-	
 	dtmap.vector.removeFeatureById('ol_uid');
 	
-	dtmap.vector.addPoint({
-		id: 'ol_uid',
-		coordinates: [x, y],
-		crs: 'EPSG:4326',
-		style: styleOptions
-	})
+	var x = parseFloat(xCrdnt);
+	var y = parseFloat(yCrdnt);
 	
 	// 중심점 이동 및 zoom 설정
 	var point = new ol.geom.Point([x, y]);
@@ -83,10 +66,27 @@ function drawCrdnt(xCrdnt, yCrdnt, sttnNm) {
 		dtmap.setCenter(tranPoint.getCoordinates(), options);
 	} else if (dtmap.mod == "3D") {
 		var center = point.flatCoordinates;
-		center.push(100);	// 고도 추가(zoom 역할)
+		center.push(parseFloat(500));	// 고도 추가(zoom 역할)
 		
 		dtmap.setCenter(center);
 	}
+	
+	const styleOptions = {
+		label: {
+			text: sttnNm
+		},
+		marker: {
+			src: '/images/map/busSt_02_ico.png'
+		},
+		zIndex: 9999
+	};
+	
+	dtmap.vector.addPoint({
+		id: 'ol_uid',
+		coordinates: [x, y],
+		crs: 'EPSG:4326',
+		style: styleOptions
+	})
 }
 </script>
 
@@ -103,20 +103,28 @@ function drawCrdnt(xCrdnt, yCrdnt, sttnNm) {
 					<div class="data-write">
 						<ul>
 							<li>
-								<label for="cdpntSttnNm">기점 정류소명</label>
-								<input type="text" id="cdpntSttnNm" value="${busRouteVO.cdpnt_sttn_nm}" readonly="readonly">
+								<label for="cdpntSttnNm">기점 정류소</label>
+								<input type="text" id="cdpntSttnNm" value="${busRouteVO.cdpnt_sttn_nm} (${busRouteVO.cdpnt_sttn_no})" readonly="readonly">
+								<div>
+									<small>첫차</small>
+									<span>${busRouteVO.cdpnt_fircar_time}</span>
+									<small>막차</small>
+									<span>${busRouteVO.cdpnt_ltcar_time}</span>
+								</div>
 							</li>
 							<li>
-								<label for="tmnlSttnNm">종점 정류소명</label>
-								<input type="text" id="tmnlSttnNm" value="${busRouteVO.tmnl_sttn_nm}" readonly="readonly">
+								<label for="tmnlSttnNm">종점 정류소</label>
+								<input type="text" id="tmnlSttnNm" value="${busRouteVO.tmnl_sttn_nm} (${busRouteVO.tmnl_sttn_no})" readonly="readonly">
+								<div>
+									<small>첫차</small>
+									<span>${busRouteVO.tmnl_fircar_time}</span>
+									<small>막차</small>
+									<span>${busRouteVO.tmnl_ltcar_time}</span>
+								</div>
 							</li>
 							<li>
-								<label for="cdpntSttnNo">기점 정류소 번호</label>
-								<input type="text" id="cdpntSttnNo" class="readNo" value="${busRouteVO.cdpnt_sttn_no}" readonly="readonly">
-							</li>
-							<li>
-								<label for="tmnlSttnNo">종점 정류소 번호</label>
-								<input type="text" id="tmnlSttnNo" class="readNo" value="${busRouteVO.tmnl_sttn_no}" readonly="readonly">
+								<label for="caralcTime">배차 시간</label>
+								<input type="text" id="caralcTime" value="${busRouteVO.mumm_caralc_time}분 ~ ${busRouteVO.mxmm_caralc_time}분" readonly="readonly">
 							</li>
 						</ul>
 					</div>
