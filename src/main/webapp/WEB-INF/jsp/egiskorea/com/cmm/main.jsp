@@ -653,7 +653,7 @@
                                     </li>
                                     <li>
                                         <button type="button" id="TransportationVulnerability" class="dataPopup"
-                                                data-popup="">대중교통 취약분석
+                                                data-popup="leftPopup">대중교통 취약분석
                                         </button>
                                     </li>
                                 </ul>

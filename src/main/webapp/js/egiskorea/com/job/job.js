@@ -1205,3 +1205,35 @@ function aj_selectPopulationInfoList() {
 		}
 	});
 }
+
+/**
+ * 대중교통 취약분석 목록 조회
+ * @returns
+ */
+function aj_selectTransportationVulnerabilityListView() {
+	
+	ui.loadingBar("show");
+	
+	$.ajax({
+		type : "POST",
+		url : "/job/tran/trva/selectTransportationVulnerabilityListView.do",
+		//data : formData,
+		dataType : "html",
+		processData : false,
+		contentType : false,
+		async: false,
+		success : function(returnData, status){
+			if(status == "success") {
+				$("#leftPopup").html(returnData);
+				$(".scroll-y").mCustomScrollbar({
+					scrollbarPosition:"outside"
+				});
+			}else{
+				toastr.error("관리자에게 문의 바랍니다.", "정보를 불러오지 못했습니다.");
+				return;
+			}
+		}, complete : function(){
+			ui.loadingBar("hide");
+		}
+	});
+}
