@@ -9,14 +9,15 @@ $(document).ready(function(){
 	var showType = this.value;
 	if(showType == "legal"){
 	    if ($(".pplInfoLegalType").css("display") == "none") {
-		dtmap.layer.removeLayer('li_popltn_info');
+		popltnLayerClear();
 		aj_selectPopulationInfoList();
 	    }
 	    $("#pplInfoGridType").hide();
 	} else if (showType == "grid") {
 	    if($("#pplInfoGridType").css("display") == "none") {
 		$("#pplInfoGridType").show();
-		dtmap.layer.removeLayer('li_popltn_info');
+		resetSelect();
+		popltnLayerClear();
 		$('#pplBaseYYMM').empty();
 		getGridPplBaseYYMMList();
 	    }
@@ -27,13 +28,12 @@ $(document).ready(function(){
     $('#pplInfoSearch').on('click', function () {
 	let area = $('select[name="liCd"]').val();
 	let viewType = $("#pplShowType").val();
+	// case : 대상 지역 '전체'
 	if (area == 'all') {
+	    // 읍면동
 	    if (viewType == 'legal') {
 		getAllPopulationInfo();
-	    } else {
-		
 	    }
-	    
 	}
 	selectPplInfoList();
     });
@@ -55,18 +55,30 @@ $(document).ready(function(){
     
     // 닫기 버튼
     $('#popltnCloseBtn').on('click', function () {
-	dtmap.layer.removeLayer('li_popltn_info');
+	popltnLayerClear();
     });
+    
+    function resetSelect() {
+	let selectVal = $('#liCd option:selected').val();
+	if (selectVal != 'all') {
+	    $('#liCd option:eq(0)').prop('selected', true);
+	}
+    }
 });
 	
 //functions
+
+function popltnLayerClear() {
+    dtmap.layer.removeLayer('li_popltn_info');
+    dtmap.layer.removeLayer('li_popltn_info_grid');
+}
 
 /**
  * 법정동경계 초기화 
  * @returns
  */
 function initPplLegal() {
-    dtmap.layer.removeLayer('li_popltn_info');
+    popltnLayerClear();
     getPplBaseYYMMList();
     setTimeout(() => {
 	getAllPopulationInfo();
@@ -143,7 +155,6 @@ function getGridPplBaseYYMMList() {
 	dataType: 'json',
 	success: function(data) {
 	    result = data.resultList;
-	    console.log(result);
 	    setPplBaseYYMMList(result);
 	}, error: function() {
 	    toastr.error("정보를 불러오지 못하였습니다.");
@@ -169,6 +180,7 @@ function setPplBaseYYMMList(result) {
 * 인구 정보 조회 및 차트 데이터 전달
 */
 function selectPplInfoList() {
+    popltnLayerClear();
     // ajax 전달 데이터
     let data = $("#pplSearchForm").serialize();
     let pplShowType = $("#pplShowType").val();
@@ -208,29 +220,52 @@ function selectPplInfoList() {
 	// 격자 데이터 ajax. pplShowType = grid
     } else {
 	ui.loadingBar('show');
-	let liCode = $('#liCd').val().slice(0, 8);
-	let filter = "li_cd like " + "'" + liCode + "%'";
-	let gender = $('#pplGender').val();
-	let options = {
-		cql : filter,
-		gender : gender
-	};
-	let viewType = 'grid';
-	$.ajax({
+	if (data.includes('liCd=all')) {
+	    // 전체조회
+	    let gender = $('#pplGender').val();
+	    let options = {
+		    all : true,
+		    gender : gender
+	    };
+	    let viewType = 'grid';
+	    $.ajax({
 		data: data,
-    	url : "/job/tran/popltn/selectGridMyeonPopulationInfoList.do",
-    	type : 'post',
-    	dataType: 'json',
-    	success: function(data) {
-    	    let result = data.resultList;
-    	    console.log(result);
-    	    console.log(options);
-    	    // 레이어 호출
-    	    getJenks(result, options, viewType);
-    	}, error: function() {
-    	    toastr.error("정보를 불러오지 못하였습니다.");
-    	}
+		url : "/job/tran/popltn/selectGridMyeonPopulationInfoList.do",
+		type : 'post',
+		dataType: 'json',
+		success: function(data) {
+		    let result = data.resultList;
+		    // 레이어 호출
+		    getLayer(options, viewType);
+		    gridData(result, options.all);
+		}, error: function() {
+		    toastr.error("정보를 불러오지 못하였습니다.");
+		}
 	    });
+	} else {
+	    let liCode = $('#liCd').val().slice(0, 8);
+	    let filter = "li_cd like " + "'" + liCode + "%'";
+	    let gender = $('#pplGender').val();
+	    let options = {
+		    cql : filter,
+		    gender : gender,
+		    all : false
+	    };
+	    let viewType = 'grid';
+	    $.ajax({
+		data: data,
+		url : "/job/tran/popltn/selectGridMyeonPopulationInfoList.do",
+		type : 'post',
+		dataType: 'json',
+		success: function(data) {
+		    let result = data.resultList;
+		    // 레이어 호출
+		    getJenks(result, options, viewType);
+		}, error: function() {
+		    toastr.error("정보를 불러오지 못하였습니다.");
+		}
+	    });
+	}
     }
 }
 
@@ -239,7 +274,7 @@ function selectPplInfoList() {
  * @param result
  * @returns
  */
-function legalData(result) {
+function legalData(result, viewType) {
 	let totalCount = 0;
 	let legalListHml = "";
 	let dataType = $("#pplGender").val();
@@ -283,12 +318,33 @@ function legalData(result) {
 }
 
 /**
+ * grid (격자) 데이터
+ * @returns
+ */
+function gridData(result, all) {
+    if (all) {
+	$('#lv01_2, #lv02_1').val('9.00');
+	$('#lv02_2, #lv03_1').val('73.00');
+	$('#lv03_2, #lv04_1').val('255.00');
+	$('#lv04_2, #lv05_1').val('693.00');
+	$('#lv05_2').val('1479.00');
+    } else if (!all) {
+	for (let i = 1; i < 6; i++) {
+	    for (let j = 1; j < 3; j++) {
+		let rangeDc = 'lv0' + i + '_' + j;
+		$('#pplInfoGridType #'+rangeDc).val(parseFloat(result[j - 1][i - 1]).toFixed(2));
+	    }
+	}
+    }
+}
+
+/**
  * wms 레이어 호출
  * @param options
  * @returns
  */
 function getLayer(options, viewType) {
-    dtmap.layer.removeLayer('li_popltn_info');
+    popltnLayerClear();
     let cql;
     let sld;
     if (options != undefined) {
@@ -323,7 +379,8 @@ function getLayer(options, viewType) {
 	    layerNm: layerNm,
 	    title: title,
 	    visible: visible,
-	    cql : cql
+	    cql : cql,
+	    sldBody : sld
 	});
     }
     ui.loadingBar('hide');
@@ -354,9 +411,9 @@ function getJenks(data, options, viewType) {
     let geo = new geostats(popltn);
     // '리'가 4개 이하일 때 5단계 구분 불가능
     if (popltn.length < 5) {
-	let jenks = geo.getClassJenks(popltn.length - 1);
+	let jenks = geo.getClassJenks2(popltn.length - 1);
     } else {
-	let jenks = geo.getClassJenks(5);
+	let jenks = geo.getClassJenks2(5);
     }
     
     let low = [];
@@ -365,24 +422,52 @@ function getJenks(data, options, viewType) {
 	low.push(geo.ranges[i].split(' - ')[0]);
 	high.push(geo.ranges[i].split(' - ')[1]);
     }
+    let color;
+    let layerNm;
+    let name;
+    
+    // grid에서 인구 수 0명과 구분을 위해0~XX명 인 지역 최소값 변경 처리
+    if (low[1] == '0') {
+	low[1] = '1';
+	geo.ranges[1] = geo.ranges[1].replace(/0/, '1');
+    }
+    
+    if (viewType == 'legal') {
+	layerNm = 'tgd_li_popltn_info';
+	name = 'li_popltn_info';
+	color = ['#f7fbff', '#c8dcf0', '#73b2d8', '#2979b9', '#08306b'];
+    } else if (viewType == 'grid'){
+	layerNm = 'tgd_grid_popltn_info';
+	name = 'li_popltn_info_grid';
+	color = ['#ffffff', '#ffbfbf', '#ff8080', '#ff4040', '#ff0000'];
+	
+	// 그리드 범위 데이터 표시 필요
+	let gridRange = [low, high];
+	gridData(gridRange, options.all);
+    }
     
     let style = {
+	layerNm : layerNm,
 	length : geo.ranges.length,
-	name : 'li_popltn_info',
+	name : name,
 	range : {
 	    jenks : geo.ranges,
 	    low : low,
 	    high : high
 	},
 	value : propertyNm,
-	color : ['#f7fbff', '#c8dcf0', '#73b2d8', '#2979b9', '#08306b']
+	color : color
     };
-    console.log(style);
     let xmlString = setLegalStyle(style);
     options.sld = xmlString;
     getLayer(options, viewType);
 }
 
+/**
+ * 카메라 이동
+ * @param geom
+ * @returns
+ */
 function setViewPoint(geom) {
     let geometry = geom.replace(/[POINT()]/gi, '').split(' ');
     geometry = [parseFloat(geometry[0]), parseFloat(geometry[1])];
@@ -400,6 +485,7 @@ function setViewPoint(geom) {
 	let tranPoint = ol.proj.transform(geometry, "EPSG:5179", "EPSG:4326");
 	let alt = parseFloat(66800);
 	tranPoint.push(alt);
+	// 카메라 이동
 	let centerVec = new Module.JSVector3D(tranPoint[0]-0.15, tranPoint[1], tranPoint[2]);
 	map3d.camera.move(centerVec, 90, 0, 800);
     }
@@ -424,7 +510,7 @@ function setLegalStyle(style) {
     xml += `xsi:schemaLocation="http://www.opengis.net/sld `;
     xml += `http://schemas.opengis.net/sld/1.1.0/StyledLayerDescriptor.xsd" version="1.1.0">`;
     xml += `<sld:NamedLayer>`;
-    xml += `<se:Name>tgd_li_popltn_info</se:Name>`;
+    xml += `<se:Name>${style.layerNm}</se:Name>`;
     xml += `<sld:UserStyle>`;
     xml += `<se:Name>${style.name}</se:Name>`;
     xml += `<se:FeatureTypeStyle>`;
@@ -449,10 +535,12 @@ function setLegalStyle(style) {
         xml += `<se:PolygonSymbolizer>`;
         xml += `<se:Fill>`
         xml += `<se:SvgParameter name="fill">${color[i]}</se:SvgParameter>`;
+        xml += `<se:SvgParameter name="fill-opacity">0.7</se:SvgParameter>`;
         xml += `</se:Fill>`;
         xml += `<se:Stroke>`;
         xml += `<se:SvgParameter name="stroke">#232323</se:SvgParameter>`;
         xml += `<se:SvgParameter name="stroke-width">1</se:SvgParameter>`
+        xml += `<se:SvgParameter name="stroke-opacity">0.7</se:SvgParameter>`
         xml += `<se:SvgParameter name="stroke-linejoin">bevel</se:SvgParameter>`
         xml += `</se:Stroke>`
         xml += `</se:PolygonSymbolizer>`;

@@ -131,7 +131,13 @@
 					 , male_popltn_cnt 
 					 , female_popltn_cnt  
 				  from tgd_grid_popltn_info tgpi 
-				 where li_cd like #{liCd} || '%'
+				 where 1 = 1
+				 <if test="liCd == 'all'">
+				   and li_cd like '41830%'
+				 </if>
+				 <if test="liCd != 'all'">
+				   and li_cd like #{liCd} || '%'
+				 </if>
 				   and stdr_ym = #{stdrYm}
 				 ) tgpi
 		 inner join comtccmmndetailcode c on (c.code = tgpi.li_cd and c.code_id = 'YPLI')
