@@ -13,31 +13,31 @@ $(document).ready(function(){
 	
 	if (busRouteTy == 13 || busRouteTy == 21 || busRouteTy == 22 || busRouteTy == 23) {
 		$('.work-03-01-regist > .popup-header label').addClass('greenBusNumb');
-		$('.work-03-01-regist > .popup-header input').addClass('greentxt');
+		$('.work-03-01-regist > .popup-header input').addClass('greenBusTxt');
 	} else if(busRouteTy == 12) {
 		$('.work-03-01-regist > .popup-header label').addClass('blueBusNumb');
-		$('.work-03-01-regist > .popup-header input').addClass('bluetxt');
+		$('.work-03-01-regist > .popup-header input').addClass('blueBusTxt');
 	} else if(busRouteTy == 11 || busRouteTy == 16) {
 		$('.work-03-01-regist > .popup-header label').addClass('redBusNumb');
-		$('.work-03-01-regist > .popup-header input').addClass('redtxt');
+		$('.work-03-01-regist > .popup-header input').addClass('redBusTxt');
 	} else if(busRouteTy == 15) {
 		$('.work-03-01-regist > .popup-header label').addClass('pinkBusNumb');
-		$('.work-03-01-regist > .popup-header input').addClass('pinktxt');
+		$('.work-03-01-regist > .popup-header input').addClass('pinkBusTxt');
 	} else if(busRouteTy == 30) {
 		$('.work-03-01-regist > .popup-header label').addClass('yellowBusNumb');
-		$('.work-03-01-regist > .popup-header input').addClass('yellowtxt');
+		$('.work-03-01-regist > .popup-header input').addClass('yellowBusTxt');
 	} else if(busRouteTy == 14) { // 광역급행형시내버스 -> 일반좌석버스로 설정
 		$('.work-03-01-regist > .popup-header label').addClass('blueBusNumb');
-		$('.work-03-01-regist > .popup-header input').addClass('bluetxt');
+		$('.work-03-01-regist > .popup-header input').addClass('blueBusTxt');
 	} else if(busRouteTy == 41 || busRouteTy == 42 || busRouteTy == 43) { // 시외버스 -> 따복버스로 설정
 		$('.work-03-01-regist > .popup-header label').addClass('pinkBusNumb');
-		$('.work-03-01-regist > .popup-header input').addClass('pinktxt');
+		$('.work-03-01-regist > .popup-header input').addClass('pinkBusTxt');
 	} else if(busRouteTy == 51 || busRouteTy == 52 || busRouteTy == 53) { // 공항버스 -> 굿모닝글자버스로 설정
 		$('.work-03-01-regist > .popup-header label').addClass('goodmBusNumb');
-		$('.work-03-01-regist > .popup-header input').addClass('goodmtxt');
+		$('.work-03-01-regist > .popup-header input').addClass('goodmBusTxt');
 	} else {
 		$('.work-03-01-regist > .popup-header label').addClass('nomalBusNumb');
-		$('.work-03-01-regist > .popup-header input').addClass('nomaltxt');
+		$('.work-03-01-regist > .popup-header input').addClass('nomalBusTxt');
 	}
 });
 
