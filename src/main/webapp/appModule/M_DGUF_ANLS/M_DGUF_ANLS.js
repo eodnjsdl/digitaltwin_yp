@@ -6,6 +6,8 @@ var M_DGUF_ANLS = {
      * 초기화
      */
     init() {
+	this.clear();
+	
 	this.GLOBAL.Transparency = Module.getTransparency();
 	this.GLOBAL.Map = Module.getMap();
 	this.GLOBAL.Transparency.setRadius(100.0);
@@ -49,6 +51,10 @@ var M_DGUF_ANLS = {
 	
 	// 입력점 클리어
 	this.GLOBAL.Map.clearInputPoint();
+    },
+    
+    clear() {
+	Module.XDEClearTransparecnyObject();
     }
 }
 
@@ -57,11 +63,24 @@ $(document).ready(function() {
      let mode = $(this).val(); 
      M_DGUF_ANLS.setMouseState(mode);
      if (mode != 'off') {
-	 Module.XDEClearTransparecnyObject();
+	 M_DGUF_ANLS.clear();
      }
    });
    
    $('#areaSetBtn').on('click', function() {
        M_DGUF_ANLS.createTransparency();
-   })
+   });
+   
+   //분석 popup 접기/펼치기
+   $(".small-popup .popup-toggle").each(function () {
+       $(this).click(function () {
+           $(this).parent().toggleClass("fold");
+
+           if ($(this).parent().hasClass("fold")) {
+               $(this).attr("title", "펼치기");
+           } else {
+               $(this).attr("title", "접기");
+           }
+       });
+   });
 });

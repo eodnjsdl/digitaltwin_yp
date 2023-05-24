@@ -1275,6 +1275,7 @@ function clearMap() {
     // 교통분석 - 인구정보 레이어 제거
     dtmap.layer.removeLayer('li_popltn_info');
     dtmap.layer.removeLayer('li_popltn_info_grid');
+    dtmap.layer.removeLayer('layer_trva_grid_area');
 
     $(".lnb-dep2").find(".on").removeClass("on");
 }
