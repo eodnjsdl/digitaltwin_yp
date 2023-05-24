@@ -43,15 +43,13 @@
 									</td>
 								</tr>
 								<tr>  
-									<th scope="row">정류소명</th>  
-									<td>    
-										<input type="text" name="sttn_nm" class="form-control" value="">    
+									<td colspan="2">    
+										<input type="text" name="sttn_nm" class="form-control" placeholder="정류소명">    
 									</td>
 								</tr>
 								<tr>  
-									<th scope="row">정류소번호</th>  
-									<td>    
-										<input type="number" step="1" name="sttn_no" class="form-control" value="">    
+									<td colspan="2">    
+										<input type="number" step="1" min="0" name="sttn_no" class="form-control" placeholder="&#32;정류소번호">    
 									</td>
 								</tr>
                             </tbody>
@@ -89,7 +87,7 @@
                                                               class="obj-sm04"></label></span>
 							</span>
                         </div>
-                        <div class="space-search-items">
+                        <div class="space-search-items space-trafficAnalysis-area" style="display:none;">
                         	경계로부터 
                         	<span class="form-group">
                         		<input type="text" class="form-control align-center area-trafficAnalysis-buffer" placeholder="0" value="0"><sub>m</sub>
@@ -126,8 +124,10 @@
 <button type="button" class="popup-close" title="닫기"></button>
 <button type="button" class="popup-reset" title="초기화"></button>
 <button type="button" class="popup-bottom-toggle" title="접기"></button>
-<!-- //업무 > 시설물 공통 -->
+
+<!-- 버스정류소 목록 화면 -->
 <script type="text/javascript">
+
 	//jqeury
 	$(document).ready(function(){
 		 
@@ -215,12 +215,11 @@
             if (type === 'extent') {
             	TRFICANALS.spaceSearchOption.bbox 	= dtmap.getExtent();
             } else {
-            	//console.log("모드>>>"+dtmap.mod);
             	if(dtmap.mod == "2D"){
             		if(dtmap.draw.source.getFeatures().length > 0){	//임시로 그려진 형태체크
             			TRFICANALS.spaceSearchOption.geometry = dtmap.draw.getGeometry();
                 	}else{
-                		alert("영역지정 안되었습니다");
+                		alert("영역이 지정되지 않았습니다.");
                 		return false;
                 	}
             	}else if(dtmap.mod == "3D"){		
@@ -273,13 +272,19 @@
                     break;
             }
             dtmap.draw.active({type: type, once: true})
-            //toastr.warning("that.searchDrawing(value);", "공간검색 사용자정의");
         });
 		
 
      	//경계로부터 버퍼 영역 지정
         $(".area-trafficAnalysis-buffer", "#bottomPopup").on("keyup", function (event) {
             dtmap.draw.setBuffer(Number(this.value));
+        });
+     	
+     	// 엔터키로 조회하기
+        $('#lSrchOptions').keypress(function(event) {
+	        if (event.which === 13) {
+	          $('.info-attribute-search').click();
+	        }
         });
 		
 	});
