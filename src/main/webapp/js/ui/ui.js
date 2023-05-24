@@ -585,7 +585,7 @@ window.ui = (function () {
             switch (name) {
                 // 행정자산 >  행정자산관리
                 case "AdministrativeAsset" :
-                    toastr.error("행정자산관리");
+                    aj_selectAdministAssetsMngList();
                     break;
                 // 행정자산 > 공유지관리
                 case "CoownedLand" :
@@ -594,7 +594,6 @@ window.ui = (function () {
                 // 행정자산 > 공유재산 실태조사
                 case "SurveyProperty" :
                     aj_selectPbprtAccdtList();
-                    toastr.success("공유재산 실태조사");
                     break;
             }
         });

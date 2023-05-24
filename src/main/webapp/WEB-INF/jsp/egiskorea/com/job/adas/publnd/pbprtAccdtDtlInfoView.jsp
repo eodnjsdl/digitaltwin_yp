@@ -15,7 +15,7 @@
  * @returns
  */
 function selectPbprtAccdtWrinvstg(publndNo) {
-	window.open('/job/publnd/selectPbprtAccdtWrinvstg.do?publndNo=' + publndNo, 'wrinvstg','width=1000, height=800');
+	window.open('/job/adas/publnd/selectPbprtAccdtWrinvstg.do?publndNo=' + publndNo, 'wrinvstg','width=1000, height=800');
 }
 
 $('.btn#satlitPhotoSave').on('click', function() {

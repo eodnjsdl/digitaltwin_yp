@@ -4,7 +4,7 @@
 * @since   : 2023.02.21
 * @version : 1.0
 ************************************/
-package egiskorea.com.job.publnd.service.impl;
+package egiskorea.com.job.adas.publnd.service.impl;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -36,9 +36,9 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import egiskorea.com.cmm.service.CmmnCdVO;
 import egiskorea.com.cmm.service.impl.CmmnDAO;
 import egiskorea.com.cmm.service.impl.ExcelView;
-import egiskorea.com.job.publnd.service.PbprtAccdtService;
-import egiskorea.com.job.publnd.service.PbprtAccdtVO;
-import egiskorea.com.job.publnd.service.PbprtAccdtWrinvstgVO;
+import egiskorea.com.job.adas.publnd.service.PbprtAccdtService;
+import egiskorea.com.job.adas.publnd.service.PbprtAccdtVO;
+import egiskorea.com.job.adas.publnd.service.PbprtAccdtWrinvstgVO;
 import egovframework.com.cmm.service.EgovFileMngService;
 import egovframework.com.cmm.service.EgovFileMngUtil;
 import egovframework.com.cmm.service.FileVO;
