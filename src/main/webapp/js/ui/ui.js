@@ -822,6 +822,12 @@ window.ui = (function () {
         });
         //그리기 초기화
         _initDrawEvent();
+        
+        // 공간정보 편집도구 닫기
+        if($(".space-edit-tool").hasClass("opened")){
+        	$(".space-edit-tool").removeClass("opened");
+        	$(".space-edit-tool").empty();
+        }
     }
 
     //그리기 초기화
