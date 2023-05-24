@@ -32,7 +32,7 @@
                         	<th scope="row">대상 지역</th>
                           	<td>
                                <select name="liCd" id="liCd" class="form-select w-auto" style="width: 100%;">
-                                   <option value="all" selected="selected">전체</option>
+                                   <option value="all">전체</option>
                                </select>
                            </td> 
                       	</tr>
@@ -104,31 +104,31 @@
 				<li>
 					<span class="rg lv01"></span>
 					<label>
-						<input type="text" value="0.00" readonly />-&nbsp;<input type="text" value="0.00" readonly />
+						<input id="lv01_1" type="text" value="0.00" readonly />-&nbsp;<input id="lv01_2" type="text" value="9.00" readonly />
 					</label>
 				</li>
 				<li>
 					<span class="rg lv02"></span>
 					<label>
-						<input type="text" value="0.00" readonly />-&nbsp;<input type="text" value="23.00" readonly />
+						<input id="lv02_1" type="text" value="9.00" readonly />-&nbsp;<input id="lv02_2" type="text" value="73.00" readonly />
 					</label>
 				</li>
 				<li>
 					<span class="rg lv03"></span>
 					<label>
-						<input type="text" value="23.00" readonly />-&nbsp;<input type="text" value="77.00" readonly />
+						<input id="lv03_1" type="text" value="73.00" readonly />-&nbsp;<input id="lv03_2" type="text" value="255.00" readonly />
 					</label>
 				</li>
 				<li>
 					<span class="rg lv04"></span>
 					<label>
-						<input type="text" value="77.00" readonly />-&nbsp;<input type="text" value="287.00" readonly />
+						<input id="lv04_1" type="text" value="255.00" readonly />-&nbsp;<input id="lv04_2" type="text" value="693.00" readonly />
 					</label>
 				</li>
 				<li>
 					<span class="rg lv05"></span>
 					<label>
-						<input type="text" value="287.00" readonly />-&nbsp;<input type="text" value="1479.00" readonly />
+						<input id="lv05_1" type="text" value="693.00" readonly />-&nbsp;<input id="lv05_2" type="text" value="1479.00" readonly />
 					</label>
 				</li>
 				
