@@ -207,7 +207,7 @@
      	
      	// 공간 검색 조회 버튼
         $(".trafficAnalysis-spatial-search", "#bottomPopup").on("click", function (e) {
-           	console.log("공간검색 조회");
+           	//console.log("공간검색 조회");
 			
            	const $parent = $(e.target).closest('.search-area');
             const type = $parent.find('input[name="rad-trafficAnalysis-area"]:checked').val();
