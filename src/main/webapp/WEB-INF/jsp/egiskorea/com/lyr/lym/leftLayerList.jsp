@@ -149,7 +149,8 @@
         });
 
         // 레이어관리 button event
-        $list.on('click', '.layer-mng', function () {
+        // $list.on('click', '.layer-mng', function () {
+        $(document).on('click', '#layerManagement', function (e) {
             $(this).addClass("active");
             ui.openPopup("leftPopup", "layerManagement");
             aj_selectLayerManagementList();
