@@ -1258,15 +1258,15 @@
 /*------------------------------------------------------------------------------
  * LNB > 교통분석 > 버스노선정보 --1-1 버스노선 정보 팝업
  *----------------------------------------------------------------------------*/
-.work-03-01-regist .nomaltxt{color: #44516A;} /*공통색상*/
-.work-03-01-regist .greentxt{color: #33CC99;} /*시내일반*/
-.work-03-01-regist .bluetxt{color: #0068b7;} /*일반좌석*/
-.work-03-01-regist .redtxt{color: #e60012;} /*직행좌석,간선급행,경기순환*/
-.work-03-01-regist .goodBustxt{color: #ffd700;} /*굿모닝급행버스*/
-.work-03-01-regist .goodmBustxt{color: #1e90ff;} /*굿모닝글자*/
-.work-03-01-regist .pinkBustxt{color: #bb2266;} /*따복버스*/
-.work-03-01-regist .premBustxt{color: #a88870;} /*프리미엄버스*/
-.work-03-01-regist .yellowBustxt{color: #ffc600;} /*마을버스*/
+.work-03-01-regist .nomalBusTxt{color: #44516A;} /*공통색상*/
+.work-03-01-regist .greenBusTxt{color: #33CC99;} /*시내일반*/
+.work-03-01-regist .blueBusTxt{color: #0068b7;} /*일반좌석*/
+.work-03-01-regist .redBusTxt{color: #e60012;} /*직행좌석,간선급행,경기순환*/
+.work-03-01-regist .goodBusTxt{color: #ffd700;} /*굿모닝급행버스*/
+.work-03-01-regist .goodmBusTxt{color: #1e90ff;} /*굿모닝글자*/
+.work-03-01-regist .pinkBusTxt{color: #bb2266;} /*따복버스*/
+.work-03-01-regist .premBusTxt{color: #a88870;} /*프리미엄버스*/
+.work-03-01-regist .yellowBusTxt{color: #ffc600;} /*마을버스*/
 
 .work-03-01-regist .popup-header > label{
 	color:#fff;
