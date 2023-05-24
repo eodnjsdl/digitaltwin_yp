@@ -25,32 +25,38 @@ map3d.layer.Point = (function () {
         const style = options.style || {};
         const lon = coordinates[0];
         const lat = coordinates[1];
-
-        const object = Module.createPoint(id);
-        // z값 구해서 넣기
         const alt = Module.getMap().getTerrHeightFast(Number(lon), Number(lat));
-        object.setPosition(new Module.JSVector3D(lon, lat, alt));
-        // 수직 라인 설정
-        if (style.offsetHeight) {
-            object.setPositionLine(style.offsetHeight, new Module.JSColor(255, 255, 255));
-        }
+        const position = new Module.JSVector3D(lon, lat, alt);
 
-        if (style.marker) {
-            // 이미지 형태
-            drawMarker(id, style, object);
-        } else if (style.text) {
-            //텍스트
-            drawText(id, style, object);
-        } else if (style.fill || style.stroke) {
-            // 원형
-            drawVector(id, style, object);
-        }
+        const image = options.style?.marker?.src;
+        let object;
+        if (image && image.endsWith('.gif')) {
+            object = createDivObject(id, position, options.style.marker);
+        } else {
+            object = Module.createPoint(id);
+            object.setPosition(position);
+            // 수직 라인 설정
+            if (style.offsetHeight) {
+                object.setPositionLine(style.offsetHeight, new Module.JSColor(255, 255, 255));
+            }
 
-        // 텍스트 설정
-        if (style.label) {
-            drawLabel(id, style, object);
-        }
+            if (style.marker) {
+                // 이미지 형태
+                drawMarker(id, style, object);
+            } else if (style.text) {
+                //텍스트
+                drawText(id, style, object);
+            } else if (style.fill || style.stroke) {
+                // 원형
+                drawVector(id, style, object);
+            }
 
+            // 텍스트 설정
+            if (style.label) {
+                drawLabel(id, style, object);
+            }
+
+        }
 
         this.setProperties(object, options.properties);
         return object;
@@ -112,6 +118,8 @@ map3d.layer.Point = (function () {
     }
 
     function drawMarker(id, style, object) {
+
+
         const symbol = Module.getSymbol();
         const icon = symbol.getIcon(id);
         if (icon) {
@@ -427,6 +435,38 @@ map3d.layer.Point = (function () {
         canvas.width = trimWidth;
         canvas.height = trimHeight;
         ctx.putImageData(trimmed, 10, 10);
+    }
+
+    /**
+     * HTML 오브젝트
+     */
+    function createDivObject(id, position, marker) {
+        let element = document.createElement("img");
+        element.id = id.replaceAll('.', '_');
+        element.src = marker.src;
+        element.onload = function () {
+            const width = this.width * (marker.scale || 1);
+            const height = this.height * (marker.scale || 1);
+            this.width = width;
+            this.height = height;
+        }
+
+        let parameter = {
+            position: position,	// 위치 지점
+            container: "gif_container",	// div를 담을 Container 명칭 지정(명칭에 해당되는 div가 없다면 createHTMLObject 작업중 생성)
+            canvas: map3d.canvas,	// 화면 사이즈 설정을 위한 canvas 설정
+            element: element,	// 엔진 오브젝트와 연동할 HTML Element
+            verticalAlign: "bottom",	// 수직 정렬 (top, middle, bottom, px 지원 )	|| 태그 미 설정 시 [Default top]
+            horizontalAlign: "center",	// 수평 정렬 (left, center, right, px 지원 )	|| 태그 미 설정 시 [Default left]
+        };
+
+        let object = Module.createHTMLObject(id.replaceAll('.', '_'));
+        let complet = object.createbyJson(parameter);
+        if (complet.result === 1) {
+            // element 태그에 해당되는 HTML Element에 문자열 출력
+            // element 태그에 해당되는 HTML Element에 HTML에서 제공하는 onclick 이벤트 연동
+        }
+        return object;
     }
 
 

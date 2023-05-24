@@ -270,7 +270,37 @@ map2d.vector = (function () {
         } else if (geom instanceof ol.geom.Point || geom instanceof ol.geom.MultiPoint) {
             if (styleOpt.marker && styleOpt.marker.src) {
                 //마커
-            	style.setImage(markerStyle(_.merge({}, DEFAULT_MARKER, styleOpt.marker), selected));
+                const opt = _.merge({}, DEFAULT_MARKER, styleOpt.marker);
+                // if (styleOpt.marker.src.endsWith('.gif')) {
+                //     if (!feature.get('_gif')) {
+                //
+                //         const gif = gifler(styleOpt.marker.src);
+                //         gif.frames(
+                //             document.createElement('canvas'),
+                //             function (ctx, frame) {
+                //                 style.setImage(new ol.style.Icon({
+                //                     img: ctx.canvas,
+                //                     imgSize: [frame.width * opt.scale, frame.height * opt.scale],
+                //                     opacity: opt.opacity,
+                //                     anchor: opt.anchor,
+                //                     width: opt.width,
+                //                     height: opt.height,
+                //                     color: selected ? SELECTED_COLOR : undefined
+                //                 }));
+                //                 feature.setStyle(style);
+                //
+                //                 ctx.clearRect(0, 0, frame.width, frame.height);
+                //                 ctx.drawImage(frame.buffer, frame.x, frame.y);
+                //                 map2d.map.render();
+                //             },
+                //             true
+                //         );
+                //         feature.set('_gif', gif);
+                //     }
+                // } else {
+
+                    style.setImage(markerStyle(opt, selected));
+                // }
             } else if (styleOpt.text) {
                 style.setText(textStyle(_.merge({}, DEFAULT_LABEL, styleOpt.text)));
             } else {
