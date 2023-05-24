@@ -143,4 +143,18 @@
 		 inner join comtccmmndetailcode c on (c.code = tgpi.li_cd and c.code_id = 'YPLI')
 </select>
 
+<!-- 레이어 중심점 좌표 조회 -->
+<select id="selectGridPopulationCenter" resultType="String">
+		select st_astext(st_centroid(st_union(geom))) as geom
+		  from tgd_grid_popltn_info
+		 where 1=1
+		   and stdr_ym = #{stdrYm}
+		<if test="liCd == 'all'">
+		   and li_cd like '4183025%'
+		</if>
+		<if test="liCd != 'all'">
+		   and li_cd like concat(substring(#{liCd},1,8),'%')
+		</if>
+</select>
+
 </mapper>

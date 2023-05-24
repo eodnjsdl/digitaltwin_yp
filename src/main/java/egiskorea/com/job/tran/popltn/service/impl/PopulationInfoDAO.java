@@ -52,4 +52,8 @@ public class PopulationInfoDAO extends ComAbstractDAO {
 	public List<PopulationVO> selectGridMyeonPopulationInfoList(PopulationVO populationVO) {
 		return selectList("population.selectGridMyeonPopulationInfoList", populationVO);
 	}
+	
+	public String selectGridPopulationCenter(PopulationVO populationVO) {
+		return selectOne("population.selectGridPopulationCenter", populationVO);
+	}
 }

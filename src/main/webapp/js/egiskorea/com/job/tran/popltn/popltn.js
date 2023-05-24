@@ -235,9 +235,11 @@ function selectPplInfoList() {
 		dataType: 'json',
 		success: function(data) {
 		    let result = data.resultList;
+		    let geom = data.geomCenter;
 		    // 레이어 호출
 		    getLayer(options, viewType);
 		    gridData(result, options.all);
+		    setViewPoint(geom);
 		}, error: function() {
 		    toastr.error("정보를 불러오지 못하였습니다.");
 		}
@@ -259,8 +261,10 @@ function selectPplInfoList() {
 		dataType: 'json',
 		success: function(data) {
 		    let result = data.resultList;
+		    let geom = data.geomCenter;
 		    // 레이어 호출
 		    getJenks(result, options, viewType);
+		    setViewPoint(geom);
 		}, error: function() {
 		    toastr.error("정보를 불러오지 못하였습니다.");
 		}
@@ -482,12 +486,17 @@ function setViewPoint(geom) {
 	);
 	
     } else if (dtmap.mod == '3D') {
-	let tranPoint = ol.proj.transform(geometry, "EPSG:5179", "EPSG:4326");
+	let transPoint = ol.proj.transform(geometry, "EPSG:5179", "EPSG:4326");
 	let alt = parseFloat(66800);
-	tranPoint.push(alt);
-	// 카메라 이동
-	let centerVec = new Module.JSVector3D(tranPoint[0]-0.15, tranPoint[1], tranPoint[2]);
-	map3d.camera.move(centerVec, 90, 0, 800);
+	transPoint.push(alt);
+	let options = {
+		tilt : 90,
+		dis : 800
+	}
+	dtmap.setCenter(transPoint, options);
+//	// 카메라 이동
+//	let centerVec = new Module.JSVector3D(tranPoint[0]-0.15, tranPoint[1], tranPoint[2]);
+//	map3d.camera.move(centerVec, 90, 0, 800);
     }
 }
 

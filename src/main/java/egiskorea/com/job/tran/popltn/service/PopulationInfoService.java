@@ -64,4 +64,11 @@ public interface PopulationInfoService {
 	 * @return
 	 */
 	public List<PopulationVO> selectGridMyeonPopulationInfoList(PopulationVO populationVO);
+	
+	/**
+	 * 레이어 중심점 좌표 조회
+	 * @param populationVO
+	 * @return
+	 */
+	public String selectGridPopulationCenter(PopulationVO populationVO);
 }

@@ -154,10 +154,13 @@ public class PopulationInfoController {
 			PopulationVO populationVO) throws Exception {
 		ModelAndView mav = new ModelAndView("jsonView");
 		List<PopulationVO> list = null;
+		String geom = "";
 		
 		list = populationInfoService.selectGridMyeonPopulationInfoList(populationVO);
+		geom = populationInfoService.selectGridPopulationCenter(populationVO);
 		
 		mav.addObject("resultList", list);
+		mav.addObject("geomCenter", geom);
 		
 		return mav;
 	}

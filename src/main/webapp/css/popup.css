@@ -1258,15 +1258,15 @@
 /*------------------------------------------------------------------------------
  * LNB > 교통분석 > 버스노선정보 --1-1 버스노선 정보 팝업
  *----------------------------------------------------------------------------*/
-.work-03-01-regist .nomaltxt{color: #44516A;} /*공통색상*/
-.work-03-01-regist .greentxt{color: #33CC99;} /*시내일반*/
-.work-03-01-regist .bluetxt{color: #0068b7;} /*일반좌석*/
-.work-03-01-regist .redtxt{color: #e60012;} /*직행좌석,간선급행,경기순환*/
-.work-03-01-regist .goodBustxt{color: #ffd700;} /*굿모닝급행버스*/
-.work-03-01-regist .goodmBustxt{color: #1e90ff;} /*굿모닝글자*/
-.work-03-01-regist .pinkBustxt{color: #bb2266;} /*따복버스*/
-.work-03-01-regist .premBustxt{color: #a88870;} /*프리미엄버스*/
-.work-03-01-regist .yellowBustxt{color: #ffc600;} /*마을버스*/
+.work-03-01-regist .nomalBusTxt{color: #44516A;} /*공통색상*/
+.work-03-01-regist .greenBusTxt{color: #33CC99;} /*시내일반*/
+.work-03-01-regist .blueBusTxt{color: #0068b7;} /*일반좌석*/
+.work-03-01-regist .redBusTxt{color: #e60012;} /*직행좌석,간선급행,경기순환*/
+.work-03-01-regist .goodBusTxt{color: #ffd700;} /*굿모닝급행버스*/
+.work-03-01-regist .goodmBusTxt{color: #1e90ff;} /*굿모닝글자*/
+.work-03-01-regist .pinkBusTxt{color: #bb2266;} /*따복버스*/
+.work-03-01-regist .premBusTxt{color: #a88870;} /*프리미엄버스*/
+.work-03-01-regist .yellowBusTxt{color: #ffc600;} /*마을버스*/
 
 .work-03-01-regist .popup-header > label{
 	color:#fff;
@@ -1334,10 +1334,10 @@
 .work-03-01-regist .popup-body .sub-popup-body .data-write-wrap .bus .data-write:nth-child(1){
 	width: 95%;
 	height: 350px;
-	padding: 20px 15px;
+	padding: 35px 15px;
 	margin-top: 5px;
 	margin-left: 10px;
-	margin-right: 3px;
+	margin-right: 15px;
 	background-color: #f3f4f5;
 	border: 1px solid #8895ad;
 	border-radius: 20px;
@@ -1351,21 +1351,29 @@
 	font-size: 13px;
 	font-weight: 500;
 	line-height: 30px;
-	height: 30px;
 }
 .work-03-01-regist .popup-body .sub-popup-body .data-write-wrap .bus .data-write:nth-child(1) ul li input{
-	display: block;
 	border: none;
-	background-color: #fff;
-	line-height: 33px;
+	background-color: #ffffff;
 	border-radius: 5px;
-	padding: 0 5%;
-	font-weight: 500;
-	width: 100%;
-}
-.work-03-01-regist .popup-body .sub-popup-body .data-write-wrap .bus .data-write:nth-child(1) ul li .readNo{
 	color: #666666;
 	font-weight: 300;
+	line-height: 25px;
+	width: 100%;
+	padding-left: 10px;
+}
+.work-03-01-regist .popup-body .sub-popup-body .data-write-wrap .bus .data-write:nth-child(1) ul li div{
+	cursor: default;
+	margin: 10px 0px;
+}
+.work-03-01-regist .popup-body .sub-popup-body .data-write-wrap .bus .data-write:nth-child(1) ul li div small{
+	background-color: #C5C9D6;
+	padding: 0px 5px;
+	border-radius: 5px;
+	margin-left: 5px;
+}
+.work-03-01-regist .popup-body .sub-popup-body .data-write-wrap .bus .data-write:nth-child(1) ul li div span{
+	margin: 0px 15px 0px 3px;
 }
 .work-03-01-regist .popup-body .sub-popup-body .data-write-wrap .scroll-y{
 	width: 260px;
@@ -2199,4 +2207,16 @@
 
 .regendLevel-type1 ol li span.rg.lv05 {
     background-color: #ff3030;
+}
+
+/*------------------------------------------------------------------------------
+ * LNB > 분석 > 지하시설물터파기
+ *----------------------------------------------------------------------------*/
+
+.type-group {
+	padding: 10px;
+}
+
+.type-group input {
+	margin: 0 4px;
 }
