@@ -123,4 +123,16 @@ public class PopulationInfoServiceImpl extends EgovAbstractServiceImpl implement
 		return list;
 	}
 
+	@Override
+	public String selectGridPopulationCenter(PopulationVO populationVO) {
+		String geom = "";
+		String liCd = populationVO.getLiCd();
+		if (liCd == null) {
+			populationVO.setLiCd("all");
+		}
+		geom = populationInfoDAO.selectPopulationCenter(populationVO);
+		
+		return geom;
+	}
+	
 }
