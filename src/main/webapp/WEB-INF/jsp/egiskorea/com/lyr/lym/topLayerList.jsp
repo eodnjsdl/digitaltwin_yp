@@ -296,6 +296,7 @@
                 const ulTag = '<ul class="riCheckBox" title="' + key + '"' + (i !== 0 ? 'style="display:none;"' : '') + '></ul>'
                 const $ul = $(ulTag)
                 $(v).append($ul);
+                $(v).css({display: "block"});
                 if (liList) {
                     for (let j = 0; j < liList.length; j++) {
                         const li = liList[j];
