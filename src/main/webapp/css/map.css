@@ -883,3 +883,6 @@ html, body {
 .context .c07:hover::before {background-image: url(/images/map/context-icon07-on.png);}
 .context .c08:hover::before {background-image: url(/images/map/context-icon08-on.png);}
 
+#gif_container{
+	z-index: 0!important;
+}
