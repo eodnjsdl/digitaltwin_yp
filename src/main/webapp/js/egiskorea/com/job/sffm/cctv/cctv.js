@@ -13,11 +13,11 @@ $(document.body).ready(function(){
 	setData();
 	dtmap.off('select');
 	dtmap.on('select',spaceClickListener );
-	
+
 })
 
 function getCode(value, type){
-	
+
 	$.ajax({
 		url:"/job/cctv/getCode.do",
 		type: "POST",
@@ -26,14 +26,14 @@ function getCode(value, type){
 		success:function(result) {
 			var data = result.resultList;
 			var html = '';
-			
+
 			for(i=0; i<data.length; i++) {
 				html += '<option value='+ data[i].codeNm +'>'+ data[i].codeNm +'</option>';
 			}
 			$("#cctv-"+type+"-selbox").append(html);
 		}
 	});
-	
+
 }
 
 //cctv 관리 기본그리드 생성
@@ -74,7 +74,7 @@ function initGrid(){
 
 
 function setData(_pageNo){
-	
+
 	var options = {
 		typeNames: 'tgd_cctv_status_new', //WFS 레이어명
 		page : (_pageNo||0)+1,
@@ -93,7 +93,7 @@ function setData(_pageNo){
 		if(gbn.trim().length >=1){cqlList.push("gbn like "+gbn+" ");}
 		if(deviceid.trim().length >=1){cqlList.push("deviceid like "+deviceid+" ");}
 		if(label.trim().length >=1){cqlList.push("label like "+label+" ");}
-	
+
 		options.filter = cqlList;
 
 	}else if(SEARCHOBJ.spaceSearch != null){//공간검색
@@ -106,7 +106,7 @@ function setData(_pageNo){
         	options.geometry = SEARCHOBJ.spaceSearch.geometry;
         }
 	}
-	
+
 	//조회
 	var gridList = this;
 	const promise = dtmap.wfsGetFeature(options);
@@ -118,7 +118,7 @@ function setData(_pageNo){
 		for(i =0;i<data.features.length;i++){
 			const {id, properties} = data.features[i];
 			 list.push({...properties, ...{id: id}});
-		 } 
+		 }
 
 		 gridList.target.setData({
 			list : list,
@@ -137,7 +137,7 @@ function setData(_pageNo){
 		let properties = feature.getProperties();
 		    return {
 		        marker: {
-		            src: '/images/poi/cctv_poi.png'
+					src: '/images/poi/cctv_poi.png'
 		            },
 		            label: {
 		                text: properties.deviceid
@@ -180,16 +180,16 @@ function fn_insert(){
 //cctv관리 상세페이지 호출
 function fn_pageDetail(gid){
 
-	dtmap.vector.clearSelect() 
+	dtmap.vector.clearSelect()
 	dtmap.vector.select('tgd_cctv_status_new.'+gid);
 
 	ui.openPopup("rightSubPopup");
-	
+
 	var formData = new FormData();
 	if(gid != ''){
 		formData.append('gid', gid);
 	}
-	
+
 	$.ajax({
 		type : "POST",
 		url : "/job/cctv/selectCctv.do",
@@ -199,28 +199,28 @@ function fn_pageDetail(gid){
 		contentType : false,
 		async: false,
 		success : function(returnData, status){
-			if(status == "success") {		
+			if(status == "success") {
 				$("#rightSubPopup").append(returnData);
 						//그리드에 행전체 선택되게 수정
 				var gridGid = gid;
 				var gridList = window.target.list;
-			
+
 				for(var i=0; i<gridList.length; i++){
 					//console.log(gridList[i]);
 					var grid = gridList[i];
 					if(gridGid == grid.gid){
 						var dindex = grid.__index;
 						window.target.clearSelect();
-						window.target.focus(dindex);		
+						window.target.focus(dindex);
 						//[참고 사항]
 						//FACILITY.Ax5UiGrid.focus(-1); 	: 포커스 해제
 						//FACILITY.Ax5UiGrid.select(숫자); 	: 사용해도 되는데 스크롤 이동이 안됨
 					}
 				}
-			}else{ 
+			}else{
 				toastr.error("관리자에게 문의 바랍니다.", "정보를 불러오지 못했습니다.");
 				return;
-			} 
+			}
 		}
 	});
 }
@@ -234,7 +234,7 @@ function fn_update(gid){
 	if(gid != ''){
 		formData.append('gid', gid);
 	}
-	
+
 	$.ajax({
 		type : "POST",
 		url : "/job/cctv/updateSafetyFacilCctvMngView.do",
@@ -244,16 +244,16 @@ function fn_update(gid){
 		contentType : false,
 		async: false,
 		success : function(returnData, status){
-			if(status == "success") {		
+			if(status == "success") {
 				$("#rightSubPopup").append(returnData);
-				
-			}else{ 
+
+			}else{
 				toastr.error("관리자에게 문의 바랍니다.", "정보를 불러오지 못했습니다.");
 				return;
-			} 
+			}
 		},error : function (request,status,error){
 			console.log("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
-		} 
+		}
 	});
 }
 
@@ -273,7 +273,7 @@ function fn_search_List(){
 		SEARCHOBJ.spaceSearch = {};
 		const $parent = $('#bottomPopup').find('.search-area')
 		const type = $parent.find('input[name="cctvSelect"]:checked').val();
-		
+
 		if (type === 'extent') {
 			SEARCHOBJ.spaceSearch.bbox = dtmap.getExtent();
 
@@ -296,9 +296,9 @@ function fn_search_List(){
 //cctv 엑셀다운로드 버튼
 $("#cctvExcelDownload").on("click", function(){
 	var $container = $("#container");
-    var $target = $container.find('[data-ax5grid="attr-grid-excel"]');	//가상의 ax5uigrid 공간에 처리 
+    var $target = $container.find('[data-ax5grid="attr-grid-excel"]');	//가상의 ax5uigrid 공간에 처리
     // $target.css('display', 'none');
-    
+
 	this.gridAll = new ax5.ui.grid();
 	this.gridAll.setConfig({
 		target:  $target,
@@ -358,7 +358,7 @@ $("#cctvExcelDownload").on("click", function(){
 		sortBy : 'gid',
 		sortOrder : 'DESC',
 	}
-	
+
 	//검색 옵션
 	if(SEARCHOBJ.propertySearch != null){//속성검색
 		var gbn = SEARCHOBJ.propertySearch.searchGbn;
@@ -369,7 +369,7 @@ $("#cctvExcelDownload").on("click", function(){
 		if(gbn.trim().length >=1){cqlList.push("gbn like "+gbn+" ");}
 		if(deviceid.trim().length >=1){cqlList.push("deviceid like "+deviceid+" ");}
 		if(label.trim().length >=1){cqlList.push("label like "+label+" ");}
-	
+
 		options.filter = cqlList;
 
 	}else if(SEARCHOBJ.spaceSearch != null){//공간검색
@@ -382,9 +382,9 @@ $("#cctvExcelDownload").on("click", function(){
         	options.geometry = SEARCHOBJ.spaceSearch.geometry;
         }
 	}
-	
+
 	// 엑셀파일 날짜_시간
-	var today = new Date(); 
+	var today = new Date();
 	let year = dateNum(today.getFullYear());		// 년도
 	let month = dateNum(today.getMonth() + 1, 2);	// 월
 	let date = dateNum(today.getDate(), 2);			// 날짜
@@ -401,17 +401,17 @@ $("#cctvExcelDownload").on("click", function(){
 		for (let i = 0; i < data.features.length; i++) {
         	// 좌표 처리
 			data.features[i].properties.geomObj = data.features[i].geometry;
-			
+
 			// GEOMETRY 처리
 			data.features[i].properties.geomText = data.features[i].geometry.type + ' (' + data.features[i].geometry.coordinates[0] + ' ' + data.features[i].geometry.coordinates[1] + ')';
-			
+
         	const {id, properties} = data.features[i];
 			list.push({...properties, ...{id: id}});
 		}
-		
+
 		// gird 적용
         gridList.gridAll.setData(list);
-        
+
         //엑셀 export
 		gridList.gridAll.exportExcel("cctv관리" + todayDate + ".xls");
 	});
