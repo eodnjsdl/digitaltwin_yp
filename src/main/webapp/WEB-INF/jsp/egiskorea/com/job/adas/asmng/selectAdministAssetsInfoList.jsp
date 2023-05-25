@@ -19,7 +19,7 @@
 		<!-- //검색영역 -->
 		<div class="items data-area">
 			<div class="bbs-top">
-				<div class="bbs-list-num">조회결과 : <strong><c:out value="15"/></strong>건</div>
+				<div class="bbs-list-num">조회결과 : <strong><c:out value="0"/></strong>건</div>
 				<div class="bbs-top-side">
 					<select id="year" class="form-select">
 						<option value="allYear">전체</option>

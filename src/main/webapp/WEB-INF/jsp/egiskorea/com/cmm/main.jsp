@@ -220,8 +220,6 @@
     <script src="/js/egiskorea/com/job/tran/brin/busRouteInfo.js"></script>				  <!-- {버스노선정보  공통} -->
     <!-- ////////////////////////////  -->
 	
-	<!-- 행정자산 -->
-	<script src="/js/egiskorea/com/job/adas/asmng/asmng.js"></script>
     <!-- 분석 -->
     <script src="/js/egiskorea/com/anls/anls.js"></script>
 
