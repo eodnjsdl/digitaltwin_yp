@@ -4,7 +4,7 @@ $(document).ready(function(){
     getCmmCodeData("YPE001", "#pplSearchForm select#liCd");	//읍면동
     
     initPplLegal();
-		
+    
     $("#pplShowType").on('change', function() {
 	var showType = this.value;
 	if(showType == "legal"){
@@ -21,7 +21,7 @@ $(document).ready(function(){
 		$('#pplBaseYYMM').empty();
 		getGridPplBaseYYMMList();
 	    }
-	$(".pplInfoLegalType").hide();
+	    $(".pplInfoLegalType").hide();
 	}
     });
     
@@ -41,11 +41,11 @@ $(document).ready(function(){
     // 대상지역이 변경될 때마다 호출
     $('#liCd').on('change', function () {
 	$('#pplBaseYYMM').empty();
-	 if($("#pplInfoGridType").css("display") == "none") {
-	     getPplBaseYYMMList();
-	 } else {
-	     getGridPplBaseYYMMList();
-	 }
+	if($("#pplInfoGridType").css("display") == "none") {
+	    getPplBaseYYMMList();
+	} else {
+	    getGridPplBaseYYMMList();
+	}
     });
     
     // 초기화 버튼
@@ -65,7 +65,7 @@ $(document).ready(function(){
 	}
     }
 });
-	
+
 //functions
 
 function popltnLayerClear() {
@@ -117,8 +117,8 @@ function getAllPopulationInfo() {
 }
 
 /**
-* 기준 연월 기본 세팅 로드 및 세팅 함수 연결
-*/
+ * 기준 연월 기본 세팅 로드 및 세팅 함수 연결
+ */
 function getPplBaseYYMMList() {
     // data
     let data = $("#pplSearchForm").serialize();
@@ -164,17 +164,17 @@ function getGridPplBaseYYMMList() {
  * @returns
  */
 function setPplBaseYYMMList(result) {
-	for (let i = 0; i < result.length; i++) {
-	    let data = result[i];
-	    let dataFormat = data.substring(0, 4) + data.substring(6, 8);
-	    let addHtml = '<option value="' + dataFormat + '">' + data + '</option>';
-	    $('#pplBaseYYMM').append(addHtml);
-	}
+    for (let i = 0; i < result.length; i++) {
+	let data = result[i];
+	let dataFormat = data.substring(0, 4) + data.substring(6, 8);
+	let addHtml = '<option value="' + dataFormat + '">' + data + '</option>';
+	$('#pplBaseYYMM').append(addHtml);
+    }
 }
-	
+
 /**
-* 인구 정보 조회 및 차트 데이터 전달
-*/
+ * 인구 정보 조회 및 차트 데이터 전달
+ */
 function selectPplInfoList() {
     popltnLayerClear();
     // ajax 전달 데이터
@@ -197,20 +197,20 @@ function selectPplInfoList() {
 	    let viewType = 'legal';
 	    $.ajax({
 		data: data,
-        	url : "/job/tran/popltn/selectMyeonPopulationInfoList.do",
-        	type : 'post',
-        	dataType: 'json',
-        	success: function(data) {
-        	    let result = data.resultList;
-        	    let geom = data.geomCenter;
-        	    // 데이터 세팅
-        	    legalData(result);
-        	    // 레이어 호출
-        	    getJenks(result, options, viewType);
-        	    setViewPoint(geom);
-        	}, error: function() {
-        	    toastr.error("정보를 불러오지 못하였습니다.");
-        	}
+		url : "/job/tran/popltn/selectMyeonPopulationInfoList.do",
+		type : 'post',
+		dataType: 'json',
+		success: function(data) {
+		    let result = data.resultList;
+		    let geom = data.geomCenter;
+		    // 데이터 세팅
+		    legalData(result);
+		    // 레이어 호출
+		    getJenks(result, options, viewType);
+		    setViewPoint(geom);
+		}, error: function() {
+		    toastr.error("정보를 불러오지 못하였습니다.");
+		}
 	    });
 	}
 	// 격자 데이터 ajax. pplShowType = grid
@@ -275,46 +275,46 @@ function selectPplInfoList() {
  * @returns
  */
 function legalData(result, viewType) {
-	let totalCount = 0;
-	let legalListHml = "";
-	let dataType = $("#pplGender").val();
-	
-	for(let i = 0; i < result.length; i++) {
-	    if (dataType == 'all') {
-		totalCount += result[i].allPopltnCnt;
-	    } else if (dataType == 'm') {
-		totalCount += result[i].malePopltnCnt;
-	    } else if (dataType == 'w') {
-		totalCount += result[i].femalePopltnCnt;
-	    }
+    let totalCount = 0;
+    let legalListHml = "";
+    let dataType = $("#pplGender").val();
+    
+    for(let i = 0; i < result.length; i++) {
+	if (dataType == 'all') {
+	    totalCount += result[i].allPopltnCnt;
+	} else if (dataType == 'm') {
+	    totalCount += result[i].malePopltnCnt;
+	} else if (dataType == 'w') {
+	    totalCount += result[i].femalePopltnCnt;
 	}
-	for(let i = 0; i < result.length; i++) {
-	    legalListHml += "<tr>";
-	    legalListHml += "<td>" + result[i].codeNm + "</td>";
-	    let rate = '';
-	    // 총인구, 남자, 여자 분류
-	    if (dataType == 'all') {
-		legalListHml += "<td>" + numberFormatter(result[i].allPopltnCnt) + "</td>";
-		rate = Math.round(result[i].allPopltnCnt / totalCount * 100);
-		} else if (dataType == 'm') {
-		    legalListHml += "<td>" + numberFormatter(result[i].malePopltnCnt) + "</td>";
-		    rate = Math.round(result[i].malePopltnCnt / totalCount * 100);
-		} else if (dataType == 'w') {
-		    legalListHml += "<td>" + numberFormatter(result[i].femalePopltnCnt) + "</td>";
-		    rate = Math.round(result[i].femalePopltnCnt / totalCount * 100);
-		}
-	    legalListHml += "<td>" + rate + "%</td>";
-	    legalListHml += "</tr>";
-	    $("#pplInfoLegalList").html(legalListHml);
+    }
+    for(let i = 0; i < result.length; i++) {
+	legalListHml += "<tr>";
+	legalListHml += "<td>" + result[i].codeNm + "</td>";
+	let rate = '';
+	// 총인구, 남자, 여자 분류
+	if (dataType == 'all') {
+	    legalListHml += "<td>" + numberFormatter(result[i].allPopltnCnt) + "</td>";
+	    rate = Math.round(result[i].allPopltnCnt / totalCount * 100);
+	} else if (dataType == 'm') {
+	    legalListHml += "<td>" + numberFormatter(result[i].malePopltnCnt) + "</td>";
+	    rate = Math.round(result[i].malePopltnCnt / totalCount * 100);
+	} else if (dataType == 'w') {
+	    legalListHml += "<td>" + numberFormatter(result[i].femalePopltnCnt) + "</td>";
+	    rate = Math.round(result[i].femalePopltnCnt / totalCount * 100);
 	}
-	$('.pplInfoLegalType #resultCnt').html("조회결과 : <strong>" + numberFormatter(totalCount) + "</strong> 명")
-	//차트 그리기
-	populationRenderChart(result);
-	
-	function numberFormatter(cnt) {
-	    let count = new Intl.NumberFormat().format(cnt);
-	    return count;
-	}
+	legalListHml += "<td>" + rate + "%</td>";
+	legalListHml += "</tr>";
+	$("#pplInfoLegalList").html(legalListHml);
+    }
+    $('.pplInfoLegalType #resultCnt').html("조회결과 : <strong>" + numberFormatter(totalCount) + "</strong> 명")
+    //차트 그리기
+    populationRenderChart(result);
+    
+    function numberFormatter(cnt) {
+	let count = new Intl.NumberFormat().format(cnt);
+	return count;
+    }
 }
 
 /**
@@ -360,8 +360,8 @@ function getLayer(options, viewType) {
 	id = 'li_popltn_info_grid';
     }
     let type = 'WMS'
-    let title = '인구정보'
-    let visible = true;
+	let title = '인구정보'
+	    let visible = true;
     if (viewType == 'legal') {
 	dtmap.showLayer({
 	    id: id,
@@ -447,16 +447,16 @@ function getJenks(data, options, viewType) {
     }
     
     let style = {
-	layerNm : layerNm,
-	length : geo.ranges.length,
-	name : name,
-	range : {
-	    jenks : geo.ranges,
-	    low : low,
-	    high : high
-	},
-	value : propertyNm,
-	color : color
+	    layerNm : layerNm,
+	    length : geo.ranges.length,
+	    name : name,
+	    range : {
+		jenks : geo.ranges,
+		low : low,
+		high : high
+	    },
+	    value : propertyNm,
+	    color : color
     };
     let xmlString = setLegalStyle(style);
     options.sld = xmlString;
@@ -537,19 +537,19 @@ function setLegalStyle(style) {
 	xml += `</ogc:PropertyIsLessThanOrEqualTo>`;
 	xml += `</ogc:And>`;
 	xml += `</ogc:Filter>`;
-        xml += `<se:PolygonSymbolizer>`;
-        xml += `<se:Fill>`
-        xml += `<se:SvgParameter name="fill">${color[i]}</se:SvgParameter>`;
-        xml += `<se:SvgParameter name="fill-opacity">0.7</se:SvgParameter>`;
-        xml += `</se:Fill>`;
-        xml += `<se:Stroke>`;
-        xml += `<se:SvgParameter name="stroke">#232323</se:SvgParameter>`;
-        xml += `<se:SvgParameter name="stroke-width">1</se:SvgParameter>`
-        xml += `<se:SvgParameter name="stroke-opacity">0.7</se:SvgParameter>`
-        xml += `<se:SvgParameter name="stroke-linejoin">bevel</se:SvgParameter>`
-        xml += `</se:Stroke>`
-        xml += `</se:PolygonSymbolizer>`;
-        xml += `</se:Rule>`;
+	xml += `<se:PolygonSymbolizer>`;
+	xml += `<se:Fill>`
+	    xml += `<se:SvgParameter name="fill">${color[i]}</se:SvgParameter>`;
+	xml += `<se:SvgParameter name="fill-opacity">0.7</se:SvgParameter>`;
+	xml += `</se:Fill>`;
+	xml += `<se:Stroke>`;
+	xml += `<se:SvgParameter name="stroke">#232323</se:SvgParameter>`;
+	xml += `<se:SvgParameter name="stroke-width">1</se:SvgParameter>`
+	    xml += `<se:SvgParameter name="stroke-opacity">0.7</se:SvgParameter>`
+		xml += `<se:SvgParameter name="stroke-linejoin">bevel</se:SvgParameter>`
+		    xml += `</se:Stroke>`
+			xml += `</se:PolygonSymbolizer>`;
+	xml += `</se:Rule>`;
     };
     xml += `</se:FeatureTypeStyle>`;
     xml += `</sld:UserStyle>`;
@@ -560,69 +560,69 @@ function setLegalStyle(style) {
 }
 
 /**
-* 분석결과 차트 표시
-*/
+ * 분석결과 차트 표시
+ */
 function populationRenderChart(result){
     // 캔버스 처리
     const canvas = $(`<canvas class="analysis-chart2" width="370" height="220"></canvas>`);
     $(".graph-box2", this.selector).html(canvas);
     const ctx = canvas[0].getContext("2d");
-       
+    
     // 데이터 세팅
     var labels 	= [];
     var data 	= [];
-        
+    
     if(result){
 	for(var i=0; i<result.length; i++){
 	    labels.push(result[i].codeNm);
 	    data.push(result[i].allPopltnCnt);
-        }
+	}
     } else {
 	console.log("그래프 데이터 오류");
-       	return false;
+	return false;
     }
     
     //차트 그리기
     const datasets = [
-        {
-            data: data,
-            borderColor: "rgba(0, 0, 255, 1)",
-            backgroundColor: "rgba(0, 0, 255, 0.5)",
-        },
-    ];
+	{
+	    data: data,
+	    borderColor: "rgba(0, 0, 255, 1)",
+	    backgroundColor: "rgba(0, 0, 255, 0.5)",
+	},
+	];
     new Chart(ctx, {
-        type: "bar",
-        data: {labels, datasets},
-        options: {
-            responsive: true,
-            plugins: {
-                legend: {
-                    display: false,
-                },
-                tooltip: {
-                    callbacks: {
-                        label: (context) => {
-                            let label = "";
-                                label += `\r\n`+context.raw+`명`;
-                                return label;
-                        },
-                    },
-                },
-            },
-        },
-        plugins: [
-            {
-        	id: "custom_canvas_background_color",
-        	beforeDraw: (chart) => {
-                const ctx = chart.canvas.getContext("2d");
-                ctx.save();
-                ctx.globalCompositeOperation = "destination-over";
-                ctx.fillStyle = "white";
-                ctx.fillRect(0, 0, chart.width, chart.height);
-                ctx.restore();
-        	},
-            },
-            ],
+	type: "bar",
+	data: {labels, datasets},
+	options: {
+	    responsive: true,
+	    plugins: {
+		legend: {
+		    display: false,
+		},
+		tooltip: {
+		    callbacks: {
+			label: (context) => {
+			    let label = "";
+			    label += `\r\n`+context.raw+`명`;
+			    return label;
+			},
+		    },
+		},
+	    },
+	},
+	plugins: [
+	    {
+		id: "custom_canvas_background_color",
+		beforeDraw: (chart) => {
+		    const ctx = chart.canvas.getContext("2d");
+		    ctx.save();
+		    ctx.globalCompositeOperation = "destination-over";
+		    ctx.fillStyle = "white";
+		    ctx.fillRect(0, 0, chart.width, chart.height);
+		    ctx.restore();
+		},
+	    },
+	    ],
     });
 }
 /*
