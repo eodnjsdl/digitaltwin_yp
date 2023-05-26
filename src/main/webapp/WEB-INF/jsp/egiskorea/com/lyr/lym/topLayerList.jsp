@@ -204,9 +204,15 @@
                     console.warn("3D지도에서만 사용 가능합니다.");
                     toastr.warning("3D지도에서만 사용 가능합니다.");
                 }
-
-                if (type === 'TDS' || type === 'Facility') {
+                const layerTitle = $("label[for='" + id + "']").html();
+                if (type === 'TDS') {
                     showFacility(id, visible);
+                } else if (layerTitle === "가로등") {
+                    if (visible === true) {
+                        loadLamp();
+                    } else {
+                        layerList.delLayerAtName("SL251");
+                    }
                 } else {
                     dtmap.showLayer({
                         id: id,
@@ -296,6 +302,7 @@
                 const ulTag = '<ul class="riCheckBox" title="' + key + '"' + (i !== 0 ? 'style="display:none;"' : '') + '></ul>'
                 const $ul = $(ulTag)
                 $(v).append($ul);
+                $(v).css({display: "block"});
                 if (liList) {
                     for (let j = 0; j < liList.length; j++) {
                         const li = liList[j];

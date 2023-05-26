@@ -84,6 +84,7 @@
     <script src="/js/map/lib/html2canvas/html2canvas.min.js"></script>
     <script src="/js/map/lib/eventEmitter/EventEmitter.min.js"></script>
     <script src="/js/map/lib/rbush/rbush.min.js"></script>
+    <script src="/js/map/lib/gifler/gifler.min.js"></script>
 
     <!-- DTMAP -->
     <script src="/js/map/dtmap.js"></script>
