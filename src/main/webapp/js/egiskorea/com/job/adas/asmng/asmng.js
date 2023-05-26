@@ -88,7 +88,6 @@ function dragAndDropEvent() {
     $('#clickUpload').on('click', function() {
 	$('#fileUploadClick').trigger('click');
     });
-    
 }
 
 /**

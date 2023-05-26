@@ -80,9 +80,7 @@ function popltnLayerClear() {
 function initPplLegal() {
     popltnLayerClear();
     getPplBaseYYMMList();
-    setTimeout(() => {
-	getAllPopulationInfo();
-    }, 200);
+    getAllPopulationInfo();
 }
 
 /**
@@ -91,33 +89,32 @@ function initPplLegal() {
  */
 function getAllPopulationInfo() {
     ui.loadingBar('show');
-    setTimeout(() => {
-	let stdrYm = $('#pplBaseYYMM').val();
-	let liCode = $('#liCd').val().slice(0, 8);
-	let filter = "length(li_cd) = '8'";
-	let gender = $('#pplGender').val();
-	let options = {
-		cql : filter,
-		gender : gender
-	};
-	let viewType = 'legal';
-	$.ajax({
-	    data : {"stdrYm" : stdrYm},
-	    url : "/job/tran/popltn/selectAllPopulationInfoList.do",
-	    type : 'post',
-	    dataType: 'json',
-	    async : true,
-	    success: function(data) {
-		let result = data.resultList;
-		let geom = data.geomCenter;
-		legalData(result);
-		getJenks(result, options, viewType);
-		setViewPoint(geom);
-	    }, error: function() {
-		toastr.error("정보를 불러오지 못하였습니다.");
-	    }
-	});
-    }, 200);
+    let stdrYm = $('#pplBaseYYMM').val();
+    let liCode = $('#liCd').val().slice(0, 8);
+    let filter = "length(li_cd) = '8'";
+    let gender = $('#pplGender').val();
+    let options = {
+	    cql : filter,
+	    gender : gender
+    };
+    let viewType = 'legal';
+    $.ajax({
+	data : {"stdrYm" : stdrYm},
+	url : "/job/tran/popltn/selectAllPopulationInfoList.do",
+	type : 'post',
+	dataType: 'json',
+	async : true,
+	success: function(data) {
+	    let result = data.resultList;
+	    let geom = data.geomCenter;
+	    console.log(data);
+	    legalData(result);
+	    getJenks(result, options, viewType);
+	    setViewPoint(geom);
+	}, error: function() {
+	    toastr.error("정보를 불러오지 못하였습니다.");
+	}
+    });
 }
 
 /**

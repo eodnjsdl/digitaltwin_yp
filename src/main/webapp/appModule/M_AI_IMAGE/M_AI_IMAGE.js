@@ -404,7 +404,6 @@ var M_AI_IMAGE = {
             var formData = new FormData();
             formData.append("file", imgFile);
             formData.append("return_type", "json");
-//            formData.append("detect_type", detect_type);
 
             // ai분석 url - 일반, 고도화
             var aiUrl = ["http://203.228.54.47/detectai", "http://49.247.20.149:5002/detectai"];
@@ -416,6 +415,9 @@ var M_AI_IMAGE = {
             size = {width : Module.canvas.width, height : Module.canvas.height};
             formData.append("coordinate", coordinate);
             formData.append("size", size);
+
+            // 격자 효과
+            gridCanvasEffect();
             
             $.ajax({
 //		url:"http://203.228.54.47/detectai",
@@ -430,16 +432,12 @@ var M_AI_IMAGE = {
                 success: function (result) {
                     var alt = dtmap.getCenter()[2];
             		dtmap.vector.clear();
-			
 			if(result.response.length == 0 || result.response.length == undefined){
 				toastr.error("분석결과값이 없습니다. 화면조정후 다시 시도하세요.");
 				ui.loadingBar("hide");
 				return false;
 			}
 			if(result.response.length > 0) {
-//			    console.log("result");
-//			    console.log(result.response);
-//			    console.log('find\ntotal : ' + result.response.length);
 			    var detections;
 			    var screenCoord = [];
 			    var identifier = [];
@@ -467,7 +465,6 @@ var M_AI_IMAGE = {
 			    }
 			}
 		// 체크박스 전체 글자 사라짐 방지;
-//		console.log('result\ntotal : ' + M_AI_IMAGE.global.count);
 		$('input[name="AiCheckValue"] label').innerHTML = '전체';
 		ui.loadingBar("hide");
                 }
@@ -657,3 +654,133 @@ $(function () {
         });
     });
 });
+
+/**
+ * 격자 효과
+ * @returns
+ */
+function gridCanvasEffect() {
+    let width = Module.canvas.width;
+    let height = Module.canvas.height;
+    let gridCanvas = document.createElement('canvas');
+    let ctx = gridCanvas.getContext('2d');
+    
+    gridCanvas.id = 'gridCanvas';
+    gridCanvas.width = width;
+    gridCanvas.height = height;
+    gridCanvas.style.position = "absolute";
+    gridCanvas.style.top = "0";
+    gridCanvas.style.left = "0";
+    
+    document.body.appendChild(gridCanvas);
+    
+    drawBoard(width, height, ctx);
+
+    /** 
+     * 격자 선 그리기
+     */
+    function drawBoard(width, height, ctx) {
+	const bw = width;
+	const bh = height;
+	const boxRow = 10;
+	const box = bw / boxRow;
+	const boxCol = 8;
+	const boxh = (bh / boxCol);
+	console.log(boxh)
+	ctx.lineWidth = 1;
+	ctx.strokeStyle = 'rgb(0, 0, 0, 0.7)';
+	
+	// 격자 세로 선
+	for (let x = 0; x < bw; x += box) {
+	    ctx.strokeRect(x, 0, width, height);
+	}
+	// 격자 가로 선
+	for (let y = 0; y < bh; y += boxh) {
+	    ctx.strokeRect(0, y, width, height);
+	}
+	
+	let size = [box, boxh];
+	// 격자 채우기
+	drawGrid(size, boxRow, boxCol);
+    }
+    
+    /**
+     * 격자 채우기
+     */ 
+    function drawGrid(size, boxRow, boxCol) {
+	let canvas = document.createElement('canvas');
+	let ctxGrid = canvas.getContext('2d');
+	canvas.id = "grid";
+	canvas.width = width;
+	canvas.height = height;
+	canvas.style.position = "absolute";
+	canvas.style.top = "0";
+	canvas.style.left = "0";
+	document.body.appendChild(canvas);
+	
+	// 캔버스 초기화
+	ctxGrid.clearRect(0, 0, width, height);
+	
+	let gridSizeX = size[0]; // 격자 크기
+	let gridSizeY = size[1]; // 격자 크기
+	let gridColor = "rgba(255, 255, 255, 0.7)"; // 격자 색상
+	console.log("gridSizeX : " + gridSizeX) // 192
+	console.log("gridSizeY : " + gridSizeY) // 116.125
+	let totalGrids = Math.ceil(canvas.width / gridSizeX) * Math.ceil(canvas.height / gridSizeY); // 총 격자 개수
+	let filledGrids = 0; // 채워진 격자 개수
+	console.log(totalGrids); // 80
+	
+	let xIndex = 0;
+	let yIndex = 0;
+	let loadingAnimation = setInterval(function() {
+	    if (filledGrids >= totalGrids) {
+		clearInterval(loadingAnimation);
+		ctxGrid.clearRect(0, 0, width, height);
+		canvas.remove();
+		gridCanvas.remove();
+		return;
+	    }
+	    
+	    let x = xIndex * gridSizeX;
+	    let y = yIndex * gridSizeY;
+	    
+	    ctxGrid.fillStyle = gridColor;
+	    ctxGrid.fillRect(x, y, gridSizeX, gridSizeY);
+	    xIndex++;
+	    filledGrids++;
+	    if (parseInt(xIndex % boxRow) == 0) {
+		yIndex++;
+		xIndex = 0;
+	    }
+	    
+	}, 50);
+	setTimeout(() => {
+	    let removeXIndex = 0;
+	    let removeYIndex = 0;
+	    let resetGrids = 0;
+	    let resetAnimation = setInterval(function () {
+		if (resetGrids >= totalGrids) {
+		    clearInterval(resetAnimation);
+		    return;
+		}
+		
+//		let x = (resetGrids % Math.ceil(width / gridSizeX)) * gridSizeX;
+//		let y = Math.floor(resetGrids / Math.ceil(height / gridSizeY)) * gridSizeY;
+		let x = removeXIndex * gridSizeX;
+		let y = removeYIndex * gridSizeY;
+		console.log("xindex : " + xIndex)
+		console.log("yindex : " + yIndex)
+		console.log(x)
+		console.log(y)
+		ctxGrid.clearRect(x, y, gridSizeX, gridSizeY);
+		removeXIndex++;
+		resetGrids++;
+		if (parseInt(xIndex % boxRow) == 0) {
+		    removeYIndex++;
+		    removeXIndex = 0;
+		    }
+	    }, 50);
+	}, 10);
+    }
+    
+}
