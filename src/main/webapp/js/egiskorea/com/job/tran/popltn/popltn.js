@@ -107,7 +107,6 @@ function getAllPopulationInfo() {
 	success: function(data) {
 	    let result = data.resultList;
 	    let geom = data.geomCenter;
-	    console.log(data);
 	    legalData(result);
 	    getJenks(result, options, viewType);
 	    setViewPoint(geom);
