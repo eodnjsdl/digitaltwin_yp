@@ -683,7 +683,7 @@ function gridCanvasEffect(objData) {
 	function drawBoard(width, height, ctx) {
 		const bw = width;
 		const bh = height;
-		const boxRow = 5;
+		const boxRow = 4;
 		const box = bw / boxRow;
 		const boxCol = 6;
 		const boxh = (bh / boxCol);
@@ -716,6 +716,7 @@ function gridCanvasEffect(objData) {
 		canvas.style.position = "absolute";
 		canvas.style.top = "0";
 		canvas.style.left = "0";
+		canvas.style.background = "rgba(255, 255, 255, 0.1)";
 		document.body.appendChild(canvas);
 		
 		// 캔버스 초기화
@@ -723,7 +724,7 @@ function gridCanvasEffect(objData) {
 		
 		let gridSizeX = size[0]; // 격자 크기
 		let gridSizeY = size[1]; // 격자 크기
-		let gridColor = "rgba(255, 255, 255, 0.3)"; // 격자 색상
+		let gridColor = "rgba(255, 255, 255, 0.2)"; // 격자 색상
 		let totalGrids = Math.ceil(canvas.width / gridSizeX) * Math.ceil(canvas.height / gridSizeY); // 총 격자 개수
 		let filledGrids = 0; // 채워진 격자 개수
 		
@@ -750,7 +751,7 @@ function gridCanvasEffect(objData) {
 				xIndex = 0;
 			}
 			
-		}, 200);
+		}, 300);
 		setTimeout(() => {
 			let removeXIndex = 0;
 			let removeYIndex = 0;
@@ -773,8 +774,8 @@ function gridCanvasEffect(objData) {
 					removeYIndex++;
 					removeXIndex = 0;
 				}
-			}, 200);
-		}, 50);
+			}, 300);
+		}, 250);
 		
 		
 	}
