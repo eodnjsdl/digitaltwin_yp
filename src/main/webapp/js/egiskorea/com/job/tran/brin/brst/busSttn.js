@@ -11,7 +11,6 @@ $(document).ready(function(){
 
 //전역 변수
 var TRFICANALS={
-	CODEARRAY :	[],				//code 데이블 정리
 	Ax5UiGrid :	null,			//Ax5UiGrid 변수
 	spaceSearchOption:{},		//공간검색 조건 옵션 변수
 }
@@ -341,7 +340,6 @@ function selectBusSttn(id){
   
 	const promise = dtmap.wfsGetFeature(options);
 	promise.then(function (data) {
-	  	//console.log(data);
 	  	
 	  	if(data.features.length != 1){
 	  		alert("정류소경유노선 조회 오류")
@@ -365,7 +363,7 @@ function selectBusSttnView(detailData){
 	
 	// zoom 변경
 	if (dtmap.mod == "2D") {
-		map2d.view.setZoom(5);
+		//map2d.view.setZoom(5);
 	} else if (dtmap.mod == "3D") {
 		var center = map3d.getCenter();
 		center[2] = 57000;		// altitude 변경
@@ -449,7 +447,6 @@ function onTrficAnalsSelectEventListener(e){
 		
 		if(id){
 			var idArray = id.split(".");
-			//console.log(idArray);
 			const featureType	= idArray[0];
 			
 			if(featureType == "tgd_bus_sttn_info"){						//교통분석 - 버스노선정보
