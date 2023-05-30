@@ -88,25 +88,6 @@
 
 <!-- 			**************	GRID	***************				 -->
 
-<!-- 양평군 전체 인구 조회(격자화면) -->
-<select id="selectGridAllPopulationInfoList" resultType="PopulationVO">
-		select c2.code_nm 
-			  , sum(tgpi.all_popltn_cnt) all_popltn_cnt
-			  , sum(tgpi.male_popltn_cnt) male_popltn_cnt
-			  , sum(tgpi.female_popltn_cnt) female_popltn_cnt
-		   from (
-					select grid_id
-						 , li_cd 
-						 , stdr_ym 
-						 , all_popltn_cnt
-						 , male_popltn_cnt 
-						 , female_popltn_cnt
-					  from tgd_grid_popltn_info
-				 ) tgpi
-		 inner join comtccmmndetailcode c2 on (tgpi.li_cd like (substring(c2.code, 1, 8) || '%') and c2.code_id = 'YPE001')
-		 group by c2.code_nm
-</select>
-
 <!-- 검색 기준 년월 조회(격자화면) -->
 <select id="selectGridStandardYmList" resultType="String">
 		select distinct (substring(tgpi.stdr_ym, 1, 4) || '년 ' || 

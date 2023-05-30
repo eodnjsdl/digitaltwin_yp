@@ -235,6 +235,8 @@ function selectPplInfoList() {
 					// 레이어 호출
 					getLayer(options, viewType);
 					gridData(result, options.all);
+					// 레이어 호출 및 범위 표시 변경 ; - 속도 느림 주석처리
+//					getJenks(result, options, viewType);
 					setViewPoint(geom);
 				}, error: function() {
 					toastr.error("정보를 불러오지 못하였습니다.");
@@ -323,10 +325,10 @@ function legalData(result, viewType) {
  */
 function gridData(result, all) {
 	if (all) {
-		$('#lv01_2, #lv02_1').val('9.00');
-		$('#lv02_2, #lv03_1').val('73.00');
-		$('#lv03_2, #lv04_1').val('255.00');
-		$('#lv04_2, #lv05_1').val('693.00');
+		$('#lv01_2, #lv02_1').val('0.00');
+		$('#lv02_2, #lv03_1').val('23.00');
+		$('#lv03_2, #lv04_1').val('77.00');
+		$('#lv04_2, #lv05_1').val('287.00');
 		$('#lv05_2').val('1479.00');
 	} else if (!all) {
 		for (let i = 1; i < 6; i++) {
@@ -344,6 +346,7 @@ function gridData(result, all) {
  * @returns
  */
 function getLayer(options, viewType) {
+	// layer 초기화
 	popltnLayerClear();
 	let cql;
 	let sld;
