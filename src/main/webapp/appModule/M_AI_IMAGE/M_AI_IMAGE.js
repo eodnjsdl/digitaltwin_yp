@@ -100,7 +100,10 @@ function onAiImageSelectEventListener(e) {
 }
 
 var M_AI_IMAGE = {
-		global: {count: 0},
+		global: {
+			count: 0,
+			objData: []
+		},
 		detectLegend: {
 			legend: [
 				{class_0: {
@@ -416,9 +419,6 @@ var M_AI_IMAGE = {
 				formData.append("coordinate", coordinate);
 				formData.append("size", size);
 				
-				// 격자 효과
-				gridCanvasEffect();
-				
 				$.ajax({
 //		url:"http://203.228.54.47/detectai",
 					url: selectedUrl,
@@ -463,10 +463,11 @@ var M_AI_IMAGE = {
 								}
 								M_AI_IMAGE.analysis.getScreenMapCoord(analCoord, identifier[i], totalCount++, alt);
 							}
+							// 격자효과
+							gridCanvasEffect(M_AI_IMAGE.global.objData);
 						}
 						// 체크박스 전체 글자 사라짐 방지;
 						$('input[name="AiCheckValue"] label').innerHTML = '전체';
-						ui.loadingBar("hide");
 					}
 				});
 				
@@ -527,8 +528,9 @@ var M_AI_IMAGE = {
 				let vectorId = classNm + '_' + classId + '_' + totalCount;
 				let crs = 'EPSG:4326';
 				let resultInfoData = {count : totalCount, engNm : dataOption.key, korNm : dataOption.name, conf : identifier.confidence, vectorId : vectorId};
-				M_AI_IMAGE.global.count += M_AI_IMAGE.analysis.addPolygon(vectorId, coordinates, crs, options, resultInfoData);
-				M_AI_IMAGE.analysis.resultView(resultInfoData, M_AI_IMAGE.global.count);
+				M_AI_IMAGE.global.objData.push({vectorId, coordinates, crs, options, resultInfoData});
+//				M_AI_IMAGE.global.count += M_AI_IMAGE.analysis.addPolygon(vectorId, coordinates, crs, options, resultInfoData);
+//				M_AI_IMAGE.analysis.resultView(resultInfoData, M_AI_IMAGE.global.count);
 			},
 			/**
 			 * 체크박스 값에 따른 분류 - 결과 사용/미사용
@@ -659,7 +661,7 @@ $(function () {
  * 격자 효과
  * @returns
  */
-function gridCanvasEffect() {
+function gridCanvasEffect(objData) {
 	let width = Module.canvas.width;
 	let height = Module.canvas.height;
 	let gridCanvas = document.createElement('canvas');
@@ -675,18 +677,16 @@ function gridCanvasEffect() {
 	document.body.appendChild(gridCanvas);
 	
 	drawBoard(width, height, ctx);
-	
 	/** 
 	 * 격자 선 그리기
 	 */
 	function drawBoard(width, height, ctx) {
 		const bw = width;
 		const bh = height;
-		const boxRow = 10;
+		const boxRow = 5;
 		const box = bw / boxRow;
-		const boxCol = 8;
+		const boxCol = 6;
 		const boxh = (bh / boxCol);
-		console.log(boxh)
 		ctx.lineWidth = 1;
 		ctx.strokeStyle = 'rgb(0, 0, 0, 0.7)';
 		
@@ -701,13 +701,13 @@ function gridCanvasEffect() {
 		
 		let size = [box, boxh];
 		// 격자 채우기
-		drawGrid(size, boxRow, boxCol);
+		drawGrid(width, height, size, boxRow, boxCol);
 	}
 	
 	/**
 	 * 격자 채우기
 	 */ 
-	function drawGrid(size, boxRow, boxCol) {
+	function drawGrid(width, height, size, boxRow, boxCol) {
 		let canvas = document.createElement('canvas');
 		let ctxGrid = canvas.getContext('2d');
 		canvas.id = "grid";
@@ -723,12 +723,9 @@ function gridCanvasEffect() {
 		
 		let gridSizeX = size[0]; // 격자 크기
 		let gridSizeY = size[1]; // 격자 크기
-		let gridColor = "rgba(255, 255, 255, 0.7)"; // 격자 색상
-		console.log("gridSizeX : " + gridSizeX) // 192
-		console.log("gridSizeY : " + gridSizeY) // 116.125
+		let gridColor = "rgba(255, 255, 255, 0.3)"; // 격자 색상
 		let totalGrids = Math.ceil(canvas.width / gridSizeX) * Math.ceil(canvas.height / gridSizeY); // 총 격자 개수
 		let filledGrids = 0; // 채워진 격자 개수
-		console.log(totalGrids); // 80
 		
 		let xIndex = 0;
 		let yIndex = 0;
@@ -753,7 +750,7 @@ function gridCanvasEffect() {
 				xIndex = 0;
 			}
 			
-		}, 50);
+		}, 200);
 		setTimeout(() => {
 			let removeXIndex = 0;
 			let removeYIndex = 0;
@@ -761,17 +758,14 @@ function gridCanvasEffect() {
 			let resetAnimation = setInterval(function () {
 				if (resetGrids >= totalGrids) {
 					clearInterval(resetAnimation);
+					callPolygon();
 					return;
 				}
 				
-//		let x = (resetGrids % Math.ceil(width / gridSizeX)) * gridSizeX;
-//		let y = Math.floor(resetGrids / Math.ceil(height / gridSizeY)) * gridSizeY;
+//				let x = (resetGrids % Math.ceil(width / gridSizeX)) * gridSizeX;
+//				let y = Math.floor(resetGrids / Math.ceil(height / gridSizeY)) * gridSizeY;
 				let x = removeXIndex * gridSizeX;
 				let y = removeYIndex * gridSizeY;
-				console.log("xindex : " + xIndex)
-				console.log("yindex : " + yIndex)
-				console.log(x)
-				console.log(y)
 				ctxGrid.clearRect(x, y, gridSizeX, gridSizeY);
 				removeXIndex++;
 				resetGrids++;
@@ -779,7 +773,17 @@ function gridCanvasEffect() {
 					removeYIndex++;
 					removeXIndex = 0;
 				}
-			}, 50);
-		}, 10);
+			}, 200);
+		}, 50);
+		
+		
+	}
+	
+	function callPolygon() {
+		for (let i = 0; i < objData.length; i++) {
+			M_AI_IMAGE.global.count += M_AI_IMAGE.analysis.addPolygon(objData[i].vectorId, objData[i].coordinates, objData[i].crs, objData[i].options, objData[i].resultInfoData);
+			M_AI_IMAGE.analysis.resultView(objData[i].resultInfoData, M_AI_IMAGE.global.count);
+		}
+		ui.loadingBar('hide');
 	}
 }
