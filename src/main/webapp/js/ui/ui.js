@@ -534,7 +534,7 @@ window.ui = (function () {
 
                 //시설관리 > 복지시설
                 case "welfareFacility" :
-                    WLREspitalYN = '';
+                    //WLREspitalYN = '';
                     getWelFareFaciListView();
                     break;
 
