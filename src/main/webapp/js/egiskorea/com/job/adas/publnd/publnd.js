@@ -100,10 +100,11 @@ function setData(_pageNo) {
 		data : { "yearOption" : yearOption,
 				 "pageNo" : _pageNo
 				},
-		url : "/job/publnd/selectPbprtAccdtPgeList.do",
+		url : "/job/adas/publnd/selectPbprtAccdtPgeList.do",
 		type : 'post',
 		dataType: "json",
 		success : function(data) {
+		    console.log(data);
 			for(i = 0; i < data.pbprtAccdtList.length; i++) {
 				list.push(data.pbprtAccdtList[i]);
 			}
@@ -138,7 +139,7 @@ function fn_pageDetail(publndNo) {
 	$.ajax({
 		data : formData,
 		type : "POST",
-		url : '/job/publnd/selectPbprtAccdtDtlInfoView.do',
+		url : '/job/adas/publnd/selectPbprtAccdtDtlInfoView.do',
 		dataType : "html",
 		processData : false,
 		contentType : false,
@@ -168,7 +169,7 @@ function fn_insertView() {
 	ui.openPopup("rightSubPopup");
 	$.ajax({
 		type : 'post',
-		url : "/job/publnd/insertPbprtAccdtView.do",
+		url : "/job/adas/publnd/insertPbprtAccdtView.do",
 		dataType : "html",
 		processData : false,
 		contentType : false,
@@ -202,7 +203,7 @@ function fn_update(publndNo) {
 		$.ajax({
 			data : formData,
 			type : 'post',
-			url : '/job/publnd/updatePbprtAccdtInfo.do',
+			url : '/job/adas/publnd/updatePbprtAccdtInfo.do',
 			dataType: 'json',	// ModelAndView return 값을 json으로 받기 위해서 추가.
 			success : function(data) {
 				if (data.status == 'success') {
@@ -237,7 +238,7 @@ function insertPbprtAccdtInfo() {
 		$.ajax({
 			data : formData,
 			type : 'post',
-			url : '/job/publnd/insertPbprtAccdtInfo.do',
+			url : '/job/adas/publnd/insertPbprtAccdtInfo.do',
 			dataType: 'json',	// ModelAndView return 값을 json으로 받기 위해서 추가.
 			success : function(data) {
 				if (data.status == 'success') {
@@ -282,7 +283,7 @@ function updatePbprtAccdtInfoDel(publndNo) {
 		$.ajax({
 			data : { "publndNo" : publndNo },
 			type : 'post',
-			url : '/job/publnd/updatePbprtAccdtInfoDel.do',
+			url : '/job/adas/publnd/updatePbprtAccdtInfoDel.do',
 			dataType: 'json',	// ModelAndView return 값을 json으로 받기 위해서 추가.
 			success : function(data) {
 				if (data.status == 'success') {
@@ -318,7 +319,7 @@ function updatePbprtAccdtInfo(publndNo) {
 	$.ajax({
 		data : formData,
 		type : 'post',
-		url : '/job/publnd/updatePbprtAccdtInfo.do',
+		url : '/job/adas/publnd/updatePbprtAccdtInfo.do',
 		dataType: 'json',	// ModelAndView return 값을 json으로 받기 위해서 추가.
 		success : function(data) {
 		    if (data.status == 'success') {
@@ -373,7 +374,7 @@ function downloadPbprtAccdtExcelList() {
 	let yearOption = $('select#year').val();
 	$.ajax({
 		data : { "yearOption" : yearOption },
-		url : "/job/publnd/selectPbprtAccdtPgeList.do",
+		url : "/job/adas/publnd/selectPbprtAccdtPgeList.do",
 		type : 'post',
 		dataType: "json",
 		success : function(data) {
@@ -403,7 +404,7 @@ function selectPbprtAccdtExcelUploadView(){
 	ui.openPopup("rightSubPopup");
 	$.ajax({
 		type : "POST",
-		url : "/job/publnd/selectPbprtAccdtExcelUploadView.do",
+		url : "/job/adas/publnd/selectPbprtAccdtExcelUploadView.do",
 		dataType : "html",
 		processData : false,
 		contentType : false,
@@ -435,7 +436,7 @@ function pbprtAccdtExcelDir(){
  * @returns
  */
 function pbprtAccdtExcelUpload(){	
-	var url ="/job/publnd/callPbprtAccdtExcel.do";	
+	var url ="/job/adas/publnd/callPbprtAccdtExcel.do";	
 	var formData = new FormData($("#pbprtAccdtExcelUploadForm")[0]);
 	var excelUploadType = $("input[type=radio][name=excelUploadType]:checked").val();
 	
@@ -473,7 +474,7 @@ function pbprtAccdtExcelUpload(){
  * @returns
  */
 function selectPbprtAccdtExcelForm() {
-	let url = "/job/publnd/downloadPbprtAccdtExcelBassForm.do";
+	let url = "/job/adas/publnd/downloadPbprtAccdtExcelBassForm.do";
 	
 	$("form[name='excelUploadForm']").attr('onsubmit', '');
 	$("form[name='excelUploadForm']").attr('action', url);

@@ -4,7 +4,7 @@
 * @since   : 2023.02.23
 * @version : 1.0
 ************************************/
-package egiskorea.com.job.publnd.service;
+package egiskorea.com.job.adas.publnd.service;
 
 public class PbprtAccdtWrinvstgVO {
 	private int publndNo;				// 공유지_번호

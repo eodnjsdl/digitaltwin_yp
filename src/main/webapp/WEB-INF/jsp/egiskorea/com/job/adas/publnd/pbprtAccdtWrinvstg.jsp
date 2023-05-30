@@ -13,7 +13,7 @@
 <head>
 	<meta charset="UTF-8">
 	<title>공유재산 실태 조사서</title>
-	<link rel="stylesheet" href="${context_path}/css/job/publnd/pbprtAccdtWrinvstg.css">
+	<link rel="stylesheet" href="${context_path}/css/job/adas/publnd/pbprtAccdtWrinvstg.css">
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 </head>
 <body>
@@ -216,6 +216,6 @@
 	</script>
 	<script src="/js/com/jquery/jquery-3.4.1.min.js"></script>
 	<script src="/js/html2canvas.min.js" type="text/javascript"></script>
-	<script src="/js/egiskorea/com/job/publnd/pbprtAccdtWrinvstg.js"></script>
+	<script src="/js/egiskorea/com/job/adas/publnd/pbprtAccdtWrinvstg.js"></script>
 </body>
 </html>

@@ -4,7 +4,7 @@
 * @since   : 2023.03.05
 * @version : 1.0
 ************************************/
-package egiskorea.com.job.publnd.service.impl;
+package egiskorea.com.job.adas.publnd.service.impl;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -26,8 +26,8 @@ import org.springframework.stereotype.Service;
 import com.sun.star.awt.Rectangle;
 
 import egiskorea.com.cmm.service.impl.CmmnDAO;
-import egiskorea.com.job.publnd.service.PbprtAccdtWrinvstgService;
-import egiskorea.com.job.publnd.service.PbprtAccdtWrinvstgVO;
+import egiskorea.com.job.adas.publnd.service.PbprtAccdtWrinvstgService;
+import egiskorea.com.job.adas.publnd.service.PbprtAccdtWrinvstgVO;
 import egovframework.com.cmm.service.EgovProperties;
 import egovframework.com.cmm.service.FileVO;
 import kr.dogfoot.hwplib.object.HWPFile;
