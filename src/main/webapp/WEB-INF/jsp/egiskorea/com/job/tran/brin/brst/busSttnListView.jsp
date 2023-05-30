@@ -42,14 +42,14 @@
 										</select>  
 									</td>
 								</tr>
-								<tr>  
+								<tr>
 									<td colspan="2">
-										<input type="text" name="sttn_nm" class="form-control" placeholder="정류소명">  
+										<input type="text" name="sttn_nm" class="form-control" placeholder="정류소명">
 									</td>
 								</tr>
-								<tr>  
+								<tr>
 									<td colspan="2">
-										<input type="number" step="1" min="0" name="sttn_no" class="form-control" placeholder="&#32;정류소번호">    
+										<input type="number" step="1" min="0" name="sttn_no" class="form-control" placeholder="&#32;정류소번호">
 									</td>
 								</tr>
                             </tbody>
@@ -215,7 +215,6 @@
             if (type === 'extent') {
             	TFCANALS.spaceSearchOption.bbox 	= dtmap.getExtent();
             } else {
-            	//console.log("모드>>>"+dtmap.mod);
             	if(dtmap.mod == "2D"){
             		if(dtmap.draw.source.getFeatures().length > 0){	//임시로 그려진 형태체크
             			TFCANALS.spaceSearchOption.geometry = dtmap.draw.getGeometry();
@@ -273,13 +272,19 @@
                     break;
             }
             dtmap.draw.active({type: type, once: true})
-            //toastr.warning("that.searchDrawing(value);", "공간검색 사용자정의");
         });
 		
 
      	//경계로부터 버퍼 영역 지정
         $(".area-trafficAnalysis-buffer", "#bottomPopup").on("keyup", function (event) {
             dtmap.draw.setBuffer(Number(this.value));
+        });
+     	
+     	// 엔터키로 조회하기
+        $('#lSrchOptions').keypress(function(event) {
+	        if (event.which === 13) {
+	          $('.info-attribute-search').click();
+	        }
         });
 		
 		// 엔터키로 조회하기

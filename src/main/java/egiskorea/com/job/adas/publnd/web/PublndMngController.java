@@ -4,7 +4,7 @@
 * @since   : 2023.02.21
 * @version : 1.0
 ************************************/
-package egiskorea.com.job.publnd.web;
+package egiskorea.com.job.adas.publnd.web;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -24,13 +24,13 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
 import egiskorea.com.cmm.service.CmmnCdVO;
-import egiskorea.com.job.publnd.service.PbprtAccdtService;
-import egiskorea.com.job.publnd.service.PbprtAccdtVO;
-import egiskorea.com.job.publnd.service.PbprtAccdtWrinvstgService;
-import egiskorea.com.job.publnd.service.PbprtAccdtWrinvstgVO;
+import egiskorea.com.job.adas.publnd.service.PbprtAccdtService;
+import egiskorea.com.job.adas.publnd.service.PbprtAccdtVO;
+import egiskorea.com.job.adas.publnd.service.PbprtAccdtWrinvstgService;
+import egiskorea.com.job.adas.publnd.service.PbprtAccdtWrinvstgVO;
 
 @Controller
-@RequestMapping(value = "/job/publnd")
+@RequestMapping(value = "/job/adas/publnd")
 public class PublndMngController {
 
 	/* 공유재산 실태 Service */
@@ -65,7 +65,7 @@ public class PublndMngController {
 		model.addAttribute("cnt", cnt);
 		model.addAttribute("yearList", yearList);
 		
-		return "egiskorea/com/job/publnd/pbprtAccdtListView";
+		return "egiskorea/com/job/adas/publnd/pbprtAccdtListView";
 	}
 	
 	/**
@@ -107,7 +107,7 @@ public class PublndMngController {
 		
 		model.addAttribute("ldcgCdList", ldcgCdList);
 		
-		return "egiskorea/com/job/publnd/pbprtAccdtRegister";
+		return "egiskorea/com/job/adas/publnd/pbprtAccdtRegister";
 	}
 	
 	/**
@@ -148,7 +148,7 @@ public class PublndMngController {
 		model.addAttribute("pbprtInfo", pbprtInfo);
 		model.addAttribute("ldcgCdList", ldcgCdList);
 		
-		return "egiskorea/com/job/publnd/pbprtAccdtWrinvstg";
+		return "egiskorea/com/job/adas/publnd/pbprtAccdtWrinvstg";
 	}
 	
 	/**
@@ -188,7 +188,7 @@ public class PublndMngController {
 		model.addAttribute("ldcgCd", ldcgCdList);
 		model.addAttribute("pbprtAccdtDtlInfoList", pbprtAccdtDtlInfoList);
 		
-		return "egiskorea/com/job/publnd/pbprtAccdtDtlInfoView";		
+		return "egiskorea/com/job/adas/publnd/pbprtAccdtDtlInfoView";		
 	}
 	
 	/**
@@ -257,7 +257,7 @@ public class PublndMngController {
 		
 		model.addAttribute("yearList", yearList);
 		
-		return "egiskorea/com/job/publnd/pbprtAccdtExcelUploadView";
+		return "egiskorea/com/job/adas/publnd/pbprtAccdtExcelUploadView";
 	}
 	
 	/**

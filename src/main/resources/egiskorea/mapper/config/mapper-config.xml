@@ -182,9 +182,12 @@
 		<typeAlias alias="inBusinessEstaInfoVO" type="egiskorea.com.job.ibbi.service.InBusinessEstaInfoVO" />
 		<typeAlias alias="inBusinessEstaInfo" type="egiskorea.com.job.ibbi.service.InBusinessEstaInfo" />
 		
-		<!-- 업무 > 공유재산 싵태조사 -->
-		<typeAlias alias="pbprtAccdtVO" type="egiskorea.com.job.publnd.service.PbprtAccdtVO"/>
-		<typeAlias alias="pbprtAccdtWrinvstgVO" type="egiskorea.com.job.publnd.service.PbprtAccdtWrinvstgVO"/>
+		<!-- 행정자산 > 행정자산관리 -->
+		<typeAlias alias="administAssetsVO" type="egiskorea.com.job.adas.asmng.service.AdministAssetsVO"/>
+		
+		<!-- 행정자산 > 공유재산 싵태조사 -->
+		<typeAlias alias="pbprtAccdtVO" type="egiskorea.com.job.adas.publnd.service.PbprtAccdtVO"/>
+		<typeAlias alias="pbprtAccdtWrinvstgVO" type="egiskorea.com.job.adas.publnd.service.PbprtAccdtWrinvstgVO"/>
 		<typeAlias alias="cmmnCdVO" type="egiskorea.com.cmm.service.CmmnCdVO"/>
 		
 		<!-- 파일 -->

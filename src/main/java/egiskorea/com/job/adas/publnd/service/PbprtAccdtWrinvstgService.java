@@ -4,7 +4,7 @@
 * @since   : 2023.03.05
 * @version : 1.0
 ************************************/
-package egiskorea.com.job.publnd.service;
+package egiskorea.com.job.adas.publnd.service;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;

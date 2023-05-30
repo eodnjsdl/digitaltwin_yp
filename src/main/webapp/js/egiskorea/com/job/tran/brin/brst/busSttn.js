@@ -9,8 +9,6 @@ $(document).ready(function(){
 	var geom = {};
 });
 
-//functions
-
 //wfs로 읍면동 데이터 가져오기(grid 테이블 데이터 설정 전)
 function getBusSttnEmdData() {
 	
@@ -326,7 +324,6 @@ function selectBusSttn(id){
   
 	const promise = dtmap.wfsGetFeature(options);
 	promise.then(function (data) {
-	  	//console.log(data);
 	  	
 	  	if(data.features.length != 1){
 	  		alert("정류소경유노선 조회 오류")
@@ -434,7 +431,6 @@ function onTrficAnalsSelectEventListener(e){
 		
 		if(id){
 			var idArray = id.split(".");
-			//console.log(idArray);
 			const featureType	= idArray[0];
 			
 			if(featureType == "tgd_bus_sttn_info"){						//교통분석 - 버스노선정보
