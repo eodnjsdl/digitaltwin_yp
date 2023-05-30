@@ -1286,131 +1286,131 @@ window.ui = (function () {
 }());
 
 function clearMap() {
-    dtmap.draw.dispose();
-    dtmap.draw.clear();
-    dtmap.vector.clear();
-    
-    // 교통분석 - 인구정보 레이어 제거
-    dtmap.layer.removeLayer('li_popltn_info');
-    dtmap.layer.removeLayer('li_popltn_info_grid');
-    dtmap.layer.removeLayer('layer_trva_grid_area');
-
-    $(".lnb-dep2").find(".on").removeClass("on");
+	dtmap.draw.dispose();
+	dtmap.draw.clear();
+	dtmap.vector.clear();
+	
+	// 교통분석 - 인구정보 레이어 제거
+	dtmap.layer.removeLayer('li_popltn_info');
+	dtmap.layer.removeLayer('li_popltn_info_grid');
+	dtmap.layer.removeLayer('layer_trva_grid_area');
+	
+	$(".lnb-dep2").find(".on").removeClass("on");
 }
 
 //사용자 정보 조회
 function aj_userInfoPopupOpen(id) {
-    ui.openPopup("userInfoUdt");
-    $(".popup-overlay").show();
-    $.ajax({
-        type: "POST",
-        url: "/com/usi/userInfoViewPopup.do",
-        data: {
-            userId: id
-        },
-        dataType: "html",
-        async: false,
-        success: function (returnData, status) {
-            if (status === "success") {
-                $("#userInfoUdt").html(returnData);
-            } else {
-                toastr.error("관리자에게 문의 바랍니다.", "정보를 불러오지 못했습니다.");
-                return;
-            }
-        }, complete: function () {
-        }
-    });
+	ui.openPopup("userInfoUdt");
+	$(".popup-overlay").show();
+	$.ajax({
+		type: "POST",
+		url: "/com/usi/userInfoViewPopup.do",
+		data: {
+			userId: id
+		},
+		dataType: "html",
+		async: false,
+		success: function (returnData, status) {
+			if (status === "success") {
+				$("#userInfoUdt").html(returnData);
+			} else {
+				toastr.error("관리자에게 문의 바랍니다.", "정보를 불러오지 못했습니다.");
+				return;
+			}
+		}, complete: function () {
+		}
+	});
 }
 
 //공지사항
 function aj_selectNoticeList(pageIndex, searchCnd, searchWrd) {
-    $(".popup-overlay").show();
-    $.ajax({
-        type: "POST",
-        url: "/com/noti/selectNoticeList.do",
-        data: {
-            pageIndex: pageIndex,
-            searchCnd: searchCnd,
-            searchWrd: searchWrd,
-        },
-        dataType: "html",
-        async: false,
-        success: function (returnData, status) {
-            if (status === "success") {
-                $("#bbsPopup").html(returnData);
-            } else {
-                toastr.error("관리자에게 문의 바랍니다.", "정보를 불러오지 못했습니다.");
-                return;
-            }
-        }, complete: function () {
-        }
-    });
+	$(".popup-overlay").show();
+	$.ajax({
+		type: "POST",
+		url: "/com/noti/selectNoticeList.do",
+		data: {
+			pageIndex: pageIndex,
+			searchCnd: searchCnd,
+			searchWrd: searchWrd,
+		},
+		dataType: "html",
+		async: false,
+		success: function (returnData, status) {
+			if (status === "success") {
+				$("#bbsPopup").html(returnData);
+			} else {
+				toastr.error("관리자에게 문의 바랍니다.", "정보를 불러오지 못했습니다.");
+				return;
+			}
+		}, complete: function () {
+		}
+	});
 }
 
 //qna
 function aj_selectQnaList(pageIndex, searchCnd, searchWrd) {
-    $(".popup-overlay").show();
-    $.ajax({
-        type: "POST",
-        url: "/com/qna/selectQnaList.do",
-        data: {
-            pageIndex: pageIndex,
-            searchCnd: searchCnd,
-            searchWrd: searchWrd,
-        },
-        dataType: "html",
-        async: false,
-        success: function (returnData, status) {
-            if (status === "success") {
-                $("#bbsPopup").html(returnData);
-            } else {
-                toastr.error("관리자에게 문의 바랍니다.", "정보를 불러오지 못했습니다.");
-                return;
-            }
-        }, complete: function () {
-        }
-    });
+	$(".popup-overlay").show();
+	$.ajax({
+		type: "POST",
+		url: "/com/qna/selectQnaList.do",
+		data: {
+			pageIndex: pageIndex,
+			searchCnd: searchCnd,
+			searchWrd: searchWrd,
+		},
+		dataType: "html",
+		async: false,
+		success: function (returnData, status) {
+			if (status === "success") {
+				$("#bbsPopup").html(returnData);
+			} else {
+				toastr.error("관리자에게 문의 바랍니다.", "정보를 불러오지 못했습니다.");
+				return;
+			}
+		}, complete: function () {
+		}
+	});
 }
 
 //운영지원
 function aj_selectOpQnaList(pageIndex, searchCnd, searchWrd) {
-    $(".popup-overlay").show();
-    $.ajax({
-        type: "POST",
-        url: "/com/opqna/selectOpQnaList.do",
-        data: {
-            pageIndex: pageIndex,
-            searchCnd: searchCnd,
-            searchWrd: searchWrd,
-        },
-        dataType: "html",
-        async: false,
-        success: function (returnData, status) {
-            if (status === "success") {
-                $("#bbsPopup").html(returnData);
-            } else {
-                toastr.error("관리자에게 문의 바랍니다.", "정보를 불러오지 못했습니다.");
-                return;
-            }
-        }, complete: function () {
-        }
-    });
+	$(".popup-overlay").show();
+	$.ajax({
+		type: "POST",
+		url: "/com/opqna/selectOpQnaList.do",
+		data: {
+			pageIndex: pageIndex,
+			searchCnd: searchCnd,
+			searchWrd: searchWrd,
+		},
+		dataType: "html",
+		async: false,
+		success: function (returnData, status) {
+			if (status === "success") {
+				$("#bbsPopup").html(returnData);
+			} else {
+				toastr.error("관리자에게 문의 바랍니다.", "정보를 불러오지 못했습니다.");
+				return;
+			}
+		}, complete: function () {
+		}
+	});
 }
 
 //3D 지도 설정
 function aj_mapsetting() {
-    $.ajax({
-        type: "POST",
-        url: "/cmt/mst/selectMapsetting.do",
-        dataType: "html",
-        async: false,
-        success: function (returnData, status) {
-            if (status === "success") {
-                $("#rightPopup").html(returnData);
-            } else {
-                toastr.error("관리자에게 문의 바랍니다.", "정보를 불러오지 못했습니다.");
-                return;
-            }
-        }
-    });
+	$.ajax({
+		type: "POST",
+		url: "/cmt/mst/selectMapsetting.do",
+		dataType: "html",
+		async: false,
+		success: function (returnData, status) {
+			if (status === "success") {
+				$("#rightPopup").html(returnData);
+			} else {
+				toastr.error("관리자에게 문의 바랍니다.", "정보를 불러오지 못했습니다.");
+				return;
+			}
+		}
+	});
 }

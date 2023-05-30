@@ -4,7 +4,7 @@
 * @since   : 2023.02.21
 * @version : 1.0
 ************************************/
-package egiskorea.com.job.publnd.service;
+package egiskorea.com.job.adas.publnd.service;
 
 public class PbprtAccdtVO {
 	

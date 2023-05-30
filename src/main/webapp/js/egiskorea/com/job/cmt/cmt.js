@@ -15,10 +15,10 @@ util.ajaxSetting = () => {
     // AJAX 요청 중 로딩바 표시
     $(document)
         .ajaxStart(function () {
-            loadingShowHide("show");
+            ui.loadingBar("show");
         })
         .ajaxComplete(function () {
-            loadingShowHide("hide");
+            ui.loadingBar("hide");
         })
         .ajaxError(function (event, jqxhr) {
             if (jqxhr.status == 302) {
@@ -50,7 +50,7 @@ util.ajaxSetting = () => {
                 }
             } else {
                 console.log("요청이 실패했습니다.");
-                loadingShowHide("hide");
+                ui.loadingBar("hide");
             }
         });
 };
@@ -127,7 +127,7 @@ util.gis.getFeature = (
         dataType: "json",
     }).fail(() => {
         console.log(`${featureTypes.join(",")} 공간 검색에 실패하였습니다.`);
-        loadingShowHide("hide");
+        ui.loadingBar("hide");
     });
 };
 

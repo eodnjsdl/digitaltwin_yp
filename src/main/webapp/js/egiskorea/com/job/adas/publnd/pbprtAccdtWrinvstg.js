@@ -76,7 +76,7 @@ function putInfo() {
 		$.ajax({
 			data : formInfo,
 			type : 'post',
-			url : '/job/publnd/insertPbprtAccdtWrinvstg.do',
+			url : '/job/adas/publnd/insertPbprtAccdtWrinvstg.do',
 	        enctype:"multipart/form-data",
 			dataType: 'json',
 	        processData : false,
@@ -119,7 +119,7 @@ function removeInfo(publndNo) {
 			$.ajax({
 				data : {publndNo: publndNo},
 				type : 'post',
-				url : '/job/publnd/deletePbprtAccdtWrinvstg.do',
+				url : '/job/adas/publnd/deletePbprtAccdtWrinvstg.do',
 				dataType: 'json',
 				success : function(data) {
 					if (data.status == 'success') {
@@ -260,7 +260,7 @@ function downloadPdf() {
  * @returns
  */
 function downloadHwp() {
-	let url = '/job/publnd/downloadWrinvstgToHwpFile.do';
+	let url = '/job/adas/publnd/downloadWrinvstgToHwpFile.do';
 	$("form[name='exmnCnForm']").attr('onsubmit', '');
 	$("form[name='exmnCnForm']").attr('action', url);
 	$("form[name='exmnCnForm']").submit();
