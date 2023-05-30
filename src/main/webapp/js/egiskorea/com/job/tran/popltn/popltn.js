@@ -68,6 +68,10 @@ $(document).ready(function(){
 
 //functions
 
+/**
+ * layer 초기화
+ * @returns
+ */
 function popltnLayerClear() {
 	dtmap.layer.removeLayer('li_popltn_info');
 	dtmap.layer.removeLayer('li_popltn_info_grid');
