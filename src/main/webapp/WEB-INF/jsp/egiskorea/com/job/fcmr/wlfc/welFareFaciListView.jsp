@@ -154,7 +154,7 @@ $(document).ready(function() {
 								<tr>
 									<th scope="row">시설구분</th>
 									<td colspan="1">
-										<select name="fcltySe" class="form-control" id="welFcltySe">
+										<select name="fcltySe" class="form-select" id="welFcltySe">
 											<option value="">전체</option>
 										</select>
 									</td>

@@ -303,7 +303,8 @@
     padding-right: 5px;
 }
 
-.popup-panel.popup-bottom .bbs-list tbody th, .popup-panel.popup-bottom .bbs-list tbody td {
+.popup-panel.popup-bottom .bbs-list tbody th,
+.popup-panel.popup-bottom .bbs-list tbody td {
     padding-left: 5px;
     padding-right: 5px;
 }
@@ -411,7 +412,8 @@
     padding-bottom: 38px;
 }
 
-.popup-panel.popup-sub .data-list th, .popup-panel.popup-sub .data-list td {
+.popup-panel.popup-sub .data-list th,
+.popup-panel.popup-sub .data-list td {
     padding: 9px 5px !important;
 }
 
@@ -746,7 +748,8 @@
     font-size: 13px;
 }
 
-.imagesSwiper .swiper-button-next, .imagesSwiper .swiper-button-prev {
+.imagesSwiper .swiper-button-next,
+.imagesSwiper .swiper-button-prev {
     margin-top: 0;
     top: 95px;
     width: 18px;
@@ -754,17 +757,20 @@
     background-size: 100%;
 }
 
-.imagesSwiper .swiper-button-prev, .imagesSwiper .swiper-container-rtl .swiper-button-next {
+.imagesSwiper .swiper-button-prev,
+.imagesSwiper .swiper-container-rtl .swiper-button-next {
     background-image: url(/images/icon/swiper-button-prev.svg);
     left: 0;
 }
 
-.imagesSwiper .swiper-button-next, .imagesSwiper .swiper-container-rtl .swiper-button-prev {
+.imagesSwiper .swiper-button-next,
+.imagesSwiper .swiper-container-rtl .swiper-button-prev {
     background-image: url(/images/icon/swiper-button-next.svg);
     right: 0;
 }
 
-.swiper-button-next.swiper-button-disabled, .swiper-button-prev.swiper-button-disabled {
+.swiper-button-next.swiper-button-disabled,
+.swiper-button-prev.swiper-button-disabled {
     opacity: 1;
 }
 
@@ -966,7 +972,8 @@
     width: 340px;
 }
 
-.layerListMng-group .search-items-panel, .layerListMng-group .select-items-panel {
+.layerListMng-group .search-items-panel,
+.layerListMng-group .select-items-panel {
     height: calc(100% - 22px);
     border: 1px solid #44516A;
     border-radius: 5px;
@@ -1122,14 +1129,17 @@
     width: 25%;
 }
 
-.layerRegistMng .symbol-group a, .layerRegistMng .symbol-group button {
+.layerRegistMng .symbol-group a,
+.layerRegistMng .symbol-group button {
     width: calc((100% - -5px) / 11);
 }
 
 /*------------------------------------------------------------------------------
  * LNB > 업무 > 공간정보활용 > 사업공유관리 > write
  *----------------------------------------------------------------------------*/
-.tab-cont.constructionPlan, .tab-cont.constructionSchedule, .tab-cont.constructionInquiry {
+.tab-cont.constructionPlan,
+.tab-cont.constructionSchedule,
+.tab-cont.constructionInquiry {
     padding-bottom: 0;
 }
 
@@ -1236,74 +1246,57 @@
 }
 
 /*------------------------------------------------------------------------------
- * LNB > 교통분석 > 버스노선정보 --1 버스노선 검색 팝업
- *----------------------------------------------------------------------------*/
-
-.popup-panel.popup-bottom.work-03-01 {
-	left: 320px;
-	width: 1600px;
-	height: 378px;
-	z-index: 3;
-}
-
-.popup-panel.popup-bottom.work-03-01 .popup-body .bottom-popup-body.bottom-popup-group .items.search-area .tabBoxDepth2-wrap .tab-cont.groundwaterProperty.on .btn-wrap > div.t02 {
-	margin-left: 10px;
-}
-
-.popup-panel.popup-bottom.work-03-01 .popup-body .bottom-popup-body.bottom-popup-group .items.data-area .bbs-top .bbs-list-num, .popup-panel.popup-bottom.work-03-01 .popup-body .bottom-popup-body.bottom-popup-group .items.data-area .bbs-top > div:nth-child(2){
-	margin-bottom: 10px;
-}
-
-
-/*------------------------------------------------------------------------------
  * LNB > 교통분석 > 버스노선정보 --1-1 버스노선 정보 팝업
  *----------------------------------------------------------------------------*/
-.work-03-01-regist .nomalBusTxt{color: #44516A;} /*공통색상*/
-.work-03-01-regist .greenBusTxt{color: #33CC99;} /*시내일반*/
-.work-03-01-regist .blueBusTxt{color: #0068b7;} /*일반좌석*/
-.work-03-01-regist .redBusTxt{color: #e60012;} /*직행좌석,간선급행,경기순환*/
-.work-03-01-regist .goodBusTxt{color: #ffd700;} /*굿모닝급행버스*/
-.work-03-01-regist .goodmBusTxt{color: #1e90ff;} /*굿모닝글자*/
-.work-03-01-regist .pinkBusTxt{color: #bb2266;} /*따복버스*/
-.work-03-01-regist .premBusTxt{color: #a88870;} /*프리미엄버스*/
-.work-03-01-regist .yellowBusTxt{color: #ffc600;} /*마을버스*/
+.busRouteDetail .nomalBusTxt{color: #44516A;}	/*공통색상*/
+.busRouteDetail .greenBusTxt{color: #33CC99;}	/*시내일반*/
+.busRouteDetail .blueBusTxt{color: #0068b7;}	/*일반좌석*/
+.busRouteDetail .redBusTxt{color: #e60012;}		/*직행좌석,간선급행,경기순환*/
+.busRouteDetail .goodBusTxt{color: #ffd700;}	/*굿모닝급행버스*/
+.busRouteDetail .goodmBusTxt{color: #1e90ff;}	/*굿모닝글자*/
+.busRouteDetail .pinkBusTxt{color: #bb2266;}	/*따복버스*/
+.busRouteDetail .premBusTxt{color: #a88870;}	/*프리미엄버스*/
+.busRouteDetail .yellowBusTxt{color: #ffc600;}	/*마을버스*/
 
-.work-03-01-regist .popup-header > label{
-	color:#fff;
+.busRouteDetail .popup-header > label{
+	color:#ffffff;
 }
-.work-03-01-regist{
+.busRouteDetail{
 	bottom: 398px;
 	right: 530px;
 }
-.work-03-01-regist div.popup-header{
+.busRouteDetail div.popup-header{
 	background-color: #44516A;
 }
 
-.work-03-01-regist label.nomalBusNumb::before{content: url('/images/icon/bus_title_ico.svg');} /*공통색상*/
-.work-03-01-regist label.greenBusNumb::before{content: url('/images/icon/bus_gg-01_ico.svg');} /*시내일반*/
-.work-03-01-regist label.blueBusNumb::before{content: url('/images/icon/bus_gg-02_ico.svg');} /*일반좌석*/
-.work-03-01-regist label.redBusNumb::before{content: url('/images/icon/bus_gg-03_ico.svg');} /*직행좌석,간선급행,경기순환*/
-.work-03-01-regist label.goodBusNumb::before{content: url('/images/icon/bus_gg-04_ico.svg');} /*굿모닝급행버스*/
-.work-03-01-regist label.goodmBusNumb::before{content: url('/images/icon/bus_gg-05_ico.svg');} /*굿모닝글자*/
-.work-03-01-regist label.pinkBusNumb::before{content: url('/images/icon/bus_gg-06_ico.svg');} /*따복버스*/
-.work-03-01-regist label.premBusNumb::before{content: url('/images/icon/bus_gg-07_ico.svg');} /*프리미엄버스*/
-.work-03-01-regist label.yellowBusNumb::before{content: url('/images/icon/bus_gg-08_ico.svg');} /*마을버스*/
+.busRouteDetail label.nomalBusNumb::before{content: url('/images/icon/bus_title_ico.svg');}		/*공통색상*/
+.busRouteDetail label.greenBusNumb::before{content: url('/images/icon/bus_gg-01_ico.svg');}		/*시내일반*/
+.busRouteDetail label.blueBusNumb::before{content: url('/images/icon/bus_gg-02_ico.svg');}		/*일반좌석*/
+.busRouteDetail label.redBusNumb::before{content: url('/images/icon/bus_gg-03_ico.svg');}		/*직행좌석,간선급행,경기순환*/
+.busRouteDetail label.goodBusNumb::before{content: url('/images/icon/bus_gg-04_ico.svg');}		/*굿모닝급행버스*/
+.busRouteDetail label.goodmBusNumb::before{content: url('/images/icon/bus_gg-05_ico.svg');}		/*굿모닝글자*/
+.busRouteDetail label.pinkBusNumb::before{content: url('/images/icon/bus_gg-06_ico.svg');}		/*따복버스*/
+.busRouteDetail label.premBusNumb::before{content: url('/images/icon/bus_gg-07_ico.svg');}		/*프리미엄버스*/
+.busRouteDetail label.yellowBusNumb::before{content: url('/images/icon/bus_gg-08_ico.svg');}	/*마을버스*/
 
-.work-03-01-regist .popup-header label::before{
+.busRouteDetail .popup-header label::before{
 	top: 15%;
 	left: 20px;
 	z-index: 9;
 	width: 25px;
 	height: 25px;
 }
-.work-03-01-detail > .popup-header label::before, .work-03-01-regist .popup-header > label::before{
+.work-03-01-detail > .popup-header label::before,
+.busRouteDetail .popup-header > label::before{
 	position: absolute;
 	display: block;
 }
-.work-03-01-detail > .popup-header label,.work-03-01-regist > .popup-header label{
+.work-03-01-detail > .popup-header label,
+.busRouteDetail > .popup-header label{
 	padding-left: 35px;
 }
-.work-03-01-detail > .popup-header input,.work-03-01-regist > .popup-header input{
+.work-03-01-detail > .popup-header input,
+.busRouteDetail > .popup-header input{
 	width: 120px;
 	padding: 0 3%;
 	margin-left: 10px;
@@ -1314,24 +1307,25 @@
 	text-align: center;
 	border-radius: 15px;
 }
-.work-03-01-regist > .sub-popup-close {
+.busRouteDetail > .sub-popup-close {
 	position: absolute;
 	top: 0;
 	right: 0;
 	width: 39px;
 	height: 39px;
-	border-left: 1px solid #fff;
-	background: url(../images/icon/popup-close.svg) no-repeat 50% 50%;
+	border-left: 1px solid #ffffff;
+	background: url(/images/icon/popup-close.svg) no-repeat 50% 50%;
 	border-top-right-radius: 10px;
 }
-.work-03-01-regist .popup-body .sub-popup-body .data-write-wrap{
+.busRouteDetail .popup-body .sub-popup-body .data-list-wrap{
 	display: flex;
 	flex-direction: row;
+	height: 100%;
 }	
-.work-03-01-regist .popup-body .sub-popup-body .data-write-wrap .data-default.bus{
+.busRouteDetail .popup-body .sub-popup-body .data-list-wrap .data-default.bus{
 	border: none;
 }
-.work-03-01-regist .popup-body .sub-popup-body .data-write-wrap .bus .data-write:nth-child(1){
+.busRouteDetail .popup-body .sub-popup-body .data-list-wrap .bus .data-detail:nth-child(1){
 	width: 95%;
 	height: 350px;
 	padding: 35px 15px;
@@ -1342,17 +1336,17 @@
 	border: 1px solid #8895ad;
 	border-radius: 20px;
 }
-.work-03-01-regist .popup-body .sub-popup-body .data-write-wrap .bus .data-write:nth-child(1) ul li{
+.busRouteDetail .popup-body .sub-popup-body .data-list-wrap .bus .data-detail:nth-child(1) ul li{
 	margin-bottom: 10px;
 	width: 100%;
 }
-.work-03-01-regist .popup-body .sub-popup-body .data-write-wrap .bus .data-write:nth-child(1) ul li label{
+.busRouteDetail .popup-body .sub-popup-body .data-list-wrap .bus .data-detail:nth-child(1) ul li label{
 	display: block;
 	font-size: 13px;
 	font-weight: 500;
 	line-height: 30px;
 }
-.work-03-01-regist .popup-body .sub-popup-body .data-write-wrap .bus .data-write:nth-child(1) ul li input{
+.busRouteDetail .popup-body .sub-popup-body .data-list-wrap .bus .data-detail:nth-child(1) ul li input{
 	border: none;
 	background-color: #ffffff;
 	border-radius: 5px;
@@ -1362,28 +1356,28 @@
 	width: 100%;
 	padding-left: 10px;
 }
-.work-03-01-regist .popup-body .sub-popup-body .data-write-wrap .bus .data-write:nth-child(1) ul li div{
+.busRouteDetail .popup-body .sub-popup-body .data-list-wrap .bus .data-detail:nth-child(1) ul li div{
 	cursor: default;
 	margin: 10px 0px;
 }
-.work-03-01-regist .popup-body .sub-popup-body .data-write-wrap .bus .data-write:nth-child(1) ul li div small{
+.busRouteDetail .popup-body .sub-popup-body .data-list-wrap .bus .data-detail:nth-child(1) ul li div small{
 	background-color: #C5C9D6;
 	padding: 0px 5px;
 	border-radius: 5px;
 	margin-left: 5px;
 }
-.work-03-01-regist .popup-body .sub-popup-body .data-write-wrap .bus .data-write:nth-child(1) ul li div span{
+.busRouteDetail .popup-body .sub-popup-body .data-list-wrap .bus .data-detail:nth-child(1) ul li div span{
 	margin: 0px 15px 0px 3px;
 }
-.work-03-01-regist .popup-body .sub-popup-body .data-write-wrap .scroll-y{
+.busRouteDetail .popup-body .sub-popup-body .data-list-wrap .scroll-y{
 	width: 260px;
 }
-.work-03-01-regist .popup-body .sub-popup-body .data-write-wrap .scroll-y .bus{
+.busRouteDetail .popup-body .sub-popup-body .data-list-wrap .scroll-y .bus{
 	display: flex;
 	flex-direction: row;
 	justify-content: center;
 }
-.work-03-01-regist .popup-body .sub-popup-body .data-write-wrap .scroll-y .bus ol:before{
+.busRouteDetail .popup-body .sub-popup-body .data-list-wrap .scroll-y .bus ol:before{
 	content: '';
 	position: absolute;
 	top: 40px;
@@ -1394,31 +1388,31 @@
 	display: block;
 	height: calc(100% - 75px);
 }
-.work-03-01-regist .popup-body .sub-popup-body .data-write-wrap .scroll-y .bus ol{
+.busRouteDetail .popup-body .sub-popup-body .data-list-wrap .scroll-y .bus ol{
 	position: relative;
 	width: 90%;
 	margin-left: 20px;
 }
-.work-03-01-regist .popup-body .sub-popup-body .data-write-wrap .scroll-y .bus ol > li{
+.busRouteDetail .popup-body .sub-popup-body .data-list-wrap .scroll-y .bus ol > li{
 	line-height: 22px;
 	width: 100%;
 	padding: 10px 0;
 	width: 100%;
 }
-.work-03-01-regist .popup-body .sub-popup-body .data-write-wrap .scroll-y .bus ol > li:hover{
+.busRouteDetail .popup-body .sub-popup-body .data-list-wrap .scroll-y .bus ol > li:hover{
 	background-color: #F3F4F5;
 }
-.work-03-01-regist .popup-body .sub-popup-body .data-write-wrap .scroll-y .bus ol > li:not(:last-of-type){
+.busRouteDetail .popup-body .sub-popup-body .data-list-wrap .scroll-y .bus ol > li:not(:last-of-type){
 	border-bottom: 1px solid #e6e8ed;
 }
-.work-03-01-regist .popup-body .sub-popup-body .data-write-wrap .scroll-y .bus ol li a{
+.busRouteDetail .popup-body .sub-popup-body .data-list-wrap .scroll-y .bus ol li a{
 	width: 100%;
 	display: flex;
 	flex-direction: column;
 	cursor: pointer;
 	position: relative;
 }
-.work-03-01-regist .popup-body .sub-popup-body .data-write-wrap .bus ol > li a::before{
+.busRouteDetail .popup-body .sub-popup-body .data-list-wrap .bus ol > li a::before{
 	content: '';
 	width: 22px;
 	height: 26px;
@@ -1430,17 +1424,17 @@
 	background-repeat: no-repeat;
 	display: block;
 }
-.work-03-01-regist .popup-body .sub-popup-body .data-write-wrap .scroll-y .bus ol li a .route_info{
+.busRouteDetail .popup-body .sub-popup-body .data-list-wrap .scroll-y .bus ol li a .routeInfo{
 	padding-left: 20px;
 }
-.work-03-01-regist .popup-body .sub-popup-body .data-write-wrap .scroll-y .bus ol li a .route_info label{
+.busRouteDetail .popup-body .sub-popup-body .data-list-wrap .scroll-y .bus ol li a .routeInfo label{
 	font-size: 13px;
 	font-weight: 500;
 	line-height: 22px;
 	width: 100%;
 	cursor: pointer;
 }
-.work-03-01-regist .popup-body .sub-popup-body .data-write-wrap .scroll-y .bus ol li a .route_info input{
+.busRouteDetail .popup-body .sub-popup-body .data-list-wrap .scroll-y .bus ol li a .routeInfo input{
 	border: none;
 	line-height: 20px;
 	width: 100%;
@@ -2077,7 +2071,8 @@
     background-color: #CDD1DA !important;
 }
 
-.setting-list .tbl-list.vertical-tbl .items + .items, .setting-list .tbl-list.all-vertical-tbl .items + .items {
+.setting-list .tbl-list.vertical-tbl .items + .items,
+.setting-list .tbl-list.all-vertical-tbl .items + .items {
     margin-top: 10px;
 }
 
@@ -2094,7 +2089,8 @@
     border-spacing: 0 5px;
 }
  
-.search-box .search-table th, .search-box .search-table td {
+.search-box .search-table th,
+.search-box .search-table td {
  	padding: 4px 5px;
     font-weight: 400;
     background-color: #E5E7EA;
