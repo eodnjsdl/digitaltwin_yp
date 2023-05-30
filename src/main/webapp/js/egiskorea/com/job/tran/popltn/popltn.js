@@ -26,6 +26,12 @@ $(document).ready(function(){
 	});
 	
 	$('#pplInfoSearch').on('click', function () {
+		if (dtmap.mod == '3D') {
+			ui.loadingBar('hide');
+			toastr.error("3D 지도는 지원하지 않습니다.");
+			return;
+		}
+		
 		let area = $('select[name="liCd"]').val();
 		let viewType = $("#pplShowType").val();
 		// case : 대상 지역 '전체'
@@ -35,6 +41,7 @@ $(document).ready(function(){
 				getAllPopulationInfo();
 			}
 		}
+		
 		selectPplInfoList();
 	});
 	
@@ -185,6 +192,13 @@ function selectPplInfoList() {
 	let data = $("#pplSearchForm").serialize();
 	let pplShowType = $("#pplShowType").val();
 	// 법정동 경계 데이터 ajax. pplShowType = legal
+	
+	// 3D 맵 레이어 미지원
+	if (dtmap.mod == '3D') {
+		ui.loadingBar('hide');
+		toastr.error("3D 지도는 지원하지 않습니다.");
+		return;
+	}
 	if (pplShowType == 'legal') {
 		ui.loadingBar('show');
 		// formdata에 리 옵션 값 'all' 일 때, 전체 조회
@@ -241,6 +255,7 @@ function selectPplInfoList() {
 					gridData(result, options.all);
 					// 레이어 호출 및 범위 표시 변경 ; - 속도 느림 주석처리
 //					getJenks(result, options, viewType);
+					// 카메라 이동
 					setViewPoint(geom);
 				}, error: function() {
 					toastr.error("정보를 불러오지 못하였습니다.");
@@ -467,8 +482,16 @@ function getJenks(data, options, viewType) {
 	};
 	let xmlString = setLegalStyle(style);
 	options.sld = xmlString;
-	getLayer(options, viewType);
+	if (dtmap.mod == '3D'){
+		ui.loadingBar('hide');
+		toastr.error("3D 지도는 지원하지 않습니다.")
+	} else {
+		getLayer(options, viewType);
+	}
 }
+
+
+
 
 /**
  * 카메라 이동
@@ -496,10 +519,8 @@ function setViewPoint(geom) {
 				tilt : 90,
 				dis : 800
 		}
+		// 카메라 이동
 		dtmap.setCenter(transPoint, options);
-//	// 카메라 이동
-//	let centerVec = new Module.JSVector3D(tranPoint[0]-0.15, tranPoint[1], tranPoint[2]);
-//	map3d.camera.move(centerVec, 90, 0, 800);
 	}
 }
 
@@ -692,5 +713,52 @@ function popltnAddPolygon(coordinates, id) {
 	style : style
     })
 }
+
+// 3d
+//function geomPrcss(data) {
+//	console.log(data);
+//	const formatWKT = new ol.format.WKT();
+//	for (let i = 0; i < data.length; i++) {
+//		let geom = data[i].geom; // geom 데이터
+//		let geometry = formatWKT.readGeometry(geom);
+//		let geomGetter = geometry.flatCoordinates
+//		let coordArr =[];
+//		coordArr.push(coordArrFomatter(geomGetter, 2));
+//		console.log(coordArr);
+//		popltnAddPolygon(coordArr, i);
+//	}
+//	
+//	
+//	ui.loadingBar('hide');
+//}
+//
+//function coordArrFomatter(coord, size) {
+//	const arr = [];
+//	
+//	console.log(coord);
+//	for (let i = 0; i < coord.length; i += size) {
+////		arr.push(coord.slice(i, i + size));
+//		let pos = ol.proj.transform(coord.slice(i, i + size), 'EPSG:5179', 'EPSG:4326');
+//		arr.push(pos);
+//	}
+//	console.log(arr);
+//	
+//	return arr;
+//}
+//
+//function popltnAddPolygon(coordinates, id) {
+//	let style = {
+//			fill : {
+//				color : '#ffffff',
+//				opacity : 0.7
+//			}
+//	};
+//	dtmap.vector.addPolygon({
+//		id : 'test_popltn_' + id,
+//		coordinates : coordinates,
+//		crs : 'EPSG:4326',
+//		style : style
+//	})
+//}
 //================== db data =======================
 */

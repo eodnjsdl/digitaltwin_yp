@@ -115,13 +115,15 @@
 			 , tgpi.all_popltn_cnt
 			 , tgpi.male_popltn_cnt 
 			 , tgpi.female_popltn_cnt
+			 , st_astext(tgpi.geom) geom
 		  from (
 				select grid_id 
 					 , li_cd 
 					 , stdr_ym 
 					 , all_popltn_cnt
 					 , male_popltn_cnt 
-					 , female_popltn_cnt  
+					 , female_popltn_cnt
+					 , geom
 				  from tgd_grid_popltn_info tgpi 
 				 where 1 = 1
 				 <if test="liCd == 'all'">
