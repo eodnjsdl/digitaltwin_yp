@@ -25,7 +25,6 @@ function getBusRouteInformation(info) {
 			selectBusRouteListView();
 			return;
 		} else if (info == "busSttn") {		// 버스정류소
-			//selectTgdBusSttnInfoListView();
 			selectBusSttnListView();
 			return;
 		} else {
@@ -51,8 +50,8 @@ function onBusSelectEventListener(e) {
 				selectBusRoute(id);
 			}else if(featureType == "ol_uid"){					// 버스 노선 - 경유 정류소
 				return false;
-			//}else if(featureType == "tgd_bus_sttn_info"){		// 버스 정류소
-				//selectBusSttn(id);
+			}else if(featureType == "tgd_bus_sttn_info"){		// 버스 정류소
+				selectBusSttn(id);
 			}else{
 				alert("지도 객체 선택 오류");
 				return false;

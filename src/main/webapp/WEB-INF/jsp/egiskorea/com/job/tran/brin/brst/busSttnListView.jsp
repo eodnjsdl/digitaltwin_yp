@@ -42,14 +42,14 @@
 										</select>  
 									</td>
 								</tr>
-								<tr>
-									<td colspan="2">
-										<input type="text" name="sttn_nm" class="form-control" placeholder="정류소명">
+								<tr>  
+									<td colspan="2">    
+										<input type="text" name="sttn_nm" class="form-control" placeholder="정류소명">    
 									</td>
 								</tr>
-								<tr>
-									<td colspan="2">
-										<input type="number" step="1" min="0" name="sttn_no" class="form-control" placeholder="&#32;정류소번호">
+								<tr>  
+									<td colspan="2">    
+										<input type="number" step="1" min="0" name="sttn_no" class="form-control" placeholder="&#32;정류소번호">    
 									</td>
 								</tr>
                             </tbody>
@@ -213,17 +213,17 @@
             const type = $parent.find('input[name="rad-trafficAnalysis-area"]:checked').val();
             
             if (type === 'extent') {
-            	TFCANALS.spaceSearchOption.bbox 	= dtmap.getExtent();
+            	TRFICANALS.spaceSearchOption.bbox 	= dtmap.getExtent();
             } else {
             	if(dtmap.mod == "2D"){
             		if(dtmap.draw.source.getFeatures().length > 0){	//임시로 그려진 형태체크
-            			TFCANALS.spaceSearchOption.geometry = dtmap.draw.getGeometry();
+            			TRFICANALS.spaceSearchOption.geometry = dtmap.draw.getGeometry();
                 	}else{
                 		alert("영역이 지정되지 않았습니다.");
                 		return false;
                 	}
             	}else if(dtmap.mod == "3D"){		
-            		TFCANALS.spaceSearchOption.geometry = dtmap.draw.getGeometry();
+            		TRFICANALS.spaceSearchOption.geometry = dtmap.draw.getGeometry();
             	}
             	
             }
@@ -287,12 +287,6 @@
 	        }
         });
 		
-		// 엔터키로 조회하기
-        $('#lSrchOptions').keypress(function(event) {
-	        if (event.which === 13) {
-	          $('.info-attribute-search').click();
-	        }
-        });
 	});
 
 </script>

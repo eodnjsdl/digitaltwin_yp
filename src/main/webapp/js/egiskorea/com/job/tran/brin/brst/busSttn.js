@@ -419,26 +419,3 @@ function searchBusSttnFilters() {
 		getBusSttnEmdData();
 	});
 }
-
-/////////////////////////
-//지도 아이콘(객체) 클릭시 이벤트
-function onTrficAnalsSelectEventListener(e){
-	//console.log("onTrficAnalsSelectEventListener(e)");
-	//console.log(e);
-	if(e){
-		
-		var id = e.id; //피쳐 아이디
-		
-		if(id){
-			var idArray = id.split(".");
-			const featureType	= idArray[0];
-			
-			if(featureType == "tgd_bus_sttn_info"){						//교통분석 - 버스노선정보
-				selectBusSttn(id);
-			}else{
-				alert("지도 객체 선택 오류");
-				return false;
-			}
-		}
-	}
-}
