@@ -6,7 +6,7 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
 <!-- 업무 > 교통분석 > 버스정류소 > 정류소경유노선 조회-->
-<div class="work-03-01-detail">
+<div class="bus-station-detail">
     <div class="popup-header">
         <label for="data-stNumb" id="tgdBusSttnInfo"></label>
         <input type="text" id="data-stNumb" value="" class="bluetxt">
