@@ -326,3 +326,38 @@ dtmap.getPixelFromCoordinate([127.4612355768713, 37.507434759010906, 69.31937682
 // 3D의 경우 [127.4612355768713, 37.507434759010906, 69.31937682256103] 와 [127.4612355768713, 37.507434759010906, 0]의 화면좌표는 서로다름.
 //retrun [256,256]
 ```
+
+## dtmap.tooltip
+- 지도 마우스 툴팁기능 제공
+- 툴팁으로 설정한 HTML은 `<div class="map-tooltip"></div>`  하위노드로 추가됨
+```javascript
+/**
+ * 툴팁 기능 활성화
+ */
+dtmap.tooltip.on();
+
+/**
+ * 툴팁 Element 설정
+ * @param {String} htmlString
+ */
+dtmap.tooltip.setHtml(`<span>툴팁입니다.</span>`);
+
+/**
+ * 툴팁 기능 비활성화
+ */
+dtmap.tooltip.off();
+
+/**
+ * 툴팁 오프셋 설정
+ * @type {{x: number, y: number}}
+ */
+dtmap.tooltip.offset = {
+    x: 10,
+    y: 15
+}
+/**
+ * 툴팁 Element 객체 제공
+ */
+dtmap.tooltip.element
+
+```
