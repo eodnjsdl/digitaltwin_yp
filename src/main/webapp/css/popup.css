@@ -1286,14 +1286,14 @@
 	width: 25px;
 	height: 25px;
 }
-.bus-station-detail > .popup-header label::before, .work-03-01-regist .popup-header > label::before{
+.bus-station-detail > .popup-header label::before, .busRouteDetail .popup-header > label::before{
 	position: absolute;
 	display: block;
 }
-.bus-station-detail > .popup-header label,.work-03-01-regist > .popup-header label{
+.bus-station-detail > .popup-header label,.busRouteDetail > .popup-header label{
 	padding-left: 35px;
 }
-.bus-station-detail > .popup-header input,.work-03-01-regist > .popup-header input{
+.bus-station-detail > .popup-header input,.busRouteDetail > .popup-header input{
 	width: 120px;
 	padding: 0 3%;
 	margin-left: 10px;

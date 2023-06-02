@@ -14,7 +14,7 @@
     <div class="popup-body">
         <div class="sub-popup-body">
             <div class="data-write-wrap" style="height: 100%;">
-                <div class="scroll-y">
+                <div class="scroll-y mCustomScrollbar _mCS_63" style="position: relative; overflow: visible;"><div id="mCSB_63" class="mCustomScrollBox mCS-light mCSB_vertical mCSB_outside" tabindex="0" style="max-height: none;"><div id="mCSB_63_container" class="mCSB_container" style="position:relative; top:0; left:0;" dir="ltr">
                     <div class="data-default bus">
                         <ol>
                         	<c:forEach items="${tbdThrghRouteInfoVO}" var="item">
@@ -65,7 +65,7 @@
                           	</c:forEach>
                         </ol>
                     </div>
-                </div>
+                </div></div><div id="mCSB_63_scrollbar_vertical" class="mCSB_scrollTools mCSB_63_scrollbar mCS-light mCSB_scrollTools_vertical" style="display: block;"><div class="mCSB_draggerContainer"><div id="mCSB_63_dragger_vertical" class="mCSB_dragger" style="position: absolute; min-height: 30px; top: 0px; display: block; height: 122px; max-height: 324px;"><div class="mCSB_dragger_bar" style="line-height: 30px;"></div></div><div class="mCSB_draggerRail"></div></div></div></div>
             </div>
             <div class="position-bottom btn-wrap">
                 <div>
@@ -79,6 +79,7 @@
 <!-- 업무 > 교통분석 > 버스정류소 > 정류소경유노선 조회 end -->
 
 <script type="text/javascript">
+	
 	//정류소경유노선 조회 취소
 	function cancelSelectBusSttn() {
 		
@@ -86,7 +87,7 @@
 		dtmap.draw.dispose();													// 그리기 포인트 삭제
 		dtmap.draw.clear();														// 그리기 초기화
         dtmap.vector.clearSelect();												// 선택 해제
-        TFCANALS.Ax5UiGrid.clearSelect();										// 그리드 선택 해제
+        TRFICANALS.Ax5UiGrid.clearSelect();										// 그리드 선택 해제
         
 	}
 	
