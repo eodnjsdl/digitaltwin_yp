@@ -1,0 +1,25 @@
+<!-- 분석 > 지하시설물터파기 -->
+<div class="small-popup small-left opened" style="width: 260px">
+	<div class="popup-header">지하시설물터파기</div>
+	<div class="popup-body">
+	<div class="type-group">
+		<ol>
+			<li>
+				<input type="radio" name="mouseType" id="modeOff" value="off" checked/><label for="modeOff">해제</label>
+			</li>
+			<li>
+				<input type="radio" name="mouseType" id="drag" value="drag"/><label for="drag">마우스 드래그로 지하 보기</label>
+			</li>
+			<li>
+				<input type="radio" name="mouseType" id="area" value="area"/>
+				<label for="area">터파기 영역 지정 
+					<button type="button" class="btn basic bi-cursor" id="areaSetBtn">영역 지정</button>
+				</label>
+			</li>
+		</ol>
+		<span><small>* 영역지정은 영역을 선택 후 버튼을 눌러주세요.</small></span>
+	</div>
+	</div>
+	<button type="button" class="manualBtn" title="도움말" onclick="manualTab('지하시설물터파기(3D)')"></button>
+	<button type="button" class="popup-toggle" title="접기"></button>
+</div>

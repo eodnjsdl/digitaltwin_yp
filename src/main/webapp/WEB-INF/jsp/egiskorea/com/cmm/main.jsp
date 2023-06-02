@@ -84,6 +84,7 @@
     <script src="/js/map/lib/html2canvas/html2canvas.min.js"></script>
     <script src="/js/map/lib/eventEmitter/EventEmitter.min.js"></script>
     <script src="/js/map/lib/rbush/rbush.min.js"></script>
+    <script src="/js/map/lib/gifler/gifler.min.js"></script>
 
     <!-- DTMAP -->
     <script src="/js/map/dtmap.js"></script>
@@ -218,7 +219,7 @@
     <!-- [교통분석]  -->
     <script src="/js/egiskorea/com/job/tran/brin/busRouteInfo.js"></script>				  <!-- {버스노선정보  공통} -->
     <!-- ////////////////////////////  -->
-
+	
     <!-- 분석 -->
     <script src="/js/egiskorea/com/anls/anls.js"></script>
 
@@ -653,7 +654,7 @@
                                     </li>
                                     <li>
                                         <button type="button" id="TransportationVulnerability" class="dataPopup"
-                                                data-popup="">대중교통 취약분석
+                                                data-popup="leftPopup">대중교통 취약분석
                                         </button>
                                     </li>
                                 </ul>
@@ -677,7 +678,7 @@
                             <li><p class="lnb-dep1">행정자산</p>
                                 <ul class="lnb-dep2">
                                     <li>
-                                        <button type="button" id="AdministrativeAsset" class="dataPopup" data-popup="">
+                                        <button type="button" id="AdministrativeAsset" class="dataPopup" data-popup="bottomPopup">
                                             행정자산관리
                                         </button>
                                     </li>

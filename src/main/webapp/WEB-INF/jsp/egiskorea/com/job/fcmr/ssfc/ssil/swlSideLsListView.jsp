@@ -177,7 +177,7 @@ $(document).ready(function() {
                     </ul>
                 </div>
                 <div class="tab-cont groundwaterProperty on">
-                    <div class="srch-default">
+                    <div class="srch-default" style="margin-top: 15px;">
                         <table class="srch-tbl">
                             <colgroup>
                                 <col style="width: 30%;">

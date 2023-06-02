@@ -43,7 +43,7 @@ public class PopulationInfoServiceImpl extends EgovAbstractServiceImpl implement
 		String liCd = populationVO.getLiCd();
 		if (!liCd.equals("all")) {
 			String setLiCd = "";
-			setLiCd = liCd.substring(0, 7);
+			setLiCd = liCd.substring(0, 8);
 			populationVO.setLiCd(setLiCd);
 		}
 		
@@ -55,13 +55,11 @@ public class PopulationInfoServiceImpl extends EgovAbstractServiceImpl implement
 	@Override
 	public List<String> selectStandardYmList(PopulationVO populationVO) {
 		List<String> list = null;
-		// 리 단위를 조회하기위해 면 코드 like 설정
-		// 10 자리 중 6~8자리 - 면, 9~10 자리 - 리
-		// 0~8 자리 까지 필요 41830***%;
+		
 		String liCd = populationVO.getLiCd();
 		if (!liCd.equals("all")) {
 			String setLiCd = "";
-			setLiCd = liCd.substring(0, 7);
+			setLiCd = liCd.substring(0, 8);
 			populationVO.setLiCd(setLiCd);
 		}
 		
@@ -97,13 +95,10 @@ public class PopulationInfoServiceImpl extends EgovAbstractServiceImpl implement
 	public List<String> selectGridStandardYmList(PopulationVO populationVO) {
 		List<String> list = null;
 		
-		// 리 단위를 조회하기위해 면 코드 like 설정
-		// 10 자리 중 6~8자리 - 면, 9~10 자리 - 리
-		// 0~8 자리 까지 필요 41830***%;
 		String liCd = populationVO.getLiCd();
 		if (!liCd.equals("all")) {
 			String setLiCd = "";
-			setLiCd = liCd.substring(0, 7);
+			setLiCd = liCd.substring(0, 8);
 			populationVO.setLiCd(setLiCd);
 		}
 		
@@ -116,13 +111,10 @@ public class PopulationInfoServiceImpl extends EgovAbstractServiceImpl implement
 	public List<PopulationVO> selectGridMyeonPopulationInfoList(PopulationVO populationVO) {
 		List<PopulationVO> list = null;
 		
-		// 리 단위를 조회하기위해 면 코드 like 설정
-		// 10 자리 중 6~8자리 - 면, 9~10 자리 - 리
-		// 0~8 자리 까지 필요 41830***%;
 		String liCd = populationVO.getLiCd();
 		if (!liCd.equals("all")) {
 			String setLiCd = "";
-			setLiCd = liCd.substring(0, 7);
+			setLiCd = liCd.substring(0, 8);
 			populationVO.setLiCd(setLiCd);
 		}
 		
@@ -131,4 +123,16 @@ public class PopulationInfoServiceImpl extends EgovAbstractServiceImpl implement
 		return list;
 	}
 
+	@Override
+	public String selectGridPopulationCenter(PopulationVO populationVO) {
+		String geom = "";
+		String liCd = populationVO.getLiCd();
+		if (liCd == null) {
+			populationVO.setLiCd("all");
+		}
+		geom = populationInfoDAO.selectPopulationCenter(populationVO);
+		
+		return geom;
+	}
+	
 }

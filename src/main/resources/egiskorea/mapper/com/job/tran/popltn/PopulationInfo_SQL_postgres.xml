@@ -25,7 +25,7 @@
 
 <!-- 검색 기준 년월 조회(법정동경계화면) -->
 <select id="selectStandardYmList" resultType="String">
-		select distinct (substring(tlpi.stdr_ym, 1, 4) || '년' || 
+		select distinct (substring(tlpi.stdr_ym, 1, 4) || '년 ' || 
 							substring(tlpi.stdr_ym, 5, 2) || '월') as stdr_ym
 		  from (
 					select li_cd 
@@ -53,7 +53,13 @@
 						 , male_popltn_cnt 
 						 , female_popltn_cnt
 					  from tgd_li_popltn_info
-					 where stdr_ym = #{stdrYm}
+					 where 1 = 1
+					 <if test="stdrYm != '' and stdrYm != null">
+					   and stdr_ym = #{stdrYm}
+					 </if>
+					 <if test="stdrYm == '' or stdrYm == null">
+					   and stdr_ym = (select max(stdr_ym) from tgd_li_popltn_info)
+					 </if>
 				 ) tlpi
 		 inner join comtccmmndetailcode c2 on (tlpi.li_cd like (substring(c2.code, 1, 8) || '%') and c2.code_id = 'YPE001')
 		 group by c2.code_nm, tlpi.li_cd
@@ -65,7 +71,12 @@
 		select st_astext(st_centroid(st_union(geom))) as geom
 		  from tgd_li_popltn_info
 		 where 1=1
+		 <if test="stdrYm != '' and stdrYm != null">
 		   and stdr_ym = #{stdrYm}
+		 </if>
+		 <if test="stdrYm == '' or stdrYm == null">
+		   and stdr_ym = (select max(stdr_ym) from tgd_li_popltn_info)
+		 </if>
 		<if test="liCd == 'all'">
 		   and li_cd like '4183025%'
 		</if>
@@ -77,37 +88,19 @@
 
 <!-- 			**************	GRID	***************				 -->
 
-<!-- 양평군 전체 인구 조회(격자화면) -->
-<select id="selectGridAllPopulationInfoList" resultType="PopulationVO">
-		select c2.code_nm 
-			  , sum(tgpi.all_popltn_cnt) all_popltn_cnt
-			  , sum(tgpi.male_popltn_cnt) male_popltn_cnt
-			  , sum(tgpi.female_popltn_cnt) female_popltn_cnt
-		   from (
-					select grid_id
-						 , li_cd 
-						 , stdr_ym 
-						 , all_popltn_cnt
-						 , male_popltn_cnt 
-						 , female_popltn_cnt
-					  from tgd_grid_popltn_info
-				 ) tgpi
-		 inner join comtccmmndetailcode c2 on (tgpi.li_cd like (substring(c2.code, 1, 8) || '%') and c2.code_id = 'YPE001')
-		 group by c2.code_nm
-</select>
-
 <!-- 검색 기준 년월 조회(격자화면) -->
 <select id="selectGridStandardYmList" resultType="String">
-		select distinct (substring(tgpi.stdr_ym, 1, 4) || '년' || substring(tgpi.stdr_ym, 5, 2) || '월') as stdr_ym
+		select distinct (substring(tgpi.stdr_ym, 1, 4) || '년 ' || 
+							substring(tgpi.stdr_ym, 5, 2) || '월') as stdr_ym
 		   from (
 					select grid_id
 						 , li_cd
 						 , stdr_ym 
 					  from tgd_grid_popltn_info
 					 where 1 = 1
-					 /*<if test="liCd != 'all'">
+					 <if test="liCd != 'all'">
 					   and li_cd like #{liCd} || '%'
-					 </if>*/
+					 </if>
 				 ) tgpi
 		 inner join comtccmmndetailcode c on (c.code = tgpi.li_cd and c.code_id = 'YPLI')
 		 order by stdr_ym desc 
@@ -130,10 +123,30 @@
 					 , male_popltn_cnt 
 					 , female_popltn_cnt  
 				  from tgd_grid_popltn_info tgpi 
-				 where li_cd like #{liCd} || '%'
+				 where 1 = 1
+				 <if test="liCd == 'all'">
+				   and li_cd like '41830%'
+				 </if>
+				 <if test="liCd != 'all'">
+				   and li_cd like #{liCd} || '%'
+				 </if>
 				   and stdr_ym = #{stdrYm}
 				 ) tgpi
 		 inner join comtccmmndetailcode c on (c.code = tgpi.li_cd and c.code_id = 'YPLI')
+</select>
+
+<!-- 레이어 중심점 좌표 조회 -->
+<select id="selectGridPopulationCenter" resultType="String">
+		select st_astext(st_centroid(st_union(geom))) as geom
+		  from tgd_grid_popltn_info
+		 where 1=1
+		   and stdr_ym = #{stdrYm}
+		<if test="liCd == 'all'">
+		   and li_cd like '4183025%'
+		</if>
+		<if test="liCd != 'all'">
+		   and li_cd like concat(substring(#{liCd},1,8),'%')
+		</if>
 </select>
 
 </mapper>
