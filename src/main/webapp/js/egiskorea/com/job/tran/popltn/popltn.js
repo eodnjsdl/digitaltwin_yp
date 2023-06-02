@@ -503,7 +503,7 @@ function getJenks(data, options, viewType) {
 			value : propertyNm,
 			color : color
 	};
-	let xmlString = setLegalStyle(style);
+	let xmlString = setLegalStyle(style, viewType);
 	options.sld = xmlString;
 	if (dtmap.mod == '2D'){
 		getLayer(options, viewType);
@@ -530,7 +530,7 @@ function setViewPoint(geom, option) {
 			options.zoom = 13;
 			
 			if (option.viewType == 'grid') {
-				options.zoom = 14;
+				options.zoom = 13;
 				// grid, 면 단위조회 카메라
 				dtmap.setCenter(
 						[geometry[0]-3000, geometry[1]]
@@ -559,7 +559,7 @@ function setViewPoint(geom, option) {
  * @param style
  * @returns
  */
-function setLegalStyle(style) {
+function setLegalStyle(style, viewType) {
 	let range = style.range;
 	let color = style.color;
 	let xml = ``;
@@ -576,6 +576,7 @@ function setLegalStyle(style) {
 	xml += `<sld:UserStyle>`;
 	xml += `<se:Name>${style.name}</se:Name>`;
 	xml += `<se:FeatureTypeStyle>`;
+	
 	for (let i = 0; i < style.length; i ++) {
 		xml += `<se:Rule>`;
 		xml += `<se:Name>${range['jenks'][i]}</se:Name>`;
@@ -599,19 +600,23 @@ function setLegalStyle(style) {
 		xml += `<se:SvgParameter name="fill">${color[i]}</se:SvgParameter>`;
 		xml += `<se:SvgParameter name="fill-opacity">0.7</se:SvgParameter>`;
 		xml += `</se:Fill>`;
-		xml += `<se:Stroke>`;
-		xml += `<se:SvgParameter name="stroke">#232323</se:SvgParameter>`;
-		xml += `<se:SvgParameter name="stroke-width">0.5</se:SvgParameter>`;
-		xml += `<se:SvgParameter name="stroke-opacity">0.1</se:SvgParameter>`;
-		xml += `<se:SvgParameter name="stroke-linejoin">bevel</se:SvgParameter>`;
-		xml += `</se:Stroke>`;
+		if (viewType == 'legal') {
+			xml += `<se:Stroke>`;
+			xml += `<se:SvgParameter name="stroke">#232323</se:SvgParameter>`;
+			xml += `<se:SvgParameter name="stroke-width">0.5</se:SvgParameter>`;
+			xml += `<se:SvgParameter name="stroke-opacity">0.7</se:SvgParameter>`;
+			xml += `<se:SvgParameter name="stroke-linejoin">bevel</se:SvgParameter>`;
+			xml += `</se:Stroke>`;
+		}
 		xml += `</se:PolygonSymbolizer>`;
 		xml += `</se:Rule>`;
 	};
+	
 	xml += `</se:FeatureTypeStyle>`;
 	xml += `</sld:UserStyle>`;
 	xml += `</sld:NamedLayer>`;
 	xml += `</StyledLayerDescriptor>`;
+	
 	return xml;
 }
 

@@ -6,7 +6,6 @@ var M_DGUF_ANLS = {
 		 * 초기화
 		 */
 		init: function () {
-			dtmap.clear();
 			this.clear();
 			this.GLOBAL.Transparency = Module.getTransparency();
 			this.GLOBAL.Map = Module.getMap();
@@ -51,34 +50,27 @@ var M_DGUF_ANLS = {
 			var depth = parseFloat(document.getElementById("dgufDepthShowVal").value);
 			this.GLOBAL.Transparency.setDepth(depth);
 			
-//			let style = {
-//					storke:{
-//						color: 'rgb(0,139,255)',
-//						opacity: 1,
-//						width: 15,
-//						lineDash: 'solid',
-//						/* LineString일 경우만 적용 */
-//						startArrow: false, //시작점 화살표
-//						endArrow: false //끝점 화살표
-//					},
-//					label : {
-//						text: depth + "m"
-//					}
-//			}
-//			
-//			for (let i = 0; i < vInputPointList.count(); i++) {
-//				let geometry = [];
-//				let lon = vInputPointList.get(i).Longitude;
-//				let lat = vInputPointList.get(i).Latitude;
-//				let alt = vInputPointList.get(i).Altitude;
-//				geometry.push([lon, lat, alt], [lon, lat, parseFloat(-60)]);
-//				dtmap.vector.addLine({
-//					id: 'dguf_depth_line',
-//					coordinates: geometry,
-//					crs: 'EPSG:4326',
-//					style: style
-//				})
-//			}
+			let style = {
+					stroke:{
+						opacity: 1,
+						width: 3,
+						zIndex: -30
+					},
+					label : {
+						offsetY: -50,
+						text: depth + "m"
+					},
+					offsetHeight : -30
+			}
+			
+			for (let i = 0; i < vInputPointList.count(); i++) {
+				let geometry = [];
+				let lon = vInputPointList.get(i).Longitude;
+				let lat = vInputPointList.get(i).Latitude;
+				let alt = vInputPointList.get(i).Altitude;
+				geometry.push([lon, lat, alt], [lon, lat, parseFloat(alt - depth)]);
+				console.log(geometry);
+			}
 			
 			// 터파기 생성
 			this.GLOBAL.Transparency.create(vInputPointList);
@@ -91,6 +83,7 @@ var M_DGUF_ANLS = {
 		 * 제거
 		 */
 		clear: function () {
+			dtmap.clear();
 			Module.XDEClearTransparecnyObject();
 		},
 		
