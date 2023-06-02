@@ -10,7 +10,7 @@ $(document).ready(function(){
 });
 
 //wfs로 읍면동 데이터 가져오기(grid 테이블 데이터 설정 전)
-function getBusSttnEmdData() {
+function getBusSttnEmdData(option) {
 	
 	// 읍면동 geometry 가져오기
     let emdCdVal = $("#lSrchOptions select[name=emdKorNm] option:selected").val();
@@ -29,6 +29,7 @@ function getBusSttnEmdData() {
 		cql : cqlFilters
 	}
 	
+		
 	// 전체(읍면동) geometry 값 가져오는 wfs 
 	const promiseGeo = dtmap.wfsGetFeature(geomOptions);
 	promiseGeo.then(function(data) {
@@ -44,7 +45,10 @@ function getBusSttnEmdData() {
 				const info = {emdCd : geoArry[i].values_.emd_cd, geometry : geoArry[i].values_.geometry};
 				geoInfo.push(info);
 				
-				optionText += '<option value="' + geoArry[i].values_.emd_cd + '">' + geoArry[i].values_.emd_kor_nm + '</option>';
+				// enter키로 조회시 태그 추가 방지
+				if(option!=1) {
+					optionText += '<option value="' + geoArry[i].values_.emd_cd + '">' + geoArry[i].values_.emd_kor_nm + '</option>';
+				}
 			}
 			geom = geoInfo;
 			
@@ -54,6 +58,7 @@ function getBusSttnEmdData() {
 			return selectBusSttnList(1, geom);
     	}
     });
+	
 }
 
 //초기화
@@ -416,6 +421,6 @@ function selectBusSttnView(detailData){
 //속성 검색 조회 버튼
 function searchBusSttnFilters() {
 	$('.info-attribute-search').on('click', function() {
-		getBusSttnEmdData();
+		getBusSttnEmdData(1);	// enter키로 조회시 태그 추가 방지
 	});
 }
