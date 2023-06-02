@@ -88,6 +88,7 @@
 
     <!-- DTMAP -->
     <script src="/js/map/dtmap.js"></script>
+    <script src="/js/map/dtmap-tooltip.js"></script>
     <script src="/js/map/dtmap-config.js"></script>
 
     <%--    <script src="/js/map/dtmap-urls.${domain}.js"></script>--%>

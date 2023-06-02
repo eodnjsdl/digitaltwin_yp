@@ -137,7 +137,9 @@ function setData(_pageNo){
 		let properties = feature.getProperties();
 		    return {
 		        marker: {
-					src: '/images/poi/cctv_poi.png'
+					// src: '/images/poi/cctv_poi.png'
+					src: '/images/poi/icon/1.gif',
+					scale : 0.3
 		            },
 		            label: {
 		                text: properties.deviceid

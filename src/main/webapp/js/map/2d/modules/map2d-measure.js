@@ -5,104 +5,22 @@ map2d.measure = (function () {
         'area': 'Polygon',
         'radius': 'Circle'
     }
-    let style;
-    let startStyle;
-    let labelStyle;
-    let segmentStyle;
+
+    const LINE_STROKE = 'rgba(255,0,142,0.9)';
+    const LINE_STROKE_DRAW = 'rgba(255,0,142,0.4)';
+    const POLYGON_STROKE = 'rgba(0,88,255,0.9)';
+    const POLYGON_STROKE_DRAW = 'rgba(0,88,255,0.4)';
+    const POLYGON_FILL = 'rgba(0,88,255,0.1)';
+    const CIRCLE_STROKE = 'rgba(98,0,255,0.9)';
+    const CIRCLE_FILL = 'rgba(98,0,255,0.1)';
+
     let interaction;
     let _layer;
     let _source;
+    let _mousePosition;
 
     function init() {
-        createStyles();
         createLayer();
-    }
-
-    /**
-     * 스타일 목록 생성
-     */
-    function createStyles() {
-        // 기본 스타일
-        style = new ol.style.Style({
-            fill: new ol.style.Fill({
-                color: "rgba(0, 0, 255, 0.3)",
-            }),
-            stroke: new ol.style.Stroke({
-                color: "rgba(255, 255, 0, 0.8)",
-                width: 4,
-            }),
-            image: new ol.style.Circle({
-                radius: 7,
-                fill: new ol.style.Fill({
-                    color: "rgba(255, 255, 0, 0.8)",
-                }),
-            }),
-        });
-
-        // 시작 또는 면적 스타일
-        startStyle = new ol.style.Style({
-            text: new ol.style.Text({
-                font: "14px 'Noto Sans KR'",
-                fill: new ol.style.Fill({
-                    color: "rgba(0, 0, 0, 1)",
-                }),
-                backgroundFill: new ol.style.Fill({
-                    color: "rgba(255, 204, 198, 0.8)",
-                }),
-                padding: [3, 3, 3, 3],
-                textBaseline: "bottom",
-                offsetY: -15,
-            }),
-            image: new ol.style.RegularShape({
-                radius: 8,
-                points: 3,
-                angle: Math.PI,
-                displacement: [0, 8],
-                fill: new ol.style.Fill({
-                    color: "rgba(255, 204, 198, 0.8)",
-                }),
-            }),
-        });
-
-        // 라벨 스타일
-        labelStyle = new ol.style.Style({
-            text: new ol.style.Text({
-                font: "14px 'Noto Sans KR'",
-                fill: new ol.style.Fill({
-                    color: "rgba(0, 0, 0, 1)",
-                }),
-                backgroundFill: new ol.style.Fill({
-                    color: "rgba(34, 180, 172, 0.8)",
-                }),
-                padding: [3, 3, 3, 3],
-                textBaseline: "bottom",
-                offsetY: -15,
-            }),
-            image: new ol.style.RegularShape({
-                radius: 8,
-                points: 3,
-                angle: Math.PI,
-                displacement: [0, 8],
-                fill: new ol.style.Fill({
-                    color: "rgba(34, 180, 172, 0.8)",
-                }),
-            }),
-        });
-
-        // 구간 스타일
-        segmentStyle = new ol.style.Style({
-            text: new ol.style.Text({
-                font: "14px 'Noto Sans KR'",
-                fill: new ol.style.Fill({
-                    color: "rgba(0, 0, 0, 1)",
-                }),
-                backgroundFill: new ol.style.Fill({
-                    color: "rgba(255, 255, 0, 0.8)",
-                }),
-                padding: [2, 2, 2, 2],
-                textBaseline: "bottom",
-            }),
-        });
     }
 
 
@@ -117,72 +35,256 @@ map2d.measure = (function () {
             return [];
         }
 
-        const styles = [style];
-        const geometry = feature.getGeometry();
         const type = feature.get("type");
-
-        if (type === "LineString" && geometry instanceof ol.geom.LineString) {
-
-            let sum = 0;
-            geometry.forEachSegment(function (a, b) {
-                const segment = new ol.geom.LineString([a, b]);
-                const length = segment.getLength();
-                const segmentLabel = formatLength(length);
-                const segmentPoint = new ol.geom.Point(segment.getCoordinateAt(0.5));
-                const _segmentStyle = segmentStyle.clone();
-                _segmentStyle.setGeometry(segmentPoint);
-                _segmentStyle.getText().setText(segmentLabel);
-                styles.push(_segmentStyle);
-
-                sum += length;
-                const label = formatLength(sum);
-                const point = new ol.geom.Point(segment.getLastCoordinate());
-                const _labelStyle = labelStyle.clone();
-                _labelStyle.setGeometry(point);
-                _labelStyle.getText().setText(label);
-                styles.push(_labelStyle);
-            });
-
-            const _startStyle = startStyle.clone();
-            _startStyle.setGeometry(new ol.geom.Point(geometry.getFirstCoordinate()));
-            _startStyle.getText().setText("Start");
-            styles.push(_startStyle);
+        if (type === "LineString") {
+            return lineStyle(feature);
         } else if (type === "Polygon") {
-            //const area = ol.sphere.getArea(geometry);
-            const area = geometry.getArea();
-            if (area > 0) {
-                const label = formatArea(area);
-                const point = geometry.getInteriorPoint();
-                const _startStyle = startStyle.clone();
-                _startStyle.setGeometry(point);
-                _startStyle.getText().setText(label);
-                styles.push(_startStyle);
-            }
+            return polygonStyle(feature);
         } else if (type === "Circle") {
-            const first = geometry.getFirstCoordinate();
-            const last = geometry.getLastCoordinate();
-            const lineString = new ol.geom.LineString([first, last]);
+            return circleStyle(feature);
+        }
+    }
 
-            //const length = ol.sphere.getLength(lineString);
-            const length = lineString.getLength();
-            const label = formatLength(length);
-            const _startStyle = startStyle.clone();
-            _startStyle.setGeometry(new ol.geom.Point(last));
-            _startStyle.getText().setText(label);
-            styles.push(_startStyle);
-
-            const _style = style.clone();
-            _style.setGeometry(new ol.geom.Point(first));
-            styles.push(_style);
-
-            const _lineStyle = style.clone();
-            _lineStyle.setGeometry(lineString);
-            styles.push(_lineStyle);
+    function lineStyle(feature) {
+        const isDrawing = feature.get('drawing');
+        const style = new ol.style.Style({
+            stroke: new ol.style.Stroke({
+                color: LINE_STROKE,
+                width: 4,
+            })
+        })
+        const nodeStyle = new ol.style.Style({
+            image: new ol.style.Circle({
+                radius: 5,
+                fill: new ol.style.Fill({
+                    color: 'white',
+                }),
+                stroke: new ol.style.Stroke({
+                    color: LINE_STROKE,
+                    width: 4,
+                })
+            }),
+            geometry: function (feature) {
+                // return the coordinates of the first ring of the polygon
+                let coordinates = feature.getGeometry().getCoordinates();
+                if (isDrawing) {
+                    coordinates = coordinates.slice(0, coordinates.length - 1);
+                }
+                return new ol.geom.MultiPoint(coordinates);
+            },
+        })
+        if (isDrawing) {
+            return [
+                new ol.style.Style({
+                    stroke: new ol.style.Stroke({
+                        color: LINE_STROKE,
+                        width: 4,
+                    }),
+                    geometry: function (feature) {
+                        // return the coordinates of the first ring of the polygon
+                        let coordinates = feature.getGeometry().getCoordinates();
+                        if (coordinates.length > 2) {
+                            coordinates = coordinates.slice(0, coordinates.length - 1);
+                            return new ol.geom.LineString(coordinates);
+                        }
+                    },
+                }),
+                new ol.style.Style({
+                    stroke: new ol.style.Stroke({
+                        color: LINE_STROKE_DRAW,
+                        width: 4,
+                    }),
+                    geometry: function (feature) {
+                        // return the coordinates of the first ring of the polygon
+                        let coordinates = feature.getGeometry().getCoordinates();
+                        if (coordinates.length > 2) {
+                            coordinates = coordinates.slice(coordinates.length - 2, coordinates.length);
+                        }
+                        return new ol.geom.LineString(coordinates);
+                    },
+                }),
+                nodeStyle
+            ]
+        } else {
+            return [style, nodeStyle];
         }
 
+    }
+
+    function polygonStyle(feature) {
+        const isDrawing = feature.get('drawing')
+        return [
+            new ol.style.Style({
+                fill: new ol.style.Fill({
+                    color: POLYGON_FILL
+                }),
+                stroke: new ol.style.Stroke({
+                    color: (isDrawing ? POLYGON_STROKE_DRAW : POLYGON_STROKE),
+                    width: 4,
+                })
+            }),
+            new ol.style.Style({
+                image: new ol.style.Circle({
+                    radius: 5,
+                    fill: new ol.style.Fill({
+                        color: 'white',
+                    }),
+                    stroke: new ol.style.Stroke({
+                        color: POLYGON_STROKE,
+                        width: 4,
+                    })
+                }),
+                geometry: function (feature) {
+                    // return the coordinates of the first ring of the polygon
+                    let coordinates = feature.getGeometry().getCoordinates()[0];
+                    if (isDrawing) {
+                        coordinates = coordinates.slice(0, coordinates.length - 1);
+                    }
+                    return new ol.geom.MultiPoint(coordinates);
+                },
+            }),
+        ]
+    }
+
+    function circleStyle(feature) {
+        const styles = [];
+        const geometry = feature.getGeometry();
+        const isDrawing = feature.get('drawing');
+        const style = new ol.style.Style({
+            fill: new ol.style.Fill({
+                color: CIRCLE_FILL,
+            }),
+            stroke: new ol.style.Stroke({
+                color: CIRCLE_STROKE,
+                width: 4,
+            }),
+            image: new ol.style.Circle({
+                radius: 5,
+                fill: new ol.style.Fill({
+                    color: 'white',
+                }),
+                stroke: new ol.style.Stroke({
+                    color: CIRCLE_STROKE,
+                    width: 4,
+                }),
+            }),
+        });
+        //default style
+        styles.push(style)
+
+        const first = geometry.getFirstCoordinate();
+        let last;
+        if (isDrawing) {
+            last = geometry.getClosestPoint(_mousePosition.coordinate);
+            feature.set('lastPoint', last);
+        } else {
+            last = feature.get('lastPoint');
+        }
+        const lineString = new ol.geom.LineString([first, last]);
+
+        //const length = ol.sphere.getLength(lineString);
+        const length = lineString.getLength();
+        const label = formatLength(length);
+
+        const centerStyle = style.clone();
+        centerStyle.setGeometry(new ol.geom.Point(first));
+        styles.push(centerStyle);
+
+        const pointStyle = style.clone();
+        pointStyle.setGeometry(new ol.geom.Point(last));
+        styles.push(pointStyle);
+
+        const lineStyle = style.clone();
+        lineStyle.setGeometry(lineString);
+        styles.push(lineStyle);
         return styles;
     }
 
+    function lineLabel(feature) {
+        const geometry = feature.getGeometry();
+        const coordinates = geometry.getCoordinates();
+        if (coordinates.length < 2) {
+            return;
+        }
+        const length = geometry.getLength();
+        const format = formatLength(length);
+        const last = geometry.getLastCoordinate();
+        const element = $(`<div class="measure-label"><span class="length">${format.value}</span><span>${format.unit}</span></div>`)[0];
+        setOverlay(feature, coordinates.length - 2, element, last);
+    }
+
+    function polygonLabel(feature) {
+        const geometry = feature.getGeometry();
+        const coordinates = geometry.getCoordinates()[0];
+        if (coordinates.length < 2) {
+            return;
+        }
+        const area = geometry.getArea();
+        const format = formatArea(area);
+        const html = `<div class="measure-label">
+                        <span class="area">${format.value}</span><span>${format.unit}</span>
+                    </div>`
+        const element = $(html)[0];
+
+        const last = coordinates[coordinates.length - 2];
+        setOverlay(feature, 0, element, last);
+    }
+
+    function circleLabel(feature) {
+        const geometry = feature.getGeometry();
+        const first = geometry.getFirstCoordinate();
+        const last = feature.get('lastPoint');
+        const lineString = new ol.geom.LineString([first, last]);
+        const length = lineString.getLength();
+        const format = formatLength(length);
+        const element = $(`<div class="measure-label"><span class="radius">${format.value}</span><span>${format.unit}</span></div>`)[0];
+        setOverlay(feature, 0, element, last);
+    }
+
+    function setOverlay(feature, index, element, position) {
+        let overlays = feature.get('overlays') || [];
+        let overlay = overlays[index];
+        if (overlay) {
+            overlay.setElement(element)
+            overlay.setPosition(position)
+        } else {
+            overlay = new ol.Overlay({
+                element: element,
+                position: position,
+                // stopEvent: false,
+                positioning: 'center-center',
+                offset: [0, -20]
+            });
+            map2d.map.addOverlay(overlay);
+            overlays.push(overlay);
+        }
+        feature.set('overlays', overlays, true);
+        console.log(overlays);
+    }
+
+    function updateLastOverlay(feature) {
+        const type = feature.get("type");
+        const overlays = feature.get('overlays');
+        let overlay = overlays[overlays.length - 1];
+        let header;
+        if (type === "LineString") {
+            map2d.map.removeOverlay(overlay);
+            overlay = overlays[overlays.length - 2];
+            header = '<span>총거리</span>'
+        } else if (type === "Polygon") {
+            header = '<span>총면적</span>'
+        } else if (type === "Circle") {
+            header = '<span>총반경</span>'
+        }
+        const $element = $(overlay.getElement());
+        $element.prepend(header)
+        $element.append('<a href="#" class="ol-popup-closer closer"></a>')
+        $element.on('click', '.closer', function (e) {
+            e.preventDefault()
+            e.stopPropagation();
+            _source.removeFeature(feature);
+        });
+    }
 
     /**
      * 레이어 추가
@@ -196,6 +298,10 @@ map2d.measure = (function () {
             isDefault: true,
             zIndex: 9999
         });
+        _source.on('removefeature', function (e) {
+            const feature = e.feature
+            removeOverlays(feature);
+        })
         map2d.map.addLayer(_layer);
     }
 
@@ -208,9 +314,13 @@ map2d.measure = (function () {
     function formatLength(length) {
         let output;
         if (length > 1000) {
-            output = Math.round((length / 1000) * 100) / 100 + " km";
+            output = {
+                value: Math.round((length / 1000) * 100) / 100, unit: "km"
+            };
         } else {
-            output = Math.round(length * 100) / 100 + " m";
+            output = {
+                value: Math.round(length * 100) / 100, unit: "m"
+            };
         }
         return output;
     }
@@ -223,9 +333,9 @@ map2d.measure = (function () {
     function formatArea(area) {
         let output;
         if (area > 100000) {
-            output = Math.round((area / 1000000) * 100) / 100 + " km\xB2";
+            output = {value: Math.round((area / 1000000) * 100) / 100, unit: "km\xB2"};
         } else {
-            output = Math.round(area * 100) / 100 + " m\xB2";
+            output = {value: Math.round(area * 100) / 100, unit: "m\xB2"};
         }
         return output;
     }
@@ -237,7 +347,9 @@ map2d.measure = (function () {
      */
     function active(type) {
         map2d.setInteraction(this);
-
+        const tooltip = (type !== 'radius' ? '더블' : '') + '클릭으로 종료'
+        dtmap.tooltip.on();
+        dtmap.tooltip.setHtml(`<span>${tooltip}</span>`);
         const drawType = TYPE[type];
         // clearInteraction();
         interaction = new ol.interaction.Draw({
@@ -247,12 +359,40 @@ map2d.measure = (function () {
         });
 
         map2d.map.addInteraction(interaction);
-
+        map2d.map.un('pointermove', onPointerMove);
+        map2d.map.on('pointermove', onPointerMove);
         interaction.on("drawstart", (e) => {
+            dtmap.tooltip.on();
+            dtmap.tooltip.setHtml(`<span>${tooltip}</span>`);
             e.feature.set("measure", true);
+            e.feature.set("drawing", true);
             e.feature.set("type", drawType);
+            e.feature.on('change', onFeatureChange)
         });
 
+        interaction.on('drawend', (e) => {
+            dtmap.tooltip.off();
+            e.feature.set("drawing", false);
+            e.feature.un('change', onFeatureChange);
+            updateLastOverlay(e.feature);
+        })
+
+    }
+
+    function onPointerMove(e) {
+        _mousePosition = e
+    }
+
+    function onFeatureChange(e) {
+        const feature = e.target;
+        const type = feature.get("type");
+        if (type === "LineString") {
+            return lineLabel(feature);
+        } else if (type === "Polygon") {
+            return polygonLabel(feature);
+        } else if (type === "Circle") {
+            return circleLabel(feature);
+        }
     }
 
     /**
@@ -262,6 +402,17 @@ map2d.measure = (function () {
         _source.clear();
     }
 
+    function removeOverlays(feature) {
+        const overlay = feature.get('overlays');
+        if (overlay instanceof Array) {
+            for (let i = 0; i < overlay.length; i++) {
+                map2d.map.removeOverlay(overlay[i]);
+            }
+        } else {
+            map2d.map.removeOverlay(overlay);
+        }
+    }
+
 
     /**
      * 상호작용 초기화
@@ -269,6 +420,7 @@ map2d.measure = (function () {
     function clearInteraction() {
         if (interaction) {
             map2d.map.removeInteraction(interaction);
+            map2d.map.un('pointermove', onPointerMove);
             interaction = undefined;
         }
     }
