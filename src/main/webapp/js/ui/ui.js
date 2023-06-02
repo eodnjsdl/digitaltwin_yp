@@ -554,7 +554,9 @@ window.ui = (function () {
 			dtmap.layer.removeLayer('li_popltn_info_grid');
 			dtmap.layer.removeLayer('layer_trva_grid_area');
 			dtmap.layer.removeLayer('li_popltn_info_graph');
-			dtmap.layer.userLayers.delLayerAtName('li_popltn_info_graph');
+			if (dtmap.mod == '3D') {
+				dtmap.layer.userLayers.delLayerAtName('li_popltn_info_graph');
+			}
 			var name = $(this).attr("id");
 			var area = $(this).data("popup"); //팝업 위치명 넣어주세요  ex)rightPopup
 			ui.openPopup(area);
@@ -1281,7 +1283,9 @@ function clearMap() {
 	dtmap.layer.removeLayer('li_popltn_info');
 	dtmap.layer.removeLayer('li_popltn_info_grid');
 	dtmap.layer.removeLayer('layer_trva_grid_area');
-	dtmap.layer.userLayers.delLayerAtName('li_popltn_info_graph');
+	if (dtmap.mod == '3D') {
+		dtmap.layer.userLayers.delLayerAtName('li_popltn_info_graph');
+	}
 	
 	$(".lnb-dep2").find(".on").removeClass("on");
 }

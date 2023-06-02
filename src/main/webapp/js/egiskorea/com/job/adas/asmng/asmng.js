@@ -3,7 +3,6 @@
  * @returns
  */
 $(document).ready(function () {
-	console.log("inertAdministAsset.jsp");
 	$('.popup-body #regBtn').on('click', function() {
 		insertAdministAssetsView();
 	});

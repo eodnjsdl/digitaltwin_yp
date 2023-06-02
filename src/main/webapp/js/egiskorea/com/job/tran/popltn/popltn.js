@@ -85,7 +85,9 @@ $(document).ready(function(){
 function popltnLayerClear() {
 	dtmap.layer.removeLayer('li_popltn_info');
 	dtmap.layer.removeLayer('li_popltn_info_grid');
-	dtmap.layer.userLayers.delLayerAtName('li_popltn_info_graph');
+	if (dtmap.mod == '3D') {
+		dtmap.layer.userLayers.delLayerAtName('li_popltn_info_graph');
+	}
 }
 
 /**
@@ -241,6 +243,9 @@ function selectPplInfoList() {
 					if (dtmap.mod == '3D') {
 						let layer = setBarGraphLayer();
 						makeGraph(result, layer, geom);
+						console.log(result)
+						console.log(layer)
+						console.log(geom)
 					}
 				}, error: function() {
 					toastr.error("정보를 불러오지 못하였습니다.");
@@ -596,8 +601,8 @@ function setLegalStyle(style) {
 		xml += `</se:Fill>`;
 		xml += `<se:Stroke>`;
 		xml += `<se:SvgParameter name="stroke">#232323</se:SvgParameter>`;
-		xml += `<se:SvgParameter name="stroke-width">1</se:SvgParameter>`;
-		xml += `<se:SvgParameter name="stroke-opacity">0.7</se:SvgParameter>`;
+		xml += `<se:SvgParameter name="stroke-width">0.5</se:SvgParameter>`;
+		xml += `<se:SvgParameter name="stroke-opacity">0.1</se:SvgParameter>`;
 		xml += `<se:SvgParameter name="stroke-linejoin">bevel</se:SvgParameter>`;
 		xml += `</se:Stroke>`;
 		xml += `</se:PolygonSymbolizer>`;
@@ -741,12 +746,12 @@ function makeGraph(result, layer, geom) {
 			}
 		}
 		
-		for (var i=0, len=dataValue.length; i<len; i++) {
+		for (var i = 0, len = dataValue.length; i<len; i++) {
 			
 			var data = new Module.Collection();
 			
 			// 데이터 정보 입력
-			for (var j=0, subLen=dataValue[i].length; j<subLen; j++) {
+			for (var j = 0, subLen = dataValue[i].length; j < subLen; j++) {
 				data.add(dataValue[i][j]);
 			}
 			
@@ -784,7 +789,7 @@ function makeGraph(result, layer, geom) {
 			// 범례 박스 크기 설정
 			graph.setLegendBoxSize(new Module.JSSize3D(75.0, 75.0, 75.0));
 			console.log(transformGeom)
-			graph.create(new Module.JSVector3D(transformGeom[0], transformGeom[1], 700.0),
+			graph.create(new Module.JSVector3D(transformGeom[0], transformGeom[1], 500.0),
 					new Module.JSSize2D(1200, 960),
 					0);	// 0(막대가 가로로 배열된 형태), 1(막대가 쌓인 형태) 
 		} else {

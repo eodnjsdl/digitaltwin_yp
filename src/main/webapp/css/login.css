@@ -21,7 +21,7 @@ html, body {
 	min-width: 490px;
 	height: 600px;
 	border: 1px solid rgba(255, 255, 255, 0.5);
-	border-radius: 100px;
+	border-radius: 30px;
 	background-image: linear-gradient(155deg, #ff7b7b8c -31.07%, #4caaee9c 116.42%);
 	box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.3);
 	text-align: center;
