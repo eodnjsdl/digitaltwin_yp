@@ -1355,16 +1355,15 @@
 }
 .busRouteDetail .popup-body .sub-popup-body .data-list-wrap .bus .data-detail:nth-child(1) ul li div{
 	cursor: default;
-	margin: 10px 0px;
+	margin: 5px 0px;
+	display: flex;
+	flex-grow: 1;
 }
 .busRouteDetail .popup-body .sub-popup-body .data-list-wrap .bus .data-detail:nth-child(1) ul li div small{
 	background-color: #C5C9D6;
 	padding: 0px 5px;
 	border-radius: 5px;
-	margin-left: 5px;
-}
-.busRouteDetail .popup-body .sub-popup-body .data-list-wrap .bus .data-detail:nth-child(1) ul li div span{
-	margin: 0px 15px 0px 3px;
+	margin: 0px 5px;
 }
 .busRouteDetail .popup-body .sub-popup-body .data-list-wrap .scroll-y{
 	width: 260px;
