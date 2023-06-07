@@ -6,7 +6,7 @@ var M_DGUF_ANLS = {
 		 * 초기화
 		 */
 		init: function () {
-			this.clear();
+			this.destroy();
 			this.GLOBAL.Transparency = Module.getTransparency();
 			this.GLOBAL.Map = Module.getMap();
 			this.GLOBAL.Transparency.setRadius(100.0);
@@ -91,10 +91,11 @@ var M_DGUF_ANLS = {
 		/**
 		 * 제거
 		 */
-		clear: function () {
+		destroy: function () {
 			dtmap.clear();
 			Module.XDEClearTransparecnyObject();
-			if (this.GLOBAL.Layer != null) {
+			Module.XDClearInputPoint();
+			if (this.GLOBAL.Layer) {
 				this.GLOBAL.Layer.removeAll();
 			}
 		},
@@ -182,7 +183,7 @@ $(document).ready(function() {
 		let mode = $(this).val(); 
 		M_DGUF_ANLS.setMouseState(mode);
 		if (mode != 'off') {
-			M_DGUF_ANLS.clear();
+			M_DGUF_ANLS.destroy();
 		}
 	});
 	

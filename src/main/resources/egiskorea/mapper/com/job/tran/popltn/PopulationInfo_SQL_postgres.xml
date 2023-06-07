@@ -10,12 +10,14 @@
 			 , tlpi.all_popltn_cnt
 			 , tlpi.male_popltn_cnt 
 			 , tlpi.female_popltn_cnt
+			 , tlpi.odsn_popltn_cnt
 		  from (
 				select li_cd 
 					 , stdr_ym 
 					 , all_popltn_cnt
 					 , male_popltn_cnt 
-					 , female_popltn_cnt  
+					 , female_popltn_cnt
+					 , odsn_popltn_cnt 
 				  from tgd_li_popltn_info
 				 where li_cd like #{liCd} || '%'
 				   and stdr_ym = #{stdrYm}
@@ -46,12 +48,14 @@
 			  , sum(tlpi.all_popltn_cnt) all_popltn_cnt
 			  , sum(tlpi.male_popltn_cnt) male_popltn_cnt
 			  , sum(tlpi.female_popltn_cnt) female_popltn_cnt
+			  , sum(tlpi.odsn_popltn_cnt) odsn_popltn_cnt
 		   from (
 					select li_cd 
 						 , stdr_ym 
 						 , all_popltn_cnt
 						 , male_popltn_cnt 
 						 , female_popltn_cnt
+						 , odsn_popltn_cnt
 					  from tgd_li_popltn_info
 					 where 1 = 1
 					 <if test="stdrYm != '' and stdrYm != null">
@@ -115,6 +119,7 @@
 			 , tgpi.all_popltn_cnt
 			 , tgpi.male_popltn_cnt 
 			 , tgpi.female_popltn_cnt
+			 , tgpi.odsn_popltn_cnt
 			 , st_astext(tgpi.geom) geom
 		  from (
 				select grid_id 
@@ -123,6 +128,7 @@
 					 , all_popltn_cnt
 					 , male_popltn_cnt 
 					 , female_popltn_cnt
+					 , odsn_popltn_cnt
 					 , geom
 				  from tgd_grid_popltn_info tgpi 
 				 where 1 = 1

@@ -553,7 +553,6 @@ window.ui = (function () {
 			dtmap.layer.removeLayer('li_popltn_info');
 			dtmap.layer.removeLayer('li_popltn_info_grid');
 			dtmap.layer.removeLayer('layer_trva_grid_area');
-			dtmap.layer.removeLayer('li_popltn_info_graph');
 			if (dtmap.mod == '3D') {
 				dtmap.layer.userLayers.delLayerAtName('li_popltn_info_graph');
 			}

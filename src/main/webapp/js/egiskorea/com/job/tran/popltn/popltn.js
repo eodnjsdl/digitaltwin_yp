@@ -26,6 +26,7 @@ $(document).ready(function(){
 		}
 	});
 	
+	// 조회 버튼
 	$('#pplInfoSearch').on('click', function () {
 		if (dtmap.mod == '3D') {
 			if ($('#pplShowType').val() == 'grid') {
@@ -44,8 +45,9 @@ $(document).ready(function(){
 				getAllPopulationInfo();
 			}
 		}
-		
-		selectPplInfoList();
+		if ($('#pplBaseYYMM').val()) {
+			selectPplInfoList();
+		}
 	});
 	
 	// 대상지역이 변경될 때마다 호출
@@ -110,6 +112,9 @@ function getAllPopulationInfo() {
 	let stdrYm = $('#pplBaseYYMM').val();
 	let liCode = $('#liCd').val().slice(0, 8);
 	let filter = "length(li_cd) = '8'";
+	if (dtmap.mod === '3D') {
+		filter = "li_cd like '41830%'";
+	}
 	let gender = $('#pplGender').val();
 	let options = {
 			cql : filter,
@@ -128,11 +133,12 @@ function getAllPopulationInfo() {
 			let geom = data.geomCenter;
 			legalData(result);
 			getJenks(result, options, viewType);
-			setViewPoint(geom, options);
 			if (dtmap.mod == '3D') {
 				let layer = setBarGraphLayer();
 				makeGraph(result, layer);
+				popltnAddPolygon(options);
 			}
+			setViewPoint(geom, options);
 		}, error: function() {
 			toastr.error("정보를 불러오지 못하였습니다.");
 		}
@@ -239,14 +245,12 @@ function selectPplInfoList() {
 					legalData(result);
 					// 레이어 호출
 					getJenks(result, options, viewType);
-					setViewPoint(geom, options);
 					if (dtmap.mod == '3D') {
 						let layer = setBarGraphLayer();
 						makeGraph(result, layer, geom);
-						console.log(result)
-						console.log(layer)
-						console.log(geom)
+						popltnAddPolygon(options);
 					}
+					setViewPoint(geom, options);
 				}, error: function() {
 					toastr.error("정보를 불러오지 못하였습니다.");
 				}
@@ -330,6 +334,8 @@ function legalData(result, viewType) {
 			totalCount += result[i].malePopltnCnt;
 		} else if (dataType == 'w') {
 			totalCount += result[i].femalePopltnCnt;
+		} else if (dataType == 'old') {
+			totalCount += result[i].odsnPopltnCnt;
 		}
 	}
 	for(let i = 0; i < result.length; i++) {
@@ -346,6 +352,9 @@ function legalData(result, viewType) {
 		} else if (dataType == 'w') {
 			legalListHml += "<td>" + numberFormatter(result[i].femalePopltnCnt) + "</td>";
 			rate = Math.round(result[i].femalePopltnCnt / totalCount * 100);
+		} else if (dataType == 'old') {
+			legalListHml += "<td>" + numberFormatter(result[i].odsnPopltnCnt) + "</td>";
+			rate = Math.round(result[i].odsnPopltnCnt / totalCount * 100);
 		}
 		legalListHml += "<td>" + rate + "%</td>";
 		legalListHml += "</tr>";
@@ -405,8 +414,8 @@ function getLayer(options, viewType) {
 		id = 'li_popltn_info_grid';
 	}
 	let type = 'WMS'
-		let title = '인구정보'
-			let visible = true;
+	let title = '인구정보'
+	let visible = true;
 	if (viewType == 'legal') {
 		dtmap.showLayer({
 			id: id,
@@ -442,6 +451,8 @@ function getJenks(data, options, viewType) {
 		propertyNm = 'female_popltn_cnt';
 	} else if (options.gender == 'm') {
 		propertyNm = 'male_popltn_cnt';
+	} else if (options.gender == 'old') {
+		propertyNm = 'odsn_popltn_cnt';
 	}
 	let popltn = [];
 	for (let i = 0; i < data.length; i++) {
@@ -449,6 +460,8 @@ function getJenks(data, options, viewType) {
 			popltn.push(data[i].femalePopltnCnt);
 		} else if (options.gender == 'm') {
 			popltn.push(data[i].malePopltnCnt);
+		} else if (options.gender == 'old') {
+			popltn.push(data[i].odsnPopltnCnt);
 		} else {
 			popltn.push(data[i].allPopltnCnt);
 		}
@@ -696,12 +709,13 @@ function makeGraph(result, layer, geom) {
 	if (geom) {
 		geometry = geom.replace(/[POINT()]/gi, '').split(' ');
 		geometry = [parseFloat(geometry[0]), parseFloat(geometry[1])];
-		let cameraGeom = [parseFloat(geometry[0]-600), parseFloat(geometry[1]+1000)];
+		let cameraGeom = [parseFloat(geometry[0]-1200), parseFloat(geometry[1]+1000)];
 		transformGeom = ol.proj.transform(geometry, 'EPSG:5179', 'EPSG:4326');
 		let camera = ol.proj.transform(cameraGeom, 'EPSG:5179', 'EPSG:4326');
 		let alt = 34200.19689058978;
 		transformGeom.push(alt);
-		camera.push(3483.0755403572693);
+//		camera.push(3483.0755403572693);
+		camera.push(9000);
 		// 카메라 위치 조정
 		dtmap.setCenter(camera, options);
 	} else {
@@ -713,11 +727,7 @@ function makeGraph(result, layer, geom) {
 	var graph = createGraphPopltn(result, transformGeom);
 	layer.setMaxDistance(200000.0);
 	
-	
 	layer.addObject(graph, 0);
-	
-	
-	ui.loadingBar('hide');
 	
 	function createGraphPopltn(infoData, transformGeom) {
 		
@@ -727,8 +737,9 @@ function makeGraph(result, layer, geom) {
 		
 		// 범례 추가
 		graph.insertLegend("Legend1", "총인구", new Module.JSColor(200, 144, 237, 125));
-		graph.insertLegend("Legend2", "남성", new Module.JSColor(200, 255, 204, 0));
-		graph.insertLegend("Legend3", "여성", new Module.JSColor(200, 124, 181, 236));
+		graph.insertLegend("Legend2", "남성", new Module.JSColor(200, 124, 181, 236));
+		graph.insertLegend("Legend3", "여성", new Module.JSColor(200, 254, 121, 104));
+		graph.insertLegend("Legend4", "노인", new Module.JSColor(200, 255, 204, 0));
 		 
 		// 데이터 셋 이름 리스트
 		var dataSetName = [],
@@ -745,7 +756,7 @@ function makeGraph(result, layer, geom) {
 		// 최대/최소 인구
 		let maxPopltnCnt = infoData[0].allPopltnCnt;
 		for (let i = 0; i < infoData.length; i++) {
-			dataValue.push([infoData[i].allPopltnCnt, infoData[i].malePopltnCnt, infoData[i].femalePopltnCnt]);
+			dataValue.push([infoData[i].allPopltnCnt, infoData[i].malePopltnCnt, infoData[i].femalePopltnCnt, infoData[i].odsnPopltnCnt]);
 			if (maxPopltnCnt < infoData[i].allPopltnCnt) {
 				maxPopltnCnt = infoData[i].allPopltnCnt;
 			}
@@ -764,47 +775,44 @@ function makeGraph(result, layer, geom) {
 			graph.insertDataSet(dataSetName[i], data);
 			
 			// 그래프 데이터 셋 이름 출력 옵션 설정
-			graph.setDataSetNameFont(dataSetName[i], "Tahoma");	// 폰트 이름
+			graph.setDataSetNameFont(dataSetName[i], "sans-serif");	// 폰트 이름
 			graph.setDataSetNameTextSize(dataSetName[i], 12);	// 텍스트 크기
 			graph.setDataSetNameTextColor(dataSetName[i], labelTextOutlineColor, labelTextFillColor);	// 텍스트 색상
 		}
 		
 		// 최대, 최소 값 범위 설정
-		
-//		graph.setValueRange(1000, 35000, 3000);
 		let intervalValue = (maxPopltnCnt + 1000 - (maxPopltnCnt % 1000)) / 10;
-		graph.setValueRange(0, maxPopltnCnt * 1.1, intervalValue);
+		let maxViewPopltnCnt = Math.floor(maxPopltnCnt * 1.1 - (maxPopltnCnt % 10));
+		graph.setValueRange(0, maxViewPopltnCnt, intervalValue);
 
 		// 단위 표시 텍스트 설정
 		graph.setUnitText("(명)");
 		
 		// 바 상승 애니메이션 속도 설정
-		graph.setAnimationSpeed(0.2);
-		
+		graph.setAnimationSpeed(0.1);
 		
 		// 데이터 셋 이름과 그래프 바 간 간격 설정
-		graph.setDataSetNameInterval(80.0);
+		graph.setDataSetNameInterval(300);
 		
 		// 그래프 바닥 평면 두께 설정
-		graph.setFloorDepth(30.0);
+		graph.setFloorDepth(150);
 		graph.setFloorColor(new Module.JSColor(150, 250, 250, 250));
 			
 		// 그래프 생성
 		if (transformGeom != null) {
 			// 범례 박스 크기 설정
-			graph.setLegendBoxSize(new Module.JSSize3D(75.0, 75.0, 75.0));
-			console.log(transformGeom)
-			graph.create(new Module.JSVector3D(transformGeom[0], transformGeom[1], 500.0),
-					new Module.JSSize2D(1200, 960),
+			graph.setLegendBoxSize(new Module.JSSize3D(200, 150, 150));
+			graph.create(new Module.JSVector3D(transformGeom[0], transformGeom[1], 700),
+					new Module.JSSize2D(5000, 3125),
 					0);	// 0(막대가 가로로 배열된 형태), 1(막대가 쌓인 형태) 
 		} else {
 			// 범례 박스 크기 설정
-			graph.setLegendBoxSize(new Module.JSSize3D(800.0, 750.0, 750.0));
-			graph.create(new Module.JSVector3D(127.48846105973797, 37.49399950773854, 1500.0),
+			graph.setLegendBoxSize(new Module.JSSize3D(800, 750, 750));
+			graph.create(new Module.JSVector3D(127.48846105973797, 37.49399950773854, 1500),
 					new Module.JSSize2D(20000, 12500),
 					0);	// 0(막대가 가로로 배열된 형태), 1(막대가 쌓인 형태) 
 		}
-					 
+		
 		return graph;
 	}
 }
@@ -819,4 +827,37 @@ function setBarGraphLayer() {
 	var layer = layerList.createLayer("li_popltn_info_graph", Module.ELT_GRAPH);
 	
 	return layer;
+}
+
+/**
+ * 법정동 조회 - 폴리곤 생성
+ * @param filter
+ * @returns
+ */
+function popltnAddPolygon(filter) {
+	if (dtmap.mod === '3D') {
+		let options = {
+				typeNames: 'tgd_scco_li',
+				sortBy : 'gid',
+				sortOrder : 'DESC',
+				cql : filter.cql
+		}
+		if (filter.all) {
+			options.typeNames = 'tgd_scco_emd'
+			options.cql = null
+		}
+		dtmap.vector.clear();
+		const promise = dtmap.wfsGetFeature(options);
+		promise.then(function(data) {
+			dtmap.vector.readGeoJson(data, function (feature) {
+				let properties = feature.getProperties();
+				return {
+					fill : {
+					      opacity : 0.7
+					    }
+				}
+			});
+			ui.loadingBar('hide');
+		});
+	}
 }

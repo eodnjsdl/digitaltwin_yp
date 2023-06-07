@@ -658,7 +658,7 @@ $(function () {
 });
 
 /**
- * 격자 효과
+ * 격자 효과 이후 폴리곤 생성
  * @returns
  */
 function gridCanvasEffect(objData) {
@@ -780,6 +780,9 @@ function gridCanvasEffect(objData) {
 		
 	}
 	
+	/**
+	 * 폴리곤 화면 표출
+	 */
 	function callPolygon() {
 		for (let i = 0; i < objData.length; i++) {
 			M_AI_IMAGE.global.count += M_AI_IMAGE.analysis.addPolygon(objData[i].vectorId, objData[i].coordinates, objData[i].crs, objData[i].options, objData[i].resultInfoData);
