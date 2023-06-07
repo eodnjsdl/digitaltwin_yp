@@ -132,7 +132,7 @@
 	$(document).ready(function(){
 		 
 		//이벤트 리스너 추가
-		dtmap.on('select', onTrficAnalsSelectEventListener);
+		dtmap.on('select', onBusSelectEventListener);
 		
 		initBusSttn();	//초기화
 		
@@ -178,12 +178,6 @@
 				$("#rightSubPopup").empty();
 			}
 			
-			//공간정보 편집도구 닫기
-			if($(".space-edit-tool").hasClass("opened")){
-            	$(".space-edit-tool").removeClass("opened");
-                $(".space-edit-tool").empty();
-            }
-			
 			clearMap();		//지도 클리어
 		});
 		
@@ -207,23 +201,23 @@
      	
      	// 공간 검색 조회 버튼
         $(".trafficAnalysis-spatial-search", "#bottomPopup").on("click", function (e) {
-           	console.log("공간검색 조회");
+           	//console.log("공간검색 조회");
 			
            	const $parent = $(e.target).closest('.search-area');
             const type = $parent.find('input[name="rad-trafficAnalysis-area"]:checked').val();
             
             if (type === 'extent') {
-            	TRFICANALS.spaceSearchOption.bbox 	= dtmap.getExtent();
+            	TFCANALS.spaceSearchOption.bbox 	= dtmap.getExtent();
             } else {
             	if(dtmap.mod == "2D"){
             		if(dtmap.draw.source.getFeatures().length > 0){	//임시로 그려진 형태체크
-            			TRFICANALS.spaceSearchOption.geometry = dtmap.draw.getGeometry();
+            			TFCANALS.spaceSearchOption.geometry = dtmap.draw.getGeometry();
                 	}else{
                 		alert("영역이 지정되지 않았습니다.");
                 		return false;
                 	}
             	}else if(dtmap.mod == "3D"){		
-            		TRFICANALS.spaceSearchOption.geometry = dtmap.draw.getGeometry();
+            		TFCANALS.spaceSearchOption.geometry = dtmap.draw.getGeometry();
             	}
             	
             }

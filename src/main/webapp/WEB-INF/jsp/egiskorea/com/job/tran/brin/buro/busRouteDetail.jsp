@@ -105,20 +105,28 @@ function drawCrdnt(xCrdnt, yCrdnt, sttnNm) {
 								<label for="cdpntSttn">기점 정류소</label>
 								<input type="text" id="cdpntSttn" value="${busRouteVO.cdpnt_sttn_nm} (${busRouteVO.cdpnt_sttn_no})" readonly="readonly">
 								<div>
-									<small>첫차</small>
-									<span>${busRouteVO.cdpnt_fircar_time}</span>
-									<small>막차</small>
-									<span>${busRouteVO.cdpnt_ltcar_time}</span>
+									<div>
+										<small>첫차</small>
+										<span>${busRouteVO.cdpnt_fircar_time}</span>
+									</div>
+									<div>
+										<small>막차</small>
+										<span>${busRouteVO.cdpnt_ltcar_time}</span>
+									</div>
 								</div>
 							</li>
 							<li>
 								<label for="tmnlSttn">종점 정류소</label>
 								<input type="text" id="tmnlSttn" value="${busRouteVO.tmnl_sttn_nm} (${busRouteVO.tmnl_sttn_no})" readonly="readonly">
 								<div>
-									<small>첫차</small>
-									<span>${busRouteVO.tmnl_fircar_time}</span>
-									<small>막차</small>
-									<span>${busRouteVO.tmnl_ltcar_time}</span>
+									<div>
+										<small>첫차</small>
+										<span>${busRouteVO.tmnl_fircar_time}</span>
+									</div>
+									<div>
+										<small>막차</small>
+										<span>${busRouteVO.tmnl_ltcar_time}</span>
+									</div>
 								</div>
 							</li>
 							<li>
