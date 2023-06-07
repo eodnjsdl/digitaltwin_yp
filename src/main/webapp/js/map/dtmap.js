@@ -538,6 +538,11 @@ window.dtmap = (function () {
             get: function () {
                 return getMap().vector;
             }
+        },
+        'container': {
+            get: function () {
+                return getMap().container;
+            }
         }
     })
 
