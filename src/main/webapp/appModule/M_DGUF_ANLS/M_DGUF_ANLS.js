@@ -18,7 +18,8 @@ var M_DGUF_ANLS = {
 		 */
 		GLOBAL : {
 			Transparency : null,
-			Map : null
+			Map : null,
+			Layer : null
 		},
 		
 		/**
@@ -27,8 +28,12 @@ var M_DGUF_ANLS = {
 		setMouseState: function (mode) {
 			if (mode == 'off') {
 				Module.XDSetMouseState(Module.MML_MOVE_GRAB);
+				// 입력점 클리어
+				this.GLOBAL.Map.clearInputPoint();
 			} else if (mode == 'drag'){
 				Module.XDSetMouseState(Module.MML_VIEW_UNDERGROUND);
+				// 입력점 클리어
+				this.GLOBAL.Map.clearInputPoint();
 			} else if (mode == 'area') {
 				Module.XDSetMouseState(Module.MML_INPUT_LINE);
 			}
@@ -70,13 +75,17 @@ var M_DGUF_ANLS = {
 				let alt = vInputPointList.get(i).Altitude;
 				geometry.push([lon, lat, alt], [lon, lat, parseFloat(alt - depth)]);
 				console.log(geometry);
+				// 라인 생성 (깊이 표시)
+				this.createLineWithText(geometry, depth);
 			}
+			
 			
 			// 터파기 생성
 			this.GLOBAL.Transparency.create(vInputPointList);
 			
 			// 입력점 클리어
 			this.GLOBAL.Map.clearInputPoint();
+			
 		},
 		
 		/**
@@ -85,6 +94,9 @@ var M_DGUF_ANLS = {
 		clear: function () {
 			dtmap.clear();
 			Module.XDEClearTransparecnyObject();
+			if (this.GLOBAL.Layer != null) {
+				this.GLOBAL.Layer.removeAll();
+			}
 		},
 		
 		/**
@@ -126,6 +138,42 @@ var M_DGUF_ANLS = {
 			}
 			this.GLOBAL.Transparency.setDepth(depth);
 			document.getElementById("dgufDepthShowVal").value = depth;
+		},
+		
+		createLineWithText: function (geom, depth) {
+			var line = Module.createLineString("depth_info_line");
+			// 옵션, 데이터 설정
+			let style = 'XYZ';
+			let coordinates = {coordinate : geom, style : style};
+			var options = {
+					coordinates : coordinates,
+					type: 0,
+					union: false, // true => RTT
+					depth: false,
+					color: new Module.JSColor(255, 0, 139, 255),
+					width: 5
+					};
+			console.log(options);
+			line.createbyJson(options);
+			
+			let layerList = new Module.JSLayerList(true);
+			let layer = layerList.createLayer("depth_info_line", Module.ELT_3DLINE);
+			
+			let position = null;
+			let point = null;
+			
+			// 10미터 마다 표시
+			for (let i = 1; i <= depth / 10; i++) {
+				position = new Module.JSVector3D(geom[0][0], geom[0][1], (geom[0][2] - (10 * i)));
+				point = Module.createPoint("depth_info_line");
+				point.setPosition(position);
+				point.setText((10 * i) + "m");
+				layer.addObject(point, 0);
+			};
+			
+			layer.addObject(line, 0);
+			
+			this.GLOBAL.Layer = layer;
 		}
 }
 
