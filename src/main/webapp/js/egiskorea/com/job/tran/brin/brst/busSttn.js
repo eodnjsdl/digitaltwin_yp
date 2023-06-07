@@ -72,7 +72,7 @@ function initBusSttn(){
 		$("#rightSubPopup").empty();
 	}
 
-	TRFICANALS.Ax5UiGrid.focus(-1);	//grid 선택창 초기화
+	TFCANALS.Ax5UiGrid.focus(-1);	//grid 선택창 초기화
 	
 	dtmap.draw.dispose();		//그리기 포인트 삭제
 	dtmap.draw.clear();			//그리기 영역 초기화
