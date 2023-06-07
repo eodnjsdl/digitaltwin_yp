@@ -73,6 +73,9 @@ function initBusSttn(){
 	}
 
 	TFCANALS.Ax5UiGrid.focus(-1);	//grid 선택창 초기화
+	
+	dtmap.draw.dispose();		//그리기 포인트 삭제
+	dtmap.draw.clear();			//그리기 영역 초기화
 
 }
 
@@ -138,15 +141,6 @@ function getBusSttn(){
 function selectBusSttnList(page, geom) {
 	
 	initBusSttn();	//초기화
-		
-	//공간 검색 / 사용자 정의 일 경우 이외에는  그리기 영역 지우기
-	if($(".groundwaterSpace").hasClass("on")){
-		const geomSrchType = $(".trafficAnalysis-spatial-search").closest('.search-area').find('input[name="rad-trafficAnalysis-area"]:checked').val();
-		if(geomSrchType != "custom"){
-			dtmap.draw.dispose();		//그리기 포인트 삭제
-			dtmap.draw.clear();			//그리기 영역 초기화
-		}
-	}
 		
 	//페이지 변수세팅
 	if(page){
