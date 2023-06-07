@@ -8,6 +8,13 @@
 <script>
     $(document).ready(function () {
         eventBindByLandInfoList();
+        //tabBox > 1depth
+        $(document).on("click", ".tabBoxDepth1-wrap .tabBoxDepth1 > ul > li > .inner-tab", function(){
+            $(this).each(function(){
+                $(this).parent().addClass("on").siblings().removeClass("on");
+                $("."+$(this).parent().data("tab")).addClass("on").siblings().removeClass("on");
+            });
+        });
     });
 
     function eventBindByLandInfoList() {
