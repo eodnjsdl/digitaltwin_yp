@@ -215,10 +215,11 @@ map2d.layer = (function () {
             let params = {};
             for (let i = 0; i < keys.length; i++) {
                 let key = keys[i];
+                let value = options[key];
                 if (WMS_PARAM_MAP[key]) {
                     key = WMS_PARAM_MAP[key];
                 }
-                params[key] = options[key];
+                params[key] = value;
             }
             source.updateParams(params);
         }
