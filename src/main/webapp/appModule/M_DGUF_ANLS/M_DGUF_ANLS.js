@@ -22,8 +22,7 @@ var M_DGUF_ANLS = {
 		GLOBAL : {
 			Transparency : null,
 			Map : null,
-			Layer : null,
-			Geom : null
+			Layer : null
 		},
 		
 		/**
@@ -110,7 +109,7 @@ var M_DGUF_ANLS = {
 			}
 			Module.getViewCamera().setLimitAltitude(150);
 			canvas.removeEventListener('Fire_EventSelectedObject', onPipeSelect);
-			canvas.removeEventListener('mouseup', onMouseUpFromPipe);
+//			canvas.removeEventListener('mouseup', onMouseUpFromPipe);
 		},
 		
 		/**
@@ -196,10 +195,12 @@ $(document).ready(function() {
 	$('.type-group input[name="mouseType"]').on('change', function() {
 		let mode = $(this).val(); 
 		M_DGUF_ANLS.setMouseState(mode);
-		canvas.addEventListener('mouseup', onMouseUpFromPipe);
+//		canvas.addEventListener('mouseup', onMouseUpFromPipe);
 		canvas.addEventListener('Fire_EventSelectedObject', onPipeSelect);
 		if (mode != 'off') {
 			M_DGUF_ANLS.destroy();
+			dtmap.draw.active({type: 'POINT', once: true});
+			dtmap.draw.setBuffer(1);
 		}
 	});
 	
@@ -234,18 +235,32 @@ $(document).ready(function() {
  * @returns
  */
 function onPipeSelect(e){
-	let geom = M_DGUF_ANLS.GLOBAL.Geom;
 	console.log(e);
-	console.log(M_DGUF_ANLS.GLOBAL.Geom);
-	console.log(geom);
-	let layerNm = e.layerName.substring(0, e.layerName.length-1).toLowerCase();
-	let objId = e.objID;
-	let cqlFilters = "";
+	let obj = Module.getMap().getSelectObject().position;
+	let geometry;
+	if (obj) {
+		geometry = dtmap.draw.getGeometry();
+		dtmap.draw.dispose();
+		dtmap.draw.clear();
+	} else {
+		return;
+	}
+	
+//	let objGeometry = [obj.Longitude, obj.Latitude, obj.Altitude];
+//	console.log("objGeometry ================================================");
+//	console.log(objGeometry);
+	
+	
+//	let trans = new ol.geom.Point([objGeometry[0], objGeometry[1]]);
+//	let spaceSearch = dtmap.util.getBufferGeometry(trans, 1);
+//	console.log("spaceSearch ------------------------------------------------");
+//	console.log(spaceSearch);
+	let layerNm = e.layerName.substring(0, e.layerName.length - 1).toLowerCase();
 	let options = {
 			typeNames: layerNm,
 			sortBy : 'gid',
 			sortOrder : 'DESC',
-			cql : cqlFilters		
+			geometry : geometry
 	};
 	
 	const promise = dtmap.wfsGetFeature(options);
@@ -254,10 +269,10 @@ function onPipeSelect(e){
 	});
 };
 
-function onMouseUpFromPipe(e) {
-	var screenPosition = new Module.JSVector2D(e.x, e.y);
-	var mapPosition = Module.getMap().ScreenToMapPointEX(screenPosition);
-	let geometry = [mapPosition.Longitude, mapPosition.Latitude, mapPosition.Altitude];
-	
-	return geometry; 
-}
+//function onMouseUpFromPipe(e) {
+//	console.log("mouseUpEvent><><><><<><><><><><><><><><><><");
+//	var screenPosition = new Module.JSVector2D(e.x, e.y);
+//	var mapPosition = Module.getMap().ScreenToMapPointEX(screenPosition);
+//	let geometry = [mapPosition.Longitude, mapPosition.Latitude, mapPosition.Altitude];
+//	console.log(geometry);
+//}
