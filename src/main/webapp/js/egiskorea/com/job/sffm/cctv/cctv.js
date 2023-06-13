@@ -139,7 +139,7 @@ function setData(_pageNo){
 		        marker: {
 					src: '/images/poi/cctv_poi.png',
 					// src: '/images/poi/icon/1.gif',
-					scale : 0.3
+					// scale : 0.3
 		            },
 		            label: {
 		                text: properties.deviceid
