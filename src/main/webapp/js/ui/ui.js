@@ -187,6 +187,17 @@ window.ui = (function () {
 		
 		//새로고침
 		$mapControl.on('click', '.reset', function (e) {
+			
+			//대중교통 취약분석 연동
+        	var isTravBusRoute = $(".trvaInfoLegend input[name=trva_bus_route]").is(":checked");
+        	if(isTravBusRoute){
+        		$(".trvaInfoLegend input[name=trva_bus_route]").prop("checked", false);
+        	}
+        	var isTravBusSttn = $(".trvaInfoLegend input[name=trva_bus_sttn]").is(":checked");
+        	if(isTravBusSttn){
+        		$(".trvaInfoLegend input[name=trva_bus_sttn]").prop("checked", false);
+        	}
+			
 			dtmap.clear();
 		});
 		
@@ -568,6 +579,7 @@ window.ui = (function () {
 				break;
 			// 교통분석 > 대중교통 취약분석
 			case "TransportationVulnerability" :
+				$("#leftPopup").css('width', '360px');
 				aj_selectTransportationVulnerabilityListView();
 				//toastr.error("대중교통 취약분석");
 				break;
@@ -1265,7 +1277,7 @@ window.ui = (function () {
 	}
 	
 	return module;
-	
+
 }());
 
 function clearMap() {
