@@ -3,11 +3,6 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
-<script>
-
-
-</script>
-
 <div class="popup-header">레이어 정보</div>
 <div class="popup-body">
     <div class="left-popup-body">
@@ -210,7 +205,7 @@
                                 </div>
                             </div>
                             <div class="col-6">
-                                <div class="toggle_style style_fill">
+                                <div class="toggle_style style_fill marB10">
                                     <p class="form-label"><input type="checkbox" id="style_fill_checkbox"> <label
                                             for="style_fill_checkbox">채우기</label></p>
                                     <div class="tbl-list">
@@ -219,8 +214,20 @@
                                             <input type="text" name="fill" class="style-fill-color">
                                         </div>
                                     </div>
+                                    <div class="tbl-list">
+                                        <div class="term">투명도</div>
+                                        <div class="desc">
+                                            <div class="drawing-slider-box validZoomLevel">
+                                                <div class="drawing-slider">
+                                                    <div class="style-fill-color-opacity"></div>
+                                                </div>
+                                                <input type="hidden" name="fill-opacity"/>
+                                                <input type="text" class="value-num" value="" readonly>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="toggle_style style_stroke">
+                                <div class="toggle_style style_stroke marB10">
                                     <p class="form-label"><input type="checkbox" id="style_stroke_checkbox"> <label
                                             for="style_stroke_checkbox">테두리</label></p>
                                     <div class="tbl-list vertical-tbl">
@@ -228,11 +235,16 @@
                                             <div class="term">색상</div>
                                             <div class="desc">
                                                 <div class="form-row">
-                                                    <div class="col-3"><input type="number" name="stroke-width" min="1"
-                                                                              max="50" step="1" value="3" value=""
-                                                                              class="form-control"></div>
-                                                    <div class="col-9"><input type="text" name="stroke"
-                                                                              class="style-stroke-color"></div>
+                                                    <input type="text" name="stroke" class="style-stroke-color form-control">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="items">
+                                            <div class="term">두께</div>
+                                            <div class="desc">
+                                                <div class="form-row">
+                                                    <input type="number" name="stroke-width" min="1" max="50" step="1"
+                                                           value="1" class="form-control">
                                                 </div>
                                             </div>
                                         </div>
@@ -569,36 +581,8 @@
                     -->
                 </div>
                 <div class="tab-cont layerLabel">
+
                     <div class="row marB30">
-                        <div class="col-6">
-                            <p class="form-label">라벨 필드</p>
-                            <div class="tbl-list">
-                                <div class="term">값</div>
-                                <div class="desc">
-                                    <select class="form-select">
-                                        <option value="">FTR_IDN</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row marB30">
-                        <div class="col-6">
-                            <p class="form-label">유효축척</p>
-                            <div class="input-group">
-                                <div class="input-group-text">
-													<span class="form-checkbox">
-														<span><input type="checkbox" name="" id="chk2"
-                                                                     checked="checked"><label for="chk2"></label></span>
-													</span>
-                                </div>
-                                <input type="text" class="form-control">
-                                <div class="input-group-text">~</div>
-                                <input type="text" class="form-control">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
                         <div class="col-12">
                             <p class="cont-txt">라벨스타일</p>
                         </div>
@@ -606,7 +590,7 @@
                             <div class="tbl-list">
                                 <div class="term">글씨</div>
                                 <div class="desc" style="width: 190px;">
-                                    <input type="text" class="colorPicker">
+                                    <input type="text" class="colorPicker" name="fill">
                                 </div>
                             </div>
                         </div>
@@ -614,8 +598,8 @@
                             <div class="tbl-list">
                                 <div class="term">배경</div>
                                 <div class="desc" style="width: 190px;">
-                                    <input type="text" class="colorPicker">
-
+                                    <input type="text" class="colorPicker" name="fill">
+                                    <input type="text" class="form-control" name="radius">
                                 </div>
                             </div>
                         </div>
@@ -640,6 +624,17 @@
                             </div>
                         </div>
                     </div>
+                    <%-- <div class="row ">
+                         <div class="col-6">
+                             <p class="form-label">유효축척</p>
+                             <div class="drawing-slider-box validZoomLevel">
+                                 <div class="drawing-slider">
+                                     <div class="style-label-scale"></div>
+                                 </div>
+                                 <input type="text" class="value-num" value="" readonly>
+                             </div>
+                         </div>
+                     </div>--%>
                 </div>
                 <div class="position-bottom btn-wrap">
                     <div>
@@ -666,6 +661,8 @@
             opacity: false,
             swatches: []
         });
+
+
         //symbol 클릭 시 active
         $(".symbol-group button").on("click", function () {
             $(this).addClass("active").siblings().removeClass('active');
