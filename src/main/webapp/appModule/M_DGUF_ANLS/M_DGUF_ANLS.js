@@ -22,7 +22,8 @@ var M_DGUF_ANLS = {
 		GLOBAL : {
 			Transparency : null,
 			Map : null,
-			Layer : null
+			Layer : null,
+			Geom : null
 		},
 		
 		/**
@@ -86,7 +87,7 @@ var M_DGUF_ANLS = {
 				this.createLineWithText(geometry, depth);
 				geom.push(geometry[0]);
 			}
-//			console.log(geom);
+			console.log(geom);
 			
 			
 			// 터파기 생성
@@ -109,6 +110,7 @@ var M_DGUF_ANLS = {
 			}
 			Module.getViewCamera().setLimitAltitude(150);
 			canvas.removeEventListener('Fire_EventSelectedObject', onPipeSelect);
+			canvas.removeEventListener('mouseup', onMouseUpFromPipe);
 		},
 		
 		/**
@@ -194,6 +196,7 @@ $(document).ready(function() {
 	$('.type-group input[name="mouseType"]').on('change', function() {
 		let mode = $(this).val(); 
 		M_DGUF_ANLS.setMouseState(mode);
+		geometry = canvas.addEventListener('mouseup', onMouseUpFromPipe);
 		canvas.addEventListener('Fire_EventSelectedObject', onPipeSelect);
 		if (mode != 'off') {
 			M_DGUF_ANLS.destroy();
@@ -231,11 +234,8 @@ $(document).ready(function() {
  * @returns
  */
 function onPipeSelect(e){
-//	console.log(e);
-	var screenPosition = new Module.JSVector2D(e.x, e.y);
-	// 화면->지도 좌표 변환
-	var mapPosition = Module.getMap().ScreenToMapPointEX(screenPosition);
-	
+	console.log(e);
+	console.log(geometry);
 	let layerNm = e.layerName.substring(0, e.layerName.length-1).toLowerCase();
 	let objId = e.objID;
 	let cqlFilters = "";
@@ -248,6 +248,14 @@ function onPipeSelect(e){
 	
 	const promise = dtmap.wfsGetFeature(options);
 	promise.then(function(data) {
-//		console.log(data);
+		console.log(data);
 	});
 };
+
+function onMouseUpFromPipe(e) {
+	var screenPosition = new Module.JSVector2D(e.x, e.y);
+	var mapPosition = Module.getMap().ScreenToMapPointEX(screenPosition);
+	let geometry = [mapPosition.Longitude, mapPosition.Latitude, mapPosition.Altitude];
+	M_DGUF_ANLS.GLOBAL.Geom = geometry;
+	return 
+}
