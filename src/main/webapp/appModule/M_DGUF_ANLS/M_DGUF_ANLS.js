@@ -196,7 +196,7 @@ $(document).ready(function() {
 	$('.type-group input[name="mouseType"]').on('change', function() {
 		let mode = $(this).val(); 
 		M_DGUF_ANLS.setMouseState(mode);
-		geometry = canvas.addEventListener('mouseup', onMouseUpFromPipe);
+		canvas.addEventListener('mouseup', onMouseUpFromPipe);
 		canvas.addEventListener('Fire_EventSelectedObject', onPipeSelect);
 		if (mode != 'off') {
 			M_DGUF_ANLS.destroy();
@@ -234,8 +234,10 @@ $(document).ready(function() {
  * @returns
  */
 function onPipeSelect(e){
+	let geom = M_DGUF_ANLS.GLOBAL.Geom;
 	console.log(e);
-	console.log(geometry);
+	console.log(M_DGUF_ANLS.GLOBAL.Geom);
+	console.log(geom);
 	let layerNm = e.layerName.substring(0, e.layerName.length-1).toLowerCase();
 	let objId = e.objID;
 	let cqlFilters = "";
@@ -256,6 +258,6 @@ function onMouseUpFromPipe(e) {
 	var screenPosition = new Module.JSVector2D(e.x, e.y);
 	var mapPosition = Module.getMap().ScreenToMapPointEX(screenPosition);
 	let geometry = [mapPosition.Longitude, mapPosition.Latitude, mapPosition.Altitude];
-	M_DGUF_ANLS.GLOBAL.Geom = geometry;
-	return 
+	
+	return geometry; 
 }
