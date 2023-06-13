@@ -13,8 +13,8 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
 <script src="/js/egiskorea/com/cmm/cmmUtil.js"></script>
-<script src="/js/egiskorea/com/job/publnd/publnd.js"></script>
-<link rel="stylesheet" href="/css/job/publnd/publnd.css"/>
+<script src="/js/egiskorea/com/job/adas/publnd/publnd.js"></script>
+<link rel="stylesheet" href="/css/job/adas/publnd/publnd.css"/>
 
 <!-- 업무 > 공유지관리 > 공유재산 실태조사 -->
 <div class="popup-header" style="font-size: 20px;">공유재산 실태조사</div>

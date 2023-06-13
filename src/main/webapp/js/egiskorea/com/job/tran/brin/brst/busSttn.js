@@ -9,17 +9,10 @@ $(document).ready(function(){
 	var geom = {};
 });
 
-//전역 변수
-var TRFICANALS={
-	CODEARRAY :	[],				//code 데이블 정리
-	Ax5UiGrid :	null,			//Ax5UiGrid 변수
-	spaceSearchOption:{},		//공간검색 조건 옵션 변수
-}
-
 //functions
 
 //wfs로 읍면동 데이터 가져오기(grid 테이블 데이터 설정 전)
-function getBusSttnEmdData() {
+function getBusSttnEmdData(option) {
 	
 	// 읍면동 geometry 가져오기
     let emdCdVal = $("#lSrchOptions select[name=emdKorNm] option:selected").val();
@@ -38,6 +31,7 @@ function getBusSttnEmdData() {
 		cql : cqlFilters
 	}
 	
+		
 	// 전체(읍면동) geometry 값 가져오는 wfs 
 	const promiseGeo = dtmap.wfsGetFeature(geomOptions);
 	promiseGeo.then(function(data) {
@@ -53,7 +47,10 @@ function getBusSttnEmdData() {
 				const info = {emdCd : geoArry[i].values_.emd_cd, geometry : geoArry[i].values_.geometry};
 				geoInfo.push(info);
 				
-				optionText += '<option value="' + geoArry[i].values_.emd_cd + '">' + geoArry[i].values_.emd_kor_nm + '</option>';
+				// enter키로 조회시 태그 추가 방지
+				if(option!=1) {
+					optionText += '<option value="' + geoArry[i].values_.emd_cd + '">' + geoArry[i].values_.emd_kor_nm + '</option>';
+				}
 			}
 			geom = geoInfo;
 			
@@ -63,6 +60,7 @@ function getBusSttnEmdData() {
 			return selectBusSttnList(1, geom);
     	}
     });
+	
 }
 
 //초기화
@@ -73,13 +71,11 @@ function initBusSttn(){
 		$("#rightSubPopup").removeClass("opened");
 		$("#rightSubPopup").empty();
 	}
-	
-	//공간정보 편집도구 닫기
-	if($(".space-edit-tool").hasClass("opened")){
-        clearSpaceEditTool();	//공간정보 편집창 닫기
-    }
 
-	TRFICANALS.Ax5UiGrid.focus(-1);	//grid 선택창 초기화
+	TFCANALS.Ax5UiGrid.focus(-1);	//grid 선택창 초기화
+	
+	dtmap.draw.dispose();		//그리기 포인트 삭제
+	dtmap.draw.clear();			//그리기 영역 초기화
 
 }
 
@@ -98,11 +94,11 @@ function getBusSttn(){
     var $target = $container.find('#baseGridDiv [data-ax5grid="attr-grid"]')
     $target.css('height', 'inherit');
 	
-    TRFICANALS.Ax5UiGrid = null;	//ax5uigrid 전역 변수 
+    TFCANALS.Ax5UiGrid = null;	//ax5uigrid 전역 변수 
     
-    TRFICANALS.Ax5UiGrid = new ax5.ui.grid();
+    TFCANALS.Ax5UiGrid = new ax5.ui.grid();
 	
-    TRFICANALS.Ax5UiGrid.setConfig({
+    TFCANALS.Ax5UiGrid.setConfig({
 		target:  $target,
         sortable: true,
         multipleSelect: false,
@@ -130,11 +126,6 @@ function getBusSttn(){
         },
         body: {
         	onClick: function () {
-                
-                //공간정보 편집도구 닫기
-            	if($(".space-edit-tool").hasClass("opened")){
-            		clearSpaceEditTool();
-                }
         		selectBusSttn(this.item.id);	//정류소경유노선 조회 페이지 로드
             }
         },
@@ -150,15 +141,6 @@ function getBusSttn(){
 function selectBusSttnList(page, geom) {
 	
 	initBusSttn();	//초기화
-		
-	//공간 검색 / 사용자 정의 일 경우 이외에는  그리기 영역 지우기
-	if($(".groundwaterSpace").hasClass("on")){
-		const geomSrchType = $(".trafficAnalysis-spatial-search").closest('.search-area').find('input[name="rad-trafficAnalysis-area"]:checked').val();
-		if(geomSrchType != "custom"){
-			dtmap.draw.dispose();		//그리기 포인트 삭제
-			dtmap.draw.clear();			//그리기 영역 초기화
-		}
-	}
 		
 	//페이지 변수세팅
 	if(page){
@@ -228,9 +210,9 @@ function selectBusSttnList(page, geom) {
         }
         
         if (type === 'extent') {
-        	options.bbox 		= TRFICANALS.spaceSearchOption.bbox;
+        	options.bbox 		= TFCANALS.spaceSearchOption.bbox;
         } else {
-        	options.geometry 	= TRFICANALS.spaceSearchOption.geometry;
+        	options.geometry 	= TFCANALS.spaceSearchOption.geometry;
         }
 		
 	}else{
@@ -266,7 +248,7 @@ function selectBusSttnList(page, geom) {
         ///////////////
         
         //gird 적용
-        TRFICANALS.Ax5UiGrid.setData(
+        TFCANALS.Ax5UiGrid.setData(
         	{	
         		list: list,
         		page: {
@@ -341,7 +323,6 @@ function selectBusSttn(id){
   
 	const promise = dtmap.wfsGetFeature(options);
 	promise.then(function (data) {
-	  	//console.log(data);
 	  	
 	  	if(data.features.length != 1){
 	  		alert("정류소경유노선 조회 오류")
@@ -365,7 +346,7 @@ function selectBusSttnView(detailData){
 	
 	// zoom 변경
 	if (dtmap.mod == "2D") {
-		map2d.view.setZoom(5);
+		//map2d.view.setZoom(5);
 	} else if (dtmap.mod == "3D") {
 		var center = map3d.getCenter();
 		center[2] = 57000;		// altitude 변경
@@ -410,14 +391,14 @@ function selectBusSttnView(detailData){
 			dtmap.vector.select(detailData.id);	//지도에  표시
 			
 			//그리드에 행전체 선택
-			var gridList = TRFICANALS.Ax5UiGrid.list;
+			var gridList = TFCANALS.Ax5UiGrid.list;
 			
 			for(var i=0; i<gridList.length; i++){
 				var grid = gridList[i];
 				if(sttn_id == grid.sttn_id){
 					var dindex = grid.__index;
-					TRFICANALS.Ax5UiGrid.clearSelect();
-					TRFICANALS.Ax5UiGrid.focus(dindex);
+					TFCANALS.Ax5UiGrid.clearSelect();
+					TFCANALS.Ax5UiGrid.focus(dindex);
 				}
 			}
         }
@@ -434,30 +415,6 @@ function selectBusSttnView(detailData){
 //속성 검색 조회 버튼
 function searchBusSttnFilters() {
 	$('.info-attribute-search').on('click', function() {
-		getBusSttnEmdData();
+		getBusSttnEmdData(1);	// enter키로 조회시 태그 추가 방지
 	});
-}
-
-/////////////////////////
-//지도 아이콘(객체) 클릭시 이벤트
-function onTrficAnalsSelectEventListener(e){
-	//console.log("onTrficAnalsSelectEventListener(e)");
-	//console.log(e);
-	if(e){
-		
-		var id = e.id; //피쳐 아이디
-		
-		if(id){
-			var idArray = id.split(".");
-			//console.log(idArray);
-			const featureType	= idArray[0];
-			
-			if(featureType == "tgd_bus_sttn_info"){						//교통분석 - 버스노선정보
-				selectBusSttn(id);
-			}else{
-				alert("지도 객체 선택 오류");
-				return false;
-			}
-		}
-	}
 }

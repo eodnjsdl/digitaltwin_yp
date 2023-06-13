@@ -220,7 +220,7 @@
     <!-- [교통분석]  -->
     <script src="/js/egiskorea/com/job/tran/brin/busRouteInfo.js"></script>				  <!-- {버스노선정보  공통} -->
     <!-- ////////////////////////////  -->
-
+	
     <!-- 분석 -->
     <script src="/js/egiskorea/com/anls/anls.js"></script>
 
@@ -679,7 +679,7 @@
                             <li><p class="lnb-dep1">행정자산</p>
                                 <ul class="lnb-dep2">
                                     <li>
-                                        <button type="button" id="AdministrativeAsset" class="dataPopup" data-popup="">
+                                        <button type="button" id="AdministrativeAsset" class="dataPopup" data-popup="bottomPopup">
                                             행정자산관리
                                         </button>
                                     </li>

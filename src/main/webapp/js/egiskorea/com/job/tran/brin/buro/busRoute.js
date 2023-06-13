@@ -71,9 +71,9 @@ function getBusRouteList() {
 	
 	getCmmCodeData('ROUTETY', '#lSrchOptions select[name=route_ty]');		// 노선 유형
 	
-	FACILITY.Ax5UiGrid = null;	// ax5uigrid 전역 변수 
-    FACILITY.Ax5UiGrid = new ax5.ui.grid();
-    FACILITY.Ax5UiGrid.setConfig({
+	TFCANALS.Ax5UiGrid = null;	// ax5uigrid 전역 변수 
+    TFCANALS.Ax5UiGrid = new ax5.ui.grid();
+    TFCANALS.Ax5UiGrid.setConfig({
 		target: $target,
 		sortable: true,
 		multipleSelect: false,
@@ -126,7 +126,7 @@ function selectBusRouteList(page, geom) {
 	}
 	
 	//grid 선택창 초기화
-	FACILITY.Ax5UiGrid.focus(-1);
+	TFCANALS.Ax5UiGrid.focus(-1);
 	
 	// 검색 조건
 	var options;
@@ -189,9 +189,9 @@ function selectBusRouteList(page, geom) {
 		};
 		
 		if (type === 'extent') {
-			options.bbox 		= FACILITY.spaceSearchOption.bbox;
+			options.bbox 		= TFCANALS.spaceSearchOption.bbox;
 		} else {
-			options.geometry 	= FACILITY.spaceSearchOption.geometry;
+			options.geometry 	= TFCANALS.spaceSearchOption.geometry;
 		}
 	} else {
 		alert("검색 오류");
@@ -220,7 +220,7 @@ function selectBusRouteList(page, geom) {
         }
 
 		// gird 적용
-        FACILITY.Ax5UiGrid.setData({
+        TFCANALS.Ax5UiGrid.setData({
 			list: list,
 			page: {
 				currentPage: page - 1,	// 현재 페이지
@@ -381,14 +381,14 @@ function selectBusRouteDetail(detailData) {
 			
 			//그리드에 행전체 선택되게 수정
 			var route_id = detailData.route_id;
-			var gridList = FACILITY.Ax5UiGrid.list;
+			var gridList = TFCANALS.Ax5UiGrid.list;
 			for (var i = 0; i < gridList.length; i++) {
 				//console.log(gridList[i]);
 				var grid = gridList[i];
 				if (route_id == grid.route_id) {
 					var dindex = grid.__index;
-					FACILITY.Ax5UiGrid.clearSelect();
-					FACILITY.Ax5UiGrid.focus(dindex);
+					TFCANALS.Ax5UiGrid.clearSelect();
+					TFCANALS.Ax5UiGrid.focus(dindex);
 				}
 			}
 			
@@ -405,7 +405,7 @@ function selectBusRouteDetail(detailData) {
 
 // 속성 검색 조회 버튼
 function searchBusRouteFilters() {
-	$("#lSrchOptions input[name=route_id], #lSrchOptions input[name=route_nm]").on('keyup', function (event) {
+	$("#lSrchOptions input[name=route_id], #lSrchOptions input[name=route_nm]").on('keyup', function(event) {
 		if (event.keyCode == 13) {
 			selectBusRouteList(1, geom);
 		}

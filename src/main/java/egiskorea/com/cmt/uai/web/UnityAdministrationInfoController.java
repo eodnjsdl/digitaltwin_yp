@@ -275,10 +275,10 @@ public class UnityAdministrationInfoController {
 	public String selectBuildingRegister(
 			@ModelAttribute("unityAdministrationInfoVO") UnityAdministrationInfoVO unityAdministrationInfoVO,
 			@ModelAttribute("buildingRegister") BuildingRegister buildingRegister,
-			ModelMap model) throws Exception{
+			ModelMap model){
 
 		System.out.println("#################### 건축물대장 시작 ##################################");
-
+		
 		// 개발서버
 		String apiUrl = "http://apis.data.go.kr/1613000/BldRgstService_v2/getBrTitleInfo?";
 		// 실서버
@@ -289,62 +289,99 @@ public class UnityAdministrationInfoController {
 				+ "&platGbCd=" + (unityAdministrationInfoVO.getPnu().substring(10,11).equals("1") ? 0 : 1)
 				+ "&bun=" + unityAdministrationInfoVO.getPnu().substring(11,15)
 				+ "&ji=" + unityAdministrationInfoVO.getPnu().substring(15,19)
-				+ "&numOfRows=10&pageNo=1";
+				+ "&numOfRows=10&pageNo=1";		
+		
+		Document doc = null;
+		try {
+			doc = getDataParsingXML(apiUrl, param);
+		} catch (Exception e) {
+			
+			e.printStackTrace();
+			
+			model.addAttribute("result", buildingRegister);
+			model.addAttribute("resultMsg", "failStep1");
+			
+			return "egiskorea/com/cmt/uai/buildingRegister";
+		}
 
-		Document doc = getDataParsingXML(apiUrl, param);
+		//결과 xml 에러 일때 처리 - failStep1xml
+		NodeList eList = doc.getElementsByTagName("cmmMsgHeader");
+		
+		if(eList.getLength() > 0) {
+			Node eNode1 = eList.item(0);
+			
+			Element eElement1 = (Element) eNode1;
+			
+			model.addAttribute("result", 		buildingRegister);
+			model.addAttribute("resultMsg", 	"failStep1xml");
+			model.addAttribute("errMsg", 		getTagValue("errMsg", eElement1));
+			model.addAttribute("returnAuthMsg", getTagValue("returnAuthMsg", eElement1));
+			
+			return "egiskorea/com/cmt/uai/buildingRegister";
+		}
+		//결과 xml 에러 일때 처리 end
 
 		NodeList rList = doc.getElementsByTagName("header");
 
 		Node rNode = rList.item(0);
 
 		Element rElement = (Element) rNode;
-
+		
+		List<BuildingRegister> buildingRegisterListMain = new ArrayList<BuildingRegister>();	//건축물대장 목록 
+		
 		if(getTagValue("resultCode",rElement).equals("00")){
 			NodeList nList = doc.getElementsByTagName("item");
 
 			if(nList.getLength() > 0) {
-				//	    for(int i = 0; i < nList.getLength(); i++) {
-				for(int i = 0; i < 1; i++) {
+				for(int i = 0; i < nList.getLength(); i++) {
+				//for(int i = 0; i < 1; i++) {
 					Node nNode = nList.item(i);
 
 					if(nNode.getNodeType() == Node.ELEMENT_NODE) {
 						Element eElement = (Element) nNode;
 
-						buildingRegister.setRegstrKindCdNm(getTagValue("regstrKindCdNm",eElement));
-						buildingRegister.setBldNm(getTagValue("bldNm",eElement));
-						buildingRegister.setDongNm(getTagValue("dongNm",eElement));
-						buildingRegister.setMainPurpsCdNm(getTagValue("mainPurpsCdNm",eElement));
-						buildingRegister.setTotArea(getTagValue("totArea",eElement));
-						buildingRegister.setUseAprDay(getTagValue("useAprDay",eElement));
-						buildingRegister.setPlatPlc(getTagValue("platPlc",eElement));
-						buildingRegister.setNewPlatPlc(getTagValue("newPlatPlc",eElement));
-						buildingRegister.setPlatArea(getTagValue("platArea",eElement));
-						buildingRegister.setMainAtchGbCdNm(getTagValue("mainAtchGbCdNm",eElement));
-						buildingRegister.setBcRat(getTagValue("bcRat",eElement));
-						buildingRegister.setVlRatEstmTotArea(getTagValue("vlRatEstmTotArea",eElement));
-						buildingRegister.setVlRat(getTagValue("vlRat",eElement));
-						buildingRegister.setStrctCdNm(getTagValue("strctCdNm",eElement));
-						buildingRegister.setEtcStrct(getTagValue("etcStrct",eElement));
-						buildingRegister.setEtcPurps(getTagValue("etcPurps",eElement));
-						buildingRegister.setRoofCdNm(getTagValue("roofCdNm",eElement));
-						buildingRegister.setEtcRoof(getTagValue("etcRoof",eElement));
-						buildingRegister.setHhldCnt(getTagValue("hhldCnt",eElement));
-						buildingRegister.setFmlyCnt(getTagValue("fmlyCnt",eElement));
-						buildingRegister.setHeit(getTagValue("heit",eElement));
-						buildingRegister.setGrndFlrCnt(getTagValue("grndFlrCnt",eElement));
-						buildingRegister.setUgrndFlrCnt(getTagValue("ugrndFlrCnt",eElement));
-						buildingRegister.setRideUseElvtCnt(getTagValue("rideUseElvtCnt",eElement));
-						buildingRegister.setEmgenUseElvtCnt(getTagValue("emgenUseElvtCnt",eElement));
-						buildingRegister.setTotDongTotArea(getTagValue("totDongTotArea",eElement));
-						buildingRegister.setIndrMechUtcnt(getTagValue("indrMechUtcnt",eElement));
-						buildingRegister.setIndrMechArea(getTagValue("indrMechArea",eElement));
-						buildingRegister.setIndrAutoUtcnt(getTagValue("indrAutoUtcnt",eElement));
-						buildingRegister.setIndrAutoArea(getTagValue("indrAutoArea",eElement));
-						buildingRegister.setOudrAutoUtcnt(getTagValue("oudrAutoUtcnt",eElement));
-						buildingRegister.setOudrAutoArea(getTagValue("oudrAutoArea",eElement));
-						buildingRegister.setPmsDay(getTagValue("pmsDay",eElement));
-						buildingRegister.setStcnsDay(getTagValue("stcnsDay",eElement));
-						buildingRegister.setPmsnoGbCdNm(getTagValue("pmsnoGbCdNm",eElement));
+						//건축물 대장 목록에 저장
+						BuildingRegister brMainTemp = new BuildingRegister();
+						
+						brMainTemp.setRegstrKindCdNm(getTagValue("regstrKindCdNm",eElement));
+						brMainTemp.setBldNm(getTagValue("bldNm",eElement));
+						brMainTemp.setDongNm(getTagValue("dongNm",eElement));
+						brMainTemp.setMainPurpsCdNm(getTagValue("mainPurpsCdNm",eElement));
+						brMainTemp.setTotArea(getTagValue("totArea",eElement));
+						brMainTemp.setUseAprDay(getTagValue("useAprDay",eElement));
+						brMainTemp.setPlatPlc(getTagValue("platPlc",eElement));
+						brMainTemp.setNewPlatPlc(getTagValue("newPlatPlc",eElement));
+						brMainTemp.setPlatArea(getTagValue("platArea",eElement));
+						brMainTemp.setMainAtchGbCdNm(getTagValue("mainAtchGbCdNm",eElement));
+						brMainTemp.setBcRat(getTagValue("bcRat",eElement));
+						brMainTemp.setVlRatEstmTotArea(getTagValue("vlRatEstmTotArea",eElement));
+						brMainTemp.setVlRat(getTagValue("vlRat",eElement));
+						brMainTemp.setStrctCdNm(getTagValue("strctCdNm",eElement));
+						brMainTemp.setEtcStrct(getTagValue("etcStrct",eElement));
+						brMainTemp.setEtcPurps(getTagValue("etcPurps",eElement));
+						brMainTemp.setRoofCdNm(getTagValue("roofCdNm",eElement));
+						brMainTemp.setEtcRoof(getTagValue("etcRoof",eElement));
+						brMainTemp.setHhldCnt(getTagValue("hhldCnt",eElement));
+						brMainTemp.setFmlyCnt(getTagValue("fmlyCnt",eElement));
+						brMainTemp.setHeit(getTagValue("heit",eElement));
+						brMainTemp.setGrndFlrCnt(getTagValue("grndFlrCnt",eElement));
+						brMainTemp.setUgrndFlrCnt(getTagValue("ugrndFlrCnt",eElement));
+						brMainTemp.setRideUseElvtCnt(getTagValue("rideUseElvtCnt",eElement));
+						brMainTemp.setEmgenUseElvtCnt(getTagValue("emgenUseElvtCnt",eElement));
+						brMainTemp.setTotDongTotArea(getTagValue("totDongTotArea",eElement));
+						brMainTemp.setIndrMechUtcnt(getTagValue("indrMechUtcnt",eElement));
+						brMainTemp.setIndrMechArea(getTagValue("indrMechArea",eElement));
+						brMainTemp.setIndrAutoUtcnt(getTagValue("indrAutoUtcnt",eElement));
+						brMainTemp.setIndrAutoArea(getTagValue("indrAutoArea",eElement));
+						brMainTemp.setOudrAutoUtcnt(getTagValue("oudrAutoUtcnt",eElement));
+						brMainTemp.setOudrAutoArea(getTagValue("oudrAutoArea",eElement));
+						brMainTemp.setPmsDay(getTagValue("pmsDay",eElement));
+						brMainTemp.setStcnsDay(getTagValue("stcnsDay",eElement));
+						brMainTemp.setPmsnoGbCdNm(getTagValue("pmsnoGbCdNm",eElement));
+						brMainTemp.setMgmBldrgstPk(getTagValue("mgmBldrgstPk",eElement));
+						
+						buildingRegisterListMain.add(brMainTemp);
+						
 					}
 				}
 			}
@@ -362,9 +399,35 @@ public class UnityAdministrationInfoController {
 				+ "&platGbCd=" + (unityAdministrationInfoVO.getPnu().substring(10,11).equals("1") ? 0 : 1)
 				+ "&bun=" + unityAdministrationInfoVO.getPnu().substring(11,15)
 				+ "&ji=" + unityAdministrationInfoVO.getPnu().substring(15,19)
-				+ "&numOfRows=10&pageNo=1";
+				+ "&numOfRows=100&pageNo=1";		//10->100 로 수정
 
-		doc = getDataParsingXML(apiUrl, param);
+		try {
+			doc = getDataParsingXML(apiUrl, param);
+		} catch (Exception e) {
+			
+			e.printStackTrace();
+			model.addAttribute("result", buildingRegister);
+			model.addAttribute("resultMsg", "failStep2");
+			
+			return "egiskorea/com/cmt/uai/buildingRegister";
+		}
+		
+		//결과 xml 에러 일때 처리 - failStep2xml
+		eList = doc.getElementsByTagName("cmmMsgHeader");
+		
+		if(eList.getLength() > 0) {
+			Node eNode2 = eList.item(0);
+			
+			Element eElement2 = (Element) eNode2;
+			
+			model.addAttribute("result", 		buildingRegister);
+			model.addAttribute("resultMsg", 	"failStep2xml");
+			model.addAttribute("errMsg", 		getTagValue("errMsg", eElement2));
+			model.addAttribute("returnAuthMsg", getTagValue("returnAuthMsg", eElement2));
+			
+			return "egiskorea/com/cmt/uai/buildingRegister";
+		}
+		//결과 xml 에러 일때 처리 end
 
 		rList = doc.getElementsByTagName("header");
 
@@ -390,6 +453,7 @@ public class UnityAdministrationInfoController {
 					temp.setEtcPurps(getTagValue("etcPurps",eElement));
 					temp.setArea(getTagValue("area",eElement));
 					temp.setMainAtchGbCdNm(getTagValue("mainAtchGbCdNm",eElement));
+					temp.setMgmBldrgstPk(getTagValue("mgmBldrgstPk",eElement));		//기본키 추가
 
 					buildingRegisterList1.add(temp);
 				}
@@ -407,9 +471,36 @@ public class UnityAdministrationInfoController {
 				+ "&platGbCd=" + (unityAdministrationInfoVO.getPnu().substring(10,11).equals("1") ? 0 : 1)
 				+ "&bun=" + unityAdministrationInfoVO.getPnu().substring(11,15)
 				+ "&ji=" + unityAdministrationInfoVO.getPnu().substring(15,19)
-				+ "&numOfRows=10&pageNo=1";
+				+ "&numOfRows=20&pageNo=1";	//10->20 로 수정
 
-		doc = getDataParsingXML(apiUrl, param);
+		try {
+			doc = getDataParsingXML(apiUrl, param);
+		} catch (Exception e) {
+			
+			e.printStackTrace();
+			
+			model.addAttribute("result", buildingRegister);
+			model.addAttribute("resultMsg", "failStep3");
+			
+			return "egiskorea/com/cmt/uai/buildingRegister";
+		}
+		
+		//결과 xml 에러 일때 처리 - failStep3xml
+		eList = doc.getElementsByTagName("cmmMsgHeader");
+		
+		if(eList.getLength() > 0) {
+			Node eNode3 = eList.item(0);
+			
+			Element eElement3 = (Element) eNode3;
+			
+			model.addAttribute("result", 		buildingRegister);
+			model.addAttribute("resultMsg", 	"failStep3xml");
+			model.addAttribute("errMsg", 		getTagValue("errMsg", eElement3));
+			model.addAttribute("returnAuthMsg", getTagValue("returnAuthMsg", eElement3));
+			
+			return "egiskorea/com/cmt/uai/buildingRegister";
+		}
+		//결과 xml 에러 일때 처리 end
 
 		rList = doc.getElementsByTagName("header");
 
@@ -429,6 +520,7 @@ public class UnityAdministrationInfoController {
 
 					temp.setPlatPlc(getTagValue("platPlc",eElement));
 					temp.setNewPlatPlc(getTagValue("newPlatPlc",eElement));
+					temp.setMgmBldrgstPk(getTagValue("mgmBldrgstPk",eElement));	//기본키 추가
 
 					buildingRegisterList2.add(temp);
 				}
@@ -436,8 +528,11 @@ public class UnityAdministrationInfoController {
 		}
 
 		System.out.println("#################### 건축물대장 끝 ##################################");
-
-		model.addAttribute("result", buildingRegister);
+		
+		model.addAttribute("result", 	  buildingRegister);
+		model.addAttribute("resultMsg",   "success");
+		model.addAttribute("resultListm", buildingRegisterListMain);		//제목목록
+		model.addAttribute("resultListc", buildingRegisterListMain);		//내용목록
 		model.addAttribute("resultList1", buildingRegisterList1);
 		model.addAttribute("resultList2", buildingRegisterList2);
 
