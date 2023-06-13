@@ -27,7 +27,7 @@ public class WebAppMainController {
 	@RequestMapping("/main.do")
 	public String main(HttpServletRequest request,Model model) throws Exception {
 		
- 		return "egiskorea/com/app/webAppMain";
+ 		return "egiskorea/com/webApp/webAppMain";
 	}
 
 }

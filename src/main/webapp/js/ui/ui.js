@@ -369,6 +369,9 @@ window.ui = (function () {
 				case "lnb-territory" :
 					aj_selectAdministrationZoneList($("#tmpForm")[0]);
 					break;
+				case "webApp-search" :
+					console.log("webApp");
+					break;
 				}
 			} else {
 				$leftSide.find('.lnb-cont').stop().fadeOut(100);
