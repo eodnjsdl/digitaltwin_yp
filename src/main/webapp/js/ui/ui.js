@@ -82,6 +82,12 @@ window.ui = (function () {
 			scrollbarPosition: "outside",
 		});
 		
+		$(document).on('click', '.small-popup .popup-close', function (e) {
+			dtmap.off('select');
+			analysis.close();
+			$("#lnbAnalysis").find(".on").removeClass("on");
+		});
+		
 	}
 	
 	//상단 메뉴 
