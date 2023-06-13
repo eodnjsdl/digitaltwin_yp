@@ -479,13 +479,20 @@
         <!-- side -->
         <div id="side">
             <div id="lnb">
+
+                <ul>
+                    <li data-menu="lnb-layer" class="" style="margin-bottom: 5px;">
+                        <button type="button" class="lnb-btn">레이어</button>
+                    </li>
+                </ul>
+
                 <ul>
                     <li data-menu="lnb-search" class="">
                         <button type="button" class="lnb-btn">검색</button>
                     </li>
-                    <li data-menu="lnb-layer" class="">
-                        <button type="button" class="lnb-btn">레이어</button>
-                    </li>
+<%--                    <li data-menu="lnb-layer" class="">--%>
+<%--                        <button type="button" class="lnb-btn">레이어</button>--%>
+<%--                    </li>--%>
                     <li data-menu="lnb-theme" class="">
                         <button type="button" class="lnb-btn">주제도</button>
                     </li>
@@ -519,23 +526,23 @@
             </div>
 
             <!-- 검색 -->
-            <div class="lnb-search lnb-cont">
+            <div class="lnb-search lnb-cont grp2">
                 <%@ include file="/WEB-INF/jsp/egiskorea/com/cmm/search.jsp" %>
             </div>
             <!-- //검색 -->
 
             <!-- 레이어 -->
-            <div class="lnb-layer lnb-cont">
+            <div class="lnb-layer lnb-cont grp1 popup-draggable" style="z-index: 10;">
             </div>
             <!-- //레이어 -->
 
             <!-- 주제도 -->
-            <div class="lnb-theme lnb-cont">
+            <div class="lnb-theme lnb-cont grp2">
             </div>
             <!-- //주제도 -->
 
             <!-- 공간정보 -->
-            <div class="lnb-space lnb-cont">
+            <div class="lnb-space lnb-cont grp2">
                 <div class="lnb-header"><h2 class="tit">공간정보</h2></div>
                 <div class="lnb-body">
                     <div class="scroll-y">
@@ -585,7 +592,7 @@
             <!-- //공간정보 -->
 
             <!-- 시설관리 -->
-            <div class="lnb-facility lnb-cont">
+            <div class="lnb-facility lnb-cont grp2">
                 <div class="lnb-header"><h2 class="tit">시설관리</h2></div>
                 <div class="lnb-body">
                     <div class="scroll-y">
@@ -635,7 +642,7 @@
             <!-- //시설관리 -->
 
             <!-- 교통분석 -->
-            <div class="lnb-traffic lnb-cont">
+            <div class="lnb-traffic lnb-cont grp2">
                 <div class="lnb-header"><h2 class="tit">교통분석</h2></div>
                 <div class="lnb-body">
                     <div class="scroll-y">
@@ -671,7 +678,7 @@
             <!-- //교통분석 -->
 
             <!-- 행정자산 -->
-            <div class="lnb-administrative lnb-cont">
+            <div class="lnb-administrative lnb-cont grp2">
                 <div class="lnb-header"><h2 class="tit">행정자산</h2></div>
                 <div class="lnb-body">
                     <div class="scroll-y">
@@ -705,12 +712,12 @@
             <!-- //행정자산 -->
 
             <!-- 국토조사 -->
-            <div class="lnb-territory lnb-cont">
+            <div class="lnb-territory lnb-cont grp2">
             </div>
             <!-- //국토조사 -->
 
             <!-- 분석 -->
-            <div class="lnb-analysis lnb-cont">
+            <div class="lnb-analysis lnb-cont grp2">
                 <div class="lnb-header"><h2 class="tit">분석</h2></div>
                 <div class="lnb-body">
                     <div class="scroll-y">

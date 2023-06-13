@@ -362,9 +362,15 @@
 					<script>
 					$(document).ready(function(){
 						// 팝업창 닫기 event
-					    $(".lnb-analysis .lnb-close").click(function() {
+					    $(".lnb-analysis .lnb-close").click(function(e) {
 					        $(".lnb-analysis").stop().fadeOut(100);
-					        $("#lnb li[data-menu]").removeClass("on");
+							var chkGrp = e.target.parentElement.parentElement.classList[2];
+							if(chkGrp === "grp1") {
+								$("#lnb ul:eq(0) li[data-menu]").removeClass("on");
+							} else {
+								$("#lnb ul:eq(1) li[data-menu]").removeClass("on");
+							}
+					        // $("#lnb li[data-menu]").removeClass("on");
 					    });
 					});
 					</script>
