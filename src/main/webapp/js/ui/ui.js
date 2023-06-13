@@ -550,12 +550,7 @@ window.ui = (function () {
 	//좌측 메뉴 >> 교통분석
 	function _trafficMenuEvent() {
 		$(".lnb-traffic .lnb-body").on("click", "button", function () {
-			dtmap.layer.removeLayer('li_popltn_info');
-			dtmap.layer.removeLayer('li_popltn_info_grid');
-			dtmap.layer.removeLayer('layer_trva_grid_area');
-			if (dtmap.mod == '3D') {
-				dtmap.layer.userLayers.delLayerAtName('li_popltn_info_graph');
-			}
+			clearMap();
 			var name = $(this).attr("id");
 			var area = $(this).data("popup"); //팝업 위치명 넣어주세요  ex)rightPopup
 			ui.openPopup(area);
@@ -1282,7 +1277,7 @@ function clearMap() {
 	dtmap.layer.removeLayer('li_popltn_info');
 	dtmap.layer.removeLayer('li_popltn_info_grid');
 	dtmap.layer.removeLayer('layer_trva_grid_area');
-	if (dtmap.mod == '3D') {
+	if (dtmap.layer.userLayers) {
 		dtmap.layer.userLayers.delLayerAtName('li_popltn_info_graph');
 	}
 	

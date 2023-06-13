@@ -1,6 +1,9 @@
 /**
- * 지하시설단면도
+ * 지하시설물터파기
  */
+var canvas = document.querySelector('#map3D canvas');
+canvas.id = "canvas";
+
 var M_DGUF_ANLS = {
 		/**
 		 * 초기화
@@ -27,7 +30,8 @@ var M_DGUF_ANLS = {
 		 */
 		setMouseState: function (mode) {
 			if (mode == 'off') {
-				Module.XDSetMouseState(Module.MML_MOVE_GRAB);
+//				Module.XDSetMouseState(Module.MML_MOVE_GRAB);
+				Module.XDSetMouseState(Module.MML_SELECT_POINT);
 				// 입력점 클리어
 				this.GLOBAL.Map.clearInputPoint();
 			} else if (mode == 'drag'){
@@ -47,6 +51,9 @@ var M_DGUF_ANLS = {
 			if (this.GLOBAL.Transparency == null || this.GLOBAL.Map == null) {
 				return;
 			}
+			
+			// 줌 in 제한 --
+			Module.getViewCamera().setLimitAltitude(80);
 			
 			// 터파기 영역 점 리스트 반환
 			var vInputPointList = this.GLOBAL.Map.getInputPoints();
@@ -68,16 +75,18 @@ var M_DGUF_ANLS = {
 					offsetHeight : -30
 			}
 			
+			let geom = [];
 			for (let i = 0; i < vInputPointList.count(); i++) {
 				let geometry = [];
 				let lon = vInputPointList.get(i).Longitude;
 				let lat = vInputPointList.get(i).Latitude;
 				let alt = vInputPointList.get(i).Altitude;
 				geometry.push([lon, lat, alt], [lon, lat, parseFloat(alt - depth)]);
-				console.log(geometry);
 				// 라인 생성 (깊이 표시)
 				this.createLineWithText(geometry, depth);
+				geom.push(geometry[0]);
 			}
+//			console.log(geom);
 			
 			
 			// 터파기 생성
@@ -98,6 +107,8 @@ var M_DGUF_ANLS = {
 			if (this.GLOBAL.Layer) {
 				this.GLOBAL.Layer.removeAll();
 			}
+			Module.getViewCamera().setLimitAltitude(150);
+			canvas.removeEventListener('Fire_EventSelectedObject', onPipeSelect);
 		},
 		
 		/**
@@ -154,7 +165,6 @@ var M_DGUF_ANLS = {
 					color: new Module.JSColor(255, 0, 139, 255),
 					width: 5
 					};
-			console.log(options);
 			line.createbyJson(options);
 			
 			let layerList = new Module.JSLayerList(true);
@@ -178,10 +188,13 @@ var M_DGUF_ANLS = {
 		}
 }
 
+
 $(document).ready(function() {
+	// 객체 선택 이벤트 리스너
 	$('.type-group input[name="mouseType"]').on('change', function() {
 		let mode = $(this).val(); 
 		M_DGUF_ANLS.setMouseState(mode);
+		canvas.addEventListener('Fire_EventSelectedObject', onPipeSelect);
 		if (mode != 'off') {
 			M_DGUF_ANLS.destroy();
 		}
@@ -208,4 +221,33 @@ $(document).ready(function() {
 			}
 		});
 	});
+	
+	
 });
+
+/**
+ * 관로(파이프) 객체 선택 이벤트
+ * @param e
+ * @returns
+ */
+function onPipeSelect(e){
+//	console.log(e);
+	var screenPosition = new Module.JSVector2D(e.x, e.y);
+	// 화면->지도 좌표 변환
+	var mapPosition = Module.getMap().ScreenToMapPointEX(screenPosition);
+	
+	let layerNm = e.layerName.substring(0, e.layerName.length-1).toLowerCase();
+	let objId = e.objID;
+	let cqlFilters = "";
+	let options = {
+			typeNames: layerNm,
+			sortBy : 'gid',
+			sortOrder : 'DESC',
+			cql : cqlFilters		
+	};
+	
+	const promise = dtmap.wfsGetFeature(options);
+	promise.then(function(data) {
+//		console.log(data);
+	});
+};

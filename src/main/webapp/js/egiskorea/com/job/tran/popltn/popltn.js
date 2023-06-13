@@ -87,7 +87,7 @@ $(document).ready(function(){
 function popltnLayerClear() {
 	dtmap.layer.removeLayer('li_popltn_info');
 	dtmap.layer.removeLayer('li_popltn_info_grid');
-	if (dtmap.mod == '3D') {
+	if (dtmap.layer.userLayers) {
 		dtmap.layer.userLayers.delLayerAtName('li_popltn_info_graph');
 	}
 }
@@ -344,16 +344,16 @@ function legalData(result, viewType) {
 		let rate = '';
 		// 총인구, 남자, 여자 분류
 		if (dataType == 'all') {
-			legalListHml += "<td>" + numberFormatter(result[i].allPopltnCnt) + "</td>";
+			legalListHml += "<td>" + numberFormatter(result[i].allPopltnCnt) + " 명</td>";
 			rate = Math.round(result[i].allPopltnCnt / totalCount * 100);
 		} else if (dataType == 'm') {
-			legalListHml += "<td>" + numberFormatter(result[i].malePopltnCnt) + "</td>";
+			legalListHml += "<td>" + numberFormatter(result[i].malePopltnCnt) + " 명</td>";
 			rate = Math.round(result[i].malePopltnCnt / totalCount * 100);
 		} else if (dataType == 'w') {
-			legalListHml += "<td>" + numberFormatter(result[i].femalePopltnCnt) + "</td>";
+			legalListHml += "<td>" + numberFormatter(result[i].femalePopltnCnt) + " 명</td>";
 			rate = Math.round(result[i].femalePopltnCnt / totalCount * 100);
 		} else if (dataType == 'old') {
-			legalListHml += "<td>" + numberFormatter(result[i].odsnPopltnCnt) + "</td>";
+			legalListHml += "<td>" + numberFormatter(result[i].odsnPopltnCnt) + " 명</td>";
 			rate = Math.round(result[i].odsnPopltnCnt / totalCount * 100);
 		}
 		legalListHml += "<td>" + rate + "%</td>";
@@ -823,8 +823,17 @@ function makeGraph(result, layer, geom) {
  * @returns
  */
 function setBarGraphLayer() {
-	var layerList = new Module.JSLayerList(true);
-	var layer = layerList.createLayer("li_popltn_info_graph", Module.ELT_GRAPH);
+//	var layerList = new Module.JSLayerList(true);
+//	var layer = layerList.createLayer("li_popltn_info_graph", Module.ELT_GRAPH);
+	
+	var layer = Module.getObjectLayerList().createObjectLayer({
+	    name: "li_popltn_info_graph", // 필수
+	    type: Module.ELT_GRAPH, // 필수
+	    visible: true, // 옵션 (default : true)
+	    selectable: false, // 옵션 (default : true)
+	    minDistance: 100.0, // 옵션 (default : 0.0)
+	    maxDistance: 200000.0, // 옵션 (default : 3000.0)
+	});
 	
 	return layer;
 }
