@@ -278,6 +278,10 @@ public class LoginController {
 		request.getSession().setAttribute("loginVO", null);
 		request.getSession().setAttribute("accessUser", null);
 
+		String refer = request.getHeader("Referer");
+		if(refer.contains("webApp")) {
+			return "redirect:/uat/uia/loginWebApp.do";
+		}
 		
 		if(loginVO.getId().equals("hanam")) {
 			return "redirect:/uat/uia/loginHN.do";
@@ -285,10 +289,7 @@ public class LoginController {
 			return "redirect:/uat/uia/loginGP.do";
 		} else if(loginVO.getId().equals("uijeongbu")) {
 			return "redirect:/uat/uia/loginUJB.do";
-		} else if(loginVO.getId().equals("webApp")) {
-			return "redirect:/uat/uia/loginWebApp.do";
 		}
-		
 		
 		return "redirect:/uat/uia/loginUsr.do";
 	}
