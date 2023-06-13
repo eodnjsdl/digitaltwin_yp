@@ -205,7 +205,7 @@
                                 </div>
                             </div>
                             <div class="col-6">
-                                <div class="toggle_style style_fill">
+                                <div class="toggle_style style_fill marB10">
                                     <p class="form-label"><input type="checkbox" id="style_fill_checkbox"> <label
                                             for="style_fill_checkbox">채우기</label></p>
                                     <div class="tbl-list">
@@ -227,7 +227,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="toggle_style style_stroke">
+                                <div class="toggle_style style_stroke marB10">
                                     <p class="form-label"><input type="checkbox" id="style_stroke_checkbox"> <label
                                             for="style_stroke_checkbox">테두리</label></p>
                                     <div class="tbl-list vertical-tbl">
@@ -235,11 +235,16 @@
                                             <div class="term">색상</div>
                                             <div class="desc">
                                                 <div class="form-row">
-                                                    <div class="col-3"><input type="number" name="stroke-width" min="1"
-                                                                              max="50" step="1" value="3" value=""
-                                                                              class="form-control"></div>
-                                                    <div class="col-9"><input type="text" name="stroke"
-                                                                              class="style-stroke-color"></div>
+                                                    <input type="text" name="stroke" class="style-stroke-color form-control">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="items">
+                                            <div class="term">두께</div>
+                                            <div class="desc">
+                                                <div class="form-row">
+                                                    <input type="number" name="stroke-width" min="1" max="50" step="1"
+                                                           value="1" class="form-control">
                                                 </div>
                                             </div>
                                         </div>
@@ -619,17 +624,17 @@
                             </div>
                         </div>
                     </div>
-                   <%-- <div class="row ">
-                        <div class="col-6">
-                            <p class="form-label">유효축척</p>
-                            <div class="drawing-slider-box validZoomLevel">
-                                <div class="drawing-slider">
-                                    <div class="style-label-scale"></div>
-                                </div>
-                                <input type="text" class="value-num" value="" readonly>
-                            </div>
-                        </div>
-                    </div>--%>
+                    <%-- <div class="row ">
+                         <div class="col-6">
+                             <p class="form-label">유효축척</p>
+                             <div class="drawing-slider-box validZoomLevel">
+                                 <div class="drawing-slider">
+                                     <div class="style-label-scale"></div>
+                                 </div>
+                                 <input type="text" class="value-num" value="" readonly>
+                             </div>
+                         </div>
+                     </div>--%>
                 </div>
                 <div class="position-bottom btn-wrap">
                     <div>
