@@ -148,9 +148,15 @@
             });
         }
 //LEFT 메뉴 닫기 버튼
-        $(".lnb-util .lnb-close").click(function () {
+        $(".lnb-util .lnb-close").click(function (e) {
             ($(this).parent().parent()).stop().fadeOut(100);
-            $("#lnb li[data-menu]").removeClass("on");
+            var chkGrp = e.target.parentElement.parentElement.classList[2];
+            if(chkGrp === "grp1") {
+                $("#lnb ul:eq(0) li[data-menu]").removeClass("on");
+            } else {
+                $("#lnb ul:eq(1) li[data-menu]").removeClass("on");
+            }
+            // $("#lnb li[data-menu]").removeClass("on");
         });
     }
 
@@ -184,9 +190,15 @@
          * @Author 플랫폼개발부문 DT솔루션 이준호
          * @Date 2022.03.15
          */
-        $(".lnb-theme .lnb-close").click(function () {
+        $(".lnb-theme .lnb-close").click(function (e) {
             $('.lnb-theme').stop().fadeOut(100);
-            $("#lnb li[data-menu]").removeClass("on");
+            var chkGrp = e.target.parentElement.parentElement.classList[2];
+            if(chkGrp === "grp1") {
+                $("#lnb ul:eq(0) li[data-menu]").removeClass("on");
+            } else {
+                $("#lnb ul:eq(1) li[data-menu]").removeClass("on");
+            }
+            // $("#lnb li[data-menu]").removeClass("on");
         });
 
         /**

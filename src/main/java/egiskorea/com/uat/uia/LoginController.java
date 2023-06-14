@@ -238,8 +238,6 @@ public class LoginController {
 		List list_headmenu = menuManageService.selectMainMenuHead(menuManageVO);
 		model.addAttribute("list_headmenu", list_headmenu);
 		*/
-		System.out.println("rttrg: ");
-		System.out.println(area);
 		
 		if (area == "webApp") {
 			return "redirect:/webApp/main.do";
