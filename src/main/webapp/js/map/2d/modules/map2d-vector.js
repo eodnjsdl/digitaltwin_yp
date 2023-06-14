@@ -236,7 +236,7 @@ map2d.vector = (function () {
         // }
         const styleFnc = feature.get('_style');
         if (styleFnc && typeof styleFnc === 'function') {
-            styleOpt = styleFnc(feature);
+            styleOpt = styleFnc(feature) || {};
         }
 
         const selected = feature.get('_selected');

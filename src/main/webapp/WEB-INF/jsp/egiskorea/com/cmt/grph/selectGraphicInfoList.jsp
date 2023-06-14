@@ -106,7 +106,7 @@
                                 <tbody>
                                 <c:forEach items="${resultList}" var="result" varStatus="status">
                                     <tr class="graphic_a" data-graphic-id="<c:out value="${result.grphcId}" />">
-                                        <td>
+                                        <td class="td-checkbox">
                                             <span class="form-checkbox"><span><input type="checkbox"
                                                                                      class="graphic_check"
                                                                                      id="graphic_check_<c:out value="${result.grphcId}" />"

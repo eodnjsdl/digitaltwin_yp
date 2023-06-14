@@ -365,6 +365,7 @@ map3d.vector = (function () {
         features.forEach((feature) => {
             removeFeature(feature);
         });
+        Module.XDRenderData()
     }
 
     function getZIndex() {
