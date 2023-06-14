@@ -99,7 +99,8 @@ class GraphicTool {
         });
 
         // 그리기 표시
-        $(".bbs-list .graphic_check", that.selector).on("change", function () {
+        $(".bbs-list .graphic_check", that.selector).on("change", function (e) {
+            e.stopImmediatePropagation();
             const node = $(this);
             const id = node.attr("data-graphic-id");
             if (node.is(":checked")) {
@@ -124,7 +125,10 @@ class GraphicTool {
         });
 
         // 편집
-        $(".bbs-list .graphic_a", that.selector).on("click", function () {
+        $(".bbs-list .graphic_a", that.selector).on("click", function (e) {
+            if ($(e.target).closest('td').hasClass('td-checkbox')) {
+                return;
+            }
             const node = $(this);
             const id = node.attr("data-graphic-id");
             new GraphicToolEditor(id);
@@ -236,6 +240,18 @@ class GraphicToolEditor {
     initUi() {
         const that = this;
 
+        //탭 이벤트
+        $(".tabBoxDepth2 .inner-tab", that.selector).on("click", function () {
+            $(this).each(function () {
+                $(this).parent().addClass("on").siblings().removeClass("on");
+                $("." + $(this).parent().data("tab"), that.selector).addClass("on").siblings().removeClass("on");
+            });
+            if ($("li[data-menu=lnb-search]", that.selector).hasClass("on")) {
+
+                removeAllLayer()
+            }
+        });
+
         // 스크롤 적용
         $(".drawingTabPoint .scroll-y", that.selector).mCustomScrollbar({
             scrollbarPosition: "outside",
@@ -280,7 +296,7 @@ class GraphicToolEditor {
                 if (that.feature) {
                     updateStyle(that.feature, {
                         stroke: {
-                            opacity: (100 - ui.value)/100
+                            opacity: (100 - ui.value) / 100
                         }
                     })
                 }
@@ -339,7 +355,7 @@ class GraphicToolEditor {
                 if (that.feature) {
                     updateStyle(that.feature, {
                         stroke: {
-                            opacity: (100 - ui.value)/100
+                            opacity: (100 - ui.value) / 100
                         }
                     })
                 }
@@ -401,7 +417,7 @@ class GraphicToolEditor {
                 if (that.feature) {
                     updateStyle(that.feature, {
                         fill: {
-                            opacity: (100 - ui.value)/100
+                            opacity: (100 - ui.value) / 100
                         }
                     })
                 }
