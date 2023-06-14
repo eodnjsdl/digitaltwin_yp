@@ -1,16 +1,15 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <style>
-.liData {
-	margin-left: 1rem;
-}
+    .liData {
+        margin-left: 1rem;
+    }
 
-#trrcSlider {
-	/*width: 7.5rem;*/
-	width: 185px;
-}
+    #trrcSlider {
+        /*width: 7.5rem;*/
+        width: 185px;
+    }
 </style>
 <script>
     $(document).ready(function () {
@@ -156,9 +155,15 @@
         });
 
         // 팝업창 닫기 event
-        $(".lnb-layer .lnb-close").click(function () {
+        $(".lnb-layer .lnb-close").click(function (e) {
             $(".lnb-layer").stop().fadeOut(100);
-            $("#lnb li[data-menu]").removeClass("on");
+            var chkGrp = e.target.parentElement.parentElement.classList[2];
+            if(chkGrp === "grp1") {
+                $("#lnb ul:eq(0) li[data-menu]").removeClass("on");
+            } else {
+                $("#lnb ul:eq(1) li[data-menu]").removeClass("on");
+            }
+            // $("#lnb li[data-menu]").removeClass("on");
             $('#leftPopup.opened').removeClass('opened');
         });
 
@@ -823,169 +828,170 @@
 <%--<div class="popup-header">3D 레이어</div>--%>
 <%--<div class="popup-body">--%>
 
-<div class="lnb-header">
-	<h2 class="tit">3D 레이어</h2>
-</div>
+<div class="lnb-header popup-header" style="background: #44516A;"><h2 class="tit">3D 레이어</h2></div>
 <div class="lnb-body">
 
-	<div class="srch-box marB5">
-		<form action="">
-			<div class="form-row">
-				<div class="col">
-					<input type="text" name="searchKeyword" class="form-control"
-						placeholder="레이어명 검색"
-						onkeypress="javascript:if(event.keyCode===13) aj_selectLayerList('top');">
-				</div>
-				<div class="col-auto">
-					<button type="button" class="btn type01 search"
-						onclick="aj_selectLayerList('top');">검색</button>
-				</div>
-			</div>
-		</form>
-	</div>
+    <div class="srch-box marB5">
+        <form action="">
+            <div class="form-row">
+                <div class="col"><input type="text" name="searchKeyword" class="form-control" placeholder="레이어명 검색"
+                                        onkeypress="javascript:if(event.keyCode===13) aj_selectLayerList('top');"></div>
+                <div class="col-auto">
+                    <button type="button" class="btn type01 search" onclick="aj_selectLayerList('top');">검색</button>
+                </div>
+            </div>
+        </form>
+    </div>
 
-	<!-- 지형 투명도 -->
-	<input id="tpgrphTrnsprc" type="hidden" value="${result.tpgrphTrnsprc}">
-	<div class="tbl-list vertical-tbl" style="margin-bottom: 1rem">
-		<div class="items">
-			<div id="tpgrphTrnsprcTerm" class="term">투명도</div>
-			<div class="desc">
-				<div class="top slider-box">
-					<div class="top slider">
-						<div id="trrcSlider" class="top slider-handle trrc-slider"></div>
-					</div>
-					<input type="text" class="top trrc-value" value="100" readonly>
-				</div>
-			</div>
-		</div>
-	</div>
+    <!-- 지형 투명도 -->
+    <input id="tpgrphTrnsprc" type="hidden" value="${result.tpgrphTrnsprc}">
+    <div class="tbl-list vertical-tbl" style="margin-bottom:1rem">
+        <div class="items">
+            <div id="tpgrphTrnsprcTerm" class="term">투명도</div>
+            <div class="desc">
+                <div class="top slider-box">
+                    <div class="top slider">
+                        <div id="trrcSlider" class="top slider-handle trrc-slider"></div>
+                    </div>
+                    <input type="text" class="top trrc-value" value="100" readonly>
+                </div>
+            </div>
+        </div>
+    </div>
 
-	<%--    <div class="tool-popup-body tool-layer-body">--%>
-	<%--        <div class="srch-box">--%>
-	<%--            <form action="">--%>
-	<%--                <div class="form-row">--%>
-	<%--                    <div class="col"><input type="text" name="searchKeyword" class="form-control" placeholder="레이어명 검색"--%>
-	<%--                                            onkeypress="javascript:if(event.keyCode==13) aj_selectLayerList('top');">--%>
-	<%--                    </div>--%>
-	<%--                    <div class="col-auto">--%>
-	<%--                        <button type="button" class="btn type01 search" onclick="aj_selectLayerList('top');">검색</button>--%>
-	<%--                    </div>--%>
-	<%--                </div>--%>
-	<%--            </form>--%>
-	<%--        </div>--%>
+    <%--    <div class="tool-popup-body tool-layer-body">--%>
+    <%--        <div class="srch-box">--%>
+    <%--            <form action="">--%>
+    <%--                <div class="form-row">--%>
+    <%--                    <div class="col"><input type="text" name="searchKeyword" class="form-control" placeholder="레이어명 검색"--%>
+    <%--                                            onkeypress="javascript:if(event.keyCode==13) aj_selectLayerList('top');">--%>
+    <%--                    </div>--%>
+    <%--                    <div class="col-auto">--%>
+    <%--                        <button type="button" class="btn type01 search" onclick="aj_selectLayerList('top');">검색</button>--%>
+    <%--                    </div>--%>
+    <%--                </div>--%>
+    <%--            </form>--%>
+    <%--        </div>--%>
 
-	<div class="tabBoxDepth1">
-		<ul>
-			<li data-tab="layerTab2D" style="width: 50%;">
-				<button id="layerTab2D" type="button"
-					class="inner-tab leftPopup layerTab" style="width: 100%;"
-					data-tab="layerTab2D">2D 레이어</button>
-			</li>
-			<li data-tab="layerTab3D" class="on" style="width: 50%;">
-				<button id="layerTab3D" type="button"
-					class="inner-tab leftPopup layerTab" style="width: 100%;"
-					data-tab="layerTab3D">3D 레이어</button>
-			</li>
-		</ul>
-	</div>
+    <div class="tabBoxDepth1">
+        <ul>
+            <li data-tab="layerTab2D" style="width: 50%;">
+                <button id="layerTab2D" type="button" class="inner-tab leftPopup layerTab" style="width: 100%;"
+                        data-tab="layerTab2D">2D 레이어
+                </button>
+            </li>
+            <li data-tab="layerTab3D" class="on" style="width: 50%;">
+                <button id="layerTab3D" type="button" class="inner-tab leftPopup layerTab" style="width: 100%;"
+                        data-tab="layerTab3D">3D 레이어
+                </button>
+            </li>
+        </ul>
+    </div>
 
-	<div class="scroll-y">
-		<ul class="layer-list">
-			<c:forEach var="result" items="${resultList}" varStatus="status">
-				<c:if test="${result.lyrCl ne ctgr}">
-					<c:if test="${!status.first}">
-		</ul>
-		</li>
-		</c:if>
+    <div class="scroll-y">
+        <ul class="layer-list">
+            <c:forEach var="result" items="${resultList}" varStatus="status">
+            <c:if test="${result.lyrCl ne ctgr}">
+            <c:if test="${!status.first}">
+        </ul>
+        </li>
+        </c:if>
 
-		<li id="ctgr_<c:out value="${result.lyrCl}"/>"><c:if
-				test="${result.lyrCl ne '025' && result.lyrCl ne '060'}">
-				<span class="form-checkbox"> <c:if
-						test="${result.lyrClNm ne '정사영상'}">
-						<input type="checkbox"
-							name="chk_ctgr_<c:out value="${result.lyrCl}"/>"
-							id="chk_ctgr_<c:out value="${result.lyrCl}"/>_2">
-					</c:if> <label for="chk_ctgr_<c:out value="${result.lyrCl}"/>_2"
-					data-title="<c:out value="${result.lyrClNm}"/>"><c:out
-							value="${result.lyrClNm}" /></label>
-				</span>
-			</c:if> <c:if test="${result.lyrCl eq '025' || result.lyrCl eq '060'}">
-				<span class="form-checkbox"> ${result.lyrClNm } </span>
-			</c:if>
+        <li id="ctgr_<c:out value="${result.lyrCl}"/>">
 
-			<button type="button" class="layer-toggle close" title="접기"></button>
-			<ul class="layer-list-dep2">
-				</c:if>
-				<c:if test="${result.lyrCl eq '060' }">
-					<li title="<c:out value="${result.dataName}"/>"><span
-						class="form-checkbox"> <input type="checkbox"
-							id="layer_POI_<c:out value="${result.dataid}"/>_2"
-							name="layer_POI_${result.dataid}"
-							data-table="${result.shpTableName}"
-							data-store="${result.shpDataStoreName}"
-							data-shpType="${result.shpDataType}"
-							data-desc="${result.dataDesc}" class="only3d"> <label
-							for="layer_POI_${result.dataid}_2"
-							data-title="${result.dataName}">${result.dataName}</label>
-					</span></li>
-				</c:if>
-				<c:if test="${result.lyrCl ne '060' }">
+            <c:if test="${result.lyrCl ne '025' && result.lyrCl ne '060'}">
+							<span class="form-checkbox">
+								<c:if test="${result.lyrClNm ne '정사영상'}">
+                                    <input type="checkbox" name="chk_ctgr_<c:out value="${result.lyrCl}"/>"
+                                           id="chk_ctgr_<c:out value="${result.lyrCl}"/>_2">
+                                </c:if>
+								<label for="chk_ctgr_<c:out value="${result.lyrCl}"/>_2"
+                                       data-title="<c:out value="${result.lyrClNm}"/>"><c:out
+                                        value="${result.lyrClNm}"/></label>
+							</span>
+            </c:if>
+            <c:if test="${result.lyrCl eq '025' || result.lyrCl eq '060'}">
+							<span class="form-checkbox">
+                                    ${result.lyrClNm }
+                            </span>
+            </c:if>
 
-					<c:if test="${result.lyrCl ne '025' }">
-						<li title="<c:out value="${result.dataName}"/>"><span
-							class="form-checkbox"> <input type="checkbox"
-								id="layer_<c:out value="${result.dataType}"/>_<c:out value="${result.dataid}"/>_2"
-								name="layer_${result.dataType}_${result.dataid}"
-								data-table="${result.shpTableName}"
-								data-store="${result.shpDataStoreName}"
-								data-shpType="${result.shpDataType}"
-								data-desc="${result.dataDesc}" class="only3d"> <label
-								for="layer_${result.dataType}_${result.dataid}_2"
-								data-title="${result.dataName}">${result.dataName}</label>
-						</span></li>
-					</c:if>
+            <button type="button" class="layer-toggle close" title="접기"></button>
+            <ul class="layer-list-dep2">
+                </c:if>
+                <c:if test="${result.lyrCl eq '060' }">
+                    <li title="<c:out value="${result.dataName}"/>">
+								<span class="form-checkbox">
+									<input type="checkbox" id="layer_POI_<c:out value="${result.dataid}"/>_2"
+                                           name="layer_POI_${result.dataid}"
+                                           data-table="${result.shpTableName}" data-store="${result.shpDataStoreName}"
+                                           data-shpType="${result.shpDataType}" data-desc="${result.dataDesc}"
+                                           class="only3d">
 
-					<c:if test="${result.lyrCl eq '025' }">
-						<li class="ctgr025" title="<c:out value="${result.dataName}"/>">
-							<input type="hidden"
-							id="layer_<c:out value="${result.dataType}"/>_<c:out value="${result.dataid}"/>_2"
-							name="layer_${result.dataType}_${result.dataid}"
-							data-table="${result.shpTableName}"
-							data-store="${result.shpDataStoreName}"
-							data-shpType="${result.shpDataType}"
-							data-desc="${result.dataDesc}" class="only3d"> <%-- <span>${result.dataName}</span> --%>
-							<div class="riDiv">
-								<c:if test="${result.dataName eq '강상면'}">
-									<span>${result.dataName}</span>
-									<button type="button" class="dep3 layer-toggle close"
-										title="접기"></button>
-								</c:if>
-								<c:if test="${result.dataName ne '강상면'}">
-									<span>${result.dataName}</span>
-									<button type="button" class="dep3 layer-toggle open"
-										title="펼치기"></button>
-								</c:if>
-							</div>
-						</li>
-					</c:if>
-				</c:if>
-				<c:if test="${status.last}">
-			</ul></li>
-		</c:if>
-		<c:set var="ctgr" value="${result.lyrCl}" />
-		</c:forEach>
-		<c:if test="${fn:length(resultList) == 0}">
-			<li class="noData">
-				<p>검색 결과가 없습니다.</p>
-			</li>
-		</c:if>
-		</ul>
-	</div>
-	<%--    </div>--%>
+									<label for="layer_POI_${result.dataid}_2"
+                                           data-title="${result.dataName}">${result.dataName}</label>
+								</span>
+                    </li>
+                </c:if>
+                <c:if test="${result.lyrCl ne '060' }">
+
+                    <c:if test="${result.lyrCl ne '025' }">
+                        <li title="<c:out value="${result.dataName}"/>">
+									<span class="form-checkbox">
+										<input type="checkbox"
+                                               id="layer_<c:out value="${result.dataType}"/>_<c:out value="${result.dataid}"/>_2"
+                                               name="layer_${result.dataType}_${result.dataid}"
+                                               data-table="${result.shpTableName}"
+                                               data-store="${result.shpDataStoreName}"
+                                               data-shpType="${result.shpDataType}" data-desc="${result.dataDesc}"
+                                               class="only3d">
+
+										<label for="layer_${result.dataType}_${result.dataid}_2"
+                                               data-title="${result.dataName}">${result.dataName}</label>
+									</span>
+                        </li>
+                    </c:if>
+
+                    <c:if test="${result.lyrCl eq '025' }">
+                        <li class="ctgr025" title="<c:out value="${result.dataName}"/>">
+                            <input type="hidden"
+                                   id="layer_<c:out value="${result.dataType}"/>_<c:out value="${result.dataid}"/>_2"
+                                   name="layer_${result.dataType}_${result.dataid}"
+                                   data-table="${result.shpTableName}" data-store="${result.shpDataStoreName}"
+                                   data-shpType="${result.shpDataType}" data-desc="${result.dataDesc}"
+                                   class="only3d">
+                                <%-- <span>${result.dataName}</span> --%>
+                            <div class="riDiv">
+                                <c:if test="${result.dataName eq '강상면'}">
+                                    <span>${result.dataName}</span>
+                                    <button type="button" class="dep3 layer-toggle close" title="접기"></button>
+                                </c:if>
+                                <c:if test="${result.dataName ne '강상면'}">
+                                    <span>${result.dataName}</span>
+                                    <button type="button" class="dep3 layer-toggle open" title="펼치기"></button>
+                                </c:if>
+                            </div>
+                        </li>
+                    </c:if>
+                </c:if>
+                <c:if test="${status.last}">
+            </ul>
+        </li>
+        </c:if>
+        <c:set var="ctgr" value="${result.lyrCl}"/>
+        </c:forEach>
+        <c:if test="${fn:length(resultList) == 0}">
+            <li class="noData">
+                <p>검색 결과가 없습니다.</p>
+            </li>
+        </c:if>
+        </ul>
+    </div>
+    <%--    </div>--%>
 </div>
 
 <div class="lnb-util">
-	<button type="button" class="manualBtn" title="도움말"></button>
-	<button type="button" class="lnb-resetBtn" title="초기화"></button>
-	<button type="button" class="lnb-close" title="닫기"></button>
+    <button type="button" class="manualBtn" title="도움말"></button>
+    <button type="button" class="lnb-resetBtn" title="초기화"></button>
+    <button type="button" class="lnb-close" title="닫기"></button>
 </div>
