@@ -4,8 +4,8 @@
 	width: 60px;
 }
 
-#lnb.side-lnb  {
-	top: auto;
+#side-lnb {
+	position: absolute;
 	bottom: 30px;
 	left: auto;
 	right: 0;
