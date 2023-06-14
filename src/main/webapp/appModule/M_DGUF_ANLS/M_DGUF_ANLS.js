@@ -14,6 +14,7 @@ var M_DGUF_ANLS = {
 			this.GLOBAL.Map = Module.getMap();
 			this.GLOBAL.Transparency.setRadius(100.0);
 			this.setTransparencyTexture();
+			Module.XDSetMouseState(Module.MML_SELECT_POINT);
 		},
 		
 		/**
@@ -22,7 +23,9 @@ var M_DGUF_ANLS = {
 		GLOBAL : {
 			Transparency : null,
 			Map : null,
-			Layer : null
+			Layer : null,
+			LayerInfo : null,
+			LayerNm : null
 		},
 		
 		/**
@@ -88,7 +91,6 @@ var M_DGUF_ANLS = {
 			}
 			console.log(geom);
 			
-			
 			// 터파기 생성
 			this.GLOBAL.Transparency.create(vInputPointList);
 			
@@ -109,7 +111,7 @@ var M_DGUF_ANLS = {
 			}
 			Module.getViewCamera().setLimitAltitude(150);
 			canvas.removeEventListener('Fire_EventSelectedObject', onPipeSelect);
-//			canvas.removeEventListener('mouseup', onMouseUpFromPipe);
+			canvas.removeEventListener('mouseup', onMouseUpFromPipe);
 		},
 		
 		/**
@@ -195,12 +197,10 @@ $(document).ready(function() {
 	$('.type-group input[name="mouseType"]').on('change', function() {
 		let mode = $(this).val(); 
 		M_DGUF_ANLS.setMouseState(mode);
-//		canvas.addEventListener('mouseup', onMouseUpFromPipe);
 		canvas.addEventListener('Fire_EventSelectedObject', onPipeSelect);
+		canvas.addEventListener('mouseup', onMouseUpFromPipe);
 		if (mode != 'off') {
 			M_DGUF_ANLS.destroy();
-			dtmap.draw.active({type: 'POINT', once: true});
-			dtmap.draw.setBuffer(1);
 		}
 	});
 	
@@ -225,8 +225,6 @@ $(document).ready(function() {
 			}
 		});
 	});
-	
-	
 });
 
 /**
@@ -234,45 +232,109 @@ $(document).ready(function() {
  * @param e
  * @returns
  */
-function onPipeSelect(e){
-	console.log(e);
-	let obj = Module.getMap().getSelectObject().position;
-	let geometry;
-	if (obj) {
-		geometry = dtmap.draw.getGeometry();
-		dtmap.draw.dispose();
-		dtmap.draw.clear();
-	} else {
-		return;
-	}
-	
-//	let objGeometry = [obj.Longitude, obj.Latitude, obj.Altitude];
-//	console.log("objGeometry ================================================");
-//	console.log(objGeometry);
-	
-	
-//	let trans = new ol.geom.Point([objGeometry[0], objGeometry[1]]);
-//	let spaceSearch = dtmap.util.getBufferGeometry(trans, 1);
-//	console.log("spaceSearch ------------------------------------------------");
-//	console.log(spaceSearch);
-	let layerNm = e.layerName.substring(0, e.layerName.length - 1).toLowerCase();
-	let options = {
-			typeNames: layerNm,
-			sortBy : 'gid',
-			sortOrder : 'DESC',
-			geometry : geometry
-	};
-	
-	const promise = dtmap.wfsGetFeature(options);
-	promise.then(function(data) {
-		console.log(data);
-	});
+function onPipeSelect(e) {
+	M_DGUF_ANLS.GLOBAL.LayerInfo = e;
+	M_DGUF_ANLS.GLOBAL.LayerNm = e.layerName.substring(0, e.layerName.length - 1).toLowerCase();
 };
 
-//function onMouseUpFromPipe(e) {
-//	console.log("mouseUpEvent><><><><<><><><><><><><><><><><");
-//	var screenPosition = new Module.JSVector2D(e.x, e.y);
-//	var mapPosition = Module.getMap().ScreenToMapPointEX(screenPosition);
-//	let geometry = [mapPosition.Longitude, mapPosition.Latitude, mapPosition.Altitude];
-//	console.log(geometry);
-//}
+function onMouseUpFromPipe(e) {
+		var screenPosition = new Module.JSVector2D(e.x, e.y);
+		var mapPosition = Module.getMap().ScreenToMapPointEX(screenPosition);
+		let geometry = [mapPosition.Longitude, mapPosition.Latitude];
+		
+		let obj = Module.getMap().getSelectObject();
+		let layerNm = M_DGUF_ANLS.GLOBAL.LayerNm;
+		setTimeout(() => {
+		if (obj && layerNm && geometry) {
+			let spaceSearch = dtmap.util.getBufferGeometry(new ol.geom.Point(geometry), 1);
+			let options = {
+					typeNames: layerNm,
+					sortBy : 'gid',
+					sortOrder : 'DESC',
+					geometry : spaceSearch
+			};
+			
+			const promise = dtmap.wfsGetFeature(options);
+			promise.then(function(data) {
+				if (data.features.length > 0) {
+					let feature = data.features[0];
+					let id = feature.id;
+					let gid = feature.properties.gid;
+					let properties = feature.properties;
+					
+					getPipeInfo(mapPosition, properties);
+					
+					M_DGUF_ANLS.GLOBAL.LayerInfo = null;
+					M_DGUF_ANLS.GLOBAL.LayerNm = null;
+				} else {
+					toastr.error("통신오류.");
+					obj = null;
+				}
+			});
+		} else {
+			return;
+		}
+	}, 300);
+}
+
+function getPipeInfo(coord, properties) {
+	let _element;
+    let _isActive = false;
+    const OVERLAY_ID = 'PIPE_OVERLAY';
+    let mapPosition = coord;
+    let data = properties;
+    	
+    const info = {
+    		init : function() {
+    			_element = document.createElement('div');
+    			_element.classList.add('ol-popup3d');
+    			$(_element).on('click', '.ol-popup-closer', this.onCloserClick);
+    			map3d.setInteraction(this);
+    			_isActive = true;
+    			this.createOverlay(mapPosition);
+    		},
+    		
+    		dispose : function() {
+    			if (_isActive) {
+//    	            map3d.canvas.removeEventListener('click', onMouseDown);
+    				map3d.overlay.removeById(OVERLAY_ID);
+    				_element.innerHTML = '';
+    				_isActive = false;
+	    			}
+    		},
+    		
+    		createOverlay : function(position) {
+    			const x = position.Longitude;
+    			const y = position.Latitude;
+    			const result = proj4("EPSG:4326", "EPSG:5179", [x, y]);
+    			
+    			let overlayObj = map3d.overlay.getById(OVERLAY_ID);
+    			if (overlayObj) {
+    				map3d.overlay.removeById(OVERLAY_ID);
+    				_element.innerHTML = ''; //html 초기화
+    			}
+    			
+    			map3d.overlay.add({
+    				id: OVERLAY_ID,
+    				element: _element,
+    				position: position,
+    				verticalAlign: 'bottom',
+    				horizontalAlign: 'center'
+    			});
+    			
+    			let html = `
+    	            <a href="#" class="ol-popup-closer"></a>
+    	            <div class="popup-content"></div>
+    	            <div>관리번호 : ${data.ftr_idn}</div>
+    	            <div>관경 : ${data.std_dip}</div>
+    				<div>관라벨 : ${data.pip_lbl}</div>
+    	            `;
+    			_element.innerHTML = html;
+    		},
+    		
+    		onCloserClick : function(e) {
+    			map3d.overlay.removeById(OVERLAY_ID);
+    		}
+    }
+    info.init();
+}
