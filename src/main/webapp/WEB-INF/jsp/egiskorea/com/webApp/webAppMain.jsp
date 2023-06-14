@@ -195,7 +195,21 @@
 	<!-- container -->
     <div id="container">
         <!-- header -->
-        <h1 class="logo"><a href="/webApp/main.do"></a></h1>
+       	<h1 class="logo"><a href="/webApp/main.do"></a></h1>
+       
+        <div class="lnb-search-webApp lnb-cont">
+			<div class="lnb-search-area">
+				<div class="lnb-search-tit"><h2 class="tit">검색</h2></div>
+				<div class="lnb-search-box">
+					<input type="search" id="searchKeyword" placeholder="지번주소를 검색하세요" onkeypress="if( event.keyCode == 13 ){ searchAddress(); }">
+					<button type="button" onclick="searchAddress();"><img class="btn-search" src="/images/map/lnb-search-tit.svg" alt=""></button>
+				</div>
+			</div>
+        	<div class="search-list hide">
+        		
+			</div>
+		</div>
+        
         <div class="util-box" style="right: 10px">
             <div class="user" style="width: 200px; border-radius: 0px 0px 10px 10px;"><c:out value="${loginVO.name}"/>님
                 <button type="button" class="logout-btn" data-name="로그아웃" onClick="location.href='/uat/uia/logoutAction.do'"></button>
@@ -244,9 +258,9 @@
 
         <!-- side -->
         <div id="side">
-            <div id="side-lnb">
+            <div id="lnb" class="side-lnb">
                 <div class="map-type">
-				    <span class="knob">
+				    <span id="knob" class="knobs">
 				        <span>
 				        	<input type="radio" name="mapType" value="2D" id="mapType2D" checked="">
 				        	<label for="mapType2D">2D</label>
@@ -260,84 +274,6 @@
             </div>
         </div>
         <!-- //side -->
-        
-        <!-- 검색 -->
-<!--         <div class="inb-search-webApp lnb-cont"> -->
-        	<!-- 주소검색 -->
-<!-- 			<div id="searchAddr-webApp" class="tab-cont searchAddr"> -->
-<!-- 				<div class="tabBoxDepth2-wrap"> -->
-<!-- 					<div class="tabBoxDepth2"> -->
-<!-- 						<ul> -->
-<!-- 							<li data-tab="addrSearchJibun" class="on"><button type="button" class="inner-tab">지번주소</button></li> -->
-<!-- 							<li data-tab="addrSearchRoad"><button type="button" class="inner-tab">도로명주소</button></li> -->
-<!-- 						</ul> -->
-<!-- 					</div> -->
-<!-- 					<div class="tab-cont addrSearchJibun on"> -->
-<!-- 						<div class="form-row"> -->
-<!-- 							<div class="col-6"> -->
-<!-- 								<select class="form-select search-address-emd"> -->
-<!-- 								</select> -->
-<!-- 							</div> -->
-<!-- 							<div class="col-6"> -->
-<!-- 								<select class="form-select search-address-li"> -->
-<!-- 								</select> -->
-<!-- 							</div> -->
-<!-- 						</div> -->
-<!-- 						<div class="form-row"> -->
-<!-- 							<div class="col-auto"> -->
-<!-- 								<span class="form-checkbox text"> -->
-<!-- 									<span><input type="checkbox" id="search-address-mntn" class="search-address-mntn"><label for="search-address-mntn">산</label></span> -->
-<!-- 								</span> -->
-<!-- 							</div> -->
-<!-- 							<div class="col"><input type="text" class="form-control search-address-mnnm"></div> -->
-<!-- 							<div class="col-auto">-</div> -->
-<!-- 							<div class="col"><input type="text" class="form-control search-address-slno"></div> -->
-<!-- 						</div> -->
-<!-- 						<div class="btn-wrap marT10"> -->
-<!-- 							<div><button type="button" class="btn type01 search search-address-search">검색</button></div> -->
-<!-- 						</div> -->
-<!-- 					</div> -->
-<!-- 					<div class="tab-cont addrSearchRoad"> -->
-<!-- 						<div class="form-row"> -->
-<!-- 							<div class="col-6"> -->
-<!-- 								<select class="form-select search-road-emd"> -->
-<!-- 								</select> -->
-<!-- 							</div> -->
-<!-- 							<div class="col-6"> -->
-<!-- 								<select class="form-select search-road-rn"> -->
-<!-- 								</select> -->
-<!-- 							</div> -->
-<!-- 						</div> -->
-<!-- 						<div class="form-row"> -->
-<!-- 							<div class="col"><input type="text" class="form-control search-road-mnnm"></div> -->
-<!-- 							<div class="col-auto">-</div> -->
-<!-- 							<div class="col"><input type="text" class="form-control search-road-slno"></div> -->
-<!-- 						</div> -->
-<!-- 						<div class="btn-wrap marT10"> -->
-<!-- 							<div><button type="button" class="btn type01 search search-road-search">검색</button></div> -->
-<!-- 						</div> -->
-<!-- 					</div> -->
-<!-- 				</div> -->
-
-<!-- 				<div class="bbs-top"> -->
-<!-- 					<div class="bbs-list-num">조회결과 : <strong>0</strong>건</div> -->
-<!-- 				</div> -->
-
-<!-- 				<div class="search-empty" style="display: none;"><p class="text">검색 결과가 없습니다.</p></div> -->
-
-<!-- 				<div class="searchResult-wrap" style="height: 479px;"> -->
-<!-- 					<div class="scroll-y"> -->
-<!-- 						<ul class="search-list"> -->
-<!-- 						</ul> -->
-<!-- 					</div> -->
-
-<!-- 					<div class="pagination"> -->
-<!-- 					</div> -->
-<!-- 				</div> -->
-<!-- 			</div> -->
-			<!-- //주소검색 -->
-<!--         </div> -->
-        <!-- //검색 -->
 
         <!-- 국토조사 -->
         <div class="lnb-territory-webApp lnb-cont">
@@ -369,32 +305,9 @@
     ui.init();
 
     $(document).ready(function () {
-        setMainUI();
         _setMainUIAction();
         _setMainUIEvent();
     })
-
-    //set menu 2D or 3D
-    function setMainUI() {
-        //set topmenu - 지도설정
-        var _html2dTop4 = `<li><button type="button" id="backgroundMapInfo" data-popup="rightPopup">배경지도</button></li>
-						<li><button type="button" id="multiView" data-popup="rightPopup">화면분할</button></li>
-						<li><button type="button" id="favorites" data-popup="rightPopup">즐겨찾기</button></li>`;
-        var _html3dTop4 = `<li><button type="button" id="backgroundMapInfo" data-popup="rightPopup">배경지도</button></li>
-						<li><button type="button" id="setting" data-popup="rightPopup">지도설정</button></li>
-						<li><button type="button" id="favorites" data-popup="rightPopup">즐겨찾기</button></li>`;
-        var mod = dtmap.mod;
-        var html1 = mod === '2D' ? _html2dTop4 : _html3dTop4;
-        $("#tmnMapSetting").html(html1);
-        //컨텍스트메뉴 변경
-        if(mod === '2D') {
-            $("#contextMenu .c08").removeClass("c08").addClass("c07");
-            $("#contextMenu .c07")[0].text = "3D전환";
-        } else {
-            $("#contextMenu .c07").removeClass("c07").addClass("c08");
-            $("#contextMenu .c08")[0].text = "2D전환";
-        }
-    }
 
     function checkCookiePopup() {
         if (document.cookie.indexOf("popup=hide") < 0) {
