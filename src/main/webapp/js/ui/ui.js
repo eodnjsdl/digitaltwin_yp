@@ -369,6 +369,10 @@ window.ui = (function () {
 				case "lnb-territory" :
 					aj_selectAdministrationZoneList($("#tmpForm")[0]);
 					break;
+					//국토조사 웹앱
+				case "lnb-territory-webApp" :
+					aj_selectAdministrationZoneList($("#tmpForm")[0]);
+					break;
 				}
 			} else {
 				$leftSide.find('.lnb-cont').stop().fadeOut(100);

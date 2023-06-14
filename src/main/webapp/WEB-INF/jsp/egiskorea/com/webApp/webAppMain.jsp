@@ -11,7 +11,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title><spring:message code="site.title"/></title>
+    <title>국토조사앱</title>
     <!-- Favicon-->
     <link rel="icon" type="image/x-icon" href="/images/common/favicon.ico"/>
 
@@ -193,7 +193,7 @@
 	<!-- container -->
     <div id="container">
         <!-- header -->
-        <h1 class="logo"><a href="/webApp/main.do"><spring:message code="site.title"/></a></h1>
+        <h1 class="logo"><a href="/webApp/main.do"></a></h1>
                 <div class="util-box" style="right: 10px">
             <div class="user" style="width: 137px; border-radius: 0px 0px 10px 10px;"><c:out value="${loginVO.name}"/>님
                 <button type="button" class="logout-btn" style="margin-right: 5px;" data-name="로그아웃"
@@ -247,7 +247,7 @@
                 	<li data-menu="lnb-search" class="">
                         <button type="button" class="lnb-btn">검색</button>
                     </li>
-                    <li data-menu="lnb-territory" class="">
+                    <li data-menu="lnb-territory-webApp" class="">
                         <button type="button" class="lnb-btn">국토조사</button>
                     </li>
                 </ul>
@@ -268,7 +268,7 @@
             <!-- //검색 -->
 
             <!-- 국토조사 -->
-            <div class="lnb-territory lnb-cont">
+            <div class="lnb-territory-webApp lnb-cont">
             </div>
             <!-- //국토조사 -->
 
