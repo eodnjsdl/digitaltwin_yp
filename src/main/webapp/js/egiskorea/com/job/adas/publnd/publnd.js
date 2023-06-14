@@ -104,7 +104,6 @@ function setData(_pageNo) {
 		type : 'post',
 		dataType: "json",
 		success : function(data) {
-		    console.log(data);
 			for(i = 0; i < data.pbprtAccdtList.length; i++) {
 				list.push(data.pbprtAccdtList[i]);
 			}

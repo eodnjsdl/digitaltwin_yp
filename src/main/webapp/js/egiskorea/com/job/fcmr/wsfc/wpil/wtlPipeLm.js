@@ -123,6 +123,7 @@ function wtlPipeLmListProcess(){
 
 //상수관로 목록 조회
 function selectWtlPipeLmList(page) {
+	console.log('wtlpipelmpage');
 	//console.log("selectWtlPipeLmList(page)");
 	//console.log("page>>>"+page);
 	

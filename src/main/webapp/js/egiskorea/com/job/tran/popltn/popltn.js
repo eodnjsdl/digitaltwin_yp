@@ -1,4 +1,5 @@
 $(document).ready(function(){
+	
 	$('#leftPopup').css({"left": "320px", "width": "400px", "height": "807px"});
 	//검색 조건 세팅
 	getCmmCodeData("YPE001", "#pplSearchForm select#liCd");	//읍면동
@@ -25,7 +26,16 @@ $(document).ready(function(){
 		}
 	});
 	
+	// 조회 버튼
 	$('#pplInfoSearch').on('click', function () {
+		if (dtmap.mod == '3D') {
+			if ($('#pplShowType').val() == 'grid') {
+				ui.loadingBar('hide');
+				toastr.warning("3D 지도에서는 지원하지 않습니다.");
+				return;
+			}
+		}
+		
 		let area = $('select[name="liCd"]').val();
 		let viewType = $("#pplShowType").val();
 		// case : 대상 지역 '전체'
@@ -35,7 +45,9 @@ $(document).ready(function(){
 				getAllPopulationInfo();
 			}
 		}
-		selectPplInfoList();
+		if ($('#pplBaseYYMM').val()) {
+			selectPplInfoList();
+		}
 	});
 	
 	// 대상지역이 변경될 때마다 호출
@@ -68,9 +80,16 @@ $(document).ready(function(){
 
 //functions
 
+/**
+ * layer 초기화
+ * @returns
+ */
 function popltnLayerClear() {
 	dtmap.layer.removeLayer('li_popltn_info');
 	dtmap.layer.removeLayer('li_popltn_info_grid');
+	if (dtmap.layer.userLayers) {
+		dtmap.layer.userLayers.delLayerAtName('li_popltn_info_graph');
+	}
 }
 
 /**
@@ -89,15 +108,20 @@ function initPplLegal() {
  */
 function getAllPopulationInfo() {
 	ui.loadingBar('show');
+	let viewType = 'legal';
 	let stdrYm = $('#pplBaseYYMM').val();
 	let liCode = $('#liCd').val().slice(0, 8);
 	let filter = "length(li_cd) = '8'";
+	if (dtmap.mod === '3D') {
+		filter = "li_cd like '41830%'";
+	}
 	let gender = $('#pplGender').val();
 	let options = {
 			cql : filter,
-			gender : gender
+			gender : gender,
+			all : true,
+			viewType : viewType
 	};
-	let viewType = 'legal';
 	$.ajax({
 		data : {"stdrYm" : stdrYm},
 		url : "/job/tran/popltn/selectAllPopulationInfoList.do",
@@ -109,7 +133,12 @@ function getAllPopulationInfo() {
 			let geom = data.geomCenter;
 			legalData(result);
 			getJenks(result, options, viewType);
-			setViewPoint(geom);
+			if (dtmap.mod == '3D') {
+				let layer = setBarGraphLayer();
+				makeGraph(result, layer);
+				popltnAddPolygon(options);
+			}
+			setViewPoint(geom, options);
 		}, error: function() {
 			toastr.error("정보를 불러오지 못하였습니다.");
 		}
@@ -181,20 +210,29 @@ function selectPplInfoList() {
 	let data = $("#pplSearchForm").serialize();
 	let pplShowType = $("#pplShowType").val();
 	// 법정동 경계 데이터 ajax. pplShowType = legal
+	
+	// 3D 맵 레이어 미지원
+//	if (dtmap.mod == '3D') {
+//		ui.loadingBar('hide');
+//		toastr.error("3D 지도는 지원하지 않습니다.");
+//		return;
+//	}
 	if (pplShowType == 'legal') {
 		ui.loadingBar('show');
 		// formdata에 리 옵션 값 'all' 일 때, 전체 조회
 		if (data.includes('liCd=all')) {
 		} else {
+			let viewType = 'legal';
 			// 레이어 호출 - cql 옵션 세팅
 			let liCode = $('#liCd').val().slice(0, 8);
 			let filter = "li_cd like " + "'" + liCode + "%'";
 			let gender = $('#pplGender').val();
 			let options = {
 					cql : filter,
-					gender : gender
+					gender : gender,
+					all : false,
+					viewType : viewType
 			};
-			let viewType = 'legal';
 			$.ajax({
 				data: data,
 				url : "/job/tran/popltn/selectMyeonPopulationInfoList.do",
@@ -207,7 +245,12 @@ function selectPplInfoList() {
 					legalData(result);
 					// 레이어 호출
 					getJenks(result, options, viewType);
-					setViewPoint(geom);
+					if (dtmap.mod == '3D') {
+						let layer = setBarGraphLayer();
+						makeGraph(result, layer, geom);
+						popltnAddPolygon(options);
+					}
+					setViewPoint(geom, options);
 				}, error: function() {
 					toastr.error("정보를 불러오지 못하였습니다.");
 				}
@@ -218,12 +261,13 @@ function selectPplInfoList() {
 		ui.loadingBar('show');
 		if (data.includes('liCd=all')) {
 			// 전체조회
+			let viewType = 'grid';
 			let gender = $('#pplGender').val();
 			let options = {
 					all : true,
-					gender : gender
+					gender : gender,
+					viewType : viewType
 			};
-			let viewType = 'grid';
 			$.ajax({
 				data: data,
 				url : "/job/tran/popltn/selectGridMyeonPopulationInfoList.do",
@@ -237,21 +281,23 @@ function selectPplInfoList() {
 					gridData(result, options.all);
 					// 레이어 호출 및 범위 표시 변경 ; - 속도 느림 주석처리
 //					getJenks(result, options, viewType);
-					setViewPoint(geom);
+					// 카메라 이동
+					setViewPoint(geom, options);
 				}, error: function() {
 					toastr.error("정보를 불러오지 못하였습니다.");
 				}
 			});
 		} else {
+			let viewType = 'grid';
 			let liCode = $('#liCd').val().slice(0, 8);
 			let filter = "li_cd like " + "'" + liCode + "%'";
 			let gender = $('#pplGender').val();
 			let options = {
 					cql : filter,
 					gender : gender,
-					all : false
+					all : false,
+					viewType : viewType
 			};
-			let viewType = 'grid';
 			$.ajax({
 				data: data,
 				url : "/job/tran/popltn/selectGridMyeonPopulationInfoList.do",
@@ -262,7 +308,7 @@ function selectPplInfoList() {
 					let geom = data.geomCenter;
 					// 레이어 호출
 					getJenks(result, options, viewType);
-					setViewPoint(geom);
+					setViewPoint(geom, options);
 				}, error: function() {
 					toastr.error("정보를 불러오지 못하였습니다.");
 				}
@@ -288,6 +334,8 @@ function legalData(result, viewType) {
 			totalCount += result[i].malePopltnCnt;
 		} else if (dataType == 'w') {
 			totalCount += result[i].femalePopltnCnt;
+		} else if (dataType == 'old') {
+			totalCount += result[i].odsnPopltnCnt;
 		}
 	}
 	for(let i = 0; i < result.length; i++) {
@@ -296,14 +344,17 @@ function legalData(result, viewType) {
 		let rate = '';
 		// 총인구, 남자, 여자 분류
 		if (dataType == 'all') {
-			legalListHml += "<td>" + numberFormatter(result[i].allPopltnCnt) + "</td>";
+			legalListHml += "<td>" + numberFormatter(result[i].allPopltnCnt) + " 명</td>";
 			rate = Math.round(result[i].allPopltnCnt / totalCount * 100);
 		} else if (dataType == 'm') {
-			legalListHml += "<td>" + numberFormatter(result[i].malePopltnCnt) + "</td>";
+			legalListHml += "<td>" + numberFormatter(result[i].malePopltnCnt) + " 명</td>";
 			rate = Math.round(result[i].malePopltnCnt / totalCount * 100);
 		} else if (dataType == 'w') {
-			legalListHml += "<td>" + numberFormatter(result[i].femalePopltnCnt) + "</td>";
+			legalListHml += "<td>" + numberFormatter(result[i].femalePopltnCnt) + " 명</td>";
 			rate = Math.round(result[i].femalePopltnCnt / totalCount * 100);
+		} else if (dataType == 'old') {
+			legalListHml += "<td>" + numberFormatter(result[i].odsnPopltnCnt) + " 명</td>";
+			rate = Math.round(result[i].odsnPopltnCnt / totalCount * 100);
 		}
 		legalListHml += "<td>" + rate + "%</td>";
 		legalListHml += "</tr>";
@@ -363,8 +414,8 @@ function getLayer(options, viewType) {
 		id = 'li_popltn_info_grid';
 	}
 	let type = 'WMS'
-		let title = '인구정보'
-			let visible = true;
+	let title = '인구정보'
+	let visible = true;
 	if (viewType == 'legal') {
 		dtmap.showLayer({
 			id: id,
@@ -400,6 +451,8 @@ function getJenks(data, options, viewType) {
 		propertyNm = 'female_popltn_cnt';
 	} else if (options.gender == 'm') {
 		propertyNm = 'male_popltn_cnt';
+	} else if (options.gender == 'old') {
+		propertyNm = 'odsn_popltn_cnt';
 	}
 	let popltn = [];
 	for (let i = 0; i < data.length; i++) {
@@ -407,6 +460,8 @@ function getJenks(data, options, viewType) {
 			popltn.push(data[i].femalePopltnCnt);
 		} else if (options.gender == 'm') {
 			popltn.push(data[i].malePopltnCnt);
+		} else if (options.gender == 'old') {
+			popltn.push(data[i].odsnPopltnCnt);
 		} else {
 			popltn.push(data[i].allPopltnCnt);
 		}
@@ -461,41 +516,53 @@ function getJenks(data, options, viewType) {
 			value : propertyNm,
 			color : color
 	};
-	let xmlString = setLegalStyle(style);
+	let xmlString = setLegalStyle(style, viewType);
 	options.sld = xmlString;
-	getLayer(options, viewType);
+	if (dtmap.mod == '2D'){
+		getLayer(options, viewType);
+	}
 }
+
+
+
 
 /**
  * 카메라 이동
  * @param geom
  * @returns
  */
-function setViewPoint(geom) {
+function setViewPoint(geom, option) {
 	let geometry = geom.replace(/[POINT()]/gi, '').split(' ');
 	geometry = [parseFloat(geometry[0]), parseFloat(geometry[1])];
 	if(dtmap.mod == '2D'){
 		//중심점 이동 및 zoom 설정
-		var options = {
+		let options = {
 				zoom : 9	
 		}
-		dtmap.setCenter(
-				[geometry[0]-9000, geometry[1]+2000]
-				, options
-		);
-		
-	} else if (dtmap.mod == '3D') {
-		let transPoint = ol.proj.transform(geometry, "EPSG:5179", "EPSG:4326");
-		let alt = parseFloat(66800);
-		transPoint.push(alt);
-		let options = {
-				tilt : 90,
-				dis : 800
+		if (!option.all) {
+			options.zoom = 13;
+			
+			if (option.viewType == 'grid') {
+				options.zoom = 13;
+				// grid, 면 단위조회 카메라
+				dtmap.setCenter(
+						[geometry[0]-3000, geometry[1]]
+						, options
+				);
+			} else {
+				// 면 단위조회 카메라 (법정동, 격자)
+				dtmap.setCenter(
+						[geometry[0]-7000, geometry[1]]
+						, options
+				);
+			}
+		} else {
+			// 전체 조회 카메라
+			dtmap.setCenter(
+					[geometry[0]-9000, geometry[1]+2000]
+					, options
+			);
 		}
-		dtmap.setCenter(transPoint, options);
-//	// 카메라 이동
-//	let centerVec = new Module.JSVector3D(tranPoint[0]-0.15, tranPoint[1], tranPoint[2]);
-//	map3d.camera.move(centerVec, 90, 0, 800);
 	}
 }
 
@@ -505,7 +572,7 @@ function setViewPoint(geom) {
  * @param style
  * @returns
  */
-function setLegalStyle(style) {
+function setLegalStyle(style, viewType) {
 	let range = style.range;
 	let color = style.color;
 	let xml = ``;
@@ -522,6 +589,7 @@ function setLegalStyle(style) {
 	xml += `<sld:UserStyle>`;
 	xml += `<se:Name>${style.name}</se:Name>`;
 	xml += `<se:FeatureTypeStyle>`;
+	
 	for (let i = 0; i < style.length; i ++) {
 		xml += `<se:Rule>`;
 		xml += `<se:Name>${range['jenks'][i]}</se:Name>`;
@@ -541,19 +609,22 @@ function setLegalStyle(style) {
 		xml += `</ogc:And>`;
 		xml += `</ogc:Filter>`;
 		xml += `<se:PolygonSymbolizer>`;
-		xml += `<se:Fill>`
-			xml += `<se:SvgParameter name="fill">${color[i]}</se:SvgParameter>`;
+		xml += `<se:Fill>`;
+		xml += `<se:SvgParameter name="fill">${color[i]}</se:SvgParameter>`;
 		xml += `<se:SvgParameter name="fill-opacity">0.7</se:SvgParameter>`;
 		xml += `</se:Fill>`;
-		xml += `<se:Stroke>`;
-		xml += `<se:SvgParameter name="stroke">#232323</se:SvgParameter>`;
-		xml += `<se:SvgParameter name="stroke-width">1</se:SvgParameter>`
-			xml += `<se:SvgParameter name="stroke-opacity">0.7</se:SvgParameter>`
-				xml += `<se:SvgParameter name="stroke-linejoin">bevel</se:SvgParameter>`
-					xml += `</se:Stroke>`
-						xml += `</se:PolygonSymbolizer>`;
+		if (viewType == 'legal') {
+			xml += `<se:Stroke>`;
+			xml += `<se:SvgParameter name="stroke">#232323</se:SvgParameter>`;
+			xml += `<se:SvgParameter name="stroke-width">0.5</se:SvgParameter>`;
+			xml += `<se:SvgParameter name="stroke-opacity">0.7</se:SvgParameter>`;
+			xml += `<se:SvgParameter name="stroke-linejoin">bevel</se:SvgParameter>`;
+			xml += `</se:Stroke>`;
+		}
+		xml += `</se:PolygonSymbolizer>`;
 		xml += `</se:Rule>`;
 	};
+	
 	xml += `</se:FeatureTypeStyle>`;
 	xml += `</sld:UserStyle>`;
 	xml += `</sld:NamedLayer>`;
@@ -628,65 +699,174 @@ function populationRenderChart(result){
 			],
 	});
 }
-/*
-//================== db data =======================
-function getGeomData() {
-    ui.loadingBar('show');
-    
-    $.ajax({
-	url : "job/tran/popltn/selectAllPopulationInfoGeomList.do",
-	type : 'post',
-	dataType : 'json',
-	success : function(data) {
-	    let result = data.resultList;
-	    geomPrcss(result);
-	    ui.loadingBar('hide');
-	}, error : function() {
-	    toastr.error("데이터 호출 실패.");
+
+function makeGraph(result, layer, geom) {
+	// 좌표설정
+	let geometry, transformGeom;
+	let options = {
+			tilt : 40
 	}
-    });
+	if (geom) {
+		geometry = geom.replace(/[POINT()]/gi, '').split(' ');
+		geometry = [parseFloat(geometry[0]), parseFloat(geometry[1])];
+		let cameraGeom = [parseFloat(geometry[0]-1200), parseFloat(geometry[1]+1000)];
+		transformGeom = ol.proj.transform(geometry, 'EPSG:5179', 'EPSG:4326');
+		let camera = ol.proj.transform(cameraGeom, 'EPSG:5179', 'EPSG:4326');
+		let alt = 34200.19689058978;
+		transformGeom.push(alt);
+//		camera.push(3483.0755403572693);
+		camera.push(9000);
+		// 카메라 위치 조정
+		dtmap.setCenter(camera, options);
+	} else {
+		geometry = [127.41882160, 37.57032196807325, 34200.19689058978];
+		dtmap.setCenter(geometry, options);
+	}
+	
+	// 그래프 생성
+	var graph = createGraphPopltn(result, transformGeom);
+	layer.setMaxDistance(200000.0);
+	
+	layer.addObject(graph, 0);
+	
+	function createGraphPopltn(infoData, transformGeom) {
+		
+		// 그래프 오브젝트 생성
+		var graph = Module.createBarGraph("Graph");
+		
+		
+		// 범례 추가
+		graph.insertLegend("Legend1", "총인구", new Module.JSColor(200, 144, 237, 125));
+		graph.insertLegend("Legend2", "남성", new Module.JSColor(200, 124, 181, 236));
+		graph.insertLegend("Legend3", "여성", new Module.JSColor(200, 254, 121, 104));
+		graph.insertLegend("Legend4", "노인", new Module.JSColor(200, 255, 204, 0));
+		 
+		// 데이터 셋 이름 리스트
+		var dataSetName = [],
+		labelTextOutlineColor = new Module.JSColor(255, 0, 0, 0),
+		labelTextFillColor = new Module.JSColor(255, 255, 255, 255)
+		;
+		for (let i = 0; i < infoData.length; i++) {
+			dataSetName.push(infoData[i].codeNm);
+		}
+		
+		// 데이터 추가 (데이터는 범례가 추가된 순서대로 적용됨)
+		var dataValue = [];
+		
+		// 최대/최소 인구
+		let maxPopltnCnt = infoData[0].allPopltnCnt;
+		for (let i = 0; i < infoData.length; i++) {
+			dataValue.push([infoData[i].allPopltnCnt, infoData[i].malePopltnCnt, infoData[i].femalePopltnCnt, infoData[i].odsnPopltnCnt]);
+			if (maxPopltnCnt < infoData[i].allPopltnCnt) {
+				maxPopltnCnt = infoData[i].allPopltnCnt;
+			}
+		}
+		
+		for (var i = 0, len = dataValue.length; i<len; i++) {
+			
+			var data = new Module.Collection();
+			
+			// 데이터 정보 입력
+			for (var j = 0, subLen = dataValue[i].length; j < subLen; j++) {
+				data.add(dataValue[i][j]);
+			}
+			
+			// 이름, 데이터 정보로 데이터 셋 입력
+			graph.insertDataSet(dataSetName[i], data);
+			
+			// 그래프 데이터 셋 이름 출력 옵션 설정
+			graph.setDataSetNameFont(dataSetName[i], "sans-serif");	// 폰트 이름
+			graph.setDataSetNameTextSize(dataSetName[i], 12);	// 텍스트 크기
+			graph.setDataSetNameTextColor(dataSetName[i], labelTextOutlineColor, labelTextFillColor);	// 텍스트 색상
+		}
+		
+		// 최대, 최소 값 범위 설정
+		let intervalValue = (maxPopltnCnt + 1000 - (maxPopltnCnt % 1000)) / 10;
+		let maxViewPopltnCnt = Math.floor(maxPopltnCnt * 1.1 - (maxPopltnCnt % 10));
+		graph.setValueRange(0, maxViewPopltnCnt, intervalValue);
+
+		// 단위 표시 텍스트 설정
+		graph.setUnitText("(명)");
+		
+		// 바 상승 애니메이션 속도 설정
+		graph.setAnimationSpeed(0.1);
+		
+		// 데이터 셋 이름과 그래프 바 간 간격 설정
+		graph.setDataSetNameInterval(300);
+		
+		// 그래프 바닥 평면 두께 설정
+		graph.setFloorDepth(150);
+		graph.setFloorColor(new Module.JSColor(150, 250, 250, 250));
+			
+		// 그래프 생성
+		if (transformGeom != null) {
+			// 범례 박스 크기 설정
+			graph.setLegendBoxSize(new Module.JSSize3D(200, 150, 150));
+			graph.create(new Module.JSVector3D(transformGeom[0], transformGeom[1], 700),
+					new Module.JSSize2D(5000, 3125),
+					0);	// 0(막대가 가로로 배열된 형태), 1(막대가 쌓인 형태) 
+		} else {
+			// 범례 박스 크기 설정
+			graph.setLegendBoxSize(new Module.JSSize3D(800, 750, 750));
+			graph.create(new Module.JSVector3D(127.48846105973797, 37.49399950773854, 1500),
+					new Module.JSSize2D(20000, 12500),
+					0);	// 0(막대가 가로로 배열된 형태), 1(막대가 쌓인 형태) 
+		}
+		
+		return graph;
+	}
 }
 
-function geomPrcss(data) {
-    console.log(data);
-    const formatWKT = new ol.format.WKT();
-    for (let i = 0; i < data.length; i++) {
-	let geom = data[i].geom; // geom 데이터
-	let geometry = formatWKT.readGeometry(geom);
-	let geomGetter = geometry.flatCoordinates
-	let coordArr =[]; 
-	    coordArr.push(coordArrFomatter(geomGetter, 2));
-	    console.log(coordArr);
-	    popltnAddPolygon(coordArr, i);
-    }
-    
-    
-    ui.loadingBar('hide');
+/**
+ * layer 생성
+ * name : "li_popltn_info_graph"
+ * @returns
+ */
+function setBarGraphLayer() {
+//	var layerList = new Module.JSLayerList(true);
+//	var layer = layerList.createLayer("li_popltn_info_graph", Module.ELT_GRAPH);
+	
+	var layer = Module.getObjectLayerList().createObjectLayer({
+	    name: "li_popltn_info_graph", // 필수
+	    type: Module.ELT_GRAPH, // 필수
+	    visible: true, // 옵션 (default : true)
+	    selectable: false, // 옵션 (default : true)
+	    minDistance: 100.0, // 옵션 (default : 0.0)
+	    maxDistance: 200000.0, // 옵션 (default : 3000.0)
+	});
+	
+	return layer;
 }
 
-function coordArrFomatter(coord, size) {
-    const arr = [];
-	    
-    for (let i = 0; i < coord.length; i += size) {
-	arr.push(coord.slice(i, i + size));
-    }
-
-    return arr;
+/**
+ * 법정동 조회 - 폴리곤 생성
+ * @param filter
+ * @returns
+ */
+function popltnAddPolygon(filter) {
+	if (dtmap.mod === '3D') {
+		let options = {
+				typeNames: 'tgd_scco_li',
+				sortBy : 'gid',
+				sortOrder : 'DESC',
+				cql : filter.cql
+		}
+		if (filter.all) {
+			options.typeNames = 'tgd_scco_emd'
+			options.cql = null
+		}
+		dtmap.vector.clear();
+		const promise = dtmap.wfsGetFeature(options);
+		promise.then(function(data) {
+			dtmap.vector.readGeoJson(data, function (feature) {
+				let properties = feature.getProperties();
+				return {
+					fill : {
+					      opacity : 0.7
+					    }
+				}
+			});
+			ui.loadingBar('hide');
+		});
+	}
 }
-
-function popltnAddPolygon(coordinates, id) {
-    let style = {
-	    fill : {
-		      color : '#dddddd',
-		      opacity : 0.3
-		    }
-    };
-    dtmap.vector.addPolygon({
-	id : 'test_popltn_' + id,
-	coordinates : coordinates,
-	crs : 'EPSG:5179',
-	style : style
-    })
-}
-//================== db data =======================
-*/
