@@ -246,10 +246,6 @@ class GraphicToolEditor {
                 $(this).parent().addClass("on").siblings().removeClass("on");
                 $("." + $(this).parent().data("tab"), that.selector).addClass("on").siblings().removeClass("on");
             });
-            if ($("li[data-menu=lnb-search]", that.selector).hasClass("on")) {
-
-                removeAllLayer()
-            }
         });
 
         // 스크롤 적용
