@@ -155,9 +155,15 @@
         });
 
         // 팝업창 닫기 event
-        $(".lnb-layer .lnb-close").click(function () {
+        $(".lnb-layer .lnb-close").click(function (e) {
             $(".lnb-layer").stop().fadeOut(100);
-            $("#lnb li[data-menu]").removeClass("on");
+            var chkGrp = e.target.parentElement.parentElement.classList[2];
+            if(chkGrp === "grp1") {
+                $("#lnb ul:eq(0) li[data-menu]").removeClass("on");
+            } else {
+                $("#lnb ul:eq(1) li[data-menu]").removeClass("on");
+            }
+            // $("#lnb li[data-menu]").removeClass("on");
             $('#leftPopup.opened').removeClass('opened');
         });
 
@@ -822,7 +828,7 @@
 <%--<div class="popup-header">3D 레이어</div>--%>
 <%--<div class="popup-body">--%>
 
-<div class="lnb-header"><h2 class="tit">3D 레이어</h2></div>
+<div class="lnb-header popup-header" style="background: #44516A;"><h2 class="tit">3D 레이어</h2></div>
 <div class="lnb-body">
 
     <div class="srch-box marB5">

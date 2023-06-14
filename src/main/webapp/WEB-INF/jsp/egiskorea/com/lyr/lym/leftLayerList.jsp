@@ -2,7 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
-<div class="lnb-header"><h2 class="tit">2D 레이어</h2></div>
+<div class="lnb-header popup-header" style="background: #44516A;"><h2 class="tit">2D 레이어</h2></div>
 <div class="lnb-body toc">
     <div class="srch-box marB5">
         <form action="">
@@ -149,8 +149,7 @@
         });
 
         // 레이어관리 button event
-        // $list.on('click', '.layer-mng', function () {
-        $(document).on('click', '#layerManagement', function (e) {
+        $("#layerManagement").on('click', function () {
             $(this).addClass("active");
             ui.openPopup("leftPopup", "layerManagement");
             aj_selectLayerManagementList();
@@ -167,7 +166,8 @@
         $("#side .lnb-layer .lnb-resetBtn").click(function () {
             dtmap.layer.clear();
             $('.lnb-layer [name="searchKeyword"]').val(null);
-            aj_selectLayerList('left', true);
+            // aj_selectLayerList('left', true);
+            $('.form-checkbox input[type="checkbox"]').prop('checked', false);
         });
 
 
@@ -226,7 +226,6 @@
                 console.log('[레이어]', layerNm, visible ? 'on' : 'off');
                 checkSiblings($this);
             }
-
         })
 
         function checkSiblings($target) {
