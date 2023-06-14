@@ -5,7 +5,7 @@
 	<div class="type-group">
 		<ol>
 			<li>
-				<input type="radio" name="mouseType" id="modeOff" value="off" checked/><label for="modeOff">해제</label>
+				<input type="radio" name="mouseType" id="modeOff" value="off" checked/><label for="modeOff">해제 / 객체선택</label>
 			</li>
 			<li>
 				<input type="radio" name="mouseType" id="drag" value="drag"/><label for="drag">마우스 드래그로 지하 보기</label>
@@ -13,16 +13,21 @@
 			<li>
 				<input type="radio" name="mouseType" id="area" value="area"/>
 				<label for="area">터파기 영역 지정 
-					<button type="button" class="btn basic bi-cursor" id="areaSetBtn">영역 지정</button>
 				</label>
+				<button type="button" class="btn basic" id="areaSetBtn" style="float:right;">터파기 생성</button>
 			</li>
 		</ol>
 		<div id="DV_SuvMain">
-		터파기 깊이(m)
-		<input type="range" id="dgufDepthSetVal" min="1.0" max="50.0" value="50.0" step="0.1" > 
-		<input type="text" id="dgufDepthShowVal" class="form-control w-60 align-center" value="50.0" readonly disabled> 
-	</div>
-		<span><small>* 영역지정은 영역을 선택 후 버튼을 눌러주세요.</small></span>
+			터파기 깊이(m)
+			<input type="range" id="dgufDepthSetVal" name="dgufDepthSetVal" min="1.0" max="30.0" value="30.0" step="0.1">
+			<input type="text" id="dgufDepthShowVal" class="form-control w-60 align-center" value="30.0" readonly disabled>
+			<button type="button" class="btn basic bi-cursor" id="lastDgufEdit" style="float: right;">깊이 수정</button>
+		</div>
+		<div id="DV_Information">
+			<span><small>* 영역지정은 영역을 선택 후 버튼을 눌러주세요.</small></span>
+			<br>
+			<span><small>* 깊이 수정은 모든 터파기 객체가 적용됩니다.</small></span>
+		</div>
 	</div>
 	</div>
 	<button type="button" class="manualBtn" title="도움말" onclick="manualTab('지하시설물터파기(3D)')"></button>
