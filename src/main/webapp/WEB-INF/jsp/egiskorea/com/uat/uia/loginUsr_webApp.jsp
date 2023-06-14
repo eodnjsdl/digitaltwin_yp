@@ -56,11 +56,11 @@
 				<div class="login-box">
 					<div class="items">
 						<label for="id" class="form-label">ID</label>
-						<input type="text" name="id" id="loginId" class="form-control" maxlength="20" placeholder="아이디">
+						<input type="text" name="id" id="loginId" class="form-control" onkeypress="if( event.keyCode == 13 ){ checkLogin();}" maxlength="20" placeholder="아이디">
 					</div>
 					<div class="items">
 						<label for="password" class="form-label">Password</label>
-						<input type="password" name="password" id="loginPw" class="form-control" maxlength="20" placeholder="비밀번호">
+						<input type="password" name="password" id="loginPw" class="form-control" onkeypress="if( event.keyCode == 13 ){ checkLogin();}" maxlength="20" placeholder="비밀번호">
 					</div>
 					<button type="button" onclick="checkLogin();" class="login-WebApp-btn">로그인</button>
 				</div>

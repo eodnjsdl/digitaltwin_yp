@@ -196,10 +196,10 @@
     <div id="container">
         <!-- header -->
         <h1 class="logo"><a href="/webApp/main.do"></a></h1>
-                <div class="util-box" style="right: 10px">
-            <div class="user" style="width: 137px; border-radius: 0px 0px 10px 10px;"><c:out value="${loginVO.name}"/>님
-                <button type="button" class="logout-btn" style="margin-right: 5px;" data-name="로그아웃"
-                        onClick="location.href='/uat/uia/logoutAction.do'"></button>
+        <div class="util-box" style="right: 10px">
+            <div class="user" style="width: 200px; border-radius: 0px 0px 10px 10px;"><c:out value="${loginVO.name}"/>님
+                <button type="button" class="logout-btn" data-name="로그아웃" onClick="location.href='/uat/uia/logoutAction.do'"></button>
+                <div id="lnb-territory-webApp">국토조사</div>
             </div>
         </div>
         <!-- //header -->
@@ -231,7 +231,7 @@
                         <button type="button" class="ctrl-btn distance" data-name="거리"></button>
                         <button type="button" class="ctrl-btn measure" data-name="면적"></button>
                         <button type="button" class="ctrl-btn radius" data-name="반경"></button>
-                        <%--			            <button type="button" class="ctrl-btn setting" data-popup="rightPopup"  data-name="설정"></button>--%>
+                        <%-- <button type="button" class="ctrl-btn setting" data-popup="rightPopup"  data-name="설정"></button> --%>
                     </li>
                     <li>
                         <button type="button" class="ctrl-btn scaleUp" data-name="확대"></button>
@@ -244,105 +244,105 @@
 
         <!-- side -->
         <div id="side">
-            <div id="lnb">
-                <ul>
-                	<li data-menu="webApp-search" class="">
-                        <button type="button" class="lnb-btn">검색</button>
-                    </li>
-                    <li data-menu="lnb-territory" class="">
-                        <button type="button" class="lnb-btn">국토조사</button>
-                    </li>
-                </ul>
+            <div id="side-lnb">
                 <div class="map-type">
-				    <span class="knobs">
-				        <span><input type="radio" name="mapType" value="2D" id="mapType2D" checked=""><label
-                                for="mapType2D">2D</label></span>
-				        <span><input type="radio" name="mapType" value="3D" id="mapType3D"><label
-                                for="mapType3D">3D</label></span>
+				    <span class="knob">
+				        <span>
+				        	<input type="radio" name="mapType" value="2D" id="mapType2D" checked="">
+				        	<label for="mapType2D">2D</label>
+				        </span>
+				        <span>
+				        	<input type="radio" name="mapType" value="3D" id="mapType3D">
+				        	<label for="mapType3D">3D</label>
+				        </span>
 				    </span>
                 </div>
             </div>
-
-            <!-- 검색 -->
-            <div class="webApp-search lnb-cont">
-                <%@ include file="/WEB-INF/jsp/egiskorea/com/cmm/search.jsp" %>
-            </div>
-            <!-- //검색 -->
-
-            <!-- 국토조사 -->
-            <div class="lnb-territory lnb-cont">
-            </div>
-            <!-- //국토조사 -->
-
         </div>
         <!-- //side -->
+        
+        <!-- 검색 -->
+<!--         <div class="inb-search-webApp lnb-cont"> -->
+        	<!-- 주소검색 -->
+<!-- 			<div id="searchAddr-webApp" class="tab-cont searchAddr"> -->
+<!-- 				<div class="tabBoxDepth2-wrap"> -->
+<!-- 					<div class="tabBoxDepth2"> -->
+<!-- 						<ul> -->
+<!-- 							<li data-tab="addrSearchJibun" class="on"><button type="button" class="inner-tab">지번주소</button></li> -->
+<!-- 							<li data-tab="addrSearchRoad"><button type="button" class="inner-tab">도로명주소</button></li> -->
+<!-- 						</ul> -->
+<!-- 					</div> -->
+<!-- 					<div class="tab-cont addrSearchJibun on"> -->
+<!-- 						<div class="form-row"> -->
+<!-- 							<div class="col-6"> -->
+<!-- 								<select class="form-select search-address-emd"> -->
+<!-- 								</select> -->
+<!-- 							</div> -->
+<!-- 							<div class="col-6"> -->
+<!-- 								<select class="form-select search-address-li"> -->
+<!-- 								</select> -->
+<!-- 							</div> -->
+<!-- 						</div> -->
+<!-- 						<div class="form-row"> -->
+<!-- 							<div class="col-auto"> -->
+<!-- 								<span class="form-checkbox text"> -->
+<!-- 									<span><input type="checkbox" id="search-address-mntn" class="search-address-mntn"><label for="search-address-mntn">산</label></span> -->
+<!-- 								</span> -->
+<!-- 							</div> -->
+<!-- 							<div class="col"><input type="text" class="form-control search-address-mnnm"></div> -->
+<!-- 							<div class="col-auto">-</div> -->
+<!-- 							<div class="col"><input type="text" class="form-control search-address-slno"></div> -->
+<!-- 						</div> -->
+<!-- 						<div class="btn-wrap marT10"> -->
+<!-- 							<div><button type="button" class="btn type01 search search-address-search">검색</button></div> -->
+<!-- 						</div> -->
+<!-- 					</div> -->
+<!-- 					<div class="tab-cont addrSearchRoad"> -->
+<!-- 						<div class="form-row"> -->
+<!-- 							<div class="col-6"> -->
+<!-- 								<select class="form-select search-road-emd"> -->
+<!-- 								</select> -->
+<!-- 							</div> -->
+<!-- 							<div class="col-6"> -->
+<!-- 								<select class="form-select search-road-rn"> -->
+<!-- 								</select> -->
+<!-- 							</div> -->
+<!-- 						</div> -->
+<!-- 						<div class="form-row"> -->
+<!-- 							<div class="col"><input type="text" class="form-control search-road-mnnm"></div> -->
+<!-- 							<div class="col-auto">-</div> -->
+<!-- 							<div class="col"><input type="text" class="form-control search-road-slno"></div> -->
+<!-- 						</div> -->
+<!-- 						<div class="btn-wrap marT10"> -->
+<!-- 							<div><button type="button" class="btn type01 search search-road-search">검색</button></div> -->
+<!-- 						</div> -->
+<!-- 					</div> -->
+<!-- 				</div> -->
 
-        <!-- 팝업 메뉴 전체 -->
-        <!-- 팝업 메뉴 기본틀 -->
-        <!-- left popup-panel -->
-        <div id="leftPopup" class="popup-panel popup-left popup-draggable">
+<!-- 				<div class="bbs-top"> -->
+<!-- 					<div class="bbs-list-num">조회결과 : <strong>0</strong>건</div> -->
+<!-- 				</div> -->
+
+<!-- 				<div class="search-empty" style="display: none;"><p class="text">검색 결과가 없습니다.</p></div> -->
+
+<!-- 				<div class="searchResult-wrap" style="height: 479px;"> -->
+<!-- 					<div class="scroll-y"> -->
+<!-- 						<ul class="search-list"> -->
+<!-- 						</ul> -->
+<!-- 					</div> -->
+
+<!-- 					<div class="pagination"> -->
+<!-- 					</div> -->
+<!-- 				</div> -->
+<!-- 			</div> -->
+			<!-- //주소검색 -->
+<!--         </div> -->
+        <!-- //검색 -->
+
+        <!-- 국토조사 -->
+        <div class="lnb-territory-webApp lnb-cont">
         </div>
-        <!-- //left popup-panel -->
-
-        <!-- left-sub popup-panel -->
-        <div id="leftSubPopup" class="popup-panel popup-sub popup-draggable">
-        </div>
-        <!-- //left-sub popup-panel -->
-
-        <!-- right popup-panel -->
-        <div id="rightPopup" class="popup-panel popup-right popup-draggable">
-        </div>
-        <!-- //right popup-panel -->
-
-        <!-- right-sub popup-panel -->
-        <div id="rightSubPopup" class="popup-panel popup-sub popup-draggable">
-        </div>
-        <!-- //right-sub popup-panel -->
-
-        <!-- bottom popup-panel -->
-        <div id="bottomPopup" class="popup-panel popup-bottom" style="width: calc(100% - 391px);">
-        </div>
-        <!-- //bottom popup-panel -->
-
-        <!-- bbs popup-panel -->
-        <div id="bbsPopup" class="popup-panel popup-bbs">
-        </div>
-        <!-- //bbs popup-panel -->
-        <!-- //팝업 메뉴 기본틀 -->
-
-        <!-- 팝업 메뉴 예외 틀 -->
-        <!-- 사용자정보 조회 및  수정 -->
-        <div id="userInfoUdt" class="popup-panel popup-sub userInfoUdt">
-        </div>
-        <!-- 사용자정보 조회 및  수정 -->
-        <!-- //팝업 메뉴 예외 틀 -->
-
-        <!-- //팝업 메뉴 전체 -->
-
-        <!-- 사용자 매뉴얼 -->
-        <!-- //사용자 매뉴얼 -->
-
-
-        <!-- 팝업 가림판 -->
-        <div class="popup-overlay"></div>
-        <!-- //팝업 가림판 -->
-
-        <!-- 마우스 오른쪽 선택 팝업 -->
-        <div id="contextMenu" class="context hide" style="top: 400px;left: 400px;">
-            <a href="#" class="c01">통합행정정보</a>
-            <a href="#" class="c02">지적/건물</a>
-            <a href="#" class="c03">사진등록</a>
-            <a href="#" class="c04">메모등록</a>
-            <a href="#" class="c05">위치정보</a>
-            <a href="#" class="c06">지도저장</a>
-            <a href="#" class="c07">3D전환</a>
-        </div>
-        <!-- //마우스 오른쪽 선택 팝업 -->
-
-        <!-- 업무 > 공간정보활용 > 공간정보 편집도구 -->
-        <div class="popup-panel popup-sub space-edit-tool" style="top: 80px;left: 320px;width: 385px;height: 200px;">
-        </div>
-        <!-- //업무 > 공간정보활용 > 공간정보 편집도구 -->
+        <!-- //국토조사 -->
 
     </div>
     <!-- //container -->
