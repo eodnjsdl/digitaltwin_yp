@@ -1,0 +1,7 @@
+@charset "UTF-8";
+
+#lnb li[data-menu='webApp-search'] .lnb-btn {background-image: url(/images/map/lnb-search.svg);}
+#lnb li[data-menu='webApp-search'] .lnb-btn:hover,
+#lnb li[data-menu='webApp-search'].on .lnb-btn {background-image: url(/images/map/lnb-search-on.svg);}
+
+.webApp-search .lnb-header .tit {background-image: url(/images/map/lnb-search-tit.svg);}

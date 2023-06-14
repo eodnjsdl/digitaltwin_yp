@@ -380,8 +380,12 @@ window.ui = (function () {
 						case "lnb-territory" :
 							aj_selectAdministrationZoneList($("#tmpForm")[0]);
 							break;
+						case "webApp-search" :
+							console.log("webApp");
+							break;
+
 					}
-				}
+				} 
 			} else {
 				if(menu === "lnb-layer") {
 					$leftSide.find('.' + menu).stop().fadeOut(100);

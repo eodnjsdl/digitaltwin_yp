@@ -50,6 +50,8 @@
     <link rel="stylesheet" href="/css/com/common.css">
     <link rel="stylesheet" href="/css/map.css">
 
+	<!-- webApp -->
+    <link rel="stylesheet" href="/css/job/webApp/webAppSearch.css">
 
     <!-- jspdf 6.7.0 -->
     <script src="/engine/plugin/v6.7.0/jspdf.umd.min.js"></script>
@@ -244,7 +246,7 @@
         <div id="side">
             <div id="lnb">
                 <ul>
-                	<li data-menu="lnb-search" class="">
+                	<li data-menu="webApp-search" class="">
                         <button type="button" class="lnb-btn">검색</button>
                     </li>
                     <li data-menu="lnb-territory" class="">
@@ -262,7 +264,7 @@
             </div>
 
             <!-- 검색 -->
-            <div class="lnb-search lnb-cont">
+            <div class="webApp-search lnb-cont">
                 <%@ include file="/WEB-INF/jsp/egiskorea/com/cmm/search.jsp" %>
             </div>
             <!-- //검색 -->
