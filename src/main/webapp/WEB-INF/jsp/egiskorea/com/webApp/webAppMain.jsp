@@ -249,7 +249,7 @@
                 	<li data-menu="webApp-search" class="">
                         <button type="button" class="lnb-btn">검색</button>
                     </li>
-                    <li data-menu="lnb-territory-webApp" class="">
+                    <li data-menu="lnb-territory" class="">
                         <button type="button" class="lnb-btn">국토조사</button>
                     </li>
                 </ul>
@@ -270,7 +270,7 @@
             <!-- //검색 -->
 
             <!-- 국토조사 -->
-            <div class="lnb-territory-webApp lnb-cont">
+            <div class="lnb-territory lnb-cont">
             </div>
             <!-- //국토조사 -->
 
