@@ -350,7 +350,26 @@ function getPipeInfo(coord, properties) {
     const OVERLAY_ID = 'PIPE_OVERLAY';
     let mapPosition = coord;
     let data = properties;
-    	
+    let layerNm = M_DGUF_ANLS.GLOBAL.LayerNm;
+    
+    switch (layerNm){
+    case "wtl_pipe_lm" :
+    	layerNm = "상수관로"
+    	break;
+    case "ufl_bpip_lm" : 
+    	layerNm = "전력지중관로"
+    	break;
+    case "ufl_gpip_lm" :
+    	layerNm = "천연가스관로"
+    	break;
+    case "ufl_kpip_ls" :
+    	layerNm = "통신관로"
+    	break;
+    case "swl_pipe_lm" :
+    	layerNm = "하수관로"
+    	break;
+    }
+    
     const info = {
     		init : function() {
     			_element = document.createElement('div');
@@ -392,10 +411,17 @@ function getPipeInfo(coord, properties) {
     			let html = `
     	            <a href="#" class="ol-popup-closer"></a>
     	            <div class="popup-content"></div>
+    				<div>관로명 : ${layerNm}</div>
     	            <div>관리번호 : ${data.ftr_idn}</div>
-    	            <div>관경 : ${data.std_dip}</div>
-    				<div>관라벨 : ${data.pip_lbl}</div>
     	            `;
+    			let dataInfoCase;
+    			if (data.pip_lbl) {
+    				html += `<div>관라벨 : ${data.pip_lbl}</div>`;
+    			} else {
+    				html += `
+    				<div>깊이 : ${data.std_dep}&emsp;관경 : ${data.std_dip}</div>
+    				`;
+    			}
     			_element.innerHTML = html;
     		},
     		

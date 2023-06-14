@@ -2227,8 +2227,7 @@
 }
 
 #DV_SuvMain {
-	margin-top: 10px; 
-	margin-bottom: 5px;
+	margin-top: 15px; 
 }
 
 #DV_Information {
@@ -2236,5 +2235,5 @@
 }
 
 #dgufDepthSetVal {
-	margin-bottom:4px;
+	margin-bottom: 8px;
 }
