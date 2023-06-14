@@ -52,6 +52,7 @@
 
 	<!-- webApp -->
     <link rel="stylesheet" href="/css/webApp/webAppMain.css">
+	<script src="/js/egiskorea/com/webApp/searchWebApp.js"></script>
 
     <!-- jspdf 6.7.0 -->
     <script src="/engine/plugin/v6.7.0/jspdf.umd.min.js"></script>
@@ -205,9 +206,16 @@
         <!-- //header -->
         
         <!-- 지도영역 -->
-        <div id="map2D" class="main-map"></div>
+        <div id="map2D" class="main-map" style="position: absolute;"></div>
         <div id="map3D" style="width: 100%; height:100%; display:none; user-select:none"></div>
 
+		<!-- ★★★★ 테스트를 위한 left popup-panel ★★★★ -->
+		<!-- left popup-panel -->
+        <div id="leftPopup" class="popup-panel popup-left popup-draggable" style="z-index: 1001;">
+        </div>
+        <!-- //left popup-panel -->
+        <!-- ★★★★ 테스트를 위한 left popup-panel ★★★★ -->
+        
         <!-- map-aside -->
         <div id="map-aside">
             <div class="map-control">
@@ -340,15 +348,19 @@
         <!-- //검색 -->
 
         <!-- 국토조사 -->
-        <div class="lnb-territory-webApp lnb-cont">
+        <div id="popup_territory" class="lnb-territory lnb-cont" style="width: 100%; height:100%; display: none; 
+		background:white; z-index: 1000; position: relative;">
         </div>
         <!-- //국토조사 -->
+        
 
     </div>
     <!-- //container -->
 </div>
 
 <div id="toastMsg"></div>
+
+
 
 <!-- //wrap -->
 <script type="text/javascript">
@@ -369,9 +381,17 @@
     ui.init();
 
     $(document).ready(function () {
-        setMainUI();
+    	//★★★★★★★ 테스트를 위해 주석처리 해놓음
+        //setMainUI();
         _setMainUIAction();
         _setMainUIEvent();
+        
+        
+        // 국토정보관리
+        $("#lnb-territory-webApp").click(function() {
+            $(".lnb-territory").show();
+            aj($("#tmpForm")[0]);
+        });
     })
 
     //set menu 2D or 3D

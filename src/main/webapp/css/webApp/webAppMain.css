@@ -4,6 +4,10 @@
 	width: 60px;
 }
 
+#lnb-territory-webApp:hover {
+    cursor: pointer;
+}
+
 #side-lnb {
 	position: absolute;
 	bottom: 30px;
