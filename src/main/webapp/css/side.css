@@ -69,7 +69,6 @@
 #lnb li[data-menu='lnb-traffic'] .lnb-btn {background-image: url(/images/map/lnb-traffic.svg);}
 #lnb li[data-menu='lnb-administrative'] .lnb-btn {background-image: url(/images/map/lnb-administrative.svg);}
 #lnb li[data-menu='lnb-territory'] .lnb-btn {background-image: url(/images/map/lnb-territory.svg);}
-#lnb li[data-menu='lnb-territory-webApp'] .lnb-btn {background-image: url(/images/map/lnb-territory.svg);}
 #lnb li[data-menu='lnb-analysis'] .lnb-btn {background-image: url(/images/map/lnb-analysis.svg);}
 
 #lnb li[data-menu='lnb-search'] .lnb-btn:hover,

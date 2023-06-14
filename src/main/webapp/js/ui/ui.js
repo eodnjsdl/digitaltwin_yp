@@ -378,11 +378,11 @@ window.ui = (function () {
 							break;
 						//국토조사
 						case "lnb-territory" :
-							aj_selectAdministrationZoneList($("#tmpForm")[0]);
+							aj_selectAdministrationZoneList($("#tmpForm")[0], web);
 							break;
 						//국토조사 웹앱
 						case "lnb-territory-webApp" :
-							aj_selectAdministrationZoneList($("#tmpForm")[0]);
+							aj_selectAdministrationZoneList($("#tmpForm")[0], app);
 							break;
 						case "webApp-search" :
 							console.log("webApp");

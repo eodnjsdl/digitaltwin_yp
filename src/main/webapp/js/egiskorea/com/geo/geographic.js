@@ -67,9 +67,12 @@ function getLandRegisterByPnu(pnu){
 }
 
 // 행정구역별 조사정보 목록 호출
-function aj_selectAdministrationZoneList(frm){
+function aj_selectAdministrationZoneList(frm, cnd){
 	ui.loadingBar("show");
 	var formData = new FormData(frm);
+	
+	var url;
+	
 	$.ajax({
 		type : "POST",
 		url : "/geo/emi/selectAdministrationZoneList.do",

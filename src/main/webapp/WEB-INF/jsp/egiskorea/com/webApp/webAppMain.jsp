@@ -51,7 +51,7 @@
     <link rel="stylesheet" href="/css/map.css">
 
 	<!-- webApp -->
-    <link rel="stylesheet" href="/css/job/webApp/webAppSearch.css">
+    <link rel="stylesheet" href="/css/webApp/webAppMain.css">
 
     <!-- jspdf 6.7.0 -->
     <script src="/engine/plugin/v6.7.0/jspdf.umd.min.js"></script>
