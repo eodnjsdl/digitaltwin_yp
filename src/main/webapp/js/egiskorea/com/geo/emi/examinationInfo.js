@@ -1,7 +1,13 @@
 $(document).ready(function(){
-	$(".lnb-territory .lnb-close").on("click", function () {
+	$(".lnb-territory .lnb-close").on("click", function (e) {
       $(".lnb-territory").stop().fadeOut(100);
-      $("#lnb li[data-menu]").removeClass("on");
+		var chkGrp = e.target.parentElement.parentElement.classList[2];
+		if(chkGrp === "grp1") {
+			$("#lnb ul:eq(0) li[data-menu]").removeClass("on");
+		} else {
+			$("#lnb ul:eq(1) li[data-menu]").removeClass("on");
+		}
+      // $("#lnb li[data-menu]").removeClass("on");
       $('#leftPopup.opened').removeClass('opened');
       $('.popup-sub.opened').removeClass('opened');
     });

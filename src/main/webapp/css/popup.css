@@ -449,10 +449,23 @@
     height: 100%;
 }
 
-.small-popup .popup-toggle {
+.small-popup .popup-close {
     position: absolute;
     top: 15px;
     right: 15px;
+    width: 20px;
+    height: 20px;
+    border: 1px solid #44516A;
+    background-image: url(/images/etc/small-toggle-close.svg);
+    background-repeat: no-repeat;
+    background-position: 50% 50%;
+    border-radius: 5px;
+}
+
+.small-popup .popup-toggle {
+    position: absolute;
+    top: 15px;
+    right: 38px;
     width: 20px;
     height: 20px;
     border: 1px solid #44516A;
@@ -464,7 +477,7 @@
 
 .small-popup .manualBtn {
     top: 15px;
-    right: 38px;
+    right: 61px;
     width: 20px;
     height: 20px;
     border: 1px solid #44516A;
@@ -1740,7 +1753,7 @@
 .sectional-popup-body .btn-wrap {
     position: absolute;
     top: 15px;
-    right: 61px;
+    right: 84px;
     margin: 0;
 }
 

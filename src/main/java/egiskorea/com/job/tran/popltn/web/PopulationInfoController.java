@@ -148,6 +148,12 @@ public class PopulationInfoController {
 		return mav;
 	}
 	
+	/**
+	 * 면 단위 조회
+	 * @param populationVO
+	 * @return
+	 * @throws Exception
+	 */
 	@RequestMapping(value = "/selectGridMyeonPopulationInfoList.do")
 	@ResponseBody
 	public ModelAndView selectGridMyeonPopulationInfoList(

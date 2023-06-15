@@ -3,7 +3,6 @@
  * @returns
  */
 $(document).ready(function () {
-	console.log("inertAdministAsset.jsp");
 	$('.popup-body #regBtn').on('click', function() {
 		insertAdministAssetsView();
 	});
@@ -152,6 +151,7 @@ function fileDragAndDrop(files) {
  * @returns
  */
 function wirteStandardInfo(file) {
+	$('#fileInfo').empty();
 	let size = new Intl.NumberFormat().format(file.size) + 'KB';
 	let info = "";
 	info += `<tr>`;
