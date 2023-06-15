@@ -17,6 +17,7 @@ import egiskorea.com.geo.emi.service.ExaminationInfo;
 import egiskorea.com.geo.emi.service.ExaminationInfoService;
 import egiskorea.com.geo.emi.service.ExaminationInfoVO;
 import egovframework.com.cmm.ComDefaultCodeVO;
+import egovframework.com.cmm.LoginVO;
 import egovframework.com.cmm.service.EgovCmmUseService;
 import egovframework.com.cmm.util.EgovUserDetailsHelper;
 import egovframework.rte.fdl.property.EgovPropertyService;
@@ -60,8 +61,8 @@ public class WebAppExaminationInfoController {
 	 * @return "egiskorea/com/webApp/webAppAdministrationZoneList"
 	 * @throws Exception
 	 */
-	@RequestMapping(value = "/selectWebAppAdministrationZoneList.do")
-	public String selectWebAppAdministrationZoneList(
+	@RequestMapping(value = "/selectAdministrationZoneList.do")
+	public String selectAdministrationZoneList(
 			@ModelAttribute("searchVO") ExaminationInfoVO examinationInfoVO,
 			ModelMap model) throws Exception{
 		
@@ -106,7 +107,7 @@ public class WebAppExaminationInfoController {
 	 * @return "egiskorea/com/webApp/emi/webAppExaminationInfoList"
 	 * @throws Exception
 	 */
-	@RequestMapping(value = "/selectWebAppExaminationInfoList.do")
+	@RequestMapping(value = "/selectExaminationInfoList.do")
 	public String selectExaminationInfoList(
 			@ModelAttribute("searchVO") ExaminationInfoVO examinationInfoVO,
 			ModelMap model) throws Exception{
@@ -147,7 +148,7 @@ public class WebAppExaminationInfoController {
 	 * @return "egiskorea/com/webApp/emi/webAppExaminationInfo"
 	 * @throws Exception
 	 */
-	@RequestMapping(value = "/selectWebAppExaminationInfo.do")
+	@RequestMapping(value = "/selectExaminationInfo.do")
 	public String selectExaminationInfo(
 			@ModelAttribute("examinationInfoVO") ExaminationInfoVO examinationInfoVO,
 			ModelMap model) throws Exception{ 
@@ -157,5 +158,224 @@ public class WebAppExaminationInfoController {
 		model.addAttribute("result", result);
 		
 		return "egiskorea/com/webApp/emi/webAppExaminationInfo";
+	}
+	
+	/**
+	 * @Description  조사정보 수정 화면 (웹앱용)
+	 * @Author 글로벌컨설팅부문 장현승
+	 * @param examinationInfoVO
+	 * @param model
+	 * @return "egiskorea/com/webApp/emi/webAppExaminationInfoView"
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/updateExaminationInfoView.do")
+	public String updateExaminationInfoView(
+			@ModelAttribute("examinationInfoVO") ExaminationInfoVO examinationInfoVO,
+			ModelMap model) throws Exception{ 
+		
+		ExaminationInfo examinationInfo = examinationInfoService.updateExaminationInfoView(examinationInfoVO);		
+		
+		//코드정보 조회
+		ComDefaultCodeVO vo = new ComDefaultCodeVO();
+		
+		vo.setCodeId("J0200");	// 원지목
+		List<?> oriList = cmmUseService.selectCmmCodeDetail(vo);
+		vo.setCodeId("J0100");	// 지목일치여부
+		List<?> j0100List = cmmUseService.selectCmmCodeDetail(vo);
+		vo.setCodeId("J0200");	// 재설정지목
+		List<?> j0200List = cmmUseService.selectCmmCodeDetail(vo);
+		vo.setCodeId("J0301");	// 대분류(현실지목)
+		List<?> j0301List = cmmUseService.selectCmmCodeDetail(vo);
+		vo.setCodeId("J0302");	// 소분류(현실지목)
+		List<?> j0302List = cmmUseService.selectCmmCodeDetail(vo);
+		vo.setCodeId("J0401");	// 토지용도
+		List<?> j0401List = cmmUseService.selectCmmCodeDetail(vo);
+		vo.setCodeId("J0401P");	// 토지용도(%)
+		List<?> j0401pList = cmmUseService.selectCmmCodeDetail(vo);
+		vo.setCodeId("J0501");	// 건물용도
+		List<?> j0501List = cmmUseService.selectCmmCodeDetail(vo);
+		vo.setCodeId("J0501P");	// 건물용도(%)
+		List<?> j0501pList = cmmUseService.selectCmmCodeDetail(vo);
+		vo.setCodeId("G0100");	// 국공유지
+		List<?> g0100List = cmmUseService.selectCmmCodeDetail(vo);
+		vo.setCodeId("CHANGE");	// 변경
+		List<?> changeList = cmmUseService.selectCmmCodeDetail(vo);
+		
+		vo.setCodeId("C0100");	// 용도지역
+		List<?> c0100List = cmmUseService.selectCmmCodeDetail(vo);
+		vo.setCodeId("C0200");	// 용도지구
+		List<?> c0200List = cmmUseService.selectCmmCodeDetail(vo);
+		vo.setCodeId("C0301");	// 기타제한 제주도
+		List<?> c0301List = cmmUseService.selectCmmCodeDetail(vo);
+		vo.setCodeId("C0302");	// 기타제한 도시계획신설
+		List<?> c0302List = cmmUseService.selectCmmCodeDetail(vo);
+		vo.setCodeId("C0401");	// 고저
+		List<?> c0401List = cmmUseService.selectCmmCodeDetail(vo);
+		vo.setCodeId("C0402");	// 형상
+		List<?> c0402List = cmmUseService.selectCmmCodeDetail(vo);
+		vo.setCodeId("C0403");	// 방위
+		List<?> c0403List = cmmUseService.selectCmmCodeDetail(vo);
+		vo.setCodeId("C0500");	// 도로접면
+		List<?> c0500List = cmmUseService.selectCmmCodeDetail(vo);
+		vo.setCodeId("C0601");	// 철도,고속도로등
+		List<?> c0601List = cmmUseService.selectCmmCodeDetail(vo);
+		vo.setCodeId("C0602");	// 폐기물,수질오염
+		List<?> c0602List = cmmUseService.selectCmmCodeDetail(vo);
+		
+		vo.setCodeId("L0100");	// 기타제한(공적규제)
+		List<?> l0100List = cmmUseService.selectCmmCodeDetail(vo);
+		vo.setCodeId("L0201");	// 대분류(토지이용상황) 
+		List<?> l0201List = cmmUseService.selectCmmCodeDetail(vo);
+		vo.setCodeId("L0202");	// 소분류(토지이용상황) 
+		List<?> l0202List = cmmUseService.selectCmmCodeDetail(vo);
+		vo.setCodeId("L0301");	// 구분 (농지) 
+		List<?> l0301List = cmmUseService.selectCmmCodeDetail(vo);
+		vo.setCodeId("L0302");	// 비옥도(농지) 
+		List<?> l0302List = cmmUseService.selectCmmCodeDetail(vo);
+		vo.setCodeId("L0303");	// 경지정리(농지) 
+		List<?> l0303List = cmmUseService.selectCmmCodeDetail(vo);
+		vo.setCodeId("L0400");	// 임야 
+		List<?> l0400List = cmmUseService.selectCmmCodeDetail(vo);
+		vo.setCodeId("L0500");	// 도로거리(도로조건) 
+		List<?> l0500List = cmmUseService.selectCmmCodeDetail(vo);
+		vo.setCodeId("L0601");	// 사업방식(대규모개발사업) 
+		List<?> l0601List = cmmUseService.selectCmmCodeDetail(vo);
+		vo.setCodeId("L0602");	// 사업단계(대규모개발사업) 		
+		List<?> l0602List = cmmUseService.selectCmmCodeDetail(vo);
+		
+		vo.setCodeId("B0101");	// 기타제한(공적규제) 
+		List<?> b0101List = cmmUseService.selectCmmCodeDetail(vo);
+		vo.setCodeId("B0102");	// 개발사업지역구분(공적규제) 
+		List<?> b0102List = cmmUseService.selectCmmCodeDetail(vo);
+		vo.setCodeId("B0201");	// 대분류(토지이용상황) 
+		List<?> b0201List = cmmUseService.selectCmmCodeDetail(vo);
+		vo.setCodeId("B0202");	// 소분류(토지이용상황) 
+		List<?> b0202List = cmmUseService.selectCmmCodeDetail(vo);
+		vo.setCodeId("B0300");	// 토지용도구분(지형지세) 
+		List<?> b0300List = cmmUseService.selectCmmCodeDetail(vo);
+		vo.setCodeId("B0400");	// 건물구조 
+		List<?> b0400List = cmmUseService.selectCmmCodeDetail(vo);
+		vo.setCodeId("B0500");	// 건물지붕 
+		List<?> b0500List = cmmUseService.selectCmmCodeDetail(vo);
+		vo.setCodeId("B0601");	// 대분류(건물용도) 
+		List<?> b0601List = cmmUseService.selectCmmCodeDetail(vo);
+		vo.setCodeId("B0602");	// 소분류(건물용도) 
+		List<?> b0602List = cmmUseService.selectCmmCodeDetail(vo);
+		vo.setCodeId("B0700");	// 증개축 
+		List<?> b0700List = cmmUseService.selectCmmCodeDetail(vo);
+		vo.setCodeId("B0800");	// 리모델링 
+		List<?> b0800List = cmmUseService.selectCmmCodeDetail(vo);
+		vo.setCodeId("B0900");	// 특수부대시설 
+		List<?> b0900List = cmmUseService.selectCmmCodeDetail(vo);
+		vo.setCodeId("B1000");	// 주택유형구분 
+		List<?> b1000List = cmmUseService.selectCmmCodeDetail(vo);
+		vo.setCodeId("B1100");	// 공가주택구분 		
+		List<?> b1100List = cmmUseService.selectCmmCodeDetail(vo);
+		
+		vo.setCodeId("T0100");	// 전(시설재배치)		
+		List<?> t0100List = cmmUseService.selectCmmCodeDetail(vo);
+		vo.setCodeId("T0200");	// 기타재배지(원예) 
+		List<?> t0200List = cmmUseService.selectCmmCodeDetail(vo);
+		vo.setCodeId("T0300");	// 산림지역(활엽) 
+		List<?> t0300List = cmmUseService.selectCmmCodeDetail(vo);
+		vo.setCodeId("T0400");	// 초지(자연,인공) 
+		List<?> t0400List = cmmUseService.selectCmmCodeDetail(vo);
+		vo.setCodeId("T0500");	// 습지(내륙,연안) 
+		List<?> t0500List = cmmUseService.selectCmmCodeDetail(vo);
+		vo.setCodeId("T0600");	// 나지(자연,기타) 
+		List<?> t0600List = cmmUseService.selectCmmCodeDetail(vo);
+		vo.setCodeId("T0700");	// 수역(해양수) 
+		List<?> t0700List = cmmUseService.selectCmmCodeDetail(vo);
+		
+		model.addAttribute("examinationInfo", examinationInfo);
+		model.addAttribute("oriList", oriList);
+		model.addAttribute("j0100List", j0100List);
+		model.addAttribute("j0200List", j0200List);
+		model.addAttribute("j0301List", j0301List);
+		model.addAttribute("j0302List", j0302List);
+		model.addAttribute("j0401List", j0401List);
+		model.addAttribute("j0401pList", j0401pList);
+		model.addAttribute("j0501List", j0501List);
+		model.addAttribute("j0501pList", j0501pList);
+		model.addAttribute("g0100List", g0100List);
+		model.addAttribute("changeList", changeList);
+		
+		model.addAttribute("c0100List", c0100List);
+		model.addAttribute("c0200List", c0200List);
+		model.addAttribute("c0301List", c0301List);
+		model.addAttribute("c0302List", c0302List);
+		model.addAttribute("c0401List", c0401List);
+		model.addAttribute("c0402List", c0402List);
+		model.addAttribute("c0403List", c0403List);
+		model.addAttribute("c0500List", c0500List);
+		model.addAttribute("c0601List", c0601List);
+		model.addAttribute("c0602List", c0602List);
+		
+		model.addAttribute("l0100List", l0100List);
+		model.addAttribute("l0201List", l0201List);
+		model.addAttribute("l0202List", l0202List);
+		model.addAttribute("l0301List", l0301List);
+		model.addAttribute("l0302List", l0302List);
+		model.addAttribute("l0303List", l0303List);
+		model.addAttribute("l0400List", l0400List);
+		model.addAttribute("l0500List", l0500List);
+		model.addAttribute("l0601List", l0601List);
+		model.addAttribute("l0602List", l0602List);
+		
+		model.addAttribute("b0101List", b0101List);
+		model.addAttribute("b0102List", b0102List);
+		model.addAttribute("b0201List", b0201List);
+		model.addAttribute("b0202List", b0202List);
+		model.addAttribute("b0300List", b0300List);
+		model.addAttribute("b0400List", b0400List);
+		model.addAttribute("b0500List", b0500List);
+		model.addAttribute("b0601List", b0601List);
+		model.addAttribute("b0602List", b0602List);
+		model.addAttribute("b0700List", b0700List);
+		model.addAttribute("b0800List", b0800List);
+		model.addAttribute("b0900List", b0900List);
+		model.addAttribute("b1000List", b1000List);
+		model.addAttribute("b1100List", b1100List);
+		
+		model.addAttribute("t0100List", t0100List);
+		model.addAttribute("t0200List", t0200List);
+		model.addAttribute("t0300List", t0300List);
+		model.addAttribute("t0400List", t0400List);
+		model.addAttribute("t0500List", t0500List);
+		model.addAttribute("t0600List", t0600List);
+		model.addAttribute("t0700List", t0700List);
+		
+		return "egiskorea/com/webApp/emi/webAppExaminationInfoView";
+	}
+	
+	/**
+	 * @Description  조사정보 수정 화면 (웹앱용)
+	 * @Author 글로벌컨설팅부문 장현승
+	 * @param examinationInfoVO
+	 * @param model
+	 * @return "egiskorea/com/webApp/emi/examinationInfoView"
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/updateExaminationInfo.do")
+	public String updateExaminationInfo(
+			@ModelAttribute("examinationInfo") ExaminationInfo examinationInfo,
+			ModelMap model) throws Exception{ 
+		
+		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+		
+		if (isAuthenticated) {	
+			
+			LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
+			
+			examinationInfo.setLastUpdusrId((user == null || user.getUniqId() == null) ? "" : user.getUniqId());
+			
+			examinationInfoService.updateExaminationInfo(examinationInfo);
+			
+			model.addAttribute("resultMsg", "common.success.code");
+		}else {
+			model.addAttribute("resultMsg", "common.fail.code");
+		}
+		
+		return "egiskorea/com/cmm/actionResult2";
 	}
 }

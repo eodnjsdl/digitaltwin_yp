@@ -4,7 +4,7 @@ function webApp_selectAdministrationZoneList(frm){
 	var formData = new FormData(frm);
 	$.ajax({
 		type : "POST",
-		url : "/webApp/emi/selectWebAppAdministrationZoneList.do",
+		url : "/webApp/emi/selectAdministrationZoneList.do",
 		data : formData,
 		dataType : "html",
 		processData : false,
@@ -33,7 +33,7 @@ function webApp_selectExaminationInfoList(frm, param1, param2){
 	}
 	$.ajax({
 		type : "POST",
-		url : "/webApp/emi/selectWebAppExaminationInfoList.do",
+		url : "/webApp/emi/selectExaminationInfoList.do",
 		data : formData,
 		dataType : "html",
 		processData : false,
@@ -66,7 +66,7 @@ function webApp_selectExaminationInfo(frm, param1, param2){
 	
 	$.ajax({
 		type : "POST",
-		url : "/webApp/emi/selectWebAppExaminationInfo.do",
+		url : "/webApp/emi/selectExaminationInfo.do",
 		data : formData,
 		dataType : "html",
 		processData : false,
@@ -85,6 +85,34 @@ function webApp_selectExaminationInfo(frm, param1, param2){
 				toastr.error("관리자에게 문의 바랍니다.", "정보를 불러오지 못했습니다.");
 				return;
 			}
+		}, complete : function(){
+			ui.loadingBar("hide"); 
+		}
+	});
+}
+
+//조사정보 수정화면 호출 (웹앱용)
+function webApp_updateExaminationInfoView(frm, param1, param2){
+	ui.loadingBar("show");
+	
+	var formData = new FormData(frm);
+	formData.append("pnu", param1);
+	
+	$.ajax({
+		type : "POST",
+		url : "/webApp/emi/updateExaminationInfoView.do",
+		data : formData,
+		dataType : "html",
+		processData : false,
+		contentType : false,
+		async: false,
+		success : function(returnData, status){
+			if(status == "success") {	
+				$("#leftSubPopup").html(returnData);
+			}else{ 
+				toastr.error("관리자에게 문의 바랍니다.", "정보를 불러오지 못했습니다.");
+				return;
+			} 
 		}, complete : function(){
 			ui.loadingBar("hide"); 
 		}

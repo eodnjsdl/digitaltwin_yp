@@ -229,6 +229,11 @@
         </div>
         <!-- //left popup-panel -->
         
+        <!-- left-sub popup-panel -->
+        <div id="leftSubPopup" class="popup-panel popup-sub popup-draggable" style="z-index: 1003;">
+        </div>
+        <!-- //left-sub popup-panel -->
+        
         <!-- right-sub popup-panel -->
         <div id="rightSubPopup" class="popup-panel popup-sub popup-draggable" style="z-index: 1002;">
         </div>

@@ -9,6 +9,7 @@
 <script src="/js/egiskorea/com/webApp/searchWebApp.js"></script>
 <script src="/js/egiskorea/com/geo/emi/examinationInfo.js"></script>
 <script src="/js/egiskorea/com/common.js"></script>
+<script src="/js/map-ui.js"></script>
 <!-- webApp -->
 
 <script>
@@ -59,8 +60,32 @@
     }
 
     function fn_select_update(pnu) {
-        leftSubPopupOpen("examinationInfoView", pnu, "left");
+        webApp_leftSubPopupOpen("examinationInfoView", pnu, "left");
     }
+    
+    function webApp_leftSubPopupOpen(leftName, param1, param2){
+		var leftSubWidth = "";
+		var leftSubHeigth = "";
+		var leftSubTop = "";
+		var leftSubLeft = "";
+		
+		$("#rightSubPopup").removeClass("opened").html("");
+		
+		switch(leftName){	
+			// 조사정보 속성정보
+			case "examinationInfo" 		: leftSubTop = "127px"; leftSubLeft = "440px"; leftSubWidth = "530"; leftSubHeigth = "745"; webApp_selectExaminationInfo($("#tmpForm")[0], param1, param2); break;
+			// 조사정보 수정화면
+			debugger;
+			case "examinationInfoView" 	: leftSubTop = "127px"; leftSubLeft = "440px"; leftSubWidth = "530"; leftSubHeigth = "745"; webApp_updateExaminationInfoView($("#tmpForm")[0], param1, param2); break;
+		}
+		
+		$("#leftSubPopup").css("top", leftSubTop).css("left", leftSubLeft).css("width",leftSubWidth).css("height",leftSubHeigth);
+		$("#leftSubPopup").addClass("opened");
+		
+		$(".scroll-y").mCustomScrollbar({
+			scrollbarPosition:"outside"
+		});
+	}
 
     function fn_select_delete(orgFid) {
         if (confirm("<spring:message code="common.delete.msg" />")) {
