@@ -1221,7 +1221,7 @@
                 </div>
                 <!-- //토지피복 -->
             </div>
-            <div>
+            <div style="text-align: right;">
                 <button type="button" class="btn basic bi-edit"
                         onClick="fn_select_update('<c:out value="${result.pnu}" />')">수정
                 </button>

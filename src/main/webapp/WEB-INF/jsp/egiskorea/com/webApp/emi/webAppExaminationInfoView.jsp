@@ -49,7 +49,7 @@
 <!-- 국토정보관리 > 속성정보 > 더보기 -->
 <form:form commandName="examinationInfo" method="post">
     <form:hidden path="pnu"/>
-    <div class="popup-header">속성정보 웹앱용</div>
+    <div class="popup-header">속성정보 수정 웹앱용</div>
     <div class="popup-body">
         <div class="sub-popup-body territory-info-body detail">
             <h3 class="cont-tit">기본정보</h3>
@@ -116,19 +116,19 @@
                     </ul>
                 </div>
                 <!-- 지목조사 -->
-                <jsp:include page="landCategoryInfo.jsp" flush="true"/>
+                <jsp:include page="landCategoryInfo_webApp.jsp" flush="true"/>
                 <!-- //지목조사 -->
                 <!-- 공통항목 -->
-                <jsp:include page="commonInfo.jsp" flush="true"/>
+                <jsp:include page="commonInfo_webApp.jsp" flush="true"/>
                 <!-- //공통항목 -->
                 <!-- 토지특성 -->
-                <jsp:include page="landCharacter.jsp" flush="true"/>
+                <jsp:include page="landCharacter_webApp.jsp" flush="true"/>
                 <!-- //토지특성 -->
                 <!-- 주택특성 -->
-                <jsp:include page="houseCharacter.jsp" flush="true"/>
+                <jsp:include page="houseCharacter_webApp.jsp" flush="true"/>
                 <!-- //주택특성 -->
                 <!-- 토지피복 -->
-                <jsp:include page="landCover.jsp" flush="true"/>
+                <jsp:include page="landCover_webApp.jsp" flush="true"/>
                 <!-- //토지피복 -->
             </div>
         </div>
