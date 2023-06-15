@@ -62,3 +62,10 @@
 img.btn-search {
 	margin: 0 3px 5px;
 }
+
+.opened {
+    left: 0px !important;
+    top: 0px !important;
+    width: 100% !important;
+    height: 100% !important;
+}

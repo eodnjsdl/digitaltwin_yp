@@ -5,7 +5,12 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 
+<!-- webApp -->
+<link rel="stylesheet" href="/css/webApp/webAppMain.css">
+<script src="/js/egiskorea/com/webApp/searchWebApp.js"></script>
 <script src="/js/egiskorea/com/geo/emi/examinationInfo.js"></script>
+<!-- webApp -->
+
 <script>
 
     $(document).ready(function () {
@@ -17,23 +22,6 @@
         $('#leftPopup .popup-close').click(function () {
             $("input[name='code2']").val("");
             dtmap.clear();
-            // if (app2D) {
-            // 	cmmUtil.resetMap();
-            // } else {
-            // 	if (OLOAD.m_center_Polygon != null) {
-            // 		OLOAD.m_center_Polygon.removeAllObject();
-            //
-            // 		var colorPolygonLayer = new Module.JSLayerList(true).nameAtLayer("COLOR_POLYGON_LAYER");
-            // 		var lineLayer = new Module.JSLayerList(true).nameAtLayer("LINE_LAYER");
-            //
-            // 		if (colorPolygonLayer != null) {
-            // 			colorPolygonLayer.removeAll();
-            // 		}
-            // 		if (lineLayer != null) {
-            // 			lineLayer.removeAll();
-            // 		}
-            // 	}
-            // }
         });
     }
 
@@ -46,19 +34,6 @@
                     dtmap.vector.fit()
             )
             : toastr.error("geometry 값이 존재하지 않습니다.");
-
-        // 리 구역 RTT 생성
-        <%--if (app2D) {--%>
-        <%--	cmmUtil.highlightGeometry(landRegister.landRegister.geometry);--%>
-        <%--} else {--%>
-        <%--	if ("<c:out value='${searchVO.code2}' />" != "") {--%>
-        <%--		var coordinates = OLOAD.setPosition(landRegister.landRegister.geometry, "MULTIPOLYGON", 0);--%>
-
-        <%--		createVerticalPlane(coordinates.coordinates);--%>
-        <%--		OLOAD.loadCenterData(landRegister);--%>
-        <%--		moveCamera(landRegister, "li");--%>
-        <%--	}--%>
-        <%--}--%>
     }
 
     function fn_check_all() {
@@ -137,7 +112,6 @@
     }
 
     function fn_left_select_detail(pnu) {
-        // leftSubPopupOpen("examinationInfo", pnu, "left");
         ui.openPopup("rightSubPopup", "emiInfo");
         webApp_selectExaminationInfo($("#tmpForm")[0], pnu, "right");
     }
@@ -175,6 +149,7 @@
 <div class="popup-header">조사정보 웹앱용</div>
 <div class="popup-body">
     <div class="left-popup-body">
+		<div class="btn-wrap"></div>
         <form:form name="searchFormLeft" id="searchFormLeft" method="post"
                    onsubmit="fn_left_select_list_sub(); return false;">
             <input type="hidden" name="pageIndex" value="<c:out value='${searchVO.pageIndex}' />">
@@ -272,9 +247,6 @@
                                     <td onclick="event.stopPropagation()">
                                         <button type="button" class="icon-btn excel" title="엑셀다운로드"
                                                 onClick="fn_download_excelData(this.form, '<c:out value="${result.pnu}" />')"></button>
-                                            <%--                                        <button type="button" class="icon-btn detail2" data-popup="territory-info"--%>
-                                            <%--                                                title="속성정보 더보기"--%>
-                                            <%--                                                onClick="fn_left_select_detail('<c:out value="${result.pnu}" />')"></button>--%>
                                     </td>
                                 </tr>
                             </c:forEach>
@@ -308,5 +280,4 @@
     </div>
 </div>
 <button type="button" class="popup-close" title="닫기"></button>
-<%--					<button type="button" class="popup-left-toggle" title="접기"></button>--%>
 <!-- //국토정보관리 > 속성정보 > 목록 -->

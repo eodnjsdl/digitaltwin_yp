@@ -4,8 +4,13 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+
+<!-- webApp -->
+<link rel="stylesheet" href="/css/webApp/webAppMain.css">
 <script src="/js/egiskorea/com/webApp/searchWebApp.js"></script>
 <script src="/js/egiskorea/com/geo/emi/examinationInfo.js"></script>
+<!-- webApp -->
+
 <script>
     $(document).ready(function () {
         eventBindByLandInfoList();
@@ -21,7 +26,7 @@
     function eventBindByLandInfoList() {
         // 새로고침
         $(".lnb-territory .lnb-resetBtn").unbind('click').bind('click', function () {
-            aj_selectAdministrationZoneList($("#tmpForm")[0])
+            webApp_selectAdministrationZoneList($("#tmpForm")[0])
         });
     }
 
@@ -32,25 +37,6 @@
             }
         });
         dtmap.clear();
-
-        // if (app2D) {
-        //     cmmUtil.resetMap();
-        // } else {
-        //     if (OLOAD.m_center_Polygon != null) {
-        //         OLOAD.m_center_Polygon.removeAllObject();
-        //
-        //         var colorPolygonLayer = new Module.JSLayerList(true).nameAtLayer("COLOR_POLYGON_LAYER");
-        //         var lineLayer = new Module.JSLayerList(true).nameAtLayer("LINE_LAYER");
-        //
-        //         if (colorPolygonLayer != null) {
-        //             colorPolygonLayer.removeAll();
-        //         }
-        //         if (lineLayer != null) {
-        //             lineLayer.removeAll();
-        //         }
-        //     }
-        // }
-
     }
 
     function fn_select_list() {
@@ -76,7 +62,7 @@
                     if (status == "success") {
                         if (!removeLine(returnData) == "ok") {
                             alert(txt + "를 삭제하였습니다.");
-                            aj_selectAdministrationZoneList($("#searchForm")[0]);
+                            webApp_selectAdministrationZoneList($("#searchForm")[0]);
                         } else {
                             alert("삭제에 실패했습니다.");
                         }
@@ -95,9 +81,9 @@
 <div class="lnb-header"><h2 class="tit">국토정보관리 웹앱용</h2></div>
 <div class="lnb-body">
     <div class="btn-wrap">
-        <button type="button" id="insertAdministrationZoneView" class="btn bi-write leftPopup"
+<!--         <button type="button" id="insertAdministrationZoneView" class="btn bi-write leftPopup"
                 data-popup="territory-Regist" onclick="aj_insertAdministrationZoneView()">등록
-        </button>
+        </button> -->
     </div>
     <div class="bbs-top">
         <form:form name="searchForm" id="searchForm" method="post" onsubmit="fn_select_list(); return false;">

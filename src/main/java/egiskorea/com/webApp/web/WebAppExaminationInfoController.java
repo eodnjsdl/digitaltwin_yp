@@ -11,11 +11,14 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
+import egiskorea.com.geo.emi.service.ExaminationInfo;
 import egiskorea.com.geo.emi.service.ExaminationInfoService;
 import egiskorea.com.geo.emi.service.ExaminationInfoVO;
 import egovframework.com.cmm.ComDefaultCodeVO;
 import egovframework.com.cmm.service.EgovCmmUseService;
+import egovframework.com.cmm.util.EgovUserDetailsHelper;
 import egovframework.rte.fdl.property.EgovPropertyService;
 import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
 
@@ -134,5 +137,25 @@ public class WebAppExaminationInfoController {
 		model.addAttribute("li", examinationInfoVO.getCode2());
 		
 		return "egiskorea/com/webApp/emi/webAppExaminationInfoList";
+	}
+	
+	/**
+	 * @Description 조사정보 상세조회 (웹앱용)
+	 * @Author 글로벌컨설팅부문 장현승
+	 * @param examinationInfoVO
+	 * @param model
+	 * @return "egiskorea/com/webApp/emi/webAppExaminationInfo"
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/selectWebAppExaminationInfo.do")
+	public String selectExaminationInfo(
+			@ModelAttribute("examinationInfoVO") ExaminationInfoVO examinationInfoVO,
+			ModelMap model) throws Exception{ 
+		
+		ExaminationInfo result = examinationInfoService.selectExaminationInfo(examinationInfoVO);		
+		
+		model.addAttribute("result", result);
+		
+		return "egiskorea/com/webApp/emi/webAppExaminationInfo";
 	}
 }

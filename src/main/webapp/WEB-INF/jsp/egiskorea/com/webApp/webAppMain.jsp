@@ -223,12 +223,17 @@
         <div id="map2D" class="main-map" style="position: absolute;"></div>
         <div id="map3D" style="width: 100%; height:100%; display:none; user-select:none"></div>
 
-		<!-- ★★★★ 테스트를 위한 left popup-panel ★★★★ -->
+		<!-- ★★★★ 테스트를 위한 popup-panel ★★★★ -->
 		<!-- left popup-panel -->
         <div id="leftPopup" class="popup-panel popup-left popup-draggable" style="z-index: 1001;">
         </div>
         <!-- //left popup-panel -->
-        <!-- ★★★★ 테스트를 위한 left popup-panel ★★★★ -->
+        
+        <!-- right-sub popup-panel -->
+        <div id="rightSubPopup" class="popup-panel popup-sub popup-draggable" style="z-index: 1002;">
+        </div>
+        <!-- //right-sub popup-panel -->
+        <!-- ★★★★ 테스트를 위한 popup-panel ★★★★ -->
         
         <!-- map-aside -->
         <div id="map-aside">
@@ -323,6 +328,7 @@
             $(".lnb-territory").show();
             webApp_selectAdministrationZoneList($("#tmpForm")[0], 'webApp');
         });
+
     })
 
     function checkCookiePopup() {
