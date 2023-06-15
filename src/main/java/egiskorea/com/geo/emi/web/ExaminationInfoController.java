@@ -109,8 +109,8 @@ public class ExaminationInfoController {
 		model.addAttribute("resultCnt", map.get("resultCnt"));
 		model.addAttribute("paginationInfo", paginationInfo);
 		model.addAttribute("code1List", code1List);
-		
-		return "egiskorea/com/geo/emi/administrationZoneList";
+
+	    return "egiskorea/com/geo/emi/administrationZoneList";
 	}
 	
 	/**

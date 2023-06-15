@@ -4,6 +4,7 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+<script src="/js/egiskorea/com/webApp/searchWebApp.js"></script>
 <script src="/js/egiskorea/com/geo/emi/examinationInfo.js"></script>
 <script>
     $(document).ready(function () {
@@ -54,12 +55,12 @@
 
     function fn_select_list() {
         document.searchForm.pageIndex.value = 1;
-        aj_selectAdministrationZoneList($("#searchForm")[0]);
+        webApp_selectAdministrationZoneList($("#searchForm")[0]);
     }
 
     function fn_select_linkPage(pageNo) {
         document.searchForm.pageIndex.value = pageNo;
-        aj_selectAdministrationZoneList($("#searchForm")[0]);
+        webApp_selectAdministrationZoneList($("#searchForm")[0]);
     }
 
     function fn_delete_administrationZone(txt, dataSeq) {
@@ -91,7 +92,7 @@
 
 </script>
 <!-- 국토정보관리 -->
-<div class="lnb-header"><h2 class="tit">국토정보관리</h2></div>
+<div class="lnb-header"><h2 class="tit">국토정보관리 웹앱용</h2></div>
 <div class="lnb-body">
     <div class="btn-wrap">
         <button type="button" id="insertAdministrationZoneView" class="btn bi-write leftPopup"
@@ -119,7 +120,7 @@
     <div class="territory-list-wrap">
         <ul class="territory-list">
             <c:forEach items="${resultList}" var="result" varStatus="status">
-                <li><a href="javascript:clickTerritory('<c:out value="${result.code2}" />','1')"
+                <li><a href="javascript:webApp_clickTerritory('<c:out value="${result.code2}" />','1')"
                        data-popup="territory-detail"><span class="tit"><c:out value="${result.code1Nm}"/> <c:out
                         value="${result.code2Nm}"/> 조사데이터</span><span class="writer"><c:out
                         value="${result.userNm}"/></span><span class="date"><c:out
@@ -147,8 +148,8 @@
     <button type="button" class="lnb-close" title="닫기"></button>
 </div>
 <script>
-    function clickTerritory(p1, p2) {
-        aj_selectExaminationInfoList($("#tmpForm")[0], p1, p2);
+    function webApp_clickTerritory(p1, p2) {
+    	webApp_selectExaminationInfoList($("#tmpForm")[0], p1, p2);
     }
     $(document).ready(function () {
         $(".lnb-territory .bi-write").click(function () {

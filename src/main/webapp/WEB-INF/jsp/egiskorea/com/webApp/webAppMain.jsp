@@ -321,7 +321,7 @@
         // 국토정보관리
         $("#lnb-territory-webApp").click(function() {
             $(".lnb-territory").show();
-            aj($("#tmpForm")[0]);
+            webApp_selectAdministrationZoneList($("#tmpForm")[0], 'webApp');
         });
     })
 
