@@ -196,7 +196,7 @@ $(document).ready(function(){
 						return;
 					}
 				}, complete : function(){
-					loadingShowHide("hide"); 
+					ui.loadingBar("hide"); 
 				}
 			});
 		}
@@ -309,7 +309,7 @@ function fn_insert_DataConversion(form){
 						$(".progressbar-value").css("width",parseInt(percent)+"%");
 						$(".progress-label").html(parseInt(percent)+"%");
 						if(percent == "100"){
-							loadingShowHide("show"); 
+							ui.loadingBar("show"); 
 						}
 					};
 					return xhr;
@@ -352,7 +352,7 @@ function fn_insert_DataConversion(form){
 						return;
 					}
 				}, complete : function(){
-					loadingShowHide("hide"); 
+					ui.loadingBar("hide"); 
 				}
 			});
 		}
