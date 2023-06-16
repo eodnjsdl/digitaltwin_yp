@@ -1,5 +1,79 @@
 @charset "UTF-8";
 
+#webAppHeader {
+	position: absolute;
+	justify-content: space-between;
+	display: flex;
+	width: 100%;
+}
+
+#webAppHeader .logo {
+	position: unset;
+}
+
+#webAppHeader .logo a {
+	background-size: contain;
+	width: 250px;
+}
+
+#webAppHeader .lnb-search-webApp {
+	position: absolute;
+	cursor: pointer;
+    top: 10px;
+    left: 50%;
+    width: 280px;
+    transform: translateX(-50%);
+    z-index: 1;
+}
+
+.lnb-search-area {
+	display: flex;
+	line-height: 45px;
+	background: linear-gradient(98.4deg, #EB7B72 -8.19%, #3B89DD 75.53%, #BE81FB 126.89%);
+    border-radius: 15px;
+}
+
+.lnb-search-tit .tit {
+	margin: 0 15px;
+	position: relative;
+    font-family: 'Noto Sans KR';
+    color: #fff;
+    font-size: 20px;
+    font-weight: 700;
+    text-align: center;
+}
+
+#searchKeyword {
+	line-height: 30px;
+    width: 170px;
+    border: none;
+    padding: 0 10px;
+    margin: 5px 0;
+}
+
+.lnb-search-area #searchBtn {
+	line-height: 45px;
+	width: 44px;
+	background: url(/images/map/lnb-search-tit.svg) no-repeat 50%;
+}
+
+.search-list {
+	position: relative;
+	width: 300px;
+	height: 160px;
+	height: auto;
+	margin-top: 10px;
+	margin-left: -10px;
+	background-color: #ffffff;
+	border-radius: 5px;
+	overflow: hidden;
+}
+
+#webAppHeader .util-box {
+	cursor: pointer;
+	right: 10px;
+}
+
 #lnb-territory-webApp {
 	width: 60px;
 }
@@ -22,43 +96,10 @@
     box-shadow: 0px 0px 6px #000;
 }
 
-#container .lnb-search-webApp {
-	position: absolute;
-    top: 70px;
-    left: 10px;
-    width: 310px;
-    background: linear-gradient(98.4deg, #EB7B72 -8.19%, #3B89DD 75.53%, #BE81FB 126.89%);
-    border-radius: 15px;
-    z-index: 1;
+.dsplyBlck{
+	display: block;
 }
 
-.lnb-search-area {
-	display: flex;
-	line-height: 45px;
-}
-
-.lnb-search-tit .tit {
-	margin: 0 15px;
-	position: relative;
-    font-family: 'Noto Sans KR';
-    color: #fff;
-    font-size: 20px;
-    font-weight: 700;
-    text-align: center;
-}
-
-#searchKeyword {
-	line-height: 30px;
-    width: 200px;
-    border: none;
-    padding-left: 10px;
-}
-
-.lnb-search-box button {
-	line-height: 45px;
-	width: 25px;
-}
-
-img.btn-search {
-	margin: 0 3px 5px;
+.dsplyNon {
+	display: none;
 }

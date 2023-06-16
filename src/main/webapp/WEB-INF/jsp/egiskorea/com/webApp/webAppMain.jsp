@@ -52,7 +52,9 @@
 
 	<!-- webApp -->
     <link rel="stylesheet" href="/css/webApp/webAppMain.css">
+    <link rel="stylesheet" href="/css/webApp/webAppSearch.css">
 	<script src="/js/egiskorea/com/webApp/searchWebApp.js"></script>
+	<script src="/js/egiskorea/com/webApp/webAppSearch.js"></script>
 
     <!-- jspdf 6.7.0 -->
     <script src="/engine/plugin/v6.7.0/jspdf.umd.min.js"></script>
@@ -195,28 +197,26 @@
 
 	<!-- container -->
     <div id="container">
-        <!-- header -->
-       	<h1 class="logo"><a href="/webApp/main.do"></a></h1>
-       
-        <div class="lnb-search-webApp lnb-cont">
-			<div class="lnb-search-area">
-				<div class="lnb-search-tit"><h2 class="tit">검색</h2></div>
-				<div class="lnb-search-box">
-					<input type="search" id="searchKeyword" placeholder="지번주소를 검색하세요" onkeypress="if( event.keyCode == 13 ){ searchAddress(); }">
-					<button type="button" onclick="searchAddress();"><img class="btn-search" src="/images/map/lnb-search-tit.svg" alt=""></button>
+    	<!-- header -->
+    	<header id="webAppHeader">
+	       	<h1 class="logo"><a href="/webApp/main.do"></a></h1>
+			
+	        <div class="lnb-search-webApp">
+				<div class="lnb-search-area">
+					<div class="lnb-search-tit"><h2 class="tit">검색</h2></div>
+					<input type="search" id="searchKeyword" placeholder="지번주소를 입력하세요" onkeypress="if( event.keyCode == 13 ){ searchAddress(1); }">
+					<button type="button" id="searchBtn" onclick="searchAddress(1);"></button>
 				</div>
+				<div class="search-list"></div>
 			</div>
-        	<div class="search-list hide">
-        		
-			</div>
-		</div>
-        
-        <div class="util-box" style="right: 10px">
-            <div class="user" style="width: 200px; border-radius: 0px 0px 10px 10px;"><c:out value="${loginVO.name}"/>님
-                <button type="button" class="logout-btn" data-name="로그아웃" onClick="location.href='/uat/uia/logoutAction.do'"></button>
-                <div id="lnb-territory-webApp">국토조사</div>
-            </div>
-        </div>
+	        
+	        <div class="util-box" style="">
+	            <div class="user" style="width: 200px; border-radius: 0px 0px 10px 10px;"><c:out value="${loginVO.name}"/>님
+	                <button type="button" class="logout-btn" data-name="로그아웃" onClick="location.href='/uat/uia/logoutAction.do'"></button>
+	                <div id="lnb-territory-webApp">국토조사</div>
+	            </div>
+	        </div>
+        </header>
         <!-- //header -->
         
         <!-- 지도영역 -->
@@ -284,8 +284,7 @@
         <!-- //side -->
 
         <!-- 국토조사 -->
-        <div id="popup_territory" class="lnb-territory lnb-cont" style="width: 100%; height:100%; display: none; 
-		background:white; z-index: 1000; position: relative;">
+        <div id="popup_territory" class="lnb-territory" style="width: 100%; height:100%; display: none; background:white; z-index: 1000; position: relative;">
         </div>
         <!-- //국토조사 -->
         

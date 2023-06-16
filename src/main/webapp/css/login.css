@@ -567,7 +567,7 @@ select::-ms-expand {
 	margin: 0px auto;
 	padding-top: 200px;
 	width: 300px;
-	background: url(/images/login/login-img.svg) no-repeat 110px 0%;
+	background: url(/images/webApp/login-img.svg) no-repeat 110px 0%;
 }
 
 #loginWebApp .login-box {

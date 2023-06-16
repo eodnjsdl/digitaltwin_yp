@@ -198,6 +198,9 @@
 		
 		<!-- ### 업무 ### -->
 		
+		<!-- webApp -->
+		<typeAlias alias="AddrResultVO" type="egiskorea.com.webApp.service.AddrResultVO" />
+		<typeAlias alias="AddrSearchVO" type="egiskorea.com.webApp.service.AddrSearchVO" />
 	</typeAliases>
     
 </configuration>
