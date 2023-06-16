@@ -112,6 +112,7 @@ class GraphicTool {
                             feature.set('grphcId', id);
                             return feature.get('style');
                         });
+                        dtmap.vector.fit();
                     })
                     .fail(() => {
                         alert("그리기 정보를 가져오는 실패했습니다.");
@@ -217,7 +218,12 @@ class GraphicToolEditor {
                             );
                             dtmap.vector.clear();
                             dtmap.draw.clear();
-                            dtmap.draw.readGeoJson(geojson)
+                            dtmap.draw.readGeoJson(geojson);
+                            var _center = ol.extent.getCenter(dtmap.draw.getGeometry().getExtent());
+                            var _zoom = 16;
+                            dtmap.setCenter(_center, {
+                                zoom: _zoom
+                            });
                         })
                         .fail(() => {
                             alert("그리기 정보를 가져오는 실패했습니다.");
