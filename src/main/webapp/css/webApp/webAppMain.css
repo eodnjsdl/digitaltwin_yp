@@ -95,7 +95,6 @@ img.btn-search {
 
 .result-date {
 	margin-left: 10px;
-    color: #A2ACC0;
     letter-spacing: 0;
 	padding-left: 25%;
 }
@@ -139,4 +138,5 @@ img.btn-search {
     border-radius: 10px;
 	background-color: #E6E8ED;
 	padding-right: 25px;
+    margin-top: 10px;
 }

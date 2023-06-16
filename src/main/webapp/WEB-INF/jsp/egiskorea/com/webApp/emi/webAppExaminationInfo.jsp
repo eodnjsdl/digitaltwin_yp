@@ -87,7 +87,7 @@
 		});
 	}
 
-    function fn_select_delete(orgFid) {
+    function webApp_fn_select_delete(orgFid) {
         if (confirm("<spring:message code="common.delete.msg" />")) {
             $.ajax({
                 type: "POST",
@@ -321,7 +321,7 @@
                                     onClick="webApp_fn_download_excelData(this.form,'<c:out value="${result.pnu}" />')">엑셀저장
                             </button>
                             <button type="button" class="btn basic bi-delete2"
-                                    onClick="fn_select_delete('<c:out value="${result.orgFid}" />')">삭제
+                                    onClick="webApp_fn_select_delete('<c:out value="${result.orgFid}" />')">삭제
                             </button>
                         </div>
                     </div>
@@ -556,7 +556,7 @@
                                     onClick="webApp_fn_download_excelData(this.form,'<c:out value="${result.pnu}" />')">엑셀저장
                             </button>
                             <button type="button" class="btn basic bi-delete2"
-                                    onClick="fn_select_delete('<c:out value="${result.orgFid}" />')">삭제
+                                    onClick="webApp_fn_select_delete('<c:out value="${result.orgFid}" />')">삭제
                             </button>
                         </div>
                     </div>
@@ -825,7 +825,7 @@
                                     onClick="webApp_fn_download_excelData(this.form,'<c:out value="${result.pnu}" />')">엑셀저장
                             </button>
                             <button type="button" class="btn basic bi-delete2"
-                                    onClick="fn_select_delete('<c:out value="${result.orgFid}" />')">삭제
+                                    onClick="webApp_fn_select_delete('<c:out value="${result.orgFid}" />')">삭제
                             </button>
                         </div>
                     </div>
@@ -1163,7 +1163,7 @@
                                     onClick="webApp_fn_download_excelData(this.form,'<c:out value="${result.pnu}" />')">엑셀저장
                             </button>
                             <button type="button" class="btn basic bi-delete2"
-                                    onClick="fn_select_delete('<c:out value="${result.orgFid}" />')">삭제
+                                    onClick="webApp_fn_select_delete('<c:out value="${result.orgFid}" />')">삭제
                             </button>
                         </div>
                     </div>
@@ -1214,7 +1214,7 @@
                                     onClick="webApp_fn_download_excelData(this.form,'<c:out value="${result.pnu}" />')">엑셀저장
                             </button>
                             <button type="button" class="btn basic bi-delete2"
-                                    onClick="fn_select_delete('<c:out value="${result.orgFid}" />')">삭제
+                                    onClick="webApp_fn_select_delete('<c:out value="${result.orgFid}" />')">삭제
                             </button>
                         </div>
                     </div>
@@ -1229,7 +1229,7 @@
                         onClick="webApp_fn_download_excelData(this.form,'<c:out value="${result.pnu}" />')">엑셀저장
                 </button>
                 <button type="button" class="btn basic bi-delete2"
-                        onClick="fn_select_delete('<c:out value="${result.orgFid}" />')">삭제
+                        onClick="webApp_fn_select_delete('<c:out value="${result.orgFid}" />')">삭제
                 </button>
             </div>
         </div>

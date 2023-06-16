@@ -116,7 +116,7 @@
         webApp_selectExaminationInfo($("#tmpForm")[0], pnu, "right");
     }
 
-    function fn_select_delete_list() {
+    function webApp_fn_select_delete_list() {
         if (fn_selected_check()) {
             if (confirm("<spring:message code="common.delete.msg" />")) {
                 $.ajax({
@@ -268,7 +268,7 @@
                 </div>
 
                 <div class="position-absolute left">
-                    <button type="button" class="btn basic bi-delete2" onClick="fn_select_delete_list()">선택삭제</button>
+                    <button type="button" class="btn basic bi-delete2" onClick="webApp_fn_select_delete_list()">선택삭제</button>
                 </div>
                 <div class="position-absolute right">
                     <button type="button" class="btn basic bi-excel" onClick="webApp_fn_download_excelData(this.form, 'all')">
