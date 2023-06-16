@@ -618,6 +618,10 @@ td.noData {
 	border-radius: 5px;
 }
 
+.symbol-register img {
+	width: 25px;
+}
+
 .symbol-register .scroll-y {
 	height: 100%;
 }
@@ -641,6 +645,7 @@ td.noData {
 	white-space: nowrap;
 	overflow: hidden;
 	letter-spacing: 0;
+	cursor: pointer;
 }
 
 .symbol-register .symbol-delete {
@@ -667,6 +672,10 @@ td.noData {
 
 .symbol-register .form-file label {
 	border-top-right-radius: 0;
+}
+
+.symbol-register li {
+	cursor: pointer;
 }
 
 .symbol-register li:nth-child(1) {
