@@ -1,9 +1,13 @@
 package egiskorea.com.webApp.web;
 
+import java.net.URLEncoder;
 import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,6 +17,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import egiskorea.com.cmm.service.impl.ExcelView;
 import egiskorea.com.geo.emi.service.ExaminationInfo;
 import egiskorea.com.geo.emi.service.ExaminationInfoService;
 import egiskorea.com.geo.emi.service.ExaminationInfoVO;
@@ -378,4 +383,5 @@ public class WebAppExaminationInfoController {
 		
 		return "egiskorea/com/cmm/actionResult2";
 	}
+	
 }

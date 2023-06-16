@@ -59,7 +59,7 @@
         }
     }
 
-    function fn_select_update(pnu) {
+    function webApp_fn_select_update(pnu) {
         webApp_leftSubPopupOpen("examinationInfoView", pnu, "left");
     }
     
@@ -315,10 +315,10 @@
                     <div class="position-bottom btn-wrap justify-content-end examinationBtn">
                         <div>
                             <button type="button" class="btn basic bi-edit"
-                                    onClick="fn_select_update('<c:out value="${result.pnu}" />')">수정
+                                    onClick="webApp_fn_select_update('<c:out value="${result.pnu}" />')">수정
                             </button>
                             <button type="button" class="btn basic bi-excel"
-                                    onClick="fn_download_excelData(this.form,'<c:out value="${result.pnu}" />')">엑셀저장
+                                    onClick="webApp_fn_download_excelData(this.form,'<c:out value="${result.pnu}" />')">엑셀저장
                             </button>
                             <button type="button" class="btn basic bi-delete2"
                                     onClick="fn_select_delete('<c:out value="${result.orgFid}" />')">삭제
@@ -550,10 +550,10 @@
                     <div class="position-bottom btn-wrap justify-content-end examinationBtn">
                         <div>
                             <button type="button" class="btn basic bi-edit"
-                                    onClick="fn_select_update('<c:out value="${result.pnu}" />')">수정
+                                    onClick="webApp_fn_select_update('<c:out value="${result.pnu}" />')">수정
                             </button>
                             <button type="button" class="btn basic bi-excel"
-                                    onClick="fn_download_excelData(this.form,'<c:out value="${result.pnu}" />')">엑셀저장
+                                    onClick="webApp_fn_download_excelData(this.form,'<c:out value="${result.pnu}" />')">엑셀저장
                             </button>
                             <button type="button" class="btn basic bi-delete2"
                                     onClick="fn_select_delete('<c:out value="${result.orgFid}" />')">삭제
@@ -819,10 +819,10 @@
                     <div class="position-bottom btn-wrap justify-content-end examinationBtn">
                         <div>
                             <button type="button" class="btn basic bi-edit"
-                                    onClick="fn_select_update('<c:out value="${result.pnu}" />')">수정
+                                    onClick="webApp_fn_select_update('<c:out value="${result.pnu}" />')">수정
                             </button>
                             <button type="button" class="btn basic bi-excel"
-                                    onClick="fn_download_excelData(this.form,'<c:out value="${result.pnu}" />')">엑셀저장
+                                    onClick="webApp_fn_download_excelData(this.form,'<c:out value="${result.pnu}" />')">엑셀저장
                             </button>
                             <button type="button" class="btn basic bi-delete2"
                                     onClick="fn_select_delete('<c:out value="${result.orgFid}" />')">삭제
@@ -1157,10 +1157,10 @@
                     <div class="position-bottom btn-wrap justify-content-end examinationBtn">
                         <div>
                             <button type="button" class="btn basic bi-edit"
-                                    onClick="fn_select_update('<c:out value="${result.pnu}" />')">수정
+                                    onClick="webApp_fn_select_update('<c:out value="${result.pnu}" />')">수정
                             </button>
                             <button type="button" class="btn basic bi-excel"
-                                    onClick="fn_download_excelData(this.form,'<c:out value="${result.pnu}" />')">엑셀저장
+                                    onClick="webApp_fn_download_excelData(this.form,'<c:out value="${result.pnu}" />')">엑셀저장
                             </button>
                             <button type="button" class="btn basic bi-delete2"
                                     onClick="fn_select_delete('<c:out value="${result.orgFid}" />')">삭제
@@ -1208,10 +1208,10 @@
                     <div class="position-bottom btn-wrap justify-content-end examinationBtn">
                         <div>
                             <button type="button" class="btn basic bi-edit"
-                                    onClick="fn_select_update('<c:out value="${result.pnu}" />')">수정
+                                    onClick="webApp_fn_select_update('<c:out value="${result.pnu}" />')">수정
                             </button>
                             <button type="button" class="btn basic bi-excel"
-                                    onClick="fn_download_excelData(this.form,'<c:out value="${result.pnu}" />')">엑셀저장
+                                    onClick="webApp_fn_download_excelData(this.form,'<c:out value="${result.pnu}" />')">엑셀저장
                             </button>
                             <button type="button" class="btn basic bi-delete2"
                                     onClick="fn_select_delete('<c:out value="${result.orgFid}" />')">삭제
@@ -1223,10 +1223,10 @@
             </div>
             <div style="text-align: right;">
                 <button type="button" class="btn basic bi-edit"
-                        onClick="fn_select_update('<c:out value="${result.pnu}" />')">수정
+                        onClick="webApp_fn_select_update('<c:out value="${result.pnu}" />')">수정
                 </button>
                 <button type="button" class="btn basic bi-excel"
-                        onClick="fn_download_excelData(this.form,'<c:out value="${result.pnu}" />')">엑셀저장
+                        onClick="webApp_fn_download_excelData(this.form,'<c:out value="${result.pnu}" />')">엑셀저장
                 </button>
                 <button type="button" class="btn basic bi-delete2"
                         onClick="fn_select_delete('<c:out value="${result.orgFid}" />')">삭제

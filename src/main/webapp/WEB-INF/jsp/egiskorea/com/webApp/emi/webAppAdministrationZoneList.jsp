@@ -103,15 +103,41 @@
             <button type="button" class="btn basic bi-all" onClick="fn_select_all_list()">전체 보기</button>
         </div>
     </div>
-    <div class="territory-list-wrap">
+        <div class="column-titles">
+	        <ul class="territory-list territory-list-titles" >
+		        <li id="result-title" class="result-container">
+			        <a class="result-container">
+						<span class="title">
+						  <span class="title-tit">조사데이터</span>
+						</span>
+						<span class="title">
+						  <span class="title-writer">작성자</span>
+						</span>
+						<span class="title">
+						  <span class="title-date">최초생성일</span>
+						</span>
+			        </a>
+                    <div class="title-delete">
+                    	<span></span>
+                    </div>
+				<li>
+			</ul>
+	    </div>
+    <div class="territory-list-wrap" style="border-top: 0px">
         <ul class="territory-list">
             <c:forEach items="${resultList}" var="result" varStatus="status">
-                <li><a href="javascript:webApp_clickTerritory('<c:out value="${result.code2}" />','1')"
-                       data-popup="territory-detail"><span class="tit"><c:out value="${result.code1Nm}"/> <c:out
-                        value="${result.code2Nm}"/> 조사데이터</span><span class="writer"><c:out
-                        value="${result.userNm}"/></span><span class="date"><c:out
-                        value="${result.frstRegistPnttm}"/></span></a>
-                    <div>
+                <li><a href="javascript:webApp_clickTerritory('<c:out value="${result.code2}" />','1')" data-popup="territory-detail" class="result-container">
+					  <span class="result">
+					    <span class="result-tit"><c:out value="${result.code1Nm}"/> <c:out value="${result.code2Nm}"/></span>
+					  </span>
+					  <span class="result">
+					    <span class="result-writer"><c:out value="${result.userNm}"/></span>
+					  </span>
+					  <span class="result">
+					    <span class="result-date"><c:out value="${result.frstRegistPnttm}"/></span>
+					  </span>
+					</a>
+                    <div class="result-delete">
                         <button type="button" class="icon-btn delete" title="삭제"
                                 onClick="fn_delete_administrationZone('<c:out value="${result.code1Nm}" /> <c:out value="${result.code2Nm}" /> 조사데이터','<c:out value="${result.dataSeq}" />')"></button>
                     </div>
@@ -129,7 +155,6 @@
     </div>
 </div>
 <div class="lnb-util">
-    <button type="button" class="manualBtn" title="도움말"></button>
     <button type="button" class="lnb-resetBtn" title="초기화"></button>
     <button type="button" class="lnb-close" title="닫기"></button>
 </div>

@@ -231,7 +231,7 @@
                             <c:forEach items="${resultList}" var="result" varStatus="status">
                                 <tr onClick="fn_left_select_detail('<c:out value="${result.pnu}" />')">
                                     <td>
-														<span class="form-checkbox">
+														<span class="form-checkbox" onclick="event.stopImmediatePropagation()">
 														<span><input type="checkbox" name="delYn"
                                                                      id="chk1_<c:out value="${result.orgFid}" />"
                                                                      value="<c:out value="${result.orgFid}" />"><label
@@ -246,7 +246,7 @@
                                     <td><c:out value="${result.ori}"/></td>
                                     <td onclick="event.stopPropagation()">
                                         <button type="button" class="icon-btn excel" title="엑셀다운로드"
-                                                onClick="fn_download_excelData(this.form, '<c:out value="${result.pnu}" />')"></button>
+                                                onClick="webApp_fn_download_excelData(this.form, '<c:out value="${result.pnu}" />')"></button>
                                     </td>
                                 </tr>
                             </c:forEach>
@@ -271,7 +271,7 @@
                     <button type="button" class="btn basic bi-delete2" onClick="fn_select_delete_list()">선택삭제</button>
                 </div>
                 <div class="position-absolute right">
-                    <button type="button" class="btn basic bi-excel" onClick="fn_download_excelData(this.form, 'all')">
+                    <button type="button" class="btn basic bi-excel" onClick="webApp_fn_download_excelData(this.form, 'all')">
                         엑셀 저장
                     </button>
                 </div>

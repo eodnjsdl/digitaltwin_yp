@@ -118,3 +118,25 @@ function webApp_updateExaminationInfoView(frm, param1, param2){
 		}
 	});
 }
+
+// 액셀 다운로드 (웹앱용)
+function webApp_fn_download_excelData(form, pnu){
+	if(pnu == "all"){
+		if(form.code2.value == ""){
+			toastr.warning("데이터 건수가 많아 이용할 수 없습니다.\n리 단위로 조사정보를 저장해주십시요.");
+			return false;
+		}else{
+			form.pnu.value = "";			
+		}
+	}else{
+		form.pnu.value = pnu;
+	}
+	document.cookie = "fileDownload=TRUE";
+	ui.loadingBar("show");
+	form.action = "/geo/emi/selectExaminationInfoListDownload.do";
+	form.submit();
+	var downloadTimer = setInterval(function() {
+    	clearInterval(downloadTimer);
+		ui.loadingBar("hide");
+    }, 1000 );
+}
