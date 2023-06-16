@@ -53,7 +53,7 @@
 	<!-- webApp -->
     <link rel="stylesheet" href="/css/webApp/webAppMain.css">
     <link rel="stylesheet" href="/css/webApp/webAppSearch.css">
-	<script src="/js/egiskorea/com/webApp/searchWebApp.js"></script>
+	<script src="/js/egiskorea/com/webApp/webAppMain.js"></script>
 	<script src="/js/egiskorea/com/webApp/webAppSearch.js"></script>
 
     <!-- jspdf 6.7.0 -->
@@ -210,7 +210,7 @@
 				<div class="search-list"></div>
 			</div>
 	        
-	        <div class="util-box" style="">
+	        <div class="util-box">
 	            <div class="user" style="width: 200px; border-radius: 0px 0px 10px 10px;"><c:out value="${loginVO.name}"/>님
 	                <button type="button" class="logout-btn" data-name="로그아웃" onClick="location.href='/uat/uia/logoutAction.do'"></button>
 	                <div id="lnb-territory-webApp">국토조사</div>
@@ -223,12 +223,22 @@
         <div id="map2D" class="main-map" style="position: absolute;"></div>
         <div id="map3D" style="width: 100%; height:100%; display:none; user-select:none"></div>
 
-		<!-- ★★★★ 테스트를 위한 left popup-panel ★★★★ -->
+		<!-- ★★★★ 테스트를 위한 popup-panel ★★★★ -->
 		<!-- left popup-panel -->
         <div id="leftPopup" class="popup-panel popup-left popup-draggable" style="z-index: 1001;">
         </div>
         <!-- //left popup-panel -->
-        <!-- ★★★★ 테스트를 위한 left popup-panel ★★★★ -->
+        
+        <!-- left-sub popup-panel -->
+        <div id="leftSubPopup" class="popup-panel popup-sub popup-draggable" style="z-index: 1003;">
+        </div>
+        <!-- //left-sub popup-panel -->
+        
+        <!-- right-sub popup-panel -->
+        <div id="rightSubPopup" class="popup-panel popup-sub popup-draggable" style="z-index: 1002;">
+        </div>
+        <!-- //right-sub popup-panel -->
+        <!-- ★★★★ 테스트를 위한 popup-panel ★★★★ -->
         
         <!-- map-aside -->
         <div id="map-aside">
@@ -284,11 +294,10 @@
         <!-- //side -->
 
         <!-- 국토조사 -->
-        <div id="popup_territory" class="lnb-territory" style="width: 100%; height:100%; display: none; background:white; z-index: 1000; position: relative;">
+        <div id="popup_territory" class="lnb-territory lnb-cont" style="width: 100%; height:100%; display: none; background:white; z-index: 1000; position: relative;">
         </div>
         <!-- //국토조사 -->
         
-
     </div>
     <!-- //container -->
 </div>
@@ -321,8 +330,9 @@
         // 국토정보관리
         $("#lnb-territory-webApp").click(function() {
             $(".lnb-territory").show();
-            aj($("#tmpForm")[0]);
+            webApp_selectAdministrationZoneList($("#tmpForm")[0], 'webApp');
         });
+
     })
 
     function checkCookiePopup() {

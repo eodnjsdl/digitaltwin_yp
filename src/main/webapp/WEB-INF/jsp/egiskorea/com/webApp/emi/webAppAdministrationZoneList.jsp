@@ -4,7 +4,13 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+
+<!-- webApp -->
+<link rel="stylesheet" href="/css/webApp/webAppMain.css">
+<script src="/js/egiskorea/com/webApp/searchWebApp.js"></script>
 <script src="/js/egiskorea/com/geo/emi/examinationInfo.js"></script>
+<!-- webApp -->
+
 <script>
     $(document).ready(function () {
         eventBindByLandInfoList();
@@ -20,7 +26,7 @@
     function eventBindByLandInfoList() {
         // 새로고침
         $(".lnb-territory .lnb-resetBtn").unbind('click').bind('click', function () {
-            aj_selectAdministrationZoneList($("#tmpForm")[0])
+            webApp_selectAdministrationZoneList($("#tmpForm")[0])
         });
     }
 
@@ -31,35 +37,16 @@
             }
         });
         dtmap.clear();
-
-        // if (app2D) {
-        //     cmmUtil.resetMap();
-        // } else {
-        //     if (OLOAD.m_center_Polygon != null) {
-        //         OLOAD.m_center_Polygon.removeAllObject();
-        //
-        //         var colorPolygonLayer = new Module.JSLayerList(true).nameAtLayer("COLOR_POLYGON_LAYER");
-        //         var lineLayer = new Module.JSLayerList(true).nameAtLayer("LINE_LAYER");
-        //
-        //         if (colorPolygonLayer != null) {
-        //             colorPolygonLayer.removeAll();
-        //         }
-        //         if (lineLayer != null) {
-        //             lineLayer.removeAll();
-        //         }
-        //     }
-        // }
-
     }
 
     function fn_select_list() {
         document.searchForm.pageIndex.value = 1;
-        aj_selectAdministrationZoneList($("#searchForm")[0]);
+        webApp_selectAdministrationZoneList($("#searchForm")[0]);
     }
 
     function fn_select_linkPage(pageNo) {
         document.searchForm.pageIndex.value = pageNo;
-        aj_selectAdministrationZoneList($("#searchForm")[0]);
+        webApp_selectAdministrationZoneList($("#searchForm")[0]);
     }
 
     function fn_delete_administrationZone(txt, dataSeq) {
@@ -75,7 +62,7 @@
                     if (status == "success") {
                         if (!removeLine(returnData) == "ok") {
                             alert(txt + "를 삭제하였습니다.");
-                            aj_selectAdministrationZoneList($("#searchForm")[0]);
+                            webApp_selectAdministrationZoneList($("#searchForm")[0]);
                         } else {
                             alert("삭제에 실패했습니다.");
                         }
@@ -91,12 +78,12 @@
 
 </script>
 <!-- 국토정보관리 -->
-<div class="lnb-header"><h2 class="tit">국토정보관리</h2></div>
+<div class="lnb-header"><h2 class="tit">국토정보관리 웹앱용</h2></div>
 <div class="lnb-body">
     <div class="btn-wrap">
-        <button type="button" id="insertAdministrationZoneView" class="btn bi-write leftPopup"
+<!--         <button type="button" id="insertAdministrationZoneView" class="btn bi-write leftPopup"
                 data-popup="territory-Regist" onclick="aj_insertAdministrationZoneView()">등록
-        </button>
+        </button> -->
     </div>
     <div class="bbs-top">
         <form:form name="searchForm" id="searchForm" method="post" onsubmit="fn_select_list(); return false;">
@@ -116,15 +103,41 @@
             <button type="button" class="btn basic bi-all" onClick="fn_select_all_list()">전체 보기</button>
         </div>
     </div>
-    <div class="territory-list-wrap">
+        <div class="column-titles">
+	        <ul class="territory-list territory-list-titles" >
+		        <li id="result-title" class="result-container">
+			        <a class="result-container">
+						<span class="title">
+						  <span class="title-tit">조사데이터</span>
+						</span>
+						<span class="title">
+						  <span class="title-writer">작성자</span>
+						</span>
+						<span class="title">
+						  <span class="title-date">최초생성일</span>
+						</span>
+			        </a>
+                    <div class="title-delete">
+                    	<span></span>
+                    </div>
+				<li>
+			</ul>
+	    </div>
+    <div class="territory-list-wrap" style="border-top: 0px">
         <ul class="territory-list">
             <c:forEach items="${resultList}" var="result" varStatus="status">
-                <li><a href="javascript:clickTerritory('<c:out value="${result.code2}" />','1')"
-                       data-popup="territory-detail"><span class="tit"><c:out value="${result.code1Nm}"/> <c:out
-                        value="${result.code2Nm}"/> 조사데이터</span><span class="writer"><c:out
-                        value="${result.userNm}"/></span><span class="date"><c:out
-                        value="${result.frstRegistPnttm}"/></span></a>
-                    <div>
+                <li><a href="javascript:webApp_clickTerritory('<c:out value="${result.code2}" />','1')" data-popup="territory-detail" class="result-container">
+					  <span class="result">
+					    <span class="result-tit"><c:out value="${result.code1Nm}"/> <c:out value="${result.code2Nm}"/></span>
+					  </span>
+					  <span class="result">
+					    <span class="result-writer"><c:out value="${result.userNm}"/></span>
+					  </span>
+					  <span class="result">
+					    <span class="result-date"><c:out value="${result.frstRegistPnttm}"/></span>
+					  </span>
+					</a>
+                    <div class="result-delete">
                         <button type="button" class="icon-btn delete" title="삭제"
                                 onClick="fn_delete_administrationZone('<c:out value="${result.code1Nm}" /> <c:out value="${result.code2Nm}" /> 조사데이터','<c:out value="${result.dataSeq}" />')"></button>
                     </div>
@@ -142,13 +155,12 @@
     </div>
 </div>
 <div class="lnb-util">
-    <button type="button" class="manualBtn" title="도움말"></button>
     <button type="button" class="lnb-resetBtn" title="초기화"></button>
     <button type="button" class="lnb-close" title="닫기"></button>
 </div>
 <script>
-    function clickTerritory(p1, p2) {
-        aj_selectExaminationInfoList($("#tmpForm")[0], p1, p2);
+    function webApp_clickTerritory(p1, p2) {
+    	webApp_selectExaminationInfoList($("#tmpForm")[0], p1, p2);
     }
     $(document).ready(function () {
         $(".lnb-territory .bi-write").click(function () {
