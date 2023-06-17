@@ -155,6 +155,9 @@ map3d.vector = (function () {
     }
 
     function fit() {
+        if (_source.getFeatures().length === 0) {
+            return;
+        }
         const extent = getExtent();
         const width = computeDistance(extent[0], extent[1], extent[2], extent[3])
         const centerVec = new Module.JSVector3D((extent[0] + extent[2]) / 2, (extent[1] + extent[3]) / 2, width < 800 ? 800 : width);
