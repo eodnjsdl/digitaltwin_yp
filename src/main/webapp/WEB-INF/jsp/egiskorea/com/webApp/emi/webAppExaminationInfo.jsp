@@ -16,35 +16,16 @@
     $(document).ready(function () {
         eventBindByExaminationInfo();
         initByExaminationInfo();
-        <%--if(app2D){--%>
-        <%--	cmmUtil.highlightGeometry(landRegister.landRegister.geometry);--%>
-        <%--} else{--%>
-        <%--	if("<c:out value='${result.pnu}' />" != ""){--%>
-        <%--		var coordinates = OLOAD.setPosition(landRegister.landRegister.geometry, "MULTIPOLYGON", 0);--%>
-
-        <%--		moveCamera(landRegister, "ldpl");--%>
-        <%--		createVerticalPlane(coordinates.coordinates);--%>
-        <%--		OLOAD.loadCenterData(landRegister);--%>
-        <%--	}--%>
-        <%--}--%>
-
     });
 
+    // 국토정보관리 웹앱용 popup
     function eventBindByExaminationInfo() {
         $('#leftPopup .popup-close').click(function () {
             dtmap.clear();
-            // if(app2D){
-            // 	cmmUtil.resetMap();
-            // } else{
-            // 	if(OLOAD.m_center_Polygon != null) {
-            // 		OLOAD.m_center_Polygon.removeAllObject();
-            // 		new Module.JSLayerList(true).nameAtLayer("COLOR_POLYGON_LAYER").removeAll();
-            // 		new Module.JSLayerList(true).nameAtLayer("LINE_LAYER").removeAll();
-            //     }
-            // }
         });
     }
 
+    // 국토정보관리 초기화
     function initByExaminationInfo() {
         dtmap.vector.clear();
         var landRegister = getLandRegisterByPnu("<c:out value='${result.pnu}' />");
@@ -58,17 +39,19 @@
         }
     }
 
+    // 속성정보에서 수정 클릭시
     function webApp_fn_select_update(pnu) {
         webApp_leftSubPopupOpen("examinationInfoView", pnu, "left");
     }
     
+ 	// 속성정보에서 수정 클릭시 (조사정보 웹앱용 popup)
     function webApp_leftSubPopupOpen(leftName, param1, param2){
 		var leftSubWidth = "";
 		var leftSubHeigth = "";
 		var leftSubTop = "";
 		var leftSubLeft = "";
 		
-		$("#rightSubPopup").removeClass("opened").html("");
+		$("#rightSubPopup").removeClass("opened").html("");		// 속성정보 열기
 		
 		switch(leftName){	
 			// 조사정보 속성정보
@@ -86,6 +69,7 @@
 		});
 	}
 
+    // 속성정보에서 삭제 클릭시
     function webApp_fn_select_delete(orgFid) {
         if (confirm("<spring:message code="common.delete.msg" />")) {
             $.ajax({
@@ -135,18 +119,6 @@
                         <th scope="row">지번</th>
                         <td><c:out value="${result.addr} "/></td>
                     </tr>
-                        <%-- 												<tr>
-                                                                            <th scope="row">ORG_FILD</th>
-                                                                            <td><c:out value="${result.orgFid} "/></td>
-                                                                            <th scope="row">조사시작일시</th>
-                                                                            <td><c:out value="${result.startDate} "/></td>
-                                                                        </tr>
-                                                                        <tr>
-                                                                            <th scope="row">지번</th>
-                                                                            <td><c:out value="${result.addr} "/></td>
-                                                                            <th scope="row">조사종료일시</th>
-                                                                            <td><c:out value="${result.endDate} "/></td>
-                                                                        </tr> --%>
                     <tr>
                         <th scope="row">최종변경일자</th>
                         <td><c:out value="${result.updateDate} "/></td>

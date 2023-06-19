@@ -79,11 +79,7 @@
 <!-- 국토정보관리 -->
 <div class="lnb-header"><h2 class="tit">국토정보관리 웹앱용</h2></div>
 <div class="lnb-body">
-    <div class="btn-wrap">
-<!--         <button type="button" id="insertAdministrationZoneView" class="btn bi-write leftPopup"
-                data-popup="territory-Regist" onclick="aj_insertAdministrationZoneView()">등록
-        </button> -->
-    </div>
+    <div class="btn-wrap"></div>
     <div class="bbs-top">
         <form:form name="searchForm" id="searchForm" method="post" onsubmit="fn_select_list(); return false;">
             <input type="hidden" name="pageIndex" id="pageIndex" value="<c:out value='${searchVO.pageIndex}' />">
