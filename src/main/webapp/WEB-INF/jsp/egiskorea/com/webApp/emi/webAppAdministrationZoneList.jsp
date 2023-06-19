@@ -7,7 +7,6 @@
 
 <!-- webApp -->
 <link rel="stylesheet" href="/css/webApp/webAppMain.css">
-<script src="/js/egiskorea/com/webApp/searchWebApp.js"></script>
 <script src="/js/egiskorea/com/geo/emi/examinationInfo.js"></script>
 <!-- webApp -->
 
@@ -99,9 +98,6 @@
                 </select>
             </div>
         </form:form>
-        <div>
-            <button type="button" class="btn basic bi-all" onClick="fn_select_all_list()">전체 보기</button>
-        </div>
     </div>
         <div class="column-titles">
 	        <ul class="territory-list territory-list-titles" >

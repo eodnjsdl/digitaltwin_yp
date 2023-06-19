@@ -221,7 +221,7 @@
         
         <!-- 지도영역 -->
         <div id="map2D" class="main-map" style="position: absolute;"></div>
-        <div id="map3D" style="width: 100%; height:100%; display:none; user-select:none"></div>
+        <div id="map3D" style="width: 100%; height:100%; display:none; user-select:none; position: absolute;"></div>
 
 		<!-- ★★★★ 테스트를 위한 popup-panel ★★★★ -->
 		<!-- left popup-panel -->
