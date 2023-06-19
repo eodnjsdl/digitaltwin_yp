@@ -1,16 +1,16 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <script>
-
 //페이지 이동
 $("#pageNum li").on("click", function() {
-	if ($(this).val() == 0) {
+	var pge = $(this).val();
+	if (pge == 0) {
 		searchAddress($(this).text());
 	} else {
-		if ($(this).val() % 10 != 1) {
-			searchAddress($(this).val() - ($(this).val() % 10 - 1));
+		if (pge % 10 != 1) {
+			searchAddress(pge - (pge % 10 - 1));
 		} else {
-			searchAddress($(this).val());
+			searchAddress(pge);
 		}
 	}
 })
@@ -18,6 +18,7 @@ $("#pageNum li").on("click", function() {
 // 주소 클릭
 $("#srchAddrList .addrResult").on("click", function() {
 	var addrId = $(this).attr('id');
+	
 	$("#srchAddrList .addrResult").removeClass("addrOn");
 	$("#" + addrId).addClass("addrOn");
 	
@@ -45,14 +46,12 @@ $("#srchAddrList .addrResult").on("click", function() {
 })
 
 $("#searchTit").on("click", function() {
-	if($("#searchDiv").hasClass("dsplyBlck") === true) {
-		$("#searchDiv").removeClass("dsplyBlck");
+	if($("#searchDiv").hasClass("dsplyNon") === false) {
 		$("#searchDiv").addClass("dsplyNon");
 		
 		$("#listOnOff").removeClass("rotateImg");
 	} else {
 		$("#searchDiv").removeClass("dsplyNon");
-		$("#searchDiv").addClass("dsplyBlck");
 		
 		$("#listOnOff").addClass("rotateImg");
 	}
@@ -63,7 +62,7 @@ $("#searchTit").on("click", function() {
 	<span>총 <i>${paginationInfo.totalRecordCount}</i> 건</span>
 	<span><img id="listOnOff" class="rotateImg" src="/images/webApp/search-arrow-btn.svg" alt=""></span>
 </h3>
-<div id="searchDiv" class="dsplyBlck">
+<div id="searchDiv">
 	<div id="srchAddrList">
 		<c:forEach items="${resultList}" var="list" varStatus="status">
 			<div id="${list.gid}" class="addrResult">
@@ -77,7 +76,7 @@ $("#searchTit").on("click", function() {
 		<c:choose>
 			<c:when test="${page.hasPrevious eq false}"></c:when>
 			<c:otherwise>
-				<li class="previousPage" value=""><img src="/images/webApp/paging-arrow.svg" alt=""></li>
+				<li class="prePage" value=""><img src="/images/webApp/paging-arrow.svg" alt=""></li>
 			</c:otherwise>
 		</c:choose>
 		

@@ -5,8 +5,6 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <!-- webApp -->
-<link rel="stylesheet" href="/css/webApp/webAppMain.css">
-<script src="/js/egiskorea/com/webApp/searchWebApp.js"></script>
 <script src="/js/egiskorea/com/geo/emi/examinationInfo.js"></script>
 <script src="/js/egiskorea/com/common.js"></script>
 <script src="/js/map-ui.js"></script>

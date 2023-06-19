@@ -12,7 +12,6 @@ import egiskorea.com.webApp.service.AddrResultVO;
 import egiskorea.com.webApp.service.AddrSearchService;
 import egiskorea.com.webApp.service.AddrSearchVO;
 import egiskorea.com.cmm.PaginationInfo;
-import egiskorea.com.sach.adr.service.AddressResultVO;
 
 /**
  * @Description webApp 메인화면
@@ -25,13 +24,15 @@ import egiskorea.com.sach.adr.service.AddressResultVO;
  *
  *  수정일               수정자            수정내용
  *  ----------   --------   ---------------------------
- *  2023.06.12		장현승	최초 생성
+ *  2023.06.12   장현승                최초 생성
+ *  2023.06.15   김영주                주소 검색 기능 추가
  */
 
 @Controller
 @RequestMapping("/webApp")
 public class WebAppMainController {
 	
+	// 주소 검색 Service
 	@Resource(name = "addrSearchService")
     private AddrSearchService addrSearchService;
 	
@@ -55,13 +56,4 @@ public class WebAppMainController {
 	       
  		return "egiskorea/com/webApp/webAppSearch";
 	}
-	
-    @RequestMapping("/selectAdr.do")
-    public AddrResultVO smartMapPingPage(AddrSearchVO addressVO, Model model) throws Exception {
-        AddrResultVO resultVo = addrSearchService.selectAddress(addressVO);
-
-        model.addAttribute("resultVo", resultVo);
-
-        return resultVo;
-    }
 }

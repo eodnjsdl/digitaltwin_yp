@@ -30,26 +30,4 @@
 		 left outer join tgd_scco_li tsl on tsl.li_cd = substring(lcl.pnu, 1, 10)
 		where concat(tse.emd_kor_nm, ' ', tsl.li_kor_nm, ' ', lcl.jibun) similar to concat('%', #{searchAdr}, '%')
 	</select>
-
-	<select id="selectAddress" parameterType="AddrSearchVO" resultType="AddrResultVO">
-		select
-			lcl.gid as gid,
-			tse.emd_kor_nm as emdKorNm,
-			tsl.li_kor_nm as liKorNm,
-			lcl.jibun as jibun,
-			lcl.pnu as pnu,
-			ST_SETSRID(ST_GEOMFROMTEXT(#{geom}), 5179),
-			ST_AsText(ST_Transform(GEOM, 5179)) AS GEOM,
-			ST_X(ST_TRANSFORM(lcl.GEOM, 4326)) AS LON,
-			ST_Y(ST_TRANSFORM(lcl.GEOM, 4326)) AS LAT
-			
-<!-- 			st_x(st_transform((ST_Centroid(lcl.geom)), 4326)) as lon, -->
-<!-- 			st_y(st_transform((ST_Centroid(lcl.geom)), 4326)) as lat, -->
-<!-- 			st_asgeojson(st_transform(lcl.geom, 4326)) as geom, -->
-<!-- 			st_area(lcl.geom) as area -->
-		from lsmd_cont_ldreg_41830 lcl
-		 left outer join tgd_scco_emd tse on tse.emd_cd = substring(lcl.pnu, 1, 8)
-		 left outer join tgd_scco_li tsl on tsl.li_cd = substring(lcl.pnu, 1, 10)
-		where lcl.gid = #{gid}::int
-	</select>
 </mapper>

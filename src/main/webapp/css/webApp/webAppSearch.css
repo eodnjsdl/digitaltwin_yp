@@ -21,7 +21,7 @@
 	height: 30px;
 	line-height: 30px;
 	border-bottom: 1px solid #d9d9d9;
-	padding-left: 25px;
+	padding-left: 20px;
 }
 
 .addrOn {
@@ -36,7 +36,7 @@
 	display: flex;
 	width: fit-content;
 	height: 20px;
-	margin: 10px auto 5px;
+	margin: 5px auto;
 }
 
 #pageNum li {
@@ -50,6 +50,13 @@ li.active {
 	color: #ffffff;
 }
 
+.prePage {
+	margin-right: 5px;
+}
+
+.nextPage {
+	margin-left: 5px;
+}
 
 .rotateImg {
 	transform:rotate(180deg);
