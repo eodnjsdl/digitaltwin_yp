@@ -97,9 +97,6 @@
                 </select>
             </div>
         </form:form>
-        <div>
-            <button type="button" class="btn basic bi-all" onClick="fn_select_all_list()">전체 보기</button>
-        </div>
     </div>
         <div class="column-titles">
 	        <ul class="territory-list territory-list-titles" >
