@@ -54,6 +54,9 @@ public class AdministAssetsDAO extends ComAbstractDAO {
 	public int insertAdministAssetsInfoByCSV(List<AdministAssetsVO> administAssetsList) {
 		return insert("administAssetsMng.insertAdministAssetsInfoByCSV", administAssetsList);
 	}
+//	public int insertAdministAssetsInfoByCSV(AdministAssetsVO administAssetsVO) {
+//		return insert("administAssetsMng.insertAdministAssetsInfoByCSV", administAssetsVO);
+//	}
 	
 	public int deleteAdministAssetsInfo(AdministAssetsVO administAssetsVO) throws SQLException, Exception {
 		return delete("administAssetsMng.deleteAdministAssetsInfo", administAssetsVO);

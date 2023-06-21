@@ -113,27 +113,36 @@ public class AdministAssetsMngController {
 			AdministAssetsVO administAssetsVO) {
 		ModelAndView mav = new ModelAndView("jsonView");
 		
-		int result = 0;
-		int count = administAssetsService.selectAdministAssetsTotCnt();
 		String year = request.getParameter("year");
 		
 		MultipartFile file = mpRequest.getFile("fileUpload");
 		
 		List<AdministAssetsVO> administAssetsList = new ArrayList<AdministAssetsVO>();
+		int result = 0;
 		try {
 			administAssetsList = administAssetsService.csvUploadHelper(file, year);
+//			result += administAssetsService.csvUploadHelper(file, year);
 			int dataCount = administAssetsList.size();
 			if (dataCount > 0) {
 				// 지정된 연도가 있으면 지우고 새로 업로드하기
 				administAssetsVO.setYear(year);
 				result = administAssetsService.deleteAdministAssetsInfo(administAssetsVO);
-				if (dataCount > 1000) {
+//				result = administAssetsService.insertAdministAssetsInfoByCSV(administAssetsList);
+				if (dataCount > 100) {
 					int offset = 0;
-					for (int i = 1; i <= (dataCount / 1000); i++) {
-						result += administAssetsService.insertAdministAssetsInfoByCSV(administAssetsList.subList(offset, i * 1000));
-						offset = i * 1000;
+					for (int i = 1; i <= (dataCount / 100); i++) {
+						result += administAssetsService.insertAdministAssetsInfoByCSV(administAssetsList.subList(offset, i * 100));
+						offset = i * 100;
 					}
 					result += administAssetsService.insertAdministAssetsInfoByCSV(administAssetsList.subList(offset, dataCount));
+					
+					// 100개씩 넣기 - 빠름
+//					List<AdministAssetsVO> test = new ArrayList<AdministAssetsVO>();
+//					
+//					for (int i = 0; i < 100; i++) {
+//						test.add(administAssetsList.get(i));
+//					}
+//					result += administAssetsService.insertAdministAssetsInfoByCSV(test);
 				}
 			}
 		} catch (FileNotFoundException e) {

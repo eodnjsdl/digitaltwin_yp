@@ -97,6 +97,15 @@ public class AdministAssetsServiceImpl extends EgovAbstractServiceImpl implement
 		
 		return result;
 	}
+//	@Override
+//	@Transactional
+//	public int insertAdministAssetsInfoByCSV(AdministAssetsVO administAssetsVO) {
+//		int result = 0;
+//		
+//		result = administAssetsDAO.insertAdministAssetsInfoByCSV(administAssetsVO);
+//		
+//		return result;
+//	}
 
 	@Override
 	@Transactional
@@ -111,6 +120,7 @@ public class AdministAssetsServiceImpl extends EgovAbstractServiceImpl implement
 	@Override
 	@Transactional
 	public List<AdministAssetsVO> csvUploadHelper(MultipartFile mpFile, String year) throws FileNotFoundException, SQLException, Exception {
+//		public int csvUploadHelper(MultipartFile mpFile, String year) throws FileNotFoundException, SQLException, Exception {
 		List<AdministAssetsVO> resultList = new ArrayList<>();
 		
 		File file = multipartFileToFile(mpFile);
@@ -122,12 +132,15 @@ public class AdministAssetsServiceImpl extends EgovAbstractServiceImpl implement
 		
 		String str = "";
 		reader.readLine(); // 컬럼 줄 읽기
+//		int result = 0;
 		while((str = reader.readLine()) != null) {
             resultList.add(parser(str, year));
+//			result += insertAdministAssetsInfoByCSV(parser(str, year));
 		}
 		reader.close();
 		
 		return resultList;
+//		return result;
 	}
 	
 //	public String csvFileEncodingChk(FileInputStream file) throws IOException {

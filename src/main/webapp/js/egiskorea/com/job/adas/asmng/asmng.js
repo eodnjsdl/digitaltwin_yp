@@ -303,7 +303,7 @@ function sendCSVFileData() {
 		success : function(data) {
 			console.log("success");
 			console.log(data);
-			if (data.resultCd == 1) {
+			if (data.resultCd > 0) {
 				toastr.success('데이터 등록이 정상적으로 처리되었습니다');
 			} else {
 				toastr.warning('데이터 등록에 실패하였습니다');

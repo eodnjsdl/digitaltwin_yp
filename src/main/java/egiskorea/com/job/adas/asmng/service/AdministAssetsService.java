@@ -47,8 +47,10 @@ public interface AdministAssetsService {
 	 * @return
 	 */
 	public int insertAdministAssetsInfoByCSV(List<AdministAssetsVO> administAssetsList);
+//	public int insertAdministAssetsInfoByCSV(AdministAssetsVO administAssetsList);
 	
 	public List<AdministAssetsVO> csvUploadHelper(MultipartFile file, String year) throws FileNotFoundException, SQLException, Exception;
+//	public int csvUploadHelper(MultipartFile file, String year) throws FileNotFoundException, SQLException, Exception;
 	
 	/**
 	 * 행정자산관리 덮어쓰기용 삭제
