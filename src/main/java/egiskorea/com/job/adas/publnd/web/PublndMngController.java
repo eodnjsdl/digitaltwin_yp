@@ -273,14 +273,16 @@ public class PublndMngController {
 		
 		//엑셀 파일
 		MultipartFile file = request.getFile("pbprtAccdtFile");
-		try {
-    		//엑셀 업로드: 덮어쓰기
-    		pbprtAccdtService.deletePbprtAccdtTotInfo(file);
-    		mav.addObject("result", "success");
-		} catch (NullPointerException e) {
-			mav.addObject("result", "error");
-		} catch (Exception e) {
-			mav.addObject("result", "error");
+		if (file != null) {
+			try {
+				//엑셀 업로드: 덮어쓰기
+				pbprtAccdtService.deletePbprtAccdtTotInfo(file);
+				mav.addObject("result", "success");
+			} catch (NullPointerException e) {
+				mav.addObject("result", "error");
+			} catch (Exception e) {
+				mav.addObject("result", "error");
+			}
 		}
 		return mav;
 	}

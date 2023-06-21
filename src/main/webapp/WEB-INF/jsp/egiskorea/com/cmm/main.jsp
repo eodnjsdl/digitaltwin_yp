@@ -317,7 +317,7 @@
             <div class="map-control">
                 <ul>
                     <li>
-                        <button type="button" class="ctrl-btn compass" data-name="나침반"><span
+                        <button type="button" class="ctrl-btn compass" data-name="나침반"><span id="compass"
                                 style="transform: rotate(0deg);"></span></button>
                     </li>
                     <li>

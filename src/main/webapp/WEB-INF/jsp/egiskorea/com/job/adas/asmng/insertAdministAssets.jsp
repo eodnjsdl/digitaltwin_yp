@@ -19,14 +19,9 @@
 								</colgroup>
 								<tbody>
 									<tr>
-										<th scope="row">분류</th>
+										<th scope="row">분류(연도)</th>
 										<td>
-											<select name="csvYear" class="form-select" >
-												<option>2023</option>
-												<option>2022</option>
-												<option>2021</option>
-												<option>2020</option>
-											</select>
+											<input type="text" id="year" name="year" class="form-control" maxlength="4" placeholder="예) 2023">
 										</td>
 									</tr>
 									<tr>
@@ -35,8 +30,10 @@
 											<div id="dragArea" class="file-drop" style="height: 120px;position: inherit;">
 												<div class="text" id="clickUpload">
 													등록할 CSV 파일을 <strong>드래그앤드롭</strong>으로 이동하거나 클릭하세요<br>
-												</div>	
-												<input type="file" id="fileUploadClick" style="display: none;" accept=".csv" onchange="fileDragAndDrop(this.files)"/>
+												</div>
+												<form id="csvFileForm" name="csvFileForm" method="post" enctype="multipart/form-data" style="display: none;">
+													<input type="file" id="fileUpload" name="fileUpload" style="display: none;" accept=".csv" onchange="fileDragAndDrop(this.files)"/>
+												</form>
 												<div id="uploadFiles" class="dataUpload-default" style="display: none;">
 													<table class="dataUpload-list">
 														<colgroup>
@@ -63,7 +60,7 @@
 										<td><input type="text" name="csvName" id="csvName" class="form-control"></td>
 									</tr>
 									<tr class="csvOption hide">
-										<th scope="row">항목</th>
+										<th scope="row">컬럼 목록</th>
 										<td>
 											<span id="csvColumnHeader" class="form-checkbox text group">
 											</span>
@@ -90,7 +87,7 @@
 					</div>
 					<div class="position-bottom btn-wrap">
 	                    <div>
-	                   	    <button type="button" class="btn basic bi-edit">등록</button>
+	                   	    <button type="button" class="btn basic bi-edit" id="uploadCSVBtn">등록</button>
 	                   		<button type="button" class="btn basic bi-cancel">취소</button>
 	                    </div>
                     </div>							

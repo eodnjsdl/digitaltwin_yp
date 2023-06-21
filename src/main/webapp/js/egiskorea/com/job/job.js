@@ -1078,7 +1078,7 @@ function aj_selectAdministAssetsMngList() {
 	ui.loadingBar("show");
 	$.ajax({
 		type : "POST",
-		url : "/job/adas/asmng/selectAdministAssetsInfoList.do",
+		url : "/job/adas/asmng/selectAdministAssetsInfoListView.do",
 		dataType : "html",
 		processData : false,
 		contentType : false,

@@ -12,19 +12,6 @@
 <%@ taglib prefix="ui" uri="http://egovframework.gov/ctl/ui"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <script src="/js/egiskorea/com/job/adas/asmng/asmng.js"></script>
-<script>
-$(function() {
-	progressbar = $( ".progressbar" ),
-	progressLabel = $( ".progress-label" );
-
-	progressbar.progressbar({
-	value: 0,
-		change: function() {
-			progressLabel.text( progressbar.progressbar( "value" ) + "%" );
-		}
-	});
-});
-</script>
 <!-- 업무 > 공유지관리 > 공유재산 실태조사 -->
 <div class="popup-header" style="font-size: 20px;">행정자산관리</div>
 <div class="popup-body">
@@ -36,15 +23,11 @@ $(function() {
 				<div class="bbs-top-side">
 					<select id="year" class="form-select">
 						<option value="allYear">전체</option>
-						<option value="2023">2023</option>
-						<option value="2022">2022</option>
-						<option value="2021">2021</option>
-						<option value="2020">2020</option>
-						<%-- <c:if test="${fn:length(yearList) > 0}">
+						<c:if test="${fn:length(yearList) > 0}">
 							<c:forEach var="yearList" items="${yearList}">
 								<option value="<c:out value="${yearList}"/>"><c:out value="${yearList}"/></option>
 							</c:forEach>
-						</c:if> --%>
+						</c:if>
  					</select>
 					<button type="button" class="btn basic bi-write" id="regBtn">등록</button>
 				</div>
