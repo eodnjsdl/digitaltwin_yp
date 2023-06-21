@@ -13,7 +13,7 @@
 
 #webAppHeader .logo a {
 	background-size: contain;
-	width: 250px;
+	width: 230px;
 }
 
 #webAppHeader .lnb-search-webApp {
@@ -21,7 +21,7 @@
 	cursor: pointer;
     top: 10px;
     left: 50%;
-    width: 280px;
+    width: 265px;
     transform: translateX(-50%);
     z-index: 1;
 }
@@ -45,7 +45,7 @@
 
 #searchKeyword {
 	line-height: 30px;
-    width: 170px;
+    width: 150px;
     border: none;
     padding: 0 10px;
     margin: 5px 0;
@@ -63,7 +63,7 @@
 	height: 160px;
 	height: auto;
 	margin-top: 10px;
-	margin-left: -10px;
+	margin-left: -15px;
 	background-color: #ffffff;
 	border-radius: 5px;
 	overflow: hidden;
@@ -75,7 +75,7 @@
 }
 
 #lnb-territory-webApp {
-	width: 60px;
+	margin-right: 10px;
 }
 
 #lnb.side-lnb  {
@@ -94,10 +94,6 @@
     border-radius: 20px 0 0 20px;
     background: white;
     box-shadow: 0px 0px 6px #000;
-}
-
-.dsplyBlck{
-	display: block;
 }
 
 .dsplyNon {

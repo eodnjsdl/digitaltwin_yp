@@ -204,7 +204,7 @@
 	        <div class="lnb-search-webApp">
 				<div class="lnb-search-area">
 					<div class="lnb-search-tit"><h2 class="tit">검색</h2></div>
-					<input type="search" id="searchKeyword" placeholder="지번주소를 입력하세요" onkeypress="if( event.keyCode == 13 ){ searchAddress(1); }">
+					<input type="search" id="searchKeyword" placeholder="지번주소를 입력하세요" onkeypress="if( event.keyCode == 13 || event.keyCode == 28 ){ searchAddress(1); }">
 					<button type="button" id="searchBtn" onclick="searchAddress(1);"></button>
 				</div>
 				<div class="search-list"></div>
@@ -221,7 +221,7 @@
         
         <!-- 지도영역 -->
         <div id="map2D" class="main-map" style="position: absolute;"></div>
-        <div id="map3D" style="width: 100%; height:100%; display:none; user-select:none; position: absolute;"></div>
+        <div id="map3D" style="width: 100%; height: 100%; display: none; user-select: none; position: absolute;"></div>
 
 		<!-- popup-panel start -->
 		<!-- 국토정보관리 웹앱용 popup -->
@@ -242,18 +242,15 @@
             <div class="map-control">
                 <ul>
                     <li>
-                        <button type="button" class="ctrl-btn compass" data-name="나침반"><span
-                                style="transform: rotate(0deg);"></span></button>
+                        <button type="button" class="ctrl-btn compass" data-name="나침반"><span style=""></span></button>
                     </li>
                     <li>
                         <button type="button" class="ctrl-btn reset" data-name="초기화"></button>
                         <button type="button" class="ctrl-btn globe" data-name="위치 초기화"></button>
                     </li>
                     <li>
-                        <button type="button" class="ctrl-btn integrated-info" data-popup="rightPopup"
-                                data-name="통합행정정보"></button>
-                        <button type="button" class="ctrl-btn building" data-popup="rightPopup"
-                                data-name="지적/건물"></button>
+                        <button type="button" class="ctrl-btn integrated-info" data-popup="rightPopup" data-name="통합행정정보"></button>
+                        <button type="button" class="ctrl-btn building" data-popup="rightPopup" data-name="지적/건물"></button>
                     </li>
                     <li class="ctrl-group">
                         <button type="button" class="ctrl-btn location" data-name="위치"></button>
@@ -277,7 +274,7 @@
                 <div class="map-type">
 				    <span id="knob" class="knobs">
 				        <span>
-				        	<input type="radio" name="mapType" value="2D" id="mapType2D" checked="">
+				        	<input type="radio" name="mapType" value="2D" id="mapType2D" checked="checked">
 				        	<label for="mapType2D">2D</label>
 				        </span>
 				        <span>
@@ -291,7 +288,7 @@
         <!-- //side -->
 
         <!-- 국토조사 -->
-        <div id="popup_territory" class="lnb-territory lnb-cont" style="width: 100%; height:100%; display: none; background:white; z-index: 1000; position: relative;">
+        <div id="popup_territory" class="lnb-territory lnb-cont" style="width: 100%; height:100%; display: none; background:white; z-index: 1000; position: absolute;">
         </div>
         <!-- //국토조사 -->
         

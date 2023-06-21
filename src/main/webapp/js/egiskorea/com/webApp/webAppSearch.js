@@ -13,11 +13,10 @@ function searchAddress(pageNum) {
 		success: function(result) {
 			$(".search-list").html(result);
 			
-			$(".previousPage").val(Number(pageNum) - 10);
+			$(".prePage").val(Number(pageNum) - 10);
 		 	$(".nextPage").val(Number(pageNum) + 10);
 			
 			$("#pageNum li").removeClass("active");
-			
 			$("#pageNum #page" + pageNum).addClass("active");
 		},
 		error : function(request, status, error) {
@@ -26,3 +25,4 @@ function searchAddress(pageNum) {
 		}
 	});
 }
+
