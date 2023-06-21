@@ -190,9 +190,9 @@
                     <div class="bbs-list-head">
                         <table class="bbs-list">
                             <colgroup>
-                                <col style="width: 36px;">
+                                <col style="width: 50px;">
+                                <col style="width: 20%;">
                                 <col style="width: 15%;">
-                                <col style="width: 18%;">
                                 <col style="width: 15%;">
                                 <col style="width: 15%;">
                                 <col style="width: auto;">
@@ -217,9 +217,9 @@
                     <div class="scroll-y">
                         <table class="bbs-list">
                             <colgroup>
-                                <col style="width: 36px;">
+                                <col style="width: 50px;">
+                                <col style="width: 20%;">
                                 <col style="width: 15%;">
-                                <col style="width: 18%;">
                                 <col style="width: 15%;">
                                 <col style="width: 15%;">
                                 <col style="width: auto;">

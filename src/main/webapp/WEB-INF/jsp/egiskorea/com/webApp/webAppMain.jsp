@@ -204,7 +204,7 @@
 	        <div class="lnb-search-webApp">
 				<div class="lnb-search-area">
 					<div class="lnb-search-tit"><h2 class="tit">검색</h2></div>
-					<input type="search" id="searchKeyword" placeholder="지번주소를 입력하세요" onkeypress="if( event.keyCode == 13 || event.keyCode == 28 ){ searchAddress(1); }">
+					<input type="search" id="searchKeyword" placeholder="지번주소를 입력하세요" onkeypress="if( event.keyCode == 13 ){ searchAddress(1); }">
 					<button type="button" id="searchBtn" onclick="searchAddress(1);"></button>
 				</div>
 				<div class="search-list"></div>
@@ -245,7 +245,7 @@
             <div class="map-control">
                 <ul>
                     <li>
-                        <button type="button" class="ctrl-btn compass" data-name="나침반"><span style=""></span></button>
+                        <button type="button" class="ctrl-btn compass" data-name="나침반"><span name="compass" style="transform: rotate(0deg);"></span></button>
                     </li>
                     <li>
                         <button type="button" class="ctrl-btn reset" data-name="초기화"></button>
@@ -323,6 +323,12 @@
         _setMainUIAction();
         _setMainUIEvent();
         
+		// 2d 나침반
+        if(dtmap.mod == "2D"){
+        	$(".compass").on("click", function() {
+        		map2d.view.setRotation(0);
+        	})
+        }
         
         // 국토정보관리
         $("#lnb-territory-webApp").click(function() {
