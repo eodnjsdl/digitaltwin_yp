@@ -12,7 +12,7 @@ var M_DGUF_ANLS = {
 			this.destroy();
 			this.GLOBAL.Transparency = Module.getTransparency();
 			this.GLOBAL.Map = Module.getMap();
-			this.GLOBAL.Transparency.setRadius(100.0);
+			this.GLOBAL.Transparency.setRadius(30.0);
 			this.setTransparencyTexture();
 			Module.XDSetMouseState(Module.MML_SELECT_POINT);
 		},
@@ -23,9 +23,11 @@ var M_DGUF_ANLS = {
 		GLOBAL : {
 			Transparency : null,
 			Map : null,
-			Layer : null,
+			Layer : [],
 			LayerInfo : null,
-			LayerNm : null
+			LayerNm : null,
+			LastInput : {edit : false, inputPoint : []},
+			ObjCount : 0,
 		},
 		
 		/**
@@ -58,12 +60,31 @@ var M_DGUF_ANLS = {
 			// 줌 in 제한 --
 			Module.getViewCamera().setLimitAltitude(80);
 			
-			// 터파기 영역 점 리스트 반환
-			var vInputPointList = this.GLOBAL.Map.getInputPoints();
+			// 터파기 좌표 변수
+			var vInputPointList = null;
+			var vInputPointListArray = null;
+			
+			// 터파기 개수 - 마지막 터 기준잡기
+			let objCount = 0;
+			if (this.GLOBAL.ObjCount > 0) {
+				objCount = this.GLOBAL.ObjCount - 1; 
+			}
 			
 			// 터파기 깊이 설정
 			var depth = parseFloat(document.getElementById("dgufDepthShowVal").value);
 			this.GLOBAL.Transparency.setDepth(depth);
+			
+			// 가장 최근 터파기 객체 깊이 수정
+			if (this.GLOBAL.LastInput.edit && objCount > 0) {
+				dtmap.layer.userLayers.delLayerAtName('depth_info_line');
+				Module.XDEClearTransparecnyObject();
+				vInputPointListArray = this.GLOBAL.LastInput.inputPoint;
+			} else {
+				// 터파기 영역 점 리스트 반환
+				vInputPointList = this.GLOBAL.Map.getInputPoints();
+				this.GLOBAL.LastInput.inputPoint.push(vInputPointList);
+			}
+			
 			
 			let style = {
 					stroke:{
@@ -79,20 +100,37 @@ var M_DGUF_ANLS = {
 			}
 			
 			let geom = [];
-			for (let i = 0; i < vInputPointList.count(); i++) {
-				let geometry = [];
-				let lon = vInputPointList.get(i).Longitude;
-				let lat = vInputPointList.get(i).Latitude;
-				let alt = vInputPointList.get(i).Altitude;
-				geometry.push([lon, lat, alt], [lon, lat, parseFloat(alt - depth)]);
-				// 라인 생성 (깊이 표시)
-				this.createLineWithText(geometry, depth);
-				geom.push(geometry[0]);
+			if (this.GLOBAL.LastInput.edit && objCount > 0) {
+				for (let j = 0; j < vInputPointListArray.length; j++) {
+					for (let i = 0; i < vInputPointListArray[j].count(); i++) {
+						let geometry = [];
+						let lon = vInputPointListArray[j].get(i).Longitude;
+						let lat = vInputPointListArray[j].get(i).Latitude;
+						let alt = vInputPointListArray[j].get(i).Altitude;
+						geometry.push([lon, lat, alt], [lon, lat, parseFloat(alt - depth)]);
+						// 라인 생성 (깊이 표시)
+						this.createLineWithText(geometry, depth);
+						geom.push(geometry[0]);
+					}
+					this.GLOBAL.Transparency.create(vInputPointListArray[j]);
+				}
+				this.GLOBAL.LastInput.edit = false;
+			} else {
+				for (let i = 0; i < vInputPointList.count(); i++) {
+					let geometry = [];
+					let lon = vInputPointList.get(i).Longitude;
+					let lat = vInputPointList.get(i).Latitude;
+					let alt = vInputPointList.get(i).Altitude;
+					geometry.push([lon, lat, alt], [lon, lat, parseFloat(alt - depth)]);
+					// 라인 생성 (깊이 표시)
+					this.createLineWithText(geometry, depth);
+					geom.push(geometry[0]);
+				}
+				this.GLOBAL.Transparency.create(vInputPointList);
 			}
-			console.log(geom);
 			
 			// 터파기 생성
-			this.GLOBAL.Transparency.create(vInputPointList);
+			this.GLOBAL.ObjCount++;
 			
 			// 입력점 클리어
 			this.GLOBAL.Map.clearInputPoint();
@@ -107,7 +145,7 @@ var M_DGUF_ANLS = {
 			Module.XDEClearTransparecnyObject();
 			Module.XDClearInputPoint();
 			if (this.GLOBAL.Layer) {
-				this.GLOBAL.Layer.removeAll();
+				dtmap.layer.userLayers.delLayerAtName('depth_info_line');
 			}
 			Module.getViewCamera().setLimitAltitude(150);
 			canvas.removeEventListener('Fire_EventSelectedObject', onPipeSelect);
@@ -155,6 +193,9 @@ var M_DGUF_ANLS = {
 			document.getElementById("dgufDepthShowVal").value = depth;
 		},
 		
+		/**
+		 * 깊이 라벨 표시
+		 */
 		createLineWithText: function (geom, depth) {
 			var line = Module.createLineString("depth_info_line");
 			// 옵션, 데이터 설정
@@ -176,12 +217,12 @@ var M_DGUF_ANLS = {
 			let position = null;
 			let point = null;
 			
-			// 10미터 마다 표시
-			for (let i = 1; i <= depth / 10; i++) {
-				position = new Module.JSVector3D(geom[0][0], geom[0][1], (geom[0][2] - (10 * i)));
+			// 5미터 마다 표시
+			for (let i = 1; i <= depth / 5; i++) {
+				position = new Module.JSVector3D(geom[0][0], geom[0][1], (geom[0][2] - (5 * i)));
 				point = Module.createPoint("depth_info_line");
 				point.setPosition(position);
-				point.setText((10 * i) + "m");
+				point.setText((5 * i) + "m");
 				layer.addObject(point, 0);
 			};
 			
@@ -209,6 +250,10 @@ $(document).ready(function() {
 		M_DGUF_ANLS.setTransparencyDepth(val);
 	});
 	
+	$('#dgufDepthSetVal').on('input', function(e) {
+		$('#dgufDepthShowVal').val(e.target.value);
+	});
+	
 	$('#areaSetBtn').on('click', function() {
 		M_DGUF_ANLS.createTransparency();
 	});
@@ -225,6 +270,15 @@ $(document).ready(function() {
 			}
 		});
 	});
+	
+	$('#lastDgufEdit').on('click', function() {
+		M_DGUF_ANLS.GLOBAL.LastInput.edit = true;
+		if (M_DGUF_ANLS.GLOBAL.ObjCount > 0) {
+			M_DGUF_ANLS.createTransparency();
+		} else {
+			toastr.warning("깊이를 수정할 객체가 존재하지않습니다.");
+		}
+	});
 });
 
 /**
@@ -233,19 +287,24 @@ $(document).ready(function() {
  * @returns
  */
 function onPipeSelect(e) {
+	ui.loadingBar("show");
 	M_DGUF_ANLS.GLOBAL.LayerInfo = e;
 	M_DGUF_ANLS.GLOBAL.LayerNm = e.layerName.substring(0, e.layerName.length - 1).toLowerCase();
 };
 
+/**
+ * 관로 클릭 이벤트 -> wfs 데이터
+ * @param e
+ * @returns
+ */
 function onMouseUpFromPipe(e) {
 		var screenPosition = new Module.JSVector2D(e.x, e.y);
 		var mapPosition = Module.getMap().ScreenToMapPointEX(screenPosition);
 		let geometry = [mapPosition.Longitude, mapPosition.Latitude];
-		
 		let obj = Module.getMap().getSelectObject();
 		let layerNm = M_DGUF_ANLS.GLOBAL.LayerNm;
 		setTimeout(() => {
-		if (obj && layerNm && geometry) {
+		if (obj && layerNm.includes('pip') && geometry) {
 			let spaceSearch = dtmap.util.getBufferGeometry(new ol.geom.Point(geometry), 1);
 			let options = {
 					typeNames: layerNm,
@@ -267,23 +326,50 @@ function onMouseUpFromPipe(e) {
 					M_DGUF_ANLS.GLOBAL.LayerInfo = null;
 					M_DGUF_ANLS.GLOBAL.LayerNm = null;
 				} else {
-					toastr.error("통신오류.");
-					obj = null;
+					toastr.error("다른위치에서 선택해주세요.");
 				}
+				ui.loadingBar("hide");
 			});
 		} else {
+			obj = null;
+			ui.loadingBar("hide");
 			return;
 		}
-	}, 300);
+	}, 200);
 }
 
+/**
+ * 파이프 객체 선택 -> 라벨표시
+ * @param coord
+ * @param properties
+ * @returns
+ */
 function getPipeInfo(coord, properties) {
 	let _element;
     let _isActive = false;
     const OVERLAY_ID = 'PIPE_OVERLAY';
     let mapPosition = coord;
     let data = properties;
-    	
+    let layerNm = M_DGUF_ANLS.GLOBAL.LayerNm;
+    
+    switch (layerNm){
+    case "wtl_pipe_lm" :
+    	layerNm = "상수관로"
+    	break;
+    case "ufl_bpip_lm" : 
+    	layerNm = "전력지중관로"
+    	break;
+    case "ufl_gpip_lm" :
+    	layerNm = "천연가스관로"
+    	break;
+    case "ufl_kpip_ls" :
+    	layerNm = "통신관로"
+    	break;
+    case "swl_pipe_lm" :
+    	layerNm = "하수관로"
+    	break;
+    }
+    
     const info = {
     		init : function() {
     			_element = document.createElement('div');
@@ -325,10 +411,17 @@ function getPipeInfo(coord, properties) {
     			let html = `
     	            <a href="#" class="ol-popup-closer"></a>
     	            <div class="popup-content"></div>
+    				<div>관로명 : ${layerNm}</div>
     	            <div>관리번호 : ${data.ftr_idn}</div>
-    	            <div>관경 : ${data.std_dip}</div>
-    				<div>관라벨 : ${data.pip_lbl}</div>
     	            `;
+    			let dataInfoCase;
+    			if (data.pip_lbl) {
+    				html += `<div>관라벨 : ${data.pip_lbl}</div>`;
+    			} else {
+    				html += `
+    				<div>깊이 : ${data.std_dep}&emsp;관경 : ${data.std_dip}</div>
+    				`;
+    			}
     			_element.innerHTML = html;
     		},
     		

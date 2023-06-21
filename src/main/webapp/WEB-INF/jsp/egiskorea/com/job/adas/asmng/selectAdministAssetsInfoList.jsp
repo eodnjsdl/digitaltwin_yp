@@ -23,15 +23,11 @@
 				<div class="bbs-top-side">
 					<select id="year" class="form-select">
 						<option value="allYear">전체</option>
-						<option value="2023">2023</option>
-						<option value="2022">2022</option>
-						<option value="2021">2021</option>
-						<option value="2020">2020</option>
-						<%-- <c:if test="${fn:length(yearList) > 0}">
+						<c:if test="${fn:length(yearList) > 0}">
 							<c:forEach var="yearList" items="${yearList}">
 								<option value="<c:out value="${yearList}"/>"><c:out value="${yearList}"/></option>
 							</c:forEach>
-						</c:if> --%>
+						</c:if>
  					</select>
 					<button type="button" class="btn basic bi-write" id="regBtn">등록</button>
 				</div>
