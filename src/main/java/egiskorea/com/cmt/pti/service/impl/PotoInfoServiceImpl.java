@@ -124,5 +124,15 @@ public class PotoInfoServiceImpl implements PotoInfoService {
 		// TODO Auto-generated method stub
 		return potoInfoDAO.selectSubject(potoInfoVO);
 	}
+
+	/**
+	 * 사진정보 공유 일괄적용
+	 * @param PotoInfoVO
+	 * @throws Exception
+	 */
+	@Override
+	public void updatePhotoPnrsAtBundle(PotoInfoVO potoInfoVO) {
+		potoInfoDAO.updatePhotoPnrsAtBundle(potoInfoVO);
+	}
 	
 }

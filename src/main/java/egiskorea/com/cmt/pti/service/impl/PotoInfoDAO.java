@@ -114,5 +114,16 @@ public class PotoInfoDAO extends ComAbstractDAO{
 		// TODO Auto-generated method stub
 		return selectOne("potoInfo.selectSubject", potoInfoVO);
 	}
+
+	/**
+	 * @Description  
+	 * @Author 황의현
+	 * @Date 2023.06.20
+	 * @param potoInfoVO
+	 * @return
+	 */
+	public void updatePhotoPnrsAtBundle(PotoInfoVO potoInfoVO) {
+		update("potoInfo.updatePhotoPnrsAtBundle", potoInfoVO);
+	}
 	
 }

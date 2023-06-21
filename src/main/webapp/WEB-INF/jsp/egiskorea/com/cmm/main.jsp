@@ -595,7 +595,7 @@
             <!-- //공간정보 -->
             <!-- uhh add...  -->
             <!-- 정보 공유 -->
-            <div class="lnb-infoShare lnb-cont">
+            <div class="lnb-infoShare lnb-cont grp2">
                 <div class="lnb-header"><h2 class="tit">정보공유</h2></div>
                 <div class="lnb-body">
                     <div class="scroll-y">
@@ -628,7 +628,7 @@
                 </div>
             </div>
             <!-- //정보공유 -->
-			<!-- uhh add...  -->
+			<!-- uhh add... end -->
 			
             <!-- 시설관리 -->
             <div class="lnb-facility lnb-cont grp2">

@@ -12,7 +12,7 @@ window.ui = (function () {
 		//좌측 메뉴 >> 공간정보
 		_spaceMenuEvent();
 		//좌측 메뉴 >> 정보공유
-		_infoShareMenuEvent();	//uhh add...
+		_infoShareMenuEvent();	//정보공유 메뉴이동 //uhh add...
 		//좌측 메뉴 >> 레이어 Tab(2D/3D)
 		_layerTabEvent();
 		//좌측 메뉴 >> 공간정보 활용 >> 사업공유관리

@@ -499,10 +499,10 @@ function selectTransVulnerList(){
 	//버스 노선/정류장 체크박스 온
 	
 	//dtmap.vector.clear();
-	/*$(".trvaInfoLegend input[type=checkbox][name=trva_bus_route]").prop("checked", true);		
+	$(".trvaInfoLegend input[type=checkbox][name=trva_bus_route]").prop("checked", true);		
 	$(".trvaInfoLegend input[type=checkbox][name=trva_bus_route]").change();		
 	$(".trvaInfoLegend input[type=checkbox][name=trva_bus_sttn]").prop("checked", true);		
-	$(".trvaInfoLegend input[type=checkbox][name=trva_bus_sttn]").change(); */	
+	$(".trvaInfoLegend input[type=checkbox][name=trva_bus_sttn]").change(); 	
 	
 }
 
@@ -779,7 +779,7 @@ function getJenks2(resultType, data) {
 	let geo = new geostats(totalValArray);
 
 	if(totalValArray.length < 20000){
-		geo.getClassJenks(5);
+		geo.getClassJenks2(5);
 		//geo.getClassEqInterval(5);
 		//geo.getClassQuantile(5);
 	}else{
@@ -796,14 +796,14 @@ function getJenks2(resultType, data) {
 	
 	let wmsStyleArray =  new Array();	//wms 스타일 목록 
 	
-	//let color 			= ['#ffffff', '#ffbfbf', '#ff8080', '#ff4040', '#ff0000'];
-	let color 			= ['#FFFFFF', '#FF0000', '#00FF00', '#0000FF', '#000000'];
+	let color 			= ['#ffffff', '#ffbfbf', '#ff8080', '#ff4040', '#ff0000'];
+	//let color 			= ['#FFFFFF', '#FF0000', '#00FF00', '#0000FF', '#000000'];
 	
 	let propertyName	= '';
 	if(resultType == "emd"){
-		propertyName	= 'emd_total_val';
+		propertyName	= 'emd_total_value';
 	}else if(resultType = "li"){
-		propertyName	= 'li_total_val';
+		propertyName	= 'li_total_value';
 	}else{
 		console.log("resultType 오류");
 		return false;

@@ -14,6 +14,17 @@
     function eventBindByPotoInfoList() {
         dtmap.off('select');
         dtmap.on('select', selectPotoPoi);
+      
+       // 전체선택/전체해제
+       $(".photo_check_all").on("change", function () {
+           const node = $(this);
+           if (node.is(":checked")) {
+               $(".bbs-list .photo_check:not(:checked)").trigger("click");
+           } else {
+               $(".bbs-list .photo_check:checked").trigger("click");
+           }
+       });
+      
     }
 
     function initLayerByPotoInfoList() {
@@ -90,9 +101,70 @@
     //사진정보 상세조회
     function selectPotoInfoView(id) {
         //rightPopupOpen('selectPotoInfoView');
-        ui.openPopup("rightPopup");
+        //ui.openPopup("rightPopup");	//상세페이지에서 목록 버튼 클릭시 무조건 1페이로 이동해서 주석 처리
         aj_selectPotoInfoView(id, $("#searchFormPoto")[0]);
     }
+    
+    //체크 사진 일괄공유/일괄공유안함 처리
+    function selectPhotoShare(isShare) {
+    	console.log("selectPhotoShare(isShare)");
+    	console.log(isShare);
+    	
+    	//체크된 데이터 확인
+    	var selectPhotoIdArray = new Array();
+    	$(".bbs-list .photo_check").each(function(index) {
+    		
+    		if($(this).is(":checked")){
+    			
+	    		let selectPhotoId =  $(this).data('photo-id');
+	    		if(selectPhotoId){
+	    			selectPhotoIdArray.push(selectPhotoId);
+	    		}
+    		}
+		});
+    	
+    	console.log(selectPhotoIdArray.length);
+    	if(selectPhotoIdArray.length == 0){
+    		alert("선택된 데이터가 없습니다");
+    		return false;
+    	}
+		
+    	console.log(selectPhotoIdArray);
+    	
+    	if(isShare){
+    		//console.log("일괄공유");
+    		pnrsAt = "Y";
+    	}else{
+    		//console.log("일괄공유안함");
+    		pnrsAt = "N";
+    	}
+    	
+    	ui.loadingBar("side");
+    	
+    	$.ajax({
+    		type : "POST",
+    		url : "/cmt/pti/updatePhotoPnrsAtBundle.do",
+    		data : {
+    			 "pnrsAt"      			: pnrsAt, 
+                 "updatePhotoIdArray" 	: selectPhotoIdArray   
+    		},
+    		dataType : "json",
+    		contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+    		async: false,
+    		success : function(returnData, status){
+    	
+    			if(status == "success") {
+    				console.log("--success--");
+    			    aj_selectPotoInfoList($("#searchFormPoto")[0], "");
+    			}else{
+    				toastr.error("관리자에게 문의 바랍니다.", "정보를 불러오지 못했습니다.");
+    				return;
+    			}
+    		}, complete : function(){
+    			ui.loadingBar("hide");
+    		}
+    	}); 
+	}
 
 </script>
 <!-- top > 사진정보 -->
@@ -146,7 +218,9 @@
                 <div class="bbs-list-head">
                     <table class="bbs-list">
                         <colgroup>
-                            <col style="width: 13%;">
+                            <%-- <col style="width: 13%;"> --%>
+                            <col style="width: 6%;">
+                            <col style="width: 10%;">
                             <col style="width: auto;">
                             <col style="width: 20%;">
                             <col style="width: 20%;">
@@ -154,6 +228,14 @@
                         </colgroup>
                         <thead>
                         <tr>
+                        	<th scope="col">
+                                <span class="form-checkbox">
+                                	<span>
+                                		<input type="checkbox" name="check_all" id="photo_check_all" class="photo_check_all">
+	                                 	<label for="photo_check_all"></label>
+	                                 </span>
+                                 </span>
+                            </th>
                             <th scope="col">번호</th>
                             <th scope="col">제목</th>
                             <th scope="col">작성자</th>
@@ -166,7 +248,9 @@
                 <div class="scroll-y">
                     <table class="bbs-list">
                         <colgroup>
-                            <col style="width: 13%;">
+                            <%-- <col style="width: 13%;"> --%>
+                            <col style="width: 6%;">
+                            <col style="width: 10%;">
                             <col style="width: auto;">
                             <col style="width: 20%;">
                             <col style="width: 20%;">
@@ -175,12 +259,26 @@
                         <tbody>
                         <c:forEach items="${resultList}" var="result" varStatus="status">
                             <tr onclick="javascript:selectPotoInfoView('<c:out value="${result.phtoId}" />');">
+                            	<td class="td-checkbox" onclick="event.stopPropagation()">
+                                    <span class="form-checkbox">
+                                    	<span>
+                                    		<c:out value=""></c:out>
+                                    		<c:if test="${potoInfoVO.emplyrId == result.emplyrId }">
+                                    			<input type="checkbox" class="photo_check" id="photo_check_<c:out value="${result.phtoId}" />" data-photo-id="<c:out value="${result.phtoId}" />">
+                                    		</c:if>
+                                    		<c:if test="${potoInfoVO.emplyrId != result.emplyrId }">
+                                    			<input type="checkbox" class="photo_check" id="photo_check_<c:out value="${result.phtoId}" />" data-photo-id="<c:out value="${result.phtoId}" />" disabled="disabled">
+                                    		</c:if>
+                                    		<label for="photo_check_<c:out value="${result.phtoId}" />"></label>
+                                    	</span>
+                                    </span>
+                                </td>
                                 <td><c:out value="${(result.pageIndex-1) * result.pageUnit + status.count}"/></td>
                                 <td class="subject align-left"><a><c:out value="${result.sj}"/></a></td>
                                 <td><c:out value="${result.userNm}"/></td>
                                 <td><c:out value="${result.regDt}"/></td>
-                                <td><c:if test="${result.pnrsAt == '0'}">공유</c:if><c:if
-                                        test="${result.pnrsAt == '1'}">공유안함</c:if></td>
+                                <td><c:if test="${result.pnrsAt == 'Y'}">공유</c:if><c:if
+                                        test="${result.pnrsAt == 'N'}">공유안함</c:if></td>
                             </tr>
                         </c:forEach>
                         <c:if test="${fn:length(resultList) == 0}">
@@ -191,6 +289,14 @@
                         </tbody>
                     </table>
                 </div>
+                
+                <!-- 사진 일괄 공유 추가  -->
+                <div>
+                	<button type="button" class="btn type01 search" onclick="selectPhotoShare(true); return false;">일괄공유</button>
+                	<button type="button" class="btn type01 search" onclick="selectPhotoShare(false); return false;">일괄공유안함</button>
+                </div>
+                <!-- 사진 일괄 공유 추가  end -->
+                
             </div>
 
             <div class="pagination">

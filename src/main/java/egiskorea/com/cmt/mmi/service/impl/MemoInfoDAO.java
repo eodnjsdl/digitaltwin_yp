@@ -103,6 +103,18 @@ public class MemoInfoDAO extends ComAbstractDAO {
 		// TODO Auto-generated method stub
 		return  selectOne("memoInfo.selectSubject", memoInfoVO);
 	}
+
+	/**
+	 * @Description 
+	 * 메모정보 공유 일괄적용 
+	 * @Author 황의현
+	 * @Date 2022.06.21
+	 * @param memoInfoVO
+	 * @return
+	 */
+	public void updateMemoPnrsAtBundle(MemoInfoVO memoInfoVO) {
+		update("memoInfo.updateMemoPnrsAtBundle", memoInfoVO);
+	}
 	
 	
 }

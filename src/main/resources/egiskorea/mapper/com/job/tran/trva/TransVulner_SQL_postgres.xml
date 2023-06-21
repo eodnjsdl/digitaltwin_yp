@@ -33,18 +33,18 @@
 		<if test="searchArea == ''" >
 			SELECT 
 				CONCAT(SUBSTRING(li_cd,1,8),'00') 	AS emd_cd
-				, COALESCE(emd_total_val, 0)		AS total_val
+				, COALESCE(emd_total_value, 0)		AS total_val
 				, COUNT(*)
 			FROM
 				tgd_pbtrnsp_frglty_anals
 			WHERE 1=1
 			AND stdr_ym = #{stdrYm}	 	
-			GROUP BY SUBSTRING(li_cd,1,8), emd_total_val
+			GROUP BY SUBSTRING(li_cd,1,8), emd_total_value
 		</if>
 		<if test="searchArea != ''" >
 			SELECT 
 				li_cd
-				,COALESCE(li_total_val, 0) 	AS total_val 
+				,COALESCE(li_total_value, 0) 	AS total_val 
 			FROM
 				tgd_pbtrnsp_frglty_anals
 			WHERE 1=1
@@ -69,7 +69,7 @@
 				CONCAT(SUBSTRING(li_cd,1,8),'00') 	AS emd_cd
 				, COALESCE(emd_ar_relimp, 0)  		AS emd_ar_relimp		
 				, COALESCE(emd_popltn_relimp, 0)	AS emp_popltn_relimp
-				, SUM(emd_total_val) 				AS total_val
+				, SUM(emd_total_value) 				AS total_val
 			FROM
 				tgd_pbtrnsp_frglty_anals
 			WHERE 1=1
@@ -94,7 +94,7 @@
 				li_cd
 				, COALESCE(li_ar_relimp, 0.0)			AS li_ar_relimp
 				, COALESCE(li_popltn_relimp, 0.0)		AS li_popltn_relimp
-				, SUM(li_total_val) 					AS total_val 
+				, SUM(li_total_value) 					AS total_val 
 			FROM
 				tgd_pbtrnsp_frglty_anals
 			WHERE 1=1

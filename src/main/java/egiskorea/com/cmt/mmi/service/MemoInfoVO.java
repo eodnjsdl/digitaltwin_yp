@@ -2,6 +2,7 @@ package egiskorea.com.cmt.mmi.service;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.List;
 
 /**
  * @Description 메모정보를 관리하는 vo 클래스
@@ -94,7 +95,17 @@ public class MemoInfoVO implements Serializable{
 	 * wkt
 	 */
 	private String wkt ;
+	
+	/** 일괄 공유 메모ID 목록*/
+	private List<String> updateMemoIdArray = null;
+	
+	public List<String> getUpdateMemoIdArray() {
+		return updateMemoIdArray;
+	}
 
+	public void setUpdateMemoIdArray(List<String> updateMemoIdArray) {
+		this.updateMemoIdArray = updateMemoIdArray;
+	}
 
 	public String getWkt() {
 		return wkt;

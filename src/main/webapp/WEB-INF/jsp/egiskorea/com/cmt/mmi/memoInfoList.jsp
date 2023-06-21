@@ -21,6 +21,17 @@
         });
         dtmap.off('select');
         dtmap.on('select', selectMemoPoi);
+       
+        // 전체선택/전체해제
+        $(".memo_check_all").on("change", function () {
+            const node = $(this);
+            if (node.is(":checked")) {
+                $(".bbs-list .memo_check:not(:checked)").trigger("click");
+            } else {
+                $(".bbs-list .memo_check:checked").trigger("click");
+            }
+        });
+       
     }
 
     // 메모정보 목록 조회
@@ -103,6 +114,67 @@
         }
 
     }
+  
+    //체크 메모 일괄공유/일괄공유안함 처리
+    function selectMemoShare(isShare) {
+    	//console.log("selectMemoShare(isShare)");
+    	//console.log(isShare);
+    	
+    	//체크된 데이터 확인
+    	var selectMemoIdArray = new Array();
+    	$(".bbs-list .memo_check").each(function(index) {
+    		
+    		if($(this).is(":checked")){
+    			
+	    		let selectMemoId =  $(this).data('memo-id');
+	    		if(selectMemoId){
+	    			selectMemoIdArray.push(selectMemoId);
+	    		}
+    		}
+		});
+    	
+    	//console.log(selectMemoIdArray.length);
+    	if(selectMemoIdArray.length == 0){
+    		alert("선택된 데이터가 없습니다");
+    		return false;
+    	}
+		
+    	//console.log(selectMemoIdArray);
+    	
+    	if(isShare){
+    		//console.log("일괄공유");
+    		pnrsAt = "Y";
+    	}else{
+    		//console.log("일괄공유안함");
+    		pnrsAt = "N";
+    	}
+    	
+    	ui.loadingBar("side");
+    	
+    	$.ajax({
+    		type : "POST",
+    		url : "/cmt/mmi/updateMemoPnrsAtBundle.do",
+    		data : {
+    			 "pnrsAt"      			: pnrsAt, 
+                 "updateMemoIdArray" 	: selectMemoIdArray   
+    		},
+    		dataType : "json",
+    		contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+    		async: false,
+    		success : function(returnData, status){
+    	
+    			if(status == "success") {
+    				console.log("--success--");
+    			    aj_selectMemoInfoList($("#searchFormMemo")[0], "");
+    			}else{
+    				toastr.error("관리자에게 문의 바랍니다.", "정보를 불러오지 못했습니다.");
+    				return;
+    			}
+    		}, complete : function(){
+    			ui.loadingBar("hide");
+    		}
+    	}); 
+	}
 
 </script>
 <!-- top > 메모정보 -->
@@ -155,7 +227,9 @@
                 <div class="bbs-list-head">
                     <table class="bbs-list">
                         <colgroup>
-                            <col style="width: 13%;">
+                            <%-- <col style="width: 13%;"> --%>
+                            <col style="width: 6%;">
+                            <col style="width: 10%;">
                             <col style="width: auto;">
                             <col style="width: 20%;">
                             <col style="width: 20%;">
@@ -163,6 +237,14 @@
                         </colgroup>
                         <thead>
                         <tr>
+                        	<th scope="col">
+                                <span class="form-checkbox">
+                                	<span>
+                                		<input type="checkbox" name="check_all" id="memo_check_all" class="memo_check_all">
+	                                 	<label for="memo_check_all"></label>
+	                                 </span>
+                                 </span>
+                            </th>
                             <th scope="col">번호</th>
                             <th scope="col">제목</th>
                             <th scope="col">작성자</th>
@@ -175,7 +257,9 @@
                 <div class="scroll-y">
                     <table class="bbs-list">
                         <colgroup>
-                            <col style="width: 13%;">
+                            <%-- <col style="width: 13%;"> --%>
+                            <col style="width: 6%;">
+                            <col style="width: 10%;">
                             <col style="width: auto;">
                             <col style="width: 20%;">
                             <col style="width: 20%;">
@@ -184,12 +268,25 @@
                         <tbody>
                         <c:forEach items="${resultList}" var="result" varStatus="status">
                             <tr onclick="javascript:selectMemoInfoView('<c:out value="${result.memoId}"/>');">
+                            	<td class="td-checkbox" onclick="event.stopPropagation()">
+                                    <span class="form-checkbox">
+                                    	<span>
+                                    		<c:if test="${memoInfoVO.emplyrId == result.emplyrId }">
+	                                    		<input type="checkbox" class="memo_check" id="memo_check_<c:out value="${result.memoId}" />" data-memo-id="<c:out value="${result.memoId}" />">
+                                    		</c:if>
+                                    		<c:if test="${memoInfoVO.emplyrId != result.emplyrId }">
+	                                    		<input type="checkbox" class="memo_check" id="memo_check_<c:out value="${result.memoId}" />" data-memo-id="<c:out value="${result.memoId}" />" disabled="disabled" >
+                                    		</c:if>
+                                    		<label for="memo_check_<c:out value="${result.memoId}" />"></label>
+                                    	</span>
+                                    </span>
+                                </td>
                                 <td><c:out value="${(result.pageIndex-1) * result.pageUnit + status.count}"/></td>
                                 <td class="subject align-left"><a><c:out value="${result.sj}"/></a></td>
                                 <td><c:out value="${result.userNm}"/></td>
-                                <td><c:out value="${result.regDt}"/></td>
-                                <td><c:if test="${result.pnrsAt == '0'}">공유</c:if><c:if
-                                        test="${result.pnrsAt == '1'}">공유안함</c:if></td>
+                                <td><c:out value="${result.regDt}"/></td>  <%-- <td><c:out value="${result.modfDt}"/></td> --%>
+                                <td><c:if test="${result.pnrsAt == 'Y'}">공유</c:if><c:if
+                                        test="${result.pnrsAt == 'N'}">공유안함</c:if></td>
                             </tr>
                         </c:forEach>
                         <c:if test="${fn:length(resultList) == 0}">
@@ -200,6 +297,14 @@
                         </tbody>
                     </table>
                 </div>
+                
+                <!-- 메모 일괄 공유 추가  -->
+                <div>
+                	<button type="button" class="btn type01 search" onclick="selectMemoShare(true); return false;">일괄공유</button>
+                	<button type="button" class="btn type01 search" onclick="selectMemoShare(false); return false;">일괄공유안함</button>
+                </div>
+                <!-- 메모 일괄 공유 추가  end -->
+                
             </div>
 
             <div class="pagination">
