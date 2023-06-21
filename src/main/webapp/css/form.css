@@ -481,6 +481,9 @@ img.ui-datepicker-trigger {
 .drawing-obj input[type="radio"] + .obj-09 {background-image: url(/images/icon/drawing-icon09.svg);}
 .drawing-obj input[type="radio"]:checked + .obj-09 {background-image: url(/images/icon/drawing-icon09-on.svg);}
 
+.drawing-obj input[type="radio"] + .obj-10 {background-image: url(/images/icon/drawing-icon10.svg);}
+.drawing-obj input[type="radio"]:checked + .obj-10 {background-image: url(/images/icon/drawing-icon10-on.svg);}
+
 .drawing-obj.small input[type=radio] + label {
 	width: 23px;
 	height: 23px;
