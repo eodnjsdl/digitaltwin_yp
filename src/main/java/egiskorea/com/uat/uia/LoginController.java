@@ -586,7 +586,7 @@ public class LoginController {
 		
 		LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
 		if(user != null) {
-			return "redirect:/uat/uia/mainAction.do";
+			return "redirect:/webApp/main.do";
 		}
 		
 		String message = (String)request.getParameter("loginMessage");
