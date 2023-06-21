@@ -108,7 +108,10 @@ function webApp_updateExaminationInfoView(frm, param1, param2){
 		dataType : "html",
 		processData : false,
 		contentType : false,
-		async: false,
+	    async: true,  				// 비동기 요청으로 설정 (기본값)
+	    beforeSend: function() {
+	      ui.loadingBar("show");  	// AJAX 요청 전에 로딩바를 표시
+	    },
 		success : function(returnData, status){
 			if(status == "success") {	
 				$("#leftSubPopup").html(returnData);				// 조사정보 웹앱용 popup
