@@ -94,6 +94,11 @@
             });
         }
     }
+    
+    // 속성정보 팝업 닫기
+    function webApp_cancel_examinationInfo() {
+    	$("#rightSubPopup").removeClass("opened").html("");
+    }
 </script>
 <!-- 국토정보관리 > 속성정보 > 더보기 -->
 <form:form name="detailForm" method="post">
@@ -1203,6 +1208,6 @@
             </div>
         </div>
     </div>
-    <button type="button" class="popup-close" title="닫기"></button>
+    <button type="button" class="webAppExaminationInfo-popup-close" title="닫기" onclick="webApp_cancel_examinationInfo();"></button>
 </form:form>
 <!-- //국토정보관리 > 속성정보 > 더보기 -->

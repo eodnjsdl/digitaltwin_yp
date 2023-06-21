@@ -179,3 +179,44 @@
 	padding-right: 25px;
     margin-top: 10px;
 }
+
+.webAppExaminationInfo-popup-close {
+    top: 0;
+    right: 0;
+    width: 39px;
+    height: 39px;
+    border-left: 1px solid #44516A;
+    background: url(/images/icon/popup-close2.svg) no-repeat 50% 50%;
+    border-top-right-radius: 10px;
+    position: absolute;
+}
+
+.webAppExaminationInfoView-popup-close {
+    top: 0;
+    right: 0;
+    width: 39px;
+    height: 39px;
+    border-left: 1px solid #44516A;
+    background: url(/images/icon/popup-close2.svg) no-repeat 50% 50%;
+    border-top-right-radius: 10px;
+    position: absolute;
+}
+
+.webAppExaminationInfoList-popup-close {
+	position: absolute;
+    top: 4px;
+    right: 8px;
+    width: 24px;
+    height: 24px;
+    background: url(/images/icon/popup-close.svg) no-repeat 50% 50%;
+    z-index: 5;
+}
+
+.webAppAdministrationZoneList-lnb-close {
+	margin-left: 3px;
+    width: 24px;
+    height: 24px;
+    background-image: url(/images/map/lnb-close.svg);
+    background-position: 50% 50%;
+    background-repeat: no-repeat;
+}

@@ -23,7 +23,7 @@
 
     function eventBindByLandInfoList() {
         // 새로고침
-        $(".lnb-territory .lnb-resetBtn").unbind('click').bind('click', function () {
+        $(".lnb-territory-webApp .lnb-resetBtn").unbind('click').bind('click', function () {
             webApp_selectAdministrationZoneList($("#tmpForm")[0])
         });
     }
@@ -73,7 +73,10 @@
         }
     }
 
-
+    // 국토정보관리 팝업 닫기
+	function webApp_cancel_administrationZoneList() {
+    	$(".lnb-territory-webApp").stop().fadeOut(100);
+	}
 </script>
 <!-- 국토정보관리 -->
 <div class="lnb-header"><h2 class="tit">국토정보관리</h2></div>
@@ -146,15 +149,15 @@
     </div>
 </div>
 <div class="lnb-util">
-    <button type="button" class="lnb-resetBtn" title="초기화"></button>
-    <button type="button" class="lnb-close" title="닫기"></button>
+    <!-- <button type="button" class="lnb-resetBtn" title="초기화"></button> -->
+    <button type="button" class="webAppAdministrationZoneList-lnb-close" title="닫기" onclick="webApp_cancel_administrationZoneList();"></button>
 </div>
 <script>
     function webApp_clickTerritory(p1, p2) {
     	webApp_selectExaminationInfoList($("#tmpForm")[0], p1, p2);
     }
     $(document).ready(function () {
-        $(".lnb-territory .bi-write").click(function () {
+        $(".lnb-territory-webApp .bi-write").click(function () {
             $(this).addClass("active");
         });
 

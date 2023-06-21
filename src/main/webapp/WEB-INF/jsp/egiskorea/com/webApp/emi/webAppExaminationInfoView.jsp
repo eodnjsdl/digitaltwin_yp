@@ -46,7 +46,7 @@
     }
 
     // 수정화면의 닫기버튼 클릭시
-    function fn_cancel_examinationInfo() {
+    function webApp_cancel_examinationInfoView() {
         $("#leftSubPopup").removeClass("opened").html("");
     }
     
@@ -131,6 +131,6 @@
             </div>
         </div>
     </div>
-    <button type="button" class="popup-close" title="닫기"></button>
+    <button type="button" class="webAppExaminationInfoView-popup-close" title="닫기" onclick="webApp_cancel_examinationInfoView();"></button>
 </form:form>
 <!-- //국토정보관리 > 속성정보 > 더보기 -->

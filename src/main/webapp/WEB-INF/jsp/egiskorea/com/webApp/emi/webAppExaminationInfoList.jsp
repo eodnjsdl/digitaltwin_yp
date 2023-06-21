@@ -141,6 +141,11 @@
             }
         }
     }
+    
+    // 조사정보 팝업 닫기
+    function webApp_cancel_examinationInfoList() {
+    	$("#leftPopup").removeClass("opened").html("");
+    }
 
 </script>
 <!-- 국토정보관리 > 속성정보 > 목록 -->
@@ -277,5 +282,5 @@
         </form:form>
     </div>
 </div>
-<button type="button" class="popup-close" title="닫기"></button>
+<button type="button" class="webAppExaminationInfoList-popup-close" title="닫기" onclick="webApp_cancel_examinationInfoList();"></button>
 <!-- //국토정보관리 > 속성정보 > 목록 -->
