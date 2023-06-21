@@ -2225,3 +2225,15 @@
 .type-group input {
 	margin: 0 4px;
 }
+
+#DV_SuvMain {
+	margin-top: 15px; 
+}
+
+#DV_Information {
+	margin-top: 15px;
+}
+
+#dgufDepthSetVal {
+	margin-bottom: 8px;
+}

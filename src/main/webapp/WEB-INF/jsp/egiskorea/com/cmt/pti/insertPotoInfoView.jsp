@@ -91,9 +91,9 @@
                         <th scope="row">공유</th>
                         <td>
                                 <span class="form-radio text group">
-                                    <span><input type="radio" name="pnrsAt" id="share1-1" value="0" checked=""><label
+                                    <span><input type="radio" name="pnrsAt" id="share1-1" value="Y" checked=""><label
                                             for="share1-1">공유함</label></span>
-                                    <span><input type="radio" name="pnrsAt" id="share1-2" value="1"><label
+                                    <span><input type="radio" name="pnrsAt" id="share1-2" value="N"><label
                                             for="share1-2">공유안함</label></span>
                                 </span>
                         </td>

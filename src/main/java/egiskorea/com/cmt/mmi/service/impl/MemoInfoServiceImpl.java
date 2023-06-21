@@ -129,5 +129,16 @@ public class MemoInfoServiceImpl extends EgovAbstractServiceImpl implements Memo
 	public String selectSubject(MemoInfoVO memoInfoVO) {
 		return memoInfoDAO.selectSubject(memoInfoVO);
 	}
+
+	/**
+	 * 메모 공유 일괄 적용
+	 * @param MemoInfoVO
+	 * @throws Exception
+	 */
+	
+	@Override
+	public void updateMemoPnrsAtBundle(MemoInfoVO memoInfoVO) {
+		memoInfoDAO.updateMemoPnrsAtBundle(memoInfoVO);
+	}
 	
 }

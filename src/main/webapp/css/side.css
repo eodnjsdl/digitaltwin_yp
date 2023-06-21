@@ -65,6 +65,7 @@
 #lnb li[data-menu='lnb-layer'] .lnb-btn {background-image: url(/images/map/lnb-layer.svg);}
 #lnb li[data-menu='lnb-theme'] .lnb-btn {background-image: url(/images/map/lnb-theme.svg);}
 #lnb li[data-menu='lnb-space'] .lnb-btn {background-image: url(/images/map/lnb-space.svg);}
+#lnb li[data-menu='lnb-infoShare'] .lnb-btn {background-image: url(/images/map/lnb-space.svg);}
 #lnb li[data-menu='lnb-facility'] .lnb-btn {background-image: url(/images/map/lnb-facility.svg);}
 #lnb li[data-menu='lnb-traffic'] .lnb-btn {background-image: url(/images/map/lnb-traffic.svg);}
 #lnb li[data-menu='lnb-administrative'] .lnb-btn {background-image: url(/images/map/lnb-administrative.svg);}
@@ -79,6 +80,8 @@
 #lnb li[data-menu='lnb-theme'].on .lnb-btn {background-image: url(/images/map/lnb-theme-on.svg);}
 #lnb li[data-menu='lnb-space'] .lnb-btn:hover,
 #lnb li[data-menu='lnb-space'].on .lnb-btn {background-image: url(/images/map/lnb-space-on.svg);}
+#lnb li[data-menu='lnb-infoShare'] .lnb-btn:hover,
+#lnb li[data-menu='lnb-infoShare'].on .lnb-btn {background-image: url(/images/map/lnb-space-on.svg);}
 #lnb li[data-menu='lnb-facility'] .lnb-btn:hover,
 #lnb li[data-menu='lnb-facility'].on .lnb-btn {background-image: url(/images/map/lnb-facility-on.svg);}
 #lnb li[data-menu='lnb-traffic'] .lnb-btn:hover,

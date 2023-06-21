@@ -83,6 +83,15 @@ public interface PotoInfoService {
 	 * @return
 	 */
 	public String selectSubject(PotoInfoVO potoInfoVO);
+
+	/**
+	 * @Description  
+	 * @Author 황의현
+	 * @Date 2023.06.20
+	 * @param potoInfoVO
+	 * @return
+	 */
+	public void updatePhotoPnrsAtBundle(PotoInfoVO potoInfoVO);
 }
 
 

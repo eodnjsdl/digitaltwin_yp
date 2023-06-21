@@ -75,4 +75,13 @@ public interface MemoInfoService {
 	 */
 	public String selectSubject(MemoInfoVO memoInfoVO);
 	
+	/**
+	 * @Description 메모 공유 일괄 적용  
+	 * @Author 정상혁
+	 * @Date 2022.06.21
+	 * @param memoInfoVO
+	 * @return
+	 */
+	public void updateMemoPnrsAtBundle(MemoInfoVO memoInfoVO);		
+	
 }
