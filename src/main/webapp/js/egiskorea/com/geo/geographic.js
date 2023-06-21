@@ -70,6 +70,7 @@ function getLandRegisterByPnu(pnu){
 function aj_selectAdministrationZoneList(frm){
 	ui.loadingBar("show");
 	var formData = new FormData(frm);
+	
 	$.ajax({
 		type : "POST",
 		url : "/geo/emi/selectAdministrationZoneList.do",
