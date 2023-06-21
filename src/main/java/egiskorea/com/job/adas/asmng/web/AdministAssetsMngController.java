@@ -129,12 +129,11 @@ public class AdministAssetsMngController {
 				result = administAssetsService.deleteAdministAssetsInfo(administAssetsVO);
 				if (dataCount > 1000) {
 					int offset = 0;
-					for (int i = 1; i <= dataCount; i += 1000) {
-						administAssetsList.subList(offset, i * 1000);
-//						result += administAssetsService.insertAdministAssetsInfoByCSV(administAssetsList.subList(offset, i));
+					for (int i = 1; i <= (dataCount / 1000); i++) {
+						result += administAssetsService.insertAdministAssetsInfoByCSV(administAssetsList.subList(offset, i * 1000));
 						offset = i * 1000;
 					}
-//					result += administAssetsService.insertAdministAssetsInfoByCSV(administAssetsList.subList());
+					result += administAssetsService.insertAdministAssetsInfoByCSV(administAssetsList.subList(offset, dataCount));
 				}
 			}
 		} catch (FileNotFoundException e) {
