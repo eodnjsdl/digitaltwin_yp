@@ -144,7 +144,7 @@
 
 </script>
 <!-- 국토정보관리 > 속성정보 > 목록 -->
-<div class="popup-header">조사정보 웹앱용</div>
+<div class="popup-header">조사정보</div>
 <div class="popup-body">
     <div class="left-popup-body">
 		<div class="btn-wrap"></div>

@@ -76,7 +76,7 @@
 
 </script>
 <!-- 국토정보관리 -->
-<div class="lnb-header"><h2 class="tit">국토정보관리 웹앱용</h2></div>
+<div class="lnb-header"><h2 class="tit">국토정보관리</h2></div>
 <div class="lnb-body">
     <div class="btn-wrap"></div>
     <div class="bbs-top">

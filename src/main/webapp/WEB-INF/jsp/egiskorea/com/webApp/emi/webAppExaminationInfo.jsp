@@ -98,7 +98,7 @@
 <!-- 국토정보관리 > 속성정보 > 더보기 -->
 <form:form name="detailForm" method="post">
     <input type="hidden" name="pnu">
-    <div class="popup-header">속성정보 웹앱용</div>
+    <div class="popup-header">속성정보</div>
     <div class="popup-body">
         <div class="sub-popup-body">
             <h3 class="cont-tit">기본정보</h3>

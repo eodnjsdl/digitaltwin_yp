@@ -60,7 +60,7 @@
 <!-- 국토정보관리 > 속성정보 > 더보기 -->
 <form:form commandName="examinationInfo" method="post">
     <form:hidden path="pnu"/>
-    <div class="popup-header">속성정보 수정 웹앱용</div>
+    <div class="popup-header">속성정보 수정</div>
     <div class="popup-body">
         <div class="sub-popup-body territory-info-body detail">
             <h3 class="cont-tit">기본정보</h3>
