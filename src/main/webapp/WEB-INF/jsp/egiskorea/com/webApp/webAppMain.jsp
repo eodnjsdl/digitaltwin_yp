@@ -223,22 +223,19 @@
         <div id="map2D" class="main-map" style="position: absolute;"></div>
         <div id="map3D" style="width: 100%; height: 100%; display: none; user-select: none; position: absolute;"></div>
 
-		<!-- ★★★★ 테스트를 위한 popup-panel ★★★★ -->
-		<!-- left popup-panel -->
+		<!-- popup-panel start -->
+		<!-- 국토정보관리 웹앱용 popup -->
         <div id="leftPopup" class="popup-panel popup-left popup-draggable" style="z-index: 1001;">
         </div>
-        <!-- //left popup-panel -->
         
-        <!-- left-sub popup-panel -->
+        <!-- 조사정보 웹앱용 popup -->
         <div id="leftSubPopup" class="popup-panel popup-sub popup-draggable" style="z-index: 1003;">
         </div>
-        <!-- //left-sub popup-panel -->
         
-        <!-- right-sub popup-panel -->
+        <!-- 속성정보 웹앱용 popup -->
         <div id="rightSubPopup" class="popup-panel popup-sub popup-draggable" style="z-index: 1002;">
         </div>
-        <!-- //right-sub popup-panel -->
-        <!-- ★★★★ 테스트를 위한 popup-panel ★★★★ -->
+        <!-- popup-panel end -->
         
         <!-- map-aside -->
         <div id="map-aside">
@@ -330,7 +327,7 @@
         	})
         }
         
-        // 국토정보관리
+        // 국토정보관리 클릭 이벤트
         $("#lnb-territory-webApp").click(function() {
             $(".lnb-territory").show();
             webApp_selectAdministrationZoneList($("#tmpForm")[0], 'webApp');

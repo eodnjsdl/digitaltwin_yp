@@ -537,6 +537,6 @@
 												</div>
 											</div>
 											<div class="position-bottom btn-wrap justify-content-end examinationBtn">
-												<div><button type="button" class="btn basic bi-save" onClick="fn_update_examinationInfo(this.form)">수정</button></div>
+												<div><button type="button" class="btn basic bi-save" onClick="fn_update_examinationInfo(this.form)">수정</button><button type="button" class="btn basic bi-cancel" onclick="webApp_fn_cancel_examinationInfo(this.form)">취소</button></div>
 											</div>
 										</div>

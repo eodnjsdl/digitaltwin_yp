@@ -93,7 +93,7 @@
                 }
             }
         } else {
-            toastr.warning("조회된 결과가 없습니다."); //조회된 결과가 없습니다.
+            toastr.warning("조회된 결과가 없습니다.");
         }
         document.listForm.selCodes.value = returnValue;
         return returnBoolean;
