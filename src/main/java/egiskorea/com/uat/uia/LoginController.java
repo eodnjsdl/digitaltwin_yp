@@ -148,6 +148,10 @@ public class LoginController {
 			rttr.addFlashAttribute("area", "uijeongbu");
 			
 			returnPage = "redirect:/uat/uia/loginUJB.do";
+		} else if(refer.contains("WebApp")) {
+			rttr.addFlashAttribute("area", "webApp");
+			
+			returnPage = "redirect:/uat/uia/loginWebApp.do";
 		} else {
 			rttr.addFlashAttribute("area", "yangpyeong");
 		}
@@ -234,12 +238,14 @@ public class LoginController {
 		List list_headmenu = menuManageService.selectMainMenuHead(menuManageVO);
 		model.addAttribute("list_headmenu", list_headmenu);
 		*/
-
 		
+		if (area == "webApp") {
+			return "redirect:/webApp/main.do";
+		} else {
+			// 3. 메인 페이지 이동
+			return "redirect:/main.do";
+		}
 		
-		// 3. 메인 페이지 이동
-		return "redirect:/main.do";
-
 		/*
 		if (main_page != null && !main_page.equals("")) {
 
@@ -270,6 +276,10 @@ public class LoginController {
 		request.getSession().setAttribute("loginVO", null);
 		request.getSession().setAttribute("accessUser", null);
 
+		String refer = request.getHeader("Referer");
+		if(refer.contains("webApp")) {
+			return "redirect:/uat/uia/loginWebApp.do";
+		}
 		
 		if(loginVO.getId().equals("hanam")) {
 			return "redirect:/uat/uia/loginHN.do";
@@ -278,7 +288,6 @@ public class LoginController {
 		} else if(loginVO.getId().equals("uijeongbu")) {
 			return "redirect:/uat/uia/loginUJB.do";
 		}
-		
 		
 		return "redirect:/uat/uia/loginUsr.do";
 	}
@@ -548,5 +557,47 @@ public class LoginController {
 		model.addAttribute("resultTot", noticeList.size());
 		
 		return "egiskorea/com/uat/uia/loginUsr_uijeongbu";
+	}
+	
+	/**
+	 * 웹앱 로그인 화면으로 들어간다
+	 * @param vo - 로그인후 이동할 URL이 담긴 LoginVO
+	 * @return 로그인 페이지
+	 * @exception Exception
+	 */
+	@RequestMapping(value = "/loginWebApp.do")
+	public String loginWebApp(@ModelAttribute("loginVO") LoginVO loginVO, @ModelAttribute("searchVO") BoardVO boardVO,
+			HttpServletRequest request, HttpServletResponse response, ModelMap model) throws Exception {
+		
+		//권한체크시 에러 페이지 이동
+		String auth_error =  request.getParameter("auth_error") == null ? "" : (String)request.getParameter("auth_error");
+		if(auth_error != null && auth_error.equals("1")){
+			
+			String refer = request.getHeader("Referer");
+			if(refer.contains("main.do")) {
+				model.addAttribute("resultRedirect", "redirect:/"+refer);
+				model.addAttribute("resultMsg", "해당 기능에 대한 권한이 없습니다.");
+				model.addAttribute("resultClose", "close");
+				return "egiskorea/com/cmm/actionResult";
+			} else if(refer.contains("mngr")) {
+			}
+			return "egovframework/com/cmm/error/accessDenied";
+		}
+		
+		LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
+		if(user != null) {
+			return "redirect:/webApp/main.do";
+		}
+		
+		String message = (String)request.getParameter("loginMessage");
+		if (message!=null) model.addAttribute("loginMessage", message);
+		
+		boardVO.setBbsId("BBSMSTR_000000000052"); // 공지사항 게시판ID
+		List<BoardVO> noticeList = egovArticleService.selectNoticeArticleList(boardVO);
+		
+		model.addAttribute("result", noticeList);
+		model.addAttribute("resultTot", noticeList.size());
+		
+		return "egiskorea/com/uat/uia/loginUsr_webApp";
 	}
 }
