@@ -11,6 +11,8 @@ window.ui = (function () {
 		_leftMenuEvent();
 		//좌측 메뉴 >> 공간정보
 		_spaceMenuEvent();
+		//좌측 메뉴 >> 정보공유
+		_infoShareMenuEvent();	//정보공유 메뉴이동 //uhh add...
 		//좌측 메뉴 >> 레이어 Tab(2D/3D)
 		_layerTabEvent();
 		//좌측 메뉴 >> 공간정보 활용 >> 사업공유관리
@@ -471,6 +473,38 @@ window.ui = (function () {
 
 		});
 	}
+	
+	//uhh add...
+	// 좌측 메뉴 >> 정보공유
+	function _infoShareMenuEvent() {
+		console.log("_infoShareMenuEvent()");
+		$(".lnb-infoShare .lnb-body").on("click", "button", function () {
+			console.log("_infoShareMenuEvent() click");
+			
+			dtmap.draw.dispose();		//그리기 포인트 삭제
+			dtmap.draw.clear();			//그리기 초기화
+			
+			var name = $(this).attr("id");
+			var area = $(this).data("popup");
+			ui.openPopup(area);
+			
+			switch (name) {
+				case "memoInfo" :	// 정보공유 > 메모정보
+					aj_selectMemoInfoList($("#tmpForm")[0]);
+					break;
+	
+				case "potoInfo" :	// 정보공유 > 사진정보
+					aj_selectPotoInfoList($("#tmpForm")[0]);
+					break;
+					
+				case "graphicInfo" :		// 정보공유 > 그리기정보	
+					aj_selectGraphicInfoList();
+					break;
+			}
+		});
+		
+	}
+	//uhh add... end
 
 	//좌측 메뉴 >> 공간정보 활용  >> 사업공유 관리
 	function _spaceTabEvent() {

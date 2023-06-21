@@ -184,8 +184,8 @@
                 </tr>
                 <tr>
                     <th scope="row">공유</th>
-                    <td><c:if test="${result.pnrsAt == '0'}">공유</c:if><c:if
-                            test="${result.pnrsAt == '1'}">공유안함</c:if></td>
+                    <td><c:if test="${result.pnrsAt == 'Y'}">공유</c:if><c:if
+                            test="${result.pnrsAt == 'N'}">공유안함</c:if></td>
                 </tr>
                 <tr>
                     <th scope="row">위치</th>
@@ -238,8 +238,10 @@
                 <button type="button" class="btn basic bi-list">목록</button>
             </div>
             <div class="position-absolute right">
-                <button type="button" class="btn basic bi-edit" data-popup="top-popup05-update">수정</button>
-                <button type="button" class="btn basic bi-delete">삭제</button>
+            	<c:if test="${potoInfoVO.emplyrId == result.emplyrId}">
+	                <button type="button" class="btn basic bi-edit" data-popup="top-popup05-update">수정</button>
+	                <button type="button" class="btn basic bi-delete">삭제</button>
+                </c:if>
             </div>
         </div>
 

@@ -2,6 +2,7 @@ package egiskorea.com.cmt.pti.service;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.List;
 
 /**
  * @Description 사진정보를 관리하는 vo 클래스
@@ -95,6 +96,17 @@ public class PotoInfoVO implements Serializable{
 
 	/**wkt */
 	private  String wkt="";
+	
+	/** 일괄 공유 사진ID 목록*/
+	private List<String> updatePhotoIdArray = null;
+
+	public List<String> getUpdatePhotoIdArray() {
+		return updatePhotoIdArray;
+	}
+
+	public void setUpdatePhotoIdArray(List<String> updatePhotoIdArray) {
+		this.updatePhotoIdArray = updatePhotoIdArray;
+	}
 
 	public String getWkt() {
 		return wkt;

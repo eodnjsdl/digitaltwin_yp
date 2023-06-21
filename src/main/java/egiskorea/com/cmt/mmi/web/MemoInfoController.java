@@ -1,16 +1,23 @@
 package egiskorea.com.cmt.mmi.web;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
+import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.google.gson.Gson;
@@ -98,6 +105,7 @@ public class MemoInfoController {
 		model.addAttribute("resultList", map.get("resultList"));
 		model.addAttribute("resultCnt", map.get("resultCnt"));
 		model.addAttribute("paginationInfo", paginationInfo);
+		model.addAttribute("memoInfoVO", memoInfoVO);
 		
 		  return "egiskorea/com/cmt/mmi/memoInfoList";
 	}
@@ -151,6 +159,7 @@ public class MemoInfoController {
 		model.addAttribute("gsonResultList",gsonResultList);
 		model.addAttribute("result", result);
 		model.addAttribute("resultList", map.get("resultList"));
+		model.addAttribute("memoInfoVO", memoInfoVO);		//vo 추가
 		
 		  return "egiskorea/com/cmt/mmi/selectMemoInfoView";
 	}
@@ -306,4 +315,44 @@ public class MemoInfoController {
 		
 		return mav;
 	}
+	
+	/**
+	 * 메모 공유 정보 일괄 수정
+	 * @param pnrsAt
+	 * @param updateMemoIdArray
+	 * @param request
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/updateMemoPnrsAtBundle.do")
+	public ModelAndView updateMemoPnrsAtBundle(
+			@RequestParam(value="pnrsAt") String pnrsAt,
+			@RequestParam(value="updateMemoIdArray[]") List<String> updateMemoIdArray,
+			HttpServletRequest request) throws Exception{
+		
+		ModelAndView mav = new ModelAndView("jsonView");
+		
+		LoginVO loginVO = (LoginVO) request.getSession().getAttribute("loginVO");
+		
+		MemoInfoVO memoInfoVO = new MemoInfoVO();
+		try {
+				if(pnrsAt != null && updateMemoIdArray != null && loginVO != null) {
+					memoInfoVO.setEmplyrId(loginVO.getId());
+					memoInfoVO.setPnrsAt(pnrsAt);
+					memoInfoVO.setUpdateMemoIdArray(updateMemoIdArray);
+					
+					memoInfoService.updateMemoPnrsAtBundle(memoInfoVO);
+					mav.addObject("result", "success");
+				}else {
+					mav.addObject("result", "fail");
+				}
+			
+		} catch(Exception e) {
+			logger.info(e.getMessage());
+			mav.addObject("result", "fail");
+		}
+		
+		return mav;
+	}
+	
 }
