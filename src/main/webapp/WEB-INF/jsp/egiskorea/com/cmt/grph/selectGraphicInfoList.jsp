@@ -62,7 +62,8 @@
                 <div class="bbs-list-head">
                     <table class="bbs-list">
                         <colgroup>
-                            <col style="width: 13%;">
+                            <col style="width: 10%;">	
+                            <col style="width: 10%;">
                             <col style="width: auto;">
                             <col style="width: 15%;">
                             <col style="width: 20%;">
@@ -71,7 +72,15 @@
                         <thead>
                         <tr>
                             <th scope="col">
-                                <span class="form-checkbox"><span><input type="checkbox" name="check_all"
+                                <span class="form-checkbox">
+                                	<span style="font-size: 10px;">공유
+	                                	<input type="checkbox" name="share_check_all" id="graphic_share_check_all" class="graphic_share_check_all">
+	                                	<label for="graphic_share_check_all"></label>
+                                	</span>
+                                </span>
+                            </th>
+                            <th scope="col">
+                                <span class="form-checkbox"><span style="font-size: 10px;">보기<input type="checkbox" name="check_all"
                                                                          id="graphic_check_all"
                                                                          class="graphic_check_all"><label
                                         for="graphic_check_all"></label></span></span>
@@ -97,7 +106,8 @@
                             </c:when>
                             <c:otherwise>
                                 <colgroup>
-                                    <col style="width: 13%;">
+                                    <col style="width: 10%;">
+                                    <col style="width: 10%;">
                                     <col style="width: auto;">
                                     <col style="width: 15%;">
                                     <col style="width: 20%;">
@@ -105,7 +115,31 @@
                                 </colgroup>
                                 <tbody>
                                 <c:forEach items="${resultList}" var="result" varStatus="status">
-                                    <tr class="graphic_a" data-graphic-id="<c:out value="${result.grphcId}" />">
+                                	<!-- 등록자만 편집 가능 -->
+                                	<c:if test="${graphicInfoSearchVO.registerId == result.registerId }">
+                                		<tr class="graphic_a" data-graphic-id="<c:out value="${result.grphcId}" />">
+                                	</c:if>
+                                	<c:if test="${graphicInfoSearchVO.registerId != result.registerId }">
+	                                    <tr class="graphic_a" data-graphic-id="">
+                                	</c:if>
+                                	<!-- 등록자만 편집 가능 end -->
+                                    	<!-- 일괄 공유 체크 박스 -->
+                                    	<td class="td-checkbox">
+                                            <span class="form-checkbox">
+                                            	<span>
+                                            		<c:if test="${graphicInfoSearchVO.registerId == result.registerId }">
+                                            			<input type="checkbox" class="graphic_share_check" id="graphic_share_check_<c:out value="${result.grphcId}" />"
+                                                                                     data-graphic-id="<c:out value="${result.grphcId}" />">
+                                            		</c:if>
+                                            		<c:if test="${graphicInfoSearchVO.registerId != result.registerId }">
+                                            			<input type="checkbox" class="graphic_share_check" id="graphic_share_check_<c:out value="${result.grphcId}" />"
+                                                                                     data-graphic-id="<c:out value="${result.grphcId}" />" disabled="disabled">
+                                            		</c:if>
+                                                    <label for="graphic_share_check_<c:out value="${result.grphcId}" />"></label>
+                                                </span>
+                                            </span>
+                                        </td>
+                                    	<!--일괄 공유 체크 박스 end -->
                                         <td class="td-checkbox">
                                             <span class="form-checkbox"><span><input type="checkbox"
                                                                                      class="graphic_check"
@@ -128,6 +162,13 @@
                     </table>
                 </div>
             </div>
+            
+            <!-- 그리기 일괄 공유 추가  -->
+            <div>
+            	<button type="button" class="btn type01 search" onclick="selectGraphicShare(true); return false;">일괄공유</button>
+            	<button type="button" class="btn type01 search" onclick="selectGraphicShare(false); return false;">일괄공유안함</button>
+            </div>
+            <!-- 그리기 일괄 공유 추가  end -->
 
             <c:choose>
                 <c:when test="${paginationInfo.totalRecordCount eq 0}">

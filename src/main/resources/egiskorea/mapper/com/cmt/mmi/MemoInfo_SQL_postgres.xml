@@ -208,7 +208,7 @@
 		WHERE MEMO_ID = #{memoId}
 	</select>	
 	
-	<select id="updateMemoPnrsAtBundle" >
+	<update id="updateMemoPnrsAtBundle" >
 		UPDATE 
 			tbd_usrt_memo_info
 		SET 
@@ -221,5 +221,5 @@
 		</foreach>
 		)
 		AND emplyr_id = #{emplyrId}
-	</select>
+	</update>
 </mapper>

@@ -248,7 +248,8 @@
                             <th scope="col">번호</th>
                             <th scope="col">제목</th>
                             <th scope="col">작성자</th>
-                            <th scope="col">등록일</th>
+                            <!-- <th scope="col">등록일</th> -->
+                            <th scope="col">갱신일</th>
                             <th scope="col">공유</th>
                         </tr>
                         </thead>
@@ -284,14 +285,14 @@
                                 <td><c:out value="${(result.pageIndex-1) * result.pageUnit + status.count}"/></td>
                                 <td class="subject align-left"><a><c:out value="${result.sj}"/></a></td>
                                 <td><c:out value="${result.userNm}"/></td>
-                                <td><c:out value="${result.regDt}"/></td>  <%-- <td><c:out value="${result.modfDt}"/></td> --%>
+                                <%-- <td><c:out value="${result.regDt}"/></td> --%>  <td><c:out value="${result.modfDt}"/></td>
                                 <td><c:if test="${result.pnrsAt == 'Y'}">공유</c:if><c:if
                                         test="${result.pnrsAt == 'N'}">공유안함</c:if></td>
                             </tr>
                         </c:forEach>
                         <c:if test="${fn:length(resultList) == 0}">
                             <tr>
-                                <td class="noData" colspan="5">데이터가 없습니다.</td>
+                                <td class="noData" colspan="6">데이터가 없습니다.</td>
                             </tr>
                         </c:if>
                         </tbody>

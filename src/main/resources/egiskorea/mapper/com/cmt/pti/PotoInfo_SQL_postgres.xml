@@ -212,7 +212,7 @@
 		WHERE PHTO_ID = #{phtoId}
 	</select>
 	
-	<select id="updatePhotoPnrsAtBundle" >
+	<update id="updatePhotoPnrsAtBundle" >
 		UPDATE 
 			tbd_usrt_phto_info
 		SET 
@@ -225,6 +225,6 @@
 		</foreach>
 		)
 		AND emplyr_id = #{emplyrId}
-	</select>
+	</update>
 	
 </mapper>
