@@ -57,5 +57,5 @@ public interface AdministAssetsService {
 	 * @return
 	 */
 	public int deleteAdministAssetsInfo(AdministAssetsVO administAssetsVO) throws SQLException, Exception;
-	
+
 }

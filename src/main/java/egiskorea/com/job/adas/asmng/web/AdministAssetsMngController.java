@@ -7,13 +7,11 @@ import java.util.List;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
@@ -49,6 +47,16 @@ public class AdministAssetsMngController {
 	protected EgovPropertyService propertyService;
 	
 	private static final Logger logger = LoggerFactory.getLogger(AdministAssetsMngController.class);
+	
+	private int dataCountForProgress = 0;
+	
+	public int getDataCountForProgress() {
+		return dataCountForProgress;
+	}
+
+	public void setDataCountForProgress(int dataCountForProgress) {
+		this.dataCountForProgress = dataCountForProgress;
+	}
 	
 	/**
 	 * 행정자산관리 목록 화면
@@ -120,31 +128,39 @@ public class AdministAssetsMngController {
 		List<AdministAssetsVO> administAssetsList = new ArrayList<AdministAssetsVO>();
 		int result = 0;
 		try {
+			// 지정된 연도가 있으면 지우고 새로 업로드하기
+			administAssetsVO.setYear(year);
+			result = administAssetsService.deleteAdministAssetsInfo(administAssetsVO);
 			administAssetsList = administAssetsService.csvUploadHelper(file, year);
-//			result += administAssetsService.csvUploadHelper(file, year);
+			
 			int dataCount = administAssetsList.size();
+//			result += administAssetsService.csvUploadHelper(file, year);
+			// 전역 변수
+			setDataCountForProgress(dataCount);
+			long startTime = System.currentTimeMillis();
 			if (dataCount > 0) {
-				// 지정된 연도가 있으면 지우고 새로 업로드하기
-				administAssetsVO.setYear(year);
-				result = administAssetsService.deleteAdministAssetsInfo(administAssetsVO);
-//				result = administAssetsService.insertAdministAssetsInfoByCSV(administAssetsList);
-				if (dataCount > 100) {
+				if (dataCount > 10) {
+					result = 0;
 					int offset = 0;
-					for (int i = 1; i <= (dataCount / 100); i++) {
-						result += administAssetsService.insertAdministAssetsInfoByCSV(administAssetsList.subList(offset, i * 100));
-						offset = i * 100;
+					for (int i = 1; i <= (dataCount / 7); i++) {
+						List<AdministAssetsVO> subList = new ArrayList<>();
+						subList = administAssetsList.subList(offset, i * 7);
+						result += administAssetsService.insertAdministAssetsInfoByCSV(subList);
+						offset = i * 7;
 					}
-					result += administAssetsService.insertAdministAssetsInfoByCSV(administAssetsList.subList(offset, dataCount));
-					
-					// 100개씩 넣기 - 빠름
-//					List<AdministAssetsVO> test = new ArrayList<AdministAssetsVO>();
-//					
-//					for (int i = 0; i < 100; i++) {
-//						test.add(administAssetsList.get(i));
-//					}
-//					result += administAssetsService.insertAdministAssetsInfoByCSV(test);
+					if (offset != dataCount) {
+						List<AdministAssetsVO> subList = new ArrayList<>();
+						subList = administAssetsList.subList(offset, dataCount);
+						// 끊고 남은 데이터
+						result += administAssetsService.insertAdministAssetsInfoByCSV(subList);
+					}
+				} else {
+					result = administAssetsService.insertAdministAssetsInfoByCSV(administAssetsList);
 				}
 			}
+			long endTime = System.currentTimeMillis();
+	        long resutTime = endTime - startTime;
+	        System.out.println("트랜젝션 배치" + " 소요시간  : " + resutTime/1000 + "(ms)");
 		} catch (FileNotFoundException e) {
 			e.getMessage();
 		} catch (SQLException e) {
@@ -153,6 +169,9 @@ public class AdministAssetsMngController {
 			e.getMessage();
 		}
 		
+		// 변수 초기화
+		setDataCountForProgress(0);
+		
 		if (result > 0) {
 			mav.addObject("resultCd", result);
 		} else {
@@ -160,6 +179,25 @@ public class AdministAssetsMngController {
 		}
 		
 		mav.addObject("year", year);
+		
+		return mav;
+	}
+	
+	@RequestMapping(value = "/csvUploadProgress.do")
+	@ResponseBody
+	public ModelAndView csvUploadprogress() {
+		ModelAndView mav = new ModelAndView("jsonView");
+		double currDataCount = 0;
+		double totalDataCount = 0;
+		double progress = 0;
+		
+		totalDataCount = (double) getDataCountForProgress();
+		currDataCount = (double) administAssetsService.selectAdministAssetsTotCnt();
+		
+		progress = Math.floor((currDataCount / totalDataCount) * 100);
+		
+		mav.addObject("progress", progress);
+		mav.addObject("count", currDataCount);
 		
 		return mav;
 	}

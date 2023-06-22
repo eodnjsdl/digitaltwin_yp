@@ -280,6 +280,7 @@ function sendCSVFileData() {
 	
 	formData.append("year", year);
 	
+	let prgInterval; // progressbar interval
 	$.ajax({
 		data : formData,
 		url : "/job/adas/asmng/insertAdministAssetsInfoCSV.do",
@@ -291,13 +292,25 @@ function sendCSVFileData() {
 			let xhr = $.ajaxSettings.xhr();
 			xhr.upload.onprogress = function(e) {
 				let percent = e.loaded * 100 / e.total;
-				$(".progressbar-value").css("width",parseInt(percent)+"%");
-				$(".progress-label").html(parseInt(percent)+"%");
+				$(".progressbar-value").css("width", parseInt(percent) + "%");
+				$(".progress-label").html(parseInt(percent) + "%");
 				if(percent == "100"){
-					ui.loadingBar("show"); 
+					prgInterval = setInterval(() => {
+						$.ajax({
+							url : "/job/adas/asmng/csvUploadProgress.do",
+							type : "post",
+							dataType : "json",
+							success : function(data) {
+								console.log(data);
+								$(".progressbar-value").css("width", parseInt(data.progress) + "%");
+								$(".progress-label").html(parseInt(data.progress) + "%");
+							}
+						});
+					}, 3000);
 				}
 				console.log(percent);
 			};
+			
 			return xhr;
 		},
 		success : function(data) {
@@ -305,14 +318,19 @@ function sendCSVFileData() {
 			console.log(data);
 			if (data.resultCd > 0) {
 				toastr.success('데이터 등록이 정상적으로 처리되었습니다');
+				$(".progressbar-value").css("width", 100 + "%");
+				$(".progress-label").html(100 + "%");
 			} else {
 				toastr.warning('데이터 등록에 실패하였습니다');
 			}
-			ui.loadingBar("hide");
+			clearInterval(prgInterval);
+			selectAdministAssetsInfoList(0);
 		}, error: function(error) {
 			console.log(error.getAllResponseHeaders);
 		}
 	});
+	
+	
 	
 	
 }

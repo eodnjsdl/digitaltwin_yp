@@ -18,7 +18,9 @@
 	   and year = #{year}
 	 </if>
 	 order by sn asc
+	 <if test="pageNo != null">
 	 limit 10 offset #{pageNo}
+	 </if>
 </select>
 
 <!-- 행정자산관리 전체 개수 조회 -->
