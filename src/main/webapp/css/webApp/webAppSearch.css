@@ -1,0 +1,63 @@
+@charset "UTF-8";
+
+.search-list #searchTit {
+	display: flex;
+	height: 40px;
+	line-height: 40px;
+	border-bottom: 1px solid #d9d9d9;
+	padding-left: 20px;
+	justify-content: space-between;
+}
+
+#searchTit i {
+	color: #1C77FF;
+}
+
+#searchTit #listOnOff {
+	padding: 0 20px;
+}
+
+.search-list #srchAddrList .addrResult {
+	height: 30px;
+	line-height: 30px;
+	border-bottom: 1px solid #d9d9d9;
+	padding-left: 20px;
+}
+
+.addrOn {
+	background-color: #1C77FF;
+	opacity: 0.9;
+	color: #ffffff;
+	font-weight: 600;
+}
+
+#pageNum {
+	position: relative;
+	display: flex;
+	width: fit-content;
+	height: 20px;
+	margin: 5px auto;
+}
+
+#pageNum li {
+	padding: 0 5px;
+}
+
+li.active {
+	background-color: #1C77FF;
+	border-radius: 5px;
+	font-weight: 600px;
+	color: #ffffff;
+}
+
+.prePage {
+	margin-right: 5px;
+}
+
+.nextPage {
+	margin-left: 5px;
+}
+
+.rotateImg {
+	transform:rotate(180deg);
+}

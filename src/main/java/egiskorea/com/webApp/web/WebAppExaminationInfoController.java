@@ -1,16 +1,9 @@
-package egiskorea.com.geo.emi.web;
+package egiskorea.com.webApp.web;
 
-import java.io.InputStream;
-import java.net.URLEncoder;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 
 import javax.annotation.Resource;
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,44 +11,36 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.MultipartHttpServletRequest;
 
-import egiskorea.com.cmm.service.impl.ExcelView;
-import egiskorea.com.geo.emi.service.AdministrationZone;
 import egiskorea.com.geo.emi.service.ExaminationInfo;
 import egiskorea.com.geo.emi.service.ExaminationInfoService;
 import egiskorea.com.geo.emi.service.ExaminationInfoVO;
 import egovframework.com.cmm.ComDefaultCodeVO;
 import egovframework.com.cmm.LoginVO;
 import egovframework.com.cmm.service.EgovCmmUseService;
-import egovframework.com.cmm.util.EgovResourceCloseHelper;
 import egovframework.com.cmm.util.EgovUserDetailsHelper;
 import egovframework.rte.fdl.property.EgovPropertyService;
 import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
 
 /**
- * @Description 조사정보를 관리하는 사용자 controller 클래스
- * @author 플랫폼개발부문 DT솔루션 이상화
- * @since 2021.11.09
+ * @Description 웹앱에서 조사정보를 관리하는 사용자 controller 클래스
+ * @author 글로벌컨설팅부문 장현승
+ * @since 2023.06.15
  * @version 1.0
  * @see
  *
- * <pre>
  * << 개정이력(Modification Information) >>
  *
  *  수정일               수정자            수정내용
  *  ----------   --------   ---------------------------
- *  2021.11.09		이상화	최초 생성
- *  </pre>
+ *  2023.06.15		장현승	최초 생성
  */
 
 @Controller
-@RequestMapping("/geo/emi")
-public class ExaminationInfoController {
+@RequestMapping("/webApp/emi")
+public class WebAppExaminationInfoController {
 	
-	private static final Logger logger = LoggerFactory.getLogger(ExaminationInfoController.class);
+	private static final Logger logger = LoggerFactory.getLogger(WebAppExaminationInfoController.class);
 			
 	@Resource(name = "examinationInfoService")
 	private ExaminationInfoService examinationInfoService;
@@ -68,11 +53,11 @@ public class ExaminationInfoController {
     protected EgovPropertyService propertyService;
 	
 	/**
-	 * @Description 행정구역별 조사정보 목록
-	 * @Author 플랫폼개발부문 DT솔루션 이상화
+	 * @Description 행정구역별 조사정보 목록 (웹앱용)
+	 * @Author 글로벌컨설팅부문 장현승
 	 * @param examinationInfoVO
 	 * @param model
-	 * @return "egiskorea/com/geo/emi/administrationZoneList"
+	 * @return "egiskorea/com/webApp/webAppAdministrationZoneList"
 	 * @throws Exception
 	 */
 	@RequestMapping(value = "/selectAdministrationZoneList.do")
@@ -84,157 +69,41 @@ public class ExaminationInfoController {
 		examinationInfoVO.setPageSize(propertyService.getInt("pageSize"));		
 		
 		PaginationInfo paginationInfo = new PaginationInfo();
-
+		
 		paginationInfo.setCurrentPageNo(examinationInfoVO.getPageIndex());
 		paginationInfo.setRecordCountPerPage(examinationInfoVO.getPageUnit());
 		paginationInfo.setPageSize(examinationInfoVO.getPageSize());
-
+		
 		examinationInfoVO.setFirstIndex(paginationInfo.getFirstRecordIndex());
 		examinationInfoVO.setLastIndex(paginationInfo.getLastRecordIndex());
 		examinationInfoVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
 		
 		
 		Map<String, Object> map = examinationInfoService.selectAdministrationZoneList(examinationInfoVO);
-		  
+		
 		int totCnt = Integer.parseInt((String)map.get("resultCnt"));
-		  
+		
 		paginationInfo.setTotalRecordCount(totCnt);
 		
 		// 행정구역
 		ComDefaultCodeVO vo = new ComDefaultCodeVO();
 		vo.setCodeId("YPEMD");	// 읍면동
 		List<?> code1List = cmmUseService.selectCmmCodeDetail(vo);
-				
+		
 		model.addAttribute("resultList", map.get("resultList"));
 		model.addAttribute("resultCnt", map.get("resultCnt"));
 		model.addAttribute("paginationInfo", paginationInfo);
 		model.addAttribute("code1List", code1List);
-
-	    return "egiskorea/com/geo/emi/administrationZoneList";
+		
+		return "egiskorea/com/webApp/emi/webAppAdministrationZoneList";
 	}
 	
 	/**
-	 * @Description 행정구역별 조사정보 등록 화면
-	 * @Author 플랫폼개발부문 DT솔루션 이상화
+	 * @Description 행정구역별 조사정보 목록 (웹앱용)
+	 * @Author 글로벌컨설팅부문 장현승
 	 * @param examinationInfoVO
 	 * @param model
-	 * @return "egiskorea/com/geo/emi/administrationZoneView"
-	 * @throws Exception
-	 */
-	@RequestMapping(value = "/insertAdministrationZoneView.do")
-	public String insertAdministrationZoneView(
-			@ModelAttribute("administrationZone") AdministrationZone administrationZone,
-			ModelMap model) throws Exception{ 
-		
-		// 행정구역
-		ComDefaultCodeVO vo = new ComDefaultCodeVO();
-		vo.setCodeId("YPEMD");	// 읍면동
-		List<?> code1List = cmmUseService.selectCmmCodeDetail(vo);
-		
-		model.addAttribute("code1List", code1List);
-		
-		return "egiskorea/com/geo/emi/administrationZoneView";
-	}
-	
-	/**
-	 * @Description 행정구역별 조사정보 등록
-	 * @Author 플랫폼개발부문 DT솔루션 이상화
-	 * @param examinationInfoVO
-	 * @param model
-	 * @return "egiskorea/com/cmm/actionResult2"
-	 * @throws Exception
-	 */
-	@RequestMapping(value = "/insertAdministrationZone.do")
-	public String insertAdministrationZone(
-			final MultipartHttpServletRequest multiRequest,
-			@ModelAttribute("administrationZone") AdministrationZone administrationZone,
-			ModelMap model) throws Exception{ 
-		
-		LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
-		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
-		
-		if(!isAuthenticated) {	
-            return "redirect:/";
-        }
-		
-		if (isAuthenticated) {	
-			final Map<String, MultipartFile> files = multiRequest.getFileMap();
-			InputStream fis = null;
-			
-			Iterator<Entry<String, MultipartFile>> itr = files.entrySet().iterator();
-			MultipartFile file;
-	
-			while (itr.hasNext()) {
-				Entry<String, MultipartFile> entry = itr.next();
-				file = entry.getValue();
-				
-				if (!"".equals(file.getOriginalFilename())) {
-					// 업로드 파일에 대한 확장자를 체크
-					if (file.getOriginalFilename().endsWith(".xls") || file.getOriginalFilename().endsWith(".xlsx") || file.getOriginalFilename().endsWith(".XLS") || file.getOriginalFilename().endsWith(".XLSX")) {
-						try {
-							fis = file.getInputStream();
-							
-							if(file.getOriginalFilename().endsWith(".xls") || file.getOriginalFilename().endsWith(".XLS")) {
-								examinationInfoService.excelExaminationInfoUpload(fis, "xls");									
-							}else if(file.getOriginalFilename().endsWith(".xlsx") || file.getOriginalFilename().endsWith(".XLSX")) {
-								examinationInfoService.excelExaminationInfoUpload(fis, "xlsx");									
-							}
-						} finally {
-							EgovResourceCloseHelper.close(fis);
-						}
-					} else {
-						model.addAttribute("resultMsg", "common.validate.excelNotMatch");
-						return "egiskorea/com/cmm/actionResult2";
-					}
-				}				
-			}
-			
-			administrationZone.setFrstRegisterId((user == null || user.getUniqId() == null) ? "" : user.getUniqId());
-			administrationZone.setLastUpdusrId((user == null || user.getUniqId() == null) ? "" : user.getUniqId());
-			examinationInfoService.insertAdministrationZone(administrationZone);
-			
-			model.addAttribute("resultMsg", "ok");
-		}else {
-			model.addAttribute("resultMsg", "fail");
-		}
-		return "egiskorea/com/cmm/actionResult2";
-	}
-	
-	/**
-	 * @Description 행정구역별 조사정보 삭제
-	 * @Author 플랫폼개발부문 DT솔루션 이상화
-	 * @param examinationInfoVO
-	 * @param model
-	 * @return "egiskorea/com/cmm/actionResult"
-	 * @throws Exception
-	 */
-	@RequestMapping(value = "/deleteAdministrationZone.do")
-	public String deleteAdministrationZone(
-			@ModelAttribute("administrationZone") AdministrationZone administrationZone,
-			ModelMap model) throws Exception{ 
-		
-		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
-		
-		if(!isAuthenticated) {	
-            return "redirect:/";
-        }
-		
-		if (isAuthenticated) {	
-			examinationInfoService.deleteAdministrationZone(administrationZone);
-			model.addAttribute("resultMsg", "common.success.code");
-		}else {
-			model.addAttribute("resultMsg", "common.fail.code");
-		}
-		
-		return "egiskorea/com/cmm/actionResult2";
-	}
-	
-	/**
-	 * @Description 조사정보 목록
-	 * @Author 플랫폼개발부문 DT솔루션 이상화
-	 * @param examinationInfoVO
-	 * @param model
-	 * @return "egiskorea/com/geo/emi/examinationInfoList"
+	 * @return "egiskorea/com/webApp/emi/webAppExaminationInfoList"
 	 * @throws Exception
 	 */
 	@RequestMapping(value = "/selectExaminationInfoList.do")
@@ -267,15 +136,15 @@ public class ExaminationInfoController {
 		model.addAttribute("paginationInfo", paginationInfo);
 		model.addAttribute("li", examinationInfoVO.getCode2());
 		
-		return "egiskorea/com/geo/emi/examinationInfoList";
+		return "egiskorea/com/webApp/emi/webAppExaminationInfoList";
 	}
 	
 	/**
-	 * @Description 조사정보 상세조회
-	 * @Author 플랫폼개발부문 DT솔루션 이상화
+	 * @Description 조사정보 상세조회 (웹앱용)
+	 * @Author 글로벌컨설팅부문 장현승
 	 * @param examinationInfoVO
 	 * @param model
-	 * @return "egiskorea/com/geo/emi/examinationInfo"
+	 * @return "egiskorea/com/webApp/emi/webAppExaminationInfo"
 	 * @throws Exception
 	 */
 	@RequestMapping(value = "/selectExaminationInfo.do")
@@ -287,16 +156,15 @@ public class ExaminationInfoController {
 		
 		model.addAttribute("result", result);
 		
-		return "egiskorea/com/geo/emi/examinationInfo";
+		return "egiskorea/com/webApp/emi/webAppExaminationInfo";
 	}
 	
 	/**
-	 * @Description  조사정보 수정 화면
-	 * @Author 플랫폼개발부문 DT솔루션 이상화
-	 * @Date 2022.01.12
+	 * @Description  조사정보 수정 화면 (웹앱용)
+	 * @Author 글로벌컨설팅부문 장현승
 	 * @param examinationInfoVO
 	 * @param model
-	 * @return "egiskorea/com/geo/emi/examinationInfoView"
+	 * @return "egiskorea/com/webApp/emi/webAppExaminationInfoView"
 	 * @throws Exception
 	 */
 	@RequestMapping(value = "/updateExaminationInfoView.do")
@@ -476,16 +344,15 @@ public class ExaminationInfoController {
 		model.addAttribute("t0600List", t0600List);
 		model.addAttribute("t0700List", t0700List);
 		
-		return "egiskorea/com/geo/emi/examinationInfoView";
+		return "egiskorea/com/webApp/emi/webAppExaminationInfoView";
 	}
 	
 	/**
-	 * @Description  조사정보 수정 화면
-	 * @Author 플랫폼개발부문 DT솔루션 이상화
-	 * @Date 2022.01.12
+	 * @Description  조사정보 수정 화면 (웹앱용)
+	 * @Author 글로벌컨설팅부문 장현승
 	 * @param examinationInfoVO
 	 * @param model
-	 * @return "egiskorea/com/geo/emi/examinationInfoView"
+	 * @return "egiskorea/com/webApp/emi/examinationInfoView"
 	 * @throws Exception
 	 */
 	@RequestMapping(value = "/updateExaminationInfo.do")
@@ -511,67 +378,4 @@ public class ExaminationInfoController {
 		return "egiskorea/com/cmm/actionResult2";
 	}
 	
-	/**
-	 * @Description 조사정보 다중 삭제
-	 * @Author 플랫폼개발부문 DT솔루션 이상화
-	 * @Date 2022.01.11
-	 * @param examinationInfoVO
-	 * @param model
-	 * @return "egiskorea/com/cmm/actionResult2"
-	 * @throws Exception
-	 */
-	@RequestMapping(value = "/deleteExaminationInfoList.do")
-	public String deleteExaminationInfoList(
-			@RequestParam("selCodes") String selCdes,
-			@ModelAttribute("examinationInfoVO") ExaminationInfoVO examinationInfoVO,
-			ModelMap model) throws Exception{ 
-		
-		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
-		
-		if (isAuthenticated) {	
-			String [] strSelCdes = selCdes.split(";");
-			for(int i=0; i<strSelCdes.length; i++) {
-				examinationInfoVO.setOrgFid(strSelCdes[i]);
-				examinationInfoService.deleteExaminationInfo(examinationInfoVO);
-			}
-			model.addAttribute("resultMsg", "common.success.code");
-		}else {
-			model.addAttribute("resultMsg", "common.fail.code");
-		}
-		
-		return "egiskorea/com/cmm/actionResult2";
-	}
-	
-	/**
-	 * @Description 조사정보 엑셀 다운로드 
-	 * @Author 플랫폼개발부문 DT솔루션 이상화
-	 * @Date 2022.01.11
-	 * @param examinationInfoVO
-	 * @param request
-	 * @param response
-	 * @param model
-	 * @return egiskorea/com/cmm/actionResult2
-	 * @throws Exception
-	 */
-	@RequestMapping(value = "/selectExaminationInfoListDownload.do")
-	public void selectExaminationInfoListDownload(
-			@ModelAttribute("examinationInfoVO") ExaminationInfoVO examinationInfoVO,
-			HttpServletRequest request,
-			HttpServletResponse response,
-			ModelMap model) throws Exception{ 
-		
-		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
-		Cookie cookie = new Cookie("fileDownload", URLEncoder.encode("FALSE", "UTF-8"));
-		
-		cookie.setPath("/");
-		cookie.setMaxAge(1000 * 60 * 30); 
-		response.addCookie(cookie);
-		
-		if (isAuthenticated) {	
-			Map<String, Object> map = examinationInfoService.selectExaminationInfoExcelList(examinationInfoVO);
-			
-			ExcelView excelUtil = new ExcelView();
-			excelUtil.downloadExcelData(request, response, map.get("resultList"), "양평군_", "examinationinfo_excel_template.xls");
-		}
-	}
 }
