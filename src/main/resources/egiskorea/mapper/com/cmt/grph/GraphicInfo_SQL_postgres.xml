@@ -44,6 +44,7 @@
 		SELECT
 			TGI.GRPHC_ID,												/* 그래픽 아이디 */
 			TGI.SJ,														/* 제목 */
+			TGI.REGISTER_ID,											/* 작성자 ID */	<!-- 편집 권한 체크 -->
 			CEI.USER_NM AS REGISTER,									/* 작성자 */
 			TO_CHAR(TGI.LAST_MODF_DT, 'YYYY-MM-DD') AS LAST_MODF_DT,	/* 갱신 */
 			PNRS_AT														/* 공유 */
@@ -106,5 +107,21 @@
 		DELETE FROM TBD_IMAGE_MKR
 		WHERE MKR_ID = #{mkrId}
 	</delete>
+	
+	<!-- 그래픽 일괄 공유 수정 -->
+	<update id="updateGrphicPnrsAtBundle" parameterType="graphicInfoVO">
+		UPDATE 
+			tbd_grphc_info
+		SET 
+			pnrs_at = #{pnrsAt}
+		WHERE 
+			grphc_id IN 
+		(
+		<foreach collection="updateGrphicIdArray" item="grphic" separator=", " >
+			#{grphic} 
+		</foreach>
+		)
+		AND register_id = #{registerId}
+	</update>
 
 </mapper>
