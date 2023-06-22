@@ -50,7 +50,7 @@ public class PbprtAccdtServiceImpl extends EgovAbstractServiceImpl implements Pb
 	/** 공유재산 실태조사 파일 업로드 경로 */
 	public static final String FILE_PATH = "Globals.publnd.fileStorePath";
 	
-	/* 공통 DAO */
+	/** 공통 DAO */
 	@Resource(name = "cmmnDao")
 	CmmnDAO cmmnDao;
 	

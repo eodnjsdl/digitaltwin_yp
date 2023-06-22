@@ -4,7 +4,8 @@ map3d.compass = (function () {
     let $element;
 
     function init() {
-        $element = $("span[name='compass']");
+//        $element = $("span[name='compass']");
+        $element = $("#compass");
         addEventListener();
     }
 

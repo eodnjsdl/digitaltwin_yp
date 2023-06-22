@@ -43,6 +43,7 @@
                                 	<option value="all" selected="selected">총인구</option>
                                     <option value="m">남자</option>
                                     <option value="w">여자</option>
+                                    <option value="old">노인</option>
                                 </select>
                             </td> 
                         </tr>										

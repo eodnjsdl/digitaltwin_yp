@@ -160,6 +160,9 @@
 		<typeAlias alias="tbdThrghRouteInfoVO" type="egiskorea.com.job.tran.brin.service.TbdThrghRouteInfoVO" />
 		<typeAlias alias="populationVO" type="egiskorea.com.job.tran.popltn.service.PopulationVO" />
 		
+		<!-- 교통분석 > 대중교통 취약분석 -->
+		<typeAlias alias="transportationVulnerabilityVO" type="egiskorea.com.job.tran.trva.service.TransportationVulnerabilityVO" />
+		
 		<!-- 업무 > 읍면동  -->
 		<typeAlias alias="tgdSccoEmdVO" type="egiskorea.com.job.cmss.service.TgdSccoEmdVO" />
 
@@ -198,6 +201,9 @@
 		
 		<!-- ### 업무 ### -->
 		
+		<!-- webApp -->
+		<typeAlias alias="AddrResultVO" type="egiskorea.com.webApp.service.AddrResultVO" />
+		<typeAlias alias="AddrSearchVO" type="egiskorea.com.webApp.service.AddrSearchVO" />
 	</typeAliases>
     
 </configuration>

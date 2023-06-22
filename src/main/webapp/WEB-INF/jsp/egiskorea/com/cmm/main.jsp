@@ -317,7 +317,7 @@
             <div class="map-control">
                 <ul>
                     <li>
-                        <button type="button" class="ctrl-btn compass" data-name="나침반"><span
+                        <button type="button" class="ctrl-btn compass" data-name="나침반"><span id="compass"
                                 style="transform: rotate(0deg);"></span></button>
                     </li>
                     <li>
@@ -499,6 +499,9 @@
                     <li data-menu="lnb-space" class="">
                         <button type="button" class="lnb-btn">공간정보</button>
                     </li>
+                    <li data-menu="lnb-infoShare" class="">
+                        <button type="button" class="lnb-btn">정보공유</button>
+                    </li>
                     <li data-menu="lnb-facility" class="">
                         <button type="button" class="lnb-btn">시설관리</button>
                     </li>
@@ -590,7 +593,43 @@
                 </div>
             </div>
             <!-- //공간정보 -->
-
+            <!-- uhh add...  -->
+            <!-- 정보 공유 -->
+            <div class="lnb-infoShare lnb-cont grp2">
+                <div class="lnb-header"><h2 class="tit">정보공유</h2></div>
+                <div class="lnb-body">
+                    <div class="scroll-y">
+                        <ul class="lnb-list">
+                            <li><p class="lnb-dep1">정복공유</p>
+                                <ul class="lnb-dep2">
+                                    <li>
+                                        <button id="memoInfo" type="button" class="dataPopup"
+                                                data-popup="rightPopup">메모정보
+                                        </button>
+                                    </li>
+                                    <li>
+                                        <button id="potoInfo" type="button" class="dataPopup"
+                                                data-popup="rightPopup">사진정보
+                                        </button>
+                                    </li>
+                                    <li>
+                                        <button id="graphicInfo" type="button" class="dataPopup"
+                                                data-popup="rightPopup">그리기정보
+                                        </button>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="lnb-util">
+                    <!-- <button type="button" class="manualBtn" title="도움말"></button> -->
+                    <button type="button" class="lnb-close" title="닫기"></button>
+                </div>
+            </div>
+            <!-- //정보공유 -->
+			<!-- uhh add... end -->
+			
             <!-- 시설관리 -->
             <div class="lnb-facility lnb-cont grp2">
                 <div class="lnb-header"><h2 class="tit">시설관리</h2></div>

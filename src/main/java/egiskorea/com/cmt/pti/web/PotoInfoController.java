@@ -23,6 +23,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.google.gson.Gson;
 
+import egiskorea.com.cmt.mmi.service.MemoInfoVO;
 import egiskorea.com.cmt.pti.service.PotoInfoService;
 import egiskorea.com.cmt.pti.service.PotoInfoVO;
 import egovframework.com.cmm.LoginVO;
@@ -120,6 +121,7 @@ public class PotoInfoController {
 		model.addAttribute("resultList", map.get("resultList"));
 		model.addAttribute("resultCnt", map.get("resultCnt"));
 		model.addAttribute("paginationInfo", paginationInfo);
+		model.addAttribute("potoInfoVO", potoInfoVO);		//vo 추가
 		
 		  return "egiskorea/com/cmt/pti/potoInfoList";
 	}
@@ -177,6 +179,7 @@ public class PotoInfoController {
 		model.addAttribute("resultFile", resultFile);
 		model.addAttribute("result", result);
 		model.addAttribute("resultList", map.get("resultList"));
+		model.addAttribute("potoInfoVO", potoInfoVO);		//vo 추가
 		
 		  return "egiskorea/com/cmt/pti/selectPotoInfoView";
 	}
@@ -495,6 +498,45 @@ public class PotoInfoController {
 		List<FileVO> resultFile = fileService.selectFileInfs(fileVO);
 		model.addAttribute("resultFileSize", resultFile.size());
 		return "jsonView";
+	}
+	
+	/**
+	 * 사진 공유 일괄 수정
+	 * @param pnrsAt
+	 * @param updateMemoIdArray
+	 * @param request
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/updatePhotoPnrsAtBundle.do")
+	public ModelAndView updatePhotoPnrsAtBundle(
+			@RequestParam(value="pnrsAt") String pnrsAt,
+			@RequestParam(value="updatePhotoIdArray[]") List<String> updatePhotoIdArray,
+			HttpServletRequest request) throws Exception{
+		
+		ModelAndView mav = new ModelAndView("jsonView");
+		
+		LoginVO loginVO = (LoginVO) request.getSession().getAttribute("loginVO");
+		
+		PotoInfoVO potoInfoVO = new PotoInfoVO();
+		try {
+				if(pnrsAt != null && updatePhotoIdArray != null && loginVO != null) {
+					potoInfoVO.setEmplyrId(loginVO.getId());
+					potoInfoVO.setPnrsAt(pnrsAt);
+					potoInfoVO.setUpdatePhotoIdArray(updatePhotoIdArray);
+					
+					potoInfoService.updatePhotoPnrsAtBundle(potoInfoVO);
+					mav.addObject("result", "success");
+				}else {
+					mav.addObject("result", "fail");
+				}
+			
+		} catch(Exception e) {
+			logger.info(e.getMessage());
+			mav.addObject("result", "fail");
+		}
+		
+		return mav;
 	}
 
 }

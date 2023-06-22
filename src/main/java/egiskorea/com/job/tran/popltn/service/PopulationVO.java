@@ -9,6 +9,7 @@ public class PopulationVO implements Serializable {
 	private Integer allPopltnCnt;			// 전체 인구
 	private Integer malePopltnCnt;			// 남성 인구
 	private Integer femalePopltnCnt;		// 여성 인구
+	private Integer odsnPopltnCnt;			// 노인 인구
 	private String geom; 					// 공간 정보
 	private String pplShowType;				// 항목 정보
 	private String pplGender; 				// 자료 유형(성별)
@@ -44,6 +45,12 @@ public class PopulationVO implements Serializable {
 	}
 	public void setFemalePopltnCnt(Integer femalePopltnCnt) {
 		this.femalePopltnCnt = femalePopltnCnt;
+	}
+	public Integer getOdsnPopltnCnt() {
+		return odsnPopltnCnt;
+	}
+	public void setOdsnPopltnCnt(Integer odsnPopltnCnt) {
+		this.odsnPopltnCnt = odsnPopltnCnt;
 	}
 	public String getGeom() {
 		return geom;

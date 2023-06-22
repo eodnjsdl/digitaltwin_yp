@@ -14,7 +14,7 @@
 			LEFT OUTER JOIN COMTNEMPLYRINFO CEI	
 				ON MI.EMPLYR_ID = CEI.EMPLYR_ID  
 		WHERE 1 = 1
-			AND MI.EMPLYR_ID = #{emplyrId}
+			AND (MI.EMPLYR_ID = #{emplyrId} OR 	MI.PNRS_AT 	 = 'Y')
 		<choose>
 			<when test="@egovframework.com.cmm.util.EgovMybaitsUtil@isEquals(searchCnd,0)">
 				AND MI.SJ LIKE '%' || #{searchWrd} || '%'
@@ -37,6 +37,7 @@
 			LEFT OUTER JOIN COMTNEMPLYRINFO CEI	
 				ON MI.EMPLYR_ID = CEI.EMPLYR_ID  
 		WHERE 1 = 1
+			AND (MI.EMPLYR_ID = #{emplyrId}	OR 	MI.PNRS_AT 	 = 'Y')
 		<choose>
 			<when test="@egovframework.com.cmm.util.EgovMybaitsUtil@isEquals(searchCnd,0)">
 				AND MI.SJ LIKE '%' || #{searchWrd} || '%'
@@ -51,7 +52,7 @@
 	
 	<if test="@egovframework.com.cmm.util.EgovMybaitsUtil@isEquals(sortKind,0)">  
 		SELECT MI.*,st_astext(st_transform(geom, 'EPSG:5179')) as wkt, TO_CHAR(MI.FRST_REGIST_DT, 'YYYY-MM-DD') AS REG_DT, TO_CHAR(MI.LAST_MODF_DT , 'YYYY-MM-DD') AS MODF_DT, CEI.USER_NM,
-			(SELECT MEMO_ID FROM TBD_USRT_MEMO_INFO WHERE 1=1 AND SJ IN ( SELECT MAX(SJ) FROM TBD_USRT_MEMO_INFO A WHERE 1=1 AND A.EMPLYR_ID =#{emplyrId} AND <![CDATA[ A.SJ < #{sj} ]]>	
+			(SELECT MEMO_ID FROM TBD_USRT_MEMO_INFO WHERE 1=1 AND SJ IN ( SELECT MAX(SJ) FROM TBD_USRT_MEMO_INFO A WHERE 1=1 AND (A.EMPLYR_ID =#{emplyrId} OR A.PNRS_AT = 'Y') AND <![CDATA[ A.SJ < #{sj} ]]>	
 				<if test="@egovframework.com.cmm.util.EgovMybaitsUtil@isEquals(searchCnd,0)">
 					AND A.SJ LIKE '%' || #{searchWrd} || '%'
 				</if>
@@ -61,7 +62,7 @@
 				)
 			) AS PREV_MEMO_ID,
 			
-			(SELECT SJ FROM TBD_USRT_MEMO_INFO WHERE 1=1 AND SJ IN ( SELECT MAX(SJ) FROM TBD_USRT_MEMO_INFO A WHERE 1=1 AND A.EMPLYR_ID =#{emplyrId} AND  <![CDATA[ A.SJ < #{sj} ]]>
+			(SELECT SJ FROM TBD_USRT_MEMO_INFO WHERE 1=1 AND SJ IN ( SELECT MAX(SJ) FROM TBD_USRT_MEMO_INFO A WHERE 1=1 AND (A.EMPLYR_ID =#{emplyrId} OR A.PNRS_AT = 'Y') AND  <![CDATA[ A.SJ < #{sj} ]]>
 				<if test="@egovframework.com.cmm.util.EgovMybaitsUtil@isEquals(searchCnd,0)">
 					AND A.SJ LIKE '%' || #{searchWrd} || '%'
 				</if>
@@ -71,7 +72,7 @@
 			
 			)) AS PREV_SJ,
 			
-			(SELECT MEMO_ID FROM TBD_USRT_MEMO_INFO WHERE 1=1 AND SJ IN ( SELECT MIN(SJ) FROM TBD_USRT_MEMO_INFO A WHERE 1=1 AND A.EMPLYR_ID =#{emplyrId} AND  <![CDATA[ A.SJ > #{sj} ]]>
+			(SELECT MEMO_ID FROM TBD_USRT_MEMO_INFO WHERE 1=1 AND SJ IN ( SELECT MIN(SJ) FROM TBD_USRT_MEMO_INFO A WHERE 1=1 AND (A.EMPLYR_ID =#{emplyrId} OR A.PNRS_AT = 'Y') AND  <![CDATA[ A.SJ > #{sj} ]]>
 				<if test="@egovframework.com.cmm.util.EgovMybaitsUtil@isEquals(searchCnd,0)">
 					AND A.SJ LIKE '%' || #{searchWrd} || '%'
 				</if>
@@ -80,7 +81,7 @@
 				</if>
 			 
 			 )) AS NEXT_MEMO_ID,
-			(SELECT SJ FROM TBD_USRT_MEMO_INFO WHERE 1=1 AND SJ IN ( SELECT MIN(SJ) FROM TBD_USRT_MEMO_INFO A WHERE 1=1 AND A.EMPLYR_ID =#{emplyrId} AND  <![CDATA[ A.SJ > #{sj} ]]>
+			(SELECT SJ FROM TBD_USRT_MEMO_INFO WHERE 1=1 AND SJ IN ( SELECT MIN(SJ) FROM TBD_USRT_MEMO_INFO A WHERE 1=1 AND (A.EMPLYR_ID =#{emplyrId} OR A.PNRS_AT = 'Y') AND  <![CDATA[ A.SJ > #{sj} ]]>
 			 	<if test="@egovframework.com.cmm.util.EgovMybaitsUtil@isEquals(searchCnd,0)">
 					AND A.SJ LIKE '%' || #{searchWrd} || '%'
 				</if>
@@ -97,7 +98,7 @@
 	<if test="@egovframework.com.cmm.util.EgovMybaitsUtil@isEquals(sortKind,1)"> 
 		SELECT MI.*,st_astext(st_transform(geom, 'EPSG:5179')) as wkt, TO_CHAR(MI.FRST_REGIST_DT, 'YYYY-MM-DD') AS REG_DT, TO_CHAR(MI.LAST_MODF_DT , 'YYYY-MM-DD') AS MODF_DT, CEI.USER_NM,
 			<![CDATA[
-			(SELECT MEMO_ID FROM TBD_USRT_MEMO_INFO WHERE 1=1 AND LAST_MODF_DT IN ( SELECT MIN(LAST_MODF_DT) FROM TBD_USRT_MEMO_INFO A WHERE 1=1 AND A.EMPLYR_ID =#{emplyrId} AND A.LAST_MODF_DT  > #{lastModfDt}::TIMESTAMP
+			(SELECT MEMO_ID FROM TBD_USRT_MEMO_INFO WHERE 1=1 AND LAST_MODF_DT IN ( SELECT MIN(LAST_MODF_DT) FROM TBD_USRT_MEMO_INFO A WHERE 1=1 AND (A.EMPLYR_ID =#{emplyrId} OR A.PNRS_AT = 'Y') AND A.LAST_MODF_DT  > #{lastModfDt}::TIMESTAMP
 			]]>
 			<if test="@egovframework.com.cmm.util.EgovMybaitsUtil@isEquals(searchCnd,0)">
 				AND A.SJ LIKE '%' || #{searchWrd} || '%'
@@ -108,7 +109,7 @@
 			
 			)) AS PREV_MEMO_ID,
 			<![CDATA[
-			(SELECT SJ FROM TBD_USRT_MEMO_INFO WHERE 1=1 AND LAST_MODF_DT IN ( SELECT MIN(LAST_MODF_DT) FROM TBD_USRT_MEMO_INFO A WHERE 1=1 AND A.EMPLYR_ID =#{emplyrId} AND A.LAST_MODF_DT  > #{lastModfDt}::TIMESTAMP
+			(SELECT SJ FROM TBD_USRT_MEMO_INFO WHERE 1=1 AND LAST_MODF_DT IN ( SELECT MIN(LAST_MODF_DT) FROM TBD_USRT_MEMO_INFO A WHERE 1=1 AND (A.EMPLYR_ID =#{emplyrId} OR A.PNRS_AT = 'Y') AND A.LAST_MODF_DT  > #{lastModfDt}::TIMESTAMP
 			]]>
 			<if test="@egovframework.com.cmm.util.EgovMybaitsUtil@isEquals(searchCnd,0)">
 				AND A.SJ LIKE '%' || #{searchWrd} || '%'
@@ -119,7 +120,7 @@
 			
 			)) AS PREV_SJ,
 			<![CDATA[
-			(SELECT MEMO_ID FROM TBD_USRT_MEMO_INFO WHERE 1=1 AND LAST_MODF_DT IN ( SELECT MAX(LAST_MODF_DT) FROM TBD_USRT_MEMO_INFO A WHERE 1=1 AND A.EMPLYR_ID =#{emplyrId} AND A.LAST_MODF_DT  < #{lastModfDt}::TIMESTAMP
+			(SELECT MEMO_ID FROM TBD_USRT_MEMO_INFO WHERE 1=1 AND LAST_MODF_DT IN ( SELECT MAX(LAST_MODF_DT) FROM TBD_USRT_MEMO_INFO A WHERE 1=1 AND (A.EMPLYR_ID =#{emplyrId} OR A.PNRS_AT = 'Y') AND A.LAST_MODF_DT  < #{lastModfDt}::TIMESTAMP
 			]]>
 			<if test="@egovframework.com.cmm.util.EgovMybaitsUtil@isEquals(searchCnd,0)">
 				AND A.SJ LIKE '%' || #{searchWrd} || '%'
@@ -130,7 +131,7 @@
 						
 			)) AS NEXT_MEMO_ID,
 			<![CDATA[
-			(SELECT SJ FROM TBD_USRT_MEMO_INFO WHERE 1=1 AND LAST_MODF_DT IN ( SELECT MAX(LAST_MODF_DT) FROM TBD_USRT_MEMO_INFO A WHERE 1=1 AND A.EMPLYR_ID =#{emplyrId} AND A.LAST_MODF_DT  < #{lastModfDt}::TIMESTAMP
+			(SELECT SJ FROM TBD_USRT_MEMO_INFO WHERE 1=1 AND LAST_MODF_DT IN ( SELECT MAX(LAST_MODF_DT) FROM TBD_USRT_MEMO_INFO A WHERE 1=1 AND (A.EMPLYR_ID =#{emplyrId} OR A.PNRS_AT = 'Y') AND A.LAST_MODF_DT  < #{lastModfDt}::TIMESTAMP
 			]]>
 			<if test="@egovframework.com.cmm.util.EgovMybaitsUtil@isEquals(searchCnd,0)">
 				AND A.SJ LIKE '%' || #{searchWrd} || '%'
@@ -206,4 +207,19 @@
 		FROM TBD_USRT_MEMO_INFO
 		WHERE MEMO_ID = #{memoId}
 	</select>	
+	
+	<select id="updateMemoPnrsAtBundle" >
+		UPDATE 
+			tbd_usrt_memo_info
+		SET 
+			pnrs_at = #{pnrsAt}
+		WHERE 
+			memo_id IN 
+		(
+		<foreach collection="updateMemoIdArray" item="memo" separator=", " >
+			#{memo} 
+		</foreach>
+		)
+		AND emplyr_id = #{emplyrId}
+	</select>
 </mapper>
