@@ -846,7 +846,7 @@ window.ui = (function () {
 			_area.heigth = "807";
 			break;
 		case "layerInfo":
-			_area.left = "360";
+			_area.left = "415";
 			_area.width = "515";
 			_area.heigth = "807";
 			break;
