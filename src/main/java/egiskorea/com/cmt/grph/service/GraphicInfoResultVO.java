@@ -36,8 +36,19 @@ public class GraphicInfoResultVO implements Serializable {
   
   /** 공유 */
   private String pnrsAt;
+  
+  /** 등록자ID */	//보기 권한 체크 위해
+  private String registerId;
 
-  public String getGrphcId() {
+  public String getRegisterId() {
+	return registerId;
+}
+
+public void setRegisterId(String registerId) {
+	this.registerId = registerId;
+}
+
+public String getGrphcId() {
     return grphcId;
   }
 

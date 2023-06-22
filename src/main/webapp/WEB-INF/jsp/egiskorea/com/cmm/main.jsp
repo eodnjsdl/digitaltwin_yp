@@ -257,7 +257,7 @@
                         onClick="location.href='/uat/uia/logoutAction.do'"></button>
             </div>
             <ul class="GNB">
-                <li>
+                <!-- <li>
                     <span>정보공유</span>
                     <ul>
                         <li>
@@ -270,7 +270,7 @@
                             <button type="button" id="graphicInfo" data-popup="rightPopup">그리기정보</button>
                         </li>
                     </ul>
-                </li>
+                </li> -->
                 <li>
                     <span>영상/지도</span>
                     <ul>
@@ -593,7 +593,7 @@
                 </div>
             </div>
             <!-- //공간정보 -->
-            <!-- uhh add...  -->
+            
             <!-- 정보 공유 -->
             <div class="lnb-infoShare lnb-cont grp2">
                 <div class="lnb-header"><h2 class="tit">정보공유</h2></div>
@@ -628,7 +628,6 @@
                 </div>
             </div>
             <!-- //정보공유 -->
-			<!-- uhh add... end -->
 			
             <!-- 시설관리 -->
             <div class="lnb-facility lnb-cont grp2">

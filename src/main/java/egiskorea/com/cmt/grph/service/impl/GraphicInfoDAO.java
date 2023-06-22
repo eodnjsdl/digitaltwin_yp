@@ -140,4 +140,15 @@ public class GraphicInfoDAO extends ComAbstractDAO {
   public void deleteImageMarker(String mkrId) {
     delete("graphicInfo.deleteImageMarker", mkrId);
   }
+
+  /**
+   * @Description : 이미지 공유 일괄 적용 
+   * @Author 황의현
+   * @Date 2023.06.22
+   * @param graphicInfoVO 
+   */
+  public void updateGrphicPnrsAtBundle(GraphicInfoVO graphicInfoVO) {
+	update("graphicInfo.updateGrphicPnrsAtBundle", graphicInfoVO);
+  }
+
 }
