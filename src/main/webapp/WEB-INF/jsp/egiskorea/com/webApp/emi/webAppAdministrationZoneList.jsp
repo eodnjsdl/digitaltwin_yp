@@ -5,13 +5,8 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 
-<!-- webApp -->
-<script src="/js/egiskorea/com/geo/emi/examinationInfo.js"></script>
-<!-- webApp -->
-
 <script>
     $(document).ready(function () {
-        eventBindByLandInfoList();
         //tabBox > 1depth
         $(document).on("click", ".tabBoxDepth1-wrap .tabBoxDepth1 > ul > li > .inner-tab", function(){
             $(this).each(function(){
@@ -19,24 +14,16 @@
                 $("."+$(this).parent().data("tab")).addClass("on").siblings().removeClass("on");
             });
         });
+        
+        $(".territory-list a").click(function () {
+            $(this).parent().addClass("active").siblings().removeClass("active");
+        });
     });
 
-    function eventBindByLandInfoList() {
-        // 새로고침
-        $(".lnb-territory-webApp .lnb-resetBtn").unbind('click').bind('click', function () {
-            webApp_selectAdministrationZoneList($("#tmpForm")[0])
-        });
+    function webApp_clickTerritory(p1, p2) {
+    	webApp_selectExaminationInfoList($("#tmpForm")[0], p1, p2);
     }
-
-    function fn_select_all_list() {
-        $(".territory-list li").each(function () {
-            if ($(this).hasClass("active")) {
-                $(this).removeClass("active")
-            }
-        });
-        dtmap.clear();
-    }
-
+    
     function fn_select_list() {
         document.searchForm.pageIndex.value = 1;
         webApp_selectAdministrationZoneList($("#searchForm")[0]);
@@ -117,7 +104,7 @@
 				<li>
 			</ul>
 	    </div>
-    <div class="territory-list-wrap" style="border-top: 0px">
+    <div class="territory-list-wrap" style="border-top: 0px; height: 700px;">
         <ul class="territory-list">
             <c:forEach items="${resultList}" var="result" varStatus="status">
                 <li><a href="javascript:webApp_clickTerritory('<c:out value="${result.code2}" />','1')" data-popup="territory-detail" class="result-container">
@@ -152,18 +139,4 @@
     <!-- <button type="button" class="lnb-resetBtn" title="초기화"></button> -->
     <button type="button" class="webAppAdministrationZoneList-lnb-close" title="닫기" onclick="webApp_cancel_administrationZoneList();"></button>
 </div>
-<script>
-    function webApp_clickTerritory(p1, p2) {
-    	webApp_selectExaminationInfoList($("#tmpForm")[0], p1, p2);
-    }
-    $(document).ready(function () {
-        $(".lnb-territory-webApp .bi-write").click(function () {
-            $(this).addClass("active");
-        });
-
-        $(".territory-list a").click(function () {
-            $(this).parent().addClass("active").siblings().removeClass("active");
-        });
-    });
-</script>
 <!-- //국토정보관리 -->

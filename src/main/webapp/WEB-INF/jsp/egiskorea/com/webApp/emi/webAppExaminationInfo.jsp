@@ -5,7 +5,6 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <!-- webApp -->
-<script src="/js/egiskorea/com/geo/emi/examinationInfo.js"></script>
 <script src="/js/egiskorea/com/common.js"></script>
 <script src="/js/map-ui.js"></script>
 <!-- webApp -->
@@ -13,26 +12,34 @@
 <script>
 
     $(document).ready(function () {
-        eventBindByExaminationInfo();
         initByExaminationInfo();
     });
 
-    // 국토정보관리 웹앱용 popup
-    function eventBindByExaminationInfo() {
-        $('#leftPopup .popup-close').click(function () {
-            dtmap.clear();
-        });
-    }
-
-    // 국토정보관리 초기화
+    // 국토정보관리 지도 선택
     function initByExaminationInfo() {
-        dtmap.vector.clear();
         var landRegister = getLandRegisterByPnu("<c:out value='${result.pnu}' />");
         if (landRegister.landRegister) {
-            let feature = dtmap.util.readWKT(landRegister.landRegister.geometry, landRegister.landRegister);
-            feature.setId("1");
-            dtmap.vector.addFeature(feature);
-            dtmap.vector.select(feature.getId());
+            var options ={
+           		typeNames	: 'digitaltwin:lsmd_cont_ldreg_41830', //WFS 레이어명
+           		filter		: "pnu = " + landRegister.landRegister.pnu,
+           	}
+           	
+           	const promise = dtmap.wfsGetFeature(options);
+           	promise.then(function(data) {
+           		// 지도 아이콘 작업
+           		dtmap.vector.clear();
+           	    
+           	    // 지도에 GeoJSON 추가
+           	    dtmap.vector.readGeoJson(data, function(feature) {
+           			return {
+           				stroke: {
+           					color: '#FF3333',
+           					width: 5
+           				},
+           			}
+           	    });
+           	    dtmap.vector.fit();
+           	});
         } else {
             toastr.error("geometry 값이 존재하지 않습니다.");
         }
@@ -55,7 +62,7 @@
 		switch(leftName){	
 			// 조사정보 속성정보
 			case "examinationInfo" 		: leftSubTop = "127px"; leftSubLeft = "440px"; leftSubWidth = "530"; leftSubHeigth = "745"; webApp_selectExaminationInfo($("#tmpForm")[0], param1, param2); break;
-			// 조사정보 수정화면
+			// 조사정보 속성정보 수정화면
 			case "examinationInfoView" 	: leftSubTop = "127px"; leftSubLeft = "440px"; leftSubWidth = "530"; leftSubHeigth = "745"; webApp_updateExaminationInfoView($("#tmpForm")[0], param1, param2); break;
 		}
 		
@@ -137,7 +144,7 @@
                     </tbody>
                 </table>
             </div>
-            <div class="tabBoxDepth1-wrap">
+            <div class="tabBoxDepth1-wrap" style="height: calc(100% - 185px);">
                 <div class="tabBoxDepth1">
                     <ul>
                         <li data-tab="proTab01" class="on">
@@ -286,19 +293,19 @@
                         <div style="padding-bottom: 5px;"><textarea name="opinion" class="form-control" readonly><c:out
                                 value="${result.opinion}"/></textarea></div>
                     </div>
-                    <div class="position-bottom btn-wrap justify-content-end examinationBtn">
-                        <div>
-                            <button type="button" class="btn basic bi-edit"
-                                    onClick="webApp_fn_select_update('<c:out value="${result.pnu}" />')">수정
-                            </button>
-                            <button type="button" class="btn basic bi-excel"
-                                    onClick="webApp_fn_download_excelData(this.form,'<c:out value="${result.pnu}" />')">엑셀저장
-                            </button>
-                            <button type="button" class="btn basic bi-delete2"
-                                    onClick="webApp_fn_select_delete('<c:out value="${result.orgFid}" />')">삭제
-                            </button>
-                        </div>
-                    </div>
+<!--                     <div class="position-bottom btn-wrap justify-content-end examinationBtn"> -->
+<!--                         <div> -->
+<!--                             <button type="button" class="btn basic bi-edit" -->
+<%--                                     onClick="webApp_fn_select_update('<c:out value="${result.pnu}" />')">수정 --%>
+<!--                             </button> -->
+<!--                             <button type="button" class="btn basic bi-excel" -->
+<%--                                     onClick="webApp_fn_download_excelData(this.form,'<c:out value="${result.pnu}" />')">엑셀저장 --%>
+<!--                             </button> -->
+<!--                             <button type="button" class="btn basic bi-delete2" -->
+<%--                                     onClick="webApp_fn_select_delete('<c:out value="${result.orgFid}" />')">삭제 --%>
+<!--                             </button> -->
+<!--                         </div> -->
+<!--                     </div> -->
                 </div>
                 <!-- //지목조사 -->
                 <!-- 공통항목 -->
@@ -521,19 +528,19 @@
                         </div>
 
                     </div>
-                    <div class="position-bottom btn-wrap justify-content-end examinationBtn">
-                        <div>
-                            <button type="button" class="btn basic bi-edit"
-                                    onClick="webApp_fn_select_update('<c:out value="${result.pnu}" />')">수정
-                            </button>
-                            <button type="button" class="btn basic bi-excel"
-                                    onClick="webApp_fn_download_excelData(this.form,'<c:out value="${result.pnu}" />')">엑셀저장
-                            </button>
-                            <button type="button" class="btn basic bi-delete2"
-                                    onClick="webApp_fn_select_delete('<c:out value="${result.orgFid}" />')">삭제
-                            </button>
-                        </div>
-                    </div>
+<!--                     <div class="position-bottom btn-wrap justify-content-end examinationBtn"> -->
+<!--                         <div> -->
+<!--                             <button type="button" class="btn basic bi-edit" -->
+<%--                                     onClick="webApp_fn_select_update('<c:out value="${result.pnu}" />')">수정 --%>
+<!--                             </button> -->
+<!--                             <button type="button" class="btn basic bi-excel" -->
+<%--                                     onClick="webApp_fn_download_excelData(this.form,'<c:out value="${result.pnu}" />')">엑셀저장 --%>
+<!--                             </button> -->
+<!--                             <button type="button" class="btn basic bi-delete2" -->
+<%--                                     onClick="webApp_fn_select_delete('<c:out value="${result.orgFid}" />')">삭제 --%>
+<!--                             </button> -->
+<!--                         </div> -->
+<!--                     </div> -->
                 </div>
                 <!-- //공통항목 -->
                 <!-- 토지특성 -->
@@ -790,19 +797,19 @@
                             </table>
                         </div>
                     </div>
-                    <div class="position-bottom btn-wrap justify-content-end examinationBtn">
-                        <div>
-                            <button type="button" class="btn basic bi-edit"
-                                    onClick="webApp_fn_select_update('<c:out value="${result.pnu}" />')">수정
-                            </button>
-                            <button type="button" class="btn basic bi-excel"
-                                    onClick="webApp_fn_download_excelData(this.form,'<c:out value="${result.pnu}" />')">엑셀저장
-                            </button>
-                            <button type="button" class="btn basic bi-delete2"
-                                    onClick="webApp_fn_select_delete('<c:out value="${result.orgFid}" />')">삭제
-                            </button>
-                        </div>
-                    </div>
+<!--                     <div class="position-bottom btn-wrap justify-content-end examinationBtn"> -->
+<!--                         <div> -->
+<!--                             <button type="button" class="btn basic bi-edit" -->
+<%--                                     onClick="webApp_fn_select_update('<c:out value="${result.pnu}" />')">수정 --%>
+<!--                             </button> -->
+<!--                             <button type="button" class="btn basic bi-excel" -->
+<%--                                     onClick="webApp_fn_download_excelData(this.form,'<c:out value="${result.pnu}" />')">엑셀저장 --%>
+<!--                             </button> -->
+<!--                             <button type="button" class="btn basic bi-delete2" -->
+<%--                                     onClick="webApp_fn_select_delete('<c:out value="${result.orgFid}" />')">삭제 --%>
+<!--                             </button> -->
+<!--                         </div> -->
+<!--                     </div> -->
                 </div>
                 <!-- //토지특성 -->
                 <!-- 주택특성 -->
@@ -1128,19 +1135,19 @@
                             </table>
                         </div>
                     </div>
-                    <div class="position-bottom btn-wrap justify-content-end examinationBtn">
-                        <div>
-                            <button type="button" class="btn basic bi-edit"
-                                    onClick="webApp_fn_select_update('<c:out value="${result.pnu}" />')">수정
-                            </button>
-                            <button type="button" class="btn basic bi-excel"
-                                    onClick="webApp_fn_download_excelData(this.form,'<c:out value="${result.pnu}" />')">엑셀저장
-                            </button>
-                            <button type="button" class="btn basic bi-delete2"
-                                    onClick="webApp_fn_select_delete('<c:out value="${result.orgFid}" />')">삭제
-                            </button>
-                        </div>
-                    </div>
+<!--                     <div class="position-bottom btn-wrap justify-content-end examinationBtn"> -->
+<!--                         <div> -->
+<!--                             <button type="button" class="btn basic bi-edit" -->
+<%--                                     onClick="webApp_fn_select_update('<c:out value="${result.pnu}" />')">수정 --%>
+<!--                             </button> -->
+<!--                             <button type="button" class="btn basic bi-excel" -->
+<%--                                     onClick="webApp_fn_download_excelData(this.form,'<c:out value="${result.pnu}" />')">엑셀저장 --%>
+<!--                             </button> -->
+<!--                             <button type="button" class="btn basic bi-delete2" -->
+<%--                                     onClick="webApp_fn_select_delete('<c:out value="${result.orgFid}" />')">삭제 --%>
+<!--                             </button> -->
+<!--                         </div> -->
+<!--                     </div> -->
                 </div>
                 <!-- //주택특성 -->
                 <!-- 토지피복 -->
@@ -1179,19 +1186,19 @@
                             </tbody>
                         </table>
                     </div>
-                    <div class="position-bottom btn-wrap justify-content-end examinationBtn">
-                        <div>
-                            <button type="button" class="btn basic bi-edit"
-                                    onClick="webApp_fn_select_update('<c:out value="${result.pnu}" />')">수정
-                            </button>
-                            <button type="button" class="btn basic bi-excel"
-                                    onClick="webApp_fn_download_excelData(this.form,'<c:out value="${result.pnu}" />')">엑셀저장
-                            </button>
-                            <button type="button" class="btn basic bi-delete2"
-                                    onClick="webApp_fn_select_delete('<c:out value="${result.orgFid}" />')">삭제
-                            </button>
-                        </div>
-                    </div>
+<!--                     <div class="position-bottom BTN-WRAP JUSTIFY-CONTENT-END EXAMINATIONBTN"> -->
+<!--                         <DIV> -->
+<!--                             <BUTTON TYPE="BUTTON" CLASS="BTN BASIC BI-EDIT" -->
+<%--                                     ONCLICK="WEBAPP_FN_SELECT_UPDATE('<C:OUT VALUE="${RESULT.PNU}" />')">수정 --%>
+<!--                             </BUTTON> -->
+<!--                             <BUTTON TYPE="BUTTON" CLASS="BTN BASIC BI-EXCEL" -->
+<%--                                     ONCLICK="WEBAPP_FN_DOWNLOAD_EXCELDATA(THIS.FORM,'<C:OUT VALUE="${RESULT.PNU}" />')">엑셀저장 --%>
+<!--                             </BUTTON> -->
+<!--                             <BUTTON TYPE="BUTTON" CLASS="BTN BASIC BI-DELETE2" -->
+<%--                                     ONCLICK="WEBAPP_FN_SELECT_DELETE('<C:OUT VALUE="${RESULT.ORGFID}" />')">삭제 --%>
+<!--                             </BUTTON> -->
+<!--                         </DIV> -->
+<!--                     </DIV> -->
                 </div>
                 <!-- //토지피복 -->
             </div>

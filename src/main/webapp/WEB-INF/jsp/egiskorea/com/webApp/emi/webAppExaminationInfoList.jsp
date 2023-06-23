@@ -5,36 +5,9 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 
-<!-- webApp -->
-<script src="/js/egiskorea/com/geo/emi/examinationInfo.js"></script>
-<!-- webApp -->
-
 <script>
 
-    $(document).ready(function () {
-        eventBindByExaminationInfoList();
-        initByExaminationInfoList();
-    });
-
-    function eventBindByExaminationInfoList() {
-        $('#leftPopup .popup-close').click(function () {
-            $("input[name='code2']").val("");
-            dtmap.clear();
-        });
-    }
-
-    function initByExaminationInfoList() {
-        dtmap.vector.clear();
-        var landRegister = getLandRegisterByPnu("<c:out value='${searchVO.code2}' />");
-        landRegister.landRegister ?
-            (
-                dtmap.vector.readWKT(landRegister.landRegister.geometry, landRegister.landRegister),
-                    dtmap.vector.fit()
-            )
-            : toastr.error("geometry 값이 존재하지 않습니다.");
-    }
-
-    function fn_check_all() {
+	function fn_check_all() {
         var checkField = document.listForm.delYn;
         if (document.listForm.checkAll.checked) {
             if (checkField) {
@@ -190,7 +163,7 @@
             <input type="hidden" name="pnu">
             <input type="hidden" name="selCodes" id="selCodes">
             <input type="hidden" name="code2" value="<c:out value='${searchVO.code2}' />">
-            <div class="bbs-list-wrap" style="height: 702px;"><!-- pagination 하단 고정을 위해 반드시 필요 -->
+            <div class="bbs-list-wrap" style="height: 740px;"><!-- pagination 하단 고정을 위해 반드시 필요 -->
                 <div class="bbs-default">
                     <div class="bbs-list-head">
                         <table class="bbs-list">

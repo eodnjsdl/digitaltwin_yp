@@ -1,6 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <script>
+$(document).ready(function() {
+	//console.log("webAppSearch.jsp");	
+})
+
 //페이지 이동
 $("#pageNum li").on("click", function() {
 	var pge = $(this).val();
@@ -17,14 +21,14 @@ $("#pageNum li").on("click", function() {
 
 // 주소 클릭
 $("#srchAddrList .addrResult").on("click", function() {
-	var addrId = $(this).attr('id');
+	var pnu = $(this).attr('id');
 	
 	$("#srchAddrList .addrResult").removeClass("addrOn");
-	$("#" + addrId).addClass("addrOn");
+	$("#" + pnu).addClass("addrOn");
 	
 	var options ={
 		typeNames	: 'digitaltwin:lsmd_cont_ldreg_41830', //WFS 레이어명
-		filter		: "gid = " + addrId,
+		filter		: "pnu = " + pnu,
 	}
 	
 	const promise = dtmap.wfsGetFeature(options);
@@ -65,7 +69,7 @@ $("#searchTit").on("click", function() {
 <div id="searchDiv">
 	<div id="srchAddrList">
 		<c:forEach items="${resultList}" var="list" varStatus="status">
-			<div id="${list.gid}" class="addrResult">
+			<div id="${list.pnu}" class="addrResult">
 				<span>경기도 양평군 ${list.emdKorNm} ${list.liKorNm} ${list.jibun}</span>
 			</div>
 		</c:forEach>

@@ -384,13 +384,8 @@ window.ui = (function () {
 							break;
 						//국토조사 웹앱
 						case "lnb-territory-webApp" :
-							console.log('lnb-territory-webApp');
 							aj_selectAdministrationZoneList($("#tmpForm")[0]);
 							break;
-//						case "webApp-search" :
-//							console.log("webApp");
-//							break;
-
 					}
 				} 
 			} else {

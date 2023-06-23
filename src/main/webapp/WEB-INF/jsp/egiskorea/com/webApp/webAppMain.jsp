@@ -317,6 +317,10 @@
     ui.init();
 
     $(document).ready(function () {
+    	// 이벤트 리스너 추가
+    	dtmap.off('select');
+    	dtmap.on('select', territorySelectEventListener);
+    	
         _setMainUIAction();
         _setMainUIEvent();
         
@@ -389,7 +393,7 @@
     
     //set menu 2D or 3D
     function setMainUI() {
-        console.log('webApp 지도 전환');
+    	$("#compass").css("transform", "rotate(0deg)");
     }
 
 </script>
