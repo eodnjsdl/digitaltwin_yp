@@ -15,6 +15,10 @@ $(document).ready(function () {
 	$('.bbs-top-side #year').on('change', function() {
 		selectAdministAssetsInfoList(0);
 	});
+	
+	$('#bottomPopup .popup-reset').on('click', function() {
+		selectAdministAssetsInfoList(0);
+	});
 });
 
 /**
@@ -128,7 +132,7 @@ function administAssetsGrid() {
 		body: {
 			align: "center",
 			onClick: function() {
-				toastr.error('상세보기 호출');
+				administAssetsGrid.focus(this.doindex);
 			}
 		},
 		page: {
