@@ -60,33 +60,35 @@ public class AdministAssetsDAO extends ComAbstractDAO {
 		return selectList("administAssetsMng.selectAdministAssetsYearList");
 	}
 	
-//	public int insertAdministAssetsInfoByCSV(List<AdministAssetsVO> administAssetsList) {
-//		return insert("administAssetsMng.insertAdministAssetsInfoByCSV", administAssetsList);
-//	}
+	/**
+	 * CSV 업로드
+	 * @param administAssetsList
+	 * @return
+	 */
 	public int insertAdministAssetsInfoByCSV(List<AdministAssetsVO> administAssetsList) {
 		int result = 0;
 		SqlSession sqlSession = sqlSessionTemplateBatch.getSqlSessionFactory().openSession(ExecutorType.BATCH);
 		try {
-//			sqlSessionTemplateBatch.insert("administAssetsMng.insertAdministAssetsInfoByCSV", administAssetsList);
 			sqlSession.insert("administAssetsMng.insertAdministAssetsInfoByCSV", administAssetsList);
 			result++;
 		} catch (Exception e) {
 			e.getMessage();
 		} finally {
-//			sqlSessionTemplateBatch.flushStatements();
-//			sqlSessionTemplateBatch.clearCache();
 			sqlSession.flushStatements();
-			sqlSession.clearCache();
+//			sqlSession.clearCache();
 			sqlSession.close();
 		}
 		
 		return result;
 	}
 	
-//	public int insertAdministAssetsInfoByCSV(AdministAssetsVO administAssetsVO) {
-//		return insert("administAssetsMng.insertAdministAssetsInfoByCSV", administAssetsVO);
-//	}
-	
+	/**
+	 * CSV 업로드 - 동일 연도일 때 삭제
+	 * @param administAssetsVO
+	 * @return
+	 * @throws SQLException
+	 * @throws Exception
+	 */
 	public int deleteAdministAssetsInfo(AdministAssetsVO administAssetsVO) throws SQLException, Exception {
 		return delete("administAssetsMng.deleteAdministAssetsInfo", administAssetsVO);
 	}

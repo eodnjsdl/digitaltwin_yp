@@ -48,7 +48,12 @@ public class AdministAssetsMngController {
 	
 	private static final Logger logger = LoggerFactory.getLogger(AdministAssetsMngController.class);
 	
+	/** 행정자산관리 CSV 파일 업로드 경로 */
+	public static final String FILE_PATH = "Globals.asmng.csvStorePath";
+	
+	/** 동시 입력 및 현재 상태 */
 	private int dataCountForProgress = 0;
+	private boolean isUploading = false;
 	
 	public int getDataCountForProgress() {
 		return dataCountForProgress;
@@ -56,6 +61,14 @@ public class AdministAssetsMngController {
 
 	public void setDataCountForProgress(int dataCountForProgress) {
 		this.dataCountForProgress = dataCountForProgress;
+	}
+	
+	public boolean isUploading() {
+		return isUploading;
+	}
+	
+	public void setUploading(boolean isUploading) {
+		this.isUploading = isUploading;
 	}
 	
 	/**
@@ -114,11 +127,19 @@ public class AdministAssetsMngController {
 		return mav;
 	}
 	
+	/**
+	 * CSV 업로드
+	 * @param request
+	 * @param mpRequest
+	 * @param administAssetsVO
+	 * @return
+	 * @throws FileNotFoundException 
+	 */
 	@RequestMapping(value ="/insertAdministAssetsInfoCSV.do")
 	@ResponseBody
 	public ModelAndView insertAdministAssetsInfoCSV(HttpServletRequest request,
 			MultipartHttpServletRequest mpRequest,
-			AdministAssetsVO administAssetsVO) {
+			AdministAssetsVO administAssetsVO) throws FileNotFoundException {
 		ModelAndView mav = new ModelAndView("jsonView");
 		
 		String year = request.getParameter("year");
@@ -126,63 +147,95 @@ public class AdministAssetsMngController {
 		MultipartFile file = mpRequest.getFile("fileUpload");
 		
 		List<AdministAssetsVO> administAssetsList = new ArrayList<AdministAssetsVO>();
+		setUploading(true);
 		int result = 0;
+		boolean isSuccess = false;
 		try {
-			// 지정된 연도가 있으면 지우고 새로 업로드하기
-			administAssetsVO.setYear(year);
-			result = administAssetsService.deleteAdministAssetsInfo(administAssetsVO);
-			administAssetsList = administAssetsService.csvUploadHelper(file, year);
-			
-			int dataCount = administAssetsList.size();
+			if (isUploading()) {
+				// 지정된 연도가 있으면 지우고 새로 업로드하기
+				administAssetsVO.setYear(year);
+				result = administAssetsService.deleteAdministAssetsInfo(administAssetsVO);
+				administAssetsList = administAssetsService.csvUploadHelper(file, year);
+				
+				int dataCount = administAssetsList.size();
 //			result += administAssetsService.csvUploadHelper(file, year);
-			// 전역 변수
-			setDataCountForProgress(dataCount);
-			long startTime = System.currentTimeMillis();
-			if (dataCount > 0) {
-				if (dataCount > 10) {
-					result = 0;
-					int offset = 0;
-					for (int i = 1; i <= (dataCount / 7); i++) {
-						List<AdministAssetsVO> subList = new ArrayList<>();
-						subList = administAssetsList.subList(offset, i * 7);
-						result += administAssetsService.insertAdministAssetsInfoByCSV(subList);
-						offset = i * 7;
+				// 전역 변수
+				setDataCountForProgress(dataCount);
+				long startTime = System.currentTimeMillis();
+				if (dataCount > 0) {
+					if (dataCount > 6) {
+						result = 0;
+						int offset = 0;
+//					int offset = 16;
+//					List<AdministAssetsVO> subList = new ArrayList<>();
+//					for (int i = 0; i < offset; i++) {
+//						subList.add(administAssetsList.get(i));
+//						if (subList.size() == 16) {
+//							result += administAssetsService.insertAdministAssetsInfoByCSV(subList);
+//							if (dataCount - offset < 16) {
+//								subList = new ArrayList<>();
+//								for (int j = offset; j < dataCount; j++) {
+//									subList.add(administAssetsList.get(j));
+//								}
+//								result += administAssetsService.insertAdministAssetsInfoByCSV(subList);
+//							} else {
+//								offset += 16;
+//								subList = new ArrayList<>();
+//							}
+//						}
+//					}
+						
+						for (int i = 1; i <= (dataCount / 6); i++) {
+							List<AdministAssetsVO> subList = new ArrayList<>();
+							subList = administAssetsList.subList(offset, i * 6);
+							result += administAssetsService.insertAdministAssetsInfoByCSV(subList);
+							offset = i * 6;
+						}
+						if (offset != dataCount) {
+							List<AdministAssetsVO> subList = new ArrayList<>();
+							subList = administAssetsList.subList(offset, dataCount);
+							// 끊고 남은 데이터
+							result += administAssetsService.insertAdministAssetsInfoByCSV(subList);
+							
+						}
+					} else {
+						result = administAssetsService.insertAdministAssetsInfoByCSV(administAssetsList);
 					}
-					if (offset != dataCount) {
-						List<AdministAssetsVO> subList = new ArrayList<>();
-						subList = administAssetsList.subList(offset, dataCount);
-						// 끊고 남은 데이터
-						result += administAssetsService.insertAdministAssetsInfoByCSV(subList);
-					}
-				} else {
-					result = administAssetsService.insertAdministAssetsInfoByCSV(administAssetsList);
 				}
+				long endTime = System.currentTimeMillis();
+				long resutTime = endTime - startTime;
+				isSuccess = true;
+				System.out.println("트랜젝션 배치" + " 소요시간  : " + resutTime/1000 + "(ms)");
 			}
-			long endTime = System.currentTimeMillis();
-	        long resutTime = endTime - startTime;
-	        System.out.println("트랜젝션 배치" + " 소요시간  : " + resutTime/1000 + "(ms)");
 		} catch (FileNotFoundException e) {
 			e.getMessage();
 		} catch (SQLException e) {
 			e.getMessage();
 		} catch (Exception e) {
 			e.getMessage();
+		} finally {
+			// 변수 초기화
+			setDataCountForProgress(0);
+			setUploading(false);
 		}
 		
-		// 변수 초기화
-		setDataCountForProgress(0);
+		int count = 0;
+		count = administAssetsService.selectAdministAssetsTotCnt();
 		
 		if (result > 0) {
-			mav.addObject("resultCd", result);
-		} else {
-			mav.addObject("resultCd", result);
+			mav.addObject("resultCnt", count);
 		}
 		
+		mav.addObject("isSuccess", isSuccess);
 		mav.addObject("year", year);
 		
 		return mav;
 	}
 	
+	/**
+	 * CSV 업로드 진행률
+	 * @return
+	 */
 	@RequestMapping(value = "/csvUploadProgress.do")
 	@ResponseBody
 	public ModelAndView csvUploadprogress() {
@@ -198,6 +251,26 @@ public class AdministAssetsMngController {
 		
 		mav.addObject("progress", progress);
 		mav.addObject("count", currDataCount);
+		
+		return mav;
+	}
+	
+	@RequestMapping(value = "/csvUploadIsUploading.do")
+	@ResponseBody
+	public ModelAndView csvUploadIsUploading() {
+		ModelAndView mav = new ModelAndView("jsonView");
+		String process = "";
+		boolean uploading = false;
+		
+		if (isUploading()) {
+			process = "작업 중";
+			uploading = true;
+		} else {
+			process = "작업 없음";
+		}
+		
+		mav.addObject("uploading", uploading);
+		mav.addObject("process", process);
 		
 		return mav;
 	}
