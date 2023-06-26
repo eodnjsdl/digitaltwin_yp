@@ -103,7 +103,7 @@
         if (!validateAdministrationZone(form)) {
             return false;
         } else {
-            var isUpload = false;
+            var isUpload = true;						// 드래그앤드롭일 경우에만 false
             var formData = new FormData(form);
             $.each(uploadFiles, function (i, file) {
                 if (file.upload != "disable") {
@@ -154,7 +154,7 @@
                         }
                     }, complete: function () {
                         ui.loadingBar("hide");
-                        alert('등록이 완료되었습니다.');
+                        toastr.success("등록이 완료되었습니다.");
                     }
                 });
             }
@@ -165,7 +165,7 @@
 
 
 <!-- 국토정보관리 > 등록하기 -->
-<div class="popup-header">국토정보관리 등록하기 웹앱용</div>
+<div class="popup-header">국토정보관리 등록하기</div>
 <div class="popup-body">
     <div class="left-popup-body territory-regist-body">
         <form:form commandName="administrationZone" method="post">
@@ -200,9 +200,11 @@
                         <td>
                             <div id="dragArea" class="file-drop">
                                 <div class="text">
-                                    등록할 파일을 <strong>드래그앤드롭</strong>으로 이동하세요 <br>
-                                    (xls, xlsx)
+<!-- 		                                    등록할 파일을 <strong>드래그앤드롭</strong>으로 이동하세요 <br>
+		                                    (xls, xlsx) -->
+                                <input type="file" name="fileInput" id="fileInput">
                                 </div>
+                                
                                 <div id="uploadFiles" class="dataUpload-default" style="display: none;">
                                     <table class="dataUpload-list">
                                         <colgroup>
