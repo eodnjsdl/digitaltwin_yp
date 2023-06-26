@@ -74,6 +74,14 @@
 	right: 10px;
 }
 
+#popup_territory {
+	display: none;
+	position: absolute;
+	width: 100%;
+	height:100%;
+	background: white;
+}
+
 #lnb-territory-webApp {
 	margin-right: 10px;
 }

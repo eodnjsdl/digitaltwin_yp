@@ -24,7 +24,7 @@ function webApp_selectAdministrationZoneList(frm){
 }
 
 //조사정보 목록 호출 (웹앱용)
-function webApp_selectExaminationInfoList(frm, param1, param2){
+function webApp_selectExaminationInfoList(frm, param1){
 	ui.loadingBar("show");
 	ui.openPopup("leftPopup","insertAdministrationZoneView");		// 조사정보 웹앱용 popup
 	var formData = new FormData(frm);
@@ -41,7 +41,8 @@ function webApp_selectExaminationInfoList(frm, param1, param2){
 		async: false,
 		success : function(returnData, status){
 			if(status == "success") {
-	        	$(".search-list").empty();
+				$('.lnb-search-webApp #searchKeyword').val('');
+	        	$(".lnb-search-webApp .search-list").empty();
 	        	
 				$("#leftPopup").html(returnData);					// 조사정보 웹앱용 popup
 			}else{ 
@@ -58,8 +59,9 @@ function webApp_selectExaminationInfoList(frm, param1, param2){
 }
 
 //속성정보 호출 (웹앱용)
-function webApp_selectExaminationInfo(frm, param1, param2){
+function webApp_selectExaminationInfo(frm, param1){
 	ui.loadingBar("show");
+	ui.openPopup("leftSubPopup","emiInfo");		// 속성정보 웹앱용 popup
 	
 	var formData = new FormData(frm);
 	if(param1 != ''){
@@ -76,14 +78,8 @@ function webApp_selectExaminationInfo(frm, param1, param2){
 		async: false,
 		success : function(returnData, status){
 			if(status == "success") {
-				$("#" + param2 + "SubPopup").html(returnData);
-				if(param2 == "left"){
-					// 속성정보 팝업창 닫기
-					$(".sub-popup-body").removeClass("survey-information-body").addClass("territory-info-body detail");
-				}else if(param2 == "right"){
-					// 속성정보 팝업창 닫기
-					$(".sub-popup-body").removeClass("territory-info-body detail").addClass("survey-information-body");
-				}
+				$("#leftSubPopup").empty();
+				$("#leftSubPopup").html(returnData);
 			}else{ 
 				toastr.error("관리자에게 문의 바랍니다.", "정보를 불러오지 못했습니다.");
 				return;
@@ -95,7 +91,7 @@ function webApp_selectExaminationInfo(frm, param1, param2){
 }
 
 //속성정보 수정화면 호출 (웹앱용)
-function webApp_updateExaminationInfoView(frm, param1, param2){
+function webApp_updateExaminationInfoView(frm, param1){
 	ui.loadingBar("show");
 	
 	var formData = new FormData(frm);
@@ -142,9 +138,31 @@ function webApp_fn_download_excelData(form, pnu){
 	ui.loadingBar("show");
 	form.action = "/geo/emi/selectExaminationInfoListDownload.do";
 	form.submit();
+	//location.href = "/geo/emi/selectExaminationInfoListDownload.do";
 	
 	var downloadTimer = setInterval(function() {
 		clearInterval(downloadTimer);
 		ui.loadingBar("hide");
 	}, 1000);
+}
+
+// 속성정보에서 수정 클릭시 (조사정보 웹앱용 popup)
+function webApp_leftSubPopupOpen(leftName, param1){
+	var leftSubWidth = "";
+	var leftSubHeigth = "";
+	var leftSubTop = "";
+	var leftSubLeft = "";
+	
+	switch(leftName){	
+		// 조사정보 속성정보
+		case "examinationInfo" 		: leftSubTop = "127px"; leftSubLeft = "440px"; leftSubWidth = "530"; leftSubHeigth = "745"; webApp_selectExaminationInfo($("#tmpForm")[0], param1); break;
+		// 조사정보 속성정보 수정화면
+		case "examinationInfoView" 	: leftSubTop = "127px"; leftSubLeft = "440px"; leftSubWidth = "530"; leftSubHeigth = "745"; webApp_updateExaminationInfoView($("#tmpForm")[0], param1); break;
+	}
+	
+	$("#leftSubPopup").addClass("opened");
+	
+	$(".scroll-y").mCustomScrollbar({
+		scrollbarPosition:"outside"
+	});
 }

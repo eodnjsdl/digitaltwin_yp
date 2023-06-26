@@ -223,20 +223,6 @@
         <div id="map2D" class="main-map" style="position: absolute;"></div>
         <div id="map3D" style="width: 100%; height: 100%; display: none; user-select: none; position: absolute;"></div>
 
-		<!-- [popup-panel] start -->
-		<!-- 국토정보관리 웹앱용 popup -->
-        <div id="leftPopup" class="popup-panel popup-left popup-draggable" style="z-index: 1001;">
-        </div>
-        
-        <!-- 조사정보 웹앱용 popup -->
-        <div id="leftSubPopup" class="popup-panel popup-sub popup-draggable" style="z-index: 1003;">
-        </div>
-        
-        <!-- 속성정보 웹앱용 popup -->
-        <div id="rightSubPopup" class="popup-panel popup-sub popup-draggable" style="z-index: 1002;">
-        </div>
-        <!-- [popup-panel] end -->
-        
         <!-- map-aside -->
         <div id="map-aside">
             <div class="map-control">
@@ -288,9 +274,17 @@
         <!-- //side -->
 
         <!-- 국토조사 -->
-        <div id="popup_territory" class="lnb-territory-webApp lnb-cont" style="width: 100%; height:100%; display: none; background:white; z-index: 1000; position: absolute;">
+        <div id="popup_territory" class="lnb-territory-webApp lnb-cont" style="z-index: 1000;">
         </div>
         <!-- //국토조사 -->
+        
+        <!-- 조사정보 popup -->
+        <div id="leftPopup" class="popup-panel popup-left popup-draggable" style="z-index: 1001;">
+        </div>
+        
+        <!-- 속성정보 웹앱용 popup -->
+        <div id="leftSubPopup" class="popup-panel popup-sub popup-draggable" style="z-index: 1002;">
+        </div>
         
     </div>
     <!-- //container -->
@@ -393,6 +387,8 @@
     
     //set menu 2D or 3D
     function setMainUI() {
+    	$('.lnb-search-webApp #searchKeyword').val('');
+    	$(".lnb-search-webApp .search-list").empty();
     	$("#compass").css("transform", "rotate(0deg)");
     }
 

@@ -20,33 +20,14 @@ $("#pageNum li").on("click", function() {
 })
 
 // 주소 클릭
-$("#srchAddrList .addrResult").on("click", function() {
+$("#srchAddrList .addrResult").on("click", function(e) {
 	var pnu = $(this).attr('id');
+	var addr = e.target.innerText;
 	
 	$("#srchAddrList .addrResult").removeClass("addrOn");
 	$("#" + pnu).addClass("addrOn");
 	
-	var options ={
-		typeNames	: 'digitaltwin:lsmd_cont_ldreg_41830', //WFS 레이어명
-		filter		: "pnu = " + pnu,
-	}
-	
-	const promise = dtmap.wfsGetFeature(options);
-	promise.then(function(data) {
-		// 지도 아이콘 작업
-		dtmap.vector.clear();
-	    
-	    // 지도에 GeoJSON 추가
-	    dtmap.vector.readGeoJson(data, function(feature) {
-			return {
-				stroke: {
-					color: '#FF3333',
-					width: 5
-				},
-			}
-	    });
-	    dtmap.vector.fit();
-	});
+	drawPnu(pnu, addr.substring(12));
 })
 
 $("#searchTit").on("click", function() {

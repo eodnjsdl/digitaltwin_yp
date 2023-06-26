@@ -28,8 +28,7 @@
                         if (status == "success") {
                             if (removeLine(returnData) == "ok") {
                                 toastr.success("<spring:message code="success.common.update" />");
-								webApp_clickTerritory("<c:out value="${examinationInfo.pnu.substring(0, 10)} "/>",'1');
-								webApp_leftSubPopupOpen("examinationInfo", "<c:out value="${examinationInfo.pnu} "/>", "left");
+								webApp_leftSubPopupOpen("examinationInfo", "<c:out value="${examinationInfo.pnu} "/>");
                             } else {
                                 toastr.success("<spring:message code="fail.common.update" />");
                             }
@@ -47,12 +46,12 @@
 
     // 수정화면의 닫기버튼 클릭시
     function webApp_cancel_examinationInfoView() {
-        $("#leftSubPopup").removeClass("opened").html("");
+        $("#leftSubPopup").removeClass("opened").empty();
     }
     
     // 수정화면의 취소버튼 클릭시 (수정화면 닫고 상세화면)
     function webApp_fn_cancel_examinationInfo(id) {
-        $("#leftSubPopup").removeClass("opened").html("");
+        $("#leftSubPopup").removeClass("opened").empty();
     	fn_left_select_detail(id[0].value);
     }
     
@@ -62,7 +61,7 @@
     <form:hidden path="pnu"/>
     <div class="popup-header">속성정보 수정</div>
     <div class="popup-body">
-        <div class="sub-popup-body territory-info-body detail">
+        <div class="sub-popup-body territory-info-body">
             <h3 class="cont-tit">기본정보</h3>
             <div class="data-default">
                 <table class="data-write">
@@ -94,7 +93,7 @@
                     </tbody>
                 </table>
             </div>
-            <div class="tabBoxDepth1-wrap" style="height: calc(100% - 160px);">
+            <div class="tabBoxDepth1-wrap" style="height: calc(100% - 150px);">
                 <div class="tabBoxDepth1">
                     <ul>
                         <li data-tab="proTab01" class="on">

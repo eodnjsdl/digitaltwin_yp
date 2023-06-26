@@ -29,6 +29,10 @@ function searchAddress(pageNum) {
 	});
 }
 
+function webApp_clickTerritory(pnu) {
+	webApp_selectExaminationInfoList($("#tmpForm")[0], pnu);		// 조사정보
+}
+
 function territorySelectEventListener(e) {
 	var id = e.id; //피쳐 아이디
 	var idArray = id.split(".");
@@ -67,9 +71,36 @@ function territorySelectEventListener(e) {
 		
 		if (landRegister.landRegister) {
 			ui.openPopup("rightSubPopup", "emiInfo");
-	    	webApp_selectExaminationInfo($("#tmpForm")[0], pnu, "right");
+	    	webApp_selectExaminationInfo($("#tmpForm")[0], pnu);
 		} else {
 			toastr.error("geometry 값이 존재하지 않습니다.");
 		}
     });
+}
+
+function drawPnu(pnu, addr) {
+	var options ={
+		typeNames	: 'digitaltwin:lsmd_cont_ldreg_41830', //WFS 레이어명
+		filter		: "pnu = " + pnu,
+	}
+	
+	const promise = dtmap.wfsGetFeature(options);
+	promise.then(function(data) {
+		// 지도 아이콘 작업
+		dtmap.vector.clear();
+	    
+	    // 지도에 GeoJSON 추가
+	    dtmap.vector.readGeoJson(data, function(feature) {
+			return {
+				stroke: {
+					color: '#FF3333',
+					width: 5
+				},
+				label: {
+                    text: addr
+                }
+			}
+	    });
+	    dtmap.vector.fit();
+	});
 }
