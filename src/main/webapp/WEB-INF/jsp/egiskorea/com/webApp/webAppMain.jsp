@@ -55,6 +55,7 @@
     <link rel="stylesheet" href="/css/webApp/webAppSearch.css">
 	<script src="/js/egiskorea/com/webApp/webAppMain.js"></script>
 	<script src="/js/egiskorea/com/webApp/webAppSearch.js"></script>
+	<script src="/js/egiskorea/com/common.js"></script>
 
     <!-- jspdf 6.7.0 -->
     <script src="/engine/plugin/v6.7.0/jspdf.umd.min.js"></script>

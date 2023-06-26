@@ -23,6 +23,32 @@ function webApp_selectAdministrationZoneList(frm){
 	});
 }
 
+//행정구역별 조사정보 등록화면 호출
+function webApp_insertAdministrationZoneView(){
+	ui.loadingBar("show");
+	ui.openPopup("leftPopup","insertAdministrationZoneView");
+	
+	$.ajax({
+		type : "POST",
+		url : "/webApp/emi/insertAdministrationZoneView.do",
+		dataType : "html",
+		async: false,
+		success : function(returnData, status){
+			if(status == "success") {				
+				$("#leftPopup").html(returnData);
+			}else{ 
+				toastr.error("관리자에게 문의 바랍니다.", "정보를 불러오지 못했습니다.");
+				return;
+			} 
+		}, complete : function(){
+			$(".scroll-y").mCustomScrollbar({
+				scrollbarPosition:"outside"
+			});
+			ui.loadingBar("hide"); 
+		}
+	});
+}
+
 //조사정보 목록 호출 (웹앱용)
 function webApp_selectExaminationInfoList(frm, param1){
 	ui.loadingBar("show");
@@ -144,11 +170,6 @@ function webApp_fn_download_excelData(form, pnu){
 	var downloadTimer = setInterval(function() {
 		clearInterval(downloadTimer);
 		ui.loadingBar("hide");
-//		var token = cmmUtil.getCookie("fileDownload");
-//        if(token == "FALSE") {
-//        	clearInterval(downloadTimer);
-//			ui.loadingBar("hide");
-//        }
     }, 1000 );
 }
 
@@ -171,5 +192,4 @@ function webApp_leftSubPopupOpen(leftName, param1){
 	$(".scroll-y").mCustomScrollbar({
 		scrollbarPosition:"outside"
 	});
->>>>>>> webApp
 }
