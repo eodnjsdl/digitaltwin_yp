@@ -5,37 +5,10 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 
-<!-- webApp -->
-<script src="/js/egiskorea/com/geo/emi/examinationInfo.js"></script>
-<!-- webApp -->
-
 <script>
-
-    $(document).ready(function () {
-        eventBindByExaminationInfoList();
-        initByExaminationInfoList();
-    });
-
-    function eventBindByExaminationInfoList() {
-        $('#leftPopup .popup-close').click(function () {
-            $("input[name='code2']").val("");
-            dtmap.clear();
-        });
-    }
-
-    function initByExaminationInfoList() {
-        dtmap.vector.clear();
-        var landRegister = getLandRegisterByPnu("<c:out value='${searchVO.code2}' />");
-        landRegister.landRegister ?
-            (
-                dtmap.vector.readWKT(landRegister.landRegister.geometry, landRegister.landRegister),
-                    dtmap.vector.fit()
-            )
-            : toastr.error("geometry 값이 존재하지 않습니다.");
-    }
-
-    function fn_check_all() {
+	function fn_check_all() {
         var checkField = document.listForm.delYn;
+        
         if (document.listForm.checkAll.checked) {
             if (checkField) {
                 if (checkField.length > 1) {
@@ -109,9 +82,11 @@
         webApp_selectExaminationInfoList($("#searchFormLeft")[0], "");
     }
 
-    function fn_left_select_detail(pnu) {
-        ui.openPopup("rightSubPopup", "emiInfo");
-        webApp_selectExaminationInfo($("#tmpForm")[0], pnu, "right");
+    function fn_left_select_detail(pnu, addr) {
+        webApp_selectExaminationInfo($("#tmpForm")[0], pnu);
+        
+		// 지도 선택
+        drawPnu(pnu, addr);
     }
 
     function webApp_fn_select_delete_list() {
@@ -128,7 +103,7 @@
                         if (status == "success") {
                             if (removeLine(returnData) == "ok") {
                                 toastr.success("정상적으로 삭제되었습니다.");
-                                webApp_selectExaminationInfoList($("#searchFormLeft")[0], "");
+                                webApp_selectExaminationInfoList($("#searchFormLeft")[0]);
                             } else {
                                 toastr.warning("삭제에 실패했습니다.");
                             }
@@ -144,53 +119,45 @@
     
     // 조사정보 팝업 닫기
     function webApp_cancel_examinationInfoList() {
-    	$("#leftPopup").removeClass("opened").html("");
+    	$("#leftPopup").removeClass("opened").empty();
     }
-
 </script>
 <!-- 국토정보관리 > 속성정보 > 목록 -->
 <div class="popup-header">조사정보</div>
-<div class="popup-body">
+<div class="popup-body" style="margin-top: 50px;">
     <div class="left-popup-body">
-		<div class="btn-wrap"></div>
-        <form:form name="searchFormLeft" id="searchFormLeft" method="post"
-                   onsubmit="fn_left_select_list_sub(); return false;">
+        <form:form name="searchFormLeft" id="searchFormLeft" method="post" onsubmit="fn_left_select_list_sub(); return false;">
             <input type="hidden" name="pageIndex" value="<c:out value='${searchVO.pageIndex}' />">
             <input type="hidden" name="code2" value="<c:out value='${searchVO.code2}' />">
             <div class="bbs-search form-row">
                 <div class="col-auto">
                     <select name="searchMch" class="form-select">
                         <option value="">지목일치여부</option>
-                        <option value="0" <c:if test="${searchVO.searchMch == '0'}">selected="selected"</c:if>>일치
-                        </option>
-                        <option value="1" <c:if test="${searchVO.searchMch == '1'}">selected="selected"</c:if>>불일치
-                        </option>
+                        <option value="0" <c:if test="${searchVO.searchMch == '0'}">selected="selected"</c:if>>일치</option>
+                        <option value="1" <c:if test="${searchVO.searchMch == '1'}">selected="selected"</c:if>>불일치</option>
                     </select>
                 </div>
                 <div class="col">
                     <select name="searchCnd" class="form-select">
                         <option value="">검색 및 팝업 칼럼선택</option>
-                        <option value="0" <c:if test="${searchVO.searchCnd == '0'}">selected="selected"</c:if>>조사자(정)
-                        </option>
-                        <option value="1" <c:if test="${searchVO.searchCnd == '1'}">selected="selected"</c:if>>조사자(부)
-                        </option>
-                        <option value="2" <c:if test="${searchVO.searchCnd == '2'}">selected="selected"</c:if>>원지목
-                        </option>
+                        <option value="0" <c:if test="${searchVO.searchCnd == '0'}">selected="selected"</c:if>>조사자(정)</option>
+                        <option value="1" <c:if test="${searchVO.searchCnd == '1'}">selected="selected"</c:if>>조사자(부)</option>
+                        <option value="2" <c:if test="${searchVO.searchCnd == '2'}">selected="selected"</c:if>>원지목</option>
                     </select>
                 </div>
-                <div class="col-auto"><input type="text" name="searchWrd" class="form-control"
-                                             value="<c:out value="${searchVO.searchWrd}"/>"></div>
+                <div class="col-auto">
+                	<input type="text" name="searchWrd" class="form-control" value="<c:out value="${searchVO.searchWrd}"/>">
+                </div>
                 <div class="col-auto">
                     <button type="submit" class="btn btn-xsm type06">검색</button>
                 </div>
             </div>
         </form:form>
-
         <form:form id="listForm" name="listForm" method="post">
             <input type="hidden" name="pnu">
             <input type="hidden" name="selCodes" id="selCodes">
             <input type="hidden" name="code2" value="<c:out value='${searchVO.code2}' />">
-            <div class="bbs-list-wrap" style="height: 702px;"><!-- pagination 하단 고정을 위해 반드시 필요 -->
+            <div class="bbs-list-wrap" style="height: 800px;"><!-- pagination 하단 고정을 위해 반드시 필요 -->
                 <div class="bbs-default">
                     <div class="bbs-list-head">
                         <table class="bbs-list">
@@ -205,10 +172,12 @@
                             </colgroup>
                             <thead>
                             <tr>
-                                <th scope="col"><span class="form-checkbox"><span><input type="checkbox" name="checkAll"
-                                                                                         id="chk-all"
-                                                                                         onclick="javascript:fn_check_all()"><label
-                                        for="chk-all"></label></span></span></th>
+                                <th scope="col">
+                                <span class="form-checkbox">
+                                	<input type="checkbox" name="checkAll" id="chk-all" onclick="javascript:fn_check_all()">
+                                	<label for="chk-all"></label>
+                               	</span>
+                                </th>
                                 <th scope="col">지번</th>
                                 <th scope="col">최종변경일자</th>
                                 <th scope="col">조사자(정)</th>
@@ -232,14 +201,12 @@
                             </colgroup>
                             <tbody>
                             <c:forEach items="${resultList}" var="result" varStatus="status">
-                                <tr onClick="fn_left_select_detail('<c:out value="${result.pnu}" />')">
+                                <tr onClick="fn_left_select_detail('<c:out value="${result.pnu}" />', '<c:out value="${result.addr}" />')">
                                     <td>
-														<span class="form-checkbox" onclick="event.stopImmediatePropagation()">
-														<span><input type="checkbox" name="delYn"
-                                                                     id="chk1_<c:out value="${result.orgFid}" />"
-                                                                     value="<c:out value="${result.orgFid}" />"><label
-                                                                for="chk1_<c:out value="${result.orgFid}" />"></label></span>
-														</span>
+										<span class="form-checkbox" onclick="event.stopImmediatePropagation()">
+											<input type="checkbox" name="delYn" id="chk1_<c:out value="${result.orgFid}" />" value="<c:out value="${result.addr}" />">
+											<label for="chk1_<c:out value="${result.orgFid}" />"></label>
+										</span>
                                         <input type="hidden" name="checkId" value="<c:out value="${result.orgFid}"/>"/>
                                     </td>
                                     <td><c:out value="${result.addr}"/></td>
@@ -248,8 +215,7 @@
                                     <td><c:out value="${result.sub}"/></td>
                                     <td><c:out value="${result.ori}"/></td>
                                     <td onclick="event.stopPropagation()">
-                                        <button type="button" class="icon-btn excel" title="엑셀다운로드"
-                                                onClick="webApp_fn_download_excelData(this.form, '<c:out value="${result.pnu}" />')"></button>
+                                        <button type="button" class="icon-btn excel" title="엑셀다운로드" onClick="webApp_fn_download_excelData(this.form, '<c:out value="${result.pnu}" />')"></button>
                                     </td>
                                 </tr>
                             </c:forEach>
@@ -264,19 +230,14 @@
                         </table>
                     </div>
                 </div>
-
                 <div class="pagination type01">
-                    <ui:pagination paginationInfo="${paginationInfo}" type="pagination"
-                                   jsFunction="fn_left_select_linkPage"/>
+                    <ui:pagination paginationInfo="${paginationInfo}" type="pagination" jsFunction="fn_left_select_linkPage"/>
                 </div>
-
                 <div class="position-absolute left">
                     <button type="button" class="btn basic bi-delete2" onClick="webApp_fn_select_delete_list()">선택삭제</button>
                 </div>
                 <div class="position-absolute right">
-                    <button type="button" class="btn basic bi-excel" onClick="webApp_fn_download_excelData(this.form, 'all')">
-                        엑셀 저장
-                    </button>
+                    <button type="button" class="btn basic bi-excel" onClick="webApp_fn_download_excelData(this.form, 'all')">엑셀 저장</button>
                 </div>
             </div>
         </form:form>

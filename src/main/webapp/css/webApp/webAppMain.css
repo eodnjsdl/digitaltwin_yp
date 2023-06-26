@@ -13,7 +13,7 @@
 
 #webAppHeader .logo a {
 	background-size: contain;
-	width: 230px;
+	width: 215px;
 }
 
 #webAppHeader .lnb-search-webApp {
@@ -72,6 +72,14 @@
 #webAppHeader .util-box {
 	cursor: pointer;
 	right: 10px;
+}
+
+#popup_territory {
+	display: none;
+	position: absolute;
+	width: 100%;
+	height:100%;
+	background: white;
 }
 
 #lnb-territory-webApp {
