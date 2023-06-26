@@ -629,6 +629,18 @@ window.ui = (function () {
 			var area = $(this).data("popup"); //팝업 위치명 넣어주세요  ex)rightPopup
 			ui.openPopup(area);
 			_selectEventListener();	//지도 선택 이벤트 초기화
+			
+			//사용자 레이어 삭제(그래프)
+			if(dtmap.layer.userLayers){
+				if (dtmap.layer.userLayers.nameAtLayer('li_trans_vulner_info_graph')) {
+					dtmap.layer.userLayers.delLayerAtName('li_trans_vulner_info_graph');
+				}
+				
+				if (dtmap.layer.userLayers.nameAtLayer('li_popltn_info_graph')) {
+					dtmap.layer.userLayers.delLayerAtName('li_popltn_info_graph');
+				}
+			}
+			
 			switch (name) {
 			// 교통분석 > 버스노선정보
 			case "BusRouteInformation" :
@@ -1354,6 +1366,18 @@ function clearMap() {
 	dtmap.layer.removeLayer('layer_trva_grid_area');
 
 	$(".lnb-dep2").find(".on").removeClass("on");
+	
+	//사용자 레이어 삭제(그래프)
+	if(dtmap.layer.userLayers){
+		if (dtmap.layer.userLayers.nameAtLayer('li_trans_vulner_info_graph')) {
+			dtmap.layer.userLayers.delLayerAtName('li_trans_vulner_info_graph');
+		}
+		
+		if (dtmap.layer.userLayers.nameAtLayer('li_popltn_info_graph')) {
+			dtmap.layer.userLayers.delLayerAtName('li_popltn_info_graph');
+		}
+	}
+	
 }
 
 //사용자 정보 조회
