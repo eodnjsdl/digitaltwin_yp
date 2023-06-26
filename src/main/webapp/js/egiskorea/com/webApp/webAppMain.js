@@ -125,7 +125,7 @@ function webApp_updateExaminationInfoView(frm, param1, param2){
 	});
 }
 
-// 액셀 다운로드 (웹앱용)
+//액셀 다운로드 (웹앱용)
 function webApp_fn_download_excelData(form, pnu){
 	if(pnu == "all"){
 		if(form.code2.value == ""){
@@ -139,10 +139,16 @@ function webApp_fn_download_excelData(form, pnu){
 	}
 	document.cookie = "fileDownload=TRUE";
 	ui.loadingBar("show");
-	form.action = "/geo/emi/selectExaminationInfoListDownload.do";
-	form.submit();
+//  form.action = "/geo/emi/selectExaminationInfoListDownload.do";
+//  form.submit();
+	location.href = "/geo/emi/selectExaminationInfoListDownload.do";
 	var downloadTimer = setInterval(function() {
     	clearInterval(downloadTimer);
 		ui.loadingBar("hide");
+//		var token = cmmUtil.getCookie("fileDownload");
+//        if(token == "FALSE") {
+//        	clearInterval(downloadTimer);
+//			ui.loadingBar("hide");
+//        }
     }, 1000 );
 }

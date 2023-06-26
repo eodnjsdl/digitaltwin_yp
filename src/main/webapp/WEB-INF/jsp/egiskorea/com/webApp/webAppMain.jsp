@@ -248,10 +248,10 @@
                         <button type="button" class="ctrl-btn reset" data-name="초기화"></button>
                         <button type="button" class="ctrl-btn globe" data-name="위치 초기화"></button>
                     </li>
-                    <li>
+<!--                     <li>
                         <button type="button" class="ctrl-btn integrated-info" data-popup="rightPopup" data-name="통합행정정보"></button>
                         <button type="button" class="ctrl-btn building" data-popup="rightPopup" data-name="지적/건물"></button>
-                    </li>
+                    </li> -->
                     <li class="ctrl-group">
                         <button type="button" class="ctrl-btn location" data-name="위치"></button>
                         <button type="button" class="ctrl-btn distance" data-name="거리"></button>
