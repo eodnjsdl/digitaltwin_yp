@@ -405,7 +405,11 @@ const layerStyle = {
             font: font,
             halo: halo,
             fill: fill,
-            label: label
+            label: label,
+            anchor: {
+                anchorPointX: $('[name="anchor-x"]', selector).val(),
+                anchorPointY: $('[name="anchor-y"]', selector).val()
+            }
         }
     },
     /**
@@ -506,6 +510,10 @@ const layerStyle = {
             }
 
         })
+
+        const anchor = text['anchor'];
+        $('[name="anchor-x"]', selector).val(anchor['anchorPointX']);
+        $('[name="anchor-y"]', selector).val(anchor['anchorPointY'])
 
         function hexToRGB(str) {
             if (str.indexOf("#") >= 0) {

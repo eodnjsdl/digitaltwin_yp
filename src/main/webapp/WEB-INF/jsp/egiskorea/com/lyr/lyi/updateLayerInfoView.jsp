@@ -588,35 +588,23 @@
                         </div>
                         <div class="col-12">
                             <div class="tbl-list">
-                                <div class="term">사용여부</div>
                                 <div class="desc" style="width: 190px;">
-                                    <input type="checkbox" class="form-control" name="text-useat">
+                                    <span class="form-checkbox"><input type="checkbox" class="form-control" name="text-useat" id="text-useat"><label for="text-useat">사용여부</label></span>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-6 marB5">
+                        <div class="col-12">
+                            <p class="cont-txt">글씨</p>
+                        </div>
+                        <div class="col-12 marB5">
                             <div class="tbl-list">
-                                <div class="term">글씨</div>
+                                <div class="term">색상</div>
                                 <div class="desc" style="width: 190px;">
                                     <input type="text" class="colorPicker" name="text-fill" value="rgb(0,0,0)">
                                 </div>
                             </div>
                         </div>
                         <div class="col-6 marB5">
-                            <div class="tbl-list">
-                                <div class="term">배경색</div>
-                                <div class="desc" style="width: 190px;">
-                                    <input type="text" class="colorPicker" name="halo-fill" value="rgb(255,255,255)">
-                                </div>
-                            </div>
-                            <div class="tbl-list">
-                                <div class="term">배경두께</div>
-                                <div class="desc" style="width: 190px;">
-                                    <input type="number" class="form-control" name="halo-radius" value="2">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-6">
                             <div class="tbl-list">
                                 <div class="term">폰트</div>
                                 <div class="desc flex-grow-1">
@@ -631,11 +619,50 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-6">
+                        <div class="col-6 marB5">
                             <div class="tbl-list">
                                 <div class="term">크기</div>
                                 <div class="desc flex-grow-1">
                                     <input type="number" class="form-control" name="font-size" value="12"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <p class="cont-txt">배경</p>
+                        </div>
+                        <div class="col-6 marB5">
+                            <div class="tbl-list">
+                                <div class="term">색상</div>
+                                <div class="desc" style="width: 190px;">
+                                    <input type="text" class="colorPicker" name="halo-fill" value="rgb(255,255,255)">
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="col-6 marB5">
+                            <div class="tbl-list">
+                                <div class="term">두께</div>
+                                <div class="desc" style="width: 190px;">
+                                    <input type="number" class="form-control" name="halo-radius" value="2">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <p class="cont-txt">라벨 위치 (비율)</p>
+                        </div>
+                        <div class="col-6 marB5">
+                            <div class="tbl-list">
+                                <div class="term">x 축</div>
+                                <div class="desc" style="width: 190px;">
+                                    <input type="number" class="form-control" name="anchor-x" value="0.5"step="0.1" max="10" min="-10">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6 marB5">
+                            <div class="tbl-list">
+                                <div class="term">y 축</div>
+                                <div class="desc" style="width: 190px;">
+                                    <input type="number" class="form-control" name="anchor-y" value="0.5" step="0.1" max="10" min="-10">
                                 </div>
                             </div>
                         </div>
