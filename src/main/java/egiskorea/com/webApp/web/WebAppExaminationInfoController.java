@@ -12,6 +12,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import egiskorea.com.geo.emi.service.AdministrationZone;
 import egiskorea.com.geo.emi.service.ExaminationInfo;
 import egiskorea.com.geo.emi.service.ExaminationInfoService;
 import egiskorea.com.geo.emi.service.ExaminationInfoVO;
@@ -96,6 +97,29 @@ public class WebAppExaminationInfoController {
 		model.addAttribute("code1List", code1List);
 		
 		return "egiskorea/com/webApp/emi/webAppAdministrationZoneList";
+	}
+	
+	/**
+	 * @Description 행정구역별 조사정보 등록 화면
+	 * @Author 글로벌컨설팅부문 장현승
+	 * @param examinationInfoVO
+	 * @param model
+	 * @return "egiskorea/com/webApp/emi/webAppAdministrationZoneView"
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/insertAdministrationZoneView.do")
+	public String insertAdministrationZoneView(
+			@ModelAttribute("administrationZone") AdministrationZone administrationZone,
+			ModelMap model) throws Exception{ 
+		
+		// 행정구역
+		ComDefaultCodeVO vo = new ComDefaultCodeVO();
+		vo.setCodeId("YPEMD");	// 읍면동
+		List<?> code1List = cmmUseService.selectCmmCodeDetail(vo);
+		
+		model.addAttribute("code1List", code1List);
+		
+		return "egiskorea/com/webApp/emi/webAppAdministrationZoneView";
 	}
 	
 	/**

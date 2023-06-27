@@ -1,6 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <script>
+$(document).ready(function() {
+	//console.log("webAppSearch.jsp");	
+})
+
 //페이지 이동
 $("#pageNum li").on("click", function() {
 	var pge = $(this).val();
@@ -16,33 +20,14 @@ $("#pageNum li").on("click", function() {
 })
 
 // 주소 클릭
-$("#srchAddrList .addrResult").on("click", function() {
-	var addrId = $(this).attr('id');
+$("#srchAddrList .addrResult").on("click", function(e) {
+	var pnu = $(this).attr('id');
+	var addr = e.target.innerText;
 	
 	$("#srchAddrList .addrResult").removeClass("addrOn");
-	$("#" + addrId).addClass("addrOn");
+	$("#" + pnu).addClass("addrOn");
 	
-	var options ={
-		typeNames	: 'digitaltwin:lsmd_cont_ldreg_41830', //WFS 레이어명
-		filter		: "gid = " + addrId,
-	}
-	
-	const promise = dtmap.wfsGetFeature(options);
-	promise.then(function(data) {
-		// 지도 아이콘 작업
-		dtmap.vector.clear();
-	    
-	    // 지도에 GeoJSON 추가
-	    dtmap.vector.readGeoJson(data, function(feature) {
-			return {
-				stroke: {
-					color: '#FF3333',
-					width: 5
-				},
-			}
-	    });
-	    dtmap.vector.fit();
-	});
+	drawPnu(pnu, addr.substring(12));
 })
 
 $("#searchTit").on("click", function() {
@@ -65,7 +50,7 @@ $("#searchTit").on("click", function() {
 <div id="searchDiv">
 	<div id="srchAddrList">
 		<c:forEach items="${resultList}" var="list" varStatus="status">
-			<div id="${list.gid}" class="addrResult">
+			<div id="${list.pnu}" class="addrResult">
 				<span>경기도 양평군 ${list.emdKorNm} ${list.liKorNm} ${list.jibun}</span>
 			</div>
 		</c:forEach>

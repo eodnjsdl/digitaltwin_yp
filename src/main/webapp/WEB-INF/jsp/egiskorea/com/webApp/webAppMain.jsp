@@ -55,6 +55,7 @@
     <link rel="stylesheet" href="/css/webApp/webAppSearch.css">
 	<script src="/js/egiskorea/com/webApp/webAppMain.js"></script>
 	<script src="/js/egiskorea/com/webApp/webAppSearch.js"></script>
+	<script src="/js/egiskorea/com/common.js"></script>
 
     <!-- jspdf 6.7.0 -->
     <script src="/engine/plugin/v6.7.0/jspdf.umd.min.js"></script>
@@ -223,20 +224,6 @@
         <div id="map2D" class="main-map" style="position: absolute;"></div>
         <div id="map3D" style="width: 100%; height: 100%; display: none; user-select: none; position: absolute;"></div>
 
-		<!-- popup-panel start -->
-		<!-- 국토정보관리 웹앱용 popup -->
-        <div id="leftPopup" class="popup-panel popup-left popup-draggable" style="z-index: 1001;">
-        </div>
-        
-        <!-- 조사정보 웹앱용 popup -->
-        <div id="leftSubPopup" class="popup-panel popup-sub popup-draggable" style="z-index: 1003;">
-        </div>
-        
-        <!-- 속성정보 웹앱용 popup -->
-        <div id="rightSubPopup" class="popup-panel popup-sub popup-draggable" style="z-index: 1002;">
-        </div>
-        <!-- popup-panel end -->
-        
         <!-- map-aside -->
         <div id="map-aside">
             <div class="map-control">
@@ -248,10 +235,10 @@
                         <button type="button" class="ctrl-btn reset" data-name="초기화"></button>
                         <button type="button" class="ctrl-btn globe" data-name="위치 초기화"></button>
                     </li>
-                    <li>
+<!--                     <li>
                         <button type="button" class="ctrl-btn integrated-info" data-popup="rightPopup" data-name="통합행정정보"></button>
                         <button type="button" class="ctrl-btn building" data-popup="rightPopup" data-name="지적/건물"></button>
-                    </li>
+                    </li> -->
                     <li class="ctrl-group">
                         <button type="button" class="ctrl-btn location" data-name="위치"></button>
                         <button type="button" class="ctrl-btn distance" data-name="거리"></button>
@@ -288,9 +275,17 @@
         <!-- //side -->
 
         <!-- 국토조사 -->
-        <div id="popup_territory" class="lnb-territory lnb-cont" style="width: 100%; height:100%; display: none; background:white; z-index: 1000; position: absolute;">
+        <div id="popup_territory" class="lnb-territory-webApp lnb-cont" style="z-index: 1000;">
         </div>
         <!-- //국토조사 -->
+        
+        <!-- 조사정보 popup -->
+        <div id="leftPopup" class="popup-panel popup-left popup-draggable" style="z-index: 1001;">
+        </div>
+        
+        <!-- 속성정보 웹앱용 popup -->
+        <div id="leftSubPopup" class="popup-panel popup-sub popup-draggable" style="z-index: 1002;">
+        </div>
         
     </div>
     <!-- //container -->
@@ -317,6 +312,10 @@
     ui.init();
 
     $(document).ready(function () {
+    	// 이벤트 리스너 추가
+    	dtmap.off('select');
+    	dtmap.on('select', territorySelectEventListener);
+    	
         _setMainUIAction();
         _setMainUIEvent();
         
@@ -329,7 +328,7 @@
         
         // 국토정보관리 클릭 이벤트
         $("#lnb-territory-webApp").click(function() {
-            $(".lnb-territory").show();
+            $(".lnb-territory-webApp").show();
             webApp_selectAdministrationZoneList($("#tmpForm")[0], 'webApp');
         });
 
@@ -385,6 +384,13 @@
         var today = new Date();
         today.setDate(today.getDate() + parseInt(expireDate));
         document.cookie = cookieName + "=" + escape(cookieValue) + "; path=/; expires=" + today.toGMTString() + ";";
+    }
+    
+    //set menu 2D or 3D
+    function setMainUI() {
+    	$('.lnb-search-webApp #searchKeyword').val('');
+    	$(".lnb-search-webApp .search-list").empty();
+    	$("#compass").css("transform", "rotate(0deg)");
     }
 
 </script>
