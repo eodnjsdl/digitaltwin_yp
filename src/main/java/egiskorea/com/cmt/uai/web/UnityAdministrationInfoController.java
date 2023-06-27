@@ -537,7 +537,7 @@ public class UnityAdministrationInfoController {
 		model.addAttribute("resultListc", buildingRegisterListMain);		//내용목록
 		model.addAttribute("resultList1", buildingRegisterList1);
 		model.addAttribute("resultList2", buildingRegisterList2);
-
+		
 		return "egiskorea/com/cmt/uai/buildingRegister";
 	}
 

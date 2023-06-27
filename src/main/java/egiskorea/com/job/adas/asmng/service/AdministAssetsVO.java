@@ -60,6 +60,8 @@ public class AdministAssetsVO implements Serializable {
 	private String planBiz;						// 계획사업
 	private int pageNo;							// 페이지 번호
 	private String year;						// 연도
+	private String arMin;						// 검색용 최소면적
+	private String arMax;						// 검색용 최대면적
 	
 	public int getSn() {
 		return sn;
@@ -390,6 +392,19 @@ public class AdministAssetsVO implements Serializable {
 	}
 	public void setYear(String year) {
 		this.year = year;
+	}
+	
+	public String getArMin() {
+		return arMin;
+	}
+	public void setArMin(String arMin) {
+		this.arMin = arMin;
+	}
+	public String getArMax() {
+		return arMax;
+	}
+	public void setArMax(String arMax) {
+		this.arMax = arMax;
 	}
 	public void setArray(String[] arr) {
 		this.sn = Integer.parseInt(arr[0]);

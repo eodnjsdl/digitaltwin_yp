@@ -64,6 +64,12 @@ window.ui = (function () {
 		//LEFT 메뉴 닫기 버튼
 		// $(".lnb-util .lnb-close").click(function () {
 		$(document).on('click', '.lnb-util .lnb-close', function (e) {
+			let chkLyrMn = $(this).parents().hasClass("lnb-layer");
+			if(chkLyrMn) {
+				($(this).parent().parent()).stop().fadeOut(100);
+				$("#lnb ul:eq(0) li[data-menu]").removeClass("on");
+				return;
+			}
 			$(".popup-close").trigger("click");	//시설관리 하위 메뉴 팝업 닫기 버튼 동작
 			($(this).parent().parent()).stop().fadeOut(100);
 			var chkGrp = e.target.parentElement.parentElement.classList[2];
@@ -404,6 +410,20 @@ window.ui = (function () {
 		$leftBar.on('click', 'li', function () {
 			let $this = $(this);
 			let menu = $this.attr('data-menu');
+
+			if(menu === "lnb-layer") {
+				$this.toggleClass("on").siblings().removeClass("on");
+				$leftSide.find(".lnb-list").removeClass("on");
+				if ($this.hasClass('on')) {
+					$leftSide.find('.' + menu).stop().fadeIn(100);
+					$leftSide.find(".lnb-layer input[name='searchKeyword']").val("");
+					dtmap.mod === '2D' ? aj_selectLayerList("left") : aj_selectLayerList("top");
+				} else {
+					$leftSide.find('.' + menu).stop().fadeOut(100);
+				}
+				return;
+			}
+
 			ui.initPopup("");
 			//분석 팝업 초기화
 			analysis.close();
@@ -412,11 +432,11 @@ window.ui = (function () {
 			$this.toggleClass("on").siblings().removeClass("on");
 			$leftSide.find(".lnb-list").removeClass("on");
 			if ($this.hasClass('on')) {
-				if(menu === "lnb-layer") {
-					$leftSide.find('.' + menu).stop().fadeIn(100);
-					$leftSide.find(".lnb-layer input[name='searchKeyword']").val("");
-					dtmap.mod === '2D' ? aj_selectLayerList("left") : aj_selectLayerList("top");
-				} else {
+				// if(menu === "lnb-layer") {
+				// 	$leftSide.find('.' + menu).stop().fadeIn(100);
+				// 	$leftSide.find(".lnb-layer input[name='searchKeyword']").val("");
+				// 	dtmap.mod === '2D' ? aj_selectLayerList("left") : aj_selectLayerList("top");
+				// } else {
 					$leftSide.find('.grp2').stop().fadeOut(100);
 					$leftSide.find('.' + menu).stop().fadeIn(100);
 					//메뉴 선택시 바로 실행되는 메뉴
@@ -435,22 +455,14 @@ window.ui = (function () {
 						case "lnb-territory" :
 							aj_selectAdministrationZoneList($("#tmpForm")[0]);
 							break;
-//						//국토조사 웹앱
-//						case "lnb-territory-webApp" :
-//							aj_selectAdministrationZoneList($("#tmpForm")[0]);
-//							break;
-//						case "webApp-search" :
-//							console.log("webApp");
-//							break;
-
 					}
-				} 
+				// }
 			} else {
-				if(menu === "lnb-layer") {
-					$leftSide.find('.' + menu).stop().fadeOut(100);
-				} else {
+				// if(menu === "lnb-layer") {
+				// 	$leftSide.find('.' + menu).stop().fadeOut(100);
+				// } else {
 					$leftSide.find('.grp2').stop().fadeOut(100);
-				}
+				// }
 			}
 			clearMap();	//맵에 있는 오브젝트 클리어
 		});
@@ -727,8 +739,8 @@ window.ui = (function () {
 				aj_selectAdministAssetsMngList();
 				break;
 			// 행정자산 > 공유지관리
-			case "CoownedLand" :
-				toastr.error("공유지관리");
+			case "publndMng" :
+				aj_selectPublndMngInfoList();
 				break;
 			// 행정자산 > 공유재산 실태조사
 			case "SurveyProperty" :
@@ -918,6 +930,10 @@ window.ui = (function () {
 		case "favorites":
 			_area.width = "465";
 			_area.heigth = "730";
+			break;
+		case "building":
+			_area.width = "480";
+			_area.heigth = "507";
 			break;
 		}
 

@@ -121,7 +121,7 @@ function setData(_pageNo){
 		 let properties = feature.getProperties();
 			 return {
 				 marker: {
-					 src: '/images/poi/street_lamp.png'
+					 src: '/images/poi/str-lp-04.png'
 					 },
 					 label: {
 						 text: properties.manage_no

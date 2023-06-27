@@ -4,26 +4,21 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import javax.annotation.Resource;
-import javax.transaction.Transactional;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
-
-import com.mchange.v2.csv.CsvBufferedReader;
 
 import egiskorea.com.job.adas.asmng.service.AdministAssetsService;
 import egiskorea.com.job.adas.asmng.service.AdministAssetsVO;
-import egovframework.com.cmm.service.EgovFileMngService;
-import egovframework.com.cmm.service.EgovFileMngUtil;
+import egiskorea.com.job.adas.publnd.service.PbprtAccdtVO;
 import egovframework.rte.fdl.cmmn.EgovAbstractServiceImpl;
 
 /**
@@ -45,14 +40,6 @@ public class AdministAssetsServiceImpl extends EgovAbstractServiceImpl implement
 
 	@Resource(name = "administAssetsDAO")
 	private AdministAssetsDAO administAssetsDAO;
-	
-	/** 전자정부 파일 관리 Service */
-	@Resource(name = "EgovFileMngService")
-    private EgovFileMngService egovFileMngService;
-
-	/** 파일 업로드 Util */
-    @Resource(name="EgovFileMngUtil")
-    private EgovFileMngUtil fileUtil;
 
 	@Override
 	public List<AdministAssetsVO> selectAdministAssetsInfoList(AdministAssetsVO administAssetsVO) {
@@ -71,10 +58,10 @@ public class AdministAssetsServiceImpl extends EgovAbstractServiceImpl implement
 	}
 
 	@Override
-	public int selectAdministAssetsTotCnt() {
+	public int selectAdministAssetsTotCnt(AdministAssetsVO administAssetsVO) {
 		int count = 0;
 		
-		count = administAssetsDAO.selectAdministAssetsTotCnt();
+		count = administAssetsDAO.selectAdministAssetsTotCnt(administAssetsVO);
 
 		return count;
 	}
@@ -109,39 +96,37 @@ public class AdministAssetsServiceImpl extends EgovAbstractServiceImpl implement
 	}
 
 	@Override
-	@Transactional
 	public List<AdministAssetsVO> csvUploadHelper(MultipartFile mpFile, String year) throws FileNotFoundException, SQLException, Exception {
+//	public int csvUploadHelper(MultipartFile mpFile, String year) throws FileNotFoundException, SQLException, Exception {
 		List<AdministAssetsVO> resultList = new ArrayList<>();
+		
+//		int result = 0;
 		
 		File file = multipartFileToFile(mpFile);
 		
 		FileInputStream csvFile = new FileInputStream(file);
-//		String encType = csvFileEncodingChk(csvFile);
 		InputStreamReader formattedFile = new InputStreamReader(csvFile, "EUC-KR");
 		BufferedReader reader = new BufferedReader(formattedFile);
 		
 		String str = "";
+//		int count = 0;
+		
 		reader.readLine(); // 컬럼 줄 읽기
 		while((str = reader.readLine()) != null) {
-            resultList.add(parser(str, year));
+			resultList.add(parser(str, year));
+			// 1000개씩 insert
+//			count++;
+//			if (count % 1000 == 0) {
+//				insertAdministAssetsInfoByCSV(resultList);
+//				resultList = new ArrayList<AdministAssetsVO>();
+//			}
+//			result += insertAdministAssetsInfoByCSV(parser(str, year));
 		}
 		reader.close();
 		
 		return resultList;
+//		return result;
 	}
-	
-//	public String csvFileEncodingChk(FileInputStream file) throws IOException {
-//		String encType = "EUC-KR";
-//		byte[] encodingChk = new byte[4];
-//		file.read(encodingChk, 0, 4); // 재산번호
-//		if( (encodingChk[0] & 0xFF) == 0xEF || (encodingChk[1] & 0xFF) == 0xBB || (encodingChk[2] & 0xFF) == 0xBF ) {
-//			encType = "UTF-8";
-//		} else {
-//			encType = "EUC-KR";
-//		}
-//		
-//		return encType;
-//	}
 	
 	public File multipartFileToFile(MultipartFile mpFile) throws IOException {
 		File file = new File(mpFile.getOriginalFilename());
@@ -153,17 +138,38 @@ public class AdministAssetsServiceImpl extends EgovAbstractServiceImpl implement
 		AdministAssetsVO administAssetsVO = new AdministAssetsVO();
 		
 		String[] splitted = str.split(",");
-//		for (String s : splitted) {
-//			System.out.println(s);
-//		}
 		
 		administAssetsVO.setArray(splitted);
 		administAssetsVO.setYear(year);
-//		administAssetsVO.setSn(Integer.parseInt(splitted[0]));
-//		administAssetsVO.setPrprtyNo(splitted[1]);
-		
-		
 		
 		return administAssetsVO;
 	}
+
+	@Override
+	public int insertPublndToPbprtAccdt(PbprtAccdtVO pbprtAccdtVO) throws Exception {
+		int result = 0;
+		
+		int count = 0;
+		count = administAssetsDAO.selectPbprtAccdtTotCount();
+		
+		int publndNo = 0;
+		if (count != 0) {
+			// publnd_no 총 개수에서 하나씩 더해서 세팅
+			publndNo = administAssetsDAO.selectPbprtAccdtTotCountMax();
+			publndNo = publndNo + 1;
+			pbprtAccdtVO.setPublndNo(publndNo);
+		} else {
+			publndNo = 1;
+			pbprtAccdtVO.setPublndNo(publndNo);
+		}
+		
+		String ldcgCd = ""; 
+		ldcgCd = pbprtAccdtVO.getLdcgCd();
+		pbprtAccdtVO.setLdcgCd(ldcgCd.substring(0, 2));
+		
+		result = administAssetsDAO.insertPublndToPbprtAccdt(pbprtAccdtVO);
+				
+		return result;
+	}
+
 }

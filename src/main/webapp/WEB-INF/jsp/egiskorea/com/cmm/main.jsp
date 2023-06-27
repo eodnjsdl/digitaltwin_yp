@@ -732,7 +732,7 @@
                                         </button>
                                     </li>
                                     <li>
-                                        <button type="button" id="CoownedLand" class="dataPopup" data-popup="">공유지관리
+                                        <button type="button" id="publndMng" class="dataPopup" data-popup="bottomPopup">공유지관리
                                         </button>
                                     </li>
                                     <li>
