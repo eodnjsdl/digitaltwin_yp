@@ -4,7 +4,7 @@
 <%@ taglib prefix="ui" uri="http://egovframework.gov/ctl/ui" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
-<script src="/js/egiskorea/com/job/sffm//lamp/lamp.js"></script>
+<script src="/js/egiskorea/com/job/sffm/lamp/lamp.js"></script>
 <script src="/js/egiskorea/com/job/sffm/sffm.js"></script>
 <%--<script src="/js/egiskorea/com/cmm/cmmUtil.js"></script>--%>
 <script>

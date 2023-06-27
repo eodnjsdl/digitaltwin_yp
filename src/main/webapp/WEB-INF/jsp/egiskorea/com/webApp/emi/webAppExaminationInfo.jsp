@@ -1092,15 +1092,15 @@
 	                                <th scope="row">원경</th>
 	                                
 	                            </tr>
-	                            <tr style="height: 500px">
-	                                <td><img /></td>
+	                            <tr>
+	                                <td><img name="distant" /></td>
 	                            </tr>
 	                            <tr>
 	                                <th scope="row">근경</th>
 	                                
 	                            </tr>
-	                            <tr style="height: 500px">
-	                                <td><img /></td>
+	                            <tr>
+	                                <td><img name="near" /></td>
 	                            </tr>
 	                            </tbody>
 	                        </table>
