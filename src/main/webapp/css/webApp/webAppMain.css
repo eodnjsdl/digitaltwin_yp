@@ -135,13 +135,11 @@
 
 .result-writer {
 	color: #44516A;
-	padding-left: 40%;
 }
 
 .result-date {
 	margin-left: 10px;
     letter-spacing: 0;
-	padding-left: 25%;
 	color: black;
 }
 
@@ -161,14 +159,12 @@
 
 .title-writer {
 	font-weight: 600;
-	padding-left: 40%;
 }
 
 .title-date {
 	font-weight: 600;
 	margin-left: 10px;
     letter-spacing: 0;
-	padding-left: 25%;
 }
 
 .title-delete {

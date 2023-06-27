@@ -124,7 +124,7 @@
 </script>
 <!-- 국토정보관리 > 속성정보 > 목록 -->
 <div class="popup-header">조사정보</div>
-<div class="popup-body" style="margin-top: 50px;">
+<div class="popup-body" style="margin-top: 100px;">
     <div class="left-popup-body">
         <form:form name="searchFormLeft" id="searchFormLeft" method="post" onsubmit="fn_left_select_list_sub(); return false;">
             <input type="hidden" name="pageIndex" value="<c:out value='${searchVO.pageIndex}' />">
@@ -164,10 +164,10 @@
                             <colgroup>
                                 <col style="width: 50px;">
                                 <col style="width: 20%;">
-                                <col style="width: 15%;">
-                                <col style="width: 15%;">
-                                <col style="width: 15%;">
                                 <col style="width: auto;">
+                                <col style="width: 15%;">
+                                <col style="width: 15%;">
+                                <col style="width: 15%;">
                                 <col style="width: 80px;">
                             </colgroup>
                             <thead>
@@ -181,8 +181,8 @@
                                 <th scope="col">지번</th>
                                 <th scope="col">최종변경일자</th>
                                 <th scope="col">조사자(정)</th>
-                                <th scope="col">조사자(부)</th>
                                 <th scope="col">원지목</th>
+                                <th scope="col">현실지목</th>
                                 <th scope="col"></th>
                             </tr>
                             </thead>
@@ -193,10 +193,10 @@
                             <colgroup>
                                 <col style="width: 50px;">
                                 <col style="width: 20%;">
-                                <col style="width: 15%;">
-                                <col style="width: 15%;">
-                                <col style="width: 15%;">
                                 <col style="width: auto;">
+                                <col style="width: 15%;">
+                                <col style="width: 15%;">
+                                <col style="width: 15%;">
                                 <col style="width: 80px;">
                             </colgroup>
                             <tbody>
@@ -212,8 +212,8 @@
                                     <td><c:out value="${result.addr}"/></td>
                                     <td><c:out value="${result.updateDate}"/></td>
                                     <td><c:out value="${result.main}"/></td>
-                                    <td><c:out value="${result.sub}"/></td>
                                     <td><c:out value="${result.ori}"/></td>
+                                    <td><c:out value="${result.j0302}"/></td>
                                     <td onclick="event.stopPropagation()">
                                         <button type="button" class="icon-btn excel" title="엑셀다운로드" onClick="webApp_fn_download_excelData(this.form, '<c:out value="${result.pnu}" />')"></button>
                                     </td>

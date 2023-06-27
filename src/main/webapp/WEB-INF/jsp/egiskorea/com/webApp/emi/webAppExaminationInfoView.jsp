@@ -73,27 +73,21 @@
                     </colgroup>
                     <tbody>
                     <tr>
-                        <th scope="row">ORG_FILD</th>
-                        <td><c:out value="${examinationInfo.orgFid} "/></td>
                         <th scope="row">지번</th>
                         <td><c:out value="${examinationInfo.addr} "/></td>
-                    </tr>
-                    <tr>
                         <th scope="row">최종변경일자</th>
                         <td><c:out value="${examinationInfo.updateDate} "/></td>
-                        <th scope="row">원지목</th>
-                        <td><c:out value="${examinationInfo.ori}"/></td>
                     </tr>
                     <tr>
-                        <th scope="row">조사자(정)</th>
+                    	<th scope="row">조사자(정)</th>
                         <td><form:input path="main" cssClass="form-control"/></td>
-                        <th scope="row">조사자(부)</th>
-                        <td><form:input path="sub" cssClass="form-control"/></td>
+                        <th scope="row">원지목</th>
+                        <td><c:out value="${examinationInfo.ori}"/></td>
                     </tr>
                     </tbody>
                 </table>
             </div>
-            <div class="tabBoxDepth1-wrap" style="height: calc(100% - 150px);">
+            <div class="tabBoxDepth1-wrap" style="height: calc(100% - 135px);">
                 <div class="tabBoxDepth1">
                     <ul>
                         <li data-tab="proTab01" class="on">
@@ -111,6 +105,9 @@
                         <li data-tab="proTab05">
                             <button type="button" class="inner-tab">토지피복</button>
                         </li>
+                        <li data-tab="proTab06">
+                            <button type="button" class="inner-tab">사진</button>
+                        </li>
                     </ul>
                 </div>
                 <!-- 지목조사 -->
@@ -127,6 +124,9 @@
                 
                 <!-- 토지피복 -->
                 <jsp:include page="landCover_webApp.jsp" flush="true"/>
+                
+                <!-- 사진 -->
+                <jsp:include page="photo_webApp.jsp" flush="true"/>
             </div>
         </div>
     </div>

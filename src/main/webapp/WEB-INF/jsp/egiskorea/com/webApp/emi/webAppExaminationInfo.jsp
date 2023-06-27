@@ -10,16 +10,6 @@
 <!-- webApp -->
 
 <script>
-
-    $(document).ready(function () {
-        initByExaminationInfo();
-    });
-
-    // 국토정보관리 지도 선택
-    function initByExaminationInfo() {
-        
-    }
-
     // 속성정보에서 수정 클릭시
     function webApp_fn_select_update(pnu) {
         webApp_leftSubPopupOpen("examinationInfoView", pnu);
@@ -83,27 +73,21 @@
                     </colgroup>
                     <tbody>
                     <tr>
-                        <th scope="row">ORG_FILD</th>
-                        <td><c:out value="${result.orgFid} "/></td>
                         <th scope="row">지번</th>
                         <td><c:out value="${result.addr} "/></td>
-                    </tr>
-                    <tr>
                         <th scope="row">최종변경일자</th>
                         <td><c:out value="${result.updateDate} "/></td>
-                        <th scope="row">원지목</th>
-                        <td><c:out value="${result.ori}"/></td>
                     </tr>
                     <tr>
-                        <th scope="row">조사자(정)</th>
+	                    <th scope="row">조사자(정)</th>
                         <td><c:out value="${result.main}"/></td>
-                        <th scope="row">조사자(부)</th>
-                        <td><c:out value="${result.sub}"/></td>
+                        <th scope="row">원지목</th>
+                        <td><c:out value="${result.ori}"/></td>
                     </tr>
                     </tbody>
                 </table>
             </div>
-            <div class="tabBoxDepth1-wrap" style="height: calc(100% - 180px);">
+            <div class="tabBoxDepth1-wrap" style="height: calc(100% - 160px);">
                 <div class="tabBoxDepth1">
                     <ul>
                         <li data-tab="proTab01" class="on">
@@ -120,6 +104,9 @@
                         </li>
                         <li data-tab="proTab05">
                             <button type="button" class="inner-tab">토지피복</button>
+                        </li>
+                        <li data-tab="proTab06">
+                            <button type="button" class="inner-tab">사진</button>
                         </li>
                     </ul>
                 </div>
@@ -249,8 +236,9 @@
                         </div>
 
                         <h4 class="cont-stit">조사자 의견</h4>
-                        <div style="padding-bottom: 5px;"><textarea name="opinion" class="form-control" readonly><c:out
-                                value="${result.opinion}"/></textarea></div>
+                        <div>
+                        	<textarea name="opinion" class="form-control" readonly><c:out value="${result.opinion}"/></textarea>
+                        </div>
                     </div>
                 </div>
                 <!-- //지목조사 -->
@@ -1093,7 +1081,33 @@
                         </table>
                     </div>
                 </div>
-                <!-- //토지피복 -->
+	            <!-- //토지피복 -->
+	            <!-- 사진 -->
+	            <div class="tab-cont proTab06">
+		            <div class="scroll-y">
+	                    <div class="data-default">
+	                        <table class="data-write">
+	                            <tbody>
+	                            <tr>
+	                                <th scope="row">원경</th>
+	                                
+	                            </tr>
+	                            <tr style="height: 500px">
+	                                <td><img /></td>
+	                            </tr>
+	                            <tr>
+	                                <th scope="row">근경</th>
+	                                
+	                            </tr>
+	                            <tr style="height: 500px">
+	                                <td><img /></td>
+	                            </tr>
+	                            </tbody>
+	                        </table>
+	                    </div>
+                    </div>
+                </div>
+                <!-- //사진 -->
             </div>
             <div>
             	<button type="button" class="btn basic bi-excel" style="text-align: left; margin: 0 3px;"
