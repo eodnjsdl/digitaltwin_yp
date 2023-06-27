@@ -8,7 +8,7 @@ function fn_selectGraphicLinkPage(pageIndex) {
     var data = $(".searchForm", this.selector).serialize();
     var pageIndexSplit = data.split('&', 1);
     data = data.replace(pageIndexSplit, 'pageIndex=' + pageIndex);
-    removeGrphLayer();
+    //removeGrphLayer();		//3D 사용 안해 주석 처리
     new GraphicTool(pageIndex, data);
 }
 
@@ -61,7 +61,7 @@ class GraphicTool {
         // 검색
         $(".btn-search", that.selector).on("click", function () {
             const data = $(".searchForm", that.selector).serialize();
-            removeGrphLayer();
+            //removeGrphLayer();	//3D 사용 안해 주석 처리
             that.render(data);
         });
         $("[name=searchWrd]", that.selector).on("keydown", function (event) {
@@ -97,7 +97,19 @@ class GraphicTool {
                 $(".bbs-list .graphic_check:checked", that.selector).trigger("click");
             }
         });
-
+        
+        //일괄공유 전체선택/전체해제
+        $(".graphic_share_check_all", that.selector).on("change", function () {
+        	const node = $(this);
+        	if (node.is(":checked")) {
+        		$(".bbs-list .graphic_share_check:not(:checked)", that.selector).trigger(
+        				"click"
+        		);
+        	} else {
+        		$(".bbs-list .graphic_share_check:checked", that.selector).trigger("click");
+        	}
+        });
+        
         // 그리기 표시
         $(".bbs-list .graphic_check", that.selector).on("change", function (e) {
             e.stopImmediatePropagation();
@@ -132,7 +144,15 @@ class GraphicTool {
             }
             const node = $(this);
             const id = node.attr("data-graphic-id");
-            new GraphicToolEditor(id);
+            //id 있을시 편집 모드
+            //new GraphicToolEditor(id);
+            ////////
+            if(id){
+            	new GraphicToolEditor(id);
+            }else{
+            	console.log("편집 지원 안함");
+            }
+            //id 있을시 편집 모드 end
         });
     }
 }
@@ -1347,3 +1367,74 @@ function updateStyle(feature, style) {
     feature.set('style', _.merge({}, origin, style));
     feature.changed();
 }
+
+//이미지 일괄 공유 적용/공유안함 처리 
+function selectGraphicShare(isShare) {
+	//console.log("selectGraphicShare(isShare)");
+	//console.log(isShare);
+	
+	//체크된 데이터 확인
+	var selectGraphicIdArray = new Array();
+	$(".bbs-list .graphic_share_check").each(function(index) {
+		
+		if($(this).is(":checked")){
+			
+    		let selectGraphicId =  $(this).data('graphic-id');
+    		if(selectGraphicId){
+    			selectGraphicIdArray.push(selectGraphicId);
+    		}
+		}
+	});
+	
+	//console.log(selectGraphicIdArray.length);
+	if(selectGraphicIdArray.length == 0){
+		alert("선택된 데이터가 없습니다");
+		return false;
+	}
+	
+	//console.log(selectGraphicIdArray);
+	
+	if(isShare){
+		//console.log("일괄공유");
+		pnrsAt = "Y";
+	}else{
+		//console.log("일괄공유안함");
+		pnrsAt = "N";
+	}
+
+	ui.loadingBar("side");
+	
+	$.ajax({
+		type : "POST",
+		url : "/cmt/grph/updateGraphicPnrsAtBundle.do",
+		data : {
+			 "pnrsAt"      				: pnrsAt, 
+             "updateGraphicIdArray" 	: selectGraphicIdArray   
+		},
+		dataType : "json",
+		contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+		async: false,
+		success : function(returnData, status){
+	
+			if(status == "success") {
+				//console.log("--success--");
+				
+				var pageIndex = $(".searchForm input[name=pageIndex]").val();
+				//console.log("pageIndex>>>");
+				//console.log(pageIndex);
+				if(pageIndex){
+					fn_selectGraphicLinkPage(pageIndex);
+				}
+				
+			}else{
+				toastr.error("관리자에게 문의 바랍니다.", "정보를 불러오지 못했습니다.");
+				return;
+			}
+		}, complete : function(){
+			ui.loadingBar("hide");
+		}
+	}); 
+	
+	
+}
+

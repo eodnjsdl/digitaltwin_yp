@@ -12,7 +12,7 @@ window.ui = (function () {
 		//좌측 메뉴 >> 공간정보
 		_spaceMenuEvent();
 		//좌측 메뉴 >> 정보공유
-		_infoShareMenuEvent();	//정보공유 메뉴이동 //uhh add...
+		_infoShareMenuEvent();			//정보공유 메뉴이동 
 		//좌측 메뉴 >> 레이어 Tab(2D/3D)
 		_layerTabEvent();
 		//좌측 메뉴 >> 공간정보 활용 >> 사업공유관리
@@ -36,6 +36,8 @@ window.ui = (function () {
 		_setToastOption();
 
 		_selectEventListener();	//지도 선택 이벤트 초기화
+		
+		_ctrlBtnLegendSetEvent();  //오른쪽 컨트롤 범례 창 제어
 	}
 
 	function _setToastOption() {
@@ -336,7 +338,58 @@ window.ui = (function () {
 		$mapControl.on('click', '.ctrl-btn.scaleDown', function (e) {
 			dtmap.zoomOut();
 		})
+		
+		//범례 
+		$mapControl.on('click', '.ctrl-btn.legend-set', function (e) {
+			
+			if($(".lnb-legend-set").hasClass("d-block")){
+				$(".lnb-legend-set").removeClass("d-block");
+			}else{
+
+				$(".lnb-legend-set").addClass("d-block");
+				$(".lnb-legend-set").draggable();
+				$(".lnb-legend-set .tab_trigger li").first().trigger("click");
+				
+				$(".lnb-legend-set").attr("style", "left:1285px; top:403px;");	//원래 위치로 이동
+			}
+		});
+
 	}
+	
+	//범례 창 이벤트
+	function _ctrlBtnLegendSetEvent(){
+		
+		//텝메뉴 이벤트
+		$(".lnb-legend-set .tab_trigger li").click(function () {
+
+			//텝 이벤트 모두 삭제
+			$(".lnb-legend-set .tab_trigger li").each(function () {
+				if($(this).hasClass("active")){
+					$(this).removeClass("active");
+				}
+			});
+			
+			//내용 탭 이벤트 모두삭제
+			$(".lnb-legend-set .tab_status_box").css("display", "none");
+			
+			//탭 메뉴 /내용 활성화
+			if(!$(this).hasClass("active")){
+				$(this).addClass("active");
+				var tabId = $(this).data("tabid");
+				$("."+tabId).parent().css("display", "block");
+			}
+			
+		});
+		
+		//닫기 버튼 제어 
+		$(".lnb-legend-set .popup-close").click(function () {
+			if($(".lnb-legend-set").hasClass("d-block")){
+				$(".lnb-legend-set").removeClass("d-block");
+			}
+		});
+		
+	}
+	
 
 	//LEFT 메뉴 선택
 	function _leftMenuEvent() {
@@ -474,12 +527,11 @@ window.ui = (function () {
 		});
 	}
 	
-	//uhh add...
 	// 좌측 메뉴 >> 정보공유
 	function _infoShareMenuEvent() {
-		console.log("_infoShareMenuEvent()");
+		//console.log("_infoShareMenuEvent()");
 		$(".lnb-infoShare .lnb-body").on("click", "button", function () {
-			console.log("_infoShareMenuEvent() click");
+			//console.log("_infoShareMenuEvent() click");
 			
 			dtmap.draw.dispose();		//그리기 포인트 삭제
 			dtmap.draw.clear();			//그리기 초기화
@@ -504,7 +556,6 @@ window.ui = (function () {
 		});
 		
 	}
-	//uhh add... end
 
 	//좌측 메뉴 >> 공간정보 활용  >> 사업공유 관리
 	function _spaceTabEvent() {
@@ -623,6 +674,18 @@ window.ui = (function () {
 			var area = $(this).data("popup"); //팝업 위치명 넣어주세요  ex)rightPopup
 			ui.openPopup(area);
 			_selectEventListener();	//지도 선택 이벤트 초기화
+			
+			//사용자 레이어 삭제(그래프)
+			if(dtmap.layer.userLayers){
+				if (dtmap.layer.userLayers.nameAtLayer('li_trans_vulner_info_graph')) {
+					dtmap.layer.userLayers.delLayerAtName('li_trans_vulner_info_graph');
+				}
+				
+				if (dtmap.layer.userLayers.nameAtLayer('li_popltn_info_graph')) {
+					dtmap.layer.userLayers.delLayerAtName('li_popltn_info_graph');
+				}
+			}
+			
 			switch (name) {
 			// 교통분석 > 버스노선정보
 			case "BusRouteInformation" :
@@ -840,7 +903,7 @@ window.ui = (function () {
 			_area.heigth = "807";
 			break;
 		case "layerInfo":
-			_area.left = "360";
+			_area.left = "415";
 			_area.width = "515";
 			_area.heigth = "807";
 			break;
@@ -1348,6 +1411,18 @@ function clearMap() {
 	dtmap.layer.removeLayer('layer_trva_grid_area');
 
 	$(".lnb-dep2").find(".on").removeClass("on");
+	
+	//사용자 레이어 삭제(그래프)
+	if(dtmap.layer.userLayers){
+		if (dtmap.layer.userLayers.nameAtLayer('li_trans_vulner_info_graph')) {
+			dtmap.layer.userLayers.delLayerAtName('li_trans_vulner_info_graph');
+		}
+		
+		if (dtmap.layer.userLayers.nameAtLayer('li_popltn_info_graph')) {
+			dtmap.layer.userLayers.delLayerAtName('li_popltn_info_graph');
+		}
+	}
+	
 }
 
 //사용자 정보 조회

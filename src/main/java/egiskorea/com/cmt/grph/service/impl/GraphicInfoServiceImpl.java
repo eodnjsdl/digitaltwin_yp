@@ -124,4 +124,9 @@ public class GraphicInfoServiceImpl implements GraphicInfoService {
   public void deleteImageMarker(String mkrId) {
 	  graphicInfoDAO.deleteImageMarker(mkrId);
   }
+
+	@Override
+	public void updateGrphicPnrsAtBundle(GraphicInfoVO graphicInfoVO) {
+		graphicInfoDAO.updateGrphicPnrsAtBundle(graphicInfoVO);
+	}
 }
