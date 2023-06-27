@@ -286,21 +286,23 @@ var M_UNDG_FCTY_SECT = {
      */
     highlightPoint(fraction) {
         if (this.geometry && fraction) {
-            const geom = new ol.geom.Point(this.geometry.getCoordinateAt(fraction));
             dtmap.vector.clear();
-            const feature = new ol.Feature(geom);
-            dtmap.vector.addFeature(feature, {
-                fill: {
-                    color: '#ff8828',
-                    opacity: 0.5
-                },
-                stroke: {
-                    color: '#a94e00'
-                },
-                radius: 10,
-                zIndex: 9999
+            dtmap.vector.addPoint({
+                coordinates: this.geometry.getCoordinateAt(fraction),
+                crs: 'EPSG:5179',
+                style: {
+                    fill: {
+                        color: '#ff8828',
+                        opacity: 0.5
+                    },
+                    stroke: {
+                        color: '#a94e00'
+                    },
+                    radius: 10,
+                    zIndex: 9999
 
-            }, 'EPSG:5179')
+                }
+            });
         }
     },
 
