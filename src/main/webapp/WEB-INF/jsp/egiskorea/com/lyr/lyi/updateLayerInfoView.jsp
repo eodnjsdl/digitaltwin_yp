@@ -799,7 +799,7 @@
                 },
                 success: function (returnData) {
                     if (returnData.callback === "success") {
-                        alert(returnData.message);
+                        toastr.success(returnData.message);
                         aj_updateLayerInfoView(layerId);
                         aj_selectLayerList("left");
 
@@ -830,7 +830,7 @@
 // 					layer.setVisible(visible);
 // 				}
                     } else {
-                        alert(returnData.message);
+                        toastr.error(returnData.message)
                         return false;
                     }
                 },
