@@ -416,7 +416,7 @@ html, body {
  *----------------------------------------------------------------------------*/
 .map-control {
     position: fixed;
-    top: 50%;
+    top: 35%;
     right: 20px;
     margin-top: -245px;
 }
@@ -546,6 +546,10 @@ html, body {
 
 .map-control .setting {
     background-image: url(/images/map/ctrl-setting.svg);
+}
+
+.map-control .legend-set {
+    background-image: url(/images/map/ctrl-legend.svg);
 }
 
 .map-control .scaleUp {
