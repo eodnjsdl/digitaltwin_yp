@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper	namespace="publndMng">
+<mapper	namespace="pbprtAccdtMng">
 	<!-- 공유재산 실태조사 목록 조회 -->
 	<select id="selectPbprtAccdtList" resultType="pbprtAccdtVO">
 			select pm.publnd_no 
@@ -23,6 +23,7 @@
 				 , pm.cnfirm_matter  
 				 , pm.edit_yn
 				 , pm.year
+				 , pm.prprty_no
 			  from 
 					(
 						select publnd_no 
@@ -45,6 +46,7 @@
 							 , cnfirm_matter
 							 , edit_yn 
 							 , year
+							 , prprty_no
 						from tbd_publnd_mng 
 					   where del_yn = 'N'
 					   <if test="yearOption != null and yearOption != 'allYear'">
@@ -70,7 +72,8 @@
 	<insert id="insertPbprtAccdtInfo" parameterType="pbprtAccdtVO">
 		insert into tbd_publnd_mng 
 			(
-				  publnd_no 
+				  prprty_no
+				, publnd_no 
 				, ctrt_ymd 
 				, cntrctpd 
 				, locplc 
@@ -94,7 +97,8 @@
 			)
 		values 
 			(
-				  #{publndNo} 
+				  #{prprtyNo}
+				, #{publndNo} 
 				, #{ctrtYmd} 
 				, #{cntrctpd} 
 				, #{locplc}
@@ -166,6 +170,7 @@
 			 , atch_papers 
 			 , cnfirm_matter
 			 , year
+			 , prprty_no
 		  from tbd_publnd_mng
 		 where publnd_no = #{publndNo}
 	</select>
@@ -173,7 +178,8 @@
 	<!-- 공유재산 실태조사 상세정보 수정 -->
 	<update id="updatePbprtAccdtInfo" parameterType="pbprtAccdtVO">
 		update tbd_publnd_mng
-		   set ctrt_ymd = #{ctrtYmd} 
+		   set prprty_no = #{prprtyNo} 
+		   	 , ctrt_ymd = #{ctrtYmd} 
 		     , cntrctpd = #{cntrctpd} 
 			 , locplc = #{locplc}
 			 , ldcg_cd = #{ldcgCd} 
@@ -217,6 +223,7 @@
 				 , pm.cnfirm_matter  
 				 , pm.edit_yn
 				 , pm.year
+				 , pm.prprty_no
 			  from 
 					(
 						select publnd_no 
@@ -239,6 +246,7 @@
 							 , cnfirm_matter
 							 , edit_yn 
 							 , year
+							 , prprty_no
 						from tbd_publnd_mng 
 					   where del_yn = 'N'
 					   <if test="year neq 'allYear' and year != null and year != ''">
@@ -261,6 +269,7 @@
 		insert into tbd_publnd_mng
 		(
 				  publnd_no 
+				, prprty_no
 				, ctrt_ymd 
 				, cntrctpd 
 				, locplc 
@@ -284,7 +293,8 @@
 			)
 		values 
 		<foreach collection="list" item="list" open="(" separator="),(" close=")">
-				#{list.publndNo} 
+				#{list.publndNo}
+				, #{list.prprtyNo} 
 				, #{list.ctrtYmd} 
 				, #{list.cntrctpd} 
 				, #{list.locplc}
@@ -345,6 +355,7 @@
 			 , pa.atch_file_id
 			 , pa.satlit_photo_sn 
 			 , pa.spt_photo_sn 
+			 , pa.prprty_no
 		  from (
 		  		select publnd_no 
 		  			 , locplc
@@ -354,6 +365,7 @@
 		  			 , addr
 		  			 , nm
 		  			 , cttpc
+		  			 , prprty_no
 		  		  from tbd_publnd_mng
 		  		 where publnd_no = #{publndNo}
 		  	) pm 
@@ -377,6 +389,7 @@
 			  , atch_file_id
 			  , satlit_photo_sn
 			  , spt_photo_sn
+			  , prprty_no
 			)
 			values 
 			(
@@ -391,6 +404,7 @@
 			  , #{atchFileId}
 			  , #{satlitPhotoSn}
 			  , #{sptPhotoSn}
+			  , #{prprtyNo}
 			)
 			
 	</insert>
@@ -406,6 +420,7 @@
 			 , bsrp_cn			= #{bsrpCn}
 			 , exmnr			= #{exmnr}
 			 , atch_file_id		= #{atchFileId}
+			 , prprty_no		= #{prprtyNo}
 			 <if test="fileDelYn.equals('Ysatlit')">
 			 , satlit_photo_sn 	= null
 			 </if>

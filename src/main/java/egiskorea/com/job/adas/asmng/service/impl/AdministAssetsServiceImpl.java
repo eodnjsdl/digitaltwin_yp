@@ -18,8 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import egiskorea.com.job.adas.asmng.service.AdministAssetsService;
 import egiskorea.com.job.adas.asmng.service.AdministAssetsVO;
-import egovframework.com.cmm.service.EgovFileMngService;
-import egovframework.com.cmm.service.EgovFileMngUtil;
+import egiskorea.com.job.adas.publnd.service.PbprtAccdtVO;
 import egovframework.rte.fdl.cmmn.EgovAbstractServiceImpl;
 
 /**
@@ -41,14 +40,6 @@ public class AdministAssetsServiceImpl extends EgovAbstractServiceImpl implement
 
 	@Resource(name = "administAssetsDAO")
 	private AdministAssetsDAO administAssetsDAO;
-	
-	/** 전자정부 파일 관리 Service */
-	@Resource(name = "EgovFileMngService")
-    private EgovFileMngService egovFileMngService;
-
-	/** 파일 업로드 Util */
-    @Resource(name="EgovFileMngUtil")
-    private EgovFileMngUtil fileUtil;
 
 	@Override
 	public List<AdministAssetsVO> selectAdministAssetsInfoList(AdministAssetsVO administAssetsVO) {
@@ -67,10 +58,10 @@ public class AdministAssetsServiceImpl extends EgovAbstractServiceImpl implement
 	}
 
 	@Override
-	public int selectAdministAssetsTotCnt() {
+	public int selectAdministAssetsTotCnt(AdministAssetsVO administAssetsVO) {
 		int count = 0;
 		
-		count = administAssetsDAO.selectAdministAssetsTotCnt();
+		count = administAssetsDAO.selectAdministAssetsTotCnt(administAssetsVO);
 
 		return count;
 	}
@@ -93,15 +84,6 @@ public class AdministAssetsServiceImpl extends EgovAbstractServiceImpl implement
 		
 		return result;
 	}
-//	@Override
-//	@Transactional
-//	public int insertAdministAssetsInfoByCSV(AdministAssetsVO administAssetsVO) {
-//		int result = 0;
-//		
-//		result = administAssetsDAO.insertAdministAssetsInfoByCSV(administAssetsVO);
-//		
-//		return result;
-//	}
 
 	@Override
 	@Transactional
@@ -161,6 +143,33 @@ public class AdministAssetsServiceImpl extends EgovAbstractServiceImpl implement
 		administAssetsVO.setYear(year);
 		
 		return administAssetsVO;
+	}
+
+	@Override
+	public int insertPublndToPbprtAccdt(PbprtAccdtVO pbprtAccdtVO) throws Exception {
+		int result = 0;
+		
+		int count = 0;
+		count = administAssetsDAO.selectPbprtAccdtTotCount();
+		
+		int publndNo = 0;
+		if (count != 0) {
+			// publnd_no 총 개수에서 하나씩 더해서 세팅
+			publndNo = administAssetsDAO.selectPbprtAccdtTotCountMax();
+			publndNo = publndNo + 1;
+			pbprtAccdtVO.setPublndNo(publndNo);
+		} else {
+			publndNo = 1;
+			pbprtAccdtVO.setPublndNo(publndNo);
+		}
+		
+		String ldcgCd = ""; 
+		ldcgCd = pbprtAccdtVO.getLdcgCd();
+		pbprtAccdtVO.setLdcgCd(ldcgCd.substring(0, 2));
+		
+		result = administAssetsDAO.insertPublndToPbprtAccdt(pbprtAccdtVO);
+				
+		return result;
 	}
 
 }

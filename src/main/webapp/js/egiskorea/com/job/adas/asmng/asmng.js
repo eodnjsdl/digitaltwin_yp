@@ -4,8 +4,10 @@
  */
 // 드래그, 클릭 파일 혼동방지
 var fileData = null;
-
+var exportData = [];
+var checkedDataSet = null;
 $(document).ready(function () {
+	console.log("행정자산관리.js");
 	$('.popup-body #regBtn').on('click', function() {
 		insertAdministAssetsView();
 	});
@@ -19,6 +21,24 @@ $(document).ready(function () {
 	$('#bottomPopup .popup-reset').on('click', function() {
 		selectAdministAssetsInfoList(0);
 	});
+	let css = {"position": "relative", "display": "flex", "margin-top": "15px",
+			"left": "0", "right": "0", "bottom": "0"};
+	$('.btn-wrap').css(css);
+	
+	$('#bottomPopup .btn-wrap .search').on('click', function() {
+		selectAdministAssetsInfoList(0);
+	});
+	
+	$('#adminSrchOptions td').on('keyup', function () {
+		if (event.keyCode == 13) {
+			selectAdministAssetsInfoList(0);
+		}
+	});
+	
+	$('#exportBtn').on('click', function () {
+		exportAccnutData(checkedDataSet);
+	});
+	
 });
 
 /**
@@ -60,11 +80,11 @@ function insertAdministAssetsView() {
 function selectAdministAssetsInfoList(_pageNo) {
 	// 선택 연도 값
 	let year = $('.bbs-top-side #year').val();
+	let formData = $('#administAssetsSearch').serializeArray();
+	formData.push({name : "year", value : year});
+	formData.push({name : "pageNo", value : _pageNo});
 	$.ajax({
-		data : {
-					"year" : year,
-					"pageNo" : _pageNo
-				},
+		data : formData,
 		type : "POST",
 		url : "/job/adas/asmng/selectAdministAssetsInfoList.do",
 		dataType : "json",
@@ -72,7 +92,8 @@ function selectAdministAssetsInfoList(_pageNo) {
 			let list = [];
 			let result = data.resultList;
 			let resultCnt = data.resultCount;
-			for(i = 0; i < resultCnt; i++) {
+			for(i = 0; i < result.length; i++) {
+				result[i].isChecked = 'N';
 				list.push(result[i]);
 			}
 			administAssetsGrid.setData({
@@ -116,14 +137,25 @@ function administAssetsGrid() {
 	    ];
 	// 테이블 표시 컬럼 변수
 	let columns = [];
+	let checkbox = {
+            key: "isChecked", label: "선택", width: 40, sortable: false, align: "center", editor: {
+                type: "checkbox", config: {height: 17, trueValue: "Y", falseValue: "N"}
+            }};
+	columns.push(checkbox);
 	for (let i = 0; i < dataKeys.length; i++) {
-	columns.push({key: dataKeys[i], label: dataLabels[i], width: 120});
+		if (i == 9 || i == 12 || i == 17 || i == 29 || i == 33) {
+			columns.push({key: dataKeys[i], label: dataLabels[i], width: 200});
+		} else {
+			columns.push({key: dataKeys[i], label: dataLabels[i], width: 120});
+		}
 	}
 	
 	administAssetsGrid = new ax5.ui.grid();
 	administAssetsGrid.setConfig({
 		target: $('[data-ax5grid="administAssetsGrid"]'),
 		showLineNumber: true,
+//		showRowSelector: true,
+//		multipleSelect: true,
 		sortable: true,
 		multiSort: true,
 		header: {
@@ -131,8 +163,12 @@ function administAssetsGrid() {
 		},
 		body: {
 			align: "center",
-			onClick: function() {
-				administAssetsGrid.focus(this.doindex);
+			onClick : function () {
+				administAssetsGrid.focus(this.dindex);
+			},
+			onDataChanged : function () {
+				administAssetsGrid.focus(this.dindex);
+				checkData(this);
 			}
 		},
 		page: {
@@ -173,6 +209,12 @@ function dragAndDropEvent() {
 	$('#clickUpload').on('click', function() {
 		$('#fileUpload').trigger('click');
 	});
+	
+	$('#uploadCSVBtn').on('click', function() {
+		if (!fileData) {
+			toastr.warning("업로드할 파일을 선택해주세요.")
+		}
+	});
 }
 
 /**
@@ -180,11 +222,14 @@ function dragAndDropEvent() {
  * @returns
  */
 function fileDragAndDrop(files) {
-	// 파일 업로드 되면 등록버튼 리스너생성
+	/*// 파일 업로드 되면 등록버튼 리스너생성
 	$('#uploadCSVBtn').on('click', function() {
+		if (files) {
+			toastr.warning("업로드할 파일을 선택해주세요.")
+		}
 		// 업로드 중 여부 확인
 		checkUploading();
-	});
+	});*/
 	
 	
 	const fileType = "csv";
@@ -260,6 +305,11 @@ function wirteStandardInfo(file) {
 	$('#fileInfo').append(info);
 }
 
+/**
+ * CSV 업로드
+ * @param isUploading
+ * @returns
+ */
 function sendCSVFileData(isUploading) {
 	$(function() {
 		progressbar = $( ".progressbar" ),
@@ -309,7 +359,6 @@ function sendCSVFileData(isUploading) {
 								type : "post",
 								dataType : "json",
 								success : function(data) {
-									console.log(data);
 									$(".progressbar-value").css("width", parseInt(data.progress) + "%");
 									$(".progress-label").html(parseInt(data.progress) + "%");
 								}
@@ -336,6 +385,7 @@ function sendCSVFileData(isUploading) {
 				selectAdministAssetsInfoList(0);
 			}, error: function(error) {
 				console.log(error.getAllResponseHeaders);
+				toastr.warning('데이터 등록에 실패하였습니다');
 			}
 		});
 	} else {
@@ -344,6 +394,10 @@ function sendCSVFileData(isUploading) {
 	
 }
 
+/**
+ * 다른 데이터 업로드 중인지 체크
+ * @returns
+ */
 function checkUploading() {
 	let isUploading;
 	$.ajax({
@@ -351,9 +405,60 @@ function checkUploading() {
 		type : "post",
 		dataType : "json",
 		success : function(data) {
-			console.log("지금 업로드 중인가? " + data.uploading);
 			isUploading = data.uploading;
 			sendCSVFileData(isUploading);
 		}
 	});
+}
+
+/**
+ * 내보내기 전 체크된 데이터 담기
+ * @param selected
+ * @returns
+ */
+function checkData(selected) {
+	if (selected.item.isChecked == 'Y') {
+		exportData.push(selected.dindex);
+	} else {
+		for (let i = 0; i < exportData.length; i++) {
+			if (exportData[i] == selected.dindex) {
+				exportData[i] = null;
+			}
+		}
+	}
+	let checkedData = exportData.filter((e, i) => e !== null);
+	checkedDataSet = checkedData;
+}
+
+/**
+ * 체크된 데이터 내보내기
+ * @param data
+ * @returns
+ */
+function exportAccnutData(data) {
+	let index = data;
+	checkedDataSet = null;
+	let list = administAssetsGrid.getList();
+	
+	let dataset = [];
+	for (let j = 0; j < index.length; j++) {
+		for (let i = 0; i < list.length; i++) {
+			if (list[i].__index == index[j]) {
+				dataset.push({prprtyNo : list[i].prprtyNo, locplc : list[i].locplc, ldcgCd : list[i].rlLndcgrCd, ar : parseInt(list[i].ar)});
+			}
+		}
+	}
+	for (let i = 0; i < dataset.length; i++) {
+		$.ajax({
+			data : dataset[i],
+			url : "/job/adas/asmng/insertPublndToPbprtAccdt.do",
+			type : "POST",
+			dataType : "json",
+			async : false,
+			success : function (data) {
+				console.log(data);
+				toastr.info(data.result);
+			}
+		});
+	}
 }

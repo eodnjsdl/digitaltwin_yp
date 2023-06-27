@@ -67,7 +67,7 @@ public class PbprtAccdtServiceImpl extends EgovAbstractServiceImpl implements Pb
 	public List<PbprtAccdtVO> selectPbprtAccdtList(PbprtAccdtVO pbprtAccdtVO) {
 		List<PbprtAccdtVO> pbprtAccdtList = null;
 		
-		pbprtAccdtList = cmmnDao.selectList("publndMng.selectPbprtAccdtList", pbprtAccdtVO);
+		pbprtAccdtList = cmmnDao.selectList("pbprtAccdtMng.selectPbprtAccdtList", pbprtAccdtVO);
 		
 		return pbprtAccdtList;
 	}
@@ -76,7 +76,7 @@ public class PbprtAccdtServiceImpl extends EgovAbstractServiceImpl implements Pb
 	public int selectPbprtAccdtListCnt(PbprtAccdtVO pbprtAccdtVO) {
 		int cnt = 0;
 		
-		cnt = cmmnDao.selectOne("publndMng.selectPbprtAccdtListCnt", pbprtAccdtVO);
+		cnt = cmmnDao.selectOne("pbprtAccdtMng.selectPbprtAccdtListCnt", pbprtAccdtVO);
 		
 		return cnt;
 	}
@@ -87,14 +87,21 @@ public class PbprtAccdtServiceImpl extends EgovAbstractServiceImpl implements Pb
 		int publndNo = 0;
 		String year = "";
 		
-		// publnd_no 총 개수에서 하나씩 더해서 세팅
-		publndNo = cmmnDao.selectOne("publndMng.selectPbprtAccdtTotCo");
-		publndNo = publndNo + 1;
-		pbprtAccdtVO.setPublndNo(publndNo);
+		int count = 0;
+		count = cmmnDao.selectOne("pbprtAccdtMng.selectPbprtAccdtTotCount");
+		if (count != 0) {
+			// publnd_no 총 개수에서 하나씩 더해서 세팅
+			publndNo = cmmnDao.selectOne("pbprtAccdtMng.selectPbprtAccdtTotCo");
+			publndNo = publndNo + 1;
+			pbprtAccdtVO.setPublndNo(publndNo);
+		} else {
+			publndNo = 1;
+			pbprtAccdtVO.setPublndNo(publndNo);
+		}
 		year = String.valueOf(LocalDateTime.now().getYear());
 		pbprtAccdtVO.setYear(year);
 		
-		put = cmmnDao.insert("publndMng.insertPbprtAccdtInfo", pbprtAccdtVO);
+		put = cmmnDao.insert("pbprtAccdtMng.insertPbprtAccdtInfo", pbprtAccdtVO);
 		
 		return put;
 	}
@@ -103,8 +110,8 @@ public class PbprtAccdtServiceImpl extends EgovAbstractServiceImpl implements Pb
 	public int updatePbprtAccdtInfoDel(int publndNo) throws Exception {
 		int remove = 0;
 		
-		remove = cmmnDao.delete("publndMng.updatePbprtAccdtInfoDel", publndNo);
-		remove += cmmnDao.delete("publndMng.deletePbprtAccdtWrinvstg", publndNo);
+		remove = cmmnDao.delete("pbprtAccdtMng.updatePbprtAccdtInfoDel", publndNo);
+		remove += cmmnDao.delete("pbprtAccdtMng.deletePbprtAccdtWrinvstg", publndNo);
 		
 		return remove;
 	}
@@ -113,7 +120,7 @@ public class PbprtAccdtServiceImpl extends EgovAbstractServiceImpl implements Pb
 	public List<CmmnCdVO> selectLdcgCdList() {
 		List<CmmnCdVO> ldcgCdList = null;
 		
-		ldcgCdList = cmmnDao.selectList("publndMng.selectLdcgCdList");
+		ldcgCdList = cmmnDao.selectList("pbprtAccdtMng.selectLdcgCdList");
 		
 		return ldcgCdList;
 	}
@@ -122,7 +129,7 @@ public class PbprtAccdtServiceImpl extends EgovAbstractServiceImpl implements Pb
 	public PbprtAccdtVO selectPbprtAccdtDtlInfo(int publndNo) {
 		PbprtAccdtVO pbprtAccdtDtlInfo = null;
 		
-		pbprtAccdtDtlInfo = cmmnDao.selectOne("publndMng.selectPbprtAccdtDtlInfo", publndNo);
+		pbprtAccdtDtlInfo = cmmnDao.selectOne("pbprtAccdtMng.selectPbprtAccdtDtlInfo", publndNo);
 		
 		return pbprtAccdtDtlInfo;
 	}
@@ -132,7 +139,7 @@ public class PbprtAccdtServiceImpl extends EgovAbstractServiceImpl implements Pb
 		int modify = 0;
 		pbprtAccdtVO.setEditYn("Y");
 		
-		modify = cmmnDao.update("publndMng.updatePbprtAccdtInfo", pbprtAccdtVO);
+		modify = cmmnDao.update("pbprtAccdtMng.updatePbprtAccdtInfo", pbprtAccdtVO);
 		
 		return modify;
 	}
@@ -145,7 +152,7 @@ public class PbprtAccdtServiceImpl extends EgovAbstractServiceImpl implements Pb
 //		Map<String, Object> yearValue = new HashMap<String, Object>();
 //		yearValue.put("year", year);
 //		
-//		excelVO = cmmnDao.selectList("publndMng.selectPbprtAccdtExcelList", yearValue);
+//		excelVO = cmmnDao.selectList("pbprtAccdtMng.selectPbprtAccdtExcelList", yearValue);
 //		
 //		String[] titleArr = new String[18];
 //		titleArr[0] = "계약일자";
@@ -196,7 +203,7 @@ public class PbprtAccdtServiceImpl extends EgovAbstractServiceImpl implements Pb
 	public List<String> selectPbprtAccdtYearList() {
 		List<String> yearList = null;
 		
-		yearList = cmmnDao.selectList("publndMng.selectPbprtAccdtYearList");
+		yearList = cmmnDao.selectList("pbprtAccdtMng.selectPbprtAccdtYearList");
 		
 		return yearList;
 	}
@@ -236,56 +243,62 @@ public class PbprtAccdtServiceImpl extends EgovAbstractServiceImpl implements Pb
                         // 셀 값을 읽는다
                         XSSFCell cell = row.getCell(columnindex);
                         
+                        // 재산번호
+                        if(cell != null) {
+                        	cell.setCellType(Cell.CELL_TYPE_STRING);
+                        	pbprtAccdtVO.setPrprtyNo(cell.getStringCellValue());
+                        }
                         // 계약 일자
+                        cell = row.getCell(1); 
                         if(cell != null) {
                         	cell.setCellType(Cell.CELL_TYPE_STRING);
                         	pbprtAccdtVO.setCtrtYmd(cell.getStringCellValue());
                         }
                         // 계약기간
-                        cell = row.getCell(1); 
+                        cell = row.getCell(2); 
                         if(cell != null) {
                         	cell.setCellType(Cell.CELL_TYPE_STRING);
                         	pbprtAccdtVO.setCntrctpd(cell.getStringCellValue());
                         }
                         // 소재지
-                        cell = row.getCell(2);
+                        cell = row.getCell(3);
                         if(cell != null) {
                         	cell.setCellType(Cell.CELL_TYPE_STRING);
                         	pbprtAccdtVO.setLocplc(cell.getStringCellValue());
                         }
                         // 지목 코드
-                        cell = row.getCell(3);
+                        cell = row.getCell(4);
                         if(cell != null) {
                         	cell.setCellType(Cell.CELL_TYPE_STRING);
                         	pbprtAccdtVO.setLdcgCd(lgcdCnvrtr(cell.getStringCellValue()));
 //                        	pbprtAccdtVO.setLdcgCd(cell.getStringCellValue());
                         }
                         // 면적
-                        cell = row.getCell(4);
+                        cell = row.getCell(5);
                         if(cell != null) {
                         	cell.setCellType(Cell.CELL_TYPE_STRING);
                         	pbprtAccdtVO.setAr(Double.valueOf(cell.getStringCellValue()));
                         }
                         // 대부 면적
-                        cell = row.getCell(5);
+                        cell = row.getCell(6);
                         if(cell != null) {
                         	cell.setCellType(Cell.CELL_TYPE_STRING);
                         	pbprtAccdtVO.setLoanAr(Double.valueOf(cell.getStringCellValue()));
                         }
                         // 대부 용도
-                        cell = row.getCell(6);
+                        cell = row.getCell(7);
                         if(cell != null) {
                         	cell.setCellType(Cell.CELL_TYPE_STRING);
                         	pbprtAccdtVO.setLoanPrpos(cell.getStringCellValue());
                         }
                         // 주민등록번호
-                        cell = row.getCell(7);
+                        cell = row.getCell(8);
                         if(cell != null) {
                         	cell.setCellType(Cell.CELL_TYPE_STRING);
                         	pbprtAccdtVO.setRrno(cell.getStringCellValue());
                         }
                         // 대부료 발송 여부
-                        cell = row.getCell(8);
+                        cell = row.getCell(9);
                         if(cell != null) {
                         	cell.setCellType(Cell.CELL_TYPE_STRING);
                         	if (cell.getStringCellValue() == null || cell.getStringCellValue().replaceAll("\\s", "") == "") {
@@ -297,37 +310,37 @@ public class PbprtAccdtServiceImpl extends EgovAbstractServiceImpl implements Pb
                         	pbprtAccdtVO.setLoanmnSndngYn("N");
                         }
                         // 성명
-                        cell = row.getCell(9);
+                        cell = row.getCell(10);
                         if(cell != null) {
                         	cell.setCellType(Cell.CELL_TYPE_STRING);
                         	pbprtAccdtVO.setNm(cell.getStringCellValue());
                         }
                         // 주소
-                        cell = row.getCell(10);
+                        cell = row.getCell(11);
                         if(cell != null) {
                         	cell.setCellType(Cell.CELL_TYPE_STRING);
                         	pbprtAccdtVO.setAddr(cell.getStringCellValue());
                         }
                         // 우편번호
-                        cell = row.getCell(11);
+                        cell = row.getCell(12);
                         if(cell != null) {
                         	cell.setCellType(Cell.CELL_TYPE_STRING);
                         	pbprtAccdtVO.setZip(cell.getStringCellValue());
                         }
                         // 연락처
-                        cell = row.getCell(12);
+                        cell = row.getCell(13);
                         if(cell != null) {
                         	cell.setCellType(Cell.CELL_TYPE_STRING);
                         	pbprtAccdtVO.setCttpc(cell.getStringCellValue());
                         }
                         // 비고
-                        cell = row.getCell(13);
+                        cell = row.getCell(14);
                         if(cell != null) {
                         	cell.setCellType(Cell.CELL_TYPE_STRING);
                         	pbprtAccdtVO.setRm(cell.getStringCellValue());
                         }
                         // 고지서 발송
-                        cell = row.getCell(14);
+                        cell = row.getCell(15);
                         if(cell != null) {
                         	cell.setCellType(Cell.CELL_TYPE_STRING);
                         	if (cell.getStringCellValue() == null || cell.getStringCellValue().replaceAll("\\s", "") == "") {
@@ -339,19 +352,19 @@ public class PbprtAccdtServiceImpl extends EgovAbstractServiceImpl implements Pb
                         	pbprtAccdtVO.setNhtSndng("N");
                         }
                         // 첨부 서류
-                        cell = row.getCell(15);
+                        cell = row.getCell(16);
                         if(cell != null) {
                         	cell.setCellType(Cell.CELL_TYPE_STRING);
                         	pbprtAccdtVO.setAtchPapers(cell.getStringCellValue());
                         }
                         // 확인 사항
-                        cell = row.getCell(16);
+                        cell = row.getCell(17);
                         if(cell != null) {
                         	cell.setCellType(Cell.CELL_TYPE_STRING);
                         	pbprtAccdtVO.setCnfirmMatter(cell.getStringCellValue());
                         }
                         // 등록 연도
-                        cell = row.getCell(17);
+                        cell = row.getCell(18);
                         if(cell != null) {
                         	cell.setCellType(Cell.CELL_TYPE_STRING);
                         	pbprtAccdtVO.setYear(cell.getStringCellValue());
@@ -390,56 +403,62 @@ public class PbprtAccdtServiceImpl extends EgovAbstractServiceImpl implements Pb
                         //셀 값을 읽는다
                     	HSSFCell cell = row.getCell(columnindex);
                     	
-                    	// 계약 일자
+                    	// 재산번호
+                        if(cell != null) {
+                        	cell.setCellType(Cell.CELL_TYPE_STRING);
+                        	pbprtAccdtVO.setPrprtyNo(cell.getStringCellValue());
+                        }
+                        // 계약 일자
+                        cell = row.getCell(1); 
                         if(cell != null) {
                         	cell.setCellType(Cell.CELL_TYPE_STRING);
                         	pbprtAccdtVO.setCtrtYmd(cell.getStringCellValue());
                         }
                         // 계약기간
-                        cell = row.getCell(1); 
+                        cell = row.getCell(2); 
                         if(cell != null) {
                         	cell.setCellType(Cell.CELL_TYPE_STRING);
                         	pbprtAccdtVO.setCntrctpd(cell.getStringCellValue());
                         }
                         // 소재지
-                        cell = row.getCell(2);
+                        cell = row.getCell(3);
                         if(cell != null) {
                         	cell.setCellType(Cell.CELL_TYPE_STRING);
                         	pbprtAccdtVO.setLocplc(cell.getStringCellValue());
                         }
                         // 지목 코드
-                        cell = row.getCell(3);
+                        cell = row.getCell(4);
                         if(cell != null) {
                         	cell.setCellType(Cell.CELL_TYPE_STRING);
                         	pbprtAccdtVO.setLdcgCd(lgcdCnvrtr(cell.getStringCellValue()));
 //                        	pbprtAccdtVO.setLdcgCd(cell.getStringCellValue());
                         }
                         // 면적
-                        cell = row.getCell(4);
+                        cell = row.getCell(5);
                         if(cell != null) {
                         	cell.setCellType(Cell.CELL_TYPE_STRING);
                         	pbprtAccdtVO.setAr(Double.valueOf(cell.getStringCellValue()));
                         }
                         // 대부 면적
-                        cell = row.getCell(5);
+                        cell = row.getCell(6);
                         if(cell != null) {
                         	cell.setCellType(Cell.CELL_TYPE_STRING);
                         	pbprtAccdtVO.setLoanAr(Double.valueOf(cell.getStringCellValue()));
                         }
                         // 대부 용도
-                        cell = row.getCell(6);
+                        cell = row.getCell(7);
                         if(cell != null) {
                         	cell.setCellType(Cell.CELL_TYPE_STRING);
                         	pbprtAccdtVO.setLoanPrpos(cell.getStringCellValue());
                         }
                         // 주민등록번호
-                        cell = row.getCell(7);
+                        cell = row.getCell(8);
                         if(cell != null) {
                         	cell.setCellType(Cell.CELL_TYPE_STRING);
                         	pbprtAccdtVO.setRrno(cell.getStringCellValue());
                         }
                         // 대부료 발송 여부
-                        cell = row.getCell(8);
+                        cell = row.getCell(9);
                         if(cell != null) {
                         	cell.setCellType(Cell.CELL_TYPE_STRING);
                         	if (cell.getStringCellValue() == null || cell.getStringCellValue().replaceAll("\\s", "") == "") {
@@ -451,61 +470,61 @@ public class PbprtAccdtServiceImpl extends EgovAbstractServiceImpl implements Pb
                         	pbprtAccdtVO.setLoanmnSndngYn("N");
                         }
                         // 성명
-                        cell = row.getCell(9);
+                        cell = row.getCell(10);
                         if(cell != null) {
                         	cell.setCellType(Cell.CELL_TYPE_STRING);
                         	pbprtAccdtVO.setNm(cell.getStringCellValue());
                         }
                         // 주소
-                        cell = row.getCell(10);
+                        cell = row.getCell(11);
                         if(cell != null) {
                         	cell.setCellType(Cell.CELL_TYPE_STRING);
                         	pbprtAccdtVO.setAddr(cell.getStringCellValue());
                         }
                         // 우편번호
-                        cell = row.getCell(11);
+                        cell = row.getCell(12);
                         if(cell != null) {
                         	cell.setCellType(Cell.CELL_TYPE_STRING);
                         	pbprtAccdtVO.setZip(cell.getStringCellValue());
                         }
                         // 연락처
-                        cell = row.getCell(12);
+                        cell = row.getCell(13);
                         if(cell != null) {
                         	cell.setCellType(Cell.CELL_TYPE_STRING);
                         	pbprtAccdtVO.setCttpc(cell.getStringCellValue());
                         }
                         // 비고
-                        cell = row.getCell(13);
+                        cell = row.getCell(14);
                         if(cell != null) {
                         	cell.setCellType(Cell.CELL_TYPE_STRING);
                         	pbprtAccdtVO.setRm(cell.getStringCellValue());
                         }
                         // 고지서 발송
-                        cell = row.getCell(14);
+                        cell = row.getCell(15);
                         if(cell != null) {
                         	cell.setCellType(Cell.CELL_TYPE_STRING);
                         	if (cell.getStringCellValue() == null || cell.getStringCellValue().replaceAll("\\s", "") == "") {
-                        		pbprtAccdtVO.setNhtSndng(cell.getStringCellValue().toUpperCase());
-                        	} else {
                         		pbprtAccdtVO.setNhtSndng("N");
+                        	} else {
+                        		pbprtAccdtVO.setNhtSndng(cell.getStringCellValue().toUpperCase());
                         	}
                         } else {
                         	pbprtAccdtVO.setNhtSndng("N");
                         }
                         // 첨부 서류
-                        cell = row.getCell(15);
+                        cell = row.getCell(16);
                         if(cell != null) {
                         	cell.setCellType(Cell.CELL_TYPE_STRING);
                         	pbprtAccdtVO.setAtchPapers(cell.getStringCellValue());
                         }
                         // 확인 사항
-                        cell = row.getCell(16);
+                        cell = row.getCell(17);
                         if(cell != null) {
                         	cell.setCellType(Cell.CELL_TYPE_STRING);
                         	pbprtAccdtVO.setCnfirmMatter(cell.getStringCellValue());
                         }
                         // 등록 연도
-                        cell = row.getCell(17);
+                        cell = row.getCell(18);
                         if(cell != null) {
                         	cell.setCellType(Cell.CELL_TYPE_STRING);
                         	pbprtAccdtVO.setYear(cell.getStringCellValue());
@@ -540,7 +559,7 @@ public class PbprtAccdtServiceImpl extends EgovAbstractServiceImpl implements Pb
 	public int insertPbprtAccdtExcel(List<PbprtAccdtVO> pbprtAccdtList) {
 		int result = 0;
 		
-		result = cmmnDao.insert("publndMng.insertPbprtAccdtExcel", pbprtAccdtList);
+		result = cmmnDao.insert("pbprtAccdtMng.insertPbprtAccdtExcel", pbprtAccdtList);
 		
 		return result;
 	}
@@ -549,8 +568,8 @@ public class PbprtAccdtServiceImpl extends EgovAbstractServiceImpl implements Pb
 	public int deletePbprtAccdtTotInfo(MultipartFile file) throws SQLException, Exception {
 		int result = 0;
 		try {
-			cmmnDao.delete("publndMng.deletePbprtAccdtTotInfo");
-			cmmnDao.delete("publndMng.deletePbprtAccdtWrinvstgTotInfo");
+			cmmnDao.delete("pbprtAccdtMng.deletePbprtAccdtTotInfo");
+			cmmnDao.delete("pbprtAccdtMng.deletePbprtAccdtWrinvstgTotInfo");
 			callPbprtAccdtExcel(file);
 			result = 1;
 		} catch(Exception e) {
@@ -565,7 +584,7 @@ public class PbprtAccdtServiceImpl extends EgovAbstractServiceImpl implements Pb
 		PbprtAccdtWrinvstgVO pbprtInfo = null;
 		int cnt = 0;
 		String mdfcnText = "";
-		pbprtInfo = cmmnDao.selectOne("publndMng.selectPbprtAccdtWrinvstg", publndNo);
+		pbprtInfo = cmmnDao.selectOne("pbprtAccdtMng.selectPbprtAccdtWrinvstg", publndNo);
 
 		// HTML Entities로 저장된 태그를 화면에 표출하기 위해 텍스트 수정
 		if (pbprtInfo.getBsrpCn() != null && pbprtInfo.getExmnr() != null) {
@@ -576,7 +595,7 @@ public class PbprtAccdtServiceImpl extends EgovAbstractServiceImpl implements Pb
 			pbprtInfo.setExmnr(mdfcnText);
 		}
 		
-		cnt = cmmnDao.selectOne("publndMng.selectPublndNoCnt", publndNo);
+		cnt = cmmnDao.selectOne("pbprtAccdtMng.selectPublndNoCnt", publndNo);
 		if (cnt == 0) {
 			pbprtInfo.setWrtYn("N");
 		}
@@ -599,21 +618,21 @@ public class PbprtAccdtServiceImpl extends EgovAbstractServiceImpl implements Pb
         Map<String, MultipartFile> files = multiRequest.getFileMap();
         
         int fileIdCnt = 0;
-        fileIdCnt = cmmnDao.selectOne("publndMng.selectAtchFileIdcnt", pbprtAccdtWrinvstgVO);
+        fileIdCnt = cmmnDao.selectOne("pbprtAccdtMng.selectAtchFileIdcnt", pbprtAccdtWrinvstgVO);
         
-        atchFileSptSnYn = cmmnDao.selectOne("publndMng.selectSptPhotoInfo", pbprtAccdtWrinvstgVO);
+        atchFileSptSnYn = cmmnDao.selectOne("pbprtAccdtMng.selectSptPhotoInfo", pbprtAccdtWrinvstgVO);
         if (atchFileSptSnYn != null || atchFileSptSnYn == "9") {
         	atchFileSptSn = Integer.valueOf(atchFileSptSnYn);
         }
         
-        atchFileSatlitSnYn = cmmnDao.selectOne("publndMng.selectSatlitPhotoInfo", pbprtAccdtWrinvstgVO);
+        atchFileSatlitSnYn = cmmnDao.selectOne("pbprtAccdtMng.selectSatlitPhotoInfo", pbprtAccdtWrinvstgVO);
         if (atchFileSatlitSnYn != null || atchFileSatlitSnYn == "9") {
         	atchFileSatlitSn = Integer.valueOf(atchFileSatlitSnYn);
         }
         
         String currentFileNm = "";
 
-        atchFileId = cmmnDao.selectOne("publndMng.selectAtchFileId", pbprtAccdtWrinvstgVO); 
+        atchFileId = cmmnDao.selectOne("pbprtAccdtMng.selectAtchFileId", pbprtAccdtWrinvstgVO); 
         
         if (!files.isEmpty()){
         	
@@ -685,7 +704,7 @@ public class PbprtAccdtServiceImpl extends EgovAbstractServiceImpl implements Pb
         
         // 공유재산 실태조사서 신규 등록
 		if (pbprtAccdtWrinvstgVO.getWrtYn().equals("N")) {
-			result = cmmnDao.insert("publndMng.insertPbprtAccdtWrinvstg", pbprtAccdtWrinvstgVO);
+			result = cmmnDao.insert("pbprtAccdtMng.insertPbprtAccdtWrinvstg", pbprtAccdtWrinvstgVO);
 		} else {
 			FileVO fileVO = new FileVO();
 			fileVO.setAtchFileId(atchFileId);
@@ -711,7 +730,7 @@ public class PbprtAccdtServiceImpl extends EgovAbstractServiceImpl implements Pb
 				pbprtAccdtWrinvstgVO.setSatlitPhotoSn(9);
 			}
 			
-			result = cmmnDao.update("publndMng.updatePbprtAccdtWrinvstg", pbprtAccdtWrinvstgVO);
+			result = cmmnDao.update("pbprtAccdtMng.updatePbprtAccdtWrinvstg", pbprtAccdtWrinvstgVO);
 		}
 		
 		return result; 
@@ -720,7 +739,7 @@ public class PbprtAccdtServiceImpl extends EgovAbstractServiceImpl implements Pb
 	@Override
 	public int deletePbprtAccdtWrinvstg(int publndNo) {
 		int result = 0;
-		result = cmmnDao.delete("publndMng.deletePbprtAccdtWrinvstg", publndNo);
+		result = cmmnDao.delete("pbprtAccdtMng.deletePbprtAccdtWrinvstg", publndNo);
 		
 		return result;
 	}
@@ -729,25 +748,26 @@ public class PbprtAccdtServiceImpl extends EgovAbstractServiceImpl implements Pb
 	public void downloadPbprtAccdtExcelBassForm(HttpServletRequest request, HttpServletResponse response)
 			throws Exception {
 		
-		String[] titleArr = new String[18];
-		titleArr[0] = "계약일자";
-		titleArr[1] = "계약기간";
-		titleArr[2] = "소재지";
-		titleArr[3] = "지목코드";
-		titleArr[4] = "면적";
-		titleArr[5] = "대부면적";
-		titleArr[6] = "대부용도";
-		titleArr[7] = "주민등록번호";
-		titleArr[8] = "대부료발송여부";
-		titleArr[9] = "성명";
-		titleArr[10] = "주소";
-		titleArr[11] = "우편번호";
-		titleArr[12] = "연락처";
-		titleArr[13] = "비고";
-		titleArr[14] = "고지서발송";
-		titleArr[15] = "첨부서류";
-		titleArr[16] = "확인사항";
-		titleArr[17] = "등록연도";
+		String[] titleArr = new String[19];
+		titleArr[0] = "재산번호";
+		titleArr[1] = "계약일자";
+		titleArr[2] = "계약기간";
+		titleArr[3] = "소재지";
+		titleArr[4] = "지목코드";
+		titleArr[5] = "면적";
+		titleArr[6] = "대부면적";
+		titleArr[7] = "대부용도";
+		titleArr[8] = "주민등록번호";
+		titleArr[9] = "대부료발송여부";
+		titleArr[10] = "성명";
+		titleArr[11] = "주소";
+		titleArr[12] = "우편번호";
+		titleArr[13] = "연락처";
+		titleArr[14] = "비고";
+		titleArr[15] = "고지서발송";
+		titleArr[16] = "첨부서류";
+		titleArr[17] = "확인사항";
+		titleArr[18] = "등록연도";
 		
 		ExcelView.excelDataDownload(request, response, "공유지관리_공유재산_실태조사_기본양식", titleArr);
 	}

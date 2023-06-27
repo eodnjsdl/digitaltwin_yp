@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="publndMng">
+
+<select id="getAddrByPnu" parameterType="unityAdministrationInfoVO" resultType="unityAdministrationInfoVO">
+		SELECT CODE_DC AS ADDR
+		FROM COMTCCMMNDETAILCODE 
+		WHERE CODE_ID = 'YPLI' 
+		AND SUBSTRING(#{pnu}, 1, 10) = SUBSTRING(CODE, 1, 10)
+</select>
+	
+	
+<!-- 공유지 (지목 - 08-대) 전체 조회 -->
+<select id="selectPublndInfoList" resultType="administAssetsVO">
+		select sn
+			 , prprty_no
+			 , lad_lndcgr_cd 
+			 , rl_lndcgr_cd
+			 , stdg_cd
+			 , mtn_cd 
+			 , lnbr 
+			 , ho
+			 , year
+		  from tbd_administ_prprty
+		 where rl_lndcgr_cd like '08%' 
+		   and lad_lndcgr_cd = rl_lndcgr_cd
+		 order by sn asc
+</select>
+
+<!-- 공유지 (지목 - 08-대) 전체 개수 조회 -->
+<select id="selectPublndInfoListTotalCnt" resultType="int">
+		select count(*) total
+		  from tbd_administ_prprty
+		 where rl_lndcgr_cd like '08%' 
+		   and lad_lndcgr_cd = rl_lndcgr_cd
+		   <if test="year != null and year != 'allYear'">
+		   and year = #{year}
+		   </if>
+		   <if test="stdgCd != null and stdgCd != ''">
+		   and stdg_cd like '%' || #{stdgCd} || '%'
+		   </if>
+		   <if test="prprtyNo != null and prprtyNo != ''">
+		   and prprty_no like '%' || #{prprtyNo} || '%'
+		   </if>
+		   <if test="locplc != null and locplc != ''">
+		   and locplc like '%' || #{locplc} || '%'
+		   </if>
+		   <if test="lnbr != null and lnbr != ''">
+		   and lnbr like '%' || #{lnbr} || '%'
+		   </if>
+		 group by rl_lndcgr_cd, lad_lndcgr_cd
+		having lad_lndcgr_cd = rl_lndcgr_cd 
+</select>
+
+<!-- 공유지관리 연도 목록 조회 -->
+<select id="selectPublndMngYearList" resultType="String">
+	select distinct year
+	  from tbd_administ_prprty
+	 where mtn_cd like '1-%'
+	 order by year desc
+</select>
+
+<!-- pnu 값 조회 (건축물대장 param) -->
+<select id="selectPublndPnuInfoList" parameterType="publndMngVO" resultType="publndMngVO">
+		select sn
+			 , prprty_no
+			 , rl_lndcgr_cd 
+			 , stdg_cd 
+			 , substring(mtn_cd, 0, 2) mtn_cd
+			 , lnbr 
+			 , ho
+			 , locplc
+			 , year
+		  from tbd_administ_prprty
+		 where mtn_cd like '1-%'
+		   and rl_lndcgr_cd like '08%'
+		 <if test="year != null and year != 'allYear'">
+		   and year = #{year}
+		 </if>
+		 <if test="stdgCd != null and stdgCd != ''">
+		   and stdg_cd like '%' || #{stdgCd} || '%'
+	     </if>
+		 <if test="prprtyNo != null and prprtyNo != ''">
+		   and prprty_no like '%' || #{prprtyNo} || '%'
+		 </if>
+		 <if test="locplc != null and locplc != ''">
+		   and locplc like '%' || #{locplc} || '%'
+		 </if>
+		 <if test="lnbr != null and lnbr != ''">
+		   and lnbr like '%' || #{lnbr} || '%'
+		 </if>
+		 order by sn asc
+		 <if test="pageNo != null">
+		 limit 10 offset #{pageNo}
+		 </if>
+</select>
+
+</mapper>

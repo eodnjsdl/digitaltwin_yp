@@ -1,11 +1,12 @@
 package egiskorea.com.job.adas.asmng.service;
 
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.sql.SQLException;
 import java.util.List;
 
 import org.springframework.web.multipart.MultipartFile;
+
+import egiskorea.com.job.adas.publnd.service.PbprtAccdtVO;
 
 /**
  * @Description 행정자산관리 service 클래스
@@ -34,7 +35,7 @@ public interface AdministAssetsService {
 	 * 행정자산관리 전체 개수 조회
 	 * @return
 	 */
-	public int selectAdministAssetsTotCnt();
+	public int selectAdministAssetsTotCnt(AdministAssetsVO administAssetsVO);
 	
 	/**
 	 * 행정자산관리 연도 목록 조회
@@ -58,5 +59,13 @@ public interface AdministAssetsService {
 	 * @return
 	 */
 	public int deleteAdministAssetsInfo(AdministAssetsVO administAssetsVO) throws SQLException, Exception;
-
+	
+	/**
+	 * 행정행정자산관리 -> 공유재산 실태조사 내보내기
+	 * @param pbprtAccdtVO
+	 * @return
+	 * @throws Exception
+	 */
+	public int insertPublndToPbprtAccdt(PbprtAccdtVO pbprtAccdtVO) throws Exception;
+	
 }

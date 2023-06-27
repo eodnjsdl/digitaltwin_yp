@@ -20,7 +20,8 @@ import org.springframework.web.servlet.ModelAndView;
 
 import egiskorea.com.job.adas.asmng.service.AdministAssetsService;
 import egiskorea.com.job.adas.asmng.service.AdministAssetsVO;
-import egovframework.rte.fdl.property.EgovPropertyService;
+import egiskorea.com.job.adas.publnd.service.PbprtAccdtVO;
+import egiskorea.com.job.cmss.service.TgdSccoEmdVO;
 
 /**
  * @Description 행정자산관리 Controller 클래스
@@ -43,13 +44,11 @@ public class AdministAssetsMngController {
 	@Resource(name = "administAssetsService")
 	private AdministAssetsService administAssetsService;
 	
-	@Resource(name = "propertiesService")
-	protected EgovPropertyService propertyService;
+//	/** 공통공간검색 서비스단 */
+//	@Resource(name = "commonnessSpaceSearchService") 
+//	private CommonnessSpaceSearchService commonnessSpaceSearchService;
 	
 	private static final Logger logger = LoggerFactory.getLogger(AdministAssetsMngController.class);
-	
-	/** 행정자산관리 CSV 파일 업로드 경로 */
-	public static final String FILE_PATH = "Globals.asmng.csvStorePath";
 	
 	/** 동시 입력 및 현재 상태 */
 	private int dataCountForProgress = 0;
@@ -78,14 +77,18 @@ public class AdministAssetsMngController {
 	 * @throws Exception
 	 */
 	@RequestMapping(value = "/selectAdministAssetsInfoListView.do")
-	public String selectAdministAssetsMngList(
+	public String selectAdministAssetsMngList(TgdSccoEmdVO tgdSccoEmdVO,
 			ModelMap model) throws Exception {
 		logger.info("selectAdministAssetsMngList.do");
+		
+//		// 읍면동 목록
+//		Map<String, Object> map = commonnessSpaceSearchService.selectTgdSccoEmdList(tgdSccoEmdVO);
 		
 		List<String> yearList = null;
 		
 		yearList = administAssetsService.selectAdministAssetsYearList();
 		
+//		model.addAttribute("sccoEndList", map.get("resultList"));
 		model.addAttribute("yearList", yearList);
 		
 		return "egiskorea/com/job/adas/asmng/selectAdministAssetsInfoList";
@@ -97,10 +100,7 @@ public class AdministAssetsMngController {
 	 * @throws Exception
 	 */
 	@RequestMapping(value = "/insertAdministAssets.do")
-	public String insertAdministAssets(
-//			AdministAssetsVO administAssetsVO,
-//			ModelMap model
-			) throws Exception {
+	public String insertAdministAssets() throws Exception {
 		
 		return "egiskorea/com/job/adas/asmng/insertAdministAssets";
 	}
@@ -119,7 +119,7 @@ public class AdministAssetsMngController {
 		int resultCount = 0;
 		
 		resultList = administAssetsService.selectAdministAssetsInfoList(administAssetsVO);
-		resultCount = administAssetsService.selectAdministAssetsTotCnt();
+		resultCount = administAssetsService.selectAdministAssetsTotCnt(administAssetsVO);
 		
 		mav.addObject("resultList", resultList);
 		mav.addObject("resultCount", resultCount);
@@ -220,7 +220,7 @@ public class AdministAssetsMngController {
 		}
 		
 		int count = 0;
-		count = administAssetsService.selectAdministAssetsTotCnt();
+		count = administAssetsService.selectAdministAssetsTotCnt(administAssetsVO);
 		
 		if (result > 0) {
 			mav.addObject("resultCnt", count);
@@ -238,14 +238,14 @@ public class AdministAssetsMngController {
 	 */
 	@RequestMapping(value = "/csvUploadProgress.do")
 	@ResponseBody
-	public ModelAndView csvUploadprogress() {
+	public ModelAndView csvUploadprogress(AdministAssetsVO administAssetsVO) {
 		ModelAndView mav = new ModelAndView("jsonView");
 		double currDataCount = 0;
 		double totalDataCount = 0;
 		double progress = 0;
 		
 		totalDataCount = (double) getDataCountForProgress();
-		currDataCount = (double) administAssetsService.selectAdministAssetsTotCnt();
+		currDataCount = (double) administAssetsService.selectAdministAssetsTotCnt(administAssetsVO);
 		
 		progress = Math.floor((currDataCount / totalDataCount) * 100);
 		
@@ -275,4 +275,22 @@ public class AdministAssetsMngController {
 		return mav;
 	}
 	
+	@RequestMapping(value = "/insertPublndToPbprtAccdt.do")
+	@ResponseBody
+	public ModelAndView insertPublndToPbprtAccdt(PbprtAccdtVO pbprtAccdtVO) throws Exception {
+		ModelAndView mav = new ModelAndView("jsonView");
+		
+		int result = 0;
+		
+		result = administAssetsService.insertPublndToPbprtAccdt(pbprtAccdtVO);
+		
+		if (result > 0) {
+			mav.addObject("result", "success");
+		} else {
+			mav.addObject("result", "fail");
+		}
+		
+		
+		return mav;
+	}
 }

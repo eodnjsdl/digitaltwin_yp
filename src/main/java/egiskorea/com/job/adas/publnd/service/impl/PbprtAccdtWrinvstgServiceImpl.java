@@ -101,7 +101,7 @@ public class PbprtAccdtWrinvstgServiceImpl implements PbprtAccdtWrinvstgService 
 
 		// 공유재산실태 조사서 정보 조회
 		int publndNo = pbprtAccdtWrinvstgVO.getPublndNo();
-		pbprtAccdtWrinvstgVO = cmmnDao.selectOne("publndMng.selectPbprtAccdtWrinvstg", publndNo);
+		pbprtAccdtWrinvstgVO = cmmnDao.selectOne("pbprtAccdtMng.selectPbprtAccdtWrinvstg", publndNo);
 		
 		// 공유재산실태 조사서 템플릿 파일
 		String hwpFilePath = request.getSession().getServletContext().getRealPath(HWP_PATH) + "pbprtAccdtWrinvstg_tmplat.hwp";
@@ -157,7 +157,7 @@ public class PbprtAccdtWrinvstgServiceImpl implements PbprtAccdtWrinvstgService 
                     	if (atchFileId != null && satlitPhotoSn != null && !satlitPhotoSn.equals("9")) {
                     		pbprtAccdtWrinvstgVO.setFileSn(String.valueOf(pbprtAccdtWrinvstgVO.getSatlitPhotoSn()));
                     		
-                    		fileDtlInfo = cmmnDao.selectOne("publndMng.selectAtchFileDtlInfo", pbprtAccdtWrinvstgVO);
+                    		fileDtlInfo = cmmnDao.selectOne("pbprtAccdtMng.selectAtchFileDtlInfo", pbprtAccdtWrinvstgVO);
                     		imageFilePath = fileDtlInfo.getFileStreCours() + File.separator + fileDtlInfo.getStreFileNm();
                     		imageFileExt = fileDtlInfo.getFileExtsn();
                     		insertShapeWithImage(hwpFile, text, imageFilePath, imageFileExt);
@@ -167,7 +167,7 @@ public class PbprtAccdtWrinvstgServiceImpl implements PbprtAccdtWrinvstgService 
                     	if (atchFileId != null && sptPhotoSn != null && !sptPhotoSn.equals("9")) {
                     		pbprtAccdtWrinvstgVO.setFileSn(String.valueOf(pbprtAccdtWrinvstgVO.getSptPhotoSn()));
                     		
-                    		fileDtlInfo = cmmnDao.selectOne("publndMng.selectAtchFileDtlInfo", pbprtAccdtWrinvstgVO);
+                    		fileDtlInfo = cmmnDao.selectOne("pbprtAccdtMng.selectAtchFileDtlInfo", pbprtAccdtWrinvstgVO);
                     		imageFilePath = fileDtlInfo.getFileStreCours() + File.separator + fileDtlInfo.getStreFileNm();
                     		imageFileExt = fileDtlInfo.getFileExtsn();
                     		insertShapeWithImage(hwpFile, text, imageFilePath, imageFileExt);
