@@ -67,6 +67,17 @@ window.dtmap = (function () {
             center = ol.proj.transform(center, map2d.crs, map3d.crs);
             center[2] = dtmap.util.zoomToAlt(map2d.view.getZoom());
             map3d.setCenter(center, {tilt: 30, direct: -map2d.view.getRotation() * (180 / Math.PI)});
+            
+            //사용자 레이어 삭제(그래프)
+        	if(dtmap.layer.userLayers){
+        		if (dtmap.layer.userLayers.nameAtLayer('li_trans_vulner_info_graph')) {
+        			dtmap.layer.userLayers.delLayerAtName('li_trans_vulner_info_graph');
+        		}
+        		
+        		if (dtmap.layer.userLayers.nameAtLayer('li_popltn_info_graph')) {
+        			dtmap.layer.userLayers.delLayerAtName('li_popltn_info_graph');
+        		}
+        	}
 
         } else {
             _cur_mode = '2D'
@@ -80,7 +91,7 @@ window.dtmap = (function () {
             let center = [vector[0], vector[1]];
             center = ol.proj.transform(center, map3d.crs, map2d.crs);
             map2d.setCenter(center, dtmap.util.altToZoom(vector[2]));
-
+            
         }
     }
 

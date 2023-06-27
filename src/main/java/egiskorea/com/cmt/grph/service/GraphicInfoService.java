@@ -98,5 +98,13 @@ public interface GraphicInfoService {
 	 * @param mkrId 마커 아이디
 	 */
 	public void deleteImageMarker(String mkrId);
+
+	/**
+	 * @Description : 이미지 공유 일괄 적용
+	 * @Author 황의현
+	 * @Date 2023.06.22
+	 * @param GraphicInfoVO
+	 */
+	public void updateGrphicPnrsAtBundle(GraphicInfoVO graphicInfoVO);		
 	
 }

@@ -158,9 +158,48 @@ const layerStyle = {
      */
     renderRules: function () {
         const tags = this.style.rules.map((rule, index) => {
+            if(rule.name==='Label'){
+                return;
+            }
+
             let tag = ``;
             tag += `<tr>`;
-            if (this.type === "P") {
+            const point = rule['point'];
+            const polygon = rule['polygon'];
+            const line = rule['line'];
+
+            if(point){
+                if (
+                    point &&
+                    point["graphic"] &&
+                    point["graphic"]["externalGraphic"] &&
+                    point &&
+                    point["graphic"] &&
+                    point["graphic"]["externalGraphic"]["href"]
+                ) {
+                    const src = point["graphic"]["externalGraphic"]["href"];
+                    tag += `  <td><span class="layer-symbol"><img src="./images/poi/${src}" style="width:29px;height:29px;" /></span></td>`;
+                } else {
+                    tag += `  <td><span class="layer-symbol"><img src="./images/poi/icon1.png" style="width:29px;height:29px;" /></span></td>`;
+                }
+            }
+
+            if(polygon){
+                    const stroke = polygon["stroke"] || {};
+                    const strokeColor = stroke["stroke"] || "#ff0000";
+                    const fill = polygon["fill"] || {};
+                    const fillColor = fill["fill"] || "#ffffff";
+                    tag += `  <td><span class="layer-symbol rectangle" style="background-color:${fillColor};border:1px solid ${strokeColor};border-radius:1px;"></span></td>`;
+            }
+
+            if(line){
+                const stroke = line["stroke"] || {};
+                const strokeColor = stroke["stroke"] || "#ff0000";
+                tag += `  <td><span class="layer-symbol stroke" style="background-color:${strokeColor};"></span></td>`;
+            }
+
+
+           /* if (this.type === "P") {
                 if (
                     rule["point"] &&
                     rule["point"]["graphic"] &&
@@ -175,7 +214,7 @@ const layerStyle = {
                     tag += `  <td><span class="layer-symbol"><img src="./images/poi/icon1.png" style="width:29px;height:29px;" /></span></td>`;
                 }
             } else if (this.type === "L") {
-                const stroke = rule["line"]["stroke"];
+                const stroke = rule["line"]["stroke"] || {};
                 const strokeColor = stroke["stroke"] || "#ff0000";
                 tag += `  <td><span class="layer-symbol stroke" style="background-color:${strokeColor};"></span></td>`;
             } else if (this.type === "A") {
@@ -194,7 +233,7 @@ const layerStyle = {
                 }
             } else {
                 console.log(`지원되지 않는 공간 타입입니다.`);
-            }
+            }*/
             tag += `  <td>`;
             tag += `    <div class="d-flex align-items-center justify-content-between">`;
             tag += `      <div class="div_rule_name" data-index="${index}">${rule["name"]}</div>`;

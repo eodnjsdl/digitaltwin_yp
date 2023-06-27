@@ -2,6 +2,7 @@ package egiskorea.com.cmt.grph.service;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 /**
  * @Description 그래픽 정보 vo 클래스
@@ -86,7 +87,18 @@ public class GraphicInfoVO implements Serializable {
   /** 분류 */
   private String searchCl = "";
   
-  public String getGrphcId() {
+  /** 일괄 공유 메모ID 목록*/
+  private List<String> updateGrphicIdArray = null;
+  
+  public List<String> getUpdateGrphicIdArray() {
+	return updateGrphicIdArray;
+  }	
+	
+  public void setUpdateGrphicIdArray(List<String> updateGrphicIdArray) {
+	this.updateGrphicIdArray = updateGrphicIdArray;
+  }
+
+public String getGrphcId() {
     return grphcId;
   }
 

@@ -1,6 +1,7 @@
 package egiskorea.com.cmt.grph.web;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import egiskorea.com.cmt.grph.service.GraphicInfoSearchVO;
@@ -77,6 +79,7 @@ public class GraphicInfoController {
     model.addAttribute("clList", graphicInfoService.selectGraphicClassificationList());
     model.addAttribute("resultList", map.get("resultList"));
     model.addAttribute("paginationInfo", paginationInfo);
+    model.addAttribute("graphicInfoSearchVO", graphicInfoSearchVO);		//등록자 ID 체크 위해
 
     return "egiskorea/com/cmt/grph/selectGraphicInfoList";
   }
@@ -307,5 +310,44 @@ public class GraphicInfoController {
 		return modelAndView;
 	}
 	
+	/**
+	 * 그리기 공유 정보 일괄 수정
+	 * @param pnrsAt
+	 * @param updateGraphicIdArray
+	 * @param request
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/updateGraphicPnrsAtBundle.do")
+	public ModelAndView updateGraphicPnrsAtBundle(
+			@RequestParam(value="pnrsAt") String pnrsAt,
+			@RequestParam(value="updateGraphicIdArray[]") List<String> updateGraphicIdArray,
+			HttpServletRequest request) throws Exception{
+		
+		ModelAndView mav = new ModelAndView("jsonView");
+		
+		LoginVO loginVO = (LoginVO) request.getSession().getAttribute("loginVO");
+		
+		GraphicInfoVO graphicInfoVO = new GraphicInfoVO();
+		try {
+				if(pnrsAt != null && updateGraphicIdArray != null && loginVO != null) {
+					graphicInfoVO.setRegisterId(loginVO.getId());
+					graphicInfoVO.setPnrsAt(pnrsAt);
+					graphicInfoVO.setUpdateGrphicIdArray(updateGraphicIdArray);
+					
+					graphicInfoService.updateGrphicPnrsAtBundle(graphicInfoVO);
+					mav.addObject("result", "success");
+				}else {
+					mav.addObject("result", "fail");
+				}
+			
+		} catch(Exception e) {
+			//logger.info(e.getMessage());
+			System.out.println(e.getMessage());
+			mav.addObject("result", "fail");
+		}
+		
+		return mav;
+	}
   
 }

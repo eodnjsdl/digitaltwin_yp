@@ -142,7 +142,7 @@
                     <select name="searchCnd" class="form-select">
                         <option value="">검색 및 팝업 칼럼선택</option>
                         <option value="0" <c:if test="${searchVO.searchCnd == '0'}">selected="selected"</c:if>>조사자(정)</option>
-                        <option value="1" <c:if test="${searchVO.searchCnd == '1'}">selected="selected"</c:if>>조사자(부)</option>
+<%--                         <option value="1" <c:if test="${searchVO.searchCnd == '1'}">selected="selected"</c:if>>조사자(부)</option> --%>
                         <option value="2" <c:if test="${searchVO.searchCnd == '2'}">selected="selected"</c:if>>원지목</option>
                     </select>
                 </div>
