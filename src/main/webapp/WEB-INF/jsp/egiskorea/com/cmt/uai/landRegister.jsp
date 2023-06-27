@@ -183,7 +183,7 @@ function fn_right_select_detail(pnu){
 									</div>	
 									<div class="position-bottom btn-wrap">
 										<div><button type="button" class="btn basic bi-all" onclick="fn_right_select_detail('<c:out value="${result.pnu}" />')">국토조사정보</button></div>
-										<div class="position-absolute right"><button type="button" class="btn basic bi-download">다운로드</button></div>
+<!-- 										<div class="position-absolute right"><button type="button" class="btn basic bi-download">다운로드</button></div> -->
 									</div>
 								</div>
 								<!-- //토지대장 -->

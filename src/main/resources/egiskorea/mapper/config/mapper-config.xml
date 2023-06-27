@@ -188,6 +188,9 @@
 		<!-- 행정자산 > 행정자산관리 -->
 		<typeAlias alias="administAssetsVO" type="egiskorea.com.job.adas.asmng.service.AdministAssetsVO"/>
 		
+		<!-- 행정자산 > 공유지관리 -->
+		<typeAlias alias="publndMngVO" type="egiskorea.com.job.adas.publndMng.service.PublndMngVO"/>
+		
 		<!-- 행정자산 > 공유재산 싵태조사 -->
 		<typeAlias alias="pbprtAccdtVO" type="egiskorea.com.job.adas.publnd.service.PbprtAccdtVO"/>
 		<typeAlias alias="pbprtAccdtWrinvstgVO" type="egiskorea.com.job.adas.publnd.service.PbprtAccdtWrinvstgVO"/>

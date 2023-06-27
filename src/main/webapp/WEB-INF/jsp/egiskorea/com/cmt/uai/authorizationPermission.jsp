@@ -128,7 +128,7 @@
 
 									</div>
 									<div class="position-bottom btn-wrap justify-content-end">
-										<div><button type="button" class="btn basic bi-download">다운로드</button></div>
+<!-- 										<div><button type="button" class="btn basic bi-download">다운로드</button></div> -->
 									</div>
 								</div>
 								<!-- //인허가정보 -->
