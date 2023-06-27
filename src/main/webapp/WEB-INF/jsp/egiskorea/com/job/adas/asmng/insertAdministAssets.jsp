@@ -88,7 +88,7 @@
 					<div class="position-bottom btn-wrap">
 	                    <div>
 	                   	    <button type="button" class="btn basic bi-edit" id="uploadCSVBtn">등록</button>
-	                   		<button type="button" class="btn basic bi-cancel">취소</button>
+<!-- 	                   		<button type="button" class="btn basic bi-cancel">취소</button> -->
 	                    </div>
                     </div>							
 				</div>

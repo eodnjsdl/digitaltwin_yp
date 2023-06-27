@@ -27,6 +27,10 @@
 									</colgroup>
 									<tbody>
 										<tr>
+											<th scope="row">재산번호</th>
+											<td colspan="3"><input type="text" id="prprtyNo" name="prprtyNo" maxlength="8" value="" placeholder="" class="form-control pbprtAccdtInput"/></td>
+										</tr>
+										<tr>
 											<th scope="row">계약(갱신)일</th>
 											<td colspan="3"><input type="text" id="ctrtYmd" name="ctrtYmd" maxlength="8" value="" placeholder="ex)230101" class="form-control pbprtAccdtInput"/></td>
 										</tr>

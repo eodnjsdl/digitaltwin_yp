@@ -31,6 +31,7 @@ public class PbprtAccdtVO {
 	private String year;					// 등록연도
 	private String yearOption;				// 연도별 조회 할때
 	private int pageNo;						// 페이지 번호
+	private String prprtyNo;				// 재산번호
 	
 	public String getYearOption() {
 		return yearOption;
@@ -214,6 +215,14 @@ public class PbprtAccdtVO {
 	
 	public void setPageNo(int pageNo) {
 		this.pageNo = pageNo;
+	}
+
+	public String getPrprtyNo() {
+		return prprtyNo;
+	}
+
+	public void setPrprtyNo(String prprtyNo) {
+		this.prprtyNo = prprtyNo;
 	}
 	
 }

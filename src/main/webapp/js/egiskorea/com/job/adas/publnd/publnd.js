@@ -66,6 +66,7 @@ function initGrid() {
 			}
 		},
 		columns: [
+			{key: "prprtyNo", 		label: "재산번호",			width: 100},
 			{key: "ctrtYmd", 		label: "계약(갱신)일",		width: 100},
 			{key: "cntrctpd", 		label: "계약기간",			width: 150},
 			{key: "locplc", 		label: "소재지",			width: 150},
@@ -74,15 +75,15 @@ function initGrid() {
 			{key: "loanAr", 		label: "대부 면적",		width: 100},
 			{key: "loanPrpos", 		label: "대부 용도",		width: 130},
 			{key: "rrno", 			label: "주민등록번호",		width: 100},
-			{key: "loanmnSndngYn", 		label: "대부료 발송 여부",		width: 100},
+			{key: "loanmnSndngYn", 	label: "대부료 발송 여부",	width: 100},
 			{key: "nm", 			label: "성명",			width: 100},
 			{key: "addr", 			label: "주소",			width: 130},
 			{key: "zip", 			label: "우편번호",			width: 100},
 			{key: "cttpc", 			label: "연락처",			width: 100},
 			{key: "rm", 			label: "비고",			width: 100},
 			{key: "nhtSndng", 		label: "고지서 발송",		width: 100},
-			{key: "atchPapers", 		label: "첨부 서류",		width: 150},
-			{key: "cnfirmMatter", 		label: "확인 사항",		width: 100}
+			{key: "atchPapers", 	label: "첨부 서류",		width: 150},
+			{key: "cnfirmMatter", 	label: "확인 사항",		width: 100}
 		],
 	});
 }
@@ -349,23 +350,24 @@ function downloadPbprtAccdtExcelList() {
 	excelGrid.setConfig({
 	target: $('[data-ax5grid="attr-grid-excel"]'),
 	columns: [
-	    	{key: "ctrtYmd", 		label: "계약(갱신)일",		},
-		{key: "cntrctpd", 		label: "계약기간",			},
-		{key: "locplc", 		label: "소재지",			},
-		{key: "ldcgCd", 		label: "지목",			},
-		{key: "ar", 			label: "면적",			},
-		{key: "loanAr", 		label: "대부 면적",		},
-		{key: "loanPrpos", 		label: "대부 용도",		},
-		{key: "rrno", 			label: "주민등록번호",		},
-		{key: "loanmnSndngYn", 		label: "대부료 발송 여부",		},
-		{key: "nm", 			label: "성명",			},
-		{key: "addr", 			label: "주소",			},
-		{key: "zip", 			label: "우편번호",			},
-		{key: "cttpc", 			label: "연락처",			},
-		{key: "rm", 			label: "비고",			},
-		{key: "nhtSndng", 		label: "고지서 발송",		},
-		{key: "atchPapers", 		label: "첨부 서류",		},
-		{key: "cnfirmMatter", 		label: "확인 사항"			}
+		{key: "prprtyNo", 		label: "재산번호"			},
+    	{key: "ctrtYmd", 		label: "계약(갱신)일"		},
+		{key: "cntrctpd", 		label: "계약기간"			},
+		{key: "locplc", 		label: "소재지"			},
+		{key: "ldcgCd", 		label: "지목"				},
+		{key: "ar", 			label: "면적"				},
+		{key: "loanAr", 		label: "대부 면적"			},
+		{key: "loanPrpos", 		label: "대부 용도"			},
+		{key: "rrno", 			label: "주민등록번호"		},
+		{key: "loanmnSndngYn", 	label: "대부료 발송 여부"	},
+		{key: "nm", 			label: "성명"				},
+		{key: "addr", 			label: "주소"				},
+		{key: "zip", 			label: "우편번호"			},
+		{key: "cttpc", 			label: "연락처"			},
+		{key: "rm", 			label: "비고"				},
+		{key: "nhtSndng", 		label: "고지서 발송"		},
+		{key: "atchPapers", 	label: "첨부 서류"			},
+		{key: "cnfirmMatter", 	label: "확인 사항"			}
 	]
     });
 
@@ -384,7 +386,7 @@ function downloadPbprtAccdtExcelList() {
 			if (yearOption != 'allYear') {
 			    excelGrid.exportExcel("공유지관리_공유재산 실태조사_" + yearOption + ".xls");
 			} else {
-			    excelGrid.exportExcel("공유지관리_공유재산 실태조사.xls");
+			    excelGrid.exportExcel("공유지관리_공유재산 실태조사" + ".xls");
 			}
 			$('[data-ax5grid="attr-grid-excel"]').empty();
 			ui.loadingBar("hide");

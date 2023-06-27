@@ -31,6 +31,7 @@ public class PbprtAccdtWrinvstgVO {
 	private String fileDelYn;			// 파일_삭제_여부
 	private int sptPhotoSn = 9;			// 현장_사진_순번
 	private int satlitPhotoSn = 9;		// 위성_사진_순번
+	private String prprtyNo;			// 재산번호
 	
 	public int getPublndNo() {
 		return publndNo;
@@ -175,6 +176,12 @@ public class PbprtAccdtWrinvstgVO {
 	}
 	public void setLdcgCdNm(String ldcgCdNm) {
 		this.ldcgCdNm = ldcgCdNm;
+	}
+	public String getPrprtyNo() {
+		return prprtyNo;
+	}
+	public void setPrprtyNo(String prprtyNo) {
+		this.prprtyNo = prprtyNo;
 	}
 	
 }

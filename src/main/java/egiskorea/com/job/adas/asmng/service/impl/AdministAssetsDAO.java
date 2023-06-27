@@ -12,6 +12,7 @@ import org.springframework.stereotype.Repository;
 
 import egiskorea.com.cmm.service.impl.ComAbstractDAO;
 import egiskorea.com.job.adas.asmng.service.AdministAssetsVO;
+import egiskorea.com.job.adas.publnd.service.PbprtAccdtVO;
 
 /**
  * @Description 행정자산관리 dao 클래스
@@ -48,8 +49,8 @@ public class AdministAssetsDAO extends ComAbstractDAO {
 	 * 행정자산관리 전체 개수 조회
 	 * @return
 	 */
-	public int selectAdministAssetsTotCnt() {
-		return selectOne("administAssetsMng.selectAdministAssetsTotCnt");
+	public int selectAdministAssetsTotCnt(AdministAssetsVO administAssetsVO) {
+		return selectOne("administAssetsMng.selectAdministAssetsTotCnt", administAssetsVO);
 	}
 	
 	/**
@@ -92,4 +93,22 @@ public class AdministAssetsDAO extends ComAbstractDAO {
 	public int deleteAdministAssetsInfo(AdministAssetsVO administAssetsVO) throws SQLException, Exception {
 		return delete("administAssetsMng.deleteAdministAssetsInfo", administAssetsVO);
 	}
+	
+	/**
+	 * 행정행정자산관리 -> 공유재산 실태조사 내보내기
+	 * @param pbprtAccdtVO
+	 * @return
+	 */
+	public int insertPublndToPbprtAccdt(PbprtAccdtVO pbprtAccdtVO) {
+		return insert("administAssetsMng.insertPublndToPbprtAccdt", pbprtAccdtVO);
+	}
+	/** 내보내기 공유재산 실태조사 pk */
+	public int selectPbprtAccdtTotCountMax() {
+		return selectOne("pbprtAccdtMng.selectPbprtAccdtTotCo");
+	}
+	/** 내보내기 공유재산 실태조사 존재여부 */
+	public int selectPbprtAccdtTotCount() {
+		return selectOne("pbprtAccdtMng.selectPbprtAccdtTotCount");
+	}
+	
 }
