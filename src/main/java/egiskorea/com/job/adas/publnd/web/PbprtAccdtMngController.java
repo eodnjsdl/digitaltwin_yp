@@ -31,7 +31,7 @@ import egiskorea.com.job.adas.publnd.service.PbprtAccdtWrinvstgVO;
 
 @Controller
 @RequestMapping(value = "/job/adas/publnd")
-public class PublndMngController {
+public class PbprtAccdtMngController {
 
 	/* 공유재산 실태 Service */
 	@Resource

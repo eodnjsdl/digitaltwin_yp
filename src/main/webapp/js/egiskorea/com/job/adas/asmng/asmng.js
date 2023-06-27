@@ -4,8 +4,10 @@
  */
 // 드래그, 클릭 파일 혼동방지
 var fileData = null;
-
+var exportData = [];
+var checkedDataSet = null;
 $(document).ready(function () {
+	console.log("행정자산관리.js");
 	$('.popup-body #regBtn').on('click', function() {
 		insertAdministAssetsView();
 	});
@@ -15,6 +17,28 @@ $(document).ready(function () {
 	$('.bbs-top-side #year').on('change', function() {
 		selectAdministAssetsInfoList(0);
 	});
+	
+	$('#bottomPopup .popup-reset').on('click', function() {
+		selectAdministAssetsInfoList(0);
+	});
+	let css = {"position": "relative", "display": "flex", "margin-top": "15px",
+			"left": "0", "right": "0", "bottom": "0"};
+	$('.btn-wrap').css(css);
+	
+	$('#bottomPopup .btn-wrap .search').on('click', function() {
+		selectAdministAssetsInfoList(0);
+	});
+	
+	$('#adminSrchOptions td').on('keyup', function () {
+		if (event.keyCode == 13) {
+			selectAdministAssetsInfoList(0);
+		}
+	});
+	
+	$('#exportBtn').on('click', function () {
+		exportAccnutData(checkedDataSet);
+	});
+	
 });
 
 /**
@@ -56,11 +80,11 @@ function insertAdministAssetsView() {
 function selectAdministAssetsInfoList(_pageNo) {
 	// 선택 연도 값
 	let year = $('.bbs-top-side #year').val();
+	let formData = $('#administAssetsSearch').serializeArray();
+	formData.push({name : "year", value : year});
+	formData.push({name : "pageNo", value : _pageNo});
 	$.ajax({
-		data : {
-					"year" : year,
-					"pageNo" : _pageNo
-				},
+		data : formData,
 		type : "POST",
 		url : "/job/adas/asmng/selectAdministAssetsInfoList.do",
 		dataType : "json",
@@ -68,7 +92,8 @@ function selectAdministAssetsInfoList(_pageNo) {
 			let list = [];
 			let result = data.resultList;
 			let resultCnt = data.resultCount;
-			for(i = 0; i < resultCnt; i++) {
+			for(i = 0; i < result.length; i++) {
+				result[i].isChecked = 'N';
 				list.push(result[i]);
 			}
 			administAssetsGrid.setData({
@@ -77,7 +102,7 @@ function selectAdministAssetsInfoList(_pageNo) {
 					currentPage: _pageNo || 0,
 					pageSize: 1000,
 					totalElements: resultCnt,
-					totalPages: Math.ceil(data.cnt/10)
+					totalPages: Math.ceil(resultCnt/10)
 				}
 			});
 			let numFormat = new Intl.NumberFormat().format(resultCnt);
@@ -112,14 +137,25 @@ function administAssetsGrid() {
 	    ];
 	// 테이블 표시 컬럼 변수
 	let columns = [];
+	let checkbox = {
+            key: "isChecked", label: "선택", width: 40, sortable: false, align: "center", editor: {
+                type: "checkbox", config: {height: 17, trueValue: "Y", falseValue: "N"}
+            }};
+	columns.push(checkbox);
 	for (let i = 0; i < dataKeys.length; i++) {
-	columns.push({key: dataKeys[i], label: dataLabels[i], width: 120});
+		if (i == 9 || i == 12 || i == 17 || i == 29 || i == 33) {
+			columns.push({key: dataKeys[i], label: dataLabels[i], width: 200});
+		} else {
+			columns.push({key: dataKeys[i], label: dataLabels[i], width: 120});
+		}
 	}
 	
 	administAssetsGrid = new ax5.ui.grid();
 	administAssetsGrid.setConfig({
 		target: $('[data-ax5grid="administAssetsGrid"]'),
 		showLineNumber: true,
+//		showRowSelector: true,
+//		multipleSelect: true,
 		sortable: true,
 		multiSort: true,
 		header: {
@@ -127,8 +163,12 @@ function administAssetsGrid() {
 		},
 		body: {
 			align: "center",
-			onClick: function() {
-				toastr.error('상세보기 호출');
+			onClick : function () {
+				administAssetsGrid.focus(this.dindex);
+			},
+			onDataChanged : function () {
+				administAssetsGrid.focus(this.dindex);
+				checkData(this);
 			}
 		},
 		page: {
@@ -163,10 +203,17 @@ function dragAndDropEvent() {
 		e.preventDefault();
 		$(this).removeClass("active");
 		let files = e.originalEvent.dataTransfer.files;
+		$('#fileUpload')[0].files = files;
 		fileDragAndDrop(files);
 	});
 	$('#clickUpload').on('click', function() {
 		$('#fileUpload').trigger('click');
+	});
+	
+	$('#uploadCSVBtn').on('click', function() {
+		if (!fileData) {
+			toastr.warning("업로드할 파일을 선택해주세요.")
+		}
 	});
 }
 
@@ -175,10 +222,14 @@ function dragAndDropEvent() {
  * @returns
  */
 function fileDragAndDrop(files) {
-	// 파일 업로드 되면 등록버튼 리스너생성
+	/*// 파일 업로드 되면 등록버튼 리스너생성
 	$('#uploadCSVBtn').on('click', function() {
-		sendCSVFileData();
-	});
+		if (files) {
+			toastr.warning("업로드할 파일을 선택해주세요.")
+		}
+		// 업로드 중 여부 확인
+		checkUploading();
+	});*/
 	
 	
 	const fileType = "csv";
@@ -254,7 +305,12 @@ function wirteStandardInfo(file) {
 	$('#fileInfo').append(info);
 }
 
-function sendCSVFileData() {
+/**
+ * CSV 업로드
+ * @param isUploading
+ * @returns
+ */
+function sendCSVFileData(isUploading) {
 	$(function() {
 		progressbar = $( ".progressbar" ),
 		progressLabel = $( ".progress-label" );
@@ -280,39 +336,129 @@ function sendCSVFileData() {
 	
 	formData.append("year", year);
 	
-	$.ajax({
-		data : formData,
-		url : "/job/adas/asmng/insertAdministAssetsInfoCSV.do",
-		type : "post",
-		dataType : "json",
-		contentType : false,
-		processData : false,
-		xhr : function() {
-			let xhr = $.ajaxSettings.xhr();
-			xhr.upload.onprogress = function(e) {
-				let percent = e.loaded * 100 / e.total;
-				$(".progressbar-value").css("width",parseInt(percent)+"%");
-				$(".progress-label").html(parseInt(percent)+"%");
-				if(percent == "100"){
-					ui.loadingBar("show"); 
+	// 업로드중이 아닐 때. 데이터 업로드 시작
+	if (!isUploading) {
+		let prgInterval; // progressbar interval
+		$.ajax({
+			data : formData,
+			url : "/job/adas/asmng/insertAdministAssetsInfoCSV.do",
+			type : "post",
+			dataType : "json",
+			contentType : false,
+			processData : false,
+			xhr : function() {
+				let xhr = $.ajaxSettings.xhr();
+				xhr.upload.onprogress = function(e) {
+					let percent = e.loaded * 100 / e.total;
+					$(".progressbar-value").css("width", parseInt(percent) + "%");
+					$(".progress-label").html(parseInt(percent) + "%");
+					if(percent == "100"){
+						prgInterval = setInterval(() => {
+							$.ajax({
+								url : "/job/adas/asmng/csvUploadProgress.do",
+								type : "post",
+								dataType : "json",
+								success : function(data) {
+									$(".progressbar-value").css("width", parseInt(data.progress) + "%");
+									$(".progress-label").html(parseInt(data.progress) + "%");
+								}
+							});
+						}, 3000);
+						toastr.info('데이터 등록을 시작합니다.', 'CSV 파일 서버 업로드 완료.');
+					}
+				};
+				
+				return xhr;
+			},
+			success : function(data) {
+				console.log("CSV upload success");
+				console.log("업로드된 데이터 : " + data.resultCnt + ", 등록 연도 설정 : " + data.year);
+				if (data.isSuccess) {
+					toastr.success('데이터 등록이 정상적으로 처리되었습니다');
+					$(".progressbar-value").css("width", 100 + "%");
+					$(".progress-label").html(100 + "%");
+					$('#rightSubPopup .popup-close').trigger('click');
+				} else {
+					toastr.warning('데이터 등록에 실패하였습니다', '알 수 없는 오류');
 				}
-				console.log(percent);
-			};
-			return xhr;
-		},
-		success : function(data) {
-			console.log("success");
-			console.log(data);
-			if (data.resultCd == 1) {
-				toastr.success('데이터 등록이 정상적으로 처리되었습니다');
-			} else {
+				clearInterval(prgInterval);
+				selectAdministAssetsInfoList(0);
+			}, error: function(error) {
+				console.log(error.getAllResponseHeaders);
 				toastr.warning('데이터 등록에 실패하였습니다');
 			}
-			ui.loadingBar("hide");
-		}, error: function(error) {
-			console.log(error.getAllResponseHeaders);
+		});
+	} else {
+		toastr.warning('작업 중', '다른 데이터가 업로드 중입니다.');
+	}
+	
+}
+
+/**
+ * 다른 데이터 업로드 중인지 체크
+ * @returns
+ */
+function checkUploading() {
+	let isUploading;
+	$.ajax({
+		url : "/job/adas/asmng/csvUploadIsUploading.do",
+		type : "post",
+		dataType : "json",
+		success : function(data) {
+			isUploading = data.uploading;
+			sendCSVFileData(isUploading);
 		}
 	});
+}
+
+/**
+ * 내보내기 전 체크된 데이터 담기
+ * @param selected
+ * @returns
+ */
+function checkData(selected) {
+	if (selected.item.isChecked == 'Y') {
+		exportData.push(selected.dindex);
+	} else {
+		for (let i = 0; i < exportData.length; i++) {
+			if (exportData[i] == selected.dindex) {
+				exportData[i] = null;
+			}
+		}
+	}
+	let checkedData = exportData.filter((e, i) => e !== null);
+	checkedDataSet = checkedData;
+}
+
+/**
+ * 체크된 데이터 내보내기
+ * @param data
+ * @returns
+ */
+function exportAccnutData(data) {
+	let index = data;
+	checkedDataSet = null;
+	let list = administAssetsGrid.getList();
 	
-	
+	let dataset = [];
+	for (let j = 0; j < index.length; j++) {
+		for (let i = 0; i < list.length; i++) {
+			if (list[i].__index == index[j]) {
+				dataset.push({prprtyNo : list[i].prprtyNo, locplc : list[i].locplc, ldcgCd : list[i].rlLndcgrCd, ar : parseInt(list[i].ar)});
+			}
+		}
+	}
+	for (let i = 0; i < dataset.length; i++) {
+		$.ajax({
+			data : dataset[i],
+			url : "/job/adas/asmng/insertPublndToPbprtAccdt.do",
+			type : "POST",
+			dataType : "json",
+			async : false,
+			success : function (data) {
+				console.log(data);
+				toastr.info(data.result);
+			}
+		});
+	}
 }

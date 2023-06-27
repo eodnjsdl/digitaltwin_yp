@@ -1101,6 +1101,38 @@ function aj_selectAdministAssetsMngList() {
 		}
 	});
 }
+
+/**
+ * 공유지관리 목록 화면
+ * @returns
+ */
+function aj_selectPublndMngInfoList() {
+	ui.loadingBar("show");
+	$.ajax({
+		type : "POST",
+		url : "/job/adas/publndMng/selectPublndMngInfoListView.do",
+		dataType : "html",
+		processData : false,
+		contentType : false,
+		async : false,
+		success : function (returnData, status) {
+			if (status == "success") {
+				$('#bottomPopup').html("");
+				$('#bottomPopup').html(returnData);
+				
+				$('.scroll-y').mCustomScrollbar({
+					scrollbarPosition:"outside"
+				});
+			} else { 
+				toastr.error("관리자에게 문의 바랍니다.", "정보를 불러오지 못했습니다.");
+				return;
+			}
+		}, complete : function() {
+			ui.loadingBar("hide");
+		}
+	});
+}
+
 /**
  * 공유재산 실태조사 목록 조회
  * @returns

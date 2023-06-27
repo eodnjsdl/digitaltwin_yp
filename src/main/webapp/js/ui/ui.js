@@ -739,8 +739,8 @@ window.ui = (function () {
 				aj_selectAdministAssetsMngList();
 				break;
 			// 행정자산 > 공유지관리
-			case "CoownedLand" :
-				toastr.error("공유지관리");
+			case "publndMng" :
+				aj_selectPublndMngInfoList();
 				break;
 			// 행정자산 > 공유재산 실태조사
 			case "SurveyProperty" :
