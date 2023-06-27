@@ -36,6 +36,8 @@ window.ui = (function () {
 		_setToastOption();
 
 		_selectEventListener();	//지도 선택 이벤트 초기화
+		
+		_ctrlBtnLegendSetEvent();  //오른쪽 컨트롤 범례 창 제어
 	}
 
 	function _setToastOption() {
@@ -336,7 +338,58 @@ window.ui = (function () {
 		$mapControl.on('click', '.ctrl-btn.scaleDown', function (e) {
 			dtmap.zoomOut();
 		})
+		
+		//범례 
+		$mapControl.on('click', '.ctrl-btn.legend-set', function (e) {
+			
+			if($(".lnb-legend-set").hasClass("d-block")){
+				$(".lnb-legend-set").removeClass("d-block");
+			}else{
+
+				$(".lnb-legend-set").addClass("d-block");
+				$(".lnb-legend-set").draggable();
+				$(".lnb-legend-set .tab_trigger li").first().trigger("click");
+				
+				$(".lnb-legend-set").attr("style", "left:1285px; top:403px;");	//원래 위치로 이동
+			}
+		});
+
 	}
+	
+	//범례 창 이벤트
+	function _ctrlBtnLegendSetEvent(){
+		
+		//텝메뉴 이벤트
+		$(".lnb-legend-set .tab_trigger li").click(function () {
+
+			//텝 이벤트 모두 삭제
+			$(".lnb-legend-set .tab_trigger li").each(function () {
+				if($(this).hasClass("active")){
+					$(this).removeClass("active");
+				}
+			});
+			
+			//내용 탭 이벤트 모두삭제
+			$(".lnb-legend-set .tab_status_box").css("display", "none");
+			
+			//탭 메뉴 /내용 활성화
+			if(!$(this).hasClass("active")){
+				$(this).addClass("active");
+				var tabId = $(this).data("tabid");
+				$("."+tabId).parent().css("display", "block");
+			}
+			
+		});
+		
+		//닫기 버튼 제어 
+		$(".lnb-legend-set .popup-close").click(function () {
+			if($(".lnb-legend-set").hasClass("d-block")){
+				$(".lnb-legend-set").removeClass("d-block");
+			}
+		});
+		
+	}
+	
 
 	//LEFT 메뉴 선택
 	function _leftMenuEvent() {
