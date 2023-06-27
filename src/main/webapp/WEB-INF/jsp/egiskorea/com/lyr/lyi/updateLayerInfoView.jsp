@@ -586,20 +586,33 @@
                         <div class="col-12">
                             <p class="cont-txt">라벨스타일</p>
                         </div>
-                        <div class="col-6 marB5">
+                        <div class="col-12">
                             <div class="tbl-list">
-                                <div class="term">글씨</div>
+                                <div class="term">사용여부</div>
                                 <div class="desc" style="width: 190px;">
-                                    <input type="text" class="colorPicker" name="fill">
+                                    <input type="checkbox" class="form-control" name="text-useat">
                                 </div>
                             </div>
                         </div>
                         <div class="col-6 marB5">
                             <div class="tbl-list">
-                                <div class="term">배경</div>
+                                <div class="term">글씨</div>
                                 <div class="desc" style="width: 190px;">
-                                    <input type="text" class="colorPicker" name="fill">
-                                    <input type="text" class="form-control" name="radius">
+                                    <input type="text" class="colorPicker" name="text-fill" value="rgb(0,0,0)">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6 marB5">
+                            <div class="tbl-list">
+                                <div class="term">배경색</div>
+                                <div class="desc" style="width: 190px;">
+                                    <input type="text" class="colorPicker" name="halo-fill" value="rgb(255,255,255)">
+                                </div>
+                            </div>
+                            <div class="tbl-list">
+                                <div class="term">배경두께</div>
+                                <div class="desc" style="width: 190px;">
+                                    <input type="number" class="form-control" name="halo-radius" value="2">
                                 </div>
                             </div>
                         </div>
@@ -607,8 +620,13 @@
                             <div class="tbl-list">
                                 <div class="term">폰트</div>
                                 <div class="desc flex-grow-1">
-                                    <select class="form-select">
-                                        <option value="">돋움체</option>
+                                    <select class="form-select" name="font-family">
+                                        <option value="굴림" style="font-family: 굴림">굴림</option>
+                                        <option value="궁서" style="font-family: 궁서">궁서</option>
+                                        <option value="바탕" style="font-family: 바탕">바탕</option>
+                                        <option value="맑은 고딕" style="font-family: 맑은 고딕">맑은 고딕</option>
+                                        <option value="HY견고딕" style="font-family: HY견고딕">HY견고딕</option>
+                                        <option value="돋움" style="font-family: 돋움">돋움</option>
                                     </select>
                                 </div>
                             </div>
@@ -617,9 +635,7 @@
                             <div class="tbl-list">
                                 <div class="term">크기</div>
                                 <div class="desc flex-grow-1">
-                                    <select class="form-select">
-                                        <option value="">26px</option>
-                                    </select>
+                                    <input type="number" class="form-control" name="font-size" value="12"/>
                                 </div>
                             </div>
                         </div>

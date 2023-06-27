@@ -565,9 +565,24 @@ util.sld = {
                 label: this.readLabel(textNode),
                 font: this.readFont(textNode),
                 halo: this.readHalo(textNode),
+                fill: this.readFill(textNode),
+                anchor : this.readAnchorPoint(textNode),
+                displacement : this.readDisplacement(textNode)
             };
         }
         return text;
+    },
+
+    readDisplacement : function(node){
+        let displacement = null;
+        const displacementNode = node.find("se\\:Displacement");
+        if (displacementNode.length > 0) {
+            displacement = {
+                displacementX: displacementNode.find("se\\:DisplacementX").text(),
+                displacementY: displacementNode.find("se\\:DisplacementY").text(),
+            };
+        }
+        return displacement;
     },
 
     /**
@@ -887,30 +902,13 @@ util.sld = {
                 xml += `</se:PolygonSymbolizer>`;
             }
 
-            if (style["text"]) {
+            if (rule["text"]) {
                 xml += `<se:TextSymbolizer>`;
-                xml += this.writeLabel(style["text"]["label"]);
-                xml += this.writeFont(style["text"]["font"]);
-                xml += this.writeHalo(style["text"]["halo"]);
-
-                const anchor = {
-                    anchorPointX: 0.5,
-                    anchorPointY: 0.5,
-                };
-                const displacement = {
-                    displacementX: 0,
-                    displacementY: 0,
-                };
-                if (rule["point"]) {
-                    anchor["anchorPointY"] = 0;
-                    displacement["displacementY"] = 10;
-                }
-
-                xml += this.writeLabelPlacement(anchor, displacement);
-                xml += this.writeFill({
-                    fill: "#000000",
-                    "fill-opacity": 1,
-                });
+                xml += this.writeLabel(rule["text"]["label"]);
+                xml += this.writeFont(rule["text"]["font"]);
+                xml += this.writeHalo(rule["text"]["halo"]);
+                xml += this.writeLabelPlacement(rule["text"]['anchor'], rule["text"]['displacement']);
+                xml += this.writeFill(rule["text"]["fill"]);
 
                 if (rule["line"]) {
                     xml += `<VendorOption name="followLine">true</VendorOption>`;
@@ -1111,15 +1109,19 @@ util.sld = {
      */
     writeLabelPlacement: function (anchorPoint, displacement) {
         let xml = ``;
-        xml += `<se:LabelPlacement>`;
-        xml += `<se:PointPlacement>`;
-        xml += this.writeAnchorPoint(anchorPoint);
-        xml += `  <se:Displacement>`;
-        xml += `    <se:DisplacementX>${displacement["displacementX"]}</se:DisplacementX>`;
-        xml += `    <se:DisplacementY>${displacement["displacementY"]}</se:DisplacementY>`;
-        xml += `  </se:Displacement>`;
-        xml += `</se:PointPlacement>`;
-        xml += `</se:LabelPlacement>`;
+        if (anchorPoint || displacement) {
+            xml += `<se:LabelPlacement>`;
+            xml += `<se:PointPlacement>`;
+            xml += this.writeAnchorPoint(anchorPoint);
+            if (displacement) {
+                xml += `  <se:Displacement>`;
+                xml += `    <se:DisplacementX>${displacement["displacementX"]}</se:DisplacementX>`;
+                xml += `    <se:DisplacementY>${displacement["displacementY"]}</se:DisplacementY>`;
+                xml += `  </se:Displacement>`;
+            }
+            xml += `</se:PointPlacement>`;
+            xml += `</se:LabelPlacement>`;
+        }
         return xml;
     },
 

@@ -14,6 +14,7 @@ const layerStyle = {
                 .find((layer) => layer["tblNm"] === layerName);
             if (findLayer) {
                 this.type = findLayer["lyrDtlKnd"];
+                $(`[name="text-useat"]`).prop('checked', false);
                 if (findLayer["styleInfo"]) {
                     this.style = $.extend({}, util.sld.readSld(findLayer["styleInfo"]));
                     this.rule = null;
@@ -22,12 +23,11 @@ const layerStyle = {
                     this.renderRules();
                     $(".style_rules .div_rule_name:first").trigger("click");
                     $(`[data-tab=layerStyle]`).show();
-                    $(`[data-tab=layerLabel]`).hide();
                 } else {
                     this.style = "";
                     this.rule = null;
                     $(`[data-tab=layerStyle]`).hide();
-                    $(`[data-tab=layerLabel]`).hide();
+
                 }
             } else {
                 console.log(`[${layerName}] 레이어 정보가 없습니다.`);
@@ -158,7 +158,7 @@ const layerStyle = {
      */
     renderRules: function () {
         const tags = this.style.rules.map((rule, index) => {
-            if(rule.name==='Label'){
+            if (rule.name === 'Label') {
                 return;
             }
 
@@ -168,7 +168,7 @@ const layerStyle = {
             const polygon = rule['polygon'];
             const line = rule['line'];
 
-            if(point){
+            if (point) {
                 if (
                     point &&
                     point["graphic"] &&
@@ -184,56 +184,56 @@ const layerStyle = {
                 }
             }
 
-            if(polygon){
-                    const stroke = polygon["stroke"] || {};
-                    const strokeColor = stroke["stroke"] || "#ff0000";
-                    const fill = polygon["fill"] || {};
-                    const fillColor = fill["fill"] || "#ffffff";
-                    tag += `  <td><span class="layer-symbol rectangle" style="background-color:${fillColor};border:1px solid ${strokeColor};border-radius:1px;"></span></td>`;
+            if (polygon) {
+                const stroke = polygon["stroke"] || {};
+                const strokeColor = stroke["stroke"] || "#ff0000";
+                const fill = polygon["fill"] || {};
+                const fillColor = fill["fill"] || "#ffffff";
+                tag += `  <td><span class="layer-symbol rectangle" style="background-color:${fillColor};border:1px solid ${strokeColor};border-radius:1px;"></span></td>`;
             }
 
-            if(line){
+            if (line) {
                 const stroke = line["stroke"] || {};
                 const strokeColor = stroke["stroke"] || "#ff0000";
                 tag += `  <td><span class="layer-symbol stroke" style="background-color:${strokeColor};"></span></td>`;
             }
 
 
-           /* if (this.type === "P") {
-                if (
-                    rule["point"] &&
-                    rule["point"]["graphic"] &&
-                    rule["point"]["graphic"]["externalGraphic"] &&
-                    rule["point"] &&
-                    rule["point"]["graphic"] &&
-                    rule["point"]["graphic"]["externalGraphic"]["href"]
-                ) {
-                    const src = rule["point"]["graphic"]["externalGraphic"]["href"];
-                    tag += `  <td><span class="layer-symbol"><img src="./images/poi/${src}" style="width:29px;height:29px;" /></span></td>`;
-                } else {
-                    tag += `  <td><span class="layer-symbol"><img src="./images/poi/icon1.png" style="width:29px;height:29px;" /></span></td>`;
-                }
-            } else if (this.type === "L") {
-                const stroke = rule["line"]["stroke"] || {};
-                const strokeColor = stroke["stroke"] || "#ff0000";
-                tag += `  <td><span class="layer-symbol stroke" style="background-color:${strokeColor};"></span></td>`;
-            } else if (this.type === "A") {
+            /* if (this.type === "P") {
+                 if (
+                     rule["point"] &&
+                     rule["point"]["graphic"] &&
+                     rule["point"]["graphic"]["externalGraphic"] &&
+                     rule["point"] &&
+                     rule["point"]["graphic"] &&
+                     rule["point"]["graphic"]["externalGraphic"]["href"]
+                 ) {
+                     const src = rule["point"]["graphic"]["externalGraphic"]["href"];
+                     tag += `  <td><span class="layer-symbol"><img src="./images/poi/${src}" style="width:29px;height:29px;" /></span></td>`;
+                 } else {
+                     tag += `  <td><span class="layer-symbol"><img src="./images/poi/icon1.png" style="width:29px;height:29px;" /></span></td>`;
+                 }
+             } else if (this.type === "L") {
+                 const stroke = rule["line"]["stroke"] || {};
+                 const strokeColor = stroke["stroke"] || "#ff0000";
+                 tag += `  <td><span class="layer-symbol stroke" style="background-color:${strokeColor};"></span></td>`;
+             } else if (this.type === "A") {
 
-                if (rule["polygon"] !== undefined) {
-                    const stroke = rule["polygon"]["stroke"] || {};
-                    const strokeColor = stroke["stroke"] || "#ff0000";
-                    const fill = rule["polygon"]["fill"] || {};
-                    const fillColor = fill["fill"] || "#ffffff";
-                    tag += `  <td><span class="layer-symbol rectangle" style="background-color:${fillColor};border:1px solid ${strokeColor};border-radius:1px;"></span></td>`;
-                }
-                if (rule["line"] !== undefined) {
-                    const stroke = rule["line"]["stroke"];
-                    const strokeColor = stroke["stroke"] || "#ff0000";
-                    tag += `  <td><span class="layer-symbol stroke" style="background-color:${strokeColor};"></span></td>`;
-                }
-            } else {
-                console.log(`지원되지 않는 공간 타입입니다.`);
-            }*/
+                 if (rule["polygon"] !== undefined) {
+                     const stroke = rule["polygon"]["stroke"] || {};
+                     const strokeColor = stroke["stroke"] || "#ff0000";
+                     const fill = rule["polygon"]["fill"] || {};
+                     const fillColor = fill["fill"] || "#ffffff";
+                     tag += `  <td><span class="layer-symbol rectangle" style="background-color:${fillColor};border:1px solid ${strokeColor};border-radius:1px;"></span></td>`;
+                 }
+                 if (rule["line"] !== undefined) {
+                     const stroke = rule["line"]["stroke"];
+                     const strokeColor = stroke["stroke"] || "#ff0000";
+                     tag += `  <td><span class="layer-symbol stroke" style="background-color:${strokeColor};"></span></td>`;
+                 }
+             } else {
+                 console.log(`지원되지 않는 공간 타입입니다.`);
+             }*/
             tag += `  <td>`;
             tag += `    <div class="d-flex align-items-center justify-content-between">`;
             tag += `      <div class="div_rule_name" data-index="${index}">${rule["name"]}</div>`;
@@ -291,6 +291,7 @@ const layerStyle = {
         $("input[name],select[name]").on("change", function () {
             const node = $(this);
             const name = node.attr("name");
+            console.log(name);
             const val = node.val();
             if (that.rule) {
                 if (that.rule["line"] && that.rule["line"]["stroke"]) {
@@ -343,8 +344,70 @@ const layerStyle = {
                 }
             }
         });
-    },
 
+
+    },
+    getTextStyle() {
+        const selector = $(".layerLabel");
+        const useAt = $('input[name="text-useat"]', selector).prop('checked');
+        if (!useAt) {
+            return;
+        }
+        const font = {
+            'font-family': $('[name="font-family"]', selector).val(),
+            'font-size': $('[name="font-size"]', selector).val(),
+            'font-style': $('[name="font-style"]', selector).val(),
+            'font-weight': $('[name="font-weight"]', selector).val(),
+
+        }
+
+        const fill = {
+            'fill': rgbToHex($('[name="text-fill"]', selector).val())
+        }
+
+        const halo = {
+            'fill': {'fill': rgbToHex($('[name="halo-fill"]', selector).val())},
+            'radius': $('[name="halo-radius"]', selector).val(),
+        }
+
+        let label
+        $('.data-write tr', '#layerInfoForm').each(function (i, v) {
+            const colum = $(v).find('td:eq(1)').text();
+            const checked = $(v).find('[name="eprssAt"]').prop('checked');
+            if (checked) {
+                label = colum;
+            }
+        });
+
+        function rgbToHex(rgbType) {
+            /*
+            ** 컬러값과 쉼표만 남기고 삭제하기.
+            ** 쉼표(,)를 기준으로 분리해서, 배열에 담기.
+            */
+            var rgb = rgbType.replace(/[^%,.\d]/g, "").split(",");
+
+            rgb.forEach(function (str, x, arr) {
+
+                /* 컬러값이 "%"일 경우, 변환하기. */
+                if (str.indexOf("%") > -1) str = Math.round(parseFloat(str) * 2.55);
+
+                /* 16진수 문자로 변환하기. */
+                str = parseInt(str, 10).toString(16);
+                if (str.length === 1) str = "0" + str;
+
+                arr[x] = str;
+            });
+
+            return "#" + rgb.join("");
+        }
+
+        return {
+            font: font,
+            halo: halo,
+            fill: fill,
+            label: label
+        }
+    },
     /**
      * 스타일 표시
      * @param {number} index 인덱스
@@ -374,7 +437,6 @@ const layerStyle = {
                         .trigger("click");
                 } else if (this.rule["mark"]) {
                     const mark = this.rule["mark"];
-                    debugger;
                 } else if (this.rule["line"]) {
                     const stroke = this.rule["line"]["stroke"];
                     this.setValues(stroke);
@@ -388,6 +450,12 @@ const layerStyle = {
                     fill = fill || {'fill': "#0000ff", 'fill-opacity': 1};
                     this.setValues(fill);
                     $(".style-fill-color-opacity").slider("value", fill['fill-opacity']);
+                }
+                const text = this.rule["text"]
+                if (text) {
+                    this.setTextValue(text);
+                    $('[name="text-useat"]').prop('checked', 'checked')
+
                 }
             } else {
                 console.log("규칙 목록이 없습니다.");
@@ -415,12 +483,50 @@ const layerStyle = {
         }
     },
 
+    setTextValue(text) {
+        const selector = $(".layerLabel");
+        const font = text['font'];
+        $('[name="font-family"]', selector).val(font['font-family']);
+        $('[name="font-size"]', selector).val(font['font-size']);
+        $('[name="font-style"]', selector).val(font['font-style']);
+        $('[name="font-weight"]', selector).val(font['font-weight']);
+
+        const fill = text['fill'];
+        $('[name="text-fill"]', selector).minicolors('value', hexToRGB(fill['fill']));
+
+        const halo = text['halo'];
+        $('[name="halo-fill"]', selector).minicolors('value', hexToRGB(halo['fill']['fill']));
+        $('[name="halo-radius"]', selector).val(halo['radius']);
+        const label = text['label'];
+
+        $('.data-write tr', '#layerInfoForm').each(function (i, v) {
+            const colum = $(v).find('td:eq(1)').text();
+            if (colum === label) {
+                $(v).find('[name="eprssAt"]').prop('checked', 'checked');
+            }
+
+        })
+
+        function hexToRGB(str) {
+            if (str.indexOf("#") >= 0) {
+                let red = parseInt(str[1] + str[2], 16);
+                let green = parseInt(str[3] + str[4], 16);
+                let blue = parseInt(str[5] + str[6], 16);
+
+                return "rgb(" + red + "," + green + "," + blue + ")";
+            }
+            return str;
+        }
+    },
+
+
     /**
      * 스타일 정보 가져오기
      * @returns 스타일 정보
      */
     getStyleInfo() {
         if (this.style) {
+            this.rule['text'] = this.getTextStyle();
             return util.sld.writeSld(this.style);
         } else {
             return "";
