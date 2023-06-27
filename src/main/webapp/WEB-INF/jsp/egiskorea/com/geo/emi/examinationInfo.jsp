@@ -99,10 +99,10 @@
                     </colgroup>
                     <tbody>
                     <tr>
-                        <th scope="row">ORG_FILD</th>
-                        <td><c:out value="${result.orgFid} "/></td>
                         <th scope="row">지번</th>
                         <td><c:out value="${result.addr} "/></td>
+                        <th scope="row">최종변경일자</th>
+                        <td><c:out value="${result.updateDate} "/></td>
                     </tr>
                         <%-- 												<tr>
                                                                             <th scope="row">ORG_FILD</th>
@@ -117,16 +117,10 @@
                                                                             <td><c:out value="${result.endDate} "/></td>
                                                                         </tr> --%>
                     <tr>
-                        <th scope="row">최종변경일자</th>
-                        <td><c:out value="${result.updateDate} "/></td>
                         <th scope="row">원지목</th>
                         <td><c:out value="${result.ori}"/></td>
-                    </tr>
-                    <tr>
                         <th scope="row">조사자(정)</th>
                         <td><c:out value="${result.main}"/></td>
-                        <th scope="row">조사자(부)</th>
-                        <td><c:out value="${result.sub}"/></td>
                     </tr>
                     </tbody>
                 </table>

@@ -221,8 +221,8 @@
                                 <col style="width: 15%;">
                                 <col style="width: 18%;">
                                 <col style="width: 15%;">
-                                <col style="width: 15%;">
                                 <col style="width: auto;">
+                                <col style="width: 15%;">
                                 <col style="width: 80px;">
                             </colgroup>
                             <thead>
@@ -234,8 +234,8 @@
                                 <th scope="col">지번</th>
                                 <th scope="col">최종변경일자</th>
                                 <th scope="col">조사자(정)</th>
-                                <th scope="col">조사자(부)</th>
                                 <th scope="col">원지목</th>
+                                <th scope="col">현실지목</th>
                                 <th scope="col"></th>
                             </tr>
                             </thead>
@@ -248,8 +248,8 @@
                                 <col style="width: 15%;">
                                 <col style="width: 18%;">
                                 <col style="width: 15%;">
-                                <col style="width: 15%;">
                                 <col style="width: auto;">
+                                <col style="width: 15%;">
                                 <col style="width: 80px;">
                             </colgroup>
                             <tbody>
@@ -267,8 +267,8 @@
                                     <td><c:out value="${result.addr}"/></td>
                                     <td><c:out value="${result.updateDate}"/></td>
                                     <td><c:out value="${result.main}"/></td>
-                                    <td><c:out value="${result.sub}"/></td>
                                     <td><c:out value="${result.ori}"/></td>
+                                    <td><c:out value="${result.j0302}"/></td>
                                     <td onclick="event.stopPropagation()">
                                         <button type="button" class="icon-btn excel" title="엑셀다운로드"
                                                 onClick="fn_download_excelData(this.form, '<c:out value="${result.pnu}" />')"></button>

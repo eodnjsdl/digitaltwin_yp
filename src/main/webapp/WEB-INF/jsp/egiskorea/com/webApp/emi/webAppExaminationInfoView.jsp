@@ -28,8 +28,7 @@
                         if (status == "success") {
                             if (removeLine(returnData) == "ok") {
                                 toastr.success("<spring:message code="success.common.update" />");
-                              	webApp_clickTerritory("<c:out value="${examinationInfo.pnu.substring(0, 10)} "/>",'1');
-                                leftSubPopupOpen("examinationInfo", "<c:out value="${examinationInfo.pnu} "/>", "left");
+								webApp_leftSubPopupOpen("examinationInfo", "<c:out value="${examinationInfo.pnu} "/>");
                             } else {
                                 toastr.success("<spring:message code="fail.common.update" />");
                             }
@@ -46,13 +45,13 @@
     }
 
     // 수정화면의 닫기버튼 클릭시
-    function fn_cancel_examinationInfo() {
-        $("#leftSubPopup").removeClass("opened").html("");
+    function webApp_cancel_examinationInfoView() {
+        $("#leftSubPopup").removeClass("opened").empty();
     }
     
     // 수정화면의 취소버튼 클릭시 (수정화면 닫고 상세화면)
     function webApp_fn_cancel_examinationInfo(id) {
-        $("#leftSubPopup").removeClass("opened").html("");
+        $("#leftSubPopup").removeClass("opened").empty();
     	fn_left_select_detail(id[0].value);
     }
     
@@ -62,7 +61,7 @@
     <form:hidden path="pnu"/>
     <div class="popup-header">속성정보 수정</div>
     <div class="popup-body">
-        <div class="sub-popup-body territory-info-body detail">
+        <div class="sub-popup-body territory-info-body">
             <h3 class="cont-tit">기본정보</h3>
             <div class="data-default">
                 <table class="data-write">
@@ -74,27 +73,21 @@
                     </colgroup>
                     <tbody>
                     <tr>
-                        <th scope="row">ORG_FILD</th>
-                        <td><c:out value="${examinationInfo.orgFid} "/></td>
                         <th scope="row">지번</th>
                         <td><c:out value="${examinationInfo.addr} "/></td>
-                    </tr>
-                    <tr>
                         <th scope="row">최종변경일자</th>
                         <td><c:out value="${examinationInfo.updateDate} "/></td>
-                        <th scope="row">원지목</th>
-                        <td><c:out value="${examinationInfo.ori}"/></td>
                     </tr>
                     <tr>
-                        <th scope="row">조사자(정)</th>
+                    	<th scope="row">조사자(정)</th>
                         <td><form:input path="main" cssClass="form-control"/></td>
-                        <th scope="row">조사자(부)</th>
-                        <td><form:input path="sub" cssClass="form-control"/></td>
+                        <th scope="row">원지목</th>
+                        <td><c:out value="${examinationInfo.ori}"/></td>
                     </tr>
                     </tbody>
                 </table>
             </div>
-            <div class="tabBoxDepth1-wrap">
+            <div class="tabBoxDepth1-wrap" style="height: calc(100% - 135px);">
                 <div class="tabBoxDepth1">
                     <ul>
                         <li data-tab="proTab01" class="on">
@@ -112,6 +105,9 @@
                         <li data-tab="proTab05">
                             <button type="button" class="inner-tab">토지피복</button>
                         </li>
+                        <li data-tab="proTab06">
+                            <button type="button" class="inner-tab">사진</button>
+                        </li>
                     </ul>
                 </div>
                 <!-- 지목조사 -->
@@ -128,9 +124,12 @@
                 
                 <!-- 토지피복 -->
                 <jsp:include page="landCover_webApp.jsp" flush="true"/>
+                
+                <!-- 사진 -->
+                <jsp:include page="photo_webApp.jsp" flush="true"/>
             </div>
         </div>
     </div>
-    <button type="button" class="popup-close" title="닫기"></button>
+    <button type="button" class="webAppExaminationInfoView-popup-close" title="닫기" onclick="webApp_cancel_examinationInfoView();"></button>
 </form:form>
 <!-- //국토정보관리 > 속성정보 > 더보기 -->

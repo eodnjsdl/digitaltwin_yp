@@ -52,7 +52,7 @@ html, body {
 #container .util-box {
     display: flex;
     position: fixed;
-    z-index: 999;
+    z-index: 1;
     right: 0px;
 }
 
@@ -626,7 +626,7 @@ html, body {
     position: absolute;
     right: 20px;
     bottom: 0;
-    z-index: 401;
+    z-index: 1;
 }
 
 .map-util > div {
