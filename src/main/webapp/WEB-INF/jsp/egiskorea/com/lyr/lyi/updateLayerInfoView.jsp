@@ -211,7 +211,7 @@
                                     <div class="tbl-list">
                                         <div class="term">색상</div>
                                         <div class="desc">
-                                            <input type="text" name="fill" class="style-fill-color">
+                                            <input type="text" name="fill" class="style-fill-color colorPicker" value="#ffffff">
                                         </div>
                                     </div>
                                     <div class="tbl-list">
@@ -221,8 +221,8 @@
                                                 <div class="drawing-slider">
                                                     <div class="style-fill-color-opacity"></div>
                                                 </div>
-                                                <input type="hidden" name="fill-opacity"/>
-                                                <input type="text" class="value-num" value="" readonly>
+                                                <input type="hidden" name="fill-opacity" value="1"/>
+                                                <input type="text" class="value-num" value="1" readonly>
                                             </div>
                                         </div>
                                     </div>
@@ -235,7 +235,7 @@
                                             <div class="term">색상</div>
                                             <div class="desc">
                                                 <div class="form-row">
-                                                    <input type="text" name="stroke" class="style-stroke-color form-control">
+                                                    <input type="text" name="stroke" class="style-stroke-color form-control colorPicker" value="#ff0000">
                                                 </div>
                                             </div>
                                         </div>
@@ -600,7 +600,7 @@
                             <div class="tbl-list">
                                 <div class="term">색상</div>
                                 <div class="desc" style="width: 190px;">
-                                    <input type="text" class="colorPicker" name="text-fill" value="rgb(0,0,0)">
+                                    <input type="text" class="colorPicker" name="text-fill" value="#000000">
                                 </div>
                             </div>
                         </div>
@@ -634,7 +634,7 @@
                             <div class="tbl-list">
                                 <div class="term">색상</div>
                                 <div class="desc" style="width: 190px;">
-                                    <input type="text" class="colorPicker" name="halo-fill" value="rgb(255,255,255)">
+                                    <input type="text" class="colorPicker" name="halo-fill" value="#ffffff">
                                 </div>
                             </div>
 
@@ -698,8 +698,8 @@
 
         $('.colorPicker').minicolors({
             control: 'hue',
-            defaultValue: 'rgba(255, 0, 0)',
-            format: 'rgb',
+            defaultValue: '#fffffff',
+            format: 'hex',
             theme: 'default',
             opacity: false,
             swatches: []

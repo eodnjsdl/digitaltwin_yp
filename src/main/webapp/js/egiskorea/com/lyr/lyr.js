@@ -54,45 +54,14 @@ const layerStyle = {
             console.log(`${this.type} 정의되지 않은 공간 타입입니다.`);
         }
 
-        // 선 색상
-        $(".style-stroke-color").minicolors({
-            control: "hue",
-            format: "hex",
-            theme: "default",
-            opacity: false,
-            swatches: [],
-            change: (hex) => {
-                if (this.rule) {
-                    if (this.rule["line"] && this.rule["line"]["stroke"]) {
-                        this.rule["line"]["stroke"]["stroke"] = hex;
-                    } else if (this.rule["polygon"]) {
-                        if (!this.rule["polygon"]["stroke"]) {
-                            this.rule["polygon"]["stroke"] = {};
-                        }
-                        this.rule["polygon"]["stroke"]["stroke"] = hex;
-                    }
-                }
-            },
-        });
 
-        // 면 색상
-        $(".style-fill-color").minicolors({
-            control: "hue",
-            format: "hex",
-            theme: "default",
-            opacity: false,
-            swatches: [],
-            change: (hex) => {
-                if (this.rule) {
-                    if (this.rule["polygon"]) {
-                        if (!this.rule["polygon"]["fill"]) {
-                            this.rule["polygon"]["fill"] = {};
-                        }
-                        this.rule["polygon"]["fill"]["fill"] = hex;
-                    }
-                }
-            },
-        });
+        // $('.colorPicker', '#layerInfoForm').minicolors({
+        //     control: "hue",
+        //     format: "hex",
+        //     theme: "default",
+        //     opacity: false,
+        //     swatches: []
+        // });
 
         //투명도 슬라이더
         $(".style-fill-color-opacity").slider({
@@ -105,6 +74,7 @@ const layerStyle = {
                 const node = $(event.target);
                 const value = node.closest('.drawing-slider-box').find('input[name="fill-opacity"]').val()
                 node.slider('value', value);
+
             },
             change: (event, ui) => {
                 const $handle = $(ui.handle);
@@ -123,9 +93,9 @@ const layerStyle = {
         $(".style-scale").slider({
             range: true,
             min: 6,
-            max: 19,
+            max: 22,
             step: 1,
-            values: [6, 19],
+            values: [6, 22],
             create: function () {
                 const node = $(this);
                 const values = node.slider("values");
@@ -255,7 +225,7 @@ const layerStyle = {
      */
     bindEvents() {
         const that = this;
-
+        const selector = $("#layerInfoForm");
         // 이미지
         $(`.layerStyle .symbol-group button`).on("click", function () {
             const node = $(this);
@@ -287,65 +257,222 @@ const layerStyle = {
             that.renderStyle(index);
         });
 
-        // 입력 값 변경 시 스타일 변경
-        $("input[name],select[name]").on("change", function () {
+        $('.style-fill-color', selector).on('change', function () {
             const node = $(this);
-            const name = node.attr("name");
-            console.log(name);
-            const val = node.val();
-            if (that.rule) {
-                if (that.rule["line"] && that.rule["line"]["stroke"]) {
-                    that.rule["line"]["stroke"][name] = val;
-                } else if (that.rule["polygon"] && that.rule["polygon"]["stroke"]) {
-                    that.rule["polygon"]["stroke"][name] = val;
-                }
+            if (that.type !== 'A') {
+                return;
             }
+
+            that.rule['polygon'] = _.merge(that.rule['polygon'], {
+                'fill': {
+                    fill: node.val()
+                }
+            })
         });
+        $('.style-fill-color-opacity', selector).on('change', function () {
+            const node = $(this);
+            if (that.type !== 'A') {
+                return;
+            }
+            that.rule['polygon'] = _.merge(that.rule['polygon'], {
+                'fill': {
+                    'fill-opacity': node.val()
+                }
+            });
+        });
+        $('.style-stroke-color', selector).on('change', function () {
+            const node = $(this);
+            if (that.type === 'P') {
+                return;
+            }
+            const style = that.type === 'L' ? 'line' : 'polygon'
+            that.rule[style] = _.merge(that.rule[style], {
+                'stroke': {
+                    'stroke': node.val()
+                }
+            });
+        });
+        $('[name=stroke-width]', selector).on('change', function () {
+            const node = $(this);
+            if (that.type === 'P') {
+                return;
+            }
+            const style = that.type === 'L' ? 'line' : 'polygon'
+            that.rule[style] = _.merge(that.rule[style], {
+                'stroke': {
+                    'stroke-width': node.val()
+                }
+            });
+        });
+        $('[name=stroke-dasharray]', selector).on('change', function () {
+            const node = $(this);
+            if (that.type === 'P') {
+                return;
+            }
+            const style = that.type === 'L' ? 'line' : 'polygon'
+            that.rule[style] = _.merge(that.rule[style], {
+                'stroke': {
+                    'stroke-dasharray': node.val()
+                }
+            });
+        });
+
+        $('[name="font-family"]', selector).on('change', function () {
+            const node = $(this);
+            that.rule['text'] = _.merge(that.rule['text'], {
+                'font': {
+                    'font-family': node.val()
+                }
+            });
+        });
+        $('[name="font-size"]', selector).on('change', function () {
+            const node = $(this);
+            that.rule['text'] = _.merge(that.rule['text'], {
+                'font': {
+                    'font-size': node.val()
+                }
+            });
+        });
+        $('[name="font-style"]', selector).on('change', function () {
+            const node = $(this);
+            that.rule['text'] = _.merge(that.rule['text'], {
+                'font': {
+                    'font-style': node.val()
+                }
+            });
+        });
+        $('[name="font-weight"]', selector).on('change', function () {
+            const node = $(this);
+            that.rule['text'] = _.merge(that.rule['text'], {
+                'font': {
+                    'font-weight': node.val()
+                }
+            });
+        });
+        $('[name="text-fill"]', selector).on('change', function () {
+            const node = $(this);
+            that.rule['text'] = _.merge(that.rule['text'], {
+                'fill': {
+                    fill: node.val()
+                }
+            });
+        });
+        $('[name="halo-fill"]', selector).on('change', function () {
+            const node = $(this);
+            that.rule['text'] = _.merge(that.rule['text'], {
+                'halo': {
+                    fill: {
+                        fill: node.val()
+                    }
+                }
+            });
+        });
+        $('[name="halo-radius"]', selector).on('change', function () {
+            const node = $(this);
+            that.rule['text'] = _.merge(that.rule['text'], {
+                'halo': {
+                    radius: node.val()
+                }
+            });
+        });
+        $('[name="anchor-x"]', selector).on('change', function () {
+            const node = $(this);
+            that.rule['text'] = _.merge(that.rule['text'], {
+                'anchor': {
+                    anchorPointX: node.val()
+                }
+            });
+        });
+        $('[name="anchor-y"]', selector).on('change', function () {
+            const node = $(this);
+            that.rule['text'] = _.merge(that.rule['text'], {
+                'anchor': {
+                    anchorPointY: node.val()
+                }
+            });
+        });
+        $('[name="eprssAt"]', '#layerInfoForm').on('change', function () {
+            const node = $(this);
+            const label = node.closest('tr').find('td:eq(1)').text()
+            that.rule['text'] = _.merge(that.rule['text'], {
+                'label': label
+            });
+        });
+        $('[name="text-useat"]', selector).on('change', function () {
+            that.getTextStyle();
+            that.rule['text']['useAt'] = this.checked;
+        })
+        // // 입력 값 변경 시 스타일 변경
+        // $("input[name],select[name]").on("change", function () {
+        //     const node = $(this);
+        //     const name = node.attr("name");
+        //     console.log(name);
+        //     const val = node.val();
+        //     if (that.rule) {
+        //         if (that.rule["line"] && that.rule["line"]["stroke"]) {
+        //             that.rule["line"]["stroke"][name] = val;
+        //         } else if (that.rule["polygon"] && that.rule["polygon"]["stroke"]) {
+        //             that.rule["polygon"]["stroke"][name] = val;
+        //         }
+        //     }
+        // });
 
         // 테두리
         $("#style_stroke_checkbox").on("change", function () {
+            if (that.type !== 'A') {
+                return;
+            }
             const node = $(this);
-            if (that.rule["polygon"]) {
-                if (node.prop("checked")) {
-                    if (!that.rule["polygon"]["stroke"]) {
-                        that.rule["polygon"]["stroke"] = {};
-                    }
-                    that.rule["polygon"]["stroke"]["stroke"] = $(
-                        ".style-stroke-color"
-                    ).minicolors("value");
-                    that.rule["polygon"]["stroke"]["stroke-width"] = $(
-                        "[name=stroke-width]"
-                    ).val();
-                    that.rule["polygon"]["stroke"]["stroke-dasharray"] = $(
-                        "[name=stroke-dasharray]"
-                    ).val();
-                } else {
-                    if (that.rule["polygon"]["stroke"]) {
-                        delete that.rule["polygon"]["stroke"];
-                    }
-                }
+            if (node.prop("checked")) {
+                that.rule["polygon"]["stroke"] = that.getStroke();
+            } else {
+                that.rule["polygon"]["stroke"] = undefined
             }
         });
 
         // 채우기
         $("#style_fill_checkbox").on("change", function () {
+            if (that.type !== 'A') {
+                return;
+            }
             const node = $(this);
-            if (that.rule["polygon"]) {
-                if (node.prop("checked")) {
-                    if (!that.rule["polygon"]["fill"]) {
-                        that.rule["polygon"]["fill"] = {};
-                    }
-                    that.rule["polygon"]["fill"]["fill"] = $(".style-fill-color").minicolors("value");
-                    that.rule["polygon"]["fill"]["fill-opacity"] = $(".style-fill-color-opacity").val();
-                } else {
-                    if (that.rule["polygon"]["fill"]) {
-                        delete that.rule["polygon"]["fill"];
-                    }
-                }
+            if (node.prop("checked")) {
+                that.rule["polygon"]['fill'] = that.getFill();
+            } else {
+                that.rule["polygon"]['fill'] = undefined;
+
             }
         });
 
 
+    },
+
+    getFill() {
+        const selector = $("#layerInfoForm");
+        const useFill = $('#style_fill_checkbox', selector).prop('checked');
+        let fill;
+        if (useFill) {
+            $('[name="fill"]', selector).val();
+            fill = {
+                'fill': $(".style-fill-color", selector).minicolors("value"),
+                'fill-opacity': $(".style-fill-color-opacity", selector).val()
+            }
+
+        }
+        return fill;
+    },
+    getStroke() {
+        const selector = $("#layerInfoForm");
+        const useStroke = $('#style_stroke_checkbox', selector).prop('checked');
+        let stroke;
+        if (useStroke) {
+            stroke = {
+                'stroke': $(".style-stroke-color", selector).minicolors("value"),
+                'stroke-width': $("[name=stroke-width]", selector).val(),
+                'stroke-dasharray': $("[name=stroke-dasharray]", selector).val()
+            }
+        }
+        return stroke;
     },
     getTextStyle() {
         const selector = $(".layerLabel");
@@ -362,11 +489,11 @@ const layerStyle = {
         }
 
         const fill = {
-            'fill': rgbToHex($('[name="text-fill"]', selector).val())
+            'fill': $('[name="text-fill"]', selector).val()
         }
 
         const halo = {
-            'fill': {'fill': rgbToHex($('[name="halo-fill"]', selector).val())},
+            'fill': {'fill': $('[name="halo-fill"]', selector).val()},
             'radius': $('[name="halo-radius"]', selector).val(),
         }
 
@@ -379,29 +506,8 @@ const layerStyle = {
             }
         });
 
-        function rgbToHex(rgbType) {
-            /*
-            ** 컬러값과 쉼표만 남기고 삭제하기.
-            ** 쉼표(,)를 기준으로 분리해서, 배열에 담기.
-            */
-            var rgb = rgbType.replace(/[^%,.\d]/g, "").split(",");
 
-            rgb.forEach(function (str, x, arr) {
-
-                /* 컬러값이 "%"일 경우, 변환하기. */
-                if (str.indexOf("%") > -1) str = Math.round(parseFloat(str) * 2.55);
-
-                /* 16진수 문자로 변환하기. */
-                str = parseInt(str, 10).toString(16);
-                if (str.length === 1) str = "0" + str;
-
-                arr[x] = str;
-            });
-
-            return "#" + rgb.join("");
-        }
-
-        return {
+        this.rule['text'] = _.merge(this.rule['text'], {
             font: font,
             halo: halo,
             fill: fill,
@@ -410,8 +516,9 @@ const layerStyle = {
                 anchorPointX: $('[name="anchor-x"]', selector).val(),
                 anchorPointY: $('[name="anchor-y"]', selector).val()
             }
-        }
+        })
     },
+
     /**
      * 스타일 표시
      * @param {number} index 인덱스
@@ -443,21 +550,28 @@ const layerStyle = {
                     const mark = this.rule["mark"];
                 } else if (this.rule["line"]) {
                     const stroke = this.rule["line"]["stroke"];
-                    this.setValues(stroke);
+                    this.setStroke(stroke);
                 } else if (this.rule["polygon"]) {
                     let stroke = this.rule["polygon"]["stroke"];
                     $("#style_stroke_checkbox").prop("checked", stroke ? true : false);
-                    stroke = stroke || {'stroke': "#ff0000"};
-                    this.setValues(stroke);
+                    if (stroke) {
+                        stroke = _.merge({'stroke': "#ff0000"}, stroke);
+                        this.setStroke(stroke);
+                    }
                     let fill = this.rule["polygon"]["fill"];
                     $("#style_fill_checkbox").prop("checked", fill ? true : false);
-                    fill = fill || {'fill': "#0000ff", 'fill-opacity': 1};
-                    this.setValues(fill);
-                    $(".style-fill-color-opacity").slider("value", fill['fill-opacity']);
+
+                    if (fill) {
+                        fill = _.merge({'fill': "#0000ff", 'fill-opacity': 1}, fill);
+                        this.setFill(fill);
+                    } else {
+                        $(".style-fill-color-opacity").slider('value', 1);
+                    }
                 }
                 const text = this.rule["text"]
                 if (text) {
                     this.setTextValue(text);
+                    this.rule["text"]['useAt'] = true;
                     $('[name="text-useat"]').prop('checked', 'checked')
 
                 }
@@ -467,13 +581,16 @@ const layerStyle = {
         } else {
             console.log("스타일이 없습니다.");
         }
-    },
+    }
+    ,
 
     /**
      * 값 목록 설정
      * @param {Object} obj 스타일
      */
     setValues(obj) {
+        return;
+        const that = this;
         const selector = $(".layerStyle");
         for (const [key, value] of Object.entries(obj)) {
             $(`[name=${key}]`, selector).closest("div.items").show();
@@ -486,8 +603,20 @@ const layerStyle = {
             }
         }
     },
+    setStroke(stroke) {
+        const selector = $("#layerInfoForm");
+        $(".style-stroke-color", selector).minicolors("value", stroke['stroke'] || '#ff0000');
+        $("[name=stroke-width]", selector).val(stroke['stroke-width'] || 1);
+        $("[name=stroke-dasharray]", selector).val(stroke['stroke-dasharray']);
+    },
+    setFill(fill) {
+        const selector = $("#layerInfoForm");
+        $(".style-fill-color", selector).minicolors("value", fill['fill'] || '#ffffff');
+        $(".style-fill-color-opacity").slider('value', fill['fill-opacity'] || 1);
+    },
 
     setTextValue(text) {
+        const that = this;
         const selector = $(".layerLabel");
         const font = text['font'];
         $('[name="font-family"]', selector).val(font['font-family']);
@@ -496,10 +625,10 @@ const layerStyle = {
         $('[name="font-weight"]', selector).val(font['font-weight']);
 
         const fill = text['fill'];
-        $('[name="text-fill"]', selector).minicolors('value', hexToRGB(fill['fill']));
+        $('[name="text-fill"]', selector).minicolors('value', fill['fill']);
 
         const halo = text['halo'];
-        $('[name="halo-fill"]', selector).minicolors('value', hexToRGB(halo['fill']['fill']));
+        $('[name="halo-fill"]', selector).minicolors('value', halo['fill']['fill']);
         $('[name="halo-radius"]', selector).val(halo['radius']);
         const label = text['label'];
 
@@ -515,16 +644,7 @@ const layerStyle = {
         $('[name="anchor-x"]', selector).val(anchor['anchorPointX']);
         $('[name="anchor-y"]', selector).val(anchor['anchorPointY'])
 
-        function hexToRGB(str) {
-            if (str.indexOf("#") >= 0) {
-                let red = parseInt(str[1] + str[2], 16);
-                let green = parseInt(str[3] + str[4], 16);
-                let blue = parseInt(str[5] + str[6], 16);
 
-                return "rgb(" + red + "," + green + "," + blue + ")";
-            }
-            return str;
-        }
     },
 
 
@@ -534,10 +654,40 @@ const layerStyle = {
      */
     getStyleInfo() {
         if (this.style) {
-            this.rule['text'] = this.getTextStyle();
             return util.sld.writeSld(this.style);
         } else {
             return "";
         }
     },
+    rgbToHex(rgbType) {
+        /*
+        ** 컬러값과 쉼표만 남기고 삭제하기.
+        ** 쉼표(,)를 기준으로 분리해서, 배열에 담기.
+        */
+        var rgb = rgbType.replace(/[^%,.\d]/g, "").split(",");
+
+        rgb.forEach(function (str, x, arr) {
+
+            /* 컬러값이 "%"일 경우, 변환하기. */
+            if (str.indexOf("%") > -1) str = Math.round(parseFloat(str) * 2.55);
+
+            /* 16진수 문자로 변환하기. */
+            str = parseInt(str, 10).toString(16);
+            if (str.length === 1) str = "0" + str;
+
+            arr[x] = str;
+        });
+
+        return "#" + rgb.join("");
+    },
+    hexToRGB(str) {
+        if (str.indexOf("#") >= 0) {
+            let red = parseInt(str[1] + str[2], 16);
+            let green = parseInt(str[3] + str[4], 16);
+            let blue = parseInt(str[5] + str[6], 16);
+
+            return "rgb(" + red + "," + green + "," + blue + ")";
+        }
+        return str;
+    }
 };

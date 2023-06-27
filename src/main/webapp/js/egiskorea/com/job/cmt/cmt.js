@@ -902,7 +902,7 @@ util.sld = {
                 xml += `</se:PolygonSymbolizer>`;
             }
 
-            if (rule["text"]) {
+            if (rule["text"]&& rule["text"]['useAt']) {
                 xml += `<se:TextSymbolizer>`;
                 xml += this.writeLabel(rule["text"]["label"]);
                 xml += this.writeFont(rule["text"]["font"]);
