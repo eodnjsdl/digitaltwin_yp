@@ -100,65 +100,71 @@
     }
 
     function fn_insert_administrationZone(form) {
-        if (!validateAdministrationZone(form)) {
-            return false;
-        } else {
-            var isUpload = true;						// 드래그앤드롭일 경우에만 false
-            var formData = new FormData(form);
-            $.each(uploadFiles, function (i, file) {
-                if (file.upload != "disable") {
-                    formData.append("upload-file" + i, file, file.name);
-                }
-            });
-            for (var pair of formData.entries()) {
-                if (pair[0].search("upload-file") != -1) {
-                    isUpload = true;
-                }
-            }
-            if (!isUpload) {
-                toastr.warning("등록할 파일을 드래그해주세요.");
-                return;
-            }
-            if (confirm("<spring:message code="common.regist.msg" />")) {
-                $.ajax({
-                    type: "POST",
-                    url: "/geo/emi/insertAdministrationZone.do",
-                    data: formData,
-                    dataType: "html",
-                    processData: false,
-                    contentType: false,
-                    xhr: function () { //XMLHttpRequest 재정의 가능
-                        var xhr = $.ajaxSettings.xhr();
-                        xhr.upload.onprogress = function (e) { //progress 이벤트 리스너 추가
-                            var percent = e.loaded * 100 / e.total;
-                            $(".progressbar-value").css("width", parseInt(percent) + "%");
-                            $(".progress-label").html(parseInt(percent) + "%");
-                            if (percent == "100") {
-                                ui.loadingBar("show");
-                            }
-                        };
-                        return xhr;
-                    },
-                    success: function (returnData, status) {
-                        if (status == "success") {
-                            if (!removeLine(returnData) == "ok") {
-                                toastr.success("<spring:message code="success.common.insert" />");
-                                $(".popup-left").removeClass("opened").html("");
-                                webApp_selectAdministrationZoneList($("#searchForm")[0]);
-                            } else {
-                                toastr.success("<spring:message code="fail.common.insert" />");
-                            }
-                        } else {
-                            toastr.error("관리자에게 문의 바랍니다.", "정보를 불러오지 못했습니다.");
-                            return;
-                        }
-                    }, complete: function () {
-                        ui.loadingBar("hide");
-                        toastr.success("등록이 완료되었습니다.");
-                    }
-                });
-            }
-        }
+    	if (fileInput.files.length > 0) {
+    	    // 파일이 선택되었을 경우 등록 함수 호출
+	        if (!validateAdministrationZone(form)) {
+	            return false;
+	        } else {
+	            var isUpload = true;						// 드래그앤드롭일 경우에만 false
+	            var formData = new FormData(form);
+	            $.each(uploadFiles, function (i, file) {
+	                if (file.upload != "disable") {
+	                    formData.append("upload-file" + i, file, file.name);
+	                }
+	            });
+	            for (var pair of formData.entries()) {
+	                if (pair[0].search("upload-file") != -1) {
+	                    isUpload = true;
+	                }
+	            }
+	            if (!isUpload) {
+	                toastr.warning("등록할 파일을 드래그해주세요.");
+	                return;
+	            }
+	            if (confirm("<spring:message code="common.regist.msg" />")) {
+	                $.ajax({
+	                    type: "POST",
+	                    url: "/geo/emi/insertAdministrationZone.do",
+	                    data: formData,
+	                    dataType: "html",
+	                    processData: false,
+	                    contentType: false,
+	                    xhr: function () { //XMLHttpRequest 재정의 가능
+	                        var xhr = $.ajaxSettings.xhr();
+	                        xhr.upload.onprogress = function (e) { //progress 이벤트 리스너 추가
+	                            var percent = e.loaded * 100 / e.total;
+	                            $(".progressbar-value").css("width", parseInt(percent) + "%");
+	                            $(".progress-label").html(parseInt(percent) + "%");
+	                            if (percent == "100") {
+	                                ui.loadingBar("show");
+	                            }
+	                        };
+	                        return xhr;
+	                    },
+	                    success: function (returnData, status) {
+	                        if (status == "success") {
+	                            if (!removeLine(returnData) == "ok") {
+	                                toastr.success("<spring:message code="success.common.insert" />");
+	                                $(".popup-left").removeClass("opened").html("");
+	                                webApp_selectAdministrationZoneList($("#searchForm")[0]);
+	                            } else {
+	                                toastr.success("<spring:message code="fail.common.insert" />");
+	                            }
+	                        } else {
+	                            toastr.error("관리자에게 문의 바랍니다.", "정보를 불러오지 못했습니다.");
+	                            return;
+	                        }
+	                    }, complete: function () {
+	                        ui.loadingBar("hide");
+	                        toastr.success("등록이 완료되었습니다.");
+	                    }
+	                });
+	            }
+	        }
+    	} else {
+			// 파일이 선택되지 않았을 경우 알림창 실행
+			alert("파일을 선택해주세요.");
+    	}
     }
 
 </script>
@@ -202,7 +208,7 @@
                                 <div class="text">
 <!-- 		                                    등록할 파일을 <strong>드래그앤드롭</strong>으로 이동하세요 <br>
 		                                    (xls, xlsx) -->
-                                <input type="file" name="fileInput" id="fileInput">
+                                <input type="file" multiple name="fileInput" id="fileInput">
                                 </div>
                                 
                                 <div id="uploadFiles" class="dataUpload-default" style="display: none;">

@@ -42,10 +42,11 @@
             if (checkField.length > 1) {
                 for (var i = 0; i < checkField.length; i++) {
                     if (checkField[i].checked) {
+                    	// 웹앱용 수정부분
                         if (returnValue == "") {
-                            returnValue = checkField[i].value;
+                            returnValue = checkId[i].attributes.value.nodeValue;
                         } else {
-                            returnValue = returnValue + ";" + checkField[i].value;
+                            returnValue = returnValue + ";" + checkId[i].attributes.value.nodeValue;
                         }
                         checkCount++;
                     }
@@ -103,7 +104,7 @@
                         if (status == "success") {
                             if (removeLine(returnData) == "ok") {
                                 toastr.success("정상적으로 삭제되었습니다.");
-                                webApp_selectExaminationInfoList($("#searchFormLeft")[0]);
+                                webApp_selectExaminationInfoList($("#searchFormLeft")[0],"");
                             } else {
                                 toastr.warning("삭제에 실패했습니다.");
                             }
