@@ -14,7 +14,8 @@
 								</div>								
 								<!-- 토지이용현황 -->
 								<div class="tab-cont examinationInfo03 on">
-									<div class="scroll-y" style="height: 100%;">
+									<!-- <div class="scroll-y" style="height: 100%;"> -->
+									<div class="scroll-y" style="height: 50%;">
 										<div class="data-default">
 											<table class="data-detail">
 												<colgroup>
@@ -77,10 +78,62 @@
 												</tbody>
 											</table>										
 										</div>
-
 									</div>
-									<div class="position-bottom btn-wrap justify-content-end">
-										<div><button type="button" class="btn basic bi-download">다운로드</button></div>
+									
+									<div style="width: 100%;">
+										<div style="float: left; width: 50%">
+											<c:if test="${not empty landUseStatusMainImgCode}">
+												<img src="data:image/gif;base64,${landUseStatusMainImgCode}">
+											</c:if>
+										</div>
+										<div class="data-default" style="float: left; width: 270px; margin-left: 20px; ">
+										
+											<div style="width: 100%;">
+											<table class="data-list" >
+												<colgroup>
+													<col style="width: 25%;">
+													<col style="width: auto;">
+												</colgroup>
+												<thead>
+													<tr>
+														<th scope="col" colspan="2">범례</th>
+													</tr>
+												</thead>
+												<tbody>
+												</tbody>
+											</table>
+											</div>
+											
+											<div class="scroll-y" style="height: 180px; width: 100%;">
+											<table class="data-list">
+												<colgroup>
+													<col style="width: 25%;">
+													<col style="width: auto;">
+												</colgroup>
+												<thead>
+												</thead>
+												<tbody>
+													<c:forEach items="${landUseStatusLegendImgCodeList}" var="legendCode" varStatus="status">
+													<tr>
+														<td><img src="data:image/gif;base64,${legendCode.IMG }"></td>
+														<td><c:out value="${legendCode.TEXT }"/></td>
+													</tr>
+													</c:forEach>											
+												</tbody>
+											</table>
+											</div>
+											
+											<div style="margin-top: 5px;">
+											<span style="color: red; ">※ 본 도면은 "측량, 설계 등"과 그 밖의 목적으로 사용할 수 없는 "참고도면" 입니다.</span>
+											</div>
+										</div>
+									</div>
+									
+									<div class="position-bottom btn-wrap" style="margin: -10px;">
+										<div>
+											<button type="button" class="btn basic bi-all" onclick="fn_land_use_status_cnncUrl('<c:out value="${result.pnu}" />')">토지이용 규제 정보시비스</button>
+										</div>
+										<!-- <div><button type="button" class="btn basic bi-download">다운로드</button></div> -->
 									</div>
 								</div>
 								<!-- //토지이용현황 -->

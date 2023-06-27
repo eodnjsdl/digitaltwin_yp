@@ -8,6 +8,8 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -593,6 +595,59 @@ public class UnityAdministrationInfoController {
 				unityAdministrationInfoList.add(temp);
 			}
 		}
+		
+		//uhh add...
+		//토지이용계획서 KRAS000026 정보 조회
+		String fileName26 = "kras000026.xml";
+		String param26 = "&conn_svc_id=KRAS000026"
+				+ "&land_loc_cd=" + unityAdministrationInfoVO.getPnu().substring(5,10)
+				+ "&ledg_gbn=" + unityAdministrationInfoVO.getPnu().substring(10,11)
+				+ "&bobn=" + Integer.parseInt(unityAdministrationInfoVO.getPnu().substring(11,15))
+				+ "&bubn=" + Integer.parseInt(unityAdministrationInfoVO.getPnu().substring(15,19));
+
+		Document doc26 = getKRASParsingXML(fileName26, param26);
+		NodeList nList26 = doc26.getElementsByTagName("LAND_USE_PLAN_CNF_INFO_BASE");
+
+		String landUseStatusMainImgCode = null;		//메인 이미지 code
+		
+		List<Map<String, Object>> landUseStatusLegendImgCodeList = new ArrayList<Map<String, Object>>();	//범례 제목,이미지 목록
+		
+		if(nList26.getLength() == 1) {
+			
+			Node nChildNode = nList26.item(0);
+			
+			Element ele = (Element)nChildNode;
+			//System.out.println("----------------");
+			//System.out.println(getTagValue("IMG",ele));
+			
+			//메인 이미지
+			if(getTagValue("IMG",ele) != null) {
+				landUseStatusMainImgCode = getTagValue("IMG",ele);
+			}
+			
+			//범례 제목,이미지 목록			
+			NodeList nnList =  nChildNode.getChildNodes();
+			for(int i=0; i<nnList.getLength();i++) {
+				Node nn =	nnList.item(i);
+				if(nn.getNodeType() == Node.ELEMENT_NODE) {
+					if(nn.getNodeName() == "LEGEND") {
+						//System.out.println(">>>>>"+nn.getNodeName());
+						Element eleT= (Element)nn;
+						
+						Map<String, Object> tmp = new HashMap<>();
+						
+						//System.out.println(getTagValue("IMG",eleT));
+						//System.out.println(getTagValue("TEXT",eleT));
+						
+						tmp.put("IMG", getTagValue("IMG",eleT));
+						tmp.put("TEXT", getTagValue("TEXT",eleT));
+						
+						landUseStatusLegendImgCodeList.add(tmp);
+					}
+				}
+			}
+		}
+		//uhh add... end
 
 		unityAdministrationInfoVO = unityAdministrationInfoService.getAddrByPnu(unityAdministrationInfoVO);
 
@@ -602,7 +657,11 @@ public class UnityAdministrationInfoController {
 
 		model.addAttribute("result", unityAdministrationInfo);
 		model.addAttribute("resultList", unityAdministrationInfoList);
-
+		//uhh add...
+		model.addAttribute("landUseStatusMainImgCode", landUseStatusMainImgCode);					//메인 이미지 code
+		model.addAttribute("landUseStatusLegendImgCodeList", landUseStatusLegendImgCodeList);		//범례 제목,이미지 목록 
+		//uhh add... end
+		
 		return "egiskorea/com/cmt/uai/landUseStatus";
 	}
 

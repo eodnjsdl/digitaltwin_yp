@@ -158,6 +158,21 @@ function aj_selectLandUseStatus(pnu) {
     });
 }
 
+//uhh add...
+function fn_land_use_status_cnncUrl(pnu){
+	
+	var url = "";
+	if(pnu){
+		url = "https://www.eum.go.kr/web/ar/lu/luLandDet.jsp?mode=search&isNoScr=script&pnu="+pnu+"&add=land";
+		window.open(url);
+	}else{
+		console.log("토지이용 서비스 pnu 오류");
+	}
+	
+	return false;
+}
+//uhh add... end
+
 // 공시지가 표출
 function aj_selectOfficiallyAnnouncedLandPrice(pnu) {
     ui.loadingBar("show");
