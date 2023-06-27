@@ -18,7 +18,9 @@
 	   and year = #{year}
 	 </if>
 	 order by sn asc
+	 <if test="pageNo != null">
 	 limit 10 offset #{pageNo}
+	 </if>
 </select>
 
 <!-- 행정자산관리 전체 개수 조회 -->
@@ -34,7 +36,7 @@
 </select>
 
 <!-- 행정자산관리 등록 -->
-<insert id="insertAdministAssetsInfoByCSV">
+<insert id="insertAdministAssetsInfoByCSV" parameterType="list">
 	insert into tbd_administ_prprty 
 		(
 			sn, prprty_no, saeol_cert_yn, input_sys, prprty_nm, posesn_se_cd, prprty_prpos_cd, 
@@ -47,21 +49,33 @@
 		)
 	values 
 	<foreach collection="list" item="list" open="(" separator="),(" close=")">
-		(
-			#{list.sn}, #{list.prprtyNo}, #{list.saeolCertYn}, #{list.inputSys}, #{list.prprtyNm},
-			#{list.posesnSeCd}, #{list.prprtyPrposCd}, #{list.administPrprtyCd}, #{list.accountSeCd},
-			#{list.prprtyMngInscd}, #{list.chrgDeptNm}, #{list.dvTaskMngInscd}, #{list.mndtMngInscd},
-			#{list.prprtyMngDsgnYmd}, #{list.zip}, #{list.dongCd}, #{list.stdgCd}, #{list.locplc},
-			#{list.mtnCd}, #{list.lnbr}, #{list.ho}, #{list.tong}, #{list.ban}, #{list.spcadrs},
-			#{list.spcDong}, #{list.spcHo}, #{list.rnAddr}, #{list.prprtyPc}, #{list.accnutStdrAmt},
-			#{list.acqsDeptCd}, #{list.acqsAmt}, #{list.acqsYmd}, #{list.acqsMthSeCd}, #{list.acqsResn},
-			#{list.rgistYn}, #{list.recpNo}, #{list.loanPosblYn}, #{list.saleLmttYn}, #{list.saleLmttYmd},
-			#{list.rm}, #{list.ladLndcgrCd}, #{list.rlLndcgrCd}, #{list.ar}, #{list.rlAr}, #{list.oalp},
-			#{list.acqsAr}, #{list.pblonsipQota1}, #{list.pblonsipQota2}, #{list.spfc}, #{list.ctyplnDstrc},
+			#{list.sn}, #{list.prprtyNo}, #{list.saeolCertYn}, #{list.inputSys}, #{list.prprtyNm}, 
+			#{list.posesnSeCd}, #{list.prprtyPrposCd}, #{list.administPrprtyCd}, #{list.accountSeCd}, 
+			#{list.prprtyMngInscd}, #{list.chrgDeptNm}, #{list.dvTaskMngInscd}, #{list.mndtMngInscd}, 
+			#{list.prprtyMngDsgnYmd}, #{list.zip}, #{list.dongCd}, #{list.stdgCd}, #{list.locplc}, 
+			#{list.mtnCd}, #{list.lnbr}, #{list.ho}, #{list.tong}, #{list.ban}, #{list.spcadrs}, 
+			#{list.spcDong}, #{list.spcHo}, #{list.rnAddr}, #{list.prprtyPc}, #{list.accnutStdrAmt}, 
+			#{list.acqsDeptCd}, #{list.acqsAmt}, #{list.acqsYmd}, #{list.acqsMthSeCd}, #{list.acqsResn}, 
+			#{list.rgistYn}, #{list.recpNo}, #{list.loanPosblYn}, #{list.saleLmttYn}, #{list.saleLmttYmd}, 
+			#{list.rm}, #{list.ladLndcgrCd}, #{list.rlLndcgrCd}, #{list.ar}, #{list.rlAr}, #{list.oalp}, 
+			#{list.acqsAr}, #{list.pblonsipQota1}, #{list.pblonsipQota2}, #{list.spfc}, #{list.ctyplnDstrc}, 
 			#{list.planFclty}, #{list.dwk}, #{list.planBiz}, #{list.year}
-		)
 	</foreach>
 </insert>
+
+<!-- <insert id="insertAdministAssetsInfoByCSV" parameterType="list"> -->
+<!-- 	insert into tbd_administ_prprty  -->
+<!-- 		( -->
+<!-- 			sn, prprty_no, saeol_cert_yn, input_sys, prprty_nm, posesn_se_cd, prprty_prpos_cd -->
+<!-- 		) -->
+<!-- 	values  -->
+<!-- 	<foreach collection="list" item="list" open="(" separator="),(" close=")"> -->
+<!-- 			#{list.sn}, #{list.prprtyNo}, #{list.saeolCertYn}, #{list.inputSys}, #{list.prprtyNm},  -->
+<!-- 			#{list.posesnSeCd}, #{list.prprtyPrposCd} -->
+<!-- 	</foreach> -->
+<!-- </insert> -->
+
+<!-- 행정자산관리 등록 -->
 <!-- <insert id="insertAdministAssetsInfoByCSV"> -->
 <!-- 	insert into tbd_administ_prprty  -->
 <!-- 		( -->
@@ -86,6 +100,17 @@
 <!-- 			#{rm}, #{ladLndcgrCd}, #{rlLndcgrCd}, #{ar}, #{rlAr}, #{oalp}, -->
 <!-- 			#{acqsAr}, #{pblonsipQota1}, #{pblonsipQota2}, #{spfc}, #{ctyplnDstrc}, -->
 <!-- 			#{planFclty}, #{dwk}, #{planBiz}, #{year} -->
+<!-- 		) -->
+<!-- </insert> -->
+<!-- <insert id="insertAdministAssetsInfoByCSV"> -->
+<!-- 	insert into tbd_administ_prprty  -->
+<!-- 		( -->
+<!-- 			sn, prprty_no, saeol_cert_yn, input_sys, prprty_nm, posesn_se_cd, prprty_prpos_cd -->
+<!-- 		) -->
+<!-- 	values  -->
+<!-- 		( -->
+<!-- 			#{sn}, #{prprtyNo}, #{saeolCertYn}, #{inputSys}, #{prprtyNm}, -->
+<!-- 			#{posesnSeCd}, #{prprtyPrposCd} -->
 <!-- 		) -->
 <!-- </insert> -->
 

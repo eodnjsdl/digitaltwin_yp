@@ -4,21 +4,17 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import javax.annotation.Resource;
-import javax.transaction.Transactional;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
-
-import com.mchange.v2.csv.CsvBufferedReader;
 
 import egiskorea.com.job.adas.asmng.service.AdministAssetsService;
 import egiskorea.com.job.adas.asmng.service.AdministAssetsVO;
@@ -97,6 +93,15 @@ public class AdministAssetsServiceImpl extends EgovAbstractServiceImpl implement
 		
 		return result;
 	}
+//	@Override
+//	@Transactional
+//	public int insertAdministAssetsInfoByCSV(AdministAssetsVO administAssetsVO) {
+//		int result = 0;
+//		
+//		result = administAssetsDAO.insertAdministAssetsInfoByCSV(administAssetsVO);
+//		
+//		return result;
+//	}
 
 	@Override
 	@Transactional
@@ -109,39 +114,37 @@ public class AdministAssetsServiceImpl extends EgovAbstractServiceImpl implement
 	}
 
 	@Override
-	@Transactional
 	public List<AdministAssetsVO> csvUploadHelper(MultipartFile mpFile, String year) throws FileNotFoundException, SQLException, Exception {
+//	public int csvUploadHelper(MultipartFile mpFile, String year) throws FileNotFoundException, SQLException, Exception {
 		List<AdministAssetsVO> resultList = new ArrayList<>();
+		
+//		int result = 0;
 		
 		File file = multipartFileToFile(mpFile);
 		
 		FileInputStream csvFile = new FileInputStream(file);
-//		String encType = csvFileEncodingChk(csvFile);
 		InputStreamReader formattedFile = new InputStreamReader(csvFile, "EUC-KR");
 		BufferedReader reader = new BufferedReader(formattedFile);
 		
 		String str = "";
+//		int count = 0;
+		
 		reader.readLine(); // 컬럼 줄 읽기
 		while((str = reader.readLine()) != null) {
-            resultList.add(parser(str, year));
+			resultList.add(parser(str, year));
+			// 1000개씩 insert
+//			count++;
+//			if (count % 1000 == 0) {
+//				insertAdministAssetsInfoByCSV(resultList);
+//				resultList = new ArrayList<AdministAssetsVO>();
+//			}
+//			result += insertAdministAssetsInfoByCSV(parser(str, year));
 		}
 		reader.close();
 		
 		return resultList;
+//		return result;
 	}
-	
-//	public String csvFileEncodingChk(FileInputStream file) throws IOException {
-//		String encType = "EUC-KR";
-//		byte[] encodingChk = new byte[4];
-//		file.read(encodingChk, 0, 4); // 재산번호
-//		if( (encodingChk[0] & 0xFF) == 0xEF || (encodingChk[1] & 0xFF) == 0xBB || (encodingChk[2] & 0xFF) == 0xBF ) {
-//			encType = "UTF-8";
-//		} else {
-//			encType = "EUC-KR";
-//		}
-//		
-//		return encType;
-//	}
 	
 	public File multipartFileToFile(MultipartFile mpFile) throws IOException {
 		File file = new File(mpFile.getOriginalFilename());
@@ -153,17 +156,11 @@ public class AdministAssetsServiceImpl extends EgovAbstractServiceImpl implement
 		AdministAssetsVO administAssetsVO = new AdministAssetsVO();
 		
 		String[] splitted = str.split(",");
-//		for (String s : splitted) {
-//			System.out.println(s);
-//		}
 		
 		administAssetsVO.setArray(splitted);
 		administAssetsVO.setYear(year);
-//		administAssetsVO.setSn(Integer.parseInt(splitted[0]));
-//		administAssetsVO.setPrprtyNo(splitted[1]);
-		
-		
 		
 		return administAssetsVO;
 	}
+
 }

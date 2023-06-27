@@ -15,6 +15,10 @@ $(document).ready(function () {
 	$('.bbs-top-side #year').on('change', function() {
 		selectAdministAssetsInfoList(0);
 	});
+	
+	$('#bottomPopup .popup-reset').on('click', function() {
+		selectAdministAssetsInfoList(0);
+	});
 });
 
 /**
@@ -77,7 +81,7 @@ function selectAdministAssetsInfoList(_pageNo) {
 					currentPage: _pageNo || 0,
 					pageSize: 1000,
 					totalElements: resultCnt,
-					totalPages: Math.ceil(data.cnt/10)
+					totalPages: Math.ceil(resultCnt/10)
 				}
 			});
 			let numFormat = new Intl.NumberFormat().format(resultCnt);
@@ -128,7 +132,7 @@ function administAssetsGrid() {
 		body: {
 			align: "center",
 			onClick: function() {
-				toastr.error('상세보기 호출');
+				administAssetsGrid.focus(this.doindex);
 			}
 		},
 		page: {
@@ -163,6 +167,7 @@ function dragAndDropEvent() {
 		e.preventDefault();
 		$(this).removeClass("active");
 		let files = e.originalEvent.dataTransfer.files;
+		$('#fileUpload')[0].files = files;
 		fileDragAndDrop(files);
 	});
 	$('#clickUpload').on('click', function() {
@@ -177,7 +182,8 @@ function dragAndDropEvent() {
 function fileDragAndDrop(files) {
 	// 파일 업로드 되면 등록버튼 리스너생성
 	$('#uploadCSVBtn').on('click', function() {
-		sendCSVFileData();
+		// 업로드 중 여부 확인
+		checkUploading();
 	});
 	
 	
@@ -254,7 +260,7 @@ function wirteStandardInfo(file) {
 	$('#fileInfo').append(info);
 }
 
-function sendCSVFileData() {
+function sendCSVFileData(isUploading) {
 	$(function() {
 		progressbar = $( ".progressbar" ),
 		progressLabel = $( ".progress-label" );
@@ -280,39 +286,74 @@ function sendCSVFileData() {
 	
 	formData.append("year", year);
 	
+	// 업로드중이 아닐 때. 데이터 업로드 시작
+	if (!isUploading) {
+		let prgInterval; // progressbar interval
+		$.ajax({
+			data : formData,
+			url : "/job/adas/asmng/insertAdministAssetsInfoCSV.do",
+			type : "post",
+			dataType : "json",
+			contentType : false,
+			processData : false,
+			xhr : function() {
+				let xhr = $.ajaxSettings.xhr();
+				xhr.upload.onprogress = function(e) {
+					let percent = e.loaded * 100 / e.total;
+					$(".progressbar-value").css("width", parseInt(percent) + "%");
+					$(".progress-label").html(parseInt(percent) + "%");
+					if(percent == "100"){
+						prgInterval = setInterval(() => {
+							$.ajax({
+								url : "/job/adas/asmng/csvUploadProgress.do",
+								type : "post",
+								dataType : "json",
+								success : function(data) {
+									console.log(data);
+									$(".progressbar-value").css("width", parseInt(data.progress) + "%");
+									$(".progress-label").html(parseInt(data.progress) + "%");
+								}
+							});
+						}, 3000);
+						toastr.info('데이터 등록을 시작합니다.', 'CSV 파일 서버 업로드 완료.');
+					}
+				};
+				
+				return xhr;
+			},
+			success : function(data) {
+				console.log("CSV upload success");
+				console.log("업로드된 데이터 : " + data.resultCnt + ", 등록 연도 설정 : " + data.year);
+				if (data.isSuccess) {
+					toastr.success('데이터 등록이 정상적으로 처리되었습니다');
+					$(".progressbar-value").css("width", 100 + "%");
+					$(".progress-label").html(100 + "%");
+					$('#rightSubPopup .popup-close').trigger('click');
+				} else {
+					toastr.warning('데이터 등록에 실패하였습니다', '알 수 없는 오류');
+				}
+				clearInterval(prgInterval);
+				selectAdministAssetsInfoList(0);
+			}, error: function(error) {
+				console.log(error.getAllResponseHeaders);
+			}
+		});
+	} else {
+		toastr.warning('작업 중', '다른 데이터가 업로드 중입니다.');
+	}
+	
+}
+
+function checkUploading() {
+	let isUploading;
 	$.ajax({
-		data : formData,
-		url : "/job/adas/asmng/insertAdministAssetsInfoCSV.do",
+		url : "/job/adas/asmng/csvUploadIsUploading.do",
 		type : "post",
 		dataType : "json",
-		contentType : false,
-		processData : false,
-		xhr : function() {
-			let xhr = $.ajaxSettings.xhr();
-			xhr.upload.onprogress = function(e) {
-				let percent = e.loaded * 100 / e.total;
-				$(".progressbar-value").css("width",parseInt(percent)+"%");
-				$(".progress-label").html(parseInt(percent)+"%");
-				if(percent == "100"){
-					ui.loadingBar("show"); 
-				}
-				console.log(percent);
-			};
-			return xhr;
-		},
 		success : function(data) {
-			console.log("success");
-			console.log(data);
-			if (data.resultCd == 1) {
-				toastr.success('데이터 등록이 정상적으로 처리되었습니다');
-			} else {
-				toastr.warning('데이터 등록에 실패하였습니다');
-			}
-			ui.loadingBar("hide");
-		}, error: function(error) {
-			console.log(error.getAllResponseHeaders);
+			console.log("지금 업로드 중인가? " + data.uploading);
+			isUploading = data.uploading;
+			sendCSVFileData(isUploading);
 		}
 	});
-	
-	
 }

@@ -3,8 +3,12 @@ package egiskorea.com.job.adas.asmng.service.impl;
 import java.sql.SQLException;
 import java.util.List;
 
+import org.apache.ibatis.session.ExecutorType;
+import org.apache.ibatis.session.SqlSession;
+import org.mybatis.spring.SqlSessionTemplate;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
-import org.springframework.web.multipart.MultipartFile;
 
 import egiskorea.com.cmm.service.impl.ComAbstractDAO;
 import egiskorea.com.job.adas.asmng.service.AdministAssetsVO;
@@ -25,6 +29,11 @@ import egiskorea.com.job.adas.asmng.service.AdministAssetsVO;
 
 @Repository("administAssetsDAO")
 public class AdministAssetsDAO extends ComAbstractDAO {
+	
+	@Autowired
+	@Qualifier("sqlSessionTemplateBATCH")
+	private SqlSessionTemplate sqlSessionTemplateBatch;
+	
 	
 	/**
 	 * 행정자산관리 전체 조회
@@ -51,10 +60,35 @@ public class AdministAssetsDAO extends ComAbstractDAO {
 		return selectList("administAssetsMng.selectAdministAssetsYearList");
 	}
 	
+	/**
+	 * CSV 업로드
+	 * @param administAssetsList
+	 * @return
+	 */
 	public int insertAdministAssetsInfoByCSV(List<AdministAssetsVO> administAssetsList) {
-		return insert("administAssetsMng.insertAdministAssetsInfoByCSV", administAssetsList);
+		int result = 0;
+		SqlSession sqlSession = sqlSessionTemplateBatch.getSqlSessionFactory().openSession(ExecutorType.BATCH);
+		try {
+			sqlSession.insert("administAssetsMng.insertAdministAssetsInfoByCSV", administAssetsList);
+			result++;
+		} catch (Exception e) {
+			e.getMessage();
+		} finally {
+			sqlSession.flushStatements();
+//			sqlSession.clearCache();
+			sqlSession.close();
+		}
+		
+		return result;
 	}
 	
+	/**
+	 * CSV 업로드 - 동일 연도일 때 삭제
+	 * @param administAssetsVO
+	 * @return
+	 * @throws SQLException
+	 * @throws Exception
+	 */
 	public int deleteAdministAssetsInfo(AdministAssetsVO administAssetsVO) throws SQLException, Exception {
 		return delete("administAssetsMng.deleteAdministAssetsInfo", administAssetsVO);
 	}
