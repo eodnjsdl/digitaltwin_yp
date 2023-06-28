@@ -171,7 +171,7 @@ function selectPublndMngDetailInfo(data) {
 function selectLandByPnu(data) {
 	dtmap.vector.clear();
 	let pnu = data.pnu;
-	console.log(pnu);
+	
     var landRegister = getLandRegisterByPnu(pnu);
     if (landRegister.landRegister) {
         const feature = dtmap.util.readWKT(landRegister.landRegister.geometry, landRegister.landRegister);
@@ -190,7 +190,7 @@ function selectLandByPnu(data) {
         const extent = feature.getGeometry().getExtent();
         const center = [(extent[0] + extent[2]) / 2, (extent[1] + extent[3]) / 2];
         let options = {zoom : 19};
-        map2d.setCenter(center, options);
+        dtmap.setCenter(center, options);
     } else {
         toastr.error("geometry 값이 존재하지 않습니다.");
     }
