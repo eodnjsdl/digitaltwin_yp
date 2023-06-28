@@ -158,7 +158,6 @@ public class AdministAssetsMngController {
 				administAssetsList = administAssetsService.csvUploadHelper(file, year);
 				
 				int dataCount = administAssetsList.size();
-//			result += administAssetsService.csvUploadHelper(file, year);
 				// 전역 변수
 				setDataCountForProgress(dataCount);
 				long startTime = System.currentTimeMillis();
@@ -166,24 +165,6 @@ public class AdministAssetsMngController {
 					if (dataCount > 6) {
 						result = 0;
 						int offset = 0;
-//					int offset = 16;
-//					List<AdministAssetsVO> subList = new ArrayList<>();
-//					for (int i = 0; i < offset; i++) {
-//						subList.add(administAssetsList.get(i));
-//						if (subList.size() == 16) {
-//							result += administAssetsService.insertAdministAssetsInfoByCSV(subList);
-//							if (dataCount - offset < 16) {
-//								subList = new ArrayList<>();
-//								for (int j = offset; j < dataCount; j++) {
-//									subList.add(administAssetsList.get(j));
-//								}
-//								result += administAssetsService.insertAdministAssetsInfoByCSV(subList);
-//							} else {
-//								offset += 16;
-//								subList = new ArrayList<>();
-//							}
-//						}
-//					}
 						
 						for (int i = 1; i <= (dataCount / 6); i++) {
 							List<AdministAssetsVO> subList = new ArrayList<>();
@@ -255,6 +236,10 @@ public class AdministAssetsMngController {
 		return mav;
 	}
 	
+	/**
+	 * CSV 업로드 현황 확인
+	 * @return
+	 */
 	@RequestMapping(value = "/csvUploadIsUploading.do")
 	@ResponseBody
 	public ModelAndView csvUploadIsUploading() {
@@ -275,6 +260,12 @@ public class AdministAssetsMngController {
 		return mav;
 	}
 	
+	/**
+	 * 행정자산관리 -> 공유재산 실태조사 내보내기
+	 * @param pbprtAccdtVO
+	 * @return
+	 * @throws Exception
+	 */
 	@RequestMapping(value = "/insertPublndToPbprtAccdt.do")
 	@ResponseBody
 	public ModelAndView insertPublndToPbprtAccdt(PbprtAccdtVO pbprtAccdtVO) throws Exception {
