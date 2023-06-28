@@ -93,7 +93,11 @@
 									</table>
 								</div>
 							</div>
-						</div>
+							<div>
+								<p><strong>※양평군에는 총 2곳의 대기오염 측정소가 있습니다.</strong></p>
+								<span>참고사이트: 한국환경공단</span> <a href="https://www.airkorea.or.kr/web/" style="text-decoration:underline; vertical-align:initial;" target="_blank" rel="noopener noreferrer">에어코리아</a>
+							</div>
+						</div>							
 					</div>
 				</div>
 				<button type="button" class="manualBtn" title="도움말" onclick="manualTab('대기오염')"></button>

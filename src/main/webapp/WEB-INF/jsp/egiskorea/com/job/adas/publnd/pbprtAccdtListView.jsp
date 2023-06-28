@@ -40,19 +40,6 @@
 							</colgroup>
 							<tbody id="pbprtAccdtSrchOptions">
 								<tr>
-									<th scope="row">읍면동</th>
-									<td colspan="3">
-										<select name="stdgCd" id="stdgCd" class="form-select">
-											<option value="">전체</option>
-											<c:forEach items="${sccoEndList}" var="emdList" varStatus="status">
-												<option value="<c:out value='${emdList.emdCd}' />" <c:if test="${searchVO.emdKorNm == emdList.emdCd}">selected</c:if>>
-													<c:out value="${emdList.emdKorNm}" />
-												</option>																
-											</c:forEach>
-										</select>
-									</td>
-								</tr>
-								<tr>
 									<th scope="row">재산번호</th>
 									<td colspan="3"><input type="text" class="form-control" id="prprtyNo" name="prprtyNo" placeholder="재산번호"></td>
 								</tr>

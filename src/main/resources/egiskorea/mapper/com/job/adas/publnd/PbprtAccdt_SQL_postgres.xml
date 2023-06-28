@@ -52,6 +52,12 @@
 					   <if test="yearOption != null and yearOption != 'allYear'">
 					     and year = #{yearOption}
 					   </if>
+					   <if test="prprtyNo != null and prprtyNo != ''">
+					     and prprty_no like '%' || #{prprtyNo} || '%'
+					   </if>
+					   <if test="locplc != null and locplc != ''">
+					     and locplc like '%' || #{locplc} || '%'
+					   </if>
 					) pm
 			inner join comtccmmndetailcode c on (c.code_id = 'J0200' and c.code = pm.ldcg_cd)
 			order by pm.publnd_no

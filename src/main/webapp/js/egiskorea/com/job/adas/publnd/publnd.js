@@ -16,6 +16,10 @@ $(document.body).ready(function() {
 	$('#getPbprtAccdtExcelList').on('click', function() {
 	    downloadPbprtAccdtExcelList();
 	});
+	
+	$('.search').on('click', function () {
+		setData(0);
+	});
 })
 
 /**
@@ -97,10 +101,15 @@ function setData(_pageNo) {
 	var list = [];
 	var gridList = this;
 	let yearOption = $('select#year').val();
+	
+	let formData = $('#pbprtAccdtSerach').serializeArray();
+	formData.push({name : "yearOprtion", value : yearOption});
+	formData.push({name : "pageNo", value : _pageNo});
 	$.ajax({
-		data : { "yearOption" : yearOption,
-				 "pageNo" : _pageNo
-				},
+//		data : { "yearOption" : yearOption,
+//				 "pageNo" : _pageNo
+//				},
+		data : formData,
 		url : "/job/adas/publnd/selectPbprtAccdtPgeList.do",
 		type : 'post',
 		dataType: "json",
