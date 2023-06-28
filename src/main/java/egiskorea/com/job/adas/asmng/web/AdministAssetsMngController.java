@@ -242,10 +242,25 @@ public class AdministAssetsMngController {
 	 */
 	@RequestMapping(value = "/csvUploadIsUploading.do")
 	@ResponseBody
-	public ModelAndView csvUploadIsUploading() {
+	public ModelAndView csvUploadIsUploading(AdministAssetsVO administAssetsVO) {
 		ModelAndView mav = new ModelAndView("jsonView");
 		String process = "";
 		boolean uploading = false;
+		
+		/** 연도 체크 중복시 삭제 여부 */
+		String year = "";
+		List<String> yearList = null;
+		
+		year = administAssetsVO.getYear();
+		yearList = administAssetsService.selectAdministAssetsYearList();
+		
+		for (String val : yearList) {
+			if (Integer.parseInt(val) == Integer.parseInt(year)) {
+				mav.addObject("yearVal", true);
+			} else {
+				mav.addObject("yearVal", false);
+			}
+		}
 		
 		if (isUploading()) {
 			process = "작업 중";
@@ -280,7 +295,6 @@ public class AdministAssetsMngController {
 		} else {
 			mav.addObject("result", "fail");
 		}
-		
 		
 		return mav;
 	}

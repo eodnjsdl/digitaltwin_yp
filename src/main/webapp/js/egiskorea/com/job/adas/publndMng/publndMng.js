@@ -134,6 +134,7 @@ function selectPublndMngDetailInfoView(data) {
 	ui.openPopup("rightSubPopup");
 	$("#rightSubPopup").load("/job/adas/publndMng/selectPublndMngDetailInfoView.do", function() {
 		ui.loadingBar('hide');
+		selectLandByPnu(data);
 		selectPublndMngDetailInfo(data);
 	});
 }
@@ -160,4 +161,37 @@ function selectPublndMngDetailInfo(data) {
 			ui.loadingBar("hide");
 		}
 	});
+}
+
+/**
+ * 객체 생성 및 화면이동
+ * @param data
+ * @returns
+ */
+function selectLandByPnu(data) {
+	dtmap.vector.clear();
+	let pnu = data.pnu;
+	console.log(pnu);
+    var landRegister = getLandRegisterByPnu(pnu);
+    if (landRegister.landRegister) {
+        const feature = dtmap.util.readWKT(landRegister.landRegister.geometry, landRegister.landRegister);
+        feature.id_ = 'publndMng';
+        dtmap.vector.addFeature(feature, {
+            fill: {
+                color: '#FFC080',
+                opacity: 0.6
+            },
+            stroke: {
+                color: '#FF8000',
+                width: 4
+            },
+            renderType: '3D'
+        })
+        const extent = feature.getGeometry().getExtent();
+        const center = [(extent[0] + extent[2]) / 2, (extent[1] + extent[3]) / 2];
+        let options = {zoom : 19};
+        map2d.setCenter(center, options);
+    } else {
+        toastr.error("geometry 값이 존재하지 않습니다.");
+    }
 }
