@@ -211,7 +211,7 @@
                                     <div class="tbl-list">
                                         <div class="term">색상</div>
                                         <div class="desc">
-                                            <input type="text" name="fill" class="style-fill-color">
+                                            <input type="text" name="fill" class="style-fill-color colorPicker" value="#ffffff">
                                         </div>
                                     </div>
                                     <div class="tbl-list">
@@ -221,8 +221,8 @@
                                                 <div class="drawing-slider">
                                                     <div class="style-fill-color-opacity"></div>
                                                 </div>
-                                                <input type="hidden" name="fill-opacity"/>
-                                                <input type="text" class="value-num" value="" readonly>
+                                                <input type="hidden" name="fill-opacity" value="1"/>
+                                                <input type="text" class="value-num" value="1" readonly>
                                             </div>
                                         </div>
                                     </div>
@@ -235,7 +235,7 @@
                                             <div class="term">색상</div>
                                             <div class="desc">
                                                 <div class="form-row">
-                                                    <input type="text" name="stroke" class="style-stroke-color form-control">
+                                                    <input type="text" name="stroke" class="style-stroke-color form-control colorPicker" value="#ff0000">
                                                 </div>
                                             </div>
                                         </div>
@@ -586,40 +586,83 @@
                         <div class="col-12">
                             <p class="cont-txt">라벨스타일</p>
                         </div>
-                        <div class="col-6 marB5">
+                        <div class="col-12">
                             <div class="tbl-list">
-                                <div class="term">글씨</div>
                                 <div class="desc" style="width: 190px;">
-                                    <input type="text" class="colorPicker" name="fill">
+                                    <span class="form-checkbox"><input type="checkbox" class="form-control" name="text-useat" id="text-useat"><label for="text-useat">사용여부</label></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <p class="cont-txt">글씨</p>
+                        </div>
+                        <div class="col-12 marB5">
+                            <div class="tbl-list">
+                                <div class="term">색상</div>
+                                <div class="desc" style="width: 190px;">
+                                    <input type="text" class="colorPicker" name="text-fill" value="#000000">
                                 </div>
                             </div>
                         </div>
                         <div class="col-6 marB5">
-                            <div class="tbl-list">
-                                <div class="term">배경</div>
-                                <div class="desc" style="width: 190px;">
-                                    <input type="text" class="colorPicker" name="fill">
-                                    <input type="text" class="form-control" name="radius">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-6">
                             <div class="tbl-list">
                                 <div class="term">폰트</div>
                                 <div class="desc flex-grow-1">
-                                    <select class="form-select">
-                                        <option value="">돋움체</option>
+                                    <select class="form-select" name="font-family">
+                                        <option value="굴림" style="font-family: 굴림">굴림</option>
+                                        <option value="궁서" style="font-family: 궁서">궁서</option>
+                                        <option value="바탕" style="font-family: 바탕">바탕</option>
+                                        <option value="맑은 고딕" style="font-family: 맑은 고딕">맑은 고딕</option>
+                                        <option value="HY견고딕" style="font-family: HY견고딕">HY견고딕</option>
+                                        <option value="돋움" style="font-family: 돋움">돋움</option>
                                     </select>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-6">
+                        <div class="col-6 marB5">
                             <div class="tbl-list">
                                 <div class="term">크기</div>
                                 <div class="desc flex-grow-1">
-                                    <select class="form-select">
-                                        <option value="">26px</option>
-                                    </select>
+                                    <input type="number" class="form-control" name="font-size" value="12"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <p class="cont-txt">배경</p>
+                        </div>
+                        <div class="col-6 marB5">
+                            <div class="tbl-list">
+                                <div class="term">색상</div>
+                                <div class="desc" style="width: 190px;">
+                                    <input type="text" class="colorPicker" name="halo-fill" value="#ffffff">
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="col-6 marB5">
+                            <div class="tbl-list">
+                                <div class="term">두께</div>
+                                <div class="desc" style="width: 190px;">
+                                    <input type="number" class="form-control" name="halo-radius" value="2">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <p class="cont-txt">라벨 위치 (비율)</p>
+                        </div>
+                        <div class="col-6 marB5">
+                            <div class="tbl-list">
+                                <div class="term">x 축</div>
+                                <div class="desc" style="width: 190px;">
+                                    <input type="number" class="form-control" name="anchor-x" value="0.5"step="0.1" max="10" min="-10">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6 marB5">
+                            <div class="tbl-list">
+                                <div class="term">y 축</div>
+                                <div class="desc" style="width: 190px;">
+                                    <input type="number" class="form-control" name="anchor-y" value="0.5" step="0.1" max="10" min="-10">
                                 </div>
                             </div>
                         </div>
@@ -655,8 +698,8 @@
 
         $('.colorPicker').minicolors({
             control: 'hue',
-            defaultValue: 'rgba(255, 0, 0)',
-            format: 'rgb',
+            defaultValue: '#fffffff',
+            format: 'hex',
             theme: 'default',
             opacity: false,
             swatches: []
@@ -756,7 +799,7 @@
                 },
                 success: function (returnData) {
                     if (returnData.callback === "success") {
-                        alert(returnData.message);
+                        toastr.success(returnData.message);
                         aj_updateLayerInfoView(layerId);
                         aj_selectLayerList("left");
 
@@ -787,7 +830,7 @@
 // 					layer.setVisible(visible);
 // 				}
                     } else {
-                        alert(returnData.message);
+                        toastr.error(returnData.message)
                         return false;
                     }
                 },
