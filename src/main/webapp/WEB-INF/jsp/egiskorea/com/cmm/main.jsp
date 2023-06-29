@@ -919,6 +919,113 @@
         <div class="popup-panel popup-sub space-edit-tool" style="top: 80px;left: 320px;width: 385px;height: 200px;">
         </div>
         <!-- //업무 > 공간정보활용 > 공간정보 편집도구 -->
+        
+        
+        <!-- 범례창 -->
+		<div class="lnb-legend-set popup-draggable">
+			<div class="popup-header">범례표기</div>
+			<div class="popup-body" style="margin: 10px;">
+				<div class="status_tabcontainer">
+					<div class="tab-status">
+						<div class="status_tab">
+							<ul class="tab_trigger status" style="cursor: pointer;">
+								<li data-tabId="trflegend">교통시설</li>
+								<li data-tabId="groundWt">지하&#40;상수&#41;</li>										
+								<li data-tabId="undersewage">지하&#40;하수&#41;</li>
+								<li data-tabId="landUse">토지이용계획</li>
+							 </ul>
+							<div class="tab_container">
+								<div class="tab_status_box">
+									<div class="tab_status_box-wrap trflegend">
+										<ul>
+											<li>고가도로</li>
+											<li>교량</li>
+											<li>도로구간</li>
+											<li>실폭도로</li>
+										</ul>
+										<ul>
+											<li>지방도(군도)</li>
+											<li>지하차도</li>
+											<li>지하철선로</li>
+											<li>지하철역사</li>
+										</ul>
+										<ul>
+											<li>지하철출입구</li>
+											<li>철도선로</li>
+											<li>철도역사</li>
+											<li>터널</li>
+										</ul>
+									</div>
+								</div>
+								<div class="tab_status_box">
+									<div class="tab_status_box-wrap groundWt">
+										<ul>
+											<li>배수지</li>
+											<li>변류시설</li>
+											<li>상수관로</li>
+											<li>상수맨홀</li>
+										</ul>
+										<ul>
+											<li>소방시설</li>
+											<li>수압계</li>
+											<li>유량계</li>
+										</ul>
+									</div>
+								</div>
+								<div class="tab_status_box">
+									<div class="tab_status_box-wrap undersewage">											
+										<ul>
+											<li>면형하수관거</li>
+											<li>물받이</li>
+											<li>측구</li>
+											<li>토구</li>
+										</ul>
+										<ul>
+											<li>하수관거</li>
+											<li>하수관거심도</li>
+											<li>하수맨홀</li>
+											<li>하수연결관</li>
+										</ul>
+										<ul>
+											<li>하수처리장</li>
+											<li>하수펌프장</li>
+											<li>환기구</li>
+										</ul>
+									</div>
+								</div>
+								<div class="tab_status_box">
+									<div class="tab_status_box-wrap landUse">
+										<ul>
+											<li>주거지역</li>
+											<li>상업지역</li>
+											<li>공업지역</li>
+											<li>학교</li>
+										</ul>
+										<ul>
+											<li>공공청사</li>
+											<li>공원</li>
+											<li>주차장</li>
+											<li>시장</li>
+										</ul>
+										<ul>
+											<li>녹지지역</li>
+											<li>관리지역</li>
+											<li>농림지역</li>
+											<li>자연환경보전지역</li>
+										</ul>
+									</div>
+								</div>
+								
+							</div>
+						</div>
+					</div>
+				</div> 
+			</div>
+			<button type="button" id="lnb-legend-set-close" title="닫기"></button>
+		</div>
+        
+        
+        
 
     </div>
     <!-- //container -->
@@ -926,108 +1033,7 @@
 
 <div id="toastMsg"></div>
 
-<!-- 범례창 -->
-<div class="lnb-legend-set">
-	<div class="popup-header">범례표기</div>
-	<div class="popup-body" style="margin: 10px;">
-		<div class="status_tabcontainer">
-			<div class="tab-status">
-				<div class="status_tab">
-					<ul class="tab_trigger status" style="cursor: pointer;">
-						<li data-tabId="trflegend">교통시설</li>
-						<li data-tabId="groundWt">지하&#40;상수&#41;</li>										
-						<li data-tabId="undersewage">지하&#40;하수&#41;</li>
-						<li data-tabId="landUse">토지이용계획</li>
-					 </ul>
-					<div class="tab_container">
-						<div class="tab_status_box">
-							<div class="tab_status_box-wrap trflegend">
-								<ul>
-									<li>고가도로</li>
-									<li>교량</li>
-									<li>도로구간</li>
-									<li>실폭도로</li>
-								</ul>
-								<ul>
-									<li>지방도(군도)</li>
-									<li>지하차도</li>
-									<li>지하철선로</li>
-									<li>지하철역사</li>
-								</ul>
-								<ul>
-									<li>지하철출입구</li>
-									<li>철도선로</li>
-									<li>철도역사</li>
-									<li>터널</li>
-								</ul>
-							</div>
-						</div>
-						<div class="tab_status_box">
-							<div class="tab_status_box-wrap groundWt">
-								<ul>
-									<li>배수지</li>
-									<li>변류시설</li>
-									<li>상수관로</li>
-									<li>상수맨홀</li>
-								</ul>
-								<ul>
-									<li>소방시설</li>
-									<li>수압계</li>
-									<li>유량계</li>
-								</ul>
-							</div>
-						</div>
-						<div class="tab_status_box">
-							<div class="tab_status_box-wrap undersewage">											
-								<ul>
-									<li>면형하수관거</li>
-									<li>물받이</li>
-									<li>측구</li>
-									<li>토구</li>
-								</ul>
-								<ul>
-									<li>하수관거</li>
-									<li>하수관거심도</li>
-									<li>하수맨홀</li>
-									<li>하수연결관</li>
-								</ul>
-								<ul>
-									<li>하수처리장</li>
-									<li>하수펌프장</li>
-									<li>환기구</li>
-								</ul>
-							</div>
-						</div>
-						<div class="tab_status_box">
-							<div class="tab_status_box-wrap landUse">
-								<ul>
-									<li>주거지역</li>
-									<li>상업지역</li>
-									<li>공업지역</li>
-									<li>학교</li>
-								</ul>
-								<ul>
-									<li>공공청사</li>
-									<li>공원</li>
-									<li>주차장</li>
-									<li>시장</li>
-								</ul>
-								<ul>
-									<li>녹지지역</li>
-									<li>관리지역</li>
-									<li>농림지역</li>
-									<li>자연환경보전지역</li>
-								</ul>
-							</div>
-						</div>
-						
-					</div>
-				</div>
-			</div>
-		</div> 
-	</div>
-	<button type="button" class="popup-close" title="닫기"></button>
-</div>
+
 
 <!-- //wrap -->
 <script type="text/javascript">
