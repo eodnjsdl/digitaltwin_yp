@@ -164,7 +164,7 @@
     		success : function(returnData, status){
     	
     			if(status == "success") {
-    				console.log("--success--");
+    				//console.log("--success--");
     			    aj_selectMemoInfoList($("#searchFormMemo")[0], "");
     			}else{
     				toastr.error("관리자에게 문의 바랍니다.", "정보를 불러오지 못했습니다.");

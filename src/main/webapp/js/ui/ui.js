@@ -353,13 +353,13 @@ window.ui = (function () {
 			}else{
 
 				$(".lnb-legend-set").addClass("d-block");
-				$(".lnb-legend-set").draggable();
+				//$(".lnb-legend-set").draggable();
 				$(".lnb-legend-set .tab_trigger li").first().trigger("click");
 				
-				$(".lnb-legend-set").attr("style", "left:1285px; top:403px;");	//원래 위치로 이동
+				//$(".lnb-legend-set").attr("style", "left:1285px; top:403px;");	//원래 위치로 이동
 			}
 		});
-
+		
 	}
 	
 	//범례 창 이벤트
@@ -367,7 +367,7 @@ window.ui = (function () {
 		
 		//텝메뉴 이벤트
 		$(".lnb-legend-set .tab_trigger li").click(function () {
-
+			
 			//텝 이벤트 모두 삭제
 			$(".lnb-legend-set .tab_trigger li").each(function () {
 				if($(this).hasClass("active")){
@@ -388,7 +388,7 @@ window.ui = (function () {
 		});
 		
 		//닫기 버튼 제어 
-		$(".lnb-legend-set .popup-close").click(function () {
+		$("#lnb-legend-set-close").click(function () {	//.popup-close 클래스 가 있으면 상위 닫기 동작으로 인해 닫기 버튼 안될 경우 있음
 			if($(".lnb-legend-set").hasClass("d-block")){
 				$(".lnb-legend-set").removeClass("d-block");
 			}
@@ -555,6 +555,8 @@ window.ui = (function () {
 			
 			dtmap.draw.dispose();		//그리기 포인트 삭제
 			dtmap.draw.clear();			//그리기 초기화
+			
+			dtmap.clear();		//메모정보,사진정보 지도 데이터 삭제
 			
 			var name = $(this).attr("id");
 			var area = $(this).data("popup");

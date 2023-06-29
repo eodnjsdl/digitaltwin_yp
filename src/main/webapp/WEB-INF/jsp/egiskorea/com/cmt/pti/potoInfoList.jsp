@@ -107,8 +107,8 @@
     
     //체크 사진 일괄공유/일괄공유안함 처리
     function selectPhotoShare(isShare) {
-    	console.log("selectPhotoShare(isShare)");
-    	console.log(isShare);
+    	//console.log("selectPhotoShare(isShare)");
+    	//console.log(isShare);
     	
     	//체크된 데이터 확인
     	var selectPhotoIdArray = new Array();
@@ -123,13 +123,13 @@
     		}
 		});
     	
-    	console.log(selectPhotoIdArray.length);
+    	//console.log(selectPhotoIdArray.length);
     	if(selectPhotoIdArray.length == 0){
     		alert("선택된 데이터가 없습니다");
     		return false;
     	}
 		
-    	console.log(selectPhotoIdArray);
+    	//console.log(selectPhotoIdArray);
     	
     	if(isShare){
     		//console.log("일괄공유");
@@ -154,7 +154,7 @@
     		success : function(returnData, status){
     	
     			if(status == "success") {
-    				console.log("--success--");
+    				//console.log("--success--");
     			    aj_selectPotoInfoList($("#searchFormPoto")[0], "");
     			}else{
     				toastr.error("관리자에게 문의 바랍니다.", "정보를 불러오지 못했습니다.");
