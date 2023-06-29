@@ -363,13 +363,13 @@ function sendCSVFileData(isUploading) {
 				return xhr;
 			},
 			success : function(data) {
-//				console.log("CSV upload success");
-//				console.log("업로드된 데이터 : " + data.resultCnt + ", 등록 연도 설정 : " + data.year);
+				console.log("CSV upload success");
+				console.log("업로드된 데이터 : " + data.resultCnt + ", 등록 연도 설정 : " + data.year + ", 소요 시간 : " + data.resultTime);
 				if (data.isSuccess) {
-					toastr.success('데이터 등록이 정상적으로 처리되었습니다');
 					$(".progressbar-value").css("width", 100 + "%");
 					$(".progress-label").html(100 + "%");
-					$('#rightSubPopup .popup-close').trigger('click');
+//					$('#rightSubPopup .popup-close').trigger('click');
+					toastr.success('데이터 등록이 정상적으로 처리되었습니다');
 				} else {
 					toastr.warning('데이터 등록에 실패하였습니다', '알 수 없는 오류');
 				}
@@ -381,7 +381,7 @@ function sendCSVFileData(isUploading) {
 			}
 		});
 	} else {
-		toastr.warning('작업 중', '다른 데이터가 업로드 중입니다.');
+		toastr.warning('다른 데이터가 업로드 중입니다.', '작업 중');
 	}
 	
 }
@@ -407,11 +407,10 @@ function checkUploading() {
 			let yearDuplication = data.yearVal;
 			if (yearDuplication) {
 				if(confirm(year + '연도가 등록되어있습니다.\r삭제 후 등록하시겠습니까?')) {
-					toastr.info('업로드를 시작합니다.');
 					sendCSVFileData(isUploading);
 				}
 			} else {
-				toastr.info('업로드를 시작합니다.');
+				sendCSVFileData(isUploading);
 			}
 		}
 	});

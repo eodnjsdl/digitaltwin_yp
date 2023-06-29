@@ -18,6 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
+import egiskorea.com.job.adas.asmng.service.AdministAssetsCSVUploading;
 import egiskorea.com.job.adas.asmng.service.AdministAssetsService;
 import egiskorea.com.job.adas.asmng.service.AdministAssetsVO;
 import egiskorea.com.job.adas.publnd.service.PbprtAccdtVO;
@@ -50,26 +51,27 @@ public class AdministAssetsMngController {
 	
 	private static final Logger logger = LoggerFactory.getLogger(AdministAssetsMngController.class);
 	
-	/** 동시 입력 및 현재 상태 */
-	private int dataCountForProgress = 0;
-	private boolean isUploading = false;
+	
+	@Resource(name = "administAssetsCSVUploading")
+	private AdministAssetsCSVUploading administAssetsCSVUploading = AdministAssetsCSVUploading.getInstance();
+	
 	
 	public int getDataCountForProgress() {
-		return dataCountForProgress;
+		return administAssetsCSVUploading.getDataCountForProgress();
 	}
 
 	public void setDataCountForProgress(int dataCountForProgress) {
-		this.dataCountForProgress = dataCountForProgress;
+		administAssetsCSVUploading.setDataCountForProgress(dataCountForProgress);
 	}
-	
+
 	public boolean isUploading() {
-		return isUploading;
+		return administAssetsCSVUploading.getIsUploading();
 	}
-	
+
 	public void setUploading(boolean isUploading) {
-		this.isUploading = isUploading;
+		administAssetsCSVUploading.setIsUploading(isUploading);
 	}
-	
+
 	/**
 	 * 행정자산관리 목록 화면
 	 * @param model
@@ -148,6 +150,7 @@ public class AdministAssetsMngController {
 		
 		List<AdministAssetsVO> administAssetsList = new ArrayList<AdministAssetsVO>();
 		setUploading(true);
+		
 		int result = 0;
 		boolean isSuccess = false;
 		try {
@@ -184,9 +187,10 @@ public class AdministAssetsMngController {
 					}
 				}
 				long endTime = System.currentTimeMillis();
-				long resutTime = endTime - startTime;
+				long resultTime = endTime - startTime;
 				isSuccess = true;
-				System.out.println("트랜젝션 배치" + " 소요시간  : " + resutTime/1000 + "(ms)");
+				System.out.println("트랜젝션 배치" + " 소요시간  : " + resultTime/1000 + "(ms)");
+				mav.addObject("resultTime", resultTime / 1000);
 			}
 		} catch (FileNotFoundException e) {
 			e.getMessage();

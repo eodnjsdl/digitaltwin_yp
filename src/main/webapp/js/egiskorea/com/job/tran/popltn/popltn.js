@@ -642,14 +642,39 @@ function populationRenderChart(result){
 	$(".graph-box2", this.selector).html(canvas);
 	const ctx = canvas[0].getContext("2d");
 	
+	// 데이터 자료 유형
+	let dataType = $("#pplGender").val();
+	
 	// 데이터 세팅
 	var labels 	= [];
 	var data 	= [];
 	
 	if(result){
-		for(var i=0; i<result.length; i++){
-			labels.push(result[i].codeNm);
-			data.push(result[i].allPopltnCnt);
+		switch (dataType) {
+		case 'all' : 
+			for (let i = 0; i < result.length; i++){
+				labels.push(result[i].codeNm);
+				data.push(result[i].allPopltnCnt);
+			}
+			break;
+		case 'm' :
+			for(let i = 0; i < result.length; i++){
+				labels.push(result[i].codeNm);
+				data.push(result[i].malePopltnCnt);
+			}
+			break;
+		case 'w' :
+			for(let i = 0; i < result.length; i++){
+				labels.push(result[i].codeNm);
+				data.push(result[i].femalePopltnCnt);
+			}
+			break;
+		case 'old' :
+			for(let i = 0; i < result.length; i++){
+				labels.push(result[i].codeNm);
+				data.push(result[i].odsnPopltnCnt);
+			}
+			break;
 		}
 	} else {
 		console.log("그래프 데이터 오류");
