@@ -124,7 +124,7 @@
 											</div>
 											
 											<div style="margin-top: 5px;">
-											<span style="color: red; ">※ 본 도면은 "측량, 설계 등"과 그 밖의 목적으로 사용할 수 없는 "참고도면" 입니다.</span>
+												<span>※ 본 도면은 "측량, 설계 등"과 그 밖의 목적으로 사용할 수 없는 "참고도면" 입니다.</span>
 											</div>
 										</div>
 									</div>

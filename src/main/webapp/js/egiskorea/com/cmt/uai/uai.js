@@ -158,7 +158,7 @@ function aj_selectLandUseStatus(pnu) {
     });
 }
 
-//uhh add...
+//토지이용 규제 정보서비스 url 연결
 function fn_land_use_status_cnncUrl(pnu){
 	
 	var url = "";
@@ -171,7 +171,6 @@ function fn_land_use_status_cnncUrl(pnu){
 	
 	return false;
 }
-//uhh add... end
 
 // 공시지가 표출
 function aj_selectOfficiallyAnnouncedLandPrice(pnu) {
