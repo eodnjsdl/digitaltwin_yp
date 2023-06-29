@@ -3,6 +3,9 @@
  */
 package egiskorea.com.cmt.uai.service;
 
+import org.apache.poi.xssf.streaming.SXSSFWorkbook;
+import org.springframework.web.servlet.ModelAndView;
+
 import java.io.File;
 import java.util.HashMap;
 
@@ -54,4 +57,7 @@ public interface UnityAdministrationInfoService {
 	 * @param changeEPSG db에 들어갈때 변환되어야 할 좌표계 값
 	 */
 	public void shpToPostgres(String shpFullPath, String nlt, String tableName, String originalEPSG, String changeEPSG);
+
+
+	SXSSFWorkbook makeBuildingExcelList(HashMap parameter);
 }
