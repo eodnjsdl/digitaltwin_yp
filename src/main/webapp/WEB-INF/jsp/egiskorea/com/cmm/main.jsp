@@ -603,7 +603,7 @@
                 <div class="lnb-body">
                     <div class="scroll-y">
                         <ul class="lnb-list">
-                            <li><p class="lnb-dep1">정복공유</p>
+                            <li><p class="lnb-dep1">정보공유</p>
                                 <ul class="lnb-dep2">
                                     <li>
                                         <button id="memoInfo" type="button" class="dataPopup"

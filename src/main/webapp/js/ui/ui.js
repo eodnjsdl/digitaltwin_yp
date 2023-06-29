@@ -556,6 +556,8 @@ window.ui = (function () {
 			dtmap.draw.dispose();		//그리기 포인트 삭제
 			dtmap.draw.clear();			//그리기 초기화
 			
+			dtmap.clear();		//메모정보,사진정보 지도 데이터 삭제
+			
 			var name = $(this).attr("id");
 			var area = $(this).data("popup");
 			ui.openPopup(area);
