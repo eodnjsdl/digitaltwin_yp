@@ -108,7 +108,7 @@ public class AdministAssetsServiceImpl extends EgovAbstractServiceImpl implement
 		String str = "";
 		
 		reader.readLine(); // 컬럼 줄 읽기
-		while((str = reader.readLine()) != null) {
+		while ((str = reader.readLine()) != null) {
 			resultList.add(parser(str, year));
 		}
 		reader.close();
@@ -126,7 +126,6 @@ public class AdministAssetsServiceImpl extends EgovAbstractServiceImpl implement
 		AdministAssetsVO administAssetsVO = new AdministAssetsVO();
 		
 		String[] splitted = str.split(",");
-		
 		administAssetsVO.setArray(splitted);
 		administAssetsVO.setYear(year);
 		
@@ -159,5 +158,4 @@ public class AdministAssetsServiceImpl extends EgovAbstractServiceImpl implement
 				
 		return result;
 	}
-
 }

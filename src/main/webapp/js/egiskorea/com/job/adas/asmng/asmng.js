@@ -347,6 +347,7 @@ function sendCSVFileData(isUploading) {
 					if(percent == "100"){
 						prgInterval = setInterval(() => {
 							$.ajax({
+								data : {year : year},
 								url : "/job/adas/asmng/csvUploadProgress.do",
 								type : "post",
 								dataType : "json",
@@ -356,7 +357,8 @@ function sendCSVFileData(isUploading) {
 								}
 							});
 						}, 3000);
-						toastr.info('데이터 등록을 시작합니다.', 'CSV 파일 서버 업로드 완료.');
+						toastr.info('CSV 파일 서버 업로드 완료.');
+						toastr.info('데이터 등록을 시작합니다.');
 					}
 				};
 				
@@ -368,8 +370,10 @@ function sendCSVFileData(isUploading) {
 				if (data.isSuccess) {
 					$(".progressbar-value").css("width", 100 + "%");
 					$(".progress-label").html(100 + "%");
-//					$('#rightSubPopup .popup-close').trigger('click');
 					toastr.success('데이터 등록이 정상적으로 처리되었습니다');
+					setTimeout(() => {
+						$('#rightSubPopup .popup-close').trigger('click');
+					}, 3000);
 				} else {
 					toastr.warning('데이터 등록에 실패하였습니다', '알 수 없는 오류');
 				}
@@ -453,6 +457,7 @@ function exportAccnutData(data) {
 			}
 		}
 	}
+	let result = 0;
 	for (let i = 0; i < dataset.length; i++) {
 		$.ajax({
 			data : dataset[i],
@@ -462,11 +467,14 @@ function exportAccnutData(data) {
 			async : false,
 			success : function (data) {
 				if (data.result == 'success') {
-					toastr.success('내보내기 성공');
+					result++;
 				} else {
 					toastr.error('내보내기 실패');
 				}
 			}
 		});
+		if (result == dataset.length) {
+			toastr.success("내보내기 성공");
+		}
 	}
 }

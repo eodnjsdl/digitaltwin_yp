@@ -51,10 +51,8 @@ public class AdministAssetsMngController {
 	
 	private static final Logger logger = LoggerFactory.getLogger(AdministAssetsMngController.class);
 	
-	
 	@Resource(name = "administAssetsCSVUploading")
 	private AdministAssetsCSVUploading administAssetsCSVUploading = AdministAssetsCSVUploading.getInstance();
-	
 	
 	public int getDataCountForProgress() {
 		return administAssetsCSVUploading.getDataCountForProgress();
@@ -155,13 +153,16 @@ public class AdministAssetsMngController {
 		boolean isSuccess = false;
 		try {
 			if (isUploading()) {
+				
 				// 지정된 연도가 있으면 지우고 새로 업로드하기
 				administAssetsVO.setYear(year);
 				result = administAssetsService.deleteAdministAssetsInfo(administAssetsVO);
 				administAssetsList = administAssetsService.csvUploadHelper(file, year);
 				
-				int dataCount = administAssetsList.size();
-				// 전역 변수
+				// 총 개수
+				int dataCount = 0;
+				dataCount = administAssetsList.size();
+				
 				setDataCountForProgress(dataCount);
 				long startTime = System.currentTimeMillis();
 				if (dataCount > 0) {

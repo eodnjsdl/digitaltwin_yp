@@ -5,14 +5,11 @@ import org.springframework.stereotype.Service;
 @Service("administAssetsCSVUploading")
 public final class AdministAssetsCSVUploading {
 	
-	private AdministAssetsCSVUploading() {
-		
-	}
-	
 	private volatile static AdministAssetsCSVUploading administAssetsCSVInstance = null;
 	
-	private int dataCountForProgress = 0;
+	private AdministAssetsCSVUploading() {};
 	
+	private int dataCountForProgress = 0;
 	private boolean isUploading = false;
 	
 	public static AdministAssetsCSVUploading getInstance() {
