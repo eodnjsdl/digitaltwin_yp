@@ -67,7 +67,10 @@ sub {font-size: 13px;}
 	background-color: #F3F4F5;
 	border-radius: 10px;
 }
-
+.box4 {    
+    border: 1px solid #8895AD;
+    background-color: #F3F4F5;
+}
 .bottom-popup-group .search-area .form-checkbox.group > span,
 .bottom-popup-group .search-area .form-radio.group > span {
 	margin-right: 5px;

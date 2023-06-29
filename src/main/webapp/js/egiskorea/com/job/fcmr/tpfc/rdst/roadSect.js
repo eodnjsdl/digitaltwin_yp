@@ -293,7 +293,7 @@ function selectRoadSectDetailView(item) {
 	if (gid != '') {
 		formData.append('gid', gid);
 	}
-	console.log(formData);
+
 	$.ajax({
 		data : formData,
 		type : "POST",

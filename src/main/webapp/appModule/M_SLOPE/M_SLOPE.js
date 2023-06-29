@@ -187,6 +187,15 @@ var M_SLOPE = {
 		Module.XDSetMouseState(1);
 	},
 	//영역선택 버튼클릭시
+	setRectangle:function(){
+		M_SLOPE.clearAll();
+		M_SLOPE.clearArea();
+		M_SLOPE.showTooltip();
+		Module.XDSetMouseState(22);
+		$("#setArea").css("display","none");
+		M_SLOPE.slopeStart = false;
+	},
+	//영역선택 버튼클릭시
 	setArea:function(){
 		M_SLOPE.clearAll();
 		M_SLOPE.clearArea();
@@ -194,6 +203,15 @@ var M_SLOPE = {
 		Module.XDSetMouseState(24);
 		$("#setArea").css("display","none");
 		$("#resetArea").css("display","block");
+		M_SLOPE.slopeStart = false;
+	},
+	//영역선택 버튼클릭시
+	setCircle:function(){
+		M_SLOPE.clearAll();
+		M_SLOPE.clearArea();
+		M_SLOPE.showTooltip();
+		Module.XDSetMouseState(23);
+		$("#setArea").css("display","none");
 		M_SLOPE.slopeStart = false;
 	},
 	//선택완료버튼
@@ -404,6 +422,9 @@ var M_SLOPE = {
 		// 입력값 초기화
 		//Module.getMap().clearInputPoint();
 		M_SLOPE.setLegend(colorMap);
+		
+		var innerHtml = '평균경사도: '+ Math.round(slope.getAnalysisResult(M_SLOPE.jsonKey, 1, 0)* 100) / 100 + 'º';		
+		$('#avgSlopeAngle').text(innerHtml);
 
 	},
 	executeDirection:function() {
@@ -953,6 +974,8 @@ var M_SLOPE = {
 		});
 	},
 	savePDF:function(date){
+		let slope = Module.getSlope();
+		
 		var array = [];
 		$("#slopeLegend tbody tr").each(function(index){
 		    var color = [];
@@ -1013,7 +1036,15 @@ var M_SLOPE = {
 		    }
 		  }
 		});
+		
+		var avgAngle = Math.round(slope.getAnalysisResult(M_SLOPE.jsonKey, 1, 0)* 100) / 100;
+		var angleHtml = '평균경사도: ' + avgAngle + 'º';
+		console.log(angleHtml);
+		console.log(doc);
+		doc.text(angleHtml, 15, 80, 'left');
+		
 		doc.setFillColor(255,255,255);
+		
 		var dataWidth = M_SLOPE.slopeData.width;
 		var dataHeight = M_SLOPE.slopeData.height;
 		var numCal = 1;
@@ -1024,6 +1055,7 @@ var M_SLOPE = {
 		}
 		dataWidth = dataWidth * numCal;
 		dataHeight = dataHeight * numCal;
+		
 		doc.addImage(M_SLOPE.slopeData.toDataURL(), 'PNG', 75 + ((210-dataWidth) / 2), 20 + ((170-dataHeight) / 2), dataWidth, dataHeight);
 
 		doc.save("digitalTwin_Slope_"+date+".pdf");
@@ -1434,6 +1466,28 @@ var M_SLOPE = {
 	}
 
 }
+
+$("[name=slope-analysis-drawing]").on("click", function () {
+    dtmap.clear();
+    const node = $(this);
+    const value = node.val();
+    let type;
+    switch (Number(value)) {
+        case 1:
+        	type = 'Box';
+        	M_SLOPE.setRectangle();
+            break;
+        case 2:
+        	type = 'Polygon';
+        	M_SLOPE.setArea();
+            break;
+        case 3:
+        	type = 'Circle';
+        	M_SLOPE.setCircle();
+            break;
+    }
+    //dtmap.draw.active({type: type, once: true});
+})
 
 $(function(){
 	$(".scroll-y").mCustomScrollbar({

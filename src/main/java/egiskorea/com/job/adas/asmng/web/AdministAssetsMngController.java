@@ -18,6 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
+import egiskorea.com.job.adas.asmng.service.AdministAssetsCSVUploading;
 import egiskorea.com.job.adas.asmng.service.AdministAssetsService;
 import egiskorea.com.job.adas.asmng.service.AdministAssetsVO;
 import egiskorea.com.job.adas.publnd.service.PbprtAccdtVO;
@@ -50,26 +51,27 @@ public class AdministAssetsMngController {
 	
 	private static final Logger logger = LoggerFactory.getLogger(AdministAssetsMngController.class);
 	
-	/** 동시 입력 및 현재 상태 */
-	private int dataCountForProgress = 0;
-	private boolean isUploading = false;
+	
+	@Resource(name = "administAssetsCSVUploading")
+	private AdministAssetsCSVUploading administAssetsCSVUploading = AdministAssetsCSVUploading.getInstance();
+	
 	
 	public int getDataCountForProgress() {
-		return dataCountForProgress;
+		return administAssetsCSVUploading.getDataCountForProgress();
 	}
 
 	public void setDataCountForProgress(int dataCountForProgress) {
-		this.dataCountForProgress = dataCountForProgress;
+		administAssetsCSVUploading.setDataCountForProgress(dataCountForProgress);
 	}
-	
+
 	public boolean isUploading() {
-		return isUploading;
+		return administAssetsCSVUploading.getIsUploading();
 	}
-	
+
 	public void setUploading(boolean isUploading) {
-		this.isUploading = isUploading;
+		administAssetsCSVUploading.setIsUploading(isUploading);
 	}
-	
+
 	/**
 	 * 행정자산관리 목록 화면
 	 * @param model
@@ -148,6 +150,7 @@ public class AdministAssetsMngController {
 		
 		List<AdministAssetsVO> administAssetsList = new ArrayList<AdministAssetsVO>();
 		setUploading(true);
+		
 		int result = 0;
 		boolean isSuccess = false;
 		try {
@@ -158,7 +161,6 @@ public class AdministAssetsMngController {
 				administAssetsList = administAssetsService.csvUploadHelper(file, year);
 				
 				int dataCount = administAssetsList.size();
-//			result += administAssetsService.csvUploadHelper(file, year);
 				// 전역 변수
 				setDataCountForProgress(dataCount);
 				long startTime = System.currentTimeMillis();
@@ -166,24 +168,6 @@ public class AdministAssetsMngController {
 					if (dataCount > 6) {
 						result = 0;
 						int offset = 0;
-//					int offset = 16;
-//					List<AdministAssetsVO> subList = new ArrayList<>();
-//					for (int i = 0; i < offset; i++) {
-//						subList.add(administAssetsList.get(i));
-//						if (subList.size() == 16) {
-//							result += administAssetsService.insertAdministAssetsInfoByCSV(subList);
-//							if (dataCount - offset < 16) {
-//								subList = new ArrayList<>();
-//								for (int j = offset; j < dataCount; j++) {
-//									subList.add(administAssetsList.get(j));
-//								}
-//								result += administAssetsService.insertAdministAssetsInfoByCSV(subList);
-//							} else {
-//								offset += 16;
-//								subList = new ArrayList<>();
-//							}
-//						}
-//					}
 						
 						for (int i = 1; i <= (dataCount / 6); i++) {
 							List<AdministAssetsVO> subList = new ArrayList<>();
@@ -203,9 +187,10 @@ public class AdministAssetsMngController {
 					}
 				}
 				long endTime = System.currentTimeMillis();
-				long resutTime = endTime - startTime;
+				long resultTime = endTime - startTime;
 				isSuccess = true;
-				System.out.println("트랜젝션 배치" + " 소요시간  : " + resutTime/1000 + "(ms)");
+				System.out.println("트랜젝션 배치" + " 소요시간  : " + resultTime/1000 + "(ms)");
+				mav.addObject("resultTime", resultTime / 1000);
 			}
 		} catch (FileNotFoundException e) {
 			e.getMessage();
@@ -255,12 +240,31 @@ public class AdministAssetsMngController {
 		return mav;
 	}
 	
+	/**
+	 * CSV 업로드 현황 확인
+	 * @return
+	 */
 	@RequestMapping(value = "/csvUploadIsUploading.do")
 	@ResponseBody
-	public ModelAndView csvUploadIsUploading() {
+	public ModelAndView csvUploadIsUploading(AdministAssetsVO administAssetsVO) {
 		ModelAndView mav = new ModelAndView("jsonView");
 		String process = "";
 		boolean uploading = false;
+		
+		/** 연도 체크 중복시 삭제 여부 */
+		String year = "";
+		List<String> yearList = null;
+		
+		year = administAssetsVO.getYear();
+		yearList = administAssetsService.selectAdministAssetsYearList();
+		
+		for (String val : yearList) {
+			if (Integer.parseInt(val) == Integer.parseInt(year)) {
+				mav.addObject("yearVal", true);
+			} else {
+				mav.addObject("yearVal", false);
+			}
+		}
 		
 		if (isUploading()) {
 			process = "작업 중";
@@ -275,6 +279,12 @@ public class AdministAssetsMngController {
 		return mav;
 	}
 	
+	/**
+	 * 행정자산관리 -> 공유재산 실태조사 내보내기
+	 * @param pbprtAccdtVO
+	 * @return
+	 * @throws Exception
+	 */
 	@RequestMapping(value = "/insertPublndToPbprtAccdt.do")
 	@ResponseBody
 	public ModelAndView insertPublndToPbprtAccdt(PbprtAccdtVO pbprtAccdtVO) throws Exception {
@@ -289,7 +299,6 @@ public class AdministAssetsMngController {
 		} else {
 			mav.addObject("result", "fail");
 		}
-		
 		
 		return mav;
 	}
