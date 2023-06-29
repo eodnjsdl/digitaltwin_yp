@@ -48,7 +48,10 @@
 
 												</tbody>
 											</table>
-										</div>										
+										</div>
+										<div id="build_excel" style="justify-content: end; display: none;" class="position-bottom btn-wrap">
+											<div><button type="button"  class="btn basic bi-excel btn_build_excel_downlaod">건축물대장 엑셀 다운로드</button></div>
+										</div>
 									</div>
 								</div>
 							</div>

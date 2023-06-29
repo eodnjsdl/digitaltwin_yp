@@ -7,7 +7,6 @@ var fileData = null;
 var exportData = [];
 var checkedDataSet = null;
 $(document).ready(function () {
-	console.log("행정자산관리.js");
 	$('.popup-body #regBtn').on('click', function() {
 		insertAdministAssetsView();
 	});
@@ -213,6 +212,8 @@ function dragAndDropEvent() {
 	$('#uploadCSVBtn').on('click', function() {
 		if (!fileData) {
 			toastr.warning("업로드할 파일을 선택해주세요.")
+		} else {
+			checkUploading();
 		}
 	});
 }
@@ -222,15 +223,6 @@ function dragAndDropEvent() {
  * @returns
  */
 function fileDragAndDrop(files) {
-	/*// 파일 업로드 되면 등록버튼 리스너생성
-	$('#uploadCSVBtn').on('click', function() {
-		if (files) {
-			toastr.warning("업로드할 파일을 선택해주세요.")
-		}
-		// 업로드 중 여부 확인
-		checkUploading();
-	});*/
-	
 	
 	const fileType = "csv";
 	// 파일 전역변수 초기화 및 파일 담기
@@ -242,7 +234,7 @@ function fileDragAndDrop(files) {
 	
 	let file = fileData;
 	let fileName = file.name;
-	console.log(file)
+
 	// csv 파일만 등록 - 그외 에러메시지
 	if (file.type != 'text/csv') {
 		toastr.error("'CSV'파일 외에는 업로드가 불가능합니다.");
@@ -372,12 +364,12 @@ function sendCSVFileData(isUploading) {
 			},
 			success : function(data) {
 				console.log("CSV upload success");
-				console.log("업로드된 데이터 : " + data.resultCnt + ", 등록 연도 설정 : " + data.year);
+				console.log("업로드된 데이터 : " + data.resultCnt + ", 등록 연도 설정 : " + data.year + ", 소요 시간 : " + data.resultTime);
 				if (data.isSuccess) {
-					toastr.success('데이터 등록이 정상적으로 처리되었습니다');
 					$(".progressbar-value").css("width", 100 + "%");
 					$(".progress-label").html(100 + "%");
-					$('#rightSubPopup .popup-close').trigger('click');
+//					$('#rightSubPopup .popup-close').trigger('click');
+					toastr.success('데이터 등록이 정상적으로 처리되었습니다');
 				} else {
 					toastr.warning('데이터 등록에 실패하였습니다', '알 수 없는 오류');
 				}
@@ -389,7 +381,7 @@ function sendCSVFileData(isUploading) {
 			}
 		});
 	} else {
-		toastr.warning('작업 중', '다른 데이터가 업로드 중입니다.');
+		toastr.warning('다른 데이터가 업로드 중입니다.', '작업 중');
 	}
 	
 }
@@ -400,13 +392,26 @@ function sendCSVFileData(isUploading) {
  */
 function checkUploading() {
 	let isUploading;
+	let year = $('#year').val();
+	if (year == '' || year == null) {
+		let today = new Date();
+		year = today.getFullYear(); 
+	}
 	$.ajax({
+		data : {year : year},
 		url : "/job/adas/asmng/csvUploadIsUploading.do",
 		type : "post",
 		dataType : "json",
 		success : function(data) {
 			isUploading = data.uploading;
-			sendCSVFileData(isUploading);
+			let yearDuplication = data.yearVal;
+			if (yearDuplication) {
+				if(confirm(year + '연도가 등록되어있습니다.\r삭제 후 등록하시겠습니까?')) {
+					sendCSVFileData(isUploading);
+				}
+			} else {
+				sendCSVFileData(isUploading);
+			}
 		}
 	});
 }
@@ -456,8 +461,11 @@ function exportAccnutData(data) {
 			dataType : "json",
 			async : false,
 			success : function (data) {
-				console.log(data);
-				toastr.info(data.result);
+				if (data.result == 'success') {
+					toastr.success('내보내기 성공');
+				} else {
+					toastr.error('내보내기 실패');
+				}
 			}
 		});
 	}
