@@ -457,24 +457,24 @@ function exportAccnutData(data) {
 			}
 		}
 	}
+	
 	let result = 0;
-	for (let i = 0; i < dataset.length; i++) {
+	
+	let json = JSON.stringify(dataset);
+	console.log(json);
 		$.ajax({
-			data : dataset[i],
+			data : json,
 			url : "/job/adas/asmng/insertPublndToPbprtAccdt.do",
 			type : "POST",
 			dataType : "json",
+			contentType : false,
 			async : false,
 			success : function (data) {
 				if (data.result == 'success') {
-					result++;
+					toastr.success("내보내기 성공");
 				} else {
 					toastr.error('내보내기 실패');
 				}
 			}
 		});
-		if (result == dataset.length) {
-			toastr.success("내보내기 성공");
-		}
-	}
 }

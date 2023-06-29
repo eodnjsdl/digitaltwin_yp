@@ -133,26 +133,35 @@ public class AdministAssetsServiceImpl extends EgovAbstractServiceImpl implement
 	}
 
 	@Override
-	public int insertPublndToPbprtAccdt(PbprtAccdtVO pbprtAccdtVO) throws Exception {
+	public int insertPublndToPbprtAccdt(List<PbprtAccdtVO> pbprtAccdtVO) throws Exception {
 		int result = 0;
 		
 		int count = 0;
 		count = administAssetsDAO.selectPbprtAccdtTotCount();
 		
 		int publndNo = 0;
+		
 		if (count != 0) {
 			// publnd_no 총 개수에서 하나씩 더해서 세팅
 			publndNo = administAssetsDAO.selectPbprtAccdtTotCountMax();
-			publndNo = publndNo + 1;
-			pbprtAccdtVO.setPublndNo(publndNo);
+			for (int i = 0; i < pbprtAccdtVO.size(); i++) {
+				publndNo = publndNo + 1;
+				pbprtAccdtVO.get(i).setPublndNo(publndNo);
+			}
 		} else {
-			publndNo = 1;
-			pbprtAccdtVO.setPublndNo(publndNo);
+			publndNo = 0;
+			for (int i = 0; i < pbprtAccdtVO.size(); i++) {
+				publndNo++;
+				pbprtAccdtVO.get(i).setPublndNo(publndNo);
+				
+			}
 		}
 		
-		String ldcgCd = ""; 
-		ldcgCd = pbprtAccdtVO.getLdcgCd();
-		pbprtAccdtVO.setLdcgCd(ldcgCd.substring(0, 2));
+		for (int i = 0; i < pbprtAccdtVO.size(); i++) {
+			String ldcgCd = ""; 
+			ldcgCd = pbprtAccdtVO.get(i).getLdcgCd();
+			pbprtAccdtVO.get(i).setLdcgCd(ldcgCd.substring(0, 2));
+		}
 		
 		result = administAssetsDAO.insertPublndToPbprtAccdt(pbprtAccdtVO);
 				

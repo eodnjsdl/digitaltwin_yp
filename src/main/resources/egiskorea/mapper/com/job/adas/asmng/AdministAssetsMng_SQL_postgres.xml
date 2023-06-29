@@ -145,14 +145,14 @@
 				year
 			   )
 		VALUES 
-			   (
-				#{publndNo},
-				#{prprtyNo},
-				#{locplc},
-				#{ldcgCd},
-				#{ar},
-				#{year}
-			   )
+		<foreach collection="list" item="list" open="(" close=")" separator="),(">
+				#{list.publndNo},
+				#{list.prprtyNo},
+				#{list.locplc},
+				#{list.ldcgCd},
+				#{list.ar},
+				#{list.year}
+		</foreach>
 </insert>
 
 </mapper>

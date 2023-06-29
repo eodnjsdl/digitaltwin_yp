@@ -99,7 +99,7 @@ public class AdministAssetsDAO extends ComAbstractDAO {
 	 * @param pbprtAccdtVO
 	 * @return
 	 */
-	public int insertPublndToPbprtAccdt(PbprtAccdtVO pbprtAccdtVO) {
+	public int insertPublndToPbprtAccdt(List<PbprtAccdtVO> pbprtAccdtVO) {
 		return insert("administAssetsMng.insertPublndToPbprtAccdt", pbprtAccdtVO);
 	}
 	
