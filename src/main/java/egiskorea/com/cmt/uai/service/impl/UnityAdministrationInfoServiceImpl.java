@@ -262,12 +262,12 @@ public class UnityAdministrationInfoServiceImpl extends EgovAbstractServiceImpl 
 		sheet.setColumnWidth(7, 4000);
 		sheet.setColumnWidth(8, 6000);
 		sheet.setColumnWidth(9, 4000);
-		sheet.setColumnWidth(10, 4000);
-		sheet.setColumnWidth(11, 4000);
+		sheet.setColumnWidth(10, 6000);
+		sheet.setColumnWidth(11, 6000);
 		sheet.setColumnWidth(12, 6000);
 		sheet.setColumnWidth(13, 6000);
-		sheet.setColumnWidth(14, 4000);
-		sheet.setColumnWidth(15, 4000);
+		sheet.setColumnWidth(14, 6000);
+		sheet.setColumnWidth(15, 6000);
 		sheet.setColumnWidth(16, 4000);
 		sheet.setColumnWidth(17, 4000);
 		sheet.setColumnWidth(18, 4000);
