@@ -713,7 +713,8 @@
  *----------------------------------------------------------------------------*/
 .building-list-group {
     display: flex;
-    height: 610px;
+    /*height: 610px;*/
+    height: 410px;
 }
 
 .building-list-item {

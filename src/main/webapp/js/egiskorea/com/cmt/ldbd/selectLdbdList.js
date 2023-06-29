@@ -8,6 +8,7 @@ $(document).ready(function () {
 function bindEvents() {
     //click 지적
     $("#rightPopup").on("click", ".land_buld_jijuk li", {}, function (e) {
+        $("#build_excel").hide();
         $("#emd,#jibun,#jimok,#road,#buildnm,#build-bon,#build-bu").html("");
         var html = "";
         const node = $(this);
@@ -52,6 +53,7 @@ function bindEvents() {
 
     //click 건물
     $("#rightPopup").on("click", "#build li", {}, function (e) {
+        $("#build_excel").show();
         $("#emd,#jibun,#jimok,#road,#buildnm,#build-bon,#build-bu").html("");
         var html = "";
         const node = $(this);
@@ -62,7 +64,7 @@ function bindEvents() {
         $("#buildnm", ".ldbdList").html(node.attr("data-buld_nm"));
         $("#build-bon", ".ldbdList").html(node.attr("data-buld_mnnm"));
         $("#build-bu", ".ldbdList").html(node.attr("data-lnbr_slno"));
-        var jibun = $.trim($('.land_buld_jijuk li').attr('data-jibun'));
+        var jibun = $.trim(node.attr('data-jibun'));
         if (!jibun) {
             jibun = node.attr("data-jibun");
             if (jibun == 'null' && jibun == 'undefined') {
@@ -119,6 +121,7 @@ function bindEvents() {
         html += '  </tr>                           ';
         $("#build_item", ".ldbdList").html(html);
         _moveLdbd(e);
+
     });
 
     //click 위치이동
@@ -126,7 +129,39 @@ function bindEvents() {
         _moveLdbd();
     });
 
+    //click 건물 - 엑셀 다운르도
+    $("#rightPopup").on("click", ".btn_build_excel_downlaod", function () {
+        const pnu = $("#build li.active").attr("data-pnu");
+        aj_excuteBuildingRegister(pnu);
+    });
 
+}
+
+
+// 건축물대장 엑셀 다운로드
+function aj_excuteBuildingRegister(pnu) {
+    ui.loadingBar("show");
+    var url = "/cmt/uai/buildingRegisterExcel.do?pnu=" + pnu;
+    const req = new XMLHttpRequest();
+    req.open("GET", url, true);
+    req.responseType = "arraybuffer";
+    req.onload = function () {
+        if(req.status != 200) {
+            ui.loadingBar("hide");
+            toastr.error("건축물정보 연계통신이 원활하지 않습니다.", "다시 시도해 주세요.");
+            return;
+        }
+        const arrayBuffer = req.response;
+        if (arrayBuffer) {
+            var blob = new Blob([arrayBuffer], {type: "application/octetstream"});
+            var link = document.createElement('a');
+            link.href = window.URL.createObjectURL(blob);
+            link.download = "건축물대장" + "_" + cmmUtil.getTime() + ".xlsx";
+            link.click();
+            ui.loadingBar("hide");
+        }
+    };
+    req.send();
 }
 
 function _moveLdbd(e) {
@@ -186,7 +221,7 @@ function _onDrawEnd_ldbdInfo(e) {
         },
         renderType: '3D'
     };
-    ui.openPopup("rightPopup");
+    ui.openPopup("rightPopup", "building");
     loadHtml();
     dtmap.vector.clear();
     setLdbdLayer(geom, ldLayer, ldStyle).done(function (data) { //지적
@@ -338,7 +373,9 @@ function setLdbdList(geom, data, layerNm) {
                     tag += `건물 (<strong >${totalFeatures}건</strong>)</span></p>`;
                     tag += `<ul class="dep2" id="build">`;
                 }
-                tag += `<li data-id="${v.properties.bsi_int_sn}" data-gid="${v.properties.gid}" data-buld_mnnm="${v.properties.buld_mnnm}" 
+                tag += `<li data-id="${v.properties.bsi_int_sn}" data-pnu="${v.result.pnu}" 
+                            data-bd_mgt_sn="${v.properties.bd_mgt_sn}" 
+                            data-gid="${v.properties.gid}" data-buld_mnnm="${v.properties.buld_mnnm}" 
                             data-buld_nm_dc="${v.properties.buld_nm_dc}" data-lnbr_slno="${v.properties.lnbr_slno}"  
                             data-buld_nm="${v.properties.buld_nm}" data-addr="${addr}" data-jibun="${jibun}" 
                             data-road="${road}"><a href="javascript:void(0);" data-gid="${v.properties.gid}">
