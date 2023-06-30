@@ -29,7 +29,11 @@ public class PublndMngServiceImpl implements PublndMngService {
 	public int selectPublndInfoListTotalCnt(PublndMngVO publndMngVO) {
 		int result = 0;
 		
-		result = publndMngDAO.selectPublndInfoListTotalCnt(publndMngVO);
+		try {
+			result = publndMngDAO.selectPublndInfoListTotalCnt(publndMngVO);
+		} catch (Exception e) {
+			e.getMessage();
+		}
 		
 		return result;
 	}

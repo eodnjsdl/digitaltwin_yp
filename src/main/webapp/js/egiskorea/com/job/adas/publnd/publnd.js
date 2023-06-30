@@ -392,10 +392,14 @@ function downloadPbprtAccdtExcelList() {
 				list.push(data.pbprtAccdtList[i]);
 			}
 			excelGrid.setData(list);
-			if (yearOption != 'allYear') {
-			    excelGrid.exportExcel("공유지관리_공유재산 실태조사_" + yearOption + ".xls");
+			if (list.length > 0) {
+				if (yearOption != 'allYear') {
+					excelGrid.exportExcel("공유지관리_공유재산 실태조사_" + yearOption + ".xls");
+				} else {
+					excelGrid.exportExcel("공유지관리_공유재산 실태조사" + ".xls");
+				}
 			} else {
-			    excelGrid.exportExcel("공유지관리_공유재산 실태조사" + ".xls");
+				toastr.error('데이터가 없습니다.', '다운로드 실패');
 			}
 			$('[data-ax5grid="attr-grid-excel"]').empty();
 			ui.loadingBar("hide");

@@ -38,6 +38,15 @@ $(document).ready(function () {
 		exportAccnutData(checkedDataSet);
 	});
 	
+	$('#loanPosblYn, #rgistYn').on('input', function(e) {
+		let inputKey = e.originalEvent.data;
+		if (this.value.length > 1 || inputKey != undefined) {
+			if (inputKey != undefined){
+				this.value = inputKey.toUpperCase();
+			}
+		}
+	});
+	
 });
 
 /**
@@ -72,7 +81,7 @@ function insertAdministAssetsView() {
 }
 
 /**
- * 테이블 데이터 세팅
+ * 테이블 데이터 세팅 및 검색
  * @param _pageNo
  * @returns
  */
@@ -82,6 +91,14 @@ function selectAdministAssetsInfoList(_pageNo) {
 	let formData = $('#administAssetsSearch').serializeArray();
 	formData.push({name : "year", value : year});
 	formData.push({name : "pageNo", value : _pageNo});
+	
+//	// 검색기능 y/n 소문자 => 대문자 변환
+//	for (let i = 0; i < formData.length; i++) {
+//		if (formData[i].name == "rgistYn" || formData[i].name == "loadnPosblYn") {
+//			formData[i].value = formData[i].value.toUpperCase();
+//		}
+//	}
+	
 	$.ajax({
 		data : formData,
 		type : "POST",
@@ -106,6 +123,7 @@ function selectAdministAssetsInfoList(_pageNo) {
 			});
 			let numFormat = new Intl.NumberFormat().format(resultCnt);
 			$('.bbs-list-num strong').text(numFormat);
+			$('#prprtyNo, #locplc, #prprtyMngInscd, #loanPosblYn, #rgistYn').val('');
 		}
 	});
 }

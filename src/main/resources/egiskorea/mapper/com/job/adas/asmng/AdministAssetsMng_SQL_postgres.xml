@@ -33,20 +33,10 @@
 	   AND prprty_mng_inscd LIKE '%' || #{prprtyMngInscd} || '%'
 	 </if>
 	 <if test="rgistYn != null and rgistYn != ''">
-	   AND rgist_yn = upper(#{rgistYn})
+	   AND rgist_yn = #{rgistYn}
 	 </if>
 	 <if test="loanPosblYn != null and loanPosblYn != ''">
-	   AND loan_posbl_yn = upper(#{loanPosblYn})
-	 </if>
-	 <if test="arMin != null and arMin != ''">
-	 	<![CDATA[
-	   AND ar >= #{arMin}
-	    ]]>
-	 </if>
-	 <if test="arMax != null and arMax != ''">
-		 <![CDATA[
-	   AND ar <= #{arMax}
-	   	 ]]>
+	   AND loan_posbl_yn = #{loanPosblYn}
 	 </if>
 	 ORDER BY year DESC, sn, prprty_no ASC 
 	 <if test="pageNo != null">

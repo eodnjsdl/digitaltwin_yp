@@ -32,7 +32,7 @@
 					<div class="srch-default">
 						<table class="srch-tbl">
 							<colgroup>
-								<col style="width: 30%;">
+								<col style="width: 40%;">
 								<col style="width: auto;">
 							</colgroup>
 							<tbody id="adminSrchOptions">
