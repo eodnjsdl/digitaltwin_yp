@@ -147,7 +147,7 @@ function webApp_updateExaminationInfoView(frm, param1){
 	});
 }
 
-//액셀 다운로드 (조사정보 페이지)
+//액셀 다운로드 (웹앱용)
 function webApp_fn_download_excelData(form, pnu){
 	if(pnu == "all"){
 		if(form.code2.value == ""){
@@ -172,32 +172,6 @@ function webApp_fn_download_excelData(form, pnu){
 		clearInterval(downloadTimer);
 		ui.loadingBar("hide");
     }, 1000 );
-}
-
-//액셀 다운로드 (속성정보 페이지)
-function webApp_save_excelData(pnu) {
-	var form = document.forms["detailForm"];
-	  if (pnu == "all") {
-	    if (form.code2.value == "") {
-	      toastr.warning("데이터 건수가 많아 이용할 수 없습니다.\n리 단위로 조사정보를 저장해주십시요.");
-	      return false;
-	    } else {
-	      form.pnu.value = "";
-	    }
-	  } else {
-	    form.pnu.value = pnu;
-	  }
-
-	  document.cookie = "fileDownload=TRUE";
-	  ui.loadingBar("show");
-
-	  var url = "/webApp/emi/selectExaminationInfoListDownload.do?pnu=" + form.pnu.value;
-	  location.href = url;
-
-	  var downloadTimer = setInterval(function () {
-	    clearInterval(downloadTimer);
-	    ui.loadingBar("hide");
-	  }, 1000);
 }
 
 // 속성정보에서 수정 클릭시 (조사정보 웹앱용 popup)

@@ -1110,11 +1110,9 @@
                 <!-- //사진 -->
             </div>
             <div>
-<%--             	<button type="button" class="btn basic bi-excel" style="text-align: left; margin: 0 3px;"
+            	<button type="button" class="btn basic bi-excel" style="text-align: left; margin: 0 3px;"
 					onClick="webApp_fn_download_excelData(this.form,'<c:out value="${result.pnu}" />')">엑셀저장
-                </button> --%>
-                <a href="#" class="btn basic bi-excel" style="text-align: left; margin: 0 3px;"
-       			onClick="webApp_save_excelData('<c:out value="${result.pnu}" />')">엑셀저장</a>
+                </button>
             	<button type="button" class="btn basic bi-delete2" style="float: right; margin: 0 3px;"
 					onClick="webApp_fn_select_delete('<c:out value="${result.orgFid}" />')">삭제
             	</button>
