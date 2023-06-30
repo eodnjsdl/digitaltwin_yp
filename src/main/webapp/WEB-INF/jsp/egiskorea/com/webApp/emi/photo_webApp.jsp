@@ -2,18 +2,49 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <script type="text/javascript">
-$(document).ready(function () {
-	readFilePhotoInfoView();
+$(document).ready(function() {
+	readPhotoInfoView();
+	
+	// 이미지 보이게
+	var ldstcPhotoAtflId = "<c:out value='${examinationInfo.ldstcPhotoAtflId}'/>";
+	var accdPhotoAtflId = "<c:out value='${examinationInfo.accdPhotoAtflId}'/>";
+	
+	if (ldstcPhotoAtflId != "") {
+		$("#ldstcArea img").attr("src", "<c:url value='/cmm/fms/getImage.do'/>?atchFileId=<c:out value='${examinationInfo.ldstcPhotoAtflId}'/>");
+	}
+	if (accdPhotoAtflId != "") {
+		$("#accdArea img").attr("src", "<c:url value='/cmm/fms/getImage.do'/>?atchFileId=<c:out value='${examinationInfo.accdPhotoAtflId}'/>");
+	}
 });
 
-function readFilePhotoInfoView() {
-    $('#distantFile').on('change', function(e) {
-        $("#distantFile-name").val($("#distantFile").val());
-    });
-    
-    $('#nearFile').on('change', function(e) {
-        $("#nearFile-name").val($("#nearFile").val());
-    });
+function readPhotoInfoView() {
+	$('#ldstcFile').on('change', function() {
+		var ldstc = document.getElementById('ldstcFile');
+		
+		if (ldstc.files && ldstc.files[0]) {
+			$("#ldstcFile-name").text(ldstc.files[0].name);
+			
+			var reader = new FileReader();
+			reader.onload = function(e) {
+				$('#ldstcArea img').attr('src', e.target.result);
+			};
+			reader.readAsDataURL(ldstc.files[0]);
+		}
+	});
+
+	$('#accdFile').on('change', function(e) {
+		var accd = document.getElementById('accdFile');
+		
+		if (accd.files && accd.files[0]) {
+			$("#accdFile-name").text(accd.files[0].name);
+			
+			var reader = new FileReader();
+			reader.onload = function(e) {
+				$('#accdArea img').attr('src', e.target.result);
+			};
+			reader.readAsDataURL(accd.files[0]);
+		}
+	});
 }
 
 </script>
@@ -28,12 +59,14 @@ function readFilePhotoInfoView() {
 					</tr>
 					<tr>
 						<td>
-							<div id="distantArea" class="file-photo">
-								<div id="selectDistant" class="select-file">
-									<input type="file" id="distantFile" multiple accept=".png, .jpg, .jpeg">
-									<input id="distantFile-name" class="file-name" value="파일선택">
-									<label for="distantFile">파일찾기</label>
-								</div>
+							<div id="ldstcArea" class="select-file">
+								<input type="file" id="ldstcFile" name="ldstcFile" multiple accept=".png, .jpg, .jpeg" />
+								<label for="ldstcFile" class="select-label">
+									<span id="ldstcFile-name" class="file-name">${ldstcFileResult[0].orignlFileNm}</span>
+									<span class="selectBtn">사진 등록</span>
+								</label>
+								<img src="" width="500 "/>
+								<input type="hidden" name="ldstcPhotoAtflId" value="<c:out value='${examinationInfo.ldstcPhotoAtflId}'/>" />
 							</div>
 						</td>
 					</tr>
@@ -42,12 +75,15 @@ function readFilePhotoInfoView() {
 					</tr>
 					<tr>
 						<td>
-							<div id="nearArea" class="file-photo">
-								<div id="selectNear" class="select-file">
-									<input type="file" id="nearFile" multiple accept=".png, .jpg, .jpeg">
-									<input id="nearFile-name" class="file-name" value="파일선택">
-									<label for="nearFile">파일찾기</label>
-								</div>
+							<div id="accdArea" class="select-file">
+								<input type="file" id="accdFile" name="accdFile" multiple accept=".png, .jpg, .jpeg" />
+								<label for="accdFile" class="select-label">
+									
+									<span id="accdFile-name" class="file-name">${accdFileResult[0].orignlFileNm}</span>
+									<span class="selectBtn">사진 등록</span>
+								</label>
+								<img src="" width="500 "/>
+								<input type="hidden" name="accdPhotoAtflId" value="<c:out value='${examinationInfo.accdPhotoAtflId}'/>" />
 							</div>
 						</td>
 					</tr>

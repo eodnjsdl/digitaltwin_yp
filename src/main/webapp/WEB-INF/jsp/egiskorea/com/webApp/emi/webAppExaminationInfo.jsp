@@ -10,6 +10,18 @@
 <!-- webApp -->
 
 <script>
+	$(document).ready(function() {
+		var ldstcPhotoAtflId = "<c:out value='${result.ldstcPhotoAtflId}'/>";
+		var accdPhotoAtflId = "<c:out value='${result.accdPhotoAtflId}'/>";
+		
+		if (ldstcPhotoAtflId != "") {
+			$("#ldstcPhoto").attr("src", "<c:url value='/cmm/fms/getImage.do'/>?atchFileId=<c:out value='${result.ldstcPhotoAtflId}'/>");
+		}
+		if (accdPhotoAtflId != "") {
+			$("#accdPhoto").attr("src", "<c:url value='/cmm/fms/getImage.do'/>?atchFileId=<c:out value='${result.accdPhotoAtflId}'/>");
+		}
+	})
+
     // 속성정보에서 수정 클릭시
     function webApp_fn_select_update(pnu) {
         webApp_leftSubPopupOpen("examinationInfoView", pnu);
@@ -20,9 +32,9 @@
         if (confirm("<spring:message code="common.delete.msg" />")) {
             $.ajax({
                 type: "POST",
-                url: "/geo/emi/deleteExaminationInfoList.do",
+                url: "/webApp/emi/deleteExaminationInfoList.do",
                 data: {
-                    "selCodes": orgFid
+                    "selCodes"	: orgFid
                 },
                 dataType: "html",
                 success: function (returnData, status) {
@@ -57,7 +69,7 @@
     }
 </script>
 <!-- 국토정보관리 > 속성정보 > 더보기 -->
-<form:form name="detailForm" method="post">
+<form:form id="detailForm" name="detailForm" method="post">
     <input type="hidden" name="pnu">
     <div class="popup-header">속성정보</div>
     <div class="popup-body">
@@ -1090,17 +1102,23 @@
 	                            <tbody>
 	                            <tr>
 	                                <th scope="row">원경</th>
-	                                
 	                            </tr>
 	                            <tr>
-	                                <td><img name="distant" /></td>
+	                                <td>
+	                                	<div class="detailPhoto">
+	                                		<img src="" id="ldstcPhoto" width="500 "/>
+	                                	</div>
+	                                </td>
 	                            </tr>
 	                            <tr>
 	                                <th scope="row">근경</th>
-	                                
 	                            </tr>
 	                            <tr>
-	                                <td><img name="near" /></td>
+	                                <td>
+	                                	<div class="detailPhoto">
+	                                		<img src="" id="accdPhoto" width="500 "/>
+	                                	</div>
+	                                </td>
 	                            </tr>
 	                            </tbody>
 	                        </table>

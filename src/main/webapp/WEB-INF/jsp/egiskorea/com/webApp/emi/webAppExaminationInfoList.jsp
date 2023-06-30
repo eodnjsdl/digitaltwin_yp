@@ -216,7 +216,7 @@
                                     <td><c:out value="${result.ori}"/></td>
                                     <td><c:out value="${result.j0302}"/></td>
                                     <td onclick="event.stopPropagation()">
-                                        <button type="button" class="icon-btn excel" title="엑셀다운로드" onClick="webApp_fn_download_excelData(this.form, '<c:out value="${result.pnu}" />')"></button>
+                                        <button type="button" class="icon-btn excel" title="엑셀다운로드" onClick="webApp_fn_download_excelData(this.form,'<c:out value="${result.pnu}" />')"></button>
                                     </td>
                                 </tr>
                             </c:forEach>

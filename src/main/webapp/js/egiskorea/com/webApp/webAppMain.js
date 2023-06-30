@@ -163,9 +163,10 @@ function webApp_fn_download_excelData(form, pnu){
 	document.cookie = "fileDownload=TRUE";
 	ui.loadingBar("show");
 
-//  form.action = "/geo/emi/selectExaminationInfoListDownload.do";
-//  form.submit();
-	location.href = "/geo/emi/selectExaminationInfoListDownload.do";
+//	form.action = "/webApp/emi/selectExaminationInfoListDownload.do";
+//	form.submit();
+	var url = "/webApp/emi/selectExaminationInfoListDownload.do?pnu=" + form.pnu.value;
+	location.href = url;
 
 	var downloadTimer = setInterval(function() {
 		clearInterval(downloadTimer);
