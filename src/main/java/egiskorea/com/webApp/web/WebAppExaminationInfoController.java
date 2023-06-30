@@ -1,12 +1,23 @@
 package egiskorea.com.webApp.web;
 
+import java.io.File;
+import java.net.URLEncoder;
 import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.io.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -15,10 +26,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
+import egiskorea.com.cmm.service.impl.ExcelView;
 import egiskorea.com.geo.emi.service.AdministrationZone;
 import egiskorea.com.geo.emi.service.ExaminationInfo;
 import egiskorea.com.geo.emi.service.ExaminationInfoService;
 import egiskorea.com.geo.emi.service.ExaminationInfoVO;
+import egiskorea.com.webApp.service.impl.WebAppExcelView;
 import egovframework.com.cmm.ComDefaultCodeVO;
 import egovframework.com.cmm.LoginVO;
 import egovframework.com.cmm.service.EgovCmmUseService;
@@ -68,7 +81,6 @@ public class WebAppExaminationInfoController {
 	
 	/**
 	 * @Description 행정구역별 조사정보 목록 (웹앱용)
-	 * @Author 글로벌컨설팅부문 장현승
 	 * @param examinationInfoVO
 	 * @param model
 	 * @return "egiskorea/com/webApp/webAppAdministrationZoneList"
@@ -114,7 +126,6 @@ public class WebAppExaminationInfoController {
 	
 	/**
 	 * @Description 행정구역별 조사정보 등록 화면
-	 * @Author 글로벌컨설팅부문 장현승
 	 * @param examinationInfoVO
 	 * @param model
 	 * @return "egiskorea/com/webApp/emi/webAppAdministrationZoneView"
@@ -166,7 +177,6 @@ public class WebAppExaminationInfoController {
 	
 	/**
 	 * @Description 행정구역별 조사정보 목록 (웹앱용)
-	 * @Author 글로벌컨설팅부문 장현승
 	 * @param examinationInfoVO
 	 * @param model
 	 * @return "egiskorea/com/webApp/emi/webAppExaminationInfoList"
@@ -207,7 +217,6 @@ public class WebAppExaminationInfoController {
 	
 	/**
 	 * @Description 조사정보 상세조회 (웹앱용)
-	 * @Author 글로벌컨설팅부문 장현승
 	 * @param examinationInfoVO
 	 * @param model
 	 * @return "egiskorea/com/webApp/emi/webAppExaminationInfo"
@@ -227,7 +236,6 @@ public class WebAppExaminationInfoController {
 	
 	/**
 	 * @Description  조사정보 수정 화면 (웹앱용)
-	 * @Author 글로벌컨설팅부문 장현승
 	 * @param examinationInfoVO
 	 * @param model
 	 * @return "egiskorea/com/webApp/emi/webAppExaminationInfoView"
@@ -434,7 +442,6 @@ public class WebAppExaminationInfoController {
 	
 	/**
 	 * @Description  조사정보 수정 화면 (웹앱용)
-	 * @Author 글로벌컨설팅부문 장현승
 	 * @param examinationInfoVO
 	 * @param model
 	 * @return "egiskorea/com/webApp/emi/examinationInfoView"
@@ -500,7 +507,6 @@ public class WebAppExaminationInfoController {
 		return "egiskorea/com/cmm/actionResult2";
 	}
 	
-	
 	/**
 	 * @Description 조사정보 다중 삭제
 	 * @Author 플랫폼개발부문 DT솔루션 이상화
@@ -530,5 +536,41 @@ public class WebAppExaminationInfoController {
 		}
 		
 		return "egiskorea/com/cmm/actionResult2";
+	}
+	
+	/**
+	 * @Description 조사정보 엑셀 다운로드 (웹앱용)
+	 * @param examinationInfoVO
+	 * @param request
+	 * @param response
+	 * @param model
+	 * @return egiskorea/com/cmm/actionResult2
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/selectExaminationInfoListDownload.do")
+	public void selectExaminationInfoListDownload(
+			@ModelAttribute("examinationInfoVO") ExaminationInfoVO examinationInfoVO,
+			HttpServletRequest request,
+			HttpServletResponse response,
+			ModelMap model) throws Exception{ 
+		
+		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+		Cookie cookie = new Cookie("fileDownload", URLEncoder.encode("FALSE", "UTF-8"));
+		
+		cookie.setPath("/");
+		cookie.setMaxAge(1000 * 60 * 30); 
+		response.addCookie(cookie);
+
+		// 파일 다운로드 설정
+		String fileName = "양평군_";
+		response.setContentType("application/vnd.ms-excel");
+		response.setHeader("Content-Disposition", "attachment; filename=\"" + URLEncoder.encode(fileName, "UTF-8") + ".xls\"");
+		
+		if (isAuthenticated) {	
+			Map<String, Object> map = examinationInfoService.selectExaminationInfoExcelList(examinationInfoVO);
+			
+			WebAppExcelView excelUtil = new WebAppExcelView();
+			excelUtil.downloadExcelData(request, response, map.get("resultList"), "양평군_", "examinationinfo_excel_template.xls");
+		}
 	}
 }

@@ -69,7 +69,7 @@
     }
 </script>
 <!-- 국토정보관리 > 속성정보 > 더보기 -->
-<form:form name="detailForm" method="post">
+<form:form id="detailForm" name="detailForm" method="post">
     <input type="hidden" name="pnu">
     <div class="popup-header">속성정보</div>
     <div class="popup-body">
@@ -1128,9 +1128,11 @@
                 <!-- //사진 -->
             </div>
             <div>
-            	<button type="button" class="btn basic bi-excel" style="text-align: left; margin: 0 3px;"
+<%--             	<button type="button" class="btn basic bi-excel" style="text-align: left; margin: 0 3px;"
 					onClick="webApp_fn_download_excelData(this.form,'<c:out value="${result.pnu}" />')">엑셀저장
-                </button>
+                </button> --%>
+                <a href="#" class="btn basic bi-excel" style="text-align: left; margin: 0 3px;"
+       			onClick="webApp_save_excelData('<c:out value="${result.pnu}" />')">엑셀저장</a>
             	<button type="button" class="btn basic bi-delete2" style="float: right; margin: 0 3px;"
 					onClick="webApp_fn_select_delete('<c:out value="${result.orgFid}" />')">삭제
             	</button>
