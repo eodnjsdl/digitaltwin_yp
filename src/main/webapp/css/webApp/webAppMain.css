@@ -228,13 +228,13 @@
 
 
 /* 사진 */
-.file-photo {
-	margin: 10px 0;
+.proTab06 .detailPhoto {
+	text-align: center;
 }
 
-.file-photo .select-file {
-	position: relative;
-	padding: 0 50px;
+.select-file {
+	padding: 15px;
+	text-align: center;
 }
 
 .select-file input[type="file"] {
@@ -246,31 +246,33 @@
     border: 0;
 }
 
-.select-file .file-name {
+.select-file .select-label {
 	display: block;
-	padding: 0 10px;
-	width: calc(100% - 60px);
-	max-width: 100%;
-	height: 30px;
-	border: 1px solid #44516A;
-	background-color: #FFFFFF;
-	border-radius: 5px 0 0 5px;
 }
 
-.select-file label {
-    position: absolute;
-    top: 0;
-    right: 0;
-    width: 60px;
-    height: 30px;
-    line-height: 30px;
-    color: #44516A;
-    font-size: 11px;
-    font-weight: 700;
-    border: 1px solid #44516A;
-    border-left: 0;
-    background-color: #ffffff;
-    border-radius: 0 5px 5px 0;
-    text-align: center;
-    margin-right: 50px;
+.select-label .file-name {
+	padding: 0 15px;
+	display: inline-block;
+	width: calc(90% - 75px);
+	height: 30px;
+	line-height: 30px;
+	border: 1px solid #DCDCDC;
+	background-color: #FFFFFF;
+	border-radius: 5px 0 0 5px;
+	font-weight: 500;
+	text-align: left;
+	vertical-align: bottom;
+}
+
+.select-label .selectBtn {
+	margin-left: -5px;
+	display: inline-block;
+	width: 75px;
+	height: 30px;
+	line-height: 30px;
+	border: 1px solid #DCDCDC;
+	background-color: #FFFFFF;
+	border-radius: 0 5px 5px 0;
+	text-align: center;
+	vertical-align: bottom;
 }
