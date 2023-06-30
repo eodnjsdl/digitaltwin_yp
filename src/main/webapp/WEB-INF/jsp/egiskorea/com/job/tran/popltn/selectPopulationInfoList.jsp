@@ -19,7 +19,7 @@
 						<col style="width: auto;">
 					</colgroup>
 					<tbody>
-						<tr>
+						<tr id="showType">
 	                        <th scope="row">항목 선택</th>
 	                        <td>
 	                            <select name="pplShowType" id="pplShowType" class="form-select w-auto" style="width: 100%;">

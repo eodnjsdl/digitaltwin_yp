@@ -4,7 +4,7 @@
 
 <!-- 행정자산관리 조회 -->
 <select id="selectAdministAssetsInfoList" resultType="administAssetsVO">
-	select 
+	SELECT 
 		   sn, prprty_no, saeol_cert_yn, input_sys, prprty_nm, posesn_se_cd, prprty_prpos_cd, 
 		   administ_prprty_cd, account_se_cd, prprty_mng_inscd, chrg_dept_nm, dv_task_mng_inscd, 
 		   mndt_mng_inscd, prprty_mng_dsgn_ymd, zip, dong_cd, stdg_cd, locplc, mtn_cd, lnbr, ho, tong, ban, 
@@ -12,109 +12,103 @@
 		   acqs_mth_se_cd, acqs_resn, rgist_yn, recp_no, loan_posbl_yn, sale_lmtt_yn, sale_lmtt_ymd, rm, 
 		   lad_lndcgr_cd, rl_lndcgr_cd, ar, rl_ar, oalp, acqs_ar, pblonsip_qota1, pblonsip_qota2, spfc, 
 		   ctypln_dstrc, plan_fclty, dwk, plan_biz, year
-	  from tbd_administ_prprty
-	 where 1 = 1
+	  FROM tbd_administ_prprty
+	 WHERE 1 = 1
 	 <if test="year != null and year != 'allYear'">
-	   and year = #{year}
+	   AND year = #{year}
 	 </if>
 	 <if test="stdgCd != null and stdgCd != ''">
-	   and stdg_cd like '%' || #{stdgCd} || '%'
+	   and stdg_cd LIKE '%' || #{stdgCd} || '%'
      </if>
 	 <if test="prprtyNo != null and prprtyNo != ''">
-	   and prprty_no like '%' || #{prprtyNo} || '%'
+	   and prprty_no LIKE '%' || #{prprtyNo} || '%'
 	 </if>
 	 <if test="locplc != null and locplc != ''">
-	   and locplc like '%' || #{locplc} || '%'
+	   AND locplc LIKE '%' || #{locplc} || '%'
 	 </if>
 	 <if test="lnbr != null and lnbr != ''">
-	   and lnbr like '%' || #{lnbr} || '%'
+	   AND lnbr LIKE '%' || #{lnbr} || '%'
 	 </if>
 	 <if test="prprtyMngInscd != null and prprtyMngInscd != ''">
-	   and prprty_mng_inscd like '%' || #{prprtyMngInscd} || '%'
+	   AND prprty_mng_inscd LIKE '%' || #{prprtyMngInscd} || '%'
 	 </if>
 	 <if test="rgistYn != null and rgistYn != ''">
-	   and rgist_yn = upper(#{rgistYn})
+	   AND rgist_yn = #{rgistYn}
 	 </if>
 	 <if test="loanPosblYn != null and loanPosblYn != ''">
-	   and loan_posbl_yn = upper(#{loanPosblYn})
+	   AND loan_posbl_yn = #{loanPosblYn}
 	 </if>
-	 <if test="arMin != null and arMin != ''">
-	 	<![CDATA[
-	   and ar >= #{arMin}
-	    ]]>
-	 </if>
-	 <if test="arMax != null and arMax != ''">
-		 <![CDATA[
-	   and ar <= #{arMax}
-	   	 ]]>
-	 </if>
-	 order by sn asc
+	 ORDER BY year DESC, sn, prprty_no ASC 
 	 <if test="pageNo != null">
-	 limit 10 offset #{pageNo}
+	 LIMIT 10 OFFSET #{pageNo}
 	 </if>
 </select>
 
 <!-- 행정자산관리 전체 개수 조회 -->
 <select id="selectAdministAssetsTotCnt" resultType="int">
-	select count(*) 
-	  from tbd_administ_prprty
-	 where 1 = 1
+	SELECT count(*) 
+	  FROM tbd_administ_prprty
+	 WHERE 1 = 1
 	 <if test="year != null and year != 'allYear'">
-	   and year = #{year}
+	   AND year = #{year}
 	 </if>
 	 <if test="stdgCd != null and stdgCd != ''">
-	   and stdg_cd like '%' || #{stdgCd} || '%'
+	   AND stdg_cd like '%' || #{stdgCd} || '%'
      </if>
 	 <if test="prprtyNo != null and prprtyNo != ''">
-	   and prprty_no like '%' || #{prprtyNo} || '%'
+	   AND prprty_no like '%' || #{prprtyNo} || '%'
 	 </if>
 	 <if test="locplc != null and locplc != ''">
-	   and locplc like '%' || #{locplc} || '%'
+	   AND locplc like '%' || #{locplc} || '%'
 	 </if>
 	 <if test="lnbr != null and lnbr != ''">
-	   and lnbr like '%' || #{lnbr} || '%'
+	   AND lnbr like '%' || #{lnbr} || '%'
 	 </if>
 	 <if test="prprtyMngInscd != null and prprtyMngInscd != ''">
-	   and prprty_mng_inscd like '%' || #{prprtyMngInscd} || '%'
+	   AND prprty_mng_inscd like '%' || #{prprtyMngInscd} || '%'
 	 </if>
 	 <if test="rgistYn != null and rgistYn != ''">
-	   and rgist_yn = #{rgistYn}
+	   AND rgist_yn = #{rgistYn}
 	 </if>
 	 <if test="loanPosblYn != null and loanPosblYn != ''">
-	   and loan_posbl_yn = #{loanPosblYn}
+	   AND loan_posbl_yn = #{loanPosblYn}
 	 </if>
 </select>
 
 <!-- 행정자산관리 연도 목록 조회 -->
 <select id="selectAdministAssetsYearList" resultType="String">
-	select distinct year
-	  from tbd_administ_prprty
-	 order by year desc	
+	SELECT DISTINCT year
+	  FROM tbd_administ_prprty
+	 ORDER BY year DESC	
 </select>
 
 <!-- 행정자산관리 등록 -->
 <insert id="insertAdministAssetsInfoByCSV" parameterType="list">
-	insert into tbd_administ_prprty 
+	INSERT into tbd_administ_prprty 
 		(
-			sn, prprty_no, saeol_cert_yn, input_sys, prprty_nm, posesn_se_cd, prprty_prpos_cd, 
-			administ_prprty_cd, account_se_cd, prprty_mng_inscd, chrg_dept_nm, dv_task_mng_inscd, 
-			mndt_mng_inscd, prprty_mng_dsgn_ymd, zip, dong_cd, stdg_cd, locplc, mtn_cd, lnbr, ho, tong, ban, 
-			spcadrs, spc_dong, spc_ho, rn_addr, prprty_pc, accnut_stdr_amt, acqs_dept_cd, acqs_amt, acqs_ymd, 
-			acqs_mth_se_cd, acqs_resn, rgist_yn, recp_no, loan_posbl_yn, sale_lmtt_yn, sale_lmtt_ymd, rm, 
-			lad_lndcgr_cd, rl_lndcgr_cd, ar, rl_ar, oalp, acqs_ar, pblonsip_qota1, pblonsip_qota2, spfc, 
-			ctypln_dstrc, plan_fclty, dwk, plan_biz, year
+			sn, prprty_no, saeol_cert_yn, input_sys, prprty_nm, 
+			posesn_se_cd, prprty_prpos_cd, administ_prprty_cd, account_se_cd, prprty_mng_inscd, 
+			chrg_dept_nm, dv_task_mng_inscd, mndt_mng_inscd, prprty_mng_dsgn_ymd, zip, 
+			dong_cd, stdg_cd, locplc, mtn_cd, lnbr, 
+			ho, tong, ban, spcadrs, spc_dong, 
+			spc_ho,	rn_addr, prprty_pc, accnut_stdr_amt, acqs_dept_cd, 
+			acqs_amt, acqs_ymd, acqs_mth_se_cd, acqs_resn, rgist_yn, 
+			recp_no, loan_posbl_yn, sale_lmtt_yn, sale_lmtt_ymd, rm, 
+			lad_lndcgr_cd, rl_lndcgr_cd, ar, rl_ar, oalp, 
+			acqs_ar, pblonsip_qota1, pblonsip_qota2, spfc, ctypln_dstrc, 
+			plan_fclty,	dwk, plan_biz, year
 		)
-	values 
+	VALUES 
 	<foreach collection="list" item="list" open="(" separator="),(" close=")">
 			#{list.sn}, #{list.prprtyNo}, #{list.saeolCertYn}, #{list.inputSys}, #{list.prprtyNm}, 
-			#{list.posesnSeCd}, #{list.prprtyPrposCd}, #{list.administPrprtyCd}, #{list.accountSeCd}, 
-			#{list.prprtyMngInscd}, #{list.chrgDeptNm}, #{list.dvTaskMngInscd}, #{list.mndtMngInscd}, 
-			#{list.prprtyMngDsgnYmd}, #{list.zip}, #{list.dongCd}, #{list.stdgCd}, #{list.locplc}, 
-			#{list.mtnCd}, #{list.lnbr}, #{list.ho}, #{list.tong}, #{list.ban}, #{list.spcadrs}, 
-			#{list.spcDong}, #{list.spcHo}, #{list.rnAddr}, #{list.prprtyPc}, #{list.accnutStdrAmt}, 
-			#{list.acqsDeptCd}, #{list.acqsAmt}, #{list.acqsYmd}, #{list.acqsMthSeCd}, #{list.acqsResn}, 
-			#{list.rgistYn}, #{list.recpNo}, #{list.loanPosblYn}, #{list.saleLmttYn}, #{list.saleLmttYmd}, 
-			#{list.rm}, #{list.ladLndcgrCd}, #{list.rlLndcgrCd}, #{list.ar}, #{list.rlAr}, #{list.oalp}, 
+			#{list.posesnSeCd}, #{list.prprtyPrposCd}, #{list.administPrprtyCd}, #{list.accountSeCd}, #{list.prprtyMngInscd}, 
+			#{list.chrgDeptNm}, #{list.dvTaskMngInscd}, #{list.mndtMngInscd}, #{list.prprtyMngDsgnYmd}, #{list.zip}, 
+			#{list.dongCd}, #{list.stdgCd}, #{list.locplc}, #{list.mtnCd}, #{list.lnbr}, 
+			#{list.ho}, #{list.tong}, #{list.ban}, #{list.spcadrs}, #{list.spcDong}, 
+			#{list.spcHo}, #{list.rnAddr}, #{list.prprtyPc}, #{list.accnutStdrAmt}, #{list.acqsDeptCd}, 
+			#{list.acqsAmt}, #{list.acqsYmd}, #{list.acqsMthSeCd}, #{list.acqsResn}, #{list.rgistYn}, 
+			#{list.recpNo}, #{list.loanPosblYn}, #{list.saleLmttYn}, #{list.saleLmttYmd}, #{list.rm}, 
+			#{list.ladLndcgrCd}, #{list.rlLndcgrCd}, #{list.ar}, #{list.rlAr}, #{list.oalp}, 
 			#{list.acqsAr}, #{list.pblonsipQota1}, #{list.pblonsipQota2}, #{list.spfc}, #{list.ctyplnDstrc}, 
 			#{list.planFclty}, #{list.dwk}, #{list.planBiz}, #{list.year}
 	</foreach>
@@ -122,16 +116,16 @@
 
 <!-- 행정자산관리 엑셀 업로드 덮어쓰기용 -->
 <delete id="deleteAdministAssetsInfo">
-	delete from tbd_administ_prprty
-	 where 1 = 1
+	DELETE FROM tbd_administ_prprty
+	 WHERE 1 = 1
 	 <if test="year != null">
-	   and year = #{year}
+	   AND year = #{year}
 	 </if>
 </delete>
 
 <!-- 행정자산관리 -> 공유재산 실태조사 내보내기 -->	
 <insert id="insertPublndToPbprtAccdt" parameterType="pbprtAccdtVO">
-		insert into tbd_publnd_mng
+		INSERT into tbd_publnd_mng
 			   (
 			   	publnd_no,
 				prprty_no,
@@ -140,15 +134,15 @@
 				ar,
 				year
 			   )
-		values 
-			   (
-				#{publndNo},
-				#{prprtyNo},
-				#{locplc},
-				#{ldcgCd},
-				#{ar},
-				#{year}
-			   )
+		VALUES 
+		<foreach collection="list" item="list" open="(" close=")" separator="),(">
+				#{list.publndNo},
+				#{list.prprtyNo},
+				#{list.locplc},
+				#{list.ldcgCd},
+				#{list.ar},
+				#{list.year}
+		</foreach>
 </insert>
 
 </mapper>

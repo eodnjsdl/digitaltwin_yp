@@ -63,3 +63,14 @@ function cancleView() {
 	
 	FACILITY.Ax5UiGrid.clearSelect();	//그리드 선택 해제
 }
+
+/**
+ * 숫자 표기 1천 단위 ',' 추가
+ * @param number
+ * @returns
+ */
+function dataCountFormat(number) {
+	let formatNum = new Intl.NumberFormat().format(number);
+	
+	return formatNum;
+}

@@ -73,6 +73,6 @@ public interface AdministAssetsService {
 	 * @return
 	 * @throws Exception
 	 */
-	public int insertPublndToPbprtAccdt(PbprtAccdtVO pbprtAccdtVO) throws Exception;
+	public int insertPublndToPbprtAccdt(List<PbprtAccdtVO> pbprtAccdtVO) throws Exception;
 	
 }

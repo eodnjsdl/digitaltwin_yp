@@ -1,4 +1,10 @@
 $(document).ready(function(){
+	if (dtmap.mod == '3D') {
+		console.log("3d 맵입니다.");
+		$('#showType').hide();
+	} else {
+		$('#showType').show();
+	}
 	
 	$('#leftPopup').css({"left": "320px", "width": "400px", "height": "807px"});
 	//검색 조건 세팅

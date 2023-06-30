@@ -8,10 +8,13 @@ import java.util.List;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
+import org.codehaus.jackson.map.ObjectMapper;
+import org.json.JSONArray;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
@@ -51,10 +54,8 @@ public class AdministAssetsMngController {
 	
 	private static final Logger logger = LoggerFactory.getLogger(AdministAssetsMngController.class);
 	
-	
 	@Resource(name = "administAssetsCSVUploading")
 	private AdministAssetsCSVUploading administAssetsCSVUploading = AdministAssetsCSVUploading.getInstance();
-	
 	
 	public int getDataCountForProgress() {
 		return administAssetsCSVUploading.getDataCountForProgress();
@@ -155,13 +156,16 @@ public class AdministAssetsMngController {
 		boolean isSuccess = false;
 		try {
 			if (isUploading()) {
+				
 				// 지정된 연도가 있으면 지우고 새로 업로드하기
 				administAssetsVO.setYear(year);
 				result = administAssetsService.deleteAdministAssetsInfo(administAssetsVO);
 				administAssetsList = administAssetsService.csvUploadHelper(file, year);
 				
-				int dataCount = administAssetsList.size();
-				// 전역 변수
+				// 총 개수
+				int dataCount = 0;
+				dataCount = administAssetsList.size();
+				
 				setDataCountForProgress(dataCount);
 				long startTime = System.currentTimeMillis();
 				if (dataCount > 0) {
@@ -287,12 +291,21 @@ public class AdministAssetsMngController {
 	 */
 	@RequestMapping(value = "/insertPublndToPbprtAccdt.do")
 	@ResponseBody
-	public ModelAndView insertPublndToPbprtAccdt(PbprtAccdtVO pbprtAccdtVO) throws Exception {
+	public ModelAndView insertPublndToPbprtAccdt(
+			@RequestBody String data) throws Exception {
 		ModelAndView mav = new ModelAndView("jsonView");
 		
 		int result = 0;
+		// json -> List<PbprtAccdtVO>
+		JSONArray jsonArr = new JSONArray(data);
+		List<PbprtAccdtVO> list = new ArrayList<>();
+		ObjectMapper objectMapper = new ObjectMapper();
 		
-		result = administAssetsService.insertPublndToPbprtAccdt(pbprtAccdtVO);
+		for (int i = 0; i < jsonArr.length(); i++) {
+			list.add(objectMapper.convertValue(jsonArr.getJSONObject(i).toMap(), PbprtAccdtVO.class));
+		}
+		
+		result = administAssetsService.insertPublndToPbprtAccdt(list);
 		
 		if (result > 0) {
 			mav.addObject("result", "success");

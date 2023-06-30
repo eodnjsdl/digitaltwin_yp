@@ -99,13 +99,15 @@ public class AdministAssetsDAO extends ComAbstractDAO {
 	 * @param pbprtAccdtVO
 	 * @return
 	 */
-	public int insertPublndToPbprtAccdt(PbprtAccdtVO pbprtAccdtVO) {
+	public int insertPublndToPbprtAccdt(List<PbprtAccdtVO> pbprtAccdtVO) {
 		return insert("administAssetsMng.insertPublndToPbprtAccdt", pbprtAccdtVO);
 	}
+	
 	/** 내보내기 공유재산 실태조사 pk */
 	public int selectPbprtAccdtTotCountMax() {
 		return selectOne("pbprtAccdtMng.selectPbprtAccdtTotCo");
 	}
+	
 	/** 내보내기 공유재산 실태조사 존재여부 */
 	public int selectPbprtAccdtTotCount() {
 		return selectOne("pbprtAccdtMng.selectPbprtAccdtTotCount");

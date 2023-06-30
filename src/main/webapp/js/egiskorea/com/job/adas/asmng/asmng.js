@@ -38,6 +38,15 @@ $(document).ready(function () {
 		exportAccnutData(checkedDataSet);
 	});
 	
+	$('#loanPosblYn, #rgistYn').on('input', function(e) {
+		let inputKey = e.originalEvent.data;
+		if (this.value.length > 1 || inputKey != undefined) {
+			if (inputKey != undefined){
+				this.value = inputKey.toUpperCase();
+			}
+		}
+	});
+	
 });
 
 /**
@@ -72,7 +81,7 @@ function insertAdministAssetsView() {
 }
 
 /**
- * 테이블 데이터 세팅
+ * 테이블 데이터 세팅 및 검색
  * @param _pageNo
  * @returns
  */
@@ -82,6 +91,14 @@ function selectAdministAssetsInfoList(_pageNo) {
 	let formData = $('#administAssetsSearch').serializeArray();
 	formData.push({name : "year", value : year});
 	formData.push({name : "pageNo", value : _pageNo});
+	
+//	// 검색기능 y/n 소문자 => 대문자 변환
+//	for (let i = 0; i < formData.length; i++) {
+//		if (formData[i].name == "rgistYn" || formData[i].name == "loadnPosblYn") {
+//			formData[i].value = formData[i].value.toUpperCase();
+//		}
+//	}
+	
 	$.ajax({
 		data : formData,
 		type : "POST",
@@ -106,6 +123,7 @@ function selectAdministAssetsInfoList(_pageNo) {
 			});
 			let numFormat = new Intl.NumberFormat().format(resultCnt);
 			$('.bbs-list-num strong').text(numFormat);
+			$('#prprtyNo, #locplc, #prprtyMngInscd, #loanPosblYn, #rgistYn').val('');
 		}
 	});
 }
@@ -347,6 +365,7 @@ function sendCSVFileData(isUploading) {
 					if(percent == "100"){
 						prgInterval = setInterval(() => {
 							$.ajax({
+								data : {year : year},
 								url : "/job/adas/asmng/csvUploadProgress.do",
 								type : "post",
 								dataType : "json",
@@ -356,7 +375,8 @@ function sendCSVFileData(isUploading) {
 								}
 							});
 						}, 3000);
-						toastr.info('데이터 등록을 시작합니다.', 'CSV 파일 서버 업로드 완료.');
+						toastr.info('CSV 파일 서버 업로드 완료.');
+						toastr.info('데이터 등록을 시작합니다.');
 					}
 				};
 				
@@ -368,8 +388,10 @@ function sendCSVFileData(isUploading) {
 				if (data.isSuccess) {
 					$(".progressbar-value").css("width", 100 + "%");
 					$(".progress-label").html(100 + "%");
-//					$('#rightSubPopup .popup-close').trigger('click');
 					toastr.success('데이터 등록이 정상적으로 처리되었습니다');
+					setTimeout(() => {
+						$('#rightSubPopup .popup-close').trigger('click');
+					}, 3000);
 				} else {
 					toastr.warning('데이터 등록에 실패하였습니다', '알 수 없는 오류');
 				}
@@ -453,20 +475,24 @@ function exportAccnutData(data) {
 			}
 		}
 	}
-	for (let i = 0; i < dataset.length; i++) {
+	
+	let result = 0;
+	
+	let json = JSON.stringify(dataset);
+	console.log(json);
 		$.ajax({
-			data : dataset[i],
+			data : json,
 			url : "/job/adas/asmng/insertPublndToPbprtAccdt.do",
 			type : "POST",
 			dataType : "json",
+			contentType : false,
 			async : false,
 			success : function (data) {
 				if (data.result == 'success') {
-					toastr.success('내보내기 성공');
+					toastr.success("내보내기 성공");
 				} else {
 					toastr.error('내보내기 실패');
 				}
 			}
 		});
-	}
 }
