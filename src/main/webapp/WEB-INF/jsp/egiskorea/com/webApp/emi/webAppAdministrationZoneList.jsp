@@ -34,7 +34,7 @@
         if (confirm(txt + "를 삭제하시겠습니까?")) {
             $.ajax({
                 type: "POST",
-                url: "/geo/emi/deleteAdministrationZone.do",
+                url: "/webApp/emi/deleteAdministrationZone.do",
                 data: {
                     "dataSeq": dataSeq
                 },

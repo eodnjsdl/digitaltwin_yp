@@ -15,6 +15,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import egiskorea.com.geo.emi.service.AdministrationZone;
 import egiskorea.com.geo.emi.service.ExaminationInfo;
@@ -24,6 +27,9 @@ import egiskorea.com.webApp.service.impl.WebAppExcelView;
 import egovframework.com.cmm.ComDefaultCodeVO;
 import egovframework.com.cmm.LoginVO;
 import egovframework.com.cmm.service.EgovCmmUseService;
+import egovframework.com.cmm.service.EgovFileMngService;
+import egovframework.com.cmm.service.EgovFileMngUtil;
+import egovframework.com.cmm.service.FileVO;
 import egovframework.com.cmm.util.EgovUserDetailsHelper;
 import egovframework.rte.fdl.property.EgovPropertyService;
 import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
@@ -57,6 +63,13 @@ public class WebAppExaminationInfoController {
 	
 	@Resource(name = "propertiesService")
     protected EgovPropertyService propertyService;
+	
+	/** 첨부파일 */
+	@Resource(name = "EgovFileMngService")
+	private EgovFileMngService fileMngService;
+
+	@Resource(name = "EgovFileMngUtil")
+	private EgovFileMngUtil fileUtil;
 	
 	/**
 	 * @Description 행정구역별 조사정보 목록 (웹앱용)
@@ -123,6 +136,35 @@ public class WebAppExaminationInfoController {
 		model.addAttribute("code1List", code1List);
 		
 		return "egiskorea/com/webApp/emi/webAppAdministrationZoneView";
+	}
+	
+	/**
+	 * @Description 행정구역별 조사정보 삭제
+	 * @Author 플랫폼개발부문 DT솔루션 이상화
+	 * @param examinationInfoVO
+	 * @param model
+	 * @return "egiskorea/com/cmm/actionResult"
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/deleteAdministrationZone.do")
+	public String deleteAdministrationZone(
+			@ModelAttribute("administrationZone") AdministrationZone administrationZone,
+			ModelMap model) throws Exception{ 
+		
+		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+		
+		if(!isAuthenticated) {	
+            return "redirect:/";
+        }
+		
+		if (isAuthenticated) {	
+			examinationInfoService.deleteAdministrationZone(administrationZone);
+			model.addAttribute("resultMsg", "common.success.code");
+		}else {
+			model.addAttribute("resultMsg", "common.fail.code");
+		}
+		
+		return "egiskorea/com/cmm/actionResult2";
 	}
 	
 	/**
@@ -194,6 +236,7 @@ public class WebAppExaminationInfoController {
 	@RequestMapping(value = "/updateExaminationInfoView.do")
 	public String updateExaminationInfoView(
 			@ModelAttribute("examinationInfoVO") ExaminationInfoVO examinationInfoVO,
+			@ModelAttribute("searchVO") FileVO fileVO,
 			ModelMap model) throws Exception{ 
 		
 		ExaminationInfo examinationInfo = examinationInfoService.updateExaminationInfoView(examinationInfoVO);		
@@ -368,6 +411,24 @@ public class WebAppExaminationInfoController {
 		model.addAttribute("t0600List", t0600List);
 		model.addAttribute("t0700List", t0700List);
 		
+		// 파일 이름
+		List<FileVO> ldstcFileResult = null;
+		String ldstcId = examinationInfo.getLdstcPhotoAtflId();
+		if (ldstcId != null || !"".equals(ldstcId)) {
+			fileVO.setAtchFileId(ldstcId);
+			ldstcFileResult = fileMngService.selectFileInfs(fileVO);
+		}
+		
+		List<FileVO> accdFileResult = null;
+		String accdId = examinationInfo.getAccdPhotoAtflId();
+		if (accdId != null || !"".equals(accdId)) {
+			fileVO.setAtchFileId(accdId);
+			accdFileResult = fileMngService.selectFileInfs(fileVO);
+		}
+		
+		model.addAttribute("ldstcFileResult", ldstcFileResult);
+		model.addAttribute("accdFileResult", accdFileResult);
+		
 		return "egiskorea/com/webApp/emi/webAppExaminationInfoView";
 	}
 	
@@ -381,6 +442,8 @@ public class WebAppExaminationInfoController {
 	@RequestMapping(value = "/updateExaminationInfo.do")
 	public String updateExaminationInfo(
 			@ModelAttribute("examinationInfo") ExaminationInfo examinationInfo,
+			@ModelAttribute("searchVO") FileVO fileVO,
+			MultipartHttpServletRequest multiRequest,
 			ModelMap model) throws Exception{ 
 		
 		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
@@ -391,8 +454,74 @@ public class WebAppExaminationInfoController {
 			
 			examinationInfo.setLastUpdusrId((user == null || user.getUniqId() == null) ? "" : user.getUniqId());
 			
+			// 첨부파일 관련 ID 생성
+			String ldstcId = examinationInfo.getLdstcPhotoAtflId();
+			String accdId = examinationInfo.getAccdPhotoAtflId();
+			
+			final List<MultipartFile> ldstcFiles = multiRequest.getFiles("ldstcFile");
+			if (!ldstcFiles.isEmpty()) {
+				if (ldstcId == null || "".equals(ldstcId)) {
+					List<FileVO> result = fileUtil.parseFileInf(ldstcFiles, "LDSTC_", 0, ldstcId, "");
+				    
+					ldstcId = fileMngService.insertFileInfs(result);
+				    examinationInfo.setLdstcPhotoAtflId(ldstcId);
+				} else {
+				    FileVO fvo = new FileVO();
+				    fvo.setAtchFileId(ldstcId);
+				    int cnt = fileMngService.getMaxFileSN(fvo);
+				    List<FileVO> _result = fileUtil.parseFileInf(ldstcFiles, "LDSTC_", cnt, ldstcId, "");
+				    fileMngService.updateFileInfs(_result);
+				}
+		    }
+			
+			final List<MultipartFile> accdFiles = multiRequest.getFiles("accdFile");
+			if (!accdFiles.isEmpty()) {
+				if (accdId == null || "".equals(accdId)) {
+				    List<FileVO> result = fileUtil.parseFileInf(accdFiles, "ACCD_", 0, accdId, "");
+				    accdId = fileMngService.insertFileInfs(result);
+				    examinationInfo.setAccdPhotoAtflId(accdId);
+				} else {
+				    FileVO fvo = new FileVO();
+				    fvo.setAtchFileId(accdId);
+				    int cnt = fileMngService.getMaxFileSN(fvo);
+				    List<FileVO> _result = fileUtil.parseFileInf(accdFiles, "ACCD_", cnt, accdId, "");
+				    fileMngService.updateFileInfs(_result);
+				}
+		    }
+			
 			examinationInfoService.updateExaminationInfo(examinationInfo);
 			
+			model.addAttribute("resultMsg", "common.success.code");
+		}else {
+			model.addAttribute("resultMsg", "common.fail.code");
+		}
+		
+		return "egiskorea/com/cmm/actionResult2";
+	}
+	
+	/**
+	 * @Description 조사정보 다중 삭제
+	 * @Author 플랫폼개발부문 DT솔루션 이상화
+	 * @Date 2022.01.11
+	 * @param examinationInfoVO
+	 * @param model
+	 * @return "egiskorea/com/cmm/actionResult2"
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/deleteExaminationInfoList.do")
+	public String deleteExaminationInfoList(
+			@RequestParam("selCodes") String selCdes,
+			@ModelAttribute("examinationInfoVO") ExaminationInfoVO examinationInfoVO,
+			ModelMap model) throws Exception{ 
+		
+		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+		
+		if (isAuthenticated) {	
+			String [] strSelCdes = selCdes.split(";");
+			for(int i=0; i<strSelCdes.length; i++) {
+				examinationInfoVO.setOrgFid(strSelCdes[i]);
+				examinationInfoService.deleteExaminationInfo(examinationInfoVO);
+			}
 			model.addAttribute("resultMsg", "common.success.code");
 		}else {
 			model.addAttribute("resultMsg", "common.fail.code");

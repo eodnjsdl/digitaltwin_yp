@@ -518,10 +518,11 @@ public class ExaminationInfo implements Serializable{
 	
 	///////////////////////  사진  ///////////////////////
 	/** 원거리 사진 */
-	private String ldstc_photo_atfl_id;
+	private String ldstcPhotoAtflId;
 	
 	/** 근거리 사진 */
-	private String accd_photo_atfl_id;
+	private String accdPhotoAtflId;
+	
 	
 	public String getOrgFid() {
 		return orgFid;
@@ -1803,19 +1804,19 @@ public class ExaminationInfo implements Serializable{
 		this.t0700 = t0700;
 	}
 
-	public String getLdstc_photo_atfl_id() {
-		return ldstc_photo_atfl_id;
+	public String getLdstcPhotoAtflId() {
+		return ldstcPhotoAtflId;
 	}
 
-	public void setLdstc_photo_atfl_id(String ldstc_photo_atfl_id) {
-		this.ldstc_photo_atfl_id = ldstc_photo_atfl_id;
+	public void setLdstcPhotoAtflId(String ldstcPhotoAtflId) {
+		this.ldstcPhotoAtflId = ldstcPhotoAtflId;
 	}
 
-	public String getAccd_photo_atfl_id() {
-		return accd_photo_atfl_id;
+	public String getAccdPhotoAtflId() {
+		return accdPhotoAtflId;
 	}
 
-	public void setAccd_photo_atfl_id(String accd_photo_atfl_id) {
-		this.accd_photo_atfl_id = accd_photo_atfl_id;
+	public void setAccdPhotoAtflId(String accdPhotoAtflId) {
+		this.accdPhotoAtflId = accdPhotoAtflId;
 	}
 }

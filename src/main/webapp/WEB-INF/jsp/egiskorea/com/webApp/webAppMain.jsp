@@ -10,7 +10,7 @@
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no, maximum-scale=1.0, user-scalable=no, target-densitydpi=device-dpi">
     <title>국토조사앱</title>
     <!-- Favicon-->
     <link rel="icon" type="image/x-icon" href="/images/common/favicon.ico"/>
