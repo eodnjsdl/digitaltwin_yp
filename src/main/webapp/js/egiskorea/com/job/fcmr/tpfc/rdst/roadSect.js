@@ -235,7 +235,8 @@ function setRoadSectListData(_pageNo, geom) {
 	promise.then(function(data) {
 		$('.bbs-list-num strong').empty();
 		if (data.totalFeatures > 0) {
-			$("#bottomPopup .bbs-list-num strong").text(data.totalFeatures);
+			let totalCnt = dataCountFormat(data.totalFeatures);
+			$("#bottomPopup .bbs-list-num strong").text(totalCnt);
 		} else {
 			$("#bottomPopup .bbs-list-num strong").text('0');
 			toastr.error("검색 결과가 없습니다.");
