@@ -317,6 +317,7 @@ const layerStyle = {
             });
         });
 
+        //라벨 - 폰트
         $('[name="font-family"]', selector).on('change', function () {
             const node = $(this);
             that.rule['text'] = _.merge(that.rule['text'], {
@@ -325,6 +326,8 @@ const layerStyle = {
                 }
             });
         });
+
+        //라벨 - 폰트 크기
         $('[name="font-size"]', selector).on('change', function () {
             const node = $(this);
             that.rule['text'] = _.merge(that.rule['text'], {
@@ -333,22 +336,26 @@ const layerStyle = {
                 }
             });
         });
+
+        //라벨 - 폰트스타일
         $('[name="font-style"]', selector).on('change', function () {
-            const node = $(this);
             that.rule['text'] = _.merge(that.rule['text'], {
                 'font': {
-                    'font-style': node.val()
+                    'font-style': this.checked ? 'italic' : 'normal'
                 }
             });
         });
+
+        //라벨 - 폰트 두께
         $('[name="font-weight"]', selector).on('change', function () {
-            const node = $(this);
             that.rule['text'] = _.merge(that.rule['text'], {
                 'font': {
-                    'font-weight': node.val()
+                    'font-weight': this.checked ? 'bold' : 'normal'
                 }
             });
         });
+
+        //라벨 - 글씨색
         $('[name="text-fill"]', selector).on('change', function () {
             const node = $(this);
             that.rule['text'] = _.merge(that.rule['text'], {
@@ -357,6 +364,8 @@ const layerStyle = {
                 }
             });
         });
+
+        //라벨 - 배경색
         $('[name="halo-fill"]', selector).on('change', function () {
             const node = $(this);
             that.rule['text'] = _.merge(that.rule['text'], {
@@ -367,6 +376,8 @@ const layerStyle = {
                 }
             });
         });
+
+        //라벨 - 배경두께
         $('[name="halo-radius"]', selector).on('change', function () {
             const node = $(this);
             that.rule['text'] = _.merge(that.rule['text'], {
@@ -375,6 +386,8 @@ const layerStyle = {
                 }
             });
         });
+
+        //라벨 - 앵커X
         $('[name="anchor-x"]', selector).on('change', function () {
             const node = $(this);
             that.rule['text'] = _.merge(that.rule['text'], {
@@ -383,6 +396,8 @@ const layerStyle = {
                 }
             });
         });
+
+        //라벨 - 앵커Y
         $('[name="anchor-y"]', selector).on('change', function () {
             const node = $(this);
             that.rule['text'] = _.merge(that.rule['text'], {
@@ -391,6 +406,14 @@ const layerStyle = {
                 }
             });
         });
+
+        //라벨 - 사용여부
+        $('[name="text-useat"]', selector).on('change', function () {
+            that.getTextStyle();
+            that.rule['text']['useAt'] = this.checked;
+        })
+
+        //기본정보 - 표출
         $('[name="eprssAt"]', '#layerInfoForm').on('change', function () {
             const node = $(this);
             const label = node.closest('tr').find('td:eq(1)').text()
@@ -398,24 +421,6 @@ const layerStyle = {
                 'label': label
             });
         });
-        $('[name="text-useat"]', selector).on('change', function () {
-            that.getTextStyle();
-            that.rule['text']['useAt'] = this.checked;
-        })
-        // // 입력 값 변경 시 스타일 변경
-        // $("input[name],select[name]").on("change", function () {
-        //     const node = $(this);
-        //     const name = node.attr("name");
-        //     console.log(name);
-        //     const val = node.val();
-        //     if (that.rule) {
-        //         if (that.rule["line"] && that.rule["line"]["stroke"]) {
-        //             that.rule["line"]["stroke"][name] = val;
-        //         } else if (that.rule["polygon"] && that.rule["polygon"]["stroke"]) {
-        //             that.rule["polygon"]["stroke"][name] = val;
-        //         }
-        //     }
-        // });
 
         // 테두리
         $("#style_stroke_checkbox").on("change", function () {
@@ -483,8 +488,8 @@ const layerStyle = {
         const font = {
             'font-family': $('[name="font-family"]', selector).val(),
             'font-size': $('[name="font-size"]', selector).val(),
-            'font-style': $('[name="font-style"]', selector).val(),
-            'font-weight': $('[name="font-weight"]', selector).val(),
+            'font-style': $('[name="font-style"]', selector).prop('checked') ? 'italic' : 'normal',
+            'font-weight': $('[name="font-weight"]', selector).prop('checked') ? 'bold' : 'normal',
 
         }
 
@@ -621,8 +626,8 @@ const layerStyle = {
         const font = text['font'];
         $('[name="font-family"]', selector).val(font['font-family']);
         $('[name="font-size"]', selector).val(font['font-size']);
-        $('[name="font-style"]', selector).val(font['font-style']);
-        $('[name="font-weight"]', selector).val(font['font-weight']);
+        $('[name="font-style"]', selector).prop('checked', font['font-style'] === 'italic');
+        $('[name="font-weight"]', selector).prop('checked', font['font-weight'] === 'bold');
 
         const fill = text['fill'];
         $('[name="text-fill"]', selector).minicolors('value', fill['fill']);

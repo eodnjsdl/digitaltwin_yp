@@ -211,7 +211,8 @@
                                     <div class="tbl-list">
                                         <div class="term">색상</div>
                                         <div class="desc">
-                                            <input type="text" name="fill" class="style-fill-color colorPicker" value="#ffffff">
+                                            <input type="text" name="fill" class="style-fill-color colorPicker"
+                                                   value="#ffffff" style="width: 165px;">
                                         </div>
                                     </div>
                                     <div class="tbl-list">
@@ -235,7 +236,9 @@
                                             <div class="term">색상</div>
                                             <div class="desc">
                                                 <div class="form-row">
-                                                    <input type="text" name="stroke" class="style-stroke-color form-control colorPicker" value="#ff0000">
+                                                    <input type="text" name="stroke"
+                                                           class="style-stroke-color form-control colorPicker"
+                                                           value="#ff0000" style="width: 165px;">
                                                 </div>
                                             </div>
                                         </div>
@@ -589,21 +592,40 @@
                         <div class="col-12">
                             <div class="tbl-list">
                                 <div class="desc" style="width: 190px;">
-                                    <span class="form-checkbox"><input type="checkbox" class="form-control" name="text-useat" id="text-useat"><label for="text-useat">사용여부</label></span>
+                                    <span class="form-checkbox"><input type="checkbox" class="form-control"
+                                                                       name="text-useat" id="text-useat"><label
+                                            for="text-useat">사용여부</label></span>
                                 </div>
                             </div>
                         </div>
                         <div class="col-12">
                             <p class="cont-txt">글씨</p>
                         </div>
-                        <div class="col-12 marB5">
+                        <div class="col-6 marB5">
                             <div class="tbl-list">
                                 <div class="term">색상</div>
-                                <div class="desc" style="width: 190px;">
-                                    <input type="text" class="colorPicker" name="text-fill" value="#000000">
+                                <div class="desc">
+                                    <input type="text" class="colorPicker" name="text-fill" value="#000000"
+                                           style="width: 190px;">
                                 </div>
                             </div>
                         </div>
+                        <div class="col-6 marB5">
+                            <div class="tbl-list">
+                                <div class="term">종류</div>
+                                <div class="desc" style="width: 190px;">
+                                    <div class="text-decoration-group">
+                                <span><input type="checkbox" id="fontBold" class="fontBold" name="font-weight"><label
+                                        for="fontBold" class="fontBold"></label></span>
+                                        <span><input type="checkbox" id="fontItalic" class="fontItalic"
+                                                     name="font-style"><label
+                                                for="fontItalic" class="fontItalic"></label></span>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
                         <div class="col-6 marB5">
                             <div class="tbl-list">
                                 <div class="term">폰트</div>
@@ -634,7 +656,8 @@
                             <div class="tbl-list">
                                 <div class="term">색상</div>
                                 <div class="desc" style="width: 190px;">
-                                    <input type="text" class="colorPicker" name="halo-fill" value="#ffffff">
+                                    <input type="text" class="colorPicker" name="halo-fill" value="#ffffff"
+                                           style="width: 190px;">
                                 </div>
                             </div>
 
@@ -654,7 +677,8 @@
                             <div class="tbl-list">
                                 <div class="term">x 축</div>
                                 <div class="desc" style="width: 190px;">
-                                    <input type="number" class="form-control" name="anchor-x" value="0.5"step="0.1" max="10" min="-10">
+                                    <input type="number" class="form-control" name="anchor-x" value="0.5" step="0.1"
+                                           max="10" min="-10">
                                 </div>
                             </div>
                         </div>
@@ -662,7 +686,8 @@
                             <div class="tbl-list">
                                 <div class="term">y 축</div>
                                 <div class="desc" style="width: 190px;">
-                                    <input type="number" class="form-control" name="anchor-y" value="0.5" step="0.1" max="10" min="-10">
+                                    <input type="number" class="form-control" name="anchor-y" value="0.5" step="0.1"
+                                           max="10" min="-10">
                                 </div>
                             </div>
                         </div>
