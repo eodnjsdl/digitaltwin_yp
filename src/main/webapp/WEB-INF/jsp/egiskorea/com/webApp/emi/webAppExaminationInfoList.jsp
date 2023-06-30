@@ -216,7 +216,7 @@
                                     <td><c:out value="${result.ori}"/></td>
                                     <td><c:out value="${result.j0302}"/></td>
                                     <td onclick="event.stopPropagation()">
-                                        <button type="button" class="icon-btn excel" title="엑셀다운로드" onClick="webApp_fn_download_excelData(this.form, '<c:out value="${result.pnu}" />')"></button>
+                                        <button type="button" class="icon-btn excel" title="엑셀다운로드" onClick="webApp_fn_download_excelData(this.form,'<c:out value="${result.pnu}" />')"></button>
                                     </td>
                                 </tr>
                             </c:forEach>
@@ -238,7 +238,7 @@
                     <button type="button" class="btn basic bi-delete2" onClick="webApp_fn_select_delete_list()">선택삭제</button>
                 </div>
                 <div class="position-absolute right">
-                    <button type="button" class="btn basic bi-excel" onClick="webApp_fn_download_excelData(this.form, 'all')">엑셀 저장</button>
+                    <button type="button" class="btn basic bi-excel" onClick="webApp_fn_download_excelData(this.form,'all')">엑셀 저장</button>
                 </div>
             </div>
         </form:form>
