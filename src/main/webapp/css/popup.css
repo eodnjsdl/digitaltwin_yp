@@ -1921,7 +1921,7 @@
 
 .territory-info-body .tabBoxDepth1-wrap {
     margin-top: 20px;
-    height: 474px;
+    height: calc(100% - 145px);
 }
 
 .territory-info-body .tabBoxDepth1-wrap .scroll-y {
@@ -1945,6 +1945,60 @@
 
 .territory-info-body .form-row .tit {
     color: #818A9D;
+}
+
+.territory-info-body .tab-cont {
+    height: calc(100% - 35px);
+}
+
+/* 사진 */
+.proTab06 .detailPhoto {
+	text-align: center;
+}
+
+.select-file {
+	padding: 15px;
+	text-align: center;
+}
+
+.select-file input[type="file"] {
+    position: absolute;
+    width: 0;
+    height: 0;
+    padding: 0;
+    overflow: hidden;
+    border: 0;
+}
+
+.select-file .select-label {
+	display: block;
+}
+
+.select-label .file-name {
+	padding: 0 15px;
+	display: inline-block;
+	width: calc(90% - 75px);
+	height: 30px;
+	line-height: 30px;
+	border: 1px solid #DCDCDC;
+	background-color: #FFFFFF;
+	border-radius: 5px 0 0 5px;
+	font-weight: 500;
+	text-align: left;
+	vertical-align: bottom;
+}
+
+.select-label .selectBtn {
+	margin-left: -5px;
+	display: inline-block;
+	width: 75px;
+	height: 30px;
+	line-height: 30px;
+	border: 1px solid #DCDCDC;
+	background-color: #FFFFFF;
+	border-radius: 0 5px 5px 0;
+	text-align: center;
+	vertical-align: bottom;
 }
 
 /*------------------------------------------------------------------------------

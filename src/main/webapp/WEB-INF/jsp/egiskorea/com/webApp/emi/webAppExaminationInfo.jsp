@@ -24,7 +24,7 @@
 
     // 속성정보에서 수정 클릭시
     function webApp_fn_select_update(pnu) {
-        webApp_leftSubPopupOpen("examinationInfoView", pnu);
+		webApp_updateExaminationInfoView($("#tmpForm")[0], pnu);
     }
     
     // 속성정보에서 삭제 클릭시
@@ -99,7 +99,7 @@
                     </tbody>
                 </table>
             </div>
-            <div class="tabBoxDepth1-wrap" style="height: calc(100% - 160px);">
+            <div class="tabBoxDepth1-wrap">
                 <div class="tabBoxDepth1">
                     <ul>
                         <li data-tab="proTab01" class="on">

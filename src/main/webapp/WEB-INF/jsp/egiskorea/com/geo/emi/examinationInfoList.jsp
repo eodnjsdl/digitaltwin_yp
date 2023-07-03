@@ -136,10 +136,10 @@
         aj_selectExaminationInfoList($("#searchFormLeft")[0], "");
     }
 
-    function fn_left_select_detail(pnu) {
+    function fn_right_select_detail(pnu) {
         // leftSubPopupOpen("examinationInfo", pnu, "left");
         ui.openPopup("rightSubPopup", "emiInfo");
-        aj_selectExaminationInfo($("#tmpForm")[0], pnu, "right");
+        aj_selectExaminationInfo($("#tmpForm")[0], pnu);
     }
 
     function fn_select_delete_list() {
@@ -254,7 +254,7 @@
                             </colgroup>
                             <tbody>
                             <c:forEach items="${resultList}" var="result" varStatus="status">
-                                <tr onClick="fn_left_select_detail('<c:out value="${result.pnu}" />')">
+                                <tr onClick="fn_right_select_detail('<c:out value="${result.pnu}" />')">
                                     <td>
 														<span class="form-checkbox">
 														<span><input type="checkbox" name="delYn"

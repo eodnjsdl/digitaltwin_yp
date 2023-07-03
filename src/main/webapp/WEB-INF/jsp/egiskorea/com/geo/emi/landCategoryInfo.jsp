@@ -219,6 +219,7 @@
 												<div style="padding-bottom: 5px;"><form:textarea path="opinion" cssClass="form-control" /></div>
 											</div>
 											<div class="position-bottom btn-wrap justify-content-end examinationBtn">
-												<div><button type="button" class="btn basic bi-save" onClick="fn_update_examinationInfo(this.form)">수정</button> <button type="button" class="btn basic bi-cancel" onclick="fn_left_select_detail('<c:out value="${examinationInfo.pnu} "/>')">취소</button></div>
+												<button type="button" class="btn basic bi-save" style="margin: 0 3px;" onClick="fn_update_examinationInfo(this.form)">수정</button>
+												<button type="button" class="btn basic bi-cancel" style="margin: 0 3px;" onclick="fn_cancel_examinationInfo()">취소</button>
 											</div>
 										</div>

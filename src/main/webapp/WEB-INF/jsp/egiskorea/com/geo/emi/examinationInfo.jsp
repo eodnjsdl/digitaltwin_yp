@@ -21,6 +21,16 @@
         <%--	}--%>
         <%--}--%>
 
+        // 사진 표시
+        var ldstcPhotoAtflId = "<c:out value='${result.ldstcPhotoAtflId}'/>";
+		var accdPhotoAtflId = "<c:out value='${result.accdPhotoAtflId}'/>";
+		
+		if (ldstcPhotoAtflId != "") {
+			$("#ldstcPhoto").attr("src", "<c:url value='/cmm/fms/getImage.do'/>?atchFileId=<c:out value='${result.ldstcPhotoAtflId}'/>");
+		}
+		if (accdPhotoAtflId != "") {
+			$("#accdPhoto").attr("src", "<c:url value='/cmm/fms/getImage.do'/>?atchFileId=<c:out value='${result.accdPhotoAtflId}'/>");
+		}
     });
 
     function eventBindByExaminationInfo() {
@@ -52,7 +62,7 @@
     }
 
     function fn_select_update(pnu) {
-        leftSubPopupOpen("examinationInfoView", pnu, "left");
+    	aj_updateExaminationInfoView($("#tmpForm")[0], pnu);
     }
 
     function fn_select_delete(orgFid) {
@@ -87,7 +97,7 @@
     <input type="hidden" name="pnu">
     <div class="popup-header">속성정보</div>
     <div class="popup-body">
-        <div class="sub-popup-body">
+        <div class="sub-popup-body territory-info-body">
             <h3 class="cont-tit">기본정보</h3>
             <div class="data-default">
                 <table class="data-write">
@@ -142,6 +152,9 @@
                         </li>
                         <li data-tab="proTab05">
                             <button type="button" class="inner-tab">토지피복</button>
+                        </li>
+                        <li data-tab="proTab06">
+                            <button type="button" class="inner-tab">사진</button>
                         </li>
                     </ul>
                 </div>
@@ -274,19 +287,19 @@
                         <div style="padding-bottom: 5px;"><textarea name="opinion" class="form-control" readonly><c:out
                                 value="${result.opinion}"/></textarea></div>
                     </div>
-                    <div class="position-bottom btn-wrap justify-content-end examinationBtn">
-                        <div>
-                            <button type="button" class="btn basic bi-edit"
-                                    onClick="fn_select_update('<c:out value="${result.pnu}" />')">수정
-                            </button>
-                            <button type="button" class="btn basic bi-excel"
-                                    onClick="fn_download_excelData(this.form,'<c:out value="${result.pnu}" />')">엑셀저장
-                            </button>
-                            <button type="button" class="btn basic bi-delete2"
-                                    onClick="fn_select_delete('<c:out value="${result.orgFid}" />')">삭제
-                            </button>
-                        </div>
-                    </div>
+<!--                     <div class="position-bottom btn-wrap justify-content-end examinationBtn"> -->
+<!--                         <div> -->
+<!--                             <button type="button" class="btn basic bi-edit" -->
+<%--                                     onClick="fn_select_update('<c:out value="${result.pnu}" />')">수정 --%>
+<!--                             </button> -->
+<!--                             <button type="button" class="btn basic bi-excel" -->
+<%--                                     onClick="fn_download_excelData(this.form,'<c:out value="${result.pnu}" />')">엑셀저장 --%>
+<!--                             </button> -->
+<!--                             <button type="button" class="btn basic bi-delete2" -->
+<%--                                     onClick="fn_select_delete('<c:out value="${result.orgFid}" />')">삭제 --%>
+<!--                             </button> -->
+<!--                         </div> -->
+<!--                     </div> -->
                 </div>
                 <!-- //지목조사 -->
                 <!-- 공통항목 -->
@@ -509,19 +522,19 @@
                         </div>
 
                     </div>
-                    <div class="position-bottom btn-wrap justify-content-end examinationBtn">
-                        <div>
-                            <button type="button" class="btn basic bi-edit"
-                                    onClick="fn_select_update('<c:out value="${result.pnu}" />')">수정
-                            </button>
-                            <button type="button" class="btn basic bi-excel"
-                                    onClick="fn_download_excelData(this.form,'<c:out value="${result.pnu}" />')">엑셀저장
-                            </button>
-                            <button type="button" class="btn basic bi-delete2"
-                                    onClick="fn_select_delete('<c:out value="${result.orgFid}" />')">삭제
-                            </button>
-                        </div>
-                    </div>
+<!--                     <div class="position-bottom btn-wrap justify-content-end examinationBtn"> -->
+<!--                         <div> -->
+<!--                             <button type="button" class="btn basic bi-edit" -->
+<%--                                     onClick="fn_select_update('<c:out value="${result.pnu}" />')">수정 --%>
+<!--                             </button> -->
+<!--                             <button type="button" class="btn basic bi-excel" -->
+<%--                                     onClick="fn_download_excelData(this.form,'<c:out value="${result.pnu}" />')">엑셀저장 --%>
+<!--                             </button> -->
+<!--                             <button type="button" class="btn basic bi-delete2" -->
+<%--                                     onClick="fn_select_delete('<c:out value="${result.orgFid}" />')">삭제 --%>
+<!--                             </button> -->
+<!--                         </div> -->
+<!--                     </div> -->
                 </div>
                 <!-- //공통항목 -->
                 <!-- 토지특성 -->
@@ -778,19 +791,19 @@
                             </table>
                         </div>
                     </div>
-                    <div class="position-bottom btn-wrap justify-content-end examinationBtn">
-                        <div>
-                            <button type="button" class="btn basic bi-edit"
-                                    onClick="fn_select_update('<c:out value="${result.pnu}" />')">수정
-                            </button>
-                            <button type="button" class="btn basic bi-excel"
-                                    onClick="fn_download_excelData(this.form,'<c:out value="${result.pnu}" />')">엑셀저장
-                            </button>
-                            <button type="button" class="btn basic bi-delete2"
-                                    onClick="fn_select_delete('<c:out value="${result.orgFid}" />')">삭제
-                            </button>
-                        </div>
-                    </div>
+<!--                     <div class="position-bottom btn-wrap justify-content-end examinationBtn"> -->
+<!--                         <div> -->
+<!--                             <button type="button" class="btn basic bi-edit" -->
+<%--                                     onClick="fn_select_update('<c:out value="${result.pnu}" />')">수정 --%>
+<!--                             </button> -->
+<!--                             <button type="button" class="btn basic bi-excel" -->
+<%--                                     onClick="fn_download_excelData(this.form,'<c:out value="${result.pnu}" />')">엑셀저장 --%>
+<!--                             </button> -->
+<!--                             <button type="button" class="btn basic bi-delete2" -->
+<%--                                     onClick="fn_select_delete('<c:out value="${result.orgFid}" />')">삭제 --%>
+<!--                             </button> -->
+<!--                         </div> -->
+<!--                     </div> -->
                 </div>
                 <!-- //토지특성 -->
                 <!-- 주택특성 -->
@@ -1116,19 +1129,19 @@
                             </table>
                         </div>
                     </div>
-                    <div class="position-bottom btn-wrap justify-content-end examinationBtn">
-                        <div>
-                            <button type="button" class="btn basic bi-edit"
-                                    onClick="fn_select_update('<c:out value="${result.pnu}" />')">수정
-                            </button>
-                            <button type="button" class="btn basic bi-excel"
-                                    onClick="fn_download_excelData(this.form,'<c:out value="${result.pnu}" />')">엑셀저장
-                            </button>
-                            <button type="button" class="btn basic bi-delete2"
-                                    onClick="fn_select_delete('<c:out value="${result.orgFid}" />')">삭제
-                            </button>
-                        </div>
-                    </div>
+<!--                     <div class="position-bottom btn-wrap justify-content-end examinationBtn"> -->
+<!--                         <div> -->
+<!--                             <button type="button" class="btn basic bi-edit" -->
+<%--                                     onClick="fn_select_update('<c:out value="${result.pnu}" />')">수정 --%>
+<!--                             </button> -->
+<!--                             <button type="button" class="btn basic bi-excel" -->
+<%--                                     onClick="fn_download_excelData(this.form,'<c:out value="${result.pnu}" />')">엑셀저장 --%>
+<!--                             </button> -->
+<!--                             <button type="button" class="btn basic bi-delete2" -->
+<%--                                     onClick="fn_select_delete('<c:out value="${result.orgFid}" />')">삭제 --%>
+<!--                             </button> -->
+<!--                         </div> -->
+<!--                     </div> -->
                 </div>
                 <!-- //주택특성 -->
                 <!-- 토지피복 -->
@@ -1167,21 +1180,64 @@
                             </tbody>
                         </table>
                     </div>
-                    <div class="position-bottom btn-wrap justify-content-end examinationBtn">
-                        <div>
-                            <button type="button" class="btn basic bi-edit"
-                                    onClick="fn_select_update('<c:out value="${result.pnu}" />')">수정
-                            </button>
-                            <button type="button" class="btn basic bi-excel"
-                                    onClick="fn_download_excelData(this.form,'<c:out value="${result.pnu}" />')">엑셀저장
-                            </button>
-                            <button type="button" class="btn basic bi-delete2"
-                                    onClick="fn_select_delete('<c:out value="${result.orgFid}" />')">삭제
-                            </button>
-                        </div>
-                    </div>
+<!--                     <div class="position-bottom btn-wrap justify-content-end examinationBtn"> -->
+<!--                         <div> -->
+<!--                             <button type="button" class="btn basic bi-edit" -->
+<%--                                     onClick="fn_select_update('<c:out value="${result.pnu}" />')">수정 --%>
+<!--                             </button> -->
+<!--                             <button type="button" class="btn basic bi-excel" -->
+<%--                                     onClick="fn_download_excelData(this.form,'<c:out value="${result.pnu}" />')">엑셀저장 --%>
+<!--                             </button> -->
+<!--                             <button type="button" class="btn basic bi-delete2" -->
+<%--                                     onClick="fn_select_delete('<c:out value="${result.orgFid}" />')">삭제 --%>
+<!--                             </button> -->
+<!--                         </div> -->
+<!--                     </div> -->
                 </div>
                 <!-- //토지피복 -->
+                <!-- 사진 -->
+	            <div class="tab-cont proTab06">
+		            <div class="scroll-y">
+	                    <div class="data-default">
+	                        <table class="data-write">
+	                            <tbody>
+	                            <tr>
+	                                <th scope="row">원경</th>
+	                            </tr>
+	                            <tr>
+	                                <td>
+	                                	<div class="detailPhoto">
+	                                		<img src="" id="ldstcPhoto" width="500 "/>
+	                                	</div>
+	                                </td>
+	                            </tr>
+	                            <tr>
+	                                <th scope="row">근경</th>
+	                            </tr>
+	                            <tr>
+	                                <td>
+	                                	<div class="detailPhoto">
+	                                		<img src="" id="accdPhoto" width="500 "/>
+	                                	</div>
+	                                </td>
+	                            </tr>
+	                            </tbody>
+	                        </table>
+	                    </div>
+                    </div>
+                </div>
+                <!-- //사진 -->
+            </div>
+            <div>
+            	<button type="button" class="btn basic bi-excel" style="text-align: left; margin: 0 3px;"
+					onClick="fn_download_excelData(this.form,'<c:out value="${result.pnu}" />')">엑셀저장
+                </button>
+            	<button type="button" class="btn basic bi-delete2" style="float: right; margin: 0 3px;"
+					onClick="fn_select_delete('<c:out value="${result.orgFid}" />')">삭제
+            	</button>
+                <button type="button" class="btn basic bi-edit" style="float: right; margin: 0 3px;"
+					onClick="fn_select_update('<c:out value="${result.pnu}" />')">수정
+                </button>
             </div>
         </div>
     </div>

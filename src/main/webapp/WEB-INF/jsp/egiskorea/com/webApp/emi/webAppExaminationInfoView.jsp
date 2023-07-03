@@ -28,7 +28,7 @@
                         if (status == "success") {
                             if (removeLine(returnData) == "ok") {
                                 toastr.success("<spring:message code="success.common.update" />");
-								webApp_leftSubPopupOpen("examinationInfo", "<c:out value="${examinationInfo.pnu} "/>");
+                                webApp_selectExaminationInfo($("#tmpForm")[0], "<c:out value="${examinationInfo.pnu} "/>");
                             } else {
                                 toastr.success("<spring:message code="fail.common.update" />");
                             }
@@ -87,7 +87,7 @@
                     </tbody>
                 </table>
             </div>
-            <div class="tabBoxDepth1-wrap" style="height: calc(100% - 135px);">
+            <div class="tabBoxDepth1-wrap">
                 <div class="tabBoxDepth1">
                     <ul>
                         <li data-tab="proTab01" class="on">

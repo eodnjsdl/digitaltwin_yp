@@ -3,6 +3,7 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="validator" uri="http://www.springmodules.org/tags/commons-validator" %>
+<script src="/js/egiskorea/com/common.js"></script>
 <script type="text/javascript" src="<c:url value="/validator.do"/>"></script>
 <validator:javascript formName="examinationInfo" staticJavascript="false" xhtml="true" cdata="false"/>
 <script>
@@ -26,7 +27,7 @@
                         if (status == "success") {
                             if (removeLine(returnData) == "ok") {
                                 toastr.success("<spring:message code="success.common.update" />");
-                                leftSubPopupOpen("examinationInfo", "<c:out value="${examinationInfo.pnu} "/>", "left");
+                                aj_selectExaminationInfo($("#tmpForm")[0], "<c:out value="${examinationInfo.pnu} "/>");
                             } else {
                                 toastr.success("<spring:message code="fail.common.update" />");
                             }
@@ -43,7 +44,7 @@
     }
 
     function fn_cancel_examinationInfo() {
-        $("#leftSubPopup").removeClass("opened").html("");
+    	aj_selectExaminationInfo($("#tmpForm")[0], "<c:out value='${examinationInfo.pnu}' />");
     }
 </script>
 <!-- 국토정보관리 > 속성정보 > 더보기 -->
@@ -51,7 +52,7 @@
     <form:hidden path="pnu"/>
     <div class="popup-header">속성정보</div>
     <div class="popup-body">
-        <div class="sub-popup-body territory-info-body detail">
+        <div class="sub-popup-body territory-info-body">
             <h3 class="cont-tit">기본정보</h3>
             <div class="data-default">
                 <table class="data-write">
@@ -63,10 +64,10 @@
                     </colgroup>
                     <tbody>
                     <tr>
-                        <th scope="row">ORG_FILD</th>
-                        <td><c:out value="${examinationInfo.orgFid} "/></td>
                         <th scope="row">지번</th>
                         <td><c:out value="${examinationInfo.addr} "/></td>
+                        <th scope="row">최종변경일자</th>
+                        <td><c:out value="${examinationInfo.updateDate} "/></td>
                     </tr>
                         <%-- 												<tr>
                                                                             <th scope="row">ORG_FILD</th>
@@ -81,16 +82,10 @@
                                                                             <td><c:out value="${examinationInfo.endDate} "/></td>
                                                                         </tr> --%>
                     <tr>
-                        <th scope="row">최종변경일자</th>
-                        <td><c:out value="${examinationInfo.updateDate} "/></td>
                         <th scope="row">원지목</th>
                         <td><c:out value="${examinationInfo.ori}"/></td>
-                    </tr>
-                    <tr>
                         <th scope="row">조사자(정)</th>
                         <td><form:input path="main" cssClass="form-control"/></td>
-                        <th scope="row">조사자(부)</th>
-                        <td><form:input path="sub" cssClass="form-control"/></td>
                     </tr>
                     </tbody>
                 </table>
@@ -113,6 +108,9 @@
                         <li data-tab="proTab05">
                             <button type="button" class="inner-tab">토지피복</button>
                         </li>
+                        <li data-tab="proTab06">
+                            <button type="button" class="inner-tab">사진</button>
+                        </li>
                     </ul>
                 </div>
                 <!-- 지목조사 -->
@@ -130,6 +128,9 @@
                 <!-- 토지피복 -->
                 <jsp:include page="landCover.jsp" flush="true"/>
                 <!-- //토지피복 -->
+                <!-- 사진 -->
+                <jsp:include page="photo.jsp" flush="true"/>
+                <!-- //사진 -->
             </div>
         </div>
     </div>
