@@ -16,6 +16,13 @@
     function eventBindByExaminationInfoList() {
         $('#leftPopup .popup-close').click(function () {
             $("input[name='code2']").val("");
+            
+            $(".territory-list li").each(function () {
+                if ($(this).hasClass("active")) {
+                    $(this).removeClass("active")
+                }
+            });
+            
             dtmap.clear();
             // if (app2D) {
             // 	cmmUtil.resetMap();
@@ -217,13 +224,13 @@
                     <div class="bbs-list-head">
                         <table class="bbs-list">
                             <colgroup>
-                                <col style="width: 36px;">
-                                <col style="width: 15%;">
+                                <col style="width: 45px;">
+                                <col style="width: 20%;">
                                 <col style="width: 18%;">
                                 <col style="width: 15%;">
                                 <col style="width: auto;">
-                                <col style="width: 15%;">
-                                <col style="width: 80px;">
+                                <col style="width: auto;">
+                                <col style="width: 60px;">
                             </colgroup>
                             <thead>
                             <tr>
@@ -244,13 +251,13 @@
                     <div class="scroll-y">
                         <table class="bbs-list">
                             <colgroup>
-                                <col style="width: 36px;">
-                                <col style="width: 15%;">
+                                <col style="width: 45px;">
+                                <col style="width: 20%;">
                                 <col style="width: 18%;">
                                 <col style="width: 15%;">
                                 <col style="width: auto;">
-                                <col style="width: 15%;">
-                                <col style="width: 80px;">
+                                <col style="width: auto;">
+                                <col style="width: 60px;">
                             </colgroup>
                             <tbody>
                             <c:forEach items="${resultList}" var="result" varStatus="status">
