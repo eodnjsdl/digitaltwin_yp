@@ -24,7 +24,7 @@
 
     // 속성정보에서 수정 클릭시
     function webApp_fn_select_update(pnu) {
-        webApp_leftSubPopupOpen("examinationInfoView", pnu);
+		webApp_updateExaminationInfoView($("#tmpForm")[0], pnu);
     }
     
     // 속성정보에서 삭제 클릭시
@@ -99,7 +99,7 @@
                     </tbody>
                 </table>
             </div>
-            <div class="tabBoxDepth1-wrap" style="height: calc(100% - 160px);">
+            <div class="tabBoxDepth1-wrap">
                 <div class="tabBoxDepth1">
                     <ul>
                         <li data-tab="proTab01" class="on">
@@ -271,30 +271,30 @@
                                     <th scope="row">용도지역</th>
                                     <td>
                                         <div class="form-row">
-                                            <div class="col-auto tit">이전</div>
+                                            <div class="col-auto tit">이전 : </div>
                                             <div class="col"><c:out value="${result.c0100p}"/></div>
                                         </div>
                                         <div class="form-row">
-                                            <div class="col-auto tit">현재</div>
+                                            <div class="col-auto tit">현재 : </div>
                                             <div class="col"><c:out value="${result.c0100n}"/></div>
                                         </div>
                                         <div class="form-row">
-                                            <div class="col-auto tit">변경</div>
+                                            <div class="col-auto tit">변경 : </div>
                                             <div class="col"><c:out value="${result.c0100c}"/></div>
                                         </div>
                                     </td>
                                     <th scope="row">용도지구</th>
                                     <td>
                                         <div class="form-row">
-                                            <div class="col-auto tit">이전</div>
+                                            <div class="col-auto tit">이전 : </div>
                                             <div class="col"><c:out value="${result.c0200p}"/></div>
                                         </div>
                                         <div class="form-row">
-                                            <div class="col-auto tit">현재</div>
+                                            <div class="col-auto tit">현재 : </div>
                                             <div class="col"><c:out value="${result.c0200n}"/></div>
                                         </div>
                                         <div class="form-row">
-                                            <div class="col-auto tit">변경</div>
+                                            <div class="col-auto tit">변경 : </div>
                                             <div class="col"><c:out value="${result.c0200c}"/></div>
                                         </div>
                                     </td>
@@ -303,30 +303,30 @@
                                     <th scope="row">기타제한<br>-<br>기타<br>(제주도)</th>
                                     <td class="align-top">
                                         <div class="form-row">
-                                            <div class="col-auto tit">현재</div>
+                                            <div class="col-auto tit">현재 : </div>
                                             <div class="col"><c:out value="${result.c0301n}"/></div>
                                         </div>
                                         <div class="form-row">
-                                            <div class="col-auto tit">기타</div>
+                                            <div class="col-auto tit">기타 : </div>
                                             <div class="col"><c:out value="${result.c0301e}"/></div>
                                         </div>
                                     </td>
                                     <th scope="row">기타제한<br>-<br>도시계획<br>신설</th>
                                     <td>
                                         <div class="form-row">
-                                            <div class="col-auto tit">이전</div>
+                                            <div class="col-auto tit">이전 : </div>
                                             <div class="col"><c:out value="${result.c0302p}"/></div>
                                         </div>
                                         <div class="form-row">
-                                            <div class="col-auto tit">현재</div>
+                                            <div class="col-auto tit">현재 : </div>
                                             <div class="col"><c:out value="${result.c0302n}"/></div>
                                         </div>
                                         <div class="form-row">
-                                            <div class="col-auto tit">변경</div>
+                                            <div class="col-auto tit">변경 : </div>
                                             <div class="col"><c:out value="${result.c0302c}"/></div>
                                         </div>
                                         <div class="form-row">
-                                            <div class="col-auto tit">기타</div>
+                                            <div class="col-auto tit">기타 : </div>
                                             <div class="col"><c:out value="${result.c0302e}"/></div>
                                         </div>
                                     </td>
@@ -349,30 +349,30 @@
                                     <th scope="row">고저</th>
                                     <td>
                                         <div class="form-row">
-                                            <div class="col-auto tit">이전</div>
+                                            <div class="col-auto tit">이전 : </div>
                                             <div class="col"><c:out value="${result.c0401p}"/></div>
                                         </div>
                                         <div class="form-row">
-                                            <div class="col-auto tit">현재</div>
+                                            <div class="col-auto tit">현재 : </div>
                                             <div class="col"><c:out value="${result.c0401n}"/></div>
                                         </div>
                                         <div class="form-row">
-                                            <div class="col-auto tit">변경</div>
+                                            <div class="col-auto tit">변경 : </div>
                                             <div class="col"><c:out value="${result.c0401c}"/></div>
                                         </div>
                                     </td>
                                     <th scope="row">형상</th>
                                     <td>
                                         <div class="form-row">
-                                            <div class="col-auto tit">이전</div>
+                                            <div class="col-auto tit">이전 : </div>
                                             <div class="col"><c:out value="${result.c0402p}"/></div>
                                         </div>
                                         <div class="form-row">
-                                            <div class="col-auto tit">현재</div>
+                                            <div class="col-auto tit">현재 : </div>
                                             <div class="col"><c:out value="${result.c0402n}"/></div>
                                         </div>
                                         <div class="form-row">
-                                            <div class="col-auto tit">변경</div>
+                                            <div class="col-auto tit">변경 : </div>
                                             <div class="col"><c:out value="${result.c0402c}"/></div>
                                         </div>
                                     </td>
@@ -381,15 +381,15 @@
                                     <th scope="row">방위</th>
                                     <td colspan="3">
                                         <div class="form-row">
-                                            <div class="col-auto tit">이전</div>
+                                            <div class="col-auto tit">이전 : </div>
                                             <div class="col"><c:out value="${result.c0403p}"/></div>
                                         </div>
                                         <div class="form-row">
-                                            <div class="col-auto tit">현재</div>
+                                            <div class="col-auto tit">현재 : </div>
                                             <div class="col"><c:out value="${result.c0403n}"/></div>
                                         </div>
                                         <div class="form-row">
-                                            <div class="col-auto tit">변경</div>
+                                            <div class="col-auto tit">변경 : </div>
                                             <div class="col"><c:out value="${result.c0403c}"/></div>
                                         </div>
                                     </td>
@@ -410,15 +410,15 @@
                                     <th scope="row">도로접면</th>
                                     <td>
                                         <div class="form-row">
-                                            <div class="col-auto tit">이전</div>
+                                            <div class="col-auto tit">이전 : </div>
                                             <div class="col"><c:out value="${result.c0500p}"/></div>
                                         </div>
                                         <div class="form-row">
-                                            <div class="col-auto tit">현재</div>
+                                            <div class="col-auto tit">현재 : </div>
                                             <div class="col"><c:out value="${result.c0500n}"/></div>
                                         </div>
                                         <div class="form-row">
-                                            <div class="col-auto tit">변경</div>
+                                            <div class="col-auto tit">변경 : </div>
                                             <div class="col"><c:out value="${result.c0500c}"/></div>
                                         </div>
                                     </td>
@@ -441,30 +441,30 @@
                                     <th scope="row">철도, 고속도로등</th>
                                     <td>
                                         <div class="form-row">
-                                            <div class="col-auto tit">이전</div>
+                                            <div class="col-auto tit">이전 : </div>
                                             <div class="col"><c:out value="${result.c0601p}"/></div>
                                         </div>
                                         <div class="form-row">
-                                            <div class="col-auto tit">현재</div>
+                                            <div class="col-auto tit">현재 : </div>
                                             <div class="col"><c:out value="${result.c0601n}"/></div>
                                         </div>
                                         <div class="form-row">
-                                            <div class="col-auto tit">변경</div>
+                                            <div class="col-auto tit">변경 : </div>
                                             <div class="col"><c:out value="${result.c0601c}"/></div>
                                         </div>
                                     </td>
                                     <th scope="row">폐기물, 수질오염</th>
                                     <td>
                                         <div class="form-row">
-                                            <div class="col-auto tit">이전</div>
+                                            <div class="col-auto tit">이전 : </div>
                                             <div class="col"><c:out value="${result.c0602p}"/></div>
                                         </div>
                                         <div class="form-row">
-                                            <div class="col-auto tit">현재</div>
+                                            <div class="col-auto tit">현재 : </div>
                                             <div class="col"><c:out value="${result.c0602n}"/></div>
                                         </div>
                                         <div class="form-row">
-                                            <div class="col-auto tit">변경</div>
+                                            <div class="col-auto tit">변경 : </div>
                                             <div class="col"><c:out value="${result.c0602c}"/></div>
                                         </div>
                                     </td>
@@ -490,19 +490,19 @@
                                     <th scope="row">기타제한</th>
                                     <td>
                                         <div class="form-row">
-                                            <div class="col-auto tit">이전</div>
+                                            <div class="col-auto tit">이전 : </div>
                                             <div class="col"><c:out value="${result.l0100p}"/></div>
                                         </div>
                                         <div class="form-row">
-                                            <div class="col-auto tit">현재</div>
+                                            <div class="col-auto tit">현재 : </div>
                                             <div class="col"><c:out value="${result.l0100n}"/></div>
                                         </div>
                                         <div class="form-row">
-                                            <div class="col-auto tit">변경</div>
+                                            <div class="col-auto tit">변경 : </div>
                                             <div class="col"><c:out value="${result.l0100c}"/></div>
                                         </div>
                                         <div class="form-row">
-                                            <div class="col-auto tit">기타</div>
+                                            <div class="col-auto tit">기타 : </div>
                                             <div class="col"><c:out value="${result.l0100e}"/></div>
                                         </div>
                                     </td>
@@ -525,34 +525,34 @@
                                     <th scope="row">대분류</th>
                                     <td class="align-top">
                                         <div class="form-row">
-                                            <div class="col-auto tit">이전</div>
+                                            <div class="col-auto tit">이전 : </div>
                                             <div class="col"><c:out value="${result.l0201p}"/></div>
                                         </div>
                                         <div class="form-row">
-                                            <div class="col-auto tit">현재</div>
+                                            <div class="col-auto tit">현재 : </div>
                                             <div class="col"><c:out value="${result.l0201n}"/></div>
                                         </div>
                                         <div class="form-row">
-                                            <div class="col-auto tit">변경</div>
+                                            <div class="col-auto tit">변경 : </div>
                                             <div class="col"><c:out value="${result.l0201c}"/></div>
                                         </div>
                                     </td>
                                     <th scope="row">소분류</th>
                                     <td>
                                         <div class="form-row">
-                                            <div class="col-auto tit">이전</div>
+                                            <div class="col-auto tit">이전 : </div>
                                             <div class="col"><c:out value="${result.l0202p}"/></div>
                                         </div>
                                         <div class="form-row">
-                                            <div class="col-auto tit">현재</div>
+                                            <div class="col-auto tit">현재 : </div>
                                             <div class="col"><c:out value="${result.l0202n}"/></div>
                                         </div>
                                         <div class="form-row">
-                                            <div class="col-auto tit">변경</div>
+                                            <div class="col-auto tit">변경 : </div>
                                             <div class="col"><c:out value="${result.l0202c}"/></div>
                                         </div>
                                         <div class="form-row">
-                                            <div class="col-auto tit">기타</div>
+                                            <div class="col-auto tit">기타 : </div>
                                             <div class="col"><c:out value="${result.l0202e}"/></div>
                                         </div>
                                     </td>
@@ -575,30 +575,30 @@
                                     <th scope="row">구분</th>
                                     <td>
                                         <div class="form-row">
-                                            <div class="col-auto tit">이전</div>
+                                            <div class="col-auto tit">이전 : </div>
                                             <div class="col"><c:out value="${result.l0301p}"/></div>
                                         </div>
                                         <div class="form-row">
-                                            <div class="col-auto tit">현재</div>
+                                            <div class="col-auto tit">현재 : </div>
                                             <div class="col"><c:out value="${result.l0301n}"/></div>
                                         </div>
                                         <div class="form-row">
-                                            <div class="col-auto tit">변경</div>
+                                            <div class="col-auto tit">변경 : </div>
                                             <div class="col"><c:out value="${result.l0301c}"/></div>
                                         </div>
                                     </td>
                                     <th scope="row">비옥도</th>
                                     <td>
                                         <div class="form-row">
-                                            <div class="col-auto tit">이전</div>
+                                            <div class="col-auto tit">이전 : </div>
                                             <div class="col"><c:out value="${result.l0302p}"/></div>
                                         </div>
                                         <div class="form-row">
-                                            <div class="col-auto tit">현재</div>
+                                            <div class="col-auto tit">현재 : </div>
                                             <div class="col"><c:out value="${result.l0302n}"/></div>
                                         </div>
                                         <div class="form-row">
-                                            <div class="col-auto tit">변경</div>
+                                            <div class="col-auto tit">변경 : </div>
                                             <div class="col"><c:out value="${result.l0302c}"/></div>
                                         </div>
                                     </td>
@@ -607,15 +607,15 @@
                                     <th scope="row">경지정리</th>
                                     <td colspan="3">
                                         <div class="form-row">
-                                            <div class="col-auto tit">이전</div>
+                                            <div class="col-auto tit">이전 : </div>
                                             <div class="col"><c:out value="${result.l0303p}"/></div>
                                         </div>
                                         <div class="form-row">
-                                            <div class="col-auto tit">현재</div>
+                                            <div class="col-auto tit">현재 : </div>
                                             <div class="col"><c:out value="${result.l0303n}"/></div>
                                         </div>
                                         <div class="form-row">
-                                            <div class="col-auto tit">변경</div>
+                                            <div class="col-auto tit">변경 : </div>
                                             <div class="col"><c:out value="${result.l0303c}"/></div>
                                         </div>
                                     </td>
@@ -636,15 +636,15 @@
                                     <th scope="row">임야</th>
                                     <td>
                                         <div class="form-row">
-                                            <div class="col-auto tit">이전</div>
+                                            <div class="col-auto tit">이전 : </div>
                                             <div class="col"><c:out value="${result.l0400p}"/></div>
                                         </div>
                                         <div class="form-row">
-                                            <div class="col-auto tit">현재</div>
+                                            <div class="col-auto tit">현재 : </div>
                                             <div class="col"><c:out value="${result.l0400n}"/></div>
                                         </div>
                                         <div class="form-row">
-                                            <div class="col-auto tit">변경</div>
+                                            <div class="col-auto tit">변경 : </div>
                                             <div class="col"><c:out value="${result.l0400c}"/></div>
                                         </div>
                                     </td>
@@ -666,15 +666,15 @@
                                     <th scope="row">도로거리</th>
                                     <td>
                                         <div class="form-row">
-                                            <div class="col-auto tit">이전</div>
+                                            <div class="col-auto tit">이전 : </div>
                                             <div class="col"><c:out value="${result.l0500p}"/></div>
                                         </div>
                                         <div class="form-row">
-                                            <div class="col-auto tit">현재</div>
+                                            <div class="col-auto tit">현재 : </div>
                                             <div class="col"><c:out value="${result.l0500n}"/></div>
                                         </div>
                                         <div class="form-row">
-                                            <div class="col-auto tit">변경</div>
+                                            <div class="col-auto tit">변경 : </div>
                                             <div class="col"><c:out value="${result.l0500c}"/></div>
                                         </div>
                                     </td>
@@ -697,30 +697,30 @@
                                     <th scope="row">사업방식</th>
                                     <td>
                                         <div class="form-row">
-                                            <div class="col-auto tit">이전</div>
+                                            <div class="col-auto tit">이전 : </div>
                                             <div class="col"><c:out value="${result.l0601p}"/></div>
                                         </div>
                                         <div class="form-row">
-                                            <div class="col-auto tit">현재</div>
+                                            <div class="col-auto tit">현재 : </div>
                                             <div class="col"><c:out value="${result.l0601n}"/></div>
                                         </div>
                                         <div class="form-row">
-                                            <div class="col-auto tit">변경</div>
+                                            <div class="col-auto tit">변경 : </div>
                                             <div class="col"><c:out value="${result.l0601c}"/></div>
                                         </div>
                                     </td>
                                     <th scope="row">사업단계</th>
                                     <td>
                                         <div class="form-row">
-                                            <div class="col-auto tit">이전</div>
+                                            <div class="col-auto tit">이전 : </div>
                                             <div class="col"><c:out value="${result.l0602p}"/></div>
                                         </div>
                                         <div class="form-row">
-                                            <div class="col-auto tit">현재</div>
+                                            <div class="col-auto tit">현재 : </div>
                                             <div class="col"><c:out value="${result.l0602n}"/></div>
                                         </div>
                                         <div class="form-row">
-                                            <div class="col-auto tit">변경</div>
+                                            <div class="col-auto tit">변경 : </div>
                                             <div class="col"><c:out value="${result.l0602c}"/></div>
                                         </div>
                                     </td>
@@ -748,34 +748,34 @@
                                     <th scope="row">기타제한</th>
                                     <td class="align-top">
                                         <div class="form-row">
-                                            <div class="col-auto tit">이전</div>
+                                            <div class="col-auto tit">이전 : </div>
                                             <div class="col"><c:out value="${result.b0101p}"/></div>
                                         </div>
                                         <div class="form-row">
-                                            <div class="col-auto tit">현재</div>
+                                            <div class="col-auto tit">현재 : </div>
                                             <div class="col"><c:out value="${result.b0101n}"/></div>
                                         </div>
                                         <div class="form-row">
-                                            <div class="col-auto tit">변경</div>
+                                            <div class="col-auto tit">변경 : </div>
                                             <div class="col"><c:out value="${result.b0101c}"/></div>
                                         </div>
                                     </td>
                                     <th scope="row">개발사업 지역구분</th>
                                     <td class="align-top">
                                         <div class="form-row">
-                                            <div class="col-auto tit">이전</div>
+                                            <div class="col-auto tit">이전 : </div>
                                             <div class="col"><c:out value="${result.b0102p}"/></div>
                                         </div>
                                         <div class="form-row">
-                                            <div class="col-auto tit">현재</div>
+                                            <div class="col-auto tit">현재 : </div>
                                             <div class="col"><c:out value="${result.b0102n}"/></div>
                                         </div>
                                         <div class="form-row">
-                                            <div class="col-auto tit">변경</div>
+                                            <div class="col-auto tit">변경 : </div>
                                             <div class="col"><c:out value="${result.b0102c}"/></div>
                                         </div>
                                         <div class="form-row">
-                                            <div class="col-auto tit">기타</div>
+                                            <div class="col-auto tit">기타 : </div>
                                             <div class="col"><c:out value="${result.b0102e}"/></div>
                                         </div>
                                     </td>
@@ -798,34 +798,34 @@
                                     <th scope="row">대분류</th>
                                     <td class="align-top">
                                         <div class="form-row">
-                                            <div class="col-auto tit">이전</div>
+                                            <div class="col-auto tit">이전 : </div>
                                             <div class="col"><c:out value="${result.b0201p}"/></div>
                                         </div>
                                         <div class="form-row">
-                                            <div class="col-auto tit">현재</div>
+                                            <div class="col-auto tit">현재 : </div>
                                             <div class="col"><c:out value="${result.b0201n}"/></div>
                                         </div>
                                         <div class="form-row">
-                                            <div class="col-auto tit">변경</div>
+                                            <div class="col-auto tit">변경 : </div>
                                             <div class="col"><c:out value="${result.b0201c}"/></div>
                                         </div>
                                     </td>
                                     <th scope="row">소분류</th>
                                     <td>
                                         <div class="form-row">
-                                            <div class="col-auto tit">이전</div>
+                                            <div class="col-auto tit">이전 : </div>
                                             <div class="col"><c:out value="${result.b0202p}"/></div>
                                         </div>
                                         <div class="form-row">
-                                            <div class="col-auto tit">현재</div>
+                                            <div class="col-auto tit">현재 : </div>
                                             <div class="col"><c:out value="${result.b0202n}"/></div>
                                         </div>
                                         <div class="form-row">
-                                            <div class="col-auto tit">변경</div>
+                                            <div class="col-auto tit">변경 : </div>
                                             <div class="col"><c:out value="${result.b0202c}"/></div>
                                         </div>
                                         <div class="form-row">
-                                            <div class="col-auto tit">기타</div>
+                                            <div class="col-auto tit">기타 : </div>
                                             <div class="col"><c:out value="${result.b0202e}"/></div>
                                         </div>
                                     </td>
@@ -848,15 +848,15 @@
                                     <th scope="row">토지용도구분</th>
                                     <td colspan="3">
                                         <div class="form-row">
-                                            <div class="col-auto tit">이전</div>
+                                            <div class="col-auto tit">이전 : </div>
                                             <div class="col"><c:out value="${result.b0300p}"/></div>
                                         </div>
                                         <div class="form-row">
-                                            <div class="col-auto tit">현재</div>
+                                            <div class="col-auto tit">현재 : </div>
                                             <div class="col"><c:out value="${result.b0300n}"/></div>
                                         </div>
                                         <div class="form-row">
-                                            <div class="col-auto tit">변경</div>
+                                            <div class="col-auto tit">변경 : </div>
                                             <div class="col"><c:out value="${result.b0300c}"/></div>
                                         </div>
                                     </td>
@@ -865,38 +865,38 @@
                                     <th scope="row">건물구조</th>
                                     <td>
                                         <div class="form-row">
-                                            <div class="col-auto tit">이전</div>
+                                            <div class="col-auto tit">이전 : </div>
                                             <div class="col"><c:out value="${result.b0400p}"/></div>
                                         </div>
                                         <div class="form-row">
-                                            <div class="col-auto tit">현재</div>
+                                            <div class="col-auto tit">현재 : </div>
                                             <div class="col"><c:out value="${result.b0400n}"/></div>
                                         </div>
                                         <div class="form-row">
-                                            <div class="col-auto tit">변경</div>
+                                            <div class="col-auto tit">변경 : </div>
                                             <div class="col"><c:out value="${result.b0400c}"/></div>
                                         </div>
                                         <div class="form-row">
-                                            <div class="col-auto tit">기타</div>
+                                            <div class="col-auto tit">기타 : </div>
                                             <div class="col"><c:out value="${result.b0400e}"/></div>
                                         </div>
                                     </td>
                                     <th scope="row">건물지붕</th>
                                     <td>
                                         <div class="form-row">
-                                            <div class="col-auto tit">이전</div>
+                                            <div class="col-auto tit">이전 : </div>
                                             <div class="col"><c:out value="${result.b0500p}"/></div>
                                         </div>
                                         <div class="form-row">
-                                            <div class="col-auto tit">현재</div>
+                                            <div class="col-auto tit">현재 : </div>
                                             <div class="col"><c:out value="${result.b0500n}"/></div>
                                         </div>
                                         <div class="form-row">
-                                            <div class="col-auto tit">변경</div>
+                                            <div class="col-auto tit">변경 : </div>
                                             <div class="col"><c:out value="${result.b0500c}"/></div>
                                         </div>
                                         <div class="form-row">
-                                            <div class="col-auto tit">기타</div>
+                                            <div class="col-auto tit">기타 : </div>
                                             <div class="col"><c:out value="${result.b0500e}"/></div>
                                         </div>
                                     </td>
@@ -919,34 +919,34 @@
                                     <th scope="row">대분류</th>
                                     <td class="align-top">
                                         <div class="form-row">
-                                            <div class="col-auto tit">이전</div>
+                                            <div class="col-auto tit">이전 : </div>
                                             <div class="col"><c:out value="${result.b0601p}"/></div>
                                         </div>
                                         <div class="form-row">
-                                            <div class="col-auto tit">현재</div>
+                                            <div class="col-auto tit">현재 : </div>
                                             <div class="col"><c:out value="${result.b0601n}"/></div>
                                         </div>
                                         <div class="form-row">
-                                            <div class="col-auto tit">변경</div>
+                                            <div class="col-auto tit">변경 : </div>
                                             <div class="col"><c:out value="${result.b0601c}"/></div>
                                         </div>
                                     </td>
                                     <th scope="row">소분류</th>
                                     <td>
                                         <div class="form-row">
-                                            <div class="col-auto tit">이전</div>
+                                            <div class="col-auto tit">이전 : </div>
                                             <div class="col"><c:out value="${result.b0602p}"/></div>
                                         </div>
                                         <div class="form-row">
-                                            <div class="col-auto tit">현재</div>
+                                            <div class="col-auto tit">현재 : </div>
                                             <div class="col"><c:out value="${result.b0602n}"/></div>
                                         </div>
                                         <div class="form-row">
-                                            <div class="col-auto tit">변경</div>
+                                            <div class="col-auto tit">변경 : </div>
                                             <div class="col"><c:out value="${result.b0602c}"/></div>
                                         </div>
                                         <div class="form-row">
-                                            <div class="col-auto tit">기타</div>
+                                            <div class="col-auto tit">기타 : </div>
                                             <div class="col"><c:out value="${result.b0602e}"/></div>
                                         </div>
                                     </td>
@@ -969,30 +969,30 @@
                                     <th scope="row">중개축</th>
                                     <td>
                                         <div class="form-row">
-                                            <div class="col-auto tit">이전</div>
+                                            <div class="col-auto tit">이전 : </div>
                                             <div class="col"><c:out value="${result.b0700p}"/></div>
                                         </div>
                                         <div class="form-row">
-                                            <div class="col-auto tit">현재</div>
+                                            <div class="col-auto tit">현재 : </div>
                                             <div class="col"><c:out value="${result.b0700n}"/></div>
                                         </div>
                                         <div class="form-row">
-                                            <div class="col-auto tit">변경</div>
+                                            <div class="col-auto tit">변경 : </div>
                                             <div class="col"><c:out value="${result.b0700c}"/></div>
                                         </div>
                                     </td>
                                     <th scope="row">리모델링</th>
                                     <td>
                                         <div class="form-row">
-                                            <div class="col-auto tit">이전</div>
+                                            <div class="col-auto tit">이전 : </div>
                                             <div class="col"><c:out value="${result.b0800p}"/></div>
                                         </div>
                                         <div class="form-row">
-                                            <div class="col-auto tit">현재</div>
+                                            <div class="col-auto tit">현재 : </div>
                                             <div class="col"><c:out value="${result.b0800n}"/></div>
                                         </div>
                                         <div class="form-row">
-                                            <div class="col-auto tit">변경</div>
+                                            <div class="col-auto tit">변경 : </div>
                                             <div class="col"><c:out value="${result.b0800c}"/></div>
                                         </div>
                                     </td>
@@ -1001,34 +1001,34 @@
                                     <th scope="row">특수<br>부대시설</th>
                                     <td class="align-top">
                                         <div class="form-row">
-                                            <div class="col-auto tit">이전</div>
+                                            <div class="col-auto tit">이전 : </div>
                                             <div class="col"><c:out value="${result.b0900p}"/></div>
                                         </div>
                                         <div class="form-row">
-                                            <div class="col-auto tit">현재</div>
+                                            <div class="col-auto tit">현재 : </div>
                                             <div class="col"><c:out value="${result.b0900n}"/></div>
                                         </div>
                                         <div class="form-row">
-                                            <div class="col-auto tit">변경</div>
+                                            <div class="col-auto tit">변경 : </div>
                                             <div class="col"><c:out value="${result.b0900c}"/></div>
                                         </div>
                                         <div class="form-row">
-                                            <div class="col-auto tit">기타</div>
+                                            <div class="col-auto tit">기타 : </div>
                                             <div class="col"><c:out value="${result.b0900e}"/></div>
                                         </div>
                                     </td>
                                     <th scope="row">주택유형<br>구분</th>
                                     <td>
                                         <div class="form-row">
-                                            <div class="col-auto tit">이전</div>
+                                            <div class="col-auto tit">이전 : </div>
                                             <div class="col"><c:out value="${result.b1000p}"/></div>
                                         </div>
                                         <div class="form-row">
-                                            <div class="col-auto tit">현재</div>
+                                            <div class="col-auto tit">현재 : </div>
                                             <div class="col"><c:out value="${result.b1000n}"/></div>
                                         </div>
                                         <div class="form-row">
-                                            <div class="col-auto tit">변경</div>
+                                            <div class="col-auto tit">변경 : </div>
                                             <div class="col"><c:out value="${result.b1000c}"/></div>
                                         </div>
                                     </td>
@@ -1037,15 +1037,15 @@
                                     <th scope="row">공가<br>주택구분</th>
                                     <td colspan="3">
                                         <div class="form-row">
-                                            <div class="col-auto tit">이전</div>
+                                            <div class="col-auto tit">이전 : </div>
                                             <div class="col"><c:out value="${result.b1100p}"/></div>
                                         </div>
                                         <div class="form-row">
-                                            <div class="col-auto tit">현재</div>
+                                            <div class="col-auto tit">현재 : </div>
                                             <div class="col"><c:out value="${result.b1100n}"/></div>
                                         </div>
                                         <div class="form-row">
-                                            <div class="col-auto tit">변경</div>
+                                            <div class="col-auto tit">변경 : </div>
                                             <div class="col"><c:out value="${result.b1100c}"/></div>
                                         </div>
                                     </td>

@@ -234,12 +234,12 @@
                 <div class="pagination type01">
                     <ui:pagination paginationInfo="${paginationInfo}" type="pagination" jsFunction="fn_left_select_linkPage"/>
                 </div>
-                <div class="position-absolute left">
+                <div class="position-absolute right">
                     <button type="button" class="btn basic bi-delete2" onClick="webApp_fn_select_delete_list()">선택삭제</button>
                 </div>
-                <div class="position-absolute right">
+                <!-- <div class="position-absolute right">
                     <button type="button" class="btn basic bi-excel" onClick="webApp_fn_download_excelData(this.form, 'all')">엑셀 저장</button>
-                </div>
+                </div> -->
             </div>
         </form:form>
     </div>

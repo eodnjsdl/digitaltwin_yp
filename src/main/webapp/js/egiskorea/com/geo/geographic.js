@@ -168,14 +168,15 @@ function aj_selectExaminationInfo(frm, param1, param2){
 		contentType : false,
 		async: false,
 		success : function(returnData, status){
-			if(status == "success") {	
-				$("#" + param2 + "SubPopup").html(returnData);
-				if(param2 == "left"){
-					$(".sub-popup-body").removeClass("survey-information-body").addClass("territory-info-body detail");
-				}else if(param2 == "right"){
-					$(".examinationBtn").html("");
-					$(".sub-popup-body").removeClass("territory-info-body detail").addClass("survey-information-body");
-				}
+			if(status == "success") {
+				$("#rightSubPopup").empty();
+				$("#rightSubPopup").html(returnData);
+//				if(param2 == "left"){
+//					$(".sub-popup-body").removeClass("survey-information-body").addClass("territory-info-body detail");
+//				}else if(param2 == "right"){
+//					$(".examinationBtn").html("");
+//					$(".sub-popup-body").removeClass("territory-info-body detail").addClass("survey-information-body");
+//				}
 			}else{ 
 				toastr.error("관리자에게 문의 바랍니다.", "정보를 불러오지 못했습니다.");
 				return;
@@ -187,7 +188,7 @@ function aj_selectExaminationInfo(frm, param1, param2){
 }
 
 //조사정보 수정화면 호출
-function aj_updateExaminationInfoView(frm, param1, param2){
+function aj_updateExaminationInfoView(frm, param1){
 	ui.loadingBar("show");
 	
 	var formData = new FormData(frm);
@@ -200,10 +201,14 @@ function aj_updateExaminationInfoView(frm, param1, param2){
 		dataType : "html",
 		processData : false,
 		contentType : false,
-		async: false,
+		async: true,
+	    beforeSend: function() {
+	      ui.loadingBar("show");  	// ajax 요청 전에 로딩바 표시
+	    },
 		success : function(returnData, status){
-			if(status == "success") {	
-				$("#leftSubPopup").html(returnData);
+			if(status == "success") {
+				$("#rightSubPopup").empty();
+				$("#rightSubPopup").html(returnData);
 			}else{ 
 				toastr.error("관리자에게 문의 바랍니다.", "정보를 불러오지 못했습니다.");
 				return;

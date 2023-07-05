@@ -16,14 +16,14 @@
 					<td>
 						<form:select path="t0100" cssClass="form-select">
 							<form:option value="" label="" />
-							<form:options items="${t0100List}" itemValue="code" itemLabel="codeIdNm" />
+							<form:options items="${t0100List}" itemValue="code" itemLabel="codeNm" />
 						</form:select>
 					</td>
 					<th scope="row">기타재배지<br>(원예)</th>
 					<td>
 						<form:select path="t0200" cssClass="form-select">
 							<form:option value="" label="" />
-							<form:options items="${t0200List}" itemValue="code" itemLabel="codeIdNm" />
+							<form:options items="${t0200List}" itemValue="code" itemLabel="codeNm" />
 						</form:select>
 					</td>
 				</tr>
@@ -32,14 +32,14 @@
 					<td>
 						<form:select path="t0300" cssClass="form-select">
 							<form:option value="" label="" />
-							<form:options items="${t0300List}" itemValue="code" itemLabel="codeIdNm" />
+							<form:options items="${t0300List}" itemValue="code" itemLabel="codeNm" />
 						</form:select>
 					</td>
 					<th scope="row">초지<br>(자연, 인공)</th>
 					<td>
 						<form:select path="t0400" cssClass="form-select">
 							<form:option value="" label="" />
-							<form:options items="${t0400List}" itemValue="code" itemLabel="codeIdNm" />
+							<form:options items="${t0400List}" itemValue="code" itemLabel="codeNm" />
 						</form:select>
 					</td>
 				</tr>
@@ -48,14 +48,14 @@
 					<td>
 						<form:select path="t0500" cssClass="form-select">
 							<form:option value="" label="" />
-							<form:options items="${t0500List}" itemValue="code" itemLabel="codeIdNm" />
+							<form:options items="${t0500List}" itemValue="code" itemLabel="codeNm" />
 						</form:select>
 					</td>
 					<th scope="row">나지<br>(자연, 기타)</th>
 					<td>
 						<form:select path="t0600" cssClass="form-select">
 							<form:option value="" label="" />
-							<form:options items="${t0600List}" itemValue="code" itemLabel="codeIdNm" />
+							<form:options items="${t0600List}" itemValue="code" itemLabel="codeNm" />
 						</form:select>
 					</td>
 				</tr>
@@ -65,7 +65,7 @@
 						<div style="width: 38%;">
 							<form:select path="t0700" cssClass="form-select">
 								<form:option value="" label="" />
-								<form:options items="${t0700List}" itemValue="code" itemLabel="codeIdNm" />
+								<form:options items="${t0700List}" itemValue="code" itemLabel="codeNm" />
 							</form:select>
 						</div>
 					</td>

@@ -4,7 +4,7 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
-
+<script src="/js/egiskorea/com/common.js"></script>
 <script src="/js/egiskorea/com/geo/emi/examinationInfo.js"></script>
 <script>
 
@@ -16,6 +16,13 @@
     function eventBindByExaminationInfoList() {
         $('#leftPopup .popup-close').click(function () {
             $("input[name='code2']").val("");
+            
+            $(".territory-list li").each(function () {
+                if ($(this).hasClass("active")) {
+                    $(this).removeClass("active")
+                }
+            });
+            
             dtmap.clear();
             // if (app2D) {
             // 	cmmUtil.resetMap();
@@ -136,10 +143,10 @@
         aj_selectExaminationInfoList($("#searchFormLeft")[0], "");
     }
 
-    function fn_left_select_detail(pnu) {
+    function fn_right_select_detail(pnu) {
         // leftSubPopupOpen("examinationInfo", pnu, "left");
         ui.openPopup("rightSubPopup", "emiInfo");
-        aj_selectExaminationInfo($("#tmpForm")[0], pnu, "right");
+        aj_selectExaminationInfo($("#tmpForm")[0], pnu);
     }
 
     function fn_select_delete_list() {
@@ -194,8 +201,8 @@
                         <option value="">검색 및 팝업 칼럼선택</option>
                         <option value="0" <c:if test="${searchVO.searchCnd == '0'}">selected="selected"</c:if>>조사자(정)
                         </option>
-                        <option value="1" <c:if test="${searchVO.searchCnd == '1'}">selected="selected"</c:if>>조사자(부)
-                        </option>
+                        <%-- <option value="1" <c:if test="${searchVO.searchCnd == '1'}">selected="selected"</c:if>>조사자(부)
+                        </option> --%>
                         <option value="2" <c:if test="${searchVO.searchCnd == '2'}">selected="selected"</c:if>>원지목
                         </option>
                     </select>
@@ -217,13 +224,13 @@
                     <div class="bbs-list-head">
                         <table class="bbs-list">
                             <colgroup>
-                                <col style="width: 36px;">
-                                <col style="width: 15%;">
+                                <col style="width: 45px;">
+                                <col style="width: 20%;">
                                 <col style="width: 18%;">
                                 <col style="width: 15%;">
                                 <col style="width: auto;">
-                                <col style="width: 15%;">
-                                <col style="width: 80px;">
+                                <col style="width: auto;">
+                                <col style="width: 60px;">
                             </colgroup>
                             <thead>
                             <tr>
@@ -244,17 +251,17 @@
                     <div class="scroll-y">
                         <table class="bbs-list">
                             <colgroup>
-                                <col style="width: 36px;">
-                                <col style="width: 15%;">
+                                <col style="width: 45px;">
+                                <col style="width: 20%;">
                                 <col style="width: 18%;">
                                 <col style="width: 15%;">
                                 <col style="width: auto;">
-                                <col style="width: 15%;">
-                                <col style="width: 80px;">
+                                <col style="width: auto;">
+                                <col style="width: 60px;">
                             </colgroup>
                             <tbody>
                             <c:forEach items="${resultList}" var="result" varStatus="status">
-                                <tr onClick="fn_left_select_detail('<c:out value="${result.pnu}" />')">
+                                <tr onClick="fn_right_select_detail('<c:out value="${result.pnu}" />')">
                                     <td>
 														<span class="form-checkbox">
 														<span><input type="checkbox" name="delYn"

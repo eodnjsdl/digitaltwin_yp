@@ -17,14 +17,14 @@
 																<td>
 																	<form:select path="j0100" cssClass="form-select">
 																		<form:option value="" label="" />
-																		<form:options items="${j0100List}" itemValue="code" itemLabel="codeIdNm" />
+																		<form:options items="${j0100List}" itemValue="code" itemLabel="codeNm" />
 																	</form:select>
 																</td>
 																<th scope="row">현실지목 대분류</th>
 																<td>
 																	<form:select path="j0301" cssClass="form-select">
 																		<form:option value="" label="" />
-																		<form:options items="${j0301List}" itemValue="code" itemLabel="codeIdNm" />
+																		<form:options items="${j0301List}" itemValue="code" itemLabel="codeNm" />
 																	</form:select>
 																</td>
 															</tr>
@@ -33,14 +33,14 @@
 																<td>
 																	<form:select path="j0200" cssClass="form-select">
 																		<form:option value="" label="" />
-																		<form:options items="${j0200List}" itemValue="code" itemLabel="codeIdNm" />
+																		<form:options items="${j0200List}" itemValue="code" itemLabel="codeNm" />
 																	</form:select>
 																</td>
 																<th scope="row">현실지목 소분류</th>
 																<td>
 																	<form:select path="j0302" cssClass="form-select">
 																		<form:option value="" label="" />
-																		<form:options items="${j0302List}" itemValue="code" itemLabel="codeIdNm" />
+																		<form:options items="${j0302List}" itemValue="code" itemLabel="codeNm" />
 																	</form:select>
 																</td>
 															</tr>													
@@ -63,7 +63,7 @@
 																		<td>
 																			<form:select path="j0401" cssClass="form-select">
 																				<form:option value="" label="" />
-																				<form:options items="${j0401List}" itemValue="code" itemLabel="codeIdNm" />
+																				<form:options items="${j0401List}" itemValue="code" itemLabel="codeNm" />
 																			</form:select>
 																		</td>
 																	</tr>
@@ -81,7 +81,7 @@
 																		<td>
 																			<form:select path="j0402" cssClass="form-select">
 																				<form:option value="" label="" />
-																				<form:options items="${j0401List}" itemValue="code" itemLabel="codeIdNm" />
+																				<form:options items="${j0401List}" itemValue="code" itemLabel="codeNm" />
 																			</form:select>
 																		</td>
 																	</tr>
@@ -99,7 +99,7 @@
 																		<td>
 																			<form:select path="j0403" cssClass="form-select">
 																				<form:option value="" label="" />
-																				<form:options items="${j0401List}" itemValue="code" itemLabel="codeIdNm" />
+																				<form:options items="${j0401List}" itemValue="code" itemLabel="codeNm" />
 																			</form:select>
 																		</td>
 																	</tr>
@@ -130,7 +130,7 @@
 																		<td>
 																			<form:select path="j0501" cssClass="form-select">
 																				<form:option value="" label="" />
-																				<form:options items="${j0501List}" itemValue="code" itemLabel="codeIdNm" />
+																				<form:options items="${j0501List}" itemValue="code" itemLabel="codeNm" />
 																			</form:select>
 																		</td>
 																	</tr>
@@ -139,7 +139,7 @@
 																		<td>
 																			<form:select path="j0501p" cssClass="form-select">
 																				<form:option value="" label="" />
-																				<form:options items="${j0501pList}" itemValue="code" itemLabel="codeIdNm" />
+																				<form:options items="${j0501pList}" itemValue="code" itemLabel="codeNm" />
 																			</form:select>
 																		</td>
 																	</tr>
@@ -148,7 +148,7 @@
 																		<td>
 																			<form:select path="j0502" cssClass="form-select">
 																				<form:option value="" label="" />
-																				<form:options items="${j0501List}" itemValue="code" itemLabel="codeIdNm" />
+																				<form:options items="${j0501List}" itemValue="code" itemLabel="codeNm" />
 																			</form:select>
 																		</td>
 																	</tr>
@@ -157,7 +157,7 @@
 																		<td>
 																			<form:select path="j0502p" cssClass="form-select">
 																				<form:option value="" label="" />
-																				<form:options items="${j0501pList}" itemValue="code" itemLabel="codeIdNm" />
+																				<form:options items="${j0501pList}" itemValue="code" itemLabel="codeNm" />
 																			</form:select>
 																		</td>
 																	</tr>
@@ -166,7 +166,7 @@
 																		<td>
 																			<form:select path="j0503" cssClass="form-select">
 																				<form:option value="" label="" />
-																				<form:options items="${j0501List}" itemValue="code" itemLabel="codeIdNm" />
+																				<form:options items="${j0501List}" itemValue="code" itemLabel="codeNm" />
 																			</form:select>
 																		</td>
 																	</tr>
@@ -175,7 +175,7 @@
 																		<td>
 																			<form:select path="j0503p" cssClass="form-select">
 																				<form:option value="" label="" />
-																				<form:options items="${j0501pList}" itemValue="code" itemLabel="codeIdNm" />
+																				<form:options items="${j0501pList}" itemValue="code" itemLabel="codeNm" />
 																			</form:select>
 																		</td>
 																	</tr>															
@@ -200,14 +200,14 @@
 																<td>
 																	<form:select path="g0100" cssClass="form-select">
 																		<form:option value="" label="" />
-																		<form:options items="${g0100List}" itemValue="code" itemLabel="codeIdNm" />
+																		<form:options items="${g0100List}" itemValue="code" itemLabel="codeNm" />
 																	</form:select>
 																</td>
 																<th scope="row">유지무단</th>
 																<td>
 																	<form:select path="g0101" cssClass="form-select">
 																		<form:option value="" label="" />
-																		<form:options items="${g0100List}" itemValue="code" itemLabel="codeIdNm" />
+																		<form:options items="${g0100List}" itemValue="code" itemLabel="codeNm" />
 																	</form:select>
 																</td>
 															</tr>																									
@@ -219,6 +219,7 @@
 												<div style="padding-bottom: 5px;"><form:textarea path="opinion" cssClass="form-control" /></div>
 											</div>
 											<div class="position-bottom btn-wrap justify-content-end examinationBtn">
-												<div><button type="button" class="btn basic bi-save" onClick="fn_update_examinationInfo(this.form)">수정</button> <button type="button" class="btn basic bi-cancel" onclick="fn_left_select_detail('<c:out value="${examinationInfo.pnu} "/>')">취소</button></div>
+												<button type="button" class="btn basic bi-save" style="margin: 0 3px;" onClick="fn_update_examinationInfo(this.form)">수정</button>
+												<button type="button" class="btn basic bi-cancel" style="margin: 0 3px;" onclick="fn_cancel_examinationInfo()">취소</button>
 											</div>
 										</div>

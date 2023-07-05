@@ -125,7 +125,7 @@
 				</li>
 			</c:if>
 		</ul>
-		<div class="btn-wrap" style="justify-content: flex-end; margin: 170px 10px;">
+		<div class="btn-wrap" style="justify-content: flex-end; margin: 30px 10px;">
 	        <button type="button" id="insertAdministrationZoneView" class="btn bi-write" 
 	                data-popup="territory-Regist" onclick="webApp_insertAdministrationZoneView()">등록
 	        </button>

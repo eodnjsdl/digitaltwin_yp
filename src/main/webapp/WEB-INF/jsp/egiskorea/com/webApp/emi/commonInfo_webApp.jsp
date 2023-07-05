@@ -21,7 +21,7 @@
 								<div class="col">
 									<form:select path="c0100p" cssClass="form-select">
 										<form:option value="" label="" />
-										<form:options items="${c0100List}" itemValue="code" itemLabel="codeIdNm" />
+										<form:options items="${c0100List}" itemValue="code" itemLabel="codeNm" />
 									</form:select>
 								</div>
 							</div>
@@ -30,7 +30,7 @@
 								<div class="col">
 									<form:select path="c0100n" cssClass="form-select">
 										<form:option value="" label="" />
-										<form:options items="${c0100List}" itemValue="code" itemLabel="codeIdNm" />
+										<form:options items="${c0100List}" itemValue="code" itemLabel="codeNm" />
 									</form:select>
 								</div>
 							</div>
@@ -51,7 +51,7 @@
 								<div class="col">
 									<form:select path="c0200p" cssClass="form-select">
 										<form:option value="" label="" />
-										<form:options items="${c0200List}" itemValue="code" itemLabel="codeIdNm" />
+										<form:options items="${c0200List}" itemValue="code" itemLabel="codeNm" />
 									</form:select>
 								</div>
 							</div>
@@ -60,7 +60,7 @@
 								<div class="col">
 									<form:select path="c0200n" cssClass="form-select">
 										<form:option value="" label="" />
-										<form:options items="${c0200List}" itemValue="code" itemLabel="codeIdNm" />
+										<form:options items="${c0200List}" itemValue="code" itemLabel="codeNm" />
 									</form:select>
 								</div>
 							</div>
@@ -83,7 +83,7 @@
 								<div class="col">
 									<form:select path="c0301n" cssClass="form-select">
 										<form:option value="" label="" />
-										<form:options items="${c0301List}" itemValue="code" itemLabel="codeIdNm" />
+										<form:options items="${c0301List}" itemValue="code" itemLabel="codeNm" />
 									</form:select>
 								</div>
 							</div>
@@ -92,7 +92,7 @@
 								<div class="col">
 									<form:select path="c0301e" cssClass="form-select">
 										<form:option value="" label="" />
-										<form:options items="${c0301List}" itemValue="code" itemLabel="codeIdNm" />
+										<form:options items="${c0301List}" itemValue="code" itemLabel="codeNm" />
 									</form:select>
 								</div>
 							</div>
@@ -104,7 +104,7 @@
 								<div class="col">
 									<form:select path="c0302p" cssClass="form-select">
 										<form:option value="" label="" />
-										<form:options items="${c0302List}" itemValue="code" itemLabel="codeIdNm" />
+										<form:options items="${c0302List}" itemValue="code" itemLabel="codeNm" />
 									</form:select>
 								</div>
 							</div>
@@ -113,7 +113,7 @@
 								<div class="col">
 									<form:select path="c0302n" cssClass="form-select">
 										<form:option value="" label="" />
-										<form:options items="${c0302List}" itemValue="code" itemLabel="codeIdNm" />
+										<form:options items="${c0302List}" itemValue="code" itemLabel="codeNm" />
 									</form:select>
 								</div>
 							</div>
@@ -131,7 +131,7 @@
 								<div class="col">
 									<form:select path="c0302e" cssClass="form-select">
 										<form:option value="" label="" />
-										<form:options items="${c0302List}" itemValue="code" itemLabel="codeIdNm" />
+										<form:options items="${c0302List}" itemValue="code" itemLabel="codeNm" />
 									</form:select>
 								</div>
 							</div>
@@ -159,7 +159,7 @@
 								<div class="col">
 									<form:select path="c0401p" cssClass="form-select">
 										<form:option value="" label="" />
-										<form:options items="${c0401List}" itemValue="code" itemLabel="codeIdNm" />
+										<form:options items="${c0401List}" itemValue="code" itemLabel="codeNm" />
 									</form:select>
 								</div>
 							</div>
@@ -168,7 +168,7 @@
 								<div class="col">
 									<form:select path="c0401n" cssClass="form-select">
 										<form:option value="" label="" />
-										<form:options items="${c0401List}" itemValue="code" itemLabel="codeIdNm" />
+										<form:options items="${c0401List}" itemValue="code" itemLabel="codeNm" />
 									</form:select>
 								</div>
 							</div>
@@ -189,7 +189,7 @@
 								<div class="col">
 									<form:select path="c0402p" cssClass="form-select">
 										<form:option value="" label="" />
-										<form:options items="${c0402List}" itemValue="code" itemLabel="codeIdNm" />
+										<form:options items="${c0402List}" itemValue="code" itemLabel="codeNm" />
 									</form:select>
 								</div>
 							</div>
@@ -198,7 +198,7 @@
 								<div class="col">
 									<form:select path="c0402n" cssClass="form-select">
 										<form:option value="" label="" />
-										<form:options items="${c0402List}" itemValue="code" itemLabel="codeIdNm" />
+										<form:options items="${c0402List}" itemValue="code" itemLabel="codeNm" />
 									</form:select>
 								</div>
 							</div>
@@ -222,7 +222,7 @@
 									<div class="col">
 										<form:select path="c0403p" cssClass="form-select">
 											<form:option value="" label="" />
-											<form:options items="${c0403List}" itemValue="code" itemLabel="codeIdNm" />
+											<form:options items="${c0403List}" itemValue="code" itemLabel="codeNm" />
 										</form:select>
 									</div>
 								</div>
@@ -231,7 +231,7 @@
 									<div class="col">
 										<form:select path="c0403n" cssClass="form-select">
 											<form:option value="" label="" />
-											<form:options items="${c0403List}" itemValue="code" itemLabel="codeIdNm" />
+											<form:options items="${c0403List}" itemValue="code" itemLabel="codeNm" />
 										</form:select>
 									</div>
 								</div>
@@ -268,7 +268,7 @@
 									<div class="col">
 										<form:select path="c0500p" cssClass="form-select">
 											<form:option value="" label="" />
-											<form:options items="${c0500List}" itemValue="code" itemLabel="codeIdNm" />
+											<form:options items="${c0500List}" itemValue="code" itemLabel="codeNm" />
 										</form:select>
 									</div>
 								</div>
@@ -277,7 +277,7 @@
 									<div class="col">
 										<form:select path="c0500n" cssClass="form-select">
 											<form:option value="" label="" />
-											<form:options items="${c0500List}" itemValue="code" itemLabel="codeIdNm" />
+											<form:options items="${c0500List}" itemValue="code" itemLabel="codeNm" />
 										</form:select>
 									</div>
 								</div>
@@ -315,7 +315,7 @@
 								<div class="col">
 									<form:select path="c0601p" cssClass="form-select">
 										<form:option value="" label="" />
-										<form:options items="${c0601List}" itemValue="code" itemLabel="codeIdNm" />
+										<form:options items="${c0601List}" itemValue="code" itemLabel="codeNm" />
 									</form:select>
 								</div>
 							</div>
@@ -324,7 +324,7 @@
 								<div class="col">
 									<form:select path="c0601n" cssClass="form-select">
 										<form:option value="" label="" />
-										<form:options items="${c0601List}" itemValue="code" itemLabel="codeIdNm" />
+										<form:options items="${c0601List}" itemValue="code" itemLabel="codeNm" />
 									</form:select>
 								</div>
 							</div>
@@ -345,7 +345,7 @@
 								<div class="col">
 									<form:select path="c0602p" cssClass="form-select">
 										<form:option value="" label="" />
-										<form:options items="${c0602List}" itemValue="code" itemLabel="codeIdNm" />
+										<form:options items="${c0602List}" itemValue="code" itemLabel="codeNm" />
 									</form:select>
 								</div>
 							</div>
@@ -354,7 +354,7 @@
 								<div class="col">
 									<form:select path="c0602n" cssClass="form-select">
 										<form:option value="" label="" />
-										<form:options items="${c0602List}" itemValue="code" itemLabel="codeIdNm" />
+										<form:options items="${c0602List}" itemValue="code" itemLabel="codeNm" />
 									</form:select>
 								</div>
 							</div>

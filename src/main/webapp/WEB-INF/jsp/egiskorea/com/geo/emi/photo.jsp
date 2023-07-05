@@ -60,7 +60,7 @@ function readPhotoInfoView() {
 					<tr>
 						<td>
 							<div id="ldstcArea" class="select-file">
-								<input type="file" id="ldstcFile" name="ldstcFile" multiple accept=".png, .jpg, .jpeg" title="ldstcFile" />
+								<input type="file" id="ldstcFile" name="ldstcFile" multiple accept=".png, .jpg, .jpeg" />
 								<label for="ldstcFile" class="select-label">
 									<span id="ldstcFile-name" class="file-name">${ldstcFileResult[0].orignlFileNm}</span>
 									<span class="selectBtn">사진 등록</span>
@@ -76,7 +76,7 @@ function readPhotoInfoView() {
 					<tr>
 						<td>
 							<div id="accdArea" class="select-file">
-								<input type="file" id="accdFile" name="accdFile" multiple accept=".png, .jpg, .jpeg" title="accdFile" />
+								<input type="file" id="accdFile" name="accdFile" multiple accept=".png, .jpg, .jpeg" />
 								<label for="accdFile" class="select-label">
 									<span id="accdFile-name" class="file-name">${accdFileResult[0].orignlFileNm}</span>
 									<span class="selectBtn">사진 등록</span>
@@ -92,6 +92,6 @@ function readPhotoInfoView() {
 	</div>
 	<div class="position-bottom btn-wrap justify-content-end examinationBtn">
 		<button type="button" class="btn basic bi-save" style="margin: 0 3px;" onClick="fn_update_examinationInfo(this.form)">수정</button>
-		<button type="button" class="btn basic bi-cancel" style="margin: 0 3px;" onclick="webApp_fn_cancel_examinationInfo(this.form)">취소</button>
+		<button type="button" class="btn basic bi-cancel" style="margin: 0 3px;" onclick="fn_cancel_examinationInfo()">취소</button>
 	</div>
 </div>
