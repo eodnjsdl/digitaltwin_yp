@@ -486,8 +486,8 @@ window.ui = (function () {
 			analysis.close();
 			$("#lnbAnalysis").find(".on").removeClass("on");
 			//좌측 메뉴 close
-			$(".lnb-cont").css("display", "none");
-			$("#lnb li[data-menu]").removeClass("on");
+			//$(".lnb-cont").css("display", "none");
+			//$("#lnb li[data-menu]").removeClass("on");
 			//마우스  오른쪽 팝업
 			$(".context").addClass("hide");
 
